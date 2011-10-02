@@ -115,9 +115,9 @@ public class DummyStepInterpolatorTest {
     try {
         oos.writeObject(interpolator);
         Assert.fail("an exception should have been thrown");
-    } catch (IOException ioe) {
+    } catch (MathIllegalStateException mise) {
         // expected behavior
-        Assert.assertEquals(0, ioe.getMessage().length());
+        Assert.assertEquals(0, mise.getMessage().length());
     }
   }
 

@@ -167,7 +167,7 @@ public class BigFraction
      * @param value the double value to convert to a fraction.
      * @exception MathIllegalArgumentException if value is NaN or infinite
      */
-    public BigFraction(final double value) throws IllegalArgumentException {
+    public BigFraction(final double value) throws MathIllegalArgumentException {
         if (Double.isNaN(value)) {
             throw new MathIllegalArgumentException(LocalizedFormats.NAN_VALUE_CONVERSION);
         }

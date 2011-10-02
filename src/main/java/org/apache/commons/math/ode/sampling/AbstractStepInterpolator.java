@@ -121,7 +121,7 @@ public abstract class AbstractStepInterpolator
     this.dirtyState    = true;
     primaryMapper      = null;
     secondaryMappers   = null;
-    allocateInterpolatedArrays(-1, null, null);
+    allocateInterpolatedArrays(-1);
   }
 
   /** Simple constructor.
@@ -147,7 +147,7 @@ public abstract class AbstractStepInterpolator
     this.dirtyState       = true;
     this.primaryMapper    = primaryMapper;
     this.secondaryMappers = (secondaryMappers == null) ? null : secondaryMappers.clone();
-    allocateInterpolatedArrays(y.length, primaryMapper, secondaryMappers);
+    allocateInterpolatedArrays(y.length);
 
   }
 
@@ -178,8 +178,10 @@ public abstract class AbstractStepInterpolator
     interpolatedTime   = interpolator.interpolatedTime;
 
     if (interpolator.currentState == null) {
-        currentState = null;
-        allocateInterpolatedArrays(-1, null, null);
+        currentState     = null;
+        primaryMapper    = null;
+        secondaryMappers = null;
+        allocateInterpolatedArrays(-1);
     } else {
       currentState                     = interpolator.currentState.clone();
       interpolatedState                = interpolator.interpolatedState.clone();
@@ -205,12 +207,8 @@ public abstract class AbstractStepInterpolator
 
   /** Allocate the various interpolated states arrays.
    * @param dimension total dimension (negative if arrays should be set to null)
-   * @param primaryMapper equations mapper for the primary equations set
-   * @param secondaryMappers equations mappers for the secondary equations sets
    */
-  private void allocateInterpolatedArrays(final int dimension,
-                                          final EquationsMapper primaryMapper,
-                                          final EquationsMapper[] secondaryMappers) {
+  private void allocateInterpolatedArrays(final int dimension) {
       if (dimension < 0) {
           interpolatedState                = null;
           interpolatedDerivatives          = null;
@@ -240,12 +238,12 @@ public abstract class AbstractStepInterpolator
   /** Reinitialize the instance
    * @param y reference to the integrator array holding the state at the end of the step
    * @param isForward integration direction indicator
-   * @param primaryMapper equations mapper for the primary equations set
-   * @param secondaryMappers equations mappers for the secondary equations sets
+   * @param primary equations mapper for the primary equations set
+   * @param secondary equations mappers for the secondary equations sets
    */
   protected void reinitialize(final double[] y, final boolean isForward,
-                              final EquationsMapper primaryMapper,
-                              final EquationsMapper[] secondaryMappers) {
+                              final EquationsMapper primary,
+                              final EquationsMapper[] secondary) {
 
     globalPreviousTime    = Double.NaN;
     globalCurrentTime     = Double.NaN;
@@ -257,9 +255,9 @@ public abstract class AbstractStepInterpolator
     finalized             = false;
     this.forward          = isForward;
     this.dirtyState       = true;
-    this.primaryMapper    = primaryMapper;
-    this.secondaryMappers = secondaryMappers.clone();
-    allocateInterpolatedArrays(y.length, primaryMapper, secondaryMappers);
+    this.primaryMapper    = primary;
+    this.secondaryMappers = secondary.clone();
+    allocateInterpolatedArrays(y.length);
 
   }
 
@@ -540,13 +538,7 @@ public abstract class AbstractStepInterpolator
     // it will be recomputed as needed after reading
 
     // finalize the step (and don't bother saving the now true flag)
-    try {
-      finalizeStep();
-    } catch (Exception e) {
-        IOException ioe = new IOException(e.getLocalizedMessage());
-        ioe.initCause(e);
-        throw ioe;
-    }
+    finalizeStep();
 
   }
 
@@ -558,6 +550,8 @@ public abstract class AbstractStepInterpolator
    * @param in stream where to read the state from
    * @return interpolated time to be set later by the caller
    * @exception IOException in case of read error
+   * @exception ClassNotFoundException if an equation mapper class
+   * cannot be found
    */
   protected double readBaseExternal(final ObjectInput in)
     throws IOException, ClassNotFoundException {
@@ -587,7 +581,7 @@ public abstract class AbstractStepInterpolator
 
     // we do NOT handle the interpolated time and state here
     interpolatedTime = Double.NaN;
-    allocateInterpolatedArrays(dimension, primaryMapper, secondaryMappers);
+    allocateInterpolatedArrays(dimension);
 
     finalized = true;
 

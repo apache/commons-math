@@ -37,10 +37,10 @@ public class EquationsMapper implements Serializable {
     private static final long serialVersionUID = 20110925L;
 
     /** Index of the first equation element in complete state arrays. */
-    final int firstIndex;
+    private final int firstIndex;
 
     /** Dimension of the secondary state parameters. */
-    final int dimension;
+    private final int dimension;
 
     /** simple constructor.
      * @param firstIndex index of the first equation element in complete state arrays

@@ -76,8 +76,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Counter for number of evaluations. */
     private Incrementor evaluations;
 
-    /** Differential equations to integrate. */
-    private transient ExpandableStatefulODE equations;
+    /** Differential expandable to integrate. */
+    private transient ExpandableStatefulODE expandable;
 
     /** Build an instance.
      * @param name name of the method
@@ -189,7 +189,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param equations equations to set
      */
     protected void setEquations(final ExpandableStatefulODE equations) {
-        this.equations = equations;
+        this.expandable = equations;
     }
 
     /** {@inheritDoc} */
@@ -204,31 +204,31 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             throw new DimensionMismatchException(y.length, equations.getDimension());
         }
 
-        // prepare expandable stateful equations
-        final ExpandableStatefulODE expandable = new ExpandableStatefulODE(equations);
-        expandable.setTime(t0);
-        expandable.setPrimaryState(y0);
+        // prepare expandable stateful expandable
+        final ExpandableStatefulODE expandableODE = new ExpandableStatefulODE(equations);
+        expandableODE.setTime(t0);
+        expandableODE.setPrimaryState(y0);
 
         // perform integration
-        integrate(expandable, t);
+        integrate(expandableODE, t);
 
-        // extract results back from the stateful equations
-        System.arraycopy(expandable.getPrimaryState(), 0, y, 0, y.length);
-        return expandable.getTime();
+        // extract results back from the stateful expandable
+        System.arraycopy(expandableODE.getPrimaryState(), 0, y, 0, y.length);
+        return expandableODE.getTime();
 
     }
 
-    /** Integrate a set of differential equations up to the given time.
+    /** Integrate a set of differential expandable up to the given time.
      * <p>This method solves an Initial Value Problem (IVP).</p>
-     * <p>The set of differential equations is composed of a main set, which
-     * can be extended by some sets of secondary equations. The set of
-     * equations must be already set up with initial time and partial states.
+     * <p>The set of differential expandable is composed of a main set, which
+     * can be extended by some sets of secondary expandable. The set of
+     * expandable must be already set up with initial time and partial states.
      * At integration completion, the final time and partial states will be
      * available in the same object.</p>
      * <p>Since this method stores some internal state variables made
      * available in its public interface during integration ({@link
      * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
-     * @param equations complete set of differential equations to integrate
+     * @param equations complete set of differential expandable to integrate
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
      * @throws MathIllegalStateException if the integrator cannot perform integration
@@ -247,7 +247,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
         throws MaxCountExceededException {
         evaluations.incrementCount();
-        equations.computeDerivatives(t, y, yDot);
+        expandable.computeDerivatives(t, y, yDot);
     }
 
     /** Set the stateInitialized flag.
@@ -374,6 +374,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     }
 
     /** Check the integration span.
+     * @param equations set of differential equations
      * @param t target time for the integration
      * @exception NumberIsTooSmallException if integration span is too small
      */

@@ -154,6 +154,7 @@ public class JacobianMatrices {
     }
 
     /** Register the variational equations for the Jacobians matrices to the expandable set.
+     * @param expandable expandable set into which variational equations should be registered
      * @exception MathIllegalArgumentException if the primary set of the expandable set does
      * not match the one used to build the instance
      * @see ExpandableStatefulODE#addSecondaryEquations(SecondaryEquations)
@@ -183,10 +184,10 @@ public class JacobianMatrices {
     }
 
     /** Add a parameter Jacobian provider.
-     * @param pode the parameterized ODE to compute the parameter Jacobian matrix using finite differences 
+     * @param parameterizedOde the parameterized ODE to compute the parameter Jacobian matrix using finite differences
      */
-    public void setParameterizedODE(final ParameterizedODE pode) {
-        this.pode = pode;
+    public void setParameterizedODE(final ParameterizedODE parameterizedOde) {
+        this.pode = parameterizedOde;
         dirtyParameter = true;
     }
 
@@ -227,10 +228,10 @@ public class JacobianMatrices {
      * matrix with respect to state is set to identity.
      * </p>
      * @param dYdY0 initial Jacobian matrix w.r.t. state
-     * @exception IllegalArgumentException if matrix dimensions are incorrect
+     * @exception DimensionMismatchException if matrix dimensions are incorrect
      */
     public void setInitialMainStateJacobian(final double[][] dYdY0)
-        throws MathIllegalArgumentException {
+        throws DimensionMismatchException {
 
         // Check dimensions
         checkDimension(stateDim, dYdY0);
@@ -289,16 +290,16 @@ public class JacobianMatrices {
         // get current state for this set of equations from the expandable fode
         double[] p = efode.getSecondaryState(index);
 
-        int index = 0;
+        int j = 0;
         for (int i = 0; i < stateDim; i++) {
-            System.arraycopy(p, index, dYdY0[i], 0, stateDim);
-            index += stateDim;
+            System.arraycopy(p, j, dYdY0[i], 0, stateDim);
+            j += stateDim;
         }
 
     }
 
     /** Get the current value of the Jacobian matrix with respect to one parameter.
-     * @param pName name of the parameter for the computed Jacobian matrix 
+     * @param pName name of the parameter for the computed Jacobian matrix
      * @param dYdP current Jacobian matrix with respect to the named parameter
      */
     public void getCurrentParameterJacobian(String pName, final double[] dYdP) {
@@ -306,13 +307,13 @@ public class JacobianMatrices {
         // get current state for this set of equations from the expandable fode
         double[] p = efode.getSecondaryState(index);
 
-        int index = stateDim * stateDim;
+        int i = stateDim * stateDim;
         for (ParameterConfiguration param: selectedParameters) {
             if (param.getParameterName().equals(pName)) {
-                System.arraycopy(p, index, dYdP, 0, stateDim);
-                break;
+                System.arraycopy(p, i, dYdP, 0, stateDim);
+                return;
             }
-            index += stateDim;
+            i += stateDim;
         }
 
     }

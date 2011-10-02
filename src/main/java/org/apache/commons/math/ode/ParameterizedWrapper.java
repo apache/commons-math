@@ -22,10 +22,9 @@ import java.util.Collection;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
-
 /** Wrapper class enabling {@link FirstOrderDifferentialEquations basic simple}
  *  ODE instances to be used when processing {@link JacobianMatrices}.
- *  
+ *
  * @version $Id$
  * @since 3.0
  */

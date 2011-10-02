@@ -42,32 +42,34 @@ public class StorelessBivariateCovariance {
 
     private boolean biasCorrected = true;
 
-    public StorelessBivariateCovariance(){ 
+    public StorelessBivariateCovariance() {
     }
 
-    public StorelessBivariateCovariance(boolean biasCorrected){
+    public StorelessBivariateCovariance(boolean biasCorrected) {
         this.biasCorrected = biasCorrected;
     }
 
-    public void increment(double x, double y){
+    public void increment(double x, double y) {
         n++;
         deltaX = x - meanX;
         deltaY = y - meanY;
         meanX += deltaX / n;
         meanY += deltaY / n;
-        covarianceNumerator += ((n-1.0) / n) * deltaX * deltaY;
+        covarianceNumerator += ((n - 1.0) / n) * deltaX * deltaY;
     }
 
-    public double getN(){
+    public double getN() {
         return n;
     }
 
-    public double getResult()throws IllegalArgumentException{
-        if (n < 2) throw new MathIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, n, 2);
-        if(biasCorrected){
+    public double getResult() throws IllegalArgumentException {
+        if (n < 2) {
+            throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
+                                                   n, 2);
+        }
+        if (biasCorrected) {
             return covarianceNumerator / (n - 1d);
-        }else{
+        } else {
             return covarianceNumerator / n;
         }
     }

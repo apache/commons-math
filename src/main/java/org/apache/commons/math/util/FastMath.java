@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.util;
 
+import java.io.PrintStream;
+
 /**
  * Faster, more accurate, portable alternative to {@link Math} and
  * {@link StrictMath} for large scale computation.
@@ -30,7 +32,7 @@ package org.apache.commons.math.util;
  * FastMath speed is achieved by relying heavily on optimizing compilers
  * to native code present in many JVMs today and use of large tables.
  * The larger tables are lazily initialised on first use, so that the setup
- * time does not penalise methods that don't need them. 
+ * time does not penalise methods that don't need them.
  * </p>
  * <p>
  * Note that FastMath is
@@ -83,6 +85,7 @@ public class FastMath {
     /** Napier's constant e, base of the natural logarithm. */
     public static final double E = 2850325.0 / 1048576.0 + 8.254840070411028747e-8;
 
+    /** Constant 2<sup>10</sup>. */
     private static final int TWO_POWER_10 = 1024;
 
     /** Indicator for tables initialization.
@@ -127,7 +130,7 @@ public class FastMath {
 
     /** Sine, Cosine, Tangent tables are for 0, 1/8, 2/8, ... 13/8 = PI/2 approx. */
     private static final int SINE_TABLE_LEN = 14;
-    
+
     /** Sine table (high bits). */
     private static final double SINE_TABLE_A[] =
         {
@@ -300,7 +303,7 @@ public class FastMath {
 
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
-    
+
     /**
      * Private Constructor
      */
@@ -345,7 +348,7 @@ public class FastMath {
 
       // cosh[z] = (exp(z) + exp(-z))/2
 
-      // for numbers with magnitude 20 or so, 
+      // for numbers with magnitude 20 or so,
       // exp(-z) can be ignored in comparison with exp(z)
 
       if (x > 20.0) {
@@ -404,10 +407,10 @@ public class FastMath {
       }
 
       // sinh[z] = (exp(z) - exp(-z) / 2
-      
-      // for values of z larger than about 20, 
+
+      // for values of z larger than about 20,
       // exp(-z) can be ignored in comparison with exp(z)
-      
+
       if (x > 20.0) {
           return exp(x)/2.0;
       }
@@ -519,10 +522,10 @@ public class FastMath {
           return x;
       }
 
-      // tanh[z] = sinh[z] / cosh[z] 
+      // tanh[z] = sinh[z] / cosh[z]
       // = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
       // = (exp(2x) - 1) / (exp(2x) + 1)
-      
+
       // for magnitude > 20, sinh[z] == cosh[z] in double precision
 
       if (x > 20.0) {
@@ -3630,20 +3633,24 @@ public class FastMath {
         return ((Float.floatToIntBits(f) >>> 23) & 0xff) - 127;
     }
 
-    // print out contents of arrays, and check the length
-    // used to generate the preset arrays originally
-    public static void main(String[] a){
-        FastMathCalc.printarray("EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_A);
-        FastMathCalc.printarray("EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_B);
-        FastMathCalc.printarray("EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
-        FastMathCalc.printarray("EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_B);
-        FastMathCalc.printarray("LN_MANT",LN_MANT_LEN, lnMant.LN_MANT);
-        FastMathCalc.printarray("SINE_TABLE_A", SINE_TABLE_LEN, SINE_TABLE_A);
-        FastMathCalc.printarray("SINE_TABLE_B", SINE_TABLE_LEN, SINE_TABLE_B);
-        FastMathCalc.printarray("COSINE_TABLE_A", SINE_TABLE_LEN, COSINE_TABLE_A);
-        FastMathCalc.printarray("COSINE_TABLE_B", SINE_TABLE_LEN, COSINE_TABLE_B);
-        FastMathCalc.printarray("TANGENT_TABLE_A", SINE_TABLE_LEN, TANGENT_TABLE_A);
-        FastMathCalc.printarray("TANGENT_TABLE_B", SINE_TABLE_LEN, TANGENT_TABLE_B);
+    /**
+     * Print out contents of arrays, and check the length.
+     * <p>used to generate the preset arrays originally.</p>
+     * @param a unused
+     */
+    public static void main(String[] a) {
+        PrintStream out = System.out;
+        FastMathCalc.printarray(out, "EXP_INT_TABLE_A", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_A);
+        FastMathCalc.printarray(out, "EXP_INT_TABLE_B", EXP_INT_TABLE_LEN, ExpIntTable.EXP_INT_TABLE_B);
+        FastMathCalc.printarray(out, "EXP_FRAC_TABLE_A", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_A);
+        FastMathCalc.printarray(out, "EXP_FRAC_TABLE_B", EXP_FRAC_TABLE_LEN, ExpFracTable.EXP_FRAC_TABLE_B);
+        FastMathCalc.printarray(out, "LN_MANT",LN_MANT_LEN, lnMant.LN_MANT);
+        FastMathCalc.printarray(out, "SINE_TABLE_A", SINE_TABLE_LEN, SINE_TABLE_A);
+        FastMathCalc.printarray(out, "SINE_TABLE_B", SINE_TABLE_LEN, SINE_TABLE_B);
+        FastMathCalc.printarray(out, "COSINE_TABLE_A", SINE_TABLE_LEN, COSINE_TABLE_A);
+        FastMathCalc.printarray(out, "COSINE_TABLE_B", SINE_TABLE_LEN, COSINE_TABLE_B);
+        FastMathCalc.printarray(out, "TANGENT_TABLE_A", SINE_TABLE_LEN, TANGENT_TABLE_A);
+        FastMathCalc.printarray(out, "TANGENT_TABLE_B", SINE_TABLE_LEN, TANGENT_TABLE_B);
     }
 
 
@@ -3656,7 +3663,7 @@ public class FastMath {
     /** Length of the array of integer exponentials. */
     static final int EXP_INT_TABLE_LEN = EXP_INT_TABLE_MAX_INDEX * 2;
 
-    // Enclose large data table in nested static class so it's only loaded on first access
+    /** Enclose large data table in nested static class so it's only loaded on first access. */
     private static class ExpIntTable {
         /** Exponential evaluated at integer values,
          * exp(x) =  expIntTableA[x + EXP_INT_TABLE_MAX_INDEX] + expIntTableB[x+EXP_INT_TABLE_MAX_INDEX].
@@ -6702,9 +6709,10 @@ public class FastMath {
         }
     }
 
+    /** Exponential fractions table length. */
     static final int EXP_FRAC_TABLE_LEN = TWO_POWER_10 + 1; // 0, 1/1024, ... 1024/1024
 
-    // Enclose large data table in nested static class so it's only loaded on first access
+    /** Enclose large data table in nested static class so it's only loaded on first access. */
     private static class ExpFracTable {
         /** Exponential over the range of 0 - 1 in increments of 2^-10
          * exp(x/1024) =  expFracTableA[x] + expFracTableB[x].
@@ -8793,9 +8801,10 @@ public class FastMath {
         }
     }
 
+    /** Logarithm table length. */
     static final int LN_MANT_LEN = TWO_POWER_10; // (see LN_MANT comment below)
 
-    // Enclose large data table in nested static class so it's only loaded on first access
+    /** Enclose large data table in nested static class so it's only loaded on first access. */
     private static class lnMant {
         /** Extended precision logarithm table over the range 1 - 2 in increments of 2^-10. */
         private static final double[][] LN_MANT;
@@ -8812,7 +8821,7 @@ public class FastMath {
             } else if (LOAD_RESOURCES) {
                 LN_MANT = FastMathResources.loadLnMant();
             } else {
-                LN_MANT = new double[][] { 
+                LN_MANT = new double[][] {
       {+0.0d,                   +0.0d,                   }, // 0
       {+9.760860120877624E-4d,  -3.903230345984362E-11d, }, // 1
       {+0.0019512202125042677d, -8.124251825289188E-11d, }, // 2

@@ -272,7 +272,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      *             {@code k, m} and {@code 0 <= h < 1}.
      */
     private FieldMatrix<BigFraction> createH(double d)
-            throws MathArithmeticException {
+            throws NumberIsTooLargeException, FractionConversionException {
 
         int k = (int) Math.ceil(n * d);
 

@@ -268,7 +268,7 @@ public class PolynomialsUtils {
     }
 
     /** Interface for recurrence coefficients generation. */
-    private static interface RecurrenceCoefficientsGenerator {
+    private interface RecurrenceCoefficientsGenerator {
         /**
          * Generate recurrence coefficients.
          * @param k highest degree of the polynomials used in the recurrence

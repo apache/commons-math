@@ -19,7 +19,7 @@ package org.apache.commons.math.ode;
 /** Interface expanding {@link FirstOrderDifferentialEquations first order
  *  differential equations} in order to compute exactly the main state jacobian
  *  matrix for {@link JacobianMatrices partial derivatives equations}.
- * 
+ *
  * @version $Id$
  * @since 3.0
  */

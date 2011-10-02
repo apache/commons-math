@@ -429,7 +429,7 @@ public class BSPTree<S extends Space> {
      * difference and symmetric difference (exclusive or).</p>
      * @param <S> Type of the space.
      */
-    public static interface LeafMerger<S extends Space> {
+    public interface LeafMerger<S extends Space> {
 
         /** Merge a leaf node and a tree node.
          * <p>This method is called at the end of a recursive merging

@@ -20,7 +20,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /** Interface to compute exactly Jacobian matrix for some parameter
  *  when computing {@link JacobianMatrices partial derivatives equations}.
- * 
+ *
  * @version $Id$
  * @since 3.0
  */

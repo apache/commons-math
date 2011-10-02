@@ -22,7 +22,7 @@ import java.util.Map;
 
 /** Wrapper class to compute Jacobian matrices by finite differences for ODE
  *  which do not compute them by themselves.
- *  
+ *
  * @version $Id$
  * @since 3.0
  */
@@ -85,7 +85,7 @@ class ParameterJacobianWrapper implements ParameterJacobianProvider {
             dFdP[i] = (tmpDot[i] - yDot[i]) / hP;
         }
         pode.setParameter(paramName, p);
-       
+
     }
 
 }

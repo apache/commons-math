@@ -294,7 +294,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
     }
 
     /** Transformer used to convert the first step to Nordsieck representation. */
-    public static interface NordsieckTransformer {
+    public interface NordsieckTransformer {
         /** Initialize the high order scaled derivatives at step start.
          * @param h step size to use for scaling
          * @param t first steps times

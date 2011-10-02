@@ -433,14 +433,9 @@ class DormandPrince853StepInterpolator
   public void writeExternal(final ObjectOutput out)
     throws IOException {
 
-    try {
-      // save the local attributes
-      finalizeStep();
-    } catch (Exception e) {
-        IOException ioe = new IOException(e.getLocalizedMessage());
-        ioe.initCause(e);
-        throw ioe;
-    }
+    // save the local attributes
+    finalizeStep();
+
     final int dimension = (currentState == null) ? -1 : currentState.length;
     out.writeInt(dimension);
     for (int i = 0; i < dimension; ++i) {

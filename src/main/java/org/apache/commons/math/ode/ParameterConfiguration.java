@@ -19,8 +19,8 @@ package org.apache.commons.math.ode;
 import java.io.Serializable;
 
 /** Simple container pairing a parameter name with a step in order to compute
- *  the associated jacobian matrix by finite difference.
- * 
+ *  the associated Jacobian matrix by finite difference.
+ *
  * @version $Id$
  * @since 3.0
  */

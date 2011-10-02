@@ -214,23 +214,23 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
      *
      * @param maxEval Maximum number of evaluations.
      * @param f the integrand function
-     * @param min the min bound for the interval
-     * @param max the upper bound for the interval
+     * @param lower the min bound for the interval
+     * @param upper the upper bound for the interval
      * @throws NullArgumentException if {@code f} is {@code null}.
      * @throws MathIllegalArgumentException if {@code min >= max}.
      */
     protected void setup(final int maxEval,
                          final UnivariateRealFunction f,
-                         final double min, final double max)
+                         final double lower, final double upper)
         throws NullArgumentException, MathIllegalArgumentException {
 
         // Checks.
         MathUtils.checkNotNull(f);
-        UnivariateRealSolverUtils.verifyInterval(min, max);
+        UnivariateRealSolverUtils.verifyInterval(lower, upper);
 
         // Reset.
-        this.min = min;
-        this.max = max;
+        this.min = lower;
+        this.max = upper;
         function = f;
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
@@ -240,12 +240,12 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
 
     /** {@inheritDoc} */
     public double integrate(final int maxEval, final UnivariateRealFunction f,
-                            final double min, final double max)
+                            final double lower, final double upper)
         throws TooManyEvaluationsException, MaxCountExceededException,
                MathIllegalArgumentException, NullArgumentException {
 
         // Initialization.
-        setup(maxEval, f, min, max);
+        setup(maxEval, f, lower, upper);
 
         // Perform computation.
         return doIntegrate();

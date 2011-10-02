@@ -297,7 +297,6 @@ public class ExpandableStatefulODE {
     /** Components of the compound stateful ODE. */
     private static class SecondaryComponent {
 
-        
         /** Secondary differential equation. */
         private final SecondaryEquations equation;
 
@@ -312,7 +311,7 @@ public class ExpandableStatefulODE {
 
         /** Simple constructor.
          * @param equation secondary differential equation
-         * @param first index index to use for the first element in the complete arrays
+         * @param firstIndex index to use for the first element in the complete arrays
          */
         public SecondaryComponent(final SecondaryEquations equation, final int firstIndex) {
             final int n   = equation.getDimension();

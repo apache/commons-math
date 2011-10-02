@@ -6,20 +6,24 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
  */
-
 package org.apache.commons.math.util;
+
+import java.io.PrintStream;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 
+/** Class used to compute the classical functions tables.
+ * @version $Id$
+ * @since 3.0
+ */
 class FastMathCalc {
 
     /**
@@ -29,9 +33,9 @@ class FastMathCalc {
     private static final long HEX_40000000 = 0x40000000L; // 1073741824L
 
     /** Factorial table, for Taylor series expansions. 0!, 1!, 2!, ... 19! */
-    private static final double FACT[] = new double[] 
+    private static final double FACT[] = new double[]
         {
-        +1.0d,                        // 0               
+        +1.0d,                        // 0
         +1.0d,                        // 1
         +2.0d,                        // 2
         +6.0d,                        // 3
@@ -73,17 +77,31 @@ class FastMathCalc {
         {0.14982303977012634, 1.225743062930824E-8},
     };
 
+    /** Table start declaration. */
+    private static final String TABLE_START_DECL = "    {";
+
+    /** Table end declaration. */
+    private static final String TABLE_END_DECL   = "    };";
+
+    /**
+     * Private Constructor.
+     */
+    private FastMathCalc() {
+    }
+
     /** Build the sine and cosine tables.
-     * @param SINE_TABLE_A 
-     * @param SINE_TABLE_B 
-     * @param COSINE_TABLE_A 
-     * @param COSINE_TABLE_B 
-     * @param SINE_TABLE_LEN 
-     * @param TANGENT_TABLE_A 
-     * @param TANGENT_TABLE_B 
+     * @param SINE_TABLE_A table of the most significant part of the sines
+     * @param SINE_TABLE_B table of the least significant part of the sines
+     * @param COSINE_TABLE_A table of the most significant part of the cosines
+     * @param COSINE_TABLE_B table of the most significant part of the cosines
+     * @param SINE_TABLE_LEN length of the tables
+     * @param TANGENT_TABLE_A table of the most significant part of the tangents
+     * @param TANGENT_TABLE_B table of the most significant part of the tangents
      */
     @SuppressWarnings("unused")
-    private static void buildSinCosTables(double[] SINE_TABLE_A, double[] SINE_TABLE_B, double[] COSINE_TABLE_A, double[] COSINE_TABLE_B, int SINE_TABLE_LEN, double[] TANGENT_TABLE_A, double[] TANGENT_TABLE_B) {
+    private static void buildSinCosTables(double[] SINE_TABLE_A, double[] SINE_TABLE_B,
+                                          double[] COSINE_TABLE_A, double[] COSINE_TABLE_B,
+                                          int SINE_TABLE_LEN, double[] TANGENT_TABLE_A, double[] TANGENT_TABLE_B) {
         final double result[] = new double[2];
 
         /* Use taylor series for 0 <= x <= 6/8 */
@@ -574,34 +592,65 @@ class FastMathCalc {
     }
 
 
-    static void printarray(String string, int expectedLen, double[][] array2d) {
-        System.out.println(string);
+    /**
+     * Print an array.
+     * @param out text output stream where output should be printed
+     * @param name array name
+     * @param expectedLen expected length of the array
+     * @param array2d array data
+     */
+    static void printarray(PrintStream out, String name, int expectedLen, double[][] array2d) {
+        out.println(name);
         checkLen(expectedLen, array2d.length);
-        System.out.println("    { ");
+        out.println(TABLE_START_DECL + " ");
         int i = 0;
         for(double array[] : array2d) {
-            System.out.print("        {");
+            out.print("        {");
             for(double d : array) { // assume inner array has very few entries
-                String ds = d >= 0 ? "+"+Double.toString(d)+"d," : Double.toString(d)+"d,";
-                System.out.printf("%-25.25s",ds); // multiple entries per line
+                out.printf("%-25.25s", format(d)); // multiple entries per line
             }
-            System.out.println("}, // "+i++);
+            out.println("}, // " + i++);
         }
-        System.out.println("    };");
+        out.println(TABLE_END_DECL);
     }
 
-    static void printarray(String string, int expectedLen, double[] array) {
-        System.out.println(string+"=");
+    /**
+     * Print an array.
+     * @param out text output stream where output should be printed
+     * @param name array name
+     * @param expectedLen expected length of the array
+     * @param array array data
+     */
+    static void printarray(PrintStream out, String name, int expectedLen, double[] array) {
+        out.println(name + "=");
         checkLen(expectedLen, array.length);
-        System.out.println("    {");
+        out.println(TABLE_START_DECL);
         for(double d : array){
-            String ds = d!=d ? "Double.NaN," : d >= 0 ? "+"+Double.toString(d)+"d," : Double.toString(d)+"d,";
-            System.out.printf("        %s%n",ds); // one entry per line
+            out.printf("        %s%n", format(d)); // one entry per line
         }
-        System.out.println("    };");
+        out.println(TABLE_END_DECL);
     }
 
-    private static void checkLen(int expectedLen, int actual) {
+    /** Format a double.
+     * @param d double number to format
+     * @return formatted number
+     */
+    static String format(double d) {
+        if (d != d) {
+            return "Double.NaN,";
+        } else {
+            return ((d >= 0) ? "+" : "") + Double.toString(d) + "d,";
+        }
+    }
+
+    /**
+     * Check two lengths are equal.
+     * @param expectedLen expected length
+     * @param actual actual length
+     * @exception DimensionMismatchException if the two lengths are not equal
+     */
+    private static void checkLen(int expectedLen, int actual)
+        throws DimensionMismatchException {
         if (expectedLen != actual) {
             throw new DimensionMismatchException(actual, expectedLen);
         }

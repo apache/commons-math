@@ -109,9 +109,12 @@ public class StorelessCovariance extends Covariance {
      * This {@link Covariance} method is not supported by StorelessCovariance, since
      * the number of bivariate observations does not have to be the same for different
      * pairs of covariates - i.e., N as defined in {@link Covariance#getN()} is undefined.
+     * @return nothing as this implementation always throws a {@link MathUnsupportedOperationException}
+     * @throws MathUnsupportedOperationException in all cases
      */
     @Override
-    public int getN() {
+    public int getN()
+        throws MathUnsupportedOperationException {
         throw new MathUnsupportedOperationException();
     }
 

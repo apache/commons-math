@@ -24,7 +24,6 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.ExpandableStatefulODE;
-import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -44,7 +43,8 @@ import org.apache.commons.math.util.FastMath;
  * </p>
  * <p>
  * If the Ordinary Differential Equations is an {@link ExpandableStatefulODE
- * extended ODE} rather than a {@link FirstOrderDifferentialEquations basic ODE}, then
+ * extended ODE} rather than a {@link
+ * org.apache.commons.math.ode.FirstOrderDifferentialEquations basic ODE}, then
  * <em>only</em> the {@link ExpandableStatefulODE#getPrimaryState() primary part}
  * of the state vector is used for stepsize control, not the complete state vector.
  * </p>
@@ -316,7 +316,7 @@ public abstract class AdaptiveStepsizeIntegrator
    * @exception NumberIsTooSmallException if the step is too small and acceptSmall is false
    */
   protected double filterStep(final double h, final boolean forward, final boolean acceptSmall)
-    throws MathIllegalArgumentException {
+    throws NumberIsTooSmallException {
 
       double filteredH = h;
       if (FastMath.abs(h) < minStep) {
