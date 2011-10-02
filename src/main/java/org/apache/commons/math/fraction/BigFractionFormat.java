@@ -159,7 +159,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws MathIllegalArgumentException is <code>obj</code> is not a valid type.
+     * @throws MathIllegalArgumentException if <code>obj</code> is not a valid type.
      */
     @Override
     public StringBuffer format(final Object obj,
@@ -201,7 +201,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      * Parses a string to produce a {@link BigFraction} object.
      * This method expects the string to be formatted as an improper BigFraction.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link BigFraction} object.
      */
     @Override
@@ -260,7 +260,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
     /**
      * Parses a string to produce a <code>BigInteger</code>.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return a parsed <code>BigInteger</code> or null if string does not
      * contain a BigInteger at the specified position
      */
