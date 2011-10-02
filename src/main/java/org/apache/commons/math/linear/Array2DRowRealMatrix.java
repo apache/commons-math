@@ -212,21 +212,31 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
         final int nSum = this.getColumnDimension();
+
         final double[][] outData = new double[nRows][nCols];
-        for (int row = 0; row < nRows; row++) {
-            final double[] dataRow    = data[row];
-            final double[] outDataRow = outData[row];
-            for (int col = 0; col < nCols; col++) {
+        // Will hold a column of "m".
+        final double[] mCol = new double[nSum];
+        final double[][] mData = m.data;
+
+        // Multiply.
+        for (int col = 0; col < nCols; col++) {
+            // Copy all elements of column "col" of "m" so that
+            // will be in contiguous memory.
+            for (int mRow = 0; mRow < nSum; mRow++) {
+                mCol[mRow] = mData[mRow][col];
+            }
+
+            for (int row = 0; row < nRows; row++) {
+                final double[] dataRow = data[row];
                 double sum = 0;
                 for (int i = 0; i < nSum; i++) {
-                    sum += dataRow[i] * m.data[i][col];
+                    sum += dataRow[i] * mCol[i];
                 }
-                outDataRow[col] = sum;
+                outData[row][col] = sum;
             }
         }
 
         return new Array2DRowRealMatrix(outData, false);
-
     }
 
     /** {@inheritDoc} */

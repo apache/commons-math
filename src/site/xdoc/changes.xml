@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-676">
+         Faster "multiply" method in "Array2DRowRealMatrix". Code inspired
+         from the Jama project.
+      </action>
       <action dev="luc" type="fix" issue="MATH-445" >
         Replaced package.html with package-info.java for package documentation.
       </action>
