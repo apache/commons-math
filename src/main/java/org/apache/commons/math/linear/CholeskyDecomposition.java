@@ -67,7 +67,7 @@ public class CholeskyDecomposition {
      * Calculates the Cholesky decomposition of the given matrix.
      * <p>
      * Calling this constructor is equivalent to call {@link
-     * #CholeskyDecompositionImpl(RealMatrix, double, double)} with the
+     * #CholeskyDecomposition(RealMatrix, double, double)} with the
      * thresholds set to the default values {@link
      * #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD} and {@link
      * #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD}
@@ -77,7 +77,7 @@ public class CholeskyDecomposition {
      * @throws NonSymmetricMatrixException if the matrix is not symmetric.
      * @throws NonPositiveDefiniteMatrixException if the matrix is not
      * strictly positive definite.
-     * @see #CholeskyDecompositionImpl(RealMatrix, double, double)
+     * @see #CholeskyDecomposition(RealMatrix, double, double)
      * @see #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */
@@ -97,7 +97,7 @@ public class CholeskyDecomposition {
      * @throws NonSymmetricMatrixException if the matrix is not symmetric.
      * @throws NonPositiveDefiniteMatrixException if the matrix is not
      * strictly positive definite.
-     * @see #CholeskyDecompositionImpl(RealMatrix)
+     * @see #CholeskyDecomposition(RealMatrix)
      * @see #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD
      * @see #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD
      */

@@ -46,8 +46,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * Zero-length vectors may be used to initialize construction of vectors
      * by data gathering. We start with zero-length and use either the {@link
      * #SparseFieldVector(SparseFieldVector, int)} constructor
-     * or one of the {@code append} method ({@link #append(FieldElement)},
-     * {@link #append(FieldElement[])}, {@link #append(FieldVector)},
+     * or one of the {@code append} method ({@link #append(FieldVector)} or
      * {@link #append(SparseFieldVector)}) to gather data into this vector.
      *
      * @param field Field to which the elements belong.
