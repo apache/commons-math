@@ -19,7 +19,8 @@ package org.apache.commons.math.util;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -360,15 +361,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Substitutes <code>value</code> for the most recently added value.
      * Returns the value that has been replaced. If the array is empty (i.e.
-     * if {@link #numElements} is zero), a MathRuntimeException is thrown.
+     * if {@link #numElements} is zero), an IllegalStateException is thrown.
      *
      * @param value new value to substitute for the most recently added value
      * @return value that has been replaced in the array
+     * @throws IllegalStateException if the array is empty
      * @since 2.0
      */
     public synchronized double substituteMostRecentElement(double value) {
         if (numElements < 1) {
-            throw MathRuntimeException.createArrayIndexOutOfBoundsException(
+            throw new MathIllegalStateException(
                     LocalizedFormats.CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY);
         }
 
@@ -393,19 +395,19 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     protected void checkContractExpand(float contraction, float expansion) {
 
         if (contraction < expansion) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.CONTRACTION_CRITERIA_SMALLER_THAN_EXPANSION_FACTOR,
                     contraction, expansion);
         }
 
         if (contraction <= 1.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.CONTRACTION_CRITERIA_SMALLER_THAN_ONE,
                     contraction);
         }
 
         if (expansion <= 1.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.EXPANSION_FACTOR_SMALLER_THAN_ONE,
                     expansion);
         }
@@ -492,11 +494,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     private synchronized void discardExtremeElements(int i,boolean front) {
         if (i > numElements) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY,
                     i, numElements);
        } else if (i < 0) {
-           throw MathRuntimeException.createIllegalArgumentException(
+           throw new MathIllegalArgumentException(
                    LocalizedFormats.CANNOT_DISCARD_NEGATIVE_NUMBER_OF_ELEMENTS,
                    i);
         } else {
@@ -578,15 +580,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized double getElement(int index) {
         if (index >= numElements) {
-            throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    LocalizedFormats.INDEX_LARGER_THAN_MAX,
-                    index, numElements - 1);
+            throw new ArrayIndexOutOfBoundsException(index);
         } else if (index >= 0) {
             return internalArray[startIndex + index];
         } else {
-            throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    LocalizedFormats.CANNOT_RETRIEVE_AT_NEGATIVE_INDEX,
-                    index);
+            throw new ArrayIndexOutOfBoundsException(index);
         }
     }
 
@@ -696,9 +694,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
-            throw MathRuntimeException.createArrayIndexOutOfBoundsException(
-                    LocalizedFormats.CANNOT_SET_AT_NEGATIVE_INDEX,
-                    index);
+            throw new ArrayIndexOutOfBoundsException(index);
         }
         if (index + 1 > numElements) {
             numElements = index + 1;
@@ -738,7 +734,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     public void setExpansionMode(int expansionMode) {
         if (expansionMode != MULTIPLICATIVE_MODE &&
                 expansionMode != ADDITIVE_MODE) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.UNSUPPORTED_EXPANSION_MODE,
                     expansionMode, MULTIPLICATIVE_MODE, "MULTIPLICATIVE_MODE",
                     ADDITIVE_MODE, "ADDITIVE_MODE");
@@ -761,7 +757,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                 this.initialCapacity = initialCapacity;
             }
         } else {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
                     initialCapacity);
         }
@@ -779,7 +775,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
         // If index is negative thrown an error
         if (i < 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.INDEX_NOT_POSITIVE,
                     i);
         }
