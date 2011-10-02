@@ -17,6 +17,6 @@
 /**
  *
  *     Root finding algorithms, for univariate real functions.
- *    
+ *
  */
 package org.apache.commons.math.analysis.solvers;

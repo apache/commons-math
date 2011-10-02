@@ -39,6 +39,6 @@
  *          <span style="font-weight: bold;"> stat.clear();</span><br/>
  *          System.out.println("mean after clear is NaN = " + <span style="font-weight: bold;">stat.getResult()</span>);
  *        </code>
- *    
+ *
  */
 package org.apache.commons.math.stat.descriptive;

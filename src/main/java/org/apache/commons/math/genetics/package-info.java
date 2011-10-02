@@ -16,9 +16,9 @@
  */
 /**
  *
- *<p>
- *This package provides Genetic Algorithms components and implementations.
- *</p>
+ * <p>
+ * This package provides Genetic Algorithms components and implementations.
+ * </p>
  *
  */
 package org.apache.commons.math.genetics;

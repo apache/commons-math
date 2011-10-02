@@ -16,7 +16,7 @@
  */
 /**
  *
- *This package provides optimization algorithms that require derivatives.
+ * This package provides optimization algorithms that require derivatives.
  *
  */
 package org.apache.commons.math.optimization.general;

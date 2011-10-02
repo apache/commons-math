@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Linear algebra support.
+ * Linear algebra support.
  */
 package org.apache.commons.math.linear;

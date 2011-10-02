@@ -28,6 +28,6 @@
  *      function to find their roots, or integrate them, or ... Functions can be multivariate
  *      or univariate, real vectorial or matrix valued, and they can be differentiable or not.
  *    </p>
- *  
+ *
  */
 package org.apache.commons.math.analysis;

@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Data storage, manipulation and summary routines.
+ * Data storage, manipulation and summary routines.
  */
 package org.apache.commons.math.stat;

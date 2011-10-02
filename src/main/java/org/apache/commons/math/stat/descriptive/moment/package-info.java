@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Summary statistics based on moments.
+ * Summary statistics based on moments.
  */
 package org.apache.commons.math.stat.descriptive.moment;

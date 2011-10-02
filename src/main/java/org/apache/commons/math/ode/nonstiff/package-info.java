@@ -16,9 +16,9 @@
  */
 /**
  *
- *<p>
- *This package provides classes to solve non-stiff Ordinary Differential Equations problems.
- *</p>
+ * <p>
+ * This package provides classes to solve non-stiff Ordinary Differential Equations problems.
+ * </p>
  *
  *
  */

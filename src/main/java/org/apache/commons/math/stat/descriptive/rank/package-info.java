@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Summary statistics based on ranks.
+ * Summary statistics based on ranks.
  */
 package org.apache.commons.math.stat.descriptive.rank;

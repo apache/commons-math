@@ -21,6 +21,6 @@
  *      methods contained in {@link java.lang.Math}, as well as common
  *      mathematical functions such as the gaussian and sinc functions.
  *    </p>
- *  
+ *
  */
 package org.apache.commons.math.analysis.function;

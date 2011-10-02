@@ -16,9 +16,9 @@
  */
 /**
  *
- *<p>
- *This package provides basic 3D geometry components.
- *</p>
+ * <p>
+ * This package provides basic 3D geometry components.
+ * </p>
  *
  */
 package org.apache.commons.math.geometry.euclidean.threed;

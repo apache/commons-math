@@ -16,7 +16,7 @@
  */
 /**
  *
- *This package provides optimization algorithms for linear constrained problems.
+ * This package provides optimization algorithms for linear constrained problems.
  *
  */
 package org.apache.commons.math.optimization.linear;

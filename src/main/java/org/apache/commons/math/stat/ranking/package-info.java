@@ -17,6 +17,6 @@
 /**
  *
  *      Classes providing rank transformations.
- *    
+ *
  */
 package org.apache.commons.math.stat.ranking;

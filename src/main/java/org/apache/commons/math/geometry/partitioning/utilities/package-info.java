@@ -16,9 +16,9 @@
  */
 /**
  *
- *<p>
- *This package provides multidimensional ordering features for partitioning.
- *</p>
+ * <p>
+ * This package provides multidimensional ordering features for partitioning.
+ * </p>
  *
  */
 package org.apache.commons.math.geometry.partitioning.utilities;

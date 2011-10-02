@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Implementations of special functions such as Beta and Gamma.
+ * Implementations of special functions such as Beta and Gamma.
  */
 package org.apache.commons.math.special;

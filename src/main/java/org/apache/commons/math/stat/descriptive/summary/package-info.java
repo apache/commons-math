@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Other summary statistics.
+ * Other summary statistics.
  */
 package org.apache.commons.math.stat.descriptive.summary;

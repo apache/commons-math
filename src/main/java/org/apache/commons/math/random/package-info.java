@@ -127,6 +127,6 @@
  *      very strong properties of unpredictability as needed in cryptography.
  *      </p>
  *
- *    
+ *
  */
 package org.apache.commons.math.random;

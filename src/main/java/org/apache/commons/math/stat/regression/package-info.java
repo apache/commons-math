@@ -17,6 +17,6 @@
 /**
  *
  *      Statistical routines involving multivariate data.
- *    
+ *
  */
 package org.apache.commons.math.stat.regression;

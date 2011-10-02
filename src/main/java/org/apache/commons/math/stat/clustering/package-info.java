@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Clustering algorithms
+ * Clustering algorithms
  */
 package org.apache.commons.math.stat.clustering;

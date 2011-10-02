@@ -17,6 +17,6 @@
 /**
  *
  *        Correlations/Covariance computations.
- *    
+ *
  */
 package org.apache.commons.math.stat.correlation;

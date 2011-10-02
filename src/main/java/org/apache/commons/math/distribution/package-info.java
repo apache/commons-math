@@ -15,6 +15,6 @@
  * limitations under the License.
  */
 /**
- *Implementations of common discrete and continuous distributions.
+ * Implementations of common discrete and continuous distributions.
  */
 package org.apache.commons.math.distribution;
