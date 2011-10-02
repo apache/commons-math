@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.BigFractionField;
@@ -263,7 +264,8 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
      *
      * @param d statistic
      * @return H matrix
-     * @throws MathArithmeticException
+     * @throws NumberIsTooLargeException if fractional part is greater than 1
+     * @throws FractionConversionException
      *             if algorithm fails to convert {@code h} to a
      *             {@link org.apache.commons.math.fraction.BigFraction} in
      *             expressing {@code d} as {@code (k - h) / m} for integer
@@ -278,7 +280,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
         double hDouble = k - n * d;
 
         if (hDouble >= 1) {
-            throw new ArithmeticException("Could not ");
+            throw new NumberIsTooLargeException(hDouble, 1.0, false);
         }
 
         BigFraction h = null;
@@ -289,12 +291,7 @@ public class KolmogorovSmirnovDistributionImpl implements KolmogorovSmirnovDistr
             try {
                 h = new BigFraction(hDouble, 1.0e-10, 10000);
             } catch (FractionConversionException e2) {
-                try {
-                    h = new BigFraction(hDouble, 1.0e-5, 10000);
-                } catch (FractionConversionException e3) {
-                    //throw new MathArithmeticException(hDouble, 10000);
-                    throw new MathArithmeticException(LocalizedFormats.CANNOT_CONVERT_OBJECT_TO_FRACTION, hDouble);
-                }
+                h = new BigFraction(hDouble, 1.0e-5, 10000);
             }
         }
 

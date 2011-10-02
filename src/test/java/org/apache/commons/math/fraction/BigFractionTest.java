@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -77,8 +78,8 @@ public class BigFractionTest {
         }
         try {
             new BigFraction(BigInteger.ONE, BigInteger.ZERO);
-            Assert.fail("Expecting ArithmeticException");
-        } catch (ArithmeticException npe) {
+            Assert.fail("Expecting ZeroException");
+        } catch (ZeroException npe) {
             // expected
         }
         try {
@@ -286,8 +287,8 @@ public class BigFractionTest {
         f = new BigFraction(0, 3);
         try {
             f = f.reciprocal();
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("expecting ZeroException");
+        } catch (ZeroException ex) {
         }
 
         // large values
@@ -405,7 +406,7 @@ public class BigFractionTest {
         try {
             f1.divide(f2);
             Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+        } catch (ZeroException ex) {
         }
 
         f1 = new BigFraction(0, 5);
@@ -554,8 +555,8 @@ public class BigFractionTest {
         Assert.assertTrue(BigFraction.ZERO.equals(BigFraction.getReducedFraction(0, -1)));
         try {
             BigFraction.getReducedFraction(1, 0);
-            Assert.fail("expecting ArithmeticException");
-        } catch (ArithmeticException ex) {
+            Assert.fail("expecting ZeroException");
+        } catch (ZeroException ex) {
             // expected
         }
         Assert.assertEquals(BigFraction.getReducedFraction(2, Integer.MIN_VALUE).getNumeratorAsInt(), -1);

@@ -56,7 +56,6 @@ public enum LocalizedFormats implements Localizable {
     CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA("cannot compute beta density at 0 when alpha = {0,number}"),
     CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA("cannot compute beta density at 1 when beta = %.3g"),
     CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N("cannot compute nth root for null or negative n: {0}"),
-    CANNOT_CONVERT_OBJECT_TO_FRACTION("cannot convert given object to a fraction number: {0}"),
     CANNOT_DISCARD_NEGATIVE_NUMBER_OF_ELEMENTS("cannot discard a negative number of elements ({0})"),
     CANNOT_FORMAT_INSTANCE_AS_3D_VECTOR("cannot format a {0} instance as a 3D vector"),
     CANNOT_FORMAT_INSTANCE_AS_COMPLEX("cannot format a {0} instance as a complex number"),
@@ -317,11 +316,10 @@ public enum LocalizedFormats implements Localizable {
     UNKNOWN_MODE("unknown mode {0}, known modes: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}) and {11} ({12})"),
     UNKNOWN_PARAMETER("unknown parameter {0}"),
     UNMATCHED_ODE_IN_EXPANDED_SET("ode does not match the main ode set in the extended set"),
-    CANNOT_PARSE_AS_TYPE("string {0} unparseable (from position {1}) as an object of type {2}"), /* keep */
-    CANNOT_PARSE("string {0} unparseable (from position {1})"), /* keep */
+    CANNOT_PARSE_AS_TYPE("string \"{0}\" unparseable (from position {1}) as an object of type {2}"), /* keep */
+    CANNOT_PARSE("string \"{0}\" unparseable (from position {1})"), /* keep */
     UNPARSEABLE_3D_VECTOR("unparseable 3D vector: \"{0}\""),
     UNPARSEABLE_COMPLEX_NUMBER("unparseable complex number: \"{0}\""),
-    UNPARSEABLE_FRACTION_NUMBER("unparseable fraction number: \"{0}\""),
     UNPARSEABLE_REAL_VECTOR("unparseable real vector: \"{0}\""),
     UNSUPPORTED_EXPANSION_MODE("unsupported expansion mode {0}, supported modes are {1} ({2}) and {3} ({4})"),
     UNSUPPORTED_OPERATION("unsupported operation"), /* keep */

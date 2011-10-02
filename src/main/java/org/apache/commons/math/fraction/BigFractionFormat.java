@@ -21,11 +21,11 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathParseException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -159,7 +159,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws IllegalArgumentException is <code>obj</code> is not a valid type.
+     * @throws MathIllegalArgumentException is <code>obj</code> is not a valid type.
      */
     @Override
     public StringBuffer format(final Object obj,
@@ -174,8 +174,7 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
             ret = format(new BigFraction(((Number) obj).doubleValue()),
                          toAppendTo, pos);
         } else {
-            throw MathRuntimeException.createIllegalArgumentException(
-                LocalizedFormats.CANNOT_FORMAT_OBJECT_TO_FRACTION);
+            throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_FORMAT_OBJECT_TO_FRACTION);
         }
 
         return ret;
@@ -185,17 +184,15 @@ public class BigFractionFormat extends AbstractFormat implements Serializable {
      * Parses a string to produce a {@link BigFraction} object.
      * @param source the string to parse
      * @return the parsed {@link BigFraction} object.
-     * @exception ParseException if the beginning of the specified string
+     * @exception MathParseException if the beginning of the specified string
      *            cannot be parsed.
      */
     @Override
-    public BigFraction parse(final String source) throws ParseException {
+    public BigFraction parse(final String source) throws MathParseException {
         final ParsePosition parsePosition = new ParsePosition(0);
         final BigFraction result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
-            throw MathRuntimeException.createParseException(
-                    parsePosition.getErrorIndex(),
-                    LocalizedFormats.UNPARSEABLE_FRACTION_NUMBER, source);
+            throw new MathParseException(source, parsePosition.getErrorIndex(), BigFraction.class);
         }
         return result;
     }
