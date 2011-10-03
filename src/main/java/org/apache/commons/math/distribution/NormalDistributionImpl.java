@@ -19,7 +19,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -121,9 +120,8 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x Value at which the CDF is evaluated.
      * @return CDF evaluated at {@code x}.
-     * @throws MathException if the algorithm fails to converge
      */
-    public double cumulativeProbability(double x) throws MathException {
+    public double cumulativeProbability(double x)  {
         final double dev = x - mean;
         if (FastMath.abs(dev) > 40 * standardDeviation) {
             return dev < 0 ? 0.0d : 1.0d;
@@ -135,7 +133,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * {@inheritDoc}
      */
     @Override
-    public double cumulativeProbability(double x0, double x1) throws MathException {
+    public double cumulativeProbability(double x0, double x1)  {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x0, x1, true);
@@ -166,14 +164,12 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      * @throws org.apache.commons.math.exception.OutOfRangeException if
      * {@code p} is not a valid probability.
      */
     @Override
     public double inverseCumulativeProbability(final double p)
-    throws MathException {
+     {
         if (p == 0) {
             return Double.NEGATIVE_INFINITY;
         }
@@ -188,10 +184,9 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      *
      * @return a random value.
      * @since 2.2
-     * @throws MathException if an error occurs generating the random value.
      */
     @Override
-    public double sample() throws MathException {
+    public double sample()  {
         return randomData.nextGaussian(mean, standardDeviation);
     }
 

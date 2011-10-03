@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -99,10 +98,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      *
      * @param x Value at which the CDF is evaluated.
      * @return the CDF for this distribution.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      */
-    public double cumulativeProbability(double x) throws MathException {
+    public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0.0) {
             ret = 0.0;
@@ -120,12 +117,10 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      *
      * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
     @Override
-    public double inverseCumulativeProbability(double p) throws MathException {
+    public double inverseCumulativeProbability(double p) {
         double ret;
 
         if (p < 0.0 || p > 1.0) {
@@ -148,11 +143,10 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * uniform deviates.</p>
      *
      * @return a random value.
-     * @throws MathException if an error occurs generating the random value.
      * @since 2.2
      */
     @Override
-    public double sample() throws MathException {
+    public double sample() {
         return randomData.nextExponential(mean);
     }
 

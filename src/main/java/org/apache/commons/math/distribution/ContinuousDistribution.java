@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
 /**
  * Base interface for continuous distributions.
  *
@@ -30,10 +28,8 @@ public interface ContinuousDistribution extends Distribution {
      *
      * @param p Cumulative probability.
      * @return {@code x} such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      */
-    double inverseCumulativeProbability(double p) throws MathException;
+    double inverseCumulativeProbability(double p);
 
     /**
      * Probability density for a particular point.
@@ -55,20 +51,18 @@ public interface ContinuousDistribution extends Distribution {
      * Generate a random value sampled from this distribution.
      *
      * @return a random value.
-     * @throws MathException if an error occurs generating the random value.
      * @since 3.0
      */
-    double sample() throws MathException;
+    double sample();
 
     /**
      * Generate a random sample from the distribution.
      *
      * @param sampleSize number of random values to generate.
      * @return an array representing the random sample.
-     * @throws MathException if an error occurs generating the sample.
      * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
      * if {@code sampleSize} is not positive.
      * @since 3.0
      */
-    double[] sample(int sampleSize) throws MathException;
+    double[] sample(int sampleSize);
 }

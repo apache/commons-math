@@ -19,7 +19,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
@@ -123,10 +122,8 @@ public class FDistributionImpl
      *
      * @param x Value at which the CDF is evaluated.
      * @return CDF for this distribution.
-     * @throws MathException if the cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      */
-    public double cumulativeProbability(double x) throws MathException {
+    public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0) {
             ret = 0;
@@ -148,14 +145,11 @@ public class FDistributionImpl
      *
      * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if {@code p} is not a valid
      * probability.
      */
     @Override
-    public double inverseCumulativeProbability(final double p)
-        throws MathException {
+    public double inverseCumulativeProbability(final double p) {
         if (p == 0) {
             return 0;
         }

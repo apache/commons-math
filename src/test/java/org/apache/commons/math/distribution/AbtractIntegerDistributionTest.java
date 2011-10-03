@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -128,7 +127,7 @@ public class AbtractIntegerDistributionTest {
         }
 
         @Override
-        public double cumulativeProbability(int x) throws MathException {
+        public double cumulativeProbability(int x) {
             if (x < 1) {
                 return 0;
             } else if (x >= 6) {

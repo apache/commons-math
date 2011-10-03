@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -60,10 +60,8 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @param x Value at which the distribution function is evaluated.
      * @return the cumulative probability that a random variable with this
      * distribution takes a value less than or equal to {@code x}.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      */
-    public double cumulativeProbability(double x) throws MathException {
+    public double cumulativeProbability(double x) {
         return cumulativeProbability((int) FastMath.floor(x));
     }
 
@@ -77,13 +75,10 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @return the probability that a random variable with this distribution
      * will take a value between {@code x0} and {@code x1},
      * including the endpoints.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws NumberIsTooSmallException if {@code x1 > x0}.
      */
     @Override
-    public double cumulativeProbability(double x0, double x1)
-        throws MathException {
+    public double cumulativeProbability(double x0, double x1) {
         if (x1 < x0) {
             throw new NumberIsTooSmallException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x1, x0, true);
@@ -105,10 +100,8 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      *
      * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      */
-    public abstract double cumulativeProbability(int x) throws MathException;
+    public abstract double cumulativeProbability(int x);
 
     /**
      * For a random variable {@code X} whose values are distributed according
@@ -136,11 +129,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @param x0 Inclusive lower bound.
      * @param x1 Inclusive upper bound.
      * @return the cumulative probability.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws NumberIsTooSmallException {@code if x0 > x1}.
      */
-    public double cumulativeProbability(int x0, int x1) throws MathException {
+    public double cumulativeProbability(int x0, int x1) {
         if (x1 < x0) {
             throw new NumberIsTooSmallException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x1, x0, true);
@@ -155,11 +146,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      *
      * @param p Desired probability.
      * @return the largest {@code x} such that {@code P(X < x) <= p}.
-     * @throws MathException if the inverse cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
-    public int inverseCumulativeProbability(final double p) throws MathException{
+    public int inverseCumulativeProbability(final double p) {
         if (p < 0 || p > 1) {
             throw new OutOfRangeException(p, 0, 1);
         }
@@ -221,9 +210,8 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      *
      * @return a random value.
      * @since 2.2
-     * @throws MathException if an error occurs generating the random value.
      */
-    public int sample() throws MathException {
+    public int sample() {
         return randomData.nextInversionDeviate(this);
     }
 
@@ -235,10 +223,9 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
      * @param sampleSize number of random values to generate.
      * @since 2.2
      * @return an array representing the random sample.
-     * @throws MathException if an error occurs generating the sample.
      * @throws NotStrictlyPositiveException if {@code sampleSize <= 0}.
      */
-    public int[] sample(int sampleSize) throws MathException {
+    public int[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
                                                    sampleSize);
@@ -253,20 +240,21 @@ public abstract class AbstractIntegerDistribution extends AbstractDistribution
     /**
      * Computes the cumulative probability function and checks for NaN
      * values returned.
-     * Throws MathException if the value is NaN. Rethrows any MathException encountered
+     * Throws MathInternalError if the value is NaN. Rethrows any Exception encountered
      * evaluating the cumulative probability function. Throws
-     * MathException if the cumulative probability function returns NaN.
+     * MathInternalError if the cumulative probability function returns NaN.
      *
      * @param argument Input value.
      * @return the cumulative probability.
-     * @throws MathException if the cumulative probability is NaN
+     * @throws MathInternalError if the cumulative probability is NaN
      */
     private double checkedCumulativeProbability(int argument)
-        throws MathException {
+        throws MathInternalError {
         double result = Double.NaN;
             result = cumulativeProbability(argument);
         if (Double.isNaN(result)) {
-            throw new MathException(LocalizedFormats.DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN, argument);
+            throw new MathInternalError(
+                    LocalizedFormats.DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN, argument);
         }
         return result;
     }

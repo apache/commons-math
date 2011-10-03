@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
 /**
  * Base interface for probability distributions.
  *
@@ -33,10 +31,8 @@ public interface Distribution {
      * @param x the value at which the distribution function is evaluated.
      * @return the probability that a random variable with this
      * distribution takes a value less than or equal to <code>x</code>
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      */
-    double cumulativeProbability(double x) throws MathException;
+    double cumulativeProbability(double x);
 
     /**
      * For a random variable X whose values are distributed according
@@ -47,11 +43,9 @@ public interface Distribution {
      * @return the probability that a random variable with this distribution
      * will take a value between <code>x0</code> and <code>x1</code>,
      * including the endpoints
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if <code>x0 > x1</code>
      */
-    double cumulativeProbability(double x0, double x1) throws MathException;
+    double cumulativeProbability(double x0, double x1);
 
     /**
      * Use this method to get the numerical value of the mean of this

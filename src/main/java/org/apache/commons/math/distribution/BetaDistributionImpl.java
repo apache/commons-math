@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
@@ -128,7 +127,7 @@ public class BetaDistributionImpl
 
     /** {@inheritDoc} */
     @Override
-    public double inverseCumulativeProbability(double p) throws MathException {
+    public double inverseCumulativeProbability(double p)  {
         if (p == 0) {
             return 0;
         } else if (p == 1) {
@@ -157,7 +156,7 @@ public class BetaDistributionImpl
     }
 
     /** {@inheritDoc} */
-    public double cumulativeProbability(double x) throws MathException {
+    public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;
         } else if (x >= 1) {
@@ -169,7 +168,7 @@ public class BetaDistributionImpl
 
     /** {@inheritDoc} */
     @Override
-    public double cumulativeProbability(double x0, double x1) throws MathException {
+    public double cumulativeProbability(double x0, double x1)  {
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 

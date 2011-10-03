@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
@@ -146,11 +145,10 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      *
      * @param x Value at which the PDF is evaluated.
      * @return the Poisson distribution function evaluated at {@code x}.
-     * @throws MathException if the cumulative probability cannot be computed
      * due to convergence or other numerical errors.
      */
     @Override
-    public double cumulativeProbability(int x) throws MathException {
+    public double cumulativeProbability(int x)  {
         if (x < 0) {
             return 0;
         }
@@ -170,10 +168,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      * @param x Upper bound, inclusive.
      * @return the distribution function value calculated using a normal
      * approximation.
-     * @throws MathException if an error occurs computing the normal
      * approximation.
      */
-    public double normalApproximateProbability(int x) throws MathException {
+    public double normalApproximateProbability(int x)  {
         // calculate the probability using half-correction
         return normal.cumulativeProbability(x + 0.5);
     }
@@ -198,10 +195,9 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
      *
      * @return a random value.
      * @since 2.2
-     * @throws MathException if an error occurs generating the random value.
      */
     @Override
-    public int sample() throws MathException {
+    public int sample()  {
         return (int) FastMath.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
     }
 

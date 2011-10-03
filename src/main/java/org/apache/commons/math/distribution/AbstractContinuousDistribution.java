@@ -18,9 +18,9 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -69,13 +69,9 @@ public abstract class AbstractContinuousDistribution
      *
      * @param p Desired probability.
      * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws MathException if the inverse cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws OutOfRangeException if {@code p} is not a valid probability.
      */
-    public double inverseCumulativeProbability(final double p)
-        throws MathException {
-        try {
+    public double inverseCumulativeProbability(final double p) {
 
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
@@ -86,16 +82,7 @@ public abstract class AbstractContinuousDistribution
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
             public double value(double x) {
-                double ret = Double.NaN;
-                try {
-                    ret = cumulativeProbability(x) - p;
-                } catch (MathException ex) {
-                    throw new WrappingException(ex);
-                }
-                if (Double.isNaN(ret)) {
-                    throw new WrappingException(new MathException(LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, x, p));
-                }
-                return ret;
+                return cumulativeProbability(x) - p;
             }
         };
 
@@ -120,7 +107,7 @@ public abstract class AbstractContinuousDistribution
                 return upperBound;
             }
             // Failed bracket convergence was not because of corner solution
-            throw new MathException(ex);
+            throw new MathInternalError(ex);
         }
 
         // find root
@@ -129,35 +116,6 @@ public abstract class AbstractContinuousDistribution
                 // absolute accuracy different from the default.
                 bracket[0],bracket[1], getSolverAbsoluteAccuracy());
         return root;
-
-        } catch (WrappingException we) {
-            throw we.getWrapped();
-        }
-    }
-
-    /** Local exception wrapping a MathException. */
-    private static class WrappingException extends RuntimeException {
-
-        /** Serializable UID. */
-        private static final long serialVersionUID = -2102700399222815344L;
-
-        /** Wrapped exception. */
-        private final MathException wrapped;
-
-        /** simple constructor.
-         * @param wrapped exception to wrap
-         */
-        public WrappingException(final MathException wrapped) {
-            this.wrapped = wrapped;
-        }
-
-        /** Get the wrapped exception.
-         * @return wrapped exception
-         */
-        public MathException getWrapped() {
-            return wrapped;
-        }
-
     }
 
     /**
@@ -178,10 +136,9 @@ public abstract class AbstractContinuousDistribution
      * </a>
      *
      * @return a random value.
-     * @throws MathException if an error occurs generating the random value.
      * @since 2.2
      */
-    public double sample() throws MathException {
+    public double sample() {
         return randomData.nextInversionDeviate(this);
     }
 
@@ -191,11 +148,10 @@ public abstract class AbstractContinuousDistribution
      *
      * @param sampleSize Number of random values to generate.
      * @return an array representing the random sample.
-     * @throws MathException if an error occurs generating the sample.
      * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
      * @since 2.2
      */
-    public double[] sample(int sampleSize) throws MathException {
+    public double[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
                                                    sampleSize);

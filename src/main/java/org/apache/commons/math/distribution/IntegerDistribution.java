@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
-
 /**
  * Interface for discrete distributions of integer-valued random variables.
  *
@@ -43,10 +41,8 @@ public interface IntegerDistribution extends DiscreteDistribution {
      *
      * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
-     * @throws MathException if the cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      */
-    double cumulativeProbability(int x) throws MathException;
+    double cumulativeProbability(int x);
 
     /**
      * For this distribution, {@code X}, this method returns
@@ -55,11 +51,9 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * @param x0 the inclusive, lower bound
      * @param x1 the inclusive, upper bound
      * @return the cumulative probability.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if {@code x0 > x1}.
      */
-    double cumulativeProbability(int x0, int x1) throws MathException;
+    double cumulativeProbability(int x0, int x1);
 
     /**
      * For this distribution, {@code X}, this method returns the largest
@@ -82,12 +76,10 @@ public interface IntegerDistribution extends DiscreteDistribution {
      *
      * @param p Cumulative probability.
      * @return the largest {@code x} such that {@code P(X < x) <= p}.
-     * @throws MathException if the inverse cumulative probability cannot be
-     * computed due to convergence or other numerical errors.
      * @throws IllegalArgumentException if {@code p} is not between 0 and 1
      * (inclusive).
      */
-    int inverseCumulativeProbability(double p) throws MathException;
+    int inverseCumulativeProbability(double p);
 
     /**
      * Reseed the random generator used to generate samples.
@@ -101,20 +93,18 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * Generate a random value sampled from this distribution.
      *
      * @return a random value.
-     * @throws MathException if an error occurs generating the random value.
      * @since 3.0
      */
-    int sample() throws MathException;
+    int sample();
 
     /**
      * Generate a random sample from the distribution.
      *
      * @param sampleSize number of random values to generate.
      * @return an array representing the random sample.
-     * @throws MathException if an error occurs generating the sample.
      * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
      * if {@code sampleSize} is not positive.
      * @since 3.0
      */
-    int[] sample(int sampleSize) throws MathException;
+    int[] sample(int sampleSize);
 }

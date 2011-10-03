@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 
 /**
  * Interface representing the Poisson Distribution.
@@ -44,7 +43,6 @@ public interface PoissonDistribution extends IntegerDistribution {
      *
      * @param x the upper bound, inclusive
      * @return the distribution function value calculated using a normal approximation
-     * @throws MathException if an error occurs computing the normal approximation
      */
-    double normalApproximateProbability(int x) throws MathException;
+    double normalApproximateProbability(int x) ;
 }

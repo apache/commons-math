@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
@@ -169,7 +168,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                         Assert.assertTrue("Zero cum probaility returned for mean = " +
                                 mean + " x = " + x, p > 0);
                     }
-                } catch (MathException ex) {
+                } catch (Exception ex) {
                     Assert.fail("mean of " + mean + " and x of " + x + " caused " + ex.getMessage());
                 }
                 x -= dx;
@@ -216,7 +215,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                     // Verify that returned value satisties definition
                     Assert.assertTrue(p >= dist.cumulativeProbability(ret));
                     Assert.assertTrue(p < dist.cumulativeProbability(ret + 1));
-                } catch (MathException ex) {
+                } catch (Exception ex) {
                     Assert.fail("mean of " + mean + " and p of " + p + " caused " + ex.getMessage());
                 }
                 p += dp;

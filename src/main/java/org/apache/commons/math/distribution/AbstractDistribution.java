@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -65,12 +64,9 @@ public abstract class AbstractDistribution
      * @return the probability that a random variable with this distribution
      * will take a value between {@code x0} and {@code x1},
      * including the endpoints.
-     * @throws MathException if the cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws NumberIsTooLargeException if {@code x0 > x1}
      */
-    public double cumulativeProbability(double x0, double x1)
-        throws MathException {
+    public double cumulativeProbability(double x0, double x1) {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x0, x1, true);

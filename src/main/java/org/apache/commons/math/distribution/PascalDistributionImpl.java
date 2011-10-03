@@ -18,7 +18,6 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -104,11 +103,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      *
      * @param x Value at which the PDF is evaluated.
      * @return PDF for this distribution.
-     * @throws MathException if the cumulative probability can not be computed
      * due to convergence or other numerical errors.
      */
     @Override
-    public double cumulativeProbability(int x) throws MathException {
+    public double cumulativeProbability(int x) {
         double ret;
         if (x < 0) {
             ret = 0.0;
@@ -145,13 +143,10 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
      *
      * @param p Desired probability.
      * @return the largest {@code x} such that {@code P(X <= x) <= p}.
-     * @throws MathException if the inverse cumulative probability can not be
-     * computed due to convergence or other numerical errors.
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
     @Override
-    public int inverseCumulativeProbability(final double p)
-        throws MathException {
+    public int inverseCumulativeProbability(final double p) {
         int ret;
 
         // handle extreme values explicitly
