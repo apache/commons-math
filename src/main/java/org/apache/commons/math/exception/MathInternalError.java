@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.exception;
 
+import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -43,5 +44,15 @@ public class MathInternalError extends MathIllegalStateException {
      */
     public MathInternalError(final Throwable cause) {
         super(cause, LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
+    }
+    
+    /**
+     * Constructor accepting a localized message.
+     *
+     * @param pattern Message pattern explaining the cause of the error.
+     * @param args Arguments.
+     */
+    public MathInternalError(Localizable pattern, Object ... args) {
+        super(pattern, args);
     }
 }
