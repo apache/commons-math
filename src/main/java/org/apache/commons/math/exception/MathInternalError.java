@@ -45,7 +45,7 @@ public class MathInternalError extends MathIllegalStateException {
     public MathInternalError(final Throwable cause) {
         super(cause, LocalizedFormats.INTERNAL_ERROR, REPORT_URL);
     }
-    
+
     /**
      * Constructor accepting a localized message.
      *
