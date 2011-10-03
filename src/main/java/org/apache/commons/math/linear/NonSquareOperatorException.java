@@ -14,28 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when a symmetric, definite positive
- * {@link RealLinearOperator} is expected.
- * Since the coefficients of the matrix are not accessible, the most
- * general definition is used to check that {@code A} is not positive
- * definite, i.e.  there exists {@code x} such that {@code x' A x <= 0}.
- * In the terminology of this exception, {@code A} is the "offending"
- * linear operator and {@code x} the "offending" vector.
+ * Exception to be thrown when a square linear operator is expected.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
-public class NonPositiveDefiniteLinearOperatorException
-    extends MathIllegalArgumentException {
-    /** Creates a new instance of this class. */
-    public NonPositiveDefiniteLinearOperatorException() {
-        super(LocalizedFormats.NON_POSITIVE_DEFINITE_LINEAR_OPERATOR);
+public class NonSquareOperatorException extends DimensionMismatchException {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -4145007524150846242L;
+
+    /**
+     * Construct an exception from the mismatched dimensions.
+     *
+     * @param wrong Row dimension.
+     * @param expected Column dimension.
+     */
+    public NonSquareOperatorException(int wrong, int expected) {
+        super(LocalizedFormats.NON_SQUARE_OPERATOR, wrong, expected);
     }
 }

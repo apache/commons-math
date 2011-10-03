@@ -25,7 +25,7 @@ import org.junit.Test;
 
 public class ConjugateGradientTest {
 
-    @Test(expected = NonSquareLinearOperatorException.class)
+    @Test(expected = NonSquareOperatorException.class)
     public void testNonSquareOperator() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 3);
         final IterativeLinearSolver solver;
@@ -55,7 +55,7 @@ public class ConjugateGradientTest {
         solver.solve(a, b, x);
     }
 
-    @Test(expected = NonPositiveDefiniteLinearOperatorException.class)
+    @Test(expected = NonPositiveDefiniteOperatorException.class)
     public void testNonPositiveDefiniteLinearOperator() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 2);
         a.setEntry(0, 0, -1.);
@@ -199,7 +199,7 @@ public class ConjugateGradientTest {
         }
     }
 
-    @Test(expected = NonSquareLinearOperatorException.class)
+    @Test(expected = NonSquareOperatorException.class)
     public void testNonSquarePreconditioner() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 2);
         final InvertibleRealLinearOperator m;
@@ -263,7 +263,7 @@ public class ConjugateGradientTest {
         solver.solve(a, m, b);
     }
 
-    @Test(expected = NonPositiveDefiniteLinearOperatorException.class)
+    @Test(expected = NonPositiveDefiniteOperatorException.class)
     public void testNonPositiveDefinitePreconditioner() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 2);
         a.setEntry(0, 0, 1d);

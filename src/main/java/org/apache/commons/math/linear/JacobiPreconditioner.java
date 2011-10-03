@@ -50,13 +50,13 @@ public class JacobiPreconditioner
      * @param a Linear operator for which the preconditioner should be built.
      * @return Preconditioner made of the diagonal coefficients of the specified
      *         linear operator.
-     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws NonSquareOperatorException if {@code a} is not square.
      */
     public static JacobiPreconditioner create(final RealLinearOperator a)
-        throws NonSquareLinearOperatorException {
+        throws NonSquareOperatorException {
         final int n = a.getColumnDimension();
         if (a.getRowDimension() != n) {
-            throw new NonSquareLinearOperatorException(a.getRowDimension(), n);
+            throw new NonSquareOperatorException(a.getRowDimension(), n);
         }
         final double[] diag = new double[n];
         if (a instanceof AbstractRealMatrix) {

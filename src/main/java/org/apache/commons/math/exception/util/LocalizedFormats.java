@@ -110,6 +110,7 @@ public enum LocalizedFormats implements Localizable {
     GCD_OVERFLOW_64_BITS("overflow: gcd({0}, {1}) is 2^63"),
     HOLE_BETWEEN_MODELS_TIME_RANGES("{0} wide hole between models time ranges"),
     IDENTICAL_ABSCISSAS_DIVISION_BY_ZERO("identical abscissas x[{0}] == x[{1}] == {2} cause division by zero"),
+    ILL_CONDITIONED_OPERATOR("condition number {1} is too high "),
     INDEX_LARGER_THAN_MAX("the index specified: {0} is larger than the current maximal index {1}"),
     INDEX_NOT_POSITIVE("index ({0}) is not positive"),
     INDEX_OUT_OF_RANGE("index {0} out of allowed range [{1}, {2}]"),
@@ -188,9 +189,9 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"), /* keep */
     NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({1},{1}) is smaller than {2} ({0})"),
-    NON_POSITIVE_DEFINITE_LINEAR_OPERATOR("non positive definite linear operator"), /* keep */
-    NON_SELF_ADJOINT_LINEAR_OPERATOR("non self-adjoint linear operator"), /* keep */
-    NON_SQUARE_LINEAR_OPERATOR("non square ({0}x{1}) linear operator"), /* keep */
+    NON_POSITIVE_DEFINITE_OPERATOR("non positive definite linear operator"), /* keep */
+    NON_SELF_ADJOINT_OPERATOR("non self-adjoint linear operator"), /* keep */
+    NON_SQUARE_OPERATOR("non square ({0}x{1}) linear operator"), /* keep */
     DEGREES_OF_FREEDOM("degrees of freedom ({0})"), /* keep */
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
@@ -294,6 +295,7 @@ public enum LocalizedFormats implements Localizable {
     SIMPLEX_NEED_ONE_POINT("simplex must contain at least one point"),
     SIMPLE_MESSAGE("{0}"),
     SINGULAR_MATRIX("matrix is singular"), /* keep */
+    SINGULAR_OPERATOR("operator is singular"),
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),

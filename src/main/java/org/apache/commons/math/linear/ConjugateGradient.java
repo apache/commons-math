@@ -47,7 +47,7 @@ import org.apache.commons.math.util.IterationManager;
  * <h3><a id="context">Exception context</a></h3>
  * <p>
  * Besides standard {@link DimensionMismatchException}, this class might throw
- * {@link NonPositiveDefiniteLinearOperatorException} if the linear operator or
+ * {@link NonPositiveDefiniteOperatorException} if the linear operator or
  * the preconditioner are not positive definite. In this case, the
  * {@link ExceptionContext} provides some more information
  * <ul>
@@ -166,7 +166,7 @@ public class ConjugateGradient
     public RealVector solveInPlace(final RealLinearOperator a,
                                    final InvertibleRealLinearOperator m,
                                    final RealVector b, final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         checkParameters(a, m, b, x0);
         final IterationManager manager = getIterationManager();
@@ -219,8 +219,8 @@ public class ConjugateGradient
             }
             final double rhoNext = r.dotProduct(z);
             if (check && (rhoNext <= 0.)) {
-                final NonPositiveDefiniteLinearOperatorException e;
-                e = new NonPositiveDefiniteLinearOperatorException();
+                final NonPositiveDefiniteOperatorException e;
+                e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();
                 context.setValue(OPERATOR, m);
                 context.setValue(VECTOR, r);
@@ -235,8 +235,8 @@ public class ConjugateGradient
             manager.incrementIterationCount();
             final double pq = p.dotProduct(q);
             if (check && (pq <= 0.)) {
-                final NonPositiveDefiniteLinearOperatorException e;
-                e = new NonPositiveDefiniteLinearOperatorException();
+                final NonPositiveDefiniteOperatorException e;
+                e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();
                 context.setValue(OPERATOR, a);
                 context.setValue(VECTOR, p);

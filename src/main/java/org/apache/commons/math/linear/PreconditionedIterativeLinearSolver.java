@@ -66,7 +66,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @param x0 Initial guess of the solution.
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square.
      * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
      * have dimensions inconsistent with {@code a}.
@@ -77,7 +77,7 @@ public abstract class PreconditionedIterativeLinearSolver
     public RealVector solve(final RealLinearOperator a,
                             final InvertibleRealLinearOperator m,
                             final RealVector b, final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(x0);
         return solveInPlace(a, m, b, x0.copy());
@@ -86,7 +86,7 @@ public abstract class PreconditionedIterativeLinearSolver
     /** {@inheritDoc} */
     @Override
     public RealVector solve(final RealLinearOperator a, final RealVector b)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
@@ -98,7 +98,7 @@ public abstract class PreconditionedIterativeLinearSolver
     @Override
     public RealVector solve(final RealLinearOperator a, final RealVector b,
                             final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(x0);
         return solveInPlace(a, null, b, x0.copy());
@@ -116,7 +116,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @param b Right-hand side vector.
      * @param x0 Initial guess of the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square.
      * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
      * have dimensions inconsistent with {@code a}.
@@ -125,12 +125,12 @@ public abstract class PreconditionedIterativeLinearSolver
                                           final InvertibleRealLinearOperator m,
                                           final RealVector b,
                                           final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException {
         checkParameters(a, b, x0);
         if (m != null) {
             if (m.getColumnDimension() != m.getRowDimension()) {
-                throw new NonSquareLinearOperatorException(m.getColumnDimension(),
+                throw new NonSquareOperatorException(m.getColumnDimension(),
                                                            m.getRowDimension());
             }
             if (m.getRowDimension() != a.getRowDimension()) {
@@ -149,7 +149,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @param b Right-hand side vector.
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square.
      * @throws DimensionMismatchException if {@code m} or {@code b} have
      * dimensions inconsistent with {@code a}.
@@ -159,7 +159,7 @@ public abstract class PreconditionedIterativeLinearSolver
      */
     public RealVector solve(RealLinearOperator a,
                             InvertibleRealLinearOperator m, RealVector b)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
@@ -177,7 +177,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @return A reference to {@code x0} (shallow copy) updated with the
      * solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} or {@code m} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square.
      * @throws DimensionMismatchException if {@code m}, {@code b} or {@code x0}
      * have dimensions inconsistent with {@code a}.
@@ -188,14 +188,14 @@ public abstract class PreconditionedIterativeLinearSolver
     public abstract RealVector solveInPlace(RealLinearOperator a,
                                             InvertibleRealLinearOperator m,
                                             RealVector b, RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException;
 
     /** {@inheritDoc} */
     @Override
     public RealVector solveInPlace(final RealLinearOperator a,
                                    final RealVector b, final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         return solveInPlace(a, null, b, x0);
     }

@@ -16,26 +16,28 @@
  */
 package org.apache.commons.math.linear;
 
-import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Exception to be thrown when a square linear operator is expected.
+ * An exception to be thrown when the condition number of a
+ * {@link RealLinearOperator} is too high.
  *
- * @since 3.0
  * @version $Id$
+ * @since 3.0
  */
-public class NonSquareLinearOperatorException extends DimensionMismatchException {
+public class IllConditionedOperatorException
+    extends MathIllegalArgumentException {
     /** Serializable version Id. */
-    private static final long serialVersionUID = -660069396594485772L;
+    private static final long serialVersionUID = -7883263944530490135L;
 
     /**
-     * Construct an exception from the mismatched dimensions.
+     * Creates a new instance of this class.
      *
-     * @param wrong Row dimension.
-     * @param expected Column dimension.
+     * @param cond An estimate of the condition number of the offending linear
+     * operator.
      */
-    public NonSquareLinearOperatorException(int wrong, int expected) {
-        super(LocalizedFormats.NON_SQUARE_LINEAR_OPERATOR, wrong, expected);
+    public IllConditionedOperatorException(final double cond) {
+        super(LocalizedFormats.ILL_CONDITIONED_OPERATOR, cond);
     }
 }

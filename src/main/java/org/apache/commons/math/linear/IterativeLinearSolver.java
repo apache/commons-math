@@ -67,20 +67,20 @@ public abstract class IterativeLinearSolver {
      * @param b Right-hand side vector.
      * @param x0 Initial guess of the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws NonSquareOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}.
      */
     protected static void checkParameters(final RealLinearOperator a,
                                           final RealVector b,
                                           final RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException {
         MathUtils.checkNotNull(a);
         MathUtils.checkNotNull(b);
         MathUtils.checkNotNull(x0);
         if (a.getRowDimension() != a.getColumnDimension()) {
-            throw new NonSquareLinearOperatorException(a.getRowDimension(),
+            throw new NonSquareOperatorException(a.getRowDimension(),
                                                        a.getColumnDimension());
         }
         if (b.getDimension() != a.getRowDimension()) {
@@ -110,7 +110,7 @@ public abstract class IterativeLinearSolver {
      * @param b Right-hand side vector.
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws NonSquareOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} has dimensions
      * inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
@@ -118,7 +118,7 @@ public abstract class IterativeLinearSolver {
      * construction.
      */
     public RealVector solve(RealLinearOperator a, RealVector b)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
@@ -135,7 +135,7 @@ public abstract class IterativeLinearSolver {
      * @param x0 Initial guess of the solution.
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws NonSquareOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
@@ -143,7 +143,7 @@ public abstract class IterativeLinearSolver {
      * construction.
      */
     public RealVector solve(RealLinearOperator a, RealVector b, RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(x0);
         return solveInPlace(a, b, x0.copy());
@@ -159,7 +159,7 @@ public abstract class IterativeLinearSolver {
      * @return A reference to {@code x0} (shallow copy) updated with the
      * solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
-     * @throws NonSquareLinearOperatorException if {@code a} is not square.
+     * @throws NonSquareOperatorException if {@code a} is not square.
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
@@ -168,6 +168,6 @@ public abstract class IterativeLinearSolver {
      */
     public abstract RealVector solveInPlace(RealLinearOperator a, RealVector b,
                                             RealVector x0)
-        throws NullArgumentException, NonSquareLinearOperatorException,
+        throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException;
 }
