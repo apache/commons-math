@@ -144,7 +144,7 @@ public class NonLinearConjugateGradientOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize() {
-        final ConvergenceChecker checker = getConvergenceChecker();
+        final ConvergenceChecker<RealPointValuePair> checker = getConvergenceChecker();
         point = getStartPoint();
         final GoalType goal = getGoalType();
         final int n = point.length;
