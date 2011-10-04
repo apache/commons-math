@@ -129,7 +129,7 @@ public class ComplexTest {
         Assert.assertTrue(Double.isNaN(x.add(z).getReal()));
     }
 
-    
+
     @Test
     public void testScalarAdd() {
         Complex x = new Complex(3.0, 4.0);
@@ -150,7 +150,7 @@ public class ComplexTest {
     public void testScalarAddInf() {
         Complex x = new Complex(1, 1);
         double yDouble = Double.POSITIVE_INFINITY;
-        
+
         Complex yComplex = new Complex(yDouble);
         Assert.assertEquals(x.add(yComplex), x.add(yDouble));
 
@@ -288,11 +288,11 @@ public class ComplexTest {
         yDouble = Double.NEGATIVE_INFINITY;
         yComplex = new Complex(yDouble);
         TestUtils.assertEquals(x.divide(yComplex), x.divide(yDouble), 0);
-        
+
         x = new Complex(1, Double.NEGATIVE_INFINITY);
         TestUtils.assertEquals(x.divide(yComplex), x.divide(yDouble), 0);
     }
-    
+
     @Test
     public void testScalarDivideZero() {
         Complex x = new Complex(1,1);
@@ -313,10 +313,12 @@ public class ComplexTest {
         Complex x = new Complex(3.0, 4.0);
         Complex z = x.multiply(Complex.NaN);
         Assert.assertSame(Complex.NaN, z);
+        z = Complex.NaN.multiply(5);
+        Assert.assertSame(Complex.NaN, z);
     }
 
     @Test
-    public void testMultiplyInInf() {
+    public void testMultiplyInfInf() {
         // Assert.assertTrue(infInf.multiply(infInf).isNaN()); // MATH-620
         Assert.assertTrue(infInf.multiply(infInf).isInfinite());
     }
@@ -340,7 +342,7 @@ public class ComplexTest {
         w = negInfNegInf.multiply(oneNaN);
         Assert.assertTrue(Double.isNaN(w.getReal()));
         Assert.assertTrue(Double.isNaN(w.getImaginary()));
-        
+
         z = new Complex(1, neginf);
         Assert.assertSame(Complex.INF, z.multiply(z));
     }
@@ -351,6 +353,9 @@ public class ComplexTest {
         double yDouble = 2.0;
         Complex yComplex = new Complex(yDouble);
         Assert.assertEquals(x.multiply(yComplex), x.multiply(yDouble));
+        int zInt = -5;
+        Complex zComplex = new Complex(zInt);
+        Assert.assertEquals(x.multiply(zComplex), x.multiply(zInt));
     }
 
     @Test
@@ -367,7 +372,7 @@ public class ComplexTest {
         double yDouble = Double.POSITIVE_INFINITY;
         Complex yComplex = new Complex(yDouble);
         Assert.assertEquals(x.multiply(yComplex), x.multiply(yDouble));
-        
+
         yDouble = Double.NEGATIVE_INFINITY;
         yComplex = new Complex(yDouble);
         Assert.assertEquals(x.multiply(yComplex), x.multiply(yDouble));
@@ -417,7 +422,7 @@ public class ComplexTest {
         x = new Complex(neginf, 0);
         Assert.assertTrue(Double.isNaN(x.subtract(z).getReal()));
     }
-    
+
     @Test
     public void testScalarSubtract() {
         Complex x = new Complex(3.0, 4.0);
@@ -445,7 +450,7 @@ public class ComplexTest {
         Assert.assertEquals(x.subtract(yComplex), x.subtract(yDouble));
     }
 
-    
+
     @Test
     public void testEqualsNull() {
         Complex x = new Complex(3.0, 4.0);
@@ -507,7 +512,7 @@ public class ComplexTest {
         Assert.assertEquals(realNaN.hashCode(), imaginaryNaN.hashCode());
         Assert.assertEquals(imaginaryNaN.hashCode(), Complex.NaN.hashCode());
     }
-    
+
     @Test
     public void testAcos() {
         Complex z = new Complex(3, 4);

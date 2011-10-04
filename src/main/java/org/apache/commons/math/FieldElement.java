@@ -38,6 +38,16 @@ public interface FieldElement<T> {
      */
     T subtract(T a);
 
+    /** Compute n &times; this. Multiplication by an integer number is defined
+     * as the following sum
+     * <center>
+     * n &times; this = &sum;<sub>i=1</sub><sup>n</sup> this.
+     * </center>
+     * @param n Number of times {@code this} must be added to itself.
+     * @return A new element representing n &times; this.
+     */
+    T multiply(int n);
+
     /** Compute this &times; a.
      * @param a element to multiply
      * @return a new element representing this &times; a

@@ -426,6 +426,25 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
     /**
      * Returns a {@code Complex} whose value is {@code this * factor}, with {@code factor}
+     * interpreted as a integer number.
+     *
+     * @param  factor value to be multiplied by this {@code Complex}.
+     * @return {@code this * factor}.
+     * @see #multiply(Complex)
+     */
+    public Complex multiply(final int factor) {
+        if (isNaN) {
+            return NaN;
+        }
+        if (Double.isInfinite(real) ||
+            Double.isInfinite(imaginary)) {
+            return INF;
+        }
+        return createComplex(real * factor, imaginary * factor);
+    }
+
+    /**
+     * Returns a {@code Complex} whose value is {@code this * factor}, with {@code factor}
      * interpreted as a real number.
      *
      * @param  factor value to be multiplied by this {@code Complex}.

@@ -247,6 +247,11 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /** {@inheritDoc} */
+    public BigReal multiply(final int n) {
+        return new BigReal(d.multiply(new BigDecimal(n)));
+    }
+
+    /** {@inheritDoc} */
     public int compareTo(BigReal a) {
         return d.compareTo(a.d);
     }
@@ -288,5 +293,4 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     public Field<BigReal> getField() {
         return BigRealField.getInstance();
     }
-
 }

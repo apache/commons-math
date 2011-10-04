@@ -87,6 +87,8 @@ public class BigRealTest {
         BigReal a = new BigReal("1024.0");
         BigReal b = new BigReal("0.0009765625");
         Assert.assertEquals(1.0, a.multiply(b).doubleValue(), 1.0e-15);
+        int n = 1024;
+        Assert.assertEquals(1.0, b.multiply(n).doubleValue(), 1.0e-15);
     }
 
     @Test
