@@ -41,8 +41,9 @@ public class ZeroException extends MathIllegalNumberException {
      * Construct the exception with a specific context.
      *
      * @param specific Specific context pattern.
+     * @param arguments Arguments.
      */
-    public ZeroException(Localizable specific) {
-        super(specific, 0);
+    public ZeroException(Localizable specific, Object ... arguments) {
+        super(specific, 0, arguments);
     }
 }

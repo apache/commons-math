@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -120,7 +120,7 @@ public class ValueServer {
             case EXPONENTIAL_MODE: return getNextExponential();
             case GAUSSIAN_MODE: return getNextGaussian();
             case CONSTANT_MODE: return mu;
-            default: throw MathRuntimeException.createIllegalStateException(
+            default: throw new MathIllegalStateException(
                     LocalizedFormats.UNKNOWN_MODE,
                     mode,
                     "DIGEST_MODE",   DIGEST_MODE,   "REPLAY_MODE",      REPLAY_MODE,
@@ -352,7 +352,7 @@ public class ValueServer {
     private double getNextDigest() {
         if ((empiricalDistribution == null) ||
             (empiricalDistribution.getBinStats().size() == 0)) {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.DIGEST_NOT_INITIALIZED);
+            throw new MathIllegalStateException(LocalizedFormats.DIGEST_NOT_INITIALIZED);
         }
         return empiricalDistribution.getNextValue();
     }
@@ -385,8 +385,8 @@ public class ValueServer {
             closeReplayFile();
             resetReplayFile();
             if ((str = filePointer.readLine()) == null) {
-                throw MathRuntimeException.createEOFException(LocalizedFormats.URL_CONTAINS_NO_DATA,
-                                                              valuesFileURL);
+                throw new MathIllegalStateException(LocalizedFormats.URL_CONTAINS_NO_DATA,
+                                                    valuesFileURL);
             }
         }
         return Double.valueOf(str).doubleValue();

@@ -19,7 +19,7 @@ package org.apache.commons.math.genetics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -34,12 +34,12 @@ public class RandomKeyMutation implements MutationPolicy {
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if <code>original</code> is not a
+     * @throws MathIllegalArgumentException if <code>original</code> is not a
      * {@link RandomKey} instance
      */
     public Chromosome mutate(Chromosome original) {
         if (!(original instanceof RandomKey<?>)) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.RANDOMKEY_MUTATION_WRONG_CLASS,
                     original.getClass().getSimpleName());
         }

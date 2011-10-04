@@ -27,8 +27,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -176,7 +178,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             da.computeStats();
             fillBinStats(in);
         } catch (IOException e) {
-            throw new MathRuntimeException(e);
+            throw new MathIllegalStateException(e, LocalizedFormats.SIMPLE_MESSAGE, e.getLocalizedMessage());
         }
         loaded = true;
 
@@ -197,8 +199,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
             if (sampleStats.getN() == 0) {
-                throw MathRuntimeException.createEOFException(LocalizedFormats.URL_CONTAINS_NO_DATA,
-                                                              url);
+                throw new ZeroException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
             }
             in = new BufferedReader(new InputStreamReader(url.openStream()));
             fillBinStats(in);
@@ -279,7 +280,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                 double[] inputArray = (double[]) in;
                 return new ArrayDataAdapter(inputArray);
             } else {
-                throw MathRuntimeException.createIllegalArgumentException(
+                throw new MathIllegalArgumentException(
                       LocalizedFormats.INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE,
                       in.getClass().getName(),
                       BufferedReader.class.getName(), double[].class.getName());
@@ -427,12 +428,12 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * Generates a random value from this distribution.
      *
      * @return the random value.
-     * @throws IllegalStateException if the distribution has not been loaded
+     * @throws MathIllegalStateException if the distribution has not been loaded
      */
     public double getNextValue() throws IllegalStateException {
 
         if (!loaded) {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
+            throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
 
         // Start with a uniformly distributed random number in (0,1)
@@ -452,7 +453,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
                }
            }
         }
-        throw new MathRuntimeException(LocalizedFormats.NO_BIN_SELECTED);
+        throw new MathIllegalStateException(LocalizedFormats.NO_BIN_SELECTED);
     }
 
     /**
