@@ -16,11 +16,12 @@
  */
 package org.apache.commons.math.random;
 
-import java.io.EOFException;
 import java.net.URL;
 import java.util.Arrays;
 
 import org.apache.commons.math.RetryRunner;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
@@ -131,7 +132,7 @@ public final class ValueServerTest {
             vs.setValuesFileURL(url);
             vs.getNext();
             Assert.fail("an exception should have been thrown");
-        } catch (EOFException eof) {
+        } catch (MathIllegalStateException mise) {
             // expected behavior
         }
     }
@@ -144,7 +145,7 @@ public final class ValueServerTest {
             vs.setValuesFileURL(url);
             vs.computeDistribution();
             Assert.fail("an exception should have been thrown");
-        } catch (EOFException eof) {
+        } catch (ZeroException ze) {
             // expected behavior
         }
     }
