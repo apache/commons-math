@@ -76,7 +76,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** Counter for number of evaluations. */
     private Incrementor evaluations;
 
-    /** Differential expandable to integrate. */
+    /** Differential equations to integrate. */
     private transient ExpandableStatefulODE expandable;
 
     /** Build an instance.
@@ -204,7 +204,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             throw new DimensionMismatchException(y.length, equations.getDimension());
         }
 
-        // prepare expandable stateful expandable
+        // prepare expandable stateful equations
         final ExpandableStatefulODE expandableODE = new ExpandableStatefulODE(equations);
         expandableODE.setTime(t0);
         expandableODE.setPrimaryState(y0);
@@ -212,23 +212,23 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         // perform integration
         integrate(expandableODE, t);
 
-        // extract results back from the stateful expandable
+        // extract results back from the stateful equations
         System.arraycopy(expandableODE.getPrimaryState(), 0, y, 0, y.length);
         return expandableODE.getTime();
 
     }
 
-    /** Integrate a set of differential expandable up to the given time.
+    /** Integrate a set of differential equations up to the given time.
      * <p>This method solves an Initial Value Problem (IVP).</p>
-     * <p>The set of differential expandable is composed of a main set, which
-     * can be extended by some sets of secondary expandable. The set of
-     * expandable must be already set up with initial time and partial states.
+     * <p>The set of differential equations is composed of a main set, which
+     * can be extended by some sets of secondary equations. The set of
+     * equations must be already set up with initial time and partial states.
      * At integration completion, the final time and partial states will be
      * available in the same object.</p>
      * <p>Since this method stores some internal state variables made
      * available in its public interface during integration ({@link
      * #getCurrentSignedStepsize()}), it is <em>not</em> thread-safe.</p>
-     * @param equations complete set of differential expandable to integrate
+     * @param equations complete set of differential equations to integrate
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
      * @throws MathIllegalStateException if the integrator cannot perform integration
