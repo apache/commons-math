@@ -174,13 +174,15 @@ public class ConjugateGradient
         manager.resetIterationCount();
         final double r2max = delta * delta * b.dotProduct(b);
 
+        // Initialization phase counts as one iteration.
+        manager.incrementIterationCount();
         // p and x are constructed as copies of x0, since presumably, the type
         // of x is optimized for the calculation of the matrix-vector product
         // A.x.
         final RealVector x = x0;
         final RealVector p = x.copy();
         RealVector q = a.operate(p);
-        manager.incrementIterationCount();
+
         final RealVector r = b.combine(1, -1, q);
         double r2 = r.dotProduct(r);
         RealVector z;
@@ -213,6 +215,7 @@ public class ConjugateGradient
         }
         double rhoPrev = 0.;
         while (true) {
+            manager.incrementIterationCount();
             manager.fireIterationStartedEvent(event);
             if (m != null) {
                 z = m.solve(r);
@@ -226,13 +229,12 @@ public class ConjugateGradient
                 context.setValue(VECTOR, r);
                 throw e;
             }
-            if (manager.getIterations() == 1) {
+            if (manager.getIterations() == 2) {
                 p.setSubVector(0, z);
             } else {
                 p.combineToSelf(rhoNext / rhoPrev, 1., z);
             }
             q = a.operate(p);
-            manager.incrementIterationCount();
             final double pq = p.dotProduct(q);
             if (check && (pq <= 0.)) {
                 final NonPositiveDefiniteOperatorException e;
