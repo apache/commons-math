@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-683" due-to="Romain di Costanzo">
+         Added "shift" method to compute the coefficients of a new polynomial
+         whose values are the same as those of another polynomial but computed
+         at a shifted point.
+      </action>
       <action dev="erans" type="fix" issue="MATH-676">
          Faster "multiply" method in "Array2DRowRealMatrix". Code inspired
          from the Jama project.

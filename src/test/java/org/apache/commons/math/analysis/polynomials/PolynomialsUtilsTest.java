@@ -207,6 +207,36 @@ public class PolynomialsUtilsTest {
         }
     }
 
+    @Test
+    public void testShift(){
+        // f1(x) = 1 + x + 2 x^2
+        PolynomialFunction f1x = new PolynomialFunction(new double[] { 1, 1, 2 });
+
+        PolynomialFunction f1x1
+            = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), 1));
+        checkPolynomial(f1x1, "4 + 5 x + 2 x^2");
+
+        PolynomialFunction f1xM1
+            = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), -1));
+        checkPolynomial(f1xM1, "2 - 3 x + 2 x^2");
+        
+        PolynomialFunction f1x3
+            = new PolynomialFunction(PolynomialsUtils.shift(f1x.getCoefficients(), 3));
+        checkPolynomial(f1x3, "22 + 13 x + 2 x^2");
+
+        // f2(x) = 2 + 3 x^2 + 8 x^3 + 121 x^5
+        PolynomialFunction f2x = new PolynomialFunction(new double[]{2, 0, 3, 8, 0, 121});
+
+        PolynomialFunction f2x1
+            = new PolynomialFunction(PolynomialsUtils.shift(f2x.getCoefficients(), 1));
+        checkPolynomial(f2x1, "134 + 635 x + 1237 x^2 + 1218 x^3 + 605 x^4 + 121 x^5");
+
+        PolynomialFunction f2x3
+            = new PolynomialFunction(PolynomialsUtils.shift(f2x.getCoefficients(), 3));
+        checkPolynomial(f2x3, "29648 + 49239 x + 32745 x^2 + 10898 x^3 + 1815 x^4 + 121 x^5");
+    }
+
+
     private void checkPolynomial(PolynomialFunction p, long denominator, String reference) {
         PolynomialFunction q = new PolynomialFunction(new double[] { denominator});
         Assert.assertEquals(reference, p.multiply(q).toString());

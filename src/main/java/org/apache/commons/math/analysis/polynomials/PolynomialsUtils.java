@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 
 /**
  * A collection of static methods that operate on or return polynomials.
@@ -183,6 +184,61 @@ public class PolynomialsUtils {
             }
         });
     }
+
+    /**
+     * Compute the coefficients of the polynomial <code>P<sub>s</sub>(x)</code>
+     * whose values at point {@code x} will be the same as the those from the
+     * original polynomial <code>P(x)</code> when computed at {@code x + shift}.
+     * Thus, if <code>P(x) = &Sigma;<sub>i</sub> a<sub>i</sub> x<sup>i</sup></code>,
+     * then
+     * <pre>
+     *  <table>
+     *   <tr>
+     *    <td><code>P<sub>s</sub>(x)</td>
+     *    <td>= &Sigma;<sub>i</sub> b<sub>i</sub> x<sup>i</sup></code></td>
+     *   </tr>
+     *   <tr>
+     *    <td></td>
+     *    <td>= &Sigma;<sub>i</sub> a<sub>i</sub> (x + shift)<sup>i</sup></code></td>
+     *   </tr>
+     *  </table>
+     * </pre>
+     *
+     * @param coefficients Coefficients of the original polynomial.
+     * @param shift Shift value.
+     * @return the coefficients <code>b<sub>i</sub></code> of the shifted
+     * polynomial.
+     */
+    public static double[] shift(final double[] coefficients,
+                                 final double shift) {
+        final int dp1 = coefficients.length;
+        final double[] newCoefficients = new double[dp1];
+
+        // Pascal triangle.
+        final int[][] coeff = new int[dp1][dp1];
+        for (int i = 0; i < dp1; i++){
+            for(int j = 0; j <= i; j++){
+                coeff[i][j] = (int) MathUtils.binomialCoefficient(i, j);
+            }
+        }
+
+        // First polynomial coefficient.
+        for (int i = 0; i < dp1; i++){
+            newCoefficients[0] += coefficients[i] * FastMath.pow(shift, i);
+        }
+
+        // Superior order.
+        final int d = dp1 - 1;
+        for (int i = 0; i < d; i++) {
+            for (int j = i; j < d; j++){
+                newCoefficients[i + 1] += coeff[j + 1][j - i] *
+                    coefficients[j + 1] * FastMath.pow(shift, j - i);
+            }
+        }
+
+        return newCoefficients;
+    }
+
 
     /** Get the coefficients array for a given degree.
      * @param degree degree of the polynomial
