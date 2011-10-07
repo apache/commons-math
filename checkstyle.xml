@@ -183,6 +183,11 @@
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume IllegalCatch"/>
     <property name="checkFormat"      value="IllegalCatch"/>
   </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop DeclarationOrder"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume DeclarationOrder"/>
+    <property name="checkFormat"      value="DeclarationOrder"/>
+  </module>
 
 </module>
 

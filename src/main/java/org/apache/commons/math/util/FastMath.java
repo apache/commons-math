@@ -3656,7 +3656,7 @@ public class FastMath {
 
     //  ===================================== large static tables ====================================
 
-
+    //CHECKSTYLE: stop DeclarationOrder
     /** Index of exp(0) in the array of integer exponentials. */
     static final int EXP_INT_TABLE_MAX_INDEX = 750;
 
@@ -9850,5 +9850,7 @@ public class FastMath {
             }
         }
     }
+
+    //CHECKSTYLE: resume DeclarationOrder
 
 }
