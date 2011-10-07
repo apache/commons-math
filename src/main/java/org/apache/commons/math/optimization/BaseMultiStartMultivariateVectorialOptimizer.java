@@ -151,6 +151,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
         // Multi-start loop.
         for (int i = 0; i < starts; ++i) {
 
+            // CHECKSTYLE: stop IllegalCatch
             try {
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, target, weights,
                                                i == 0 ? startPoint : generator.nextVector());
@@ -160,6 +161,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
                 lastException = mue;
                 optima[i] = null;
             }
+            // CHECKSTYLE: resume IllegalCatch
 
             totalEvaluations += optimizer.getEvaluations();
         }

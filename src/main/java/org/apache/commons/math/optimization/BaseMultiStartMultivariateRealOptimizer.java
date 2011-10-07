@@ -149,6 +149,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
 
         // Multi-start loop.
         for (int i = 0; i < starts; ++i) {
+            // CHECKSTYLE: stop IllegalCatch
             try {
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal,
                                                i == 0 ? startPoint : generator.nextVector());
@@ -156,6 +157,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
                 lastException = mue;
                 optima[i] = null;
             }
+            // CHECKSTYLE: resume IllegalCatch
 
             totalEvaluations += optimizer.getEvaluations();
         }

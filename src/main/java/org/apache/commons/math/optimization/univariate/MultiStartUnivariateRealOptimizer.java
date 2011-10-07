@@ -161,6 +161,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
 
         // Multi-start loop.
         for (int i = 0; i < starts; ++i) {
+            // CHECKSTYLE: stop IllegalCatch
             try {
                 final double s = (i == 0) ? startValue : min + generator.nextDouble() * (max - min);
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal, min, max, s);
@@ -168,6 +169,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
                 lastException = mue;
                 optima[i] = null;
             }
+            // CHECKSTYLE: resume IllegalCatch
 
             totalEvaluations += optimizer.getEvaluations();
         }

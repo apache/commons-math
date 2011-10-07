@@ -178,6 +178,11 @@
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume MultipleVariableDeclarations"/>
     <property name="checkFormat"      value="MultipleVariableDeclarations"/>
   </module>
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop IllegalCatch"/>
+    <property name="onCommentFormat"  value="CHECKSTYLE\: resume IllegalCatch"/>
+    <property name="checkFormat"      value="IllegalCatch"/>
+  </module>
 
 </module>
 
