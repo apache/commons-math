@@ -23,8 +23,6 @@ import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math.exception.util.LocalizedFormats;
-
 /**
  * Open addressed map from int to double.
  * <p>This class provides a dedicated map from integers to doubles with a
