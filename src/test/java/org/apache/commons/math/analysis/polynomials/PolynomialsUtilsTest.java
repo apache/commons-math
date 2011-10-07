@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
 import org.apache.commons.math.util.FastMath;
-
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests the PolynomialsUtils class.
@@ -74,6 +75,22 @@ public class PolynomialsUtilsTest {
     }
 
     @Test
+    public void testChebyshevOrthogonality() {
+        UnivariateRealFunction weight = new UnivariateRealFunction() {
+            public double value(double x) {
+                return 1 / FastMath.sqrt(1 - x * x);
+            }
+        };
+        for (int i = 0; i < 10; ++i) {
+            PolynomialFunction pi = PolynomialsUtils.createChebyshevPolynomial(i);
+            for (int j = 0; j <= i; ++j) {
+                PolynomialFunction pj = PolynomialsUtils.createChebyshevPolynomial(j);
+                checkOrthogonality(pi, pj, weight, -0.9999, 0.9999, 1.5, 0.03);
+            }
+        }
+    }
+
+    @Test
     public void testFirstHermitePolynomials() {
         checkPolynomial(PolynomialsUtils.createHermitePolynomial(3), "-12 x + 8 x^3");
         checkPolynomial(PolynomialsUtils.createHermitePolynomial(2), "-2 + 4 x^2");
@@ -105,6 +122,22 @@ public class PolynomialsUtilsTest {
 
             checkNullPolynomial(Hk0g0.add(Hk1g1.add(Hk2g2)));
 
+        }
+    }
+
+    @Test
+    public void testHermiteOrthogonality() {
+        UnivariateRealFunction weight = new UnivariateRealFunction() {
+            public double value(double x) {
+                return FastMath.exp(-x * x);
+            }
+        };
+        for (int i = 0; i < 10; ++i) {
+            PolynomialFunction pi = PolynomialsUtils.createHermitePolynomial(i);
+            for (int j = 0; j <= i; ++j) {
+                PolynomialFunction pj = PolynomialsUtils.createHermitePolynomial(j);
+                checkOrthogonality(pi, pj, weight, -50, 50, 1.5, 1.0e-8);
+            }
         }
     }
 
@@ -150,6 +183,22 @@ public class PolynomialsUtilsTest {
     }
 
     @Test
+    public void testLaguerreOrthogonality() {
+        UnivariateRealFunction weight = new UnivariateRealFunction() {
+            public double value(double x) {
+                return FastMath.exp(-x);
+            }
+        };
+        for (int i = 0; i < 10; ++i) {
+            PolynomialFunction pi = PolynomialsUtils.createLaguerrePolynomial(i);
+            for (int j = 0; j <= i; ++j) {
+                PolynomialFunction pj = PolynomialsUtils.createLaguerrePolynomial(j);
+                checkOrthogonality(pi, pj, weight, 0.0, 100.0, 0.99999, 1.0e-13);
+            }
+        }
+    }
+
+    @Test
     public void testFirstLegendrePolynomials() {
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(3),  2l, "-3 x + 5 x^3");
         checkPolynomial(PolynomialsUtils.createLegendrePolynomial(2),  2l, "-1 + 3 x^2");
@@ -185,6 +234,22 @@ public class PolynomialsUtilsTest {
     }
 
     @Test
+    public void testLegendreOrthogonality() {
+        UnivariateRealFunction weight = new UnivariateRealFunction() {
+            public double value(double x) {
+                return 1;
+            }
+        };
+        for (int i = 0; i < 10; ++i) {
+            PolynomialFunction pi = PolynomialsUtils.createLegendrePolynomial(i);
+            for (int j = 0; j <= i; ++j) {
+                PolynomialFunction pj = PolynomialsUtils.createLegendrePolynomial(j);
+                checkOrthogonality(pi, pj, weight, -1, 1, 0.1, 1.0e-13);
+            }
+        }
+    }
+
+    @Test
     public void testHighDegreeLegendre() {
         PolynomialsUtils.createLegendrePolynomial(40);
         double[] l40 = PolynomialsUtils.createLegendrePolynomial(40).getCoefficients();
@@ -208,7 +273,7 @@ public class PolynomialsUtilsTest {
     }
 
     @Test
-    public void testShift(){
+    public void testShift() {
         // f1(x) = 1 + x + 2 x^2
         PolynomialFunction f1x = new PolynomialFunction(new double[] { 1, 1, 2 });
 
@@ -249,6 +314,30 @@ public class PolynomialsUtilsTest {
     private void checkNullPolynomial(PolynomialFunction p) {
         for (double coefficient : p.getCoefficients()) {
             Assert.assertEquals(0, coefficient, 1e-13);
+        }
+    }
+
+    private void checkOrthogonality(final PolynomialFunction p1,
+                                    final PolynomialFunction p2,
+                                    final UnivariateRealFunction weight,
+                                    final double a, final double b,
+                                    final double nonZeroThreshold,
+                                    final double zeroThreshold) {
+        UnivariateRealFunction f = new UnivariateRealFunction() {
+            public double value(double x) {
+                return weight.value(x) * p1.value(x) * p2.value(x);
+            }
+        };
+        double dotProduct =
+                new LegendreGaussIntegrator(5, 1.0e-9, 1.0e-8, 2, 15).integrate(1000000, f, a, b);
+        if (p1.degree() == p2.degree()) {
+            // integral should be non-zero
+            Assert.assertTrue("I(" + p1.degree() + ", " + p2.degree() + ") = "+ dotProduct,
+                              FastMath.abs(dotProduct) > nonZeroThreshold);
+        } else {
+            // integral should be zero
+            Assert.assertEquals("I(" + p1.degree() + ", " + p2.degree() + ") = "+ dotProduct,
+                                0.0, FastMath.abs(dotProduct), zeroThreshold);
         }
     }
 }
