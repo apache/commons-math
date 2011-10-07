@@ -65,8 +65,8 @@ public interface UnivariateRealIntegrator {
      * @param min the min bound for the interval
      * @param max the upper bound for the interval
      * @return the value of integral
-     * @throws TooManyEvaluationsException if the maximal number of evaluations
-     * is exceeded.
+     * @throws TooManyEvaluationsException if the maximum number of function
+     * evaluations is exceeded.
      * @throws MaxCountExceededException if the maximum iteration count is exceeded
      * or the integrator detects convergence problems otherwise
      * @throws MathIllegalArgumentException if min > max or the endpoints do not

@@ -29,13 +29,13 @@ import org.apache.commons.math.util.FastMath;
  * Legendre-Gauss</a> quadrature formula.
  * <p>
  * Legendre-Gauss integrators are efficient integrators that can
- * accurately integrate functions with few functions evaluations. A
+ * accurately integrate functions with few function evaluations. A
  * Legendre-Gauss integrator using an n-points quadrature formula can
- * integrate exactly 2n-1 degree polynomialss.
+ * integrate 2n-1 degree polynomials exactly.
  * </p>
  * <p>
  * These integrators evaluate the function on n carefully chosen
- * abscissas in each step interval (mapped to the canonical [-1  1] interval).
+ * abscissas in each step interval (mapped to the canonical [-1,1] interval).
  * The evaluation abscissas are not evenly spaced and none of them are
  * at the interval endpoints. This implies the function integrated can be
  * undefined at integration interval endpoints.
@@ -231,7 +231,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
      * Compute the n-th stage integral.
      * @param n number of steps
      * @return the value of n-th stage integral
-     * @throws TooManyEvaluationsException if the maximal number of evaluations
+     * @throws TooManyEvaluationsException if the maximum number of evaluations
      * is exceeded.
      */
     private double stage(final int n)

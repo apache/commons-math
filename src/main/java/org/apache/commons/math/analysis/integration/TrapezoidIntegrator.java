@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/TrapezoidalRule.html">
- * Trapezoidal Rule</a> for integration of real univariate functions. For
+ * Trapezoid Rule</a> for integration of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
@@ -36,7 +36,7 @@ import org.apache.commons.math.util.FastMath;
  */
 public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
 
-    /** Maximal number of iterations for trapezoid. */
+    /** Maximum number of iterations for trapezoid. */
     public static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 64;
 
     /** Intermediate result. */
@@ -105,7 +105,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * <p>
      * The interval is divided equally into 2^n sections rather than an
      * arbitrary m sections because this configuration can best utilize the
-     * alrealy computed values.</p>
+     * already computed values.</p>
      *
      * @param baseIntegrator integrator holding integration parameters
      * @param n the stage of 1/2 refinement, n = 0 is no refinement

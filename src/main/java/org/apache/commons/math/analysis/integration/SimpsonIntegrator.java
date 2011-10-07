@@ -24,13 +24,13 @@ import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
+ * Implements <a href="http://mathworld.wolfram.com/SimpsonsRule.html">
  * Simpson's Rule</a> for integration of real univariate functions. For
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 3.
  * <p>
- * This implementation employs basic trapezoid rule as building blocks to
- * calculate the Simpson's rule of alternating 2/3 and 4/3.</p>
+ * This implementation employs the basic trapezoid rule to calculate Simpson's
+ * rule.</p>
  *
  * @version $Id$
  * @since 1.2
