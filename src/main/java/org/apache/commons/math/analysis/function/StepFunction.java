@@ -38,15 +38,22 @@ public class StepFunction implements UnivariateRealFunction {
     private final double[] ordinate;
 
     /**
-     * Builds a step function from a list of abscissae and the corresponding
-     * ordinates.
+     * Builds a step function from a list of arguments and the corresponding
+     * values. Specifically, returns the function h(x) defined by <pre></code>
+     * h(x) = y[0] for all x < x[1]
+     *        y[1] for x[1] <= x < x[2]
+     *        ...
+     *        y[y.length] for x >= x[x.length]
+     * </pre></code>
+     * The value of x[0] is ignored, but it must be strictly less than x[1].
      *
-     * @param x Abscissae.
-     * @param y Ordinates.
+     * @param x domain values where the function changes value.
+     * @param y values of the function.
      * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if the {@code x} array is not sorted in strictly increasing order.
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
      * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     * @throws DimensionMismatchException if x and y do not have the same length
      */
     public StepFunction(double[] x,
                         double[] y) {

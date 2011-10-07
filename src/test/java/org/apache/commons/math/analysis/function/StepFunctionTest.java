@@ -78,6 +78,27 @@ public class StepFunctionTest {
         Assert.assertEquals(51.2, f.value(30), EPS);
         Assert.assertEquals(51.2, f.value(Double.POSITIVE_INFINITY), EPS);
     }
+    
+    @Test
+    public void testEndpointBehavior() {
+        final double[] x = {0, 1, 2, 3};
+        final double[] xp = {-8, 1, 2, 3};
+        final double[] y = {1, 2, 3, 4};
+        final UnivariateRealFunction f = new StepFunction(x, y);
+        final UnivariateRealFunction fp = new StepFunction(xp, y);
+        Assert.assertEquals(f.value(-8), fp.value(-8), EPS);
+        Assert.assertEquals(f.value(-10), fp.value(-10), EPS);
+        Assert.assertEquals(f.value(0), fp.value(0), EPS);
+        Assert.assertEquals(f.value(0.5), fp.value(0.5), EPS);
+        for (int i = 0; i < x.length; i++) {
+           Assert.assertEquals(y[i], f.value(x[i]), EPS);
+           if (i > 0) {
+               Assert.assertEquals(y[i - 1], f.value(x[i] - 0.5), EPS); 
+           } else {
+               Assert.assertEquals(y[0], f.value(x[i] - 0.5), EPS); 
+           }
+        }
+    }
 
     @Test
     public void testHeaviside() {   
