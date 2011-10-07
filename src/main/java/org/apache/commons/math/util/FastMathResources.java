@@ -19,13 +19,14 @@ package org.apache.commons.math.util;
 
 import java.io.File;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.DataInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import  org.apache.commons.math.exception.MathInternalError;
+import org.apache.commons.math.exception.MathInternalError;
 
 /**
  * Utility class for saving and loading tabulated data used by
@@ -130,6 +131,7 @@ public class FastMathResources {
     public static double[][] loadExpInt() {
         return loadTable2d(EXP_INT, 2, FastMath.EXP_INT_TABLE_LEN);
     }
+
     /**
      * Load "EXP_FRAC" tables.
      * "EXP_FRAC_TABLE_A" is at index 0.
@@ -137,16 +139,15 @@ public class FastMathResources {
      *
      * @return the retrieved data.
      */
-
     public static double[][] loadExpFrac() {
         return loadTable2d(EXP_FRAC, 2, FastMath.EXP_FRAC_TABLE_LEN);
     }
+
     /**
      * Load "LN_MANT".
      *
      * @return the retrieved data.
      */
-
     public static double[][] loadLnMant() {
         return loadTable2d(LN_MANT, FastMath.LN_MANT_LEN, 2);
     }
@@ -216,9 +217,9 @@ public class FastMathResources {
     private static DataInputStream in(String name)
         throws FileNotFoundException {
         final String fullName = "/" + RES_PREFIX + name;
-        return new DataInputStream(new BufferedInputStream(FastMathResources.class.getResourceAsStream(fullName)));
+        final InputStream in = FastMathResources.class.getResourceAsStream(fullName);
+        return new DataInputStream(new BufferedInputStream(in));
     }
-
 
     /**
      * @param name Basename of the resource.

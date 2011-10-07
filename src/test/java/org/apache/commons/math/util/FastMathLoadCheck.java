@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 /*
  * FastMath load performance test - requires that
  * <ul>
- *  <li>{@code FastMath.USE_PRECOMPUTED_TABLES}</li>
+ *  <li>{@code FastMath.RECOMPUTE_TABLES_AT_RUNTIME}</li>
  *  <li>{@code FastMath.LOAD_RESOURCES}</li>
  * </ul>
  * be non-"final".
