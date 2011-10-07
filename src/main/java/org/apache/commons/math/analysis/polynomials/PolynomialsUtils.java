@@ -277,6 +277,20 @@ public class PolynomialsUtils {
             return (v << 16) ^ w;
         }
 
+        /** Check if the instance represent the same key as another instance.
+         * @param key other key
+         * @return true if the instance and the other key refer to the same polynomial
+         */
+        public boolean equals(final Object key) {
+
+            if ((key == null) || !(key instanceof JacobiKey)) {
+                return false;
+            }
+
+            final JacobiKey otherK = (JacobiKey) key;
+            return (v == otherK.v) && (w == otherK.w);
+
+        }
     }
 
     /**
