@@ -352,7 +352,7 @@ public class BOBYQAOptimizer
      * @return
      */
     private double bobyqb(
-            ArrayRealVector xbase, 
+            ArrayRealVector xbase,
             Array2DRowRealMatrix xpt,
             ArrayRealVector fval,
             ArrayRealVector xopt,
@@ -831,7 +831,7 @@ public class BOBYQAOptimizer
             }
 
             f = computeObjectiveValue(currentBest.toArray());
-            
+
             if (!isMinimize)
                 f = -f;
             if (ntrits == -1) {
@@ -1740,7 +1740,7 @@ public class BOBYQAOptimizer
                     currentBest.setEntry(j, upperBound[j]);
                 }
             }
-            
+
             final double objectiveValue = computeObjectiveValue(currentBest.toArray());
             final double f = isMinimize ? objectiveValue : -objectiveValue;
             final int numEval = getEvaluations(); // nfm + 1
@@ -1901,7 +1901,7 @@ public class BOBYQAOptimizer
         double ds;
         int iu;
         double dhd, dhs, cth, shs, sth, ssq, beta=0, sdec, blen;
-        int iact = -1; 
+        int iact = -1;
         int nact = 0;
         double angt = 0, qred;
         int isav;
@@ -2329,7 +2329,7 @@ public class BOBYQAOptimizer
                 if (pq.getEntry(k) != ZERO) {
                     for (int i = 0; i < n; i++) {
                         hs.setEntry(i, hs.getEntry(i) + tmp.getEntry(k) * xpt.getEntry(k, i));
-                    } 
+                    }
                 }
             }
             if (crvmin != ZERO) {

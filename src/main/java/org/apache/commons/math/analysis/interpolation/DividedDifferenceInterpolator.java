@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm
 
 /**
  * Implements the <a href="
- * "http://mathworld.wolfram.com/NewtonsDividedDifferenceInterpolationFormula.html">
+ * http://mathworld.wolfram.com/NewtonsDividedDifferenceInterpolationFormula.html">
  * Divided Difference Algorithm</a> for interpolation of real univariate
  * functions. For reference, see <b>Introduction to Numerical Analysis</b>,
  * ISBN 038795452X, chapter 2.

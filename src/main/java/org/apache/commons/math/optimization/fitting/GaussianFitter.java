@@ -79,6 +79,7 @@ public class GaussianFitter extends CurveFitter {
      * </ul>
      * @return the parameters of the Gaussian function that best fits the
      * observed points (in the same order as above).
+     * @since 3.0
      */
     public double[] fit(double[] initialGuess) {
         final ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {

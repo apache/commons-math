@@ -40,7 +40,7 @@ import org.apache.commons.math.util.MathUtils;
  * Scatterplots</a>
  * <p/>
  * This class implements both the loess method and serves as an interpolation
- * adapter to it, allowing to build a spline on the obtained loess fit.
+ * adapter to it, allowing one to build a spline on the obtained loess fit.
  *
  * @version $Id$
  * @since 2.0

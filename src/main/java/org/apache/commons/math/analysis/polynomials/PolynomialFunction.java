@@ -366,6 +366,8 @@ public class PolynomialFunction implements DifferentiableUnivariateRealFunction,
 
     /**
      * Dedicated parametric polynomial class.
+     *
+     * @since 3.0
      */
     public static class Parametric implements ParametricUnivariateRealFunction {
         /** {@inheritDoc} */

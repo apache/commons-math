@@ -139,6 +139,7 @@ public class CurveFitter {
      * if the number of allowed evaluations is exceeded.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the start point dimension is wrong.
+     * @since 3.0
      */
     public double[] fit(int maxEval, final ParametricUnivariateRealFunction f,
                         final double[] initialGuess) {

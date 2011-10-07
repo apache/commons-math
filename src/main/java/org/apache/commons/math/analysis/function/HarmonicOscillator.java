@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
 public class HarmonicOscillator implements DifferentiableUnivariateRealFunction {
     /** Amplitude. */
     private final double amplitude;
-    /** Angular requency. */
+    /** Angular frequency. */
     private final double omega;
     /** Phase. */
     private final double phase;

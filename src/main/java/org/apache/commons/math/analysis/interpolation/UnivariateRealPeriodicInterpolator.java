@@ -21,7 +21,7 @@ import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 
 /**
- * Adapter for class implementing the {@link UnivariateRealInterpolator}
+ * Adapter for classes implementing the {@link UnivariateRealInterpolator}
  * interface.
  * The data to be interpolated is assumed to be periodic. Thus values that are
  * outside of the range can be passed to the interpolation function: They will

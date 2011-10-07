@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeFo
  * reference, see <b>Introduction to Numerical Analysis</b>, ISBN 038795452X,
  * chapter 2.
  * <p>
- * The actual code of Neville's evalution is in PolynomialFunctionLagrangeForm,
+ * The actual code of Neville's algorithm is in PolynomialFunctionLagrangeForm,
  * this class provides an easy-to-use interface to it.</p>
  *
  * @version $Id$

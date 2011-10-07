@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Cubic-root function.
+ * Cube root function.
  *
  * @version $Id$
  * @since 3.0

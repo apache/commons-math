@@ -21,6 +21,7 @@ package org.apache.commons.math.analysis;
  * An interface representing a real function that depends on one independent
  * variable plus some extra parameters.
  *
+ * @since 3.0
  * @version $Id$
  */
 public interface ParametricUnivariateRealFunction {

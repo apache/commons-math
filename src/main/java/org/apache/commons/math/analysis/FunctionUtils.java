@@ -32,10 +32,12 @@ public class FunctionUtils {
     private FunctionUtils() {}
 
     /**
-     * Compose functions.
+     * Compose functions.  The functions in the argument list are composed
+     * sequentially, in the order given.  For example, compose(f1,f2,f3)
+     * acts like f1(f2(f3(x))).
      *
      * @param f List of functions.
-     * @return the composed function.
+     * @return the composite function.
      */
     public static UnivariateRealFunction compose(final UnivariateRealFunction ... f) {
         return new UnivariateRealFunction() {
@@ -54,7 +56,7 @@ public class FunctionUtils {
      * Add functions.
      *
      * @param f List of functions.
-     * @return a function that computes the addition of the functions.
+     * @return a function that computes the sum of the functions.
      */
     public static UnivariateRealFunction add(final UnivariateRealFunction ... f) {
         return new UnivariateRealFunction() {
@@ -73,7 +75,7 @@ public class FunctionUtils {
      * Multiply functions.
      *
      * @param f List of functions.
-     * @return a function that computes the multiplication of the functions.
+     * @return a function that computes the product of the functions.
      */
     public static UnivariateRealFunction multiply(final UnivariateRealFunction ... f) {
         return new UnivariateRealFunction() {
@@ -89,12 +91,13 @@ public class FunctionUtils {
     }
 
     /**
-     * Combine functions.
+     * Returns the univariate function <br/>
+     * {@code h(x) = combiner(f(x), g(x))}.
      *
      * @param combiner Combiner function.
      * @param f Function.
      * @param g Function.
-     * @return the composed function.
+     * @return the composite function.
      */
     public static UnivariateRealFunction combine(final BivariateRealFunction combiner,
                                                  final UnivariateRealFunction f,
@@ -108,7 +111,9 @@ public class FunctionUtils {
     }
 
     /**
-     * Generate a collector function.
+     * Returns a MultivariateRealFunction h(x[]) defined by <pre> <code>
+     * h(x[]) = combiner(...combiner(combiner(initialValue,f(x[0])),f(x[1]))...),f(x[x.length-1]))
+     * </code></pre>
      *
      * @param combiner Combiner function.
      * @param f Function.
@@ -131,7 +136,9 @@ public class FunctionUtils {
     }
 
     /**
-     * Generate a collector function.
+     * Returns a MultivariateRealFunction h(x[]) defined by <pre> <code>
+     * h(x[]) = combiner(...combiner(combiner(initialValue,x[0]),x[1])...),x[x.length-1])
+     * </code></pre>
      *
      * @param combiner Combiner function.
      * @param initialValue Initial value.
@@ -147,7 +154,7 @@ public class FunctionUtils {
      *
      * @param f Binary function.
      * @param fixed Value to which the first argument of {@code f} is set.
-     * @return a unary function.
+     * @return the unary function h(x) = f(fixed, x)
      */
     public static UnivariateRealFunction fix1stArgument(final BivariateRealFunction f,
                                                         final double fixed) {
@@ -163,7 +170,7 @@ public class FunctionUtils {
      *
      * @param f Binary function.
      * @param fixed Value to which the second argument of {@code f} is set.
-     * @return a unary function.
+     * @return the unary function h(x) = f(x, fixed)
      */
     public static UnivariateRealFunction fix2ndArgument(final BivariateRealFunction f,
                                                         final double fixed) {
