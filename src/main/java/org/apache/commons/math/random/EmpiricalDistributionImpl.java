@@ -430,7 +430,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
      * @return the random value.
      * @throws MathIllegalStateException if the distribution has not been loaded
      */
-    public double getNextValue() throws IllegalStateException {
+    public double getNextValue() throws MathIllegalStateException {
 
         if (!loaded) {
             throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
