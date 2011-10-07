@@ -39,12 +39,12 @@ public class StepFunction implements UnivariateRealFunction {
 
     /**
      * Builds a step function from a list of arguments and the corresponding
-     * values. Specifically, returns the function h(x) defined by <pre></code>
+     * values. Specifically, returns the function h(x) defined by <pre><code>
      * h(x) = y[0] for all x < x[1]
      *        y[1] for x[1] <= x < x[2]
      *        ...
      *        y[y.length] for x >= x[x.length]
-     * </pre></code>
+     * </code></pre>
      * The value of x[0] is ignored, but it must be strictly less than x[1].
      *
      * @param x domain values where the function changes value.
