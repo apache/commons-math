@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 import org.junit.Test;

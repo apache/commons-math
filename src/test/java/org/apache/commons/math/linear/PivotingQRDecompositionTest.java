@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import java.util.Random;
 
 
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.junit.Assert;
 import org.junit.Test;
 

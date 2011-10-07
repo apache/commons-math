@@ -17,7 +17,7 @@ package org.apache.commons.math.linear;
 
 import java.util.Arrays;
 import org.apache.commons.math.util.MathUtils;
-import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -173,7 +173,6 @@ public class PivotingQRDecomposition {
         if (cachedQT == null) {
 
             // QT is supposed to be m x m
-            final int n = qr[0].length;
             final int m = qr.length;
             cachedQT = MatrixUtils.createRealMatrix(m, m);
 
