@@ -19,6 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -268,6 +269,50 @@ public class PolynomialsUtilsTest {
                 Assert.assertEquals(ci, l40[i], FastMath.abs(ci) * 1e-15);
             } else {
                 Assert.assertEquals(0, l40[i], 0);
+            }
+        }
+    }
+
+    @Test
+    public void testJacobiLegendre() {
+        for (int i = 0; i < 10; ++i) {
+            PolynomialFunction legendre = PolynomialsUtils.createLegendrePolynomial(i);
+            PolynomialFunction jacobi   = PolynomialsUtils.createJacobiPolynomial(i, 0, 0);
+            checkNullPolynomial(legendre.subtract(jacobi));
+        }
+    }
+
+    @Test
+    public void testJacobiEvaluationAt1() {
+        for (int v = 0; v < 10; ++v) {
+            for (int w = 0; w < 10; ++w) {
+                for (int i = 0; i < 10; ++i) {
+                    PolynomialFunction jacobi = PolynomialsUtils.createJacobiPolynomial(i, v, w);
+                    double binomial = MathUtils.binomialCoefficient(v + i, i);
+                    Assert.assertTrue(MathUtils.equals(binomial, jacobi.value(1.0), 1));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testJacobiOrthogonality() {
+        for (int v = 0; v < 5; ++v) {
+            for (int w = v; w < 5; ++w) {
+                final int vv = v;
+                final int ww = w;
+                UnivariateRealFunction weight = new UnivariateRealFunction() {
+                    public double value(double x) {
+                        return FastMath.pow(1 - x, vv) * FastMath.pow(1 + x, ww);
+                    }
+                };
+                for (int i = 0; i < 10; ++i) {
+                    PolynomialFunction pi = PolynomialsUtils.createJacobiPolynomial(i, v, w);
+                    for (int j = 0; j <= i; ++j) {
+                        PolynomialFunction pj = PolynomialsUtils.createJacobiPolynomial(j, v, w);
+                        checkOrthogonality(pi, pj, weight, -1, 1, 0.1, 1.0e-12);
+                    }
+                }
             }
         }
     }
