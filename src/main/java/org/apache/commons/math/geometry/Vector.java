@@ -33,8 +33,8 @@ public interface Vector<S extends Space> extends Serializable {
      */
     Space getSpace();
 
-    /** Get the null vector of the vetorial space or origin point of the affine space.
-     * @return null vector of the vetorial space or origin point of the affine space
+    /** Get the null vector of the vectorial space or origin point of the affine space.
+     * @return null vector of the vectorial space or origin point of the affine space
      */
     Vector<S> getZero();
 
