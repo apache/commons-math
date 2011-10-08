@@ -21,11 +21,8 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Sinc function, defined by <pre><code>
- *
- * sinc(x) = 1 if abs(x) < 1e-9;
- *           sin(x) / x; otherwise
- * </code></pre>
+ * The sinc function, {code sin(x)/x}.
+ * Returns {code 1} if {code |x| < 1e-9}.
  *
  * @version $Id$
  * @since 3.0
