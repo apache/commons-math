@@ -2280,14 +2280,20 @@ public final class MathUtils {
     }
 
     /**
-     * Sort an array in increasing order, performing the same reordering of
-     * entries on other arrays.
+     * Sort an array in ascending order in place and perform the same reordering
+     * of entries on other arrays. For example, if
+     * {@code x = [3, 1, 2], y = [1, 2, 3]} and {@code z = [0, 5, 7]}, then 
+     * {@code sortInPlace(x, y, z)} will update {@code x} to {@code [1, 2, 3]},
+     * {@code y} to {@code [2, 3, 1]} and {@code z} to {@code [5, 7, 0]}.
      *
-     * @param x Array to be sorted.
-     * @param yList Set of arrays whose permutations of entries must follow
+     * @param x Array to be sorted and used as a pattern for permutation
+     * of the other arrays.
+     * @param yList Set of arrays whose permutations of entries will follow
      * those performed on {@code x}.
-     * @throws DimensionMismatchException if any {@code y} has not the same
+     * @throws DimensionMismatchException if any {@code y} is not the same
      * size as {@code x}.
+     * @throws NullArgumentException if {@code x} or any {@code y} is null.
+     * @since 3.0
      */
     public static void sortInPlace(double[] x,
                                    double[] ... yList) {
@@ -2295,20 +2301,25 @@ public final class MathUtils {
     }
 
     /**
-     * Sort an array, performing the same reordering of entries on other arrays.
-     *
-     * @param x Array to be sorted.
+     * Sort an array in place and perform the same reordering of entries on
+     * other arrays.  This method works the same as
+     * {@link #sortInPlace(double[], double[]...)}, but allows the order of the
+     * sort to be provided in the {@code dir} parameter.
+     * 
+     * @param x Array to be sorted and used as a pattern for permutation
+     * of the other arrays.
      * @param dir Order direction.
-     * @param yList Set of arrays whose permutations of entries must follow
+     * @param yList Set of arrays whose permutations of entries will follow
      * those performed on {@code x}.
-     * @throws DimensionMismatchException if any {@code y} has not the same
+     * @throws DimensionMismatchException if any {@code y} is not the same
      * size as {@code x}.
+     * @throws NullArgumentException if {@code x} or any {@code y} is null
+     * @since 3.0
      */
     public static void sortInPlace(double[] x,
                                    final OrderDirection dir,
                                    double[] ... yList) {
-        if (x == null ||
-            yList == null) {
+        if (x == null) {
             throw new NullArgumentException();
         }
 
@@ -2321,6 +2332,9 @@ public final class MathUtils {
             final double[] yValues = new double[yListLen];
             for (int j = 0; j < yListLen; j++) {
                 double[] y = yList[j];
+                if (y == null) {
+                    throw new NullArgumentException();
+                }
                 if (y.length != len) {
                     throw new DimensionMismatchException(y.length, len);
                 }
@@ -2465,10 +2479,10 @@ public final class MathUtils {
                                            final double a2, final double b2) {
 
         // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE754 floating point arithmetic rouding properties.
+        // appear redundant. However, they should NOT be simplified, as they
+        // use IEEE754 floating point arithmetic rounding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
-        // The variables naming conventions are that xyzHigh contains the most significant
+        // The variable naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
         // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot
         // be represented in only one double precision number so we preserve two numbers
@@ -2546,8 +2560,8 @@ public final class MathUtils {
                                            final double a3, final double b3) {
 
         // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE754 floating point arithmetic rouding properties.
+        // appear redundant. However, they should NOT be simplified, as they
+        // do use IEEE754 floating point arithmetic rounding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically
@@ -2649,8 +2663,8 @@ public final class MathUtils {
                                            final double a4, final double b4) {
 
         // the code below is split in many additions/subtractions that may
-        // appear redundant. However, they shoud NOT be simplified, as they
-        // do use IEEE754 floating point arithmetic rouding properties.
+        // appear redundant. However, they should NOT be simplified, as they
+        // do use IEEE754 floating point arithmetic rounding properties.
         // as an example, the expression "ca1 - (ca1 - a1)" is NOT the same as "a1"
         // The variables naming conventions are that xyzHigh contains the most significant
         // bits of xyz and xyzLow contains its least significant bits. So theoretically

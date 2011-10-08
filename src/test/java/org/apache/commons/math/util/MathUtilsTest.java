@@ -16,12 +16,14 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
@@ -1771,6 +1773,47 @@ public final class MathUtilsTest {
         Assert.assertEquals(5,   x1[4], Math.ulp(1d));
         Assert.assertEquals(25,  x2[4], Math.ulp(1d));
         Assert.assertEquals(125, x3[4], Math.ulp(1d));
+    }
+    
+    @Test
+    /** Example in javadoc */
+    public void testSortInPlaceExample() {
+        final double[] x = {3, 1, 2};
+        final double[] y = {1, 2, 3};
+        final double[] z = {0, 5, 7};
+        MathUtils.sortInPlace(x, y, z);
+        final double[] sx = {1, 2, 3};
+        final double[] sy = {2, 3, 1};
+        final double[] sz = {5, 7, 0};
+        Assert.assertTrue(Arrays.equals(sx, x));
+        Assert.assertTrue(Arrays.equals(sy, y));
+        Assert.assertTrue(Arrays.equals(sz, z));
+    }
+    
+    @Test
+    public void testSortInPlaceFaliures() {
+        final double[] nullArray = null;
+        final double[] one = {1};
+        final double[] two = {1, 2};
+        final double[] onep = {2};
+        try {
+            MathUtils.sortInPlace(one, two);
+            Assert.fail("Expecting DimensionMismatchException");
+        } catch (DimensionMismatchException ex) {
+            // expected
+        }
+        try {
+            MathUtils.sortInPlace(one, nullArray);
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
+            // expected
+        }
+        try {
+            MathUtils.sortInPlace(one, onep, nullArray);
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
+            // expected
+        }
     }
 
     @Test
