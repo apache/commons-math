@@ -196,13 +196,13 @@ public class PolynomialsUtils {
 
     /**
      * Create a Jacobi polynomial.
-     * <p><a href="http://mathworld.wolfram.com/JacobiPolynomial.html">Jacobi 
+     * <p><a href="http://mathworld.wolfram.com/JacobiPolynomial.html">Jacobi
      * polynomials</a> are orthogonal polynomials.
      * They can be defined by the following recurrence relations:
      * <pre>
      *        P<sub>0</sub><sup>vw</sup>(X)   = 1
      *        P<sub>-1</sub><sup>vw</sup>(X)  = 0
-     *  2k(k + v + w)(2k + v + w - 2) P<sub>k</sub><sup>vw</sup>(X) = 
+     *  2k(k + v + w)(2k + v + w - 2) P<sub>k</sub><sup>vw</sup>(X) =
      *  (2k + v + w - 1)[(2k + v + w)(2k + v + w - 2) X + v<sup>2</sup> - w<sup>2</sup>] P<sub>k-1</sub><sup>vw</sup>(X)
      *  - 2(k + v - 1)(k + w - 1)(2k + v + w) P<sub>k-2</sub><sup>vw</sup>(X)
      * </pre></p>
