@@ -225,7 +225,7 @@ public abstract class VectorFormat<S extends Space> {
     /**
      * Parses a string to produce a {@link Vector} object.
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed {@link Vector} object.
      */
     public abstract Vector<S> parse(String source, ParsePosition pos);
@@ -234,7 +234,7 @@ public abstract class VectorFormat<S extends Space> {
      * Parses a string to produce an array of coordinates.
      * @param dimension dimension of the space
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return coordinates array.
      */
     protected double[] parseCoordinates(int dimension, String source, ParsePosition pos) {
