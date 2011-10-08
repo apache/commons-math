@@ -55,14 +55,14 @@ public class DfpTest {
         qnan    = null;
     }
 
-    // Generic test function.  Takes params x and y and tests them for 
+    // Generic test function.  Takes params x and y and tests them for
     // equality.  Then checks the status flags against the flags argument.
     // If the test fail, it prints the desc string
     private void test(Dfp x, Dfp y, int flags, String desc)
     {
         boolean b = x.equals(y);
 
-        if (!x.equals(y) && !x.unequal(y))  // NaNs involved 
+        if (!x.equals(y) && !x.unequal(y))  // NaNs involved
             b = (x.toString().equals(y.toString()));
 
         if (x.equals(field.newDfp("0")))  // distinguish +/- zero
@@ -114,197 +114,197 @@ public class DfpTest {
     public void testAdd()
     {
         test(field.newDfp("1").add(field.newDfp("1")),      // Basic tests   1+1 = 2
-             field.newDfp("2"), 
+             field.newDfp("2"),
              0, "Add #1");
 
         test(field.newDfp("1").add(field.newDfp("-1")),     // 1 + (-1) = 0
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Add #2");
 
         test(field.newDfp("-1").add(field.newDfp("1")),     // (-1) + 1 = 0
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Add #3");
 
         test(field.newDfp("-1").add(field.newDfp("-1")),     // (-1) + (-1) = -2
-             field.newDfp("-2"), 
+             field.newDfp("-2"),
              0, "Add #4");
 
         // rounding mode is round half even
 
         test(field.newDfp("1").add(field.newDfp("1e-16")),     // rounding on add
-             field.newDfp("1.0000000000000001"), 
+             field.newDfp("1.0000000000000001"),
              0, "Add #5");
 
         test(field.newDfp("1").add(field.newDfp("1e-17")),     // rounding on add
-             field.newDfp("1"), 
+             field.newDfp("1"),
              DfpField.FLAG_INEXACT, "Add #6");
 
         test(field.newDfp("0.90999999999999999999").add(field.newDfp("0.1")),     // rounding on add
-             field.newDfp("1.01"), 
+             field.newDfp("1.01"),
              DfpField.FLAG_INEXACT, "Add #7");
 
         test(field.newDfp(".10000000000000005000").add(field.newDfp(".9")),     // rounding on add
-             field.newDfp("1."), 
+             field.newDfp("1."),
              DfpField.FLAG_INEXACT, "Add #8");
 
         test(field.newDfp(".10000000000000015000").add(field.newDfp(".9")),     // rounding on add
-             field.newDfp("1.0000000000000002"), 
+             field.newDfp("1.0000000000000002"),
              DfpField.FLAG_INEXACT, "Add #9");
 
         test(field.newDfp(".10000000000000014999").add(field.newDfp(".9")),     // rounding on add
-             field.newDfp("1.0000000000000001"), 
+             field.newDfp("1.0000000000000001"),
              DfpField.FLAG_INEXACT, "Add #10");
 
         test(field.newDfp(".10000000000000015001").add(field.newDfp(".9")),     // rounding on add
-             field.newDfp("1.0000000000000002"), 
+             field.newDfp("1.0000000000000002"),
              DfpField.FLAG_INEXACT, "Add #11");
 
         test(field.newDfp(".11111111111111111111").add(field.newDfp("11.1111111111111111")), // rounding on add
-             field.newDfp("11.22222222222222222222"), 
+             field.newDfp("11.22222222222222222222"),
              DfpField.FLAG_INEXACT, "Add #12");
 
         test(field.newDfp(".11111111111111111111").add(field.newDfp("1111111111111111.1111")), // rounding on add
-             field.newDfp("1111111111111111.2222"), 
+             field.newDfp("1111111111111111.2222"),
              DfpField.FLAG_INEXACT, "Add #13");
 
         test(field.newDfp(".11111111111111111111").add(field.newDfp("11111111111111111111")), // rounding on add
-             field.newDfp("11111111111111111111"), 
+             field.newDfp("11111111111111111111"),
              DfpField.FLAG_INEXACT, "Add #14");
 
         test(field.newDfp("9.9999999999999999999e131071").add(field.newDfp("-1e131052")), // overflow on add
-             field.newDfp("9.9999999999999999998e131071"), 
+             field.newDfp("9.9999999999999999998e131071"),
              0, "Add #15");
 
         test(field.newDfp("9.9999999999999999999e131071").add(field.newDfp("1e131052")), // overflow on add
-             pinf, 
+             pinf,
              DfpField.FLAG_OVERFLOW, "Add #16");
 
         test(field.newDfp("-9.9999999999999999999e131071").add(field.newDfp("-1e131052")), // overflow on add
-             ninf, 
+             ninf,
              DfpField.FLAG_OVERFLOW, "Add #17");
 
         test(field.newDfp("-9.9999999999999999999e131071").add(field.newDfp("1e131052")), // overflow on add
-             field.newDfp("-9.9999999999999999998e131071"), 
+             field.newDfp("-9.9999999999999999998e131071"),
              0, "Add #18");
 
         test(field.newDfp("1e-131072").add(field.newDfp("1e-131072")), // underflow on add
-             field.newDfp("2e-131072"), 
+             field.newDfp("2e-131072"),
              0, "Add #19");
 
         test(field.newDfp("1.0000000000000001e-131057").add(field.newDfp("-1e-131057")), // underflow on add
-             field.newDfp("1e-131073"), 
+             field.newDfp("1e-131073"),
              DfpField.FLAG_UNDERFLOW, "Add #20");
 
         test(field.newDfp("1.1e-131072").add(field.newDfp("-1e-131072")), // underflow on add
-             field.newDfp("1e-131073"), 
+             field.newDfp("1e-131073"),
              DfpField.FLAG_UNDERFLOW, "Add #21");
 
         test(field.newDfp("1.0000000000000001e-131072").add(field.newDfp("-1e-131072")), // underflow on add
-             field.newDfp("1e-131088"), 
+             field.newDfp("1e-131088"),
              DfpField.FLAG_UNDERFLOW, "Add #22");
 
         test(field.newDfp("1.0000000000000001e-131078").add(field.newDfp("-1e-131078")), // underflow on add
-             field.newDfp("0"), 
+             field.newDfp("0"),
              DfpField.FLAG_UNDERFLOW, "Add #23");
 
         test(field.newDfp("1.0").add(field.newDfp("-1e-20")), // loss of precision on alignment?
-             field.newDfp("0.99999999999999999999"), 
+             field.newDfp("0.99999999999999999999"),
              0, "Add #23.1");
 
         test(field.newDfp("-0.99999999999999999999").add(field.newDfp("1")), // proper normalization?
-             field.newDfp("0.00000000000000000001"), 
+             field.newDfp("0.00000000000000000001"),
              0, "Add #23.2");
 
         test(field.newDfp("1").add(field.newDfp("0")), // adding zeros
-             field.newDfp("1"), 
+             field.newDfp("1"),
              0, "Add #24");
 
         test(field.newDfp("0").add(field.newDfp("0")), // adding zeros
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Add #25");
 
         test(field.newDfp("-0").add(field.newDfp("0")), // adding zeros
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Add #26");
 
         test(field.newDfp("0").add(field.newDfp("-0")), // adding zeros
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Add #27");
 
         test(field.newDfp("-0").add(field.newDfp("-0")), // adding zeros
-             field.newDfp("-0"), 
+             field.newDfp("-0"),
              0, "Add #28");
 
         test(field.newDfp("1e-20").add(field.newDfp("0")), // adding zeros
-             field.newDfp("1e-20"), 
+             field.newDfp("1e-20"),
              0, "Add #29");
 
         test(field.newDfp("1e-40").add(field.newDfp("0")), // adding zeros
-             field.newDfp("1e-40"), 
+             field.newDfp("1e-40"),
              0, "Add #30");
 
         test(pinf.add(ninf), // adding infinities
-             nan, 
+             nan,
              DfpField.FLAG_INVALID, "Add #31");
 
         test(ninf.add(pinf), // adding infinities
-             nan, 
+             nan,
              DfpField.FLAG_INVALID, "Add #32");
 
         test(ninf.add(ninf), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #33");
 
         test(pinf.add(pinf), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #34");
 
         test(pinf.add(field.newDfp("0")), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #35");
 
         test(pinf.add(field.newDfp("-1e131071")), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #36");
 
         test(pinf.add(field.newDfp("1e131071")), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #37");
 
         test(field.newDfp("0").add(pinf), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #38");
 
         test(field.newDfp("-1e131071").add(pinf), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #39");
 
         test(field.newDfp("1e131071").add(pinf), // adding infinities
-             pinf, 
+             pinf,
              0, "Add #40");
 
         test(ninf.add(field.newDfp("0")), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #41");
 
         test(ninf.add(field.newDfp("-1e131071")), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #42");
 
         test(ninf.add(field.newDfp("1e131071")), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #43");
 
         test(field.newDfp("0").add(ninf), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #44");
 
         test(field.newDfp("-1e131071").add(ninf), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #45");
 
         test(field.newDfp("1e131071").add(ninf), // adding infinities
-             ninf, 
+             ninf,
              0, "Add #46");
 
         test(field.newDfp("9.9999999999999999999e131071").add(field.newDfp("5e131051")),  // overflow
@@ -345,19 +345,19 @@ public class DfpTest {
 
         test(field.newDfp("-0").add(field.newDfp("-0")),
              field.newDfp("-0"),
-             0, "Add #56"); 
+             0, "Add #56");
 
         test(field.newDfp("0").add(field.newDfp("-0")),
              field.newDfp("0"),
-             0, "Add #57"); 
+             0, "Add #57");
 
         test(field.newDfp("-0").add(field.newDfp("0")),
              field.newDfp("0"),
-             0, "Add #58"); 
+             0, "Add #58");
 
         test(field.newDfp("0").add(field.newDfp("0")),
              field.newDfp("0"),
-             0, "Add #59"); 
+             0, "Add #59");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -403,7 +403,7 @@ public class DfpTest {
         cmptst(field.newDfp("-1"), field.newDfp("0"), "equal", false, 7);        // -1 == 0
         cmptst(field.newDfp("0"), field.newDfp("-1"), "equal", false, 8);        // 0 == -1
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "equal", false, 9); // 0 == 1e-131072
-        // check flags 
+        // check flags
         if (field.getIEEEFlags() != 0)
             Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
 
@@ -491,7 +491,7 @@ public class DfpTest {
         cmptst(field.newDfp("-1"), field.newDfp("0"), "unequal", true, 7);        // -1 == 0
         cmptst(field.newDfp("0"), field.newDfp("-1"), "unequal", true, 8);        // 0 == -1
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "unequal", true, 9); // 0 == 1e-131072
-        // check flags 
+        // check flags
         if (field.getIEEEFlags() != 0)
             Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
 
@@ -582,7 +582,7 @@ public class DfpTest {
         cmptst(field.newDfp("-1"), field.newDfp("0"), "lessThan", true, 7);        // -1 < 0
         cmptst(field.newDfp("0"), field.newDfp("-1"), "lessThan", false, 8);        // 0 < -1
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "lessThan", true, 9); // 0 < 1e-131072
-        // check flags 
+        // check flags
         if (field.getIEEEFlags() != 0)
             Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
 
@@ -673,7 +673,7 @@ public class DfpTest {
         cmptst(field.newDfp("-1"), field.newDfp("0"), "greaterThan", false, 7);        // -1 > 0
         cmptst(field.newDfp("0"), field.newDfp("-1"), "greaterThan", true, 8);        // 0 > -1
         cmptst(field.newDfp("0"), field.newDfp("1e-131072"), "greaterThan", false, 9); // 0 > 1e-131072
-        // check flags 
+        // check flags
         if (field.getIEEEFlags() != 0)
             Assert.fail("assersion failed.  compare flags = "+field.getIEEEFlags());
 
@@ -756,62 +756,62 @@ public class DfpTest {
     public void testMultiply()
     {
         test(field.newDfp("1").multiply(field.newDfp("1")),      // Basic tests   1*1 = 1
-             field.newDfp("1"), 
+             field.newDfp("1"),
              0, "Multiply #1");
 
         test(field.newDfp("1").multiply(1),             // Basic tests   1*1 = 1
-             field.newDfp("1"), 
+             field.newDfp("1"),
              0, "Multiply #2");
 
         test(field.newDfp("-1").multiply(field.newDfp("1")),     // Basic tests   -1*1 = -1
-             field.newDfp("-1"), 
+             field.newDfp("-1"),
              0, "Multiply #3");
 
         test(field.newDfp("-1").multiply(1),            // Basic tests   -1*1 = -1
-             field.newDfp("-1"), 
+             field.newDfp("-1"),
              0, "Multiply #4");
 
         // basic tests with integers
         test(field.newDfp("2").multiply(field.newDfp("3")),
-             field.newDfp("6"), 
+             field.newDfp("6"),
              0, "Multiply #5");
 
         test(field.newDfp("2").multiply(3),
-             field.newDfp("6"), 
+             field.newDfp("6"),
              0, "Multiply #6");
 
         test(field.newDfp("-2").multiply(field.newDfp("3")),
-             field.newDfp("-6"), 
+             field.newDfp("-6"),
              0, "Multiply #7");
 
         test(field.newDfp("-2").multiply(3),
-             field.newDfp("-6"), 
+             field.newDfp("-6"),
              0, "Multiply #8");
 
         test(field.newDfp("2").multiply(field.newDfp("-3")),
-             field.newDfp("-6"), 
+             field.newDfp("-6"),
              0, "Multiply #9");
 
         test(field.newDfp("-2").multiply(field.newDfp("-3")),
-             field.newDfp("6"), 
+             field.newDfp("6"),
              0, "Multiply #10");
 
         //multiply by zero
 
         test(field.newDfp("-2").multiply(field.newDfp("0")),
-             field.newDfp("-0"), 
+             field.newDfp("-0"),
              0, "Multiply #11");
 
         test(field.newDfp("-2").multiply(0),
-             field.newDfp("-0"), 
+             field.newDfp("-0"),
              0, "Multiply #12");
 
         test(field.newDfp("2").multiply(field.newDfp("0")),
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Multiply #13");
 
         test(field.newDfp("2").multiply(0),
-             field.newDfp("0"), 
+             field.newDfp("0"),
              0, "Multiply #14");
 
         test(field.newDfp("2").multiply(pinf),
@@ -836,19 +836,19 @@ public class DfpTest {
 
         test(field.newDfp("5e131071").multiply(2),
              pinf,
-             DfpField.FLAG_OVERFLOW, "Multiply #19");        
+             DfpField.FLAG_OVERFLOW, "Multiply #19");
 
         test(field.newDfp("5e131071").multiply(field.newDfp("1.999999999999999")),
              field.newDfp("9.9999999999999950000e131071"),
-             0, "Multiply #20");        
+             0, "Multiply #20");
 
         test(field.newDfp("-5e131071").multiply(2),
              ninf,
-             DfpField.FLAG_OVERFLOW, "Multiply #22");        
+             DfpField.FLAG_OVERFLOW, "Multiply #22");
 
         test(field.newDfp("-5e131071").multiply(field.newDfp("1.999999999999999")),
              field.newDfp("-9.9999999999999950000e131071"),
-             0, "Multiply #23");        
+             0, "Multiply #23");
 
         test(field.newDfp("1e-65539").multiply(field.newDfp("1e-65539")),
              field.newDfp("1e-131078"),
@@ -919,11 +919,11 @@ public class DfpTest {
     public void testDivide()
     {
         test(field.newDfp("1").divide(nan),      // divide by NaN = NaN
-             nan, 
+             nan,
              0, "Divide #1");
 
         test(nan.divide(field.newDfp("1")),      // NaN / number = NaN
-             nan, 
+             nan,
              0, "Divide #2");
 
         test(pinf.divide(field.newDfp("1")),
@@ -1036,10 +1036,50 @@ public class DfpTest {
     }
 
     @Test
+    public void testReciprocal()
+    {
+        test(nan.reciprocal(),
+             nan,
+             0, "Reciprocal #1");
+
+        test(field.newDfp("0").reciprocal(),
+             pinf,
+             DfpField.FLAG_DIV_ZERO, "Reciprocal #2");
+
+        test(field.newDfp("-0").reciprocal(),
+             ninf,
+             DfpField.FLAG_DIV_ZERO, "Reciprocal #3");
+
+        test(field.newDfp("3").reciprocal(),
+             field.newDfp("0.33333333333333333333"),
+             DfpField.FLAG_INEXACT, "Reciprocal #4");
+
+        test(field.newDfp("6").reciprocal(),
+             field.newDfp("0.16666666666666666667"),
+             DfpField.FLAG_INEXACT, "Reciprocal #5");
+
+        test(field.newDfp("1").reciprocal(),
+             field.newDfp("1"),
+             0, "Reciprocal #6");
+
+        test(field.newDfp("-1").reciprocal(),
+             field.newDfp("-1"),
+             0, "Reciprocal #7");
+
+        test(pinf.reciprocal(),
+             field.newDfp("0"),
+             0, "Reciprocal #8");
+
+        test(ninf.reciprocal(),
+             field.newDfp("-0"),
+             0, "Reciprocal #9");
+    }
+
+    @Test
     public void testDivideInt()
     {
         test(nan.divide(1),      // NaN / number = NaN
-             nan, 
+             nan,
              0, "DivideInt #1");
 
         test(pinf.divide(1),
@@ -1158,7 +1198,7 @@ public class DfpTest {
              field.newDfp("-0"),
              DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #12");
 
-        test(field.newDfp("1e-131092").nextAfter(ninf), 
+        test(field.newDfp("1e-131092").nextAfter(ninf),
              field.newDfp("0"),
              DfpField.FLAG_UNDERFLOW|DfpField.FLAG_INEXACT, "Next After #13");
 

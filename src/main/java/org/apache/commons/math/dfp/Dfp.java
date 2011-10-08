@@ -1937,6 +1937,11 @@ public class Dfp implements FieldElement<Dfp> {
 
     }
 
+    /** {@inheritDoc} */
+    public Dfp reciprocal() {
+        return field.getOne().divide(this);
+    }
+
     /** Compute the square root.
      * @return square root of the instance
      */

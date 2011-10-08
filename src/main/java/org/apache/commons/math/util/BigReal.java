@@ -237,8 +237,18 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
     }
 
     /** {@inheritDoc} */
+    public BigReal negate() {
+        return new BigReal(d.negate());
+    }
+
+    /** {@inheritDoc} */
     public BigReal divide(BigReal a) throws ArithmeticException {
         return new BigReal(d.divide(a.d, scale, roundingMode));
+    }
+
+    /** {@inheritDoc}} */
+    public BigReal reciprocal(){
+        return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
     }
 
     /** {@inheritDoc} */

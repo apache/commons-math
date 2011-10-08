@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.util;
 
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -29,23 +28,46 @@ public class BigRealTest {
 
     @Test
     public void testConstructor() {
-        Assert.assertEquals(1.625, new BigReal(new BigDecimal("1.625")).doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(new BigInteger("-5")).doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(new BigInteger("-5"), MathContext.DECIMAL64).doubleValue(), 1.0e-15);
-        Assert.assertEquals(0.125, new BigReal(new BigInteger("125"), 3).doubleValue(), 1.0e-15);
-        Assert.assertEquals(0.125, new BigReal(new BigInteger("125"), 3, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal(new char[] { '1', '.', '6', '2', '5' }).doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal(new char[] { 'A', 'A', '1', '.', '6', '2', '5', '9' }, 2, 5).doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal(new char[] { 'A', 'A', '1', '.', '6', '2', '5', '9' }, 2, 5, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal(new char[] { '1', '.', '6', '2', '5' }, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625,
+                            new BigReal(new BigDecimal("1.625")).doubleValue(),
+                            1.0e-15);
+        Assert.assertEquals(-5.0,
+                            new BigReal(new BigInteger("-5")).doubleValue(),
+                            1.0e-15);
+        Assert.assertEquals(-5.0, new BigReal(new BigInteger("-5"),
+                                              MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
+        Assert
+            .assertEquals(0.125,
+                          new BigReal(new BigInteger("125"), 3).doubleValue(),
+                          1.0e-15);
+        Assert.assertEquals(0.125, new BigReal(new BigInteger("125"), 3,
+                                               MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal(new char[] {
+            '1', '.', '6', '2', '5'
+        }).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal(new char[] {
+            'A', 'A', '1', '.', '6', '2', '5', '9'
+        }, 2, 5).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal(new char[] {
+            'A', 'A', '1', '.', '6', '2', '5', '9'
+        }, 2, 5, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal(new char[] {
+            '1', '.', '6', '2', '5'
+        }, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
         Assert.assertEquals(1.625, new BigReal(1.625).doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal(1.625, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal(1.625, MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
         Assert.assertEquals(-5.0, new BigReal(-5).doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(-5, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(-5.0, new BigReal(-5, MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
         Assert.assertEquals(-5.0, new BigReal(-5l).doubleValue(), 1.0e-15);
-        Assert.assertEquals(-5.0, new BigReal(-5l, MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(-5.0, new BigReal(-5l, MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
         Assert.assertEquals(1.625, new BigReal("1.625").doubleValue(), 1.0e-15);
-        Assert.assertEquals(1.625, new BigReal("1.625", MathContext.DECIMAL64).doubleValue(), 1.0e-15);
+        Assert.assertEquals(1.625, new BigReal("1.625", MathContext.DECIMAL64)
+            .doubleValue(), 1.0e-15);
     }
 
     @Test
@@ -72,7 +94,16 @@ public class BigRealTest {
     public void testSubtract() {
         BigReal a = new BigReal("1.2345678");
         BigReal b = new BigReal("8.7654321");
-        Assert.assertEquals( -7.5308643, a.subtract(b).doubleValue(), 1.0e-15);
+        Assert.assertEquals(-7.5308643, a.subtract(b).doubleValue(), 1.0e-15);
+    }
+
+    @Test
+    public void testNegate() {
+        BigReal a = new BigReal("1.2345678");
+        BigReal zero = new BigReal("0.0000000");
+        Assert.assertEquals(a.negate().add(a), zero);
+        Assert.assertEquals(a.add(a.negate()), zero);
+        Assert.assertEquals(zero, zero.negate());
     }
 
     @Test
@@ -80,6 +111,18 @@ public class BigRealTest {
         BigReal a = new BigReal("1.0000000000");
         BigReal b = new BigReal("0.0009765625");
         Assert.assertEquals(1024.0, a.divide(b).doubleValue(), 1.0e-15);
+    }
+
+    @Test
+    public void testReciprocal() {
+        BigReal a = new BigReal("1.2345678");
+        double eps = FastMath.pow(10., -a.getScale());
+        BigReal one = new BigReal("1.0000000");
+        BigReal b = a.reciprocal();
+        BigReal r = one.subtract(a.multiply(b));
+        Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
+        r = one.subtract(b.multiply(a));
+        Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
     }
 
     @Test
@@ -98,9 +141,11 @@ public class BigRealTest {
 
     @Test
     public void testBigDecimalValue() {
-        BigDecimal pi = new BigDecimal("3.1415926535897932384626433832795028841971693993751");
+        BigDecimal pi = new BigDecimal(
+                                       "3.1415926535897932384626433832795028841971693993751");
         Assert.assertEquals(pi, new BigReal(pi).bigDecimalValue());
-        Assert.assertEquals(new BigDecimal(0.5), new BigReal(1.0 / 2.0).bigDecimalValue());
+        Assert.assertEquals(new BigDecimal(0.5),
+                            new BigReal(1.0 / 2.0).bigDecimalValue());
     }
 
     @Test
@@ -121,13 +166,11 @@ public class BigRealTest {
     @Test
     public void testSerial() {
         BigReal[] Reals = {
-            new BigReal(3.0), BigReal.ONE, BigReal.ZERO,
-            new BigReal(17), new BigReal(FastMath.PI),
-            new BigReal(-2.5)
+            new BigReal(3.0), BigReal.ONE, BigReal.ZERO, new BigReal(17),
+            new BigReal(FastMath.PI), new BigReal(-2.5)
         };
         for (BigReal Real : Reals) {
             Assert.assertEquals(Real, TestUtils.serializeAndRecover(Real));
         }
     }
-
 }

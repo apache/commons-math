@@ -300,6 +300,47 @@ public class ComplexTest {
     }
 
     @Test
+    public void testReciprocal() {
+        Complex z = new Complex(5.0, 6.0);
+        Complex act = z.reciprocal();
+        double expRe = 5.0 / 61.0;
+        double expIm = -6.0 / 61.0;
+        Assert.assertEquals(expRe, act.getReal(), FastMath.ulp(expRe));
+        Assert.assertEquals(expIm, act.getImaginary(), FastMath.ulp(expIm));
+    }
+
+    @Test
+    public void testReciprocalReal() {
+        Complex z = new Complex(-2.0, 0.0);
+        Assert.assertEquals(new Complex(-0.5, 0.0), z.reciprocal());
+    }
+
+    @Test
+    public void testReciprocalImaginary() {
+        Complex z = new Complex(0.0, -2.0);
+        Assert.assertEquals(new Complex(0.0, 0.5), z.reciprocal());
+    }
+
+    @Test
+    public void testReciprocalInf() {
+        Complex z = new Complex(neginf, inf);
+        Assert.assertTrue(z.reciprocal().equals(Complex.ZERO));
+
+        z = new Complex(1, inf).reciprocal();
+        Assert.assertEquals(z, Complex.ZERO);
+    }
+
+    @Test
+    public void testReciprocalZero() {
+        Assert.assertEquals(Complex.ZERO.reciprocal(), Complex.NaN);
+    }
+
+    @Test
+    public void testReciprocalNaN() {
+        Assert.assertTrue(Complex.NaN.reciprocal().isNaN());
+    }
+
+    @Test
     public void testMultiply() {
         Complex x = new Complex(3.0, 4.0);
         Complex y = new Complex(5.0, 6.0);
@@ -1273,5 +1314,4 @@ public class ComplexTest {
         }
 
     }
-
 }

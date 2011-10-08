@@ -38,6 +38,12 @@ public interface FieldElement<T> {
      */
     T subtract(T a);
 
+    /**
+     * Returns the additive inverse of {@code this} element.
+     * @return the opposite of {@code this}.
+     */
+    T negate();
+
     /** Compute n &times; this. Multiplication by an integer number is defined
      * as the following sum
      * <center>
@@ -62,9 +68,14 @@ public interface FieldElement<T> {
      */
     T divide(T a) throws ArithmeticException;
 
+    /**
+     * Returns the multiplicative inverse of {@code this} element.
+     * @return the inverse of {@code this}.
+     */
+    T reciprocal();
+
     /** Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
      */
     Field<T> getField();
-
 }
