@@ -12,22 +12,51 @@ import java.lang.reflect.Field;
  * 
  * For example, this shell command:
  * <pre>
- *  $ for max in false true ; do for how in compute resources array; do java -cp target/classes:target/test-classes org.apache.commons.math.util.FastMathLoadCheck $max $how ; done ; done
+ *  $ for max in false true ; do for how in compute resources array; do java -cp target/classes:target/test-classes org.apache.commons.math.util.FastMathLoadCheck $max $how 4 ; done ; done
  * </pre>
  * will produce an output similar to the following:
  * <pre>
- *  Using exp(100); how=compute
- *  times  50955053      4062      1783      1708      1731      1728      1739      1735      1746      1735
- *  Using exp(100); how=resources
- *  times  18467554      4822      1953      1769      1851      1746      1821      1817      1813      1742
- *  Using exp(100); how=array
- *  times   5952415      2960      1839      1776      1720      1847      1839      1780      1788      1742
- *  Using max(0,0); how=compute
- *  times      1596       521       401       352       345       405       393       390       397       382
- *  Using max(0,0); how=resources
- *  times      1517       521       401       386       386       394       363       386       382       383
- *  Using max(0,0); how=array
- *  times      1569       453       398       390       389       394       333       390       334       359
+ * Using exp(100); how=computeUsing exp(100); how=compute
+ *     times       result
+ *  43534147 2.688117e+43
+ *      4547 2.688117e+43
+ *      1970 2.688117e+43
+ *      1823 2.688117e+43
+ *
+ * Using exp(100); how=array
+ *     times       result
+ *  12596573 2.688117e+43
+ *      4484 2.688117e+43
+ *      1861 2.688117e+43
+ *      1864 2.688117e+43
+ *
+ * Using exp(100); how=resources
+ *     times       result
+ *  13087186 2.688117e+43
+ *      4974 2.688117e+43
+ *      1834 2.688117e+43
+ *      1900 2.688117e+43
+ *
+ * Using max(0,0); how=compute
+ *     times       result
+ *      3172 0.000000e+00
+ *       692 0.000000e+00
+ *       385 0.000000e+00
+ *       358 0.000000e+00
+ *
+ * Using max(0,0); how=array
+ *     times       result
+ *      2746 0.000000e+00
+ *       527 0.000000e+00
+ *       382 0.000000e+00
+ *       390 0.000000e+00
+ *
+ * Using max(0,0); how=resources
+ *     times       result
+ *      3762 0.000000e+00
+ *       506 0.000000e+00
+ *       394 0.000000e+00
+ *       364 0.000000e+00
  * </pre>
  */
 public class FastMathLoadCheck {
@@ -47,50 +76,42 @@ public class FastMathLoadCheck {
 
         final Field recompute = FastMath.class.getDeclaredField("RECOMPUTE_TABLES_AT_RUNTIME");
         final Field load = FastMath.class.getDeclaredField("LOAD_RESOURCES");
+        recompute.setAccessible(true);
+        load.setAccessible(true);
         if (how.equals(COMP)) {
-            recompute.setAccessible(true);
             recompute.setBoolean(null, true);
-            recompute.setAccessible(false);
-            load.setAccessible(true);
             load.setBoolean(null, false);
-            load.setAccessible(false);
         } else if (how.equals(RES)) {
-            recompute.setAccessible(true);
             recompute.setBoolean(null, false);
-            recompute.setAccessible(false);
-            load.setAccessible(true);
             load.setBoolean(null, true);
-            load.setAccessible(false);
         } else if (how.equals(ARR)) {
-            recompute.setAccessible(true);
             recompute.setBoolean(null, false);
-            recompute.setAccessible(false);
-            load.setAccessible(true);
             load.setBoolean(null, false);
-            load.setAccessible(false);
         } else {
             throw new IllegalArgumentException("'how' must be 'compute' or 'resources' or 'array'");
         }
+        recompute.setAccessible(false);
+        load.setAccessible(false);
 
         test();
     }
     private static void test(){
-        p("times");
-        for(int i = 0; i < LOOPS; i++){
-            p(" ");
+        p("%9s %12s\n", "times", "result");
+        double result;
+        for(int i = 0; i < LOOPS; i++) {
             long t1 = System.nanoTime();
             if (MAX) {
-                FastMath.max(0, 0);
+                result = FastMath.max(0, 0);
             } else {
-                FastMath.exp(100);
+                result = FastMath.exp(100);
             }
             long t2 = System.nanoTime();
-            p("%9d", t2 - t1);
+            p("%9d %e\n", t2 - t1, result);
         }
         p("\n");
     }
 
-    private static void p(String format, Object p){
+    private static void p(String format, Object ... p){
         System.out.printf(format, p);
     }
     private static void p(Object p){
