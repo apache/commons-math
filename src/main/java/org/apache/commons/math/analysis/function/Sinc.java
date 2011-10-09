@@ -21,7 +21,12 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * <a href="http://en.wikipedia.org/wiki/Sinc_function">Sinc</a> function.
+ * <a href="http://en.wikipedia.org/wiki/Sinc_function">Sinc</a> function,
+ * defined by
+ * <pre><code>
+ *   sinc(x) = 1            if x = 0,
+ *             sin(x) / x   otherwise.
+ * </code></pre>
  *
  * @version $Id$
  * @since 3.0
