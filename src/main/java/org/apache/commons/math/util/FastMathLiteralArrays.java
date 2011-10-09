@@ -22,7 +22,7 @@ package org.apache.commons.math.util;
  *
  * @version $Id$
  */
-public class FastMathLiteralArrays {
+class FastMathLiteralArrays {
     /** "EXP_INT_A" table. */
     private static final double[] EXP_INT_A = new double[] {
         +0.0d,

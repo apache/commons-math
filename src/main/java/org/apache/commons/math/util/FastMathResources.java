@@ -36,7 +36,7 @@ import org.apache.commons.math.exception.MathInternalError;
  *
  * @version $Id$
  */
-public class FastMathResources {
+class FastMathResources {
     /**
      * Resource directory. Assuming that this class and the resource files
      * are located in the same package as "FastMath".
