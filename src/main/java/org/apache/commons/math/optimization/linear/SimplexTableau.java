@@ -33,7 +33,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * A tableau for use in the Simplex method.
@@ -311,9 +311,9 @@ class SimplexTableau implements Serializable {
         Integer row = null;
         for (int i = 0; i < getHeight(); i++) {
             final double entry = getEntry(i, col);
-            if (MathUtils.equals(entry, 1d, maxUlps) && (row == null)) {
+            if (Precision.equals(entry, 1d, maxUlps) && (row == null)) {
                 row = i;
-            } else if (!MathUtils.equals(entry, 0d, maxUlps)) {
+            } else if (!Precision.equals(entry, 0d, maxUlps)) {
                 return null;
             }
         }
@@ -335,7 +335,7 @@ class SimplexTableau implements Serializable {
         // positive cost non-artificial variables
         for (int i = getNumObjectiveFunctions(); i < getArtificialVariableOffset(); i++) {
             final double entry = tableau.getEntry(0, i);
-            if (MathUtils.compareTo(entry, 0d, maxUlps) > 0) {
+            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
                 columnsToDrop.add(i);
             }
         }
@@ -381,7 +381,7 @@ class SimplexTableau implements Serializable {
     boolean isOptimal() {
         for (int i = getNumObjectiveFunctions(); i < getWidth() - 1; i++) {
             final double entry = tableau.getEntry(0, i);
-            if (MathUtils.compareTo(entry, 0d, epsilon) < 0) {
+            if (Precision.compareTo(entry, 0d, epsilon) < 0) {
                 return false;
             }
         }

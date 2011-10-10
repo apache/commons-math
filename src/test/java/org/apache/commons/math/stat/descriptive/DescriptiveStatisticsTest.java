@@ -17,7 +17,7 @@ import java.util.Locale;
 
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -214,11 +214,11 @@ public class DescriptiveStatisticsTest {
             dstat.addValue(i);
         }
 
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean1, dstat.getMean()));
+        Assert.assertTrue(Precision.equalsIncludingNaN(mean1, dstat.getMean()));
         dstat.replaceMostRecentValue(0);
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean2, dstat.getMean()));
+        Assert.assertTrue(Precision.equalsIncludingNaN(mean2, dstat.getMean()));
         dstat.removeMostRecentValue();
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(mean3, dstat.getMean()));
+        Assert.assertTrue(Precision.equalsIncludingNaN(mean3, dstat.getMean()));
 
     }
 

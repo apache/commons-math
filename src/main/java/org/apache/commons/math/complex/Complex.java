@@ -45,9 +45,10 @@ import org.apache.commons.math.util.FastMath;
  * Note that this is in contradiction with the IEEE-754 standard for floating
  * point numbers (according to which the test {@code x == x} must fail if
  * {@code x} is {@code NaN}). The method
- * {@link MathUtils#equals(double,double,int) equals for primitive double} in
- * {@link MathUtils} conforms with IEEE-754 while this class conforms with
- * the standard behavior for Java object types.
+ * {@link org.apache.commons.math.util.Precision#equals(double,double,int)
+ * equals for primitive double} in {@link org.apache.commons.math.util.Precision}
+ * conforms with IEEE-754 while this class conforms with the standard behavior
+ * for Java object types.
  * <br/>
  * Implements Serializable since 2.0
  *

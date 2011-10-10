@@ -76,12 +76,6 @@ public final class MathUtils {
     /** 0.0 cast as a short. */
     private static final short ZS = (short)0;
 
-    /** Offset to order signed double numbers lexicographically. */
-    private static final long SGN_MASK = 0x8000000000000000L;
-
-    /** Offset to order signed double numbers lexicographically. */
-    private static final int SGN_MASK_FLOAT = 0x80000000;
-
     /** All long-representable factorials */
     private static final long[] FACTORIALS = new long[] {
                        1l,                  1l,                   2l,
@@ -389,51 +383,6 @@ public final class MathUtils {
     }
 
     /**
-     * Compares two numbers given some amount of allowed error.
-     *
-     * @param x the first number
-     * @param y the second number
-     * @param eps the amount of error to allow when checking for equality
-     * @return <ul><li>0 if  {@link #equals(double, double, double) equals(x, y, eps)}</li>
-     *       <li>&lt; 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x &lt; y</li>
-     *       <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y</li></ul>
-     */
-    public static int compareTo(double x, double y, double eps) {
-        if (equals(x, y, eps)) {
-            return 0;
-        } else if (x < y) {
-            return -1;
-        }
-        return 1;
-    }
-
-    /**
-     * Compares two numbers given some amount of allowed error.
-     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
-     * (or fewer) floating point numbers between them, i.e. two adjacent floating
-     * point numbers are considered equal.
-     * Adapted from <a
-     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
-     * Bruce Dawson</a>
-     *
-     * @param x first value
-     * @param y second value
-     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
-     * values between {@code x} and {@code y}.
-     * @return <ul><li>0 if  {@link #equals(double, double, int) equals(x, y, maxUlps)}</li>
-     *       <li>&lt; 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x &lt; y</li>
-     *       <li>> 0 if !{@link #equals(double, double, int) equals(x, y, maxUlps)} &amp;&amp; x > y</li></ul>
-     */
-    public static int compareTo(final double x, final double y, final int maxUlps) {
-        if (equals(x, y, maxUlps)) {
-            return 0;
-        } else if (x < y) {
-            return -1;
-        }
-        return 1;
-    }
-
-    /**
      * Returns the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
      * hyperbolic cosine</a> of x.
      *
@@ -445,114 +394,9 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff they are equal as defined by
-     * {@link #equals(float,float,int) equals(x, y, 1)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @return {@code true} if the values are equal.
-     */
-    public static boolean equals(float x, float y) {
-        return equals(x, y, 1);
-    }
-
-    /**
-     * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(float,float) equals(x, y, 1)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @return {@code true} if the values are equal or both are NaN.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(float x, float y) {
-        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, 1);
-    }
-
-    /**
-     * Returns true if both arguments are equal or within the range of allowed
-     * error (inclusive).
-     *
-     * @param x first value
-     * @param y second value
-     * @param eps the amount of absolute error to allow.
-     * @return {@code true} if the values are equal or within range of each other.
-     * @since 2.2
-     */
-    public static boolean equals(float x, float y, float eps) {
-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
-    }
-
-    /**
-     * Returns true if both arguments are NaN or are equal or within the range
-     * of allowed error (inclusive).
-     *
-     * @param x first value
-     * @param y second value
-     * @param eps the amount of absolute error to allow.
-     * @return {@code true} if the values are equal or within range of each other,
-     * or both are NaN.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(float x, float y, float eps) {
-        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
-    }
-
-    /**
-     * Returns true if both arguments are equal or within the range of allowed
-     * error (inclusive).
-     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
-     * (or fewer) floating point numbers between them, i.e. two adjacent floating
-     * point numbers are considered equal.
-     * Adapted from <a
-     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
-     * Bruce Dawson</a>
-     *
-     * @param x first value
-     * @param y second value
-     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
-     * values between {@code x} and {@code y}.
-     * @return {@code true} if there are fewer than {@code maxUlps} floating
-     * point values between {@code x} and {@code y}.
-     * @since 2.2
-     */
-    public static boolean equals(float x, float y, int maxUlps) {
-        int xInt = Float.floatToIntBits(x);
-        int yInt = Float.floatToIntBits(y);
-
-        // Make lexicographically ordered as a two's-complement integer.
-        if (xInt < 0) {
-            xInt = SGN_MASK_FLOAT - xInt;
-        }
-        if (yInt < 0) {
-            yInt = SGN_MASK_FLOAT - yInt;
-        }
-
-        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
-
-        return isEqual && !Float.isNaN(x) && !Float.isNaN(y);
-    }
-
-    /**
-     * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(float,float,int) equals(x, y, maxUlps)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
-     * values between {@code x} and {@code y}.
-     * @return {@code true} if both arguments are NaN or if there are less than
-     * {@code maxUlps} floating point values between {@code x} and {@code y}.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(float x, float y, int maxUlps) {
-        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, maxUlps);
-    }
-
-    /**
      * Returns true iff both arguments are null or have same dimensions and all
      * their elements are equal as defined by
-     * {@link #equals(float,float)}.
+     * {@link Precision#equals(float,float)}.
      *
      * @param x first array
      * @param y second array
@@ -567,7 +411,7 @@ public final class MathUtils {
             return false;
         }
         for (int i = 0; i < x.length; ++i) {
-            if (!equals(x[i], y[i])) {
+            if (!Precision.equals(x[i], y[i])) {
                 return false;
             }
         }
@@ -577,7 +421,7 @@ public final class MathUtils {
     /**
      * Returns true iff both arguments are null or have same dimensions and all
      * their elements are equal as defined by
-     * {@link #equalsIncludingNaN(double,double) this method}.
+     * {@link Precision#equalsIncludingNaN(double,double) this method}.
      *
      * @param x first array
      * @param y second array
@@ -593,7 +437,7 @@ public final class MathUtils {
             return false;
         }
         for (int i = 0; i < x.length; ++i) {
-            if (!equalsIncludingNaN(x[i], y[i])) {
+            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
                 return false;
             }
         }
@@ -601,114 +445,9 @@ public final class MathUtils {
     }
 
     /**
-     * Returns true iff they are equal as defined by
-     * {@link #equals(double,double,int) equals(x, y, 1)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @return {@code true} if the values are equal.
-     */
-    public static boolean equals(double x, double y) {
-        return equals(x, y, 1);
-    }
-
-    /**
-     * Returns true if both arguments are NaN or neither is NaN and they are
-     * equal as defined by {@link #equals(double,double) equals(x, y, 1)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @return {@code true} if the values are equal or both are NaN.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(double x, double y) {
-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
-    }
-
-    /**
-     * Returns {@code true} if there is no double value strictly between the
-     * arguments or the difference between them is within the range of allowed
-     * error (inclusive).
-     *
-     * @param x First value.
-     * @param y Second value.
-     * @param eps Amount of allowed absolute error.
-     * @return {@code true} if the values are two adjacent floating point
-     * numbers or they are within range of each other.
-     */
-    public static boolean equals(double x, double y, double eps) {
-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
-    }
-
-    /**
-     * Returns true if both arguments are NaN or are equal or within the range
-     * of allowed error (inclusive).
-     *
-     * @param x first value
-     * @param y second value
-     * @param eps the amount of absolute error to allow.
-     * @return {@code true} if the values are equal or within range of each other,
-     * or both are NaN.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(double x, double y, double eps) {
-        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
-    }
-
-    /**
-     * Returns true if both arguments are equal or within the range of allowed
-     * error (inclusive).
-     * Two float numbers are considered equal if there are {@code (maxUlps - 1)}
-     * (or fewer) floating point numbers between them, i.e. two adjacent floating
-     * point numbers are considered equal.
-     * Adapted from <a
-     * href="http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm">
-     * Bruce Dawson</a>
-     *
-     * @param x first value
-     * @param y second value
-     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
-     * values between {@code x} and {@code y}.
-     * @return {@code true} if there are fewer than {@code maxUlps} floating
-     * point values between {@code x} and {@code y}.
-     */
-    public static boolean equals(double x, double y, int maxUlps) {
-        long xInt = Double.doubleToLongBits(x);
-        long yInt = Double.doubleToLongBits(y);
-
-        // Make lexicographically ordered as a two's-complement integer.
-        if (xInt < 0) {
-            xInt = SGN_MASK - xInt;
-        }
-        if (yInt < 0) {
-            yInt = SGN_MASK - yInt;
-        }
-
-        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
-
-        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
-    }
-
-    /**
-     * Returns true if both arguments are NaN or if they are equal as defined
-     * by {@link #equals(double,double,int) equals(x, y, maxUlps)}.
-     *
-     * @param x first value
-     * @param y second value
-     * @param maxUlps {@code (maxUlps - 1)} is the number of floating point
-     * values between {@code x} and {@code y}.
-     * @return {@code true} if both arguments are NaN or if there are less than
-     * {@code maxUlps} floating point values between {@code x} and {@code y}.
-     * @since 2.2
-     */
-    public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {
-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, maxUlps);
-    }
-
-    /**
      * Returns {@code true} iff both arguments are {@code null} or have same
      * dimensions and all their elements are equal as defined by
-     * {@link #equals(double,double)}.
+     * {@link Precision#equals(double,double)}.
      *
      * @param x First array.
      * @param y Second array.
@@ -723,7 +462,7 @@ public final class MathUtils {
             return false;
         }
         for (int i = 0; i < x.length; ++i) {
-            if (!equals(x[i], y[i])) {
+            if (!Precision.equals(x[i], y[i])) {
                 return false;
             }
         }
@@ -733,7 +472,7 @@ public final class MathUtils {
     /**
      * Returns {@code true} iff both arguments are {@code null} or have same
      * dimensions and all their elements are equal as defined by
-     * {@link #equalsIncludingNaN(double,double) this method}.
+     * {@link Precision#equalsIncludingNaN(double,double) this method}.
      *
      * @param x First array.
      * @param y Second array.
@@ -749,7 +488,7 @@ public final class MathUtils {
             return false;
         }
         for (int i = 0; i < x.length; ++i) {
-            if (!equalsIncludingNaN(x[i], y[i])) {
+            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
                 return false;
             }
         }

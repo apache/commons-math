@@ -310,53 +310,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testCompareToEpsilon() {
-        Assert.assertEquals(0, MathUtils.compareTo(152.33, 152.32, .011));
-        Assert.assertTrue(MathUtils.compareTo(152.308, 152.32, .011) < 0);
-        Assert.assertTrue(MathUtils.compareTo(152.33, 152.318, .011) > 0);
-        Assert.assertEquals(0, MathUtils.compareTo(Double.MIN_VALUE, +0.0, Double.MIN_VALUE));
-        Assert.assertEquals(0, MathUtils.compareTo(Double.MIN_VALUE, -0.0, Double.MIN_VALUE));
-    }
-
-    @Test
-    public void testCompareToMaxUlps() {
-        double a     = 152.32;
-        double delta = FastMath.ulp(a);
-        for (int i = 0; i <= 10; ++i) {
-            if (i <= 5) {
-                Assert.assertEquals( 0, MathUtils.compareTo(a, a + i * delta, 5));
-                Assert.assertEquals( 0, MathUtils.compareTo(a, a - i * delta, 5));
-            } else {
-                Assert.assertEquals(-1, MathUtils.compareTo(a, a + i * delta, 5));
-                Assert.assertEquals(+1, MathUtils.compareTo(a, a - i * delta, 5));
-            }
-        }
-
-        Assert.assertEquals( 0, MathUtils.compareTo(-0.0, 0.0, 0));
-
-        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, -0.0, 0));
-        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, -0.0, 1));
-        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, +0.0, 0));
-        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, +0.0, 1));
-
-        Assert.assertEquals(+1, MathUtils.compareTo( Double.MIN_VALUE, -0.0, 0));
-        Assert.assertEquals( 0, MathUtils.compareTo( Double.MIN_VALUE, -0.0, 1));
-        Assert.assertEquals(+1, MathUtils.compareTo( Double.MIN_VALUE, +0.0, 0));
-        Assert.assertEquals( 0, MathUtils.compareTo( Double.MIN_VALUE, +0.0, 1));
-
-        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 0));
-        Assert.assertEquals(-1, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 1));
-        Assert.assertEquals( 0, MathUtils.compareTo(-Double.MIN_VALUE, Double.MIN_VALUE, 2));
-
-        Assert.assertEquals( 0, MathUtils.compareTo(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
-        Assert.assertEquals(-1, MathUtils.compareTo(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 0));
-
-        Assert.assertEquals(+1, MathUtils.compareTo(Double.MAX_VALUE, Double.NaN, Integer.MAX_VALUE));
-        Assert.assertEquals(+1, MathUtils.compareTo(Double.NaN, Double.MAX_VALUE, Integer.MAX_VALUE));
-
-    }
-
-    @Test
     public void testCosh() {
         double x = 3.0;
         double expected = 10.06766;
@@ -366,192 +319,6 @@ public final class MathUtilsTest {
     @Test
     public void testCoshNaN() {
         Assert.assertTrue(Double.isNaN(MathUtils.cosh(Double.NaN)));
-    }
-
-    @Test
-    public void testEqualsIncludingNaN() {
-        double[] testArray = {
-            Double.NaN,
-            Double.POSITIVE_INFINITY,
-            Double.NEGATIVE_INFINITY,
-            1d,
-            0d };
-        for (int i = 0; i < testArray.length; i++) {
-            for (int j = 0; j < testArray.length; j++) {
-                if (i == j) {
-                    Assert.assertTrue(MathUtils.equalsIncludingNaN(testArray[i], testArray[j]));
-                    Assert.assertTrue(MathUtils.equalsIncludingNaN(testArray[j], testArray[i]));
-                } else {
-                    Assert.assertTrue(!MathUtils.equalsIncludingNaN(testArray[i], testArray[j]));
-                    Assert.assertTrue(!MathUtils.equalsIncludingNaN(testArray[j], testArray[i]));
-                }
-            }
-        }
-    }
-
-    @Test
-    public void testEqualsWithAllowedDelta() {
-        Assert.assertTrue(MathUtils.equals(153.0000, 153.0000, .0625));
-        Assert.assertTrue(MathUtils.equals(153.0000, 153.0625, .0625));
-        Assert.assertTrue(MathUtils.equals(152.9375, 153.0000, .0625));
-        Assert.assertFalse(MathUtils.equals(153.0000, 153.0625, .0624));
-        Assert.assertFalse(MathUtils.equals(152.9374, 153.0000, .0625));
-        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1.0));
-        Assert.assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
-        Assert.assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
-        Assert.assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
-    }
-
-    @Test
-    public void testMath475() {
-        final double a = 1.7976931348623182E16;
-        final double b = FastMath.nextUp(a);
-
-        double diff = FastMath.abs(a - b);
-        // Because they are adjacent floating point numbers, "a" and "b" are
-        // considered equal even though the allowed error is smaller than
-        // their difference.
-        Assert.assertTrue(MathUtils.equals(a, b, 0.5 * diff));
-
-        final double c = FastMath.nextUp(b);
-        diff = FastMath.abs(a - c);
-        // Because "a" and "c" are not adjacent, the tolerance is taken into
-        // account for assessing equality.
-        Assert.assertTrue(MathUtils.equals(a, c, diff));
-        Assert.assertFalse(MathUtils.equals(a, c, (1 - 1e-16) * diff));
-    }
-
-    @Test
-    public void testEqualsIncludingNaNWithAllowedDelta() {
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(153.0000, 153.0000, .0625));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(153.0000, 153.0625, .0625));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(152.9375, 153.0000, .0625));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.NaN, Double.NaN, 1.0));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1.0));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(153.0000, 153.0625, .0624));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(152.9374, 153.0000, .0625));
-    }
-
-    // Tests for floating point equality
-    @Test
-    public void testFloatEqualsWithAllowedUlps() {
-        Assert.assertTrue("+0.0f == -0.0f",MathUtils.equals(0.0f, -0.0f));
-        Assert.assertTrue("+0.0f == -0.0f (1 ulp)",MathUtils.equals(0.0f, -0.0f, 1));
-        float oneFloat = 1.0f;
-        Assert.assertTrue("1.0f == 1.0f + 1 ulp",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat))));
-        Assert.assertTrue("1.0f == 1.0f + 1 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(1 + Float.floatToIntBits(oneFloat)), 1));
-        Assert.assertFalse("1.0f != 1.0f + 2 ulp (1 ulp)",MathUtils.equals(oneFloat, Float.intBitsToFloat(2 + Float.floatToIntBits(oneFloat)), 1));
-
-        Assert.assertTrue(MathUtils.equals(153.0f, 153.0f, 1));
-
-        // These tests need adjusting for floating point precision
-//        Assert.assertTrue(MathUtils.equals(153.0f, 153.00000000000003f, 1));
-//        Assert.assertFalse(MathUtils.equals(153.0f, 153.00000000000006f, 1));
-//        Assert.assertTrue(MathUtils.equals(153.0f, 152.99999999999997f, 1));
-//        Assert.assertFalse(MathUtils.equals(153f, 152.99999999999994f, 1));
-//
-//        Assert.assertTrue(MathUtils.equals(-128.0f, -127.99999999999999f, 1));
-//        Assert.assertFalse(MathUtils.equals(-128.0f, -127.99999999999997f, 1));
-//        Assert.assertTrue(MathUtils.equals(-128.0f, -128.00000000000003f, 1));
-//        Assert.assertFalse(MathUtils.equals(-128.0f, -128.00000000000006f, 1));
-
-        Assert.assertTrue(MathUtils.equals(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equals(Double.MAX_VALUE, Float.POSITIVE_INFINITY, 1));
-
-        Assert.assertTrue(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equals(-Float.MAX_VALUE, Float.NEGATIVE_INFINITY, 1));
-
-        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NaN, 1));
-        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NaN, 0));
-        Assert.assertFalse(MathUtils.equals(Float.NaN, 0, 0));
-        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.POSITIVE_INFINITY, 0));
-        Assert.assertFalse(MathUtils.equals(Float.NaN, Float.NEGATIVE_INFINITY, 0));
-
-        Assert.assertFalse(MathUtils.equals(Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 100000));
-    }
-
-    @Test
-    public void testEqualsWithAllowedUlps() {
-        Assert.assertTrue(MathUtils.equals(0.0, -0.0, 1));
-
-        Assert.assertTrue(MathUtils.equals(1.0, 1 + FastMath.ulp(1d), 1));
-        Assert.assertFalse(MathUtils.equals(1.0, 1 + 2 * FastMath.ulp(1d), 1));
-
-        final double nUp1 = FastMath.nextAfter(1d, Double.POSITIVE_INFINITY);
-        final double nnUp1 = FastMath.nextAfter(nUp1, Double.POSITIVE_INFINITY);
-        Assert.assertTrue(MathUtils.equals(1.0, nUp1, 1));
-        Assert.assertTrue(MathUtils.equals(nUp1, nnUp1, 1));
-        Assert.assertFalse(MathUtils.equals(1.0, nnUp1, 1));
-
-        Assert.assertTrue(MathUtils.equals(0.0, FastMath.ulp(0d), 1));
-        Assert.assertTrue(MathUtils.equals(0.0, -FastMath.ulp(0d), 1));
-
-        Assert.assertTrue(MathUtils.equals(153.0, 153.0, 1));
-
-        Assert.assertTrue(MathUtils.equals(153.0, 153.00000000000003, 1));
-        Assert.assertFalse(MathUtils.equals(153.0, 153.00000000000006, 1));
-        Assert.assertTrue(MathUtils.equals(153.0, 152.99999999999997, 1));
-        Assert.assertFalse(MathUtils.equals(153, 152.99999999999994, 1));
-
-        Assert.assertTrue(MathUtils.equals(-128.0, -127.99999999999999, 1));
-        Assert.assertFalse(MathUtils.equals(-128.0, -127.99999999999997, 1));
-        Assert.assertTrue(MathUtils.equals(-128.0, -128.00000000000003, 1));
-        Assert.assertFalse(MathUtils.equals(-128.0, -128.00000000000006, 1));
-
-        Assert.assertTrue(MathUtils.equals(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equals(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
-
-        Assert.assertTrue(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equals(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
-
-        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 1));
-        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NaN, 0));
-        Assert.assertFalse(MathUtils.equals(Double.NaN, 0, 0));
-        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.POSITIVE_INFINITY, 0));
-        Assert.assertFalse(MathUtils.equals(Double.NaN, Double.NEGATIVE_INFINITY, 0));
-
-        Assert.assertFalse(MathUtils.equals(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
-    }
-
-    @Test
-    public void testEqualsIncludingNaNWithAllowedUlps() {
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(0.0, -0.0, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(1.0, 1 + FastMath.ulp(1d), 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(1.0, 1 + 2 * FastMath.ulp(1d), 1));
-
-        final double nUp1 = FastMath.nextAfter(1d, Double.POSITIVE_INFINITY);
-        final double nnUp1 = FastMath.nextAfter(nUp1, Double.POSITIVE_INFINITY);
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(1.0, nUp1, 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(nUp1, nnUp1, 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(1.0, nnUp1, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(0.0, FastMath.ulp(0d), 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(0.0, -FastMath.ulp(0d), 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(153.0, 153.0, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(153.0, 153.00000000000003, 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(153.0, 153.00000000000006, 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(153.0, 152.99999999999997, 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(153, 152.99999999999994, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(-128.0, -127.99999999999999, 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(-128.0, -127.99999999999997, 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(-128.0, -128.00000000000003, 1));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(-128.0, -128.00000000000006, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.MAX_VALUE, Double.POSITIVE_INFINITY, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 1));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(-Double.MAX_VALUE, Double.NEGATIVE_INFINITY, 1));
-
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(Double.NaN, Double.NaN, 1));
-
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 100000));
     }
 
     @Test
@@ -1573,7 +1340,7 @@ public final class MathUtilsTest {
     public void testL1DistanceDouble() {
         double[] p1 = { 2.5,  0.0 };
         double[] p2 = { -0.5, 4.0 };
-        Assert.assertTrue(MathUtils.equals(7.0, MathUtils.distance1(p1, p2), 1));
+        Assert.assertTrue(Precision.equals(7.0, MathUtils.distance1(p1, p2), 1));
     }
 
     @Test
@@ -1587,21 +1354,21 @@ public final class MathUtilsTest {
     public void testL2DistanceDouble() {
         double[] p1 = { 2.5,  0.0 };
         double[] p2 = { -0.5, 4.0 };
-        Assert.assertTrue(MathUtils.equals(5.0, MathUtils.distance(p1, p2), 1));
+        Assert.assertTrue(Precision.equals(5.0, MathUtils.distance(p1, p2), 1));
     }
 
     @Test
     public void testL2DistanceInt() {
         int[] p1 = { 3, 0 };
         int[] p2 = { 0, 4 };
-        Assert.assertTrue(MathUtils.equals(5, MathUtils.distance(p1, p2), 1));
+        Assert.assertTrue(Precision.equals(5, MathUtils.distance(p1, p2), 1));
     }
 
     @Test
     public void testLInfDistanceDouble() {
         double[] p1 = { 2.5,  0.0 };
         double[] p2 = { -0.5, 4.0 };
-        Assert.assertTrue(MathUtils.equals(4.0, MathUtils.distanceInf(p1, p2), 1));
+        Assert.assertTrue(Precision.equals(4.0, MathUtils.distanceInf(p1, p2), 1));
     }
 
     @Test

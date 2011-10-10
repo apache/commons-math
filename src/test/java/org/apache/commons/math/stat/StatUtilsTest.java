@@ -20,7 +20,7 @@ package org.apache.commons.math.stat;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -445,7 +445,7 @@ public final class StatUtilsTest {
         double expectedSample[] = { -25 / Math.sqrt(1250), 25 / Math.sqrt(1250) };
         double[] out = StatUtils.normalize(sample);
         for (int i = 0; i < out.length; i++) {
-            Assert.assertTrue(MathUtils.equals(out[i], expectedSample[i], 1));
+            Assert.assertTrue(Precision.equals(out[i], expectedSample[i], 1));
         }
 
     }

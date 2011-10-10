@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.descriptive;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  *
@@ -166,8 +167,8 @@ public abstract class AbstractStorelessUnivariateStatistic
             return false;
         }
         AbstractStorelessUnivariateStatistic stat = (AbstractStorelessUnivariateStatistic) object;
-        return MathUtils.equalsIncludingNaN(stat.getResult(), this.getResult()) &&
-               MathUtils.equalsIncludingNaN(stat.getN(), this.getN());
+        return Precision.equalsIncludingNaN(stat.getResult(), this.getResult()) &&
+               Precision.equalsIncludingNaN(stat.getN(), this.getN());
     }
 
     /**

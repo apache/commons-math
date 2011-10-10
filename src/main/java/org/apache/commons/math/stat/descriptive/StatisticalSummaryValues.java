@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  *  Value object representing the results of a univariate statistical summary.
@@ -137,12 +138,12 @@ public class StatisticalSummaryValues implements Serializable,
             return false;
         }
         StatisticalSummaryValues stat = (StatisticalSummaryValues) object;
-        return MathUtils.equalsIncludingNaN(stat.getMax(),      getMax())  &&
-               MathUtils.equalsIncludingNaN(stat.getMean(),     getMean()) &&
-               MathUtils.equalsIncludingNaN(stat.getMin(),      getMin())  &&
-               MathUtils.equalsIncludingNaN(stat.getN(),        getN())    &&
-               MathUtils.equalsIncludingNaN(stat.getSum(),      getSum())  &&
-               MathUtils.equalsIncludingNaN(stat.getVariance(), getVariance());
+        return Precision.equalsIncludingNaN(stat.getMax(),      getMax())  &&
+               Precision.equalsIncludingNaN(stat.getMean(),     getMean()) &&
+               Precision.equalsIncludingNaN(stat.getMin(),      getMin())  &&
+               Precision.equalsIncludingNaN(stat.getN(),        getN())    &&
+               Precision.equalsIncludingNaN(stat.getSum(),      getSum())  &&
+               Precision.equalsIncludingNaN(stat.getVariance(), getVariance());
     }
 
     /**

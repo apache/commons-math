@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.Test;
 
 public class SimplexSolverTest {
@@ -72,7 +72,7 @@ public class SimplexSolverTest {
         SimplexSolver solver = new SimplexSolver();
         RealPointValuePair solution = solver.optimize(f, constraints, GoalType.MINIMIZE, false);
         
-        Assert.assertTrue(MathUtils.compareTo(solution.getPoint()[0] * 200.d, 1.d, epsilon) >= 0);
+        Assert.assertTrue(Precision.compareTo(solution.getPoint()[0] * 200.d, 1.d, epsilon) >= 0);
         Assert.assertEquals(0.0050, solution.getValue(), epsilon);
     }
 
@@ -95,7 +95,7 @@ public class SimplexSolverTest {
         SimplexSolver simplex = new SimplexSolver();
         RealPointValuePair solution = simplex.optimize(f, constraints, GoalType.MINIMIZE, false);
         
-        Assert.assertTrue(MathUtils.compareTo(solution.getPoint()[0], -1e-18d, epsilon) >= 0);
+        Assert.assertTrue(Precision.compareTo(solution.getPoint()[0], -1e-18d, epsilon) >= 0);
         Assert.assertEquals(1.0d, solution.getPoint()[1], epsilon);        
         Assert.assertEquals(0.0d, solution.getPoint()[2], epsilon);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);

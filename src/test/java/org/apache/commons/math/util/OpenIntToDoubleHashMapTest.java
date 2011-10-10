@@ -102,7 +102,7 @@ public class OpenIntToDoubleHashMapTest {
             if (!keysInMap.contains(mapEntry.getKey()))
                 ++mapSize;
             Assert.assertEquals(mapSize, map.size());
-            Assert.assertTrue(MathUtils.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
+            Assert.assertTrue(Precision.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
         }
     }
 
@@ -113,7 +113,7 @@ public class OpenIntToDoubleHashMapTest {
         for (Map.Entry<Integer, Double> mapEntry : generateAbsent().entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
             Assert.assertEquals(++size, map.size());
-            Assert.assertTrue(MathUtils.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
+            Assert.assertTrue(Precision.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
         }
     }
 
@@ -123,7 +123,7 @@ public class OpenIntToDoubleHashMapTest {
         for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet()) {
             map.put(mapEntry.getKey(), mapEntry.getValue());
             Assert.assertEquals(javaMap.size(), map.size());
-            Assert.assertTrue(MathUtils.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
+            Assert.assertTrue(Precision.equals(mapEntry.getValue(), map.get(mapEntry.getKey()), 1));
         }
     }
 
@@ -219,7 +219,7 @@ public class OpenIntToDoubleHashMapTest {
         Assert.assertEquals(javaMap.size(), copy.size());
 
         for (Map.Entry<Integer, Double> mapEntry : javaMap.entrySet())
-            Assert.assertTrue(MathUtils.equals(mapEntry.getValue(), copy.get(mapEntry.getKey()), 1));
+            Assert.assertTrue(Precision.equals(mapEntry.getValue(), copy.get(mapEntry.getKey()), 1));
     }
 
     @Test
@@ -289,13 +289,13 @@ public class OpenIntToDoubleHashMapTest {
         map.put(key2, value1);
         int key3 = 1008859686;
         map.put(key3, value1);
-        Assert.assertTrue(MathUtils.equals(value1, map.get(key3), 1));
+        Assert.assertTrue(Precision.equals(value1, map.get(key3), 1));
         Assert.assertEquals(3, map.size());
 
         map.remove(key2);
         double value2 = 2.0;
         map.put(key3, value2);
-        Assert.assertTrue(MathUtils.equals(value2, map.get(key3), 1));
+        Assert.assertTrue(Precision.equals(value2, map.get(key3), 1));
         Assert.assertEquals(2, map.size());
     }
 
@@ -312,13 +312,13 @@ public class OpenIntToDoubleHashMapTest {
         int key2 = 476463321;
         map.put(key2, value1);
         Assert.assertEquals(2, map.size());
-        Assert.assertTrue(MathUtils.equals(value1, map.get(key2), 1));
+        Assert.assertTrue(Precision.equals(value1, map.get(key2), 1));
 
         map.remove(key1);
         double value2 = 2.0;
         map.put(key2, value2);
         Assert.assertEquals(1, map.size());
-        Assert.assertTrue(MathUtils.equals(value2, map.get(key2), 1));
+        Assert.assertTrue(Precision.equals(value2, map.get(key2), 1));
     }
 
 }

@@ -20,7 +20,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.random.JDKRandomGenerator;
 import org.apache.commons.math.random.RandomGenerator;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -89,11 +89,11 @@ public class KalmanFilterTest {
             // state estimate should be larger than measurement noise
             double diff = Math.abs(constantValue - filter.getStateEstimation()[0]);
             // System.out.println(diff);
-            Assert.assertTrue(MathUtils.compareTo(diff, measurementNoise, 1e-6) < 0);
+            Assert.assertTrue(Precision.compareTo(diff, measurementNoise, 1e-6) < 0);
         }
 
         // error covariance should be already very low (< 0.02)
-        Assert.assertTrue(MathUtils.compareTo(filter.getErrorCovariance()[0][0],
+        Assert.assertTrue(Precision.compareTo(filter.getErrorCovariance()[0][0],
                                               0.02d, 1e-6) < 0);
     }
 

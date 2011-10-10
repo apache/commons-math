@@ -31,6 +31,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -363,14 +364,14 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
             return false;
         }
         SummaryStatistics stat = (SummaryStatistics)object;
-        return MathUtils.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
-               MathUtils.equalsIncludingNaN(stat.getMax(),           getMax())           &&
-               MathUtils.equalsIncludingNaN(stat.getMean(),          getMean())          &&
-               MathUtils.equalsIncludingNaN(stat.getMin(),           getMin())           &&
-               MathUtils.equalsIncludingNaN(stat.getN(),             getN())             &&
-               MathUtils.equalsIncludingNaN(stat.getSum(),           getSum())           &&
-               MathUtils.equalsIncludingNaN(stat.getSumsq(),         getSumsq())         &&
-               MathUtils.equalsIncludingNaN(stat.getVariance(),      getVariance());
+        return Precision.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
+               Precision.equalsIncludingNaN(stat.getMax(),           getMax())           &&
+               Precision.equalsIncludingNaN(stat.getMean(),          getMean())          &&
+               Precision.equalsIncludingNaN(stat.getMin(),           getMin())           &&
+               Precision.equalsIncludingNaN(stat.getN(),             getN())             &&
+               Precision.equalsIncludingNaN(stat.getSum(),           getSum())           &&
+               Precision.equalsIncludingNaN(stat.getSumsq(),         getSumsq())         &&
+               Precision.equalsIncludingNaN(stat.getVariance(),      getVariance());
     }
 
     /**

@@ -41,6 +41,7 @@ import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * Base class managing common boilerplate for all integrators.
@@ -362,7 +363,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 state.stepAccepted(currentT, currentY);
                 isLastStep = isLastStep || state.stop();
             }
-            isLastStep = isLastStep || MathUtils.equals(currentT, tEnd, 1);
+            isLastStep = isLastStep || Precision.equals(currentT, tEnd, 1);
 
             // handle the remaining part of the step, after all events if any
             for (StepHandler handler : stepHandlers) {

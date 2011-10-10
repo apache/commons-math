@@ -19,6 +19,7 @@ package org.apache.commons.math.ode.sampling;
 
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * This class wraps an object implementing {@link FixedStepHandler}
@@ -212,7 +213,7 @@ public class StepNormalizer implements StepHandler {
                           lastTime + h :
                           (FastMath.floor(lastTime / h) + 1) * h;
         if (mode == StepNormalizerMode.MULTIPLES &&
-            MathUtils.equals(nextTime, lastTime, 1)) {
+            Precision.equals(nextTime, lastTime, 1)) {
             nextTime += h;
         }
 

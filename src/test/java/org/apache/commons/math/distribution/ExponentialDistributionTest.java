@@ -17,7 +17,7 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -93,14 +93,14 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     @Test
     public void testDensity() {
         ExponentialDistribution d1 = new ExponentialDistributionImpl(1);
-        Assert.assertTrue(MathUtils.equals(0.0, d1.density(-1e-9), 1));
-        Assert.assertTrue(MathUtils.equals(1.0, d1.density(0.0), 1));
-        Assert.assertTrue(MathUtils.equals(0.0, d1.density(1000.0), 1));
-        Assert.assertTrue(MathUtils.equals(FastMath.exp(-1), d1.density(1.0), 1));
-        Assert.assertTrue(MathUtils.equals(FastMath.exp(-2), d1.density(2.0), 1));
+        Assert.assertTrue(Precision.equals(0.0, d1.density(-1e-9), 1));
+        Assert.assertTrue(Precision.equals(1.0, d1.density(0.0), 1));
+        Assert.assertTrue(Precision.equals(0.0, d1.density(1000.0), 1));
+        Assert.assertTrue(Precision.equals(FastMath.exp(-1), d1.density(1.0), 1));
+        Assert.assertTrue(Precision.equals(FastMath.exp(-2), d1.density(2.0), 1));
 
         ExponentialDistribution d2 = new ExponentialDistributionImpl(3);
-        Assert.assertTrue(MathUtils.equals(1/3.0, d2.density(0.0), 1));
+        Assert.assertTrue(Precision.equals(1/3.0, d2.density(0.0), 1));
         // computed using  print(dexp(1, rate=1/3), digits=10) in R 2.5
         Assert.assertEquals(0.2388437702, d2.density(1.0), 1e-8);
 

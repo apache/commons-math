@@ -24,7 +24,7 @@ import java.util.Collection;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.random.RandomData;
 import org.apache.commons.math.random.RandomDataImpl;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -54,16 +54,16 @@ public class AggregateSummaryStatisticsTest {
         setOneStats.addValue(7);
         setOneStats.addValue(11);
         Assert.assertEquals("Wrong number of set one values", 5, setOneStats.getN());
-        Assert.assertTrue("Wrong sum of set one values", MathUtils.equals(28.0, setOneStats.getSum(), 1));
+        Assert.assertTrue("Wrong sum of set one values", Precision.equals(28.0, setOneStats.getSum(), 1));
 
         setTwoStats.addValue(2);
         setTwoStats.addValue(4);
         setTwoStats.addValue(8);
         Assert.assertEquals("Wrong number of set two values", 3, setTwoStats.getN());
-        Assert.assertTrue("Wrong sum of set two values", MathUtils.equals(14.0, setTwoStats.getSum(), 1));
+        Assert.assertTrue("Wrong sum of set two values", Precision.equals(14.0, setTwoStats.getSum(), 1));
 
         Assert.assertEquals("Wrong number of aggregate values", 8, aggregate.getN());
-        Assert.assertTrue("Wrong aggregate sum", MathUtils.equals(42.0, aggregate.getSum(), 1));
+        Assert.assertTrue("Wrong aggregate sum", Precision.equals(42.0, aggregate.getSum(), 1));
     }
 
     /**

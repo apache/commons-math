@@ -33,7 +33,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
 import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
 
 /**
@@ -190,8 +190,8 @@ public class TestUtils {
     public static void assertContains(String msg, Complex[] values,
                                       Complex z, double epsilon) {
         for (Complex value : values) {
-            if (MathUtils.equals(value.getReal(), z.getReal(), epsilon) &&
-                MathUtils.equals(value.getImaginary(), z.getImaginary(), epsilon)) {
+            if (Precision.equals(value.getReal(), z.getReal(), epsilon) &&
+                Precision.equals(value.getImaginary(), z.getImaginary(), epsilon)) {
                 return;
             }
         }
@@ -221,7 +221,7 @@ public class TestUtils {
     public static void assertContains(String msg, double[] values,
             double x, double epsilon) {
         for (double value : values) {
-            if (MathUtils.equals(value, x, epsilon)) {
+            if (Precision.equals(value, x, epsilon)) {
                 return;
             }
         }
@@ -305,7 +305,7 @@ public class TestUtils {
         }
         boolean failure = false;
         for (int i=0; i < expected.length; i++) {
-            if (!MathUtils.equalsIncludingNaN(expected[i], observed[i], tolerance)) {
+            if (!Precision.equalsIncludingNaN(expected[i], observed[i], tolerance)) {
                 failure = true;
                 out.append("\n Elements at index ");
                 out.append(i);

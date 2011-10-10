@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * This class implements a modification of the <a
@@ -152,14 +152,14 @@ public class BracketingNthOrderBrentSolver
 
         // evaluate initial guess
         y[1] = computeObjectiveValue(x[1]);
-        if (MathUtils.equals(y[1], 0.0, 1)) {
+        if (Precision.equals(y[1], 0.0, 1)) {
             // return the initial guess if it is a perfect root.
             return x[1];
         }
 
         // evaluate first  endpoint
         y[0] = computeObjectiveValue(x[0]);
-        if (MathUtils.equals(y[0], 0.0, 1)) {
+        if (Precision.equals(y[0], 0.0, 1)) {
             // return the first endpoint if it is a perfect root.
             return x[0];
         }
@@ -176,7 +176,7 @@ public class BracketingNthOrderBrentSolver
 
             // evaluate second endpoint
             y[2] = computeObjectiveValue(x[2]);
-            if (MathUtils.equals(y[2], 0.0, 1)) {
+            if (Precision.equals(y[2], 0.0, 1)) {
                 // return the second endpoint if it is a perfect root.
                 return x[2];
             }
@@ -281,7 +281,7 @@ public class BracketingNthOrderBrentSolver
 
             // evaluate the function at the guessed root
             final double nextY = computeObjectiveValue(nextX);
-            if (MathUtils.equals(nextY, 0.0, 1)) {
+            if (Precision.equals(nextY, 0.0, 1)) {
                 // we have found an exact root, since it is not an approximation
                 // we don't need to bother about the allowed solutions setting
                 return nextX;
