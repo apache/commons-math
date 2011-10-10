@@ -310,6 +310,39 @@ public class FastMath {
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
 
+    /** Constant: {@value}. */
+    private static final double F_1_3 = 1d / 3d;
+    /** Constant: {@value}. */
+    private static final double F_1_5 = 1d / 5d;
+    /** Constant: {@value}. */
+    private static final double F_1_7 = 1d / 7d;
+    /** Constant: {@value}. */
+    private static final double F_1_9 = 1d / 9d;
+    /** Constant: {@value}. */
+    private static final double F_1_11 = 1d / 11d;
+    /** Constant: {@value}. */
+    private static final double F_1_13 = 1d / 13d;
+    /** Constant: {@value}. */
+    private static final double F_1_15 = 1d / 15d;
+    /** Constant: {@value}. */
+    private static final double F_1_17 = 1d / 17d;
+    /** Constant: {@value}. */
+    private static final double F_3_4 = 3d / 4d;
+    /** Constant: {@value}. */
+    private static final double F_15_16 = 15d / 16d;
+    /** Constant: {@value}. */
+    private static final double F_13_14 = 13d / 14d;
+    /** Constant: {@value}. */
+    private static final double F_11_12 = 11d / 12d;
+    /** Constant: {@value}. */
+    private static final double F_9_10 = 9d / 10d;
+    /** Constant: {@value}. */
+    private static final double F_7_8 = 7d / 8d;
+    /** Constant: {@value}. */
+    private static final double F_5_6 = 5d / 6d;
+    /** Constant: {@value}. */
+    private static final double F_1_2 = 1d / 2d;
+
     /**
      * Private Constructor
      */
@@ -653,7 +686,6 @@ public class FastMath {
      * @return inverse hyperbolic sine of a
      */
     public static double asinh(double a) {
-
         boolean negative = false;
         if (a < 0) {
             negative = true;
@@ -666,18 +698,17 @@ public class FastMath {
         } else {
             final double a2 = a * a;
             if (a > 0.097) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0 - a2 * (1.0 / 11.0 - a2 * (1.0 / 13.0 - a2 * (1.0 / 15.0 - a2 * (1.0 / 17.0) * 15.0 / 16.0) * 13.0 / 14.0) * 11.0 / 12.0) * 9.0 / 10.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+                absAsinh = a * (1 - a2 * (F_1_3 - a2 * (F_1_5 - a2 * (F_1_7 - a2 * (F_1_9 - a2 * (F_1_11 - a2 * (F_1_13 - a2 * (F_1_15 - a2 * F_1_17 * F_15_16) * F_13_14) * F_11_12) * F_9_10) * F_7_8) * F_5_6) * F_3_4) * F_1_2);
             } else if (a > 0.036) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0 - a2 * (1.0 / 11.0 - a2 * (1.0 / 13.0) * 11.0 / 12.0) * 9.0 / 10.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+                absAsinh = a * (1 - a2 * (F_1_3 - a2 * (F_1_5 - a2 * (F_1_7 - a2 * (F_1_9 - a2 * (F_1_11 - a2 * F_1_13 * F_11_12) * F_9_10) * F_7_8) * F_5_6) * F_3_4) * F_1_2);
             } else if (a > 0.0036) {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0 - a2 * (1 / 7.0 - a2 * (1 / 9.0) * 7.0 / 8.0) * 5.0 / 6.0) * 3.0 / 4.0) / 2.0);
+                absAsinh = a * (1 - a2 * (F_1_3 - a2 * (F_1_5 - a2 * (F_1_7 - a2 * F_1_9 * F_7_8) * F_5_6) * F_3_4) * F_1_2);
             } else {
-                absAsinh = a * (1 - a2 * (1 / 3.0 - a2 * (1 / 5.0) * 3.0 / 4.0) / 2.0);
+                absAsinh = a * (1 - a2 * (F_1_3 - a2 * F_1_5 * F_3_4) * F_1_2);
             }
         }
 
         return negative ? -absAsinh : absAsinh;
-
     }
 
     /** Compute the inverse hyperbolic tangent of a number.
@@ -685,7 +716,6 @@ public class FastMath {
      * @return inverse hyperbolic tangent of a
      */
     public static double atanh(double a) {
-
         boolean negative = false;
         if (a < 0) {
             negative = true;
@@ -698,18 +728,17 @@ public class FastMath {
         } else {
             final double a2 = a * a;
             if (a > 0.087) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0 + a2 * (1.0 / 11.0 + a2 * (1.0 / 13.0 + a2 * (1.0 / 15.0 + a2 * (1.0 / 17.0)))))))));
+                absAtanh = a * (1 + a2 * (F_1_3 + a2 * (F_1_5 + a2 * (F_1_7 + a2 * (F_1_9 + a2 * (F_1_11 + a2 * (F_1_13 + a2 * (F_1_15 + a2 * F_1_17))))))));
             } else if (a > 0.031) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0 + a2 * (1.0 / 11.0 + a2 * (1.0 / 13.0)))))));
+                absAtanh = a * (1 + a2 * (F_1_3 + a2 * (F_1_5 + a2 * (F_1_7 + a2 * (F_1_9 + a2 * (F_1_11 + a2 * F_1_13))))));
             } else if (a > 0.003) {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0 + a2 * (1.0 / 7.0 + a2 * (1.0 / 9.0)))));
+                absAtanh = a * (1 + a2 * (F_1_3 + a2 * (F_1_5 + a2 * (F_1_7 + a2 * F_1_9))));
             } else {
-                absAtanh = a * (1 + a2 * (1.0 / 3.0 + a2 * (1.0 / 5.0)));
+                absAtanh = a * (1 + a2 * (F_1_3 + a2 * F_1_5));
             }
         }
 
         return negative ? -absAtanh : absAtanh;
-
     }
 
     /** Compute the signum of a number.
@@ -1331,7 +1360,7 @@ public class FastMath {
         }
 
         /* Value is small |x| < 1e6, do a Taylor series centered on 1.0 */
-        double y = x * 0.333333333333333 - 0.5;
+        double y = x * F_1_3 - F_1_2;
         y = y * x + 1.0;
         y = y * x;
 
@@ -2570,7 +2599,7 @@ public class FastMath {
             }
 
             if (x == Double.NEGATIVE_INFINITY) {
-                return Math.PI*3.0/4.0;
+                return Math.PI * F_3_4;
             }
 
             return Math.PI/2.0;
@@ -2582,7 +2611,7 @@ public class FastMath {
             }
 
             if (x == Double.NEGATIVE_INFINITY) {
-                return -Math.PI*3.0/4.0;
+                return -Math.PI * F_3_4;
             }
 
             return -Math.PI/2.0;
