@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-679" due-to="Christopher Berner">
+         Fixed an integer overflow in OpenMapRealMatrix.
+      </action>
       <action dev="erans" type="fix" issue="MATH-688">
         "FastMath": Use constant fields instead of recomputing them at method
         call.
