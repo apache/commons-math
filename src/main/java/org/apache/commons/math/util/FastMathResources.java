@@ -130,7 +130,7 @@ class FastMathResources {
      *
      * @return the retrieved data.
      */
-    public static double[][] loadExpInt() {
+    static double[][] loadExpInt() {
         return loadTable2d(EXP_INT, 2, FastMath.EXP_INT_TABLE_LEN);
     }
 
@@ -141,7 +141,7 @@ class FastMathResources {
      *
      * @return the retrieved data.
      */
-    public static double[][] loadExpFrac() {
+    static double[][] loadExpFrac() {
         return loadTable2d(EXP_FRAC, 2, FastMath.EXP_FRAC_TABLE_LEN);
     }
 
@@ -150,7 +150,7 @@ class FastMathResources {
      *
      * @return the retrieved data.
      */
-    public static double[][] loadLnMant() {
+    static double[][] loadLnMant() {
         return transpose(loadTable2d(LN_MANT, 2, FastMath.LN_MANT_LEN));
     }
 
