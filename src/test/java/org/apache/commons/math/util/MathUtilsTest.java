@@ -843,55 +843,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testNormalizeArray() {
-        double[] testValues1 = new double[] {1, 1, 2};
-        TestUtils.assertEquals(
-                new double[] {.25, .25, .5},
-                MathUtils.normalizeArray(testValues1, 1),
-                Double.MIN_VALUE);
-
-        double[] testValues2 = new double[] {-1, -1, 1};
-        TestUtils.assertEquals(
-                new double[] {1, 1, -1},
-                MathUtils.normalizeArray(testValues2, 1),
-                Double.MIN_VALUE);
-
-        // Ignore NaNs
-        double[] testValues3 = new double[] {-1, -1, Double.NaN, 1, Double.NaN};
-        TestUtils.assertEquals(
-                new double[] {1, 1,Double.NaN, -1, Double.NaN},
-                MathUtils.normalizeArray(testValues3, 1),
-                Double.MIN_VALUE);
-
-        // Zero sum -> MathArithmeticException
-        double[] zeroSum = new double[] {-1, 1};
-        try {
-            MathUtils.normalizeArray(zeroSum, 1);
-            Assert.fail("expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {}
-
-        // Infinite elements -> MathArithmeticException
-        double[] hasInf = new double[] {1, 2, 1, Double.NEGATIVE_INFINITY};
-        try {
-            MathUtils.normalizeArray(hasInf, 1);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
-
-        // Infinite target -> MathIllegalArgumentException
-        try {
-            MathUtils.normalizeArray(testValues1, Double.POSITIVE_INFINITY);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
-
-        // NaN target -> MathIllegalArgumentException
-        try {
-            MathUtils.normalizeArray(testValues1, Double.NaN);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
-
-    }
-
-    @Test
     public void testRoundDouble() {
         double x = 1.234567890;
         Assert.assertEquals(1.23, MathUtils.round(x, 2), 0.0);

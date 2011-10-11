@@ -17,7 +17,10 @@ import java.util.Arrays;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.random.Well1024a;
+import org.apache.commons.math.TestUtils;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -585,5 +588,50 @@ public class MathArraysTest {
                                                          new double[] { Double.NEGATIVE_INFINITY }));
         Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] { 1d },
                                                          new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
+    }
+
+    @Test
+    public void testNormalizeArray() {
+        double[] testValues1 = new double[] {1, 1, 2};
+        TestUtils.assertEquals( new double[] {.25, .25, .5},
+                                MathArrays.normalizeArray(testValues1, 1),
+                                Double.MIN_VALUE);
+
+        double[] testValues2 = new double[] {-1, -1, 1};
+        TestUtils.assertEquals( new double[] {1, 1, -1},
+                                MathArrays.normalizeArray(testValues2, 1),
+                                Double.MIN_VALUE);
+
+        // Ignore NaNs
+        double[] testValues3 = new double[] {-1, -1, Double.NaN, 1, Double.NaN};
+        TestUtils.assertEquals( new double[] {1, 1,Double.NaN, -1, Double.NaN},
+                                MathArrays.normalizeArray(testValues3, 1),
+                                Double.MIN_VALUE);
+
+        // Zero sum -> MathArithmeticException
+        double[] zeroSum = new double[] {-1, 1};
+        try {
+            MathArrays.normalizeArray(zeroSum, 1);
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {}
+
+        // Infinite elements -> MathArithmeticException
+        double[] hasInf = new double[] {1, 2, 1, Double.NEGATIVE_INFINITY};
+        try {
+            MathArrays.normalizeArray(hasInf, 1);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
+
+        // Infinite target -> MathIllegalArgumentException
+        try {
+            MathArrays.normalizeArray(testValues1, Double.POSITIVE_INFINITY);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
+
+        // NaN target -> MathIllegalArgumentException
+        try {
+            MathArrays.normalizeArray(testValues1, Double.NaN);
+            Assert.fail("expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {}
     }
 }

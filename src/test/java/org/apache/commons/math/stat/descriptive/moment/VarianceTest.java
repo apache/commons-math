@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import org.apache.commons.math.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -110,7 +110,7 @@ public class VarianceTest extends StorelessUnivariateStatisticAbstractTest{
         // All weights the same -> when weights are normalized to sum to the length of the values array,
         // weighted variance = unweighted value
         Assert.assertEquals(expectedValue(),
-                variance.evaluate(testArray, MathUtils.normalizeArray(identicalWeightsArray, testArray.length),
+                variance.evaluate(testArray, MathArrays.normalizeArray(identicalWeightsArray, testArray.length),
                         0, testArray.length), getTolerance());
 
     }

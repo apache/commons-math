@@ -26,6 +26,9 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathArithmeticException;
 
 /**
  * Arrays utilities.
@@ -1024,4 +1027,57 @@ public class MathArrays {
         }
         return true;
     }
+
+     /**
+      * Normalizes an array to make it sum to a specified value.
+      * Returns the result of the transformation <pre>
+      *    x |-> x * normalizedSum / sum
+      * </pre>
+      * applied to each non-NaN element x of the input array, where sum is the
+      * sum of the non-NaN entries in the input array.</p>
+      *
+      * <p>Throws IllegalArgumentException if {@code normalizedSum} is infinite
+      * or NaN and ArithmeticException if the input array contains any infinite elements
+      * or sums to 0.</p>
+      *
+      * <p>Ignores (i.e., copies unchanged to the output array) NaNs in the input array.</p>
+      *
+      * @param values Input array to be normalized
+      * @param normalizedSum Target sum for the normalized array
+      * @return the normalized array.
+      * @throws MathArithmeticException if the input array contains infinite
+      * elements or sums to zero.
+      * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}.
+      * @since 2.1
+      */
+     public static double[] normalizeArray(double[] values, double normalizedSum) {
+         if (Double.isInfinite(normalizedSum)) {
+             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
+         }
+         if (Double.isNaN(normalizedSum)) {
+             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+         }
+         double sum = 0d;
+         final int len = values.length;
+         double[] out = new double[len];
+         for (int i = 0; i < len; i++) {
+             if (Double.isInfinite(values[i])) {
+                 throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+             }
+             if (!Double.isNaN(values[i])) {
+                 sum += values[i];
+             }
+         }
+         if (sum == 0) {
+             throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+         }
+         for (int i = 0; i < len; i++) {
+             if (Double.isNaN(values[i])) {
+                 out[i] = Double.NaN;
+             } else {
+                 out[i] = values[i] * normalizedSum / sum;
+             }
+         }
+         return out;
+     }
 }

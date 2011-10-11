@@ -273,7 +273,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * weights are to be treated as "expansion values," as will be the case if for example
      * the weights represent frequency counts. To normalize weights so that the denominator
      * in the variance computation equals the length of the input vector minus one, use <pre>
-     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length)); </code>
+     *   <code>evaluate(values, MathArrays.normalizeArray(weights, values.length)); </code>
      * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
@@ -332,7 +332,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * weights are to be treated as "expansion values," as will be the case if for example
      * the weights represent frequency counts. To normalize weights so that the denominator
      * in the variance computation equals the length of the input vector minus one, use <pre>
-     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length)); </code>
+     *   <code>evaluate(values, MathArrays.normalizeArray(weights, values.length)); </code>
      * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
@@ -462,7 +462,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * weights are to be treated as "expansion values," as will be the case if for example
      * the weights represent frequency counts. To normalize weights so that the denominator
      * in the variance computation equals the length of the input vector minus one, use <pre>
-     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length), mean); </code>
+     *   <code>evaluate(values, MathArrays.normalizeArray(weights, values.length), mean); </code>
      * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
@@ -539,7 +539,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * weights are to be treated as "expansion values," as will be the case if for example
      * the weights represent frequency counts. To normalize weights so that the denominator
      * in the variance computation equals the length of the input vector minus one, use <pre>
-     *   <code>evaluate(values, MathUtils.normalizeArray(weights, values.length), mean); </code>
+     *   <code>evaluate(values, MathArrays.normalizeArray(weights, values.length), mean); </code>
      * </pre>
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
