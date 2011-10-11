@@ -32,6 +32,7 @@ import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
 
@@ -373,14 +374,14 @@ public class MultivariateSummaryStatistics
             return false;
         }
         MultivariateSummaryStatistics stat = (MultivariateSummaryStatistics) object;
-        return MathUtils.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
-               MathUtils.equalsIncludingNaN(stat.getMax(),           getMax())           &&
-               MathUtils.equalsIncludingNaN(stat.getMean(),          getMean())          &&
-               MathUtils.equalsIncludingNaN(stat.getMin(),           getMin())           &&
+        return MathArrays.equalsIncludingNaN(stat.getGeometricMean(), getGeometricMean()) &&
+               MathArrays.equalsIncludingNaN(stat.getMax(),           getMax())           &&
+               MathArrays.equalsIncludingNaN(stat.getMean(),          getMean())          &&
+               MathArrays.equalsIncludingNaN(stat.getMin(),           getMin())           &&
                Precision.equalsIncludingNaN(stat.getN(),             getN())             &&
-               MathUtils.equalsIncludingNaN(stat.getSum(),           getSum())           &&
-               MathUtils.equalsIncludingNaN(stat.getSumSq(),         getSumSq())         &&
-               MathUtils.equalsIncludingNaN(stat.getSumLog(),        getSumLog())        &&
+               MathArrays.equalsIncludingNaN(stat.getSum(),           getSum())           &&
+               MathArrays.equalsIncludingNaN(stat.getSumSq(),         getSumSq())         &&
+               MathArrays.equalsIncludingNaN(stat.getSumLog(),        getSumLog())        &&
                stat.getCovariance().equals( getCovariance());
     }
 

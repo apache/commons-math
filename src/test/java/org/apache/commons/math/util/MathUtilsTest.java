@@ -319,51 +319,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testArrayEquals() {
-        Assert.assertFalse(MathUtils.equals(new double[] { 1d }, null));
-        Assert.assertFalse(MathUtils.equals(null, new double[] { 1d }));
-        Assert.assertTrue(MathUtils.equals((double[]) null, (double[]) null));
-
-        Assert.assertFalse(MathUtils.equals(new double[] { 1d }, new double[0]));
-        Assert.assertTrue(MathUtils.equals(new double[] { 1d }, new double[] { 1d }));
-        Assert.assertTrue(MathUtils.equals(new double[] {
-                                      Double.POSITIVE_INFINITY,
-                                      Double.NEGATIVE_INFINITY, 1d, 0d
-                                    }, new double[] {
-                                      Double.POSITIVE_INFINITY,
-                                      Double.NEGATIVE_INFINITY, 1d, 0d
-                                    }));
-        Assert.assertFalse(MathUtils.equals(new double[] { Double.NaN },
-                                     new double[] { Double.NaN }));
-        Assert.assertFalse(MathUtils.equals(new double[] { Double.POSITIVE_INFINITY },
-                                     new double[] { Double.NEGATIVE_INFINITY }));
-        Assert.assertFalse(MathUtils.equals(new double[] { 1d },
-                                     new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
-
-    }
-
-    @Test
-    public void testArrayEqualsIncludingNaN() {
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d }, null));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(null, new double[] { 1d }));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN((double[]) null, (double[]) null));
-
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d }, new double[0]));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(new double[] { 1d }, new double[] { 1d }));
-        Assert.assertTrue(MathUtils.equalsIncludingNaN(new double[] {
-                    Double.NaN, Double.POSITIVE_INFINITY,
-                    Double.NEGATIVE_INFINITY, 1d, 0d
-                }, new double[] {
-                    Double.NaN, Double.POSITIVE_INFINITY,
-                    Double.NEGATIVE_INFINITY, 1d, 0d
-                }));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(new double[] { Double.POSITIVE_INFINITY },
-                                                 new double[] { Double.NEGATIVE_INFINITY }));
-        Assert.assertFalse(MathUtils.equalsIncludingNaN(new double[] { 1d },
-                                                 new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
-    }
-
-    @Test
     public void testFactorial() {
         for (int i = 1; i < 21; i++) {
             Assert.assertEquals(i + "! ", factorial(i), MathUtils.factorial(i));

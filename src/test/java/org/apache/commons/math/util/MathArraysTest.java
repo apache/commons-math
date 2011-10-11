@@ -547,4 +547,43 @@ public class MathArraysTest {
                                                                     a[7][3], b[7][3])));
         Assert.assertTrue(Double.isNaN(MathArrays.linearCombination(a[7], b[7])));
     }
+
+    @Test
+    public void testArrayEquals() {
+        Assert.assertFalse(MathArrays.equals(new double[] { 1d }, null));
+        Assert.assertFalse(MathArrays.equals(null, new double[] { 1d }));
+        Assert.assertTrue(MathArrays.equals((double[]) null, (double[]) null));
+
+        Assert.assertFalse(MathArrays.equals(new double[] { 1d }, new double[0]));
+        Assert.assertTrue(MathArrays.equals(new double[] { 1d }, new double[] { 1d }));
+        Assert.assertTrue(MathArrays.equals(new double[] { Double.POSITIVE_INFINITY,
+                                                           Double.NEGATIVE_INFINITY, 1d, 0d },
+                                            new double[] { Double.POSITIVE_INFINITY,
+                                                           Double.NEGATIVE_INFINITY, 1d, 0d }));
+        Assert.assertFalse(MathArrays.equals(new double[] { Double.NaN },
+                                             new double[] { Double.NaN }));
+        Assert.assertFalse(MathArrays.equals(new double[] { Double.POSITIVE_INFINITY },
+                                             new double[] { Double.NEGATIVE_INFINITY }));
+        Assert.assertFalse(MathArrays.equals(new double[] { 1d },
+                                             new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
+
+    }
+
+    @Test
+    public void testArrayEqualsIncludingNaN() {
+        Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] { 1d }, null));
+        Assert.assertFalse(MathArrays.equalsIncludingNaN(null, new double[] { 1d }));
+        Assert.assertTrue(MathArrays.equalsIncludingNaN((double[]) null, (double[]) null));
+
+        Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] { 1d }, new double[0]));
+        Assert.assertTrue(MathArrays.equalsIncludingNaN(new double[] { 1d }, new double[] { 1d }));
+        Assert.assertTrue(MathArrays.equalsIncludingNaN(new double[] { Double.NaN, Double.POSITIVE_INFINITY,
+                                                                       Double.NEGATIVE_INFINITY, 1d, 0d },
+                                                        new double[] { Double.NaN, Double.POSITIVE_INFINITY,
+                                                                       Double.NEGATIVE_INFINITY, 1d, 0d }));
+        Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] { Double.POSITIVE_INFINITY },
+                                                         new double[] { Double.NEGATIVE_INFINITY }));
+        Assert.assertFalse(MathArrays.equalsIncludingNaN(new double[] { 1d },
+                                                         new double[] { FastMath.nextAfter(FastMath.nextAfter(1d, 2d), 2d) }));
+    }
 }

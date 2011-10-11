@@ -922,4 +922,106 @@ public class MathArrays {
 
         return result;
     }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link Precision#equals(float,float)}.
+     *
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension
+     * and equal elements.
+     */
+    public static boolean equals(float[] x, float[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!Precision.equals(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns true iff both arguments are null or have same dimensions and all
+     * their elements are equal as defined by
+     * {@link Precision#equalsIncludingNaN(double,double) this method}.
+     *
+     * @param x first array
+     * @param y second array
+     * @return true if the values are both null or have same dimension and
+     * equal elements
+     * @since 2.2
+     */
+    public static boolean equalsIncludingNaN(float[] x, float[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns {@code true} iff both arguments are {@code null} or have same
+     * dimensions and all their elements are equal as defined by
+     * {@link Precision#equals(double,double)}.
+     *
+     * @param x First array.
+     * @param y Second array.
+     * @return {@code true} if the values are both {@code null} or have same
+     * dimension and equal elements.
+     */
+    public static boolean equals(double[] x, double[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!Precision.equals(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns {@code true} iff both arguments are {@code null} or have same
+     * dimensions and all their elements are equal as defined by
+     * {@link Precision#equalsIncludingNaN(double,double) this method}.
+     *
+     * @param x First array.
+     * @param y Second array.
+     * @return {@code true} if the values are both {@code null} or have same
+     * dimension and equal elements.
+     * @since 2.2
+     */
+    public static boolean equalsIncludingNaN(double[] x, double[] y) {
+        if ((x == null) || (y == null)) {
+            return !((x == null) ^ (y == null));
+        }
+        if (x.length != y.length) {
+            return false;
+        }
+        for (int i = 0; i < x.length; ++i) {
+            if (!Precision.equalsIncludingNaN(x[i], y[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
