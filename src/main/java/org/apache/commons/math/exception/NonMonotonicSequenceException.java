@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.exception;
 
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -32,7 +32,7 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
     /**
      * Direction (positive for increasing, negative for decreasing).
      */
-    private final MathUtils.OrderDirection direction;
+    private final MathArrays.OrderDirection direction;
     /**
      * Whether the sequence must be strictly increasing or decreasing.
      */
@@ -58,7 +58,7 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
     public NonMonotonicSequenceException(Number wrong,
                                          Number previous,
                                          int index) {
-        this(wrong, previous, index, MathUtils.OrderDirection.INCREASING, true);
+        this(wrong, previous, index, MathArrays.OrderDirection.INCREASING, true);
     }
 
     /**
@@ -75,9 +75,9 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
     public NonMonotonicSequenceException(Number wrong,
                                          Number previous,
                                          int index,
-                                         MathUtils.OrderDirection direction,
+                                         MathArrays.OrderDirection direction,
                                          boolean strict) {
-        super(direction == MathUtils.OrderDirection.INCREASING ?
+        super(direction == MathArrays.OrderDirection.INCREASING ?
               (strict ?
                LocalizedFormats.NOT_STRICTLY_INCREASING_SEQUENCE :
                LocalizedFormats.NOT_INCREASING_SEQUENCE) :
@@ -95,7 +95,7 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
     /**
      * @return the order direction.
      **/
-    public MathUtils.OrderDirection getDirection() {
+    public MathArrays.OrderDirection getDirection() {
         return direction;
     }
     /**

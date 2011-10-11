@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -76,7 +76,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
         coefficientsComputed = false;
 
         if (!verifyInterpolationArray(x, y, false)) {
-            MathUtils.sortInPlace(this.x, this.y);
+            MathArrays.sortInPlace(this.x, this.y);
             // Second check in case some abscissa is duplicated.
             verifyInterpolationArray(this.x, this.y, true);
         }
@@ -179,7 +179,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
         System.arraycopy(x, 0, xNew, 0, x.length);
         System.arraycopy(y, 0, yNew, 0, y.length);
 
-        MathUtils.sortInPlace(xNew, yNew);
+        MathArrays.sortInPlace(xNew, yNew);
         // Second check in case some abscissa is duplicated.
         verifyInterpolationArray(xNew, yNew, true);
         return evaluateInternal(xNew, yNew, z);
@@ -318,6 +318,6 @@ public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
             throw new NumberIsTooSmallException(LocalizedFormats.WRONG_NUMBER_OF_POINTS, 2, x.length, true);
         }
 
-        return MathUtils.checkOrder(x, MathUtils.OrderDirection.INCREASING, true, abort);
+        return MathArrays.checkOrder(x, MathArrays.OrderDirection.INCREASING, true, abort);
     }
 }

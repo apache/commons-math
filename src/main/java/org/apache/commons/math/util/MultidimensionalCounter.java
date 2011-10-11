@@ -20,7 +20,6 @@ package org.apache.commons.math.util;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.util.MathUtils;
 
 /**
  * Converter between unidimensional storage structure and multidimensional
@@ -129,7 +128,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
          * @return the indices within the multidimensional counter.
          */
         public int[] getCounts() {
-            return MathUtils.copyOf(counter);
+            return MathArrays.copyOf(counter);
         }
 
         /**
@@ -164,7 +163,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      */
     public MultidimensionalCounter(int ... size) {
         dimension = size.length;
-        this.size = MathUtils.copyOf(size);
+        this.size = MathArrays.copyOf(size);
 
         uniCounterOffset = new int[dimension];
 
@@ -280,7 +279,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * @return the sizes of the multidimensional counter in each dimension.
      */
     public int[] getSizes() {
-        return MathUtils.copyOf(size);
+        return MathArrays.copyOf(size);
     }
 
     /**

@@ -21,7 +21,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Computes a natural (also known as "free", "unclamped") cubic spline interpolation for the data set.
@@ -77,7 +77,7 @@ public class SplineInterpolator implements UnivariateRealInterpolator {
         // Number of intervals.  The number of data points is n + 1.
         int n = x.length - 1;
 
-        MathUtils.checkOrder(x);
+        MathArrays.checkOrder(x);
 
         // Differences between knot points
         double h[] = new double[n];

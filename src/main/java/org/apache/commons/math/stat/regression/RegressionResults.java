@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.regression;
 import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Results of a Multiple Linear Regression model fit.
@@ -98,10 +98,10 @@ public class RegressionResults implements Serializable {
             final boolean containsConstant,
             final boolean copyData) {
         if (copyData) {
-            this.parameters = MathUtils.copyOf(parameters);
+            this.parameters = MathArrays.copyOf(parameters);
             this.varCovData = new double[varcov.length][];
             for (int i = 0; i < varcov.length; i++) {
-                this.varCovData[i] = MathUtils.copyOf(varcov[i]);
+                this.varCovData[i] = MathArrays.copyOf(varcov[i]);
             }
         } else {
             this.parameters = parameters;
@@ -170,7 +170,7 @@ public class RegressionResults implements Serializable {
         if (this.parameters == null) {
             return null;
         }
-        return MathUtils.copyOf(parameters);
+        return MathArrays.copyOf(parameters);
     }
 
     /**

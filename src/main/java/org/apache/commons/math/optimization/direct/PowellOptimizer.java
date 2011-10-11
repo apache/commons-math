@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -141,7 +141,7 @@ public class PowellOptimizer
             double alphaMin = 0;
 
             for (int i = 0; i < n; i++) {
-                final double[] d = MathUtils.copyOf(direc[i]);
+                final double[] d = MathArrays.copyOf(direc[i]);
 
                 fX2 = fVal;
 

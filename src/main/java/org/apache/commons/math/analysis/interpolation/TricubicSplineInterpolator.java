@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Generates a tricubic interpolating function.
@@ -42,9 +42,9 @@ public class TricubicSplineInterpolator
             throw new DimensionMismatchException(xval.length, fval.length);
         }
 
-        MathUtils.checkOrder(xval);
-        MathUtils.checkOrder(yval);
-        MathUtils.checkOrder(zval);
+        MathArrays.checkOrder(xval);
+        MathArrays.checkOrder(yval);
+        MathArrays.checkOrder(zval);
 
         final int xLen = xval.length;
         final int yLen = yval.length;

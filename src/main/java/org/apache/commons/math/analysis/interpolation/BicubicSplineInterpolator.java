@@ -20,7 +20,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Generates a bicubic interpolating function.
@@ -43,8 +43,8 @@ public class BicubicSplineInterpolator
             throw new DimensionMismatchException(xval.length, fval.length);
         }
 
-        MathUtils.checkOrder(xval);
-        MathUtils.checkOrder(yval);
+        MathArrays.checkOrder(xval);
+        MathArrays.checkOrder(yval);
 
         final int xLen = xval.length;
         final int yLen = yval.length;

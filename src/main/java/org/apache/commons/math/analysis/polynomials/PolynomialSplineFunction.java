@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -109,7 +109,7 @@ public class PolynomialSplineFunction implements DifferentiableUnivariateRealFun
         if (knots.length - 1 != polynomials.length) {
             throw new DimensionMismatchException(polynomials.length, knots.length);
         }
-        MathUtils.checkOrder(knots);
+        MathArrays.checkOrder(knots);
 
         this.n = knots.length -1;
         this.knots = new double[n + 1];

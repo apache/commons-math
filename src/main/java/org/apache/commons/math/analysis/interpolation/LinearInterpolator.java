@@ -21,7 +21,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.
@@ -53,7 +53,7 @@ public class LinearInterpolator implements UnivariateRealInterpolator {
         // Number of intervals.  The number of data points is n + 1.
         int n = x.length - 1;
 
-        MathUtils.checkOrder(x);
+        MathArrays.checkOrder(x);
 
         // Slope of the lines between the datapoints.
         final double m[] = new double[n];

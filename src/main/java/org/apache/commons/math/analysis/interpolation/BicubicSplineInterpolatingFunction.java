@@ -20,7 +20,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Function that implements the
@@ -114,8 +114,8 @@ public class BicubicSplineInterpolatingFunction
             throw new DimensionMismatchException(xLen, d2FdXdY.length);
         }
 
-        MathUtils.checkOrder(x);
-        MathUtils.checkOrder(y);
+        MathArrays.checkOrder(x);
+        MathArrays.checkOrder(y);
 
         xval = x.clone();
         yval = y.clone();

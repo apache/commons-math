@@ -16,7 +16,7 @@
 package org.apache.commons.math.linear;
 
 import java.util.Arrays;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -55,7 +55,7 @@ public class PivotingQRDecomposition {
     }
 
     public int[] getOrder() {
-        return MathUtils.copyOf(permutation);
+        return MathArrays.copyOf(permutation);
     }
 
     public PivotingQRDecomposition(RealMatrix matrix) throws ConvergenceException {

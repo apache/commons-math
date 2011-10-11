@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.fitting.PolynomialFitter;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
@@ -87,8 +87,8 @@ public class SmoothingPolynomialBicubicSplineInterpolator
             }
         }
 
-        MathUtils.checkOrder(xval);
-        MathUtils.checkOrder(yval);
+        MathArrays.checkOrder(xval);
+        MathArrays.checkOrder(yval);
 
         // For each line y[j] (0 <= j < yLen), construct a polynomial, with
         // respect to variable x, fitting array fval[][j]

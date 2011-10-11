@@ -31,7 +31,7 @@ public class Precision {
     private static final int SGN_MASK_FLOAT = 0x80000000;
 
     /**
-     * Private Constructor
+     * Private constructor.
      */
     private Precision() {}
 

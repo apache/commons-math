@@ -28,6 +28,7 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
@@ -216,7 +217,7 @@ public class LoessInterpolator
         checkAllFiniteReal(yval);
         checkAllFiniteReal(weights);
 
-        MathUtils.checkOrder(xval);
+        MathArrays.checkOrder(xval);
 
         if (n == 1) {
             return new double[]{yval[0]};

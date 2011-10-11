@@ -36,7 +36,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomGenerator;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * <p>An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
@@ -395,9 +395,9 @@ public class CMAESOptimizer extends
                 int[] arindex = sortedIndices(fitness);
                 // Calculate new xmean, this is selection and recombination
                 RealMatrix xold = xmean; // for speed up of Eq. (2) and (3)
-                RealMatrix bestArx = selectColumns(arx, MathUtils.copyOf(arindex, mu));
+                RealMatrix bestArx = selectColumns(arx, MathArrays.copyOf(arindex, mu));
                 xmean = bestArx.multiply(weights);
-                RealMatrix bestArz = selectColumns(arz, MathUtils.copyOf(arindex, mu));
+                RealMatrix bestArz = selectColumns(arz, MathArrays.copyOf(arindex, mu));
                 RealMatrix zmean = bestArz.multiply(weights);
                 boolean hsig = updateEvolutionPaths(zmean, xold);
                 if (diagonalOnly <= 0) {
@@ -711,7 +711,7 @@ public class CMAESOptimizer extends
                 // prepare vectors, compute negative updating matrix Cneg
                 int[] arReverseIndex = reverse(arindex);
                 RealMatrix arzneg
-                    = selectColumns(arz, MathUtils.copyOf(arReverseIndex, mu));
+                    = selectColumns(arz, MathArrays.copyOf(arReverseIndex, mu));
                 RealMatrix arnorms = sqrt(sumRows(square(arzneg)));
                 int[] idxnorms = sortedIndices(arnorms.getRow(0));
                 RealMatrix arnormsSorted = selectColumns(arnorms, idxnorms);

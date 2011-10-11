@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Step_function">
@@ -68,10 +68,10 @@ public class StepFunction implements UnivariateRealFunction {
         if (y.length != x.length) {
             throw new DimensionMismatchException(y.length, x.length);
         }
-        MathUtils.checkOrder(x);
+        MathArrays.checkOrder(x);
 
-        abscissa = MathUtils.copyOf(x);
-        ordinate = MathUtils.copyOf(y);
+        abscissa = MathArrays.copyOf(x);
+        ordinate = MathArrays.copyOf(y);
     }
 
     /** {@inheritDoc} */

@@ -18,6 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 
 /**
@@ -85,7 +86,7 @@ public class UnivariateRealPeriodicInterpolator
             throw new NumberIsTooSmallException(xval.length, extend, true);
         }
 
-        MathUtils.checkOrder(xval);
+        MathArrays.checkOrder(xval);
         final double offset = xval[0];
 
         final int len = xval.length + extend * 2;
@@ -108,7 +109,7 @@ public class UnivariateRealPeriodicInterpolator
             y[index] = yval[i];
         }
 
-        MathUtils.sortInPlace(x, y);
+        MathArrays.sortInPlace(x, y);
 
         final UnivariateRealFunction f = interpolator.interpolate(x, y);
         return new UnivariateRealFunction() {

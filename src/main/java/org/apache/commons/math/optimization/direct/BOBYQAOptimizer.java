@@ -31,7 +31,7 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
@@ -157,8 +157,8 @@ public class BOBYQAOptimizer
                            double[] upperBound,
                            double initialTrustRegionRadius,
                            double stoppingTrustRegionRadius) {
-        this.lowerBound = lowerBound == null ? null : MathUtils.copyOf(lowerBound);
-        this.upperBound = upperBound == null ? null : MathUtils.copyOf(upperBound);
+        this.lowerBound = lowerBound == null ? null : MathArrays.copyOf(lowerBound);
+        this.upperBound = upperBound == null ? null : MathArrays.copyOf(upperBound);
         this.numberOfInterpolationPoints = numberOfInterpolationPoints;
         this.initialTrustRegionRadius = initialTrustRegionRadius;
         this.stoppingTrustRegionRadius = stoppingTrustRegionRadius;

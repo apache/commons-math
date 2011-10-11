@@ -20,7 +20,7 @@ import org.apache.commons.math.analysis.TrivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * Function that implements the
@@ -185,9 +185,9 @@ public class TricubicSplineInterpolatingFunction
             throw new DimensionMismatchException(xLen, d3FdXdYdZ.length);
         }
 
-        MathUtils.checkOrder(x);
-        MathUtils.checkOrder(y);
-        MathUtils.checkOrder(z);
+        MathArrays.checkOrder(x);
+        MathArrays.checkOrder(y);
+        MathArrays.checkOrder(z);
 
         xval = x.clone();
         yval = y.clone();
