@@ -23,6 +23,7 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.util.ArithmeticsUtils;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
@@ -268,7 +269,7 @@ public class Fraction
             den = -den;
         }
         // reduce numerator and denominator by greatest common denominator.
-        final int d = MathUtils.gcd(num, den);
+        final int d = ArithmeticsUtils.gcd(num, den);
         if (d > 1) {
             num /= d;
             den /= d;
@@ -486,14 +487,14 @@ public class Fraction
         }
         // if denominators are randomly distributed, d1 will be 1 about 61%
         // of the time.
-        int d1 = MathUtils.gcd(denominator, fraction.denominator);
+        int d1 = ArithmeticsUtils.gcd(denominator, fraction.denominator);
         if (d1==1) {
             // result is ( (u*v' +/- u'v) / u'v')
             int uvp = MathUtils.mulAndCheck(numerator, fraction.denominator);
             int upv = MathUtils.mulAndCheck(fraction.numerator, denominator);
             return new Fraction
-                (isAdd ? MathUtils.addAndCheck(uvp, upv) :
-                 MathUtils.subAndCheck(uvp, upv),
+                (isAdd ? ArithmeticsUtils.addAndCheck(uvp, upv) :
+                 ArithmeticsUtils.subAndCheck(uvp, upv),
                  MathUtils.mulAndCheck(denominator, fraction.denominator));
         }
         // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
@@ -507,7 +508,7 @@ public class Fraction
         // but d2 doesn't need extra precision because
         // d2 = gcd(t,d1) = gcd(t mod d1, d1)
         int tmodd1 = t.mod(BigInteger.valueOf(d1)).intValue();
-        int d2 = (tmodd1==0)?d1:MathUtils.gcd(tmodd1, d1);
+        int d2 = (tmodd1==0)?d1:ArithmeticsUtils.gcd(tmodd1, d1);
 
         // result is (t/d2) / (u'/d1)(v'/d2)
         BigInteger w = t.divide(BigInteger.valueOf(d2));
@@ -539,8 +540,8 @@ public class Fraction
         }
         // knuth 4.5.1
         // make sure we don't overflow unless the result *must* overflow.
-        int d1 = MathUtils.gcd(numerator, fraction.denominator);
-        int d2 = MathUtils.gcd(fraction.numerator, denominator);
+        int d1 = ArithmeticsUtils.gcd(numerator, fraction.denominator);
+        int d2 = ArithmeticsUtils.gcd(fraction.numerator, denominator);
         return getReducedFraction
         (MathUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
                 MathUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
@@ -618,7 +619,7 @@ public class Fraction
             denominator = -denominator;
         }
         // simplify fraction.
-        int gcd = MathUtils.gcd(numerator, denominator);
+        int gcd = ArithmeticsUtils.gcd(numerator, denominator);
         numerator /= gcd;
         denominator /= gcd;
         return new Fraction(numerator, denominator);
