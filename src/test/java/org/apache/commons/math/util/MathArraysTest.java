@@ -122,65 +122,79 @@ public class MathArraysTest {
     }
 
     @Test
-    public void testIsMonotone() {
-        if(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, -1, 2, 15 },
-                                MathArrays.OrderDirection.INCREASING, true)) {
-            Assert.fail("an exception should have been thrown");
-        }
-
-        if(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, -2, 2 },
-                                MathArrays.OrderDirection.INCREASING, false)) {
-            Assert.fail("an exception should have been thrown");
-        }
-
-        if(MathArrays.isMonotonic(new double[] { 3, 3, -5.5, -11, -27.5 },
-                                MathArrays.OrderDirection.DECREASING, true)) {
-            Assert.fail("an exception should have been thrown");
-        }
-        if( MathArrays.isMonotonic(new double[] { 3, -1, 0, -5.5, -11, -27.5 },
-                                 MathArrays.OrderDirection.DECREASING, false)) {
-        Assert.fail("an exception should have been thrown");
-        }
+    public void testIsMonotonic() {
+        Assert.assertFalse(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, -1, 2, 15 },
+                                                  MathArrays.OrderDirection.INCREASING, true));
+        Assert.assertTrue(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, 0, 2, 15 },
+                                                 MathArrays.OrderDirection.INCREASING, true));
+        Assert.assertFalse(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, -2, 2 },
+                                                  MathArrays.OrderDirection.INCREASING, false));
+        Assert.assertTrue(MathArrays.isMonotonic(new double[] { -15, -5.5, -1, -1, 2 },
+                                                 MathArrays.OrderDirection.INCREASING, false));
+        Assert.assertFalse(MathArrays.isMonotonic(new double[] { 3, 3, -5.5, -11, -27.5 },
+                                                  MathArrays.OrderDirection.DECREASING, true));
+        Assert.assertTrue(MathArrays.isMonotonic(new double[] { 3, 2, -5.5, -11, -27.5 },
+                                                 MathArrays.OrderDirection.DECREASING, true));
+        Assert.assertFalse(MathArrays.isMonotonic(new double[] { 3, -1, 0, -5.5, -11, -27.5 },
+                                                  MathArrays.OrderDirection.DECREASING, false));
+        Assert.assertTrue(MathArrays.isMonotonic(new double[] { 3, 0, 0, -5.5, -11, -27.5 },
+                                                 MathArrays.OrderDirection.DECREASING, false));
     }
 
     @Test
-    public void testIsMonotoneComparable() {
-        if (MathArrays.isMonotonic(new Double[] { new Double(-15),
-                                                new Double(-5.5),
-                                                new Double(-1),
-                                                new Double(-1),
-                                                new Double(2),
-                                                new Double(15)},
-                MathArrays.OrderDirection.INCREASING, true)) {
-            Assert.fail("an exception should have been thrown");
-        }
-
-        if (MathArrays.isMonotonic(new Double[] { new Double(-15),
-                                                new Double(-5.5),
-                                                new Double(-1),
-                                                new Double(-2),
-                                                new Double(2)},
-                MathArrays.OrderDirection.INCREASING, false)) {
-            Assert.fail("an exception should have been thrown");
-        }
-
-        if (MathArrays.isMonotonic(new Double[] { new Double(3),
-                                                new Double(3),
-                                                new Double(-5.5),
-                                                new Double(-11),
-                                                new Double(-27.5)},
-                MathArrays.OrderDirection.DECREASING, true)) {
-            Assert.fail("an exception should have been thrown");
-        }
-        if (MathArrays.isMonotonic(new Double[] {new Double(3),
-                                               new Double(-1),
-                                               new Double(0),
-                                               new Double(-5.5),
-                                               new Double(-11),
-                                               new Double(-27.5)},
-                MathArrays.OrderDirection.DECREASING, false)) {
-            Assert.fail("an exception should have been thrown");
-        }
+    public void testIsMonotonicComparable() {
+        Assert.assertFalse(MathArrays.isMonotonic(new Double[] { new Double(-15),
+                                                                 new Double(-5.5),
+                                                                 new Double(-1),
+                                                                 new Double(-1),
+                                                                 new Double(2),
+                                                                 new Double(15) },
+                MathArrays.OrderDirection.INCREASING, true));
+        Assert.assertTrue(MathArrays.isMonotonic(new Double[] { new Double(-15),
+                                                                new Double(-5.5),
+                                                                new Double(-1),
+                                                                new Double(0),
+                                                                new Double(2),
+                                                                new Double(15) },
+                MathArrays.OrderDirection.INCREASING, true));
+        Assert.assertFalse(MathArrays.isMonotonic(new Double[] { new Double(-15),
+                                                                 new Double(-5.5),
+                                                                 new Double(-1),
+                                                                 new Double(-2),
+                                                                 new Double(2) },
+                MathArrays.OrderDirection.INCREASING, false));
+        Assert.assertTrue(MathArrays.isMonotonic(new Double[] { new Double(-15),
+                                                                new Double(-5.5),
+                                                                new Double(-1),
+                                                                new Double(-1),
+                                                                new Double(2) },
+                MathArrays.OrderDirection.INCREASING, false));
+        Assert.assertFalse(MathArrays.isMonotonic(new Double[] { new Double(3),
+                                                                 new Double(3),
+                                                                 new Double(-5.5),
+                                                                 new Double(-11),
+                                                                 new Double(-27.5) },
+                MathArrays.OrderDirection.DECREASING, true));
+        Assert.assertTrue(MathArrays.isMonotonic(new Double[] { new Double(3),
+                                                                new Double(2),
+                                                                new Double(-5.5),
+                                                                new Double(-11),
+                                                                new Double(-27.5) },
+                MathArrays.OrderDirection.DECREASING, true));
+        Assert.assertFalse(MathArrays.isMonotonic(new Double[] { new Double(3),
+                                                                 new Double(-1),
+                                                                 new Double(0),
+                                                                 new Double(-5.5),
+                                                                 new Double(-11),
+                                                                 new Double(-27.5) },
+                MathArrays.OrderDirection.DECREASING, false));
+        Assert.assertTrue(MathArrays.isMonotonic(new Double[] { new Double(3),
+                                                                new Double(0),
+                                                                new Double(0),
+                                                                new Double(-5.5),
+                                                                new Double(-11),
+                                                                new Double(-27.5) },
+                MathArrays.OrderDirection.DECREASING, false));
     }
 
     @Test
