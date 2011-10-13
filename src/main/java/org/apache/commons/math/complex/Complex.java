@@ -661,8 +661,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
 
-        return createComplex(FastMath.cos(real) * MathUtils.cosh(imaginary),
-                             -FastMath.sin(real) * MathUtils.sinh(imaginary));
+        return createComplex(FastMath.cos(real) * FastMath.cosh(imaginary),
+                             -FastMath.sin(real) * FastMath.sinh(imaginary));
     }
 
     /**
@@ -701,8 +701,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
 
-        return createComplex(MathUtils.cosh(real) * FastMath.cos(imaginary),
-                             MathUtils.sinh(real) * FastMath.sin(imaginary));
+        return createComplex(FastMath.cosh(real) * FastMath.cos(imaginary),
+                             FastMath.sinh(real) * FastMath.sin(imaginary));
     }
 
     /**
@@ -865,8 +865,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
 
-        return createComplex(FastMath.sin(real) * MathUtils.cosh(imaginary),
-                             FastMath.cos(real) * MathUtils.sinh(imaginary));
+        return createComplex(FastMath.sin(real) * FastMath.cosh(imaginary),
+                             FastMath.cos(real) * FastMath.sinh(imaginary));
     }
 
     /**
@@ -905,8 +905,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return NaN;
         }
 
-        return createComplex(MathUtils.sinh(real) * FastMath.cos(imaginary),
-            MathUtils.cosh(real) * FastMath.sin(imaginary));
+        return createComplex(FastMath.sinh(real) * FastMath.cos(imaginary),
+            FastMath.cosh(real) * FastMath.sin(imaginary));
     }
 
     /**
@@ -1021,10 +1021,10 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         double real2 = 2.0 * real;
         double imaginary2 = 2.0 * imaginary;
-        double d = FastMath.cos(real2) + MathUtils.cosh(imaginary2);
+        double d = FastMath.cos(real2) + FastMath.cosh(imaginary2);
 
         return createComplex(FastMath.sin(real2) / d,
-                             MathUtils.sinh(imaginary2) / d);
+                             FastMath.sinh(imaginary2) / d);
     }
 
     /**
@@ -1066,9 +1066,9 @@ public class Complex implements FieldElement<Complex>, Serializable  {
 
         double real2 = 2.0 * real;
         double imaginary2 = 2.0 * imaginary;
-        double d = MathUtils.cosh(real2) + FastMath.cos(imaginary2);
+        double d = FastMath.cosh(real2) + FastMath.cos(imaginary2);
 
-        return createComplex(MathUtils.sinh(real2) / d,
+        return createComplex(FastMath.sinh(real2) / d,
                              FastMath.sin(imaginary2) / d);
     }
 

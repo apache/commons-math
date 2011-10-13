@@ -76,17 +76,6 @@ public final class MathUtils {
     }
 
     /**
-     * Returns the <a href="http://mathworld.wolfram.com/HyperbolicCosine.html">
-     * hyperbolic cosine</a> of x.
-     *
-     * @param x double value for which to find the hyperbolic cosine
-     * @return hyperbolic cosine of x
-     */
-    public static double cosh(double x) {
-        return (FastMath.exp(x) + FastMath.exp(-x)) / 2.0;
-    }
-
-    /**
      * Returns an integer hash code representing the given double value.
      *
      * @param value the value to be hashed
@@ -503,17 +492,6 @@ public final class MathUtils {
      */
     public static short sign(final short x) {
         return (x == ZS) ? ZS : (x > ZS) ? PS : NS;
-    }
-
-    /**
-     * Compute the <a href="http://mathworld.wolfram.com/HyperbolicSine.html">
-     * hyperbolic sine</a> of the argument.
-     *
-     * @param x Value for which to find the hyperbolic sine.
-     * @return hyperbolic sine of {@code x}.
-     */
-    public static double sinh(double x) {
-        return (FastMath.exp(x) - FastMath.exp(-x)) / 2.0;
     }
 
     /**

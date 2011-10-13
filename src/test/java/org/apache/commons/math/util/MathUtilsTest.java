@@ -34,18 +34,6 @@ import org.junit.Test;
  */
 public final class MathUtilsTest {
     @Test
-    public void testCosh() {
-        double x = 3.0;
-        double expected = 10.06766;
-        Assert.assertEquals(expected, MathUtils.cosh(x), 1.0e-5);
-    }
-
-    @Test
-    public void testCoshNaN() {
-        Assert.assertTrue(Double.isNaN(MathUtils.cosh(Double.NaN)));
-    }
-
-    @Test
     public void testHash() {
         double[] testArray = {
             Double.NaN,
@@ -503,18 +491,6 @@ public final class MathUtilsTest {
         Assert.assertEquals((short) 1, MathUtils.sign((short) 2));
         Assert.assertEquals((short) 0, MathUtils.sign((short) 0));
         Assert.assertEquals((short) (-1), MathUtils.sign((short) (-2)));
-    }
-
-    @Test
-    public void testSinh() {
-        double x = 3.0;
-        double expected = 10.01787;
-        Assert.assertEquals(expected, MathUtils.sinh(x), 1.0e-5);
-    }
-
-    @Test
-    public void testSinhNaN() {
-        Assert.assertTrue(Double.isNaN(MathUtils.sinh(Double.NaN)));
     }
 
     @Test
