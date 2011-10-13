@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @version $Id$
  */
-public final class ArithmeticsUtils {
+public final class ArithmeticUtils {
 
     /** All long-representable factorials */
     static final long[] FACTORIALS = new long[] {
@@ -41,7 +41,7 @@ public final class ArithmeticsUtils {
         6402373705728000l, 121645100408832000l, 2432902008176640000l };
 
     /** Private constructor. */
-    private ArithmeticsUtils() {
+    private ArithmeticUtils() {
         super();
     }
 
@@ -74,7 +74,7 @@ public final class ArithmeticsUtils {
      * @since 1.2
      */
     public static long addAndCheck(long a, long b) {
-        return ArithmeticsUtils.addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
+        return ArithmeticUtils.addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
     }
 
     /**
@@ -103,7 +103,7 @@ public final class ArithmeticsUtils {
      * represented by a long integer.
      */
     public static long binomialCoefficient(final int n, final int k) {
-        ArithmeticsUtils.checkBinomial(n, k);
+        ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1;
         }
@@ -180,7 +180,7 @@ public final class ArithmeticsUtils {
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientDouble(final int n, final int k) {
-        ArithmeticsUtils.checkBinomial(n, k);
+        ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1d;
         }
@@ -221,7 +221,7 @@ public final class ArithmeticsUtils {
      * @throws IllegalArgumentException if preconditions are not met.
      */
     public static double binomialCoefficientLog(final int n, final int k) {
-        ArithmeticsUtils.checkBinomial(n, k);
+        ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 0;
         }
@@ -323,7 +323,7 @@ public final class ArithmeticsUtils {
         if (n < 21) {
             return factorial(n);
         }
-        return FastMath.floor(FastMath.exp(ArithmeticsUtils.factorialLog(n)) + 0.5);
+        return FastMath.floor(FastMath.exp(ArithmeticUtils.factorialLog(n)) + 0.5);
     }
 
     /**
@@ -548,7 +548,7 @@ public final class ArithmeticsUtils {
         if (a == 0 || b == 0){
             return 0;
         }
-        int lcm = FastMath.abs(ArithmeticsUtils.mulAndCheck(a / gcd(a, b), b));
+        int lcm = FastMath.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
         if (lcm == Integer.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_32_BITS,
                                               a, b);
@@ -582,7 +582,7 @@ public final class ArithmeticsUtils {
         if (a == 0 || b == 0){
             return 0;
         }
-        long lcm = FastMath.abs(ArithmeticsUtils.mulAndCheck(a / gcd(a, b), b));
+        long lcm = FastMath.abs(ArithmeticUtils.mulAndCheck(a / gcd(a, b), b));
         if (lcm == Long.MIN_VALUE){
             throw new MathArithmeticException(LocalizedFormats.LCM_OVERFLOW_64_BITS,
                                               a, b);

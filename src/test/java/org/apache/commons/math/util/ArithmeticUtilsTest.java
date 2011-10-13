@@ -28,11 +28,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases for the {@link ArithmeticsUtils} class.
+ * Test cases for the {@link ArithmeticUtils} class.
  *
  * @version $Id$
  */
-public class ArithmeticsUtilsTest {
+public class ArithmeticUtilsTest {
 
     /** cached binomial coefficients */
     private static final List<Map<Integer, Long>> binomialCache = new ArrayList<Map<Integer, Long>>();
@@ -40,23 +40,23 @@ public class ArithmeticsUtilsTest {
     /** Verify that b(0,0) = 1 */
     @Test
     public void test0Choose0() {
-        Assert.assertEquals(ArithmeticsUtils.binomialCoefficientDouble(0, 0), 1d, 0);
-        Assert.assertEquals(ArithmeticsUtils.binomialCoefficientLog(0, 0), 0d, 0);
-        Assert.assertEquals(ArithmeticsUtils.binomialCoefficient(0, 0), 1);
+        Assert.assertEquals(ArithmeticUtils.binomialCoefficientDouble(0, 0), 1d, 0);
+        Assert.assertEquals(ArithmeticUtils.binomialCoefficientLog(0, 0), 0d, 0);
+        Assert.assertEquals(ArithmeticUtils.binomialCoefficient(0, 0), 1);
     }
 
     @Test
     public void testAddAndCheck() {
         int big = Integer.MAX_VALUE;
         int bigNeg = Integer.MIN_VALUE;
-        Assert.assertEquals(big, ArithmeticsUtils.addAndCheck(big, 0));
+        Assert.assertEquals(big, ArithmeticUtils.addAndCheck(big, 0));
         try {
-            ArithmeticsUtils.addAndCheck(big, 1);
+            ArithmeticUtils.addAndCheck(big, 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
         try {
-            ArithmeticsUtils.addAndCheck(bigNeg, -1);
+            ArithmeticUtils.addAndCheck(bigNeg, -1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
@@ -66,14 +66,14 @@ public class ArithmeticsUtilsTest {
     public void testAddAndCheckLong() {
         long max = Long.MAX_VALUE;
         long min = Long.MIN_VALUE;
-        Assert.assertEquals(max, ArithmeticsUtils.addAndCheck(max, 0L));
-        Assert.assertEquals(min, ArithmeticsUtils.addAndCheck(min, 0L));
-        Assert.assertEquals(max, ArithmeticsUtils.addAndCheck(0L, max));
-        Assert.assertEquals(min, ArithmeticsUtils.addAndCheck(0L, min));
-        Assert.assertEquals(1, ArithmeticsUtils.addAndCheck(-1L, 2L));
-        Assert.assertEquals(1, ArithmeticsUtils.addAndCheck(2L, -1L));
-        Assert.assertEquals(-3, ArithmeticsUtils.addAndCheck(-2L, -1L));
-        Assert.assertEquals(min, ArithmeticsUtils.addAndCheck(min + 1, -1L));
+        Assert.assertEquals(max, ArithmeticUtils.addAndCheck(max, 0L));
+        Assert.assertEquals(min, ArithmeticUtils.addAndCheck(min, 0L));
+        Assert.assertEquals(max, ArithmeticUtils.addAndCheck(0L, max));
+        Assert.assertEquals(min, ArithmeticUtils.addAndCheck(0L, min));
+        Assert.assertEquals(1, ArithmeticUtils.addAndCheck(-1L, 2L));
+        Assert.assertEquals(1, ArithmeticUtils.addAndCheck(2L, -1L));
+        Assert.assertEquals(-3, ArithmeticUtils.addAndCheck(-2L, -1L));
+        Assert.assertEquals(min, ArithmeticUtils.addAndCheck(min + 1, -1L));
         testAddAndCheckLongFailure(max, 1L);
         testAddAndCheckLongFailure(min, -1L);
         testAddAndCheckLongFailure(1L, max);
@@ -99,17 +99,17 @@ public class ArithmeticsUtilsTest {
             6,
             1 };
         for (int i = 0; i < 6; i++) {
-            Assert.assertEquals("5 choose " + i, bcoef5[i], ArithmeticsUtils.binomialCoefficient(5, i));
+            Assert.assertEquals("5 choose " + i, bcoef5[i], ArithmeticUtils.binomialCoefficient(5, i));
         }
         for (int i = 0; i < 7; i++) {
-            Assert.assertEquals("6 choose " + i, bcoef6[i], ArithmeticsUtils.binomialCoefficient(6, i));
+            Assert.assertEquals("6 choose " + i, bcoef6[i], ArithmeticUtils.binomialCoefficient(6, i));
         }
 
         for (int n = 1; n < 10; n++) {
             for (int k = 0; k <= n; k++) {
-                Assert.assertEquals(n + " choose " + k, binomialCoefficient(n, k), ArithmeticsUtils.binomialCoefficient(n, k));
-                Assert.assertEquals(n + " choose " + k, binomialCoefficient(n, k), ArithmeticsUtils.binomialCoefficientDouble(n, k), Double.MIN_VALUE);
-                Assert.assertEquals(n + " choose " + k, FastMath.log(binomialCoefficient(n, k)), ArithmeticsUtils.binomialCoefficientLog(n, k), 10E-12);
+                Assert.assertEquals(n + " choose " + k, binomialCoefficient(n, k), ArithmeticUtils.binomialCoefficient(n, k));
+                Assert.assertEquals(n + " choose " + k, binomialCoefficient(n, k), ArithmeticUtils.binomialCoefficientDouble(n, k), Double.MIN_VALUE);
+                Assert.assertEquals(n + " choose " + k, FastMath.log(binomialCoefficient(n, k)), ArithmeticUtils.binomialCoefficientLog(n, k), 10E-12);
             }
         }
 
@@ -118,69 +118,69 @@ public class ArithmeticsUtilsTest {
         for (int i = 0; i < n.length; i++) {
             long expected = binomialCoefficient(n[i], k[i]);
             Assert.assertEquals(n[i] + " choose " + k[i], expected,
-                ArithmeticsUtils.binomialCoefficient(n[i], k[i]));
+                ArithmeticUtils.binomialCoefficient(n[i], k[i]));
             Assert.assertEquals(n[i] + " choose " + k[i], expected,
-                ArithmeticsUtils.binomialCoefficientDouble(n[i], k[i]), 0.0);
+                ArithmeticUtils.binomialCoefficientDouble(n[i], k[i]), 0.0);
             Assert.assertEquals("log(" + n[i] + " choose " + k[i] + ")", FastMath.log(expected),
-                ArithmeticsUtils.binomialCoefficientLog(n[i], k[i]), 0.0);
+                ArithmeticUtils.binomialCoefficientLog(n[i], k[i]), 0.0);
         }
     }
 
     @Test
     public void testBinomialCoefficientFail() {
         try {
-            ArithmeticsUtils.binomialCoefficient(4, 5);
+            ArithmeticUtils.binomialCoefficient(4, 5);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
-            ArithmeticsUtils.binomialCoefficientDouble(4, 5);
+            ArithmeticUtils.binomialCoefficientDouble(4, 5);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
-            ArithmeticsUtils.binomialCoefficientLog(4, 5);
+            ArithmeticUtils.binomialCoefficientLog(4, 5);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
-            ArithmeticsUtils.binomialCoefficient(-1, -2);
+            ArithmeticUtils.binomialCoefficient(-1, -2);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.binomialCoefficientDouble(-1, -2);
+            ArithmeticUtils.binomialCoefficientDouble(-1, -2);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.binomialCoefficientLog(-1, -2);
+            ArithmeticUtils.binomialCoefficientLog(-1, -2);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
 
         try {
-            ArithmeticsUtils.binomialCoefficient(67, 30);
+            ArithmeticUtils.binomialCoefficient(67, 30);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.binomialCoefficient(67, 34);
+            ArithmeticUtils.binomialCoefficient(67, 34);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // ignored
         }
-        double x = ArithmeticsUtils.binomialCoefficientDouble(1030, 515);
+        double x = ArithmeticUtils.binomialCoefficientDouble(1030, 515);
         Assert.assertTrue("expecting infinite binomial coefficient", Double
             .isInfinite(x));
     }
@@ -199,7 +199,7 @@ public class ArithmeticsUtilsTest {
                 boolean shouldThrow = false;
                 boolean didThrow = false;
                 try {
-                    ourResult = ArithmeticsUtils.binomialCoefficient(n, k);
+                    ourResult = ArithmeticUtils.binomialCoefficient(n, k);
                 } catch (MathArithmeticException ex) {
                     didThrow = true;
                 }
@@ -214,78 +214,78 @@ public class ArithmeticsUtilsTest {
 
                 if (!shouldThrow && exactResult > 1) {
                     Assert.assertEquals(n + " choose " + k, 1.,
-                        ArithmeticsUtils.binomialCoefficientDouble(n, k) / exactResult, 1e-10);
+                        ArithmeticUtils.binomialCoefficientDouble(n, k) / exactResult, 1e-10);
                     Assert.assertEquals(n + " choose " + k, 1,
-                        ArithmeticsUtils.binomialCoefficientLog(n, k) / FastMath.log(exactResult), 1e-10);
+                        ArithmeticUtils.binomialCoefficientLog(n, k) / FastMath.log(exactResult), 1e-10);
                 }
             }
         }
 
-        long ourResult = ArithmeticsUtils.binomialCoefficient(300, 3);
+        long ourResult = ArithmeticUtils.binomialCoefficient(300, 3);
         long exactResult = binomialCoefficient(300, 3);
         Assert.assertEquals(exactResult, ourResult);
 
-        ourResult = ArithmeticsUtils.binomialCoefficient(700, 697);
+        ourResult = ArithmeticUtils.binomialCoefficient(700, 697);
         exactResult = binomialCoefficient(700, 697);
         Assert.assertEquals(exactResult, ourResult);
 
         // This one should throw
         try {
-            ArithmeticsUtils.binomialCoefficient(700, 300);
+            ArithmeticUtils.binomialCoefficient(700, 300);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // Expected
         }
 
         int n = 10000;
-        ourResult = ArithmeticsUtils.binomialCoefficient(n, 3);
+        ourResult = ArithmeticUtils.binomialCoefficient(n, 3);
         exactResult = binomialCoefficient(n, 3);
         Assert.assertEquals(exactResult, ourResult);
-        Assert.assertEquals(1, ArithmeticsUtils.binomialCoefficientDouble(n, 3) / exactResult, 1e-10);
-        Assert.assertEquals(1, ArithmeticsUtils.binomialCoefficientLog(n, 3) / FastMath.log(exactResult), 1e-10);
+        Assert.assertEquals(1, ArithmeticUtils.binomialCoefficientDouble(n, 3) / exactResult, 1e-10);
+        Assert.assertEquals(1, ArithmeticUtils.binomialCoefficientLog(n, 3) / FastMath.log(exactResult), 1e-10);
 
     }
 
     @Test
     public void testFactorial() {
         for (int i = 1; i < 21; i++) {
-            Assert.assertEquals(i + "! ", factorial(i), ArithmeticsUtils.factorial(i));
-            Assert.assertEquals(i + "! ", factorial(i), ArithmeticsUtils.factorialDouble(i), Double.MIN_VALUE);
-            Assert.assertEquals(i + "! ", FastMath.log(factorial(i)), ArithmeticsUtils.factorialLog(i), 10E-12);
+            Assert.assertEquals(i + "! ", factorial(i), ArithmeticUtils.factorial(i));
+            Assert.assertEquals(i + "! ", factorial(i), ArithmeticUtils.factorialDouble(i), Double.MIN_VALUE);
+            Assert.assertEquals(i + "! ", FastMath.log(factorial(i)), ArithmeticUtils.factorialLog(i), 10E-12);
         }
 
-        Assert.assertEquals("0", 1, ArithmeticsUtils.factorial(0));
-        Assert.assertEquals("0", 1.0d, ArithmeticsUtils.factorialDouble(0), 1E-14);
-        Assert.assertEquals("0", 0.0d, ArithmeticsUtils.factorialLog(0), 1E-14);
+        Assert.assertEquals("0", 1, ArithmeticUtils.factorial(0));
+        Assert.assertEquals("0", 1.0d, ArithmeticUtils.factorialDouble(0), 1E-14);
+        Assert.assertEquals("0", 0.0d, ArithmeticUtils.factorialLog(0), 1E-14);
     }
 
     @Test
     public void testFactorialFail() {
         try {
-            ArithmeticsUtils.factorial(-1);
+            ArithmeticUtils.factorial(-1);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.factorialDouble(-1);
+            ArithmeticUtils.factorialDouble(-1);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.factorialLog(-1);
+            ArithmeticUtils.factorialLog(-1);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
         try {
-            ArithmeticsUtils.factorial(21);
+            ArithmeticUtils.factorial(21);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // ignored
         }
-        Assert.assertTrue("expecting infinite factorial value", Double.isInfinite(ArithmeticsUtils.factorialDouble(171)));
+        Assert.assertTrue("expecting infinite factorial value", Double.isInfinite(ArithmeticUtils.factorialDouble(171)));
     }
 
     @Test
@@ -294,45 +294,45 @@ public class ArithmeticsUtilsTest {
         int b = 50;
         int c = 77;
 
-        Assert.assertEquals(0, ArithmeticsUtils.gcd(0, 0));
+        Assert.assertEquals(0, ArithmeticUtils.gcd(0, 0));
 
-        Assert.assertEquals(b, ArithmeticsUtils.gcd(0, b));
-        Assert.assertEquals(a, ArithmeticsUtils.gcd(a, 0));
-        Assert.assertEquals(b, ArithmeticsUtils.gcd(0, -b));
-        Assert.assertEquals(a, ArithmeticsUtils.gcd(-a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.gcd(0, b));
+        Assert.assertEquals(a, ArithmeticUtils.gcd(a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.gcd(0, -b));
+        Assert.assertEquals(a, ArithmeticUtils.gcd(-a, 0));
 
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(a, b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(-a, b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(a, -b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(-a, -b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(a, b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(-a, b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(a, -b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(-a, -b));
 
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(a, c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(-a, c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(a, -c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(-a, -c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(a, c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(-a, c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(a, -c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(-a, -c));
 
-        Assert.assertEquals(3 * (1<<15), ArithmeticsUtils.gcd(3 * (1<<20), 9 * (1<<15)));
+        Assert.assertEquals(3 * (1<<15), ArithmeticUtils.gcd(3 * (1<<20), 9 * (1<<15)));
 
-        Assert.assertEquals(Integer.MAX_VALUE, ArithmeticsUtils.gcd(Integer.MAX_VALUE, 0));
-        Assert.assertEquals(Integer.MAX_VALUE, ArithmeticsUtils.gcd(-Integer.MAX_VALUE, 0));
-        Assert.assertEquals(1<<30, ArithmeticsUtils.gcd(1<<30, -Integer.MIN_VALUE));
+        Assert.assertEquals(Integer.MAX_VALUE, ArithmeticUtils.gcd(Integer.MAX_VALUE, 0));
+        Assert.assertEquals(Integer.MAX_VALUE, ArithmeticUtils.gcd(-Integer.MAX_VALUE, 0));
+        Assert.assertEquals(1<<30, ArithmeticUtils.gcd(1<<30, -Integer.MIN_VALUE));
         try {
             // gcd(Integer.MIN_VALUE, 0) > Integer.MAX_VALUE
-            ArithmeticsUtils.gcd(Integer.MIN_VALUE, 0);
+            ArithmeticUtils.gcd(Integer.MIN_VALUE, 0);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(0, Integer.MIN_VALUE) > Integer.MAX_VALUE
-            ArithmeticsUtils.gcd(0, Integer.MIN_VALUE);
+            ArithmeticUtils.gcd(0, Integer.MIN_VALUE);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(Integer.MIN_VALUE, Integer.MIN_VALUE) > Integer.MAX_VALUE
-            ArithmeticsUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            ArithmeticUtils.gcd(Integer.MIN_VALUE, Integer.MIN_VALUE);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -356,10 +356,10 @@ public class ArithmeticsUtilsTest {
             int i1 = p1 * p2 * p3;
             int i2 = p1 * p2 * p4;
             int gcd = p1 * p2;
-            Assert.assertEquals(gcd, ArithmeticsUtils.gcd(i1, i2));
+            Assert.assertEquals(gcd, ArithmeticUtils.gcd(i1, i2));
             long l1 = i1;
             long l2 = i2;
-            Assert.assertEquals(gcd, ArithmeticsUtils.gcd(l1, l2));
+            Assert.assertEquals(gcd, ArithmeticUtils.gcd(l1, l2));
         }
     }
 
@@ -369,47 +369,47 @@ public class ArithmeticsUtilsTest {
         long b = 50;
         long c = 77;
 
-        Assert.assertEquals(0, ArithmeticsUtils.gcd(0L, 0));
+        Assert.assertEquals(0, ArithmeticUtils.gcd(0L, 0));
 
-        Assert.assertEquals(b, ArithmeticsUtils.gcd(0, b));
-        Assert.assertEquals(a, ArithmeticsUtils.gcd(a, 0));
-        Assert.assertEquals(b, ArithmeticsUtils.gcd(0, -b));
-        Assert.assertEquals(a, ArithmeticsUtils.gcd(-a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.gcd(0, b));
+        Assert.assertEquals(a, ArithmeticUtils.gcd(a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.gcd(0, -b));
+        Assert.assertEquals(a, ArithmeticUtils.gcd(-a, 0));
 
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(a, b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(-a, b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(a, -b));
-        Assert.assertEquals(10, ArithmeticsUtils.gcd(-a, -b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(a, b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(-a, b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(a, -b));
+        Assert.assertEquals(10, ArithmeticUtils.gcd(-a, -b));
 
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(a, c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(-a, c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(a, -c));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(-a, -c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(a, c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(-a, c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(a, -c));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(-a, -c));
 
-        Assert.assertEquals(3L * (1L<<45), ArithmeticsUtils.gcd(3L * (1L<<50), 9L * (1L<<45)));
+        Assert.assertEquals(3L * (1L<<45), ArithmeticUtils.gcd(3L * (1L<<50), 9L * (1L<<45)));
 
-        Assert.assertEquals(1L<<45, ArithmeticsUtils.gcd(1L<<45, Long.MIN_VALUE));
+        Assert.assertEquals(1L<<45, ArithmeticUtils.gcd(1L<<45, Long.MIN_VALUE));
 
-        Assert.assertEquals(Long.MAX_VALUE, ArithmeticsUtils.gcd(Long.MAX_VALUE, 0L));
-        Assert.assertEquals(Long.MAX_VALUE, ArithmeticsUtils.gcd(-Long.MAX_VALUE, 0L));
-        Assert.assertEquals(1, ArithmeticsUtils.gcd(60247241209L, 153092023L));
+        Assert.assertEquals(Long.MAX_VALUE, ArithmeticUtils.gcd(Long.MAX_VALUE, 0L));
+        Assert.assertEquals(Long.MAX_VALUE, ArithmeticUtils.gcd(-Long.MAX_VALUE, 0L));
+        Assert.assertEquals(1, ArithmeticUtils.gcd(60247241209L, 153092023L));
         try {
             // gcd(Long.MIN_VALUE, 0) > Long.MAX_VALUE
-            ArithmeticsUtils.gcd(Long.MIN_VALUE, 0);
+            ArithmeticUtils.gcd(Long.MIN_VALUE, 0);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(0, Long.MIN_VALUE) > Long.MAX_VALUE
-            ArithmeticsUtils.gcd(0, Long.MIN_VALUE);
+            ArithmeticUtils.gcd(0, Long.MIN_VALUE);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
         try {
             // gcd(Long.MIN_VALUE, Long.MIN_VALUE) > Long.MAX_VALUE
-            ArithmeticsUtils.gcd(Long.MIN_VALUE, Long.MIN_VALUE);
+            ArithmeticUtils.gcd(Long.MIN_VALUE, Long.MIN_VALUE);
             Assert.fail("expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -423,26 +423,26 @@ public class ArithmeticsUtilsTest {
         int b = 50;
         int c = 77;
 
-        Assert.assertEquals(0, ArithmeticsUtils.lcm(0, b));
-        Assert.assertEquals(0, ArithmeticsUtils.lcm(a, 0));
-        Assert.assertEquals(b, ArithmeticsUtils.lcm(1, b));
-        Assert.assertEquals(a, ArithmeticsUtils.lcm(a, 1));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(a, b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(-a, b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(a, -b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(-a, -b));
-        Assert.assertEquals(2310, ArithmeticsUtils.lcm(a, c));
+        Assert.assertEquals(0, ArithmeticUtils.lcm(0, b));
+        Assert.assertEquals(0, ArithmeticUtils.lcm(a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.lcm(1, b));
+        Assert.assertEquals(a, ArithmeticUtils.lcm(a, 1));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(a, b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(-a, b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(a, -b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(-a, -b));
+        Assert.assertEquals(2310, ArithmeticUtils.lcm(a, c));
 
         // Assert that no intermediate value overflows:
         // The naive implementation of lcm(a,b) would be (a*b)/gcd(a,b)
-        Assert.assertEquals((1<<20)*15, ArithmeticsUtils.lcm((1<<20)*3, (1<<20)*5));
+        Assert.assertEquals((1<<20)*15, ArithmeticUtils.lcm((1<<20)*3, (1<<20)*5));
 
         // Special case
-        Assert.assertEquals(0, ArithmeticsUtils.lcm(0, 0));
+        Assert.assertEquals(0, ArithmeticUtils.lcm(0, 0));
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
-            ArithmeticsUtils.lcm(Integer.MIN_VALUE, 1);
+            ArithmeticUtils.lcm(Integer.MIN_VALUE, 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -450,14 +450,14 @@ public class ArithmeticsUtilsTest {
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
-            ArithmeticsUtils.lcm(Integer.MIN_VALUE, 1<<20);
+            ArithmeticUtils.lcm(Integer.MIN_VALUE, 1<<20);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
 
         try {
-            ArithmeticsUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
+            ArithmeticUtils.lcm(Integer.MAX_VALUE, Integer.MAX_VALUE - 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -470,28 +470,28 @@ public class ArithmeticsUtilsTest {
         long b = 50;
         long c = 77;
 
-        Assert.assertEquals(0, ArithmeticsUtils.lcm(0, b));
-        Assert.assertEquals(0, ArithmeticsUtils.lcm(a, 0));
-        Assert.assertEquals(b, ArithmeticsUtils.lcm(1, b));
-        Assert.assertEquals(a, ArithmeticsUtils.lcm(a, 1));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(a, b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(-a, b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(a, -b));
-        Assert.assertEquals(150, ArithmeticsUtils.lcm(-a, -b));
-        Assert.assertEquals(2310, ArithmeticsUtils.lcm(a, c));
+        Assert.assertEquals(0, ArithmeticUtils.lcm(0, b));
+        Assert.assertEquals(0, ArithmeticUtils.lcm(a, 0));
+        Assert.assertEquals(b, ArithmeticUtils.lcm(1, b));
+        Assert.assertEquals(a, ArithmeticUtils.lcm(a, 1));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(a, b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(-a, b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(a, -b));
+        Assert.assertEquals(150, ArithmeticUtils.lcm(-a, -b));
+        Assert.assertEquals(2310, ArithmeticUtils.lcm(a, c));
 
-        Assert.assertEquals(Long.MAX_VALUE, ArithmeticsUtils.lcm(60247241209L, 153092023L));
+        Assert.assertEquals(Long.MAX_VALUE, ArithmeticUtils.lcm(60247241209L, 153092023L));
 
         // Assert that no intermediate value overflows:
         // The naive implementation of lcm(a,b) would be (a*b)/gcd(a,b)
-        Assert.assertEquals((1L<<50)*15, ArithmeticsUtils.lcm((1L<<45)*3, (1L<<50)*5));
+        Assert.assertEquals((1L<<50)*15, ArithmeticUtils.lcm((1L<<45)*3, (1L<<50)*5));
 
         // Special case
-        Assert.assertEquals(0L, ArithmeticsUtils.lcm(0L, 0L));
+        Assert.assertEquals(0L, ArithmeticUtils.lcm(0L, 0L));
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
-            ArithmeticsUtils.lcm(Long.MIN_VALUE, 1);
+            ArithmeticUtils.lcm(Long.MIN_VALUE, 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -499,16 +499,16 @@ public class ArithmeticsUtilsTest {
 
         try {
             // lcm == abs(MIN_VALUE) cannot be represented as a nonnegative int
-            ArithmeticsUtils.lcm(Long.MIN_VALUE, 1<<20);
+            ArithmeticUtils.lcm(Long.MIN_VALUE, 1<<20);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
         }
 
         Assert.assertEquals((long) Integer.MAX_VALUE * (Integer.MAX_VALUE - 1),
-            ArithmeticsUtils.lcm((long)Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
+            ArithmeticUtils.lcm((long)Integer.MAX_VALUE, Integer.MAX_VALUE - 1));
         try {
-            ArithmeticsUtils.lcm(Long.MAX_VALUE, Long.MAX_VALUE - 1);
+            ArithmeticUtils.lcm(Long.MAX_VALUE, Long.MAX_VALUE - 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException expected) {
             // expected
@@ -519,14 +519,14 @@ public class ArithmeticsUtilsTest {
     public void testMulAndCheck() {
         int big = Integer.MAX_VALUE;
         int bigNeg = Integer.MIN_VALUE;
-        Assert.assertEquals(big, ArithmeticsUtils.mulAndCheck(big, 1));
+        Assert.assertEquals(big, ArithmeticUtils.mulAndCheck(big, 1));
         try {
-            ArithmeticsUtils.mulAndCheck(big, 2);
+            ArithmeticUtils.mulAndCheck(big, 2);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
         try {
-            ArithmeticsUtils.mulAndCheck(bigNeg, 2);
+            ArithmeticUtils.mulAndCheck(bigNeg, 2);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
@@ -536,16 +536,16 @@ public class ArithmeticsUtilsTest {
     public void testMulAndCheckLong() {
         long max = Long.MAX_VALUE;
         long min = Long.MIN_VALUE;
-        Assert.assertEquals(max, ArithmeticsUtils.mulAndCheck(max, 1L));
-        Assert.assertEquals(min, ArithmeticsUtils.mulAndCheck(min, 1L));
-        Assert.assertEquals(0L, ArithmeticsUtils.mulAndCheck(max, 0L));
-        Assert.assertEquals(0L, ArithmeticsUtils.mulAndCheck(min, 0L));
-        Assert.assertEquals(max, ArithmeticsUtils.mulAndCheck(1L, max));
-        Assert.assertEquals(min, ArithmeticsUtils.mulAndCheck(1L, min));
-        Assert.assertEquals(0L, ArithmeticsUtils.mulAndCheck(0L, max));
-        Assert.assertEquals(0L, ArithmeticsUtils.mulAndCheck(0L, min));
-        Assert.assertEquals(1L, ArithmeticsUtils.mulAndCheck(-1L, -1L));
-        Assert.assertEquals(min, ArithmeticsUtils.mulAndCheck(min / 2, 2));
+        Assert.assertEquals(max, ArithmeticUtils.mulAndCheck(max, 1L));
+        Assert.assertEquals(min, ArithmeticUtils.mulAndCheck(min, 1L));
+        Assert.assertEquals(0L, ArithmeticUtils.mulAndCheck(max, 0L));
+        Assert.assertEquals(0L, ArithmeticUtils.mulAndCheck(min, 0L));
+        Assert.assertEquals(max, ArithmeticUtils.mulAndCheck(1L, max));
+        Assert.assertEquals(min, ArithmeticUtils.mulAndCheck(1L, min));
+        Assert.assertEquals(0L, ArithmeticUtils.mulAndCheck(0L, max));
+        Assert.assertEquals(0L, ArithmeticUtils.mulAndCheck(0L, min));
+        Assert.assertEquals(1L, ArithmeticUtils.mulAndCheck(-1L, -1L));
+        Assert.assertEquals(min, ArithmeticUtils.mulAndCheck(min / 2, 2));
         testMulAndCheckLongFailure(max, 2L);
         testMulAndCheckLongFailure(2L, max);
         testMulAndCheckLongFailure(min, 2L);
@@ -558,16 +558,16 @@ public class ArithmeticsUtilsTest {
     public void testSubAndCheck() {
         int big = Integer.MAX_VALUE;
         int bigNeg = Integer.MIN_VALUE;
-        Assert.assertEquals(big, ArithmeticsUtils.subAndCheck(big, 0));
-        Assert.assertEquals(bigNeg + 1, ArithmeticsUtils.subAndCheck(bigNeg, -1));
-        Assert.assertEquals(-1, ArithmeticsUtils.subAndCheck(bigNeg, -big));
+        Assert.assertEquals(big, ArithmeticUtils.subAndCheck(big, 0));
+        Assert.assertEquals(bigNeg + 1, ArithmeticUtils.subAndCheck(bigNeg, -1));
+        Assert.assertEquals(-1, ArithmeticUtils.subAndCheck(bigNeg, -big));
         try {
-            ArithmeticsUtils.subAndCheck(big, -1);
+            ArithmeticUtils.subAndCheck(big, -1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
         try {
-            ArithmeticsUtils.subAndCheck(bigNeg, 1);
+            ArithmeticUtils.subAndCheck(bigNeg, 1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
         }
@@ -577,7 +577,7 @@ public class ArithmeticsUtilsTest {
     public void testSubAndCheckErrorMessage() {
         int big = Integer.MAX_VALUE;
         try {
-            ArithmeticsUtils.subAndCheck(big, -1);
+            ArithmeticUtils.subAndCheck(big, -1);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             Assert.assertTrue(ex.getMessage().length() > 1);
@@ -588,13 +588,13 @@ public class ArithmeticsUtilsTest {
     public void testSubAndCheckLong() {
         long max = Long.MAX_VALUE;
         long min = Long.MIN_VALUE;
-        Assert.assertEquals(max, ArithmeticsUtils.subAndCheck(max, 0));
-        Assert.assertEquals(min, ArithmeticsUtils.subAndCheck(min, 0));
-        Assert.assertEquals(-max, ArithmeticsUtils.subAndCheck(0, max));
-        Assert.assertEquals(min + 1, ArithmeticsUtils.subAndCheck(min, -1));
+        Assert.assertEquals(max, ArithmeticUtils.subAndCheck(max, 0));
+        Assert.assertEquals(min, ArithmeticUtils.subAndCheck(min, 0));
+        Assert.assertEquals(-max, ArithmeticUtils.subAndCheck(0, max));
+        Assert.assertEquals(min + 1, ArithmeticUtils.subAndCheck(min, -1));
         // min == -1-max
-        Assert.assertEquals(-1, ArithmeticsUtils.subAndCheck(-max - 1, -max));
-        Assert.assertEquals(max, ArithmeticsUtils.subAndCheck(-1, -1 - max));
+        Assert.assertEquals(-1, ArithmeticUtils.subAndCheck(-max - 1, -max));
+        Assert.assertEquals(max, ArithmeticUtils.subAndCheck(-1, -1 - max));
         testSubAndCheckLongFailure(0L, min);
         testSubAndCheckLongFailure(max, -1L);
         testSubAndCheckLongFailure(min, 1L);
@@ -623,7 +623,7 @@ public class ArithmeticsUtilsTest {
             if (k > 100) {
                 binomialCoefficient(n - 100, k - 100);
             }
-            result = ArithmeticsUtils.addAndCheck(binomialCoefficient(n - 1, k - 1),
+            result = ArithmeticUtils.addAndCheck(binomialCoefficient(n - 1, k - 1),
                 binomialCoefficient(n - 1, k));
         }
         if (result == -1) {
@@ -649,7 +649,7 @@ public class ArithmeticsUtilsTest {
 
     private void testAddAndCheckLongFailure(long a, long b) {
         try {
-            ArithmeticsUtils.addAndCheck(a, b);
+            ArithmeticUtils.addAndCheck(a, b);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // success
@@ -658,7 +658,7 @@ public class ArithmeticsUtilsTest {
 
     private void testMulAndCheckLongFailure(long a, long b) {
         try {
-            ArithmeticsUtils.mulAndCheck(a, b);
+            ArithmeticUtils.mulAndCheck(a, b);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // success
@@ -667,7 +667,7 @@ public class ArithmeticsUtilsTest {
 
     private void testSubAndCheckLongFailure(long a, long b) {
         try {
-            ArithmeticsUtils.subAndCheck(a, b);
+            ArithmeticUtils.subAndCheck(a, b);
             Assert.fail("Expecting MathArithmeticException");
         } catch (MathArithmeticException ex) {
             // success

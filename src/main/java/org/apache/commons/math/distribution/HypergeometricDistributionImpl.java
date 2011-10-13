@@ -23,7 +23,7 @@ import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -231,9 +231,9 @@ public class HypergeometricDistributionImpl extends AbstractIntegerDistribution
      * @return PMF for the distribution.
      */
     private double probability(int n, int m, int k, int x) {
-        return FastMath.exp(ArithmeticsUtils.binomialCoefficientLog(m, x) +
-               ArithmeticsUtils.binomialCoefficientLog(n - m, k - x) -
-               ArithmeticsUtils.binomialCoefficientLog(n, k));
+        return FastMath.exp(ArithmeticUtils.binomialCoefficientLog(m, x) +
+               ArithmeticUtils.binomialCoefficientLog(n - m, k - x) -
+               ArithmeticUtils.binomialCoefficientLog(n, k));
     }
 
     /**

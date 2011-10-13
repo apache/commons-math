@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math.fraction.BigFraction;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -326,7 +326,7 @@ public class PolynomialsUtils {
         final int[][] coeff = new int[dp1][dp1];
         for (int i = 0; i < dp1; i++){
             for(int j = 0; j <= i; j++){
-                coeff[i][j] = (int) ArithmeticsUtils.binomialCoefficient(i, j);
+                coeff[i][j] = (int) ArithmeticUtils.binomialCoefficient(i, j);
             }
         }
 

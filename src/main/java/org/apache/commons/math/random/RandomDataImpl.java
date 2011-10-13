@@ -40,7 +40,7 @@ import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.ResizableDoubleArray;
 
@@ -148,7 +148,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         final ResizableDoubleArray ra = new ResizableDoubleArray(20);
 
         while (qi < 1) {
-            qi += FastMath.pow(LN2, i) / ArithmeticsUtils.factorial(i);
+            qi += FastMath.pow(LN2, i) / ArithmeticUtils.factorial(i);
             ra.addElement(qi);
             ++i;
         }
@@ -424,7 +424,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             final double lambda = FastMath.floor(mean);
             final double lambdaFractional = mean - lambda;
             final double logLambda = FastMath.log(lambda);
-            final double logLambdaFactorial = ArithmeticsUtils.factorialLog((int) lambda);
+            final double logLambdaFactorial = ArithmeticUtils.factorialLog((int) lambda);
             final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
             final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
             final double halfDelta = delta / 2;
@@ -479,7 +479,7 @@ public class RandomDataImpl implements RandomData, Serializable {
                 if (v > qr) {
                     continue;
                 }
-                if (v < y * logLambda - ArithmeticsUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
+                if (v < y * logLambda - ArithmeticUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
                     y = lambda + y;
                     break;
                 }

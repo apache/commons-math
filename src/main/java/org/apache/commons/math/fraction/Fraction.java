@@ -23,7 +23,7 @@ import org.apache.commons.math.FieldElement;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -268,7 +268,7 @@ public class Fraction
             den = -den;
         }
         // reduce numerator and denominator by greatest common denominator.
-        final int d = ArithmeticsUtils.gcd(num, den);
+        final int d = ArithmeticUtils.gcd(num, den);
         if (d > 1) {
             num /= d;
             den /= d;
@@ -486,15 +486,15 @@ public class Fraction
         }
         // if denominators are randomly distributed, d1 will be 1 about 61%
         // of the time.
-        int d1 = ArithmeticsUtils.gcd(denominator, fraction.denominator);
+        int d1 = ArithmeticUtils.gcd(denominator, fraction.denominator);
         if (d1==1) {
             // result is ( (u*v' +/- u'v) / u'v')
-            int uvp = ArithmeticsUtils.mulAndCheck(numerator, fraction.denominator);
-            int upv = ArithmeticsUtils.mulAndCheck(fraction.numerator, denominator);
+            int uvp = ArithmeticUtils.mulAndCheck(numerator, fraction.denominator);
+            int upv = ArithmeticUtils.mulAndCheck(fraction.numerator, denominator);
             return new Fraction
-                (isAdd ? ArithmeticsUtils.addAndCheck(uvp, upv) :
-                 ArithmeticsUtils.subAndCheck(uvp, upv),
-                 ArithmeticsUtils.mulAndCheck(denominator, fraction.denominator));
+                (isAdd ? ArithmeticUtils.addAndCheck(uvp, upv) :
+                 ArithmeticUtils.subAndCheck(uvp, upv),
+                 ArithmeticUtils.mulAndCheck(denominator, fraction.denominator));
         }
         // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
         // exercise 7.  we're going to use a BigInteger.
@@ -507,7 +507,7 @@ public class Fraction
         // but d2 doesn't need extra precision because
         // d2 = gcd(t,d1) = gcd(t mod d1, d1)
         int tmodd1 = t.mod(BigInteger.valueOf(d1)).intValue();
-        int d2 = (tmodd1==0)?d1:ArithmeticsUtils.gcd(tmodd1, d1);
+        int d2 = (tmodd1==0)?d1:ArithmeticUtils.gcd(tmodd1, d1);
 
         // result is (t/d2) / (u'/d1)(v'/d2)
         BigInteger w = t.divide(BigInteger.valueOf(d2));
@@ -516,7 +516,7 @@ public class Fraction
                                               w);
         }
         return new Fraction (w.intValue(),
-                ArithmeticsUtils.mulAndCheck(denominator/d1,
+                ArithmeticUtils.mulAndCheck(denominator/d1,
                         fraction.denominator/d2));
     }
 
@@ -539,11 +539,11 @@ public class Fraction
         }
         // knuth 4.5.1
         // make sure we don't overflow unless the result *must* overflow.
-        int d1 = ArithmeticsUtils.gcd(numerator, fraction.denominator);
-        int d2 = ArithmeticsUtils.gcd(fraction.numerator, denominator);
+        int d1 = ArithmeticUtils.gcd(numerator, fraction.denominator);
+        int d2 = ArithmeticUtils.gcd(fraction.numerator, denominator);
         return getReducedFraction
-        (ArithmeticsUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
-                ArithmeticsUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
+        (ArithmeticUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
+                ArithmeticUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
     }
 
     /**
@@ -618,7 +618,7 @@ public class Fraction
             denominator = -denominator;
         }
         // simplify fraction.
-        int gcd = ArithmeticsUtils.gcd(numerator, denominator);
+        int gcd = ArithmeticUtils.gcd(numerator, denominator);
         numerator /= gcd;
         denominator /= gcd;
         return new Fraction(numerator, denominator);

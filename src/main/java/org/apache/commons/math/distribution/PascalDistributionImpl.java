@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -128,7 +128,7 @@ public class PascalDistributionImpl extends AbstractIntegerDistribution
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = ArithmeticsUtils.binomialCoefficientDouble(x +
+            ret = ArithmeticUtils.binomialCoefficientDouble(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
                   FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
                   FastMath.pow(1.0 - probabilityOfSuccess, x);

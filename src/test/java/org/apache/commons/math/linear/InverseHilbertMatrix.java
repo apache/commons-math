@@ -17,7 +17,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.util.ArithmeticsUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 
 /**
  * This class implements inverses of Hilbert Matrices as
@@ -54,13 +54,13 @@ public class InverseHilbertMatrix
      */
     public long getEntry(final int i, final int j) {
         long val = i + j + 1;
-        long aux = ArithmeticsUtils.binomialCoefficient(n + i, n - j - 1);
-        val = ArithmeticsUtils.mulAndCheck(val, aux);
-        aux = ArithmeticsUtils.binomialCoefficient(n + j, n - i - 1);
-        val = ArithmeticsUtils.mulAndCheck(val, aux);
-        aux = ArithmeticsUtils.binomialCoefficient(i + j, i);
-        val = ArithmeticsUtils.mulAndCheck(val, aux);
-        val = ArithmeticsUtils.mulAndCheck(val, aux);
+        long aux = ArithmeticUtils.binomialCoefficient(n + i, n - j - 1);
+        val = ArithmeticUtils.mulAndCheck(val, aux);
+        aux = ArithmeticUtils.binomialCoefficient(n + j, n - i - 1);
+        val = ArithmeticUtils.mulAndCheck(val, aux);
+        aux = ArithmeticUtils.binomialCoefficient(i + j, i);
+        val = ArithmeticUtils.mulAndCheck(val, aux);
+        val = ArithmeticUtils.mulAndCheck(val, aux);
         return ((i + j) & 1) == 0 ? val : -val;
     }
 
