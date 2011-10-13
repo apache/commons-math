@@ -17,7 +17,6 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
 
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">
@@ -181,7 +180,7 @@ public class MullerSolver extends AbstractUnivariateRealSolver {
             } else {
                 double xm = 0.5 * (x0 + x2);
                 double ym = computeObjectiveValue(xm);
-                if (MathUtils.sign(y0) + MathUtils.sign(ym) == 0.0) {
+                if (FastMath.signum(y0) + FastMath.signum(ym) == 0.0) {
                     x2 = xm; y2 = ym;
                 } else {
                     x0 = xm; y0 = ym;

@@ -25,6 +25,7 @@ import org.apache.commons.math.dfp.DfpField;
 import org.apache.commons.math.dfp.DfpMath;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomGenerator;
+import org.apache.commons.math.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -1060,4 +1061,21 @@ public class FastMathTest {
         compareClassMethods( FastMath.class, StrictMath.class);
     }
 
+    @Test
+    public void testSignumDouble() {
+        final double delta = 0.0;
+        Assert.assertEquals(1.0, FastMath.signum(2.0), delta);
+        Assert.assertEquals(0.0, FastMath.signum(0.0), delta);
+        Assert.assertEquals(-1.0, FastMath.signum(-2.0), delta);
+        TestUtils.assertSame(-0. / 0., FastMath.signum(Double.NaN));
+    }
+
+    @Test
+    public void testSignumFloat() {
+        final float delta = 0.0F;
+        Assert.assertEquals(1.0F, FastMath.signum(2.0F), delta);
+        Assert.assertEquals(0.0F, FastMath.signum(0.0F), delta);
+        Assert.assertEquals(-1.0F, FastMath.signum(-2.0F), delta);
+        TestUtils.assertSame(Float.NaN, FastMath.signum(Float.NaN));
+    }
 }

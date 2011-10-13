@@ -420,43 +420,6 @@ public final class MathUtils {
 
     /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for double precision {@code x}.
-     * <p>
-     * For a double value {@code x}, this method returns
-     * {@code +1.0} if {@code x > 0}, {@code 0.0} if
-     * {@code x = 0.0}, and {@code -1.0} if {@code x < 0}.
-     * Returns {@code NaN} if {@code x} is {@code NaN}.</p>
-     *
-     * @param x the value, a double
-     * @return +1.0, 0.0, or -1.0, depending on the sign of x
-     */
-    public static double sign(final double x) {
-        if (Double.isNaN(x)) {
-            return Double.NaN;
-        }
-        return (x == 0.0) ? 0.0 : (x > 0.0) ? 1.0 : -1.0;
-    }
-
-    /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for float value {@code x}.
-     * <p>
-     * For a float value x, this method returns +1.0F if x > 0, 0.0F if x =
-     * 0.0F, and -1.0F if x < 0. Returns {@code NaN} if {@code x}
-     * is {@code NaN}.</p>
-     *
-     * @param x the value, a float
-     * @return +1.0F, 0.0F, or -1.0F, depending on the sign of x
-     */
-    public static float sign(final float x) {
-        if (Float.isNaN(x)) {
-            return Float.NaN;
-        }
-        return (x == 0.0F) ? 0.0F : (x > 0.0F) ? 1.0F : -1.0F;
-    }
-
-    /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
      * for int value {@code x}.
      * <p>
      * For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1

@@ -455,24 +455,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testSignDouble() {
-        double delta = 0.0;
-        Assert.assertEquals(1.0, MathUtils.sign(2.0), delta);
-        Assert.assertEquals(0.0, MathUtils.sign(0.0), delta);
-        Assert.assertEquals(-1.0, MathUtils.sign(-2.0), delta);
-        TestUtils.assertSame(-0. / 0., MathUtils.sign(Double.NaN));
-    }
-
-    @Test
-    public void testSignFloat() {
-        float delta = 0.0F;
-        Assert.assertEquals(1.0F, MathUtils.sign(2.0F), delta);
-        Assert.assertEquals(0.0F, MathUtils.sign(0.0F), delta);
-        Assert.assertEquals(-1.0F, MathUtils.sign(-2.0F), delta);
-        TestUtils.assertSame(Float.NaN, MathUtils.sign(Float.NaN));
-    }
-
-    @Test
     public void testSignInt() {
         Assert.assertEquals(1, MathUtils.sign(2));
         Assert.assertEquals(0, MathUtils.sign(0));
