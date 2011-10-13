@@ -24,7 +24,6 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.ArithmeticsUtils;
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -490,12 +489,12 @@ public class Fraction
         int d1 = ArithmeticsUtils.gcd(denominator, fraction.denominator);
         if (d1==1) {
             // result is ( (u*v' +/- u'v) / u'v')
-            int uvp = MathUtils.mulAndCheck(numerator, fraction.denominator);
-            int upv = MathUtils.mulAndCheck(fraction.numerator, denominator);
+            int uvp = ArithmeticsUtils.mulAndCheck(numerator, fraction.denominator);
+            int upv = ArithmeticsUtils.mulAndCheck(fraction.numerator, denominator);
             return new Fraction
                 (isAdd ? ArithmeticsUtils.addAndCheck(uvp, upv) :
                  ArithmeticsUtils.subAndCheck(uvp, upv),
-                 MathUtils.mulAndCheck(denominator, fraction.denominator));
+                 ArithmeticsUtils.mulAndCheck(denominator, fraction.denominator));
         }
         // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
         // exercise 7.  we're going to use a BigInteger.
@@ -517,7 +516,7 @@ public class Fraction
                                               w);
         }
         return new Fraction (w.intValue(),
-                MathUtils.mulAndCheck(denominator/d1,
+                ArithmeticsUtils.mulAndCheck(denominator/d1,
                         fraction.denominator/d2));
     }
 
@@ -543,8 +542,8 @@ public class Fraction
         int d1 = ArithmeticsUtils.gcd(numerator, fraction.denominator);
         int d2 = ArithmeticsUtils.gcd(fraction.numerator, denominator);
         return getReducedFraction
-        (MathUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
-                MathUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
+        (ArithmeticsUtils.mulAndCheck(numerator/d1, fraction.numerator/d2),
+                ArithmeticsUtils.mulAndCheck(denominator/d2, fraction.denominator/d1));
     }
 
     /**
