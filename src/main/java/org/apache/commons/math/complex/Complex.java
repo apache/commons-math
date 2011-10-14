@@ -637,7 +637,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -677,7 +677,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -841,7 +841,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -881,7 +881,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -994,7 +994,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -1039,7 +1039,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * </pre>
      * where the (real) functions on the right-hand side are
      * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link MathUtils#cosh} and {@link MathUtils#sinh}.
+     * {@link FastMath#cosh} and {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
