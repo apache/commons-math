@@ -165,15 +165,15 @@ public class QRDecomposition {
             // R is supposed to be m x n
             final int n = qrt.length;
             final int m = qrt[0].length;
-            cachedR = MatrixUtils.createRealMatrix(m, n);
-
+            double[][] ra = new double[m][n];         
             // copy the diagonal from rDiag and the upper triangle of qr
             for (int row = FastMath.min(m, n) - 1; row >= 0; row--) {
-                cachedR.setEntry(row, row, rDiag[row]);
+                ra[row][row] = rDiag[row];
                 for (int col = row + 1; col < n; col++) {
-                    cachedR.setEntry(row, col, qrt[col][row]);
+                    ra[row][col] = qrt[col][row];
                 }
             }
+            cachedR = MatrixUtils.createRealMatrix(ra);
         }
 
         // return the cached matrix
@@ -203,7 +203,7 @@ public class QRDecomposition {
             // QT is supposed to be m x m
             final int n = qrt.length;
             final int m = qrt[0].length;
-            cachedQT = MatrixUtils.createRealMatrix(m, m);
+            double[][] qta = new double[m][m];
 
             /*
              * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
@@ -211,26 +211,27 @@ public class QRDecomposition {
              * succession to the result
              */
             for (int minor = m - 1; minor >= FastMath.min(m, n); minor--) {
-                cachedQT.setEntry(minor, minor, 1.0);
+                qta[minor][minor] = 1.0d;
             }
 
             for (int minor = FastMath.min(m, n)-1; minor >= 0; minor--){
                 final double[] qrtMinor = qrt[minor];
-                cachedQT.setEntry(minor, minor, 1.0);
+                qta[minor][minor] = 1.0d;
                 if (qrtMinor[minor] != 0.0) {
                     for (int col = minor; col < m; col++) {
                         double alpha = 0;
                         for (int row = minor; row < m; row++) {
-                            alpha -= cachedQT.getEntry(col, row) * qrtMinor[row];
+                            alpha -= qta[col][row] * qrtMinor[row];
                         }
                         alpha /= rDiag[minor] * qrtMinor[minor];
 
                         for (int row = minor; row < m; row++) {
-                            cachedQT.addToEntry(col, row, -alpha * qrtMinor[row]);
+                            qta[col][row] += -alpha * qrtMinor[row];
                         }
                     }
                 }
             }
+            cachedQT = MatrixUtils.createRealMatrix(qta);
         }
 
         // return the cached matrix
@@ -249,12 +250,13 @@ public class QRDecomposition {
 
             final int n = qrt.length;
             final int m = qrt[0].length;
-            cachedH = MatrixUtils.createRealMatrix(m, n);
+            double[][] ha = new double[m][n];
             for (int i = 0; i < m; ++i) {
                 for (int j = 0; j < FastMath.min(i + 1, n); ++j) {
-                    cachedH.setEntry(i, j, qrt[j][i] / -rDiag[j]);
+                    ha[i][j] = qrt[j][i] / -rDiag[j];
                 }
             }
+            cachedH = MatrixUtils.createRealMatrix(ha);
         }
 
         // return the cached matrix
