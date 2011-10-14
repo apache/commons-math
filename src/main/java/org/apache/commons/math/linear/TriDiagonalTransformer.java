@@ -97,33 +97,34 @@ class TriDiagonalTransformer {
     public RealMatrix getQT() {
         if (cachedQt == null) {
             final int m = householderVectors.length;
-            cachedQt = MatrixUtils.createRealMatrix(m, m);
-
+            double[][] qta = new double[m][m];
+          
             // build up first part of the matrix by applying Householder transforms
             for (int k = m - 1; k >= 1; --k) {
                 final double[] hK = householderVectors[k - 1];
                 final double inv = 1.0 / (secondary[k - 1] * hK[k]);
-                cachedQt.setEntry(k, k, 1);
+                qta[k][k] = 1;
                 if (hK[k] != 0.0) {
                     double beta = 1.0 / secondary[k - 1];
-                    cachedQt.setEntry(k, k, 1 + beta * hK[k]);
+                    qta[k][k] = 1 + beta * hK[k];
                     for (int i = k + 1; i < m; ++i) {
-                        cachedQt.setEntry(k, i, beta * hK[i]);
+                        qta[k][i] = beta * hK[i];
                     }
                     for (int j = k + 1; j < m; ++j) {
                         beta = 0;
                         for (int i = k + 1; i < m; ++i) {
-                            beta += cachedQt.getEntry(j, i) * hK[i];
+                            beta += qta[j][i] * hK[i];
                         }
                         beta *= inv;
-                        cachedQt.setEntry(j, k, beta * hK[k]);
+                        qta[j][k] = beta * hK[k];
                         for (int i = k + 1; i < m; ++i) {
-                            cachedQt.addToEntry(j, i, beta * hK[i]);
+                            qta[j][i] += beta * hK[i];
                         }
                     }
                 }
             }
-            cachedQt.setEntry(0, 0, 1);
+            qta[0][0] = 1;
+            cachedQt = MatrixUtils.createRealMatrix(qta);
         }
 
         // return the cached matrix
@@ -137,17 +138,17 @@ class TriDiagonalTransformer {
     public RealMatrix getT() {
         if (cachedT == null) {
             final int m = main.length;
-            cachedT = MatrixUtils.createRealMatrix(m, m);
+            double[][] ta = new double[m][m];
             for (int i = 0; i < m; ++i) {
-                cachedT.setEntry(i, i, main[i]);
+                ta[i][i] = main[i];
                 if (i > 0) {
-                    cachedT.setEntry(i, i - 1, secondary[i - 1]);
+                    ta[i][i - 1] = secondary[i - 1];
                 }
                 if (i < main.length - 1) {
-                    cachedT.setEntry(i, i + 1, secondary[i]);
+                    ta[i][i + 1] = secondary[i];
                 }
             }
-
+            cachedT = MatrixUtils.createRealMatrix(ta);
         }
 
         // return the cached matrix
