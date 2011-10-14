@@ -94,35 +94,35 @@ class BiDiagonalTransformer {
             final int p = main.length;
             final int diagOffset    = (m >= n) ? 0 : 1;
             final double[] diagonal = (m >= n) ? main : secondary;
-            cachedU = MatrixUtils.createRealMatrix(m, m);
+            double[][] ua = new double[m][m];
 
             // fill up the part of the matrix not affected by Householder transforms
             for (int k = m - 1; k >= p; --k) {
-                cachedU.setEntry(k, k, 1);
+                ua[k][k] = 1;
             }
 
             // build up first part of the matrix by applying Householder transforms
             for (int k = p - 1; k >= diagOffset; --k) {
                 final double[] hK = householderVectors[k];
-                cachedU.setEntry(k, k, 1);
+                ua[k][k] = 1;
                 if (hK[k - diagOffset] != 0.0) {
                     for (int j = k; j < m; ++j) {
                         double alpha = 0;
                         for (int i = k; i < m; ++i) {
-                            alpha -= cachedU.getEntry(i, j) * householderVectors[i][k - diagOffset];
+                            alpha -= ua[i][j] * householderVectors[i][k - diagOffset];
                         }
                         alpha /= diagonal[k - diagOffset] * hK[k - diagOffset];
 
                         for (int i = k; i < m; ++i) {
-                            cachedU.addToEntry(i, j, -alpha * householderVectors[i][k - diagOffset]);
+                            ua[i][j] += -alpha * householderVectors[i][k - diagOffset];
                         }
                     }
                 }
             }
             if (diagOffset > 0) {
-                cachedU.setEntry(0, 0, 1);
+                ua[0][0] = 1;
             }
-
+            cachedU = MatrixUtils.createRealMatrix(ua);
         }
 
         // return the cached matrix
@@ -140,20 +140,20 @@ class BiDiagonalTransformer {
 
             final int m = householderVectors.length;
             final int n = householderVectors[0].length;
-            cachedB = MatrixUtils.createRealMatrix(m, n);
+            double[][] ba = new double[m][n];
             for (int i = 0; i < main.length; ++i) {
-                cachedB.setEntry(i, i, main[i]);
+                ba[i][i] = main[i];
                 if (m < n) {
                     if (i > 0) {
-                        cachedB.setEntry(i, i - 1, secondary[i - 1]);
+                        ba[i][i-1] = secondary[i - 1];
                     }
                 } else {
                     if (i < main.length - 1) {
-                        cachedB.setEntry(i, i + 1, secondary[i]);
+                        ba[i][i+1] = secondary[i];
                     }
                 }
             }
-
+            cachedB = MatrixUtils.createRealMatrix(ba);
         }
 
         // return the cached matrix
@@ -175,35 +175,35 @@ class BiDiagonalTransformer {
             final int p = main.length;
             final int diagOffset    = (m >= n) ? 1 : 0;
             final double[] diagonal = (m >= n) ? secondary : main;
-            cachedV = MatrixUtils.createRealMatrix(n, n);
+            double[][] va = new double[n][n];
 
             // fill up the part of the matrix not affected by Householder transforms
             for (int k = n - 1; k >= p; --k) {
-                cachedV.setEntry(k, k, 1);
+                va[k][k] = 1;
             }
 
             // build up first part of the matrix by applying Householder transforms
             for (int k = p - 1; k >= diagOffset; --k) {
                 final double[] hK = householderVectors[k - diagOffset];
-                cachedV.setEntry(k, k, 1);
+                va[k][k] = 1;
                 if (hK[k] != 0.0) {
                     for (int j = k; j < n; ++j) {
                         double beta = 0;
                         for (int i = k; i < n; ++i) {
-                            beta -= cachedV.getEntry(i, j) * hK[i];
+                            beta -= va[i][j] * hK[i];
                         }
                         beta /= diagonal[k - diagOffset] * hK[k];
 
                         for (int i = k; i < n; ++i) {
-                            cachedV.addToEntry(i, j, -beta * hK[i]);
+                            va[i][j] += -beta * hK[i];
                         }
                     }
                 }
             }
             if (diagOffset > 0) {
-                cachedV.setEntry(0, 0, 1);
+                va[0][0] = 1;
             }
-
+            cachedV = MatrixUtils.createRealMatrix(va);
         }
 
         // return the cached matrix
