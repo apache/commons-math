@@ -34,7 +34,7 @@ public class SincTest {
                }
            };
 
-       for (double x = 1e-30; x < 1e10; x *= 5) {
+       for (double x = 1e-30; x < 1e10; x *= 2) {
            final double fX = f.value(x);
            final double sX = s.value(x);
            Assert.assertEquals("x=" + x, fX, sX, 0);
@@ -68,5 +68,28 @@ public class SincTest {
            xOverPow2 /= 2;
        }
        Assert.assertEquals(prod, s.value(x), 1e-13);
+   }
+
+   @Test
+   public void testDerivativeZero() {
+       final UnivariateRealFunction sPrime = (new Sinc(true)).derivative();
+
+       Assert.assertEquals(0, sPrime.value(0), 0);
+   }
+
+   @Test
+   public void testDerivativeShortcut() {
+       final UnivariateRealFunction sPrime = (new Sinc()).derivative();
+       final UnivariateRealFunction f = new UnivariateRealFunction() {
+               public double value(double x) {
+                   return (FastMath.cos(x) - FastMath.sin(x) / x) / x;
+               }
+           };
+
+       for (double x = 1e-30; x < 1e10; x *= 2) {
+           final double fX = f.value(x);
+           final double sX = sPrime.value(x);
+           Assert.assertEquals("x=" + x, fX, sX, 0);
+       }
    }
 }

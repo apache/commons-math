@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -31,7 +32,13 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Sinc implements UnivariateRealFunction {
+public class Sinc implements DifferentiableUnivariateRealFunction {
+    /**
+     * Value below which the result of the computation will not change
+     * anymore due to the finite precision of the "double" representation
+     * of real numbers.
+     */
+    private static final double SHORTCUT = 1e-9;
     /** For normalized sinc function. */
     private final boolean normalized;
 
@@ -62,6 +69,26 @@ public class Sinc implements UnivariateRealFunction {
         }
     }
 
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        if (normalized) {
+            return new UnivariateRealFunction() {
+                /** {@inheritDoc} */
+                public double value(double x) {
+                    final double piTimesX = Math.PI * x;
+                    return sincDerivative(piTimesX);
+                }
+            };
+        } else {
+            return new UnivariateRealFunction() {
+                /** {@inheritDoc} */
+                public double value(double x) {
+                    return sincDerivative(x);
+                }
+            };
+        }
+    }
+
     /**
      * @param x Argument.
      * @return {@code sin(x) / x}.
@@ -71,6 +98,20 @@ public class Sinc implements UnivariateRealFunction {
         // optimization on the ground that the result of the full computation
         // is indistinguishable from 1 due to the limited accuracy of the
         // floating point representation.
-        return FastMath.abs(x) < 1e-9 ? 1 : FastMath.sin(x) / x;
+        return FastMath.abs(x) < SHORTCUT ? 1 :
+            FastMath.sin(x) / x;
+    }
+
+    /**
+     * @param x Argument.
+     * @return {@code (cos(x) - sin(x) / x) / x}.
+     */
+    private static double sincDerivative(double x) {
+        // The direct assignment to 0 for values below 1e-9 is an efficiency
+        // optimization on the ground that the result of the full computation
+        // is indistinguishable from 1 due to the limited accuracy of the
+        // floating point representation.
+        return FastMath.abs(x) < SHORTCUT ? 0 :
+            (FastMath.cos(x) - FastMath.sin(x) / x) / x;
     }
 }
