@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Power implements UnivariateRealFunction {
+public class Power implements DifferentiableUnivariateRealFunction {
     /** Power. */
     private final double p;
 
@@ -40,5 +41,15 @@ public class Power implements UnivariateRealFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.pow(x, p);
+    }
+
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                return p * FastMath.pow(x, p - 1);
+            }
+        };
     }
 }

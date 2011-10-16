@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,9 +27,19 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Atanh implements UnivariateRealFunction {
+public class Atanh implements DifferentiableUnivariateRealFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.atanh(x);
+    }
+
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                return 1 / (1 - x * x);
+            }
+        };
     }
 }

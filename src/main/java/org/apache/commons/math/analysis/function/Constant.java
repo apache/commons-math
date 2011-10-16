@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 
 /**
  * Constant function.
@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public class Constant implements UnivariateRealFunction {
+public class Constant implements DifferentiableUnivariateRealFunction {
     /** Constant. */
     private final double c;
 
@@ -39,5 +39,10 @@ public class Constant implements UnivariateRealFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return c;
+    }
+
+    /** {@inheritDoc} */
+    public DifferentiableUnivariateRealFunction derivative() {
+        return new Constant(0);
     }
 }
