@@ -43,17 +43,19 @@ public class StepFunction implements UnivariateRealFunction {
      * h(x) = y[0] for all x < x[1]
      *        y[1] for x[1] <= x < x[2]
      *        ...
-     *        y[y.length] for x >= x[x.length]
+     *        y[y.length - 1] for x >= x[x.length - 1]
      * </code></pre>
-     * The value of x[0] is ignored, but it must be strictly less than x[1].
+     * The value of {@code x[0]} is ignored, but it must be strictly less than
+     * {@code x[1]}.
      *
-     * @param x domain values where the function changes value.
-     * @param y values of the function.
+     * @param x Domain values where the function changes value.
+     * @param y Values of the function.
      * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
      * if the {@code x} array is not sorted in strictly increasing order.
      * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
      * @throws NoDataException if {@code x} or {@code y} are zero-length.
-     * @throws DimensionMismatchException if x and y do not have the same length
+     * @throws DimensionMismatchException if {@code x} and {@code y} do not
+     * have the same length.
      */
     public StepFunction(double[] x,
                         double[] y) {
