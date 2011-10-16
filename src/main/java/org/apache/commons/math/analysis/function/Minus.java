@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 
 /**
  * Minus function.
@@ -25,9 +25,14 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public class Minus implements UnivariateRealFunction {
+public class Minus implements DifferentiableUnivariateRealFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return -x;
+    }
+
+    /** {@inheritDoc} */
+    public DifferentiableUnivariateRealFunction derivative() {
+        return new Constant(-1);
     }
 }
