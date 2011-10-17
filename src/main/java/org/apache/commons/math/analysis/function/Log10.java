@@ -18,6 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,9 +27,22 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Log10 implements UnivariateRealFunction {
+public class Log10 implements DifferentiableUnivariateRealFunction {
+    /** ln(10) = {@value}.*/
+    private static final double LN_10 = FastMath.log(10);
+
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.log10(x);
+    }
+
+    /** {@inheritDoc} */
+    public UnivariateRealFunction derivative() {
+        return new UnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                return 1 / (x * LN_10);
+            }
+        };
     }
 }
