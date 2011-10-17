@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.util;
 
+import org.apache.commons.math.PerfTestUtils;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
@@ -534,5 +536,419 @@ public class FastMathTestPerformance {
 
         report("abs",strictTime,fastTime,mathTime);
         Assert.assertTrue(!Double.isNaN(x));
+    }
+
+    @Test
+    public void testSimpleBenchmark() {
+        final String SM = "StrictMath";
+        final String M = "Math";
+        final String FM = "FastMath";
+
+        final int numStat = 100;
+        final int numCall = RUNS / numStat;
+
+        final double x = Math.random();
+        final double y = Math.random();
+
+        PerfTestUtils.timeAndReport("log",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.log(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.log(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.log(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("log10",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.log10(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.log10(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.log10(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("log1p",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.log1p(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.log1p(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.log1p(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("pow",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.pow(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.pow(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.pow(x, y);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("exp",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.exp(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.exp(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.exp(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("sin",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.sin(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.sin(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.sin(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("asin",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.asin(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.asin(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.asin(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("cos",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.cos(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.cos(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.cos(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("acos",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.acos(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.acos(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.acos(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("tan",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.tan(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.tan(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.tan(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("atan",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.atan(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.atan(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.atan(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("atan2",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.atan2(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.atan2(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.atan2(x, y);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("hypot",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.hypot(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.hypot(x, y);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.hypot(x, y);
+                                        }
+                                    });
+
+
+        PerfTestUtils.timeAndReport("cbrt",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.cbrt(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.cbrt(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.cbrt(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("sqrt",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.sqrt(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.sqrt(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.sqrt(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("cosh",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.cosh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.cosh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.cosh(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("sinh",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.sinh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.sinh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.sinh(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("tanh",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.tanh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.tanh(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.tanh(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("expm1",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.expm1(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.expm1(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.expm1(x);
+                                        }
+                                    });
+
+        PerfTestUtils.timeAndReport("abs",
+                                    numCall,
+                                    numStat,
+                                    false,
+                                    new PerfTestUtils.RunTest(SM) {
+                                        public Double call() throws Exception {
+                                            return StrictMath.abs(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(M) {
+                                        public Double call() throws Exception {
+                                            return Math.abs(x);
+                                        }
+                                    },
+                                    new PerfTestUtils.RunTest(FM) {
+                                        public Double call() throws Exception {
+                                            return FastMath.abs(x);
+                                        }
+                                    });
     }
 }
