@@ -305,4 +305,17 @@ public class RealVectorTest {
                                 actual[i], delta);
         }
     }
+
+    @Test
+    public void testAddToEntry() {
+        final double[] v = new double[] { 1, 2, 3 };
+        final RealVector x = new TestVectorImpl(v.clone());
+        final double inc = 7;
+        for (int i = 0; i < x.getDimension(); i++) {
+            x.addToEntry(i, inc);
+        }
+        for (int i = 0; i < x.getDimension(); i++) {
+            Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
+        }
+    }
 }

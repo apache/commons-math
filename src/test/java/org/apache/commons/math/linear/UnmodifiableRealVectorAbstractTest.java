@@ -58,6 +58,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
     static {
         EXCLUDE.add("getEntry");
         EXCLUDE.add("setEntry");
+        EXCLUDE.add("addToEntry");
         EXCLUDE.add("getSubVector");
         EXCLUDE.add("setSubVector");
         EXCLUDE.add("iterator");
@@ -365,6 +366,15 @@ public abstract class UnmodifiableRealVectorAbstractTest {
         RealVector v = RealVector.unmodifiableRealVector(u);
         for (int i = 0; i < DIM; i++) {
             v.setEntry(i, 0d);
+        }
+    }
+
+    @Test(expected = MathUnsupportedOperationException.class)
+    public void testAddToEntry() {
+        RealVector u = createVector();
+        RealVector v = RealVector.unmodifiableRealVector(u);
+        for (int i = 0; i < DIM; i++) {
+            v.addToEntry(i, 0d);
         }
     }
 

@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-685">
+        Method "addToEntry" in "RealVector".
+      </action>
       <action dev="psteitz" type="update" issue="MATH-612" due-to="Christopher Nix">
         Replaced temporary matrices and entry mutators with double[][] arrays to speed computation
         in loops within QRDecomposition, Bi- and TriDiagonalTransformer implementations.

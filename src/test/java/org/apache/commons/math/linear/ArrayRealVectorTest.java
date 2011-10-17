@@ -1365,6 +1365,19 @@ public class ArrayRealVectorTest {
         }
     }
 
+    @Test
+    public void testAddToEntry() {
+        final double[] v = new double[] { 1, 2, 3 };
+        final ArrayRealVector x = new ArrayRealVector(v);
+        final double inc = 7;
+        for (int i = 0; i < x.getDimension(); i++) {
+            x.addToEntry(i, inc);
+        }
+        for (int i = 0; i < x.getDimension(); i++) {
+            Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
+        }
+    }
+
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {

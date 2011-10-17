@@ -86,6 +86,19 @@ public abstract class RealVector {
     public abstract void setEntry(int index, double value);
 
     /**
+     * Change an entry at the specified index.
+     *
+     * @param index Index location of entry to be set.
+     * @param increment Value to add to the vector entry.
+     * @throws org.apache.commons.math.exception.OutOfRangeException if
+     * the index is not valid.
+     * @since 3.0
+     */
+    public void addToEntry(int index, double increment) {
+        setEntry(index, getEntry(index) + increment);
+    }
+
+    /**
      * Construct a new vector by appending a vector to this vector.
      *
      * @param v vector to append to this one.
@@ -1158,6 +1171,12 @@ public abstract class RealVector {
             /** {@inheritDoc} */
             @Override
             public void setEntry(int index, double value) {
+                throw new MathUnsupportedOperationException();
+            }
+
+            /** {@inheritDoc} */
+            @Override
+            public void addToEntry(int index, double value) {
                 throw new MathUnsupportedOperationException();
             }
 

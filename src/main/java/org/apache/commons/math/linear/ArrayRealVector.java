@@ -673,6 +673,11 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    public void addToEntry(int index, double increment) {
+        data[index] += increment;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public void setSubVector(int index, RealVector v) {
         if (v instanceof ArrayRealVector) {
