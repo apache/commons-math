@@ -25,6 +25,8 @@ import org.apache.commons.math.analysis.function.Inverse;
 import org.apache.commons.math.analysis.function.Power;
 import org.apache.commons.math.analysis.function.Sin;
 import org.apache.commons.math.analysis.function.Sinc;
+import org.apache.commons.math.analysis.function.Cos;
+import org.apache.commons.math.analysis.function.Cosh;
 import org.apache.commons.math.analysis.BivariateRealFunction;
 import org.apache.commons.math.analysis.function.Add;
 import org.apache.commons.math.analysis.function.Multiply;
@@ -32,6 +34,7 @@ import org.apache.commons.math.analysis.function.Divide;
 import org.apache.commons.math.analysis.function.Min;
 import org.apache.commons.math.analysis.function.Max;
 import org.apache.commons.math.analysis.function.Pow;
+import org.apache.commons.math.analysis.function.Log;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 
 import org.junit.Assert;
@@ -64,6 +67,31 @@ public class FunctionUtilsTest {
     }
 
     @Test
+    public void testComposeDifferentiable() {
+        DifferentiableUnivariateRealFunction id = new Identity();
+        Assert.assertEquals(1, FunctionUtils.compose(id, id, id).derivative().value(3), EPS);
+
+        DifferentiableUnivariateRealFunction c = new Constant(4);
+        Assert.assertEquals(0, FunctionUtils.compose(id, c).derivative().value(3), EPS);
+        Assert.assertEquals(0, FunctionUtils.compose(c, id).derivative().value(3), EPS);
+
+        DifferentiableUnivariateRealFunction m = new Minus();
+        Assert.assertEquals(-1, FunctionUtils.compose(m).derivative().value(3), EPS);
+        Assert.assertEquals(1, FunctionUtils.compose(m, m).derivative().value(3), EPS);
+
+        DifferentiableUnivariateRealFunction inv = new Inverse();
+        Assert.assertEquals(0.25, FunctionUtils.compose(inv, m, id).derivative().value(2), EPS);
+
+        DifferentiableUnivariateRealFunction pow = new Power(2);
+        Assert.assertEquals(108, FunctionUtils.compose(pow, pow).derivative().value(3), EPS);
+
+        DifferentiableUnivariateRealFunction log = new Log();
+        double a = 9876.54321;
+        Assert.assertEquals(pow.derivative().value(a) / pow.value(a),
+                            FunctionUtils.compose(log, pow).derivative().value(a), EPS);
+    }
+
+    @Test
     public void testAdd() {
         UnivariateRealFunction id = new Identity();
         UnivariateRealFunction c = new Constant(4);
@@ -76,6 +104,19 @@ public class FunctionUtilsTest {
     }
 
     @Test
+    public void testAddDifferentiable() {
+        DifferentiableUnivariateRealFunction sin = new Sin();
+        DifferentiableUnivariateRealFunction c = new Constant(4);
+        DifferentiableUnivariateRealFunction m = new Minus();
+        DifferentiableUnivariateRealFunction inv = new Inverse();
+
+        final double a = 123.456;
+        Assert.assertEquals(- 1 / (a * a) -1 + Math.cos(a),
+                            FunctionUtils.add(inv, m, c, sin).derivative().value(a),
+                            EPS);
+    }
+
+    @Test
     public void testMultiply() {
         UnivariateRealFunction c = new Constant(4);
         Assert.assertEquals(16, FunctionUtils.multiply(c, c).value(12345), EPS);
@@ -83,6 +124,24 @@ public class FunctionUtilsTest {
         UnivariateRealFunction inv = new Inverse();
         UnivariateRealFunction pow = new Power(2);
         Assert.assertEquals(1, FunctionUtils.multiply(FunctionUtils.compose(inv, pow), pow).value(3.5), EPS);
+    }
+
+    @Test
+    public void testMultiplyDifferentiable() {
+        DifferentiableUnivariateRealFunction c = new Constant(4);
+        DifferentiableUnivariateRealFunction id = new Identity();
+        final double a = 1.2345678;
+        Assert.assertEquals(8 * a, FunctionUtils.multiply(c, id, id).derivative().value(a), EPS);
+
+        DifferentiableUnivariateRealFunction inv = new Inverse();
+        DifferentiableUnivariateRealFunction pow = new Power(2.5);
+        DifferentiableUnivariateRealFunction cos = new Cos();
+        Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cos(a) - Math.pow(a, 1.5) * Math.sin(a),
+                            FunctionUtils.multiply(inv, pow, cos).derivative().value(a), EPS);
+
+        DifferentiableUnivariateRealFunction cosh = new Cosh();
+        Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cosh(a) + Math.pow(a, 1.5) * Math.sinh(a),
+                            FunctionUtils.multiply(inv, pow, cosh).derivative().value(a), 8 * EPS);
     }
 
     @Test

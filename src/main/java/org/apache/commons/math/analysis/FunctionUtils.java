@@ -53,6 +53,43 @@ public class FunctionUtils {
     }
 
     /**
+     * Compose functions.  The functions in the argument list are composed
+     * sequentially, in the order given.  For example, compose(f1,f2,f3)
+     * acts like f1(f2(f3(x))).
+     *
+     * @param f List of functions.
+     * @return the composite function.
+     */
+    public static DifferentiableUnivariateRealFunction compose(final DifferentiableUnivariateRealFunction ... f) {
+        return new DifferentiableUnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                double r = x;
+                for (int i = f.length - 1; i >= 0; i--) {
+                    r = f[i].value(r);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public UnivariateRealFunction derivative() {
+                return new UnivariateRealFunction() {
+                    /** {@inheritDoc} */
+                    public double value(double x) {
+                        double p = 1;
+                        double r = x;
+                        for (int i = f.length - 1; i >= 0; i--) {
+                            p *= f[i].derivative().value(r);
+                            r = f[i].value(r);
+                        }
+                        return p;
+                    }
+                };
+            }
+        };
+    }
+
+    /**
      * Add functions.
      *
      * @param f List of functions.
@@ -72,6 +109,39 @@ public class FunctionUtils {
     }
 
     /**
+     * Add functions.
+     *
+     * @param f List of functions.
+     * @return a function that computes the sum of the functions.
+     */
+    public static DifferentiableUnivariateRealFunction add(final DifferentiableUnivariateRealFunction ... f) {
+        return new DifferentiableUnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                double r = f[0].value(x);
+                for (int i = 1; i < f.length; i++) {
+                    r += f[i].value(x);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public UnivariateRealFunction derivative() {
+                return new UnivariateRealFunction() {
+                    /** {@inheritDoc} */
+                    public double value(double x) {
+                        double r = f[0].derivative().value(x);
+                        for (int i = 1; i < f.length; i++) {
+                            r += f[i].derivative().value(x);
+                        }
+                        return r;
+                    }
+                };
+            }
+        };
+    }
+
+    /**
      * Multiply functions.
      *
      * @param f List of functions.
@@ -86,6 +156,45 @@ public class FunctionUtils {
                     r *= f[i].value(x);
                 }
                 return r;
+            }
+        };
+    }
+
+    /**
+     * Multiply functions.
+     *
+     * @param f List of functions.
+     * @return a function that computes the product of the functions.
+     */
+    public static DifferentiableUnivariateRealFunction multiply(final DifferentiableUnivariateRealFunction ... f) {
+        return new DifferentiableUnivariateRealFunction() {
+            /** {@inheritDoc} */
+            public double value(double x) {
+                double r = f[0].value(x);
+                for (int i = 1; i < f.length; i++) {
+                    r *= f[i].value(x);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public UnivariateRealFunction derivative() {
+                return new UnivariateRealFunction() {
+                    /** {@inheritDoc} */
+                    public double value(double x) {
+                        double sum = 0;
+                        for (int i = 0; i < f.length; i++) {
+                            double prod = f[i].derivative().value(x);
+                            for (int j = 0; j < f.length; j++) {
+                                if (i != j) {
+                                    prod *= f[j].value(x);
+                                }
+                            }
+                            sum += prod;
+                        }
+                        return sum;
+                    }
+                };
             }
         };
     }
