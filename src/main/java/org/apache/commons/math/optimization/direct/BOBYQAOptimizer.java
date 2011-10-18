@@ -385,31 +385,6 @@ public class BOBYQAOptimizer
         double dsq = Double.NaN;
         double crvmin = Double.NaN;
 
-        // System generated locals
-        double d__1, d__2, d__3, d__4;
-
-        // Local variables
-        double f = 0;
-        int ih, ip, jp;
-        double dx;
-        double den = 0, rho = 0, sum = 0, diff = 0, beta = 0, gisq = 0;
-        int knew = 0;
-        double temp, suma, sumb, bsum, fopt;
-        double curv;
-        int ksav;
-        double gqsq = 0, dist = 0, sumw = 0, sumz = 0, diffa = 0, diffb = 0, diffc = 0, hdiag = 0;
-        int kbase;
-        double delta = 0, adelt = 0, denom = 0, fsave = 0, bdtol = 0, delsq = 0;
-        int nfsav;
-        double ratio = 0, dnorm = 0, vquad = 0, pqold = 0;
-        int itest;
-        double sumpq, scaden;
-        double errbig, fracsq, biglsq, densav;
-        double bdtest;
-        double frhosq;
-        double distsq = 0;
-        int ntrits;
-
         // Set some constants.
         // Parameter adjustments
 
@@ -426,7 +401,7 @@ public class BOBYQAOptimizer
 
         prelim(currentBest, xbase,
                xpt, fval, gopt, hq, pq, bmat,
-                zmat, sl, su);
+               zmat, sl, su);
         double xoptsq = ZERO;
         for (int i = 0; i < n; i++) {
             xopt.setEntry(i, xpt.getEntry(trustRegionCenterInterpolationPointIndex, i));
@@ -434,18 +409,29 @@ public class BOBYQAOptimizer
             final double deltaOne = xopt.getEntry(i);
             xoptsq += deltaOne * deltaOne;
         }
-        fsave = fval.getEntry(0);
-        kbase = 0;
+        double fsave = fval.getEntry(0);
+        final int kbase = 0;
 
         // Complete the settings that are required for the iterative procedure.
 
-        rho = initialTrustRegionRadius;
-        delta = rho;
-        ntrits = 0;
-        diffa = ZERO;
-        diffb = ZERO;
-        itest = 0;
-        nfsav = getEvaluations();
+        int ntrits = 0;
+        int itest = 0;
+        int knew = 0;
+        int nfsav = getEvaluations();
+        double rho = initialTrustRegionRadius;
+        double delta = rho;
+        double diffa = ZERO;
+        double diffb = ZERO;
+        double diffc = ZERO;
+        double f = ZERO;
+        double beta = ZERO;
+        double adelt = ZERO;
+        double denom = ZERO;
+        double ratio = ZERO;
+        double dnorm = ZERO;
+        double scaden = ZERO;
+        double biglsq = ZERO;
+        double distsq = ZERO;
 
         // Update GOPT if necessary before the first iteration and after each
         // call of RESCUE that makes a call of CALFUN.
@@ -454,7 +440,7 @@ public class BOBYQAOptimizer
         for(;;) switch (state) {
         case 20: {
             if (trustRegionCenterInterpolationPointIndex != kbase) {
-                ih = 0;
+                int ih = 0;
                 for (int j = 0; j < n; j++) {
                     for (int i = 0; i <= j; i++) {
                         if (i < j) {
@@ -466,11 +452,11 @@ public class BOBYQAOptimizer
                 }
                 if (getEvaluations() > npt) {
                     for (int k = 0; k < npt; k++) {
-                        temp = ZERO;
+                        double temp = ZERO;
                         for (int j = 0; j < n; j++) {
                             temp += xpt.getEntry(k, j) * xopt.getEntry(j);
                         }
-                        temp = pq.getEntry(k) * temp;
+                        temp *= pq.getEntry(k);
                         for (int i = 0; i < n; i++) {
                             gopt.setEntry(i, gopt.getEntry(i) + temp * xpt.getEntry(k, i));
                         }
@@ -521,15 +507,15 @@ public class BOBYQAOptimizer
 
                 // Computing MAX
                 deltaOne = Math.max(diffa, diffb);
-                errbig = Math.max(deltaOne, diffc);
-                frhosq = rho * ONE_OVER_EIGHT * rho;
+                final double errbig = Math.max(deltaOne, diffc);
+                final double frhosq = rho * ONE_OVER_EIGHT * rho;
                 if (crvmin > ZERO &&
                     errbig > frhosq * crvmin) {
                     state = 650; break;
                 }
-                bdtol = errbig / rho;
+                final double bdtol = errbig / rho;
                 for (int j = 0; j < n; j++) {
-                    bdtest = bdtol;
+                    double bdtest = bdtol;
                     if (xnew.getEntry(j) == sl.getEntry(j)) {
                         bdtest = work1.getEntry(j);
                     }
@@ -537,7 +523,7 @@ public class BOBYQAOptimizer
                         bdtest = -work1.getEntry(j);
                     }
                     if (bdtest < bdtol) {
-                        curv = hq.getEntry((j + j * j) / 2);
+                        double curv = hq.getEntry((j + j * j) / 2);
                         for (int k = 0; k < npt; k++) {
                             // Computing 2nd power
                             final double d1 = xpt.getEntry(k, j);
@@ -563,23 +549,23 @@ public class BOBYQAOptimizer
         }
         case 90: {
             if (dsq <= xoptsq * ONE_OVER_A_THOUSAND) {
-                fracsq = xoptsq * ONE_OVER_FOUR;
-                sumpq = ZERO;
+                final double fracsq = xoptsq * ONE_OVER_FOUR;
+                double sumpq = ZERO;
                 // final RealVector sumVector
                 //     = new ArrayRealVector(npt, -HALF * xoptsq).add(xpt.operate(xopt));
                 for (int k = 0; k < npt; k++) {
                     sumpq += pq.getEntry(k);
-                    sum = -HALF * xoptsq;
+                    double sum = -HALF * xoptsq;
                     for (int i = 0; i < n; i++) {
                         sum += xpt.getEntry(k, i) * xopt.getEntry(i);
                     }
                     // sum = sumVector.getEntry(k); // XXX "testAckley" and "testDiffPow" fail.
                     work2.setEntry(k, sum);
-                    temp = fracsq - HALF * sum;
+                    final double temp = fracsq - HALF * sum;
                     for (int i = 0; i < n; i++) {
                         work1.setEntry(i, bmat.getEntry(k, i));
                         vlag.setEntry(i, sum * xpt.getEntry(k, i) + temp * xopt.getEntry(i));
-                        ip = npt + i;
+                        final int ip = npt + i;
                         for (int j = 0; j <= i; j++) {
                             bmat.setEntry(ip, j,
                                           bmat.getEntry(ip, j)
@@ -592,15 +578,15 @@ public class BOBYQAOptimizer
                 // Then the revisions of BMAT that depend on ZMAT are calculated.
 
                 for (int m = 0; m < nptm; m++) {
-                    sumz = ZERO;
-                    sumw = ZERO;
+                    double sumz = ZERO;
+                    double sumw = ZERO;
                     for (int k = 0; k < npt; k++) {
                         sumz += zmat.getEntry(k, m);
                         vlag.setEntry(k, work2.getEntry(k) * zmat.getEntry(k, m));
                         sumw += vlag.getEntry(k);
                     }
                     for (int j = 0; j < n; j++) {
-                        sum = (fracsq * sumz - HALF * sumw) * xopt.getEntry(j);
+                        double sum = (fracsq * sumz - HALF * sumw) * xopt.getEntry(j);
                         for (int k = 0; k < npt; k++) {
                             sum += vlag.getEntry(k) * xpt.getEntry(k, j);
                         }
@@ -612,8 +598,8 @@ public class BOBYQAOptimizer
                         }
                     }
                     for (int i = 0; i < n; i++) {
-                        ip = i + npt;
-                        temp = work1.getEntry(i);
+                        final int ip = i + npt;
+                        final double temp = work1.getEntry(i);
                         for (int j = 0; j <= i; j++) {
                             bmat.setEntry(ip, j,
                                           bmat.getEntry(ip, j)
@@ -625,7 +611,7 @@ public class BOBYQAOptimizer
                 // The following instructions complete the shift, including the changes
                 // to the second derivative parameters of the quadratic model.
 
-                ih = 0;
+                int ih = 0;
                 for (int j = 0; j < n; j++) {
                     work1.setEntry(j, -HALF * sumpq * xopt.getEntry(j));
                     for (int k = 0; k < npt; k++) {
@@ -694,9 +680,9 @@ public class BOBYQAOptimizer
         }
         case 230: {
             for (int k = 0; k < npt; k++) {
-                suma = ZERO;
-                sumb = ZERO;
-                sum = ZERO;
+                double suma = ZERO;
+                double sumb = ZERO;
+                double sum = ZERO;
                 for (int j = 0; j < n; j++) {
                     suma += xpt.getEntry(k, j) * d__.getEntry(j);
                     sumb += xpt.getEntry(k, j) * xopt.getEntry(j);
@@ -708,7 +694,7 @@ public class BOBYQAOptimizer
             }
             beta = ZERO;
             for (int m = 0; m < nptm; m++) {
-                sum = ZERO;
+                double sum = ZERO;
                 for (int k = 0; k < npt; k++) {
                     sum += zmat.getEntry(k, m) * work3.getEntry(k);
                 }
@@ -718,18 +704,18 @@ public class BOBYQAOptimizer
                 }
             }
             dsq = ZERO;
-            bsum = ZERO;
-            dx = ZERO;
+            double bsum = ZERO;
+            double dx = ZERO;
             for (int j = 0; j < n; j++) {
                 // Computing 2nd power
                 final double d1 = d__.getEntry(j);
                 dsq += d1 * d1;
-                sum = ZERO;
+                double sum = ZERO;
                 for (int k = 0; k < npt; k++) {
                     sum += work3.getEntry(k) * bmat.getEntry(k, j);
                 }
                 bsum += sum * d__.getEntry(j);
-                jp = npt + j;
+                final int jp = npt + j;
                 for (int i = 0; i < n; i++) {
                     sum += bmat.getEntry(jp, i) * d__.getEntry(i);
                 }
@@ -738,7 +724,8 @@ public class BOBYQAOptimizer
                 dx += d__.getEntry(j) * xopt.getEntry(j);
             }
             beta = dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) + beta - bsum;
-            vlag.setEntry(trustRegionCenterInterpolationPointIndex, vlag.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
+            vlag.setEntry(trustRegionCenterInterpolationPointIndex,
+                          vlag.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
 
             // If NTRITS is zero, the denominator may be increased by replacing
             // the step D of ALTMOV by a Cauchy step. Then RESCUE may be called if
@@ -763,7 +750,7 @@ public class BOBYQAOptimizer
                 // KNEW before calculating the next value of the objective function.
 
             } else {
-                delsq = delta * delta;
+                final double delsq = delta * delta;
                 scaden = ZERO;
                 biglsq = ZERO;
                 knew = 0;
@@ -771,27 +758,25 @@ public class BOBYQAOptimizer
                     if (k == trustRegionCenterInterpolationPointIndex) {
                         continue;
                     }
-                    hdiag = ZERO;
+                    double hdiag = ZERO;
                     for (int m = 0; m < nptm; m++) {
                         // Computing 2nd power
                         final double d1 = zmat.getEntry(k, m);
                         hdiag += d1 * d1;
                     }
                     // Computing 2nd power
-                    d__1 = vlag.getEntry(k);
-                    den = beta * hdiag + d__1 * d__1;
+                    final double d2 = vlag.getEntry(k);
+                    final double den = beta * hdiag + d2 * d2;
                     distsq = ZERO;
                     for (int j = 0; j < n; j++) {
                         // Computing 2nd power
-                        final double d1 = xpt.getEntry(k, j) - xopt.getEntry(j);
-                        distsq += d1 * d1;
+                        final double d3 = xpt.getEntry(k, j) - xopt.getEntry(j);
+                        distsq += d3 * d3;
                     }
                     // Computing MAX
                     // Computing 2nd power
-                    d__3 = distsq / delsq;
-                    d__1 = ONE;
-                    d__2 = d__3 * d__3;
-                    temp = Math.max(d__1,d__2);
+                    final double d4 = distsq / delsq;
+                    final double temp = Math.max(ONE, d4 * d4);
                     if (temp * den > scaden) {
                         scaden = temp * den;
                         knew = k;
@@ -799,10 +784,8 @@ public class BOBYQAOptimizer
                     }
                     // Computing MAX
                     // Computing 2nd power
-                    d__3 = vlag.getEntry(k);
-                    d__1 = biglsq;
-                    d__2 = temp * (d__3 * d__3);
-                    biglsq = Math.max(d__1, d__2);
+                    final double d5 = vlag.getEntry(k);
+                    biglsq = Math.max(biglsq, temp * (d5 * d5));
                 }
             }
 
@@ -817,11 +800,11 @@ public class BOBYQAOptimizer
             for (int i = 0; i < n; i++) {
                 // Computing MIN
                 // Computing MAX
-                d__3 = lowerBound[i];
-                d__4 = xbase.getEntry(i) + xnew.getEntry(i);
-                d__1 = Math.max(d__3, d__4);
-                d__2 = upperBound[i];
-                currentBest.setEntry(i, Math.min(d__1, d__2));
+                final double d3 = lowerBound[i];
+                final double d4 = xbase.getEntry(i) + xnew.getEntry(i);
+                final double d1 = Math.max(d3, d4);
+                final double d2 = upperBound[i];
+                currentBest.setEntry(i, Math.min(d1, d2));
                 if (xnew.getEntry(i) == sl.getEntry(i)) {
                     currentBest.setEntry(i, lowerBound[i]);
                 }
@@ -842,15 +825,15 @@ public class BOBYQAOptimizer
             // Use the quadratic model to predict the change in F due to the step D,
             //   and set DIFF to the error of this prediction.
 
-            fopt = fval.getEntry(trustRegionCenterInterpolationPointIndex);
-            vquad = ZERO;
-            ih = 0;
+            final double fopt = fval.getEntry(trustRegionCenterInterpolationPointIndex);
+            double vquad = ZERO;
+            int ih = 0;
             for (int j = 0; j < n; j++) {
                 vquad += d__.getEntry(j) * gopt.getEntry(j);
                 for (int i = 0; i <= j; i++) {
-                     temp = d__.getEntry(i) * d__.getEntry(j);
+                    double temp = d__.getEntry(i) * d__.getEntry(j);
                     if (i == j) {
-                        temp = HALF * temp;
+                        temp *= HALF;
                     }
                     vquad += hq.getEntry(ih) * temp;
                     ih++;
@@ -862,7 +845,7 @@ public class BOBYQAOptimizer
                 final double d2 = d1 * d1; // "d1" must be squared first to prevent test failures.
                 vquad += HALF * pq.getEntry(k) * d2;
             }
-            diff = f - fopt - vquad;
+            final double diff = f - fopt - vquad;
             diffc = diffb;
             diffb = diffa;
             diffa = Math.abs(diff);
@@ -877,19 +860,16 @@ public class BOBYQAOptimizer
                     throw new MathIllegalStateException(LocalizedFormats.TRUST_REGION_STEP_FAILED, vquad);
                 }
                 ratio = (f - fopt) / vquad;
+                final double hDelta = HALF * delta;
                 if (ratio <= ONE_OVER_TEN) {
                     // Computing MIN
-                    d__1 = HALF * delta;
-                    delta = Math.min(d__1,dnorm);
+                    delta = Math.min(hDelta, dnorm);
                 } else if (ratio <= .7) {
                     // Computing MAX
-                    d__1 = HALF * delta;
-                    delta = Math.max(d__1,dnorm);
+                    delta = Math.max(hDelta, dnorm);
                 } else {
                     // Computing MAX
-                    d__1 = HALF * delta;
-                    d__2 = dnorm + dnorm;
-                    delta = Math.max(d__1,d__2);
+                    delta = Math.max(hDelta, 2 * dnorm);
                 }
                 if (delta <= rho * 1.5) {
                     delta = rho;
@@ -898,34 +878,32 @@ public class BOBYQAOptimizer
                 // Recalculate KNEW and DENOM if the new F is less than FOPT.
 
                 if (f < fopt) {
-                    ksav = knew;
-                    densav = denom;
-                    delsq = delta * delta;
+                    final int ksav = knew;
+                    final double densav = denom;
+                    final double delsq = delta * delta;
                     scaden = ZERO;
                     biglsq = ZERO;
                     knew = 0;
                     for (int k = 0; k < npt; k++) {
-                        hdiag = ZERO;
+                        double hdiag = ZERO;
                         for (int m = 0; m < nptm; m++) {
                             // Computing 2nd power
                             final double d1 = zmat.getEntry(k, m);
                             hdiag += d1 * d1;
                         }
                         // Computing 2nd power
-                        d__1 = vlag.getEntry(k);
-                        den = beta * hdiag + d__1 * d__1;
+                        final double d1 = vlag.getEntry(k);
+                        final double den = beta * hdiag + d1 * d1;
                         distsq = ZERO;
                         for (int j = 0; j < n; j++) {
                             // Computing 2nd power
-                            final double d1 = xpt.getEntry(k, j) - xnew.getEntry(j);
-                            distsq += d1 * d1;
+                            final double d2 = xpt.getEntry(k, j) - xnew.getEntry(j);
+                            distsq += d2 * d2;
                         }
                         // Computing MAX
                         // Computing 2nd power
-                        d__3 = distsq / delsq;
-                        d__1 = ONE;
-                        d__2 = d__3 * d__3;
-                        temp = Math.max(d__1, d__2);
+                        final double d3 = distsq / delsq;
+                        final double temp = Math.max(ONE, d3 * d3);
                         if (temp * den > scaden) {
                             scaden = temp * den;
                             knew = k;
@@ -933,10 +911,9 @@ public class BOBYQAOptimizer
                         }
                         // Computing MAX
                         // Computing 2nd power
-                        d__3 = vlag.getEntry(k);
-                        d__1 = biglsq;
-                        d__2 = temp * (d__3 * d__3);
-                        biglsq = Math.max(d__1, d__2);
+                        final double d4 = vlag.getEntry(k);
+                        final double d5 = temp * (d4 * d4);
+                        biglsq = Math.max(biglsq, d5);
                     }
                     if (scaden <= HALF * biglsq) {
                         knew = ksav;
@@ -949,20 +926,20 @@ public class BOBYQAOptimizer
             // moved. Also update the second derivative terms of the model.
 
             update(bmat, zmat, vlag,
-                    beta, denom, knew);
+                   beta, denom, knew);
 
             ih = 0;
-            pqold = pq.getEntry(knew);
+            final double pqold = pq.getEntry(knew);
             pq.setEntry(knew, ZERO);
             for (int i = 0; i < n; i++) {
-                temp = pqold * xpt.getEntry(knew, i);
+                final double temp = pqold * xpt.getEntry(knew, i);
                 for (int j = 0; j <= i; j++) {
                     hq.setEntry(ih, hq.getEntry(ih) + temp * xpt.getEntry(knew, j));
                     ih++;
                 }
             }
             for (int m = 0; m < nptm; m++) {
-                temp = diff * zmat.getEntry(knew, m);
+                final double temp = diff * zmat.getEntry(knew, m);
                 for (int k = 0; k < npt; k++) {
                     pq.setEntry(k, pq.getEntry(k) + temp * zmat.getEntry(k, m));
                 }
@@ -977,15 +954,15 @@ public class BOBYQAOptimizer
                 work1.setEntry(i, bmat.getEntry(knew, i));
             }
             for (int k = 0; k < npt; k++) {
-                suma = ZERO;
+                double suma = ZERO;
                 for (int m = 0; m < nptm; m++) {
                     suma += zmat.getEntry(knew, m) * zmat.getEntry(k, m);
                 }
-                sumb = ZERO;
+                double sumb = ZERO;
                 for (int j = 0; j < n; j++) {
                     sumb += xpt.getEntry(k, j) * xopt.getEntry(j);
                 }
-                temp = suma * sumb;
+                final double temp = suma * sumb;
                 for (int i = 0; i < n; i++) {
                     work1.setEntry(i, work1.getEntry(i) + temp * xpt.getEntry(k, i));
                 }
@@ -1014,11 +991,11 @@ public class BOBYQAOptimizer
                     }
                 }
                 for (int k = 0; k < npt; k++) {
-                    temp = ZERO;
+                    double temp = ZERO;
                     for (int j = 0; j < n; j++) {
                         temp += xpt.getEntry(k, j) * d__.getEntry(j);
                     }
-                    temp = pq.getEntry(k) * temp;
+                    temp *= pq.getEntry(k);
                     for (int i = 0; i < n; i++) {
                         gopt.setEntry(i, gopt.getEntry(i) + temp * xpt.getEntry(k, i));
                     }
@@ -1035,7 +1012,7 @@ public class BOBYQAOptimizer
                     work3.setEntry(k, ZERO);
                 }
                 for (int j = 0; j < nptm; j++) {
-                    sum = ZERO;
+                    double sum = ZERO;
                     for (int k = 0; k < npt; k++) {
                         sum += zmat.getEntry(k, j) * vlag.getEntry(k);
                     }
@@ -1044,45 +1021,41 @@ public class BOBYQAOptimizer
                     }
                 }
                 for (int k = 0; k < npt; k++) {
-                    sum = ZERO;
+                    double sum = ZERO;
                     for (int j = 0; j < n; j++) {
                         sum += xpt.getEntry(k, j) * xopt.getEntry(j);
                     }
                     work2.setEntry(k, work3.getEntry(k));
                     work3.setEntry(k, sum * work3.getEntry(k));
                 }
-                gqsq = ZERO;
-                gisq = ZERO;
+                double gqsq = ZERO;
+                double gisq = ZERO;
                 for (int i = 0; i < n; i++) {
-                    sum = ZERO;
+                    double sum = ZERO;
                     for (int k = 0; k < npt; k++) {
                         sum += bmat.getEntry(k, i) *
                             vlag.getEntry(k) + xpt.getEntry(k, i) * work3.getEntry(k);
                     }
                     if (xopt.getEntry(i) == sl.getEntry(i)) {
                         // Computing MIN
-                        d__2 = ZERO;
-                        d__3 = gopt.getEntry(i);
                         // Computing 2nd power
-                        d__1 = Math.min(d__2, d__3);
-                        gqsq += d__1 * d__1;
+                        final double d1 = Math.min(ZERO, gopt.getEntry(i));
+                        gqsq += d1 * d1;
                         // Computing 2nd power
-                        d__1 = Math.min(ZERO, sum);
-                        gisq += d__1 * d__1;
+                        final double d2 = Math.min(ZERO, sum);
+                        gisq += d2 * d2;
                     } else if (xopt.getEntry(i) == su.getEntry(i)) {
                         // Computing MAX
-                        d__2 = ZERO;
-                        d__3 = gopt.getEntry(i);
                         // Computing 2nd power
-                        d__1 = Math.max(d__2, d__3);
-                        gqsq += d__1 * d__1;
+                        final double d1 = Math.max(ZERO, gopt.getEntry(i));
+                        gqsq += d1 * d1;
                         // Computing 2nd power
-                        d__1 = Math.max(ZERO, sum);
-                        gisq += d__1 * d__1;
+                        final double d2 = Math.max(ZERO, sum);
+                        gisq += d2 * d2;
                     } else {
                         // Computing 2nd power
-                        d__1 = gopt.getEntry(i);
-                        gqsq += d__1 * d__1;
+                        final double d1 = gopt.getEntry(i);
+                        gqsq += d1 * d1;
                         gisq += sum * sum;
                     }
                     vlag.setEntry(npt + i, sum);
@@ -1127,17 +1100,15 @@ public class BOBYQAOptimizer
 
             // Computing MAX
             // Computing 2nd power
-            d__3 = TWO * delta;
+            final double d1 = TWO * delta;
             // Computing 2nd power
-            d__4 = TEN * rho;
-            d__1 = d__3 * d__3;
-            d__2 = d__4 * d__4;
-            distsq = Math.max(d__1, d__2);
+            final double d2 = TEN * rho;
+            distsq = Math.max(d1 * d1, d2 * d2);
         }
         case 650: {
             knew = -1;
             for (int k = 0; k < npt; k++) {
-                sum = ZERO;
+                double sum = ZERO;
                 for (int j = 0; j < n; j++) {
                     // Computing 2nd power
                     final double d1 = xpt.getEntry(k, j) - xopt.getEntry(j);
@@ -1156,12 +1127,10 @@ public class BOBYQAOptimizer
             // current RHO are complete.
 
             if (knew >= 0) {
-                dist = Math.sqrt(distsq);
+                final double dist = Math.sqrt(distsq);
                 if (ntrits == -1) {
                     // Computing MIN
-                    d__1 = ONE_OVER_TEN * delta;
-                    d__2 = HALF * dist;
-                    delta = Math.min(d__1,d__2);
+                    delta = Math.min(ONE_OVER_TEN * delta, HALF * dist);
                     if (delta <= rho * 1.5) {
                         delta = rho;
                     }
@@ -1169,9 +1138,8 @@ public class BOBYQAOptimizer
                 ntrits = 0;
                 // Computing MAX
                 // Computing MIN
-                d__2 = ONE_OVER_TEN * dist;
-                d__1 = Math.min(d__2, delta);
-                adelt = Math.max(d__1, rho);
+                final double d1 = Math.min(ONE_OVER_TEN * dist, delta);
+                adelt = Math.max(d1, rho);
                 dsq = adelt * adelt;
                 state = 90; break;
             }
@@ -1197,7 +1165,7 @@ public class BOBYQAOptimizer
                 } else if (ratio <= TWO_HUNDRED_FIFTY) {
                     rho = Math.sqrt(ratio) * stoppingTrustRegionRadius;
                 } else {
-                    rho = ONE_OVER_TEN * rho;
+                    rho *= ONE_OVER_TEN;
                 }
                 delta = Math.max(delta, rho);
                 ntrits = 0;
@@ -1217,11 +1185,11 @@ public class BOBYQAOptimizer
                 for (int i = 0; i < n; i++) {
                     // Computing MIN
                     // Computing MAX
-                    d__3 = lowerBound[i];
-                    d__4 = xbase.getEntry(i) + xopt.getEntry(i);
-                    d__1 = Math.max(d__3, d__4);
-                    d__2 = upperBound[i];
-                    currentBest.setEntry(i, Math.min(d__1, d__2));
+                    final double d3 = lowerBound[i];
+                    final double d4 = xbase.getEntry(i) + xopt.getEntry(i);
+                    final double d1 = Math.max(d3, d4);
+                    final double d2 = upperBound[i];
+                    currentBest.setEntry(i, Math.min(d1, d2));
                     if (xopt.getEntry(i) == sl.getEntry(i)) {
                         currentBest.setEntry(i, lowerBound[i]);
                     }
@@ -1897,7 +1865,6 @@ public class BOBYQAOptimizer
         double crvmin = Double.NaN;
 
         // Local variables
-        int ih;
         double ds;
         int iu;
         double dhd, dhs, cth, shs, sth, ssq, beta=0, sdec, blen;
@@ -2313,7 +2280,7 @@ public class BOBYQAOptimizer
             // they can be regarded as an external subroutine.
         }
         case 210: {
-            ih = 0;
+            int ih = 0;
             for (int j = 0; j < n; j++) {
                 hs.setEntry(j, ZERO);
                 for (int i = 0; i <= j; i++) {
