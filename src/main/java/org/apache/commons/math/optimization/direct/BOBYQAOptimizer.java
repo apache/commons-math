@@ -723,7 +723,11 @@ public class BOBYQAOptimizer
                 bsum += sum * d__.getEntry(j);
                 dx += d__.getEntry(j) * xopt.getEntry(j);
             }
-            beta = dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) + beta - bsum;
+
+            beta = dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) + beta - bsum; // Original
+            // beta += dx * dx + dsq * (xoptsq + dx + dx + HALF * dsq) - bsum; // XXX "testAckley" and "testDiffPow" fail.
+            // beta = dx * dx + dsq * (xoptsq + 2 * dx + HALF * dsq) + beta - bsum; // XXX "testDiffPow" fails.
+
             vlag.setEntry(trustRegionCenterInterpolationPointIndex,
                           vlag.getEntry(trustRegionCenterInterpolationPointIndex) + ONE);
 
