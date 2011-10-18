@@ -612,4 +612,40 @@ public final class MathUtilsTest {
             // Expected.
         }
     }
+
+    @Test
+    public void testCopySignByte() {
+        byte a = MathUtils.copySign(Byte.MIN_VALUE, (byte) -1);
+        Assert.assertEquals(Byte.MIN_VALUE, a);
+
+        final byte minValuePlusOne = Byte.MIN_VALUE + (byte) 1;
+        a = MathUtils.copySign(minValuePlusOne, (byte) 1);
+        Assert.assertEquals(Byte.MAX_VALUE, a);
+
+        a = MathUtils.copySign(Byte.MAX_VALUE, (byte) -1);
+        Assert.assertEquals(minValuePlusOne, a);
+
+        final byte one = 1;
+        byte val = -2;
+        a = MathUtils.copySign(val, one);
+        Assert.assertEquals(-val, a);
+
+        final byte minusOne = -one;
+        val = 2;
+        a = MathUtils.copySign(val, minusOne);
+        Assert.assertEquals(-val, a);
+
+        val = 0;
+        a = MathUtils.copySign(val, minusOne);
+        Assert.assertEquals(val, a);
+
+        val = 0;
+        a = MathUtils.copySign(val, one);
+        Assert.assertEquals(val, a);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCopySignByte2() {
+        MathUtils.copySign(Byte.MIN_VALUE, (byte) 1);
+    }
 }

@@ -419,6 +419,28 @@ public final class MathUtils {
     }
 
     /**
+     * Returns the first argument with the sign of the second argument.
+     *
+     * @param magnitude Magnitude of the returned value.
+     * @param sign Sign of the returned value.
+     * @return a value with magnitude equal to {@code magnitude} and with the
+     * same sign as the {@code sign} argument.
+     * @throws MathArithmeticException if {@code magnitude == Byte.MIN_VALUE}
+     * and {@code sign >= 0}.
+     */
+    public static byte copySign(byte magnitude, byte sign) {
+        if ((magnitude >= 0 && sign >= 0) ||
+            (magnitude < 0 && sign < 0)) { // Sign is OK.
+            return magnitude;
+        } else if (sign >= 0 &&
+                   magnitude == Byte.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        } else {
+            return (byte) -magnitude; // Flip sign.
+        }
+    }
+
+    /**
      * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
      * for int value {@code x}.
      * <p>
