@@ -1460,38 +1460,32 @@ public class BOBYQAOptimizer
             }
 
             // Investigate whether more components of W can be fixed.
-            L120: {
-                final double tmp = adelt * adelt - wfixsq;
-                if (tmp > ZERO) {
-                    final double wsqsav = wfixsq;
-                    step = Math.sqrt(tmp / ggfree);
-                    ggfree = ZERO;
-                    for (int i = 0; i < n; i++) {
-                        if (work1.getEntry(i) == bigstp) {
-                            final double tmp2 = xopt.getEntry(i) - step * glag.getEntry(i);
-                            if (tmp2 <= sl.getEntry(i)) {
-                                work1.setEntry(i, sl.getEntry(i) - xopt.getEntry(i));
-                                // Computing 2nd power
-                                final double d1 = work1.getEntry(i);
-                                wfixsq += d1 * d1;
-                            } else if (tmp2 >= su.getEntry(i)) {
-                                work1.setEntry(i, su.getEntry(i) - xopt.getEntry(i));
-                                // Computing 2nd power
-                                final double d1 = work1.getEntry(i);
-                                wfixsq += d1 * d1;
-                            } else {
-                                // Computing 2nd power
-                                final double d1 = glag.getEntry(i);
-                                ggfree += d1 * d1;
-                            }
+            final double tmp1 = adelt * adelt - wfixsq;
+            if (tmp1 > ZERO) {
+                final double wsqsav = wfixsq;
+                step = Math.sqrt(tmp1 / ggfree);
+                ggfree = ZERO;
+                for (int i = 0; i < n; i++) {
+                    if (work1.getEntry(i) == bigstp) {
+                        final double tmp2 = xopt.getEntry(i) - step * glag.getEntry(i);
+                        if (tmp2 <= sl.getEntry(i)) {
+                            work1.setEntry(i, sl.getEntry(i) - xopt.getEntry(i));
+                            // Computing 2nd power
+                            final double d1 = work1.getEntry(i);
+                            wfixsq += d1 * d1;
+                        } else if (tmp2 >= su.getEntry(i)) {
+                            work1.setEntry(i, su.getEntry(i) - xopt.getEntry(i));
+                            // Computing 2nd power
+                            final double d1 = work1.getEntry(i);
+                            wfixsq += d1 * d1;
+                        } else {
+                            // Computing 2nd power
+                            final double d1 = glag.getEntry(i);
+                            ggfree += d1 * d1;
                         }
                     }
-                    if (!(wfixsq > wsqsav &&
-                          ggfree > ZERO)) {
-                        break L120;
-                    }
                 }
-            } // end L120
+            }
 
             // Set the remaining free components of W and all components of XALT,
             // except that W may be scaled later.
