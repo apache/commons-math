@@ -30,6 +30,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test for {@link BOBYQAOptimizer}.
