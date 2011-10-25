@@ -564,10 +564,16 @@ public abstract class AbstractRealMatrix
     public abstract void setEntry(int row, int column, double value);
 
     /** {@inheritDoc} */
-    public abstract void addToEntry(int row, int column, double increment);
+    public void addToEntry(int row, int column, double increment) {
+        MatrixUtils.checkMatrixIndex(this, row, column);
+        setEntry(row, column, getEntry(row, column) + increment);
+    }
 
     /** {@inheritDoc} */
-    public abstract void multiplyEntry(int row, int column, double factor);
+    public void multiplyEntry(int row, int column, double factor) {
+        MatrixUtils.checkMatrixIndex(this, row, column);
+        setEntry(row, column, getEntry(row, column) * factor);
+    }
 
     /** {@inheritDoc} */
     public RealMatrix transpose() {

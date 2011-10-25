@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-696">
+        Default implementation for "addToEntry" and "multiplyEntry" in
+        "AbstractRealMatrix".
+      </action>
       <action dev="erans" type="add" issue="MATH-685">
         Method "addToEntry" in "RealVector".
       </action>
