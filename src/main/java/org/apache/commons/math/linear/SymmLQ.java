@@ -48,11 +48,11 @@ import org.apache.commons.math.util.MathUtils;
  * definite (but <em>must</em> be self-adjoint). The work per iteration is very
  * slightly less if shift = 0.
  * </p>
- * <h3>Peconditioning</h3>
+ * <h3>Preconditioning</h3>
  * <p>
- * Preconditioning may reduce the number of iterations required. The solver is
+ * Preconditioning may reduce the number of iterations required. The solver may be
  * provided with a positive definite preconditioner M = C &middot; C<sup>T</sup>
- * that is known to approximate (A - shift &middot; I) in some sense, while
+ * that is known to approximate (A - shift &middot; I) in some sense, where
  * systems of the form M &middot; y = x can be solved efficiently. Then SYMMLQ
  * will implicitly solve the system of equations P &middot; (A - shift &middot;
  * I) &middot; P<sup>T</sup> &middot; xhat = P &middot; b, i.e. Ahat &middot;
@@ -74,15 +74,30 @@ import org.apache.commons.math.util.MathUtils;
  * In the present context, an iteration should be understood as one evaluation
  * of the matrix-vector product A &middot; x. The initialization phase therefore
  * counts as one iteration. If the user requires checks on the symmetry of A,
- * this entails one further matrix-vector product by iteration. This further
- * product is <em>not</em> accounted for in the iteration count. In other words,
- * the number of iterations required to reach convergence will be identical,
- * whether checks have been required or not.
+ * this entails one further matrix-vector product in the initial phase. This
+ * further product is <em>not</em> accounted for in the iteration count. In
+ * other words, the number of iterations required to reach convergence will be
+ * identical, whether checks have been required or not.
  * </p>
  * <p>
  * The present definition of the iteration count differs from that adopted in
  * the original FOTRAN code, where the initialization phase was <em>not</em>
  * taken into account.
+ * </p>
+ * <h3><a id="initguess">Initial guess of the solution</a></h3>
+ * <p>
+ * The {@code x} parameter in
+ * <ul>
+ * <li>{@link #solve(RealLinearOperator, RealVector, RealVector)},</li>
+ * <li>{@link #solve(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector)}},</li>
+ * <li>{@link #solveInPlace(RealLinearOperator, RealVector, RealVector)},</li>
+ * <li>{@link #solveInPlace(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector)},</li>
+ * <li>{@link #solveInPlace(RealLinearOperator, InvertibleRealLinearOperator, RealVector, RealVector, boolean, double)},</li>
+ * </ul>
+ * should not be considered as an initial guess, as it is set to zero in the
+ * initial phase. If x<sub>0</sub> is known to be a good approximation to x, one
+ * should compute r<sub>0</sub> = b - A &middot; x, solve A &middot; dx = r0,
+ * and set x = x<sub>0</sub> + dx.
  * </p>
  * <h3><a id="context">Exception context</a></h3>
  * <p>
@@ -136,8 +151,8 @@ public class SymmLQ
      * 1. Preconditioning
      *    ---------------
      * The Lanczos iterations associated with Ahat and bhat read
-     *   beta[1] = |P . b|
-     *   v[1] = P.b / beta[1]
+     *   beta[1] = ||P * b||
+     *   v[1] = P * b / beta[1]
      *   beta[k+1] * v[k+1] = Ahat * v[k] - alpha[k] * v[k] - beta[k] * v[k-1]
      *                      = P * (A - shift * I) * P' * v[k] - alpha[k] * v[k]
      *                        - beta[k] * v[k-1]
@@ -164,11 +179,11 @@ public class SymmLQ
      * 3. Accounting for the goodb flag
      *    -----------------------------
      * When goodb is set to true, the component of xL along b is computed
-     * separately. From Page and Saunders (1975), equation (5.9), we have
+     * separately. From Paige and Saunders (1975), equation (5.9), we have
      *   wbar[k+1] = s[k] * wbar[k] - c[k] * v[k+1],
      *   wbar[1] = v[1].
      * Introducing wbar2[k] = wbar[k] - s[1] * ... * s[k-1] * v[1], it can
-     * easily be verified by induction that what follows the same recursive
+     * easily be verified by induction that wbar2 follows the same recursive
      * relation
      *   wbar2[k+1] = s[k] * wbar2[k] - c[k] * v[k+1],
      *   wbar2[1] = 0,
@@ -317,8 +332,7 @@ public class SymmLQ
          * @param m Preconditioner (can be {@code null}).
          * @param b Right-hand side vector.
          * @param x Vector to be updated with the solution. {@code x} should not
-         * be considered as an initial guess, as it is set to 0 in the
-         * initialization phase.
+         * be considered as an initial guess (<a href="#initguess">more</a>).
          * @param goodb Usually {@code false}, except if {@code x} is expected
          * to contain a large multiple of {@code b}.
          * @param shift The amount to be subtracted to all diagonal elements of
@@ -676,7 +690,7 @@ public class SymmLQ
      * @param delta &delta; parameter for the default stopping criterion.
      * @param check {@code true} if self-adjointedness of both matrix and
      * preconditioner should be checked. This entails an extra matrix-vector
-     * product at each iteration.
+     * product in the initial phase.
      */
     public SymmLQ(final int maxIterations, final double delta,
                   final boolean check) {
@@ -693,7 +707,7 @@ public class SymmLQ
      * @param delta &delta; parameter for the default stopping criterion.
      * @param check {@code true} if self-adjointedness of both matrix and
      * preconditioner should be checked. This entails an extra matrix-vector
-     * product at each iteration.
+     * product in the initial phase.
      */
     public SymmLQ(final IterationManager manager, final double delta,
                   final boolean check) {
@@ -902,7 +916,7 @@ public class SymmLQ
      * @param m Preconditioner (can be {@code null}).
      * @param b Right-hand side vector.
      * @param x Not meaningful in this implementation. Should not be considered
-     * as an initial guess.
+     * as an initial guess (<a href="#initguess">more</a>).
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareOperatorException if {@code a} or {@code m} is not
@@ -1010,7 +1024,7 @@ public class SymmLQ
      * @param a Linear operator A of the system.
      * @param b Right-hand side vector.
      * @param x Not meaningful in this implementation. Should not be considered
-     * as an initial guess.
+     * as an initial guess (<a href="#initguess">more</a>).
      * @return A new vector containing the solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
      * @throws NonSquareOperatorException if {@code a} is not square.
@@ -1041,8 +1055,7 @@ public class SymmLQ
      * @param m Preconditioner (can be {@code null}).
      * @param b Right-hand side vector.
      * @param x Vector to be updated with the solution. {@code x} should not be
-     * considered as an initial guess, as it is set to 0 in the initialization
-     * phase.
+     * considered as an initial guess (<a href="#initguess">more</a>).
      * @return A reference to {@code x} (shallow copy) updated with the
      * solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
@@ -1093,8 +1106,7 @@ public class SymmLQ
      * @param m Preconditioner (can be {@code null}).
      * @param b Right-hand side vector.
      * @param x Vector to be updated with the solution. {@code x} should not be
-     * considered as an initial guess, as it is set to 0 in the initialization
-     * phase.
+     * considered as an initial guess (<a href="#initguess">more</a>).
      * @param goodb Usually {@code false}, except if {@code x} is expected to
      * contain a large multiple of {@code b}.
      * @param shift The amount to be subtracted to all diagonal elements of A.
@@ -1166,8 +1178,7 @@ public class SymmLQ
      * @param a Linear operator A of the system.
      * @param b Right-hand side vector.
      * @param x Vector to be updated with the solution. {@code x} should not be
-     * considered as an initial guess, as it is set to 0 in the initialization
-     * phase.
+     * considered as an initial guess (<a href="#initguess">more</a>).
      * @return A reference to {@code x} (shallow copy) updated with the
      * solution.
      * @throws NullArgumentException if one of the parameters is {@code null}.
