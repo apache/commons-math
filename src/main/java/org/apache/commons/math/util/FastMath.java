@@ -1390,6 +1390,26 @@ public class FastMath {
     }
 
     /**
+     * Computes the <a href="http://mathworld.wolfram.com/Logarithm.html">
+     * logarithm</a> in a given base.
+     *
+     * Returns {@code NaN} if either argument is negative.
+     * If {@code base} is 0 and {@code x} is positive, 0 is returned.
+     * If {@code base} is positive and {@code x} is 0,
+     * {@code Double.NEGATIVE_INFINITY} is returned.
+     * If both arguments are 0, the result is {@code NaN}.
+     *
+     * @param base Base of the logarithm, must be greater than 0.
+     * @param x Argument, must be greater than 0.
+     * @return the value of the logarithm, i.e. the number {@code y} such that
+     * <code>base<sup>y</sup> = x</code>.
+     * @since 1.2 (previously in {@code MathUtils}, moved as of version 3.0)
+     */
+    public static double log(double base, double x) {
+        return log(x) / log(base);
+    }
+
+    /**
      * Power function.  Compute x^y.
      *
      * @param x   a double

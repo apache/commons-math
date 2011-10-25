@@ -166,26 +166,6 @@ public final class MathUtils {
     }
 
     /**
-     * <p>Returns the
-     * <a href="http://mathworld.wolfram.com/Logarithm.html">logarithm</a>
-     * for base {@code b} of {@code x}.
-     * </p>
-     * <p>Returns {@code NaN} if either argument is negative. If
-     * {@code base} is 0 and {@code x} is positive, 0 is returned.
-     * If {@code base} is positive and {@code x} is 0,
-     * {@code Double.NEGATIVE_INFINITY} is returned.  If both arguments
-     * are 0, the result is {@code NaN}.</p>
-     *
-     * @param base the base of the logarithm, must be greater than 0
-     * @param x argument, must be greater than 0
-     * @return the value of the logarithm - the number y such that base^y = x.
-     * @since 1.2
-     */
-    public static double log(double base, double x) {
-        return FastMath.log(x)/FastMath.log(base);
-    }
-
-    /**
      * Normalize an angle in a 2&pi wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>

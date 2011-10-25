@@ -151,17 +151,6 @@ public final class MathUtilsTest {
     }
 
     @Test
-    public void testLog() {
-        Assert.assertEquals(2.0, MathUtils.log(2, 4), 0);
-        Assert.assertEquals(3.0, MathUtils.log(2, 8), 0);
-        Assert.assertTrue(Double.isNaN(MathUtils.log(-1, 1)));
-        Assert.assertTrue(Double.isNaN(MathUtils.log(1, -1)));
-        Assert.assertTrue(Double.isNaN(MathUtils.log(0, 0)));
-        Assert.assertEquals(0, MathUtils.log(0, 10), 0);
-        Assert.assertEquals(Double.NEGATIVE_INFINITY, MathUtils.log(10, 0), 0);
-    }
-
-    @Test
     public void testNormalizeAngle() {
         for (double a = -15.0; a <= 15.0; a += 0.1) {
             for (double b = -15.0; b <= 15.0; b += 0.2) {

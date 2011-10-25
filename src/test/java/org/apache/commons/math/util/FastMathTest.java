@@ -1078,4 +1078,15 @@ public class FastMathTest {
         Assert.assertEquals(-1.0F, FastMath.signum(-2.0F), delta);
         TestUtils.assertSame(Float.NaN, FastMath.signum(Float.NaN));
     }
+
+    @Test
+    public void testLogWithBase() {
+        Assert.assertEquals(2.0, FastMath.log(2, 4), 0);
+        Assert.assertEquals(3.0, FastMath.log(2, 8), 0);
+        Assert.assertTrue(Double.isNaN(FastMath.log(-1, 1)));
+        Assert.assertTrue(Double.isNaN(FastMath.log(1, -1)));
+        Assert.assertTrue(Double.isNaN(FastMath.log(0, 0)));
+        Assert.assertEquals(0, FastMath.log(0, 10), 0);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.log(10, 0), 0);
+    }
 }
