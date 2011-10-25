@@ -114,62 +114,104 @@ public class BOBYQAOptimizer
      */
     private int trustRegionCenterInterpolationPointIndex;
     /**
+     * Last <em>n</em> columns of matrix H (where <em>n</em> is the dimension
+     * of the problem).
      * XXX "bmat" in the original code.
      */
     private Array2DRowRealMatrix bMatrix;
     /**
+     * Factorization of the leading <em>npt</em> square submatrix of H, this
+     * factorization being Z Z<sup>T</sup>, which provides both the correct
+     * rank and positive semi-definiteness.
      * XXX "zmat" in the original code.
      */
     private Array2DRowRealMatrix zMatrix;
     /**
+     * Coordinates of the interpolation points relative to {@link #originShift}.
      * XXX "xpt" in the original code.
      */
     private Array2DRowRealMatrix interpolationPoints;
     /**
+     * Shift of origin that should reduce the contributions from rounding
+     * errors to values of the model and Lagrange functions.
      * XXX "xbase" in the original code.
      */
     private ArrayRealVector originShift;
     /**
+     * Values of the objective function at the interpolation points.
      * XXX "fval" in the original code.
      */
     private ArrayRealVector fAtInterpolationPoints;
     /**
+     * Displacement from {@link #originShift} of the trust region center.
      * XXX "xopt" in the original code.
      */
     private ArrayRealVector trustRegionCenterOffset;
     /**
+     * Gradient of the quadratic model at {@link #originShift} +
+     * {@link #trustRegionCenterOffset}.
      * XXX "gopt" in the original code.
      */
     private ArrayRealVector gradientAtTrustRegionCenter;
     /**
+     * Differences {@link #lowerBound} - {@link #originShift}.
+     * All the components of every {@link #trustRegionCenterOffset} are going
+     * to satisfy the bounds<br/>
+     * {@link #lowerBound}<sub>i</sub> &le;
+     * {@link #trustRegionCenterOffset}<sub>i</sub>,<br/>
+     * with appropriate equalities when {@link #trustRegionCenterOffset} is
+     * on a constraint boundary.
      * XXX "sl" in the original code.
      */
     private ArrayRealVector lowerDifference;
     /**
+     * Differences {@link #upperBound} - {@link #originShift}
+     * All the components of every {@link #trustRegionCenterOffset} are going
+     * to satisfy the bounds<br/>
+     *  {@link #trustRegionCenterOffset}<sub>i</sub> &le;
+     *  {@link #upperBound}<sub>i</sub>,<br/>
+     * with appropriate equalities when {@link #trustRegionCenterOffset} is
+     * on a constraint boundary.
      * XXX "su" in the original code.
      */
     private ArrayRealVector upperDifference;
-    /**
+    /** 
+     * Parameters of the implicit second derivatives of the quadratic model.
      * XXX "pq" in the original code.
      */
     private ArrayRealVector modelSecondDerivativesParameters;
     /**
+     * Point chosen by function {@link #trsbox(double,ArrayRealVector,
+     * ArrayRealVector, ArrayRealVector,ArrayRealVector,ArrayRealVector) trsbox}
+     * or {@link #altmov(int,double) altmov}.
+     * Usually {@link #originShift} + {@link #newPoint} is the vector of
+     * variables for the next evaluation of the objective function.
+     * It also satisfies the constraints indicated in {@link #lowerDifference}
+     * and {@link #upperDifference}.
      * XXX "xnew" in the original code.
      */
     private ArrayRealVector newPoint;
     /**
+     * Alternative to {@link #newPoint}, chosen by
+     * {@link #altmov(int,double) altmov}.
+     * It may replace {@link #newPoint} in order to increase the denominator
+     * in the {@link #update() updating procedure}.
      * XXX "xalt" in the original code.
      */
     private ArrayRealVector alternativeNewPoint;
     /**
+     * Trial step from {@link #trustRegionCenterOffset} which is usually
+     * {@link #newPoint} - {@link #trustRegionCenterOffset}.
      * XXX "d__" in the original code.
      */
     private ArrayRealVector trialStepPoint;
     /**
+     * Values of the Lagrange functions at a new point.
      * XXX "vlag" in the original code.
      */
     private ArrayRealVector lagrangeValuesAtNewPoint;
     /**
+     * Explicit second derivatives of the quadratic model.
      * XXX "hq" in the original code.
      */
     private ArrayRealVector modelSecondDerivativesValues;
