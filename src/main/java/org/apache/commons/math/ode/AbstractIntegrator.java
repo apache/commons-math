@@ -40,7 +40,6 @@ import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.Incrementor;
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.Precision;
 
 /**
@@ -278,7 +277,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
             double previousT = interpolator.getGlobalPreviousTime();
             final double currentT = interpolator.getGlobalCurrentTime();
-            resetOccurred = false;
 
             // initialize the events states if needed
             if (! statesInitialized) {
@@ -332,6 +330,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 if (isLastStep) {
                     // the event asked to stop integration
                     System.arraycopy(eventY, 0, y, 0, y.length);
+                    for (final EventState remaining : occuringEvents) {
+                        remaining.stepAccepted(eventT, eventY);
+                    }
                     return eventT;
                 }
 
@@ -341,6 +342,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                     System.arraycopy(eventY, 0, y, 0, y.length);
                     computeDerivatives(eventT, y, yDot);
                     resetOccurred = true;
+                    for (final EventState remaining : occuringEvents) {
+                        remaining.stepAccepted(eventT, eventY);
+                    }
                     return eventT;
                 }
 
