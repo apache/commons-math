@@ -43,7 +43,7 @@ import org.apache.commons.math.util.FastMath;
  * </ul>
  * <p>
  * As of 2.0, this class supports only <strong>symmetric</strong> matrices, and
- * hence computes only real realEigenvalues. This implies the D matrix returned
+ * hence computes only real real Eigenvalues. This implies the D matrix returned
  * by {@link #getD()} is always diagonal and the imaginary values returned
  * {@link #getImagEigenvalue(int)} and {@link #getImagEigenvalues()} are always
  * null.
