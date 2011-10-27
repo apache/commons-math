@@ -101,9 +101,9 @@ public class FastMath {
      * already computed ones provided as literal arrays below.
      * </p>
      */
-    private static final boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
+    private static /* final */ boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
     /** Indicator for loading big tables from "resource" files. */
-    private static final boolean LOAD_RESOURCES = false;
+    private static /* final */ boolean LOAD_RESOURCES = false;
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
@@ -358,7 +358,7 @@ public class FastMath {
      * @return the high order part of the mantissa
      */
     private static double doubleHighPart(double d) {
-        if (d > -MathUtils.SAFE_MIN && d < MathUtils.SAFE_MIN){
+        if (d > -Precision.SAFE_MIN && d < Precision.SAFE_MIN){
             return d; // These are un-normalised - don't try to convert
         }
         long xl = Double.doubleToLongBits(d);

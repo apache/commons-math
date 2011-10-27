@@ -37,7 +37,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.fraction.BigFraction;
 import org.apache.commons.math.fraction.Fraction;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * A collection of static methods that operate on or return matrices.
@@ -837,7 +837,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = 0 ; i < rows ; i++ ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < MathUtils.SAFE_MIN ){
+            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;
@@ -877,7 +877,7 @@ public class MatrixUtils {
         int rows = rm.getRowDimension();
         for( int i = rows-1 ; i >-1 ; i-- ){
             double diag = rm.getEntry(i, i);
-            if( FastMath.abs(diag) < MathUtils.SAFE_MIN ){
+            if( FastMath.abs(diag) < Precision.SAFE_MIN ){
                 throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
             }
             double bi = b.getEntry(i)/diag;

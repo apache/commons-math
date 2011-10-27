@@ -35,7 +35,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -376,7 +376,7 @@ public class LevenbergMarquardtOptimizerTest {
                                                   costRelativeTolerance,
                                                   parRelativeTolerance,
                                                   orthoTolerance,
-                                                  MathUtils.SAFE_MIN);
+                                                  Precision.SAFE_MIN);
             optimizer.optimize(maxCostEval, problem, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });

@@ -198,7 +198,7 @@ public class JacobianMatrices {
      * </p>
      * <p>
      * Given a non zero parameter value pval for the parameter, a reasonable value
-     * for such a step is {@code pval * FastMath.sqrt(MathUtils.EPSILON)}.
+     * for such a step is {@code pval * FastMath.sqrt(Precision.EPSILON)}.
      * </p>
      * <p>
      * A zero value for such a step doesn't enable to compute the parameter Jacobian matrix.

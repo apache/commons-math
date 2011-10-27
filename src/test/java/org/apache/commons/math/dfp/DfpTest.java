@@ -18,7 +18,7 @@
 package org.apache.commons.math.dfp;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -1549,10 +1549,10 @@ public class DfpTest {
     @Test
     public void testIssue567() {
         DfpField field = new DfpField(100);
-        Assert.assertEquals(0.0, field.getZero().toDouble(), MathUtils.SAFE_MIN);
-        Assert.assertEquals(0.0, field.newDfp(0.0).toDouble(), MathUtils.SAFE_MIN);
-        Assert.assertEquals(-1, FastMath.copySign(1, field.newDfp(-0.0).toDouble()), MathUtils.EPSILON);
-        Assert.assertEquals(+1, FastMath.copySign(1, field.newDfp(+0.0).toDouble()), MathUtils.EPSILON);
+        Assert.assertEquals(0.0, field.getZero().toDouble(), Precision.SAFE_MIN);
+        Assert.assertEquals(0.0, field.newDfp(0.0).toDouble(), Precision.SAFE_MIN);
+        Assert.assertEquals(-1, FastMath.copySign(1, field.newDfp(-0.0).toDouble()), Precision.EPSILON);
+        Assert.assertEquals(+1, FastMath.copySign(1, field.newDfp(+0.0).toDouble()), Precision.EPSILON);
     }
 
     @Test

@@ -19,7 +19,7 @@ package org.apache.commons.math.stat.regression;
 import java.util.Arrays;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.MathArrays;
 
 /**
@@ -153,7 +153,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @param includeConstant include a constant automatically
      */
     public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant) {
-        this(numberOfVariables, includeConstant, MathUtils.EPSILON);
+        this(numberOfVariables, includeConstant, Precision.EPSILON);
     }
 
     /**
@@ -271,7 +271,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             if (di != 0.0) {
                 dpi = smartAdd(di, wxi * xi);
                 double tmp = wxi * xi / di;
-                if (FastMath.abs(tmp) > MathUtils.EPSILON) {
+                if (FastMath.abs(tmp) > Precision.EPSILON) {
                     w = (di * w) / dpi;
                 }
             } else {
@@ -312,13 +312,13 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         double _a = FastMath.abs(a);
         double _b = FastMath.abs(b);
         if (_a > _b) {
-            double eps = _a * MathUtils.EPSILON;
+            double eps = _a * Precision.EPSILON;
             if (_b > eps) {
                 return a + b;
             }
             return a;
         } else {
-            double eps = _b * MathUtils.EPSILON;
+            double eps = _b * Precision.EPSILON;
             if (_a > eps) {
                 return a + b;
             }

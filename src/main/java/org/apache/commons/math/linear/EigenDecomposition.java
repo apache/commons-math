@@ -20,7 +20,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -43,7 +43,7 @@ import org.apache.commons.math.util.FastMath;
  * </ul>
  * <p>
  * As of 2.0, this class supports only <strong>symmetric</strong> matrices, and
- * hence computes only real real Eigenvalues. This implies the D matrix returned
+ * hence computes only real realEigenvalues. This implies the D matrix returned
  * by {@link #getD()} is always diagonal and the imaginary values returned
  * {@link #getImagEigenvalue(int)} and {@link #getImagEigenvalues()} are always
  * null.
@@ -153,7 +153,7 @@ public class EigenDecomposition{
                                 boolean raiseException) {
         final int rows = matrix.getRowDimension();
         final int columns = matrix.getColumnDimension();
-        final double eps = 10 * rows * columns * MathUtils.EPSILON;
+        final double eps = 10 * rows * columns * Precision.EPSILON;
         for (int i = 0; i < rows; ++i) {
             for (int j = i + 1; j < columns; ++j) {
                 final double mij = matrix.getEntry(i, j);
@@ -497,10 +497,10 @@ public class EigenDecomposition{
         // Make null any main and secondary value too small to be significant
         if (maxAbsoluteValue!=0.0) {
             for (int i=0; i < n; i++) {
-                if (FastMath.abs(realEigenvalues[i])<=MathUtils.EPSILON*maxAbsoluteValue) {
+                if (FastMath.abs(realEigenvalues[i])<=Precision.EPSILON*maxAbsoluteValue) {
                     realEigenvalues[i]=0.0;
                 }
-                if (FastMath.abs(e[i])<=MathUtils.EPSILON*maxAbsoluteValue) {
+                if (FastMath.abs(e[i])<=Precision.EPSILON*maxAbsoluteValue) {
                     e[i]=0.0;
                 }
             }
@@ -606,7 +606,7 @@ public class EigenDecomposition{
         // Make null any eigen value too small to be significant
         if (maxAbsoluteValue!=0.0) {
             for (int i=0; i < n; i++) {
-                if (FastMath.abs(realEigenvalues[i])<MathUtils.EPSILON*maxAbsoluteValue) {
+                if (FastMath.abs(realEigenvalues[i])<Precision.EPSILON*maxAbsoluteValue) {
                     realEigenvalues[i]=0.0;
                 }
             }

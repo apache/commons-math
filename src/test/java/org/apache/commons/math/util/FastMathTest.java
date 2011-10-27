@@ -58,25 +58,25 @@ public class FastMathTest {
             {  Double.NaN, 0.0 },
             {  Double.NaN, Double.NEGATIVE_INFINITY },
             {  Double.NaN, Double.POSITIVE_INFINITY },
-            { MathUtils.SAFE_MIN, MathUtils.EPSILON }
+            { Precision.SAFE_MIN, Precision.EPSILON }
         };
         for (double[] pair : pairs) {
             Assert.assertEquals("min(" + pair[0] + ", " + pair[1] + ")",
                                 Math.min(pair[0], pair[1]),
                                 FastMath.min(pair[0], pair[1]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("min(" + pair[1] + ", " + pair[0] + ")",
                                 Math.min(pair[1], pair[0]),
                                 FastMath.min(pair[1], pair[0]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("max(" + pair[0] + ", " + pair[1] + ")",
                                 Math.max(pair[0], pair[1]),
                                 FastMath.max(pair[0], pair[1]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("max(" + pair[1] + ", " + pair[0] + ")",
                                 Math.max(pair[1], pair[0]),
                                 FastMath.max(pair[1], pair[0]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
         }
     }
 
@@ -97,19 +97,19 @@ public class FastMathTest {
             Assert.assertEquals("min(" + pair[0] + ", " + pair[1] + ")",
                                 Math.min(pair[0], pair[1]),
                                 FastMath.min(pair[0], pair[1]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("min(" + pair[1] + ", " + pair[0] + ")",
                                 Math.min(pair[1], pair[0]),
                                 FastMath.min(pair[1], pair[0]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("max(" + pair[0] + ", " + pair[1] + ")",
                                 Math.max(pair[0], pair[1]),
                                 FastMath.max(pair[0], pair[1]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
             Assert.assertEquals("max(" + pair[1] + ", " + pair[0] + ")",
                                 Math.max(pair[1], pair[0]),
                                 FastMath.max(pair[1], pair[0]),
-                                MathUtils.EPSILON);
+                                Precision.EPSILON);
         }
     }
 
@@ -123,10 +123,10 @@ public class FastMathTest {
     public void testAtan2() {
         double y1 = 1.2713504628280707e10;
         double x1 = -5.674940885228782e-10;
-        Assert.assertEquals(Math.atan2(y1, x1), FastMath.atan2(y1, x1), 2 * MathUtils.EPSILON);
+        Assert.assertEquals(Math.atan2(y1, x1), FastMath.atan2(y1, x1), 2 * Precision.EPSILON);
         double y2 = 0.0;
         double x2 = Double.POSITIVE_INFINITY;
-        Assert.assertEquals(Math.atan2(y2, x2), FastMath.atan2(y2, x2), MathUtils.SAFE_MIN);
+        Assert.assertEquals(Math.atan2(y2, x2), FastMath.atan2(y2, x2), Precision.SAFE_MIN);
     }
 
     @Test
@@ -172,7 +172,7 @@ public class FastMathTest {
         Assert.assertEquals(0, maxErr, 2);
 
         maxErr = 0;
-        for (double x = -1 + MathUtils.EPSILON; x < 1 - MathUtils.EPSILON; x += 0.0001) {
+        for (double x = -1 + Precision.EPSILON; x < 1 - Precision.EPSILON; x += 0.0001) {
             maxErr = FastMath.max(maxErr, FastMath.abs(x - FastMath.tanh(FastMath.atanh(x))) / (2 * FastMath.ulp(x)));
         }
         Assert.assertEquals(0, maxErr, 2);
@@ -270,7 +270,7 @@ public class FastMathTest {
 
         Assert.assertTrue("Log of negative number should be NaN", Double.isNaN(FastMath.log(-1.0)));
 
-        Assert.assertEquals("Log of Double.MIN_VALUE should be -744.4400719213812", -744.4400719213812, FastMath.log(Double.MIN_VALUE), MathUtils.EPSILON);
+        Assert.assertEquals("Log of Double.MIN_VALUE should be -744.4400719213812", -744.4400719213812, FastMath.log(Double.MIN_VALUE), Precision.EPSILON);
 
         Assert.assertTrue("Log of infinity should be infinity", Double.isInfinite(FastMath.log(Double.POSITIVE_INFINITY)));
     }
@@ -278,29 +278,29 @@ public class FastMathTest {
     public void testExpSpecialCases() {
 
         // Smallest value that will round up to Double.MIN_VALUE
-        Assert.assertEquals(Double.MIN_VALUE, FastMath.exp(-745.1332191019411), MathUtils.EPSILON);
+        Assert.assertEquals(Double.MIN_VALUE, FastMath.exp(-745.1332191019411), Precision.EPSILON);
 
-        Assert.assertEquals("exp(-745.1332191019412) should be 0.0", 0.0, FastMath.exp(-745.1332191019412), MathUtils.EPSILON);
+        Assert.assertEquals("exp(-745.1332191019412) should be 0.0", 0.0, FastMath.exp(-745.1332191019412), Precision.EPSILON);
 
         Assert.assertTrue("exp of NaN should be NaN", Double.isNaN(FastMath.exp(Double.NaN)));
 
         Assert.assertTrue("exp of infinity should be infinity", Double.isInfinite(FastMath.exp(Double.POSITIVE_INFINITY)));
 
-        Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("exp(1) should be Math.E", Math.E, FastMath.exp(1.0), MathUtils.EPSILON);
+        Assert.assertEquals("exp(1) should be Math.E", Math.E, FastMath.exp(1.0), Precision.EPSILON);
     }
 
     @Test
     public void testPowSpecialCases() {
 
-        Assert.assertEquals("pow(-1, 0) should be 1.0", 1.0, FastMath.pow(-1.0, 0.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-1, 0) should be 1.0", 1.0, FastMath.pow(-1.0, 0.0), Precision.EPSILON);
 
-        Assert.assertEquals("pow(-1, -0) should be 1.0", 1.0, FastMath.pow(-1.0, -0.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-1, -0) should be 1.0", 1.0, FastMath.pow(-1.0, -0.0), Precision.EPSILON);
 
-        Assert.assertEquals("pow(PI, 1.0) should be PI", FastMath.PI, FastMath.pow(FastMath.PI, 1.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(PI, 1.0) should be PI", FastMath.PI, FastMath.pow(FastMath.PI, 1.0), Precision.EPSILON);
 
-        Assert.assertEquals("pow(-PI, 1.0) should be -PI", -FastMath.PI, FastMath.pow(-FastMath.PI, 1.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-PI, 1.0) should be -PI", -FastMath.PI, FastMath.pow(-FastMath.PI, 1.0), Precision.EPSILON);
 
         Assert.assertTrue("pow(PI, NaN) should be NaN", Double.isNaN(FastMath.pow(Math.PI, Double.NaN)));
 
@@ -310,13 +310,13 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(0.5, -Infinity) should be Infinity", Double.isInfinite(FastMath.pow(0.5, Double.NEGATIVE_INFINITY)));
 
-        Assert.assertEquals("pow(0.5, Infinity) should be 0.0", 0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("pow(0.5, Infinity) should be 0.0", 0.0, FastMath.pow(0.5, Double.POSITIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("pow(2.0, -Infinity) should be 0.0", 0.0, FastMath.pow(2.0, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("pow(2.0, -Infinity) should be 0.0", 0.0, FastMath.pow(2.0, Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("pow(0.0, 0.5) should be 0.0", 0.0, FastMath.pow(0.0, 0.5), MathUtils.EPSILON);
+        Assert.assertEquals("pow(0.0, 0.5) should be 0.0", 0.0, FastMath.pow(0.0, 0.5), Precision.EPSILON);
 
-        Assert.assertEquals("pow(Infinity, -0.5) should be 0.0", 0.0, FastMath.pow(Double.POSITIVE_INFINITY, -0.5), MathUtils.EPSILON);
+        Assert.assertEquals("pow(Infinity, -0.5) should be 0.0", 0.0, FastMath.pow(Double.POSITIVE_INFINITY, -0.5), Precision.EPSILON);
 
         Assert.assertTrue("pow(0.0, -0.5) should be Inf", Double.isInfinite(FastMath.pow(0.0, -0.5)));
 
@@ -330,7 +330,7 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(Inf, 3.5) should be Inf", Double.isInfinite(FastMath.pow(Double.POSITIVE_INFINITY, 3.5)));
 
-        Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-2.0, 3.0) should be -8.0", -8.0, FastMath.pow(-2.0, 3.0), Precision.EPSILON);
 
         Assert.assertTrue("pow(-2.0, 3.5) should be NaN", Double.isNaN(FastMath.pow(-2.0, 3.5)));
 
@@ -342,9 +342,9 @@ public class FastMathTest {
 
         Assert.assertTrue("pow(-Inf, NaN) should be NaN", Double.isNaN(FastMath.pow(Double.NEGATIVE_INFINITY, Double.NaN)));
 
-        Assert.assertEquals("pow(-Inf, -1.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -1.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-Inf, -1.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -1.0), Precision.EPSILON);
 
-        Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), MathUtils.EPSILON);
+        Assert.assertEquals("pow(-Inf, -2.0) should be 0.0", 0.0, FastMath.pow(Double.NEGATIVE_INFINITY, -2.0), Precision.EPSILON);
 
         Assert.assertTrue("pow(-Inf, 1.0) should be -Inf", Double.isInfinite(FastMath.pow(Double.NEGATIVE_INFINITY, 1.0)));
 
@@ -361,53 +361,53 @@ public class FastMathTest {
 
         Assert.assertTrue("atan2(0.0, NaN) should be NaN", Double.isNaN(FastMath.atan2(0.0, Double.NaN)));
 
-        Assert.assertEquals("atan2(0.0, 0.0) should be 0.0", 0.0, FastMath.atan2(0.0, 0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.0, 0.0) should be 0.0", 0.0, FastMath.atan2(0.0, 0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.0, 0.001) should be 0.0", 0.0, FastMath.atan2(0.0, 0.001), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.0, 0.001) should be 0.0", 0.0, FastMath.atan2(0.0, 0.001), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.1, +Inf) should be 0.0", 0.0, FastMath.atan2(0.1, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.1, +Inf) should be 0.0", 0.0, FastMath.atan2(0.1, Double.POSITIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.0, 0.0) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.0, 0.0) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.0, 0.001) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.001), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.0, 0.001) should be -0.0", -0.0, FastMath.atan2(-0.0, 0.001), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.0, +Inf) should be -0.0", -0.0, FastMath.atan2(-0.1, Double.POSITIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.0, +Inf) should be -0.0", -0.0, FastMath.atan2(-0.1, Double.POSITIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.0, -0.0) should be PI", FastMath.PI, FastMath.atan2(0.0, -0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.0, -0.0) should be PI", FastMath.PI, FastMath.atan2(0.0, -0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.1, -Inf) should be PI", FastMath.PI, FastMath.atan2(0.1, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.1, -Inf) should be PI", FastMath.PI, FastMath.atan2(0.1, Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.0, -0.0) should be -PI", -FastMath.PI, FastMath.atan2(-0.0, -0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.0, -0.0) should be -PI", -FastMath.PI, FastMath.atan2(-0.0, -0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.1, -Inf) should be -PI", -FastMath.PI, FastMath.atan2(-0.1, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.1, -Inf) should be -PI", -FastMath.PI, FastMath.atan2(-0.1, Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.1, 0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, 0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.1, 0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, 0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(0.1, -0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, -0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(0.1, -0.0) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(0.1, -0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(Inf, 0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, 0.1), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(Inf, 0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, 0.1), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(Inf, -0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, -0.1), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(Inf, -0.1) should be PI/2", FastMath.PI / 2.0, FastMath.atan2(Double.POSITIVE_INFINITY, -0.1), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.1, 0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, 0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.1, 0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, 0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-0.1, -0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, -0.0), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-0.1, -0.0) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(-0.1, -0.0), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-Inf, 0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, 0.1), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-Inf, 0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, 0.1), Precision.EPSILON);
 
-        Assert.assertEquals("atan2(-Inf, -0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, -0.1), MathUtils.EPSILON);
+        Assert.assertEquals("atan2(-Inf, -0.1) should be -PI/2", -FastMath.PI / 2.0, FastMath.atan2(Double.NEGATIVE_INFINITY, -0.1), Precision.EPSILON);
 
         Assert.assertEquals("atan2(Inf, Inf) should be PI/4", FastMath.PI / 4.0, FastMath.atan2(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
-                MathUtils.EPSILON);
+                Precision.EPSILON);
 
         Assert.assertEquals("atan2(Inf, -Inf) should be PI * 3/4", FastMath.PI * 3.0 / 4.0,
-                FastMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+                FastMath.atan2(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
 
         Assert.assertEquals("atan2(-Inf, Inf) should be -PI/4", -FastMath.PI / 4.0, FastMath.atan2(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
-                MathUtils.EPSILON);
+                Precision.EPSILON);
 
         Assert.assertEquals("atan2(-Inf, -Inf) should be -PI * 3/4", - FastMath.PI * 3.0 / 4.0,
-                FastMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), MathUtils.EPSILON);
+                FastMath.atan2(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), Precision.EPSILON);
     }
 
     @Test
@@ -713,11 +713,11 @@ public class FastMathTest {
 
         Assert.assertTrue("acos(-1.1) should be NaN", Double.isNaN(FastMath.acos(1.1)));
         
-        Assert.assertEquals("acos(-1.0) should be PI", FastMath.acos(-1.0), FastMath.PI, MathUtils.EPSILON);
+        Assert.assertEquals("acos(-1.0) should be PI", FastMath.acos(-1.0), FastMath.PI, Precision.EPSILON);
 
-        Assert.assertEquals("acos(1.0) should be 0.0", FastMath.acos(1.0), 0.0, MathUtils.EPSILON);
+        Assert.assertEquals("acos(1.0) should be 0.0", FastMath.acos(1.0), 0.0, Precision.EPSILON);
 
-        Assert.assertEquals("acos(0.0) should be PI/2", FastMath.acos(0.0), FastMath.PI / 2.0, MathUtils.EPSILON);
+        Assert.assertEquals("acos(0.0) should be PI/2", FastMath.acos(0.0), FastMath.PI / 2.0, Precision.EPSILON);
     }
 
     /**
@@ -732,11 +732,11 @@ public class FastMathTest {
         
         Assert.assertTrue("asin(-1.1) should be NaN", Double.isNaN(FastMath.asin(-1.1)));
         
-        Assert.assertEquals("asin(1.0) should be PI/2", FastMath.asin(1.0), FastMath.PI / 2.0, MathUtils.EPSILON);
+        Assert.assertEquals("asin(1.0) should be PI/2", FastMath.asin(1.0), FastMath.PI / 2.0, Precision.EPSILON);
 
-        Assert.assertEquals("asin(-1.0) should be -PI/2", FastMath.asin(-1.0), -FastMath.PI / 2.0, MathUtils.EPSILON);
+        Assert.assertEquals("asin(-1.0) should be -PI/2", FastMath.asin(-1.0), -FastMath.PI / 2.0, Precision.EPSILON);
 
-        Assert.assertEquals("asin(0.0) should be 0.0", FastMath.asin(0.0), 0.0, MathUtils.EPSILON);
+        Assert.assertEquals("asin(0.0) should be 0.0", FastMath.asin(0.0), 0.0, Precision.EPSILON);
     }
 
     private Dfp cosh(Dfp x) {

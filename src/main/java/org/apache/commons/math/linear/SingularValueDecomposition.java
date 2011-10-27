@@ -19,7 +19,7 @@ package org.apache.commons.math.linear;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * Calculates the compact Singular Value Decomposition of a matrix.
@@ -465,7 +465,7 @@ public class SingularValueDecomposition {
 
         // Set the small value tolerance used to calculate rank and pseudo-inverse
         tol = FastMath.max(m * singularValues[0] * EPS,
-                           FastMath.sqrt(MathUtils.SAFE_MIN));
+                           FastMath.sqrt(Precision.SAFE_MIN));
 
         if (!transposed) {
             cachedU = MatrixUtils.createRealMatrix(U);
@@ -505,7 +505,7 @@ public class SingularValueDecomposition {
     /**
      * Returns the diagonal matrix &Sigma; of the decomposition.
      * <p>&Sigma; is a diagonal matrix. The singular values are provided in
-     * non-increasing order, for compatibility with JAMA.</p>
+     * non-increasing order, for compatibility with Jama.</p>
      * @return the &Sigma; matrix
      */
     public RealMatrix getS() {

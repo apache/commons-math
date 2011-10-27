@@ -48,8 +48,8 @@ public class FastMathStrictComparisonTest {
         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, // 4,5
         -Double.MAX_VALUE, Double.MAX_VALUE,                // 6,7
         // decreasing order of absolute value to help catch first failure
-        -MathUtils.EPSILON, MathUtils.EPSILON,              // 8,9
-        -MathUtils.SAFE_MIN, MathUtils.SAFE_MIN,            // 10,11
+        -Precision.EPSILON, Precision.EPSILON,              // 8,9
+        -Precision.SAFE_MIN, Precision.SAFE_MIN,            // 10,11
         -Double.MIN_VALUE, Double.MIN_VALUE,                // 12,13
     };
 

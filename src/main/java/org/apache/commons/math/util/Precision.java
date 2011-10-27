@@ -30,9 +30,19 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  */
 public class Precision {
+    /**
+     * Smallest positive number such that {@code 1 - EPSILON} is not
+     * numerically equal to 1: {@value}.
+     */
+    public static final double EPSILON = 0x1.0p-53;
+    /**
+     * Safe minimum, such that {@code 1 / SAFE_MIN} does not overflow.
+     * In IEEE 754 arithmetic, this is also the smallest normalized
+     * number 2<sup>-1022</sup>: {@value}.
+     */
+    public static final double SAFE_MIN = 0x1.0p-1022;
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
-
     /** Offset to order signed double numbers lexicographically. */
     private static final int SGN_MASK_FLOAT = 0x80000000;
 

@@ -141,7 +141,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
         /**
          * MathUtils provides factorials up to 20, so let's use that limit together
-         * with MathUtils.EPSILON to generate the following code (a priori, we know that
+         * with Precision.EPSILON to generate the following code (a priori, we know that
          * there will be 16 elements, but instead of hardcoding that, this is
          * prettier):
          */

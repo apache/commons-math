@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -144,11 +144,11 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      *  <li>Cost relative tolerance: 1e-10</li>
      *  <li>Parameters relative tolerance: 1e-10</li>
      *  <li>Orthogonality tolerance: 1e-10</li>
-     *  <li>QR ranking threshold: {@link MathUtils#SAFE_MIN}</li>
+     *  <li>QR ranking threshold: {@link Precision#SAFE_MIN}</li>
      * </ul>
      */
     public LevenbergMarquardtOptimizer() {
-        this(100, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);
+        this(100, 1e-10, 1e-10, 1e-10, Precision.SAFE_MIN);
     }
 
     /**
@@ -161,13 +161,13 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      *  <li>Cost relative tolerance: 1e-10</li>
      *  <li>Parameters relative tolerance: 1e-10</li>
      *  <li>Orthogonality tolerance: 1e-10</li>
-     *  <li>QR ranking threshold: {@link MathUtils#SAFE_MIN}</li>
+     *  <li>QR ranking threshold: {@link Precision#SAFE_MIN}</li>
      * </ul>
      *
      * @param checker Convergence checker.
      */
     public LevenbergMarquardtOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
-        this(100, checker, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);
+        this(100, checker, 1e-10, 1e-10, 1e-10, Precision.SAFE_MIN);
     }
 
     /**
@@ -214,7 +214,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * The default values for the algorithm settings are:
      * <ul>
      *  <li>Initial step bound factor}: 100</li>
-     *  <li>QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li>
+     *  <li>QR ranking threshold}: {@link Precision#SAFE_MIN}</li>
      * </ul>
      *
      * @param costRelativeTolerance Desired relative error in the sum of
@@ -229,7 +229,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                                        double orthoTolerance) {
         this(100,
              costRelativeTolerance, parRelativeTolerance, orthoTolerance,
-             MathUtils.SAFE_MIN);
+             Precision.SAFE_MIN);
     }
 
     /**

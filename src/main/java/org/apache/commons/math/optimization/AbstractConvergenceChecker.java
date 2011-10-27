@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * Base class for all convergence checker implementations.
@@ -32,11 +32,11 @@ public abstract class AbstractConvergenceChecker<PAIR>
     /**
      * Default relative threshold.
      */
-    private static final double DEFAULT_RELATIVE_THRESHOLD = 100 * MathUtils.EPSILON;
+    private static final double DEFAULT_RELATIVE_THRESHOLD = 100 * Precision.EPSILON;
     /**
      * Default absolute threshold.
      */
-    private static final double DEFAULT_ABSOLUTE_THRESHOLD = 100 * MathUtils.SAFE_MIN;
+    private static final double DEFAULT_ABSOLUTE_THRESHOLD = 100 * Precision.SAFE_MIN;
     /**
      * Relative tolerance threshold.
      */

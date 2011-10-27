@@ -24,7 +24,7 @@ import org.apache.commons.math.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math.geometry.partitioning.Embedding;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /** The class represent lines in a three dimensional space.
 
@@ -172,7 +172,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
 
         final Vector3D normal = Vector3D.crossProduct(direction, line.direction);
         final double n = normal.getNorm();
-        if (n < MathUtils.SAFE_MIN) {
+        if (n < Precision.SAFE_MIN) {
             // lines are parallel
             return distance(line.zero);
         }
@@ -192,7 +192,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
 
         final double cos = direction.dotProduct(line.direction);
         final double n = 1 - cos * cos;
-        if (n < MathUtils.EPSILON) {
+        if (n < Precision.EPSILON) {
             // the lines are parallel
             return zero;
         }

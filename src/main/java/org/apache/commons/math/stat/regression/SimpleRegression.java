@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.Precision;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -706,7 +706,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
           if( n < 3 ){
               throw new NoDataException( LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION );
           }
-          if( FastMath.abs( sumXX ) > MathUtils.SAFE_MIN ){
+          if( FastMath.abs( sumXX ) > Precision.SAFE_MIN ){
               final double[] params = new double[]{ getIntercept(), getSlope() };
               final double mse = getMeanSquareError();
               final double _syy = sumYY + sumY * sumY / ((double) n);
