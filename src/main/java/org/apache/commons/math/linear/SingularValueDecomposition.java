@@ -363,9 +363,12 @@ public class SingularValueDecomposition {
                 // Perform one qr step.
                 case 3: {
                     // Calculate the shift.
-                    final double scale = FastMath.max(FastMath.max(FastMath.max(FastMath.max(
-                            FastMath.abs(singularValues[p - 1]), FastMath.abs(singularValues[p - 2])), FastMath.abs(e[p - 2])),
-                            FastMath.abs(singularValues[k])), FastMath.abs(e[k]));
+                    final double maxPm1Pm2 = FastMath.max(FastMath.abs(singularValues[p - 1]),
+                                                          FastMath.abs(singularValues[p - 2]));
+                    final double scale = FastMath.max(FastMath.max(FastMath.max(maxPm1Pm2,
+                                                                                FastMath.abs(e[p - 2])),
+                                                                   FastMath.abs(singularValues[k])),
+                                                      FastMath.abs(e[k]));
                     final double sp = singularValues[p - 1] / scale;
                     final double spm1 = singularValues[p - 2] / scale;
                     final double epm1 = e[p - 2] / scale;
