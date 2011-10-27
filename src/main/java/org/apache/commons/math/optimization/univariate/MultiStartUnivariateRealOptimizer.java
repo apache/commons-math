@@ -88,13 +88,6 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
     /**
      * {@inheritDoc}
      */
-    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
-        optimizer.setConvergenceChecker(checker);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public ConvergenceChecker<UnivariateRealPointValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }

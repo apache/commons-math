@@ -32,7 +32,8 @@ public class MultiStartMultivariateRealOptimizerTest {
     @Test
     public void testRosenbrock() {
         Rosenbrock rosenbrock = new Rosenbrock();
-        SimplexOptimizer underlying = new SimplexOptimizer();
+        SimplexOptimizer underlying
+            = new SimplexOptimizer(new SimpleScalarValueChecker(-1, 1.0e-3));
         NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {
                 { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
             });
@@ -43,7 +44,6 @@ public class MultiStartMultivariateRealOptimizerTest {
             new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
         MultiStartMultivariateRealOptimizer optimizer =
             new MultiStartMultivariateRealOptimizer(underlying, 10, generator);
-        optimizer.setConvergenceChecker(new SimpleScalarValueChecker(-1, 1.0e-3));
         RealPointValuePair optimum =
             optimizer.optimize(1100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 

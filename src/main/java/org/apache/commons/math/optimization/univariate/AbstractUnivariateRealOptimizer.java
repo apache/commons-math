@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
 public abstract class AbstractUnivariateRealOptimizer
     implements UnivariateRealOptimizer {
     /** Convergence checker. */
-    private ConvergenceChecker<UnivariateRealPointValuePair> checker;
+    private final ConvergenceChecker<UnivariateRealPointValuePair> checker;
     /** Evaluations counter. */
     private final Incrementor evaluations = new Incrementor();
     /** Optimization type */
@@ -48,6 +48,13 @@ public abstract class AbstractUnivariateRealOptimizer
     private double searchStart;
     /** Function to optimize. */
     private UnivariateRealFunction function;
+
+    /**
+     * @param checker Convergence checking procedure.
+     */
+    protected AbstractUnivariateRealOptimizer(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+        this.checker = checker;
+    }
 
     /** {@inheritDoc} */
     public int getMaxEvaluations() {
@@ -133,13 +140,6 @@ public abstract class AbstractUnivariateRealOptimizer
                                                  GoalType goalType,
                                                  double min, double max){
         return optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void setConvergenceChecker(ConvergenceChecker<UnivariateRealPointValuePair> c) {
-        checker = c;
     }
 
     /**

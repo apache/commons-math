@@ -77,11 +77,6 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> convergenceChecker) {
-        this.checker = convergenceChecker;
-    }
-
-    /** {@inheritDoc} */
     public ConvergenceChecker<RealPointValuePair> getConvergenceChecker() {
         return checker;
     }

@@ -100,7 +100,8 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
-            new GaussNewtonOptimizer(true);
+            new GaussNewtonOptimizer(true,
+                                     new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(16069223052l);
         RandomVectorGenerator generator =
@@ -108,7 +109,6 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
         // no optima before first optimization attempt
         try {
@@ -132,10 +132,11 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         Assert.assertEquals(100, optimizer.getMaxEvaluations());
     }
 
-    @Test(expected = TestException.class)
+    @Test(expected=TestException.class)
     public void testNoOptimum() {
         DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
-            new GaussNewtonOptimizer(true);
+            new GaussNewtonOptimizer(true,
+                                     new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(12373523445l);
         RandomVectorGenerator generator =
@@ -143,7 +144,6 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.setConvergenceChecker(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         optimizer.optimize(100, new DifferentiableMultivariateVectorialFunction() {
                 public MultivariateMatrixFunction jacobian() {
                     return null;

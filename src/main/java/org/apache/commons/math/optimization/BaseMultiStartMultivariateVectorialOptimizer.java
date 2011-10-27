@@ -128,11 +128,6 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker<VectorialPointValuePair> checker) {
-        optimizer.setConvergenceChecker(checker);
-    }
-
-    /** {@inheritDoc} */
     public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }

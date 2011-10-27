@@ -52,13 +52,6 @@ public interface BaseOptimizer<PAIR> {
     int getEvaluations();
 
     /**
-     * Set the convergence checker.
-     *
-     * @param checker Object to use to check for convergence.
-     */
-    void setConvergenceChecker(ConvergenceChecker<PAIR> checker);
-
-    /**
      * Get the convergence checker.
      *
      * @return the object used to check for convergence.

@@ -31,10 +31,6 @@ import org.apache.commons.math.optimization.GoalType;
  * If the function is defined on some interval {@code (lo, hi)}, then
  * this method finds an approximation {@code x} to the point at which
  * the function attains its minimum.
- * <br/>
- * The user is responsible for calling {@link
- * #setConvergenceChecker(ConvergenceChecker) ConvergenceChecker}
- * prior to using the optimizer.
  *
  * @version $Id$
  * @since 2.0
@@ -68,11 +64,16 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
      *
      * @param rel Relative threshold.
      * @param abs Absolute threshold.
+     * @param checker Additional, user-defined, convergence checking
+     * procedure.
      * @throws NotStrictlyPositiveException if {@code abs <= 0}.
      * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
      */
     public BrentOptimizer(double rel,
-                          double abs) {
+                          double abs,
+                          ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+        super(checker);
+
         if (rel < MIN_RELATIVE_TOLERANCE) {
             throw new NumberIsTooSmallException(rel, MIN_RELATIVE_TOLERANCE, true);
         }
@@ -81,6 +82,25 @@ public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
         }
         relativeThreshold = rel;
         absoluteThreshold = abs;
+    }
+
+    /**
+     * The arguments are used implement the original stopping criterion
+     * of Brent's algorithm.
+     * {@code abs} and {@code rel} define a tolerance
+     * {@code tol = rel |x| + abs}. {@code rel} should be no smaller than
+     * <em>2 macheps</em> and preferably not much less than <em>sqrt(macheps)</em>,
+     * where <em>macheps</em> is the relative machine precision. {@code abs} must
+     * be positive.
+     *
+     * @param rel Relative threshold.
+     * @param abs Absolute threshold.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
+     */
+    public BrentOptimizer(double rel,
+                          double abs) {
+        this(rel, abs, null);
     }
 
     /** {@inheritDoc} */

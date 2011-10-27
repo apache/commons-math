@@ -44,7 +44,8 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         NonLinearConjugateGradientOptimizer underlying =
-            new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE);
+            new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE,
+                                                    new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(753289573253l);
         RandomVectorGenerator generator =
@@ -52,7 +53,6 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
                                                   new GaussianRandomGenerator(g));
         MultiStartDifferentiableMultivariateRealOptimizer optimizer =
             new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
-        optimizer.setConvergenceChecker(new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
         RealPointValuePair optimum =
             optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         Assert.assertEquals(200, optimizer.getMaxEvaluations());

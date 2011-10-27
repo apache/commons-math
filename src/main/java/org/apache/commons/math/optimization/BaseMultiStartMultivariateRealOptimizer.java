@@ -127,11 +127,6 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker<RealPointValuePair> checker) {
-        optimizer.setConvergenceChecker(checker);
-    }
-
-    /** {@inheritDoc} */
     public ConvergenceChecker<RealPointValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }

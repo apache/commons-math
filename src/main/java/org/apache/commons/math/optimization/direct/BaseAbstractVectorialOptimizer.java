@@ -79,11 +79,6 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
     }
 
     /** {@inheritDoc} */
-    public void setConvergenceChecker(ConvergenceChecker<VectorialPointValuePair> convergenceChecker) {
-        this.checker = convergenceChecker;
-    }
-
-    /** {@inheritDoc} */
     public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {
         return checker;
     }
