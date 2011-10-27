@@ -505,7 +505,7 @@ public class SingularValueDecomposition {
     /**
      * Returns the diagonal matrix &Sigma; of the decomposition.
      * <p>&Sigma; is a diagonal matrix. The singular values are provided in
-     * non-increasing order, for compatibility with Jama.</p>
+     * non-increasing order, for compatibility with JAMA.</p>
      * @return the &Sigma; matrix
      */
     public RealMatrix getS() {
