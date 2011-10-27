@@ -55,7 +55,7 @@ import org.apache.commons.math.util.FastMath;
  * </p>
  * <p>
  * This implementation is based on the paper by A. Drubrulle, R.S. Martin and
- * J.H. Wilkinson 'The Implicit QL Algorithm' in Wilksinson and Reinsch (1971)
+ * J.H. Wilkinson "The Implicit QL Algorithm" in Wilksinson and Reinsch (1971)
  * Handbook for automatic computation, vol. 2, Linear algebra, Springer-Verlag,
  * New-York
  * </p>
@@ -65,37 +65,27 @@ import org.apache.commons.math.util.FastMath;
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class EigenDecomposition{
-
     /** Maximum number of iterations accepted in the implicit QL transformation */
     private byte maxIter = 30;
-
     /** Main diagonal of the tridiagonal matrix. */
     private double[] main;
-
     /** Secondary diagonal of the tridiagonal matrix. */
     private double[] secondary;
-
     /**
      * Transformer to tridiagonal (may be null if matrix is already
      * tridiagonal).
      */
     private TriDiagonalTransformer transformer;
-
     /** Real part of the realEigenvalues. */
     private double[] realEigenvalues;
-
     /** Imaginary part of the realEigenvalues. */
     private double[] imagEigenvalues;
-
     /** Eigenvectors. */
     private ArrayRealVector[] eigenvectors;
-
     /** Cached value of V. */
     private RealMatrix cachedV;
-
     /** Cached value of D. */
     private RealMatrix cachedD;
-
     /** Cached value of Vt. */
     private RealMatrix cachedVt;
 
@@ -120,8 +110,8 @@ public class EigenDecomposition{
      * Calculates the eigen decomposition of the symmetric tridiagonal
      * matrix.  The Householder matrix is assumed to be the identity matrix.
      *
-     * @param main Main diagonal of the symmetric triadiagonal form
-     * @param secondary Secondary of the tridiagonal form
+     * @param main Main diagonal of the symmetric tridiagonal form.
+     * @param secondary Secondary of the tridiagonal form.
      * @param splitTolerance Dummy parameter (present for backward
      * compatibility only).
      * @throws MaxCountExceededException if the algorithm fails to converge.
@@ -171,13 +161,14 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns the matrix V of the decomposition.
-     * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
-     * <p>The columns of V are the eigenvectors of the original matrix.</p>
-     * <p>No assumption is made about the orientation of the system axes formed
+     * Gets the matrix V of the decomposition.
+     * V is an orthogonal matrix, i.e. its transpose is also its inverse.
+     * The columns of V are the eigenvectors of the original matrix.
+     * No assumption is made about the orientation of the system axes formed
      * by the columns of V (e.g. in a 3-dimension space, V can form a left-
-     * or right-handed system).</p>
-     * @return the V matrix
+     * or right-handed system).
+     *
+     * @return the V matrix.
      */
     public RealMatrix getV() {
 
@@ -194,11 +185,13 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns the block diagonal matrix D of the decomposition.
-     * <p>D is a block diagonal matrix.</p>
-     * <p>Real eigenvalues are on the diagonal while complex values are on
-     * 2x2 blocks { {real +imaginary}, {-imaginary, real} }.</p>
-     * @return the D matrix
+     * Gets the block diagonal matrix D of the decomposition.
+     * D is a block diagonal matrix.
+     * Real eigenvalues are on the diagonal while complex values are on
+     * 2x2 blocks { {real +imaginary}, {-imaginary, real} }.
+     *
+     * @return the D matrix.
+     *
      * @see #getRealEigenvalues()
      * @see #getImagEigenvalues()
      */
@@ -211,13 +204,14 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns the transpose of the matrix V of the decomposition.
-     * <p>V is an orthogonal matrix, i.e. its transpose is also its inverse.</p>
-     * <p>The columns of V are the eigenvectors of the original matrix.</p>
-     * <p>No assumption is made about the orientation of the system axes formed
+     * Gets the transpose of the matrix V of the decomposition.
+     * V is an orthogonal matrix, i.e. its transpose is also its inverse.
+     * The columns of V are the eigenvectors of the original matrix.
+     * No assumption is made about the orientation of the system axes formed
      * by the columns of V (e.g. in a 3-dimension space, V can form a left-
-     * or right-handed system).</p>
-     * @return the transpose of the V matrix
+     * or right-handed system).
+     *
+     * @return the transpose of the V matrix.
      */
     public RealMatrix getVT() {
 
@@ -235,8 +229,10 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns a copy of the real parts of the eigenvalues of the original matrix.
-     * @return a copy of the real parts of the eigenvalues of the original matrix
+     * Gets a copy of the real parts of the eigenvalues of the original matrix.
+     *
+     * @return a copy of the real parts of the eigenvalues of the original matrix.
+     *
      * @see #getD()
      * @see #getRealEigenvalue(int)
      * @see #getImagEigenvalues()
@@ -246,9 +242,13 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns the real part of the i<sup>th</sup> eigenvalue of the original matrix.
+     * Returns the real part of the i<sup>th</sup> eigenvalue of the original
+     * matrix.
+     *
      * @param i index of the eigenvalue (counting from 0)
-     * @return real part of the i<sup>th</sup> eigenvalue of the original matrix
+     * @return real part of the i<sup>th</sup> eigenvalue of the original
+     * matrix.
+     *
      * @see #getD()
      * @see #getRealEigenvalues()
      * @see #getImagEigenvalue(int)
@@ -258,8 +258,12 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns a copy of the imaginary parts of the eigenvalues of the original matrix.
-     * @return a copy of the imaginary parts of the eigenvalues of the original matrix
+     * Gets a copy of the imaginary parts of the eigenvalues of the original
+     * matrix.
+     *
+     * @return a copy of the imaginary parts of the eigenvalues of the original
+     * matrix.
+     *
      * @see #getD()
      * @see #getImagEigenvalue(int)
      * @see #getRealEigenvalues()
@@ -269,9 +273,13 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns the imaginary part of the i<sup>th</sup> eigenvalue of the original matrix.
-     * @param i index of the eigenvalue (counting from 0)
-     * @return imaginary part of the i<sup>th</sup> eigenvalue of the original matrix
+     * Gets the imaginary part of the i<sup>th</sup> eigenvalue of the original
+     * matrix.
+     *
+     * @param i Index of the eigenvalue (counting from 0).
+     * @return the imaginary part of the i<sup>th</sup> eigenvalue of the original
+     * matrix.
+     *
      * @see #getD()
      * @see #getImagEigenvalues()
      * @see #getRealEigenvalue(int)
@@ -281,9 +289,10 @@ public class EigenDecomposition{
     }
 
     /**
-     * Returns a copy of the i<sup>th</sup> eigenvector of the original matrix.
-     * @param i index of the eigenvector (counting from 0)
-     * @return copy of the i<sup>th</sup> eigenvector of the original matrix
+     * Gets a copy of the i<sup>th</sup> eigenvector of the original matrix.
+     *
+     * @param i Index of the eigenvector (counting from 0).
+     * @return a copy of the i<sup>th</sup> eigenvector of the original matrix.
      * @see #getD()
      */
     public RealVector getEigenvector(final int i) {
@@ -291,8 +300,9 @@ public class EigenDecomposition{
     }
 
     /**
-     * Return the determinant of the matrix
-     * @return determinant of the matrix
+     * Computes the determinant of the matrix.
+     *
+     * @return the determinant of the matrix.
      */
     public double getDeterminant() {
         double determinant = 1;
@@ -303,8 +313,10 @@ public class EigenDecomposition{
     }
 
     /**
-     * Get a solver for finding the A &times; X = B solution in exact linear sense.
-     * @return a solver
+     * Gets a solver for finding the A &times; X = B solution in exact
+     * linear sense.
+     *
+     * @return a solver.
      */
     public DecompositionSolver getSolver() {
         return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
@@ -312,24 +324,19 @@ public class EigenDecomposition{
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-
         /** Real part of the realEigenvalues. */
         private double[] realEigenvalues;
-
         /** Imaginary part of the realEigenvalues. */
         private double[] imagEigenvalues;
-
         /** Eigenvectors. */
         private final ArrayRealVector[] eigenvectors;
 
         /**
-         * Build a solver from decomposed matrix.
-         * @param realEigenvalues
-         *            real parts of the eigenvalues
-         * @param imagEigenvalues
-         *            imaginary parts of the eigenvalues
-         * @param eigenvectors
-         *            eigenvectors
+         * Builds a solver from decomposed matrix.
+         *
+         * @param realEigenvalues Real parts of the eigenvalues.
+         * @param imagEigenvalues Imaginary parts of the eigenvalues.
+         * @param eigenvectors Eigenvectors.
          */
         private Solver(final double[] realEigenvalues,
                 final double[] imagEigenvalues,
@@ -340,13 +347,15 @@ public class EigenDecomposition{
         }
 
         /**
-         * Solve the linear equation A &times; X = B for symmetric matrices A.
+         * Solves the linear equation A &times; X = B for symmetric matrices A.
          * <p>
-         * This method only find exact linear solutions, i.e. solutions for
+         * This method only finds exact linear solutions, i.e. solutions for
          * which ||A &times; X - B|| is exactly 0.
          * </p>
-         * @param b Right-hand side of the equation A &times; X = B
-         * @return a Vector X that minimizes the two norm of A &times; X - B
+         *
+         * @param b Right-hand side of the equation A &times; X = B.
+         * @return a Vector X that minimizes the two norm of A &times; X - B.
+         *
          * @throws DimensionMismatchException if the matrices dimensions do not match.
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
@@ -412,12 +421,14 @@ public class EigenDecomposition{
         }
 
         /**
-         * Check if the decomposed matrix is non-singular.
-         * @return true if the decomposed matrix is non-singular
+         * Checks whether the decomposed matrix is non-singular.
+         *
+         * @return true if the decomposed matrix is non-singular.
          */
         public boolean isNonSingular() {
             for (int i = 0; i < realEigenvalues.length; ++i) {
-                if ((realEigenvalues[i] == 0) && (imagEigenvalues[i] == 0)) {
+                if (realEigenvalues[i] == 0 &&
+                    imagEigenvalues[i] == 0) {
                     return false;
                 }
             }
@@ -454,7 +465,7 @@ public class EigenDecomposition{
     }
 
     /**
-     * Transform matrix to tridiagonal.
+     * Transforms the matrix to tridiagonal form.
      *
      * @param matrix Matrix to transform.
      */
@@ -469,39 +480,39 @@ public class EigenDecomposition{
      * Find eigenvalues and eigenvectors (Dubrulle et al., 1971)
      *
      * @param householderMatrix Householder matrix of the transformation
-     * to tri-diagonal form.
+     * to tridiagonal form.
      */
     private void findEigenVectors(double[][] householderMatrix) {
-        double[][]z = householderMatrix.clone();
+        final double[][]z = householderMatrix.clone();
         final int n = main.length;
         realEigenvalues = new double[n];
         imagEigenvalues = new double[n];
-        double[] e = new double[n];
+        final double[] e = new double[n];
         for (int i = 0; i < n - 1; i++) {
             realEigenvalues[i] = main[i];
             e[i] = secondary[i];
         }
         realEigenvalues[n - 1] = main[n - 1];
-        e[n - 1] = 0.0;
+        e[n - 1] = 0;
 
         // Determine the largest main and secondary value in absolute term.
-        double maxAbsoluteValue=0.0;
+        double maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
-            if (FastMath.abs(realEigenvalues[i])>maxAbsoluteValue) {
-                maxAbsoluteValue=FastMath.abs(realEigenvalues[i]);
+            if (FastMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
+                maxAbsoluteValue = FastMath.abs(realEigenvalues[i]);
             }
-            if (FastMath.abs(e[i])>maxAbsoluteValue) {
-                maxAbsoluteValue=FastMath.abs(e[i]);
+            if (FastMath.abs(e[i]) > maxAbsoluteValue) {
+                maxAbsoluteValue = FastMath.abs(e[i]);
             }
         }
         // Make null any main and secondary value too small to be significant
-        if (maxAbsoluteValue!=0.0) {
+        if (maxAbsoluteValue != 0) {
             for (int i=0; i < n; i++) {
-                if (FastMath.abs(realEigenvalues[i])<=Precision.EPSILON*maxAbsoluteValue) {
-                    realEigenvalues[i]=0.0;
+                if (FastMath.abs(realEigenvalues[i]) <= Precision.EPSILON * maxAbsoluteValue) {
+                    realEigenvalues[i] = 0;
                 }
-                if (FastMath.abs(e[i])<=Precision.EPSILON*maxAbsoluteValue) {
-                    e[i]=0.0;
+                if (FastMath.abs(e[i]) <= Precision.EPSILON * maxAbsoluteValue) {
+                    e[i]=0;
                 }
             }
         }
@@ -511,7 +522,8 @@ public class EigenDecomposition{
             int m;
             do {
                 for (m = j; m < n - 1; m++) {
-                    double delta = FastMath.abs(realEigenvalues[m]) + FastMath.abs(realEigenvalues[m + 1]);
+                    double delta = FastMath.abs(realEigenvalues[m]) +
+                        FastMath.abs(realEigenvalues[m + 1]);
                     if (FastMath.abs(e[m]) + delta == delta) {
                         break;
                     }
@@ -597,22 +609,22 @@ public class EigenDecomposition{
         }
 
         // Determine the largest eigen value in absolute term.
-        maxAbsoluteValue=0.0;
+        maxAbsoluteValue = 0;
         for (int i = 0; i < n; i++) {
-            if (FastMath.abs(realEigenvalues[i])>maxAbsoluteValue) {
+            if (FastMath.abs(realEigenvalues[i]) > maxAbsoluteValue) {
                 maxAbsoluteValue=FastMath.abs(realEigenvalues[i]);
             }
         }
         // Make null any eigen value too small to be significant
         if (maxAbsoluteValue!=0.0) {
             for (int i=0; i < n; i++) {
-                if (FastMath.abs(realEigenvalues[i])<Precision.EPSILON*maxAbsoluteValue) {
-                    realEigenvalues[i]=0.0;
+                if (FastMath.abs(realEigenvalues[i]) < Precision.EPSILON * maxAbsoluteValue) {
+                    realEigenvalues[i] = 0;
                 }
             }
         }
         eigenvectors = new ArrayRealVector[n];
-        double[] tmp = new double[n];
+        final double[] tmp = new double[n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 tmp[j] = z[j][i];
