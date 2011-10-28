@@ -21,6 +21,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -122,6 +123,15 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
         if (startPoint == null) {
             throw new NullArgumentException();
         }
+        final int dim = startPoint.length;
+        if (lower != null &&
+            lower.length != dim) {
+            throw new DimensionMismatchException(lower.length, dim);
+        }
+        if (upper != null &&
+            upper.length != dim) {
+            throw new DimensionMismatchException(upper.length, dim);
+        }
 
         // Reset.
         evaluations.setMaximalCount(maxEval);
@@ -131,7 +141,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
         function = f;
         goal = goalType;
         start = startPoint.clone();
-        final int dim = startPoint.length;
+
         if (lower == null) {
             lowerBound = new double[dim];
             for (int i = 0; i < dim; i++) {
