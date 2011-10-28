@@ -22,6 +22,7 @@ import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -131,6 +132,15 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
         if (upper != null &&
             upper.length != dim) {
             throw new DimensionMismatchException(upper.length, dim);
+        }
+        for (int i = 0; i < dim; i++) {
+            final double v = startPoint[i];
+            final double lo = lower[i];
+            final double hi = upper[i];
+            if (v < lo ||
+                v > hi) {
+                throw new OutOfRangeException(v, lo, hi);
+            }
         }
 
         // Reset.
