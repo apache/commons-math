@@ -78,10 +78,9 @@ import org.apache.commons.math.util.MathArrays;
  * @since 3.0
  */
 
-public class CMAESOptimizer extends
-        BaseAbstractScalarOptimizer<MultivariateRealFunction> implements
-        MultivariateRealOptimizer {
-
+public class CMAESOptimizer
+    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    implements MultivariateRealOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;
     /** Default value for {@link #stopfitness}: {@value}. */
@@ -238,60 +237,45 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param lambda
-     *            Population size.
+     * @param lambda Population size.
      */
     public CMAESOptimizer(int lambda) {
         this(lambda, null, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
-                DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
-                DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
+             DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
+             DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
     }
 
     /**
-     * @param lambda
-     *            Population size.
-     * @param inputSigma
-     *            Initial search volume - sigma of offspring objective
-     *            variables.
-     * @param boundaries
-     *            Boundaries for objective variables.
+     * @param lambda Population size.
+     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param boundaries Boundaries for objective variables.
      */
     public CMAESOptimizer(int lambda, double[] inputSigma,
-            double[][] boundaries) {
+                          double[][] boundaries) {
         this(lambda, inputSigma, boundaries, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
-                DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
-                DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
+             DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
+             DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
     }
 
     /**
-     * @param lambda
-     *            Population size.
-     * @param inputSigma
-     *            Initial search volume - sigma of offspring objective
-     *            variables.
-     * @param boundaries
-     *            Boundaries for objective variables.
-     * @param maxIterations
-     *            Maximal number of iterations.
-     * @param stopfitness
-     *            stop if objective function value < stopfitness.
-     * @param isActiveCMA
-     *            Chooses the covariance matrix update method.
-     * @param diagonalOnly
-     *            Number of initial iterations, where the covariance matrix
-     *            remains diagonal.
-     * @param checkFeasableCount
-     *            Determines how often new. random objective variables are
-     *            generated in case they are out of bounds.
-     * @param random
-     *            Used random generator.
-     * @param generateStatistics
-     *            Indicates whether statistic data is collected.
+     * @param lambda Population size.
+     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param boundaries Boundaries for objective variables.
+     * @param maxIterations Maximal number of iterations.
+     * @param stopFitness Whether to stop if objective function value is smaller than
+     * {@code stopFitness}.
+     * @param isActiveCMA Chooses the covariance matrix update method.
+     * @param diagonalOnly Number of initial iterations, where the covariance matrix
+     * remains diagonal.
+     * @param checkFeasableCount Determines how often new random objective variables are
+     * generated in case they are out of bounds.
+     * @param random Random generator.
+     * @param generateStatistics Whether statistic data is collected.
      */
     public CMAESOptimizer(int lambda, double[] inputSigma,
-            double[][] boundaries, int maxIterations, double stopfitness,
-            boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
-            RandomGenerator random, boolean generateStatistics) {
+                          double[][] boundaries, int maxIterations, double stopFitness,
+                          boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
+                          RandomGenerator random, boolean generateStatistics) {
         this.lambda = lambda;
         this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
         if (boundaries == null) {
@@ -542,10 +526,8 @@ public class CMAESOptimizer extends
     /**
      * Initialization of the dynamic search parameters
      *
-     * @param guess
-     *            initial guess for the arguments of the fitness function
+     * @param guess Initial guess for the arguments of the fitness function.
      */
-
     private void initializeCMA(double[] guess) {
         if (lambda <= 0) {
             lambda = 4 + (int) (3. * Math.log(dimension));
@@ -615,14 +597,12 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * Update of the evolution paths ps and pc
+     * Update of the evolution paths ps and pc.
      *
-     * @param zmean
-     *            weighted row matrix of the gaussian random numbers generating
-     *            the current offspring
-     * @param xold
-     *            xmean matrix of the previous generation
-     * @return hsig flag indicating a small correction
+     * @param zmean Weighted row matrix of the gaussian random numbers generating
+     * the current offspring.
+     * @param xold xmean matrix of the previous generation.
+     * @return hsig flag indicating a small correction.
      */
     private boolean updateEvolutionPaths(RealMatrix zmean, RealMatrix xold) {
         ps = ps.scalarMultiply(1. - cs).add(
@@ -643,16 +623,14 @@ public class CMAESOptimizer extends
     /**
      * Update of the covariance matrix C for diagonalOnly > 0
      *
-     * @param hsig
-     *            flag indicating a small correction
-     * @param bestArz
-     *            fitness-sorted matrix of the gaussian random values of the
-     *            current offspring
-     * @param xold
-     *            xmean matrix of the previous generation
+     * @param hsig Flag indicating a small correction.
+     * @param bestArz Fitness-sorted matrix of the gaussian random values of the
+     * current offspring.
+     * @param xold xmean matrix of the previous generation.
      */
-    private void updateCovarianceDiagonalOnly(boolean hsig, final RealMatrix bestArz,
-            final RealMatrix xold) {
+    private void updateCovarianceDiagonalOnly(boolean hsig,
+                                              final RealMatrix bestArz,
+                                              final RealMatrix xold) {
         // minor correction if hsig==false
         double oldFac = hsig ? 0 : ccov1Sep * cc * (2. - cc);
         oldFac += 1. - ccov1Sep - ccovmuSep;
@@ -673,20 +651,15 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * Update of the covariance matrix C
+     * Update of the covariance matrix C.
      *
-     * @param hsig
-     *            flag indicating a small correction
-     * @param bestArx
-     *            fitness-sorted matrix of the argument vectors producing the
-     *            current offspring
-     * @param arz
-     *            unsorted matrix containing the gaussian random values of the
-     *            current offspring
-     * @param arindex
-     *            indices indicating the fitness-order of the current offspring
-     * @param xold
-     *            xmean matrix of the previous generation
+     * @param hsig Flag indicating a small correction.
+     * @param bestArx Fitness-sorted matrix of the argument vectors producing the
+     * current offspring.
+     * @param arz Unsorted matrix containing the gaussian random values of the
+     * current offspring.
+     * @param arindex Indices indicating the fitness-order of the current offspring.
+     * @param xold xmean matrix of the previous generation.
      */
     private void updateCovariance(boolean hsig, final RealMatrix bestArx,
             final RealMatrix arz, final int[] arindex, final RealMatrix xold) {
@@ -757,10 +730,9 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * Update B and D from C
+     * Update B and D from C.
      *
-     * @param negccov
-     *            Negative covariance factor.
+     * @param negccov Negative covariance factor.
      */
     private void updateBD(double negccov) {
         if (ccov1 + ccovmu + negccov > 0 &&
@@ -796,10 +768,8 @@ public class CMAESOptimizer extends
     /**
      * Pushes the current best fitness value in a history queue.
      *
-     * @param vals
-     *            the history queue
-     * @param val
-     *            current best fitness value
+     * @param vals History queue.
+     * @param val Current best fitness value.
      */
     private static void push(double[] vals, double val) {
         for (int i = vals.length-1; i > 0; i--) {
@@ -811,9 +781,8 @@ public class CMAESOptimizer extends
     /**
      * Sorts fitness values.
      *
-     * @param doubles
-     *            array of values to be sorted
-     * @return sorted array of indices pointing into doubles
+     * @param doubles Array of values to be sorted.
+     * @return a sorted array of indices pointing into doubles.
      */
     private int[] sortedIndices(final double[] doubles) {
         DoubleIndex[] dis = new DoubleIndex[doubles.length];
@@ -833,17 +802,14 @@ public class CMAESOptimizer extends
      * order.
      */
     private static class DoubleIndex implements Comparable<DoubleIndex> {
-
         /** Value to compare. */
         private double value;
         /** Index into sorted array. */
         private int index;
 
         /**
-         * @param value
-         *            Value to compare.
-         * @param index
-         *            Index into sorted array.
+         * @param value Value to compare.
+         * @param index Index into sorted array.
          */
         DoubleIndex(double value, int index) {
             this.value = value;
@@ -886,7 +852,6 @@ public class CMAESOptimizer extends
      * setValueRange().
      */
     private class FitnessFunction {
-
         /** Determines the penalty for boundary violations */
         private double valueRange;
         /**
@@ -903,9 +868,8 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param x
-         *            Original objective variables.
-         * @return Normalized objective variables.
+         * @param x Original objective variables.
+         * @return the normalized objective variables.
          */
         public double[] encode(final double[] x) {
             if (boundaries == null) {
@@ -920,9 +884,8 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param x
-         *            Normalized objective variables.
-         * @return Original objective variables.
+         * @param x Normalized objective variables.
+         * @return the original objective variables.
          */
         public double[] decode(final double[] x) {
             if (boundaries == null) {
@@ -937,9 +900,8 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param point
-         *            Normalized objective variables.
-         * @return Objective value + penalty for violated bounds.
+         * @param point Normalized objective variables.
+         * @return the objective value + penalty for violated bounds.
          */
         public double value(final double[] point) {
             double value;
@@ -956,9 +918,8 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param x
-         *            Normalized objective variables.
-         * @return True if in bounds
+         * @param x Normalized objective variables.
+         * @return {@code true} if in bounds.
          */
         public boolean isFeasible(final double[] x) {
             if (boundaries == null) {
@@ -976,17 +937,15 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param valueRange
-         *            Adjusts the penalty computation.
+         * @param valueRange Adjusts the penalty computation.
          */
         public void setValueRange(double valueRange) {
             this.valueRange = valueRange;
         }
 
         /**
-         * @param x
-         *            Normalized objective variables.
-         * @return Repaired objective variables - all in bounds.
+         * @param x Normalized objective variables.
+         * @return the repaired objective variables - all in bounds.
          */
         private double[] repair(final double[] x) {
             double[] repaired = new double[x.length];
@@ -1003,10 +962,8 @@ public class CMAESOptimizer extends
         }
 
         /**
-         * @param x
-         *            Normalized objective variables.
-         * @param repaired
-         *            Repaired objective variables.
+         * @param x Normalized objective variables.
+         * @param repaired Repaired objective variables.
          * @return Penalty value according to the violation of the bounds.
          */
         private double penalty(final double[] x, final double[] repaired) {
@@ -1022,9 +979,8 @@ public class CMAESOptimizer extends
     // -----Matrix utility functions similar to the Matlab build in functions------
 
     /**
-     * @param m
-     *            Input matrix
-     * @return Matrix representing the element wise logarithm of m.
+     * @param m Input matrix
+     * @return Matrix representing the element-wise logarithm of m.
      */
     private static RealMatrix log(final RealMatrix m) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
@@ -1039,7 +995,7 @@ public class CMAESOptimizer extends
     /**
      * @param m
      *            Input matrix
-     * @return Matrix representing the element wise square root of m.
+     * @return Matrix representing the element-wise square root of m.
      */
     private static RealMatrix sqrt(final RealMatrix m) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
@@ -1053,7 +1009,7 @@ public class CMAESOptimizer extends
 
     /**
      * @param m Input matrix
-     * @return Matrix representing the element wise square (^2) of m.
+     * @return Matrix representing the element-wise square (^2) of m.
      */
     private static RealMatrix square(final RealMatrix m) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
@@ -1067,34 +1023,30 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input matrix 1.
-     * @param n
-     *            Input matrix 2.
-     * @return Matrix where the elements of m and m are element wise multiplied.
+     * @param m Input matrix 1.
+     * @param n Input matrix 2.
+     * @return the matrix where the elements of m and n are element-wise multiplied.
      */
     private static RealMatrix times(final RealMatrix m, final RealMatrix n) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
-                d[r][c] = m.getEntry(r, c)*n.getEntry(r, c);
+                d[r][c] = m.getEntry(r, c) * n.getEntry(r, c);
             }
         }
         return new Array2DRowRealMatrix(d, false);
     }
 
     /**
-     * @param m
-     *            Input matrix 1.
-     * @param n
-     *            Input matrix 2.
-     * @return Matrix where the elements of m and m are element wise divided.
+     * @param m Input matrix 1.
+     * @param n Input matrix 2.
+     * @return Matrix where the elements of m and n are element-wise divided.
      */
     private static RealMatrix divide(final RealMatrix m, final RealMatrix n) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
-                d[r][c] = m.getEntry(r, c)/n.getEntry(r, c);
+                d[r][c] = m.getEntry(r, c) / n.getEntry(r, c);
             }
         }
         return new Array2DRowRealMatrix(d, false);
@@ -1117,7 +1069,7 @@ public class CMAESOptimizer extends
 
     /**
      * @param m Input matrix.
-     * @param k diagonal position.
+     * @param k Diagonal position.
      * @return Upper triangular part of matrix.
      */
     private static RealMatrix triu(final RealMatrix m, int k) {
@@ -1131,8 +1083,7 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input matrix.
+     * @param m Input matrix.
      * @return Row matrix representing the sums of the rows.
      */
     private static RealMatrix sumRows(final RealMatrix m) {
@@ -1148,10 +1099,9 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input matrix.
-     * @return Diagonal n X n matrix if m is a column matrix, Column matrix
-     *         representing the diagonal if m is a nXn matrix.
+     * @param m Input matrix.
+     * @return the diagonal n-by-n matrix if m is a column matrix or the column
+     * matrix representing the diagonal if m is a n-by-n matrix.
      */
     private static RealMatrix diag(final RealMatrix m) {
         if (m.getColumnDimension() == 1) {
@@ -1172,14 +1122,10 @@ public class CMAESOptimizer extends
     /**
      * Copies a column from m1 to m2.
      *
-     * @param m1
-     *            Source matrix 1.
-     * @param col1
-     *            Source column.
-     * @param m2
-     *            Target matrix.
-     * @param col2
-     *            Target column.
+     * @param m1 Source matrix 1.
+     * @param col1 Source column.
+     * @param m2 Target matrix.
+     * @param col2 Target column.
      */
     private static void copyColumn(final RealMatrix m1, int col1, RealMatrix m2, int col2) {
         for (int i = 0; i < m1.getRowDimension(); i++) {
@@ -1188,11 +1134,9 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param n
-     *            Number of rows.
-     * @param m
-     *            Number of columns.
-     * @return n X m matrix of 1.0-values.
+     * @param n Number of rows.
+     * @param m Number of columns.
+     * @return n-by-m matrix filled with 1.
      */
     private static RealMatrix ones(int n, int m) {
         double[][] d = new double[n][m];
@@ -1203,11 +1147,9 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param n
-     *            Number of rows.
-     * @param m
-     *            Number of columns.
-     * @return n X m matrix of 0.0-values, diagonal has values 1.0.
+     * @param n Number of rows.
+     * @param m Number of columns.
+     * @return n-by-m matrix of 0.0-values, diagonal has values 1.0.
      */
     private static RealMatrix eye(int n, int m) {
         double[][] d = new double[n][m];
@@ -1220,24 +1162,19 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param n
-     *            Number of rows.
-     * @param m
-     *            Number of columns.
-     * @return n X m matrix of 0.0-values.
+     * @param n Number of rows.
+     * @param m Number of columns.
+     * @return n-by-m matrix of 0.0-values.
      */
     private static RealMatrix zeros(int n, int m) {
         return new Array2DRowRealMatrix(n, m);
     }
 
     /**
-     * @param mat
-     *            Input matrix.
-     * @param n
-     *            Number of row replicates.
-     * @param m
-     *            Number of column replicates.
-     * @return Matrix which replicates the input matrix in both directions.
+     * @param mat Input matrix.
+     * @param n Number of row replicates.
+     * @param m Number of column replicates.
+     * @return a matrix which replicates the input matrix in both directions.
      */
     private static RealMatrix repmat(final RealMatrix mat, int n, int m) {
         int rd = mat.getRowDimension();
@@ -1252,13 +1189,10 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param start
-     *            Start value.
-     * @param end
-     *            End value.
-     * @param step
-     *            Step size.
-     * @return Sequence as column matrix.
+     * @param start Start value.
+     * @param end End value.
+     * @param step Step size.
+     * @return a sequence as column matrix.
      */
     private static RealMatrix sequence(double start, double end, double step) {
         int size = (int) ((end - start) / step + 1);
@@ -1272,9 +1206,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input matrix.
-     * @return Maximum of matrix element values.
+     * @param m Input matrix.
+     * @return the maximum of the matrix element values.
      */
     private static double max(final RealMatrix m) {
         double max = -Double.MAX_VALUE;
@@ -1290,9 +1223,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input matrix.
-     * @return Minimum of matrix element values.
+     * @param m Input matrix.
+     * @return the minimum of the matrix element values.
      */
     private static double min(final RealMatrix m) {
         double min = Double.MAX_VALUE;
@@ -1308,9 +1240,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input array.
-     * @return Maximum of array values.
+     * @param m Input array.
+     * @return the maximum of the array values.
      */
     private static double max(final double[] m) {
         double max = -Double.MAX_VALUE;
@@ -1323,9 +1254,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param m
-     *            Input array.
-     * @return Minimum of array values.
+     * @param m Input array.
+     * @return the minimum of the array values.
      */
     private static double min(final double[] m) {
         double min = Double.MAX_VALUE;
@@ -1338,9 +1268,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param indices
-     *            Input index array.
-     * @return Inverse of the mapping defined by indices
+     * @param indices Input index array.
+     * @return the inverse of the mapping defined by indices.
      */
     private static int[] inverse(final int[] indices) {
         int[] inverse = new int[indices.length];
@@ -1351,9 +1280,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param indices
-     *            Input index array.
-     * @return Indices in inverse order (last is first)
+     * @param indices Input index array.
+     * @return the indices in inverse order (last is first).
      */
     private static int[] reverse(final int[] indices) {
         int[] reverse = new int[indices.length];
@@ -1364,9 +1292,8 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param size
-     *            Length of random array.
-     * @return Array of gaussian random numbers.
+     * @param size Length of random array.
+     * @return an array of Gaussian random numbers.
      */
     private double[] randn(int size) {
         double[] randn = new double[size];
@@ -1377,11 +1304,9 @@ public class CMAESOptimizer extends
     }
 
     /**
-     * @param size
-     *            Number of rows.
-     * @param popSize
-     *            Population size.
-     * @return 2-dimensional matrix of gaussian random numbers.
+     * @param size Number of rows.
+     * @param popSize Population size.
+     * @return a 2-dimensional matrix of Gaussian random numbers.
      */
     private RealMatrix randn1(int size, int popSize) {
         double[][] d = new double[size][popSize];
@@ -1393,4 +1318,3 @@ public class CMAESOptimizer extends
         return new Array2DRowRealMatrix(d, false);
     }
 }
-
