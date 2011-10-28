@@ -48,6 +48,10 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     private GoalType goal;
     /** Initial guess. */
     private double[] start;
+    /** Lower bounds. */
+    private double[] lowerBound;
+    /** Upper bounds. */
+    private double[] upperBound;
     /** Objective function. */
     private MultivariateRealFunction function;
 
@@ -101,6 +105,13 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /** {@inheritDoc} */
     public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                        double[] startPoint) {
+        return optimize(maxEval, f, goalType, startPoint, null, null);
+    }
+
+    /** {@inheritDoc} */
+    public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+                                       double[] startPoint,
+                                       double[] lower, double[] upper) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -120,6 +131,23 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
         function = f;
         goal = goalType;
         start = startPoint.clone();
+        final int dim = startPoint.length;
+        if (lower == null) {
+            lowerBound = new double[dim];
+            for (int i = 0; i < dim; i++) {
+                lowerBound[i] = Double.NEGATIVE_INFINITY;
+            }
+        } else {
+            lowerBound = lower.clone();
+        }
+        if (upper == null) {
+            upperBound = new double[dim];
+            for (int i = 0; i < dim; i++) {
+                upperBound[i] = Double.POSITIVE_INFINITY;
+            }
+        } else {
+            upperBound = upper.clone();
+        }
 
         // Perform computation.
         return doOptimize();
@@ -137,6 +165,20 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
      */
     public double[] getStartPoint() {
         return start.clone();
+    }
+
+    /**
+     * @return the lower bounds.
+     */
+    public double[] getLowerBound() {
+        return lowerBound.clone();
+    }
+
+    /**
+     * @return the upper bounds.
+     */
+    public double[] getUpperBound() {
+        return upperBound.clone();
     }
 
     /**

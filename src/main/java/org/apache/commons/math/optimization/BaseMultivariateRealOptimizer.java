@@ -54,4 +54,27 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      */
     RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                 double[] startPoint);
+
+    /**
+     * Optimize an objective function.
+     *
+     * @param f Objective function.
+     * @param goalType Type of optimization goal: either
+     * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
+     * @param startPoint Start point for optimization.
+     * @param maxEval Maximum number of function evaluations.
+     * @param lowerBound Lower bound for each of the parameters.
+     * @param upperBound Upper bound for each of the parameters.
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the array sizes are wrong.
+     * @throws org.apache.commons.math.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math.exception.NullArgumentException if
+     * {@code f}, {@code goalType} or {@code startPoint} is {@code null}.
+     */
+    RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+                                double[] startPoint,
+                                double[] lowerBound, double[] upperBound);
 }

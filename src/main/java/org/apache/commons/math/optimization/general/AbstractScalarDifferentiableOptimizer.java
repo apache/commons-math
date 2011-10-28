@@ -73,9 +73,21 @@ public abstract class AbstractScalarDifferentiableOptimizer
                                        final DifferentiableMultivariateRealFunction f,
                                        final GoalType goalType,
                                        final double[] startPoint) {
+        return optimize(maxEval, f, goalType, startPoint, null, null);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public RealPointValuePair optimize(int maxEval,
+                                       final DifferentiableMultivariateRealFunction f,
+                                       final GoalType goalType,
+                                       final double[] startPoint,
+                                       double[] lowerBound, double[] upperBound) {
         // Store optimization problem characteristics.
         gradient = f.gradient();
 
-        return super.optimize(maxEval, f, goalType, startPoint);
+        return super.optimize(maxEval, f, goalType,
+                              startPoint,
+                              lowerBound, upperBound);
     }
 }
