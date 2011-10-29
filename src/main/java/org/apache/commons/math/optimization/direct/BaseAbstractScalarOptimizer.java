@@ -22,7 +22,8 @@ import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -125,21 +126,28 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
             throw new NullArgumentException();
         }
         final int dim = startPoint.length;
-        if (lower != null &&
-            lower.length != dim) {
-            throw new DimensionMismatchException(lower.length, dim);
+        if (lower != null) {
+            if (lower.length != dim) {
+                throw new DimensionMismatchException(lower.length, dim);
+            }
+            for (int i = 0; i < dim; i++) {
+                final double v = startPoint[i];
+                final double lo = lower[i];
+                if (v < lo) {
+                    throw new NumberIsTooSmallException(v, lo, true);
+                }
+            }
         }
-        if (upper != null &&
-            upper.length != dim) {
-            throw new DimensionMismatchException(upper.length, dim);
-        }
-        for (int i = 0; i < dim; i++) {
-            final double v = startPoint[i];
-            final double lo = lower[i];
-            final double hi = upper[i];
-            if (v < lo ||
-                v > hi) {
-                throw new OutOfRangeException(v, lo, hi);
+        if (upper != null) {
+            if (upper.length != dim) {
+                throw new DimensionMismatchException(upper.length, dim);
+            }
+            for (int i = 0; i < dim; i++) {
+                final double v = startPoint[i];
+                final double hi = upper[i];
+                if (v > hi) {
+                    throw new NumberIsTooLargeException(v, hi, true);
+                }
             }
         }
 
