@@ -54,6 +54,13 @@ import org.apache.commons.math.util.MathArrays;
 public class BOBYQAOptimizer
     extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
     implements MultivariateRealOptimizer {
+    /** Minimum dimension of the problem: {@value} */
+    public static final int MINIMUM_PROBLEM_DIMENSION = 2;
+    /** Default value for {@link #initialTrustRegionRadius}: {@value} . */
+    public static final double DEFAULT_INITIAL_RADIUS = 10.0;
+    /** Default value for {@link #stoppingTrustRegionRadius}: {@value} . */
+    public static final double DEFAULT_STOPPING_RADIUS = 1E-8;
+
     private static final double ZERO = 0d;
     private static final double ONE = 1d;
     private static final double TWO = 2d;
@@ -67,13 +74,6 @@ public class BOBYQAOptimizer
     private static final double ONE_OVER_TEN = ONE / 10;
     private static final double ONE_OVER_A_THOUSAND = ONE / 1000;
 
-    /** Minimum dimension of the problem: {@value} */
-    public static final int MINIMUM_PROBLEM_DIMENSION = 2;
-    /** Default value for {@link #initialTrustRegionRadius}: {@value} . */
-    public static final double DEFAULT_INITIAL_RADIUS = 10.0;
-    /** Default value for {@link #stoppingTrustRegionRadius}: {@value} . */
-    public static final double DEFAULT_STOPPING_RADIUS = 1E-8;
-
     /**
      * numberOfInterpolationPoints XXX
      */
@@ -86,19 +86,6 @@ public class BOBYQAOptimizer
      * stoppingTrustRegionRadius XXX
      */
     private final double stoppingTrustRegionRadius;
-    /**
-     * Lower bounds of the objective variables.
-     * {@code null} means no bounds.
-     * XXX Should probably be passed to the "optimize" method (overload not existing yet).
-     */
-    private double[] lowerBound;
-    /**
-     * Upper bounds of the objective variables.
-     * {@code null} means no bounds.
-     * XXX Should probably be passed to the "optimize" method (overload not existing yet).
-     */
-    private double[] upperBound;
-
     /** Goal type (minimize or maximize). */
     private boolean isMinimize;
     /**
@@ -154,10 +141,10 @@ public class BOBYQAOptimizer
      */
     private ArrayRealVector gradientAtTrustRegionCenter;
     /**
-     * Differences {@link #lowerBound} - {@link #originShift}.
+     * Differences {@link #getLowerBound()} - {@link #originShift}.
      * All the components of every {@link #trustRegionCenterOffset} are going
      * to satisfy the bounds<br/>
-     * {@link #lowerBound}<sub>i</sub> &le;
+     * {@link #getLowerBound() lowerBound}<sub>i</sub> &le;
      * {@link #trustRegionCenterOffset}<sub>i</sub>,<br/>
      * with appropriate equalities when {@link #trustRegionCenterOffset} is
      * on a constraint boundary.
@@ -165,11 +152,11 @@ public class BOBYQAOptimizer
      */
     private ArrayRealVector lowerDifference;
     /**
-     * Differences {@link #upperBound} - {@link #originShift}
+     * Differences {@link #getUpperBound()} - {@link #originShift}
      * All the components of every {@link #trustRegionCenterOffset} are going
      * to satisfy the bounds<br/>
      *  {@link #trustRegionCenterOffset}<sub>i</sub> &le;
-     *  {@link #upperBound}<sub>i</sub>,<br/>
+     *  {@link #getUpperBound() upperBound}<sub>i</sub>,<br/>
      * with appropriate equalities when {@link #trustRegionCenterOffset} is
      * on a constraint boundary.
      * XXX "su" in the original code.
@@ -223,23 +210,7 @@ public class BOBYQAOptimizer
      * Choices that exceed {@code 2n+1} are not recommended.
      */
     public BOBYQAOptimizer(int numberOfInterpolationPoints) {
-        this(numberOfInterpolationPoints, null, null);
-    }
-
-    /**
-     * @param numberOfInterpolationPoints Number of interpolation conditions.
-     * For a problem of dimension {@code n}, its value must be in the interval
-     * {@code [n+2, (n+1)(n+2)/2]}.
-     * Choices that exceed {@code 2n+1} are not recommended.
-     * @param lowerBound Lower bounds (constraints) of the objective variables.
-     * @param upperBound Upperer bounds (constraints) of the objective variables.
-     */
-    public BOBYQAOptimizer(int numberOfInterpolationPoints,
-                           double[] lowerBound,
-                           double[] upperBound) {
         this(numberOfInterpolationPoints,
-             lowerBound,
-             upperBound,
              DEFAULT_INITIAL_RADIUS,
              DEFAULT_STOPPING_RADIUS);
     }
@@ -249,18 +220,12 @@ public class BOBYQAOptimizer
      * For a problem of dimension {@code n}, its value must be in the interval
      * {@code [n+2, (n+1)(n+2)/2]}.
      * Choices that exceed {@code 2n+1} are not recommended.
-     * @param lowerBound Lower bounds (constraints) of the objective variables.
-     * @param upperBound Upperer bounds (constraints) of the objective variables.
      * @param initialTrustRegionRadius Initial trust region radius.
      * @param stoppingTrustRegionRadius Stopping trust region radius.
      */
     public BOBYQAOptimizer(int numberOfInterpolationPoints,
-                           double[] lowerBound,
-                           double[] upperBound,
                            double initialTrustRegionRadius,
                            double stoppingTrustRegionRadius) {
-        this.lowerBound = lowerBound == null ? null : MathArrays.copyOf(lowerBound);
-        this.upperBound = upperBound == null ? null : MathArrays.copyOf(upperBound);
         this.numberOfInterpolationPoints = numberOfInterpolationPoints;
         this.initialTrustRegionRadius = initialTrustRegionRadius;
         this.stoppingTrustRegionRadius = stoppingTrustRegionRadius;
@@ -269,13 +234,16 @@ public class BOBYQAOptimizer
     /** {@inheritDoc} */
     @Override
     protected RealPointValuePair doOptimize() {
+        final double[] lowerBound = getLowerBound();
+        final double[] upperBound = getUpperBound();
+
         // Validity checks.
-        setup();
+        setup(lowerBound, upperBound);
 
         isMinimize = (getGoalType() == GoalType.MINIMIZE);
         currentBest = new ArrayRealVector(getStartPoint());
 
-        final double value = bobyqa();
+        final double value = bobyqa(lowerBound, upperBound);
 
         return new RealPointValuePair(currentBest.getDataRef(),
                                       isMinimize ? value : -value);
@@ -311,9 +279,13 @@ public class BOBYQAOptimizer
      *     MAXFUN must be set to an upper bound on the number of calls of CALFUN.
      *     The array W will be used for working space. Its length must be at least
      *       (NPT+5)*(NPT+N)+3*N*(N+5)/2.
-     * @return
+     *
+     * @param lowerBound Lower bounds.
+     * @param upperBound Upper bounds.
+     * @return the value of the objective at the optimum.
      */
-    private double bobyqa() {
+    private double bobyqa(double[] lowerBound,
+                          double[] upperBound) {
         printMethod(); // XXX
 
         final int n = currentBest.getDimension();
@@ -359,7 +331,7 @@ public class BOBYQAOptimizer
 
         // Make the call of BOBYQB.
 
-        return bobyqb();
+        return bobyqb(lowerBound, upperBound);
     } // bobyqa
 
     // ----------------------------------------------------------------------------------------
@@ -397,9 +369,12 @@ public class BOBYQAOptimizer
      *     W is a one-dimensional array that is used for working space. Its length
      *       must be at least 3*NDIM = 3*(NPT+N).
      *
-     * @return
+     * @param lowerBound Lower bounds.
+     * @param upperBound Upper bounds.
+     * @return the value of the objective at the optimum.
      */
-    private double bobyqb() {
+    private double bobyqb(double[] lowerBound,
+                          double[] upperBound) {
         printMethod(); // XXX
 
         final int n = currentBest.getDimension();
@@ -431,7 +406,7 @@ public class BOBYQAOptimizer
 
         trustRegionCenterInterpolationPointIndex = 0;
 
-        prelim();
+        prelim(lowerBound, upperBound);
         double xoptsq = ZERO;
         for (int i = 0; i < n; i++) {
             trustRegionCenterOffset.setEntry(i, interpolationPoints.getEntry(trustRegionCenterInterpolationPointIndex, i));
@@ -1604,8 +1579,11 @@ public class BOBYQAOptimizer
      *     KOPT will be such that the least calculated value of F so far is at
      *       the point XPT(KOPT,.)+XBASE in the space of the variables.
      *
+     * @param lowerBound Lower bounds.
+     * @param upperBound Upper bounds.
      */
-    private void prelim() {
+    private void prelim(double[] lowerBound,
+                        double[] upperBound) {
         printMethod(); // XXX
 
         final int n = currentBest.getDimension();
@@ -2397,10 +2375,13 @@ public class BOBYQAOptimizer
     } // update
 
     /**
-     * Performs validity checks and adapt the {@link #lowerBound} and
-     * {@link #upperBound} array if no constraints were provided.
+     * Performs validity checks.
+     *
+     * @param lowerBound Lower bounds (constraints) of the objective variables.
+     * @param upperBound Upperer bounds (constraints) of the objective variables.
      */
-    private void setup() {
+    private void setup(double[] lowerBound,
+                       double[] upperBound) {
         printMethod(); // XXX
 
         double[] init = getStartPoint();
@@ -2420,34 +2401,12 @@ public class BOBYQAOptimizer
                                           nPointsInterval[1]);
         }
 
-        // Check (and possibly adapt) bounds.
-        if (lowerBound == null) {
-            lowerBound = fillNewArray(dimension, Double.NEGATIVE_INFINITY);
-        } else if (lowerBound.length != init.length) {
-            throw new DimensionMismatchException(lowerBound.length, dimension);
-        }
-
-        if (upperBound == null) {
-            upperBound = fillNewArray(dimension, Double.POSITIVE_INFINITY);
-        } else if (upperBound.length != init.length) {
-            throw new DimensionMismatchException(upperBound.length, dimension);
-        }
-
-       for (int i = 0; i < dimension; i++) {
-            final double v = init[i];
-            final double lo = lowerBound[i];
-            final double hi = upperBound[i];
-            if (v < lo || v > hi) {
-                throw new OutOfRangeException(v, lo, hi);
-            }
-        }
-
         // Initialize bound differences.
         boundDifference = new double[dimension];
 
         double requiredMinDiff = 2 * initialTrustRegionRadius;
         double minDiff = Double.POSITIVE_INFINITY;
-       for (int i = 0; i < dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             boundDifference[i] = upperBound[i] - lowerBound[i];
             minDiff = Math.min(minDiff, boundDifference[i]);
         }

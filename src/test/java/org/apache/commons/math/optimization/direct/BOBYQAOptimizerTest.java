@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NoDataException;
-import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
@@ -39,7 +39,7 @@ public class BOBYQAOptimizerTest {
 
     static final int DIM = 13;
    
-    @Test(expected=OutOfRangeException.class)
+    @Test(expected=NumberIsTooLargeException.class)
     public void testInitOutOfBounds() {
         double[] startPoint = point(DIM, 3);
         double[][] boundaries = boundaries(DIM, -1, 2);
@@ -262,9 +262,8 @@ public class BOBYQAOptimizerTest {
 //        RealPointValuePair result = optim.optimize(100000, func, goal, startPoint);
         final double[] lB = boundaries == null ? null : boundaries[0];
         final double[] uB = boundaries == null ? null : boundaries[1];
-        MultivariateRealOptimizer optim =
-            new BOBYQAOptimizer(2 * dim + 1, lB, uB);
-        RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);        
+        MultivariateRealOptimizer optim = new BOBYQAOptimizer(2 * dim + 1);
+        RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
 //        System.out.println(func.getClass().getName() + " = " 
 //              + optim.getEvaluations() + " f(");
 //        for (double x: result.getPoint())  System.out.print(x + " ");
