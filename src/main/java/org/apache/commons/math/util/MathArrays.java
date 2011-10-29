@@ -437,9 +437,10 @@ public class MathArrays {
 
     /**
      * Sort an array in place and perform the same reordering of entries on
-     * other arrays.  This method works the same as
-     * {@link #sortInPlace(double[], double[] ...)}, but allows the order of
-     * the sort to be provided in the {@code dir} parameter.
+     * other arrays.  This method works the same as the other
+     * {@link #sortInPlace(double[], double[][]) sortInPlace} method, but
+     * allows the order of the sort to be provided in the {@code dir}
+     * parameter.
      *
      * @param x Array to be sorted and used as a pattern for permutation
      * of the other arrays.
