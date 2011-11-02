@@ -289,7 +289,7 @@ public class CMAESOptimizer
             }
         }
         this.maxIterations = maxIterations;
-        this.stopfitness = stopfitness;
+        this.stopfitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
         this.diagonalOnly = diagonalOnly;
         this.checkFeasableCount = checkFeasableCount;
