@@ -83,7 +83,7 @@ public class CMAESOptimizer
     implements MultivariateRealOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;
-    /** Default value for {@link #stopfitness}: {@value}. */
+    /** Default value for {@link #stopFitness}: {@value}. */
     public static final double DEFAULT_STOPFITNESS = 0;
     /** Default value for {@link #isActiveCMA}: {@value}. */
     public static final boolean DEFAULT_ISACTIVECMA = true;
@@ -148,7 +148,7 @@ public class CMAESOptimizer
     /** Maximal number of iterations allowed. */
     private int maxIterations;
     /** Limit for fitness value. */
-    private double stopfitness;
+    private double stopFitness;
     /** Stop if x-changes larger stopTolUpX. */
     private double stopTolUpX;
     /** Stop if x-change smaller stopTolX. */
@@ -289,7 +289,7 @@ public class CMAESOptimizer
             }
         }
         this.maxIterations = maxIterations;
-        this.stopfitness = stopFitness;
+        this.stopFitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
         this.diagonalOnly = diagonalOnly;
         this.checkFeasableCount = checkFeasableCount;
@@ -407,8 +407,8 @@ public class CMAESOptimizer
                 }
                 // handle termination criteria
                 // Break, if fitness is good enough
-                if (stopfitness != 0) { // only if stopfitness is defined
-                    if (bestFitness < (isMinimize ? stopfitness : -stopfitness)) {
+                if (stopFitness != 0) { // only if stopFitness is defined
+                    if (bestFitness < (isMinimize ? stopFitness : -stopFitness)) {
                         break generationLoop;
                     }
                 }
