@@ -245,7 +245,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     @Test
-    public void testMomonts() {
+    public void testMoments() {
         final double tol = 1e-9;
         HypergeometricDistribution dist;
         

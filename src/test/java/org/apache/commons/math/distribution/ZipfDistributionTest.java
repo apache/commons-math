@@ -96,7 +96,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     @Test
-    public void testMomonts() {
+    public void testMoments() {
         final double tol = 1e-9;
         ZipfDistribution dist;
         

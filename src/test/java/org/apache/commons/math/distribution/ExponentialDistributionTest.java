@@ -125,7 +125,7 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
     }
 
     @Test
-    public void testMomonts() {
+    public void testMoments() {
         final double tol = 1e-9;
         ExponentialDistribution dist;
         

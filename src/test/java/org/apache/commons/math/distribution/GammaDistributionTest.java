@@ -155,7 +155,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     @Test
-    public void testMomonts() {
+    public void testMoments() {
         final double tol = 1e-9;
         GammaDistribution dist;
         

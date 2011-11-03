@@ -107,7 +107,7 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     }
 
     @Test
-    public void testMomonts() {
+    public void testMoments() {
         CauchyDistribution dist;
         
         dist = new CauchyDistributionImpl(10.2, 0.15);        
