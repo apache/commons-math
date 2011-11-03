@@ -177,9 +177,9 @@ public class UnivariateRealSolverUtils {
      * when one of the following happens: <ul>
      * <li> <code> f(a) * f(b) < 0 </code> --  success!</li>
      * <li> <code> a = lower </code> and <code> b = upper</code>
-     * -- ConvergenceException </li>
+     * -- NoBracketingException </li>
      * <li> <code> Integer.MAX_VALUE</code> iterations elapse
-     * -- ConvergenceException </li>
+     * -- NoBracketingException </li>
      * </ul></p>
      * <p>
      * <strong>Note: </strong> this method can take
@@ -222,9 +222,9 @@ public class UnivariateRealSolverUtils {
      * when one of the following happens: <ul>
      * <li> <code> f(a) * f(b) <= 0 </code> --  success!</li>
      * <li> <code> a = lower </code> and <code> b = upper</code>
-     * -- ConvergenceException </li>
+     * -- NoBracketingException </li>
      * <li> <code> maximumIterations</code> iterations elapse
-     * -- ConvergenceException </li></ul></p>
+     * -- NoBracketingException </li></ul></p>
      *
      * @param function Function.
      * @param initial Initial midpoint of interval being expanded to
