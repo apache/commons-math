@@ -49,7 +49,7 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  * instance to generate non-secure data and a {@link java.security.SecureRandom}
  * instance to provide data for the <code>nextSecureXxx</code> methods. If no
  * <code>RandomGenerator</code> is provided in the constructor, the default is
- * to use a generator based on {@link java.util.Random}. To plug in a different
+ * to use a {@link Well19937c} generator. To plug in a different
  * implementation, either implement <code>RandomGenerator</code> directly or
  * extend {@link AbstractRandomGenerator}.
  * <p>
@@ -81,10 +81,10 @@ import org.apache.commons.math.util.ResizableDoubleArray;
  * When a new <code>RandomDataImpl</code> is created, the underlying random
  * number generators are <strong>not</strong> initialized. If you do not
  * explicitly seed the default non-secure generator, it is seeded with the
- * current time in milliseconds on first use. The same holds for the secure
- * generator. If you provide a <code>RandomGenerator</code> to the constructor,
- * however, this generator is not reseeded by the constructor nor is it reseeded
- * on first use.</li>
+ * current time in milliseconds plus the system identity hash code on first use.
+ * The same holds for the secure generator. If you provide a <code>RandomGenerator</code>
+ * to the constructor, however, this generator is not reseeded by the constructor
+ * nor is it reseeded on first use.</li>
  * <li>
  * The <code>reSeed</code> and <code>reSeedSecure</code> methods delegate to the
  * corresponding methods on the underlying <code>RandomGenerator</code> and
@@ -827,7 +827,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Returns the RandomGenerator used to generate non-secure random data.
      * <p>
-     * Creates and initializes a default generator if null.
+     * Creates and initializes a default generator if null. Uses a {@link Well19937c}
+     * generator with {@code System.currentTimeMillis() + hashCode()} as the default seed.
      * </p>
      *
      * @return the Random used to generate random data
@@ -835,8 +836,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     private RandomGenerator getRan() {
         if (rand == null) {
-            rand = new JDKRandomGenerator();
-            rand.setSeed(System.currentTimeMillis());
+            rand = new Well19937c(System.currentTimeMillis() + hashCode());
         }
         return rand;
     }
@@ -844,7 +844,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Returns the SecureRandom used to generate secure random data.
      * <p>
-     * Creates and initializes if null.
+     * Creates and initializes if null.  Uses 
+     * {@code System.currentTimeMillis() + hashCode()} as the default seed.
      * </p>
      *
      * @return the SecureRandom used to generate secure random data
@@ -852,7 +853,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     private SecureRandom getSecRan() {
         if (secRand == null) {
             secRand = new SecureRandom();
-            secRand.setSeed(System.currentTimeMillis());
+            secRand.setSeed(System.currentTimeMillis() + hashCode());
         }
         return secRand;
     }
