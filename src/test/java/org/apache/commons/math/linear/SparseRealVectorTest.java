@@ -165,10 +165,12 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeDivide(RealVector v) {
             throw unsupported();
         }
@@ -222,6 +224,7 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector projection(RealVector v) {
             throw unsupported();
         }
@@ -231,26 +234,32 @@ public class SparseRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double getEntry(int index) {
             return data[index];
         }
 
+        @Override
         public int getDimension() {
             return data.length;
         }
 
+        @Override
         public RealVector append(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public RealVector append(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
 
+        @Override
         public void setEntry(int index, double value) {
             data[index] = value;
         }
@@ -270,10 +279,12 @@ public class SparseRealVectorTest {
             return data.clone();
         }
 
+        @Override
         public boolean isNaN() {
             throw unsupported();
         }
 
+        @Override
         public boolean isInfinite() {
             throw unsupported();
         }

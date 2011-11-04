@@ -24,11 +24,13 @@ package org.apache.commons.math.analysis.solvers;
  */
 public final class SecantSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
+    @Override
     protected UnivariateRealSolver getSolver() {
         return new SecantSolver();
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int[] getQuinticEvalCounts() {
         // As the Secant method does not maintain a bracketed solution,
         // convergence is not guaranteed. Two test cases are disabled (-1) due

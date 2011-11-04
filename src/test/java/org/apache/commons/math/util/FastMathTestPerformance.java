@@ -555,16 +555,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.log(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.log(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.log(x);
                                         }
@@ -575,16 +578,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.log10(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.log10(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.log10(x);
                                         }
@@ -595,16 +601,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.log1p(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.log1p(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.log1p(x);
                                         }
@@ -615,16 +624,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.pow(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.pow(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.pow(x, y);
                                         }
@@ -635,16 +647,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.exp(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.exp(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.exp(x);
                                         }
@@ -655,16 +670,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.sin(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.sin(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.sin(x);
                                         }
@@ -675,16 +693,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.asin(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.asin(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.asin(x);
                                         }
@@ -695,16 +716,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.cos(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.cos(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.cos(x);
                                         }
@@ -715,16 +739,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.acos(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.acos(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.acos(x);
                                         }
@@ -735,16 +762,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.tan(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.tan(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.tan(x);
                                         }
@@ -755,16 +785,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.atan(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.atan(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.atan(x);
                                         }
@@ -775,16 +808,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.atan2(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.atan2(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.atan2(x, y);
                                         }
@@ -795,16 +831,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.hypot(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.hypot(x, y);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.hypot(x, y);
                                         }
@@ -816,16 +855,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.cbrt(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.cbrt(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.cbrt(x);
                                         }
@@ -836,16 +878,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.sqrt(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.sqrt(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.sqrt(x);
                                         }
@@ -856,16 +901,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.cosh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.cosh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.cosh(x);
                                         }
@@ -876,16 +924,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.sinh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.sinh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.sinh(x);
                                         }
@@ -896,16 +947,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.tanh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.tanh(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.tanh(x);
                                         }
@@ -916,16 +970,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.expm1(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.expm1(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.expm1(x);
                                         }
@@ -936,16 +993,19 @@ public class FastMathTestPerformance {
                                     numStat,
                                     false,
                                     new PerfTestUtils.RunTest(SM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return StrictMath.abs(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(M) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return Math.abs(x);
                                         }
                                     },
                                     new PerfTestUtils.RunTest(FM) {
+                                        @Override
                                         public Double call() throws Exception {
                                             return FastMath.abs(x);
                                         }

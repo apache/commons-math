@@ -50,6 +50,7 @@ public class RetryRunner extends BlockJUnit4ClassRunner {
              * if one attempt succeeds, we succeed, if all attempts fail, we
              * fail with the reason corresponding to the last attempt
              */
+            @Override
             public void evaluate() throws Throwable {
                 Throwable failureReason = null;
 

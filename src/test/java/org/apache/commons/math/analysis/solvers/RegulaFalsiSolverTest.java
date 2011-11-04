@@ -29,11 +29,13 @@ import org.junit.Assert;
  */
 public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
+    @Override
     protected UnivariateRealSolver getSolver() {
         return new RegulaFalsiSolver();
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int[] getQuinticEvalCounts() {
         // While the Regula Falsi method guarantees convergence, convergence
         // may be extremely slow. The last test case does not converge within

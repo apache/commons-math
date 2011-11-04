@@ -95,10 +95,12 @@ public class RealVectorTest {
             return this;
         }
 
+        @Override
         public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeDivide(RealVector v) {
             throw unsupported();
         }
@@ -123,26 +125,32 @@ public class RealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector projection(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public double getEntry(int index) {
             return values[index];
         }
 
+        @Override
         public void setEntry(int index, double value) {
             values[index] = value;
         }
 
+        @Override
         public int getDimension() {
             return values.length;
         }
 
+        @Override
         public RealVector append(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public RealVector append(double d) {
             throw unsupported();
         }
@@ -151,6 +159,7 @@ public class RealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
@@ -158,14 +167,17 @@ public class RealVectorTest {
         public void setSubVector(int index, double[] v) {
             throw unsupported();
         }
+        @Override
         public void setSubVector(int index, RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public boolean isNaN() {
             throw unsupported();
         }
 
+        @Override
         public boolean isInfinite() {
             throw unsupported();
         }

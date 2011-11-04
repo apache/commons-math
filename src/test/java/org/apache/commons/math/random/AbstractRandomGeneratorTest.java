@@ -28,6 +28,7 @@ public class AbstractRandomGeneratorTest extends RandomGeneratorAbstractTest {
         super();
     }
     
+    @Override
     protected RandomGenerator makeGenerator() {
         RandomGenerator generator = new TestRandomGenerator();
         generator.setSeed(1001);

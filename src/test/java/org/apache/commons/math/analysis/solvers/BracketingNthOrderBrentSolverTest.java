@@ -33,11 +33,13 @@ import org.junit.Test;
  */
 public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
+    @Override
     protected UnivariateRealSolver getSolver() {
         return new BracketingNthOrderBrentSolver();
     }
 
     /** {@inheritDoc} */
+    @Override
     protected int[] getQuinticEvalCounts() {
         return new int[] {1, 3, 8, 1, 9, 4, 8, 1, 12, 1, 14};
     }
@@ -88,27 +90,39 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         // the reference roots have been computed by the Dfp solver to more than
         // 80 digits and checked with emacs (only the first 20 digits are reproduced here)
         compare(new TestFunction(0.0, -2, 2) {
+            @Override
             public double value(double x)      { return FastMath.sin(x) - 0.5 * x; }
+            @Override
             public double derivative(double x) { return FastMath.cos(x) - 0.5; }
         });
         compare(new TestFunction(6.3087771299726890947, -5, 10) {
+            @Override
             public double value(double x)      { return FastMath.pow(x, 5) + x - 10000; }
+            @Override
             public double derivative(double x) { return 5 * FastMath.pow(x, 4) + 1; }
         });
         compare(new TestFunction(9.6335955628326951924, 0.001, 10) {
+            @Override
             public double value(double x)      { return FastMath.sqrt(x) - 1 / x - 3; }
+            @Override
             public double derivative(double x) { return 0.5 / FastMath.sqrt(x) + 1 / (x * x); }
         });
         compare(new TestFunction(2.8424389537844470678, -5, 5) {
+            @Override
             public double value(double x)      { return FastMath.exp(x) + x - 20; }
+            @Override
             public double derivative(double x) { return FastMath.exp(x) + 1; }
         });
         compare(new TestFunction(8.3094326942315717953, 0.001, 10) {
+            @Override
             public double value(double x)      { return FastMath.log(x) + FastMath.sqrt(x) - 5; }
+            @Override
             public double derivative(double x) { return 1 / x + 0.5 / FastMath.sqrt(x); }
         });
         compare(new TestFunction(1.4655712318767680266, -0.5, 1.5) {
+            @Override
             public double value(double x)      { return (x - 1) * x * x - 1; }
+            @Override
             public double derivative(double x) { return (3 * x - 2) * x; }
         });
 

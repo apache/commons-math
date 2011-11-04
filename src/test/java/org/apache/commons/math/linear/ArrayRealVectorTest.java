@@ -95,14 +95,17 @@ public class ArrayRealVectorTest {
             return new UnsupportedOperationException("Not supported, unneeded for test purposes");
         }
 
+        @Override
         public RealVector map(UnivariateRealFunction function) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapToSelf(UnivariateRealFunction function) {
             throw unsupported();
         }
 
+        @Override
         public Iterator<Entry> iterator() {
             return new Iterator<Entry>() {
                 int i = 0;
@@ -128,14 +131,17 @@ public class ArrayRealVectorTest {
             };
         }
 
+        @Override
         public Iterator<Entry> sparseIterator() {
             return iterator();
         }
 
+        @Override
         public RealVector copy() {
             throw unsupported();
         }
 
+        @Override
         public RealVector add(RealVector v) {
             throw unsupported();
         }
@@ -144,6 +150,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector subtract(RealVector v) {
             throw unsupported();
         }
@@ -152,22 +159,27 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAdd(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapAddToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSubtract(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapSubtractToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapMultiply(double d) {
             double[] out = new double[data.length];
             for (int i = 0; i < data.length; i++) {
@@ -176,18 +188,22 @@ public class ArrayRealVectorTest {
             return new ArrayRealVector(out);
         }
 
+        @Override
         public RealVector mapMultiplyToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapDivide(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector mapDivideToSelf(double d) {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeMultiply(RealVector v) {
             throw unsupported();
         }
@@ -196,6 +212,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector ebeDivide(RealVector v) {
             throw unsupported();
         }
@@ -204,6 +221,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double dotProduct(RealVector v) {
             double dot = 0;
             for (int i = 0; i < data.length; i++) {
@@ -220,6 +238,7 @@ public class ArrayRealVectorTest {
             return dot;
         }
 
+        @Override
         public double cosine(RealVector v) {
             throw unsupported();
         }
@@ -228,18 +247,22 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double getNorm() {
             throw unsupported();
         }
 
+        @Override
         public double getL1Norm() {
             throw unsupported();
         }
 
+        @Override
         public double getLInfNorm() {
             throw unsupported();
         }
 
+        @Override
         public double getDistance(RealVector v) {
             throw unsupported();
         }
@@ -248,6 +271,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double getL1Distance(RealVector v) {
             throw unsupported();
         }
@@ -256,6 +280,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double getLInfDistance(RealVector v) {
             throw unsupported();
         }
@@ -264,14 +289,17 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector unitVector() {
             throw unsupported();
         }
 
+        @Override
         public void unitize() {
             throw unsupported();
         }
 
+        @Override
         public RealVector projection(RealVector v) {
             throw unsupported();
         }
@@ -280,6 +308,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealMatrix outerProduct(RealVector v) {
             throw unsupported();
         }
@@ -288,18 +317,22 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public double getEntry(int index) {
             return data[index];
         }
 
+        @Override
         public int getDimension() {
             return data.length;
         }
 
+        @Override
         public RealVector append(RealVector v) {
             throw unsupported();
         }
 
+        @Override
         public RealVector append(double d) {
             throw unsupported();
         }
@@ -308,14 +341,17 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector getSubVector(int index, int n) {
             throw unsupported();
         }
 
+        @Override
         public void setEntry(int index, double value) {
             throw unsupported();
         }
 
+        @Override
         public void setSubVector(int index, RealVector v) {
             throw unsupported();
         }
@@ -324,18 +360,22 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public void set(double value) {
             throw unsupported();
         }
 
+        @Override
         public double[] toArray() {
             return data.clone();
         }
 
+        @Override
         public boolean isNaN() {
             throw unsupported();
         }
 
+        @Override
         public boolean isInfinite() {
             throw unsupported();
         }
@@ -344,6 +384,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector combine(double a, double b, RealVector y) {
             throw unsupported();
         }
@@ -352,6 +393,7 @@ public class ArrayRealVectorTest {
             throw unsupported();
         }
 
+        @Override
         public RealVector combineToSelf(double a, double b, RealVector y) {
             throw unsupported();
         }

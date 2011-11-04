@@ -30,6 +30,7 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
         super();
     }
     
+    @Override
     protected RandomGenerator makeGenerator() {
         RandomGenerator generator = new TestBitStreamGenerator();
         generator.setSeed(1000);
