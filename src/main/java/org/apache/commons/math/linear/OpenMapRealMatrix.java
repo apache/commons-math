@@ -47,9 +47,9 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
      */
     public OpenMapRealMatrix(int rowDimension, int columnDimension) {
         super(rowDimension, columnDimension);
-        long lRow = (long) rowDimension;
-        long lCol = (long) columnDimension;
-        if (lRow * lCol >= (long) Integer.MAX_VALUE) {
+        long lRow = rowDimension;
+        long lCol = columnDimension;
+        if (lRow * lCol >= Integer.MAX_VALUE) {
             throw new NumberIsTooLargeException(lRow * lCol, Integer.MAX_VALUE, false);
         }
         this.rows = rowDimension;

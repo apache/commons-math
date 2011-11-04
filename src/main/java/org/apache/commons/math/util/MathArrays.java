@@ -367,7 +367,7 @@ public class MathArrays {
         double s3 = 0;
         double x1max = 0;
         double x3max = 0;
-        double floatn = (double) v.length;
+        double floatn = v.length;
         double agiant = rgiant / floatn;
         for (int i = 0; i < v.length; i++) {
             double xabs = Math.abs(v[i]);
