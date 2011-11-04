@@ -120,11 +120,13 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public PolygonsSet buildNew(final BSPTree<Euclidean2D> tree) {
         return new PolygonsSet(tree);
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void computeGeometricalProperties() {
 
         final Vector2D[][] v = getVertices();

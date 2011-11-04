@@ -43,12 +43,14 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected AbstractSubHyperplane<Euclidean3D, Euclidean2D> buildNew(final Hyperplane<Euclidean3D> hyperplane,
                                                                        final Region<Euclidean2D> remainingRegion) {
         return new SubPlane(hyperplane, remainingRegion);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Side side(Hyperplane<Euclidean3D> hyperplane) {
 
         final Plane otherPlane = (Plane) hyperplane;
@@ -91,6 +93,7 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
      * on the plus side of the instance and the part of the
      * instance on the minus side of the instance
      */
+    @Override
     public SplitSubHyperplane<Euclidean3D> split(Hyperplane<Euclidean3D> hyperplane) {
 
         final Plane otherPlane = (Plane) hyperplane;

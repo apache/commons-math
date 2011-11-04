@@ -40,23 +40,27 @@ public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclide
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getSize() {
         return 0;
     }
 
     /** {@inheritDoc} */
+    @Override
     protected AbstractSubHyperplane<Euclidean1D, Euclidean1D> buildNew(final Hyperplane<Euclidean1D> hyperplane,
                                                                        final Region<Euclidean1D> remainingRegion) {
         return new SubOrientedPoint(hyperplane, remainingRegion);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Side side(final Hyperplane<Euclidean1D> hyperplane) {
         final double global = hyperplane.getOffset(((OrientedPoint) getHyperplane()).getLocation());
         return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
     }
 
     /** {@inheritDoc} */
+    @Override
     public SplitSubHyperplane<Euclidean1D> split(final Hyperplane<Euclidean1D> hyperplane) {
         final double global = hyperplane.getOffset(((OrientedPoint) getHyperplane()).getLocation());
         return (global < -1.0e-10) ?

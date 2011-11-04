@@ -97,6 +97,7 @@ public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double doIntegrate()
         throws TooManyEvaluationsException, MaxCountExceededException {
 

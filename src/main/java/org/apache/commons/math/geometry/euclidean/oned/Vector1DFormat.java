@@ -100,6 +100,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public StringBuffer format(final Vector<Euclidean1D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
         final Vector1D p1 = (Vector1D) vector;
@@ -107,6 +108,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector1D parse(final String source) {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector1D result = parse(source, parsePosition);
@@ -119,6 +121,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector1D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(1, source, pos);
         if (coordinates == null) {

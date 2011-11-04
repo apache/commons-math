@@ -90,6 +90,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
   }
 
   /** {@inheritDoc} */
+  @Override
   public void integrate(final ExpandableStatefulODE equations, final double t)
       throws MathIllegalStateException, MathIllegalArgumentException {
 

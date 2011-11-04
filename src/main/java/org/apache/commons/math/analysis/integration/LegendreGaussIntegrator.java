@@ -194,6 +194,7 @@ public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected double doIntegrate()
         throws TooManyEvaluationsException, MaxCountExceededException {
 

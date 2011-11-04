@@ -142,12 +142,14 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     protected AbstractSubHyperplane<Euclidean2D, Euclidean1D> buildNew(final Hyperplane<Euclidean2D> hyperplane,
                                                                        final Region<Euclidean1D> remainingRegion) {
         return new SubLine(hyperplane, remainingRegion);
     }
 
     /** {@inheritDoc} */
+    @Override
     public Side side(final Hyperplane<Euclidean2D> hyperplane) {
 
         final Line    thisLine  = (Line) getHyperplane();
@@ -168,6 +170,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public SplitSubHyperplane<Euclidean2D> split(final Hyperplane<Euclidean2D> hyperplane) {
 
         final Line    thisLine  = (Line) getHyperplane();

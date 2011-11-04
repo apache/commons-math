@@ -126,6 +126,7 @@ public abstract class BaseSecantSolver
     }
 
     /** {@inheritDoc} */
+    @Override
     protected final double doSolve() {
         // Get initial solution
         double x0 = getMin();

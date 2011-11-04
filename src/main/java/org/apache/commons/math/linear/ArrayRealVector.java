@@ -409,6 +409,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public ArrayRealVector ebeDivide(RealVector v) {
         if (v instanceof ArrayRealVector) {
             final double[] vData = ((ArrayRealVector) v).data;
@@ -583,6 +584,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector projection(RealVector v) {
         return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
     }
@@ -615,16 +617,19 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getEntry(int index) {
         return data[index];
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return data.length;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector append(RealVector v) {
         try {
             return new ArrayRealVector(this, (ArrayRealVector) v);
@@ -644,6 +649,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector append(double in) {
         final double[] out = new double[data.length + 1];
         System.arraycopy(data, 0, out, 0, data.length);
@@ -652,6 +658,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getSubVector(int index, int n) {
         ArrayRealVector out = new ArrayRealVector(n);
         try {
@@ -664,6 +671,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntry(int index, double value) {
         try {
             data[index] = value;
@@ -673,6 +681,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public void addToEntry(int index, double increment) {
         data[index] += increment;
     }
@@ -761,6 +770,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @return {@code true} if any coordinate of this vector is {@code NaN},
      * {@code false} otherwise.
      */
+    @Override
     public boolean isNaN() {
         for (double v : data) {
             if (Double.isNaN(v)) {
@@ -777,6 +787,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * @return {@code true} if any coordinate of this vector is infinite and
      * none are {@code NaN}, {@code false} otherwise.
      */
+    @Override
     public boolean isInfinite() {
         if (isNaN()) {
             return false;

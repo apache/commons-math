@@ -127,11 +127,13 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public IntervalsSet buildNew(final BSPTree<Euclidean1D> tree) {
         return new IntervalsSet(tree);
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void computeGeometricalProperties() {
         if (getTree(false).getCut() == null) {
             setBarycenter(Vector1D.NaN);

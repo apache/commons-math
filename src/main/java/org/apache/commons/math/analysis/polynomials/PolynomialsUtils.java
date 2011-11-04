@@ -273,6 +273,7 @@ public class PolynomialsUtils {
         /** Get hash code.
          * @return hash code
          */
+        @Override
         public int hashCode() {
             return (v << 16) ^ w;
         }
@@ -281,6 +282,7 @@ public class PolynomialsUtils {
          * @param key other key
          * @return true if the instance and the other key refer to the same polynomial
          */
+        @Override
         public boolean equals(final Object key) {
 
             if ((key == null) || !(key instanceof JacobiKey)) {

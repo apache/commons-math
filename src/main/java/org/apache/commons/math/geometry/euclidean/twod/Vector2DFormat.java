@@ -103,6 +103,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public StringBuffer format(final Vector<Euclidean2D> vector, final StringBuffer toAppendTo,
                                final FieldPosition pos) {
         final Vector2D p2 = (Vector2D) vector;
@@ -110,6 +111,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D parse(final String source) {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector2D result = parse(source, parsePosition);
@@ -122,6 +124,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public Vector2D parse(final String source, final ParsePosition pos) {
         final double[] coordinates = parseCoordinates(2, source, pos);
         if (coordinates == null) {

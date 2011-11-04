@@ -339,6 +339,7 @@ public abstract class AdaptiveStepsizeIntegrator
   }
 
   /** {@inheritDoc} */
+  @Override
   public abstract void integrate (ExpandableStatefulODE equations, double t)
     throws MathIllegalStateException, MathIllegalArgumentException;
 

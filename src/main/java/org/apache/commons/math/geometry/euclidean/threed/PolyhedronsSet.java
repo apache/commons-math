@@ -105,11 +105,13 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public PolyhedronsSet buildNew(final BSPTree<Euclidean3D> tree) {
         return new PolyhedronsSet(tree);
     }
 
     /** {@inheritDoc} */
+    @Override
     protected void computeGeometricalProperties() {
 
         // compute the contribution of all boundary facets

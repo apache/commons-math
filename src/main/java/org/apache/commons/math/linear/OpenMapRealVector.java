@@ -273,6 +273,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector append(RealVector v) {
         if (v instanceof OpenMapRealVector) {
             return append((OpenMapRealVector) v);
@@ -286,6 +287,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector append(double d) {
         OpenMapRealVector res = new OpenMapRealVector(this, 1);
         res.setEntry(virtualSize, d);
@@ -334,6 +336,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector ebeDivide(RealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -346,6 +349,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector ebeMultiply(RealVector v) {
         checkVectorDimensions(v.getDimension());
         OpenMapRealVector res = new OpenMapRealVector(this);
@@ -358,6 +362,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public OpenMapRealVector getSubVector(int index, int n) {
         checkIndex(index);
         checkIndex(index + n - 1);
@@ -375,6 +380,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public int getDimension() {
         return virtualSize;
     }
@@ -421,6 +427,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getEntry(int index) {
         checkIndex(index);
         return entries.get(index);
@@ -507,6 +514,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isInfinite() {
         boolean infiniteFound = false;
         Iterator iter = entries.iterator();
@@ -524,6 +532,7 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isNaN() {
         Iterator iter = entries.iterator();
         while (iter.hasNext()) {
@@ -551,12 +560,14 @@ public class OpenMapRealVector extends SparseRealVector
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector projection(RealVector v) {
         checkVectorDimensions(v.getDimension());
         return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntry(int index, double value) {
         checkIndex(index);
         if (!isDefaultValue(value)) {
