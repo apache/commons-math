@@ -36,6 +36,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 * @version $Id$
 * @deprecated To be removed before 3.0.  Please do not use in any new code.
 */
+@Deprecated
 public class MathException extends Exception {
 
     /** Serializable version identifier. */
