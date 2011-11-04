@@ -100,10 +100,10 @@ public class FieldLUSolverTest {
     /** test solve singularity errors */
     @Test
     public void testSolveSingularityErrors() {
-        FieldDecompositionSolver solver;
-        solver = new FieldLUDecomposition(createFractionMatrix(singular))
+        FieldDecompositionSolver<Fraction> solver;
+        solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(singular))
             .getSolver();
-        FieldMatrix b = createFractionMatrix(new int[2][2]);
+        FieldMatrix<Fraction> b = createFractionMatrix(new int[2][2]);
         try {
             solver.solve(b);
             Assert.fail("an exception should have been thrown");
@@ -121,7 +121,7 @@ public class FieldLUSolverTest {
     /** test solve */
     @Test
     public void testSolve() {
-        FieldDecompositionSolver solver;
+        FieldDecompositionSolver<Fraction> solver;
         solver = new FieldLUDecomposition<Fraction>(createFractionMatrix(testData))
             .getSolver();
         FieldMatrix<Fraction> b = createFractionMatrix(new int[][] {
