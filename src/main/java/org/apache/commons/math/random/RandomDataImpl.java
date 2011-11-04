@@ -828,7 +828,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Returns the RandomGenerator used to generate non-secure random data.
      * <p>
      * Creates and initializes a default generator if null. Uses a {@link Well19937c}
-     * generator with {@code System.currentTimeMillis() + hashCode()} as the default seed.
+     * generator with {@code System.currentTimeMillis() + System.identityHashCode(this))} as the default seed.
      * </p>
      *
      * @return the Random used to generate random data
@@ -836,7 +836,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     private RandomGenerator getRan() {
         if (rand == null) {
-            rand = new Well19937c(System.currentTimeMillis() + hashCode());
+            rand = new Well19937c(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return rand;
     }
@@ -845,7 +845,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Returns the SecureRandom used to generate secure random data.
      * <p>
      * Creates and initializes if null.  Uses 
-     * {@code System.currentTimeMillis() + hashCode()} as the default seed.
+     * {@code System.currentTimeMillis() + System.identityHashCode(this)} as the default seed.
      * </p>
      *
      * @return the SecureRandom used to generate secure random data
@@ -853,7 +853,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     private SecureRandom getSecRan() {
         if (secRand == null) {
             secRand = new SecureRandom();
-            secRand.setSeed(System.currentTimeMillis() + hashCode());
+            secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return secRand;
     }
