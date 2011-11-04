@@ -13,11 +13,9 @@
  */
 package org.apache.commons.math.util;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 
-import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
