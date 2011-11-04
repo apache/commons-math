@@ -18,8 +18,6 @@ package org.apache.commons.math.analysis.function;
 
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
-
 import org.junit.Test;
 import org.junit.Assert;
 

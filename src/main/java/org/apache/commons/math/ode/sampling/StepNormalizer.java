@@ -18,7 +18,6 @@
 package org.apache.commons.math.ode.sampling;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.Precision;
 
 /**

@@ -20,7 +20,6 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -31,7 +30,6 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.util.MathArrays;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and

@@ -20,7 +20,6 @@ package org.apache.commons.math.complex;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

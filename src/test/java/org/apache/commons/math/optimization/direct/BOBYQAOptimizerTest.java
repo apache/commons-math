@@ -22,7 +22,6 @@ import java.util.Random;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
-import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.optimization.GoalType;
@@ -30,7 +29,6 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * Test for {@link BOBYQAOptimizer}.
