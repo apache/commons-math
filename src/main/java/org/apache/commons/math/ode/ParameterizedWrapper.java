@@ -40,12 +40,10 @@ class ParameterizedWrapper implements ParameterizedODE {
         this.fode = ode;
     }
 
-    /** {@inheritDoc} */
     public int getDimension() {
         return fode.getDimension();
     }
 
-    /** {@inheritDoc} */
     public void computeDerivatives(double t, double[] y, double[] yDot) {
         fode.computeDerivatives(t, y, yDot);
     }
