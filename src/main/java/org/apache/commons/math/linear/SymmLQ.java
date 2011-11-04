@@ -839,7 +839,7 @@ public class SymmLQ
      * definite.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
@@ -892,7 +892,7 @@ public class SymmLQ
      * definite.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public RealVector solve(final RealLinearOperator a,
@@ -929,7 +929,7 @@ public class SymmLQ
      * definite.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
@@ -959,7 +959,7 @@ public class SymmLQ
      * {@code true}, and {@code a} is not self-adjoint.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
@@ -1004,7 +1004,7 @@ public class SymmLQ
      * {@code true}, and {@code a} is not self-adjoint.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public RealVector solve(final RealLinearOperator a, final RealVector b,
@@ -1034,7 +1034,7 @@ public class SymmLQ
      * {@code true}, and {@code a} is not self-adjoint.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
@@ -1069,7 +1069,7 @@ public class SymmLQ
      * definite.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
@@ -1122,7 +1122,7 @@ public class SymmLQ
      * definite.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public RealVector solveInPlace(final RealLinearOperator a,
@@ -1190,7 +1190,7 @@ public class SymmLQ
      * {@code true}, and {@code a} or {@code m} is not self-adjoint.
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     @Override
