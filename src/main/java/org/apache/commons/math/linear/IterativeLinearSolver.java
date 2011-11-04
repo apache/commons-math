@@ -114,7 +114,7 @@ public abstract class IterativeLinearSolver {
      * @throws DimensionMismatchException if {@code b} has dimensions
      * inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public RealVector solve(RealLinearOperator a, RealVector b)
@@ -139,7 +139,7 @@ public abstract class IterativeLinearSolver {
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public RealVector solve(RealLinearOperator a, RealVector b, RealVector x0)
@@ -163,7 +163,7 @@ public abstract class IterativeLinearSolver {
      * @throws DimensionMismatchException if {@code b} or {@code x0} have
      * dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
-     * unless a custom {@link MaxCountExceededCallback callback} has been set at
+     * unless a custom {@link org.apache.commons.math.util.Incrementor.MaxCountExceededCallback callback} has been set at
      * construction.
      */
     public abstract RealVector solveInPlace(RealLinearOperator a, RealVector b,
