@@ -105,7 +105,7 @@ public final class EmpiricalDistributionTest {
         Assert.assertEquals(empiricalDistribution2.getSampleStats().getStandardDeviation(),
                 1.0173699343977738,10E-7);
 
-        double[] bounds = ((EmpiricalDistributionImpl) empiricalDistribution2).getGeneratorUpperBounds();
+        double[] bounds = empiricalDistribution2.getGeneratorUpperBounds();
         Assert.assertEquals(bounds.length, 100);
         Assert.assertEquals(bounds[99], 1.0, 10e-12);
 

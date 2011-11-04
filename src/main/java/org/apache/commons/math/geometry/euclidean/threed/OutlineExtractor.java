@@ -199,13 +199,13 @@ public class OutlineExtractor {
                 for (Vector2D[] loop : vertices) {
                     final boolean closed = loop[0] != null;
                     int previous         = closed ? (loop.length - 1) : 1;
-                    Vector3D previous3D  = (Vector3D) plane.toSpace(loop[previous]);
+                    Vector3D previous3D  = plane.toSpace(loop[previous]);
                     int current          = (previous + 1) % loop.length;
                     Vector2D pPoint       = new Vector2D(previous3D.dotProduct(u),
                                                          previous3D.dotProduct(v));
                     while (current < loop.length) {
 
-                        final Vector3D current3D = (Vector3D) plane.toSpace(loop[current]);
+                        final Vector3D current3D = plane.toSpace(loop[current]);
                         final Vector2D  cPoint    = new Vector2D(current3D.dotProduct(u),
                                                                  current3D.dotProduct(v));
                         final org.apache.commons.math.geometry.euclidean.twod.Line line =

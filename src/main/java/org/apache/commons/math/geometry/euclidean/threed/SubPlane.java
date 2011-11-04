@@ -55,7 +55,7 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
 
         final Plane otherPlane = (Plane) hyperplane;
         final Plane thisPlane  = (Plane) getHyperplane();
-        final Line  inter      = (Line) otherPlane.intersection(thisPlane);
+        final Line  inter      = otherPlane.intersection(thisPlane);
 
         if (inter == null) {
             // the hyperplanes are parallel,
@@ -98,7 +98,7 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
 
         final Plane otherPlane = (Plane) hyperplane;
         final Plane thisPlane  = (Plane) getHyperplane();
-        final Line  inter      = (Line) otherPlane.intersection(thisPlane);
+        final Line  inter      = otherPlane.intersection(thisPlane);
 
         if (inter == null) {
             // the hyperplanes are parallel

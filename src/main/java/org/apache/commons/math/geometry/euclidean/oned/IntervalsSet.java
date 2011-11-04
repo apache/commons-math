@@ -234,7 +234,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
             if ((checkPoint(low,  loc) == Location.INSIDE) &&
                 (checkPoint(high, loc) == Location.INSIDE)) {
                 // merge the last interval added and the first one of the high sub-tree
-                x = ((Interval) list.remove(list.size() - 1)).getLower();
+                x = list.remove(list.size() - 1).getLower();
             }
             recurseList(high, list, x, upper);
 

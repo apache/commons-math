@@ -164,7 +164,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
-        final Vector1D x = (Vector1D) thisLine.toSubSpace(crossing);
+        final Vector1D x = thisLine.toSubSpace(crossing);
         return getRemainingRegion().side(new OrientedPoint(x, direct));
 
     }
@@ -187,7 +187,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
-        final Vector1D x      = (Vector1D) thisLine.toSubSpace(crossing);
+        final Vector1D x      = thisLine.toSubSpace(crossing);
         final SubHyperplane<Euclidean1D> subPlus  = new OrientedPoint(x, !direct).wholeHyperplane();
         final SubHyperplane<Euclidean1D> subMinus = new OrientedPoint(x,  direct).wholeHyperplane();
 

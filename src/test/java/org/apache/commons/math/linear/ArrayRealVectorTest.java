@@ -956,7 +956,7 @@ public class ArrayRealVectorTest {
         Assert.assertEquals("compare values  ", v1.subtract(v2).getNorm(),dist_2, normTolerance);
 
         //octave =  sqrt(sumsq(v1-v2))
-        double dist_3 = v1.getDistance((RealVector) v2);
+        double dist_3 = v1.getDistance(v2);
         Assert.assertEquals("compare values  ", v1.subtract(v2).getNorm(),dist_3, normTolerance);
 
         //octave =  ???
@@ -966,7 +966,7 @@ public class ArrayRealVectorTest {
         double d_getL1Distance_2 = v1.getL1Distance(v2_t);
         Assert.assertEquals("compare values  ", 9d, d_getL1Distance_2, normTolerance);
 
-        double d_getL1Distance_3 = v1.getL1Distance((RealVector) v2);
+        double d_getL1Distance_3 = v1.getL1Distance(v2);
         Assert.assertEquals("compare values  ", 9d, d_getL1Distance_3, normTolerance);
 
         //octave =  ???
@@ -976,7 +976,7 @@ public class ArrayRealVectorTest {
         double d_getLInfDistance_2 = v1. getLInfDistance(v2_t);
         Assert.assertEquals("compare values  ", 3d, d_getLInfDistance_2, normTolerance);
 
-        double d_getLInfDistance_3 = v1. getLInfDistance((RealVector) v2);
+        double d_getLInfDistance_3 = v1. getLInfDistance(v2);
         Assert.assertEquals("compare values  ", 3d, d_getLInfDistance_3, normTolerance);
 
         //octave =  v1 + v2
@@ -1007,7 +1007,7 @@ public class ArrayRealVectorTest {
         double[] result_ebeMultiply_2 = {4d, 10d, 18d};
         assertClose("compare vect" ,v_ebeMultiply_2.toArray(),result_ebeMultiply_2,normTolerance);
 
-        RealVector  v_ebeMultiply_3 = v1.ebeMultiply((RealVector) v2);
+        RealVector  v_ebeMultiply_3 = v1.ebeMultiply(v2);
         double[] result_ebeMultiply_3 = {4d, 10d, 18d};
         assertClose("compare vect" ,v_ebeMultiply_3.toArray(),result_ebeMultiply_3,normTolerance);
 
@@ -1020,7 +1020,7 @@ public class ArrayRealVectorTest {
         double[] result_ebeDivide_2 = {0.25d, 0.4d, 0.5d};
         assertClose("compare vect" ,v_ebeDivide_2.toArray(),result_ebeDivide_2,normTolerance);
 
-        RealVector  v_ebeDivide_3 = v1.ebeDivide((RealVector) v2);
+        RealVector  v_ebeDivide_3 = v1.ebeDivide(v2);
         double[] result_ebeDivide_3 = {0.25d, 0.4d, 0.5d};
         assertClose("compare vect" ,v_ebeDivide_3.toArray(),result_ebeDivide_3,normTolerance);
 
@@ -1038,7 +1038,7 @@ public class ArrayRealVectorTest {
         RealMatrix m_outerProduct_2 = v1.outerProduct(v2_t);
         Assert.assertEquals("compare val ",4d, m_outerProduct_2.getEntry(0,0), normTolerance);
 
-        RealMatrix m_outerProduct_3 = v1.outerProduct((RealVector) v2);
+        RealMatrix m_outerProduct_3 = v1.outerProduct(v2);
         Assert.assertEquals("compare val ",4d, m_outerProduct_3.getEntry(0,0), normTolerance);
 
         RealVector v_unitVector = v1.unitVector();

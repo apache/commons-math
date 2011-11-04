@@ -308,7 +308,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         if (FastMath.abs(dot) < 1.0e-10) {
             return null;
         }
-        final Vector3D point = (Vector3D) line.toSpace(Vector1D.ZERO);
+        final Vector3D point = line.toSpace(Vector1D.ZERO);
         final double   k     = -(originOffset + w.dotProduct(point)) / dot;
         return new Vector3D(1.0, point, k, direction);
     }

@@ -605,7 +605,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * transform to the instance
      */
     public AbstractRegion<S, T> applyTransform(final Transform<S, T> transform) {
-        return (AbstractRegion<S, T>) buildNew(recurseTransform(getTree(false), transform));
+        return buildNew(recurseTransform(getTree(false), transform));
     }
 
     /** Recursively transform an inside/outside BSP-tree.
