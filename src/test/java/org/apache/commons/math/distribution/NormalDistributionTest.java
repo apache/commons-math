@@ -17,7 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -180,7 +179,7 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
    }
 
     @Test
-    public void testMath280() throws MathException {
+    public void testMath280() {
         NormalDistribution normal = new NormalDistributionImpl(0,1);
         double result = normal.inverseCumulativeProbability(0.9986501019683698);
         Assert.assertEquals(3.0, result, defaultTolerance);

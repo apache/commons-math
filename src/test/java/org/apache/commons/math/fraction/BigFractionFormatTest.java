@@ -20,7 +20,6 @@ package org.apache.commons.math.fraction;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
 import org.apache.commons.math.exception.MathParseException;
@@ -269,7 +268,7 @@ public class BigFractionFormatTest {
     }
 
     @Test
-    public void testParseBig() throws ParseException {
+    public void testParseBig() {
         BigFraction f1 =
             improperFormat.parse("167213075789791382630275400487886041651764456874403" +
                                  " / " +

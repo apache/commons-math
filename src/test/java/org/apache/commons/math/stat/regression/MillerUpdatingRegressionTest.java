@@ -18,7 +18,6 @@ package org.apache.commons.math.stat.regression;
 
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.correlation.PearsonsCorrelation;
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
@@ -233,7 +232,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     @Test
-    public void testFilippelli() throws MathException {
+    public void testFilippelli() {
         double[] data = new double[]{
             0.8116, -6.860120914,
             0.9072, -4.324130045,
@@ -385,7 +384,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     @Test
-    public void testWampler1() throws MathException {
+    public void testWampler1() {
         double[] data = new double[]{
             1, 0,
             6, 1,
@@ -445,7 +444,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     @Test
-    public void testWampler2() throws MathException {
+    public void testWampler2() {
         double[] data = new double[]{
             1.00000, 0,
             1.11111, 1,
@@ -504,7 +503,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     @Test
-    public void testWampler3() throws MathException {
+    public void testWampler3() {
         double[] data = new double[]{
             760, 0,
             -2042, 1,
@@ -561,7 +560,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     //@Test
-    public void testWampler4() throws MathException {
+    public void testWampler4() {
         double[] data = new double[]{
             75901, 0,
             -204794, 1,
@@ -759,7 +758,7 @@ public class MillerUpdatingRegressionTest {
 //    }
 
     @Test
-    public void testOneRedundantColumn() throws MathException {
+    public void testOneRedundantColumn() {
         MillerUpdatingRegression instance = new MillerUpdatingRegression(4, false);
         MillerUpdatingRegression instance2 = new MillerUpdatingRegression(5, false);
         double[][] x = new double[airdata[0].length][];
@@ -822,7 +821,7 @@ public class MillerUpdatingRegressionTest {
     }
 
     @Test
-    public void testThreeRedundantColumn() throws MathException {
+    public void testThreeRedundantColumn() {
 
         MillerUpdatingRegression instance = new MillerUpdatingRegression(4, false);
         MillerUpdatingRegression instance2 = new MillerUpdatingRegression(7, false);
@@ -1061,7 +1060,7 @@ public class MillerUpdatingRegressionTest {
     
     
     @Test
-    public void testSubsetRegression() throws MathException {
+    public void testSubsetRegression() {
         
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         MillerUpdatingRegression redRegression = new MillerUpdatingRegression(2, true);

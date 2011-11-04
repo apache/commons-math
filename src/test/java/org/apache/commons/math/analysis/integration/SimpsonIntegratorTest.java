@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -41,7 +40,7 @@ public final class SimpsonIntegratorTest {
      * Test of integrator for the sine function.
      */
     @Test
-    public void testSinFunction() throws MathException {
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
@@ -65,7 +64,7 @@ public final class SimpsonIntegratorTest {
      * Test of integrator for the quintic function.
      */
     @Test
-    public void testQuinticFunction() throws MathException {
+    public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;

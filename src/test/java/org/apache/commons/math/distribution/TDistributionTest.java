@@ -19,7 +19,6 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
 /**
  * Test cases for TDistribution.
@@ -144,7 +143,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      * Have chosen problevels from 0.10 to 0.001
      */
     @Test
-    public void nistData() throws MathException{
+    public void nistData(){
         double[] prob = new double[]{ 0.10,0.05,0.025,0.01,0.005,0.001};
         double[] args2 = new double[]{1.886,2.920,4.303,6.965,9.925,22.327};
         double[] args10 = new double[]{1.372,1.812,2.228,2.764,3.169,4.143};
@@ -156,7 +155,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         TestUtils.assertEquals(prob, makeNistResults(args100, 100), 1.0e-4);
         return;
     }
-    private double[] makeNistResults(double[] args, int df) throws MathException{
+    private double[] makeNistResults(double[] args, int df){
         TDistribution td =  new TDistributionImpl(df);
         double[] res  = new double[ args.length ];
         for( int i = 0 ; i < res.length ; i++){

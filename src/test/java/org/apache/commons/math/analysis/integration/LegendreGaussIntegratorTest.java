@@ -18,7 +18,6 @@ package org.apache.commons.math.analysis.integration;
 
 import java.util.Random;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
@@ -32,7 +31,7 @@ import org.junit.Test;
 public class LegendreGaussIntegratorTest {
 
     @Test
-    public void testSinFunction() throws MathException {
+    public void testSinFunction() {
         UnivariateRealFunction f = new SinFunction();
         UnivariateRealIntegratorImpl integrator = new LegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
         double min, max, expected, result, tolerance;
@@ -51,7 +50,7 @@ public class LegendreGaussIntegratorTest {
     }
 
     @Test
-    public void testQuinticFunction() throws MathException {
+    public void testQuinticFunction() {
         UnivariateRealFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator =
                 new LegendreGaussIntegrator(3,

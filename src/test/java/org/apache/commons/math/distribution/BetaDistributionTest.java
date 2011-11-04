@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math.distribution;
 
-import org.apache.commons.math.MathException;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class BetaDistributionTest {
     @Test
-    public void testCumulative() throws MathException {
+    public void testCumulative() {
         double[] x = new double[]{-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
         // all test data computed using R 2.5
         checkCumulative(0.1, 0.1,
@@ -141,7 +140,7 @@ public class BetaDistributionTest {
 
     }
 
-    private void checkCumulative(double alpha, double beta, double[] x, double[] cumes) throws MathException {
+    private void checkCumulative(double alpha, double beta, double[] x, double[] cumes) {
         BetaDistribution d = new BetaDistributionImpl(alpha, beta);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(cumes[i], d.cumulativeProbability(x[i]), 1e-8);
