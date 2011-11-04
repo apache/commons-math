@@ -132,7 +132,7 @@ public class EventStateTest {
             y[0] += 1.0;
         }
 
-    };
+    }
 
 
 }

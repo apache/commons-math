@@ -912,5 +912,5 @@ public class BatteryNISTTest {
             }
             return this.gradient;
         }
-    };
+    }
 }

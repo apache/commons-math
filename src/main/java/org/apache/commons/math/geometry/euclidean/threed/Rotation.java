@@ -354,8 +354,8 @@ public class Rotation implements Serializable {
     if (c <= inPlaneThreshold * k.getNorm() * u2Prime.getNorm()) {
       // the (q1, q2, q3) vector is also close to the (u1, u3) plane,
       // it is almost aligned with u1: we try (u2, u3) and (v2, v3)
-      k = v2Su2.crossProduct(v3Su3);;
-      c = k.dotProduct(u2.crossProduct(u3));;
+      k = v2Su2.crossProduct(v3Su3);
+      c = k.dotProduct(u2.crossProduct(u3));
 
       if (c <= 0) {
         // the (q1, q2, q3) vector is aligned with everything
