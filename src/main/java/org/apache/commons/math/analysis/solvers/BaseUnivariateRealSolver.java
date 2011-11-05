@@ -37,9 +37,9 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  */
 public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
     /**
-     * Get the maximal number of function evaluations.
+     * Get the maximum number of function evaluations.
      *
-     * @return the maximal number of function evaluations.
+     * @return the maximum number of function evaluations.
      */
     int getMaxEvaluations();
 
@@ -54,14 +54,34 @@ public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
     int getEvaluations();
 
     /**
+     * Get the absolute accuracy of the solver.  Solutions returned by the
+     * solver should be accurate to this tolerance, i.e., if &epsilon; is the
+     * absolute accuracy of the solver and {@code v} is a value returned by
+     * one of the {@code solve} methods, then a root of the function should
+     * exist somewhere in the interval ({@code v} - &epsilon;, {@code v} + &epsilon;).
+     * 
      * @return the absolute accuracy.
      */
     double getAbsoluteAccuracy();
+    
     /**
+     * Get the relative accuracy of the solver.  The contract for relative
+     * accuracy is the same as {@link #getAbsoluteAccuracy()}, but using 
+     * relative, rather than absolute error.  If &rho; is the relative accuracy
+     * configured for a solver and {@code v} is a value returned, then a root
+     * of the function should exist somewhere in the interval
+     * ({@code v} - &rho; {@code v}, {@code v} + &rho; {@code v}).
+     * 
      * @return the relative accuracy.
      */
     double getRelativeAccuracy();
+    
     /**
+     * Get the function value accuracy of the solver.  If {@code v} is
+     * a value returned by the solver for a function {@code f},
+     * then by contract, {@code |f(v)|} should be less than or equal to
+     * the function value accuracy configured for the solver.
+     * 
      * @return the function value accuracy.
      */
     double getFunctionValueAccuracy();
