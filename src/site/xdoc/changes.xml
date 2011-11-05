@@ -52,6 +52,13 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-701">
+        Changed the default seed used for RandomDataImpl, AbstractWell and MersenneTwister
+        PRNGs to add the system identity hash code of the instance to the current system
+        time, so generators initialized with default seeds within system clock resolution
+        will generate different sequences. Changed the default non-secure generator used
+        by RandomDataImpl to Well19937c.
+      </action>
       <action dev="luc" type="fix" issue="MATH-695">
         Fixed an event resetting issue in ODE.
       </action>

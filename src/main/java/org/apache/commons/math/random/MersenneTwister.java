@@ -100,12 +100,12 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
     private int   mti;
 
     /** Creates a new random number generator.
-     * <p>The instance is initialized using the current time as the
-     * seed.</p>
+     * <p>The instance is initialized using the current time plus the
+     * system identity hash code of this instance as the seed.</p>
      */
     public MersenneTwister() {
         mt = new int[N];
-        setSeed(System.currentTimeMillis());
+        setSeed(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /** Creates a new random number generator using a single int seed.
@@ -156,13 +156,14 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
      * <p>The state of the generator is exactly the same as a new
      * generator built with the same seed.</p>
      * @param seed the initial seed (32 bits integers array), if null
-     * the seed of the generator will be related to the current time
+     * the seed of the generator will be the current system time plus the
+     * system identity hash code of this instance
      */
     @Override
     public void setSeed(int[] seed) {
 
         if (seed == null) {
-            setSeed(System.currentTimeMillis());
+            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
 
