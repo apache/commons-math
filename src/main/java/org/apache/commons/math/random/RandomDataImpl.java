@@ -844,7 +844,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /**
      * Returns the SecureRandom used to generate secure random data.
      * <p>
-     * Creates and initializes if null.  Uses 
+     * Creates and initializes if null.  Uses
      * {@code System.currentTimeMillis() + System.identityHashCode(this)} as the default seed.
      * </p>
      *
