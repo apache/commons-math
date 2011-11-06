@@ -271,6 +271,8 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE("out of range"), /* keep */
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
+    OUT_OF_RANGE_LEFT("{0} out of ({1}, {2}] range"),
+    OUT_OF_RANGE_RIGHT("{0} out of [{1}, {2}) range"),
     OUTLINE_BOUNDARY_LOOP_OPEN("an outline boundary loop is open"),
     OVERFLOW("overflow"), /* keep */
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
