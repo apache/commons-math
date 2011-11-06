@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  *
  * This class is not intended for use outside of the Apache Commons Math
  * library, regular user should rely on more specific interfaces like
- * {@link UnivariateRealSolver}, {link PolynomialSolver} or {@link
+ * {@link UnivariateRealSolver}, {@link PolynomialSolver} or {@link
  * DifferentiableUnivariateRealSolver}.
  * @param <FUNC> Type of function to solve.
  *
