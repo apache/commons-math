@@ -63,6 +63,11 @@
       <email>billbarker at apache dot org</email>
     </developer>
     <developer>
+      <name>Sébastien Brisard</name>
+      <id>celestin</id>
+      <email>celestin at apache dot org</email>
+    </developer>
+    <developer>
       <name>Albert Davidson Chou</name>
       <id>achou</id>
       <email>achou at apache dot org</email>
@@ -78,14 +83,14 @@
       <email>rdonkin at apache dot org</email>
     </developer>
     <developer>
-      <name>Tim O'Brien</name>
-      <id>tobrien</id>
-      <email>tobrien at apache dot org</email>
-    </developer>
-    <developer>
       <name>Luc Maisonobe</name>
       <id>luc</id>
       <email>luc at apache dot org</email>
+    </developer>
+    <developer>
+      <name>Tim O'Brien</name>
+      <id>tobrien</id>
+      <email>tobrien at apache dot org</email>
     </developer>
     <developer>
       <name>J. Pietschmann</name>
@@ -98,24 +103,24 @@
       <email>dimpbx at apache dot org</email>
     </developer>
     <developer>
-      <name>Phil Steitz</name>
-      <id>psteitz</id>
-      <email>psteitz at apache dot org</email>
-    </developer>
-    <developer>
-      <name>Brent Worden</name>
-      <id>brentworden</id>
-      <email>brentworden at apache dot org</email>
-    </developer>
-    <developer>
       <name>Gilles Sadowski</name>
       <id>erans</id>
       <email>erans at apache dot org</email>
     </developer>
     <developer>
+      <name>Phil Steitz</name>
+      <id>psteitz</id>
+      <email>psteitz at apache dot org</email>
+    </developer>
+    <developer>
       <name>Greg Sterijevski</name>
       <id>gregs</id>
       <email>gregs at apache dot org</email>
+    </developer>
+    <developer>
+      <name>Brent Worden</name>
+      <id>brentworden</id>
+      <email>brentworden at apache dot org</email>
     </developer>
   </developers>
   <contributors>
