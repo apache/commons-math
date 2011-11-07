@@ -31,9 +31,11 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.EigenDecomposition;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.util.MathArrays;
@@ -276,6 +278,33 @@ public class CMAESOptimizer
                           double[][] boundaries, int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
                           RandomGenerator random, boolean generateStatistics) {
+        this(lambda, inputSigma, boundaries, maxIterations, stopFitness, isActiveCMA,
+             diagonalOnly, checkFeasableCount, random, generateStatistics,
+             new SimpleScalarValueChecker());
+    }
+
+    /**
+     * @param lambda Population size.
+     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param boundaries Boundaries for objective variables.
+     * @param maxIterations Maximal number of iterations.
+     * @param stopFitness Whether to stop if objective function value is smaller than
+     * {@code stopFitness}.
+     * @param isActiveCMA Chooses the covariance matrix update method.
+     * @param diagonalOnly Number of initial iterations, where the covariance matrix
+     * remains diagonal.
+     * @param checkFeasableCount Determines how often new random objective variables are
+     * generated in case they are out of bounds.
+     * @param random Random generator.
+     * @param generateStatistics Whether statistic data is collected.
+     * @param checker Convergence checker.
+     */
+    public CMAESOptimizer(int lambda, double[] inputSigma,
+                          double[][] boundaries, int maxIterations, double stopFitness,
+                          boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
+                          RandomGenerator random, boolean generateStatistics,
+                          ConvergenceChecker<RealPointValuePair> checker) {
+        super(checker);
         this.lambda = lambda;
         this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
         if (boundaries == null) {
