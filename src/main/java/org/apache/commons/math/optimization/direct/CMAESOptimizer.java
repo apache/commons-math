@@ -515,8 +515,8 @@ public class CMAESOptimizer
                     throw new NotPositiveException(inputSigma[i]);
                 }
                 if (boundaries != null) {
-                    if (inputSigma[i] > 1.0) {
-                        throw new OutOfRangeException(inputSigma[i], 0, 1.0);
+                    if (inputSigma[i] > boundaries[1][i] - boundaries[0][i]) {
+                        throw new OutOfRangeException(inputSigma[i], 0, boundaries[1][i] - boundaries[0][i]);
                     }
                 }
             }
@@ -535,7 +535,8 @@ public class CMAESOptimizer
         // initialize sigma
         double[][] sigmaArray = new double[guess.length][1];
         for (int i = 0; i < guess.length; i++) {
-            sigmaArray[i][0] = inputSigma != null ? inputSigma[i] : 0.3;
+            final double range =  (boundaries == null) ? 1.0 : boundaries[1][i] - boundaries[0][i];
+            sigmaArray[i][0]   = ((inputSigma == null) ? 0.3 : inputSigma[i]) / range;
         }
         RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);
         sigma = max(insigma); // overall standard deviation

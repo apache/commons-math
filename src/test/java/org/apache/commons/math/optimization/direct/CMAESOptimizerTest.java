@@ -96,7 +96,7 @@ public class CMAESOptimizerTest {
     public void testInputSigmaOutOfRange() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM, 1.1);
-        double[][] boundaries = boundaries(DIM,-1,2);
+        double[][] boundaries = boundaries(DIM,-0.5,0.5);
         RealPointValuePair expected =
             new RealPointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,

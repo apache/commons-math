@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-702" >
+        CMA-ES optimizer input sigma is now consistent with boundaries range units.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-462" due-to="Pavel Ryzhof">
         Added stable random generator based on Chambers-Mallows-Stuck method.
       </action>
