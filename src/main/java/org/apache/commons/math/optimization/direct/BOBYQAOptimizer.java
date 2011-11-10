@@ -1454,7 +1454,6 @@ public class BOBYQAOptimizer
             // Investigate whether more components of W can be fixed.
             final double tmp1 = adelt * adelt - wfixsq;
             if (tmp1 > ZERO) {
-                final double wsqsav = wfixsq;
                 step = Math.sqrt(tmp1 / ggfree);
                 ggfree = ZERO;
                 for (int i = 0; i < n; i++) {
