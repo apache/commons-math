@@ -2149,7 +2149,7 @@ public class BOBYQAOptimizer
             redsav = ZERO;
             iu = (int) (angbd * 17. + 3.1);
             for (int i = 0; i < iu; i++) {
-                angt = angbd * (double) i / (double) iu;
+                angt = angbd * i / iu;
                 sth = (angt + angt) / (ONE + angt * angt);
                 temp = shs + angt * (angt * dhd - dhs - dhs);
                 rednew = sth * (angt * dredg - sredg - HALF * sth * temp);
@@ -2171,7 +2171,7 @@ public class BOBYQAOptimizer
             }
             if (isav < iu) {
                 temp = (rdnext - rdprev) / (redmax + redmax - rdprev - rdnext);
-                angt = angbd * ((double) isav + HALF * temp) / (double) iu;
+                angt = angbd * (isav + HALF * temp) / iu;
             }
             cth = (ONE - angt * angt) / (ONE + angt * angt);
             sth = (angt + angt) / (ONE + angt * angt);
