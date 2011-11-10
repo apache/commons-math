@@ -17,6 +17,7 @@
 
 package org.apache.commons.math.geometry.euclidean.threed;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.random.Well1024a;
 import org.apache.commons.math.util.FastMath;
@@ -41,6 +42,13 @@ public class Vector3DTest {
                                  5, Vector3D.MINUS_J,
                                  -3, Vector3D.MINUS_K),
                     2, 0, 3);
+        checkVector(new Vector3D(new double[] { 2,  5,  -3 }),
+                    2, 5, -3);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testWrongDimension() {
+        new Vector3D(new double[] { 2,  5 });
     }
 
     @Test
@@ -49,6 +57,10 @@ public class Vector3DTest {
         Assert.assertTrue(FastMath.abs(v.getX() - 1) < 1.0e-12);
         Assert.assertTrue(FastMath.abs(v.getY() - 2) < 1.0e-12);
         Assert.assertTrue(FastMath.abs(v.getZ() - 3) < 1.0e-12);
+        double[] coordinates = v.toArray();
+        Assert.assertTrue(FastMath.abs(coordinates[0] - 1) < 1.0e-12);
+        Assert.assertTrue(FastMath.abs(coordinates[1] - 2) < 1.0e-12);
+        Assert.assertTrue(FastMath.abs(coordinates[2] - 3) < 1.0e-12);
     }
 
     @Test

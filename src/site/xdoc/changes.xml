@@ -53,6 +53,9 @@ The <action> type attribute can be add,update,fix,remove.
      -->
     <release version="3.0" date="TBD" description="TBD">
       <action dev="luc" type="add" due-to="Jan Kotek" >
+        Added array constructor and getter for Vector2D and Vector3D.
+      </action>
+      <action dev="luc" type="add" due-to="Jan Kotek" >
         Added applyTo and applyInverseTo methods in the Rotation class that
         handle directly arrays instead of Vector3D instances.
       </action>

@@ -20,6 +20,7 @@ package org.apache.commons.math.geometry.euclidean.threed;
 import java.io.Serializable;
 import java.text.NumberFormat;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.geometry.Vector;
@@ -95,6 +96,21 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    /** Simple constructor.
+     * Build a vector from its coordinates
+     * @param v coordinates array
+     * @exception DimensionMismatchException if array does not have 3 elements
+     * @see #toArray()
+     */
+    public Vector3D(double[] v) throws DimensionMismatchException {
+        if (v.length != 3) {
+            throw new DimensionMismatchException(v.length, 3);
+        }
+        this.x = v[0];
+        this.y = v[1];
+        this.z = v[2];
     }
 
     /** Simple constructor.
@@ -196,6 +212,14 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      */
     public double getZ() {
         return z;
+    }
+
+    /** Get the vector coordinates as a dimension 3 array.
+     * @return vector coordinates
+     * @see #Vector3D(double[])
+     */
+    public double[] toArray() {
+        return new double[] { x, y, z };
     }
 
     /** {@inheritDoc} */
