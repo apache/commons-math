@@ -122,7 +122,7 @@ public final class SimpleRegressionTest {
 
         //should not be null
         final RegressionResults fullReg = iface.regress( );
-        Assert.assertTrue(fullReg != null);
+        Assert.assertNotNull(fullReg);
         Assert.assertEquals("intercept", regression.getIntercept(), fullReg.getParameterEstimate(0), 1.0e-16);
         Assert.assertEquals("intercept std err",regression.getInterceptStdErr(), fullReg.getStdErrorOfEstimate(0),1.0E-16);
         Assert.assertEquals("slope", regression.getSlope(), fullReg.getParameterEstimate(1), 1.0e-16);
@@ -135,7 +135,7 @@ public final class SimpleRegressionTest {
 
 
         final RegressionResults noInt   = iface.regress( new int[]{1} );
-        Assert.assertTrue(noInt != null);
+        Assert.assertNotNull(noInt);
         Assert.assertEquals("slope", regressionNoint.getSlope(), noInt.getParameterEstimate(0), 1.0e-12);
         Assert.assertEquals("slope std err",regressionNoint.getSlopeStdErr(), noInt.getStdErrorOfEstimate(0),1.0E-16);
         Assert.assertEquals("number of observations",regressionNoint.getN(), noInt.getN());
@@ -145,7 +145,7 @@ public final class SimpleRegressionTest {
         Assert.assertEquals("SSE", regressionNoint.getSumSquaredErrors(), noInt.getErrorSumSquares() ,1.0E-16);
 
         final RegressionResults onlyInt = iface.regress( new int[]{0} );
-        Assert.assertTrue( onlyInt != null );
+        Assert.assertNotNull(onlyInt);
         Assert.assertEquals("slope", regressionIntOnly.getSlope(), onlyInt.getParameterEstimate(0), 1.0e-12);
         Assert.assertEquals("slope std err",regressionIntOnly.getSlopeStdErr(), onlyInt.getStdErrorOfEstimate(0),1.0E-12);
         Assert.assertEquals("number of observations",regressionIntOnly.getN(), onlyInt.getN());
