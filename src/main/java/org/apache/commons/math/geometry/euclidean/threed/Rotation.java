@@ -847,6 +847,25 @@ public class Rotation implements Serializable {
 
   }
 
+  /** Apply the rotation to a vector stored in an array.
+   * @param in an array with three items which stores vector to rotate
+   * @param out an array with three items to put result to (it can be the same
+   * array as in)
+   */
+  public void applyTo(final double[] in, final double[] out) {
+
+      final double x = in[0];
+      final double y = in[1];
+      final double z = in[2];
+
+      final double s = q1 * x + q2 * y + q3 * z;
+
+      out[0] = 2 * (q0 * (x * q0 - (q2 * z - q3 * y)) + s * q1) - x;
+      out[1] = 2 * (q0 * (y * q0 - (q3 * x - q1 * z)) + s * q2) - y;
+      out[2] = 2 * (q0 * (z * q0 - (q1 * y - q2 * x)) + s * q3) - z;
+
+  }
+
   /** Apply the inverse of the rotation to a vector.
    * @param u vector to apply the inverse of the rotation to
    * @return a new vector which such that u is its image by the rotation
@@ -863,6 +882,26 @@ public class Rotation implements Serializable {
     return new Vector3D(2 * (m0 * (x * m0 - (q2 * z - q3 * y)) + s * q1) - x,
                         2 * (m0 * (y * m0 - (q3 * x - q1 * z)) + s * q2) - y,
                         2 * (m0 * (z * m0 - (q1 * y - q2 * x)) + s * q3) - z);
+
+  }
+
+  /** Apply the inverse of the rotation to a vector stored in an array.
+   * @param in an array with three items which stores vector to rotate
+   * @param out an array with three items to put result to (it can be the same
+   * array as in)
+   */
+  public void applyInverseTo(final double[] in, final double[] out) {
+
+      final double x = in[0];
+      final double y = in[1];
+      final double z = in[2];
+
+      final double s = q1 * x + q2 * y + q3 * z;
+      final double m0 = -q0;
+
+      out[0] = 2 * (m0 * (x * m0 - (q2 * z - q3 * y)) + s * q1) - x;
+      out[1] = 2 * (m0 * (y * m0 - (q3 * x - q1 * z)) + s * q2) - y;
+      out[2] = 2 * (m0 * (z * m0 - (q1 * y - q2 * x)) + s * q3) - z;
 
   }
 

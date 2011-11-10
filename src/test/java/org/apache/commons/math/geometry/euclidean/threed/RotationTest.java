@@ -439,6 +439,31 @@ public class RotationTest {
   }
 
   @Test
+  public void testArray() {
+
+      Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
+
+      for (double x = -0.9; x < 0.9; x += 0.2) {
+          for (double y = -0.9; y < 0.9; y += 0.2) {
+              for (double z = -0.9; z < 0.9; z += 0.2) {
+                  Vector3D u = new Vector3D(x, y, z);
+                  Vector3D v = r.applyTo(u);
+                  double[] inOut = new double[] { x, y, z };
+                  r.applyTo(inOut, inOut);
+                  Assert.assertEquals(v.getX(), inOut[0], 1.0e-10);
+                  Assert.assertEquals(v.getY(), inOut[1], 1.0e-10);
+                  Assert.assertEquals(v.getZ(), inOut[2], 1.0e-10);
+                  r.applyInverseTo(inOut, inOut);
+                  Assert.assertEquals(u.getX(), inOut[0], 1.0e-10);
+                  Assert.assertEquals(u.getY(), inOut[1], 1.0e-10);
+                  Assert.assertEquals(u.getZ(), inOut[2], 1.0e-10);
+              }
+          }
+      }
+
+  }
+
+  @Test
   public void testApplyInverseTo() {
 
     Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);

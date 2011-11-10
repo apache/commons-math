@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="add" due-to="Jan Kotek" >
+        Added applyTo and applyInverseTo methods in the Rotation class that
+        handle directly arrays instead of Vector3D instances.
+      </action>
       <action dev="luc" type="fix" issue="MATH-196" >
         Added adapters for simple bound constraints optimization that can be
         used for all direct optimization methods, including the ones that do not
