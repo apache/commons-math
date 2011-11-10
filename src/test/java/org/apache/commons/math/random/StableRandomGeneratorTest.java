@@ -24,7 +24,7 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 /**
  * The class <code>StableRandomGeneratorTest</code> contains tests for the class
- * {@link <code>StableRandomGenerator</code>}
+ * {@link StableRandomGenerator}
  * 
  * @version $Revision$
  */
