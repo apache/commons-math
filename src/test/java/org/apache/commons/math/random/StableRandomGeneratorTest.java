@@ -96,6 +96,7 @@ public class StableRandomGeneratorTest extends TestCase {
         try {
             new StableRandomGenerator(rg,
                     -1.0, 0.0);
+            fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
             assertEquals(-1.0, e.getArgument());
         }
@@ -105,6 +106,7 @@ public class StableRandomGeneratorTest extends TestCase {
         try {
             new StableRandomGenerator(rg,
                     3.0, 0.0);
+            fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
             assertEquals(3.0, e.getArgument());
         }
@@ -114,6 +116,7 @@ public class StableRandomGeneratorTest extends TestCase {
         try {
             new StableRandomGenerator(rg,
                     1.0, -2.0);
+            fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
             assertEquals(-2.0, e.getArgument());
         }
@@ -123,6 +126,7 @@ public class StableRandomGeneratorTest extends TestCase {
         try {
             new StableRandomGenerator(rg,
                     1.0, 2.0);
+            fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
             assertEquals(2.0, e.getArgument());
         }
