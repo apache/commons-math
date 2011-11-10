@@ -17,6 +17,7 @@
 package org.apache.commons.math.util;
 
 import org.apache.commons.math.exception.MathArithmeticException;
+import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.Localizable;
@@ -98,7 +99,7 @@ public final class ArithmeticUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws MathIllegalArgumentException if preconditions are not met.
+     * @throws MathIllegalNumberException if preconditions are not met.
      * @throws MathArithmeticException if the result is too large to be
      * represented by a long integer.
      */
