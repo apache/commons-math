@@ -211,13 +211,12 @@ public class LevenbergMarquardtOptimizerTest {
         }, new double[] { 1, 1, 1 });
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        VectorialPointValuePair optimum
-            = optimizer.optimize(100, problem, problem.target,
-                                 new double[] { 1, 1, 1 },
-                                 new double[] { 0, 0, 0 });
+        optimizer.optimize(100, problem, problem.target,
+                             new double[] { 1, 1, 1 },
+                             new double[] { 0, 0, 0 });
         Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
 
-        final double[][] m = optimizer.getCovariances();
+        optimizer.getCovariances();
     }
 
     @Test

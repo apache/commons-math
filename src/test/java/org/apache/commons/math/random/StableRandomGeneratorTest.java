@@ -94,7 +94,7 @@ public class StableRandomGeneratorTest extends TestCase {
      */
     public void testAlphaRangeBelowZero() {
         try {
-            StableRandomGenerator generator = new StableRandomGenerator(rg,
+            new StableRandomGenerator(rg,
                     -1.0, 0.0);
         } catch (OutOfRangeException e) {
             assertEquals(-1.0, e.getArgument());
@@ -103,7 +103,7 @@ public class StableRandomGeneratorTest extends TestCase {
 
     public void testAlphaRangeAboveTwo() {
         try {
-            StableRandomGenerator generator = new StableRandomGenerator(rg,
+            new StableRandomGenerator(rg,
                     3.0, 0.0);
         } catch (OutOfRangeException e) {
             assertEquals(3.0, e.getArgument());
@@ -112,7 +112,7 @@ public class StableRandomGeneratorTest extends TestCase {
 
     public void testBetaRangeBelowMinusOne() {
         try {
-            StableRandomGenerator generator = new StableRandomGenerator(rg,
+            new StableRandomGenerator(rg,
                     1.0, -2.0);
         } catch (OutOfRangeException e) {
             assertEquals(-2.0, e.getArgument());
@@ -121,7 +121,7 @@ public class StableRandomGeneratorTest extends TestCase {
 
     public void testBetaRangeAboveOne() {
         try {
-            StableRandomGenerator generator = new StableRandomGenerator(rg,
+            new StableRandomGenerator(rg,
                     1.0, 2.0);
         } catch (OutOfRangeException e) {
             assertEquals(2.0, e.getArgument());

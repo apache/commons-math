@@ -952,9 +952,7 @@ public class SparseRealVectorTest {
         v1.setEntry(1, 3);
         v1.setEntry(2, 0);
 
-        RealVector w;
-
-        w = u.ebeMultiply(v1);
-        w = u.ebeDivide(v1);
+        u.ebeMultiply(v1);
+        u.ebeDivide(v1);
     }
 }

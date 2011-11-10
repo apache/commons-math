@@ -58,7 +58,6 @@ public class BOBYQAOptimizerTest {
     @Test(expected=NumberIsTooSmallException.class)
     public void testProblemDimensionTooSmall() {
         double[] startPoint = point(1, 0.5);
-        double[][] boundaries = null;
         doTest(new Rosen(), startPoint, null,
                GoalType.MINIMIZE,
                1e-13, 1e-6, 2000, null);
@@ -429,7 +428,7 @@ public class BOBYQAOptimizerTest {
     }
 
     private static class DiffPow implements MultivariateRealFunction {
-        private int fcount = 0;
+//        private int fcount = 0;
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
