@@ -57,7 +57,6 @@ public abstract class AbstractDistribution
      * The default implementation uses the identity
      * <p>{@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}</p>
      */
-    @Override
     public double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
@@ -81,7 +80,6 @@ public abstract class AbstractDistribution
      *
      * @return the mean or Double.NaN if it's not defined
      */
-    @Override
     public double getNumericalMean() {
         if (!numericalMeanIsCalculated) {
             numericalMean = calculateNumericalMean();
@@ -108,7 +106,6 @@ public abstract class AbstractDistribution
      * for certain cases in {@link TDistributionImpl}) or
      * Double.NaN if it's not defined
      */
-    @Override
     public double getNumericalVariance() {
         if (!numericalVarianceIsCalculated) {
             numericalVariance = calculateNumericalVariance();
@@ -124,7 +121,6 @@ public abstract class AbstractDistribution
      *
      * @return whether the lower bound of the support is inclusive or not
      */
-    @Override
     public abstract boolean isSupportLowerBoundInclusive();
 
     /**
@@ -133,7 +129,6 @@ public abstract class AbstractDistribution
      *
      * @return whether the upper bound of the support is inclusive or not
      */
-    @Override
     public abstract boolean isSupportUpperBoundInclusive();
 
     /**
@@ -155,7 +150,6 @@ public abstract class AbstractDistribution
      *
      * @return whether the support limits given by subclassed methods are connected or not
      */
-    @Override
     public boolean isSupportConnected() {
         return true;
     }

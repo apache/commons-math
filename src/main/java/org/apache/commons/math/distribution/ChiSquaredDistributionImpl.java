@@ -67,7 +67,6 @@ public class ChiSquaredDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getDegreesOfFreedom() {
         return gamma.getAlpha() * 2.0;
     }
@@ -75,7 +74,6 @@ public class ChiSquaredDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         return gamma.density(x);
     }
@@ -83,7 +81,6 @@ public class ChiSquaredDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double cumulativeProbability(double x)  {
         return gamma.cumulativeProbability(x);
     }

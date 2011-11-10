@@ -89,7 +89,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double cumulativeProbability(double x) {
         return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
     }
@@ -97,7 +96,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getMedian() {
         return median;
     }
@@ -105,7 +103,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getScale() {
         return scale;
     }
@@ -113,7 +110,6 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         final double dev = x - median;
         return (1 / FastMath.PI) * (scale / (dev * dev + scale * scale));

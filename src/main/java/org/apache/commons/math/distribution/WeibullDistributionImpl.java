@@ -90,7 +90,6 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double cumulativeProbability(double x) {
         double ret;
         if (x <= 0.0) {
@@ -104,7 +103,6 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getShape() {
         return shape;
     }
@@ -112,7 +110,6 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getScale() {
         return scale;
     }
@@ -120,7 +117,6 @@ public class WeibullDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         if (x < 0) {
             return 0;

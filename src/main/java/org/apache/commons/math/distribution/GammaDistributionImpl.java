@@ -92,7 +92,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      *  </li>
      * </ul>
      */
-    @Override
     public double cumulativeProbability(double x) {
         double ret;
 
@@ -125,7 +124,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getAlpha() {
         return alpha;
     }
@@ -133,7 +131,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getBeta() {
         return beta;
     }
@@ -141,7 +138,6 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         if (x < 0) {
             return 0;

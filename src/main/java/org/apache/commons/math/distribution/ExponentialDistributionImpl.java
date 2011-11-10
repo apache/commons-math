@@ -71,7 +71,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getMean() {
         return mean;
     }
@@ -79,7 +78,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         if (x < 0) {
             return 0;
@@ -97,7 +95,6 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * Exponential Distribution</a>, equation (1).</li>
      * </ul>
      */
-    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0.0) {

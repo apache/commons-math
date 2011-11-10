@@ -103,7 +103,6 @@ public class BetaDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         recomputeZ();
         if (x < 0 || x > 1) {

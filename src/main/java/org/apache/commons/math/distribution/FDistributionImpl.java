@@ -94,7 +94,6 @@ public class FDistributionImpl
      *
      * @since 2.1
      */
-    @Override
     public double density(double x) {
         final double nhalf = numeratorDegreesOfFreedom / 2;
         final double mhalf = denominatorDegreesOfFreedom / 2;
@@ -119,7 +118,6 @@ public class FDistributionImpl
      *  </li>
      * </ul>
      */
-    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0) {
@@ -200,7 +198,6 @@ public class FDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getNumeratorDegreesOfFreedom() {
         return numeratorDegreesOfFreedom;
     }
@@ -208,7 +205,6 @@ public class FDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getDenominatorDegreesOfFreedom() {
         return denominatorDegreesOfFreedom;
     }

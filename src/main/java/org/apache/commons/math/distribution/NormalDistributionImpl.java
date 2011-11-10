@@ -92,7 +92,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getMean() {
         return mean;
     }
@@ -100,7 +99,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double getStandardDeviation() {
         return standardDeviation;
     }
@@ -108,7 +106,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         final double x0 = x - mean;
         final double x1 = x0 / standardDeviation;
@@ -121,7 +118,6 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * If {@code x} is more than 40 standard deviations from the mean, 0 or 1 is returned,
      * as in these cases the actual value is within {@code Double.MIN_VALUE} of 0 or 1.
      */
-    @Override
     public double cumulativeProbability(double x)  {
         final double dev = x - mean;
         if (FastMath.abs(dev) > 40 * standardDeviation) {

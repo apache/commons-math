@@ -79,7 +79,6 @@ public class TDistributionImpl
      *
      * @return the degrees of freedom.
      */
-    @Override
     public double getDegreesOfFreedom() {
         return degreesOfFreedom;
     }
@@ -87,7 +86,6 @@ public class TDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double density(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
@@ -99,7 +97,6 @@ public class TDistributionImpl
     /**
      * {@inheritDoc}
      */
-    @Override
     public double cumulativeProbability(double x) {
         double ret;
         if (x == 0) {
