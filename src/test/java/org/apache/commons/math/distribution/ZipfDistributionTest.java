@@ -32,20 +32,14 @@ import org.junit.Test;
  */
 public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
 
-    @Test
-    public void testPreconditions() {
-        try {
-            new ZipfDistributionImpl(0, 1);
-            Assert.fail("NotStrictlyPositiveException expected");
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
-        try {
-            new ZipfDistributionImpl(1, 0);
-            Assert.fail("NotStrictlyPositiveException expected");
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPreconditions1() {
+        new ZipfDistributionImpl(0, 1);
+    }
+
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testPreconditions2() {
+        new ZipfDistributionImpl(1, 0);
     }
 
     //-------------- Implementations for abstract methods -----------------------

@@ -122,21 +122,17 @@ public class FractionFormatTest {
     @Test
     public void testParseInteger() {
         String source = "10";
-        try {
+        {
             Fraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(10, c.getNumerator());
             Assert.assertEquals(1, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
-        try {
+        {
             Fraction c = improperFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(10, c.getNumerator());
             Assert.assertEquals(1, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
     }
 
@@ -179,7 +175,7 @@ public class FractionFormatTest {
     @Test
     public void testParseNegative() {
 
-        try {
+        {
             String source = "-1 / 2";
             Fraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
@@ -201,8 +197,6 @@ public class FractionFormatTest {
             Assert.assertNotNull(c);
             Assert.assertEquals(-1, c.getNumerator());
             Assert.assertEquals(2, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
     }
 
@@ -210,13 +204,11 @@ public class FractionFormatTest {
     public void testParseProper() {
         String source = "1 2 / 3";
 
-        try {
+        {
             Fraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(5, c.getNumerator());
             Assert.assertEquals(3, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
 
         try {
@@ -230,13 +222,11 @@ public class FractionFormatTest {
     @Test
     public void testParseProperNegative() {
         String source = "-1 2 / 3";
-        try {
+        {
             Fraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(-5, c.getNumerator());
             Assert.assertEquals(3, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
 
         try {

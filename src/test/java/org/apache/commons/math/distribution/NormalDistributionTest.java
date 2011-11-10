@@ -123,14 +123,9 @@ public class NormalDistributionTest extends ContinuousDistributionAbstractTest  
         Assert.assertEquals(1.4, distribution.getStandardDeviation(), 0);
     }
 
-    @Test
+    @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions() {
-        try {
-            new NormalDistributionImpl(1, 0);
-            Assert.fail("Should have generated NotStrictlyPositiveException");
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
+        new NormalDistributionImpl(1, 0);
     }
 
     @Test

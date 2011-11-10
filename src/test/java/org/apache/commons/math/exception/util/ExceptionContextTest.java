@@ -101,14 +101,14 @@ public class ExceptionContextTest {
     }
 
     @Test
-    public void testSerializeUnserializable() {
+    public void testSerializeUnserializable() throws Exception {
         final ExceptionContext cOut = new ExceptionContext(new Exception("Apache Commons Math"));
         cOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, "OK");
         cOut.addMessage(LocalizedFormats.SIMPLE_MESSAGE, new Unserializable());
         String key = "Key 1";
         cOut.setValue(key, new Unserializable());
 
-        try {
+        {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(bos);
             oos.writeObject(cOut);
@@ -119,8 +119,6 @@ public class ExceptionContextTest {
 
             String nsObjStr = (String) cIn.getValue(key);
             Assert.assertTrue(nsObjStr.matches(".*could not be serialized.*"));
-        } catch (Exception e) {
-            Assert.fail(e.toString());
         }
     }
 

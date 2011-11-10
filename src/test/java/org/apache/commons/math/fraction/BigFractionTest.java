@@ -90,16 +90,10 @@ public class BigFractionTest {
         }
     }
 
-    @Test
+    @Test(expected=ConvergenceException.class)
     public void testGoldenRatio() {
-        try {
-            // the golden ratio is notoriously a difficult number for continuous
-            // fraction
-            new BigFraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
-            Assert.fail("an exception should have been thrown");
-        } catch (ConvergenceException ce) {
-            // expected behavior
-        }
+        // the golden ratio is notoriously a difficult number for continuous fraction
+        new BigFraction((1 + FastMath.sqrt(5)) / 2, 1.0e-12, 25);
     }
 
     // MATH-179

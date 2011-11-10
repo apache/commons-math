@@ -135,17 +135,14 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         Assert.assertEquals(-1, dist.inverseCumulativeProbability(0d));
     }
 
+    @Test(expected=NotStrictlyPositiveException.class)
+    public void testNegativeMean() {
+        new PoissonDistributionImpl(-1);
+    }
+
     @Test
     public void testMean() {
-        PoissonDistribution dist;
-        try {
-            dist = new PoissonDistributionImpl(-1);
-            Assert.fail("negative mean: NotStrictlyPositiveException expected");
-        } catch(NotStrictlyPositiveException ex) {
-            // Expected.
-        }
-
-        dist = new PoissonDistributionImpl(10.0);
+        PoissonDistribution dist = new PoissonDistributionImpl(10.0);
         Assert.assertEquals(10.0, dist.getMean(), 0.0);
     }
 

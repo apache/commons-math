@@ -108,14 +108,9 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         Assert.assertEquals(5d, dist.getDegreesOfFreedom(), Double.MIN_VALUE);
     }
 
-    @Test
+    @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions() {
-        try {
-            new TDistributionImpl(0);
-            Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
-        } catch (NotStrictlyPositiveException ex) {
-            // expected
-        }
+        new TDistributionImpl(0);
     }
     
     @Test

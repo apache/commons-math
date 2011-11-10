@@ -19,7 +19,6 @@ package org.apache.commons.math.complex;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
-import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -73,14 +72,9 @@ public class ComplexUtilsTest {
         return Complex.I.multiply(new Complex(theta, 0)).exp().multiply(new Complex(r, 0));
     }
 
-    @Test
+    @Test(expected=IllegalArgumentException.class)
     public void testPolar2ComplexIllegalModulus() {
-        try {
-            ComplexUtils.polar2Complex(-1, 0);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
-            // expected
-        }
+        ComplexUtils.polar2Complex(-1, 0);
     }
 
     @Test

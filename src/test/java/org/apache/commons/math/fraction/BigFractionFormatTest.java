@@ -106,7 +106,7 @@ public class BigFractionFormatTest {
     public void testParse() {
         String source = "1 / 2";
 
-        try {
+        {
             BigFraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(BigInteger.ONE, c.getNumerator());
@@ -116,29 +116,23 @@ public class BigFractionFormatTest {
             Assert.assertNotNull(c);
             Assert.assertEquals(BigInteger.ONE, c.getNumerator());
             Assert.assertEquals(BigInteger.valueOf(2l), c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
     }
 
     @Test
     public void testParseInteger() {
         String source = "10";
-        try {
+        {
             BigFraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(BigInteger.TEN, c.getNumerator());
             Assert.assertEquals(BigInteger.ONE, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
-        try {
+        {
             BigFraction c = improperFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(BigInteger.TEN, c.getNumerator());
             Assert.assertEquals(BigInteger.ONE, c.getDenominator());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
     }
 
@@ -181,7 +175,7 @@ public class BigFractionFormatTest {
     @Test
     public void testParseNegative() {
 
-        try {
+        {
             String source = "-1 / 2";
             BigFraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
@@ -203,8 +197,6 @@ public class BigFractionFormatTest {
             Assert.assertNotNull(c);
             Assert.assertEquals(-1, c.getNumeratorAsInt());
             Assert.assertEquals(2, c.getDenominatorAsInt());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
     }
 
@@ -212,13 +204,11 @@ public class BigFractionFormatTest {
     public void testParseProper() {
         String source = "1 2 / 3";
 
-        try {
+        {
             BigFraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(5, c.getNumeratorAsInt());
             Assert.assertEquals(3, c.getDenominatorAsInt());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
 
         try {
@@ -232,13 +222,11 @@ public class BigFractionFormatTest {
     @Test
     public void testParseProperNegative() {
         String source = "-1 2 / 3";
-        try {
+        {
             BigFraction c = properFormat.parse(source);
             Assert.assertNotNull(c);
             Assert.assertEquals(-5, c.getNumeratorAsInt());
             Assert.assertEquals(3, c.getDenominatorAsInt());
-        } catch (MathParseException ex) {
-            Assert.fail(ex.getMessage());
         }
 
         try {

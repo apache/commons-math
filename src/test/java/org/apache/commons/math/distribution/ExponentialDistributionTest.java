@@ -114,14 +114,9 @@ public class ExponentialDistributionTest extends ContinuousDistributionAbstractT
         Assert.assertEquals(5d, distribution.getMean(), Double.MIN_VALUE);
     }
 
-    @Test
+    @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions() {
-        try {
-            new ExponentialDistributionImpl(0);
-            Assert.fail("Should have generated NotStrictlyPositiveException");
-        } catch (NotStrictlyPositiveException e) {
-            // Expected.
-        }
+        new ExponentialDistributionImpl(0);
     }
 
     @Test

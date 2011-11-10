@@ -32,25 +32,15 @@ public class UnivariateRealSolverUtilsTest {
 
     protected UnivariateRealFunction sin = new SinFunction();
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testSolveNull() {
-        try {
-            UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
-            Assert.fail();
-        } catch(MathIllegalArgumentException ex){
-            // success
-        }
+        UnivariateRealSolverUtils.solve(null, 0.0, 4.0);
     }
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testSolveBadEndpoints() {
-        try { // bad endpoints
-            double root = UnivariateRealSolverUtils.solve(sin, 4.0, -0.1, 1e-6);
-            System.out.println("root=" + root);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        double root = UnivariateRealSolverUtils.solve(sin, 4.0, -0.1, 1e-6);
+        System.out.println("root=" + root);
     }
 
     @Test
@@ -69,15 +59,10 @@ public class UnivariateRealSolverUtilsTest {
         Assert.assertEquals(FastMath.PI, x, 1.0e-4);
     }
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testSolveAccuracyNull()  {
-        try {
-            double accuracy = 1.0e-6;
-            UnivariateRealSolverUtils.solve(null, 0.0, 4.0, accuracy);
-            Assert.fail();
-        } catch(MathIllegalArgumentException ex){
-            // success
-        }
+        double accuracy = 1.0e-6;
+        UnivariateRealSolverUtils.solve(null, 0.0, 4.0, accuracy);
     }
 
     @Test
@@ -88,14 +73,9 @@ public class UnivariateRealSolverUtilsTest {
         Assert.assertEquals(FastMath.PI, x, accuracy);
     }
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testSolveNoRoot() {
-        try {
-            UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);
-            Assert.fail("Expecting MathIllegalArgumentException ");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        UnivariateRealSolverUtils.solve(sin, 1.0, 1.5);
     }
 
     @Test
@@ -113,44 +93,26 @@ public class UnivariateRealSolverUtilsTest {
         Assert.assertTrue(sin.value(result[1]) > 0);
     }
 
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testNullFunction() {
-        try { // null function
-            UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        UnivariateRealSolverUtils.bracket(null, 1.5, 0, 2.0);
     }
     
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testBadInitial() {
-        try { // initial not between endpoints
-            UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        UnivariateRealSolverUtils.bracket(sin, 2.5, 0, 2.0);
     }
     
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testBadEndpoints() {
-        try { // endpoints not valid
-            UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        // endpoints not valid
+        UnivariateRealSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
     }
     
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testBadMaximumIterations() {
-        try { // bad maximum iterations
-            UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // expected
-        }
+        // bad maximum iterations
+        UnivariateRealSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
     }
 
     @Test
