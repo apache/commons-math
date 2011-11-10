@@ -48,6 +48,7 @@ public class RegressionResults implements Serializable {
     /** boolean flag for variance covariance matrix in symm compressed storage */
     private final boolean isSymmetricVCD;
     /** rank of the solution */
+    @SuppressWarnings("unused")
     private final int rank;
     /** number of observations on which results are based */
     private final long nobs;
@@ -116,12 +117,12 @@ public class RegressionResults implements Serializable {
 
         if (rank > 0) {
             this.globalFitInfo[SST_IDX] = containsConstant ?
-                    (sumysq - sumy * sumy / ((double) nobs)) : sumysq;
+                    (sumysq - sumy * sumy / nobs) : sumysq;
         }
 
         this.globalFitInfo[SSE_IDX] = sse;
         this.globalFitInfo[MSE_IDX] = this.globalFitInfo[SSE_IDX] /
-                ((double) (nobs - rank));
+                (nobs - rank);
         this.globalFitInfo[RSQ_IDX] = 1.0 -
                 this.globalFitInfo[SSE_IDX] /
                 this.globalFitInfo[SST_IDX];
