@@ -92,6 +92,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getMean() {
         return mean;
     }
@@ -99,6 +100,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getStandardDeviation() {
         return standardDeviation;
     }
@@ -114,13 +116,12 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
-     * If {@code x}is more than 40 standard deviations from the mean, 0 or 1 is returned,
-     * as in these cases the actual value is within {@code Double.MIN_VALUE} of 0 or 1.
+     * {@inheritDoc}
      *
-     * @param x Value at which the CDF is evaluated.
-     * @return CDF evaluated at {@code x}.
+     * If {@code x} is more than 40 standard deviations from the mean, 0 or 1 is returned,
+     * as in these cases the actual value is within {@code Double.MIN_VALUE} of 0 or 1.
      */
+    @Override
     public double cumulativeProbability(double x)  {
         final double dev = x - mean;
         if (FastMath.abs(dev) > 40 * standardDeviation) {
@@ -133,7 +134,7 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
      * {@inheritDoc}
      */
     @Override
-    public double cumulativeProbability(double x0, double x1)  {
+    public double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x0, x1, true);
@@ -157,19 +158,13 @@ public class NormalDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the critical point
-     * {@code x}, such that {@code P(X < x) = p}.
-     * It will return {@code Double.NEGATIVE_INFINITY} when p = 0 and
-     * {@code Double.POSITIVE_INFINITY} for p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws org.apache.commons.math.exception.OutOfRangeException if
-     * {@code p} is not a valid probability.
+     * It will return {@code Double.NEGATIVE_INFINITY} when {@code p = 0}
+     * and {@code Double.POSITIVE_INFINITY} for {@code p = 1}.
      */
     @Override
-    public double inverseCumulativeProbability(final double p)
-     {
+    public double inverseCumulativeProbability(final double p) {
         if (p == 0) {
             return Double.NEGATIVE_INFINITY;
         }

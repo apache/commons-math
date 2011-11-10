@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.OutOfRangeException;
+
 /**
  * Base interface for continuous distributions.
  *
@@ -23,19 +25,27 @@ package org.apache.commons.math.distribution;
  */
 public interface ContinuousDistribution extends Distribution {
     /**
-     * For a distribution, {@code X}, compute {@code x} such that
-     * {@code P(X < x) = p}.
+     * Computes the quantile function of this distribution. For a random
+     * variable {@code X} distributed according to this distribution, the
+     * returned value is
+     * <ul>
+     * <li><code>inf{x in R | P(X<=x) >= p}</code> for {@code 0 < p <= 1},</li>
+     * <li><code>inf{x in R | P(X<=x) > 0}</code> for {@code p = 0}.</li>
+     * </ul>
      *
-     * @param p Cumulative probability.
-     * @return {@code x} such that {@code P(X < x) = p}.
+     * @param p the cumulative probability
+     * @return the smallest {@code p}-quantile of this distribution
+     * (largest 0-quantile for {@code p = 0})
+     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}
      */
-    double inverseCumulativeProbability(double p);
+    double inverseCumulativeProbability(double p) throws OutOfRangeException;
 
     /**
-     * Probability density for a particular point.
+     * Returns the probability density function (PDF) of this distribution
+     * evaluated at the specified point.
      *
-     * @param x Point at which the density should be computed.
-     * @return the pdf at point {@code x}.
+     * @param x the point at which the PDF should be evaluated
+     * @return the PDF at point {@code x}
      */
     double density(double x);
 

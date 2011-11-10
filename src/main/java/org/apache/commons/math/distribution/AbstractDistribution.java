@@ -52,21 +52,13 @@ public abstract class AbstractDistribution
     }
 
     /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(x0 &le; X &le; x1).
-     * <p>
-     * The default implementation uses the identity</p>
-     * <p>
-     * P(x0 &le; X &le; x1) = P(X &le; x1) - P(X &le; x0) </p>
+     * {@inheritDoc}
      *
-     * @param x0 the (inclusive) lower bound
-     * @param x1 the (inclusive) upper bound
-     * @return the probability that a random variable with this distribution
-     * will take a value between {@code x0} and {@code x1},
-     * including the endpoints.
-     * @throws NumberIsTooLargeException if {@code x0 > x1}
+     * The default implementation uses the identity
+     * <p>{@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}</p>
      */
-    public double cumulativeProbability(double x0, double x1) {
+    @Override
+    public double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                                                 x0, x1, true);
@@ -89,6 +81,7 @@ public abstract class AbstractDistribution
      *
      * @return the mean or Double.NaN if it's not defined
      */
+    @Override
     public double getNumericalMean() {
         if (!numericalMeanIsCalculated) {
             numericalMean = calculateNumericalMean();
@@ -115,6 +108,7 @@ public abstract class AbstractDistribution
      * for certain cases in {@link TDistributionImpl}) or
      * Double.NaN if it's not defined
      */
+    @Override
     public double getNumericalVariance() {
         if (!numericalVarianceIsCalculated) {
             numericalVariance = calculateNumericalVariance();
@@ -130,6 +124,7 @@ public abstract class AbstractDistribution
      *
      * @return whether the lower bound of the support is inclusive or not
      */
+    @Override
     public abstract boolean isSupportLowerBoundInclusive();
 
     /**
@@ -138,6 +133,7 @@ public abstract class AbstractDistribution
      *
      * @return whether the upper bound of the support is inclusive or not
      */
+    @Override
     public abstract boolean isSupportUpperBoundInclusive();
 
     /**
@@ -159,6 +155,7 @@ public abstract class AbstractDistribution
      *
      * @return whether the support limits given by subclassed methods are connected or not
      */
+    @Override
     public boolean isSupportConnected() {
         return true;
     }

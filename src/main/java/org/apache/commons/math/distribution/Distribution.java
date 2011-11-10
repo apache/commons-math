@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+
 /**
  * Base interface for probability distributions.
  *
@@ -23,29 +25,40 @@ package org.apache.commons.math.distribution;
  */
 public interface Distribution {
     /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(X &le; x).  In other words,
-     * this method represents the  (cumulative) distribution function, or
-     * CDF, for this distribution.
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(X = x)}. In other
+     * words, this method represents the probability mass function (PMF)
+     * for the distribution.
      *
-     * @param x the value at which the distribution function is evaluated.
+     * @param x the value at which the PMF is evaluated
+     * @return the value of the probability mass function at {@code x}
+     */
+    double probability(double x);
+
+    /**
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(X <= x)}. In other
+     * words, this method represents the (cumulative) distribution function
+     * (CDF) for this distribution.
+     *
+     * @param x the value at which the CDF is evaluated
      * @return the probability that a random variable with this
-     * distribution takes a value less than or equal to <code>x</code>
+     * distribution takes a value less than or equal to {@code x}
      */
     double cumulativeProbability(double x);
 
     /**
-     * For a random variable X whose values are distributed according
-     * to this distribution, this method returns P(x0 &le; X &le; x1).
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
      *
-     * @param x0 the (inclusive) lower bound
-     * @param x1 the (inclusive) upper bound
+     * @param x0 the exclusive lower bound
+     * @param x1 the inclusive upper bound
      * @return the probability that a random variable with this distribution
-     * will take a value between <code>x0</code> and <code>x1</code>,
-     * including the endpoints
-     * @throws IllegalArgumentException if <code>x0 > x1</code>
+     * takes a value between {@code x0} and {@code x1},
+     * excluding the lower and including the upper endpoint
+     * @throws NumberIsTooLargeException if {@code x0 > x1}
      */
-    double cumulativeProbability(double x0, double x1);
+    double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException;
 
     /**
      * Use this method to get the numerical value of the mean of this

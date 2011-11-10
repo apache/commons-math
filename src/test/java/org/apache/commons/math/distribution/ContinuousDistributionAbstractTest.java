@@ -238,7 +238,7 @@ public abstract class ContinuousDistributionAbstractTest {
                distribution.cumulativeProbability
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
 
-            // check that P(a < X < b) = P(X < b) - P(X < a)
+            // check that P(a < X <= b) = P(X <= b) - P(X <= a)
             double upper = FastMath.max(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double lower = FastMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) -

@@ -20,6 +20,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.FastMath;
@@ -89,10 +90,8 @@ public class FDistributionImpl
     }
 
     /**
-     * Returns the probability density for a particular point.
+     * {@inheritDoc}
      *
-     * @param x The point at which the density should be computed.
-     * @return The pdf at point x.
      * @since 2.1
      */
     @Override
@@ -110,7 +109,7 @@ public class FDistributionImpl
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     * {@inheritDoc}
      *
      * The implementation of this method is based on
      * <ul>
@@ -119,10 +118,8 @@ public class FDistributionImpl
      *   F-Distribution</a>, equation (4).
      *  </li>
      * </ul>
-     *
-     * @param x Value at which the CDF is evaluated.
-     * @return CDF for this distribution.
      */
+    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0) {
@@ -139,17 +136,13 @@ public class FDistributionImpl
     }
 
     /**
-     * For this distribution, {@code X}, this method returns the critical
-     * point {@code x}, such that {@code P(X < x) = p}.
-     * Returns 0 when p = 0 and {@code Double.POSITIVE_INFINITY} when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws IllegalArgumentException if {@code p} is not a valid
-     * probability.
+     * It will return {@code 0} when {@code p = 0} and
+     * {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
-    public double inverseCumulativeProbability(final double p) {
+    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
         if (p == 0) {
             return 0;
         }
@@ -207,6 +200,7 @@ public class FDistributionImpl
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getNumeratorDegreesOfFreedom() {
         return numeratorDegreesOfFreedom;
     }
@@ -214,6 +208,7 @@ public class FDistributionImpl
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getDenominatorDegreesOfFreedom() {
         return denominatorDegreesOfFreedom;
     }

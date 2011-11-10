@@ -60,18 +60,21 @@ public abstract class AbstractContinuousDistribution
 
     /**
      * {@inheritDoc}
+     *
+     * For continuous distributions {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
      */
-    public abstract double density(double x);
+    @Override
+    public final double probability(double x) {
+        return 0.0;
+    }
 
     /**
-     * For this distribution, {@code X}, this method returns the critical
-     * point {@code x}, such that {@code P(X < x) = p}.
-     *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws OutOfRangeException if {@code p} is not a valid probability.
+     * {@inheritDoc}
      */
-    public double inverseCumulativeProbability(final double p) {
+    @Override
+    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
 
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
@@ -81,6 +84,7 @@ public abstract class AbstractContinuousDistribution
         // subclasses can override if there is a better method.
         UnivariateRealFunction rootFindingFunction =
             new UnivariateRealFunction() {
+            @Override
             public double value(double x) {
                 return cumulativeProbability(x) - p;
             }
@@ -124,6 +128,7 @@ public abstract class AbstractContinuousDistribution
      * @param seed New seed.
      * @since 2.2
      */
+    @Override
     public void reseedRandomGenerator(long seed) {
         randomData.reSeed(seed);
     }
@@ -138,6 +143,7 @@ public abstract class AbstractContinuousDistribution
      * @return a random value.
      * @since 2.2
      */
+    @Override
     public double sample() {
         return randomData.nextInversionDeviate(this);
     }
@@ -151,6 +157,7 @@ public abstract class AbstractContinuousDistribution
      * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
      * @since 2.2
      */
+    @Override
     public double[] sample(int sampleSize) {
         if (sampleSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,

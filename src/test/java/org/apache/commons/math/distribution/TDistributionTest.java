@@ -72,7 +72,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      *      Bug report that prompted this unit test.</a>
      */
     @Test
-    public void testCumulativeProbabilityAgaintStackOverflow() throws Exception {
+    public void testCumulativeProbabilityAgainstStackOverflow() throws Exception {
         TDistributionImpl td = new TDistributionImpl(5.);
         td.cumulativeProbability(.1);
         td.cumulativeProbability(.01);

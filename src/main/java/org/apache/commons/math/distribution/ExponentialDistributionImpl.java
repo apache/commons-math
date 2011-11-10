@@ -71,6 +71,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getMean() {
         return mean;
     }
@@ -87,7 +88,7 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns P(X &lt; x).
+     * {@inheritDoc}
      *
      * The implementation of this method is based on:
      * <ul>
@@ -95,10 +96,8 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
      * <a href="http://mathworld.wolfram.com/ExponentialDistribution.html">
      * Exponential Distribution</a>, equation (1).</li>
      * </ul>
-     *
-     * @param x Value at which the CDF is evaluated.
-     * @return the CDF for this distribution.
      */
+    @Override
     public double cumulativeProbability(double x)  {
         double ret;
         if (x <= 0.0) {
@@ -110,17 +109,13 @@ public class ExponentialDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, X, this method returns the critical point x, such
-     * that {@code P(X < x) = p}.
-     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
-     * when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
+     * It will return {@code 0} when {@code p = 0} and
+     * {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
-    public double inverseCumulativeProbability(double p) {
+    public double inverseCumulativeProbability(double p) throws OutOfRangeException {
         double ret;
 
         if (p < 0.0 || p > 1.0) {

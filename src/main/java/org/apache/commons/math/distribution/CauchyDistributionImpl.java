@@ -87,11 +87,9 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
-     *
-     * @param x Value at which the CDF is evaluated.
-     * @return CDF evaluated at {@code x}.
+     * {@inheritDoc}
      */
+    @Override
     public double cumulativeProbability(double x) {
         return 0.5 + (FastMath.atan((x - median) / scale) / FastMath.PI);
     }
@@ -99,6 +97,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getMedian() {
         return median;
     }
@@ -106,6 +105,7 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getScale() {
         return scale;
     }
@@ -120,17 +120,13 @@ public class CauchyDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns the critical
-     * point {@code x}, such that {@code P(X < x) = p}.
-     * It will return {@code Double.NEGATIVE_INFINITY} when p = 0 and
-     * {@code Double.POSITIVE_INFINITY} when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws OutOfRangeException if {@code p} is not a valid probability.
+     * It will return {@code Double.NEGATIVE_INFINITY} when {@code p = 0}
+     * and {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
-    public double inverseCumulativeProbability(double p) {
+    public double inverseCumulativeProbability(double p) throws OutOfRangeException {
         double ret;
         if (p < 0 || p > 1) {
             throw new OutOfRangeException(p, 0, 1);

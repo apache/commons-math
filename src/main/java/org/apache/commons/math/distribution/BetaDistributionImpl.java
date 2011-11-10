@@ -166,12 +166,6 @@ public class BetaDistributionImpl
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public double cumulativeProbability(double x0, double x1)  {
-        return cumulativeProbability(x1) - cumulativeProbability(x0);
-    }
-
     /**
      * Return the absolute accuracy setting of the solver used to estimate
      * inverse cumulative probabilities.

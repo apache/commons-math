@@ -67,6 +67,7 @@ public class ChiSquaredDistributionImpl
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getDegreesOfFreedom() {
         return gamma.getAlpha() * 2.0;
     }
@@ -80,25 +81,18 @@ public class ChiSquaredDistributionImpl
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
-     *
-     * @param x the value at which the CDF is evaluated.
-     * @return CDF for this distribution.
+     * {@inheritDoc}
      */
+    @Override
     public double cumulativeProbability(double x)  {
         return gamma.cumulativeProbability(x);
     }
 
     /**
-     * For this distribution, X, this method returns the critical point
-     * {@code x}, such that {@code P(X < x) = p}.
-     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
-     * when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws org.apache.commons.math.exception.OutOfRangeException if
-     * {@code p} is not a valid probability.
+     * It will return {@code 0} when {@code p = 0} and
+     * {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
     public double inverseCumulativeProbability(final double p) {

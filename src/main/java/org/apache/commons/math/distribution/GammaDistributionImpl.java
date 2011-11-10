@@ -79,7 +79,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns {@code P(X < x)}.
+     * {@inheritDoc}
      *
      * The implementation of this method is based on:
      * <ul>
@@ -91,10 +91,8 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
      *    Belmont, CA: Duxbury Press.
      *  </li>
      * </ul>
-     *
-     * @param x Value at which the CDF is evaluated.
-     * @return CDF for this distribution.
      */
+    @Override
     public double cumulativeProbability(double x) {
         double ret;
 
@@ -108,15 +106,10 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     }
 
     /**
-     * For this distribution, {@code X}, this method returns the critical
-     * point {@code x}, such that {@code P(X < x) = p}.
-     * It will return 0 when p = 0 and {@code Double.POSITIVE_INFINITY}
-     * when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws org.apache.commons.math.exception.OutOfRangeException if
-     * {@code p} is not a valid probability.
+     * It will return {@code 0} when {@cod p = 0} and
+     * {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
     public double inverseCumulativeProbability(final double p) {
@@ -132,6 +125,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getAlpha() {
         return alpha;
     }
@@ -139,6 +133,7 @@ public class GammaDistributionImpl extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      */
+    @Override
     public double getBeta() {
         return beta;
     }

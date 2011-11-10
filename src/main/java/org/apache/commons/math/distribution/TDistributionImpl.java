@@ -79,6 +79,7 @@ public class TDistributionImpl
      *
      * @return the degrees of freedom.
      */
+    @Override
     public double getDegreesOfFreedom() {
         return degreesOfFreedom;
     }
@@ -96,11 +97,9 @@ public class TDistributionImpl
     }
 
     /**
-     * For this distribution, X, this method returns {@code P(X < x}).
-     *
-     * @param x Value at which the CDF is evaluated.
-     * @return CDF evaluated at {@code x}.
+     * {@inheritDoc}
      */
+    @Override
     public double cumulativeProbability(double x) {
         double ret;
         if (x == 0) {
@@ -122,15 +121,10 @@ public class TDistributionImpl
     }
 
     /**
-     * For this distribution, {@code X}, this method returns the critical
-     * point {@code x}, such that {@code P(X < x) = p}.
-     * Returns {@code Double.NEGATIVE_INFINITY} when p = 0 and
-     * {@code Double.POSITIVE_INFINITY} when p = 1.
+     * {@inheritDoc}
      *
-     * @param p Desired probability.
-     * @return {@code x}, such that {@code P(X < x) = p}.
-     * @throws org.apache.commons.math.exception.OutOfRangeException if
-     * {@code p} is not a valid probability.
+     * It will return {@code Double.NEGATIVE_INFINITY} when {@cod p = 0}
+     * and {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
      */
     @Override
     public double inverseCumulativeProbability(final double p) {
