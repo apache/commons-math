@@ -1216,6 +1216,8 @@ public class SymmLQ
         final IterativeLinearSolverEvent event;
         event = new IterativeLinearSolverEvent(this) {
 
+           private static final long serialVersionUID = 3656926699603081076L;
+
             @Override
             public RealVector getRightHandSideVector() {
                 return bb;

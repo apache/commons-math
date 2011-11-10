@@ -194,6 +194,8 @@ public class ConjugateGradient
         final IterativeLinearSolverEvent event;
         event = new ConjugateGradientEvent(this) {
 
+            private static final long serialVersionUID = 756911840348776676L;
+
             public RealVector getResidual() {
                 return ArrayRealVector.unmodifiableRealVector(r);
             }

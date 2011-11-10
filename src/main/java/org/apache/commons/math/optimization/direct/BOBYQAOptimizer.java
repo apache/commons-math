@@ -2470,6 +2470,8 @@ public class BOBYQAOptimizer
  * If the path becomes explored, it should just be removed from the code.
  */
 class PathIsExploredException extends RuntimeException {
+    private static final long serialVersionUID = 745350979634801853L;
+
     private static final String PATH_IS_EXPLORED
         = "If this exception is thrown, just remove it from the code";
 
