@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.stat.regression;
 
+import junit.framework.Assert;
+
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math.TestUtils;
@@ -178,9 +180,7 @@ public class MillerUpdatingRegressionTest {
         instance.addObservations(x, y);
         try {
             RegressionResults result = instance.regress();
-            if (result == null) {
-                fail("The test case is a prototype.");
-            }
+            Assert.assertNotNull("The test case is a prototype.", result);
             TestUtils.assertEquals(
                     new double[]{9.5169, 0.8827, 0.4540, -1.6275},
                     result.getParameterEstimates(), 1e-4);
@@ -212,9 +212,7 @@ public class MillerUpdatingRegressionTest {
         instance.addObservations(x, y);
         try {
             RegressionResults result = instance.regress();
-            if (result == null) {
-                fail("The test case is a prototype.");
-            }
+            Assert.assertNotNull("The test case is a prototype.", result);
             TestUtils.assertEquals(
                     new double[]{9.5169, 0.8827, 0.4540, -1.6275},
                     result.getParameterEstimates(), 1e-4);
@@ -783,15 +781,11 @@ public class MillerUpdatingRegressionTest {
 
         instance.addObservations(x, y);
         RegressionResults result = instance.regress();
-        if (result == null) {
-            fail("Could not estimate initial regression");
-        }
+        Assert.assertNotNull("Could not estimate initial regression", result);
 
         instance2.addObservations(x2, y);
         RegressionResults resultRedundant = instance2.regress();
-        if (resultRedundant == null) {
-            fail("Could not estimate redundant regression");
-        }
+        Assert.assertNotNull("Could not estimate redundant regression", resultRedundant);
         double[] beta = result.getParameterEstimates();
         double[] betar = resultRedundant.getParameterEstimates();
         double[] se = result.getStdErrorOfEstimates();
@@ -849,15 +843,11 @@ public class MillerUpdatingRegressionTest {
 
         instance.addObservations(x, y);
         RegressionResults result = instance.regress();
-        if (result == null) {
-            fail("Could not estimate initial regression");
-        }
+        Assert.assertNotNull("Could not estimate initial regression", result);
 
         instance2.addObservations(x2, y);
         RegressionResults resultRedundant = instance2.regress();
-        if (resultRedundant == null) {
-            fail("Could not estimate redundant regression");
-        }
+        Assert.assertNotNull("Could not estimate redundant regression", resultRedundant);
         double[] beta = result.getParameterEstimates();
         double[] betar = resultRedundant.getParameterEstimates();
         double[] se = result.getStdErrorOfEstimates();
