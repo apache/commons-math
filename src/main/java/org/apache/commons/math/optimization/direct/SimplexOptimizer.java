@@ -66,8 +66,20 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  *  previous and current simplex to the convergence checker, not the best
  *  ones.
  * </p>
+ * <p>
+ * This simplex optimizer implementation does not directly support constrained
+ * optimization with simple bounds, so for such optimizations, either a more
+ * dedicated method must be used like {@link CMAESOptimizer} or {@link
+ * BOBYQAOptimizer}, or the optimized method must be wrapped in an adapter like
+ * {@link MultivariateRealFunctionMappingAdapter} or {@link
+ * MultivariateRealFunctionPenaltyAdapter}.
+ * </p>
  *
  * @see AbstractSimplex
+ * @see MultivariateRealFunctionMappingAdapter
+ * @see MultivariateRealFunctionPenaltyAdapter
+ * @see CMAESOptimizer
+ * @see BOBYQAOptimizer
  * @version $Id$
  * @since 3.0
  */

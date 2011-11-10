@@ -154,11 +154,45 @@
           already provided by the <code>minimizes</code> method).
         </p>
         <p>
-          The <code>direct</code> package provides two solvers. The first one is the classical
-          <a href="../apidocs/org/apache/commons/math/optimization/direct/NelderMead.html">
-          Nelder-Mead</a> method. The second one is Virginia Torczon's
-          <a href="../apidocs/org/apache/commons/math/optimization/direct/MultiDirectional.html">
-          multi-directional</a> method.
+          The <code>direct</code> package provides four solvers:
+          <ul>
+            <li>the classical <a
+                href="../apidocs/org/apache/commons/math/optimization/direct/NelderMeadSimplex.html">
+                Nelder-Mead</a> method,</li>
+            <li>Virginia Torczon's <a
+                href="../apidocs/org/apache/commons/math/optimization/direct/MultiDirectionalSimplex.html">
+                multi-directional</a> method,</li>
+            <li>Nikolaus Hansen's <a
+               href="../apidocs/org/apache/commons/math/optimization/direct/CMAESOptimizer.html">
+               </a>Covariance Matrix Adaptation Evolution Strategy (CMA-ES),</li>
+            <li>Mike Powell's <a
+               href="../apidocs/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.html">
+               BOBYQA</a> method.
+            </li>
+          </ul>
+        </p>
+        <p>
+          The first two simplex-based methods do not handle simple bounds constraints by themselves.
+          However there are two adapters (<a
+          href="../apidocs/org/apache/commons/math/optimization/direct/MultivariateRealFunctionMappingAdapter.html">
+          MultivariateRealFunctionMappingAdapter</a> and <a
+          href="../apidocs/org/apache/commons/math/optimization/direct/MultivariateRealFunctionPenaltyAdapter.html">
+          MultivariateRealFunctionPenaltyAdapter</a>) that can be used to wrap the user function in
+          such a way the wrapped function is unbounded and can be used with these optimizers, despite
+          the fact the underlying function is still bounded and will be called only with feasible
+          points that fulfill the constraints. Note however that using these adapters is only a
+          apter is only a poor man solution to simple bounds optimization constraints. A better solution
+          is to use an optimizer that directly supports simple bounds. Two caveats of the mapping adapter
+          solution is that behavior near the bounds may be numerically unstable as bounds are mapped from
+          infinite values, and that convergence values are evaluated by the optimizer with respect
+          to unbounded variables, so there will be scales differences when converted to bounded variables.
+          One caveat of penalty adapter is that if start point or start simplex is outside of the allowed
+          range, only the penalty function is used, and the optimizer may converge without ever entering
+          the alowed range.
+        </p>
+        <p>
+          The last methods do handle simple bounds constraints directly, so the adapters are not needed
+          with them.
         </p>
       </subsection>
       <subsection name="12.5 General Case" href="general">
