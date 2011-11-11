@@ -318,7 +318,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
                 // trigger the event
                 interpolator.setInterpolatedTime(eventT);
-                final double[] eventY = interpolator.getInterpolatedState();
+                final double[] eventY = interpolator.getInterpolatedState().clone();
                 currentEvent.stepAccepted(eventT, eventY);
                 isLastStep = currentEvent.stop();
 

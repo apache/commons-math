@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" due-to="MATH-706" >
+        Fixed a bad interaction between step handlers and event handlers in
+        ODE integrators.
+      </action>
       <action dev="luc" type="add" due-to="Jan Kotek" >
         Added array constructor and getter for Vector2D and Vector3D.
       </action>
