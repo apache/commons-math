@@ -22,6 +22,7 @@ import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.BaseSimpleBoundsMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -46,6 +47,22 @@ public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends Multi
     private double[] lowerBound;
     /** Upper bounds. */
     private double[] upperBound;
+
+    /**
+     * Simple constructor with default settings.
+     * The convergence check is set to a {@link SimpleScalarValueChecker} and
+     * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
+     *
+     * {@see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer()}.
+     */
+    protected BaseAbstractSimpleBoundsScalarOptimizer() {}
+
+    /**
+     * @param checker Convergence checker.
+     */
+    protected BaseAbstractSimpleBoundsScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+        super(checker);
+    }
 
     /**
      * @return the lower bounds.
