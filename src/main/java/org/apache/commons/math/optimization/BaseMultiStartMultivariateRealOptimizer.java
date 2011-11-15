@@ -137,16 +137,6 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
     public RealPointValuePair optimize(int maxEval, final FUNC f,
                                        final GoalType goal,
                                        double[] startPoint) {
-        return optimize(maxEval, f, goal, startPoint, null, null);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public RealPointValuePair optimize(int maxEval, final FUNC f,
-                                       final GoalType goal,
-                                       double[] startPoint,
-                                       double[] lowerBound, double[] upperBound) {
         maxEvaluations = maxEval;
         RuntimeException lastException = null;
         optima = new RealPointValuePair[starts];
@@ -157,8 +147,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
             // CHECKSTYLE: stop IllegalCatch
             try {
                 optima[i] = optimizer.optimize(maxEval - totalEvaluations, f, goal,
-                                               i == 0 ? startPoint : generator.nextVector(),
-                                               lowerBound, upperBound);
+                                               i == 0 ? startPoint : generator.nextVector());
             } catch (RuntimeException mue) {
                 lastException = mue;
                 optima[i] = null;

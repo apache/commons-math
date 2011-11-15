@@ -33,8 +33,8 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunction>
-    extends BaseOptimizer<RealPointValuePair> {
+public interface BaseSimpleBoundsMultivariateRealOptimizer<FUNC extends MultivariateRealFunction>
+    extends BaseMultivariateRealOptimizer<FUNC> {
     /**
      * Optimize an objective function.
      *
@@ -43,15 +43,22 @@ public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunc
      * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
      * @param startPoint Start point for optimization.
      * @param maxEval Maximum number of function evaluations.
+     * @param lowerBound Lower bound for each of the parameters.
+     * @param upperBound Upper bound for each of the parameters.
      * @return the point/value pair giving the optimal value for objective
      * function.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if the start point dimension is wrong.
+     * if the array sizes are wrong.
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math.exception.NullArgumentException if
-     * any argument is {@code null}.
+     * {@code f}, {@code goalType} or {@code startPoint} is {@code null}.
+     * @throws org.apache.commons.math.exception.NumberIsTooSmallException if any
+     * of the initial values is less than its lower bound.
+     * @throws org.apache.commons.math.exception.NumberIsTooLargeException if any
+     * of the initial values is greater than its upper bound.
      */
     RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
-                                double[] startPoint);
+                                double[] startPoint,
+                                double[] lowerBound, double[] upperBound);
 }

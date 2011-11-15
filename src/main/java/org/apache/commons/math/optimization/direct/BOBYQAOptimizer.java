@@ -28,8 +28,9 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.BaseSimpleBoundsMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
@@ -50,7 +51,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  * @since 3.0
  */
 public class BOBYQAOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    extends BaseAbstractSimpleBoundsScalarOptimizer<MultivariateRealFunction>
     implements MultivariateRealOptimizer {
     /** Minimum dimension of the problem: {@value} */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;
