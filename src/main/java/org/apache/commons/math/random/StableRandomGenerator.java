@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * <p>The implementation uses the Chambers-Mallows-Stuck method as described in
  * <i>Handbook of computational statistics: concepts and methods</i> by
- * James E. Gentle, Wolfgang Härdle, Yuichi Mori.</p>
+ * James E. Gentle, Wolfgang H&auml;rdle, Yuichi Mori.</p>
  *
  * @version $Id$
  * @since 3.0
