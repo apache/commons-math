@@ -50,10 +50,11 @@ public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends Multi
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleScalarValueChecker} and
+     * The convergence checker is set to a
+     * {@link org.apache.commons.math.optimization.SimpleScalarValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      *
-     * {@see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer()}.
+     * @see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer().
      */
     protected BaseAbstractSimpleBoundsScalarOptimizer() {}
 
