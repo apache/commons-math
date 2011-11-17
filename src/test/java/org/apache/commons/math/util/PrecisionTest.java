@@ -464,4 +464,22 @@ public class PrecisionTest {
         Assert.assertEquals(Float.POSITIVE_INFINITY, Precision.round(Float.POSITIVE_INFINITY, 2), 0.0f);
         Assert.assertEquals(Float.NEGATIVE_INFINITY, Precision.round(Float.NEGATIVE_INFINITY, 2), 0.0f);
     }
+
+
+    @Test
+    public void testRepresentableDelta() {
+        int totalCount = 0;
+        int nonRepresentableCount = 0;
+        final double x = 100;
+        final int numTrials = 10000;
+        for (int i = 0; i < numTrials; i++) {
+            final double originalDelta = Math.random();
+            final double delta = Precision.representableDelta(x, originalDelta);
+            if (delta != originalDelta) {
+                ++nonRepresentableCount;
+            }
+        }
+
+        Assert.assertTrue(nonRepresentableCount / (double) numTrials > 0.9);
+    }
 }
