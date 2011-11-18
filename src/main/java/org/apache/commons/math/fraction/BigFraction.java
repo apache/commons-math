@@ -85,7 +85,7 @@ public class BigFraction
     private static final long serialVersionUID = -5630213147331578515L;
 
     /** <code>BigInteger</code> representation of 100. */
-    private static final BigInteger ONE_HUNDRED_DOUBLE = BigInteger.valueOf(100);
+    private static final BigInteger ONE_HUNDRED = BigInteger.valueOf(100);
 
     /** The numerator. */
     private final BigInteger numerator;
@@ -923,7 +923,7 @@ public class BigFraction
      * @return the fraction percentage as a <tt>double</tt>.
      */
     public double percentageValue() {
-        return (numerator.divide(denominator)).multiply(ONE_HUNDRED_DOUBLE).doubleValue();
+        return multiply(ONE_HUNDRED).doubleValue();
     }
 
     /**

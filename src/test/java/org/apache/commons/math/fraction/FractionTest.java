@@ -238,6 +238,11 @@ public class FractionTest {
     }
 
     @Test
+    public void testPercentage() {
+        Assert.assertEquals(50.0, new Fraction(1, 2).percentageValue(), 1.0e-15);
+    }
+
+    @Test
     public void testReciprocal() {
         Fraction f = null;
 

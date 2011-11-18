@@ -558,6 +558,11 @@ public class BigFractionTest {
     }
 
     @Test
+    public void testPercentage() {
+        Assert.assertEquals(50.0, new BigFraction(1, 2).percentageValue(), 1.0e-15);
+    }
+
+    @Test
     public void testPow() {
         Assert.assertEquals(new BigFraction(8192, 1594323), new BigFraction(2, 3).pow(13));
         Assert.assertEquals(new BigFraction(8192, 1594323), new BigFraction(2, 3).pow(13l));

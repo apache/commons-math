@@ -586,6 +586,18 @@ public class Fraction
     }
 
     /**
+     * <p>
+     * Gets the fraction percentage as a <tt>double</tt>. This calculates the
+     * fraction as the numerator divided by denominator multiplied by 100.
+     * </p>
+     *
+     * @return the fraction percentage as a <tt>double</tt>.
+     */
+    public double percentageValue() {
+        return multiply(100).doubleValue();
+    }
+
+    /**
      * <p>Creates a {@code Fraction} instance with the 2 parts
      * of a fraction Y/Z.</p>
      *
