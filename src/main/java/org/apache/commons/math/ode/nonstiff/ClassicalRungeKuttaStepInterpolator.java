@@ -48,7 +48,7 @@ class ClassicalRungeKuttaStepInterpolator
     extends RungeKuttaStepInterpolator {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20110928L;
+    private static final long serialVersionUID = 20111120L;
 
     /** Simple constructor.
      * This constructor builds an instance that is not usable yet, the

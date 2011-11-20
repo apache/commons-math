@@ -72,7 +72,7 @@ class DormandPrince54StepInterpolator
     private static final double D6 =      69997945.0 /     29380423.0;
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20110928L;
+    private static final long serialVersionUID = 20111120L;
 
     /** First vector for interpolation. */
     private double[] v1;

@@ -54,7 +54,7 @@ class GillStepInterpolator
     private static final double TWO_PLUS_SQRT_2 = 2 + FastMath.sqrt(2.0);
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20110928L;
+    private static final long serialVersionUID = 20111120L;
 
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the

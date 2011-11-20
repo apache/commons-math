@@ -202,7 +202,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     final double[] y = y0.clone();
     final int stages = c.length + 1;
     final double[][] yDotK = new double[stages][y.length];
-    final double[] yTmp    = new double[y.length];
+    final double[] yTmp    = y0.clone();
     final double[] yDotTmp = new double[y.length];
 
     // set up an interpolator sharing the integrator arrays
@@ -294,6 +294,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
       System.arraycopy(yTmp, 0, y, 0, y0.length);
       System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);
       stepStart = acceptStep(interpolator, y, yDotTmp, t);
+      System.arraycopy(y, 0, yTmp, 0, y.length);
 
       if (!isLastStep) {
 

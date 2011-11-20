@@ -107,7 +107,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     for (int i = 0; i < stages; ++i) {
       yDotK [i] = new double[y0.length];
     }
-    final double[] yTmp    = new double[y0.length];
+    final double[] yTmp    = y0.clone();
     final double[] yDotTmp = new double[y0.length];
 
     // set up an interpolator sharing the integrator arrays
