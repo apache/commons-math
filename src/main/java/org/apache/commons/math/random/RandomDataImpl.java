@@ -24,7 +24,7 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.Collection;
 
-import org.apache.commons.math.distribution.BetaDistributionImpl;
+import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
@@ -599,7 +599,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link BetaDistributionImpl Beta Distribution}.
+     * Generates a random value from the {@link BetaDistribution Beta Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -609,7 +609,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextBeta(double alpha, double beta) {
-        return nextInversionDeviate(new BetaDistributionImpl(alpha, beta));
+        return nextInversionDeviate(new BetaDistribution(alpha, beta));
     }
 
     /**

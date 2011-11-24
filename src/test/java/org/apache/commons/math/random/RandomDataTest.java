@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.math.Retry;
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.distribution.BetaDistributionImpl;
+import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistributionImpl;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
@@ -846,7 +846,7 @@ public class RandomDataTest {
         }
         // Reseed again so the inversion generator gets the same sequence
         randomData.reSeed(100);
-        BetaDistributionImpl betaDistribution = new BetaDistributionImpl(2, 4);
+        BetaDistribution betaDistribution = new BetaDistribution(2, 4);
         /*
          *  Generate a sequence of deviates using inversion - the distribution function
          *  evaluated at the random value from the distribution should match the uniform
@@ -860,7 +860,7 @@ public class RandomDataTest {
 
     @Test
     public void testNextBeta() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistributionImpl(2,5));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistribution(2,5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {

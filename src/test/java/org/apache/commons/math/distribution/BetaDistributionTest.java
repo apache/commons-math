@@ -141,7 +141,7 @@ public class BetaDistributionTest {
     }
 
     private void checkCumulative(double alpha, double beta, double[] x, double[] cumes) {
-        BetaDistribution d = new BetaDistributionImpl(alpha, beta);
+        BetaDistribution d = new BetaDistribution(alpha, beta);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(cumes[i], d.cumulativeProbability(x[i]), 1e-8);
         }
@@ -283,7 +283,7 @@ public class BetaDistributionTest {
     }
 
     private void checkDensity(double alpha, double beta, double[] x, double[] expected) {
-        BetaDistribution d = new BetaDistributionImpl(alpha, beta);
+        BetaDistribution d = new BetaDistribution(alpha, beta);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(String.format("density at x=%.1f for alpha=%.1f, beta=%.1f", x[i], alpha, beta), expected[i], d.density(x[i]), 1e-5);
         }
@@ -293,13 +293,13 @@ public class BetaDistributionTest {
     public void testMoments() {
         final double tol = 1e-9;
         BetaDistribution dist;
-        
-        dist = new BetaDistributionImpl(1, 1);
+
+        dist = new BetaDistribution(1, 1);
         Assert.assertEquals(dist.getNumericalMean(), 0.5, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 1.0 / 12.0, tol); 
-        
-        dist = new BetaDistributionImpl(2, 5);
+        Assert.assertEquals(dist.getNumericalVariance(), 1.0 / 12.0, tol);
+
+        dist = new BetaDistribution(2, 5);
         Assert.assertEquals(dist.getNumericalMean(), 2.0 / 7.0, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol); 
+        Assert.assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol);
     }
 }
