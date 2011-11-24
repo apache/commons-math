@@ -26,7 +26,7 @@ import org.apache.commons.math.Retry;
 import org.apache.commons.math.RetryRunner;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.BetaDistribution;
-import org.apache.commons.math.distribution.BinomialDistributionImpl;
+import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
@@ -963,7 +963,7 @@ public class RandomDataTest {
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
         int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
-        BinomialDistributionImpl distribution = (BinomialDistributionImpl) testInstance.makeDistribution();
+        BinomialDistribution distribution = (BinomialDistribution) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
         for (int i = 0; i < length; i++) {

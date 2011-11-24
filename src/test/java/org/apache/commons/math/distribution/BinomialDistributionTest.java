@@ -31,7 +31,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default discrete distribution instance to use in tests. */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new BinomialDistributionImpl(10, 0.70);
+        return new BinomialDistribution(10, 0.70);
     }
 
     /** Creates the default probability density test input values */
@@ -82,7 +82,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     /** Test degenerate case p = 0 */
     @Test
     public void testDegenerate0() throws Exception {
-        setDistribution(new BinomialDistributionImpl(5, 0.0d));
+        setDistribution(new BinomialDistribution(5, 0.0d));
         setCumulativeTestPoints(new int[] { -1, 0, 1, 5, 10 });
         setCumulativeTestValues(new double[] { 0d, 1d, 1d, 1d, 1d });
         setDensityTestPoints(new int[] { -1, 0, 1, 10, 11 });
@@ -97,7 +97,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     /** Test degenerate case p = 1 */
     @Test
     public void testDegenerate1() throws Exception {
-        setDistribution(new BinomialDistributionImpl(5, 1.0d));
+        setDistribution(new BinomialDistribution(5, 1.0d));
         setCumulativeTestPoints(new int[] { -1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] { 0d, 0d, 0d, 0d, 1d, 1d });
         setDensityTestPoints(new int[] { -1, 0, 1, 2, 5, 10 });
@@ -113,12 +113,12 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     public void testMoments() {
         final double tol = 1e-9;
         BinomialDistribution dist;
-        
-        dist = new BinomialDistributionImpl(10, 0.5);
+
+        dist = new BinomialDistribution(10, 0.5);
         Assert.assertEquals(dist.getNumericalMean(), 10d * 0.5d, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 10d * 0.5d * 0.5d, tol); 
-        
-        dist = new BinomialDistributionImpl(30, 0.3);
+        Assert.assertEquals(dist.getNumericalVariance(), 10d * 0.5d * 0.5d, tol);
+
+        dist = new BinomialDistribution(30, 0.3);
         Assert.assertEquals(dist.getNumericalMean(), 30d * 0.3d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 30d * 0.3d * (1d - 0.3d), tol);
     }

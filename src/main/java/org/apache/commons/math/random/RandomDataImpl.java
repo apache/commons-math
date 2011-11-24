@@ -25,7 +25,7 @@ import java.security.SecureRandom;
 import java.util.Collection;
 
 import org.apache.commons.math.distribution.BetaDistribution;
-import org.apache.commons.math.distribution.BinomialDistributionImpl;
+import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.CauchyDistributionImpl;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.distribution.ContinuousDistribution;
@@ -613,7 +613,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link BinomialDistributionImpl Binomial Distribution}.
+     * Generates a random value from the {@link BinomialDistribution Binomial Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -623,7 +623,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public int nextBinomial(int numberOfTrials, double probabilityOfSuccess) {
-        return nextInversionDeviate(new BinomialDistributionImpl(numberOfTrials, probabilityOfSuccess));
+        return nextInversionDeviate(new BinomialDistribution(numberOfTrials, probabilityOfSuccess));
     }
 
     /**
