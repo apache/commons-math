@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.math.BigInteger;
 
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -598,6 +599,83 @@ public class ArithmeticUtilsTest {
         testSubAndCheckLongFailure(0L, min);
         testSubAndCheckLongFailure(max, -1L);
         testSubAndCheckLongFailure(min, 1L);
+    }
+
+    @Test
+    public void testPow() {
+
+        Assert.assertEquals(1801088541, ArithmeticUtils.pow(21, 7));
+        Assert.assertEquals(1, ArithmeticUtils.pow(21, 0));
+        try {
+            ArithmeticUtils.pow(21, -7);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        Assert.assertEquals(1801088541, ArithmeticUtils.pow(21, 7l));
+        Assert.assertEquals(1, ArithmeticUtils.pow(21, 0l));
+        try {
+            ArithmeticUtils.pow(21, -7l);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        Assert.assertEquals(1801088541l, ArithmeticUtils.pow(21l, 7));
+        Assert.assertEquals(1l, ArithmeticUtils.pow(21l, 0));
+        try {
+            ArithmeticUtils.pow(21l, -7);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        Assert.assertEquals(1801088541l, ArithmeticUtils.pow(21l, 7l));
+        Assert.assertEquals(1l, ArithmeticUtils.pow(21l, 0l));
+        try {
+            ArithmeticUtils.pow(21l, -7l);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        BigInteger twentyOne = BigInteger.valueOf(21l);
+        Assert.assertEquals(BigInteger.valueOf(1801088541l), ArithmeticUtils.pow(twentyOne, 7));
+        Assert.assertEquals(BigInteger.ONE, ArithmeticUtils.pow(twentyOne, 0));
+        try {
+            ArithmeticUtils.pow(twentyOne, -7);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        Assert.assertEquals(BigInteger.valueOf(1801088541l), ArithmeticUtils.pow(twentyOne, 7l));
+        Assert.assertEquals(BigInteger.ONE, ArithmeticUtils.pow(twentyOne, 0l));
+        try {
+            ArithmeticUtils.pow(twentyOne, -7l);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        Assert.assertEquals(BigInteger.valueOf(1801088541l), ArithmeticUtils.pow(twentyOne, BigInteger.valueOf(7l)));
+        Assert.assertEquals(BigInteger.ONE, ArithmeticUtils.pow(twentyOne, BigInteger.ZERO));
+        try {
+            ArithmeticUtils.pow(twentyOne, BigInteger.valueOf(-7l));
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected behavior
+        }
+
+        BigInteger bigOne =
+            new BigInteger("1543786922199448028351389769265814882661837148" +
+                           "4763915343722775611762713982220306372888519211" +
+                           "560905579993523402015636025177602059044911261");
+        Assert.assertEquals(bigOne, ArithmeticUtils.pow(twentyOne, 103));
+        Assert.assertEquals(bigOne, ArithmeticUtils.pow(twentyOne, 103l));
+        Assert.assertEquals(bigOne, ArithmeticUtils.pow(twentyOne, BigInteger.valueOf(103l)));
+
     }
 
     /**

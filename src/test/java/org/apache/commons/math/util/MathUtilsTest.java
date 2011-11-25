@@ -13,9 +13,6 @@
  */
 package org.apache.commons.math.util;
 
-import java.math.BigInteger;
-
-
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
@@ -254,83 +251,6 @@ public final class MathUtilsTest {
         Assert.assertEquals((short) 1, MathUtils.sign((short) 2));
         Assert.assertEquals((short) 0, MathUtils.sign((short) 0));
         Assert.assertEquals((short) (-1), MathUtils.sign((short) (-2)));
-    }
-
-    @Test
-    public void testPow() {
-
-        Assert.assertEquals(1801088541, MathUtils.pow(21, 7));
-        Assert.assertEquals(1, MathUtils.pow(21, 0));
-        try {
-            MathUtils.pow(21, -7);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        Assert.assertEquals(1801088541, MathUtils.pow(21, 7l));
-        Assert.assertEquals(1, MathUtils.pow(21, 0l));
-        try {
-            MathUtils.pow(21, -7l);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        Assert.assertEquals(1801088541l, MathUtils.pow(21l, 7));
-        Assert.assertEquals(1l, MathUtils.pow(21l, 0));
-        try {
-            MathUtils.pow(21l, -7);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        Assert.assertEquals(1801088541l, MathUtils.pow(21l, 7l));
-        Assert.assertEquals(1l, MathUtils.pow(21l, 0l));
-        try {
-            MathUtils.pow(21l, -7l);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        BigInteger twentyOne = BigInteger.valueOf(21l);
-        Assert.assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, 7));
-        Assert.assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0));
-        try {
-            MathUtils.pow(twentyOne, -7);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        Assert.assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, 7l));
-        Assert.assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, 0l));
-        try {
-            MathUtils.pow(twentyOne, -7l);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        Assert.assertEquals(BigInteger.valueOf(1801088541l), MathUtils.pow(twentyOne, BigInteger.valueOf(7l)));
-        Assert.assertEquals(BigInteger.ONE, MathUtils.pow(twentyOne, BigInteger.ZERO));
-        try {
-            MathUtils.pow(twentyOne, BigInteger.valueOf(-7l));
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
-        BigInteger bigOne =
-            new BigInteger("1543786922199448028351389769265814882661837148" +
-                           "4763915343722775611762713982220306372888519211" +
-                           "560905579993523402015636025177602059044911261");
-        Assert.assertEquals(bigOne, MathUtils.pow(twentyOne, 103));
-        Assert.assertEquals(bigOne, MathUtils.pow(twentyOne, 103l));
-        Assert.assertEquals(bigOne, MathUtils.pow(twentyOne, BigInteger.valueOf(103l)));
-
     }
 
     @Test

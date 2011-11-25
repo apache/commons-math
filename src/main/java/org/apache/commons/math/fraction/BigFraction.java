@@ -27,6 +27,7 @@ import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.apache.commons.math.util.ArithmeticUtils;
 
 /**
  * Representation of a rational number without any overflow. This class is
@@ -956,11 +957,11 @@ public class BigFraction
      */
     public BigFraction pow(final long exponent) {
         if (exponent < 0) {
-            return new BigFraction(MathUtils.pow(denominator, -exponent),
-                                   MathUtils.pow(numerator,   -exponent));
+            return new BigFraction(ArithmeticUtils.pow(denominator, -exponent),
+                                   ArithmeticUtils.pow(numerator,   -exponent));
         }
-        return new BigFraction(MathUtils.pow(numerator,   exponent),
-                               MathUtils.pow(denominator, exponent));
+        return new BigFraction(ArithmeticUtils.pow(numerator,   exponent),
+                               ArithmeticUtils.pow(denominator, exponent));
     }
 
     /**
@@ -976,11 +977,11 @@ public class BigFraction
     public BigFraction pow(final BigInteger exponent) {
         if (exponent.compareTo(BigInteger.ZERO) < 0) {
             final BigInteger eNeg = exponent.negate();
-            return new BigFraction(MathUtils.pow(denominator, eNeg),
-                                   MathUtils.pow(numerator,   eNeg));
+            return new BigFraction(ArithmeticUtils.pow(denominator, eNeg),
+                                   ArithmeticUtils.pow(numerator,   eNeg));
         }
-        return new BigFraction(MathUtils.pow(numerator,   exponent),
-                               MathUtils.pow(denominator, exponent));
+        return new BigFraction(ArithmeticUtils.pow(numerator,   exponent),
+                               ArithmeticUtils.pow(denominator, exponent));
     }
 
     /**

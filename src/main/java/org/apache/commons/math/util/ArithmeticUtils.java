@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.util;
 
+import java.math.BigInteger;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.NotPositiveException;
@@ -704,6 +705,179 @@ public final class ArithmeticUtils {
             ret = addAndCheck(a, -b, LocalizedFormats.OVERFLOW_IN_ADDITION);
         }
         return ret;
+    }
+
+    /**
+     * Raise an int to an int power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static int pow(final int k, int e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        int result = 1;
+        int k2p    = k;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= k2p;
+            }
+            k2p *= k2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
+
+    /**
+     * Raise an int to a long power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static int pow(final int k, long e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        int result = 1;
+        int k2p    = k;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= k2p;
+            }
+            k2p *= k2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
+
+    /**
+     * Raise a long to an int power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static long pow(final long k, int e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        long result = 1l;
+        long k2p    = k;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= k2p;
+            }
+            k2p *= k2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
+
+    /**
+     * Raise a long to a long power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static long pow(final long k, long e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        long result = 1l;
+        long k2p    = k;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= k2p;
+            }
+            k2p *= k2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
+
+    /**
+     * Raise a BigInteger to an int power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static BigInteger pow(final BigInteger k, int e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        return k.pow(e);
+    }
+
+    /**
+     * Raise a BigInteger to a long power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static BigInteger pow(final BigInteger k, long e) {
+        if (e < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        BigInteger result = BigInteger.ONE;
+        BigInteger k2p    = k;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result = result.multiply(k2p);
+            }
+            k2p = k2p.multiply(k2p);
+            e = e >> 1;
+        }
+
+        return result;
+
+    }
+
+    /**
+     * Raise a BigInteger to a BigInteger power.
+     *
+     * @param k Number to raise.
+     * @param e Exponent (must be positive or zero).
+     * @return k<sup>e</sup>
+     * @throws NotPositiveException if {@code e < 0}.
+     */
+    public static BigInteger pow(final BigInteger k, BigInteger e) {
+        if (e.compareTo(BigInteger.ZERO) < 0) {
+            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
+        }
+
+        BigInteger result = BigInteger.ONE;
+        BigInteger k2p    = k;
+        while (!BigInteger.ZERO.equals(e)) {
+            if (e.testBit(0)) {
+                result = result.multiply(k2p);
+            }
+            k2p = k2p.multiply(k2p);
+            e = e.shiftRight(1);
+        }
+
+        return result;
     }
 
     /**
