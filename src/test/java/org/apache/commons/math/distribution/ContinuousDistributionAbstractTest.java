@@ -55,7 +55,7 @@ import org.junit.Test;
  * should be documented in the test cases.  A framework for validating
  * distribution data against R is included in the /src/test/R source tree.
  * <p>
- * See {@link NormalDistributionTest} and {@link ChiSquareDistributionTest}
+ * See {@link NormalDistributionTest} and {@link ChiSquaredDistributionTest}
  * for examples.
  *
  * @version $Id$

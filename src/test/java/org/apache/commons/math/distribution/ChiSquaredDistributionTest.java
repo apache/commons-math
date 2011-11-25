@@ -21,13 +21,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases for ChiSquareDistribution.
- * Extends ContinuousDistributionAbstractTest.  See class javadoc for
- * ContinuousDistributionAbstractTest for details.
+ * Test cases for {@link ChiSquaredDistribution}.
  *
+ * @see ContinuousDistributionAbstractTest
  * @version $Id$
  */
-public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTest {
+public class ChiSquaredDistributionTest extends ContinuousDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 
