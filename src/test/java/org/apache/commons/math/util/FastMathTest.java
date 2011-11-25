@@ -1089,4 +1089,20 @@ public class FastMathTest {
         Assert.assertEquals(0, FastMath.log(0, 10), 0);
         Assert.assertEquals(Double.NEGATIVE_INFINITY, FastMath.log(10, 0), 0);
     }
+
+    @Test
+    public void testIndicatorDouble() {
+        double delta = 0.0;
+        Assert.assertEquals(1.0, FastMath.copySign(1d, 2.0), delta);
+        Assert.assertEquals(1.0, FastMath.copySign(1d, 0.0), delta);
+        Assert.assertEquals(-1.0, FastMath.copySign(1d, -2.0), delta);
+    }
+
+    @Test
+    public void testIndicatorFloat() {
+        float delta = 0.0F;
+        Assert.assertEquals(1.0F, FastMath.copySign(1d, 2.0F), delta);
+        Assert.assertEquals(1.0F, FastMath.copySign(1d, 0.0F), delta);
+        Assert.assertEquals(-1.0F, FastMath.copySign(1d, -2.0F), delta);
+    }
 }

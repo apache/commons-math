@@ -102,47 +102,30 @@ public final class MathUtilsTest {
 
     @Test
     public void testIndicatorByte() {
-        Assert.assertEquals((byte)1, MathUtils.indicator((byte)2));
-        Assert.assertEquals((byte)1, MathUtils.indicator((byte)0));
-        Assert.assertEquals((byte)(-1), MathUtils.indicator((byte)(-2)));
-    }
-
-    @Test
-    public void testIndicatorDouble() {
-        double delta = 0.0;
-        Assert.assertEquals(1.0, MathUtils.indicator(2.0), delta);
-        Assert.assertEquals(1.0, MathUtils.indicator(0.0), delta);
-        Assert.assertEquals(-1.0, MathUtils.indicator(-2.0), delta);
-        Assert.assertTrue(Double.isNaN(MathUtils.indicator(Double.NaN)));
-    }
-
-    @Test
-    public void testIndicatorFloat() {
-        float delta = 0.0F;
-        Assert.assertEquals(1.0F, MathUtils.indicator(2.0F), delta);
-        Assert.assertEquals(1.0F, MathUtils.indicator(0.0F), delta);
-        Assert.assertEquals(-1.0F, MathUtils.indicator(-2.0F), delta);
+        Assert.assertEquals((byte)1, MathUtils.copySign((byte)1, (byte)2));
+        Assert.assertEquals((byte)1, MathUtils.copySign((byte)1, (byte)0));
+        Assert.assertEquals((byte)(-1), MathUtils.copySign((byte)1, (byte)(-2)));
     }
 
     @Test
     public void testIndicatorInt() {
-        Assert.assertEquals(1, MathUtils.indicator((2)));
-        Assert.assertEquals(1, MathUtils.indicator((0)));
-        Assert.assertEquals((-1), MathUtils.indicator((-2)));
+        Assert.assertEquals(1, MathUtils.copySign(1, 2));
+        Assert.assertEquals(1, MathUtils.copySign(1, 0));
+        Assert.assertEquals((-1), MathUtils.copySign(1, -2));
     }
 
     @Test
     public void testIndicatorLong() {
-        Assert.assertEquals(1L, MathUtils.indicator(2L));
-        Assert.assertEquals(1L, MathUtils.indicator(0L));
-        Assert.assertEquals(-1L, MathUtils.indicator(-2L));
+        Assert.assertEquals(1L, MathUtils.copySign(1L, 2L));
+        Assert.assertEquals(1L, MathUtils.copySign(1L, 0L));
+        Assert.assertEquals(-1L, MathUtils.copySign(1L, -2L));
     }
 
     @Test
     public void testIndicatorShort() {
-        Assert.assertEquals((short)1, MathUtils.indicator((short)2));
-        Assert.assertEquals((short)1, MathUtils.indicator((short)0));
-        Assert.assertEquals((short)(-1), MathUtils.indicator((short)(-2)));
+        Assert.assertEquals((short)1, MathUtils.copySign((short)1, (short)2));
+        Assert.assertEquals((short)1, MathUtils.copySign((short)1, (short)0));
+        Assert.assertEquals((short)(-1), MathUtils.copySign((short)1, (short)(-2)));
     }
 
     @Test

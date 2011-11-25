@@ -83,77 +83,6 @@ public final class MathUtils {
     }
 
     /**
-     * For a byte value x, this method returns (byte)(+1) if x >= 0 and
-     * (byte)(-1) if x < 0.
-     *
-     * @param x the value, a byte
-     * @return (byte)(+1) or (byte)(-1), depending on the sign of x
-     */
-    public static byte indicator(final byte x) {
-        return (x >= ZB) ? PB : NB;
-    }
-
-    /**
-     * For a double precision value x, this method returns +1.0 if x >= 0 and
-     * -1.0 if x < 0. Returns {@code NaN} if {@code x} is
-     * {@code NaN}.
-     *
-     * @param x the value, a double
-     * @return +1.0 or -1.0, depending on the sign of x
-     */
-    public static double indicator(final double x) {
-        if (Double.isNaN(x)) {
-            return Double.NaN;
-        }
-        return (x >= 0.0) ? 1.0 : -1.0;
-    }
-
-    /**
-     * For a float value x, this method returns +1.0F if x >= 0 and -1.0F if x <
-     * 0. Returns {@code NaN} if {@code x} is {@code NaN}.
-     *
-     * @param x the value, a float
-     * @return +1.0F or -1.0F, depending on the sign of x
-     */
-    public static float indicator(final float x) {
-        if (Float.isNaN(x)) {
-            return Float.NaN;
-        }
-        return (x >= 0.0F) ? 1.0F : -1.0F;
-    }
-
-    /**
-     * For an int value x, this method returns +1 if x >= 0 and -1 if x < 0.
-     *
-     * @param x the value, an int
-     * @return +1 or -1, depending on the sign of x
-     */
-    public static int indicator(final int x) {
-        return (x >= 0) ? 1 : -1;
-    }
-
-    /**
-     * For a long value x, this method returns +1L if x >= 0 and -1L if x < 0.
-     *
-     * @param x the value, a long
-     * @return +1L or -1L, depending on the sign of x
-     */
-    public static long indicator(final long x) {
-        return (x >= 0L) ? 1L : -1L;
-    }
-
-    /**
-     * For a short value x, this method returns (short)(+1) if x >= 0 and
-     * (short)(-1) if x < 0.
-     *
-     * @param x the value, a short
-     * @return (short)(+1) or (short)(-1), depending on the sign of x
-     */
-    public static short indicator(final short x) {
-        return (x >= ZS) ? PS : NS;
-    }
-
-    /**
      * Normalize an angle in a 2&pi wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>
@@ -232,6 +161,72 @@ public final class MathUtils {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
         } else {
             return (byte) -magnitude; // Flip sign.
+        }
+    }
+
+    /**
+     * Returns the first argument with the sign of the second argument.
+     *
+     * @param magnitude Magnitude of the returned value.
+     * @param sign Sign of the returned value.
+     * @return a value with magnitude equal to {@code magnitude} and with the
+     * same sign as the {@code sign} argument.
+     * @throws MathArithmeticException if {@code magnitude == Short.MIN_VALUE}
+     * and {@code sign >= 0}.
+     */
+    public static short copySign(short magnitude, short sign) {
+        if ((magnitude >= 0 && sign >= 0) ||
+            (magnitude < 0 && sign < 0)) { // Sign is OK.
+            return magnitude;
+        } else if (sign >= 0 &&
+                   magnitude == Short.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        } else {
+            return (short) -magnitude; // Flip sign.
+        }
+    }
+
+    /**
+     * Returns the first argument with the sign of the second argument.
+     *
+     * @param magnitude Magnitude of the returned value.
+     * @param sign Sign of the returned value.
+     * @return a value with magnitude equal to {@code magnitude} and with the
+     * same sign as the {@code sign} argument.
+     * @throws MathArithmeticException if {@code magnitude == Integer.MIN_VALUE}
+     * and {@code sign >= 0}.
+     */
+    public static int copySign(int magnitude, int sign) {
+        if ((magnitude >= 0 && sign >= 0) ||
+            (magnitude < 0 && sign < 0)) { // Sign is OK.
+            return magnitude;
+        } else if (sign >= 0 &&
+                   magnitude == Integer.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        } else {
+            return (int) -magnitude; // Flip sign.
+        }
+    }
+
+    /**
+     * Returns the first argument with the sign of the second argument.
+     *
+     * @param magnitude Magnitude of the returned value.
+     * @param sign Sign of the returned value.
+     * @return a value with magnitude equal to {@code magnitude} and with the
+     * same sign as the {@code sign} argument.
+     * @throws MathArithmeticException if {@code magnitude == Long.MIN_VALUE}
+     * and {@code sign >= 0}.
+     */
+    public static long copySign(long magnitude, long sign) {
+        if ((magnitude >= 0 && sign >= 0) ||
+            (magnitude < 0 && sign < 0)) { // Sign is OK.
+            return magnitude;
+        } else if (sign >= 0 &&
+                   magnitude == Long.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        } else {
+            return (long) -magnitude; // Flip sign.
         }
     }
 

@@ -921,7 +921,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * where <ul>
      * <li>{@code |a| = }{@link Math#abs}(a)</li>
      * <li>{@code |a + bi| = }{@link Complex#abs}(a + bi)</li>
-     * <li>{@code sign(b) =  }{@link MathUtils#indicator}(b)
+     * <li>{@code sign(b) =  }{@link FastMath#copySign(double,double) copySign(1d, b)}
      * </ul>
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
@@ -957,7 +957,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
             return createComplex(t, imaginary / (2.0 * t));
         } else {
             return createComplex(FastMath.abs(imaginary) / (2.0 * t),
-                                 MathUtils.indicator(imaginary) * t);
+                                 FastMath.copySign(1d, imaginary) * t);
         }
     }
 
