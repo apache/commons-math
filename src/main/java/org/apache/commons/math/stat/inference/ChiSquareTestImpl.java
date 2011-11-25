@@ -22,7 +22,6 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
@@ -102,7 +101,7 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     public double chiSquareTest(double[] expected, long[] observed)
         throws MathException {
         ChiSquaredDistribution distribution =
-            new ChiSquaredDistributionImpl(expected.length - 1.0);
+            new ChiSquaredDistribution(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(
             chiSquare(expected, observed));
     }
@@ -176,7 +175,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
     throws MathException {
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        ChiSquaredDistribution distribution = new ChiSquaredDistributionImpl(df);
+        ChiSquaredDistribution distribution;
+        distribution = new ChiSquaredDistribution(df);
         return 1 - distribution.cumulativeProbability(chiSquare(counts));
     }
 
@@ -270,8 +270,8 @@ public class ChiSquareTestImpl implements UnknownDistributionChiSquareTest {
      */
     public double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
         throws MathException {
-        ChiSquaredDistribution distribution =
-            new ChiSquaredDistributionImpl((double) observed1.length - 1);
+        ChiSquaredDistribution distribution;
+        distribution = new ChiSquaredDistribution((double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
     }

@@ -34,7 +34,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public ChiSquaredDistribution makeDistribution() {
-        return new ChiSquaredDistributionImpl(5.0);
+        return new ChiSquaredDistribution(5.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -84,7 +84,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
 
     @Test
     public void testSmallDf() throws Exception {
-        setDistribution(new ChiSquaredDistributionImpl(0.1d));
+        setDistribution(new ChiSquaredDistribution(0.1d));
         setTolerance(1E-4);
         // quantiles computed using R version 1.8.1 (linux version)
         setCumulativeTestPoints(new double[] {1.168926E-60, 1.168926E-40, 1.063132E-32,
@@ -116,7 +116,7 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     }
 
     private void checkDensity(double df, double[] x, double[] expected) {
-        ChiSquaredDistribution d = new ChiSquaredDistributionImpl(df);
+        ChiSquaredDistribution d = new ChiSquaredDistribution(df);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(expected[i], d.density(x[i]), 1e-5);
         }
@@ -126,12 +126,12 @@ public class ChiSquareDistributionTest extends ContinuousDistributionAbstractTes
     public void testMoments() {
         final double tol = 1e-9;
         ChiSquaredDistribution dist;
-        
-        dist = new ChiSquaredDistributionImpl(1500);
+
+        dist = new ChiSquaredDistribution(1500);
         Assert.assertEquals(dist.getNumericalMean(), 1500, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 3000, tol); 
-        
-        dist = new ChiSquaredDistributionImpl(1.12);
+        Assert.assertEquals(dist.getNumericalVariance(), 3000, tol);
+
+        dist = new ChiSquaredDistribution(1.12);
         Assert.assertEquals(dist.getNumericalMean(), 1.12, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 2.24, tol);
     }

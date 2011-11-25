@@ -27,7 +27,7 @@ import java.util.Collection;
 import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.CauchyDistribution;
-import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
+import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
@@ -641,7 +641,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link ChiSquaredDistributionImpl ChiSquare Distribution}.
+     * Generates a random value from the {@link ChiSquaredDistribution ChiSquare Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -650,7 +650,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextChiSquare(double df) {
-        return nextInversionDeviate(new ChiSquaredDistributionImpl(df));
+        return nextInversionDeviate(new ChiSquaredDistribution(df));
     }
 
     /**
