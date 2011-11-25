@@ -43,7 +43,7 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public CauchyDistribution makeDistribution() {
-        return new CauchyDistributionImpl(1.2, 2.1);
+        return new CauchyDistribution(1.2, 2.1);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -93,13 +93,13 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     @Test
     public void testPreconditions() {
         try {
-            new CauchyDistributionImpl(0, 0);
+            new CauchyDistribution(0, 0);
             Assert.fail("Cannot have zero scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            new CauchyDistributionImpl(0, -1);
+            new CauchyDistribution(0, -1);
             Assert.fail("Cannot have negative scale");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
@@ -109,12 +109,12 @@ public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  
     @Test
     public void testMoments() {
         CauchyDistribution dist;
-        
-        dist = new CauchyDistributionImpl(10.2, 0.15);        
+
+        dist = new CauchyDistribution(10.2, 0.15);
         Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
         Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
-        
-        dist = new CauchyDistributionImpl(23.12, 2.12);
+
+        dist = new CauchyDistribution(23.12, 2.12);
         Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
         Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
     }

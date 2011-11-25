@@ -28,7 +28,7 @@ import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
-import org.apache.commons.math.distribution.CauchyDistributionImpl;
+import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.distribution.ExponentialDistributionImpl;
 import org.apache.commons.math.distribution.FDistributionImpl;
@@ -872,7 +872,7 @@ public class RandomDataTest {
 
     @Test
     public void testNextCauchy() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistributionImpl(1.2, 2.1));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistribution(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {

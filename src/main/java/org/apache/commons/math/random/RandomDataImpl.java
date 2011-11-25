@@ -26,7 +26,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistribution;
-import org.apache.commons.math.distribution.CauchyDistributionImpl;
+import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistributionImpl;
@@ -627,7 +627,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link CauchyDistributionImpl Cauchy Distribution}.
+     * Generates a random value from the {@link CauchyDistribution Cauchy Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -637,7 +637,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextCauchy(double median, double scale) {
-        return nextInversionDeviate(new CauchyDistributionImpl(median, scale));
+        return nextInversionDeviate(new CauchyDistribution(median, scale));
     }
 
     /**
