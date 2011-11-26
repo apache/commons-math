@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
@@ -641,9 +641,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw MathRuntimeException.createIllegalStateException(
-                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
-                    n);
+            throw new MathIllegalStateException(
+                LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC, n);
         }
     }
 
