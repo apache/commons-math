@@ -75,15 +75,17 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     protected SecondMoment moment = null;
 
     /**
-     * Boolean test to determine if this Variance should also increment
-     * the second moment, this evaluates to false when this Variance is
-     * constructed with an external SecondMoment as a parameter.
+     * Whether or not {@link #increment(double)} should increment
+     * the internal second moment. When a Variance is constructed with an
+     * external SecondMoment as a constructor parameter, this property is
+     * set to false and increments must be applied to the second moment
+     * directly.
      */
     protected boolean incMoment = true;
 
     /**
-     * Determines whether or not bias correction is applied when computing the
-     * value of the statisic.  True means that bias is corrected.  See
+     * Whether or not bias correction is applied when computing the
+     * value of the statistic. True means that bias is corrected.  See
      * {@link Variance} for details on the formula.
      */
     private boolean isBiasCorrected = true;
@@ -98,6 +100,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
 
     /**
      * Constructs a Variance based on an external second moment.
+     * When this constructor is used, the statistic may only be
+     * incremented via the moment, i.e., {@link #increment(double)}
+     * does nothing; whereas {@code m2.increment(value)} increments
+     * both {@code m2} and the Variance instance constructed from it.
      *
      * @param m2 the SecondMoment (Third or Fourth moments work
      * here as well.)
@@ -153,6 +159,10 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <code>evaluate</code> leverages the fact that is has the full
      * list of values together to execute a two-pass algorithm.
      * See {@link Variance}.</p>
+     * 
+     * <p>Note also that when {@link #Variance(SecondMoment)} is used to
+     * create a Variance, this method does nothing. In that case, the
+     * SecondMoment should be incremented directly.</p>
      */
     @Override
     public void increment(final double d) {
