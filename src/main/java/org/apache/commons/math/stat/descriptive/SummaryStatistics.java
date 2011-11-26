@@ -88,10 +88,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     protected GeometricMean geoMean = new GeometricMean(sumLog);
 
     /** mean of values that have been added */
-    protected Mean mean = new Mean();
+    protected Mean mean = new Mean(secondMoment);
 
     /** variance of values that have been added */
-    protected Variance variance = new Variance();
+    protected Variance variance = new Variance(secondMoment);
 
     /** Sum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumImpl = sum;
@@ -202,11 +202,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @return the mean
      */
     public double getMean() {
-        if (mean == meanImpl) {
-            return new Mean(secondMoment).getResult();
-        } else {
-            return meanImpl.getResult();
-        }
+        return meanImpl.getResult();
     }
 
     /**
@@ -236,11 +232,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * @return the variance
      */
     public double getVariance() {
-        if (varianceImpl == variance) {
-            return new Variance(secondMoment).getResult();
-        } else {
-            return varianceImpl.getResult();
-        }
+        return varianceImpl.getResult();
     }
 
     /**
@@ -661,20 +653,29 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
         dest.maxImpl = source.maxImpl.copy();
-        dest.meanImpl = source.meanImpl.copy();
         dest.minImpl = source.minImpl.copy();
         dest.sumImpl = source.sumImpl.copy();
-        dest.varianceImpl = source.varianceImpl.copy();
         dest.sumLogImpl = source.sumLogImpl.copy();
         dest.sumsqImpl = source.sumsqImpl.copy();
+        dest.secondMoment = source.secondMoment.copy();
+        dest.n = source.n;
+
+        // Keep commons-math supplied statistics with embedded moments in synch
+        if (source.getVarianceImpl() instanceof Variance) {
+            dest.varianceImpl = new Variance(dest.secondMoment);
+        } else {
+            dest.varianceImpl = source.varianceImpl.copy();
+        }
+        if (source.meanImpl instanceof Mean) {
+            dest.meanImpl = new Mean(dest.secondMoment);
+        } else {
+            dest.meanImpl = source.meanImpl.copy();
+        }
         if (source.getGeoMeanImpl() instanceof GeometricMean) {
-            // Keep geoMeanImpl, sumLogImpl in synch
             dest.geoMeanImpl = new GeometricMean((SumOfLogs) dest.sumLogImpl);
         } else {
             dest.geoMeanImpl = source.geoMeanImpl.copy();
         }
-        SecondMoment.copy(source.secondMoment, dest.secondMoment);
-        dest.n = source.n;
 
         // Make sure that if stat == statImpl in source, same
         // holds in dest; otherwise copy stat
