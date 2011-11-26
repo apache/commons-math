@@ -270,6 +270,35 @@ public final class StatUtilsTest {
         x = new double[] {one, two, two, three};
         TestUtils.assertEquals(0.5, StatUtils.variance(x,2.5, 2, 2), tolerance);
     }
+    
+    @Test
+    public void testPopulationVariance() {
+        double[] x = null;
+
+        try {
+            StatUtils.variance(x, 0, 4);
+            Assert.fail("null is not a valid data array.");
+        } catch (MathIllegalArgumentException ex) {
+            // success
+        }
+
+        // test empty
+        x = new double[] {};
+        TestUtils.assertEquals(Double.NaN, StatUtils.populationVariance(x, 0, 0), tolerance);
+
+        // test one
+        x = new double[] {two};
+        TestUtils.assertEquals(0.0, StatUtils.populationVariance(x, 0, 1), tolerance);
+
+        // test many
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(0.25, StatUtils.populationVariance(x, 0, 2), tolerance);
+
+        // test precomputed mean
+        x = new double[] {one, two, two, three};
+        TestUtils.assertEquals(0.25, StatUtils.populationVariance(x, 2.5, 2, 2), tolerance);
+    }
+
 
     @Test
     public void testMax() {

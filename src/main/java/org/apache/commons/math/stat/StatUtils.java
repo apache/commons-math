@@ -401,6 +401,111 @@ public final class StatUtils {
     }
 
     /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the entries in the input array, or
+     * <code>Double.NaN</code> if the array is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
+     * details on the formula and computing algorithm.</p>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     *
+     * @param values the input array
+     * @return the population variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public static double populationVariance(final double[] values) {
+        return new Variance(false).evaluate(values);
+    }
+
+    /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the entries in the specified portion of
+     * the input array, or <code>Double.NaN</code> if the designated subarray
+     * is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
+     * details on the computing algorithm.</p>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or the
+     * array index parameters are not valid.</p>
+     *
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the population variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
+     */
+    public static double populationVariance(final double[] values, final int begin,
+            final int length) {
+        return new Variance(false).evaluate(values, begin, length);
+    }
+
+    /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the entries in the specified portion of
+     * the input array, using the precomputed mean value.  Returns
+     * <code>Double.NaN</code> if the designated subarray is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
+     * details on the computing algorithm.</p>
+     * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.</p>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null or the
+     * array index parameters are not valid.</p>
+     *
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return the population variance of the values or Double.NaN if length = 0
+     * @throws IllegalArgumentException if the array is null or the array index
+     *  parameters are not valid
+     */
+    public static double populationVariance(final double[] values, final double mean,
+            final int begin, final int length) {
+        return new Variance(false).evaluate(values, mean, begin, length);
+    }
+
+    /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the entries in the input array, using the
+     * precomputed mean value.  Returns <code>Double.NaN</code> if the array
+     * is empty.
+     * <p>
+     * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
+     * details on the computing algorithm.</p>
+     * <p>
+     * The formula used assumes that the supplied mean value is the arithmetic
+     * mean of the sample data, not a known population parameter.  This method
+     * is supplied only to save computation when the mean has already been
+     * computed.</p>
+     * <p>
+     * Returns 0 for a single-value (i.e. length = 1) sample.</p>
+     * <p>
+     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     *
+     * @param values the input array
+     * @param mean the precomputed mean value
+     * @return the population variance of the values or Double.NaN if the array is empty
+     * @throws IllegalArgumentException if the array is null
+     */
+    public static double populationVariance(final double[] values, final double mean) {
+        return new Variance(false).evaluate(values, mean);
+    }
+
+    /**
      * Returns the maximum of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
      * <p>
