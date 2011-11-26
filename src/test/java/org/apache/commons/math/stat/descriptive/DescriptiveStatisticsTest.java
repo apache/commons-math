@@ -16,7 +16,15 @@ package org.apache.commons.math.stat.descriptive;
 import java.util.Locale;
 
 
+import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
+import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.moment.Variance;
+import org.apache.commons.math.stat.descriptive.rank.Max;
+import org.apache.commons.math.stat.descriptive.rank.Min;
+import org.apache.commons.math.stat.descriptive.summary.Sum;
+import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -202,6 +210,40 @@ public class DescriptiveStatisticsTest {
         checkremoval(dstat, 9, 3.5, 2.5, 3.0);
         checkremoval(dstat, DescriptiveStatistics.INFINITE_WINDOW, 3.5, 2.5, 3.0);
 
+    }
+    
+    @Test
+    public void testSummaryConsistency() {
+        final DescriptiveStatistics dstats = new DescriptiveStatistics();
+        final SummaryStatistics sstats = new SummaryStatistics();
+        final int windowSize = 5;
+        dstats.setWindowSize(windowSize);
+        final double tol = 1E-12;
+        for (int i = 0; i < 20; i++) {
+            dstats.addValue(i);
+            sstats.clear();
+            double[] values = dstats.getValues();
+            for (int j = 0; j < values.length; j++) {
+                sstats.addValue(values[j]);
+            }
+            TestUtils.assertEquals(dstats.getMean(), sstats.getMean(), tol);
+            TestUtils.assertEquals(new Mean().evaluate(values), dstats.getMean(), tol);
+            TestUtils.assertEquals(dstats.getMax(), sstats.getMax(), tol);
+            TestUtils.assertEquals(new Max().evaluate(values), dstats.getMax(), tol);
+            TestUtils.assertEquals(dstats.getGeometricMean(), sstats.getGeometricMean(), tol);
+            TestUtils.assertEquals(new GeometricMean().evaluate(values), dstats.getGeometricMean(), tol);
+            TestUtils.assertEquals(dstats.getMin(), sstats.getMin(), tol);
+            TestUtils.assertEquals(new Min().evaluate(values), dstats.getMin(), tol);
+            TestUtils.assertEquals(dstats.getStandardDeviation(), sstats.getStandardDeviation(), tol);
+            TestUtils.assertEquals(dstats.getVariance(), sstats.getVariance(), tol);
+            TestUtils.assertEquals(new Variance().evaluate(values), dstats.getVariance(), tol);
+            TestUtils.assertEquals(dstats.getSum(), sstats.getSum(), tol);
+            TestUtils.assertEquals(new Sum().evaluate(values), dstats.getSum(), tol);
+            TestUtils.assertEquals(dstats.getSumsq(), sstats.getSumsq(), tol);
+            TestUtils.assertEquals(new SumOfSquares().evaluate(values), dstats.getSumsq(), tol);
+            TestUtils.assertEquals(dstats.getPopulationVariance(), sstats.getPopulationVariance(), tol);
+            TestUtils.assertEquals(new Variance(false).evaluate(values), dstats.getPopulationVariance(), tol);
+        }
     }
 
     public void checkremoval(DescriptiveStatistics dstat, int wsize,

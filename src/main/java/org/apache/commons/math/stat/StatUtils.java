@@ -302,6 +302,10 @@ public final class StatUtils {
     /**
      * Returns the variance of the entries in the input array, or
      * <code>Double.NaN</code> if the array is empty.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.</p>
@@ -322,6 +326,10 @@ public final class StatUtils {
      * Returns the variance of the entries in the specified portion of
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.</p>
@@ -347,6 +355,10 @@ public final class StatUtils {
      * Returns the variance of the entries in the specified portion of
      * the input array, using the precomputed mean value.  Returns
      * <code>Double.NaN</code> if the designated subarray is empty.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.</p>
@@ -378,6 +390,10 @@ public final class StatUtils {
      * Returns the variance of the entries in the input array, using the
      * precomputed mean value.  Returns <code>Double.NaN</code> if the array
      * is empty.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
      * details on the computing algorithm.</p>

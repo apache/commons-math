@@ -121,6 +121,14 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
+    public synchronized double getPopulationVariance() {
+        return super.getPopulationVariance();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized double getMax() {
         return super.getMax();
     }

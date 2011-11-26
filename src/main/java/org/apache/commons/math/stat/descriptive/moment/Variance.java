@@ -159,7 +159,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <code>evaluate</code> leverages the fact that is has the full
      * list of values together to execute a two-pass algorithm.
      * See {@link Variance}.</p>
-     * 
+     *
      * <p>Note also that when {@link #Variance(SecondMoment)} is used to
      * create a Variance, this method does nothing. In that case, the
      * SecondMoment should be incremented directly.</p>

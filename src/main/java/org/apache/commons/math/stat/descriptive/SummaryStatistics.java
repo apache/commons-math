@@ -225,14 +225,32 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the variance of the values that have been added.
-     * <p>
-     * Double.NaN is returned if no values have been added.
-     * </p>
+     * Returns the (sample) variance of the available values.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #getPopulationVariance()} for the non-bias-corrected
+     * population variance.</p>
+     *
+     * <p>Double.NaN is returned if no values have been added.</p>
+     *
      * @return the variance
      */
     public double getVariance() {
         return varianceImpl.getResult();
+    }
+
+    /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the values that have been added.
+     *
+     * <p>Double.NaN is returned if no values have been added.</p>
+     *
+     * @return the population variance
+     */
+    public double getPopulationVariance() {
+        Variance populationVariance = new Variance(secondMoment);
+        populationVariance.setBiasCorrected(false);
+        return populationVariance.getResult();
     }
 
     /**

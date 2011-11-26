@@ -207,12 +207,28 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * Returns the variance of the available values.
+     * Returns the (sample) variance of the available values.
+     *
+     * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
+     * the denominator).  Use {@link #getPopulationVariance()} for the non-bias-corrected
+     * population variance.</p>
+     *
      * @return The variance, Double.NaN if no values have been added
      * or 0.0 for a single value set.
      */
     public double getVariance() {
         return apply(varianceImpl);
+    }
+
+    /**
+     * Returns the <a href="http://en.wikibooks.org/wiki/Statistics/Summary/Variance">
+     * population variance</a> of the available values.
+     *
+     * @return The population variance, Double.NaN if no values have been added,
+     * or 0.0 for a single value set.
+     */
+    public double getPopulationVariance() {
+        return apply(new Variance(false));
     }
 
     /**

@@ -39,6 +39,7 @@ public class SummaryStatisticsTest {
     private double sumSq = 18;
     private double sum = 8;
     private double var = 0.666666666666666666667;
+    private double popVar = 0.5;
     private double std = FastMath.sqrt(var);
     private double n = 4;
     private double min = 1;
@@ -62,6 +63,7 @@ public class SummaryStatisticsTest {
         Assert.assertEquals("sum",sum,u.getSum(),tolerance);
         Assert.assertEquals("sumsq",sumSq,u.getSumsq(),tolerance);
         Assert.assertEquals("var",var,u.getVariance(),tolerance);
+        Assert.assertEquals("population var",popVar,u.getPopulationVariance(),tolerance);
         Assert.assertEquals("std",std,u.getStandardDeviation(),tolerance);
         Assert.assertEquals("mean",mean,u.getMean(),tolerance);
         Assert.assertEquals("min",min,u.getMin(),tolerance);
