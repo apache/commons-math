@@ -46,7 +46,7 @@
           <code>cumulativeProbability</code> computes <code>P(X &lt;= x)</code>
           (i.e. the lower tail probability of <code>X</code>).
         </p>
-<source>TDistribution t = new TDistributionImpl(29);
+<source>TDistribution t = new TDistribution(29);
 double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
 double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</source>
         <p>
@@ -86,7 +86,7 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
         AbstractIntegerDistribution</a> provide implementation building blocks and
         offer basic distribution functionality.  By extending these abstract classes
         directly, much of the repetitive distribution implementation is already
-        developed and should save time and effor in developing user-defined
+        developed and should save time and effort in developing user-defined
         distributions.
         </p>
       </subsection>
