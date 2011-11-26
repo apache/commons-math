@@ -21,7 +21,6 @@ import java.io.Serializable;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.distribution.TDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -125,8 +124,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             ybar = y;
         } else {
             if( hasIntercept ){
-                final double fact1 = 1.0 + (double) n;
-                final double fact2 = ((double) n) / (1.0 + (double) n);
+                final double fact1 = 1.0 + n;
+                final double fact2 = (n) / (1.0 + n);
                 final double dx = x - xbar;
                 final double dy = y - ybar;
                 sumXX += dx * dx * fact2;
@@ -164,8 +163,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     public void removeData(final double x,final double y) {
         if (n > 0) {
             if (hasIntercept) {
-                final double fact1 = (double) n - 1.0;
-                final double fact2 = ((double) n) / ((double) n - 1.0);
+                final double fact1 = n - 1.0;
+                final double fact2 = (n) / (n - 1.0);
                 final double dx = x - xbar;
                 final double dy = y - ybar;
                 sumXX -= dx * dx * fact2;
@@ -174,7 +173,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                 xbar -= dx / fact1;
                 ybar -= dy / fact1;
             } else {
-                final double fact1 = (double) n - 1.0;
+                final double fact1 = n - 1.0;
                 sumXX -= x * x;
                 sumYY -= y * y;
                 sumXY -= x * y;
@@ -556,7 +555,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             return Double.NaN;
         }
         return FastMath.sqrt(
-            getMeanSquareError() * ((1d / (double) n) + (xbar * xbar) / sumXX));
+            getMeanSquareError() * ((1d / n) + (xbar * xbar) / sumXX));
     }
 
     /**
@@ -637,7 +636,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
                                           alpha, 0, 1);
         }
-        TDistribution distribution = new TDistributionImpl(n - 2);
+        TDistribution distribution = new TDistribution(n - 2);
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);
     }
@@ -664,7 +663,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws MathException if the significance level can not be computed.
      */
     public double getSignificance() throws MathException {
-        TDistribution distribution = new TDistributionImpl(n - 2);
+        TDistribution distribution = new TDistribution(n - 2);
         return 2d * (1.0 - distribution.cumulativeProbability(
                     FastMath.abs(getSlope()) / getSlopeStdErr()));
     }
@@ -709,19 +708,19 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
           if( FastMath.abs( sumXX ) > Precision.SAFE_MIN ){
               final double[] params = new double[]{ getIntercept(), getSlope() };
               final double mse = getMeanSquareError();
-              final double _syy = sumYY + sumY * sumY / ((double) n);
+              final double _syy = sumYY + sumY * sumY / (n);
               final double[] vcv = new double[]{
-                mse * (xbar *xbar /sumXX + 1.0 / ((double) n)),
+                mse * (xbar *xbar /sumXX + 1.0 / (n)),
                 -xbar*mse/sumXX,
                 mse/sumXX };
               return new RegressionResults(
                       params, new double[][]{vcv}, true, n, 2,
                       sumY, _syy, getSumSquaredErrors(),true,false);
           }else{
-              final double[] params = new double[]{ sumY/((double) n), Double.NaN };
+              final double[] params = new double[]{ sumY/(n), Double.NaN };
               //final double mse = getMeanSquareError();
               final double[] vcv = new double[]{
-                ybar / ((double) n - 1.0),
+                ybar / (n - 1.0),
                 Double.NaN,
                 Double.NaN };
               return new RegressionResults(
@@ -782,11 +781,11 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                 if( variablesToInclude[0] != 1 && variablesToInclude[0] != 0 ){
                      throw new OutOfRangeException( variablesToInclude[0],0,1 );
                 }
-                final double _mean = sumY * sumY / ((double) n);
+                final double _mean = sumY * sumY / (n);
                 final double _syy = sumYY + _mean;
                 if( variablesToInclude[0] == 0 ){
                     //just the mean
-                    final double[] vcv = new double[]{ sumYY/((double)((n-1)*n)) };
+                    final double[] vcv = new double[]{ sumYY/(((n-1)*n)) };
                     final double[] params = new double[]{ ybar };
                     return new RegressionResults(
                       params, new double[][]{vcv}, true, n, 1,
@@ -794,10 +793,10 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
 
                 }else if( variablesToInclude[0] == 1){
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
-                    final double _sxx = sumXX + sumX * sumX / ((double) n);
-                    final double _sxy = sumXY + sumX * sumY / ((double) n);
+                    final double _sxx = sumXX + sumX * sumX / (n);
+                    final double _sxy = sumXY + sumX * sumY / (n);
                     final double _sse = FastMath.max(0d, _syy - _sxy * _sxy / _sxx);
-                    final double _mse = _sse/((double)(n-1));
+                    final double _mse = _sse/((n-1));
                     if( !Double.isNaN(_sxx) ){
                         final double[] vcv = new double[]{ _mse / _sxx };
                         final double[] params = new double[]{ _sxy/_sxx };

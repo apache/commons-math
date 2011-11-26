@@ -19,7 +19,6 @@ package org.apache.commons.math.stat.correlation;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -162,7 +161,7 @@ public class PearsonsCorrelation {
      * @throws MathException if an error occurs estimating probabilities
      */
     public RealMatrix getCorrelationPValues() throws MathException {
-        TDistribution tDistribution = new TDistributionImpl(nObs - 2);
+        TDistribution tDistribution = new TDistribution(nObs - 2);
         int nVars = correlationMatrix.getColumnDimension();
         double[][] out = new double[nVars][nVars];
         for (int i = 0; i < nVars; i++) {

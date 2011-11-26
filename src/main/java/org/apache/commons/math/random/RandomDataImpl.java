@@ -33,8 +33,8 @@ import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.IntegerDistribution;
 import org.apache.commons.math.distribution.PascalDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.distribution.WeibullDistributionImpl;
+import org.apache.commons.math.distribution.TDistribution;
+import org.apache.commons.math.distribution.WeibullDistribution;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -784,7 +784,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link TDistributionImpl T Distribution}.
+     * Generates a random value from the {@link TDistribution T Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -793,11 +793,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextT(double df) {
-        return nextInversionDeviate(new TDistributionImpl(df));
+        return nextInversionDeviate(new TDistribution(df));
     }
 
     /**
-     * Generates a random value from the {@link WeibullDistributionImpl Weibull Distribution}.
+     * Generates a random value from the {@link WeibullDistribution Weibull Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -807,7 +807,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextWeibull(double shape, double scale) {
-        return nextInversionDeviate(new WeibullDistributionImpl(shape, scale));
+        return nextInversionDeviate(new WeibullDistribution(shape, scale));
     }
 
     /**

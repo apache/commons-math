@@ -38,9 +38,9 @@ import org.apache.commons.math.distribution.HypergeometricDistributionTest;
 import org.apache.commons.math.distribution.PascalDistribution;
 import org.apache.commons.math.distribution.PascalDistributionTest;
 import org.apache.commons.math.distribution.PoissonDistribution;
-import org.apache.commons.math.distribution.PoissonDistributionImpl;
-import org.apache.commons.math.distribution.TDistributionImpl;
-import org.apache.commons.math.distribution.WeibullDistributionImpl;
+import org.apache.commons.math.distribution.PoissonDistribution;
+import org.apache.commons.math.distribution.TDistribution;
+import org.apache.commons.math.distribution.WeibullDistribution;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionTest;
 import org.apache.commons.math.stat.Frequency;
@@ -293,7 +293,7 @@ public class RandomDataTest {
          *  Start with upper and lower tail bins.
          *  Lower bin = [0, lower); Upper bin = [upper, +inf).
          */
-        PoissonDistribution poissonDistribution = new PoissonDistributionImpl(mean);
+        PoissonDistribution poissonDistribution = new PoissonDistribution(mean);
         int lower = 1;
         while (poissonDistribution.cumulativeProbability(lower - 1) * sampleSize < minExpectedCount) {
             lower++;
@@ -910,7 +910,7 @@ public class RandomDataTest {
     public void testNextGamma() throws Exception {
         double[] quartiles;
         long[] counts;
-        
+
         // Tests shape > 1, one case in the rejection sampling
         quartiles = TestUtils.getDistributionQuartiles(new GammaDistribution(4, 2));
         counts = new long[4];
@@ -920,8 +920,8 @@ public class RandomDataTest {
             TestUtils.updateCounts(value, counts, quartiles);
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
-        
-        // Tests shape <= 1, another case in the rejection sampling        
+
+        // Tests shape <= 1, another case in the rejection sampling
         quartiles = TestUtils.getDistributionQuartiles(new GammaDistribution(0.3, 3));
         counts = new long[4];
         randomData.reSeed(1000);
@@ -934,7 +934,7 @@ public class RandomDataTest {
 
     @Test
     public void testNextT() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new TDistributionImpl(10));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new TDistribution(10));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
@@ -946,7 +946,7 @@ public class RandomDataTest {
 
     @Test
     public void testNextWeibull() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistributionImpl(1.2, 2.1));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistribution(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {

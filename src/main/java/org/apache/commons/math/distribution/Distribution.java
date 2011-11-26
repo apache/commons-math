@@ -73,7 +73,7 @@ public interface Distribution {
      * distribution.
      *
      * @return the variance (possibly Double.POSITIVE_INFINITY as
-     * for certain cases in {@link TDistributionImpl}) or
+     * for certain cases in {@link TDistribution}) or
      * Double.NaN if it's not defined
      */
     double getNumericalVariance();

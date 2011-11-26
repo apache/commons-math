@@ -37,7 +37,7 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public WeibullDistribution makeDistribution() {
-        return new WeibullDistributionImpl(1.2, 2.1);
+        return new WeibullDistribution(1.2, 2.1);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -73,10 +73,10 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
 
     @Test
     public void testAlpha() {
-        WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
+        WeibullDistribution dist = new WeibullDistribution(1, 2);
         Assert.assertEquals(1, dist.getShape(), 0);
         try {
-            dist = new WeibullDistributionImpl(0, 2);
+            dist = new WeibullDistribution(0, 2);
             Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
@@ -85,10 +85,10 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
 
     @Test
     public void testBeta() {
-        WeibullDistribution dist = new WeibullDistributionImpl(1, 2);
+        WeibullDistribution dist = new WeibullDistribution(1, 2);
         Assert.assertEquals(2, dist.getScale(), 0);
         try {
-            dist = new WeibullDistributionImpl(1, 0);
+            dist = new WeibullDistribution(1, 0);
             Assert.fail("NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException e) {
             // Expected.
@@ -99,17 +99,17 @@ public class WeibullDistributionTest extends ContinuousDistributionAbstractTest 
     public void testMoments() {
         final double tol = 1e-9;
         WeibullDistribution dist;
-        
-        dist = new WeibullDistributionImpl(2.5, 3.5);
+
+        dist = new WeibullDistribution(2.5, 3.5);
         // In R: 3.5*gamma(1+(1/2.5)) (or emperically: mean(rweibull(10000, 2.5, 3.5)))
         Assert.assertEquals(dist.getNumericalMean(), 3.5 * FastMath.exp(Gamma.logGamma(1 + (1 / 2.5))), tol);
-        Assert.assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) * 
+        Assert.assertEquals(dist.getNumericalVariance(), (3.5 * 3.5) *
                 FastMath.exp(Gamma.logGamma(1 + (2 / 2.5))) -
-                (dist.getNumericalMean() * dist.getNumericalMean()), tol); 
-        
-        dist = new WeibullDistributionImpl(10.4, 2.222);
+                (dist.getNumericalMean() * dist.getNumericalMean()), tol);
+
+        dist = new WeibullDistribution(10.4, 2.222);
         Assert.assertEquals(dist.getNumericalMean(), 2.222 * FastMath.exp(Gamma.logGamma(1 + (1 / 10.4))), tol);
-        Assert.assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) * 
+        Assert.assertEquals(dist.getNumericalVariance(), (2.222 * 2.222) *
                 FastMath.exp(Gamma.logGamma(1 + (2 / 10.4))) -
                 (dist.getNumericalMean() * dist.getNumericalMean()), tol);
     }

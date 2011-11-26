@@ -21,7 +21,6 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.distribution.TDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
@@ -30,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
 /**
  * Implements t-test statistics defined in the {@link TTest} interface.
  * <p>
- * Uses commons-math {@link org.apache.commons.math.distribution.TDistributionImpl}
+ * Uses commons-math {@link org.apache.commons.math.distribution.TDistribution}
  * implementation to estimate exact p-values.</p>
  *
  * @version $Id$
@@ -939,7 +938,7 @@ public class TTestImpl implements TTest  {
     protected double tTest(double m, double mu, double v, double n)
         throws MathException {
         double t = FastMath.abs(t(m, mu, v, n));
-        TDistribution distribution = new TDistributionImpl(n - 1);
+        TDistribution distribution = new TDistribution(n - 1);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 
@@ -965,7 +964,7 @@ public class TTestImpl implements TTest  {
         double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = 0;
         degreesOfFreedom = df(v1, v2, n1, n2);
-        TDistribution distribution = new TDistributionImpl(degreesOfFreedom);
+        TDistribution distribution = new TDistribution(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 
@@ -990,7 +989,7 @@ public class TTestImpl implements TTest  {
         throws MathException {
         double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         double degreesOfFreedom = n1 + n2 - 2;
-        TDistribution distribution = new TDistributionImpl(degreesOfFreedom);
+        TDistribution distribution = new TDistribution(degreesOfFreedom);
         return 2.0 * distribution.cumulativeProbability(-t);
     }
 

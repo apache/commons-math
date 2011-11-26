@@ -18,7 +18,6 @@ package org.apache.commons.math.stat.correlation;
 
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.distribution.TDistribution;
-import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.util.FastMath;
@@ -164,7 +163,7 @@ public class PearsonsCorrelationTest {
          fillUpper(rPMatrix, 0d);
          TestUtils.assertEquals("correlation p values", rPMatrix, corrInstance.getCorrelationPValues(), 10E-15);
     }
-    
+
     /**
      * Test p-value near 0. JIRA: MATH-371
      */
@@ -176,7 +175,7 @@ public class PearsonsCorrelationTest {
          * Post fix, p-values diminish smoothly, vanishing at dimension = 127.
          * Tested value is ~1E-303.
          */
-        int dimension = 120; 
+        int dimension = 120;
         double[][] data = new double[dimension][2];
         for (int i = 0; i < dimension; i++) {
             data[i][0] = i;
@@ -185,7 +184,7 @@ public class PearsonsCorrelationTest {
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(data);
         Assert.assertTrue(corrInstance.getCorrelationPValues().getEntry(0, 1) > 0);
     }
-    
+
 
     /**
      * Constant column
@@ -227,7 +226,7 @@ public class PearsonsCorrelationTest {
      */
     @Test
     public void testStdErrorConsistency() throws Exception {
-        TDistribution tDistribution = new TDistributionImpl(45);
+        TDistribution tDistribution = new TDistribution(45);
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix rValues = corrInstance.getCorrelationMatrix();

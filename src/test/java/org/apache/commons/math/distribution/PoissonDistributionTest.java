@@ -45,7 +45,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
+        return new PoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
     }
 
     /**
@@ -113,12 +113,12 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Test
     public void testNormalApproximateProbability() throws Exception {
-        PoissonDistribution dist = new PoissonDistributionImpl(100);
+        PoissonDistribution dist = new PoissonDistribution(100);
         double result = dist.normalApproximateProbability(110)
                 - dist.normalApproximateProbability(89);
         Assert.assertEquals(0.706281887248, result, 1E-10);
 
-        dist = new PoissonDistributionImpl(10000);
+        dist = new PoissonDistribution(10000);
         result = dist.normalApproximateProbability(10200)
         - dist.normalApproximateProbability(9899);
         Assert.assertEquals(0.820070051552, result, 1E-10);
@@ -130,19 +130,19 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Test
     public void testDegenerateInverseCumulativeProbability() throws Exception {
-        PoissonDistribution dist = new PoissonDistributionImpl(DEFAULT_TEST_POISSON_PARAMETER);
+        PoissonDistribution dist = new PoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
         Assert.assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
         Assert.assertEquals(-1, dist.inverseCumulativeProbability(0d));
     }
 
     @Test(expected=NotStrictlyPositiveException.class)
     public void testNegativeMean() {
-        new PoissonDistributionImpl(-1);
+        new PoissonDistribution(-1);
     }
 
     @Test
     public void testMean() {
-        PoissonDistribution dist = new PoissonDistributionImpl(10.0);
+        PoissonDistribution dist = new PoissonDistribution(10.0);
         Assert.assertEquals(10.0, dist.getMean(), 0.0);
     }
 
@@ -150,7 +150,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     public void testLargeMeanCumulativeProbability() {
         double mean = 1.0;
         while (mean <= 10000000.0) {
-            PoissonDistribution dist = new PoissonDistributionImpl(mean);
+            PoissonDistribution dist = new PoissonDistribution(mean);
 
             double x = mean * 2.0;
             double dx = x / 10.0;
@@ -181,12 +181,12 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     @Test
     public void testCumulativeProbabilitySpecial() throws Exception {
         PoissonDistribution dist;
-        dist = new PoissonDistributionImpl(9120);
+        dist = new PoissonDistribution(9120);
         checkProbability(dist, 9075);
         checkProbability(dist, 9102);
-        dist = new PoissonDistributionImpl(5058);
+        dist = new PoissonDistribution(5058);
         checkProbability(dist, 5044);
-        dist = new PoissonDistributionImpl(6986);
+        dist = new PoissonDistribution(6986);
         checkProbability(dist, 6950);
     }
 
@@ -202,7 +202,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     public void testLargeMeanInverseCumulativeProbability() throws Exception {
         double mean = 1.0;
         while (mean <= 100000.0) { // Extended test value: 1E7.  Reduced to limit run time.
-            PoissonDistribution dist = new PoissonDistributionImpl(mean);
+            PoissonDistribution dist = new PoissonDistribution(mean);
             double p = 0.1;
             double dp = p;
             while (p < .99) {
@@ -225,12 +225,12 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     public void testMoments() {
         final double tol = 1e-9;
         PoissonDistribution dist;
-        
-        dist = new PoissonDistributionImpl(1);
+
+        dist = new PoissonDistribution(1);
         Assert.assertEquals(dist.getNumericalMean(), 1, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 1, tol); 
-        
-        dist = new PoissonDistributionImpl(11.23);
+        Assert.assertEquals(dist.getNumericalVariance(), 1, tol);
+
+        dist = new PoissonDistribution(11.23);
         Assert.assertEquals(dist.getNumericalMean(), 11.23, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 11.23, tol);
     }

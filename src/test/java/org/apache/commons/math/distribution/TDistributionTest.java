@@ -34,7 +34,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public TDistribution makeDistribution() {
-        return new TDistributionImpl(5.0);
+        return new TDistribution(5.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -73,14 +73,14 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
      */
     @Test
     public void testCumulativeProbabilityAgainstStackOverflow() throws Exception {
-        TDistributionImpl td = new TDistributionImpl(5.);
+        TDistribution td = new TDistribution(5.);
         td.cumulativeProbability(.1);
         td.cumulativeProbability(.01);
     }
 
     @Test
     public void testSmallDf() throws Exception {
-        setDistribution(new TDistributionImpl(1d));
+        setDistribution(new TDistribution(1d));
         // quantiles computed using R version 2.9.2
         setCumulativeTestPoints(new double[] {-318.308838986, -31.8205159538, -12.7062047362,
                 -6.31375151468, -3.07768353718, 318.308838986, 31.8205159538, 12.7062047362,
@@ -110,25 +110,25 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
 
     @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions() {
-        new TDistributionImpl(0);
+        new TDistribution(0);
     }
-    
+
     @Test
     public void testMoments() {
         final double tol = 1e-9;
         TDistribution dist;
-        
-        dist = new TDistributionImpl(1);
+
+        dist = new TDistribution(1);
         Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
         Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
-        
-        dist = new TDistributionImpl(1.5);
+
+        dist = new TDistribution(1.5);
         Assert.assertEquals(dist.getNumericalMean(), 0, tol);
         Assert.assertTrue(Double.isInfinite(dist.getNumericalVariance()));
-        
-        dist = new TDistributionImpl(5);
+
+        dist = new TDistribution(5);
         Assert.assertEquals(dist.getNumericalMean(), 0, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);        
+        Assert.assertEquals(dist.getNumericalVariance(), 5d / (5d - 2d), tol);
     }
 
     /*
@@ -151,7 +151,7 @@ public class TDistributionTest extends ContinuousDistributionAbstractTest {
         return;
     }
     private double[] makeNistResults(double[] args, int df){
-        TDistribution td =  new TDistributionImpl(df);
+        TDistribution td =  new TDistribution(df);
         double[] res  = new double[ args.length ];
         for( int i = 0 ; i < res.length ; i++){
             res[i] = 1.0 - td.cumulativeProbability(args[i]);
