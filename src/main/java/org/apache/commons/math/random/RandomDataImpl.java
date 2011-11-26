@@ -35,7 +35,7 @@ import org.apache.commons.math.distribution.IntegerDistribution;
 import org.apache.commons.math.distribution.PascalDistribution;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.WeibullDistribution;
-import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math.distribution.ZipfDistribution;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -811,7 +811,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link ZipfDistributionImpl Zipf Distribution}.
+     * Generates a random value from the {@link ZipfDistribution Zipf Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *
@@ -821,7 +821,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public int nextZipf(int numberOfElements, double exponent) {
-        return nextInversionDeviate(new ZipfDistributionImpl(numberOfElements, exponent));
+        return nextInversionDeviate(new ZipfDistribution(numberOfElements, exponent));
     }
 
     /**

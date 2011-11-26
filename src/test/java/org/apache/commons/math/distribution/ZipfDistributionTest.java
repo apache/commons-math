@@ -34,12 +34,12 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
 
     @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions1() {
-        new ZipfDistributionImpl(0, 1);
+        new ZipfDistribution(0, 1);
     }
 
     @Test(expected=NotStrictlyPositiveException.class)
     public void testPreconditions2() {
-        new ZipfDistributionImpl(1, 0);
+        new ZipfDistribution(1, 0);
     }
 
     //-------------- Implementations for abstract methods -----------------------
@@ -47,7 +47,7 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default discrete distribution instance to use in tests. */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new ZipfDistributionImpl(10, 1);
+        return new ZipfDistribution(10, 1);
     }
 
     /** Creates the default probability density test input values */
@@ -93,9 +93,9 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     public void testMoments() {
         final double tol = 1e-9;
         ZipfDistribution dist;
-        
-        dist = new ZipfDistributionImpl(2, 0.5);
+
+        dist = new ZipfDistribution(2, 0.5);
         Assert.assertEquals(dist.getNumericalMean(), FastMath.sqrt(2), tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol); 
+        Assert.assertEquals(dist.getNumericalVariance(), 0.24264068711928521, tol);
     }
 }

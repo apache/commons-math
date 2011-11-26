@@ -41,7 +41,7 @@ import org.apache.commons.math.distribution.PoissonDistribution;
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.WeibullDistribution;
-import org.apache.commons.math.distribution.ZipfDistributionImpl;
+import org.apache.commons.math.distribution.ZipfDistribution;
 import org.apache.commons.math.distribution.ZipfDistributionTest;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -1040,7 +1040,7 @@ public class RandomDataTest {
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
         int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
-        ZipfDistributionImpl distribution = (ZipfDistributionImpl) testInstance.makeDistribution();
+        ZipfDistribution distribution = (ZipfDistribution) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
         for (int i = 0; i < length; i++) {
