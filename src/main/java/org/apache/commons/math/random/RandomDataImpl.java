@@ -32,7 +32,7 @@ import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.IntegerDistribution;
-import org.apache.commons.math.distribution.PascalDistributionImpl;
+import org.apache.commons.math.distribution.PascalDistribution;
 import org.apache.commons.math.distribution.TDistributionImpl;
 import org.apache.commons.math.distribution.WeibullDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
@@ -770,7 +770,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link PascalDistributionImpl Pascal Distribution}.
+     * Generates a random value from the {@link PascalDistribution Pascal Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *
@@ -780,7 +780,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public int nextPascal(int r, double p) {
-        return nextInversionDeviate(new PascalDistributionImpl(r, p));
+        return nextInversionDeviate(new PascalDistribution(r, p));
     }
 
     /**

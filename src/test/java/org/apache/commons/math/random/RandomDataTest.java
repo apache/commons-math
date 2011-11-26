@@ -35,7 +35,7 @@ import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.GammaDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistributionTest;
-import org.apache.commons.math.distribution.PascalDistributionImpl;
+import org.apache.commons.math.distribution.PascalDistribution;
 import org.apache.commons.math.distribution.PascalDistributionTest;
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.apache.commons.math.distribution.PoissonDistributionImpl;
@@ -1015,7 +1015,7 @@ public class RandomDataTest {
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
         int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
-        PascalDistributionImpl distribution = (PascalDistributionImpl) testInstance.makeDistribution();
+        PascalDistribution distribution = (PascalDistribution) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
         for (int i = 0; i < length; i++) {

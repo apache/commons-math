@@ -17,7 +17,7 @@
 package org.apache.commons.math.stat.inference;
 
 import org.apache.commons.math.MathException;
-import org.apache.commons.math.distribution.NormalDistributionImpl;
+import org.apache.commons.math.distribution.NormalDistribution;
 import org.apache.commons.math.stat.ranking.NaNStrategy;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.TiesStrategy;
@@ -228,7 +228,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
         // - 0.5 is a continuity correction
         final double z = (Wmin - ES - 0.5) / FastMath.sqrt(VarS);
 
-        final NormalDistributionImpl standardNormal = new NormalDistributionImpl(0, 1);
+        final NormalDistribution standardNormal = new NormalDistribution(0, 1);
 
         return 2*standardNormal.cumulativeProbability(z);
     }

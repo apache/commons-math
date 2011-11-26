@@ -85,7 +85,7 @@ public class PoissonDistributionImpl extends AbstractIntegerDistribution
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, p);
         }
         mean = p;
-        normal = new NormalDistributionImpl(p, FastMath.sqrt(p));
+        normal = new NormalDistribution(p, FastMath.sqrt(p));
         this.epsilon = epsilon;
         this.maxIterations = maxIterations;
     }

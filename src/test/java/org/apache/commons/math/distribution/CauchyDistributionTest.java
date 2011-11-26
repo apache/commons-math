@@ -31,7 +31,7 @@ import org.junit.Test;
 public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  {
 
     // --------------------- Override tolerance  --------------
-    protected double defaultTolerance = NormalDistributionImpl.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
+    protected double defaultTolerance = NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
     public void setUp() throws Exception {
         super.setUp();
