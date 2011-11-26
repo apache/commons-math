@@ -30,9 +30,9 @@ import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.BinomialDistributionTest;
 import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ExponentialDistributionImpl;
-import org.apache.commons.math.distribution.FDistributionImpl;
-import org.apache.commons.math.distribution.GammaDistributionImpl;
+import org.apache.commons.math.distribution.ExponentialDistribution;
+import org.apache.commons.math.distribution.FDistribution;
+import org.apache.commons.math.distribution.GammaDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
 import org.apache.commons.math.distribution.HypergeometricDistributionTest;
 import org.apache.commons.math.distribution.PascalDistributionImpl;
@@ -616,7 +616,7 @@ public class RandomDataTest {
         long[] counts;
 
         // Mean 1
-        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistributionImpl(1));
+        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistribution(1));
         counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
@@ -626,7 +626,7 @@ public class RandomDataTest {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
 
         // Mean 5
-        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistributionImpl(5));
+        quartiles = TestUtils.getDistributionQuartiles(new ExponentialDistribution(5));
         counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
@@ -896,7 +896,7 @@ public class RandomDataTest {
 
     @Test
     public void testNextF() throws Exception {
-        double[] quartiles = TestUtils.getDistributionQuartiles(new FDistributionImpl(12, 5));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new FDistribution(12, 5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
@@ -912,7 +912,7 @@ public class RandomDataTest {
         long[] counts;
         
         // Tests shape > 1, one case in the rejection sampling
-        quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(4, 2));
+        quartiles = TestUtils.getDistributionQuartiles(new GammaDistribution(4, 2));
         counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {
@@ -922,7 +922,7 @@ public class RandomDataTest {
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
         
         // Tests shape <= 1, another case in the rejection sampling        
-        quartiles = TestUtils.getDistributionQuartiles(new GammaDistributionImpl(0.3, 3));
+        quartiles = TestUtils.getDistributionQuartiles(new GammaDistribution(0.3, 3));
         counts = new long[4];
         randomData.reSeed(1000);
         for (int i = 0; i < 1000; i++) {

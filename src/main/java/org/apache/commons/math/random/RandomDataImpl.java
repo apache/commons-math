@@ -29,7 +29,7 @@ import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ContinuousDistribution;
-import org.apache.commons.math.distribution.FDistributionImpl;
+import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
 import org.apache.commons.math.distribution.IntegerDistribution;
 import org.apache.commons.math.distribution.PascalDistributionImpl;
@@ -654,7 +654,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link FDistributionImpl F Distribution}.
+     * Generates a random value from the {@link FDistribution F Distribution}.
      * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
      * to generate random values.
      *
@@ -664,12 +664,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public double nextF(double numeratorDf, double denominatorDf) {
-        return nextInversionDeviate(new FDistributionImpl(numeratorDf, denominatorDf));
+        return nextInversionDeviate(new FDistribution(numeratorDf, denominatorDf));
     }
 
     /**
      * <p>Generates a random value from the
-     * {@link org.apache.commons.math.distribution.GammaDistributionImpl Gamma Distribution}.</p>
+     * {@link org.apache.commons.math.distribution.GammaDistribution Gamma Distribution}.</p>
      *
      * <p>This implementation uses the following algorithms: </p>
      *

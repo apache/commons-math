@@ -21,7 +21,6 @@ import java.util.Collection;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
-import org.apache.commons.math.distribution.FDistributionImpl;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
@@ -84,7 +83,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
     public double anovaPValue(Collection<double[]> categoryData)
         throws IllegalArgumentException, MathException {
         AnovaStats a = anovaStats(categoryData);
-        FDistribution fdist = new FDistributionImpl(a.dfbg, a.dfwg);
+        FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
     }
 

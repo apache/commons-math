@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Chi-squared_distribution">Chi-squared distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">Chi-squared Distribution (MathWorld)</a>
- * @version $Id$
+ * @version $Id: ChiSquaredDistribution.java 1206060 2011-11-25 05:16:56Z celestin $
  */
 public class ChiSquaredDistribution
     extends AbstractContinuousDistribution
@@ -62,7 +62,7 @@ public class ChiSquaredDistribution
      */
     public ChiSquaredDistribution(double degreesOfFreedom,
                                       double inverseCumAccuracy) {
-        gamma = new GammaDistributionImpl(degreesOfFreedom / 2, 2);
+        gamma = new GammaDistribution(degreesOfFreedom / 2, 2);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 

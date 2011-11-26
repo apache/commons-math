@@ -34,7 +34,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public FDistribution makeDistribution() {
-        return new FDistributionImpl(5.0, 6.0);
+        return new FDistribution(5.0, 6.0);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -91,13 +91,13 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     @Test
     public void testPreconditions() {
         try {
-            new FDistributionImpl(0, 1);
+            new FDistribution(0, 1);
             Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            new FDistributionImpl(1, 0);
+            new FDistribution(1, 0);
             Assert.fail("Expecting NotStrictlyPositiveException for df = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
@@ -106,7 +106,7 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     @Test
     public void testLargeDegreesOfFreedom() throws Exception {
-        FDistributionImpl fd = new FDistributionImpl(100000, 100000);
+        FDistribution fd = new FDistribution(100000, 100000);
         double p = fd.cumulativeProbability(.999);
         double x = fd.inverseCumulativeProbability(p);
         Assert.assertEquals(.999, x, 1.0e-5);
@@ -114,12 +114,12 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
 
     @Test
     public void testSmallDegreesOfFreedom() throws Exception {
-        FDistributionImpl fd = new FDistributionImpl(1, 1);
+        FDistribution fd = new FDistribution(1, 1);
         double p = fd.cumulativeProbability(0.975);
         double x = fd.inverseCumulativeProbability(p);
         Assert.assertEquals(0.975, x, 1.0e-5);
 
-        fd = new FDistributionImpl(1, 2);
+        fd = new FDistribution(1, 2);
         p = fd.cumulativeProbability(0.975);
         x = fd.inverseCumulativeProbability(p);
         Assert.assertEquals(0.975, x, 1.0e-5);
@@ -129,17 +129,17 @@ public class FDistributionTest extends ContinuousDistributionAbstractTest {
     public void testMoments() {
         final double tol = 1e-9;
         FDistribution dist;
-        
-        dist = new FDistributionImpl(1, 2);
+
+        dist = new FDistribution(1, 2);
         Assert.assertTrue(Double.isNaN(dist.getNumericalMean()));
         Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
-        
-        dist = new FDistributionImpl(1, 3);
+
+        dist = new FDistribution(1, 3);
         Assert.assertEquals(dist.getNumericalMean(), 3d / (3d - 2d), tol);
         Assert.assertTrue(Double.isNaN(dist.getNumericalVariance()));
-        
-        dist = new FDistributionImpl(1, 5);
+
+        dist = new FDistribution(1, 5);
         Assert.assertEquals(dist.getNumericalMean(), 5d / (5d - 2d), tol);
-        Assert.assertEquals(dist.getNumericalVariance(), (2d * 5d * 5d * 4d) / 9d, tol);        
+        Assert.assertEquals(dist.getNumericalVariance(), (2d * 5d * 5d * 4d) / 9d, tol);
     }
 }

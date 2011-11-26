@@ -35,7 +35,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     /** Creates the default continuous distribution instance to use in tests. */
     @Override
     public GammaDistribution makeDistribution() {
-        return new GammaDistributionImpl(4d, 2d);
+        return new GammaDistribution(4d, 2d);
     }
 
     /** Creates the default cumulative probability distribution test input values */
@@ -77,13 +77,13 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     @Test
     public void testPreconditions() {
         try {
-            new GammaDistributionImpl(0, 1);
+            new GammaDistribution(0, 1);
             Assert.fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            new GammaDistributionImpl(1, 0);
+            new GammaDistribution(1, 0);
             Assert.fail("Expecting NotStrictlyPositiveException for alpha = 0");
         } catch (NotStrictlyPositiveException ex) {
             // Expected.
@@ -108,13 +108,13 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     private void testProbability(double x, double a, double b, double expected) throws Exception {
-        GammaDistribution distribution = new GammaDistributionImpl( a, b );
+        GammaDistribution distribution = new GammaDistribution( a, b );
         double actual = distribution.cumulativeProbability(x);
         Assert.assertEquals("probability for " + x, expected, actual, 10e-4);
     }
 
     private void testValue(double expected, double a, double b, double p) throws Exception {
-        GammaDistribution distribution = new GammaDistributionImpl( a, b );
+        GammaDistribution distribution = new GammaDistribution( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
         Assert.assertEquals("critical value for " + p, expected, actual, 10e-4);
     }
@@ -141,7 +141,7 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     }
 
     private void checkDensity(double alpha, double rate, double[] x, double[] expected) {
-        GammaDistribution d = new GammaDistributionImpl(alpha, 1 / rate);
+        GammaDistribution d = new GammaDistribution(alpha, 1 / rate);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(expected[i], d.density(x[i]), 1e-5);
         }
@@ -158,12 +158,12 @@ public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
     public void testMoments() {
         final double tol = 1e-9;
         GammaDistribution dist;
-        
-        dist = new GammaDistributionImpl(1, 2);
+
+        dist = new GammaDistribution(1, 2);
         Assert.assertEquals(dist.getNumericalMean(), 2, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), 4, tol); 
-        
-        dist = new GammaDistributionImpl(1.1, 4.2);
+        Assert.assertEquals(dist.getNumericalVariance(), 4, tol);
+
+        dist = new GammaDistribution(1.1, 4.2);
         Assert.assertEquals(dist.getNumericalMean(), 1.1d * 4.2d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 1.1d * 4.2d * 4.2d, tol);
     }
