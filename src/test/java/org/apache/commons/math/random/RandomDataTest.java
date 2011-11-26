@@ -33,7 +33,7 @@ import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ExponentialDistribution;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.GammaDistribution;
-import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
+import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistributionTest;
 import org.apache.commons.math.distribution.PascalDistributionImpl;
 import org.apache.commons.math.distribution.PascalDistributionTest;
@@ -989,7 +989,7 @@ public class RandomDataTest {
         double[] densityValues = testInstance.makeDensityTestValues();
         int sampleSize = 1000;
         int length = TestUtils.eliminateZeroMassPoints(densityPoints, densityValues);
-        HypergeometricDistributionImpl distribution = (HypergeometricDistributionImpl) testInstance.makeDistribution();
+        HypergeometricDistribution distribution = (HypergeometricDistribution) testInstance.makeDistribution();
         double[] expectedCounts = new double[length];
         long[] observedCounts = new long[length];
         for (int i = 0; i < length; i++) {

@@ -30,7 +30,7 @@ import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ContinuousDistribution;
 import org.apache.commons.math.distribution.FDistribution;
-import org.apache.commons.math.distribution.HypergeometricDistributionImpl;
+import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.IntegerDistribution;
 import org.apache.commons.math.distribution.PascalDistributionImpl;
 import org.apache.commons.math.distribution.TDistributionImpl;
@@ -755,7 +755,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link HypergeometricDistributionImpl Hypergeometric Distribution}.
+     * Generates a random value from the {@link HypergeometricDistribution Hypergeometric Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *
@@ -766,7 +766,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) {
-        return nextInversionDeviate(new HypergeometricDistributionImpl(populationSize, numberOfSuccesses, sampleSize));
+        return nextInversionDeviate(new HypergeometricDistribution(populationSize, numberOfSuccesses, sampleSize));
     }
 
     /**

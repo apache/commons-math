@@ -38,7 +38,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Creates the default discrete distribution instance to use in tests. */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new HypergeometricDistributionImpl(10,5, 5);
+        return new HypergeometricDistribution(10,5, 5);
     }
 
     /** Creates the default probability density test input values */
@@ -85,7 +85,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Verify that if there are no failures, mass is concentrated on sampleSize */
     @Test
     public void testDegenerateNoFailures() throws Exception {
-        setDistribution(new HypergeometricDistributionImpl(5,5,3));
+        setDistribution(new HypergeometricDistribution(5,5,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -100,7 +100,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Verify that if there are no successes, mass is concentrated on 0 */
     @Test
     public void testDegenerateNoSuccesses() throws Exception {
-        setDistribution(new HypergeometricDistributionImpl(5,0,3));
+        setDistribution(new HypergeometricDistribution(5,0,3));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -115,7 +115,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
     @Test
     public void testDegenerateFullSample() throws Exception {
-        setDistribution(new HypergeometricDistributionImpl(5,3,5));
+        setDistribution(new HypergeometricDistribution(5,3,5));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
@@ -130,31 +130,31 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     @Test
     public void testPreconditions() {
         try {
-            new HypergeometricDistributionImpl(0, 3, 5);
+            new HypergeometricDistribution(0, 3, 5);
             Assert.fail("negative population size. NotStrictlyPositiveException expected");
         } catch(NotStrictlyPositiveException ex) {
             // Expected.
         }
         try {
-            new HypergeometricDistributionImpl(5, -1, 5);
+            new HypergeometricDistribution(5, -1, 5);
             Assert.fail("negative number of successes. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
-            new HypergeometricDistributionImpl(5, 3, -1);
+            new HypergeometricDistribution(5, 3, -1);
             Assert.fail("negative sample size. NotPositiveException expected");
         } catch(NotPositiveException ex) {
             // Expected.
         }
         try {
-            new HypergeometricDistributionImpl(5, 6, 5);
+            new HypergeometricDistribution(5, 6, 5);
             Assert.fail("numberOfSuccesses > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.
         }
         try {
-            new HypergeometricDistributionImpl(5, 3, 6);
+            new HypergeometricDistribution(5, 3, 6);
             Assert.fail("sampleSize > populationSize. NumberIsTooLargeException expected");
         } catch(NumberIsTooLargeException ex) {
             // Expected.
@@ -163,7 +163,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
     @Test
     public void testAccessors() {
-        HypergeometricDistribution dist = new HypergeometricDistributionImpl(5, 3, 4);
+        HypergeometricDistribution dist = new HypergeometricDistribution(5, 3, 4);
         Assert.assertEquals(5, dist.getPopulationSize());
         Assert.assertEquals(3, dist.getNumberOfSuccesses());
         Assert.assertEquals(4, dist.getSampleSize());
@@ -199,7 +199,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     }
 
     private void testHypergeometricDistributionProbabilities(int populationSize, int sampleSize, int numberOfSucceses, double[][] data) {
-        HypergeometricDistributionImpl dist = new HypergeometricDistributionImpl(populationSize, numberOfSucceses, sampleSize);
+        HypergeometricDistribution dist = new HypergeometricDistribution(populationSize, numberOfSucceses, sampleSize);
         for (int i = 0; i < data.length; ++i) {
             int x = (int)data[i][0];
             double pdf = data[i][1];
@@ -248,12 +248,12 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     public void testMoments() {
         final double tol = 1e-9;
         HypergeometricDistribution dist;
-        
-        dist = new HypergeometricDistributionImpl(1500, 40, 100);
+
+        dist = new HypergeometricDistribution(1500, 40, 100);
         Assert.assertEquals(dist.getNumericalMean(), 40d * 100d / 1500d, tol);
-        Assert.assertEquals(dist.getNumericalVariance(), ( 100d * 40d * (1500d - 100d) * (1500d - 40d) ) / ( (1500d * 1500d * 1499d) ), tol); 
-        
-        dist = new HypergeometricDistributionImpl(3000, 55, 200);
+        Assert.assertEquals(dist.getNumericalVariance(), ( 100d * 40d * (1500d - 100d) * (1500d - 40d) ) / ( (1500d * 1500d * 1499d) ), tol);
+
+        dist = new HypergeometricDistribution(3000, 55, 200);
         Assert.assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
     }
