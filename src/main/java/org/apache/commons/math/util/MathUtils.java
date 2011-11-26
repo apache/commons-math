@@ -26,7 +26,12 @@ import org.apache.commons.math.exception.util.Localizable;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
- * Some useful additions to the built-in functions in {@link Math}.
+ * Miscellaneous utility functions.
+ *
+ * @see ArithmeticUtils
+ * @see Precision
+ * @see MathArrays
+ *
  * @version $Id$
  */
 public final class MathUtils {
@@ -283,7 +288,7 @@ public final class MathUtils {
     }
 
     /**
-     * Check that all the elements are real number.
+     * Check that all the elements are real numbers.
      *
      * @param val Arguments.
      * @throws NotFiniteNumberException if any values of the array is not a
