@@ -38,7 +38,6 @@ import org.apache.commons.math.distribution.HypergeometricDistributionTest;
 import org.apache.commons.math.distribution.PascalDistribution;
 import org.apache.commons.math.distribution.PascalDistributionTest;
 import org.apache.commons.math.distribution.PoissonDistribution;
-import org.apache.commons.math.distribution.PoissonDistribution;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.distribution.WeibullDistribution;
 import org.apache.commons.math.distribution.ZipfDistribution;

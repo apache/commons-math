@@ -13,7 +13,6 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
 import org.apache.commons.math.exception.NotFiniteNumberException;
 import org.apache.commons.math.exception.NullArgumentException;

@@ -25,7 +25,6 @@ import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.junit.Assert;
 import org.junit.Test;

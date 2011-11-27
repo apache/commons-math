@@ -28,7 +28,6 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.BaseSimpleBoundsMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.MultivariateRealOptimizer;
 
