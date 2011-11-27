@@ -164,7 +164,6 @@ public class MultivariateRealFunctionMappingAdapter implements MultivariateRealF
             mapped[i] = mappers[i].boundedToUnbounded(point[i]);
         }
 
-        // call underlying function
         return mapped;
 
     }
