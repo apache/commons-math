@@ -162,6 +162,7 @@ public final class SimpleRegressionTest {
          regression.addData(noint2[0][1], noint2[0][0]);
          regression.addData(noint2[1][1], noint2[1][0]);
          regression.addData(noint2[2][1], noint2[2][0]);
+         Assert.assertEquals("intercept", 0, regression.getIntercept(), 0);
          Assert.assertEquals("slope", 0.727272727272727,
                  regression.getSlope(), 10E-12);
          Assert.assertEquals("slope std err", 0.420827318078432E-01,
@@ -183,6 +184,7 @@ public final class SimpleRegressionTest {
         for (int i = 0; i < noint1.length; i++) {
             regression.addData(noint1[i][1], noint1[i][0]);
         }
+        Assert.assertEquals("intercept", 0, regression.getIntercept(), 0);
         Assert.assertEquals("slope", 2.07438016528926, regression.getSlope(), 10E-12);
         Assert.assertEquals("slope std err", 0.165289256198347E-01,
                 regression.getSlopeStdErr(),10E-12);

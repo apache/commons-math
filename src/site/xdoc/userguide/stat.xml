@@ -365,10 +365,12 @@ System.out.println(f.getCumPct("z"));  // displays 1
            <code> y = intercept + slope * x  </code>
          </p>
          <p>
-         or
-         <p>
-           <code> y = slope * x  </code>
+           or
          </p>
+         <p>
+           <code> y = slope * x </code>
+         </p>
+         <p>
            Standard errors for <code>intercept</code> and <code>slope</code> are
            available as well as ANOVA, r-square and Pearson's r statistics.
          </p>
@@ -390,6 +392,11 @@ System.out.println(f.getCumPct("z"));  // displays 1
            and get updated statistics without using a new instance.  There is no
            "compute" method that updates all statistics.  Each of the getters performs
            the necessary computations to return the requested statistic.</li>
+           <li> The intercept term may be suppressed by passing <code>false</code> to the
+           <a href="../apidocs/org/apache/commons/math/stat/regression/SimpleRegression.html#SimpleRegression(boolean)">
+           SimpleRegression(boolean)</a> constructor.  When the <code>hasIntercept</code>
+           property is false, the model is estimated without a constant term and
+           <code>getIntercept()</code> returns <code>0</code>.</li>
           </ul>
         </p>
         <p>

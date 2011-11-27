@@ -48,11 +48,16 @@ import org.apache.commons.math.util.Precision;
  * different x coordinates are required to estimate a bivariate regression
  * model.
  * </li>
- * <li> getters for the statistics always compute values based on the current
+ * <li> Getters for the statistics always compute values based on the current
  * set of observations -- i.e., you can get statistics, then add more data
  * and get updated statistics without using a new instance.  There is no
  * "compute" method that updates all statistics.  Each of the getters performs
- * the necessary computations to return the requested statistic.</li>
+ * the necessary computations to return the requested statistic.
+ * </li>
+ * <li> The intercept term may be suppressed by passing {@code false} to
+ * the {@link #SimpleRegression(boolean)} constructor.  When the
+ * {@code hasIntercept} property is false, the model is estimated without a
+ * constant term and {@link #getIntercept()} returns {@code 0}.</li>
  * </ul></p>
  *
  * @version $Id$
@@ -97,8 +102,15 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         this(true);
     }
     /**
-    * Secondary constructor which allows the user the ability to include/exclude const
-    * @param includeIntercept boolean flag, true includes an intercept
+    * Create a SimpleRegression instance, specifying whether or not to estimate
+    * an intercept.
+    *
+    * <p>Use {@code false} to estimate a model with no intercept.  When the
+    * {@code hasIntercept} property is false, the model is estimated without a
+    * constant term and {@link #getIntercept()} returns {@code 0}.</p>
+    *
+    * @param includeIntercept whether or not to include an intercept term in
+    * the regression model
     */
     public SimpleRegression(boolean includeIntercept) {
         super();
@@ -332,7 +344,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     }
 
     /**
-     * Returns the intercept of the estimated regression line.
+     * Returns the intercept of the estimated regression line, if
+     * {@link #hasIntercept()} is true; otherwise 0.
      * <p>
      * The least squares estimate of the intercept is computed using the
      * <a href="http://www.xycoon.com/estimation4.htm">normal equations</a>.
@@ -345,16 +358,19 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * returned.
      * </li></ul></p>
      *
-     * @return the intercept of the regression line
+     * @return the intercept of the regression line if the model includes an
+     * intercept; 0 otherwise
+     * @see #SimpleRegression(boolean)
      */
     public double getIntercept() {
         return hasIntercept ? getIntercept(getSlope()) : 0.0;
     }
 
     /**
-     * Returns true if a constant has been included false otherwise.
+     * Returns true if the model includes an intercept term.
      *
-     * @return true if constant exists, false otherwise
+     * @return true if the regression includes an intercept; false otherwise
+     * @see #SimpleRegression(boolean)
      */
     public boolean hasIntercept() {
         return hasIntercept;
