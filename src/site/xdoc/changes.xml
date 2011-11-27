@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-691">
+        Fixed errors in SummaryStatistics addValue causing variance, mean, or
+        geometric mean statistics not to be updated if they have been overriden
+        using instances of commons-math supplied implementations.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-694">
         Removed First, Third, Fourth moments from the public API.
         These internally used statistics have non-standard definitions.

@@ -18,7 +18,10 @@ package org.apache.commons.math.stat.descriptive;
 
 
 import org.apache.commons.math.TestUtils;
+
+import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
+import org.apache.commons.math.stat.descriptive.moment.Variance;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -304,5 +307,42 @@ public class SummaryStatisticsTest {
         } catch (IllegalStateException ex) {
             // expected
         }
+    }
+    
+    
+    /**
+     * JIRA: MATH-691
+     */
+    @Test
+    public void testOverrideVarianceWithMathClass() throws Exception {
+        double[] scores = {1, 2, 3, 4};
+        SummaryStatistics stats = new SummaryStatistics();
+        stats.setVarianceImpl(new Variance(false)); //use "population variance"
+        for(double i : scores) {
+          stats.addValue(i);
+        }
+        Assert.assertEquals((new Variance(false)).evaluate(scores),stats.getVariance(), 0); 
+    }
+    
+    @Test
+    public void testOverrideMeanWithMathClass() throws Exception {
+        double[] scores = {1, 2, 3, 4};
+        SummaryStatistics stats = new SummaryStatistics();
+        stats.setMeanImpl(new Mean()); 
+        for(double i : scores) {
+          stats.addValue(i);
+        }
+        Assert.assertEquals((new Mean()).evaluate(scores),stats.getMean(), 0); 
+    }
+    
+    @Test
+    public void testOverrideGeoMeanWithMathClass() throws Exception {
+        double[] scores = {1, 2, 3, 4};
+        SummaryStatistics stats = new SummaryStatistics();
+        stats.setGeoMeanImpl(new GeometricMean()); 
+        for(double i : scores) {
+          stats.addValue(i);
+        }
+        Assert.assertEquals((new GeometricMean()).evaluate(scores),stats.getGeometricMean(), 0); 
     }
 }

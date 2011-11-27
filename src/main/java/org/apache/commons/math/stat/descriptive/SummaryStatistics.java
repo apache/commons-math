@@ -155,13 +155,13 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
         secondMoment.increment(value);
         // If mean, variance or geomean have been overridden,
         // need to increment these
-        if (!(meanImpl instanceof Mean)) {
+        if (meanImpl != mean) {
             meanImpl.increment(value);
         }
-        if (!(varianceImpl instanceof Variance)) {
+        if (varianceImpl != variance) {
             varianceImpl.increment(value);
         }
-        if (!(geoMeanImpl instanceof GeometricMean)) {
+        if (geoMeanImpl != geoMean) {
             geoMeanImpl.increment(value);
         }
         n++;
