@@ -136,7 +136,7 @@ public class MultivariateRealFunctionMappingAdapter implements MultivariateRealF
     }
 
     /** Map an array from unbounded to bounded.
-     * @param x unbounded value
+     * @param point unbounded value
      * @return bounded value
      */
     public double[] unboundedToBounded(double[] point) {
@@ -151,8 +151,9 @@ public class MultivariateRealFunctionMappingAdapter implements MultivariateRealF
 
     }
 
-    /** Map an array from bounded to unbounded.
-     * @param y bounded value
+    /** 
+     * Map an array from bounded to unbounded.
+     * @param point bounded value
      * @return unbounded value
      */
     public double[] boundedToUnbounded(double[] point) {

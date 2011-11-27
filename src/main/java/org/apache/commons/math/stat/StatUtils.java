@@ -304,7 +304,7 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the array is empty.
      *
      * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * the denominator).  Use {@link #populationVariance(double[])} for the non-bias-corrected
      * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
@@ -328,7 +328,7 @@ public final class StatUtils {
      * is empty.
      *
      * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * the denominator).  Use {@link #populationVariance(double[], int, int)} for the non-bias-corrected
      * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
@@ -357,7 +357,7 @@ public final class StatUtils {
      * <code>Double.NaN</code> if the designated subarray is empty.
      *
      * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * the denominator).  Use {@link #populationVariance(double[], double, int, int)} for the non-bias-corrected
      * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for
@@ -392,7 +392,7 @@ public final class StatUtils {
      * is empty.
      *
      * <p>This method returns the bias-corrected sample variance (using {@code n - 1} in
-     * the denominator).  Use {@link #populationVariance()} for the non-bias-corrected
+     * the denominator).  Use {@link #populationVariance(double[], double)} for the non-bias-corrected
      * population variance.</p>
      * <p>
      * See {@link org.apache.commons.math.stat.descriptive.moment.Variance} for

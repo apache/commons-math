@@ -219,7 +219,7 @@ public class PascalDistribution extends AbstractIntegerDistribution
      *
      * Always returns {@code false}.
      *
-     * @see {@link PascalDistribution#getSupportUpperBound() getSupportUpperBound()}
+     * @see PascalDistribution#getSupportUpperBound() getSupportUpperBound()
      */
     @Override
     public boolean isSupportUpperBoundInclusive() {

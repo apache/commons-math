@@ -54,7 +54,7 @@ public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends Multi
      * {@link org.apache.commons.math.optimization.SimpleScalarValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      *
-     * @see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer().
+     * @see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer()
      */
     protected BaseAbstractSimpleBoundsScalarOptimizer() {}
 
