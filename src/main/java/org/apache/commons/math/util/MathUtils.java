@@ -209,7 +209,7 @@ public final class MathUtils {
                    magnitude == Integer.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
         } else {
-            return (int) -magnitude; // Flip sign.
+            return -magnitude; // Flip sign.
         }
     }
 
@@ -231,7 +231,7 @@ public final class MathUtils {
                    magnitude == Long.MIN_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
         } else {
-            return (long) -magnitude; // Flip sign.
+            return -magnitude; // Flip sign.
         }
     }
 
