@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 
 import org.apache.commons.math.exception.TooManyEvaluationsException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -204,7 +204,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.optimize(20, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
     }
 
-    private static class FourExtrema implements MultivariateRealFunction {
+    private static class FourExtrema implements MultivariateFunction {
         // The following function has 4 local extrema.
         final double xM = -3.841947088256863675365;
         final double yM = -1.391745200270734924416;
@@ -223,7 +223,7 @@ public class SimplexOptimizerNelderMeadTest {
         }
     }
 
-    private static class Rosenbrock implements MultivariateRealFunction {
+    private static class Rosenbrock implements MultivariateFunction {
         private int count;
 
         public Rosenbrock() {
@@ -242,7 +242,7 @@ public class SimplexOptimizerNelderMeadTest {
         }
     }
 
-    private static class Powell implements MultivariateRealFunction {
+    private static class Powell implements MultivariateFunction {
         private int count;
 
         public Powell() {

@@ -19,8 +19,8 @@ import java.util.Arrays;
 import junit.framework.Assert;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.direct.BOBYQAOptimizer;
@@ -792,17 +792,17 @@ public class BatteryNISTTest {
     }
     
     /* generic test runner */
-    private double[] run(MultivariateRealOptimizer optim, DifferentiableMultivariateRealFunction func, double[] start) {
+    private double[] run(MultivariateRealOptimizer optim, DifferentiableMultivariateFunction func, double[] start) {
         return (optim.optimize(1000000, func, GoalType.MINIMIZE, start).getPointRef());
     }
     /* generic test runner for AbstractScalarDifferentiableOptimizer */
-    private double[] run(AbstractScalarDifferentiableOptimizer optim, DifferentiableMultivariateRealFunction func, double[] start) {
+    private double[] run(AbstractScalarDifferentiableOptimizer optim, DifferentiableMultivariateFunction func, double[] start) {
         return (optim.optimize(1000000, func, GoalType.MINIMIZE, start).getPointRef());
     }
 
     /* base objective function class for these tests */
-    private abstract static class nistMVRF implements DifferentiableMultivariateRealFunction {
-        protected final MultivariateRealFunction[] mrf;
+    private abstract static class nistMVRF implements DifferentiableMultivariateFunction {
+        protected final MultivariateFunction[] mrf;
         protected final MultivariateVectorialFunction mvf = new MultivariateVectorialFunction() {
 
             public double[] value(double[] point) throws IllegalArgumentException {
@@ -829,10 +829,10 @@ public class BatteryNISTTest {
             this.gradient = new double[nparams];
             this.nparams = nparams;
             this.data = data;
-            mrf = new MultivariateRealFunction[nvars];
+            mrf = new MultivariateFunction[nvars];
             for (int i = 0; i < nvars; i++) {
                 final int idx = i;
-                mrf[i] = new MultivariateRealFunction() {
+                mrf[i] = new MultivariateFunction() {
 
                     private int myIdx = idx;
 
@@ -847,7 +847,7 @@ public class BatteryNISTTest {
             return mvf;
         }
 
-        public MultivariateRealFunction partialDerivative(int k) {
+        public MultivariateFunction partialDerivative(int k) {
             return mrf[k];
         }
 

@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.analysis.UnivariateFunction;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
@@ -46,7 +46,7 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * @since 2.2
  */
 public class PowellOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    extends BaseAbstractScalarOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /**
      * Minimum relative tolerance.

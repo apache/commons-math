@@ -35,7 +35,7 @@ import org.apache.commons.math.analysis.function.Min;
 import org.apache.commons.math.analysis.function.Max;
 import org.apache.commons.math.analysis.function.Pow;
 import org.apache.commons.math.analysis.function.Log;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -161,7 +161,7 @@ public class FunctionUtilsTest {
     @Test
     public void testCollector() {
         BivariateRealFunction bi = new Add();
-        MultivariateRealFunction coll = FunctionUtils.collector(bi, 0);
+        MultivariateFunction coll = FunctionUtils.collector(bi, 0);
         Assert.assertEquals(10, coll.value(new double[] {1, 2, 3, 4}), EPS);
 
         bi = new Multiply();

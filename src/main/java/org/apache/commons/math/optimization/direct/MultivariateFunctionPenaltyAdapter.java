@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -25,7 +25,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * <p>Adapter extending bounded {@link MultivariateRealFunction} to an unbouded
+ * <p>Adapter extending bounded {@link MultivariateFunction} to an unbouded
  * domain using a penalty function.</p>
  *
  * <p>
@@ -57,16 +57,16 @@ import org.apache.commons.math.util.MathUtils;
  * is used, and the optimizer may converge without ever entering the range.
  * </p>
  *
- * @see MultivariateRealFunctionMappingAdapter
+ * @see MultivariateFunctionMappingAdapter
  *
  * @version $Id$
  * @since 3.0
  */
 
-public class MultivariateRealFunctionPenaltyAdapter implements MultivariateRealFunction {
+public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction {
 
     /** Underlying bounded function. */
-    private final MultivariateRealFunction bounded;
+    private final MultivariateFunction bounded;
 
     /** Lower bounds. */
     private final double[] lower;
@@ -121,7 +121,7 @@ public class MultivariateRealFunctionPenaltyAdapter implements MultivariateRealF
      * scales are not consistent, either according to dimension or to bounadary
      * values
      */
-    public MultivariateRealFunctionPenaltyAdapter(final MultivariateRealFunction bounded,
+    public MultivariateFunctionPenaltyAdapter(final MultivariateFunction bounded,
                                                   final double[] lower, final double[] upper,
                                                   final double offset, final double[] scale) {
 

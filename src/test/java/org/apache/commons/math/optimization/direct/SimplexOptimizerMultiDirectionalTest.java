@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
@@ -88,8 +88,8 @@ public class SimplexOptimizerMultiDirectionalTest {
 
     @Test
     public void testRosenbrock() {
-        MultivariateRealFunction rosenbrock =
-            new MultivariateRealFunction() {
+        MultivariateFunction rosenbrock =
+            new MultivariateFunction() {
                 public double value(double[] x) {
                     ++count;
                     double a = x[1] - x[0] * x[0];
@@ -114,8 +114,8 @@ public class SimplexOptimizerMultiDirectionalTest {
 
     @Test
     public void testPowell() {
-        MultivariateRealFunction powell =
-            new MultivariateRealFunction() {
+        MultivariateFunction powell =
+            new MultivariateFunction() {
                 public double value(double[] x) {
                     ++count;
                     double a = x[0] + 10 * x[1];
@@ -157,7 +157,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertEquals(expectedPosition[1], actualPosition[1], EPSILON );
     }
 
-    private static class FourExtrema implements MultivariateRealFunction {
+    private static class FourExtrema implements MultivariateFunction {
         // The following function has 4 local extrema.
         final double xM = -3.841947088256863675365;
         final double yM = -1.391745200270734924416;
@@ -176,7 +176,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         }
     }
 
-    private static class Gaussian2D implements MultivariateRealFunction {
+    private static class Gaussian2D implements MultivariateFunction {
         private final double[] maximumPosition;
         private final double std;
 

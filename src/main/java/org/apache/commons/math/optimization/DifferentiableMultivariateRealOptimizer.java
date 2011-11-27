@@ -17,11 +17,11 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 
 /**
  * This interface represents an optimization algorithm for
- * {@link DifferentiableMultivariateRealFunction scalar differentiable objective
+ * {@link DifferentiableMultivariateFunction scalar differentiable objective
  * functions}.
  * Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.
@@ -33,4 +33,4 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
  * @since 2.0
  */
 public interface DifferentiableMultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<DifferentiableMultivariateRealFunction> {}
+    extends BaseMultivariateRealOptimizer<DifferentiableMultivariateFunction> {}

@@ -18,20 +18,20 @@
 package org.apache.commons.math.optimization.direct;
 
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MultivariateRealFunctionMappingAdapterTest {
+public class MultivariateFunctionMappingAdapterTest {
 
     @Test
     public void testStartSimplexInsideRange() {
 
         final BiQuadratic biQuadratic = new BiQuadratic(2.0, 2.5, 1.0, 3.0, 2.0, 3.0);
-        final MultivariateRealFunctionMappingAdapter wrapped =
-                new MultivariateRealFunctionMappingAdapter(biQuadratic,
+        final MultivariateFunctionMappingAdapter wrapped =
+                new MultivariateFunctionMappingAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper());
 
@@ -56,8 +56,8 @@ public class MultivariateRealFunctionMappingAdapterTest {
     public void testOptimumOutsideRange() {
 
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 0.0, 1.0, 3.0, 2.0, 3.0);
-        final MultivariateRealFunctionMappingAdapter wrapped =
-                new MultivariateRealFunctionMappingAdapter(biQuadratic,
+        final MultivariateFunctionMappingAdapter wrapped =
+                new MultivariateFunctionMappingAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper());
 
@@ -84,8 +84,8 @@ public class MultivariateRealFunctionMappingAdapterTest {
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 0.0,
                                                         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
                                                         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        final MultivariateRealFunctionMappingAdapter wrapped =
-                new MultivariateRealFunctionMappingAdapter(biQuadratic,
+        final MultivariateFunctionMappingAdapter wrapped =
+                new MultivariateFunctionMappingAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper());
 
@@ -112,8 +112,8 @@ public class MultivariateRealFunctionMappingAdapterTest {
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 4.0,
                                                         1.0, Double.POSITIVE_INFINITY,
                                                         Double.NEGATIVE_INFINITY, 3.0);
-        final MultivariateRealFunctionMappingAdapter wrapped =
-                new MultivariateRealFunctionMappingAdapter(biQuadratic,
+        final MultivariateFunctionMappingAdapter wrapped =
+                new MultivariateFunctionMappingAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper());
 
@@ -134,7 +134,7 @@ public class MultivariateRealFunctionMappingAdapterTest {
 
     }
 
-    private static class BiQuadratic implements MultivariateRealFunction {
+    private static class BiQuadratic implements MultivariateFunction {
 
         private final double xOptimum;
         private final double yOptimum;

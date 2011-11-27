@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -34,7 +34,7 @@ import org.apache.commons.math.optimization.direct.BaseAbstractScalarOptimizer;
  * @since 2.0
  */
 public abstract class AbstractScalarDifferentiableOptimizer
-    extends BaseAbstractScalarOptimizer<DifferentiableMultivariateRealFunction>
+    extends BaseAbstractScalarOptimizer<DifferentiableMultivariateFunction>
     implements DifferentiableMultivariateRealOptimizer {
     /**
      * Objective function gradient.
@@ -70,7 +70,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /** {@inheritDoc} */
     @Override
     public RealPointValuePair optimize(int maxEval,
-                                       final DifferentiableMultivariateRealFunction f,
+                                       final DifferentiableMultivariateFunction f,
                                        final GoalType goalType,
                                        final double[] startPoint) {
         // Store optimization problem characteristics.

@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.ZeroException;
@@ -202,7 +202,7 @@ public abstract class AbstractSimplex {
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the algorithm fails to converge.
      */
-    public abstract void iterate(final MultivariateRealFunction evaluationFunction,
+    public abstract void iterate(final MultivariateFunction evaluationFunction,
                                  final Comparator<RealPointValuePair> comparator);
 
     /**
@@ -240,7 +240,7 @@ public abstract class AbstractSimplex {
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    public void evaluate(final MultivariateRealFunction evaluationFunction,
+    public void evaluate(final MultivariateFunction evaluationFunction,
                          final Comparator<RealPointValuePair> comparator) {
         // Evaluate the objective function at all non-evaluated simplex points.
         for (int i = 0; i < simplex.length; i++) {

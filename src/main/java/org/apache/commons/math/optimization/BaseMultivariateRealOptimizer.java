@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
@@ -33,7 +33,7 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateRealFunction>
+public interface BaseMultivariateRealOptimizer<FUNC extends MultivariateFunction>
     extends BaseOptimizer<RealPointValuePair> {
     /**
      * Optimize an objective function.

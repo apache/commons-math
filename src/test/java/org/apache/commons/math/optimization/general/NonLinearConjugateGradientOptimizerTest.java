@@ -19,8 +19,8 @@ package org.apache.commons.math.optimization.general;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -343,7 +343,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         Assert.assertEquals(48.135167894, center.y, 1.0e-8);
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateRealFunction, Serializable {
+    private static class LinearProblem implements DifferentiableMultivariateFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -383,8 +383,8 @@ public class NonLinearConjugateGradientOptimizerTest {
             };
         }
 
-        public MultivariateRealFunction partialDerivative(final int k) {
-            return new MultivariateRealFunction() {
+        public MultivariateFunction partialDerivative(final int k) {
+            return new MultivariateFunction() {
                 public double value(double[] point) {
                     return gradient(point)[k];
                 }

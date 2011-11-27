@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Logit;
 import org.apache.commons.math.analysis.function.Sigmoid;
@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
 /**
- * <p>Adapter for mapping bounded {@link MultivariateRealFunction} to unbounded ones.</p>
+ * <p>Adapter for mapping bounded {@link MultivariateFunction} to unbounded ones.</p>
  *
  * <p>
  * This adapter can be used to wrap functions subject to simple bounds on
@@ -55,7 +55,7 @@ import org.apache.commons.math.util.MathUtils;
  * {@link #boundedToUnbounded(double[])} before providing them to the optimizer.
  * For the same reason, the point returned by the {@link
  * org.apache.commons.math.optimization.BaseMultivariateRealOptimizer#optimize(int,
- * MultivariateRealFunction, org.apache.commons.math.optimization.GoalType, double[])}
+ * MultivariateFunction, org.apache.commons.math.optimization.GoalType, double[])}
  * method is unbounded. So to convert this point to bounded, users must call
  * {@link #unboundedToBounded(double[])} by themselves!</p>
  * <p>
@@ -70,16 +70,16 @@ import org.apache.commons.math.util.MathUtils;
  * variables.
  * </p>
  *
- * @see MultivariateRealFunctionPenaltyAdapter
+ * @see MultivariateFunctionPenaltyAdapter
  *
  * @version $Id$
  * @since 3.0
  */
 
-public class MultivariateRealFunctionMappingAdapter implements MultivariateRealFunction {
+public class MultivariateFunctionMappingAdapter implements MultivariateFunction {
 
     /** Underlying bounded function. */
-    private final MultivariateRealFunction bounded;
+    private final MultivariateFunction bounded;
 
     /** Mapping functions. */
     private final Mapper[] mappers;
@@ -95,7 +95,7 @@ public class MultivariateRealFunctionMappingAdapter implements MultivariateRealF
      * @exception MathIllegalArgumentException if lower and upper bounds are not
      * consistent, either according to dimension or to values
      */
-    public MultivariateRealFunctionMappingAdapter(final MultivariateRealFunction bounded,
+    public MultivariateFunctionMappingAdapter(final MultivariateFunction bounded,
                                                   final double[] lower, final double[] upper) {
 
         // safety checks

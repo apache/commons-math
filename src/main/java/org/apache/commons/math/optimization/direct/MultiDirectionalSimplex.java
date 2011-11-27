@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.RealPointValuePair;
 
 /**
@@ -152,7 +152,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
 
     /** {@inheritDoc} */
     @Override
-    public void iterate(final MultivariateRealFunction evaluationFunction,
+    public void iterate(final MultivariateFunction evaluationFunction,
                         final Comparator<RealPointValuePair> comparator) {
         // Save the original simplex.
         final RealPointValuePair[] original = getPoints();
@@ -191,7 +191,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    private RealPointValuePair evaluateNewSimplex(final MultivariateRealFunction evaluationFunction,
+    private RealPointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction,
                                                   final RealPointValuePair[] original,
                                                   final double coeff,
                                                   final Comparator<RealPointValuePair> comparator) {

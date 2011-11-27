@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization;
 
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.direct.NelderMeadSimplex;
 import org.apache.commons.math.optimization.direct.SimplexOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -53,7 +53,7 @@ public class MultiStartMultivariateRealOptimizerTest {
         Assert.assertTrue(optimum.getValue() < 8.0e-4);
     }
 
-    private static class Rosenbrock implements MultivariateRealFunction {
+    private static class Rosenbrock implements MultivariateFunction {
         private int count;
 
         public Rosenbrock() {

@@ -19,14 +19,14 @@ package org.apache.commons.math.optimization.general;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 
 /**
  * Class used in the tests.
  */
-class CircleScalar implements DifferentiableMultivariateRealFunction {
+class CircleScalar implements DifferentiableMultivariateFunction {
     private ArrayList<Point2D.Double> points;
 
     public CircleScalar() {
@@ -85,8 +85,8 @@ class CircleScalar implements DifferentiableMultivariateRealFunction {
         };
     }
 
-    public MultivariateRealFunction partialDerivative(final int k) {
-        return new MultivariateRealFunction() {
+    public MultivariateFunction partialDerivative(final int k) {
+        return new MultivariateFunction() {
             public double value(double[] point) {
                 return gradient(point)[k];
             }

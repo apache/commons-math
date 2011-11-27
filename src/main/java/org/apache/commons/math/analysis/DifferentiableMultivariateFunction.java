@@ -18,12 +18,12 @@
 package org.apache.commons.math.analysis;
 
 /**
- * Extension of {@link MultivariateRealFunction} representing a differentiable
+ * Extension of {@link MultivariateFunction} representing a differentiable
  * multivariate real function.
  * @version $Id$
  * @since 2.0
  */
-public interface DifferentiableMultivariateRealFunction extends MultivariateRealFunction {
+public interface DifferentiableMultivariateFunction extends MultivariateFunction {
 
     /**
      * Returns the partial derivative of the function with respect to a point coordinate.
@@ -37,7 +37,7 @@ public interface DifferentiableMultivariateRealFunction extends MultivariateReal
      * derivative is computed
      * @return the partial derivative function with respect to k<sup>th</sup> point coordinate
      */
-    MultivariateRealFunction partialDerivative(int k);
+    MultivariateFunction partialDerivative(int k);
 
     /**
      * Returns the gradient function.

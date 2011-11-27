@@ -18,21 +18,21 @@
 package org.apache.commons.math.optimization.direct;
 
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleRealPointChecker;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MultivariateRealFunctionPenaltyAdapterTest {
+public class MultivariateFunctionPenaltyAdapterTest {
 
     @Test
     public void testStartSimplexInsideRange() {
 
         final BiQuadratic biQuadratic = new BiQuadratic(2.0, 2.5, 1.0, 3.0, 2.0, 3.0);
-        final MultivariateRealFunctionPenaltyAdapter wrapped =
-                new MultivariateRealFunctionPenaltyAdapter(biQuadratic,
+        final MultivariateFunctionPenaltyAdapter wrapped =
+                new MultivariateFunctionPenaltyAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
@@ -52,8 +52,8 @@ public class MultivariateRealFunctionPenaltyAdapterTest {
     public void testStartSimplexOutsideRange() {
 
         final BiQuadratic biQuadratic = new BiQuadratic(2.0, 2.5, 1.0, 3.0, 2.0, 3.0);
-        final MultivariateRealFunctionPenaltyAdapter wrapped =
-                new MultivariateRealFunctionPenaltyAdapter(biQuadratic,
+        final MultivariateFunctionPenaltyAdapter wrapped =
+                new MultivariateFunctionPenaltyAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
@@ -73,8 +73,8 @@ public class MultivariateRealFunctionPenaltyAdapterTest {
     public void testOptimumOutsideRange() {
 
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 0.0, 1.0, 3.0, 2.0, 3.0);
-        final MultivariateRealFunctionPenaltyAdapter wrapped =
-                new MultivariateRealFunctionPenaltyAdapter(biQuadratic,
+        final MultivariateFunctionPenaltyAdapter wrapped =
+                new MultivariateFunctionPenaltyAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
@@ -96,8 +96,8 @@ public class MultivariateRealFunctionPenaltyAdapterTest {
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 0.0,
                                                         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY,
                                                         Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-        final MultivariateRealFunctionPenaltyAdapter wrapped =
-                new MultivariateRealFunctionPenaltyAdapter(biQuadratic,
+        final MultivariateFunctionPenaltyAdapter wrapped =
+                new MultivariateFunctionPenaltyAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
@@ -119,8 +119,8 @@ public class MultivariateRealFunctionPenaltyAdapterTest {
         final BiQuadratic biQuadratic = new BiQuadratic(4.0, 4.0,
                                                         1.0, Double.POSITIVE_INFINITY,
                                                         Double.NEGATIVE_INFINITY, 3.0);
-        final MultivariateRealFunctionPenaltyAdapter wrapped =
-                new MultivariateRealFunctionPenaltyAdapter(biQuadratic,
+        final MultivariateFunctionPenaltyAdapter wrapped =
+                new MultivariateFunctionPenaltyAdapter(biQuadratic,
                                                            biQuadratic.getLower(),
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
@@ -136,7 +136,7 @@ public class MultivariateRealFunctionPenaltyAdapterTest {
 
     }
 
-    private static class BiQuadratic implements MultivariateRealFunction {
+    private static class BiQuadratic implements MultivariateFunction {
 
         private final double xOptimum;
         private final double yOptimum;

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.MultiDimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotPositiveException;
@@ -81,7 +81,7 @@ import org.apache.commons.math.util.MathArrays;
  */
 
 public class CMAESOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    extends BaseAbstractScalarOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;

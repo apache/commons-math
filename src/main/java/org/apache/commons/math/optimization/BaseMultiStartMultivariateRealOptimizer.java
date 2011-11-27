@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -40,7 +40,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Id$
  * @since 3.0
  */
-public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRealFunction>
+public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateFunction>
     implements BaseMultivariateRealOptimizer<FUNC> {
     /** Underlying classical optimizer. */
     private final BaseMultivariateRealOptimizer<FUNC> optimizer;
@@ -60,7 +60,7 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      *
      * @param optimizer Single-start optimizer to wrap.
      * @param starts Number of starts to perform. If {@code starts == 1},
-     * the {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
+     * the {@link #optimize(int,MultivariateFunction,GoalType,double[])
      * optimize} will return the same solution as {@code optimizer} would.
      * @param generator Random vector generator to use for restarts.
      * @throws NullArgumentException if {@code optimizer} or {@code generator}
@@ -85,13 +85,13 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
 
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize}.
+     * #optimize(int,MultivariateFunction,GoalType,double[]) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
+     * restarts. The {@link #optimize(int,MultivariateFunction,GoalType,double[])
      * optimize} method returns the best point only. This method
      * returns all the points found at the end of each starts,
      * including the best one already returned by the {@link
-     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize} method.
+     * #optimize(int,MultivariateFunction,GoalType,double[]) optimize} method.
      * <br/>
      * The returned array as one element for each start as specified
      * in the constructor. It is ordered with the results from the
@@ -99,14 +99,14 @@ public class BaseMultiStartMultivariateRealOptimizer<FUNC extends MultivariateRe
      * objective value (i.e in ascending order if minimizing and in
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
-     * elements will be null if the {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
+     * elements will be null if the {@link #optimize(int,MultivariateFunction,GoalType,double[])
      * optimize} method did throw an exception.
      * This also means that if the first element is not {@code null}, it
      * is the best point found across all starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(int,MultivariateRealFunction,GoalType,double[]) optimize}
+     * #optimize(int,MultivariateFunction,GoalType,double[]) optimize}
      * has not been called.
      */
     public RealPointValuePair[] getOptima() {

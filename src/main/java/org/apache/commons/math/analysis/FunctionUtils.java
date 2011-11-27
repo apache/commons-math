@@ -220,7 +220,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns a MultivariateRealFunction h(x[]) defined by <pre> <code>
+     * Returns a MultivariateFunction h(x[]) defined by <pre> <code>
      * h(x[]) = combiner(...combiner(combiner(initialValue,f(x[0])),f(x[1]))...),f(x[x.length-1]))
      * </code></pre>
      *
@@ -229,10 +229,10 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateRealFunction collector(final BivariateRealFunction combiner,
+    public static MultivariateFunction collector(final BivariateRealFunction combiner,
                                                      final UnivariateFunction f,
                                                      final double initialValue) {
-        return new MultivariateRealFunction() {
+        return new MultivariateFunction() {
             /** {@inheritDoc} */
             public double value(double[] point) {
                 double result = combiner.value(initialValue, f.value(point[0]));
@@ -245,7 +245,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Returns a MultivariateRealFunction h(x[]) defined by <pre> <code>
+     * Returns a MultivariateFunction h(x[]) defined by <pre> <code>
      * h(x[]) = combiner(...combiner(combiner(initialValue,x[0]),x[1])...),x[x.length-1])
      * </code></pre>
      *
@@ -253,7 +253,7 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateRealFunction collector(final BivariateRealFunction combiner,
+    public static MultivariateFunction collector(final BivariateRealFunction combiner,
                                                      final double initialValue) {
         return collector(combiner, new Identity(), initialValue);
     }

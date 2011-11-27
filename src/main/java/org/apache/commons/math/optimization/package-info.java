@@ -36,11 +36,11 @@
  *      UnivariateRealOptimizer} for {@link org.apache.commons.math.analysis.UnivariateFunction
  *      univariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer
- *      MultivariateRealOptimizer} for {@link org.apache.commons.math.analysis.MultivariateRealFunction
+ *      MultivariateRealOptimizer} for {@link org.apache.commons.math.analysis.MultivariateFunction
  *      multivariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
  *      DifferentiableMultivariateRealOptimizer} for {@link
- *      org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction
+ *      org.apache.commons.math.analysis.DifferentiableMultivariateFunction
  *      differentiable multivariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer
  *      DifferentiableMultivariateVectorialOptimizer} for {@link
@@ -53,7 +53,7 @@
  * Despite there are only four types of supported optimizers, it is possible to optimize a
  * transform a {@link org.apache.commons.math.analysis.MultivariateVectorialFunction
  * non-differentiable multivariate vectorial function} by converting it to a {@link
- * org.apache.commons.math.analysis.MultivariateRealFunction non-differentiable multivariate
+ * org.apache.commons.math.analysis.MultivariateFunction non-differentiable multivariate
  * real function} thanks to the {@link
  * org.apache.commons.math.optimization.LeastSquaresConverter LeastSquaresConverter} helper class.
  * The transformed function can be optimized using any implementation of the {@link

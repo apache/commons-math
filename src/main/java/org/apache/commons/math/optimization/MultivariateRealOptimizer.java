@@ -17,10 +17,10 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 
 /**
- * This interface represents an optimization algorithm for {@link MultivariateRealFunction
+ * This interface represents an optimization algorithm for {@link MultivariateFunction
  * scalar objective functions}.
  * <p>Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.</p>
@@ -31,4 +31,4 @@ import org.apache.commons.math.analysis.MultivariateRealFunction;
  * @since 2.0
  */
 public interface MultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<MultivariateRealFunction> {}
+    extends BaseMultivariateRealOptimizer<MultivariateFunction> {}

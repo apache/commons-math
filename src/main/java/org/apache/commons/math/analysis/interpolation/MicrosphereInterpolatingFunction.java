@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -37,7 +37,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  */
 public class MicrosphereInterpolatingFunction
-    implements MultivariateRealFunction {
+    implements MultivariateFunction {
     /**
      * Space dimension.
      */

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 
 /**
  * Interface representing a univariate real interpolating function.
@@ -46,5 +46,5 @@ public interface MultivariateRealInterpolator {
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * the arguments are {@code null}.
      */
-    MultivariateRealFunction interpolate(double[][] xval, double[] yval);
+    MultivariateFunction interpolate(double[][] xval, double[] yval);
 }

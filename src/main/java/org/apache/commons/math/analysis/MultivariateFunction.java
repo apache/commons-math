@@ -23,7 +23,7 @@ package org.apache.commons.math.analysis;
  * @version $Id$
  * @since 2.0
  */
-public interface MultivariateRealFunction {
+public interface MultivariateFunction {
 
     /**
      * Compute the value for the function at the given point.

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public final class MicrosphereInterpolatorTest {
      */
     @Test
     public void testLinearFunction2D() {
-        MultivariateRealFunction f = new MultivariateRealFunction() {
+        MultivariateFunction f = new MultivariateFunction() {
                 public double value(double[] x) {
                     if (x.length != 2) {
                         throw new IllegalArgumentException();
@@ -60,7 +60,7 @@ public final class MicrosphereInterpolatorTest {
             }
         }
 
-        MultivariateRealFunction p = interpolator.interpolate(x, y);
+        MultivariateFunction p = interpolator.interpolate(x, y);
 
         double[] c = new double[dim];
         double expected, result;
@@ -86,7 +86,7 @@ public final class MicrosphereInterpolatorTest {
      */
     @Test
     public void testParaboloid2D() {
-        MultivariateRealFunction f = new MultivariateRealFunction() {
+        MultivariateFunction f = new MultivariateFunction() {
                 public double value(double[] x) {
                     if (x.length != 2) {
                         throw new IllegalArgumentException();
@@ -112,7 +112,7 @@ public final class MicrosphereInterpolatorTest {
             }
         }
 
-        MultivariateRealFunction p = interpolator.interpolate(x, y);
+        MultivariateFunction p = interpolator.interpolate(x, y);
 
         double[] c = new double[dim];
         double expected, result;

@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -54,7 +54,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  *  be called prior to calling the {@code optimize} method.
  * </p>
  * <p>
- *  Each call to {@link #optimize(int,MultivariateRealFunction,GoalType,double[])
+ *  Each call to {@link #optimize(int,MultivariateFunction,GoalType,double[])
  *  optimize} will re-use the start configuration of the current simplex and
  *  move it such that its first vertex is at the provided start point of the
  *  optimization. If the {@code optimize} method is called to solve a different
@@ -71,20 +71,20 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * optimization with simple bounds, so for such optimizations, either a more
  * dedicated method must be used like {@link CMAESOptimizer} or {@link
  * BOBYQAOptimizer}, or the optimized method must be wrapped in an adapter like
- * {@link MultivariateRealFunctionMappingAdapter} or {@link
- * MultivariateRealFunctionPenaltyAdapter}.
+ * {@link MultivariateFunctionMappingAdapter} or {@link
+ * MultivariateFunctionPenaltyAdapter}.
  * </p>
  *
  * @see AbstractSimplex
- * @see MultivariateRealFunctionMappingAdapter
- * @see MultivariateRealFunctionPenaltyAdapter
+ * @see MultivariateFunctionMappingAdapter
+ * @see MultivariateFunctionPenaltyAdapter
  * @see CMAESOptimizer
  * @see BOBYQAOptimizer
  * @version $Id$
  * @since 3.0
  */
 public class SimplexOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateRealFunction>
+    extends BaseAbstractScalarOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Simplex. */
     private AbstractSimplex simplex;
@@ -130,8 +130,8 @@ public class SimplexOptimizer
 
         // Indirect call to "computeObjectiveValue" in order to update the
         // evaluations counter.
-        final MultivariateRealFunction evalFunc
-            = new MultivariateRealFunction() {
+        final MultivariateFunction evalFunc
+            = new MultivariateFunction() {
                 public double value(double[] point) {
                     return computeObjectiveValue(point);
                 }

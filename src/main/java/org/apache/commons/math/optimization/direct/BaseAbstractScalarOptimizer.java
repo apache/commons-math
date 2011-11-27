@@ -21,7 +21,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -38,7 +38,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @version $Id$
  * @since 2.2
  */
-public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealFunction>
+public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateFunction>
     implements BaseMultivariateRealOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
@@ -49,7 +49,7 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateRealF
     /** Initial guess. */
     private double[] start;
     /** Objective function. */
-    private MultivariateRealFunction function;
+    private MultivariateFunction function;
 
     /**
      * Simple constructor with default settings.

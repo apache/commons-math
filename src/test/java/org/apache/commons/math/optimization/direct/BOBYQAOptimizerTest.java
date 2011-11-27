@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -241,7 +241,7 @@ public class BOBYQAOptimizerTest {
      * @param maxEvaluations Maximum number of evaluations.
      * @param expected Expected point / value.
      */
-    private void doTest(MultivariateRealFunction func,
+    private void doTest(MultivariateFunction func,
             double[] startPoint,
             double[][] boundaries,
             GoalType goal,
@@ -290,7 +290,7 @@ public class BOBYQAOptimizerTest {
         return boundaries;
     }
 
-    private static class Sphere implements MultivariateRealFunction {
+    private static class Sphere implements MultivariateFunction {
 
         public double value(double[] x) {
             double f = 0;
@@ -300,7 +300,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Cigar implements MultivariateRealFunction {
+    private static class Cigar implements MultivariateFunction {
         private double factor;
 
         Cigar() {
@@ -319,7 +319,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Tablet implements MultivariateRealFunction {
+    private static class Tablet implements MultivariateFunction {
         private double factor;
 
         Tablet() {
@@ -338,7 +338,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class CigTab implements MultivariateRealFunction {
+    private static class CigTab implements MultivariateFunction {
         private double factor;
 
         CigTab() {
@@ -358,7 +358,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class TwoAxes implements MultivariateRealFunction {
+    private static class TwoAxes implements MultivariateFunction {
 
         private double factor;
 
@@ -378,7 +378,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class ElliRotated implements MultivariateRealFunction {
+    private static class ElliRotated implements MultivariateFunction {
         private Basis B = new Basis();
         private double factor;
 
@@ -399,7 +399,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Elli implements MultivariateRealFunction {
+    private static class Elli implements MultivariateFunction {
 
         private double factor;
 
@@ -419,14 +419,14 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class MinusElli implements MultivariateRealFunction {
+    private static class MinusElli implements MultivariateFunction {
         private final Elli elli = new Elli();
         public double value(double[] x) {
             return 1.0 - elli.value(x);
         }
     }
 
-    private static class DiffPow implements MultivariateRealFunction {
+    private static class DiffPow implements MultivariateFunction {
 //        private int fcount = 0;
         public double value(double[] x) {
             double f = 0;
@@ -441,7 +441,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class SsDiffPow implements MultivariateRealFunction {
+    private static class SsDiffPow implements MultivariateFunction {
 
         public double value(double[] x) {
             double f = Math.pow(new DiffPow().value(x), 0.25);
@@ -449,7 +449,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Rosen implements MultivariateRealFunction {
+    private static class Rosen implements MultivariateFunction {
 
         public double value(double[] x) {
             double f = 0;
@@ -460,7 +460,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Ackley implements MultivariateRealFunction {
+    private static class Ackley implements MultivariateFunction {
         private double axisratio;
 
         Ackley(double axra) {
@@ -486,7 +486,7 @@ public class BOBYQAOptimizerTest {
         }
     }
 
-    private static class Rastrigin implements MultivariateRealFunction {
+    private static class Rastrigin implements MultivariateFunction {
 
         private double axisratio;
         private double amplitude;

@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Arrays;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -50,7 +50,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * @since 3.0
  */
 public class BOBYQAOptimizer
-    extends BaseAbstractSimpleBoundsScalarOptimizer<MultivariateRealFunction>
+    extends BaseAbstractSimpleBoundsScalarOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Minimum dimension of the problem: {@value} */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;

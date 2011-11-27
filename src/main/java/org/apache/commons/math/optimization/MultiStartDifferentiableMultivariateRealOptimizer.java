@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /**
@@ -32,7 +32,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @since 2.0
  */
 public class MultiStartDifferentiableMultivariateRealOptimizer
-    extends BaseMultiStartMultivariateRealOptimizer<DifferentiableMultivariateRealFunction>
+    extends BaseMultiStartMultivariateRealOptimizer<DifferentiableMultivariateFunction>
     implements DifferentiableMultivariateRealOptimizer {
     /**
      * Create a multi-start optimizer from a single-start optimizer.

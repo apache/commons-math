@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.direct;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.BaseSimpleBoundsMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
@@ -39,7 +39,7 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
  * @version $Id$
  * @since 3.0
  */
-public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends MultivariateRealFunction>
+public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends MultivariateFunction>
     extends BaseAbstractScalarOptimizer<FUNC>
     implements BaseMultivariateRealOptimizer<FUNC>,
                BaseSimpleBoundsMultivariateRealOptimizer<FUNC> {

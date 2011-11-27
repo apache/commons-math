@@ -21,7 +21,7 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public class SumSincFunction implements DifferentiableMultivariateRealFunction {
+public class SumSincFunction implements DifferentiableMultivariateFunction {
     private static final DifferentiableUnivariateFunction sinc = new SincFunction();
     private static final UnivariateFunction sincDeriv = sinc.derivative();
 
@@ -54,8 +54,8 @@ public class SumSincFunction implements DifferentiableMultivariateRealFunction {
     /**
      * {@inheritDoc}
      */
-    public MultivariateRealFunction partialDerivative(final int k) {
-        return new MultivariateRealFunction() {
+    public MultivariateFunction partialDerivative(final int k) {
+        return new MultivariateFunction() {
             public double value(double[] point) {
                 return sincDeriv.value(point[k]);
             }

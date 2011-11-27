@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
@@ -83,7 +83,7 @@ public class MicrosphereInterpolator
     /**
      * {@inheritDoc}
      */
-    public MultivariateRealFunction interpolate(final double[][] xval,
+    public MultivariateFunction interpolate(final double[][] xval,
                                                 final double[] yval) {
         final UnitSphereRandomVectorGenerator rand
             = new UnitSphereRandomVectorGenerator(xval[0].length);

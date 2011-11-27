@@ -17,13 +17,13 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorialFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 
 /** This class converts {@link MultivariateVectorialFunction vectorial
- * objective functions} to {@link MultivariateRealFunction scalar objective functions}
+ * objective functions} to {@link MultivariateFunction scalar objective functions}
  * when the goal is to minimize them.
  * <p>
  * This class is mostly used when the vectorial objective function represents
@@ -37,7 +37,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class computes a possibly weighted squared sum of the residuals, which is
  * a scalar value. The residuals are the difference between the theoretical model
  * (i.e. the output of the vectorial objective function) and the observations. The
- * class implements the {@link MultivariateRealFunction} interface and can therefore be
+ * class implements the {@link MultivariateFunction} interface and can therefore be
  * minimized by any optimizer supporting scalar objectives functions.This is one way
  * to perform a least square estimation. There are other ways to do this without using
  * this converter, as some optimization algorithms directly support vectorial objective
@@ -47,13 +47,13 @@ import org.apache.commons.math.linear.RealMatrix;
  * This class support combination of residuals with or without weights and correlations.
  * </p>
   *
- * @see MultivariateRealFunction
+ * @see MultivariateFunction
  * @see MultivariateVectorialFunction
  * @version $Id$
  * @since 2.0
  */
 
-public class LeastSquaresConverter implements MultivariateRealFunction {
+public class LeastSquaresConverter implements MultivariateFunction {
 
     /** Underlying vectorial function. */
     private final MultivariateVectorialFunction function;

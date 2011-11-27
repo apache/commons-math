@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Comparator;
 
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateFunction;
 
 /**
  * This class implements the Nelder-Mead simplex algorithm.
@@ -184,7 +184,7 @@ public class NelderMeadSimplex extends AbstractSimplex {
 
     /** {@inheritDoc} */
     @Override
-    public void iterate(final MultivariateRealFunction evaluationFunction,
+    public void iterate(final MultivariateFunction evaluationFunction,
                         final Comparator<RealPointValuePair> comparator) {
         // The simplex has n + 1 points if dimension is n.
         final int n = getDimension();
