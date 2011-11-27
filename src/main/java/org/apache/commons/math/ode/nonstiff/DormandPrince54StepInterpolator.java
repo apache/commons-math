@@ -204,10 +204,18 @@ class DormandPrince54StepInterpolator
     final double dot2 = 1 - twoTheta;
     final double dot3 = theta * (2 - 3 * theta);
     final double dot4 = twoTheta * (1 + theta * (twoTheta - 3));
-    for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] =
-          currentState[i] - oneMinusThetaH * (v1[i] - theta * (v2[i] + theta * (v3[i] + eta * v4[i])));
-      interpolatedDerivatives[i] = v1[i] + dot2 * v2[i] + dot3 * v3[i] + dot4 * v4[i];
+    if ((previousState != null) && (theta <= 0.5)) {
+        for (int i = 0; i < interpolatedState.length; ++i) {
+            interpolatedState[i] =
+                    previousState[i] + theta * h * (v1[i] + eta * (v2[i] + theta * (v3[i] + eta * v4[i])));
+            interpolatedDerivatives[i] = v1[i] + dot2 * v2[i] + dot3 * v3[i] + dot4 * v4[i];
+        }
+    } else {
+        for (int i = 0; i < interpolatedState.length; ++i) {
+            interpolatedState[i] =
+                    currentState[i] - oneMinusThetaH * (v1[i] - theta * (v2[i] + theta * (v3[i] + eta * v4[i])));
+            interpolatedDerivatives[i] = v1[i] + dot2 * v2[i] + dot3 * v3[i] + dot4 * v4[i];
+        }
     }
 
   }

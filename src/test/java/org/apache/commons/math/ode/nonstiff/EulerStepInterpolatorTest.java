@@ -72,19 +72,19 @@ public class EulerStepInterpolatorTest {
     interpolator.storeTime(t0);
 
     double dt = 1.0;
+    interpolator.shift();
     y[0] =  1.0;
     y[1] =  3.0;
     y[2] = -4.0;
     yDot[0][0] = (y[0] - y0[0]) / dt;
     yDot[0][1] = (y[1] - y0[1]) / dt;
     yDot[0][2] = (y[2] - y0[2]) / dt;
-    interpolator.shift();
     interpolator.storeTime(t0 + dt);
 
     interpolator.setInterpolatedTime(interpolator.getPreviousTime());
     double[] result = interpolator.getInterpolatedState();
     for (int i = 0; i < result.length; ++i) {
-      Assert.assertTrue(FastMath.abs(result[i] - y0[i]) < 1.0e-10);
+        Assert.assertTrue(FastMath.abs(result[i] - y0[i]) < 1.0e-10);
     }
 
     interpolator.setInterpolatedTime(interpolator.getCurrentTime());
@@ -98,7 +98,7 @@ public class EulerStepInterpolatorTest {
   @Test
   public void interpolationInside() {
 
-    double[]   y    =   { 1.0, 3.0, -4.0 };
+    double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
     EulerStepInterpolator interpolator = new EulerStepInterpolator();
     interpolator.reinitialize(new DummyIntegrator(interpolator), y, yDot, true,
@@ -106,6 +106,9 @@ public class EulerStepInterpolatorTest {
                               new EquationsMapper[0]);
     interpolator.storeTime(0);
     interpolator.shift();
+    y[0] =  1.0;
+    y[1] =  3.0;
+    y[2] = -4.0;
     interpolator.storeTime(1);
 
     interpolator.setInterpolatedTime(0.1);

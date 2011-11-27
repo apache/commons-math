@@ -75,7 +75,7 @@ public class GillIntegratorTest {
 
         double valueError = handler.getMaximalValueError();
         if (i > 5) {
-          Assert.assertTrue(valueError < FastMath.abs(previousValueError));
+          Assert.assertTrue(valueError < 1.01 * FastMath.abs(previousValueError));
         }
         previousValueError = valueError;
 

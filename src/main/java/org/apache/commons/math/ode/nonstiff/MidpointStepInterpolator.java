@@ -26,12 +26,17 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * <p>This interpolator computes dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
+ * <ul>
+ *   <li>Using reference point at step start:<br>
+ *   y(t<sub>n</sub> + &theta; h) = y (t<sub>n</sub>) + &theta; h [(1 - &theta;) y'<sub>1</sub> + &theta; y'<sub>2</sub>]
+ *   </li>
+ *   <li>Using reference point at step end:<br>
+ *   y(t<sub>n</sub> + &theta; h) = y (t<sub>n</sub> + h) + (1-&theta;) h [&theta; y'<sub>1</sub> - (1+&theta;) y'<sub>2</sub>]
+ *   </li>
+ * </ul>
+ * </p>
  *
- * <pre>
- *   y(t_n + theta h) = y (t_n + h) + (1-theta) h [theta y'_1 - (1+theta) y'_2]
- * </pre>
- *
- * where theta belongs to [0 ; 1] and where y'_1 and y'_2 are the two
+ * where &theta; belongs to [0 ; 1] and where y'<sub>1</sub> and y'<sub>2</sub> are the two
  * evaluations of the derivatives already computed during the
  * step.</p>
  *
@@ -81,16 +86,27 @@ class MidpointStepInterpolator
   protected void computeInterpolatedStateAndDerivatives(final double theta,
                                           final double oneMinusThetaH) {
 
-    final double coeff1    = oneMinusThetaH * theta;
-    final double coeff2    = oneMinusThetaH * (1.0 + theta);
     final double coeffDot2 = 2 * theta;
     final double coeffDot1 = 1 - coeffDot2;
 
-    for (int i = 0; i < interpolatedState.length; ++i) {
-      final double yDot1 = yDotK[0][i];
-      final double yDot2 = yDotK[1][i];
-      interpolatedState[i] = currentState[i] + coeff1 * yDot1 - coeff2 * yDot2;
-      interpolatedDerivatives[i] = coeffDot1 * yDot1 + coeffDot2 * yDot2;
+    if ((previousState != null) && (theta <= 0.5)) {
+        final double coeff1    = theta * oneMinusThetaH;
+        final double coeff2    = theta * theta * h;
+        for (int i = 0; i < interpolatedState.length; ++i) {
+            final double yDot1 = yDotK[0][i];
+            final double yDot2 = yDotK[1][i];
+            interpolatedState[i] = previousState[i] + coeff1 * yDot1 + coeff2 * yDot2;
+            interpolatedDerivatives[i] = coeffDot1 * yDot1 + coeffDot2 * yDot2;
+        }
+    } else {
+        final double coeff1    = oneMinusThetaH * theta;
+        final double coeff2    = oneMinusThetaH * (1.0 + theta);
+        for (int i = 0; i < interpolatedState.length; ++i) {
+            final double yDot1 = yDotK[0][i];
+            final double yDot2 = yDotK[1][i];
+            interpolatedState[i] = currentState[i] + coeff1 * yDot1 - coeff2 * yDot2;
+            interpolatedDerivatives[i] = coeffDot1 * yDot1 + coeffDot2 * yDot2;
+        }
     }
 
   }

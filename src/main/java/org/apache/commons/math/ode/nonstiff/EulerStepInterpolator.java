@@ -25,12 +25,17 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * <p>This interpolator computes dense output inside the last
  * step computed. The interpolation equation is consistent with the
  * integration scheme :
+ * <ul>
+ *   <li>Using reference point at step start:<br>
+ *     y(t<sub>n</sub> + &theta; h) = y (t<sub>n</sub>) + &theta; h y'
+ *   </li>
+ *   <li>Using reference point at step end:<br>
+ *     y(t<sub>n</sub> + &theta; h) = y (t<sub>n</sub> + h) - (1-&theta;) h y'
+ *   </li>
+ * </ul>
+ * </p>
  *
- * <pre>
- *   y(t_n + theta h) = y (t_n + h) - (1-theta) h y'
- * </pre>
- *
- * where theta belongs to [0 ; 1] and where y' is the evaluation of
+ * where &theta; belongs to [0 ; 1] and where y' is the evaluation of
  * the derivatives already computed during the step.</p>
  *
  * @see EulerIntegrator
@@ -78,11 +83,17 @@ class EulerStepInterpolator
   @Override
   protected void computeInterpolatedStateAndDerivatives(final double theta,
                                           final double oneMinusThetaH) {
-
-    for (int i = 0; i < interpolatedState.length; ++i) {
-      interpolatedState[i] = currentState[i] - oneMinusThetaH * yDotK[0][i];
-    }
-    System.arraycopy(yDotK[0], 0, interpolatedDerivatives, 0, interpolatedDerivatives.length);
+      if ((previousState != null) && (theta <= 0.5)) {
+          for (int i = 0; i < interpolatedState.length; ++i) {
+              interpolatedState[i] = previousState[i] + theta * h * yDotK[0][i];
+          }
+          System.arraycopy(yDotK[0], 0, interpolatedDerivatives, 0, interpolatedDerivatives.length);
+      } else {
+          for (int i = 0; i < interpolatedState.length; ++i) {
+              interpolatedState[i] = currentState[i] - oneMinusThetaH * yDotK[0][i];
+          }
+          System.arraycopy(yDotK[0], 0, interpolatedDerivatives, 0, interpolatedDerivatives.length);
+      }
 
   }
 

@@ -52,6 +52,9 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-705">
+        Improved accuracy of Runge-Kutta based step interpolators near step start.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-691">
         Fixed errors in SummaryStatistics addValue causing variance, mean, or
         geometric mean statistics not to be updated if they have been overriden

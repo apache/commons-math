@@ -150,7 +150,7 @@ public class ClassicalRungeKuttaIntegratorTest {
 
         double error = handler.getMaximalValueError();
         if (i > 4) {
-          Assert.assertTrue(error < FastMath.abs(previousValueError));
+          Assert.assertTrue(error < 1.01 * FastMath.abs(previousValueError));
         }
         previousValueError = error;
 
