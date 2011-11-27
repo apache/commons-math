@@ -14,13 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math.stat.descriptive;
+package org.apache.commons.math.stat.descriptive.moment;
 
-import org.apache.commons.math.stat.descriptive.moment.FourthMoment;
-import org.apache.commons.math.stat.descriptive.moment.Kurtosis;
-import org.apache.commons.math.stat.descriptive.moment.Mean;
-import org.apache.commons.math.stat.descriptive.moment.Skewness;
-import org.apache.commons.math.stat.descriptive.moment.Variance;
 import org.junit.Assert;
 import org.junit.Test;
 

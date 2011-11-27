@@ -47,7 +47,7 @@ import org.apache.commons.math.util.MathUtils;
  *
  * @version $Id$
  */
-public class FirstMoment extends AbstractStorelessUnivariateStatistic
+class FirstMoment extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
     /** Serializable version identifier */

@@ -53,7 +53,7 @@ import org.apache.commons.math.util.MathUtils;
  *
  * @version $Id$
  */
-public class FourthMoment extends ThirdMoment implements Serializable{
+class FourthMoment extends ThirdMoment implements Serializable{
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 4763990447117157611L;

@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-694">
+        Removed First, Second, Third, Fourth moments from the public API.
+        These internally used statistics have non-standard definitions.
+        The classes remain, but now have package scope.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-693">
         Added support for population variance in StatUtils, SummaryStatistics
         and DescriptiveStatistics and clarified javadoc to make it clear that
