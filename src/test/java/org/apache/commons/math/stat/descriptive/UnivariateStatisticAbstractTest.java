@@ -17,7 +17,6 @@ s * Unless required by applicable law or agreed to in writing, software
 package org.apache.commons.math.stat.descriptive;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -104,11 +103,14 @@ public abstract class UnivariateStatisticAbstractTest {
     @Test
     public void testEvaluateArraySegment() {
         final UnivariateStatistic stat = getUnivariateStatistic();
-        final double[] arrayZero = Arrays.copyOfRange(testArray, 0, 5);
+        final double[] arrayZero = new double[5];
+        System.arraycopy(testArray, 0, arrayZero, 0, 5);
         Assert.assertEquals(stat.evaluate(arrayZero), stat.evaluate(testArray, 0, 5), 0);
-        final double[] arrayOne = Arrays.copyOfRange(testArray, 5, 10);
+        final double[] arrayOne = new double[5];
+        System.arraycopy(testArray, 5, arrayOne, 0, 5);
         Assert.assertEquals(stat.evaluate(arrayOne), stat.evaluate(testArray, 5, 5), 0);
-        final double[] arrayEnd = Arrays.copyOfRange(testArray, testArray.length - 5, testArray.length);
+        final double[] arrayEnd = new double[5];
+        System.arraycopy(testArray, testArray.length - 5, arrayEnd, 0, 5);
         Assert.assertEquals(stat.evaluate(arrayEnd), stat.evaluate(testArray, testArray.length - 5, 5), 0);
     }
 
