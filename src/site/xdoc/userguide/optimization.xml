@@ -173,22 +173,32 @@
         </p>
         <p>
           The first two simplex-based methods do not handle simple bounds constraints by themselves.
-          However there are two adapters (<a
+          However there are two adapters(<a
           href="../apidocs/org/apache/commons/math/optimization/direct/MultivariateRealFunctionMappingAdapter.html">
           MultivariateRealFunctionMappingAdapter</a> and <a
           href="../apidocs/org/apache/commons/math/optimization/direct/MultivariateRealFunctionPenaltyAdapter.html">
           MultivariateRealFunctionPenaltyAdapter</a>) that can be used to wrap the user function in
           such a way the wrapped function is unbounded and can be used with these optimizers, despite
           the fact the underlying function is still bounded and will be called only with feasible
-          points that fulfill the constraints. Note however that using these adapters is only a
-          apter is only a poor man solution to simple bounds optimization constraints. A better solution
-          is to use an optimizer that directly supports simple bounds. Two caveats of the mapping adapter
-          solution is that behavior near the bounds may be numerically unstable as bounds are mapped from
-          infinite values, and that convergence values are evaluated by the optimizer with respect
-          to unbounded variables, so there will be scales differences when converted to bounded variables.
+          points that fulfill the constraints. Note however that using these adapters are only a
+          poor man solutions to simple bounds optimization constraints. Better solutions are to use an
+          optimizer that directly supports simple bounds. Some caveats of the mapping adapter
+          solution are that
+          <ul>
+            <li>behavior near the bounds may be numerically unstable as bounds are mapped from
+                infinite values,</li>
+            <li>start value is evaluated by the optimizer as an unbounded variable,
+                so it must be converted from bounded to unbounded by user,</li>
+            <li>optimum result is evaluated by the optimizer as an unbounded variable,
+                so it must be converted from unbounded to bounded by user,</li>
+            <li>convergence values are evaluated by the optimizer as unbounded variables,
+                so there will be scales differences when converted to bounded variables,</li>
+            <li>in the case of simplex based solvers, the initial simplex should be set up
+                as delta in unbounded variables.</li>
+          </ul>
           One caveat of penalty adapter is that if start point or start simplex is outside of the allowed
           range, only the penalty function is used, and the optimizer may converge without ever entering
-          the alowed range.
+          the allowed range.
         </p>
         <p>
           The last methods do handle simple bounds constraints directly, so the adapters are not needed
