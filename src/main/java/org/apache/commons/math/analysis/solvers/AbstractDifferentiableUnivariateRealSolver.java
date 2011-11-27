@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -28,10 +28,10 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @since 3.0
  */
 public abstract class AbstractDifferentiableUnivariateRealSolver
-    extends BaseAbstractUnivariateRealSolver<DifferentiableUnivariateRealFunction>
+    extends BaseAbstractUnivariateRealSolver<DifferentiableUnivariateFunction>
     implements DifferentiableUnivariateRealSolver {
     /** Derivative of the function to solve. */
-    private UnivariateRealFunction functionDerivative;
+    private UnivariateFunction functionDerivative;
 
     /**
      * Construct a solver with given absolute accuracy.
@@ -72,7 +72,7 @@ public abstract class AbstractDifferentiableUnivariateRealSolver
      * {@inheritDoc}
      */
     @Override
-    protected void setup(int maxEval, DifferentiableUnivariateRealFunction f,
+    protected void setup(int maxEval, DifferentiableUnivariateFunction f,
                          double min, double max, double startValue) {
         super.setup(maxEval, f, min, max, startValue);
         functionDerivative = f.derivative();

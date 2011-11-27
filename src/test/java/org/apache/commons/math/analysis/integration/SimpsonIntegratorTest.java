@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.util.FastMath;
@@ -41,7 +41,7 @@ public final class SimpsonIntegratorTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
 
@@ -65,7 +65,7 @@ public final class SimpsonIntegratorTest {
      */
     @Test
     public void testQuinticFunction() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
 
@@ -96,7 +96,7 @@ public final class SimpsonIntegratorTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         try {
             // bad interval
             new SimpsonIntegrator().integrate(1000, f, 1, -1);

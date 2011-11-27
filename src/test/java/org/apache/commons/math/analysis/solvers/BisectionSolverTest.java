@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import org.junit.Test;
 public final class BisectionSolverTest {
     @Test
     public void testSinZero() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         double result;
 
         BisectionSolver solver = new BisectionSolver();
@@ -42,7 +42,7 @@ public final class BisectionSolverTest {
 
     @Test
     public void testQuinticZero() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         double result;
 
         BisectionSolver solver = new BisectionSolver();
@@ -84,7 +84,7 @@ public final class BisectionSolverTest {
 
     @Test
     public void testMath369() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         BisectionSolver solver = new BisectionSolver();
         Assert.assertEquals(FastMath.PI, solver.solve(100, f, 3.0, 3.2, 3.1), solver.getAbsoluteAccuracy());
     }

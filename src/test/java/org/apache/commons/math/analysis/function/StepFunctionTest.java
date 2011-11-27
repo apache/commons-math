@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -67,7 +67,7 @@ public class StepFunctionTest {
         final double[] x = { -2, -0.5, 0, 1.9, 7.4, 21.3 };
         final double[] y = { 4, -1, -5.5, 0.4, 5.8, 51.2 };
 
-        final UnivariateRealFunction f = new StepFunction(x, y);
+        final UnivariateFunction f = new StepFunction(x, y);
 
         Assert.assertEquals(4, f.value(Double.NEGATIVE_INFINITY), EPS);
         Assert.assertEquals(4, f.value(-10), EPS);
@@ -84,8 +84,8 @@ public class StepFunctionTest {
         final double[] x = {0, 1, 2, 3};
         final double[] xp = {-8, 1, 2, 3};
         final double[] y = {1, 2, 3, 4};
-        final UnivariateRealFunction f = new StepFunction(x, y);
-        final UnivariateRealFunction fp = new StepFunction(xp, y);
+        final UnivariateFunction f = new StepFunction(x, y);
+        final UnivariateFunction fp = new StepFunction(xp, y);
         Assert.assertEquals(f.value(-8), fp.value(-8), EPS);
         Assert.assertEquals(f.value(-10), fp.value(-10), EPS);
         Assert.assertEquals(f.value(0), fp.value(0), EPS);
@@ -102,7 +102,7 @@ public class StepFunctionTest {
 
     @Test
     public void testHeaviside() {   
-        final UnivariateRealFunction h = new StepFunction(new double[] {-1, 0},
+        final UnivariateFunction h = new StepFunction(new double[] {-1, 0},
                                                           new double[] {0, 1});
 
         Assert.assertEquals(0, h.value(Double.NEGATIVE_INFINITY), 0);

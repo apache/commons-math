@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Interface for univariate optimization algorithms.
@@ -25,4 +25,4 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @since 3.0
  */
 public interface UnivariateRealOptimizer
-    extends BaseUnivariateRealOptimizer<UnivariateRealFunction> {}
+    extends BaseUnivariateRealOptimizer<UnivariateFunction> {}

@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class HarmonicOscillator implements DifferentiableUnivariateRealFunction {
+public class HarmonicOscillator implements DifferentiableUnivariateFunction {
     /** Amplitude. */
     private final double amplitude;
     /** Angular frequency. */
@@ -60,8 +60,8 @@ public class HarmonicOscillator implements DifferentiableUnivariateRealFunction 
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 return -amplitude * omega * FastMath.sin(omega * x + phase);
@@ -78,7 +78,7 @@ public class HarmonicOscillator implements DifferentiableUnivariateRealFunction 
      *  <li>Phase</li>
      * </ul>
      */
-    public static class Parametric implements ParametricUnivariateRealFunction {
+    public static class Parametric implements ParametricUnivariateFunction {
         /**
          * Computes the value of the harmonic oscillator at {@code x}.
          *

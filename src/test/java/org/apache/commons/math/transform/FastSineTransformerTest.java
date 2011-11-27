@@ -72,7 +72,7 @@ public final class FastSineTransformerTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;
 
@@ -96,7 +96,7 @@ public final class FastSineTransformerTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         FastSineTransformer transformer = new FastSineTransformer();
 
         try {

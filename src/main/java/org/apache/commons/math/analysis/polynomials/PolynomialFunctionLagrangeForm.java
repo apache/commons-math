@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -35,7 +35,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Id$
  * @since 1.2
  */
-public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
+public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
      * coefficients[0] is the constant term and coefficients[n] is the

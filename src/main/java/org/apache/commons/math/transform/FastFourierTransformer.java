@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -87,7 +87,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(UnivariateRealFunction f,
+    public Complex[] transform(UnivariateFunction f,
                                double min, double max, int n)
         throws IllegalArgumentException {
         double data[] = sample(f, min, max, n);
@@ -140,7 +140,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(UnivariateRealFunction f,
+    public Complex[] transform2(UnivariateFunction f,
                                 double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -197,7 +197,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(UnivariateRealFunction f,
+    public Complex[] inversetransform(UnivariateFunction f,
                                       double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -254,7 +254,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(UnivariateRealFunction f,
+    public Complex[] inversetransform2(UnivariateFunction f,
                                        double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -417,7 +417,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the samples array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public static double[] sample(UnivariateRealFunction f, double min, double max, int n)
+    public static double[] sample(UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException {
 
         if (n <= 0) {

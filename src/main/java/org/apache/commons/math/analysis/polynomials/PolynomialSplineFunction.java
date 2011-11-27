@@ -19,8 +19,8 @@ package org.apache.commons.math.analysis.polynomials;
 import java.util.Arrays;
 
 import org.apache.commons.math.util.MathArrays;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -61,7 +61,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  *
  * @version $Id$
  */
-public class PolynomialSplineFunction implements DifferentiableUnivariateRealFunction {
+public class PolynomialSplineFunction implements DifferentiableUnivariateFunction {
     /**
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
@@ -151,7 +151,7 @@ public class PolynomialSplineFunction implements DifferentiableUnivariateRealFun
      *
      * @return the derivative function.
      */
-    public UnivariateRealFunction derivative() {
+    public UnivariateFunction derivative() {
         return polynomialSplineDerivative();
     }
 

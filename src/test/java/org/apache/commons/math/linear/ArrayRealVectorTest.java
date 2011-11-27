@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Abs;
 import org.apache.commons.math.analysis.function.Acos;
 import org.apache.commons.math.analysis.function.Asin;
@@ -96,12 +96,12 @@ public class ArrayRealVectorTest {
         }
 
         @Override
-        public RealVector map(UnivariateRealFunction function) {
+        public RealVector map(UnivariateFunction function) {
             throw unsupported();
         }
 
         @Override
-        public RealVector mapToSelf(UnivariateRealFunction function) {
+        public RealVector mapToSelf(UnivariateFunction function) {
             throw unsupported();
         }
 

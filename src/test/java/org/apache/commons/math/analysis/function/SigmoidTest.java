@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 
@@ -32,7 +32,7 @@ public class SigmoidTest {
 
     @Test
     public void testSomeValues() {
-        final UnivariateRealFunction f = new Sigmoid();
+        final UnivariateFunction f = new Sigmoid();
 
         Assert.assertEquals(0.5, f.value(0), EPS);
         Assert.assertEquals(0, f.value(Double.NEGATIVE_INFINITY), EPS);
@@ -42,7 +42,7 @@ public class SigmoidTest {
     @Test
     public void testDerivative() {
         final Sigmoid f = new Sigmoid();
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
 
         Assert.assertEquals(0.25, dfdx.value(0), 0);
     }
@@ -50,7 +50,7 @@ public class SigmoidTest {
     @Test
     public void testDerivativeLargeArguments() {
         final Sigmoid f = new Sigmoid(1, 2);
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
 
         Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
         Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);

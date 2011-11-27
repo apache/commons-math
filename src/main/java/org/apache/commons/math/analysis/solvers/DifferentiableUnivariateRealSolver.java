@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 
 
 /**
@@ -26,4 +26,4 @@ import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
  * @version $Id$
  */
 public interface DifferentiableUnivariateRealSolver
-    extends BaseUnivariateRealSolver<DifferentiableUnivariateRealFunction> {}
+    extends BaseUnivariateRealSolver<DifferentiableUnivariateFunction> {}

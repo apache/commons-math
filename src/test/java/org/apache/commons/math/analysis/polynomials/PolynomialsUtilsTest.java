@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.integration.LegendreGaussIntegrator;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
@@ -78,7 +78,7 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testChebyshevOrthogonality() {
-        UnivariateRealFunction weight = new UnivariateRealFunction() {
+        UnivariateFunction weight = new UnivariateFunction() {
             public double value(double x) {
                 return 1 / FastMath.sqrt(1 - x * x);
             }
@@ -129,7 +129,7 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testHermiteOrthogonality() {
-        UnivariateRealFunction weight = new UnivariateRealFunction() {
+        UnivariateFunction weight = new UnivariateFunction() {
             public double value(double x) {
                 return FastMath.exp(-x * x);
             }
@@ -186,7 +186,7 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testLaguerreOrthogonality() {
-        UnivariateRealFunction weight = new UnivariateRealFunction() {
+        UnivariateFunction weight = new UnivariateFunction() {
             public double value(double x) {
                 return FastMath.exp(-x);
             }
@@ -237,7 +237,7 @@ public class PolynomialsUtilsTest {
 
     @Test
     public void testLegendreOrthogonality() {
-        UnivariateRealFunction weight = new UnivariateRealFunction() {
+        UnivariateFunction weight = new UnivariateFunction() {
             public double value(double x) {
                 return 1;
             }
@@ -302,7 +302,7 @@ public class PolynomialsUtilsTest {
             for (int w = v; w < 5; ++w) {
                 final int vv = v;
                 final int ww = w;
-                UnivariateRealFunction weight = new UnivariateRealFunction() {
+                UnivariateFunction weight = new UnivariateFunction() {
                     public double value(double x) {
                         return FastMath.pow(1 - x, vv) * FastMath.pow(1 + x, ww);
                     }
@@ -365,11 +365,11 @@ public class PolynomialsUtilsTest {
 
     private void checkOrthogonality(final PolynomialFunction p1,
                                     final PolynomialFunction p2,
-                                    final UnivariateRealFunction weight,
+                                    final UnivariateFunction weight,
                                     final double a, final double b,
                                     final double nonZeroThreshold,
                                     final double zeroThreshold) {
-        UnivariateRealFunction f = new UnivariateRealFunction() {
+        UnivariateFunction f = new UnivariateFunction() {
             public double value(double x) {
                 return weight.value(x) * p1.value(x) * p2.value(x);
             }

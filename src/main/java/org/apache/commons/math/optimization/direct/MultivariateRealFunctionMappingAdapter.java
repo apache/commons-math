@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateRealFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Logit;
 import org.apache.commons.math.analysis.function.Sigmoid;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -271,10 +271,10 @@ public class MultivariateRealFunctionMappingAdapter implements MultivariateRealF
     private static class LowerUpperBoundMapper implements Mapper {
 
         /** Function from unbounded to bounded. */
-        private final UnivariateRealFunction boundingFunction;
+        private final UnivariateFunction boundingFunction;
 
         /** Function from bounded to unbounded. */
-        private final UnivariateRealFunction unboundingFunction;
+        private final UnivariateFunction unboundingFunction;
 
         /** Simple constructor.
          * @param lower lower bound

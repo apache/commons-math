@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -61,7 +61,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
      * if {@code min >= max}.
      */
     @Override
-    public double solve(int maxEval, final DifferentiableUnivariateRealFunction f,
+    public double solve(int maxEval, final DifferentiableUnivariateFunction f,
                         final double min, final double max) {
         return super.solve(maxEval, f, UnivariateRealSolverUtils.midpoint(min, max));
     }

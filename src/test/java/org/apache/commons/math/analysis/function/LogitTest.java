@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -36,7 +36,7 @@ public class LogitTest {
     public void testPreconditions1() {
         final double lo = -1;
         final double hi = 2;
-        final UnivariateRealFunction f = new Logit(lo, hi);
+        final UnivariateFunction f = new Logit(lo, hi);
 
         f.value(lo - 1);
     }
@@ -44,7 +44,7 @@ public class LogitTest {
     public void testPreconditions2() {
         final double lo = -1;
         final double hi = 2;
-        final UnivariateRealFunction f = new Logit(lo, hi);
+        final UnivariateFunction f = new Logit(lo, hi);
 
         f.value(hi + 1);
     }
@@ -53,7 +53,7 @@ public class LogitTest {
     public void testSomeValues() {
         final double lo = 1;
         final double hi = 2;
-        final UnivariateRealFunction f = new Logit(lo, hi);
+        final UnivariateFunction f = new Logit(lo, hi);
 
         Assert.assertEquals(Double.NEGATIVE_INFINITY, f.value(1), EPS);
         Assert.assertEquals(Double.POSITIVE_INFINITY, f.value(2), EPS);
@@ -65,7 +65,7 @@ public class LogitTest {
         final double lo = 1;
         final double hi = 2;
         final Logit f = new Logit(lo, hi);
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
 
         Assert.assertEquals(4, dfdx.value(1.5), EPS);
     }
@@ -73,7 +73,7 @@ public class LogitTest {
     @Test
     public void testDerivativeLargeArguments() {
         final Logit f = new Logit(1, 2);
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
 
         Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
         Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);
@@ -137,7 +137,7 @@ public class LogitTest {
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
-        final UnivariateRealFunction id = FunctionUtils.compose(g, f);
+        final UnivariateFunction id = FunctionUtils.compose(g, f);
         
         for (int i = 0; i < 10; i++) {
             final double x = lo + Math.random() * (hi - lo);
@@ -153,10 +153,10 @@ public class LogitTest {
         final double lo = 2;
         final double hi = 3;
         final Logit f = new Logit(lo, hi);
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
         final Sigmoid g = new Sigmoid(lo, hi);
-        final UnivariateRealFunction dgdx = g.derivative();
-        final UnivariateRealFunction chain
+        final UnivariateFunction dgdx = g.derivative();
+        final UnivariateFunction chain
             = FunctionUtils.compose(new Inverse(), FunctionUtils.compose(dgdx, f));
         
         for (int i = 0; i < 10; i++) {

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.junit.Test;
 import org.junit.Assert;
@@ -45,7 +45,7 @@ public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
 
     @Test(expected=ConvergenceException.class)
     public void testIssue631() {
-        final UnivariateRealFunction f = new UnivariateRealFunction() {
+        final UnivariateFunction f = new UnivariateFunction() {
                 /** {@inheritDoc} */
                 public double value(double x) {
                     return Math.exp(x) - Math.pow(Math.PI, 3.0);

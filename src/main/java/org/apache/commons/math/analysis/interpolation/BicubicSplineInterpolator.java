@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
@@ -83,7 +83,7 @@ public class BicubicSplineInterpolator
         // Partial derivatives with respect to x at the grid knots
         final double[][] dFdX = new double[xLen][yLen];
         for (int j = 0; j < yLen; j++) {
-            final UnivariateRealFunction f = ySplineX[j].derivative();
+            final UnivariateFunction f = ySplineX[j].derivative();
             for (int i = 0; i < xLen; i++) {
                 dFdX[i][j] = f.value(xval[i]);
             }
@@ -92,7 +92,7 @@ public class BicubicSplineInterpolator
         // Partial derivatives with respect to y at the grid knots
         final double[][] dFdY = new double[xLen][yLen];
         for (int i = 0; i < xLen; i++) {
-            final UnivariateRealFunction f = xSplineY[i].derivative();
+            final UnivariateFunction f = xSplineY[i].derivative();
             for (int j = 0; j < yLen; j++) {
                 dFdY[i][j] = f.value(yval[j]);
             }

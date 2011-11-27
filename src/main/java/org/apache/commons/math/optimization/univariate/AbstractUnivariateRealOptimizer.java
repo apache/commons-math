@@ -21,7 +21,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 
@@ -47,7 +47,7 @@ public abstract class AbstractUnivariateRealOptimizer
     /** Initial guess . */
     private double searchStart;
     /** Function to optimize. */
-    private UnivariateRealFunction function;
+    private UnivariateFunction function;
 
     /**
      * @param checker Convergence checking procedure.
@@ -109,7 +109,7 @@ public abstract class AbstractUnivariateRealOptimizer
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(int maxEval, UnivariateRealFunction f,
+    public UnivariateRealPointValuePair optimize(int maxEval, UnivariateFunction f,
                                                  GoalType goalType,
                                                  double min, double max,
                                                  double startValue) {
@@ -136,7 +136,7 @@ public abstract class AbstractUnivariateRealOptimizer
 
     /** {@inheritDoc} */
     public UnivariateRealPointValuePair optimize(int maxEval,
-                                                 UnivariateRealFunction f,
+                                                 UnivariateFunction f,
                                                  GoalType goalType,
                                                  double min, double max){
         return optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));

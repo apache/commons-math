@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.univariate;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.optimization.BaseOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 
@@ -34,7 +34,7 @@ import org.apache.commons.math.optimization.GoalType;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateRealFunction>
+public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateFunction>
     extends BaseOptimizer<UnivariateRealPointValuePair> {
     /**
      * Find an optimum in the given interval.

@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -181,7 +181,7 @@ public class NonLinearConjugateGradientOptimizer
             }
 
             // Find the optimal step in the search direction.
-            final UnivariateRealFunction lsf = new LineSearchFunction(searchDirection);
+            final UnivariateFunction lsf = new LineSearchFunction(searchDirection);
             final double uB = findUpperBound(lsf, 0, initialStep);
             // XXX Last parameters is set to a value close to zero in order to
             // work around the divergence problem in the "testCircleFitting"
@@ -244,7 +244,7 @@ public class NonLinearConjugateGradientOptimizer
      * @return b such that f(a) and f(b) have opposite signs.
      * @throws MathIllegalStateException if no bracket can be found.
      */
-    private double findUpperBound(final UnivariateRealFunction f,
+    private double findUpperBound(final UnivariateFunction f,
                                   final double a, final double h) {
         final double yA = f.value(a);
         double yB = yA;
@@ -276,7 +276,7 @@ public class NonLinearConjugateGradientOptimizer
      * extremum along the search direction.
      * </p>
      */
-    private class LineSearchFunction implements UnivariateRealFunction {
+    private class LineSearchFunction implements UnivariateFunction {
         /** Search direction. */
         private final double[] searchDirection;
 

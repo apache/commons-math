@@ -21,9 +21,9 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public class MonitoredFunction implements UnivariateRealFunction {
+public class MonitoredFunction implements UnivariateFunction {
 
-    public MonitoredFunction(UnivariateRealFunction f) {
+    public MonitoredFunction(UnivariateFunction f) {
         callsCount = 0;
         this.f = f;
     }
@@ -42,6 +42,6 @@ public class MonitoredFunction implements UnivariateRealFunction {
     }
 
     private int callsCount;
-    private UnivariateRealFunction f;
+    private UnivariateFunction f;
 
 }

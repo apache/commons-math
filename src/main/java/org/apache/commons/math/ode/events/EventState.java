@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.ode.events;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.AllowedSolution;
 import org.apache.commons.math.analysis.solvers.BracketedUnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.PegasusSolver;
@@ -197,7 +197,7 @@ public class EventState {
             final int    n = FastMath.max(1, (int) FastMath.ceil(FastMath.abs(dt) / maxCheckInterval));
             final double h = dt / n;
 
-            final UnivariateRealFunction f = new UnivariateRealFunction() {
+            final UnivariateFunction f = new UnivariateFunction() {
                 public double value(final double t) {
                     interpolator.setInterpolatedTime(t);
                     return handler.g(t, interpolator.getInterpolatedState());
@@ -224,8 +224,8 @@ public class EventState {
                     final double root;
                     if (solver instanceof BracketedUnivariateRealSolver<?>) {
                         @SuppressWarnings("unchecked")
-                        BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
-                                (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
+                        BracketedUnivariateRealSolver<UnivariateFunction> bracketing =
+                                (BracketedUnivariateRealSolver<UnivariateFunction>) solver;
                         root = forward ?
                                bracketing.solve(maxIterationCount, f, ta, tb, AllowedSolution.RIGHT_SIDE) :
                                bracketing.solve(maxIterationCount, f, tb, ta, AllowedSolution.LEFT_SIDE);
@@ -234,7 +234,7 @@ public class EventState {
                                                 solver.solve(maxIterationCount, f, ta, tb) :
                                                 solver.solve(maxIterationCount, f, tb, ta);
                         final int remainingEval = maxIterationCount - solver.getEvaluations();
-                        BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
+                        BracketedUnivariateRealSolver<UnivariateFunction> bracketing =
                                 new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
                         root = forward ?
                                UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,

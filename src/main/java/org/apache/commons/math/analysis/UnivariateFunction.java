@@ -41,7 +41,7 @@ package org.apache.commons.math.analysis;
  *     }
  * }
  *
- * private static class MyFunction implements UnivariateRealFunction {
+ * private static class MyFunction implements UnivariateFunction {
  *     public double value(double x) {
  *         double y = hugeFormula(x);
  *         if (somethingBadHappens) {
@@ -65,7 +65,7 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public interface UnivariateRealFunction {
+public interface UnivariateFunction {
     /**
      * Compute the value of the function.
      *

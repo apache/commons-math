@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /** Interface for {@link UnivariateRealSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
@@ -44,7 +44,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @since 3.0
  * @version $Id$
  */
-public interface BracketedUnivariateRealSolver<FUNC extends UnivariateRealFunction>
+public interface BracketedUnivariateRealSolver<FUNC extends UnivariateFunction>
     extends BaseUnivariateRealSolver<FUNC> {
 
     /**

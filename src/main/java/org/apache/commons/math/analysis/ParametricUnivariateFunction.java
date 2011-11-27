@@ -24,7 +24,7 @@ package org.apache.commons.math.analysis;
  * @since 3.0
  * @version $Id$
  */
-public interface ParametricUnivariateRealFunction {
+public interface ParametricUnivariateFunction {
     /**
      * Compute the value of the function.
      *

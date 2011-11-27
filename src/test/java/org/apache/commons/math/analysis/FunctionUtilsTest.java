@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Identity;
 import org.apache.commons.math.analysis.function.Constant;
 import org.apache.commons.math.analysis.function.Minus;
@@ -48,44 +48,44 @@ public class FunctionUtilsTest {
 
     @Test
     public void testCompose() {
-        UnivariateRealFunction id = new Identity();
+        UnivariateFunction id = new Identity();
         Assert.assertEquals(3, FunctionUtils.compose(id, id, id).value(3), EPS);
 
-        UnivariateRealFunction c = new Constant(4);
+        UnivariateFunction c = new Constant(4);
         Assert.assertEquals(4, FunctionUtils.compose(id, c).value(3), EPS);
         Assert.assertEquals(4, FunctionUtils.compose(c, id).value(3), EPS);
 
-        UnivariateRealFunction m = new Minus();
+        UnivariateFunction m = new Minus();
         Assert.assertEquals(-3, FunctionUtils.compose(m).value(3), EPS);
         Assert.assertEquals(3, FunctionUtils.compose(m, m).value(3), EPS);
 
-        UnivariateRealFunction inv = new Inverse();
+        UnivariateFunction inv = new Inverse();
         Assert.assertEquals(-0.25, FunctionUtils.compose(inv, m, c, id).value(3), EPS);
 
-        UnivariateRealFunction pow = new Power(2);
+        UnivariateFunction pow = new Power(2);
         Assert.assertEquals(81, FunctionUtils.compose(pow, pow).value(3), EPS);
     }
 
     @Test
     public void testComposeDifferentiable() {
-        DifferentiableUnivariateRealFunction id = new Identity();
+        DifferentiableUnivariateFunction id = new Identity();
         Assert.assertEquals(1, FunctionUtils.compose(id, id, id).derivative().value(3), EPS);
 
-        DifferentiableUnivariateRealFunction c = new Constant(4);
+        DifferentiableUnivariateFunction c = new Constant(4);
         Assert.assertEquals(0, FunctionUtils.compose(id, c).derivative().value(3), EPS);
         Assert.assertEquals(0, FunctionUtils.compose(c, id).derivative().value(3), EPS);
 
-        DifferentiableUnivariateRealFunction m = new Minus();
+        DifferentiableUnivariateFunction m = new Minus();
         Assert.assertEquals(-1, FunctionUtils.compose(m).derivative().value(3), EPS);
         Assert.assertEquals(1, FunctionUtils.compose(m, m).derivative().value(3), EPS);
 
-        DifferentiableUnivariateRealFunction inv = new Inverse();
+        DifferentiableUnivariateFunction inv = new Inverse();
         Assert.assertEquals(0.25, FunctionUtils.compose(inv, m, id).derivative().value(2), EPS);
 
-        DifferentiableUnivariateRealFunction pow = new Power(2);
+        DifferentiableUnivariateFunction pow = new Power(2);
         Assert.assertEquals(108, FunctionUtils.compose(pow, pow).derivative().value(3), EPS);
 
-        DifferentiableUnivariateRealFunction log = new Log();
+        DifferentiableUnivariateFunction log = new Log();
         double a = 9876.54321;
         Assert.assertEquals(pow.derivative().value(a) / pow.value(a),
                             FunctionUtils.compose(log, pow).derivative().value(a), EPS);
@@ -93,10 +93,10 @@ public class FunctionUtilsTest {
 
     @Test
     public void testAdd() {
-        UnivariateRealFunction id = new Identity();
-        UnivariateRealFunction c = new Constant(4);
-        UnivariateRealFunction m = new Minus();
-        UnivariateRealFunction inv = new Inverse();
+        UnivariateFunction id = new Identity();
+        UnivariateFunction c = new Constant(4);
+        UnivariateFunction m = new Minus();
+        UnivariateFunction inv = new Inverse();
 
         Assert.assertEquals(4.5, FunctionUtils.add(inv, m, c, id).value(2), EPS);
         Assert.assertEquals(4 + 2, FunctionUtils.add(c, id).value(2), EPS);
@@ -105,10 +105,10 @@ public class FunctionUtilsTest {
 
     @Test
     public void testAddDifferentiable() {
-        DifferentiableUnivariateRealFunction sin = new Sin();
-        DifferentiableUnivariateRealFunction c = new Constant(4);
-        DifferentiableUnivariateRealFunction m = new Minus();
-        DifferentiableUnivariateRealFunction inv = new Inverse();
+        DifferentiableUnivariateFunction sin = new Sin();
+        DifferentiableUnivariateFunction c = new Constant(4);
+        DifferentiableUnivariateFunction m = new Minus();
+        DifferentiableUnivariateFunction inv = new Inverse();
 
         final double a = 123.456;
         Assert.assertEquals(- 1 / (a * a) -1 + Math.cos(a),
@@ -118,28 +118,28 @@ public class FunctionUtilsTest {
 
     @Test
     public void testMultiply() {
-        UnivariateRealFunction c = new Constant(4);
+        UnivariateFunction c = new Constant(4);
         Assert.assertEquals(16, FunctionUtils.multiply(c, c).value(12345), EPS);
 
-        UnivariateRealFunction inv = new Inverse();
-        UnivariateRealFunction pow = new Power(2);
+        UnivariateFunction inv = new Inverse();
+        UnivariateFunction pow = new Power(2);
         Assert.assertEquals(1, FunctionUtils.multiply(FunctionUtils.compose(inv, pow), pow).value(3.5), EPS);
     }
 
     @Test
     public void testMultiplyDifferentiable() {
-        DifferentiableUnivariateRealFunction c = new Constant(4);
-        DifferentiableUnivariateRealFunction id = new Identity();
+        DifferentiableUnivariateFunction c = new Constant(4);
+        DifferentiableUnivariateFunction id = new Identity();
         final double a = 1.2345678;
         Assert.assertEquals(8 * a, FunctionUtils.multiply(c, id, id).derivative().value(a), EPS);
 
-        DifferentiableUnivariateRealFunction inv = new Inverse();
-        DifferentiableUnivariateRealFunction pow = new Power(2.5);
-        DifferentiableUnivariateRealFunction cos = new Cos();
+        DifferentiableUnivariateFunction inv = new Inverse();
+        DifferentiableUnivariateFunction pow = new Power(2.5);
+        DifferentiableUnivariateFunction cos = new Cos();
         Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cos(a) - Math.pow(a, 1.5) * Math.sin(a),
                             FunctionUtils.multiply(inv, pow, cos).derivative().value(a), EPS);
 
-        DifferentiableUnivariateRealFunction cosh = new Cosh();
+        DifferentiableUnivariateFunction cosh = new Cosh();
         Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cosh(a) + Math.pow(a, 1.5) * Math.sinh(a),
                             FunctionUtils.multiply(inv, pow, cosh).derivative().value(a), 8 * EPS);
     }
@@ -147,13 +147,13 @@ public class FunctionUtilsTest {
     @Test
     public void testCombine() {
         BivariateRealFunction bi = new Add();
-        UnivariateRealFunction id = new Identity();
-        UnivariateRealFunction m = new Minus();
-        UnivariateRealFunction c = FunctionUtils.combine(bi, id, m);
+        UnivariateFunction id = new Identity();
+        UnivariateFunction m = new Minus();
+        UnivariateFunction c = FunctionUtils.combine(bi, id, m);
         Assert.assertEquals(0, c.value(2.3456), EPS);
 
         bi = new Multiply();
-        UnivariateRealFunction inv = new Inverse();
+        UnivariateFunction inv = new Inverse();
         c = FunctionUtils.combine(bi, id, inv);
         Assert.assertEquals(1, c.value(2.3456), EPS);
     }
@@ -180,10 +180,10 @@ public class FunctionUtilsTest {
     @Test
     public void testSinc() {
         BivariateRealFunction div = new Divide();
-        UnivariateRealFunction sin = new Sin();
-        UnivariateRealFunction id = new Identity();
-        UnivariateRealFunction sinc1 = FunctionUtils.combine(div, sin, id);
-        UnivariateRealFunction sinc2 = new Sinc();
+        UnivariateFunction sin = new Sin();
+        UnivariateFunction id = new Identity();
+        UnivariateFunction sinc1 = FunctionUtils.combine(div, sin, id);
+        UnivariateFunction sinc2 = new Sinc();
 
         for (int i = 0; i < 10; i++) {
             double x = Math.random();
@@ -193,11 +193,11 @@ public class FunctionUtilsTest {
 
     @Test
     public void testFixingArguments() {
-        UnivariateRealFunction scaler = FunctionUtils.fix1stArgument(new Multiply(), 10);
+        UnivariateFunction scaler = FunctionUtils.fix1stArgument(new Multiply(), 10);
         Assert.assertEquals(1.23456, scaler.value(0.123456), EPS);
 
-        UnivariateRealFunction pow1 = new Power(2);
-        UnivariateRealFunction pow2 = FunctionUtils.fix2ndArgument(new Pow(), 2);
+        UnivariateFunction pow1 = new Power(2);
+        UnivariateFunction pow2 = FunctionUtils.fix2ndArgument(new Pow(), 2);
 
         for (int i = 0; i < 10; i++) {
             double x = Math.random() * 10;

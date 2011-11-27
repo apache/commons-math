@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -43,7 +43,7 @@ public final class RiddersSolverTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
         double min, max, expected, result, tolerance;
 
@@ -65,7 +65,7 @@ public final class RiddersSolverTest {
      */
     @Test
     public void testQuinticFunction() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new RiddersSolver();
         double min, max, expected, result, tolerance;
 
@@ -93,7 +93,7 @@ public final class RiddersSolverTest {
      */
     @Test
     public void testExpm1Function() {
-        UnivariateRealFunction f = new Expm1Function();
+        UnivariateFunction f = new Expm1Function();
         UnivariateRealSolver solver = new RiddersSolver();
         double min, max, expected, result, tolerance;
 
@@ -121,7 +121,7 @@ public final class RiddersSolverTest {
      */
     @Test
     public void testParameters() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = new RiddersSolver();
 
         try {

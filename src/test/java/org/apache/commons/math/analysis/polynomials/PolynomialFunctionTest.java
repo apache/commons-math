@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 /**
- * Tests the PolynomialFunction implementation of a UnivariateRealFunction.
+ * Tests the PolynomialFunction implementation of a UnivariateFunction.
  *
  * @version $Id$
  */

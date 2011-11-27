@@ -33,7 +33,7 @@
  * function:
  * <ul>
  *  <li>{@link org.apache.commons.math.optimization.univariate.UnivariateRealOptimizer
- *      UnivariateRealOptimizer} for {@link org.apache.commons.math.analysis.UnivariateRealFunction
+ *      UnivariateRealOptimizer} for {@link org.apache.commons.math.analysis.UnivariateFunction
  *      univariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer
  *      MultivariateRealOptimizer} for {@link org.apache.commons.math.analysis.MultivariateRealFunction

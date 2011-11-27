@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 
 /**
  * Identity function.
@@ -25,14 +25,14 @@ import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public class Identity implements DifferentiableUnivariateRealFunction {
+public class Identity implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return x;
     }
 
     /** {@inheritDoc} */
-    public DifferentiableUnivariateRealFunction derivative() {
+    public DifferentiableUnivariateFunction derivative() {
         return new Constant(1);
     }
 }

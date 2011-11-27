@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.util.FastMath;
@@ -45,7 +45,7 @@ public final class MullerSolverTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
@@ -67,7 +67,7 @@ public final class MullerSolverTest {
      */
     @Test
     public void testQuinticFunction() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         UnivariateRealSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
@@ -99,7 +99,7 @@ public final class MullerSolverTest {
      */
     @Test
     public void testExpm1Function() {
-        UnivariateRealFunction f = new Expm1Function();
+        UnivariateFunction f = new Expm1Function();
         UnivariateRealSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
@@ -127,7 +127,7 @@ public final class MullerSolverTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = new MullerSolver();
 
         try {

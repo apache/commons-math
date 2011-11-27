@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -46,7 +46,7 @@ public class UnivariateRealSolverUtils {
      * @throws IllegalArgumentException if f is null or the endpoints do not
      * specify a valid interval.
      */
-    public static double solve(UnivariateRealFunction function, double x0, double x1) {
+    public static double solve(UnivariateFunction function, double x0, double x1) {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -67,7 +67,7 @@ public class UnivariateRealSolverUtils {
      * the endpoints do not specify a valid interval, or the absolute accuracy
      * is not valid for the default solver.
      */
-    public static double solve(UnivariateRealFunction function,
+    public static double solve(UnivariateFunction function,
                                double x0, double x1,
                                double absoluteAccuracy) {
         if (function == null) {
@@ -91,8 +91,8 @@ public class UnivariateRealSolverUtils {
      * accept as solutions.
      * @return a root approximation, on the specified side of the exact root
      */
-    public static double forceSide(final int maxEval, final UnivariateRealFunction f,
-                                   final BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing,
+    public static double forceSide(final int maxEval, final UnivariateFunction f,
+                                   final BracketedUnivariateRealSolver<UnivariateFunction> bracketing,
                                    final double baseRoot, final double min, final double max,
                                    final AllowedSolution allowedSolution) {
 
@@ -187,7 +187,7 @@ public class UnivariateRealSolverUtils {
      * <code>ConvergenceException.</code>  Unless you are confident that there
      * is a root between <code>lowerBound</code> and <code>upperBound</code>
      * near <code>initial,</code> it is better to use
-     * {@link #bracket(UnivariateRealFunction, double, double, double, int)},
+     * {@link #bracket(UnivariateFunction, double, double, double, int)},
      * explicitly specifying the maximum number of iterations.</p>
      *
      * @param function Function.
@@ -201,7 +201,7 @@ public class UnivariateRealSolverUtils {
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound.
      */
-    public static double[] bracket(UnivariateRealFunction function,
+    public static double[] bracket(UnivariateFunction function,
                                    double initial,
                                    double lowerBound, double upperBound) {
         return bracket(function, initial, lowerBound, upperBound, Integer.MAX_VALUE);
@@ -239,7 +239,7 @@ public class UnivariateRealSolverUtils {
      * @throws IllegalArgumentException if function is null, maximumIterations
      * is not positive, or initial is not between lowerBound and upperBound.
      */
-    public static double[] bracket(UnivariateRealFunction function,
+    public static double[] bracket(UnivariateFunction function,
                                    double initial,
                                    double lowerBound, double upperBound,
                                    int maximumIterations)  {
@@ -299,7 +299,7 @@ public class UnivariateRealSolverUtils {
      * @return {@code true} if the function values have opposite signs at the
      * given points.
      */
-    public static boolean isBracketing(UnivariateRealFunction function,
+    public static boolean isBracketing(UnivariateFunction function,
                                        final double lower,
                                        final double upper) {
         if (function == null) {
@@ -365,7 +365,7 @@ public class UnivariateRealSolverUtils {
      * @throws NoBracketingException if function has the same sign at the
      * endpoints.
      */
-    public static void verifyBracketing(UnivariateRealFunction function,
+    public static void verifyBracketing(UnivariateFunction function,
                                         final double lower,
                                         final double upper) {
         if (function == null) {

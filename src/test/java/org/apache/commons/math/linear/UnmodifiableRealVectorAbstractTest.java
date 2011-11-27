@@ -25,7 +25,7 @@ import java.util.Random;
 
 import junit.framework.Assert;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Sin;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.linear.RealVector.Entry;
@@ -269,7 +269,7 @@ public abstract class UnmodifiableRealVectorAbstractTest {
             return v;
         } else if (c.isAssignableFrom(RealVector.class)) {
             return createVector();
-        } else if (c.isAssignableFrom(UnivariateRealFunction.class)) {
+        } else if (c.isAssignableFrom(UnivariateFunction.class)) {
             return new Sin();
         } else {
             throw new IllegalArgumentException("could not create " + c);

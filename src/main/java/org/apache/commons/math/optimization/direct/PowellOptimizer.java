@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathArrays;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.MultivariateRealFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -264,7 +264,7 @@ public class PowellOptimizer
          */
         public UnivariateRealPointValuePair search(final double[] p, final double[] d) {
             final int n = p.length;
-            final UnivariateRealFunction f = new UnivariateRealFunction() {
+            final UnivariateFunction f = new UnivariateFunction() {
                     public double value(double alpha) {
                         final double[] x = new double[n];
                         for (int i = 0; i < n; i++) {

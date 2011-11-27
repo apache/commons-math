@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 
 /**
@@ -35,7 +35,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @see PolynomialSolver
  * @see DifferentiableUnivariateRealSolver
  */
-public interface BaseUnivariateRealSolver<FUNC extends UnivariateRealFunction> {
+public interface BaseUnivariateRealSolver<FUNC extends UnivariateFunction> {
     /**
      * Get the maximum number of function evaluations.
      *

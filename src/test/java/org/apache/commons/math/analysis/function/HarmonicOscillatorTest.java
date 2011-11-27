@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.util.FastMath;
@@ -36,7 +36,7 @@ public class HarmonicOscillatorTest {
         final double a = -1.2;
         final double w = 0.34;
         final double p = 5.6;
-        final UnivariateRealFunction f = new HarmonicOscillator(a, w, p);
+        final UnivariateFunction f = new HarmonicOscillator(a, w, p);
 
         final double d = 0.12345;
         for (int i = 0; i < 10; i++) {
@@ -51,7 +51,7 @@ public class HarmonicOscillatorTest {
         final double w = 0.34;
         final double p = 5.6;
         final HarmonicOscillator f = new HarmonicOscillator(a, w, p);
-        final UnivariateRealFunction dfdx = f.derivative();
+        final UnivariateFunction dfdx = f.derivative();
 
         final double d = 0.12345;
         for (int i = 0; i < 10; i++) {

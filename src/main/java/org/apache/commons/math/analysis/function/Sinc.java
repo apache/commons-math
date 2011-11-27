@@ -17,8 +17,8 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Sinc implements DifferentiableUnivariateRealFunction {
+public class Sinc implements DifferentiableUnivariateFunction {
     /**
      * Value below which the result of the computation will not change
      * anymore due to the finite precision of the "double" representation
@@ -70,9 +70,9 @@ public class Sinc implements DifferentiableUnivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealFunction derivative() {
+    public UnivariateFunction derivative() {
         if (normalized) {
-            return new UnivariateRealFunction() {
+            return new UnivariateFunction() {
                 /** {@inheritDoc} */
                 public double value(double x) {
                     final double piTimesX = Math.PI * x;
@@ -80,7 +80,7 @@ public class Sinc implements DifferentiableUnivariateRealFunction {
                 }
             };
         } else {
-            return new UnivariateRealFunction() {
+            return new UnivariateFunction() {
                 /** {@inheritDoc} */
                 public double value(double x) {
                     return sincDerivative(x);

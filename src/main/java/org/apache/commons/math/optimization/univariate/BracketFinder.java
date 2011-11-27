@@ -20,7 +20,7 @@ import org.apache.commons.math.util.Incrementor;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 
 /**
@@ -109,7 +109,7 @@ public class BracketFinder {
      * @throws TooManyEvaluationsException if the maximum number of evaluations
      * is exceeded.
      */
-    public void search(UnivariateRealFunction func, GoalType goal, double xA, double xB) {
+    public void search(UnivariateFunction func, GoalType goal, double xA, double xB) {
         evaluations.resetCount();
         final boolean isMinim = goal == GoalType.MINIMIZE;
 
@@ -276,7 +276,7 @@ public class BracketFinder {
      * @throws TooManyEvaluationsException if the maximal number of evaluations is
      * exceeded.
      */
-    private double eval(UnivariateRealFunction f, double x) {
+    private double eval(UnivariateFunction f, double x) {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {

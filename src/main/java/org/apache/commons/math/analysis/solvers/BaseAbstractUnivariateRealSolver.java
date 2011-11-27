@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
@@ -33,7 +33,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  * @since 2.0
  */
-public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateRealFunction>
+public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFunction>
     implements BaseUnivariateRealSolver<FUNC> {
     /** Default relative accuracy. */
     private static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;

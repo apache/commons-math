@@ -20,7 +20,7 @@ package org.apache.commons.math.analysis.solvers;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class UnivariateRealSolverUtilsTest {
 
-    protected UnivariateRealFunction sin = new SinFunction();
+    protected UnivariateFunction sin = new SinFunction();
 
     @Test(expected=MathIllegalArgumentException.class)
     public void testSolveNull() {
@@ -117,7 +117,7 @@ public class UnivariateRealSolverUtilsTest {
 
     @Test
     public void testMisc() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         double result;
         // Static solve method
         result = UnivariateRealSolverUtils.solve(f, -0.2, 0.2);

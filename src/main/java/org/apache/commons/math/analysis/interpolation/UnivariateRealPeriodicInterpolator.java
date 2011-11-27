@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -80,7 +80,7 @@ public class UnivariateRealPeriodicInterpolator
      * @throws NumberIsTooSmallException if the number of extension points
      * iss larger then the size of {@code xval}.
      */
-    public UnivariateRealFunction interpolate(double[] xval,
+    public UnivariateFunction interpolate(double[] xval,
                                               double[] yval) {
         if (xval.length < extend) {
             throw new NumberIsTooSmallException(xval.length, extend, true);
@@ -111,8 +111,8 @@ public class UnivariateRealPeriodicInterpolator
 
         MathArrays.sortInPlace(x, y);
 
-        final UnivariateRealFunction f = interpolator.interpolate(x, y);
-        return new UnivariateRealFunction() {
+        final UnivariateFunction f = interpolator.interpolate(x, y);
+        return new UnivariateFunction() {
             public double value(final double x) {
                 return f.value(MathUtils.reduce(x, period, offset));
             }

@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.polynomials;
 import java.util.Arrays;
 
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.junit.Assert;
@@ -93,7 +93,7 @@ public class PolynomialSplineFunctionTest {
     public void testValues() throws Exception {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
-        UnivariateRealFunction dSpline = spline.derivative();
+        UnivariateFunction dSpline = spline.derivative();
 
         /**
          * interior points -- spline value at x should equal p(x - knot)

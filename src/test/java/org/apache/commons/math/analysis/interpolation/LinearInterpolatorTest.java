@@ -20,7 +20,7 @@ import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialSplineFunction;
 import org.junit.Assert;
@@ -46,7 +46,7 @@ public class LinearInterpolatorTest {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
         UnivariateRealInterpolator i = new LinearInterpolator();
-        UnivariateRealFunction f = i.interpolate(x, y);
+        UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
         // Verify coefficients using analytical values
@@ -68,7 +68,7 @@ public class LinearInterpolatorTest {
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
         UnivariateRealInterpolator i = new LinearInterpolator();
-        UnivariateRealFunction f = i.interpolate(x, y);
+        UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
         // Verify coefficients using analytical values
@@ -91,7 +91,7 @@ public class LinearInterpolatorTest {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 0.0 };
         UnivariateRealInterpolator i = new LinearInterpolator();
-        UnivariateRealFunction f = i.interpolate(x, y);
+        UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
         // Verify coefficients using analytical values
@@ -137,7 +137,7 @@ public class LinearInterpolatorTest {
     /**
      * verifies that f(x[i]) = y[i] for i = 0..n-1 where n is common length.
      */
-    protected void verifyInterpolation(UnivariateRealFunction f, double x[], double y[])
+    protected void verifyInterpolation(UnivariateFunction f, double x[], double y[])
         throws Exception{
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(f.value(x[i]), y[i], knotTolerance);

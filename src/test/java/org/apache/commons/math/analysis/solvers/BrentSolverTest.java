@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 import org.apache.commons.math.analysis.MonitoredFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NoBracketingException;
@@ -44,7 +44,7 @@ public final class BrentSolverTest {
         // The sinus function is behaved well around the root at pi. The second
         // order derivative is zero, which means linar approximating methods will
         // still converge quadratically.
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = new BrentSolver();
         // Somewhat benign interval. The function is monotone.
@@ -70,7 +70,7 @@ public final class BrentSolverTest {
         // the function grows fast for x>1.
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         // intervals containing these values are harder for the solvers.
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         double result;
         // Brent-Dekker solver.
         UnivariateRealSolver solver = new BrentSolver();
@@ -157,7 +157,7 @@ public final class BrentSolverTest {
 
     @Test
     public void testRootEndpoints() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         BrentSolver solver = new BrentSolver();
 
         // endpoint is root
@@ -176,7 +176,7 @@ public final class BrentSolverTest {
 
     @Test
     public void testBadEndpoints() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         BrentSolver solver = new BrentSolver();
         try {  // bad interval
             solver.solve(100, f, 1, -1);

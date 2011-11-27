@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -80,8 +80,8 @@ public abstract class AbstractContinuousDistribution
 
         // by default, do simple root finding using bracketing and default solver.
         // subclasses can override if there is a better method.
-        UnivariateRealFunction rootFindingFunction =
-            new UnivariateRealFunction() {
+        UnivariateFunction rootFindingFunction =
+            new UnivariateFunction() {
             public double value(double x) {
                 return cumulativeProbability(x) - p;
             }

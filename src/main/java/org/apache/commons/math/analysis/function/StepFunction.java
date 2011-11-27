@@ -18,7 +18,7 @@
 package org.apache.commons.math.analysis.function;
 
 import java.util.Arrays;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NoDataException;
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathArrays;
  * @version $Id$
  * @since 3.0
  */
-public class StepFunction implements UnivariateRealFunction {
+public class StepFunction implements UnivariateFunction {
     /** Abscissae. */
     private final double[] abscissa;
     /** Ordinates. */

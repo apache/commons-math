@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.util.FastMath;
@@ -33,7 +33,7 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testSinZero() {
-        DifferentiableUnivariateRealFunction f = new SinFunction();
+        DifferentiableUnivariateFunction f = new SinFunction();
         double result;
 
         NewtonSolver solver = new NewtonSolver();
@@ -51,7 +51,7 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testQuinticZero() {
-        DifferentiableUnivariateRealFunction f = new QuinticFunction();
+        DifferentiableUnivariateFunction f = new QuinticFunction();
         double result;
 
         NewtonSolver solver = new NewtonSolver();

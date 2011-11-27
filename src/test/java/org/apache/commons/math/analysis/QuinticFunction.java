@@ -21,17 +21,17 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public class QuinticFunction implements DifferentiableUnivariateRealFunction {
+public class QuinticFunction implements DifferentiableUnivariateFunction {
 
     /* Evaluate quintic.
-     * @see org.apache.commons.math.UnivariateRealFunction#value(double)
+     * @see org.apache.commons.math.UnivariateFunction#value(double)
      */
     public double value(double x) {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             public double value(double x) {
                 return (5*x*x-3.75)*x*x+0.25;
             }

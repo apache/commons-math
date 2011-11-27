@@ -17,7 +17,7 @@
 package org.apache.commons.math.transform;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -77,7 +77,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform(UnivariateRealFunction f,
+    public double[] transform(UnivariateFunction f,
                               double min, double max, int n)
         throws IllegalArgumentException {
         double data[] = FastFourierTransformer.sample(f, min, max, n);
@@ -116,7 +116,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform2(UnivariateRealFunction f,
+    public double[] transform2(UnivariateFunction f,
                                double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -156,7 +156,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform(UnivariateRealFunction f,
+    public double[] inversetransform(UnivariateFunction f,
                                      double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -194,7 +194,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform2(UnivariateRealFunction f,
+    public double[] inversetransform2(UnivariateFunction f,
                                       double min, double max, int n)
         throws IllegalArgumentException {
 

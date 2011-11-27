@@ -18,7 +18,7 @@
 package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathInternalError;
 
@@ -48,7 +48,7 @@ import org.apache.commons.math.exception.MathInternalError;
  */
 public abstract class BaseSecantSolver
     extends AbstractUnivariateRealSolver
-    implements BracketedUnivariateRealSolver<UnivariateRealFunction> {
+    implements BracketedUnivariateRealSolver<UnivariateFunction> {
 
     /** Default absolute accuracy. */
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
@@ -104,14 +104,14 @@ public abstract class BaseSecantSolver
     }
 
     /** {@inheritDoc} */
-    public double solve(final int maxEval, final UnivariateRealFunction f,
+    public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max,
                         final AllowedSolution allowedSolution) {
         return solve(maxEval, f, min, max, min + 0.5 * (max - min), allowedSolution);
     }
 
     /** {@inheritDoc} */
-    public double solve(final int maxEval, final UnivariateRealFunction f,
+    public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max, final double startValue,
                         final AllowedSolution allowedSolution) {
         this.allowed = allowedSolution;
@@ -120,7 +120,7 @@ public abstract class BaseSecantSolver
 
     /** {@inheritDoc} */
     @Override
-    public double solve(final int maxEval, final UnivariateRealFunction f,
+    public double solve(final int maxEval, final UnivariateFunction f,
                         final double min, final double max, final double startValue) {
         return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
     }

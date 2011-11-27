@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathArithmeticException;
@@ -91,12 +91,12 @@ public class SparseRealVectorTest {
         }
 
         @Override
-        public RealVector map(UnivariateRealFunction function) {
+        public RealVector map(UnivariateFunction function) {
             throw unsupported();
         }
 
         @Override
-        public RealVector mapToSelf(UnivariateRealFunction function) {
+        public RealVector mapToSelf(UnivariateFunction function) {
             throw unsupported();
         }
 

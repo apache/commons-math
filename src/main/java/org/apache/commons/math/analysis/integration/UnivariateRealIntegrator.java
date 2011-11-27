@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.integration;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -73,7 +73,7 @@ public interface UnivariateRealIntegrator {
      * satisfy the requirements specified by the integrator
      * @throws NullArgumentException if {@code f} is {@code null}.
      */
-    double integrate(int maxEval, UnivariateRealFunction f, double min,
+    double integrate(int maxEval, UnivariateFunction f, double min,
                      double max)
         throws TooManyEvaluationsException, MaxCountExceededException,
                MathIllegalArgumentException, NullArgumentException;

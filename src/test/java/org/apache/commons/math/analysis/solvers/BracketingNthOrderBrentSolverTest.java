@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math.analysis.QuinticFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
@@ -132,7 +132,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         compare(f, f.getRoot(), f.getMin(), f.getMax());
     }
 
-    private void compare(DifferentiableUnivariateRealFunction f,
+    private void compare(DifferentiableUnivariateFunction f,
                          double root, double min, double max) {
         NewtonSolver newton = new NewtonSolver(1.0e-12);
         BracketingNthOrderBrentSolver bracketing =
@@ -154,7 +154,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         Assert.assertTrue(bracketing.getEvaluations() < newton.getEvaluations());
     }
 
-    private static abstract class TestFunction implements DifferentiableUnivariateRealFunction {
+    private static abstract class TestFunction implements DifferentiableUnivariateFunction {
 
         private final double root;
         private final double min;
@@ -182,8 +182,8 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
 
         public abstract double derivative(double x);
 
-        public UnivariateRealFunction derivative() {
-            return new UnivariateRealFunction() {
+        public UnivariateFunction derivative() {
+            return new UnivariateFunction() {
                 public double value(double x) {
                      return derivative(x);
                 }

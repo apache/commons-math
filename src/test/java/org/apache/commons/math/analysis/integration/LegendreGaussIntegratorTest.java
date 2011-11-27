@@ -20,7 +20,7 @@ import java.util.Random;
 
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.util.FastMath;
@@ -32,7 +32,7 @@ public class LegendreGaussIntegratorTest {
 
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealIntegratorImpl integrator = new LegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
         double min, max, expected, result, tolerance;
 
@@ -51,7 +51,7 @@ public class LegendreGaussIntegratorTest {
 
     @Test
     public void testQuinticFunction() {
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         UnivariateRealIntegrator integrator =
                 new LegendreGaussIntegrator(3,
                                             UnivariateRealIntegratorImpl.DEFAULT_RELATIVE_ACCURACY,
@@ -104,7 +104,7 @@ public class LegendreGaussIntegratorTest {
     @Test
     public void testIssue464() {
         final double value = 0.2;
-        UnivariateRealFunction f = new UnivariateRealFunction() {
+        UnivariateFunction f = new UnivariateFunction() {
             public double value(double x) {
                 return (x >= 0 && x <= 5) ? value : 0.0;
             }

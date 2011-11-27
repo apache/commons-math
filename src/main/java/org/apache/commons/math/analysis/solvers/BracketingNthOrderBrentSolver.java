@@ -17,7 +17,7 @@
 package org.apache.commons.math.analysis.solvers;
 
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NoBracketingException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -42,7 +42,7 @@ import org.apache.commons.math.util.Precision;
  */
 public class BracketingNthOrderBrentSolver
     extends AbstractUnivariateRealSolver
-    implements BracketedUnivariateRealSolver<UnivariateRealFunction> {
+    implements BracketedUnivariateRealSolver<UnivariateFunction> {
 
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
@@ -380,14 +380,14 @@ public class BracketingNthOrderBrentSolver
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, UnivariateRealFunction f, double min,
+    public double solve(int maxEval, UnivariateFunction f, double min,
                         double max, AllowedSolution allowedSolution) {
         this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max);
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, UnivariateRealFunction f, double min,
+    public double solve(int maxEval, UnivariateFunction f, double min,
                         double max, double startValue,
                         AllowedSolution allowedSolution) {
         this.allowed = allowedSolution;

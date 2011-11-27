@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.univariate;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
@@ -42,7 +42,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  * @version $Id$
  * @since 3.0
  */
-public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFunction>
+public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateFunction>
     implements BaseUnivariateRealOptimizer<FUNC> {
     /** Underlying classical optimizer. */
     private final BaseUnivariateRealOptimizer<FUNC> optimizer;
@@ -104,12 +104,12 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
 
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}.
+     * #optimize(int,UnivariateFunction,GoalType,double,double) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
+     * restarts. The {@link #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * method returns the best point only. This method returns all the points
      * found at the end of each starts, including the best one already
-     * returned by the {@link #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
+     * returned by the {@link #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * method.
      * <br/>
      * The returned array as one element for each start as specified
@@ -119,14 +119,14 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateRealFuncti
      * descending order if maximizing), followed by {@code null} elements
      * corresponding to the runs that did not converge. This means all
      * elements will be {@code null} if the {@link
-     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
+     * #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * method did throw an exception.
      * This also means that if the first element is not {@code null}, it is
      * the best point found across all starts.
      *
      * @return an array containing the optima.
      * @throws MathIllegalStateException if {@link
-     * #optimize(int,UnivariateRealFunction,GoalType,double,double) optimize}
+     * #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * has not been called.
      */
     public UnivariateRealPointValuePair[] getOptima() {

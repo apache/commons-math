@@ -23,14 +23,14 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Id$
  */
-public class Expm1Function implements DifferentiableUnivariateRealFunction {
+public class Expm1Function implements DifferentiableUnivariateFunction {
 
     public double value(double x) {
         return FastMath.expm1(x);
     }
 
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             public double value(double x) {
                 return FastMath.exp(x);
             }

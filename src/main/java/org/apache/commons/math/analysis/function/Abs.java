@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Abs implements UnivariateRealFunction {
+public class Abs implements UnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.abs(x);

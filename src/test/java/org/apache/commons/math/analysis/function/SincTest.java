@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
@@ -26,7 +26,7 @@ public class SincTest {
    @Test
    public void testShortcut() {
        final Sinc s = new Sinc();
-       final UnivariateRealFunction f = new UnivariateRealFunction() {
+       final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return FastMath.sin(x) / x;
                }
@@ -70,15 +70,15 @@ public class SincTest {
 
    @Test
    public void testDerivativeZero() {
-       final UnivariateRealFunction sPrime = (new Sinc(true)).derivative();
+       final UnivariateFunction sPrime = (new Sinc(true)).derivative();
 
        Assert.assertEquals(0, sPrime.value(0), 0);
    }
 
    @Test
    public void testDerivativeShortcut() {
-       final UnivariateRealFunction sPrime = (new Sinc()).derivative();
-       final UnivariateRealFunction f = new UnivariateRealFunction() {
+       final UnivariateFunction sPrime = (new Sinc()).derivative();
+       final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return (FastMath.cos(x) - FastMath.sin(x) / x) / x;
                }

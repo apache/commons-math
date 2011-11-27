@@ -21,10 +21,10 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public class XMinus5Function implements DifferentiableUnivariateRealFunction {
+public class XMinus5Function implements DifferentiableUnivariateFunction {
 
     /* Evaluate x - 5 fuction.
-     * @see org.apache.commons.math.UnivariateRealFunction#value(double)
+     * @see org.apache.commons.math.UnivariateFunction#value(double)
      */
     public double value(double x) {
         return x - 5;
@@ -32,8 +32,8 @@ public class XMinus5Function implements DifferentiableUnivariateRealFunction {
 
     /* First derivative of x - 5 function
      */
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             public double value(double x) {
                 return 1.0;
             }

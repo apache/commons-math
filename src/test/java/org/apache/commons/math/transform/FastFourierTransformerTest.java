@@ -118,7 +118,7 @@ public final class FastFourierTransformerTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         FastFourierTransformer transformer = new FastFourierTransformer();
         Complex result[]; int N = 1 << 8;
         double min, max, tolerance = 1E-12;
@@ -151,7 +151,7 @@ public final class FastFourierTransformerTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         FastFourierTransformer transformer = new FastFourierTransformer();
 
         try {

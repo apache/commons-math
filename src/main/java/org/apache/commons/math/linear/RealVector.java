@@ -28,7 +28,7 @@ import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.function.Add;
 import org.apache.commons.math.analysis.function.Multiply;
 import org.apache.commons.math.analysis.function.Divide;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -734,7 +734,7 @@ public abstract class RealVector {
      * @param function Function to apply to each entry.
      * @return a new vector.
      */
-    public RealVector map(UnivariateRealFunction function) {
+    public RealVector map(UnivariateFunction function) {
         return copy().mapToSelf(function);
     }
 
@@ -751,7 +751,7 @@ public abstract class RealVector {
      * @param function Function to apply to each entry.
      * @return a reference to this vector.
      */
-    public RealVector mapToSelf(UnivariateRealFunction function) {
+    public RealVector mapToSelf(UnivariateFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
         Entry e;
         while (it.hasNext() && (e = it.next()) != null) {
@@ -949,13 +949,13 @@ public abstract class RealVector {
         return new RealVector() {
             /** {@inheritDoc} */
             @Override
-            public RealVector mapToSelf(UnivariateRealFunction function) {
+            public RealVector mapToSelf(UnivariateFunction function) {
                 throw new MathUnsupportedOperationException();
             }
 
             /** {@inheritDoc} */
             @Override
-            public RealVector map(UnivariateRealFunction function) {
+            public RealVector map(UnivariateFunction function) {
                 return v.map(function);
             }
 

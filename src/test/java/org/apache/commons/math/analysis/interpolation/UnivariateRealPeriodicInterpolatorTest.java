@@ -17,7 +17,7 @@
 package org.apache.commons.math.analysis.interpolation;
 
 import java.util.Random;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
@@ -48,12 +48,12 @@ public class UnivariateRealPeriodicInterpolatorTest {
         }
 
         final UnivariateRealInterpolator inter = new LinearInterpolator();
-        final UnivariateRealFunction f = inter.interpolate(xval, yval);
+        final UnivariateFunction f = inter.interpolate(xval, yval);
 
         final UnivariateRealInterpolator interP
             = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
-        final UnivariateRealFunction fP = interP.interpolate(xval, yval);
+        final UnivariateFunction fP = interP.interpolate(xval, yval);
 
         // Comparing with original interpolation algorithm.
         final double xMin = xval[0];
@@ -95,7 +95,7 @@ public class UnivariateRealPeriodicInterpolatorTest {
         final UnivariateRealInterpolator interP
             = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
-        final UnivariateRealFunction fP = interP.interpolate(xval, yval);
+        final UnivariateFunction fP = interP.interpolate(xval, yval);
 
         // Test interpolation outside the sample data interval.
         for (int i = 0; i < n; i++) {
@@ -126,7 +126,7 @@ public class UnivariateRealPeriodicInterpolatorTest {
         final UnivariateRealInterpolator interP
             = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
-        final UnivariateRealFunction fP = interP.interpolate(xval, yval);
+        final UnivariateFunction fP = interP.interpolate(xval, yval);
 
         // Test interpolation outside the sample data interval.
         for (int i = 0; i < n; i++) {

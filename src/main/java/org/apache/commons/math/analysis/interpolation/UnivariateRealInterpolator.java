@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Interface representing a univariate real interpolating function.
@@ -34,5 +34,5 @@ public interface UnivariateRealInterpolator {
      * if the arguments violate assumptions made by the interpolation
      * algorithm.
      */
-    UnivariateRealFunction interpolate(double xval[], double yval[]);
+    UnivariateFunction interpolate(double xval[], double yval[]);
 }

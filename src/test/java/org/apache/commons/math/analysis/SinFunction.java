@@ -28,10 +28,10 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Id$
  */
-public class SinFunction implements DifferentiableUnivariateRealFunction {
+public class SinFunction implements DifferentiableUnivariateFunction {
 
     /* Evaluate sinus fuction.
-     * @see org.apache.commons.math.UnivariateRealFunction#value(double)
+     * @see org.apache.commons.math.UnivariateFunction#value(double)
      */
     public double value(double x) {
         return FastMath.sin(x);
@@ -39,8 +39,8 @@ public class SinFunction implements DifferentiableUnivariateRealFunction {
 
     /* First derivative of sinus function
      */
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             public double value(double x) {
                 return FastMath.cos(x);
             }

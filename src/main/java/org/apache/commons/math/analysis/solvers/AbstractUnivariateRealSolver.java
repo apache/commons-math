@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Base class for solvers.
@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @since 3.0
  */
 public abstract class AbstractUnivariateRealSolver
-    extends BaseAbstractUnivariateRealSolver<UnivariateRealFunction>
+    extends BaseAbstractUnivariateRealSolver<UnivariateFunction>
     implements UnivariateRealSolver {
     /**
      * Construct a solver with given absolute accuracy.

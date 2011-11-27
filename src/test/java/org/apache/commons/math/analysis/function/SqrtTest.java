@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class SqrtTest {
    @Test
    public void testComparison() {
        final Sqrt s = new Sqrt();
-       final UnivariateRealFunction f = new UnivariateRealFunction() {
+       final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return Math.sqrt(x);
                }
@@ -40,8 +40,8 @@ public class SqrtTest {
 
    @Test
    public void testDerivativeComparison() {
-       final UnivariateRealFunction sPrime = (new Sqrt()).derivative();
-       final UnivariateRealFunction f = new UnivariateRealFunction() {
+       final UnivariateFunction sPrime = (new Sqrt()).derivative();
+       final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return 1 / (2 * Math.sqrt(x));
                }

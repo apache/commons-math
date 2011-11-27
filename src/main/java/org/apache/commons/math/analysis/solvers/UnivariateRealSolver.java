@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.solvers;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 
 /**
@@ -26,4 +26,4 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
  * @version $Id$
  */
 public interface UnivariateRealSolver
-    extends BaseUnivariateRealSolver<UnivariateRealFunction> {}
+    extends BaseUnivariateRealSolver<UnivariateFunction> {}

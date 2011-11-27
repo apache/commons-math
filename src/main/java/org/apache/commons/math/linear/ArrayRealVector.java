@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -336,13 +336,13 @@ public class ArrayRealVector extends RealVector implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    public ArrayRealVector map(UnivariateRealFunction function) {
+    public ArrayRealVector map(UnivariateFunction function) {
         return copy().mapToSelf(function);
     }
 
     /** {@inheritDoc} */
     @Override
-    public ArrayRealVector mapToSelf(UnivariateRealFunction function) {
+    public ArrayRealVector mapToSelf(UnivariateFunction function) {
         for (int i = 0; i < data.length; i++) {
             data[i] = function.value(data[i]);
         }

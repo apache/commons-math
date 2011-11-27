@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,14 +26,14 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Cosh implements DifferentiableUnivariateRealFunction {
+public class Cosh implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.cosh(x);
     }
 
     /** {@inheritDoc} */
-    public DifferentiableUnivariateRealFunction derivative() {
+    public DifferentiableUnivariateFunction derivative() {
         return new Sinh();
     }
 }

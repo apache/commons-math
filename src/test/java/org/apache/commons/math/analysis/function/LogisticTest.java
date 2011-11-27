@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -44,8 +44,8 @@ public class LogisticTest {
 
     @Test
     public void testCompareSigmoid() {
-        final UnivariateRealFunction sig = new Sigmoid();
-        final UnivariateRealFunction sigL = new Logistic(1, 0, 1, 1, 0, 1);
+        final UnivariateFunction sig = new Sigmoid();
+        final UnivariateFunction sigL = new Logistic(1, 0, 1, 1, 0, 1);
 
         final double min = -2;
         final double max = 2;
@@ -66,7 +66,7 @@ public class LogisticTest {
         final double a = -1;
         final double n = 2;
 
-        final UnivariateRealFunction f = new Logistic(k, m, b, q, a, n);
+        final UnivariateFunction f = new Logistic(k, m, b, q, a, n);
 
         double x;
         x = m;
@@ -87,8 +87,8 @@ public class LogisticTest {
         final Logistic f = new Logistic(k, 0, 1, 1, a, 1);
         final Sigmoid g = new Sigmoid(a, k);
         
-        final UnivariateRealFunction dfdx = f.derivative();
-        final UnivariateRealFunction dgdx = g.derivative();
+        final UnivariateFunction dfdx = f.derivative();
+        final UnivariateFunction dgdx = g.derivative();
 
         final double min = -10;
         final double max = 10;

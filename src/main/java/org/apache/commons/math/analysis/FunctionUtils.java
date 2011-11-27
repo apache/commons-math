@@ -39,8 +39,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return the composite function.
      */
-    public static UnivariateRealFunction compose(final UnivariateRealFunction ... f) {
-        return new UnivariateRealFunction() {
+    public static UnivariateFunction compose(final UnivariateFunction ... f) {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = x;
@@ -60,8 +60,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return the composite function.
      */
-    public static DifferentiableUnivariateRealFunction compose(final DifferentiableUnivariateRealFunction ... f) {
-        return new DifferentiableUnivariateRealFunction() {
+    public static DifferentiableUnivariateFunction compose(final DifferentiableUnivariateFunction ... f) {
+        return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = x;
@@ -72,8 +72,8 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
-            public UnivariateRealFunction derivative() {
-                return new UnivariateRealFunction() {
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
                     /** {@inheritDoc} */
                     public double value(double x) {
                         double p = 1;
@@ -95,8 +95,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
      */
-    public static UnivariateRealFunction add(final UnivariateRealFunction ... f) {
-        return new UnivariateRealFunction() {
+    public static UnivariateFunction add(final UnivariateFunction ... f) {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = f[0].value(x);
@@ -114,8 +114,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
      */
-    public static DifferentiableUnivariateRealFunction add(final DifferentiableUnivariateRealFunction ... f) {
-        return new DifferentiableUnivariateRealFunction() {
+    public static DifferentiableUnivariateFunction add(final DifferentiableUnivariateFunction ... f) {
+        return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = f[0].value(x);
@@ -126,8 +126,8 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
-            public UnivariateRealFunction derivative() {
-                return new UnivariateRealFunction() {
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
                     /** {@inheritDoc} */
                     public double value(double x) {
                         double r = f[0].derivative().value(x);
@@ -147,8 +147,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the product of the functions.
      */
-    public static UnivariateRealFunction multiply(final UnivariateRealFunction ... f) {
-        return new UnivariateRealFunction() {
+    public static UnivariateFunction multiply(final UnivariateFunction ... f) {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = f[0].value(x);
@@ -166,8 +166,8 @@ public class FunctionUtils {
      * @param f List of functions.
      * @return a function that computes the product of the functions.
      */
-    public static DifferentiableUnivariateRealFunction multiply(final DifferentiableUnivariateRealFunction ... f) {
-        return new DifferentiableUnivariateRealFunction() {
+    public static DifferentiableUnivariateFunction multiply(final DifferentiableUnivariateFunction ... f) {
+        return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 double r = f[0].value(x);
@@ -178,8 +178,8 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc} */
-            public UnivariateRealFunction derivative() {
-                return new UnivariateRealFunction() {
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
                     /** {@inheritDoc} */
                     public double value(double x) {
                         double sum = 0;
@@ -208,10 +208,10 @@ public class FunctionUtils {
      * @param g Function.
      * @return the composite function.
      */
-    public static UnivariateRealFunction combine(final BivariateRealFunction combiner,
-                                                 final UnivariateRealFunction f,
-                                                 final UnivariateRealFunction g) {
-        return new UnivariateRealFunction() {
+    public static UnivariateFunction combine(final BivariateRealFunction combiner,
+                                                 final UnivariateFunction f,
+                                                 final UnivariateFunction g) {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 return combiner.value(f.value(x), g.value(x));
@@ -230,7 +230,7 @@ public class FunctionUtils {
      * @return a collector function.
      */
     public static MultivariateRealFunction collector(final BivariateRealFunction combiner,
-                                                     final UnivariateRealFunction f,
+                                                     final UnivariateFunction f,
                                                      final double initialValue) {
         return new MultivariateRealFunction() {
             /** {@inheritDoc} */
@@ -265,9 +265,9 @@ public class FunctionUtils {
      * @param fixed Value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
-    public static UnivariateRealFunction fix1stArgument(final BivariateRealFunction f,
+    public static UnivariateFunction fix1stArgument(final BivariateRealFunction f,
                                                         final double fixed) {
-        return new UnivariateRealFunction() {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 return f.value(fixed, x);
@@ -281,9 +281,9 @@ public class FunctionUtils {
      * @param fixed Value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
-    public static UnivariateRealFunction fix2ndArgument(final BivariateRealFunction f,
+    public static UnivariateFunction fix2ndArgument(final BivariateRealFunction f,
                                                         final double fixed) {
-        return new UnivariateRealFunction() {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 return f.value(x, fixed);

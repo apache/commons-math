@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.function.Gaussian;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -82,8 +82,8 @@ public class GaussianFitter extends CurveFitter {
      * @since 3.0
      */
     public double[] fit(double[] initialGuess) {
-        final ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {
-                private final ParametricUnivariateRealFunction g = new Gaussian.Parametric();
+        final ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
+                private final ParametricUnivariateFunction g = new Gaussian.Parametric();
 
                 public double value(double x, double ... p) {
                     double v = Double.POSITIVE_INFINITY;

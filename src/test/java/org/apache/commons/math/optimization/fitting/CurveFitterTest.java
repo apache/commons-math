@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.fitting;
 
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class CurveFitterTest {
         fitter.addObservedPoint(1.655d, 0.9474675497289684);
         fitter.addObservedPoint(1.725d, 0.9013594835804194d);
 
-        ParametricUnivariateRealFunction sif = new SimpleInverseFunction();
+        ParametricUnivariateFunction sif = new SimpleInverseFunction();
 
         double[] initialguess1 = new double[1];
         initialguess1[0] = 1.0d;
@@ -58,7 +58,7 @@ public class CurveFitterTest {
         fitter.addObservedPoint(1.655d, 0.9474675497289684);
         fitter.addObservedPoint(1.725d, 0.9013594835804194d);
 
-        ParametricUnivariateRealFunction sif = new SimpleInverseFunction();
+        ParametricUnivariateFunction sif = new SimpleInverseFunction();
 
         double[] initialguess1 = new double[1];
         initialguess1[0] = 1.0d;
@@ -82,7 +82,7 @@ public class CurveFitterTest {
         curveFitter.addObservedPoint(250, 45087);
         curveFitter.addObservedPoint(500, 50683);
 
-        ParametricUnivariateRealFunction f = new ParametricUnivariateRealFunction() {
+        ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
 
             public double value(double x, double ... parameters) {
 
@@ -133,7 +133,7 @@ public class CurveFitterTest {
 
     }
 
-    private static class SimpleInverseFunction implements ParametricUnivariateRealFunction {
+    private static class SimpleInverseFunction implements ParametricUnivariateFunction {
 
         public double value(double x, double ... parameters) {
             return parameters[0] / x + (parameters.length < 2 ? 0 : parameters[1]);

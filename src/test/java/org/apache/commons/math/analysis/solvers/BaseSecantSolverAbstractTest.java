@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.QuinticFunction;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.XMinus5Function;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NoBracketingException;
@@ -51,7 +51,7 @@ public abstract class BaseSecantSolverAbstractTest {
         // The sinus function is behaved well around the root at pi. The second
         // order derivative is zero, which means linear approximating methods
         // still converge quadratically.
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         double result;
         UnivariateRealSolver solver = getSolver();
 
@@ -77,7 +77,7 @@ public abstract class BaseSecantSolverAbstractTest {
         // The function has extrema (first derivative is zero) at 0.27195613
         // and 0.82221643, intervals containing these values are harder for
         // the solvers.
-        UnivariateRealFunction f = new QuinticFunction();
+        UnivariateFunction f = new QuinticFunction();
         double result;
         UnivariateRealSolver solver = getSolver();
         double atol = solver.getAbsoluteAccuracy();
@@ -116,7 +116,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testRootEndpoints() {
-        UnivariateRealFunction f = new XMinus5Function();
+        UnivariateFunction f = new XMinus5Function();
         UnivariateRealSolver solver = getSolver();
 
         // End-point is root. This should be a special case in the solver, and
@@ -136,7 +136,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testBadEndpoints() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         try {  // bad interval
             solver.solve(100, f, 1, -1);
@@ -160,7 +160,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionLeftSide() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -179,7 +179,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionRightSide() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -197,7 +197,7 @@ public abstract class BaseSecantSolverAbstractTest {
     }
     @Test
     public void testSolutionBelowSide() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -216,7 +216,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionAboveSide() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -233,12 +233,12 @@ public abstract class BaseSecantSolverAbstractTest {
         }
     }
 
-    private double getSolution(UnivariateRealSolver solver, int maxEval, UnivariateRealFunction f,
+    private double getSolution(UnivariateRealSolver solver, int maxEval, UnivariateFunction f,
                                double left, double right, AllowedSolution allowedSolution) {
         try {
             @SuppressWarnings("unchecked")
-            BracketedUnivariateRealSolver<UnivariateRealFunction> bracketing =
-            (BracketedUnivariateRealSolver<UnivariateRealFunction>) solver;
+            BracketedUnivariateRealSolver<UnivariateFunction> bracketing =
+            (BracketedUnivariateRealSolver<UnivariateFunction>) solver;
             return bracketing.solve(100, f, left, right, allowedSolution);
         } catch (ClassCastException cce) {
             double baseRoot = solver.solve(maxEval, f, left, right);

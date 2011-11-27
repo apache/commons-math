@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis;
  *
  * @version $Id$
  */
-public class SincFunction implements DifferentiableUnivariateRealFunction {
+public class SincFunction implements DifferentiableUnivariateFunction {
     private static final double EPS = 1e-12;
 
     /**
@@ -38,8 +38,8 @@ public class SincFunction implements DifferentiableUnivariateRealFunction {
     /**
      * {@inheritDoc}
      */
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             public double value(double x) {
                 return (Math.abs(x) < EPS ?
                         0 :

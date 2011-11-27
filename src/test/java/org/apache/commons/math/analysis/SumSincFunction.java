@@ -22,8 +22,8 @@ package org.apache.commons.math.analysis;
  * @version $Id$
  */
 public class SumSincFunction implements DifferentiableMultivariateRealFunction {
-    private static final DifferentiableUnivariateRealFunction sinc = new SincFunction();
-    private static final UnivariateRealFunction sincDeriv = sinc.derivative();
+    private static final DifferentiableUnivariateFunction sinc = new SincFunction();
+    private static final UnivariateFunction sincDeriv = sinc.derivative();
 
     /**
      * Factor that will multiply each term of the sum.

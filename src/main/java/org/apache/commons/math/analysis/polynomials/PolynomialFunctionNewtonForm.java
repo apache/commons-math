@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.polynomials;
 
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  * @version $Id$
  * @since 1.2
  */
-public class PolynomialFunctionNewtonForm implements UnivariateRealFunction {
+public class PolynomialFunctionNewtonForm implements UnivariateFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 
 /**
  * Interface for one-dimensional data sets transformations producing real results.
@@ -50,7 +50,7 @@ public interface RealTransformer  {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] transform(UnivariateRealFunction f, double min, double max, int n)
+    double[] transform(UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException;
 
     /**
@@ -71,7 +71,7 @@ public interface RealTransformer  {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inversetransform(UnivariateRealFunction f, double min, double max, int n)
+    double[] inversetransform(UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException;
 
 }

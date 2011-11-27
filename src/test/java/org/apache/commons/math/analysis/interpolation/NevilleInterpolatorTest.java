@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.analysis.Expm1Function;
 import org.apache.commons.math.analysis.SinFunction;
-import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public final class NevilleInterpolatorTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateRealFunction f = new SinFunction();
+        UnivariateFunction f = new SinFunction();
         UnivariateRealInterpolator interpolator = new NevilleInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
@@ -62,7 +62,7 @@ public final class NevilleInterpolatorTest {
             y[i] = f.value(x[i]);
         }
         double derivativebound = 1.0;
-        UnivariateRealFunction p = interpolator.interpolate(x, y);
+        UnivariateFunction p = interpolator.interpolate(x, y);
 
         z = FastMath.PI / 4; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
@@ -80,7 +80,7 @@ public final class NevilleInterpolatorTest {
      */
     @Test
     public void testExpm1Function() {
-        UnivariateRealFunction f = new Expm1Function();
+        UnivariateFunction f = new Expm1Function();
         UnivariateRealInterpolator interpolator = new NevilleInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
@@ -94,7 +94,7 @@ public final class NevilleInterpolatorTest {
             y[i] = f.value(x[i]);
         }
         double derivativebound = FastMath.E;
-        UnivariateRealFunction p = interpolator.interpolate(x, y);
+        UnivariateFunction p = interpolator.interpolate(x, y);
 
         z = 0.0; expected = f.value(z); result = p.value(z);
         tolerance = FastMath.abs(derivativebound * partialerror(x, z));
@@ -120,7 +120,7 @@ public final class NevilleInterpolatorTest {
             // bad abscissas array
             double x[] = { 1.0, 2.0, 2.0, 4.0 };
             double y[] = { 0.0, 4.0, 4.0, 2.5 };
-            UnivariateRealFunction p = interpolator.interpolate(x, y);
+            UnivariateFunction p = interpolator.interpolate(x, y);
             p.value(0.0);
             Assert.fail("Expecting NonMonotonicSequenceException - bad abscissas array");
         } catch (NonMonotonicSequenceException ex) {

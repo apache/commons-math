@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.UnivariateRealFunction;
-import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
-import org.apache.commons.math.analysis.ParametricUnivariateRealFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Gaussian implements DifferentiableUnivariateRealFunction {
+public class Gaussian implements DifferentiableUnivariateFunction {
     /** Mean. */
     private final double mean;
     /** Inverse of twice the square of the standard deviation. */
@@ -85,8 +85,8 @@ public class Gaussian implements DifferentiableUnivariateRealFunction {
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealFunction derivative() {
-        return new UnivariateRealFunction() {
+    public UnivariateFunction derivative() {
+        return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
                 final double diff = x - mean;
@@ -111,7 +111,7 @@ public class Gaussian implements DifferentiableUnivariateRealFunction {
      *  <li>Standard deviation</li>
      * </ul>
      */
-    public static class Parametric implements ParametricUnivariateRealFunction {
+    public static class Parametric implements ParametricUnivariateFunction {
         /**
          * Computes the value of the Gaussian at {@code x}.
          *
