@@ -407,7 +407,12 @@ class SimplexTableau implements Serializable {
             continue;
           }
           Integer basicRow = getBasicRow(colIndex);
-          if (basicRows.contains(basicRow)) {
+          if (basicRow != null && basicRow == 0) {
+              // if the basic row is found to be the objective function row
+              // set the coefficient to 0 -> this case handles unconstrained 
+              // variables that are still part of the objective function
+              coefficients[i] = 0;
+          } else if (basicRows.contains(basicRow)) {
               // if multiple variables can take a given value
               // then we choose the first and set the rest equal to 0
               coefficients[i] = 0 - (restrictToNonNegative ? 0 : mostNegative);

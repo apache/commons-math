@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-713" due-to="Thomas Neidhart">
+        Fixed case of unconstrained variables that still occur in the objective function
+        in simplex solver.
+      </action>
       <action dev="luc" type="add" issue="MATH-710" due-to="Eldar Agalarov">
         The fast cryptographically secure pseudorandom number generator ISAAC has been added.
       </action>
