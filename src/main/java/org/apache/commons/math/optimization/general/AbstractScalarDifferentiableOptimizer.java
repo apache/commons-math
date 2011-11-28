@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -39,7 +39,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /**
      * Objective function gradient.
      */
-    private MultivariateVectorialFunction gradient;
+    private MultivariateVectorFunction gradient;
 
     /**
      * Simple constructor with default settings.

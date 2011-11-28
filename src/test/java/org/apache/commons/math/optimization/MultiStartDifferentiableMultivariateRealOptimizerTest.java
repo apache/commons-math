@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.random.GaussianRandomGenerator;
@@ -121,8 +121,8 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
             return sum;
         }
 
-        public MultivariateVectorialFunction gradient() {
-            return new MultivariateVectorialFunction() {
+        public MultivariateVectorFunction gradient() {
+            return new MultivariateVectorFunction() {
                 public double[] value(double[] point) {
                     return gradient(point);
                 }

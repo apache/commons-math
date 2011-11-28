@@ -18,7 +18,7 @@
 package org.apache.commons.math.optimization;
 
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.linear.BlockRealMatrix;
@@ -144,7 +144,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
             new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.optimize(100, new DifferentiableMultivariateVectorialFunction() {
+        optimizer.optimize(100, new DifferentiableMultivariateVectorFunction() {
                 public MultivariateMatrixFunction jacobian() {
                     return null;
                 }
@@ -158,7 +158,7 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
         private static final long serialVersionUID = -7809988995389067683L;
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction {
+    private static class LinearProblem implements DifferentiableMultivariateVectorFunction {
 
         final RealMatrix factors;
         final double[] target;

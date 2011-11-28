@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.LUDecomposition;
@@ -36,9 +36,9 @@ import org.apache.commons.math.util.FastMath;
  * It handles the boilerplate methods associated to thresholds settings,
  * jacobian and error estimation.
  * <br/>
- * This class uses the {@link DifferentiableMultivariateVectorialFunction#jacobian()}
+ * This class uses the {@link DifferentiableMultivariateVectorFunction#jacobian()}
  * of the function argument in method
- * {@link #optimize(int,DifferentiableMultivariateVectorialFunction,double[],double[],double[])
+ * {@link #optimize(int,DifferentiableMultivariateVectorFunction,double[],double[],double[])
  * optimize} and assumes that, in the matrix returned by the
  * {@link MultivariateMatrixFunction#value(double[]) value} method, the rows
  * iterate on the model functions while the columns iterate on the parameters; thus,
@@ -49,7 +49,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2
  */
 public abstract class AbstractLeastSquaresOptimizer
-    extends BaseAbstractVectorialOptimizer<DifferentiableMultivariateVectorialFunction>
+    extends BaseAbstractVectorialOptimizer<DifferentiableMultivariateVectorFunction>
     implements DifferentiableMultivariateVectorialOptimizer {
     /** Singularity threshold (cf. {@link #getCovariances(double)}). */
     private static final double DEFAULT_SINGULARITY_THRESHOLD = 1e-14;
@@ -244,7 +244,7 @@ public abstract class AbstractLeastSquaresOptimizer
     /** {@inheritDoc} */
     @Override
     public VectorialPointValuePair optimize(int maxEval,
-                                            final DifferentiableMultivariateVectorialFunction f,
+                                            final DifferentiableMultivariateVectorFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint) {
         // Reset counter.

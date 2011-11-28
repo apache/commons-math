@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NullArgumentException;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.BaseMultivariateVectorialOptimizer;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
@@ -38,7 +38,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
  * @version $Id$
  * @since 3.0
  */
-public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVectorialFunction>
+public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVectorFunction>
     implements BaseMultivariateVectorialOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
@@ -51,7 +51,7 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
     /** Initial guess. */
     private double[] start;
     /** Objective function. */
-    private MultivariateVectorialFunction function;
+    private MultivariateVectorFunction function;
 
     /**
      * Simple constructor with default settings.

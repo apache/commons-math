@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 
 /**
  * Class used in the tests.
@@ -77,8 +77,8 @@ class CircleScalar implements DifferentiableMultivariateFunction {
         return sum;
     }
 
-    public MultivariateVectorialFunction gradient() {
-        return new MultivariateVectorialFunction() {
+    public MultivariateVectorFunction gradient() {
+        return new MultivariateVectorFunction() {
             public double[] value(double[] point) {
                 return gradient(point);
             }

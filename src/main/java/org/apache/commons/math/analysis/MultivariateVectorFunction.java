@@ -17,20 +17,20 @@
 
 package org.apache.commons.math.analysis;
 
-
 /**
- * Extension of {@link MultivariateVectorialFunction} representing a differentiable
- * multivariate vectorial function.
+ * An interface representing a multivariate vectorial function.
  * @version $Id$
  * @since 2.0
  */
-public interface DifferentiableMultivariateVectorialFunction
-    extends MultivariateVectorialFunction {
+public interface MultivariateVectorFunction {
 
     /**
-     * Returns the jacobian function.
-     * @return the jacobian function
+     * Compute the value for the function at the given point.
+     * @param point point at which the function must be evaluated
+     * @return function value for the given point
+     * @exception IllegalArgumentException if points dimension is wrong
      */
-    MultivariateMatrixFunction jacobian();
+    double[] value(double[] point)
+        throws IllegalArgumentException;
 
 }

@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 
 import org.apache.commons.math.exception.TooManyEvaluationsException;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
@@ -522,7 +522,7 @@ public class MinpackTest {
   }
 
   private static abstract class MinpackFunction
-      implements DifferentiableMultivariateVectorialFunction, Serializable {
+      implements DifferentiableMultivariateVectorFunction, Serializable {
 
       private static final long serialVersionUID = -6209760235478794233L;
       protected int      n;

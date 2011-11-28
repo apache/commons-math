@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
@@ -130,7 +130,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 1, 0 },
                     { 0, 1 }
                 }, false);
-        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorialFunction() {
+        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }
@@ -154,7 +154,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 1, 0 },
                     { 0, 1 }
                 }, false);
-        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorialFunction() {
+        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }
@@ -178,7 +178,7 @@ public class SimplexOptimizerNelderMeadTest {
                     { 1, 0 },
                     { 0, 1 }
                 }, false);
-        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorialFunction() {
+        LeastSquaresConverter ls = new LeastSquaresConverter(new MultivariateVectorFunction() {
                 public double[] value(double[] variables) {
                     return factors.operate(variables);
                 }

@@ -18,11 +18,11 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
 
-/** This class converts {@link MultivariateVectorialFunction vectorial
+/** This class converts {@link MultivariateVectorFunction vectorial
  * objective functions} to {@link MultivariateFunction scalar objective functions}
  * when the goal is to minimize them.
  * <p>
@@ -48,7 +48,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * </p>
   *
  * @see MultivariateFunction
- * @see MultivariateVectorialFunction
+ * @see MultivariateVectorFunction
  * @version $Id$
  * @since 2.0
  */
@@ -56,7 +56,7 @@ import org.apache.commons.math.linear.RealMatrix;
 public class LeastSquaresConverter implements MultivariateFunction {
 
     /** Underlying vectorial function. */
-    private final MultivariateVectorialFunction function;
+    private final MultivariateVectorFunction function;
 
     /** Observations to be compared to objective function to compute residuals. */
     private final double[] observations;
@@ -71,7 +71,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      */
-    public LeastSquaresConverter(final MultivariateVectorialFunction function,
+    public LeastSquaresConverter(final MultivariateVectorFunction function,
                                  final double[] observations) {
         this.function     = function;
         this.observations = observations.clone();
@@ -107,7 +107,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * vector dimensions do not match (objective function dimension is checked only when
      * the {@link #value(double[])} method is called)
      */
-    public LeastSquaresConverter(final MultivariateVectorialFunction function,
+    public LeastSquaresConverter(final MultivariateVectorFunction function,
                                  final double[] observations, final double[] weights) {
         if (observations.length != weights.length) {
             throw new DimensionMismatchException(observations.length, weights.length);
@@ -137,7 +137,7 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * matrix dimensions do not match (objective function dimension is checked only when
      * the {@link #value(double[])} method is called)
      */
-    public LeastSquaresConverter(final MultivariateVectorialFunction function,
+    public LeastSquaresConverter(final MultivariateVectorFunction function,
                                  final double[] observations, final RealMatrix scale) {
         if (observations.length != scale.getColumnDimension()) {
             throw new DimensionMismatchException(observations.length, scale.getColumnDimension());

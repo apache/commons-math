@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -40,7 +40,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Id$
  * @since 3.0
  */
-public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends MultivariateVectorialFunction>
+public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends MultivariateVectorFunction>
     implements BaseMultivariateVectorialOptimizer<FUNC> {
     /** Underlying classical optimizer. */
     private final BaseMultivariateVectorialOptimizer<FUNC> optimizer;
@@ -60,7 +60,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
      *
      * @param optimizer Single-start optimizer to wrap.
      * @param starts Number of starts to perform. If {@code starts == 1},
-     * the {@link #optimize(int,MultivariateVectorialFunction,double[],double[],double[])
+     * the {@link #optimize(int,MultivariateVectorFunction,double[],double[],double[])
      * optimize} will return the same solution as {@code optimizer} would.
      * @param generator Random vector generator to use for restarts.
      * @throws NullArgumentException if {@code optimizer} or {@code generator}
@@ -85,13 +85,13 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
 
     /**
      * Get all the optima found during the last call to {@link
-     * #optimize(int,MultivariateVectorialFunction,double[],double[],double[]) optimize}.
+     * #optimize(int,MultivariateVectorFunction,double[],double[],double[]) optimize}.
      * The optimizer stores all the optima found during a set of
-     * restarts. The {@link #optimize(int,MultivariateVectorialFunction,double[],double[],double[])
+     * restarts. The {@link #optimize(int,MultivariateVectorFunction,double[],double[],double[])
      * optimize} method returns the best point only. This method
      * returns all the points found at the end of each starts, including
      * the best one already returned by the {@link
-     * #optimize(int,MultivariateVectorialFunction,double[],double[],double[]) optimize} method.
+     * #optimize(int,MultivariateVectorFunction,double[],double[],double[]) optimize} method.
      * <br/>
      * The returned array as one element for each start as specified
      * in the constructor. It is ordered with the results from the
@@ -100,14 +100,14 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
      * descending order if maximizing), followed by and null elements
      * corresponding to the runs that did not converge. This means all
      * elements will be null if the {@link
-     * #optimize(int,MultivariateVectorialFunction,double[],double[],double[]) optimize} method did
+     * #optimize(int,MultivariateVectorFunction,double[],double[],double[]) optimize} method did
      * throw a {@link ConvergenceException}). This also means that if
      * the first element is not {@code null}, it is the best point found
      * across all starts.
      *
      * @return array containing the optima
      * @throws MathIllegalStateException if {@link
-     * #optimize(int,MultivariateVectorialFunction,double[],double[],double[]) optimize} has not been
+     * #optimize(int,MultivariateVectorFunction,double[],double[],double[]) optimize} has not been
      * called.
      */
     public VectorialPointValuePair[] getOptima() {

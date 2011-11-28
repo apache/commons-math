@@ -25,7 +25,7 @@ import java.util.Arrays;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -446,7 +446,7 @@ public class GaussNewtonOptimizerTest {
         Assert.assertEquals(0.04268731682389561, optimizer.getRMS(),       1.0e-8);
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+    private static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
         private static final long serialVersionUID = -8804268799379350190L;
         final RealMatrix factors;

@@ -21,7 +21,7 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.direct.BOBYQAOptimizer;
 import org.apache.commons.math.optimization.direct.PowellOptimizer;
@@ -803,7 +803,7 @@ public class BatteryNISTTest {
     /* base objective function class for these tests */
     private abstract static class nistMVRF implements DifferentiableMultivariateFunction {
         protected final MultivariateFunction[] mrf;
-        protected final MultivariateVectorialFunction mvf = new MultivariateVectorialFunction() {
+        protected final MultivariateVectorFunction mvf = new MultivariateVectorFunction() {
 
             public double[] value(double[] point) throws IllegalArgumentException {
                 return getGradient(point);
@@ -843,7 +843,7 @@ public class BatteryNISTTest {
             }
         }
 
-        public MultivariateVectorialFunction gradient() {
+        public MultivariateVectorFunction gradient() {
             return mvf;
         }
 

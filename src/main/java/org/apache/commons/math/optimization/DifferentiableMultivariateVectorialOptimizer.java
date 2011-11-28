@@ -17,15 +17,15 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 
 /**
  * This interface represents an optimization algorithm for
- * {@link DifferentiableMultivariateVectorialFunction vectorial differentiable
+ * {@link DifferentiableMultivariateVectorFunction vectorial differentiable
  * objective functions}.
  *
  * @version $Id$
  * @since 3.0
  */
 public interface DifferentiableMultivariateVectorialOptimizer
-    extends BaseMultivariateVectorialOptimizer<DifferentiableMultivariateVectorialFunction> {}
+    extends BaseMultivariateVectorialOptimizer<DifferentiableMultivariateVectorFunction> {}

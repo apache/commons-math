@@ -46,6 +46,6 @@ public interface DifferentiableMultivariateFunction extends MultivariateFunction
      * which will compute only the specified component.</p>
      * @return the gradient function
      */
-    MultivariateVectorialFunction gradient();
+    MultivariateVectorFunction gradient();
 
 }

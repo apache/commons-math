@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -365,7 +365,7 @@ public class LevenbergMarquardtOptimizerTest {
         checkEstimate(circle, 0.1, 20, 1.0e-18, 1.0e-16, 1.0e-10, true);
     }
 
-    private void checkEstimate(DifferentiableMultivariateVectorialFunction problem,
+    private void checkEstimate(DifferentiableMultivariateVectorFunction problem,
                                double initialStepBoundFactor, int maxCostEval,
                                double costRelativeTolerance, double parRelativeTolerance,
                                double orthoTolerance, boolean shouldFail) {
@@ -511,7 +511,7 @@ public class LevenbergMarquardtOptimizerTest {
         }
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+    private static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -534,7 +534,7 @@ public class LevenbergMarquardtOptimizerTest {
         }
     }
 
-    private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+    private static class QuadraticProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
         private static final long serialVersionUID = 7072187082052755854L;
         private List<Double> x;

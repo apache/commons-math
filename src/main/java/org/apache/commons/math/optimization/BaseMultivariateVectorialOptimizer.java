@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.analysis.MultivariateVectorFunction;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
@@ -32,7 +32,7 @@ import org.apache.commons.math.analysis.MultivariateVectorialFunction;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVectorialFunction>
+public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVectorFunction>
     extends BaseOptimizer<VectorialPointValuePair> {
     /**
      * Optimize an objective function.

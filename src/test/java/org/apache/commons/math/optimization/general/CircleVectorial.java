@@ -19,13 +19,13 @@ package org.apache.commons.math.optimization.general;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 
 /**
  * Class used in the tests.
  */
-class CircleVectorial implements DifferentiableMultivariateVectorialFunction {
+class CircleVectorial implements DifferentiableMultivariateVectorFunction {
     private ArrayList<Point2D.Double> points;
 
     public CircleVectorial() {

@@ -65,8 +65,8 @@ public class SumSincFunction implements DifferentiableMultivariateFunction {
     /**                                                                            
      * {@inheritDoc}
      */
-    public MultivariateVectorialFunction gradient() {
-        return new MultivariateVectorialFunction() {
+    public MultivariateVectorFunction gradient() {
+        return new MultivariateVectorFunction() {
             public double[] value(double[] point) {
                 final int n = point.length;
                 final double[] r = new double[n];

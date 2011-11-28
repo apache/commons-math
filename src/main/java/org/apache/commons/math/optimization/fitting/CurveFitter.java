@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.fitting;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
@@ -164,7 +164,7 @@ public class CurveFitter {
 
     /** Vectorial function computing function theoretical values. */
     private class TheoreticalValuesFunction
-        implements DifferentiableMultivariateVectorialFunction {
+        implements DifferentiableMultivariateVectorFunction {
         /** Function to fit. */
         private final ParametricUnivariateFunction f;
 

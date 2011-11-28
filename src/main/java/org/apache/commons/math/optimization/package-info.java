@@ -44,14 +44,14 @@
  *      differentiable multivariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer
  *      DifferentiableMultivariateVectorialOptimizer} for {@link
- *      org.apache.commons.math.analysis.DifferentiableMultivariateVectorialFunction
+ *      org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction
  *      differentiable multivariate vectorial functions}</li>
  * </ul>
  * </p>
  *
  * <p>
  * Despite there are only four types of supported optimizers, it is possible to optimize a
- * transform a {@link org.apache.commons.math.analysis.MultivariateVectorialFunction
+ * transform a {@link org.apache.commons.math.analysis.MultivariateVectorFunction
  * non-differentiable multivariate vectorial function} by converting it to a {@link
  * org.apache.commons.math.analysis.MultivariateFunction non-differentiable multivariate
  * real function} thanks to the {@link
