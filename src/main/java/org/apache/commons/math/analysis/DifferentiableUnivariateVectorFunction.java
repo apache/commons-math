@@ -17,19 +17,19 @@
 package org.apache.commons.math.analysis;
 
 /**
- * Extension of {@link UnivariateVectorialFunction} representing a differentiable univariate vectorial function.
+ * Extension of {@link UnivariateVectorFunction} representing a differentiable univariate vectorial function.
  *
  * @version $Id$
  * @since 2.0
  */
-public interface DifferentiableUnivariateVectorialFunction
-    extends UnivariateVectorialFunction {
+public interface DifferentiableUnivariateVectorFunction
+    extends UnivariateVectorFunction {
 
     /**
      * Returns the derivative of the function
      *
      * @return  the derivative function
      */
-    UnivariateVectorialFunction derivative();
+    UnivariateVectorFunction derivative();
 
 }

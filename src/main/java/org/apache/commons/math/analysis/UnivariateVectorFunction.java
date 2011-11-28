@@ -22,7 +22,7 @@ package org.apache.commons.math.analysis;
  * @version $Id$
  * @since 2.0
  */
-public interface UnivariateVectorialFunction {
+public interface UnivariateVectorFunction {
 
     /**
      * Compute the value for the function.
