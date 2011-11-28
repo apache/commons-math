@@ -41,7 +41,9 @@ public class StepNormalizerTest {
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.0,
                                        new FixedStepHandler() {
-                                        private boolean firstCall = true;
+                                         private boolean firstCall = true;
+                                         public void init(double t0, double[] y0, double t) {
+                                         }
                                          public void handleStep(double t,
                                                                 double[] y,
                                                                 double[] yDot,
@@ -69,7 +71,9 @@ public class StepNormalizerTest {
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.5,
                                        new FixedStepHandler() {
-                                        public void handleStep(double t,
+                                         public void init(double t0, double[] y0, double t) {
+                                         }
+                                         public void handleStep(double t,
                                                                 double[] y,
                                                                 double[] yDot,
                                                                 boolean isLast) {

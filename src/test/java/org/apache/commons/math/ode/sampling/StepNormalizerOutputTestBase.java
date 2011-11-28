@@ -12,8 +12,8 @@ import org.junit.Test;
 
 /** Base class for step normalizer output tests. */
 public abstract class StepNormalizerOutputTestBase
-    implements FirstOrderDifferentialEquations, FixedStepHandler
-{
+    implements FirstOrderDifferentialEquations, FixedStepHandler {
+
     /** The normalized output time values. */
     private List<Double> output;
 
@@ -212,7 +212,12 @@ public abstract class StepNormalizerOutputTestBase
     }
 
     /** {@inheritDoc} */
+    public void init(double t0, double[] y0, double t) {
+    }
+
+    /** {@inheritDoc} */
     public void handleStep(double t, double[] y, double[] yDot, boolean isLast) {
         output.add(t);
     }
+
 }

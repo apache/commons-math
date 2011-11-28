@@ -174,11 +174,16 @@ public class StepNormalizer implements StepHandler {
 
     /** {@inheritDoc} */
     public void init(double t0, double[] y0, double t) {
+
         firstTime       = Double.NaN;
         lastTime        = Double.NaN;
         lastState       = null;
         lastDerivatives = null;
         forward         = true;
+
+        // initialize the underlying handler
+        handler.init(t0, y0, t);
+
     }
 
     /**
