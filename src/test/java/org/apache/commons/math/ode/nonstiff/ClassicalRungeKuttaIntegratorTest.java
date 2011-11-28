@@ -71,6 +71,9 @@ public class ClassicalRungeKuttaIntegratorTest {
 
       integrator.addEventHandler(new EventHandler() {
 
+          public void init(double t0, double[] y0, double t) {
+          }
+
           public void resetState(double t, double[] y) {
           }
 
@@ -242,9 +245,9 @@ public class ClassicalRungeKuttaIntegratorTest {
   private static class KeplerHandler implements StepHandler {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
-      reset();
+      maxError = 0;
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
@@ -281,7 +284,7 @@ public class ClassicalRungeKuttaIntegratorTest {
                                1.0e-12);
               }
           }
-          public void reset() {
+          public void init(double t0, double[] y0, double t) {
           }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {

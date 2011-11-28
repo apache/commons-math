@@ -546,7 +546,6 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
 
     sanityChecks(equations, t);
     setEquations(equations);
-    resetEvaluations();
     final boolean forward = t > equations.getTime();
 
     // create some internal working arrays
@@ -613,10 +612,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     boolean firstTime        = true;
     boolean newStep          = true;
     boolean firstStepAlreadyComputed = false;
-    for (StepHandler handler : stepHandlers) {
-        handler.reset();
-    }
-    setStateInitialized(false);
+    initIntegration(equations.getTime(), y0, t);
     costPerTimeUnit[0] = 0;
     isLastStep = false;
     do {

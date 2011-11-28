@@ -67,6 +67,10 @@ public class ReappearingEventTest {
 
     /** State events for this unit test. */
     protected static class Event implements EventHandler {
+
+        public void init(double t0, double[] y0, double t) {
+        }
+
         public double g(double t, double[] y) {
             return y[6] - 15.0;
         }

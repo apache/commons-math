@@ -91,7 +91,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         statesInitialized = false;
         evaluations = new Incrementor();
         setMaxEvaluations(-1);
-        resetEvaluations();
+        evaluations.resetCount();
     }
 
     /** Build an instance with a null name.
@@ -179,10 +179,25 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         return evaluations.getCount();
     }
 
-    /** Reset the number of evaluations to zero.
+    /** Prepare the start of an integration.
+     * @param t0 start value of the independent <i>time</i> variable
+     * @param y0 array containing the start value of the state vector
+     * @param t target time for the integration
      */
-    protected void resetEvaluations() {
+    protected void initIntegration(final double t0, final double[] y0, final double t) {
+
         evaluations.resetCount();
+
+        for (final EventState state : eventsStates) {
+            state.getEventHandler().init(t0, y0, t);
+        }
+
+        for (StepHandler handler : stepHandlers) {
+            handler.init(t0, y0, t);
+        }
+
+        setStateInitialized(false);
+
     }
 
     /** Set the equations.

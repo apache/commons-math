@@ -271,7 +271,8 @@ public class GraggBulirschStoerIntegratorTest {
     FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(1e-10, 100.0, 1e-7, 1e-7);
       integ.addStepHandler(new StepHandler() {
 
-          public void reset() {}
+          public void init(double t0, double[] y0, double t) {
+          }
 
           public void handleStep(StepInterpolator interpolator, boolean isLast) {
               double t = interpolator.getCurrentTime();
@@ -300,9 +301,8 @@ public class GraggBulirschStoerIntegratorTest {
   private static class KeplerStepHandler implements StepHandler {
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
-      reset();
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
@@ -337,9 +337,11 @@ public class GraggBulirschStoerIntegratorTest {
 
   public static class VariableStepHandler implements StepHandler {
     public VariableStepHandler() {
-      reset();
+        firstTime = true;
+        minStep = 0;
+        maxStep = 0;
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;

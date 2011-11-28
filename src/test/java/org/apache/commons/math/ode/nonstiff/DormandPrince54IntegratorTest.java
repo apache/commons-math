@@ -124,7 +124,7 @@ public class DormandPrince54IntegratorTest {
       this.minStep = minStep;
     }
 
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
     }
 
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
@@ -265,9 +265,8 @@ public class DormandPrince54IntegratorTest {
   private static class KeplerHandler implements StepHandler {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
-      reset();
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
@@ -306,7 +305,7 @@ public class DormandPrince54IntegratorTest {
       minStep = 0;
       maxStep = 0;
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;

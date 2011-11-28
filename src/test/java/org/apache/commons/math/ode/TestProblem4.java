@@ -115,6 +115,9 @@ public TestProblem4 copy() {
       sign = +1;
     }
 
+    public void init(double t0, double[] y0, double t) {
+    }
+
     public double g(double t, double[] y) {
       return sign * y[0];
     }
@@ -135,6 +138,9 @@ public TestProblem4 copy() {
   private static class Stop implements EventHandler {
 
     public Stop() {
+    }
+
+    public void init(double t0, double[] y0, double t) {
     }
 
     public double g(double t, double[] y) {

@@ -36,6 +36,8 @@ public class EventStateTest {
         final double r2  = 135.0;
         final double gap = r2 - r1;
         EventHandler closeEventsGenerator = new EventHandler() {
+            public void init(double t0, double[] y0, double t) {
+            }
             public void resetState(double t, double[] y) {
             }
             public double g(double t, double[] y) {
@@ -110,6 +112,9 @@ public class EventStateTest {
 
         public ResettingEvent(final double tEvent) {
             this.tEvent = tEvent;
+        }
+
+        public void init(double t0, double[] y0, double t) {
         }
 
         public double g(double t, double[] y) {

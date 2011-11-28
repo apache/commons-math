@@ -112,7 +112,7 @@ public class DormandPrince54StepInterpolatorTest {
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
       integ.addStepHandler(new StepHandler() {
-        public void handleStep(StepInterpolator interpolator, boolean isLast) {
+          public void handleStep(StepInterpolator interpolator, boolean isLast) {
               StepInterpolator cloned = interpolator.copy();
               double tA = cloned.getPreviousTime();
               double tB = cloned.getCurrentTime();
@@ -132,7 +132,7 @@ public class DormandPrince54StepInterpolatorTest {
                   }
               }
           }
-          public void reset() {
+          public void init(double t0, double[] y0, double t) {
           }
       });
       integ.integrate(pb,

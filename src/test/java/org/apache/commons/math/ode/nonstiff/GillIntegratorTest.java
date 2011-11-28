@@ -177,9 +177,8 @@ public class GillIntegratorTest {
   private static class KeplerStepHandler implements StepHandler {
     public KeplerStepHandler(TestProblem3 pb) {
       this.pb = pb;
-      reset();
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       maxError = 0;
     }
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
@@ -216,7 +215,7 @@ public class GillIntegratorTest {
                                1.0e-12);
               }
           }
-          public void reset() {
+          public void init(double t0, double[] y0, double t) {
           }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {

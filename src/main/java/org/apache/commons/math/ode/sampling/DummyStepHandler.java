@@ -50,11 +50,8 @@ public class DummyStepHandler implements StepHandler {
         return LazyHolder.INSTANCE;
     }
 
-    /** Reset the step handler.
-     * Initialize the internal data as required before the first step is
-     * handled.
-     */
-    public void reset() {
+    /** {@inheritDoc} */
+    public void init(double t0, double[] y0, double t) {
     }
 
     /**

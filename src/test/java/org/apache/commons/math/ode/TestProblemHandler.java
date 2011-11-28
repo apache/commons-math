@@ -55,10 +55,13 @@ public class TestProblemHandler
   public TestProblemHandler(TestProblemAbstract problem, ODEIntegrator integrator) {
     this.problem = problem;
     this.integrator = integrator;
-    reset();
+    maxValueError = 0;
+    maxTimeError  = 0;
+    lastError     = 0;
+    expectedStepStart = Double.NaN;
   }
 
-  public void reset() {
+  public void init(double t0, double[] y0, double t) {
     maxValueError = 0;
     maxTimeError  = 0;
     lastError     = 0;

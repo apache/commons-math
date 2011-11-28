@@ -43,6 +43,9 @@ public class StepProblem
     this.rate = rate;
   }
 
+  public void init(double t0, double[] y0, double t) {
+  }
+
   public Action eventOccurred(double t, double[] y, boolean increasing) {
     setRate(rateAfter);
     return Action.RESET_DERIVATIVES;

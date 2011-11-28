@@ -112,7 +112,10 @@ public class ContinuousOutputModel
    */
   public ContinuousOutputModel() {
     steps = new ArrayList<StepInterpolator>();
-    reset();
+    initialTime = Double.NaN;
+    finalTime   = Double.NaN;
+    forward     = true;
+    index       = 0;
   }
 
   /** Append another model at the end of the instance.
@@ -163,17 +166,14 @@ public class ContinuousOutputModel
 
   }
 
-  /** Reset the step handler.
-   * Initialize the internal data as required before the first step is
-   * handled.
-   */
-  public void reset() {
+  /** {@inheritDoc} */
+  public void init(double t0, double[] y0, double t) {
     initialTime = Double.NaN;
     finalTime   = Double.NaN;
     forward     = true;
     index       = 0;
     steps.clear();
-   }
+  }
 
   /** Handle the last accepted step.
    * A copy of the information provided by the last step is stored in

@@ -20,7 +20,6 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.ode.ExpandableStatefulODE;
-import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -194,7 +193,6 @@ public abstract class EmbeddedRungeKuttaIntegrator
 
     sanityChecks(equations, t);
     setEquations(equations);
-    resetEvaluations();
     final boolean forward = t > equations.getTime();
 
     // create some internal working arrays
@@ -215,10 +213,7 @@ public abstract class EmbeddedRungeKuttaIntegrator
     stepStart         = equations.getTime();
     double  hNew      = 0;
     boolean firstTime = true;
-    for (StepHandler handler : stepHandlers) {
-        handler.reset();
-    }
-    setStateInitialized(false);
+    initIntegration(equations.getTime(), y0, t);
 
     // main integration loop
     isLastStep = false;

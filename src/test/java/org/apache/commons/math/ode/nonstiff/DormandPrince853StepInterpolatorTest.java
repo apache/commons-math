@@ -132,7 +132,7 @@ public class DormandPrince853StepInterpolatorTest {
                 }
             }
         }
-        public void reset() {
+        public void init(double t0, double[] y0, double t) {
         }
     });
     integ.integrate(pb,

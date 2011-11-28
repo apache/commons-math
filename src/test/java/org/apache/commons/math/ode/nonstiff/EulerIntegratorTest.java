@@ -163,7 +163,7 @@ public class EulerIntegratorTest {
                              1.0e-12);
             }
         }
-        public void reset() {
+        public void init(double t0, double[] y0, double t) {
         }
       });
       integ.integrate(new FirstOrderDifferentialEquations() {

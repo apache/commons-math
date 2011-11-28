@@ -136,6 +136,10 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
         }
 
         /** {@inheritDoc} */
+        public void init(double t0, double[] y0, double t) {
+        }
+
+        /** {@inheritDoc} */
         public double g(double t, double[] y) {
             return (eventType == 0) ? y[idx] >= 1.0 ? 1.0 : -1.0
                                     : y[idx] - 1.0;

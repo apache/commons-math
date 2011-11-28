@@ -128,7 +128,8 @@ dp853.integrate(ode, 0.0, y, 16.0, y); // now y contains final state at time t=1
         </p>
         <source>
 StepHandler stepHandler = new StepHandler() {
-    public void reset() {}
+    public void init(double t0, double[] y0, double t) {
+    }
             
     public void handleStep(StepInterpolator interpolator, boolean isLast) {
         double   t = interpolator.getCurrentTime();
@@ -182,15 +183,10 @@ integrator.addStepHandler(stepHandler);
           a simple <a href="../apidocs/org/apache/commons/math/ode/events/EventHandler.html">g(t, y)</a>
           function depending on the current time and state. The integrator will monitor
           the value of the function throughout integration range and will trigger the
-          event when its sign changes. The magnitude of the value is almost irrelevant,
-          it should however be continuous (but not necessarily smooth) for the sake of
-          root finding. The steps are shortened as needed to ensure the events occur
-          at step boundaries (even if the integrator is a fixed-step integrator). Note that
-          g function signs changes at the very beginning of the integration (from t<sub>0</sub>
-          to t<sub>0</sub> + &#x3b5; where &#x3b5; is the events detection convergence threshold)
-          are explicitely ignored. This prevents having the integration stuck at its
-          initial point when a new integration is restarted just at the same point a
-          previous one had been stopped by an event.
+          event when its sign changes. The magnitude of the value is almost irrelevant.
+          For the sake of root finding, it should however be continuous (but not necessarily smooth)
+          at least in the roots vicinity. The steps are shortened as needed to ensure the events occur
+          at step boundaries (even if the integrator is a fixed-step integrator).
         </p>
         <p>
           When an event is triggered, the event time, current state and an indicator

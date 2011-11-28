@@ -22,7 +22,6 @@ import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.ode.ExpandableStatefulODE;
 import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
-import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
 
@@ -194,7 +193,6 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
 
         sanityChecks(equations, t);
         setEquations(equations);
-        resetEvaluations();
         final boolean forward = t > equations.getTime();
 
         // initialize working arrays
@@ -208,10 +206,7 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
                                   equations.getPrimaryMapper(), equations.getSecondaryMappers());
 
         // set up integration control objects
-        for (StepHandler handler : stepHandlers) {
-            handler.reset();
-        }
-        setStateInitialized(false);
+        initIntegration(equations.getTime(), y0, t);
 
         // compute the initial Nordsieck vector using the configured starter integrator
         start(equations.getTime(), y, t);

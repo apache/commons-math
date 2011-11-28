@@ -161,18 +161,19 @@ public class StepNormalizer implements StepHandler {
     public StepNormalizer(final double h, final FixedStepHandler handler,
                           final StepNormalizerMode mode,
                           final StepNormalizerBounds bounds) {
-        this.h       = FastMath.abs(h);
-        this.handler = handler;
-        this.mode    = mode;
-        this.bounds  = bounds;
-        reset();
+        this.h          = FastMath.abs(h);
+        this.handler    = handler;
+        this.mode       = mode;
+        this.bounds     = bounds;
+        firstTime       = Double.NaN;
+        lastTime        = Double.NaN;
+        lastState       = null;
+        lastDerivatives = null;
+        forward         = true;
     }
 
-    /** Reset the step handler.
-     * Initialize the internal data as required before the first step is
-     * handled.
-     */
-    public void reset() {
+    /** {@inheritDoc} */
+    public void init(double t0, double[] y0, double t) {
         firstTime       = Double.NaN;
         lastTime        = Double.NaN;
         lastState       = null;

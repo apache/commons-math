@@ -73,6 +73,9 @@ public class DormandPrince853IntegratorTest {
       integrator.setInitialStepSize(60.0);
       integrator.addEventHandler(new EventHandler() {
 
+          public void init(double t0, double[] y0, double t) {
+          }
+
           public void resetState(double t, double[] y) {
           }
 
@@ -289,9 +292,8 @@ public class DormandPrince853IntegratorTest {
   private static class KeplerHandler implements StepHandler {
     public KeplerHandler(TestProblem3 pb) {
       this.pb = pb;
-      reset();
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       nbSteps = 0;
       maxError = 0;
     }
@@ -326,9 +328,11 @@ public class DormandPrince853IntegratorTest {
 
   private static class VariableHandler implements StepHandler {
     public VariableHandler() {
-      reset();
+        firstTime = true;
+        minStep = 0;
+        maxStep = 0;
     }
-    public void reset() {
+    public void init(double t0, double[] y0, double t) {
       firstTime = true;
       minStep = 0;
       maxStep = 0;

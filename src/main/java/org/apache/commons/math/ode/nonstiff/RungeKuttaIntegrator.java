@@ -22,7 +22,6 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.ExpandableStatefulODE;
-import org.apache.commons.math.ode.sampling.StepHandler;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -96,7 +95,6 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
 
     sanityChecks(equations, t);
     setEquations(equations);
-    resetEvaluations();
     final boolean forward = t > equations.getTime();
 
     // create some internal working arrays
@@ -119,10 +117,7 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
     // set up integration control objects
     stepStart = equations.getTime();
     stepSize  = forward ? step : -step;
-    for (StepHandler handler : stepHandlers) {
-        handler.reset();
-    }
-    setStateInitialized(false);
+    initIntegration(equations.getTime(), y0, t);
 
     // main integration loop
     isLastStep = false;

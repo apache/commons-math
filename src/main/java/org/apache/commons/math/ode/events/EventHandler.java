@@ -87,6 +87,18 @@ public interface EventHandler  {
 
     }
 
+    /** Initialize event handler at the start of an ODE integration.
+     * <p>
+     * This method is called once at the start of the integration. It
+     * may be used by the event handler to initialize some internal data
+     * if needed.
+     * </p>
+     * @param t0 start value of the independent <i>time</i> variable
+     * @param y0 array containing the start value of the state vector
+     * @param t target time for the integration
+     */
+    void init(double t0, double[] y0, double t);
+
   /** Compute the value of the switching function.
 
    * <p>The discrete events are generated when the sign of this

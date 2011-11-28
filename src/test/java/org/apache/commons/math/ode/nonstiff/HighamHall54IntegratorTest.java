@@ -202,6 +202,8 @@ public class HighamHall54IntegratorTest {
       integ.addStepHandler(handler);
 
       integ.addEventHandler(new EventHandler() {
+        public void init(double t0, double[] y0, double t) {
+        }
         public Action eventOccurred(double t, double[] y, boolean increasing) {
           return Action.CONTINUE;
         }
@@ -246,6 +248,8 @@ public class HighamHall54IntegratorTest {
     integ.addStepHandler(handler);
 
     integ.addEventHandler(new EventHandler() {
+      public void init(double t0, double[] y0, double t) {
+      }
       public Action eventOccurred(double t, double[] y, boolean increasing) {
         return Action.CONTINUE;
       }

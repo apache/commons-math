@@ -68,7 +68,7 @@ public class StepInterpolatorTestUtils {
 
             }
 
-            public void reset() {
+            public void init(double t0, double[] y0, double t) {
             }
 
         });
