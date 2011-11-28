@@ -107,7 +107,8 @@
     <code>setSecureAlgorithm</code> method allows you to change the underlying
     PRNG. These methods are <strong>much slower</strong> than the corresponding
     "non-secure" versions, so they should only be used when cryptographic
-    security is required.</dd>
+    security is required.  The <code>ISAACRandom</code> class implements a fast
+    cryptographically secure pseudorandom numbers generator.</dd>
     <dt>Seeding pseudo-random number generators</dt>
     <dd>By default, the implementation provided in <code>RandomDataImpl</code>
     uses the JDK-provided PRNG.  Like most other PRNGs, the JDK generator
