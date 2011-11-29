@@ -152,11 +152,12 @@ public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction 
 
     /** Compute the underlying function value from an unbounded point.
      * <p>
-     * This method simply bounds the unbounded point using the mappings
-     * set up at construction and calls the underlying function using
-     * the bounded point.
+     * This method simply returns the value of the underlying function
+     * if the unbounded point already fulfills the bounds, and compute
+     * a replacement value using the offset and scale if bounds are
+     * violated, without calling the function at all.
      * </p>
-     * @see #unboundedToBounded(double[])
+     * @return either underlying function value or penalty function value
      */
     public double value(double[] point) {
 
@@ -167,9 +168,9 @@ public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction 
                 for (int j = i; j < scale.length; ++j) {
                     final double overshoot;
                     if (point[j] < lower[j]) {
-                        overshoot = lower[j] - point[j];
+                        overshoot = scale[j] * (lower[j] - point[j]);
                     } else if (point[j] > upper[j]) {
-                        overshoot = point[j] - upper[j];
+                        overshoot = scale[j] * (point[j] - upper[j]);
                     } else {
                         overshoot = 0;
                     }
