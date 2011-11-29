@@ -142,6 +142,11 @@
                 <li><a href="genetics.html#a14.2_GA_Framework">14.2 GA Framework</a></li>
                 <li><a href="genetics.html#a14.3_Implementation">14.3 Implementation and Examples</a></li>  
                 </ul></li>                           
+        <li><a href="filter.html">15. Filters</a>   
+                <ul>
+                <li><a href="filter.html#a15.1_Overview">15.1 Overview</a></li>
+                <li><a href="filter.html#a15.2_Kalman_Filter">15.2 Kalman Filter</a></li>
+                </ul></li>                           
         </ul>
       </section>
     

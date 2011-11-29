@@ -65,6 +65,7 @@
       <item name="Optimization"            href="/userguide/optimization.html"/>
       <item name="Ordinary Differential Equations" href="/userguide/ode.html"/>
       <item name="Genetic Algorithms"      href="/userguide/genetics.html"/>
+      <item name="Filters"                 href="/userguide/filter.html"/>
     </menu>
 
   </body>
