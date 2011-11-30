@@ -95,8 +95,8 @@ public class FastCosineTransformer implements RealTransformer {
      */
     public double[] transform2(double f[]) throws IllegalArgumentException {
 
-        double scaling_coefficient = FastMath.sqrt(2.0 / (f.length-1));
-        return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
+        double scalingCoefficient = FastMath.sqrt(2.0 / (f.length - 1));
+        return FastFourierTransformer.scaleArray(fct(f), scalingCoefficient);
     }
 
     /**
@@ -119,8 +119,8 @@ public class FastCosineTransformer implements RealTransformer {
         throws IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
-        double scaling_coefficient = FastMath.sqrt(2.0 / (n-1));
-        return FastFourierTransformer.scaleArray(fct(data), scaling_coefficient);
+        double scalingCoefficient = FastMath.sqrt(2.0 / (n - 1));
+        return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
     }
 
     /**
@@ -134,14 +134,16 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform(double f[])
+    throws IllegalArgumentException {
 
-        double scaling_coefficient = 2.0 / (f.length - 1);
-        return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
+        double scalingCoefficient = 2.0 / (f.length - 1);
+        return FastFourierTransformer.scaleArray(fct(f), scalingCoefficient);
     }
 
     /**
-     * Inversely transform the given real function, sampled on the given interval.
+     * Inversely transform the given real function, sampled on the given
+     * interval.
      * <p>
      * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
@@ -159,8 +161,8 @@ public class FastCosineTransformer implements RealTransformer {
         throws IllegalArgumentException {
 
         double data[] = FastFourierTransformer.sample(f, min, max, n);
-        double scaling_coefficient = 2.0 / (n - 1);
-        return FastFourierTransformer.scaleArray(fct(data), scaling_coefficient);
+        double scalingCoefficient = 2.0 / (n - 1);
+        return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
     }
 
     /**
@@ -174,12 +176,14 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform2(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform2(double f[])
+        throws IllegalArgumentException {
         return transform2(f);
     }
 
     /**
-     * Inversely transform the given real function, sampled on the given interval.
+     * Inversely transform the given real function, sampled on the given
+     * interval.
      * <p>
      * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
      *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
@@ -227,7 +231,8 @@ public class FastCosineTransformer implements RealTransformer {
         final double[] x = new double[n];
         x[0] = 0.5 * (f[0] + f[n]);
         x[n >> 1] = f[n >> 1];
-        double t1 = 0.5 * (f[0] - f[n]);   // temporary variable for transformed[1]
+        // temporary variable for transformed[1]
+        double t1 = 0.5 * (f[0] - f[n]);
         for (int i = 1; i < (n >> 1); i++) {
             final double a = 0.5 * (f[i] + f[n-i]);
             final double b = FastMath.sin(i * FastMath.PI / n) * (f[i] - f[n-i]);
