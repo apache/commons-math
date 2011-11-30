@@ -49,12 +49,10 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
-    /** roots of unity */
+    /** The roots of unity. */
     private RootsOfUnity roots = new RootsOfUnity();
 
-    /**
-     * Construct a default transformer.
-     */
+    /** Construct a default transformer. */
     public FastFourierTransformer() {
         super();
     }
@@ -69,7 +67,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(double f[])
+    public Complex[] transform(double[] f)
         throws IllegalArgumentException {
         return fft(f, false);
     }
@@ -90,7 +88,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform(UnivariateFunction f,
                                double min, double max, int n)
         throws IllegalArgumentException {
-        double data[] = sample(f, min, max, n);
+        double[] data = sample(f, min, max, n);
         return fft(data, false);
     }
 
@@ -104,7 +102,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform(Complex f[])
+    public Complex[] transform(Complex[] f)
         throws IllegalArgumentException {
         roots.computeOmega(f.length);
         return fft(f);
@@ -120,11 +118,11 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(double f[])
+    public Complex[] transform2(double[] f)
         throws IllegalArgumentException {
 
-        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f, false), scaling_coefficient);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
+        return scaleArray(fft(f, false), scalingCoefficient);
     }
 
     /**
@@ -144,9 +142,9 @@ public class FastFourierTransformer implements Serializable {
                                 double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = sample(f, min, max, n);
-        double scaling_coefficient = 1.0 / FastMath.sqrt(n);
-        return scaleArray(fft(data, false), scaling_coefficient);
+        double[] data = sample(f, min, max, n);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(n);
+        return scaleArray(fft(data, false), scalingCoefficient);
     }
 
     /**
@@ -159,12 +157,12 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] transform2(Complex f[])
+    public Complex[] transform2(Complex[] f)
         throws IllegalArgumentException {
 
         roots.computeOmega(f.length);
-        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f), scaling_coefficient);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
+        return scaleArray(fft(f), scalingCoefficient);
     }
 
     /**
@@ -177,11 +175,11 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inverseTransform(double f[])
+    public Complex[] inverseTransform(double[] f)
         throws IllegalArgumentException {
 
-        double scaling_coefficient = 1.0 / f.length;
-        return scaleArray(fft(f, true), scaling_coefficient);
+        double scalingCoefficient = 1.0 / f.length;
+        return scaleArray(fft(f, true), scalingCoefficient);
     }
 
     /**
@@ -201,9 +199,9 @@ public class FastFourierTransformer implements Serializable {
                                       double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = sample(f, min, max, n);
-        double scaling_coefficient = 1.0 / n;
-        return scaleArray(fft(data, true), scaling_coefficient);
+        double[] data = sample(f, min, max, n);
+        double scalingCoefficient = 1.0 / n;
+        return scaleArray(fft(data, true), scalingCoefficient);
     }
 
     /**
@@ -216,12 +214,12 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inverseTransform(Complex f[])
+    public Complex[] inverseTransform(Complex[] f)
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
-        double scaling_coefficient = 1.0 / f.length;
-        return scaleArray(fft(f), scaling_coefficient);
+        double scalingCoefficient = 1.0 / f.length;
+        return scaleArray(fft(f), scalingCoefficient);
     }
 
     /**
@@ -234,11 +232,11 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inverseTransform2(double f[])
+    public Complex[] inverseTransform2(double[] f)
         throws IllegalArgumentException {
 
-        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f, true), scaling_coefficient);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
+        return scaleArray(fft(f, true), scalingCoefficient);
     }
 
     /**
@@ -258,9 +256,9 @@ public class FastFourierTransformer implements Serializable {
                                        double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = sample(f, min, max, n);
-        double scaling_coefficient = 1.0 / FastMath.sqrt(n);
-        return scaleArray(fft(data, true), scaling_coefficient);
+        double[] data = sample(f, min, max, n);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(n);
+        return scaleArray(fft(data, true), scalingCoefficient);
     }
 
     /**
@@ -273,12 +271,12 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inverseTransform2(Complex f[])
+    public Complex[] inverseTransform2(Complex[] f)
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
-        double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f), scaling_coefficient);
+        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
+        return scaleArray(fft(f), scalingCoefficient);
     }
 
     /**
@@ -289,42 +287,42 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected Complex[] fft(double f[], boolean isInverse)
+    protected Complex[] fft(double[] f, boolean isInverse)
         throws IllegalArgumentException {
 
         verifyDataSet(f);
-        Complex F[] = new Complex[f.length];
+        Complex[] transformed = new Complex[f.length];
         if (f.length == 1) {
-            F[0] = new Complex(f[0], 0.0);
-            return F;
+            transformed[0] = new Complex(f[0], 0.0);
+            return transformed;
         }
 
         // Rather than the naive real to complex conversion, pack 2N
         // real numbers into N complex numbers for better performance.
-        int N = f.length >> 1;
-        Complex c[] = new Complex[N];
-        for (int i = 0; i < N; i++) {
-            c[i] = new Complex(f[2*i], f[2*i+1]);
+        int n = f.length >> 1;
+        Complex[] repacked = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            repacked[i] = new Complex(f[2 * i], f[2 * i + 1]);
         }
-        roots.computeOmega(isInverse ? -N : N);
-        Complex z[] = fft(c);
+        roots.computeOmega(isInverse ? -n : n);
+        Complex[] z = fft(repacked);
 
         // reconstruct the FFT result for the original array
-        roots.computeOmega(isInverse ? -2*N : 2*N);
-        F[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
-        F[N] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
-        for (int i = 1; i < N; i++) {
-            Complex A = z[N-i].conjugate();
-            Complex B = z[i].add(A);
-            Complex C = z[i].subtract(A);
+        roots.computeOmega(isInverse ? -2 * n : 2 * n);
+        transformed[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
+        transformed[n] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
+        for (int i = 1; i < n; i++) {
+            Complex a = z[n - i].conjugate();
+            Complex b = z[i].add(a);
+            Complex c = z[i].subtract(a);
             //Complex D = roots.getOmega(i).multiply(Complex.I);
-            Complex D = new Complex(-roots.getOmegaImaginary(i),
+            Complex d = new Complex(-roots.getOmegaImaginary(i),
                                     roots.getOmegaReal(i));
-            F[i] = B.subtract(C.multiply(D));
-            F[2*N-i] = F[i].conjugate();
+            transformed[i] = b.subtract(c.multiply(d));
+            transformed[2 * n - i] = transformed[i].conjugate();
         }
 
-        return scaleArray(F, 0.5);
+        return scaleArray(transformed, 0.5);
     }
 
     /**
@@ -334,11 +332,11 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected Complex[] fft(Complex data[])
+    protected Complex[] fft(Complex[] data)
         throws IllegalArgumentException {
 
         final int n = data.length;
-        final Complex f[] = new Complex[n];
+        final Complex[] f = new Complex[n];
 
         // initial simple cases
         verifyDataSet(data);
@@ -365,37 +363,37 @@ public class FastFourierTransformer implements Serializable {
 
         // the bottom base-4 round
         for (int i = 0; i < n; i += 4) {
-            final Complex a = f[i].add(f[i+1]);
-            final Complex b = f[i+2].add(f[i+3]);
-            final Complex c = f[i].subtract(f[i+1]);
-            final Complex d = f[i+2].subtract(f[i+3]);
+            final Complex a = f[i].add(f[i + 1]);
+            final Complex b = f[i + 2].add(f[i + 3]);
+            final Complex c = f[i].subtract(f[i + 1]);
+            final Complex d = f[i + 2].subtract(f[i + 3]);
             final Complex e1 = c.add(d.multiply(Complex.I));
             final Complex e2 = c.subtract(d.multiply(Complex.I));
             f[i] = a.add(b);
-            f[i+2] = a.subtract(b);
+            f[i + 2] = a.subtract(b);
             // omegaCount indicates forward or inverse transform
-            f[i+1] = roots.isForward() ? e2 : e1;
-            f[i+3] = roots.isForward() ? e1 : e2;
+            f[i + 1] = roots.isForward() ? e2 : e1;
+            f[i + 3] = roots.isForward() ? e1 : e2;
         }
 
         // iterations from bottom to top take O(N*logN) time
         for (int i = 4; i < n; i <<= 1) {
-            final int m = n / (i<<1);
-            for (int j = 0; j < n; j += i<<1) {
+            final int m = n / (i << 1);
+            for (int j = 0; j < n; j += i << 1) {
                 for (int k = 0; k < i; k++) {
                     //z = f[i+j+k].multiply(roots.getOmega(k*m));
-                    final int k_times_m = k*m;
-                    final double omega_k_times_m_real = roots.getOmegaReal(k_times_m);
-                    final double omega_k_times_m_imaginary = roots.getOmegaImaginary(k_times_m);
+                    final int km = k * m;
+                    final double omegaKmReal = roots.getOmegaReal(km);
+                    final double omegaKmImag = roots.getOmegaImaginary(km);
                     //z = f[i+j+k].multiply(omega[k*m]);
                     final Complex z = new Complex(
-                        f[i+j+k].getReal() * omega_k_times_m_real -
-                        f[i+j+k].getImaginary() * omega_k_times_m_imaginary,
-                        f[i+j+k].getReal() * omega_k_times_m_imaginary +
-                        f[i+j+k].getImaginary() * omega_k_times_m_real);
+                        f[i + j + k].getReal() * omegaKmReal
+                        - f[i + j + k].getImaginary() * omegaKmImag,
+                        f[i + j + k].getReal() * omegaKmImag
+                        + f[i + j + k].getImaginary() * omegaKmReal);
 
-                    f[i+j+k] = f[j+k].subtract(z);
-                    f[j+k] = f[j+k].add(z);
+                    f[i + j + k] = f[j + k].subtract(z);
+                    f[j + k] = f[j + k].add(z);
                 }
             }
         }
@@ -427,7 +425,7 @@ public class FastFourierTransformer implements Serializable {
         }
         verifyInterval(min, max);
 
-        double s[] = new double[n];
+        double[] s = new double[n];
         double h = (max - min) / n;
         for (int i = 0; i < n; i++) {
             s[i] = f.value(min + i * h);
@@ -443,7 +441,7 @@ public class FastFourierTransformer implements Serializable {
      * @param d the real scaling coefficient
      * @return a reference to the scaled array
      */
-    public static double[] scaleArray(double f[], double d) {
+    public static double[] scaleArray(double[] f, double d) {
         for (int i = 0; i < f.length; i++) {
             f[i] *= d;
         }
@@ -458,7 +456,7 @@ public class FastFourierTransformer implements Serializable {
      * @param d the real scaling coefficient
      * @return a reference to the scaled array
      */
-    public static Complex[] scaleArray(Complex f[], double d) {
+    public static Complex[] scaleArray(Complex[] f, double d) {
         for (int i = 0; i < f.length; i++) {
             f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
         }
@@ -481,7 +479,7 @@ public class FastFourierTransformer implements Serializable {
      * @param d the data array
      * @throws IllegalArgumentException if array length is not power of 2
      */
-    public static void verifyDataSet(double d[]) throws IllegalArgumentException {
+    public static void verifyDataSet(double[] d) throws IllegalArgumentException {
         if (!isPowerOf2(d.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, d.length);
@@ -494,7 +492,7 @@ public class FastFourierTransformer implements Serializable {
      * @param o the data array
      * @throws IllegalArgumentException if array length is not power of 2
      */
-    public static void verifyDataSet(Object o[]) throws IllegalArgumentException {
+    public static void verifyDataSet(Object[] o) throws IllegalArgumentException {
         if (!isPowerOf2(o.length)) {
             throw MathRuntimeException.createIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, o.length);
@@ -687,7 +685,7 @@ public class FastFourierTransformer implements Serializable {
             }
             if (vector.length != dimensionSize.length) {
                 throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length,dimensionSize.length);
+                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length, dimensionSize.length);
             }
 
             Object[] lastDimension = (Object[]) multiDimensionalComplexArray;
@@ -710,7 +708,7 @@ public class FastFourierTransformer implements Serializable {
         }
 
         /**
-         * Get the underlying storage array
+         * Get the underlying storage array.
          * @return underlying storage array
          */
         public Object getArray() {
@@ -738,7 +736,7 @@ public class FastFourierTransformer implements Serializable {
                 size *= dimensionSize[i];
             }
             int[][] vectorList = new int[size][dimensionSize.length];
-            for (int[] nextVector: vectorList) {
+            for (int[] nextVector : vectorList) {
                 System.arraycopy(vector, 0, nextVector, 0,
                                  dimensionSize.length);
                 for (int i = 0; i < dimensionSize.length; i++) {
@@ -751,7 +749,7 @@ public class FastFourierTransformer implements Serializable {
                 }
             }
 
-            for (int[] nextVector: vectorList) {
+            for (int[] nextVector : vectorList) {
                 mdcm.set(get(nextVector), nextVector);
             }
         }
@@ -782,7 +780,7 @@ public class FastFourierTransformer implements Serializable {
       private boolean  isForward;
 
       /**
-       * Build an engine for computing then <sup>th</sup> roots of unity
+       * Build an engine for computing then <sup>th</sup> roots of unity.
        */
       public RootsOfUnity() {
 
@@ -844,10 +842,10 @@ public class FastFourierTransformer implements Serializable {
         omegaImaginaryForward[0] = 0.0;
         omegaImaginaryInverse[0] = 0.0;
         for (int i = 1; i < absN; i++) {
-          omegaReal[i] =
-            omegaReal[i-1] * cosT + omegaImaginaryForward[i-1] * sinT;
-          omegaImaginaryForward[i] =
-             omegaImaginaryForward[i-1] * cosT - omegaReal[i-1] * sinT;
+          omegaReal[i] = omegaReal[i - 1] * cosT
+                         + omegaImaginaryForward[i - 1] * sinT;
+          omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT
+                                     - omegaReal[i - 1] * sinT;
           omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
         }
         omegaCount = absN;
@@ -855,7 +853,7 @@ public class FastFourierTransformer implements Serializable {
       }
 
       /**
-       * Get the real part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * Get the real part of the k<sup>th</sup> n<sup>th</sup> root of unity.
        * @param k index of the n<sup>th</sup> root of unity
        * @return real part of the k<sup>th</sup> n<sup>th</sup> root of unity
        * @throws IllegalStateException if no roots of unity have been computed yet
@@ -877,7 +875,7 @@ public class FastFourierTransformer implements Serializable {
       }
 
       /**
-       * Get the imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity
+       * Get the imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity.
        * @param k index of the n<sup>th</sup> root of unity
        * @return imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity
        * @throws IllegalStateException if no roots of unity have been computed yet
