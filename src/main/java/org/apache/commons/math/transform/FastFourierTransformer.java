@@ -177,7 +177,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(double f[])
+    public Complex[] inverseTransform(double f[])
         throws IllegalArgumentException {
 
         double scaling_coefficient = 1.0 / f.length;
@@ -197,7 +197,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(UnivariateFunction f,
+    public Complex[] inverseTransform(UnivariateFunction f,
                                       double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -216,7 +216,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform(Complex f[])
+    public Complex[] inverseTransform(Complex f[])
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
@@ -234,7 +234,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(double f[])
+    public Complex[] inverseTransform2(double f[])
         throws IllegalArgumentException {
 
         double scaling_coefficient = 1.0 / FastMath.sqrt(f.length);
@@ -254,7 +254,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(UnivariateFunction f,
+    public Complex[] inverseTransform2(UnivariateFunction f,
                                        double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -273,7 +273,7 @@ public class FastFourierTransformer implements Serializable {
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public Complex[] inversetransform2(Complex f[])
+    public Complex[] inverseTransform2(Complex f[])
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
@@ -520,7 +520,7 @@ public class FastFourierTransformer implements Serializable {
 
     /**
      * Performs a multi-dimensional Fourier transform on a given array.
-     * Use {@link #inversetransform2(Complex[])} and
+     * Use {@link #inverseTransform2(Complex[])} and
      * {@link #transform2(Complex[])} in a row-column implementation
      * in any number of dimensions with O(N&times;log(N)) complexity with
      * N=n<sub>1</sub>&times;n<sub>2</sub>&times;n<sub>3</sub>&times;...&times;n<sub>d</sub>,
@@ -569,7 +569,7 @@ public class FastFourierTransformer implements Serializable {
             if (forward) {
                 temp = transform2(temp);
             } else {
-                temp = inversetransform2(temp);
+                temp = inverseTransform2(temp);
             }
 
             for (int i = 0; i < dimensionSize[d]; i++) {

@@ -49,7 +49,7 @@ public final class FastCosineTransformerTest {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
 
-        result = transformer.inversetransform(y);
+        result = transformer.inverseTransform(y);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
@@ -61,7 +61,7 @@ public final class FastCosineTransformerTest {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        result = transformer.inversetransform2(x);
+        result = transformer.inverseTransform2(x);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }

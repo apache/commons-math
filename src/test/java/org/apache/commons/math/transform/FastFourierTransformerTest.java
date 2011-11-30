@@ -57,7 +57,7 @@ public final class FastFourierTransformerTest {
             Assert.assertEquals(y[i].getImaginary(), result[i].getImaginary(), tolerance);
         }
 
-        result = transformer.inversetransform(y);
+        result = transformer.inverseTransform(y);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
@@ -73,7 +73,7 @@ public final class FastFourierTransformerTest {
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
 
-        result = transformer.inversetransform2(x2);
+        result = transformer.inverseTransform2(x2);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y2[i].getReal(), result[i].getReal(), tolerance);
             Assert.assertEquals(y2[i].getImaginary(), result[i].getImaginary(), tolerance);
@@ -135,7 +135,7 @@ public final class FastFourierTransformerTest {
         }
 
         min = -FastMath.PI; max = FastMath.PI;
-        result = transformer.inversetransform(f, min, max, N);
+        result = transformer.inverseTransform(f, min, max, N);
         Assert.assertEquals(0.0, result[1].getReal(), tolerance);
         Assert.assertEquals(-0.5, result[1].getImaginary(), tolerance);
         Assert.assertEquals(0.0, result[N-1].getReal(), tolerance);

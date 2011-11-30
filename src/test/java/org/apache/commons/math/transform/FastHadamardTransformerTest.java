@@ -51,7 +51,7 @@ public final class FastHadamardTransformerTest {
     @Test
     public void testNoIntInverse() {
         FastHadamardTransformer transformer = new FastHadamardTransformer();
-        double[] x = transformer.inversetransform(new double[] { 0, 1, 0, 1});
+        double[] x = transformer.inverseTransform(new double[] { 0, 1, 0, 1});
         Assert.assertEquals( 0.5, x[0], 0);
         Assert.assertEquals(-0.5, x[1], 0);
         Assert.assertEquals( 0.0, x[2], 0);
@@ -115,7 +115,7 @@ public final class FastHadamardTransformerTest {
         for (int i = 0; i < dY.length; ++i) {
             dY[i] = y[i];
         }
-        double dResult[] = transformer.inversetransform(dY);
+        double dResult[] = transformer.inverseTransform(dY);
         for (int i = 0; i < dResult.length; i++) {
             // compare computed results to precomputed results
             Assert.assertTrue(Precision.equals(x[i], dResult[i], 1));

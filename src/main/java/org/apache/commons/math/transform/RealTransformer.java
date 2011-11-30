@@ -59,7 +59,7 @@ public interface RealTransformer  {
      * @return the real inversely transformed array (signal)
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inversetransform(double f[])
+    double[] inverseTransform(double f[])
         throws IllegalArgumentException;
 
     /**
@@ -71,7 +71,7 @@ public interface RealTransformer  {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inversetransform(UnivariateFunction f, double min, double max, int n)
+    double[] inverseTransform(UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException;
 
 }

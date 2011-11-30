@@ -41,9 +41,7 @@ import org.apache.commons.math.util.FastMath;
  */
 public class FastCosineTransformer implements RealTransformer {
 
-    /**
-     * Construct a default transformer.
-     */
+    /** Construct a default transformer. */
     public FastCosineTransformer() {
         super();
     }
@@ -136,7 +134,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform(double f[]) throws IllegalArgumentException {
 
         double scaling_coefficient = 2.0 / (f.length - 1);
         return FastFourierTransformer.scaleArray(fct(f), scaling_coefficient);
@@ -156,7 +154,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform(UnivariateFunction f,
+    public double[] inverseTransform(UnivariateFunction f,
                                      double min, double max, int n)
         throws IllegalArgumentException {
 
@@ -176,7 +174,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform2(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform2(double f[]) throws IllegalArgumentException {
         return transform2(f);
     }
 
@@ -194,7 +192,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inversetransform2(UnivariateFunction f,
+    public double[] inverseTransform2(UnivariateFunction f,
                                       double min, double max, int n)
         throws IllegalArgumentException {
 
