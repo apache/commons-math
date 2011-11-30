@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fix" issue="MATH-704" due-to="Thomas Niedhart">
+        Fixed array indexing error in Variance evaluate method for
+        computing the weighted variance of an array segment.
+      </action>
       <action dev="luc" type="fix" issue="MATH-713" due-to="Thomas Neidhart">
         Fixed case of unconstrained variables that still occur in the objective function
         in simplex solver.
@@ -69,7 +73,7 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-691">
         Fixed errors in SummaryStatistics addValue causing variance, mean, or
-        geometric mean statistics not to be updated if they have been overriden
+        geometric mean statistics not to be updated if they have been overridden
         using instances of commons-math supplied implementations.
       </action>
       <action dev="psteitz" type="update" issue="MATH-694">

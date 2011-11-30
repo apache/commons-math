@@ -517,7 +517,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
                 }
 
                 double sumWts = 0;
-                for (int i = 0; i < weights.length; i++) {
+                for (int i = begin; i < begin + length; i++) {
                     sumWts += weights[i];
                 }
 
