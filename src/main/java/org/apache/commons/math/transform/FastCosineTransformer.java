@@ -57,7 +57,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform(double f[]) throws IllegalArgumentException {
+    public double[] transform(double[] f) throws IllegalArgumentException {
         return fct(f);
     }
 
@@ -78,7 +78,7 @@ public class FastCosineTransformer implements RealTransformer {
     public double[] transform(UnivariateFunction f,
                               double min, double max, int n)
         throws IllegalArgumentException {
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         return fct(data);
     }
 
@@ -93,7 +93,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform2(double f[]) throws IllegalArgumentException {
+    public double[] transform2(double[] f) throws IllegalArgumentException {
 
         double scalingCoefficient = FastMath.sqrt(2.0 / (f.length - 1));
         return FastFourierTransformer.scaleArray(fct(f), scalingCoefficient);
@@ -118,7 +118,7 @@ public class FastCosineTransformer implements RealTransformer {
                                double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         double scalingCoefficient = FastMath.sqrt(2.0 / (n - 1));
         return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
     }
@@ -134,7 +134,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform(double f[])
+    public double[] inverseTransform(double[] f)
     throws IllegalArgumentException {
 
         double scalingCoefficient = 2.0 / (f.length - 1);
@@ -160,7 +160,7 @@ public class FastCosineTransformer implements RealTransformer {
                                      double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         double scalingCoefficient = 2.0 / (n - 1);
         return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
     }
@@ -176,7 +176,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform2(double f[])
+    public double[] inverseTransform2(double[] f)
         throws IllegalArgumentException {
         return transform2(f);
     }
@@ -210,10 +210,10 @@ public class FastCosineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected double[] fct(double f[])
+    protected double[] fct(double[] f)
         throws IllegalArgumentException {
 
-        final double transformed[] = new double[f.length];
+        final double[] transformed = new double[f.length];
 
         final int n = f.length - 1;
         if (!FastFourierTransformer.isPowerOf2(n)) {
@@ -234,15 +234,15 @@ public class FastCosineTransformer implements RealTransformer {
         // temporary variable for transformed[1]
         double t1 = 0.5 * (f[0] - f[n]);
         for (int i = 1; i < (n >> 1); i++) {
-            final double a = 0.5 * (f[i] + f[n-i]);
-            final double b = FastMath.sin(i * FastMath.PI / n) * (f[i] - f[n-i]);
-            final double c = FastMath.cos(i * FastMath.PI / n) * (f[i] - f[n-i]);
+            final double a = 0.5 * (f[i] + f[n - i]);
+            final double b = FastMath.sin(i * FastMath.PI / n) * (f[i] - f[n - i]);
+            final double c = FastMath.cos(i * FastMath.PI / n) * (f[i] - f[n - i]);
             x[i] = a - b;
-            x[n-i] = a + b;
+            x[n - i] = a + b;
             t1 += c;
         }
         FastFourierTransformer transformer = new FastFourierTransformer();
-        Complex y[] = transformer.transform(x);
+        Complex[] y = transformer.transform(x);
 
         // reconstruct the FCT result for the original array
         transformed[0] = y[0].getReal();
