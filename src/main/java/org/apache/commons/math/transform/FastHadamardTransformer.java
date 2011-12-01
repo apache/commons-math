@@ -75,18 +75,17 @@ public class FastHadamardTransformer implements RealTransformer {
     }
 
     /**
-     * The FHT (Fast Hadamard Transformation) which uses only subtraction and addition.
-     * <br>
-     * Requires <b>Nlog2N = n2</b><sup>n</sup> additions.
-     * <br>
-     * <br>
-     * <b><u>Short Table of manual calculation for N=8:</u></b>
+     * The FHT (Fast Hadamard Transformation) which uses only subtraction and
+     * addition. Requires {@code N * log2(N) = n * 2^n} additions.
+     *
+     * <h3>Short Table of manual calculation for N=8</h3>
      * <ol>
-     * <li><b>x</b> is the input vector we want to transform</li>
-     * <li><b>y</b> is the output vector which is our desired result</li>
-     * <li>a and b are just helper rows</li>
+     * <li><b>x</b> is the input vector to be transformed,</li>
+     * <li><b>y</b> is the output vector (Fast Hadamard transform of <b>x</b>),</li>
+     * <li>a and b are helper rows.</li>
      * </ol>
-     * <table border="1" align="center">
+     * <table align="center" border="1" cellpadding="3">
+     * <tbody align="center">
      * <tr>
      *     <th>x</th>
      *     <th>a</th>
@@ -94,109 +93,127 @@ public class FastHadamardTransformer implements RealTransformer {
      *     <th>y</th>
      * </tr>
      * <tr>
-     *     <td>x<sub>0</sub></td>
+     *     <th>x<sub>0</sub></th>
      *     <td>a<sub>0</sub> = x<sub>0</sub> + x<sub>1</sub></td>
      *     <td>b<sub>0</sub> = a<sub>0</sub> + a<sub>1</sub></td>
      *     <td>y<sub>0</sub> = b<sub>0</sub >+ b<sub>1</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>1</sub></td>
+     *     <th>x<sub>1</sub></th>
      *     <td>a<sub>1</sub> = x<sub>2</sub> + x<sub>3</sub></td>
      *     <td>b<sub>0</sub> = a<sub>2</sub> + a<sub>3</sub></td>
      *     <td>y<sub>0</sub> = b<sub>2</sub> + b<sub>3</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>2</sub></td>
+     *     <th>x<sub>2</sub></th>
      *     <td>a<sub>2</sub> = x<sub>4</sub> + x<sub>5</sub></td>
      *     <td>b<sub>0</sub> = a<sub>4</sub> + a<sub>5</sub></td>
      *     <td>y<sub>0</sub> = b<sub>4</sub> + b<sub>5</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>3</sub></td>
+     *     <th>x<sub>3</sub></th>
      *     <td>a<sub>3</sub> = x<sub>6</sub> + x<sub>7</sub></td>
      *     <td>b<sub>0</sub> = a<sub>6</sub> + a<sub>7</sub></td>
      *     <td>y<sub>0</sub> = b<sub>6</sub> + b<sub>7</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>4</sub></td>
+     *     <th>x<sub>4</sub></th>
      *     <td>a<sub>0</sub> = x<sub>0</sub> - x<sub>1</sub></td>
      *     <td>b<sub>0</sub> = a<sub>0</sub> - a<sub>1</sub></td>
      *     <td>y<sub>0</sub> = b<sub>0</sub> - b<sub>1</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>5</sub></td>
+     *     <th>x<sub>5</sub></th>
      *     <td>a<sub>1</sub> = x<sub>2</sub> - x<sub>3</sub></td>
      *     <td>b<sub>0</sub> = a<sub>2</sub> - a<sub>3</sub></td>
      *     <td>y<sub>0</sub> = b<sub>2</sub> - b<sub>3</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>6</sub></td>
+     *     <th>x<sub>6</sub></th>
      *     <td>a<sub>2</sub> = x<sub>4</sub> - x<sub>5</sub></td>
      *     <td>b<sub>0</sub> = a<sub>4</sub> - a<sub>5</sub></td>
      *     <td>y<sub>0</sub> = b<sub>4</sub> - b<sub>5</sub></td>
      * </tr>
      * <tr>
-     *     <td>x<sub>7</sub></td>
+     *     <th>x<sub>7</sub></th>
      *     <td>a<sub>3</sub> = x<sub>6</sub> - x<sub>7</sub></td>
      *     <td>b<sub>0</sub> = a<sub>6</sub> - a<sub>7</sub></td>
      *     <td>y<sub>0</sub> = b<sub>6</sub> - b<sub>7</sub></td>
      * </tr>
+     * </tbody>
      * </table>
      *
-     * <b><u>How it works</u></b>
+     * <h3>How it works</h3>
      * <ol>
-     * <li>Construct a matrix with N rows and n+1 columns<br>   <b>hadm[n+1][N]</b>
-     * <br><i>(If I use [x][y] it always means [row-offset][column-offset] of a Matrix with n rows and m columns. Its entries go from M[0][0] to M[n][m])</i></li>
-     * <li>Place the input vector <b>x[N]</b> in the first column of the matrix <b>hadm</b></li>
-     * <li>The entries of the submatrix D<sub>top</sub> are calculated as follows.
-     * <br>D<sub>top</sub> goes from entry [0][1] to [N/2-1][n+1].
-     * <br>The columns of D<sub>top</sub> are the pairwise mutually exclusive sums of the previous column
+     * <li>Construct a matrix with {@code N} rows and {@code n + 1} columns,
+     * {@code hadm[n+1][N]}.<br/>
+     * <em>(If I use [x][y] it always means [row-offset][column-offset] of a
+     * Matrix with n rows and m columns. Its entries go from M[0][0]
+     * to M[n][N])</em></li>
+     * <li>Place the input vector {@code x[N]} in the first column of the
+     * matrix {@code hadm}.</li>
+     * <li>The entries of the submatrix {@code D_top} are calculated as follows
+     *     <ul>
+     *         <li>{@code D_top} goes from entry {@code [0][1]} to
+     *         {@code [N / 2 - 1][n + 1]},</li>
+     *         <li>the columns of {@code D_top} are the pairwise mutually
+     *         exclusive sums of the previous column.</li>
+     *     </ul>
      * </li>
-     * <li>The entries of the submatrix D<sub>bottom</sub> are calculated as follows.
-     * <br>D<sub>bottom</sub> goes from entry [N/2][1] to [N][n+1].
-     * <br>The columns of D<sub>bottom</sub> are the pairwise differences of the previous column
+     * <li>The entries of the submatrix {@code D_bottom} are calculated as
+     * follows
+     *     <ul>
+     *         <li>{@code D_bottom} goes from entry {@code [N / 2][1]} to
+     *         {@code [N][n + 1]},</li>
+     *         <li>the columns of {@code D_bottom} are the pairwise differences
+     *         of the previous column.</li>
+     *     </ul>
      * </li>
-     * <li>How D<sub>top</sub> and D<sub>bottom</sub> you can understand best with the example for N=8 above.
-     * <li>The output vector y is now in the last column of <b>hadm</b></li>
-     * <li><i>Algorithm from: http://www.archive.chipcenter.com/dsp/DSP000517F1.html</i></li>
+     * <li>The consputation of {@code D_top} and {@code D_bottom} are best
+     * understood with the above example (for {@code N = 8}).
+     * <li>The output vector {@code y} is now in the last column of
+     * {@code hadm}.</li>
+     * <li><em>Algorithm from <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">chipcenter</a>.</em></li>
      * </ol>
-     * <br>
-     * <b><u>Visually</u></b>
-     * <table border="1" align="center">
+     * <h3>Visually</h3>
+     * <table border="1" align="center" cellpadding="3">
+     * <tbody align="center">
      * <tr>
-     *     <td>0</td>
-     *     <td>1</td>
-     *     <td>2</td>
-     *     <td>3</td>
-     *     <td>...</td>
-     *     <td>n + 1</td>
+     *     <td></td><th>0</th><th>1</th><th>2</th><th>3</th>
+     *     <th>&hellip;</th>
+     *     <th>n + 1</th>
      * </tr>
      * <tr>
-     *     <td>0</td>
+     *     <th>0</th>
      *     <td>x<sub>0</sub></td>
-     *     <td colspan="5">&uarr;</td>
+     *     <td colspan="5" rowspan="5" align="center" valign="middle">
+     *         &uarr;<br/>
+     *         &larr; D<sub>top</sub> &rarr;<br/>
+     *         &darr;
+     *     </td>
      * </tr>
+     * <tr><th>1</th><td>x<sub>1</sub></td></tr>
+     * <tr><th>2</th><td>x<sub>2</sub></td></tr>
+     * <tr><th>&hellip;</th><td>&hellip;</td></tr>
+     * <tr><th>N / 2 - 1</th><td>x<sub>N/2-1</sub></td></tr>
+     * <tr>
+     *     <th>N / 2</th>
+     *     <td>x<sub>N/2</sub></td>
+     *     <td colspan="5" rowspan="5" align="center" valign="middle">
+     *         &uarr;<br/>
+     *         &larr; D<sub>bottom</sub> &rarr;<br/>
+     *         &darr;
+     *     </td>
+     * </tr>
+     * <tr><th>N / 2 + 1</th><td>x<sub>N/2+1</sub></td></tr>
+     * <tr><th>N / 2 + 2</th><td>x<sub>N/2+2</sub></td></tr>
+     * <tr><th>&hellip;</th><td>&hellip;</td></tr>
+     * <tr><th>N</th><td>x<sub>N</sub></td></tr>
+     * </tbody>
      * </table>
-     * <pre>
-     *        +--------+---+---+---+-----+---+
-     *        |   0    | 1 | 2 | 3 | ... |n+1|
-     * +------+--------+---+---+---+-----+---+
-     * |0     | x<sub>0</sub>     |       /\            |
-     * |1     | x<sub>1</sub>     |       ||            |
-     * |2     | x<sub>2</sub>     |   <= D<sub>top</sub>  =>       |
-     * |...   | ...    |       ||            |
-     * |N/2-1 | x<sub>N/2-1</sub>  |       \/            |
-     * +------+--------+---+---+---+-----+---+
-     * |N/2   | x<sub>N/2</sub>   |       /\            |
-     * |N/2+1 | x<sub>N/2+1</sub>  |       ||            |
-     * |N/2+2 | x<sub>N/2+2</sub>  |  <= D<sub>bottom</sub>  =>      | which is in the last column of the matrix
-     * |...   | ...    |       ||            |
-     * |N     | x<sub>N/2</sub>   |        \/           |
-     * +------+--------+---+---+---+-----+---+
-     * </pre>
      *
-     * @param x input vector
-     * @return y output vector
+     * @param x the input vector
+     * @return the output vector, {@code y}
      * @exception IllegalArgumentException if input array is not a power of 2
      */
     protected double[] fht(double[] x) throws IllegalArgumentException {
