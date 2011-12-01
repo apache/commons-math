@@ -42,11 +42,10 @@ public final class MathUtils {
     public static final double TWO_PI = 2 * FastMath.PI;
 
     /**
-     * Private Constructor
+     * Class contains only static methods.
      */
-    private MathUtils() {
-        super();
-    }
+    private MathUtils() {}
+
 
     /**
      * Returns an integer hash code representing the given double value.
