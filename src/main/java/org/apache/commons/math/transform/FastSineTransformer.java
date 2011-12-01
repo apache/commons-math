@@ -56,7 +56,7 @@ public class FastSineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform(double f[])
+    public double[] transform(double[] f)
         throws IllegalArgumentException {
         return fst(f);
     }
@@ -78,7 +78,7 @@ public class FastSineTransformer implements RealTransformer {
                               double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         data[0] = 0.0;
         return fst(data);
     }
@@ -93,10 +93,10 @@ public class FastSineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] transform2(double f[]) throws IllegalArgumentException {
+    public double[] transform2(double[] f) throws IllegalArgumentException {
 
-        double scaling_coefficient = FastMath.sqrt(2.0 / f.length);
-        return FastFourierTransformer.scaleArray(fst(f), scaling_coefficient);
+        double scalingCoefficient = FastMath.sqrt(2.0 / f.length);
+        return FastFourierTransformer.scaleArray(fst(f), scalingCoefficient);
     }
 
     /**
@@ -116,10 +116,10 @@ public class FastSineTransformer implements RealTransformer {
         UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         data[0] = 0.0;
-        double scaling_coefficient = FastMath.sqrt(2.0 / n);
-        return FastFourierTransformer.scaleArray(fst(data), scaling_coefficient);
+        double scalingCoefficient = FastMath.sqrt(2.0 / n);
+        return FastFourierTransformer.scaleArray(fst(data), scalingCoefficient);
     }
 
     /**
@@ -132,10 +132,10 @@ public class FastSineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform(double[] f) throws IllegalArgumentException {
 
-        double scaling_coefficient = 2.0 / f.length;
-        return FastFourierTransformer.scaleArray(fst(f), scaling_coefficient);
+        double scalingCoefficient = 2.0 / f.length;
+        return FastFourierTransformer.scaleArray(fst(f), scalingCoefficient);
     }
 
     /**
@@ -154,10 +154,10 @@ public class FastSineTransformer implements RealTransformer {
     public double[] inverseTransform(UnivariateFunction f, double min, double max, int n)
         throws IllegalArgumentException {
 
-        double data[] = FastFourierTransformer.sample(f, min, max, n);
+        double[] data = FastFourierTransformer.sample(f, min, max, n);
         data[0] = 0.0;
-        double scaling_coefficient = 2.0 / n;
-        return FastFourierTransformer.scaleArray(fst(data), scaling_coefficient);
+        double scalingCoefficient = 2.0 / n;
+        return FastFourierTransformer.scaleArray(fst(data), scalingCoefficient);
     }
 
     /**
@@ -170,7 +170,7 @@ public class FastSineTransformer implements RealTransformer {
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public double[] inverseTransform2(double f[]) throws IllegalArgumentException {
+    public double[] inverseTransform2(double[] f) throws IllegalArgumentException {
 
         return transform2(f);
     }
@@ -201,9 +201,9 @@ public class FastSineTransformer implements RealTransformer {
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    protected double[] fst(double f[]) throws IllegalArgumentException {
+    protected double[] fst(double[] f) throws IllegalArgumentException {
 
-        final double transformed[] = new double[f.length];
+        final double[] transformed = new double[f.length];
 
         FastFourierTransformer.verifyDataSet(f);
         if (f[0] != 0.0) {
@@ -222,13 +222,13 @@ public class FastSineTransformer implements RealTransformer {
         x[0] = 0.0;
         x[n >> 1] = 2.0 * f[n >> 1];
         for (int i = 1; i < (n >> 1); i++) {
-            final double a = FastMath.sin(i * FastMath.PI / n) * (f[i] + f[n-i]);
-            final double b = 0.5 * (f[i] - f[n-i]);
+            final double a = FastMath.sin(i * FastMath.PI / n) * (f[i] + f[n - i]);
+            final double b = 0.5 * (f[i] - f[n - i]);
             x[i]     = a + b;
             x[n - i] = a - b;
         }
         FastFourierTransformer transformer = new FastFourierTransformer();
-        Complex y[] = transformer.transform(x);
+        Complex[] y = transformer.transform(x);
 
         // reconstruct the FST result for the original array
         transformed[0] = 0.0;
