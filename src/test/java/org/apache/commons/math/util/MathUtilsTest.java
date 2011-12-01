@@ -209,30 +209,30 @@ public final class MathUtilsTest {
 
     @Test
     public void testSignByte() {
-        Assert.assertEquals((byte) 1, MathUtils.sign((byte) 2));
-        Assert.assertEquals((byte) 0, MathUtils.sign((byte) 0));
-        Assert.assertEquals((byte) (-1), MathUtils.sign((byte) (-2)));
+        final byte one = (byte) 1;
+        Assert.assertEquals((byte) 1, MathUtils.copySign(one, (byte) 2));
+        Assert.assertEquals((byte) (-1), MathUtils.copySign(one, (byte) (-2)));
     }
 
     @Test
     public void testSignInt() {
-        Assert.assertEquals(1, MathUtils.sign(2));
-        Assert.assertEquals(0, MathUtils.sign(0));
-        Assert.assertEquals((-1), MathUtils.sign((-2)));
+        final int one = 1;
+        Assert.assertEquals(1, MathUtils.copySign(one, 2));
+        Assert.assertEquals((-1), MathUtils.copySign(one, -2));
     }
 
     @Test
     public void testSignLong() {
-        Assert.assertEquals(1L, MathUtils.sign(2L));
-        Assert.assertEquals(0L, MathUtils.sign(0L));
-        Assert.assertEquals(-1L, MathUtils.sign(-2L));
+        final long one = 1L;
+        Assert.assertEquals(1L, MathUtils.copySign(one, 2L));
+        Assert.assertEquals(-1L, MathUtils.copySign(one, -2L));
     }
 
     @Test
     public void testSignShort() {
-        Assert.assertEquals((short) 1, MathUtils.sign((short) 2));
-        Assert.assertEquals((short) 0, MathUtils.sign((short) 0));
-        Assert.assertEquals((short) (-1), MathUtils.sign((short) (-2)));
+        final short one = (short) 1;
+        Assert.assertEquals((short) 1, MathUtils.copySign(one, (short) 2));
+        Assert.assertEquals((short) (-1), MathUtils.copySign(one, (short) (-2)));
     }
 
     @Test
