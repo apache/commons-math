@@ -34,7 +34,7 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 public class FastHadamardTransformer implements RealTransformer {
 
     /** {@inheritDoc} */
-    public double[] transform(double f[])
+    public double[] transform(double[] f)
         throws IllegalArgumentException {
         return fht(f);
     }
@@ -47,7 +47,7 @@ public class FastHadamardTransformer implements RealTransformer {
     }
 
     /** {@inheritDoc} */
-    public double[] inverseTransform(double f[])
+    public double[] inverseTransform(double[] f)
     throws IllegalArgumentException {
         return FastFourierTransformer.scaleArray(fht(f), 1.0 / f.length);
    }
@@ -69,7 +69,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * @return the integer transformed array (spectrum)
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    public int[] transform(int f[])
+    public int[] transform(int[] f)
         throws IllegalArgumentException {
         return fht(f);
     }
@@ -151,7 +151,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * @return y output vector
      * @exception IllegalArgumentException if input array is not a power of 2
      */
-    protected double[] fht(double x[]) throws IllegalArgumentException {
+    protected double[] fht(double[] x) throws IllegalArgumentException {
 
         // n is the row count of the input vector x
         final int n     = x.length;
@@ -202,7 +202,7 @@ public class FastHadamardTransformer implements RealTransformer {
      * @return y output vector
      * @exception IllegalArgumentException if input array is not a power of 2
      */
-    protected int[] fht(int x[]) throws IllegalArgumentException {
+    protected int[] fht(int[] x) throws IllegalArgumentException {
 
         // n is the row count of the input vector x
         final int n     = x.length;
