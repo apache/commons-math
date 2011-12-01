@@ -41,24 +41,6 @@ public final class MathUtils {
      */
     public static final double TWO_PI = 2 * FastMath.PI;
 
-    /** -1.0 cast as a byte. */
-    private static final byte  NB = (byte)-1;
-
-    /** -1.0 cast as a short. */
-    private static final short NS = (short)-1;
-
-    /** 1.0 cast as a byte. */
-    private static final byte  PB = (byte)1;
-
-    /** 1.0 cast as a short. */
-    private static final short PS = (short)1;
-
-    /** 0.0 cast as a byte. */
-    private static final byte  ZB = (byte)0;
-
-    /** 0.0 cast as a short. */
-    private static final short ZS = (short)0;
-
     /**
      * Private Constructor
      */
@@ -131,20 +113,6 @@ public final class MathUtils {
                                 double offset) {
         final double p = FastMath.abs(period);
         return a - p * FastMath.floor((a - offset) / p) - offset;
-    }
-
-    /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for byte value {@code x}.
-     * <p>
-     * For a byte value x, this method returns (byte)(+1) if x > 0, (byte)(0) if
-     * x = 0, and (byte)(-1) if x < 0.</p>
-     *
-     * @param x the value, a byte
-     * @return (byte)(+1), (byte)(0), or (byte)(-1), depending on the sign of x
-     */
-    public static byte sign(final byte x) {
-        return (x == ZB) ? ZB : (x > ZB) ? PB : NB;
     }
 
     /**
@@ -234,46 +202,6 @@ public final class MathUtils {
             return -magnitude; // Flip sign.
         }
     }
-
-    /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for int value {@code x}.
-     * <p>
-     * For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1
-     * if x < 0.</p>
-     *
-     * @param x the value, an int
-     * @return +1, 0, or -1, depending on the sign of x
-     */
-    public static int sign(final int x) {
-        return (x == 0) ? 0 : (x > 0) ? 1 : -1;
-    }
-
-    /**
-     * Returns the <a href="http://mathworld.wolfram.com/Sign.html"> sign</a>
-     * for long value {@code x}.
-     * <p>
-     * For a long value x, this method returns +1L if x > 0, 0L if x = 0, and
-     * -1L if x < 0.</p>
-     *
-     * @param x the value, a long
-     * @return +1L, 0L, or -1L, depending on the sign of x
-     */
-    public static long sign(final long x) {
-        return (x == 0L) ? 0L : (x > 0L) ? 1L : -1L;
-    }
-
-    /**
-     * Compute the <a href="http://mathworld.wolfram.com/Sign.html">sign</a>
-     * of the argument.
-     *
-     * @param x the value, a short
-     * @return 1 if {@code x > 0}, 0 if {@code x == 0}, and -1 if {@code x < 0}.
-     */
-    public static short sign(final short x) {
-        return (x == ZS) ? ZS : (x > ZS) ? PS : NS;
-    }
-
     /**
      * Check that the argument is a real number.
      *
