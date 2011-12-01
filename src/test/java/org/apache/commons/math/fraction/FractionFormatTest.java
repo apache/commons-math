@@ -137,6 +137,44 @@ public class FractionFormatTest {
     }
 
     @Test
+    public void testParseOne1() {
+        String source = "1 / 1";
+        Fraction c = properFormat.parse(source);
+        Assert.assertNotNull(c);
+        Assert.assertEquals(1, c.getNumerator());
+        Assert.assertEquals(1, c.getDenominator());
+    }
+
+    @Test
+    public void testParseOne2() {
+        String source = "10 / 10";
+        Fraction c = properFormat.parse(source);
+        Assert.assertNotNull(c);
+        Assert.assertEquals(1, c.getNumerator());
+        Assert.assertEquals(1, c.getDenominator());
+    }
+
+    @Test
+    public void testParseZero1() {
+        String source = "0 / 1";
+        Fraction c = properFormat.parse(source);
+        Assert.assertNotNull(c);
+        Assert.assertEquals(0, c.getNumerator());
+        Assert.assertEquals(1, c.getDenominator());
+    }
+
+    @Test
+    public void testParseZero2() {
+        String source = "-0 / 1";
+        Fraction c = properFormat.parse(source);
+        Assert.assertNotNull(c);
+        Assert.assertEquals(0, c.getNumerator());
+        Assert.assertEquals(1, c.getDenominator());
+        // This test shows that the sign is not preserved.
+        Assert.assertEquals(Double.POSITIVE_INFINITY, 1d / c.doubleValue(), 0);
+    }
+
+    @Test
     public void testParseInvalid() {
         String source = "a";
         String msg = "should not be able to parse '10 / a'.";
