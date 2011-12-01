@@ -38,7 +38,7 @@ public interface RealTransformer  {
      * @return the real transformed array (spectrum)
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] transform(double f[])
+    double[] transform(double[] f)
         throws IllegalArgumentException;
 
     /**
@@ -59,7 +59,7 @@ public interface RealTransformer  {
      * @return the real inversely transformed array (signal)
      * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inverseTransform(double f[])
+    double[] inverseTransform(double[] f)
         throws IllegalArgumentException;
 
     /**
