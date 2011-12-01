@@ -52,6 +52,14 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-690">
+        Removed unused or duplicate utility methods from "MathUtils".
+        Math functions with "double" arguments were moved to class "FastMath".
+      </action>
+      <action dev="erans" type="fix" issue="MATH-689">
+        Broke up bloated "MathUtils" class into "MathArrays", "Precision",
+        "ArithmeticUtils" classes.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-704" due-to="Thomas Niedhart">
         Fixed array indexing error in Variance evaluate method for
         computing the weighted variance of an array segment.
