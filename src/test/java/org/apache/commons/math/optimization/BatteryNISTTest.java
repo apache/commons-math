@@ -16,7 +16,6 @@
 package org.apache.commons.math.optimization;
 
 import java.util.Arrays;
-import junit.framework.Assert;
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
@@ -29,6 +28,7 @@ import org.apache.commons.math.optimization.general.AbstractScalarDifferentiable
 import org.apache.commons.math.optimization.general.ConjugateGradientFormula;
 import org.apache.commons.math.optimization.general.NonLinearConjugateGradientOptimizer;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

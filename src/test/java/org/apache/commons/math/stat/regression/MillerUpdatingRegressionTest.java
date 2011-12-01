@@ -16,14 +16,12 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import junit.framework.Assert;
-
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.correlation.PearsonsCorrelation;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.util.FastMath;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * MillerUpdatingRegression tests.
@@ -51,11 +49,11 @@ public class MillerUpdatingRegressionTest {
     public void testHasIntercept() {
         MillerUpdatingRegression instance = new MillerUpdatingRegression(10, false);
         if (instance.hasIntercept()) {
-            fail("Should not have intercept");
+            Assert.fail("Should not have intercept");
         }
         instance = new MillerUpdatingRegression(10, true);
         if (!instance.hasIntercept()) {
-            fail("Should have intercept");
+            Assert.fail("Should have intercept");
         }
     }
 
@@ -76,14 +74,14 @@ public class MillerUpdatingRegressionTest {
         }
         instance.addObservations(xAll, y);
         if (instance.getN() != xAll.length) {
-            fail("Number of observations not correct in bulk addition");
+            Assert.fail("Number of observations not correct in bulk addition");
         }
         instance.clear();
         for (int i = 0; i < xAll.length; i++) {
             instance.addObservation(xAll[i], y[i]);
         }
         if (instance.getN() != xAll.length) {
-            fail("Number of observations not correct in drip addition");
+            Assert.fail("Number of observations not correct in drip addition");
         }
         return;
     }
@@ -93,44 +91,44 @@ public class MillerUpdatingRegressionTest {
         MillerUpdatingRegression instance = new MillerUpdatingRegression(3, true);
         try {
             instance.addObservation(new double[]{1.0}, 0.0);
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, 0.0);
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0}, 0.0);
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         }
 
         //now we try it without an intercept
         instance = new MillerUpdatingRegression(3, false);
         try {
             instance.addObservation(new double[]{1.0}, 0.0);
-            fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0}, 0.0);
-            fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
         }
         try {
             instance.addObservation(new double[]{1.0, 1.0, 1.0}, 0.0);
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException [NOINTERCEPT]");
+            Assert.fail("Should throw IllegalArgumentException [NOINTERCEPT]");
         }
     }
 
@@ -142,10 +140,10 @@ public class MillerUpdatingRegressionTest {
             double[] y = {1.0};
             instance.addObservations(tst, y);
 
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         }
 
         try {
@@ -153,10 +151,10 @@ public class MillerUpdatingRegressionTest {
             double[] y = {1.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
             instance.addObservations(tst, y);
 
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException iae) {
         } catch (Exception e) {
-            fail("Should throw IllegalArgumentException");
+            Assert.fail("Should throw IllegalArgumentException");
         }
     }
 
@@ -192,7 +190,7 @@ public class MillerUpdatingRegressionTest {
 
             TestUtils.assertEquals(0.01552839, result.getMeanSquareError(), 1.0e-8);
         } catch (Exception e) {
-            fail("Should not throw exception but does");
+            Assert.fail("Should not throw exception but does");
         }
     }
 
@@ -225,7 +223,7 @@ public class MillerUpdatingRegressionTest {
             TestUtils.assertEquals(0.9883, result.getRSquared(), 1.0e-4);
             TestUtils.assertEquals(0.01552839, result.getMeanSquareError(), 1.0e-8);
         } catch (Exception e) {
-            fail("Should not throw exception but does");
+            Assert.fail("Should not throw exception but does");
         }
     }
 
@@ -733,7 +731,7 @@ public class MillerUpdatingRegressionTest {
 //        instance.addObservations(x, y);
 //        RegressionResults result = instance.regress();
 //        if (result == null) {
-//            fail("Null result....");
+//            Assert.fail("Null result....");
 //        }
 //
 //        instance.reorderRegressors(new int[]{3, 2}, 0);
@@ -742,16 +740,16 @@ public class MillerUpdatingRegressionTest {
 //        double[] beta = result.getParameterEstimates();
 //        double[] betar = resultInverse.getParameterEstimates();
 //        if (Math.abs(beta[0] - betar[0]) > 1.0e-14) {
-//            fail("Parameters not correct after reorder (0,3)");
+//            Assert.fail("Parameters not correct after reorder (0,3)");
 //        }
 //        if (Math.abs(beta[1] - betar[1]) > 1.0e-14) {
-//            fail("Parameters not correct after reorder (1,2)");
+//            Assert.fail("Parameters not correct after reorder (1,2)");
 //        }
 //        if (Math.abs(beta[2] - betar[2]) > 1.0e-14) {
-//            fail("Parameters not correct after reorder (2,1)");
+//            Assert.fail("Parameters not correct after reorder (2,1)");
 //        }
 //        if (Math.abs(beta[3] - betar[3]) > 1.0e-14) {
-//            fail("Parameters not correct after reorder (3,0)");
+//            Assert.fail("Parameters not correct after reorder (3,0)");
 //        }
 //    }
 
@@ -793,15 +791,15 @@ public class MillerUpdatingRegressionTest {
 
         for (int i = 0; i < beta.length; i++) {
             if (Math.abs(beta[i] - betar[i]) > 1.0e-8) {
-                fail("Parameters not correctly estimated");
+                Assert.fail("Parameters not correctly estimated");
             }
             if (Math.abs(se[i] - ser[i]) > 1.0e-8) {
-                fail("Standard errors not correctly estimated");
+                Assert.fail("Standard errors not correctly estimated");
             }
             for (int j = 0; j < i; j++) {
                 if (Math.abs(result.getCovarianceOfParameters(i, j)
                         - resultRedundant.getCovarianceOfParameters(i, j)) > 1.0e-8) {
-                    fail("Variance Covariance not correct");
+                    Assert.fail("Variance Covariance not correct");
                 }
             }
         }
@@ -854,72 +852,72 @@ public class MillerUpdatingRegressionTest {
         double[] ser = resultRedundant.getStdErrorOfEstimates();
 
         if (Math.abs(beta[0] - betar[0]) > 1.0e-8) {
-            fail("Parameters not correct after reorder (0,3)");
+            Assert.fail("Parameters not correct after reorder (0,3)");
         }
         if (Math.abs(beta[1] - betar[2]) > 1.0e-8) {
-            fail("Parameters not correct after reorder (1,2)");
+            Assert.fail("Parameters not correct after reorder (1,2)");
         }
         if (Math.abs(beta[2] - betar[3]) > 1.0e-8) {
-            fail("Parameters not correct after reorder (2,1)");
+            Assert.fail("Parameters not correct after reorder (2,1)");
         }
         if (Math.abs(beta[3] - betar[5]) > 1.0e-8) {
-            fail("Parameters not correct after reorder (3,0)");
+            Assert.fail("Parameters not correct after reorder (3,0)");
         }
 
         if (Math.abs(se[0] - ser[0]) > 1.0e-8) {
-            fail("Se not correct after reorder (0,3)");
+            Assert.fail("Se not correct after reorder (0,3)");
         }
         if (Math.abs(se[1] - ser[2]) > 1.0e-8) {
-            fail("Se not correct after reorder (1,2)");
+            Assert.fail("Se not correct after reorder (1,2)");
         }
         if (Math.abs(se[2] - ser[3]) > 1.0e-8) {
-            fail("Se not correct after reorder (2,1)");
+            Assert.fail("Se not correct after reorder (2,1)");
         }
         if (Math.abs(se[3] - ser[5]) > 1.0e-8) {
-            fail("Se not correct after reorder (3,0)");
+            Assert.fail("Se not correct after reorder (3,0)");
         }
 
         if (Math.abs(result.getCovarianceOfParameters(0, 0)
                 - resultRedundant.getCovarianceOfParameters(0, 0)) > 1.0e-8) {
-            fail("VCV not correct after reorder (0,0)");
+            Assert.fail("VCV not correct after reorder (0,0)");
         }
         if (Math.abs(result.getCovarianceOfParameters(0, 1)
                 - resultRedundant.getCovarianceOfParameters(0, 2)) > 1.0e-8) {
-            fail("VCV not correct after reorder (0,1)<->(0,2)");
+            Assert.fail("VCV not correct after reorder (0,1)<->(0,2)");
         }
         if (Math.abs(result.getCovarianceOfParameters(0, 2)
                 - resultRedundant.getCovarianceOfParameters(0, 3)) > 1.0e-8) {
-            fail("VCV not correct after reorder (0,2)<->(0,1)");
+            Assert.fail("VCV not correct after reorder (0,2)<->(0,1)");
         }
         if (Math.abs(result.getCovarianceOfParameters(0, 3)
                 - resultRedundant.getCovarianceOfParameters(0, 5)) > 1.0e-8) {
-            fail("VCV not correct after reorder (0,3)<->(0,3)");
+            Assert.fail("VCV not correct after reorder (0,3)<->(0,3)");
         }
         if (Math.abs(result.getCovarianceOfParameters(1, 0)
                 - resultRedundant.getCovarianceOfParameters(2, 0)) > 1.0e-8) {
-            fail("VCV not correct after reorder (1,0)<->(2,0)");
+            Assert.fail("VCV not correct after reorder (1,0)<->(2,0)");
         }
         if (Math.abs(result.getCovarianceOfParameters(1, 1)
                 - resultRedundant.getCovarianceOfParameters(2, 2)) > 1.0e-8) {
-            fail("VCV not correct  (1,1)<->(2,1)");
+            Assert.fail("VCV not correct  (1,1)<->(2,1)");
         }
         if (Math.abs(result.getCovarianceOfParameters(1, 2)
                 - resultRedundant.getCovarianceOfParameters(2, 3)) > 1.0e-8) {
-            fail("VCV not correct  (1,2)<->(2,2)");
+            Assert.fail("VCV not correct  (1,2)<->(2,2)");
         }
 
         if (Math.abs(result.getCovarianceOfParameters(2, 0)
                 - resultRedundant.getCovarianceOfParameters(3, 0)) > 1.0e-8) {
-            fail("VCV not correct  (2,0)<->(1,0)");
+            Assert.fail("VCV not correct  (2,0)<->(1,0)");
         }
         if (Math.abs(result.getCovarianceOfParameters(2, 1)
                 - resultRedundant.getCovarianceOfParameters(3, 2)) > 1.0e-8) {
-            fail("VCV not correct  (2,1)<->(1,2)");
+            Assert.fail("VCV not correct  (2,1)<->(1,2)");
         }
 
         if (Math.abs(result.getCovarianceOfParameters(3, 3)
                 - resultRedundant.getCovarianceOfParameters(5, 5)) > 1.0e-8) {
-            fail("VCV not correct  (3,3)<->(3,2)");
+            Assert.fail("VCV not correct  (3,3)<->(3,2)");
         }
 
         TestUtils.assertEquals(result.getAdjustedRSquared(), resultRedundant.getAdjustedRSquared(), 1.0e-8);
@@ -971,14 +969,14 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < i; j++) {
                 if (Math.abs(pc[idx] - cp[off] / (diag[i] * diag[j])) > 1.0e-8) {
-                    fail("Failed cross products... i = " + i + " j = " + j);
+                    Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
                 ++off;
             }
             ++off;
             if (Math.abs(pc[i+off2] - yxcorr[ i] / (FastMath.sqrt(sumysq) * diag[i])) > 1.0e-8) {
-                fail("failed cross product i = " + i + " y");
+                Assert.fail("Assert.failed cross product i = " + i + " y");
             }
         }
         double[] pc2 = instance.getPartialCorrelations(1);
@@ -988,14 +986,14 @@ public class MillerUpdatingRegressionTest {
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < i; j++) {
                 if (Math.abs(pc2[idx] - corr.getEntry(j, i)) > 1.0e-8) {
-                    fail("Failed cross products... i = " + i + " j = " + j);
+                    Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
             }
         }
         double[] pc3 = instance.getPartialCorrelations(2);
         if (pc3 == null) {
-            fail("Should not be null");
+            Assert.fail("Should not be null");
         }
         return;
     }

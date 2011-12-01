@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math.random;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * The class <code>StableRandomGeneratorTest</code> contains tests for the class
@@ -28,19 +28,10 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
  * 
  * @version $Revision$
  */
-public class StableRandomGeneratorTest extends TestCase {
+public class StableRandomGeneratorTest {
 
     private RandomGenerator rg = new Well19937c(100);
     private final static int sampleSize = 10000;
-
-    /**
-     * Construct new test instance
-     * 
-     * @param name the test name
-     */
-    public StableRandomGeneratorTest(String name) {
-        super(name);
-    }
 
     /**
      * Run the double nextDouble() method test Due to leptokurtic property the
@@ -48,6 +39,7 @@ public class StableRandomGeneratorTest extends TestCase {
      * 
      * TODO: verify that tolerance this wide is really OK
      */
+    @Test
     public void testNextDouble() {
         StableRandomGenerator generator = new StableRandomGenerator(rg, 1.3,
                 0.1);
@@ -55,12 +47,13 @@ public class StableRandomGeneratorTest extends TestCase {
         for (int i = 0; i < sample.length; ++i) {
             sample[i] = generator.nextNormalizedDouble();
         }
-        assertEquals(0.0, StatUtils.mean(sample), 0.3);
+        Assert.assertEquals(0.0, StatUtils.mean(sample), 0.3);
     }
 
     /**
      * If alpha = 2, than it must be Gaussian distribution
      */
+    @Test
     public void testGaussianCase() {
         StableRandomGenerator generator = new StableRandomGenerator(rg, 2d, 0.0);
 
@@ -68,13 +61,14 @@ public class StableRandomGeneratorTest extends TestCase {
         for (int i = 0; i < sample.length; ++i) {
             sample[i] = generator.nextNormalizedDouble();
         }
-        assertEquals(0.0, StatUtils.mean(sample), 0.02);
-        assertEquals(1.0, StatUtils.variance(sample), 0.02);
+        Assert.assertEquals(0.0, StatUtils.mean(sample), 0.02);
+        Assert.assertEquals(1.0, StatUtils.variance(sample), 0.02);
     }
 
     /**
      * If alpha = 1, than it must be Cauchy distribution
      */
+    @Test
     public void testCauchyCase() {
         StableRandomGenerator generator = new StableRandomGenerator(rg, 1d, 0.0);
         DescriptiveStatistics summary = new DescriptiveStatistics();
@@ -86,49 +80,53 @@ public class StableRandomGeneratorTest extends TestCase {
 
         // Standard Cauchy distribution should have zero median and mode
         double median = summary.getPercentile(50);
-        assertEquals(0.0, median, 0.2);
+        Assert.assertEquals(0.0, median, 0.2);
     }
 
     /**
      * Input parameter range tests
      */
+    @Test
     public void testAlphaRangeBelowZero() {
         try {
             new StableRandomGenerator(rg,
                     -1.0, 0.0);
-            fail("Expected OutOfRangeException");
+            Assert.fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
-            assertEquals(-1.0, e.getArgument());
+            Assert.assertEquals(-1.0, e.getArgument());
         }
     }
 
+    @Test
     public void testAlphaRangeAboveTwo() {
         try {
             new StableRandomGenerator(rg,
                     3.0, 0.0);
-            fail("Expected OutOfRangeException");
+            Assert.fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
-            assertEquals(3.0, e.getArgument());
+            Assert.assertEquals(3.0, e.getArgument());
         }
     }
 
+    @Test
     public void testBetaRangeBelowMinusOne() {
         try {
             new StableRandomGenerator(rg,
                     1.0, -2.0);
-            fail("Expected OutOfRangeException");
+            Assert.fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
-            assertEquals(-2.0, e.getArgument());
+            Assert.assertEquals(-2.0, e.getArgument());
         }
     }
 
+    @Test
     public void testBetaRangeAboveOne() {
         try {
             new StableRandomGenerator(rg,
                     1.0, 2.0);
-            fail("Expected OutOfRangeException");
+            Assert.fail("Expected OutOfRangeException");
         } catch (OutOfRangeException e) {
-            assertEquals(2.0, e.getArgument());
+            Assert.assertEquals(2.0, e.getArgument());
         }
     }
 }

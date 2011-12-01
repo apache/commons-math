@@ -64,7 +64,7 @@
       </equals>
     </condition>
     <!--Test if JUNIT is present in ANT classpath-->
-    <available property="Junit.present" classname="junit.framework.Test">
+    <available property="Junit.present" classname="org.junit.Test">
     </available>
   </target>
   <target name="test" description="o Run the test cases" if="test.failure" depends="internal-test">

@@ -23,12 +23,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
-import junit.framework.Assert;
-
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Sin;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.linear.RealVector.Entry;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
