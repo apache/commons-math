@@ -86,29 +86,62 @@ public class FastHadamardTransformer implements RealTransformer {
      * <li><b>y</b> is the output vector which is our desired result</li>
      * <li>a and b are just helper rows</li>
      * </ol>
-     * <pre>
-     * <code>
-     * +----+----------+---------+----------+
-     * | <b>x</b>  |    <b>a</b>     |    <b>b</b>    |    <b>y</b>     |
-     * +----+----------+---------+----------+
-     * | x<sub>0</sub> | a<sub>0</sub>=x<sub>0</sub>+x<sub>1</sub> | b<sub>0</sub>=a<sub>0</sub>+a<sub>1</sub> | y<sub>0</sub>=b<sub>0</sub>+b<sub>1</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>1</sub> | a<sub>1</sub>=x<sub>2</sub>+x<sub>3</sub> | b<sub>0</sub>=a<sub>2</sub>+a<sub>3</sub> | y<sub>0</sub>=b<sub>2</sub>+b<sub>3</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>2</sub> | a<sub>2</sub>=x<sub>4</sub>+x<sub>5</sub> | b<sub>0</sub>=a<sub>4</sub>+a<sub>5</sub> | y<sub>0</sub>=b<sub>4</sub>+b<sub>5</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>3</sub> | a<sub>3</sub>=x<sub>6</sub>+x<sub>7</sub> | b<sub>0</sub>=a<sub>6</sub>+a<sub>7</sub> | y<sub>0</sub>=b<sub>6</sub>+b<sub>7</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>4</sub> | a<sub>0</sub>=x<sub>0</sub>-x<sub>1</sub> | b<sub>0</sub>=a<sub>0</sub>-a<sub>1</sub> | y<sub>0</sub>=b<sub>0</sub>-b<sub>1</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>5</sub> | a<sub>1</sub>=x<sub>2</sub>-x<sub>3</sub> | b<sub>0</sub>=a<sub>2</sub>-a<sub>3</sub> | y<sub>0</sub>=b<sub>2</sub>-b<sub>3</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>6</sub> | a<sub>2</sub>=x<sub>4</sub>-x<sub>5</sub> | b<sub>0</sub>=a<sub>4</sub>-a<sub>5</sub> | y<sub>0</sub>=b<sub>4</sub>-b<sub>5</sub> |
-     * +----+----------+---------+----------+
-     * | x<sub>7</sub> | a<sub>3</sub>=x<sub>6</sub>-x<sub>7</sub> | b<sub>0</sub>=a<sub>6</sub>-a<sub>7</sub> | y<sub>0</sub>=b<sub>6</sub>-b<sub>7</sub> |
-     * +----+----------+---------+----------+
-     * </code>
-     * </pre>
+     * <table border="1" align="center">
+     * <tr>
+     *     <th>x</th>
+     *     <th>a</th>
+     *     <th>b</th>
+     *     <th>y</th>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>0</sub></td>
+     *     <td>a<sub>0</sub> = x<sub>0</sub> + x<sub>1</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>0</sub> + a<sub>1</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>0</sub >+ b<sub>1</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>1</sub></td>
+     *     <td>a<sub>1</sub> = x<sub>2</sub> + x<sub>3</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>2</sub> + a<sub>3</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>2</sub> + b<sub>3</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>2</sub></td>
+     *     <td>a<sub>2</sub> = x<sub>4</sub> + x<sub>5</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>4</sub> + a<sub>5</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>4</sub> + b<sub>5</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>3</sub></td>
+     *     <td>a<sub>3</sub> = x<sub>6</sub> + x<sub>7</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>6</sub> + a<sub>7</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>6</sub> + b<sub>7</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>4</sub></td>
+     *     <td>a<sub>0</sub> = x<sub>0</sub> - x<sub>1</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>0</sub> - a<sub>1</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>0</sub> - b<sub>1</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>5</sub></td>
+     *     <td>a<sub>1</sub> = x<sub>2</sub> - x<sub>3</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>2</sub> - a<sub>3</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>2</sub> - b<sub>3</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>6</sub></td>
+     *     <td>a<sub>2</sub> = x<sub>4</sub> - x<sub>5</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>4</sub> - a<sub>5</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>4</sub> - b<sub>5</sub></td>
+     * </tr>
+     * <tr>
+     *     <td>x<sub>7</sub></td>
+     *     <td>a<sub>3</sub> = x<sub>6</sub> - x<sub>7</sub></td>
+     *     <td>b<sub>0</sub> = a<sub>6</sub> - a<sub>7</sub></td>
+     *     <td>y<sub>0</sub> = b<sub>6</sub> - b<sub>7</sub></td>
+     * </tr>
+     * </table>
      *
      * <b><u>How it works</u></b>
      * <ol>
@@ -129,6 +162,21 @@ public class FastHadamardTransformer implements RealTransformer {
      * </ol>
      * <br>
      * <b><u>Visually</u></b>
+     * <table border="1" align="center">
+     * <tr>
+     *     <td>0</td>
+     *     <td>1</td>
+     *     <td>2</td>
+     *     <td>3</td>
+     *     <td>...</td>
+     *     <td>n + 1</td>
+     * </tr>
+     * <tr>
+     *     <td>0</td>
+     *     <td>x<sub>0</sub></td>
+     *     <td colspan="5">&uarr;</td>
+     * </tr>
+     * </table>
      * <pre>
      *        +--------+---+---+---+-----+---+
      *        |   0    | 1 | 2 | 3 | ... |n+1|
