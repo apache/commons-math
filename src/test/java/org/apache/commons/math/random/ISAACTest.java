@@ -17,10 +17,7 @@
 
 package org.apache.commons.math.random;
 
-import java.util.Arrays;
-
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 public final class ISAACTest {
@@ -372,15 +369,15 @@ public final class ISAACTest {
         ISAACRandom isaacRandom = new ISAACRandom(SEED_1);
 
         int[] actualSequence = getActualSequence(isaacRandom);
-        Assert.assertTrue(Arrays.equals(actualSequence, EXPECTED_SEQUENCE_1));
+        Assert.assertArrayEquals(EXPECTED_SEQUENCE_1, actualSequence);
 
         isaacRandom.setSeed(SEED_2);
         actualSequence = getActualSequence(isaacRandom);
-        Assert.assertTrue(Arrays.equals(actualSequence, EXPECTED_SEQUENCE_2));
+        Assert.assertArrayEquals(EXPECTED_SEQUENCE_2, actualSequence);
 
     }
 
-    private static int[] getActualSequence(ISAACRandom isaacRandom) {
+    private int[] getActualSequence(ISAACRandom isaacRandom) {
         int[] actualSequence = new int[1024];
         for (int i = 0; i < actualSequence.length; i++) {
             actualSequence[i] = isaacRandom.nextInt();

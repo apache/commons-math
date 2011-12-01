@@ -54,26 +54,26 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /** The golden ratio */
     private static final int GLD_RATIO = 0x9e3779b9;
 
-    /** the results given to the user */
+    /** The results given to the user */
     private int[] rsl;
 
-    /** the internal state */
+    /** The internal state */
     private int[] mem;
 
-    private transient int[] arr;
-
-    /** count through the results in rsl[] */
+    /** Count through the results in rsl[] */
     private int count;
 
-    /** accumulator */
+    /** Accumulator */
     private int a;
 
-    /** the last result */
+    /** The last result */
     private int b;
 
-    /** counter, guarantees cycle is at least 2^40 */
+    /** Counter, guarantees cycle is at least 2^40 */
     private int c;
 
+    /** The global service variables */
+    private transient int[] arr;
     private transient int x;
     private transient int i;
     private transient int j;
@@ -110,8 +110,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         setSeed(seed);
     }
 
-    /** Allocate the pools arrays.
-     */
+    /** Allocate the pools arrays. */
     private void allocArrays() {
         rsl = new int[SIZE];
         mem = new int[SIZE];
@@ -134,7 +133,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     @Override
     public void setSeed(int[] seed) {
         if (seed == null) {
-            setSeed(System.currentTimeMillis());
+            setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
         int seedLen = seed.length, rslLen = rsl.length;
@@ -150,7 +149,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    protected int next(final int bits) {
+    protected int next(int bits) {
         if (count < 0) {
             isaac();
             count = SIZE - 1;
@@ -172,8 +171,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         }
     }
 
-    /** Intermediate internal loop.
-     */
+    /** Intermediate internal loop. */
     private void isaac2() {
         x = mem[i];
         a ^= a << 13;
@@ -193,16 +191,14 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         isaac3();
     }
 
-    /** Lowest level internal loop.
-     */
+    /** Lowest level internal loop. */
     private void isaac3() {
         mem[i] = mem[(x & MASK) >> 2] + a + b;
         b = mem[(mem[i] >> SIZE_L & MASK) >> 2] + x;
         rsl[i++] = b;
     }
 
-    /** Initialize, or reinitialize, this instance of rand.
-     */
+    /** Initialize, or reinitialize, this instance of rand. */
     private void initState() {
         a = b = c = 0;
         for (i = 0; i < arr.length; i++) {
@@ -241,8 +237,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         count = SIZE - 1;
     }
 
-    /** Shuffle array.
-     */
+    /** Shuffle array. */
     private void shuffle() {
         arr[0] ^= arr[1] << 11;
         arr[3] += arr[0];
@@ -270,8 +265,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         arr[0] += arr[1];
     }
 
-    /** Set the state by copying the internal arrays.
-     */
+    /** Set the state by copying the internal arrays. */
     private void setState() {
         mem[i] = arr[0];
         mem[i + 1] = arr[1];
@@ -282,5 +276,4 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         mem[i + 6] = arr[6];
         mem[i + 7] = arr[7];
     }
-
 }
