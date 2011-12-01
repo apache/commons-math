@@ -215,7 +215,7 @@ public class ProperFractionFormat extends FractionFormat {
         int w = whole.intValue();
         int n = num.intValue();
         int d = den.intValue();
-        return new Fraction(((Math.abs(w) * d) + n) * MathUtils.sign(w), d);
+        return new Fraction(((Math.abs(w) * d) + n) * MathUtils.copySign(1, w), d);
     }
 
     /**
