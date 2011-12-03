@@ -20,7 +20,6 @@ import java.io.Serializable;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
-import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -69,50 +68,80 @@ implements RealDistribution, Serializable {
 
     /** {@inheritDoc} */
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
-
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
 
-        // by default, do simple root finding using bracketing and default solver.
-        // subclasses can override if there is a better method.
-        UnivariateFunction rootFindingFunction =
-            new UnivariateFunction() {
-            public double value(double x) {
+        double lowerBound = getSupportLowerBound();
+        if (p == 0.0) {
+            return lowerBound;
+        }
+
+        double upperBound = getSupportUpperBound();
+        if (p == 1.0) {
+            return upperBound;
+        }
+
+        final double mu = getNumericalMean();
+        final double sig = FastMath.sqrt(getNumericalVariance());
+        final boolean chebyshevApplies;
+        chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                             Double.isInfinite(sig) || Double.isNaN(sig));
+
+        if (lowerBound == Double.NEGATIVE_INFINITY) {
+            if (chebyshevApplies) {
+                lowerBound = mu - sig * FastMath.sqrt((1. - p) / p);
+            } else {
+                lowerBound = -1.0;
+                while (cumulativeProbability(lowerBound) >= p) {
+                    lowerBound *= 2.0;
+                }
+            }
+        }
+
+        if (upperBound == Double.POSITIVE_INFINITY) {
+            if (chebyshevApplies) {
+                upperBound = mu + sig * FastMath.sqrt(p / (1. - p));
+            } else {
+                upperBound = 1.0;
+                while (cumulativeProbability(upperBound) < p) {
+                    upperBound *= 2.0;
+                }
+            }
+        }
+
+        final UnivariateFunction toSolve = new UnivariateFunction() {
+
+            public double value(final double x) {
                 return cumulativeProbability(x) - p;
             }
         };
 
-        // Try to bracket root, test domain endpoints if this fails
-        double lowerBound = getDomainLowerBound(p);
-        double upperBound = getDomainUpperBound(p);
-        double[] bracket = null;
-        try {
-            bracket = UnivariateRealSolverUtils.bracket(
-                    rootFindingFunction, getInitialDomain(p),
-                    lowerBound, upperBound);
-        } catch (NumberIsTooLargeException ex) {
-            /*
-             * Check domain endpoints to see if one gives value that is within
-             * the default solver's defaultAbsoluteAccuracy of 0 (will be the
-             * case if density has bounded support and p is 0 or 1).
-             */
-            if (FastMath.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
-                return lowerBound;
-            }
-            if (FastMath.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
-                return upperBound;
-            }
-            // Failed bracket convergence was not because of corner solution
-            throw new MathInternalError(ex);
-        }
+        double x = UnivariateRealSolverUtils.solve(toSolve,
+                                                   lowerBound,
+                                                   upperBound,
+                                                   getSolverAbsoluteAccuracy());
 
-        // find root
-        double root = UnivariateRealSolverUtils.solve(rootFindingFunction,
-                // override getSolverAbsoluteAccuracy() to use a Brent solver with
-                // absolute accuracy different from the default.
-                bracket[0],bracket[1], getSolverAbsoluteAccuracy());
-        return root;
+        if (!isSupportConnected()) {
+            /* Test for plateau. */
+            final double dx = getSolverAbsoluteAccuracy();
+            if (x - dx >= getSupportLowerBound()) {
+                double px = cumulativeProbability(x);
+                if (cumulativeProbability(x - dx) == px) {
+                    upperBound = x;
+                    while (upperBound - lowerBound > dx) {
+                        final double midPoint = 0.5 * (lowerBound + upperBound);
+                        if (cumulativeProbability(midPoint) < px) {
+                            lowerBound = midPoint;
+                        } else {
+                            upperBound = midPoint;
+                        }
+                    }
+                    return upperBound;
+                }
+            }
+        }
+        return x;
     }
 
     /**
