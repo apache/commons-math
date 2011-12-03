@@ -17,13 +17,11 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.TestUtils;
-import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Abstract base class for {@link IntegerDistribution} tests.
@@ -184,56 +182,6 @@ public abstract class IntegerDistributionAbstractTest {
     @Test
     public void testCumulativeProbabilities() throws Exception {
         verifyCumulativeProbabilities();
-    }
-
-    /**
-     * Verifies that floating point arguments are correctly handled by
-     * cumulativeProbablility(-,-)
-     * JIRA: MATH-184
-     */
-    @Test
-    public void testFloatingPointArguments() throws Exception {
-        for (int i = 0; i < cumulativeTestPoints.length; i++) {
-            double arg = cumulativeTestPoints[i];
-            Assert.assertEquals(
-                    "Incorrect cumulative probability value returned for " +
-                    cumulativeTestPoints[i],
-                    cumulativeTestValues[i],
-                    distribution.cumulativeProbability(arg), tolerance);
-            if (i < cumulativeTestPoints.length - 1) {
-                double arg2 = cumulativeTestPoints[i + 1];
-                Assert.assertEquals("Inconsistent probability for discrete range " +
-                        "[ " + arg + "," + arg2 + " ]",
-                   distribution.cumulativeProbability(
-                           cumulativeTestPoints[i],
-                           cumulativeTestPoints[i + 1]),
-                   distribution.cumulativeProbability(arg, arg2), tolerance);
-                arg = arg - FastMath.random();
-                arg2 = arg2 + FastMath.random();
-                Assert.assertEquals("Inconsistent probability for discrete range " +
-                        "[ " + arg + "," + arg2 + " ]",
-                   distribution.cumulativeProbability(
-                           cumulativeTestPoints[i],
-                           cumulativeTestPoints[i + 1]),
-                   distribution.cumulativeProbability(arg, arg2), tolerance);
-            }
-        }
-        int one = 1;
-        int ten = 10;
-        int two = 2;
-        double oned = one;
-        double twod = two;
-        double tend = ten;
-        Assert.assertEquals(distribution.cumulativeProbability(one, two),
-                distribution.cumulativeProbability(oned, twod), tolerance);
-        Assert.assertEquals(distribution.cumulativeProbability(one, two),
-                distribution.cumulativeProbability(oned - tolerance,
-                        twod + 0.9), tolerance);
-        Assert.assertEquals(distribution.cumulativeProbability(two, ten),
-                distribution.cumulativeProbability(twod, tend), tolerance);
-        Assert.assertEquals(distribution.cumulativeProbability(two, ten),
-                distribution.cumulativeProbability(twod - tolerance,
-                        tend + 0.9), tolerance);
     }
 
     /**

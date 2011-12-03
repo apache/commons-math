@@ -22,56 +22,52 @@ import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.random.RandomDataImpl;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Base class for continuous distributions.  Default implementations are
- * provided for some of the methods that do not vary from distribution to
- * distribution.
+ * Base class for probability distributions on the reals.
+ * Default implementations are provided for some of the methods
+ * that do not vary from distribution to distribution.
  *
  * @version $Id$
+ * @since 3.0
  */
-public abstract class AbstractContinuousDistribution
-    extends AbstractDistribution
-    implements ContinuousDistribution, Serializable {
+public abstract class AbstractRealDistribution
+implements RealDistribution, Serializable {
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -38038050983108802L;
 
     /** Default accuracy. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -38038050983108802L;
-    /**
-     * RandomData instance used to generate samples from the distribution
-     * @since 2.2
-     */
-    protected final RandomDataImpl randomData = new RandomDataImpl();
-    /**
-     * Solver absolute accuracy for inverse cumulative computation.
-     * @since 2.1
-     */
+
+    /** Solver absolute accuracy for inverse cumulative computation */
     private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
-    /**
-     * Default constructor.
-     */
-    protected AbstractContinuousDistribution() {}
+
+    /** RandomData instance used to generate samples from the distribution. */
+    protected final RandomDataImpl randomData = new RandomDataImpl();
+
+    /** Default constructor. */
+    protected AbstractRealDistribution() {}
 
     /**
      * {@inheritDoc}
      *
-     * For continuous distributions {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
+     * The default implementation uses the identity
+     * <p>{@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}</p>
      */
-    public final double probability(double x) {
-        return 0.0;
+    public double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException {
+        if (x0 > x1) {
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
+                    x0, x1, true);
+        }
+        return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
 
         if (p < 0.0 || p > 1.0) {
@@ -120,57 +116,13 @@ public abstract class AbstractContinuousDistribution
     }
 
     /**
-     * Reseed the random generator used to generate samples.
-     *
-     * @param seed New seed.
-     * @since 2.2
-     */
-    public void reseedRandomGenerator(long seed) {
-        randomData.reSeed(seed);
-    }
-
-    /**
-     * Generate a random value sampled from this distribution. The default
-     * implementation uses the
-     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
-     *  inversion method.
-     * </a>
-     *
-     * @return a random value.
-     * @since 2.2
-     */
-    public double sample() {
-        return randomData.nextInversionDeviate(this);
-    }
-
-    /**
-     * Generate a random sample from the distribution.  The default implementation
-     * generates the sample by calling {@link #sample()} in a loop.
-     *
-     * @param sampleSize Number of random values to generate.
-     * @return an array representing the random sample.
-     * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
-     * @since 2.2
-     */
-    public double[] sample(int sampleSize) {
-        if (sampleSize <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
-                                                   sampleSize);
-        }
-        double[] out = new double[sampleSize];
-        for (int i = 0; i < sampleSize; i++) {
-            out[i] = sample();
-        }
-        return out;
-    }
-
-    /**
      * Access the initial domain value, based on {@code p}, used to
      * bracket a CDF root.  This method is used by
      * {@link #inverseCumulativeProbability(double)} to find critical values.
      *
      * @param p Desired probability for the critical value.
      * @return the initial domain value.
+     * TODO to be deleted when applying MATH-699
      */
     protected abstract double getInitialDomain(double p);
 
@@ -181,6 +133,7 @@ public abstract class AbstractContinuousDistribution
      *
      * @param p Desired probability for the critical value.
      * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
+     * TODO to be deleted when applying MATH-699
      */
     protected abstract double getDomainLowerBound(double p);
 
@@ -191,6 +144,7 @@ public abstract class AbstractContinuousDistribution
      *
      * @param p Desired probability for the critical value.
      * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
+     * TODO to be deleted when applying MATH-699
      */
     protected abstract double getDomainUpperBound(double p);
 
@@ -200,23 +154,43 @@ public abstract class AbstractContinuousDistribution
      * absolute accuracy different from the default.
      *
      * @return the maximum absolute error in inverse cumulative probability estimates
-     * @since 2.1
      */
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
 
-    /**
-     * Access the lower bound of the support.
-     *
-     * @return lower bound of the support (might be Double.NEGATIVE_INFINITY)
-     */
-    public abstract double getSupportLowerBound();
+    /** {@inheritDoc} */
+    public void reseedRandomGenerator(long seed) {
+        randomData.reSeed(seed);
+    }
 
     /**
-     * Access the upper bound of the support.
-     *
-     * @return upper bound of the support (might be Double.POSITIVE_INFINITY)
+     * {@inheritDoc}
+     * 
+     * The default implementation uses the
+     * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
+     * inversion method.
+     * </a>
      */
-    public abstract double getSupportUpperBound();
+    public double sample() {
+        return randomData.nextInversionDeviate(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The default implementation generates the sample by calling
+     * {@link #sample()} in a loop.
+     */
+    public double[] sample(int sampleSize) {
+        if (sampleSize <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+                    sampleSize);
+        }
+        double[] out = new double[sampleSize];
+        for (int i = 0; i < sampleSize; i++) {
+            out[i] = sample();
+        }
+        return out;
+    }
 }

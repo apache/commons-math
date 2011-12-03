@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class CauchyDistributionTest extends ContinuousDistributionAbstractTest  {
+public class CauchyDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;

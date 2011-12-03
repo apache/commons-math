@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math.distribution;
-
-import java.io.Serializable;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -32,8 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.1 (changed to concrete class in 3.0)
  * @version $Id$
  */
-public class CauchyDistribution extends AbstractContinuousDistribution
-    implements Serializable {
+public class CauchyDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -108,6 +104,17 @@ public class CauchyDistribution extends AbstractContinuousDistribution
      */
     public double getScale() {
         return scale;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -190,12 +197,33 @@ public class CauchyDistribution extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      *
+     * The mean is always undefined no matter the parameters.
+     *
+     * @return mean (always Double.NaN)
+     */
+    public double getNumericalMean() {
+        return Double.NaN;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The variance is always undefined no matter the parameters.
+     *
+     * @return variance (always Double.NaN)
+     */
+    public double getNumericalVariance() {
+        return Double.NaN;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * The lower bound of the support is always negative infinity no matter
      * the parameters.
      *
      * @return lower bound of the support (always Double.NEGATIVE_INFINITY)
      */
-    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -208,44 +236,28 @@ public class CauchyDistribution extends AbstractContinuousDistribution
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * The mean is always undefined no matter the parameters.
-     *
-     * @return mean (always Double.NaN)
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return Double.NaN;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The variance is always undefined no matter the parameters.
-     *
-     * @return variance (always Double.NaN)
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        return Double.NaN;
-    }
-
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

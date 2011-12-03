@@ -27,7 +27,7 @@ import org.apache.commons.math.TestUtils;
  *
  * @version $Id$
  */
-public class TDistributionTest extends ContinuousDistributionAbstractTest {
+public class TDistributionTest extends RealDistributionAbstractTest {
 
 //-------------- Implementations for abstract methods -----------------------
 

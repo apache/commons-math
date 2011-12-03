@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -31,8 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/BinomialDistribution.html">Binomial Distribution (MathWorld)</a>
  * @version $Id$
  */
-public class BinomialDistribution extends AbstractIntegerDistribution
-        implements Serializable {
+public class BinomialDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 6751309484392813623L;
     /** The number of trials. */
@@ -81,19 +78,19 @@ public class BinomialDistribution extends AbstractIntegerDistribution
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return -1;
+    public double probability(int x) {
+        double ret;
+        if (x < 0 || x > numberOfTrials) {
+            ret = 0.0;
+        } else {
+            ret = FastMath.exp(SaddlePointExpansion.logBinomialProbability(x,
+                    numberOfTrials, probabilityOfSuccess,
+                    1.0 - probabilityOfSuccess));
+        }
+        return ret;
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        return numberOfTrials;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public double cumulativeProbability(int x) {
         double ret;
         if (x < 0) {
@@ -103,19 +100,6 @@ public class BinomialDistribution extends AbstractIntegerDistribution
         } else {
             ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
                     x + 1.0, numberOfTrials - x);
-        }
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    public double probability(int x) {
-        double ret;
-        if (x < 0 || x > numberOfTrials) {
-            ret = 0.0;
-        } else {
-            ret = FastMath.exp(SaddlePointExpansion.logBinomialProbability(x,
-                    numberOfTrials, probabilityOfSuccess,
-                    1.0 - probabilityOfSuccess));
         }
         return ret;
     }
@@ -140,6 +124,39 @@ public class BinomialDistribution extends AbstractIntegerDistribution
         return super.inverseCumulativeProbability(p);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected int getDomainLowerBound(double p) {
+        return -1;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected int getDomainUpperBound(double p) {
+        return numberOfTrials;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For {@code n} trials and probability parameter {@code p}, the mean is
+     * {@code n * p}.
+     */
+    public double getNumericalMean() {
+        return getNumberOfTrials() * getProbabilityOfSuccess();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For {@code n} trials and probability parameter {@code p}, the variance is
+     * {@code n * p * (1 - p)}.
+     */
+    public double getNumericalVariance() {
+        final double p = getProbabilityOfSuccess();
+        return getNumberOfTrials() * p * (1 - p);
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -148,7 +165,6 @@ public class BinomialDistribution extends AbstractIntegerDistribution
      *
      * @return lower bound of the support (always 0)
      */
-    @Override
     public int getSupportLowerBound() {
         return 0;
     }
@@ -160,31 +176,18 @@ public class BinomialDistribution extends AbstractIntegerDistribution
      *
      * @return upper bound of the support (equal to number of trials)
      */
-    @Override
     public int getSupportUpperBound() {
         return getNumberOfTrials();
     }
 
     /**
      * {@inheritDoc}
-     *
-     * For {@code n} trials and probability parameter {@code p}, the mean is
-     * {@code n * p}.
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
      */
-    @Override
-    protected double calculateNumericalMean() {
-        return getNumberOfTrials() * getProbabilityOfSuccess();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For {@code n} trials and probability parameter {@code p}, the variance is
-     * {@code n * p * (1 - p)}.
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final double p = getProbabilityOfSuccess();
-        return getNumberOfTrials() * p * (1 - p);
+    public boolean isSupportConnected() {
+        return true;
     }
 }

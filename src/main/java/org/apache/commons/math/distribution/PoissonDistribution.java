@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
@@ -31,8 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/PoissonDistribution.html">Poisson distribution (MathWorld)</a>
  * @version $Id$
  */
-public class PoissonDistribution extends AbstractIntegerDistribution
-    implements Serializable {
+public class PoissonDistribution extends AbstractIntegerDistribution {
     /**
      * Default maximum number of iterations for cumulative probability calculations.
      * @since 2.1
@@ -72,7 +69,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution
      * @param p the Poisson mean
      * @throws NotStrictlyPositiveException if {@code p <= 0}.
      */
-    public PoissonDistribution(double p) {
+    public PoissonDistribution(double p) throws NotStrictlyPositiveException {
         this(p, DEFAULT_EPSILON, DEFAULT_MAX_ITERATIONS);
     }
 
@@ -84,9 +81,11 @@ public class PoissonDistribution extends AbstractIntegerDistribution
      * @param epsilon Convergence criterion for cumulative probabilities.
      * @param maxIterations the maximum number of iterations for cumulative
      * probabilities.
+     * @throws NotStrictlyPositiveException if {@code p <= 0}.
      * @since 2.1
      */
-    public PoissonDistribution(double p, double epsilon, int maxIterations) {
+    public PoissonDistribution(double p, double epsilon, int maxIterations)
+    throws NotStrictlyPositiveException {
         if (p <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, p);
         }
@@ -102,9 +101,11 @@ public class PoissonDistribution extends AbstractIntegerDistribution
      *
      * @param p Poisson mean.
      * @param epsilon Convergence criterion for cumulative probabilities.
+     * @throws NotStrictlyPositiveException if {@code p <= 0}.
      * @since 2.1
      */
-    public PoissonDistribution(double p, double epsilon) {
+    public PoissonDistribution(double p, double epsilon)
+    throws NotStrictlyPositiveException {
         this(p, epsilon, DEFAULT_MAX_ITERATIONS);
     }
 
@@ -146,7 +147,6 @@ public class PoissonDistribution extends AbstractIntegerDistribution
     }
 
     /** {@inheritDoc} */
-    @Override
     public double cumulativeProbability(int x) {
         if (x < 0) {
             return 0;
@@ -174,6 +174,73 @@ public class PoissonDistribution extends AbstractIntegerDistribution
         return normal.cumulativeProbability(x + 0.5);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected int getDomainLowerBound(double p) {
+        return 0;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected int getDomainUpperBound(double p) {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For mean parameter {@code p}, the mean is {@code p}.
+     */
+    public double getNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For mean parameter {@code p}, the variance is {@code p}.
+     */
+    public double getNumericalVariance() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The lower bound of the support is always 0 no matter the mean parameter.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is positive infinity,
+     * regardless of the parameter values. There is no integer infinity,
+     * so this method returns {@code Integer.MAX_VALUE} and
+     * {@link #isSupportUpperBoundInclusive()} returns {@code true}.
+     *
+     * @return upper bound of the support (always {@code Integer.MAX_VALUE} for
+     * positive infinity)
+     */
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The support of this distribution is connected.
+     *
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      * <p>
@@ -197,72 +264,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution
      * @since 2.2
      */
     @Override
-    public int sample()  {
+    public int sample() {
         return (int) FastMath.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */    @Override
-    protected int getDomainUpperBound(double p) {
-        return Integer.MAX_VALUE;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The lower bound of the support is always 0 no matter the mean parameter.
-     *
-     * @return lower bound of the support (always 0)
-     */
-    @Override
-    public int getSupportLowerBound() {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is positive infinity,
-     * regardless of the parameter values. There is no integer infinity,
-     * so this method returns {@code Integer.MAX_VALUE} and
-     * {@link #isSupportUpperBoundInclusive()} returns {@code true}.
-     *
-     * @return upper bound of the support (always {@code Integer.MAX_VALUE} for
-     * positive infinity)
-     */
-    @Override
-    public int getSupportUpperBound() {
-        return Integer.MAX_VALUE;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For mean parameter {@code p}, the mean is {@code p}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getMean();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For mean parameter {@code p}, the variance is {@code p}.
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        return getMean();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
     }
 }

@@ -17,19 +17,19 @@
 package org.apache.commons.math.distribution;
 
 /**
- * Interface for discrete distributions of integer-valued random variables.
+ * Interface for distributions on the integers.
  *
  * @version $Id$
  */
-public interface IntegerDistribution extends DiscreteDistribution {
+public interface IntegerDistribution {
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X = x)}. In other
      * words, this method represents the probability mass function for the
      * distribution.
      *
-     * @param x Value at which the probability density function is evaluated.
-     * @return the value of the probability density function at {@code x}.
+     * @param x the point at which the probability density function is evaluated.
+     * @return the value of the probability density function at {@code x}
      */
     double probability(int x);
 
@@ -39,19 +39,19 @@ public interface IntegerDistribution extends DiscreteDistribution {
      * words, this method represents the probability distribution function, or
      * PDF for the distribution.
      *
-     * @param x Value at which the PDF is evaluated.
+     * @param x the point at which the PDF is evaluated
      * @return PDF for this distribution.
      */
     double cumulativeProbability(int x);
 
     /**
-     * For this distribution, {@code X}, this method returns
-     * {@code P(x0 <= X <= x1)}.
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(x0 <= X <= x1)}.
      *
-     * @param x0 the inclusive, lower bound
-     * @param x1 the inclusive, upper bound
-     * @return the cumulative probability.
-     * @throws IllegalArgumentException if {@code x0 > x1}.
+     * @param x0 the inclusive lower bound
+     * @param x1 the inclusive upper bound
+     * @return the cumulative probability
+     * @throws IllegalArgumentException if {@code x0 > x1}
      */
     double cumulativeProbability(int x0, int x1);
 
@@ -74,17 +74,60 @@ public interface IntegerDistribution extends DiscreteDistribution {
      *  </li>
      * </ul>
      *
-     * @param p Cumulative probability.
-     * @return the largest {@code x} such that {@code P(X < x) <= p}.
+     * @param p the cumulative probability
+     * @return the largest {@code x} such that {@code P(X < x) <= p}
      * @throws IllegalArgumentException if {@code p} is not between 0 and 1
-     * (inclusive).
+     * (inclusive)
      */
     int inverseCumulativeProbability(double p);
 
     /**
+     * Use this method to get the numerical value of the mean of this
+     * distribution.
+     *
+     * @return the mean or {@code Double.NaN} if it is not defined
+     */
+    double getNumericalMean();
+
+    /**
+     * Use this method to get the numerical value of the variance of this
+     * distribution.
+     *
+     * @return the variance (possibly {@code Double.POSITIVE_INFINITY} as
+     * for certain cases in {@link TDistributionImpl}) or
+     * {@code Double.NaN} if it is not defined
+     */
+    double getNumericalVariance();
+
+    /**
+     * Access the lower bound of the support.
+     *
+     * @return lower bound of the support ({@code Integer.MIN_VALUE}
+     * for negative infinity)
+     */
+    int getSupportLowerBound();
+
+    /**
+     * Access the upper bound of the support.
+     *
+     * @return upper bound of the support ({@code Integer.MAX_VALUE}
+     * for positive infinity)
+     */
+    int getSupportUpperBound();
+
+    /**
+     * Use this method to get information about whether the support is
+     * connected, i.e. whether all integers between the lower and upper bound of
+     * the support are included in the support.
+     *
+     * @return whether the support is connected or not
+     */
+    boolean isSupportConnected();
+
+    /**
      * Reseed the random generator used to generate samples.
      *
-     * @param seed New seed.
+     * @param seed the new seed
      * @since 3.0
      */
     void reseedRandomGenerator(long seed);
@@ -92,7 +135,7 @@ public interface IntegerDistribution extends DiscreteDistribution {
     /**
      * Generate a random value sampled from this distribution.
      *
-     * @return a random value.
+     * @return a random value
      * @since 3.0
      */
     int sample();
@@ -100,10 +143,10 @@ public interface IntegerDistribution extends DiscreteDistribution {
     /**
      * Generate a random sample from the distribution.
      *
-     * @param sampleSize number of random values to generate.
-     * @return an array representing the random sample.
+     * @param sampleSize the number of random values to generate
+     * @return an array representing the random sample
      * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
-     * if {@code sampleSize} is not positive.
+     * if {@code sampleSize} is not positive
      * @since 3.0
      */
     int[] sample(int sampleSize);

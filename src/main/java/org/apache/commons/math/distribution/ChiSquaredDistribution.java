@@ -16,19 +16,14 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
-
 /**
  * Implementation of the chi-squared distribution.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Chi-squared_distribution">Chi-squared distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/Chi-SquaredDistribution.html">Chi-squared Distribution (MathWorld)</a>
- * @version $Id: ChiSquaredDistribution.java 1206060 2011-11-25 05:16:56Z celestin $
+ * @version $Id$
  */
-public class ChiSquaredDistribution
-    extends AbstractContinuousDistribution
-    implements Serializable {
+public class ChiSquaredDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy
      * @since 2.1
@@ -73,6 +68,17 @@ public class ChiSquaredDistribution
      */
     public double getDegreesOfFreedom() {
         return gamma.getAlpha() * 2.0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -155,12 +161,31 @@ public class ChiSquaredDistribution
     /**
      * {@inheritDoc}
      *
+     * For {@code k} degrees of freedom, the mean is {@code k}.
+     */
+    public double getNumericalMean() {
+        return getDegreesOfFreedom();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For {@code k} degrees of freedom, the variance is {@code 2 * k}.
+     *
+     * @return {@inheritDoc}
+     */
+    public double getNumericalVariance() {
+        return 2*getDegreesOfFreedom();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * The lower bound of the support is always 0 no matter the
      * degrees of freedom.
      *
      * @return lower bound of the support (always 0)
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -173,42 +198,28 @@ public class ChiSquaredDistribution
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For {@code k} degrees of freedom, the mean is {@code k}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getDegreesOfFreedom();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For {@code k} degrees of freedom, the variance is {@code 2 * k}.
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        return 2*getDegreesOfFreedom();
-    }
-
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

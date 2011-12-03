@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -30,8 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/ExponentialDistribution.html">Exponential distribution (MathWorld)</a>
  * @version $Id$
  */
-public class ExponentialDistribution extends AbstractContinuousDistribution
-    implements Serializable {
+public class ExponentialDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -78,6 +75,17 @@ public class ExponentialDistribution extends AbstractContinuousDistribution
      */
     public double getMean() {
         return mean;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -192,11 +200,29 @@ public class ExponentialDistribution extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      *
+     * For mean parameter {@code k}, the mean is {@code k}.
+     */
+    public double getNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For mean parameter {@code k}, the variance is {@code k^2}.
+     */
+    public double getNumericalVariance() {
+        final double m = getMean();
+        return m * m;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * The lower bound of the support is always 0 no matter the mean parameter.
      *
      * @return lower bound of the support (always 0)
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -209,41 +235,28 @@ public class ExponentialDistribution extends AbstractContinuousDistribution
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For mean parameter {@code k}, the mean is {@code k}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getMean();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For mean parameter {@code k}, the variance is {@code k^2}.
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final double m = getMean();
-        return m * m;
-    }
-
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

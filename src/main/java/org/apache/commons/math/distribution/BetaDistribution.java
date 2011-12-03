@@ -29,7 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
-public class BetaDistribution extends AbstractContinuousDistribution {
+public class BetaDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -98,6 +98,17 @@ public class BetaDistribution extends AbstractContinuousDistribution {
         if (Double.isNaN(z)) {
             z = Gamma.logGamma(alpha) + Gamma.logGamma(beta) - Gamma.logGamma(alpha + beta);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -178,35 +189,10 @@ public class BetaDistribution extends AbstractContinuousDistribution {
     /**
      * {@inheritDoc}
      *
-     * The lower bound of the support is always 0 no matter the parameters.
-     *
-     * @return lower bound of the support (always 0)
+     * For first shape parameter {@code alpha} and second shape parameter
+     * {@code beta}, the mean is {@code alpha / (alpha + beta)}.
      */
-    @Override
-    public double getSupportLowerBound() {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always 1 no matter the parameters.
-     *
-     * @return upper bound of the support (always 1)
-     */
-    @Override
-    public double getSupportUpperBound() {
-        return 1;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For first shape parameter {@code alpha} and second shape parameter {@code beta}, the
-     * mean is {@code alpha / (alpha + beta)}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double a = getAlpha();
         return a / (a + getBeta());
     }
@@ -218,23 +204,53 @@ public class BetaDistribution extends AbstractContinuousDistribution {
      * {@code beta}, the variance is
      * {@code (alpha * beta) / [(alpha + beta)^2 * (alpha + beta + 1)]}.
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double a = getAlpha();
         final double b = getBeta();
         final double alphabetasum = a + b;
         return (a * b) / ((alphabetasum * alphabetasum) * (alphabetasum + 1));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is always 1 no matter the parameters.
+     *
+     * @return upper bound of the support (always 1)
+     */
+    public double getSupportUpperBound() {
+        return 1;
+    }
+
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

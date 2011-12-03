@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Gamma;
@@ -30,8 +28,7 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/GammaDistribution.html">Gamma distribution (MathWorld)</a>
  * @version $Id$
  */
-public class GammaDistribution extends AbstractContinuousDistribution
-    implements Serializable  {
+public class GammaDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -84,6 +81,44 @@ public class GammaDistribution extends AbstractContinuousDistribution
     }
 
     /**
+     * Access the {@code alpha} shape parameter.
+     *
+     * @return {@code alpha}.
+     */
+    public double getAlpha() {
+        return alpha;
+    }
+
+    /**
+     * Access the {@code beta} scale parameter.
+     *
+     * @return {@code beta}.
+     */
+    public double getBeta() {
+        return beta;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
+    }
+
+    /** {@inheritDoc} */
+    public double density(double x) {
+        if (x < 0) {
+            return 0;
+        }
+        return FastMath.pow(x / beta, alpha - 1) / beta *
+               FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
+    }
+
+    /**
      * {@inheritDoc}
      *
      * The implementation of this method is based on:
@@ -124,33 +159,6 @@ public class GammaDistribution extends AbstractContinuousDistribution
             return Double.POSITIVE_INFINITY;
         }
         return super.inverseCumulativeProbability(p);
-    }
-
-    /**
-     * Access the {@code alpha} shape parameter.
-     *
-     * @return {@code alpha}.
-     */
-    public double getAlpha() {
-        return alpha;
-    }
-
-    /**
-     * Access the {@code beta} scale parameter.
-     *
-     * @return {@code beta}.
-     */
-    public double getBeta() {
-        return beta;
-    }
-
-    /** {@inheritDoc} */
-    public double density(double x) {
-        if (x < 0) {
-            return 0;
-        }
-        return FastMath.pow(x / beta, alpha - 1) / beta *
-               FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
     }
 
     /** {@inheritDoc} */
@@ -208,11 +216,33 @@ public class GammaDistribution extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      *
+     * For shape parameter {@code alpha} and scale parameter {@code beta}, the
+     * mean is {@code alpha * beta}.
+     */
+    public double getNumericalMean() {
+        return getAlpha() * getBeta();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For shape parameter {@code alpha} and scale parameter {@code beta}, the
+     * variance is {@code alpha * beta^2}.
+     *
+     * @return {@inheritDoc}
+     */
+    public double getNumericalVariance() {
+        final double b = getBeta();
+        return getAlpha() * b * b;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * The lower bound of the support is always 0 no matter the parameters.
      *
      * @return lower bound of the support (always 0)
      */
-    @Override
     public double getSupportLowerBound() {
         return 0;
     }
@@ -225,45 +255,28 @@ public class GammaDistribution extends AbstractContinuousDistribution
      *
      * @return upper bound of the support (always Double.POSITIVE_INFINITY)
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For shape parameter {@code alpha} and scale parameter {@code beta}, the
-     * mean is {@code alpha * beta}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getAlpha() * getBeta();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For shape parameter {@code alpha} and scale parameter {@code beta}, the
-     * variance is {@code alpha * beta^2}.
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final double b = getBeta();
-        return getAlpha() * b * b;
-    }
-
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

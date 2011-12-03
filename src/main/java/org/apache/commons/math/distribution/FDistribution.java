@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -32,22 +30,30 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/F-Distribution.html">F-distribution (MathWorld)</a>
  * @version $Id$
  */
-public class FDistribution
-    extends AbstractContinuousDistribution
-    implements Serializable  {
+public class FDistribution extends AbstractRealDistribution {
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -8516354193418641566L;
+
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -8516354193418641566L;
+
     /** The numerator degrees of freedom. */
     private final double numeratorDegreesOfFreedom;
+
     /** The numerator degrees of freedom. */
     private final double denominatorDegreesOfFreedom;
+
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
 
     /**
      * Create a F distribution using the given degrees of freedom.
@@ -92,6 +98,17 @@ public class FDistribution
         this.numeratorDegreesOfFreedom = numeratorDegreesOfFreedom;
         this.denominatorDegreesOfFreedom = denominatorDegreesOfFreedom;
         solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /**
@@ -206,39 +223,13 @@ public class FDistribution
     /**
      * {@inheritDoc}
      *
-     * The lower bound of the support is always 0 no matter the parameters.
-     *
-     * @return lower bound of the support (always 0)
-     */
-    @Override
-    public double getSupportLowerBound() {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always positive infinity
-     * no matter the parameters.
-     *
-     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
-     */
-    @Override
-    public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * For denominator degrees of freedom parameter {@code b}, the mean is
      * <ul>
      *  <li>if {@code b > 2} then {@code b / (b - 2)},</li>
      *  <li>else undefined ({@code Double.NaN}).
      * </ul>
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
 
         if (denominatorDF > 2) {
@@ -261,7 +252,19 @@ public class FDistribution
      *  <li>else undefined ({@code Double.NaN}).
      * </ul>
      */
-    @Override
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+        return numericalVariance;
+    }
+
+    /**
+     * used by {@link #getNumericalVariance()}
+     * 
+     * @return the variance of this distribution
+     */
     protected double calculateNumericalVariance() {
         final double denominatorDF = getDenominatorDegreesOfFreedom();
 
@@ -276,15 +279,47 @@ public class FDistribution
         return Double.NaN;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

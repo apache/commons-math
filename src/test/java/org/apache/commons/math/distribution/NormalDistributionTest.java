@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class NormalDistributionTest extends ContinuousDistributionAbstractTest  {
+public class NormalDistributionTest extends RealDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -32,8 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/NormalDistribution.html">Normal distribution (MathWorld)</a>
  * @version $Id$
  */
-public class NormalDistribution extends AbstractContinuousDistribution
-        implements Serializable {
+public class NormalDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -74,7 +71,8 @@ public class NormalDistribution extends AbstractContinuousDistribution
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 2.1
      */
-    public NormalDistribution(double mean, double sd, double inverseCumAccuracy) {
+    public NormalDistribution(double mean, double sd, double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
         if (sd <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sd);
         }
@@ -88,7 +86,7 @@ public class NormalDistribution extends AbstractContinuousDistribution
      * Create a normal distribution with mean equal to zero and standard
      * deviation equal to one.
      */
-    public NormalDistribution(){
+    public NormalDistribution() {
         this(0, 1);
     }
 
@@ -108,6 +106,17 @@ public class NormalDistribution extends AbstractContinuousDistribution
      */
     public double getStandardDeviation() {
         return standardDeviation;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -146,12 +155,6 @@ public class NormalDistribution extends AbstractContinuousDistribution
         return 0.5 * Erf.erf(v0, v1);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected double getSolverAbsoluteAccuracy() {
-        return solverAbsoluteAccuracy;
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -167,12 +170,6 @@ public class NormalDistribution extends AbstractContinuousDistribution
             return Double.POSITIVE_INFINITY;
         }
         return super.inverseCumulativeProbability(p);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double sample()  {
-        return randomData.nextGaussian(mean, standardDeviation);
     }
 
     /** {@inheritDoc} */
@@ -219,6 +216,31 @@ public class NormalDistribution extends AbstractContinuousDistribution
         return ret;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected double getSolverAbsoluteAccuracy() {
+        return solverAbsoluteAccuracy;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For mean parameter {@code mu}, the mean is {@code mu}.
+     */
+    public double getNumericalMean() {
+        return getMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For standard deviation parameter {@code s}, the variance is {@code s^2}.
+     */
+    public double getNumericalVariance() {
+        final double s = getStandardDeviation();
+        return s * s;
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -228,7 +250,6 @@ public class NormalDistribution extends AbstractContinuousDistribution
      * @return lower bound of the support (always
      * {@code Double.NEGATIVE_INFINITY})
      */
-    @Override
     public double getSupportLowerBound() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -242,41 +263,34 @@ public class NormalDistribution extends AbstractContinuousDistribution
      * @return upper bound of the support (always
      * {@code Double.POSITIVE_INFINITY})
      */
-    @Override
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For mean parameter {@code mu}, the mean is {@code mu}.
-     */
-    @Override
-    protected double calculateNumericalMean() {
-        return getMean();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For standard deviation parameter {@code s}, the variance is {@code s^2}.
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final double s = getStandardDeviation();
-        return s * s;
-    }
-
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double sample()  {
+        return randomData.nextGaussian(mean, standardDeviation);
     }
 }

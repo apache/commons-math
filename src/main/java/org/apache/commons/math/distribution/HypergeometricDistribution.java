@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
@@ -33,16 +31,24 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/HypergeometricDistribution.html">Hypergeometric distribution (MathWorld)</a>
  * @version $Id$
  */
-public class HypergeometricDistribution extends AbstractIntegerDistribution
-    implements Serializable {
+public class HypergeometricDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -436928820673516179L;
+
     /** The number of successes in the population. */
     private final int numberOfSuccesses;
+
     /** The population size. */
     private final int populationSize;
+
     /** The sample size. */
     private final int sampleSize;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
 
     /**
      * Construct a new hypergeometric distribution with the specified population
@@ -51,18 +57,13 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution
      * @param populationSize Population size.
      * @param numberOfSuccesses Number of successes in the population.
      * @param sampleSize Sample size.
-     * @throws NotPositiveException if {@code numberOfSuccesses < 0},
-     * or {@code populationSize < 0}.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
      * @throws NotStrictlyPositiveException if {@code populationSize <= 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize},
      * or {@code sampleSize > populationSize}.
      */
-    public HypergeometricDistribution(int populationSize,
-                                          int numberOfSuccesses,
-                                          int sampleSize)
-        throws NotPositiveException,
-        NotStrictlyPositiveException,
-        NumberIsTooLargeException {
+    public HypergeometricDistribution(int populationSize, int numberOfSuccesses, int sampleSize)
+    throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
         if (populationSize <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.POPULATION_SIZE,
                                                    populationSize);
@@ -91,7 +92,6 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution
     }
 
     /** {@inheritDoc} */
-    @Override
     public double cumulativeProbability(int x) {
         double ret;
 
@@ -277,12 +277,48 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution
      * {@inheritDoc}
      *
      * For population size {@code N}, number of successes {@code m}, and sample
+     * size {@code n}, the mean is {@code n * m / N}.
+     */
+    public double getNumericalMean() {
+        return (double)(getSampleSize() * getNumberOfSuccesses()) / (double)getPopulationSize();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For population size {@code N}, number of successes {@code m}, and sample
+     * size {@code n}, the variance is
+     * {@code [n * m * (N - n) * (N - m)] / [N^2 * (N - 1)]}.
+     */
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+        return numericalVariance;
+    }
+
+    /**
+     * Used by {@link #getNumericalVariance()}.
+     * 
+     * @return the variance of this distribution
+     */
+    protected double calculateNumericalVariance() {
+        final double N = getPopulationSize();
+        final double m = getNumberOfSuccesses();
+        final double n = getSampleSize();
+        return ( n * m * (N - n) * (N - m) ) / ( (N*N * (N - 1)) );
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For population size {@code N}, number of successes {@code m}, and sample
      * size {@code n}, the lower bound of the support is
      * {@code max(0, n + m - N)}.
      *
      * @return lower bound of the support
      */
-    @Override
     public int getSupportLowerBound() {
         return FastMath.max(0,
                 getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
@@ -296,34 +332,18 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution
      *
      * @return upper bound of the support
      */
-    @Override
     public int getSupportUpperBound() {
         return FastMath.min(getNumberOfSuccesses(), getSampleSize());
     }
 
     /**
      * {@inheritDoc}
-     *
-     * For population size {@code N}, number of successes {@code m}, and sample
-     * size {@code n}, the mean is {@code n * m / N}.
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
      */
-    @Override
-    protected double calculateNumericalMean() {
-        return (double)(getSampleSize() * getNumberOfSuccesses()) / (double)getPopulationSize();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For population size {@code N}, number of successes {@code m}, and sample
-     * size {@code n}, the variance is
-     * {@code [n * m * (N - n) * (N - m)] / [N^2 * (N - 1)]}.
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final double N = getPopulationSize();
-        final double m = getNumberOfSuccesses();
-        final double n = getSampleSize();
-        return ( n * m * (N - n) * (N - m) ) / ( (N*N * (N - 1)) );
+    public boolean isSupportConnected() {
+        return true;
     }
 }

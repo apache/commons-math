@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -46,8 +44,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 1.2 (changed to concrete class in 3.0)
  */
-public class PascalDistribution extends AbstractIntegerDistribution
-    implements Serializable {
+public class PascalDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 6751309484392813623L;
     /** The number of successes. */
@@ -98,32 +95,6 @@ public class PascalDistribution extends AbstractIntegerDistribution
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return -1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        // use MAX - 1 because MAX causes loop
-        return Integer.MAX_VALUE - 1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double cumulativeProbability(int x) {
-        double ret;
-        if (x < 0) {
-            ret = 0.0;
-        } else {
-            ret = Beta.regularizedBeta(probabilityOfSuccess,
-                numberOfSuccesses, x + 1);
-        }
-        return ret;
-    }
-
-    /** {@inheritDoc} */
     public double probability(int x) {
         double ret;
         if (x < 0) {
@@ -133,6 +104,18 @@ public class PascalDistribution extends AbstractIntegerDistribution
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
                   FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
                   FastMath.pow(1.0 - probabilityOfSuccess, x);
+        }
+        return ret;
+    }
+
+    /** {@inheritDoc} */
+    public double cumulativeProbability(int x) {
+        double ret;
+        if (x < 0) {
+            ret = 0.0;
+        } else {
+            ret = Beta.regularizedBeta(probabilityOfSuccess,
+                    numberOfSuccesses, x + 1);
         }
         return ret;
     }
@@ -159,32 +142,17 @@ public class PascalDistribution extends AbstractIntegerDistribution
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * The lower bound of the support is always 0 no matter the parameters.
-     *
-     * @return lower bound of the support (always 0)
-     */
+    /** {@inheritDoc} */
     @Override
-    public int getSupportLowerBound() {
-        return 0;
+    protected int getDomainLowerBound(double p) {
+        return -1;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always positive infinity no matter the
-     * parameters. Positive infinity is symbolised by {@code Integer.MAX_VALUE}
-     * together with {@link #isSupportUpperBoundInclusive()} being
-     * {@code false}.
-     *
-     * @return upper bound of the support (always {@code Integer.MAX_VALUE}
-     * for positive infinity)
-     */
+    /** {@inheritDoc} */
     @Override
-    public int getSupportUpperBound() {
-        return Integer.MAX_VALUE;
+    protected int getDomainUpperBound(double p) {
+        // use MAX - 1 because MAX causes loop
+        return Integer.MAX_VALUE - 1;
     }
 
     /**
@@ -193,8 +161,7 @@ public class PascalDistribution extends AbstractIntegerDistribution
      * For number of successes {@code r} and probability of success {@code p},
      * the mean is {@code (r * p) / (1 - p)}.
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double p = getProbabilityOfSuccess();
         final double r = getNumberOfSuccesses();
         return (r * p) / (1 - p);
@@ -204,10 +171,9 @@ public class PascalDistribution extends AbstractIntegerDistribution
      * {@inheritDoc}
      *
      * For number of successes {@code r} and probability of success {@code p},
-     * the mean is {@code (r * p) / (1 - p)^2}.
+     * the variance is {@code (r * p) / (1 - p)^2}.
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double p = getProbabilityOfSuccess();
         final double r = getNumberOfSuccesses();
         final double pInv = 1 - p;
@@ -217,12 +183,35 @@ public class PascalDistribution extends AbstractIntegerDistribution
     /**
      * {@inheritDoc}
      *
-     * Always returns {@code false}.
+     * The lower bound of the support is always 0 no matter the parameters.
      *
-     * @see PascalDistribution#getSupportUpperBound() getSupportUpperBound()
+     * @return lower bound of the support (always 0)
      */
-    @Override
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
+    public int getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is always positive infinity no matter the
+     * parameters. Positive infinity is symbolised by {@code Integer.MAX_VALUE}.
+     *
+     * @return upper bound of the support (always {@code Integer.MAX_VALUE}
+     * for positive infinity)
+     */
+    public int getSupportUpperBound() {
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

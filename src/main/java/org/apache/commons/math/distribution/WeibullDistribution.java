@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -36,21 +34,36 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.1 (changed to concrete class in 3.0)
  * @version $Id$
  */
-public class WeibullDistribution extends AbstractContinuousDistribution
-    implements Serializable {
+public class WeibullDistribution extends AbstractRealDistribution {
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 8589540077390120676L;
+    
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8589540077390120676L;
+    
     /** The shape parameter. */
     private final double shape;
+    
     /** The scale parameter. */
     private final double scale;
+    
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
+
+    /** Cached numerical mean */
+    private double numericalMean = Double.NaN;
+
+    /** Whether or not the numerical mean has been calculated */
+    private boolean numericalMeanIsCalculated = false;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
 
     /**
      * Create a Weibull distribution with the given shape and scale and a
@@ -95,17 +108,6 @@ public class WeibullDistribution extends AbstractContinuousDistribution
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
-    /** {@inheritDoc} */
-    public double cumulativeProbability(double x) {
-        double ret;
-        if (x <= 0.0) {
-            ret = 0.0;
-        } else {
-            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
-        }
-        return ret;
-    }
-
     /**
      * Access the shape parameter, {@code alpha}.
      *
@@ -122,6 +124,17 @@ public class WeibullDistribution extends AbstractContinuousDistribution
      */
     public double getScale() {
         return scale;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -141,6 +154,17 @@ public class WeibullDistribution extends AbstractContinuousDistribution
         final double xscalepowshape = xscalepow * xscale;
 
         return (shape / scale) * xscalepow * FastMath.exp(-xscalepowshape);
+    }
+
+    /** {@inheritDoc} */
+    public double cumulativeProbability(double x) {
+        double ret;
+        if (x <= 0.0) {
+            ret = 0.0;
+        } else {
+            ret = 1.0 - FastMath.exp(-FastMath.pow(x / scale, shape));
+        }
+        return ret;
     }
 
     /**
@@ -170,12 +194,14 @@ public class WeibullDistribution extends AbstractContinuousDistribution
         return 0;
     }
 
-    /** {@inheritDoc} */    @Override
+    /** {@inheritDoc} */
+    @Override
     protected double getDomainUpperBound(double p) {
         return Double.MAX_VALUE;
     }
 
-    /** {@inheritDoc} */    @Override
+    /** {@inheritDoc} */
+    @Override
     protected double getInitialDomain(double p) {
         // use median
         return FastMath.pow(scale * FastMath.log(2.0), 1.0 / shape);
@@ -196,36 +222,22 @@ public class WeibullDistribution extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      *
-     * The lower bound of the support is always 0 no matter the parameters.
-     *
-     * @return lower bound of the support (always 0)
-     */
-    @Override
-    public double getSupportLowerBound() {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always positive infinity
-     * no matter the parameters.
-     *
-     * @return upper bound of the support (always
-     * {@code Double.POSITIVE_INFINITY})
-     */
-    @Override
-    public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * The mean is {@code scale * Gamma(1 + (1 / shape))}, where {@code Gamma()}
      * is the Gamma-function.
      */
-    @Override
+    public double getNumericalMean() {
+        if (!numericalMeanIsCalculated) {
+            numericalMean = calculateNumericalMean();
+            numericalMeanIsCalculated = true;
+        }
+        return numericalMean;
+    }
+
+    /**
+     * used by {@link #getNumericalMean()}
+     * 
+     * @return the mean of this distribution
+     */
     protected double calculateNumericalMean() {
         final double sh = getShape();
         final double sc = getScale();
@@ -239,26 +251,70 @@ public class WeibullDistribution extends AbstractContinuousDistribution
      * The variance is {@code scale^2 * Gamma(1 + (2 / shape)) - mean^2}
      * where {@code Gamma()} is the Gamma-function.
      */
-    @Override
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+        return numericalVariance;
+    }
+
+    /**
+     * used by {@link #getNumericalVariance()}
+     * 
+     * @return the variance of this distribution
+     */
     protected double calculateNumericalVariance() {
         final double sh = getShape();
         final double sc = getScale();
         final double mn = getNumericalMean();
 
-        return (sc * sc) *
-            FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
-            (mn * mn);
+        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh)))
+               - (mn * mn);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The lower bound of the support is always 0 no matter the parameters.
+     *
+     * @return lower bound of the support (always 0)
+     */
+    public double getSupportLowerBound() {
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is always positive infinity
+     * no matter the parameters.
+     *
+     * @return upper bound of the support (always
+     * {@code Double.POSITIVE_INFINITY})
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return true;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

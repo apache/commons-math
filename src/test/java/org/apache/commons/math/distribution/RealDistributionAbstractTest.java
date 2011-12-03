@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract base class for {@link ContinuousDistribution} tests.
+ * Abstract base class for {@link RealDistribution} tests.
  * <p>
  * To create a concrete test class for a continuous distribution
  * implementation, first implement makeDistribution() to return a distribution
@@ -60,11 +60,11 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public abstract class ContinuousDistributionAbstractTest {
+public abstract class RealDistributionAbstractTest {
 
 //-------------------- Private test instance data -------------------------
     /**  Distribution instance used to perform tests */
-    private ContinuousDistribution distribution;
+    private RealDistribution distribution;
 
     /** Tolerance used in comparing expected and returned values */
     private double tolerance = 1E-4;
@@ -87,7 +87,7 @@ public abstract class ContinuousDistributionAbstractTest {
     //-------------------- Abstract methods -----------------------------------
 
     /** Creates the default continuous distribution instance to use in tests. */
-    public abstract ContinuousDistribution makeDistribution();
+    public abstract RealDistribution makeDistribution();
 
     /** Creates the default cumulative probability test input values */
     public abstract double[] makeCumulativeTestPoints();
@@ -191,8 +191,7 @@ public abstract class ContinuousDistributionAbstractTest {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect probability density value returned for "
                 + cumulativeTestPoints[i], densityTestValues[i],
-                 //TODO: remove cast when density(double) is added to ContinuousDistribution
-                 ((AbstractContinuousDistribution) distribution).density(cumulativeTestPoints[i]),
+                 distribution.density(cumulativeTestPoints[i]),
                  getTolerance());
         }
     }
@@ -279,11 +278,10 @@ public abstract class ContinuousDistributionAbstractTest {
      */
     @Test
     public void testSampling() throws Exception {
-        AbstractContinuousDistribution dist = (AbstractContinuousDistribution) makeDistribution();
         final int sampleSize = 1000;
-        dist.reseedRandomGenerator(1000);  // Use fixed seed
-        double[] sample = dist.sample(sampleSize);
-        double[] quartiles = TestUtils.getDistributionQuartiles(dist);
+        distribution.reseedRandomGenerator(1000); // Use fixed seed
+        double[] sample = distribution.sample(sampleSize);
+        double[] quartiles = TestUtils.getDistributionQuartiles(distribution);
         double[] expected = {250, 250, 250, 250};
         long[] counts = new long[4];
         for (int i = 0; i < sampleSize; i++) {
@@ -332,14 +330,14 @@ public abstract class ContinuousDistributionAbstractTest {
     /**
      * @return Returns the distribution.
      */
-    protected ContinuousDistribution getDistribution() {
+    protected RealDistribution getDistribution() {
         return distribution;
     }
 
     /**
      * @param distribution The distribution to set.
      */
-    protected void setDistribution(AbstractContinuousDistribution distribution) {
+    protected void setDistribution(RealDistribution distribution) {
         this.distribution = distribution;
     }
 

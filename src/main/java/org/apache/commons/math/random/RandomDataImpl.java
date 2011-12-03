@@ -28,7 +28,7 @@ import org.apache.commons.math.distribution.BetaDistribution;
 import org.apache.commons.math.distribution.BinomialDistribution;
 import org.apache.commons.math.distribution.CauchyDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
-import org.apache.commons.math.distribution.ContinuousDistribution;
+import org.apache.commons.math.distribution.RealDistribution;
 import org.apache.commons.math.distribution.FDistribution;
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.apache.commons.math.distribution.IntegerDistribution;
@@ -600,7 +600,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link BetaDistribution Beta Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param alpha first distribution shape parameter
@@ -614,7 +614,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link BinomialDistribution Binomial Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param numberOfTrials number of trials of the Binomial distribution
@@ -628,7 +628,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link CauchyDistribution Cauchy Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param median the median of the Cauchy distribution
@@ -642,7 +642,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link ChiSquaredDistribution ChiSquare Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param df the degrees of freedom of the ChiSquare distribution
@@ -655,7 +655,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link FDistribution F Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param numeratorDf the numerator degrees of freedom of the F distribution
@@ -785,7 +785,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link TDistribution T Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param df the degrees of freedom of the T distribution
@@ -798,7 +798,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link WeibullDistribution Weibull Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(ContinuousDistribution) inversion}
+     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
      * @param shape the shape parameter of the Weibull distribution
@@ -1035,7 +1035,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @return a random value sampled from the given distribution
      * @since 2.2
      */
-    public double nextInversionDeviate(ContinuousDistribution distribution) {
+    public double nextInversionDeviate(RealDistribution distribution) {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));
 
     }

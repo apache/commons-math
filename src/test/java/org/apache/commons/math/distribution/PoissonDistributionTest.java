@@ -158,7 +158,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             double sigma = FastMath.sqrt(mean);
             while (x >= 0) {
                 try {
-                    p = dist.cumulativeProbability(x);
+                    p = dist.cumulativeProbability((int) x);
                     Assert.assertFalse("NaN cumulative probability returned for mean = " +
                             mean + " x = " + x,Double.isNaN(p));
                     if (x > mean - 2 * sigma) {
@@ -190,7 +190,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         checkProbability(dist, 6950);
     }
 
-    private void checkProbability(PoissonDistribution dist, double x) throws Exception {
+    private void checkProbability(PoissonDistribution dist, int x) throws Exception {
         double p = dist.cumulativeProbability(x);
         Assert.assertFalse("NaN cumulative probability returned for mean = " +
                 dist.getMean() + " x = " + x, Double.isNaN(p));
@@ -206,9 +206,8 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
             double p = 0.1;
             double dp = p;
             while (p < .99) {
-                double ret = Double.NaN;
                 try {
-                    ret = dist.inverseCumulativeProbability(p);
+                    int ret = dist.inverseCumulativeProbability(p);
                     // Verify that returned value satisties definition
                     Assert.assertTrue(p >= dist.cumulativeProbability(ret));
                     Assert.assertTrue(p < dist.cumulativeProbability(ret + 1));

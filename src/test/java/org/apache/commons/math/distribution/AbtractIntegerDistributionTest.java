@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.commons.math.distribution;
 
 import org.junit.Assert;
@@ -45,25 +44,7 @@ public class AbtractIntegerDistributionTest {
     }
     
     @Test
-    public void testCumulativeProbabilitiesSingleDoubleArguments() throws Exception {
-        int lower = 1;
-        double arg = 0;
-        for (int i = 1; i < 7; i++) {
-            // Exact integer
-            arg = lower;
-            Assert.assertEquals(p * i,
-                    diceDistribution.cumulativeProbability(arg), Double.MIN_VALUE);
-            
-            // Add a fraction
-            arg = lower + Math.random();
-            Assert.assertEquals(p * i,
-                    diceDistribution.cumulativeProbability(arg), Double.MIN_VALUE);
-            lower++;
-        }
-    }
-    
-    @Test
-    public void testCumulativeProbabilitiesRangeIntegerArguments() throws Exception {
+    public void testCumulativeProbabilitiesRangeArguments() throws Exception {
         int lower = 1;
         int upper = 6;
         for (int i = 0; i < 2; i++) {
@@ -78,46 +59,14 @@ public class AbtractIntegerDistributionTest {
         }
     }
     
-    @Test
-    public void testCumulativeProbabilitiesRangeDoubleArguments() throws Exception {
-        int lower = 1;
-        int upper = 6;
-        double dlower = lower;
-        double dupper = upper;
-        for (int i = 0; i < 2; i++) {
-            // cum(1,6) = p(1 <= X <= 6) = 1, cum(2,5) = 4/6, cum(3,4) = 2/6 
-            // Exact integers
-            Assert.assertEquals(1 - p * 2 * i, 
-                    diceDistribution.cumulativeProbability(dlower, dupper), 1E-12);
-            // Subtract a fraction from lower, add to upper.  Should be no change.
-            dlower -= Math.random();
-            dupper += Math.random();
-            Assert.assertEquals(1 - p * 2 * i, 
-                    diceDistribution.cumulativeProbability(dlower, dupper), 1E-12);
-            lower++;
-            upper--;
-            dlower = lower;
-            dupper = upper;
-        }
-        for (int i = 1; i < 7; i++) {
-            lower = i;
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(
-                    lower, lower), 1E-12);
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(
-                    lower, lower + Math.random()), 1E-12);
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(
-                    lower - Math.random(), lower), 1E-12);
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(
-                    lower - Math.random(), lower + Math.random()), 1E-12);
-        }
-    }
-
     /**
      * Simple distribution modeling a 6-sided die
      */
     class DiceDistribution extends AbstractIntegerDistribution {
         public static final long serialVersionUID = 23734213;
+
         private final double p = 1d/6d;
+
         public double probability(int x) {
             if (x < 1 || x > 6) {
                 return 0;
@@ -126,7 +75,6 @@ public class AbtractIntegerDistributionTest {
             }
         }
 
-        @Override
         public double cumulativeProbability(int x) {
             if (x < 1) {
                 return 0;
@@ -147,24 +95,24 @@ public class AbtractIntegerDistributionTest {
             return 6;
         }
 
-        @Override
+        public double getNumericalMean() {
+            return 3.5;
+        }
+
+        public double getNumericalVariance() {
+            return 12.5 - 3.5 * 3.5;  // E(X^2) - E(X)^2
+        }
+
         public int getSupportLowerBound() {
             return 1;
         }
 
-        @Override
         public int getSupportUpperBound() {
             return 6;
         }
 
-        @Override
-        protected double calculateNumericalMean() {
-            return 3.5;
-        }
-
-        @Override
-        protected double calculateNumericalVariance() {
-            return 12.5 - 3.5 * 3.5;  // E(X^2) - E(X)^2
+        public final boolean isSupportConnected() {
+            return true;
         }
     }
 }

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
@@ -29,14 +27,27 @@ import org.apache.commons.math.util.FastMath;
  * @see <a href="http://mathworld.wolfram.com/ZipfDistribution.html">Zipf distribution (MathWorld)</a>
  * @version $Id$
  */
-public class ZipfDistribution extends AbstractIntegerDistribution
-    implements Serializable {
+public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -140627372283420404L;
+
     /** Number of elements. */
     private final int numberOfElements;
+
     /** Exponent parameter of the distribution. */
     private final double exponent;
+
+    /** Cached numerical mean */
+    private double numericalMean = Double.NaN;
+
+    /** Whether or not the numerical mean has been calculated */
+    private boolean numericalMeanIsCalculated = false;
+
+    /** Cached numerical variance */
+    private double numericalVariance = Double.NaN;
+
+    /** Whether or not the numerical variance has been calculated */
+    private boolean numericalVarianceIsCalculated = false;
 
     /**
      * Create a new Zipf distribution with the given number of elements and
@@ -90,7 +101,6 @@ public class ZipfDistribution extends AbstractIntegerDistribution
     }
 
     /** {@inheritDoc} */
-    @Override
     public double cumulativeProbability(final int x) {
         if (x <= 0) {
             return 0.0;
@@ -111,6 +121,74 @@ public class ZipfDistribution extends AbstractIntegerDistribution
     @Override
     protected int getDomainUpperBound(final double p) {
         return numberOfElements;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For number of elements {@code N} and exponent {@code s}, the mean is
+     * {@code Hs1 / Hs}, where
+     * <ul>
+     *  <li>{@code Hs1 = generalizedHarmonic(N, s - 1)},</li>
+     *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
+     * </ul>
+     */
+    public double getNumericalMean() {
+        if (!numericalMeanIsCalculated) {
+            numericalMean = calculateNumericalMean();
+            numericalMeanIsCalculated = true;
+        }
+        return numericalMean;
+    }
+
+    /**
+     * Used by {@link #getNumericalMean()}.
+     * 
+     * @return the mean of this distribution
+     */
+    protected double calculateNumericalMean() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return Hs1 / Hs;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For number of elements {@code N} and exponent {@code s}, the mean is
+     * {@code (Hs2 / Hs) - (Hs1^2 / Hs^2)}, where
+     * <ul>
+     *  <li>{@code Hs2 = generalizedHarmonic(N, s - 2)},</li>
+     *  <li>{@code Hs1 = generalizedHarmonic(N, s - 1)},</li>
+     *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
+     * </ul>
+     */
+    public double getNumericalVariance() {
+        if (!numericalVarianceIsCalculated) {
+            numericalVariance = calculateNumericalVariance();
+            numericalVarianceIsCalculated = true;
+        }
+        return numericalVariance;
+    }
+
+    /**
+     * used by {@link #getNumericalVariance()}
+     * 
+     * @return the variance of this distribution
+     */
+    protected double calculateNumericalVariance() {
+        final int N = getNumberOfElements();
+        final double s = getExponent();
+
+        final double Hs2 = generalizedHarmonic(N, s - 2);
+        final double Hs1 = generalizedHarmonic(N, s - 1);
+        final double Hs = generalizedHarmonic(N, s);
+
+        return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
     }
 
     /**
@@ -137,7 +215,6 @@ public class ZipfDistribution extends AbstractIntegerDistribution
      *
      * @return lower bound of the support (always 1)
      */
-    @Override
     public int getSupportLowerBound() {
         return 1;
     }
@@ -149,52 +226,18 @@ public class ZipfDistribution extends AbstractIntegerDistribution
      *
      * @return upper bound of the support
      */
-    @Override
     public int getSupportUpperBound() {
         return getNumberOfElements();
     }
 
     /**
      * {@inheritDoc}
-     *
-     * For number of elements {@code N} and exponent {@code s}, the mean is
-     * {@code Hs1 / Hs}, where
-     * <ul>
-     *  <li>{@code Hs1 = generalizedHarmonic(N, s - 1)},</li>
-     *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
-     * </ul>
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
      */
-    @Override
-    protected double calculateNumericalMean() {
-        final int N = getNumberOfElements();
-        final double s = getExponent();
-
-        final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = generalizedHarmonic(N, s);
-
-        return Hs1 / Hs;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * For number of elements {@code N} and exponent {@code s}, the mean is
-     * {@code (Hs2 / Hs) - (Hs1^2 / Hs^2)}, where
-     * <ul>
-     *  <li>{@code Hs2 = generalizedHarmonic(N, s - 2)},</li>
-     *  <li>{@code Hs1 = generalizedHarmonic(N, s - 1)},</li>
-     *  <li>{@code Hs = generalizedHarmonic(N, s)}.</li>
-     * </ul>
-     */
-    @Override
-    protected double calculateNumericalVariance() {
-        final int N = getNumberOfElements();
-        final double s = getExponent();
-
-        final double Hs2 = generalizedHarmonic(N, s - 2);
-        final double Hs1 = generalizedHarmonic(N, s - 1);
-        final double Hs = generalizedHarmonic(N, s);
-
-        return (Hs2 / Hs) - ((Hs1 * Hs1) / (Hs * Hs));
+    public boolean isSupportConnected() {
+        return true;
     }
 }

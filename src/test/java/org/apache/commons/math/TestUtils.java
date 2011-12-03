@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
 
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
-import org.apache.commons.math.distribution.ContinuousDistribution;
+import org.apache.commons.math.distribution.RealDistribution;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
@@ -439,7 +439,7 @@ public class TestUtils {
      * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
      * these values in an array.
      */
-    public static double[] getDistributionQuartiles(ContinuousDistribution distribution) throws Exception {
+    public static double[] getDistributionQuartiles(RealDistribution distribution) throws Exception {
         double[] quantiles = new double[3];
         quantiles[0] = distribution.inverseCumulativeProbability(0.25d);
         quantiles[1] = distribution.inverseCumulativeProbability(0.5d);

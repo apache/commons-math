@@ -29,7 +29,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class ExponentialDistributionTest extends ContinuousDistributionAbstractTest {
+public class ExponentialDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override

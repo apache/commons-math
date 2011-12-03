@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.distribution;
 
-import java.io.Serializable;
-
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
@@ -31,8 +29,7 @@ import org.apache.commons.math.util.FastMath;
  * @see "<a href='http://mathworld.wolfram.com/Studentst-Distribution.html'>Student's t-distribution (MathWorld)</a>"
  * @version $Id$
  */
-public class TDistribution extends AbstractContinuousDistribution
-    implements Serializable  {
+public class TDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
@@ -84,6 +81,17 @@ public class TDistribution extends AbstractContinuousDistribution
      */
     public double getDegreesOfFreedom() {
         return degreesOfFreedom;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * For this distribution {@code P(X = x)} always evaluates to 0.
+     *
+     * @return 0
+     */
+    public double probability(double x) {
+        return 0.0;
     }
 
     /** {@inheritDoc} */
@@ -162,42 +170,13 @@ public class TDistribution extends AbstractContinuousDistribution
     /**
      * {@inheritDoc}
      *
-     * The lower bound of the support is always negative infinity no matter the
-     * parameters.
-     *
-     * @return lower bound of the support (always
-     * {@code Double.NEGATIVE_INFINITY})
-     */
-    @Override
-    public double getSupportLowerBound() {
-        return Double.NEGATIVE_INFINITY;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The upper bound of the support is always positive infinity no matter the
-     * parameters.
-     *
-     * @return upper bound of the support (always
-     * {@code Double.POSITIVE_INFINITY})
-     */
-    @Override
-    public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * For degrees of freedom parameter {@code df}, the mean is
      * <ul>
      *  <li>if {@code df > 1} then {@code 0},</li>
      * <li>else undefined ({@code Double.NaN}).</li>
      * </ul>
      */
-    @Override
-    protected double calculateNumericalMean() {
+    public double getNumericalMean() {
         final double df = getDegreesOfFreedom();
 
         if (df > 1) {
@@ -218,8 +197,7 @@ public class TDistribution extends AbstractContinuousDistribution
      *  <li>else undefined ({@code Double.NaN}).</li>
      * </ul>
      */
-    @Override
-    protected double calculateNumericalVariance() {
+    public double getNumericalVariance() {
         final double df = getDegreesOfFreedom();
 
         if (df > 2) {
@@ -233,15 +211,50 @@ public class TDistribution extends AbstractContinuousDistribution
         return Double.NaN;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * The lower bound of the support is always negative infinity no matter the
+     * parameters.
+     *
+     * @return lower bound of the support (always
+     * {@code Double.NEGATIVE_INFINITY})
+     */
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The upper bound of the support is always positive infinity no matter the
+     * parameters.
+     *
+     * @return upper bound of the support (always
+     * {@code Double.POSITIVE_INFINITY})
+     */
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportLowerBoundInclusive() {
         return false;
     }
 
     /** {@inheritDoc} */
-    @Override
     public boolean isSupportUpperBoundInclusive() {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * The support of this distribution is connected.
+     * 
+     * @return {@code true}
+     */
+    public boolean isSupportConnected() {
+        return true;
     }
 }

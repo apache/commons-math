@@ -30,7 +30,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class WeibullDistributionTest extends ContinuousDistributionAbstractTest  {
+public class WeibullDistributionTest extends RealDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 

@@ -28,7 +28,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class GammaDistributionTest extends ContinuousDistributionAbstractTest {
+public class GammaDistributionTest extends RealDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 

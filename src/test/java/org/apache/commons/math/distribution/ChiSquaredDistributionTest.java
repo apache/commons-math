@@ -23,10 +23,10 @@ import org.junit.Test;
 /**
  * Test cases for {@link ChiSquaredDistribution}.
  *
- * @see ContinuousDistributionAbstractTest
+ * @see RealDistributionAbstractTest
  * @version $Id$
  */
-public class ChiSquaredDistributionTest extends ContinuousDistributionAbstractTest {
+public class ChiSquaredDistributionTest extends RealDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 
@@ -134,5 +134,4 @@ public class ChiSquaredDistributionTest extends ContinuousDistributionAbstractTe
         Assert.assertEquals(dist.getNumericalMean(), 1.12, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 2.24, tol);
     }
-
 }
