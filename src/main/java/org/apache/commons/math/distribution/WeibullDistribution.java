@@ -35,21 +35,21 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  */
 public class WeibullDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8589540077390120676L;
-    
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-    
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = 8589540077390120676L;
+
     /** The shape parameter. */
     private final double shape;
-    
+
     /** The scale parameter. */
     private final double scale;
-    
+
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -188,25 +188,6 @@ public class WeibullDistribution extends AbstractRealDistribution {
         return ret;
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        return Double.MAX_VALUE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        // use median
-        return FastMath.pow(scale * FastMath.log(2.0), 1.0 / shape);
-    }
-
     /**
      * Return the absolute accuracy setting of the solver used to estimate
      * inverse cumulative probabilities.
@@ -235,7 +216,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
 
     /**
      * used by {@link #getNumericalMean()}
-     * 
+     *
      * @return the mean of this distribution
      */
     protected double calculateNumericalMean() {
@@ -261,7 +242,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
 
     /**
      * used by {@link #getNumericalVariance()}
-     * 
+     *
      * @return the variance of this distribution
      */
     protected double calculateNumericalVariance() {
@@ -269,8 +250,8 @@ public class WeibullDistribution extends AbstractRealDistribution {
         final double sc = getScale();
         final double mn = getNumericalMean();
 
-        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh)))
-               - (mn * mn);
+        return (sc * sc) * FastMath.exp(Gamma.logGamma(1 + (2 / sh))) -
+               (mn * mn);
     }
 
     /**
@@ -309,9 +290,9 @@ public class WeibullDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

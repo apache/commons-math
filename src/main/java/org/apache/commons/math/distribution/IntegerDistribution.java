@@ -93,9 +93,8 @@ public interface IntegerDistribution {
      * Use this method to get the numerical value of the variance of this
      * distribution.
      *
-     * @return the variance (possibly {@code Double.POSITIVE_INFINITY} as
-     * for certain cases in {@link TDistributionImpl}) or
-     * {@code Double.NaN} if it is not defined
+     * @return the variance (possibly {@code Double.POSITIVE_INFINITY} or
+     * {@code Double.NaN} if it is not defined)
      */
     double getNumericalVariance();
 

@@ -163,52 +163,6 @@ public class GammaDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    protected double getDomainLowerBound(double p) {
-        // TODO: try to improve on this estimate
-        return Double.MIN_VALUE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        // TODO: try to improve on this estimate
-        // NOTE: gamma is skewed to the left
-        // NOTE: therefore, P(X < &mu;) > .5
-
-        double ret;
-
-        if (p < 0.5) {
-            // use mean
-            ret = alpha * beta;
-        } else {
-            // use max value
-            ret = Double.MAX_VALUE;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        // TODO: try to improve on this estimate
-        // Gamma is skewed to the left, therefore, P(X < &mu;) > .5
-
-        double ret;
-
-        if (p < 0.5) {
-            // use 1/2 mean
-            ret = alpha * beta * 0.5;
-        } else {
-            // use mean
-            ret = alpha * beta;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
@@ -271,9 +225,9 @@ public class GammaDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

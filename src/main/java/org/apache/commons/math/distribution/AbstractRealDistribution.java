@@ -37,11 +37,11 @@ import org.apache.commons.math.util.FastMath;
  */
 public abstract class AbstractRealDistribution
 implements RealDistribution, Serializable {
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -38038050983108802L;
-
     /** Default accuracy. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+
+    /** Serializable version identifier */
+    private static final long serialVersionUID = -38038050983108802L;
 
     /** Solver absolute accuracy for inverse cumulative computation */
     private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
@@ -50,7 +50,7 @@ implements RealDistribution, Serializable {
     protected final RandomDataImpl randomData = new RandomDataImpl();
 
     /** Default constructor. */
-    protected AbstractRealDistribution() {}
+    protected AbstractRealDistribution() { }
 
     /**
      * {@inheritDoc}
@@ -66,8 +66,44 @@ implements RealDistribution, Serializable {
         return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * The default implementation returns
+     * <ul>
+     * <li>{@link #getSupportLowerBound()} for {@code p = 0},</li>
+     * <li>{@link #getSupportUpperBound()} for {@code p = 1}.</li>
+     * </ul>
+     */
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
+        /*
+         * IMPLEMENTATION NOTES
+         * --------------------
+         * Where applicable, use is made of the one-sided Chebyshev inequality
+         * to bracket the root. This inequality states that
+         * P(X - mu >= k * sig) <= 1 / (1 + k^2),
+         * mu: mean, sig: standard deviation. Equivalently
+         * 1 - P(X < mu + k * sig) <= 1 / (1 + k^2),
+         * F(mu + k * sig) >= k^2 / (1 + k^2).
+         *
+         * For k = sqrt(p / (1 - p)), we find
+         * F(mu + k * sig) >= p,
+         * and (mu + k * sig) is an upper-bound for the root.
+         *
+         * Then, introducing Y = -X, mean(Y) = -mu, sd(Y) = sig, and
+         * P(Y >= -mu + k * sig) <= 1 / (1 + k^2),
+         * P(-X >= -mu + k * sig) <= 1 / (1 + k^2),
+         * P(X <= mu - k * sig) <= 1 / (1 + k^2),
+         * F(mu - k * sig) <= 1 / (1 + k^2).
+         *
+         * For k = sqrt((1 - p) / p), we find
+         * F(mu - k * sig) <= p,
+         * and (mu - k * sig) is a lower-bound for the root.
+         *
+         * In cases where the Chebyshev inequality does not apply, geometric
+         * progressions 1, 2, 4, ... and -1, -2, -4, ... are used to bracket
+         * the root.
+         */
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
@@ -145,39 +181,6 @@ implements RealDistribution, Serializable {
     }
 
     /**
-     * Access the initial domain value, based on {@code p}, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p Desired probability for the critical value.
-     * @return the initial domain value.
-     * TODO to be deleted when applying MATH-699
-     */
-    protected abstract double getInitialDomain(double p);
-
-    /**
-     * Access the domain value lower bound, based on {@code p}, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p Desired probability for the critical value.
-     * @return the domain value lower bound, i.e. {@code P(X < 'lower bound') < p}.
-     * TODO to be deleted when applying MATH-699
-     */
-    protected abstract double getDomainLowerBound(double p);
-
-    /**
-     * Access the domain value upper bound, based on {@code p}, used to
-     * bracket a CDF root.  This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p Desired probability for the critical value.
-     * @return the domain value upper bound, i.e. {@code P(X < 'upper bound') > p}.
-     * TODO to be deleted when applying MATH-699
-     */
-    protected abstract double getDomainUpperBound(double p);
-
-    /**
      * Returns the solver absolute accuracy for inverse cumulative computation.
      * You can override this method in order to use a Brent solver with an
      * absolute accuracy different from the default.
@@ -195,7 +198,7 @@ implements RealDistribution, Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The default implementation uses the
      * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
      * inversion method.
@@ -207,7 +210,7 @@ implements RealDistribution, Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The default implementation generates the sample by calling
      * {@link #sample()} in a loop.
      */

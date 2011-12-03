@@ -182,9 +182,9 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

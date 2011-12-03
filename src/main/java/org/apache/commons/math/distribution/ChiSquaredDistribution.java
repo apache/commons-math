@@ -110,50 +110,6 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    protected double getDomainLowerBound(double p) {
-        return Double.MIN_VALUE * gamma.getBeta();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        // NOTE: chi squared is skewed to the left
-        // NOTE: therefore, P(X < &mu;) > .5
-
-        double ret;
-
-        if (p < .5) {
-            // use mean
-            ret = getDegreesOfFreedom();
-        } else {
-            // use max
-            ret = Double.MAX_VALUE;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        // NOTE: chi squared is skewed to the left
-        // NOTE: therefore, P(X < &mu;) > 0.5
-
-        double ret;
-
-        if (p < 0.5) {
-            // use 1/2 mean
-            ret = getDegreesOfFreedom() * 0.5;
-        } else {
-            // use mean
-            ret = getDegreesOfFreedom();
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
@@ -175,7 +131,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * @return {@inheritDoc}
      */
     public double getNumericalVariance() {
-        return 2*getDegreesOfFreedom();
+        return 2 * getDegreesOfFreedom();
     }
 
     /**
@@ -214,9 +170,9 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

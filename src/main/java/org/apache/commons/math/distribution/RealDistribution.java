@@ -105,13 +105,16 @@ public interface RealDistribution {
      * distribution.
      *
      * @return the variance (possibly {@code Double.POSITIVE_INFINITY} as
-     * for certain cases in {@link TDistributionImpl}) or
-     * {@code Double.NaN} if it is not defined
+     * for certain cases in {@link TDistribution}) or {@code Double.NaN} if it
+     * is not defined
      */
     double getNumericalVariance();
 
     /**
-     * Access the lower bound of the support.
+     * Access the lower bound of the support. This method must return the same
+     * value as {@code inverseCumulativeProbability(0)}. In other words, this
+     * method must return
+     * <p><code>inf {x in R | P(X <= x) > 0}</code>.</p>
      *
      * @return lower bound of the support (might be
      * {@code Double.NEGATIVE_INFINITY})
@@ -119,7 +122,10 @@ public interface RealDistribution {
     double getSupportLowerBound();
 
     /**
-     * Access the upper bound of the support.
+     * Access the upper bound of the support. This method must return the same
+     * value as {@code inverseCumulativeProbability(1)}. In other words, this
+     * method must return
+     * <p><code>inf {x in R | P(X <= x) = 1}</code>.</p>
      *
      * @return upper bound of the support (might be
      * {@code Double.POSITIVE_INFINITY})

@@ -280,7 +280,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * size {@code n}, the mean is {@code n * m / N}.
      */
     public double getNumericalMean() {
-        return (double)(getSampleSize() * getNumberOfSuccesses()) / (double)getPopulationSize();
+        return (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize();
     }
 
     /**
@@ -300,14 +300,14 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
 
     /**
      * Used by {@link #getNumericalVariance()}.
-     * 
+     *
      * @return the variance of this distribution
      */
     protected double calculateNumericalVariance() {
         final double N = getPopulationSize();
         final double m = getNumberOfSuccesses();
         final double n = getSampleSize();
-        return ( n * m * (N - n) * (N - m) ) / ( (N*N * (N - 1)) );
+        return ( n * m * (N - n) * (N - m) ) / ( (N * N * (N - 1)) );
     }
 
     /**
@@ -338,9 +338,9 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

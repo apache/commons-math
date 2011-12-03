@@ -64,21 +64,6 @@ public class AbstractRealDistributionTest {
                 return 0.0;
             }
 
-            @Override
-            protected double getDomainLowerBound(final double p) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected double getDomainUpperBound(final double p) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected double getInitialDomain(final double p) {
-                throw new UnsupportedOperationException();
-            }
-
             public double getNumericalMean() {
                 return ((x0 + x1) * p12 + (x2 + x3) * (1.0 - p12)) / 2.0;
             }
@@ -162,21 +147,6 @@ public class AbstractRealDistributionTest {
                 } else {
                     return (1.0 - p23) / (x4 - x3);
                 }
-            }
-
-            @Override
-            protected double getDomainLowerBound(final double p) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected double getDomainUpperBound(final double p) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            protected double getInitialDomain(final double p) {
-                throw new UnsupportedOperationException();
             }
 
             public double getNumericalMean() {

@@ -98,11 +98,11 @@ public class TDistribution extends AbstractRealDistribution {
     public double density(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        return FastMath.exp(Gamma.logGamma(nPlus1Over2)
-                            - 0.5 * (FastMath.log(FastMath.PI)
-                                     + FastMath.log(n))
-                            - Gamma.logGamma(n/2)
-                            - nPlus1Over2 * FastMath.log(1 + x * x /n));
+        return FastMath.exp(Gamma.logGamma(nPlus1Over2) -
+                            0.5 * (FastMath.log(FastMath.PI) +
+                                   FastMath.log(n)) -
+                            Gamma.logGamma(n / 2) -
+                            nPlus1Over2 * FastMath.log(1 + x * x / n));
     }
 
     /** {@inheritDoc} */
@@ -141,24 +141,6 @@ public class TDistribution extends AbstractRealDistribution {
             return Double.POSITIVE_INFINITY;
         }
         return super.inverseCumulativeProbability(p);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainLowerBound(double p) {
-        return -Double.MAX_VALUE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        return Double.MAX_VALUE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        return 0;
     }
 
     /** {@inheritDoc} */
@@ -249,9 +231,9 @@ public class TDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

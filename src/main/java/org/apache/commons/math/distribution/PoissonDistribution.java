@@ -139,9 +139,9 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         } else if (x == 0) {
             ret = FastMath.exp(-mean);
         } else {
-            ret = FastMath.exp(-SaddlePointExpansion.getStirlingError(x)
-                  - SaddlePointExpansion.getDeviancePart(x, mean))
-                  / FastMath.sqrt(MathUtils.TWO_PI * x);
+            ret = FastMath.exp(-SaddlePointExpansion.getStirlingError(x) -
+                  SaddlePointExpansion.getDeviancePart(x, mean)) /
+                  FastMath.sqrt(MathUtils.TWO_PI * x);
         }
         return ret;
     }

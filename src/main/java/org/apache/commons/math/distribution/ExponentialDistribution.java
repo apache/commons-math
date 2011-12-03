@@ -60,7 +60,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public ExponentialDistribution(double mean, double inverseCumAccuracy)
-        throws NotStrictlyPositiveException{
+        throws NotStrictlyPositiveException {
         if (mean <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
@@ -155,44 +155,6 @@ public class ExponentialDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    protected double getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        // NOTE: exponential is skewed to the left
-        // NOTE: therefore, P(X < &mu;) > .5
-
-        if (p < 0.5) {
-            // use mean
-            return mean;
-        } else {
-            // use max
-            return Double.MAX_VALUE;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        // TODO: try to improve on this estimate
-        // TODO: what should really happen here is not derive from
-        // AbstractContinuousDistribution
-        // TODO: because the inverse cumulative distribution is simple.
-        // Exponential is skewed to the left, therefore, P(X < &mu;) > .5
-        if (p < 0.5) {
-            // use 1/2 mean
-            return mean * 0.5;
-        } else {
-            // use mean
-            return mean;
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
@@ -251,9 +213,9 @@ public class ExponentialDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

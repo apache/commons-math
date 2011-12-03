@@ -43,11 +43,11 @@ implements IntegerDistribution, Serializable {
     protected final RandomDataImpl randomData = new RandomDataImpl();
 
     /** Default constructor. */
-    protected AbstractIntegerDistribution() {}
+    protected AbstractIntegerDistribution() { }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The default implementation uses the identity
      * <p>{@code P(x0 <= X <= x1) = P(X <= x1) - P(X <= x0 - 1)}</p>
      */
@@ -136,7 +136,7 @@ implements IntegerDistribution, Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The default implementation uses the
      * <a href="http://en.wikipedia.org/wiki/Inverse_transform_sampling">
      * inversion method</a>.
@@ -147,7 +147,7 @@ implements IntegerDistribution, Serializable {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The default implementation generates the sample by calling
      * {@link #sample()} in a loop.
      */

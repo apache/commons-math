@@ -143,7 +143,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
 
     /**
      * Used by {@link #getNumericalMean()}.
-     * 
+     *
      * @return the mean of this distribution
      */
     protected double calculateNumericalMean() {
@@ -177,7 +177,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
 
     /**
      * used by {@link #getNumericalVariance()}
-     * 
+     *
      * @return the variance of this distribution
      */
     protected double calculateNumericalVariance() {
@@ -232,9 +232,9 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

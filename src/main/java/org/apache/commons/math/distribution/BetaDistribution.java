@@ -146,24 +146,6 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        return p;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        return 1;
-    }
-
-    /** {@inheritDoc} */
     public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;
@@ -245,9 +227,9 @@ public class BetaDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

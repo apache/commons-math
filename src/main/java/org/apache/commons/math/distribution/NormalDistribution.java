@@ -174,50 +174,6 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    protected double getDomainLowerBound(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = -Double.MAX_VALUE;
-        } else {
-            ret = mean;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = mean;
-        } else {
-            ret = Double.MAX_VALUE;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = mean - standardDeviation;
-        } else if (p > 0.5) {
-            ret = mean + standardDeviation;
-        } else {
-            ret = mean;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
@@ -279,9 +235,9 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

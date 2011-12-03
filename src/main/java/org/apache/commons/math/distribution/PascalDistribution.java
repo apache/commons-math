@@ -206,9 +206,9 @@ public class PascalDistribution extends AbstractIntegerDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

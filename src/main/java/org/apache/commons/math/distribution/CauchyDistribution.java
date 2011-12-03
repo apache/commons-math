@@ -146,50 +146,6 @@ public class CauchyDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     @Override
-    protected double getDomainLowerBound(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = -Double.MAX_VALUE;
-        } else {
-            ret = median;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = median;
-        } else {
-            ret = Double.MAX_VALUE;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        double ret;
-
-        if (p < 0.5) {
-            ret = median - scale;
-        } else if (p > 0.5) {
-            ret = median + scale;
-        } else {
-            ret = median;
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
     }
@@ -252,9 +208,9 @@ public class CauchyDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {

@@ -246,7 +246,7 @@ public class KolmogorovSmirnovDistribution implements Serializable {
         double pFrac = Hpower.getEntry(k - 1, k - 1);
 
         for (int i = 1; i <= n; ++i) {
-            pFrac *= (double)i / (double)n;
+            pFrac *= (double) i / (double) n;
         }
 
         return pFrac;

@@ -31,14 +31,14 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  */
 public class FDistribution extends AbstractRealDistribution {
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -8516354193418641566L;
-
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
+    /** Serializable version identifier. */
+    private static final long serialVersionUID = -8516354193418641566L;
 
     /** The numerator degrees of freedom. */
     private final double numeratorDegreesOfFreedom;
@@ -172,30 +172,6 @@ public class FDistribution extends AbstractRealDistribution {
         return super.inverseCumulativeProbability(p);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getDomainUpperBound(double p) {
-        return Double.MAX_VALUE;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected double getInitialDomain(double p) {
-        double ret = 1;
-        double d = denominatorDegreesOfFreedom;
-        if (d > 2) {
-            // use mean
-            ret = d / (d - 2);
-        }
-        return ret;
-    }
-
     /**
      * Access the numerator degrees of freedom.
      *
@@ -262,7 +238,7 @@ public class FDistribution extends AbstractRealDistribution {
 
     /**
      * used by {@link #getNumericalVariance()}
-     * 
+     *
      * @return the variance of this distribution
      */
     protected double calculateNumericalVariance() {
@@ -314,9 +290,9 @@ public class FDistribution extends AbstractRealDistribution {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * The support of this distribution is connected.
-     * 
+     *
      * @return {@code true}
      */
     public boolean isSupportConnected() {
