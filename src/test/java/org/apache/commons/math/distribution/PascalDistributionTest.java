@@ -126,7 +126,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
         Assert.assertEquals(dist.getNumericalMean(), ( 10d * 0.5d ) / 0.5d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), ( 10d * 0.5d ) / (0.5d * 0.5d), tol);
 
-        dist = new PascalDistribution(25, 0.3);
+        dist = new PascalDistribution(25, 0.7);
         Assert.assertEquals(dist.getNumericalMean(), ( 25d * 0.3d ) / 0.7d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), ( 25d * 0.3d ) / (0.7d * 0.7d), tol);
     }
