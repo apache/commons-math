@@ -43,11 +43,11 @@ implements RealDistribution, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
 
-    /** Solver absolute accuracy for inverse cumulative computation */
-    private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
-
     /** RandomData instance used to generate samples from the distribution. */
     protected final RandomDataImpl randomData = new RandomDataImpl();
+
+    /** Solver absolute accuracy for inverse cumulative computation */
+    private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
     /** Default constructor. */
     protected AbstractRealDistribution() { }

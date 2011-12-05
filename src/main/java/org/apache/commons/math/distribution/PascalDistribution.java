@@ -31,10 +31,25 @@ import org.apache.commons.math.util.FastMath;
  * </p>
  * <p>
  * There are various ways to express the probability mass and distribution
- * functions for the Pascal distribution.  The convention employed by the
- * library is to express these functions in terms of the number of failures in
- * a Bernoulli experiment
- * (see <a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution#Waiting_time_in_a_Bernoulli_process">Waiting Time in a Bernoulli Process</a>).
+ * functions for the Pascal distribution. The present implementation represents
+ * the distribution of the number of failures before {@code r} successes occur.
+ * This is the convention adopted in e.g.
+ * <a href="http://mathworld.wolfram.com/NegativeBinomialDistribution.html">MathWorld</a>,
+ * but <em>not</em> in
+ * <a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution">Wikipedia</a>.
+ * </p>
+ * <p>
+ * For a random variable {@code X} whose values are distributed according to this
+ * distribution, the probability mass function is given by<br/>
+ * {@code P(X = k) = C(k + r - 1, r - 1) * p^r * (1 - p)^k,}<br/>
+ * where {@code r} is the number of successes, {@code p} is the probability of
+ * success, and {@code X} is the total number of failures. {@code C(n, k)} is
+ * the binomial coefficient ({@code n} choose {@code k}). The mean and variance
+ * of {@code X} are<br/>
+ * {@code E(X) = (1 - p) * r / p, var(X) = (1 - p) * r / p^2.}<br/>
+ * Finally, the cumulative distribution function is given by<br/>
+ * {@code P(X <= k) = I(p, r, k + 1)},
+ * where I is the regularized incomplete Beta function.
  * </p>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution">
@@ -159,25 +174,24 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * {@inheritDoc}
      *
      * For number of successes {@code r} and probability of success {@code p},
-     * the mean is {@code (r * p) / (1 - p)}.
+     * the mean is {@code r * (1 - p) / p}.
      */
     public double getNumericalMean() {
         final double p = getProbabilityOfSuccess();
         final double r = getNumberOfSuccesses();
-        return (r * p) / (1 - p);
+        return (r * (1 - p)) / p;
     }
 
     /**
      * {@inheritDoc}
      *
      * For number of successes {@code r} and probability of success {@code p},
-     * the variance is {@code (r * p) / (1 - p)^2}.
+     * the variance is {@code r * (1 - p) / p^2}.
      */
     public double getNumericalVariance() {
         final double p = getProbabilityOfSuccess();
         final double r = getNumberOfSuccesses();
-        final double pInv = 1 - p;
-        return (r * p) / (pInv * pInv);
+        return r * (1 - p) / (p * p);
     }
 
     /**
