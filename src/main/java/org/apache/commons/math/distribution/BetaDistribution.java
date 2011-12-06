@@ -134,18 +134,6 @@ public class BetaDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    @Override
-    public double inverseCumulativeProbability(double p)  {
-        if (p == 0) {
-            return 0;
-        } else if (p == 1) {
-            return 1;
-        } else {
-            return super.inverseCumulativeProbability(p);
-        }
-    }
-
-    /** {@inheritDoc} */
     public double cumulativeProbability(double x)  {
         if (x <= 0) {
             return 0;

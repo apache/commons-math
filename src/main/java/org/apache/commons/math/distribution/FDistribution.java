@@ -18,7 +18,6 @@
 package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.FastMath;
@@ -153,23 +152,6 @@ public class FDistribution extends AbstractRealDistribution {
                 0.5 * m);
         }
         return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * Returns {@code 0} when {@code p == 0} and
-     * {@code Double.POSITIVE_INFINITY} when {@code p == 1}.
-     */
-    @Override
-    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
-        if (p == 0) {
-            return 0;
-        }
-        if (p == 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        return super.inverseCumulativeProbability(p);
     }
 
     /**

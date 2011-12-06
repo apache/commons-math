@@ -91,23 +91,6 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
         return gamma.cumulativeProbability(x);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Returns {@code 0} when {@code p == 0} and
-     * {@code Double.POSITIVE_INFINITY} when {@code p == 1}.
-     */
-    @Override
-    public double inverseCumulativeProbability(final double p) {
-        if (p == 0) {
-            return 0d;
-        }
-        if (p == 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        return super.inverseCumulativeProbability(p);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {

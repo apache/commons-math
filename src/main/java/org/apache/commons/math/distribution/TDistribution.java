@@ -126,23 +126,6 @@ public class TDistribution extends AbstractRealDistribution {
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Returns {@code Double.NEGATIVE_INFINITY} when {@code p = 0}
-     * and {@code Double.POSITIVE_INFINITY} when {@code p = 1}.
-     */
-    @Override
-    public double inverseCumulativeProbability(final double p) {
-        if (p == 0) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        if (p == 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        return super.inverseCumulativeProbability(p);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {

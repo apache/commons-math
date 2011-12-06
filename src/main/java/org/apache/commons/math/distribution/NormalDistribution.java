@@ -155,23 +155,6 @@ public class NormalDistribution extends AbstractRealDistribution {
         return 0.5 * Erf.erf(v0, v1);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Returns {@code Double.NEGATIVE_INFINITY} when {@code p == 0}
-     * and {@code Double.POSITIVE_INFINITY} for {@code p == 1}.
-     */
-    @Override
-    public double inverseCumulativeProbability(final double p) {
-        if (p == 0) {
-            return Double.NEGATIVE_INFINITY;
-        }
-        if (p == 1) {
-            return Double.POSITIVE_INFINITY;
-        }
-        return super.inverseCumulativeProbability(p);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {
