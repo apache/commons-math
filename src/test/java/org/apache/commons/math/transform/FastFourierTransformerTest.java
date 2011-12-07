@@ -37,7 +37,7 @@ public final class FastFourierTransformerTest {
      */
     @Test
     public void testAdHocData() {
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
         Complex result[]; double tolerance = 1E-12;
 
         double x[] = {1.3, 2.4, 1.7, 4.1, 2.9, 1.7, 5.1, 2.7};
@@ -67,13 +67,14 @@ public final class FastFourierTransformerTest {
         FastFourierTransformer.scaleArray(x2, 1.0 / FastMath.sqrt(x2.length));
         Complex y2[] = y;
 
-        result = transformer.transform2(y2);
+        transformer = FastFourierTransformer.createUnitary();
+        result = transformer.transform(y2);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x2[i], result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
 
-        result = transformer.inverseTransform2(x2);
+        result = transformer.inverseTransform(x2);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y2[i].getReal(), result[i].getReal(), tolerance);
             Assert.assertEquals(y2[i].getImaginary(), result[i].getImaginary(), tolerance);
@@ -82,7 +83,46 @@ public final class FastFourierTransformerTest {
 
     @Test
     public void test2DData() {
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
+        double tolerance = 1E-12;
+        Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),
+                                                            new Complex(2, 0)},
+                                             new Complex[] {new Complex(3, 1),
+                                                            new Complex(4, 2)}};
+        Complex[][] goodOutput = new Complex[][] {new Complex[] {new Complex(5,
+                1.5), new Complex(-1, -.5)}, new Complex[] {new Complex(-2,
+                -1.5), new Complex(0, .5)}};
+        for (int i = 0; i < goodOutput.length; i++) {
+            FastFourierTransformer.scaleArray(
+                goodOutput[i],
+                FastMath.sqrt(goodOutput[i].length) *
+                    FastMath.sqrt(goodOutput.length));
+        }
+        Complex[][] output = (Complex[][])transformer.mdfft(input, true);
+        Complex[][] output2 = (Complex[][])transformer.mdfft(output, false);
+
+        Assert.assertEquals(input.length, output.length);
+        Assert.assertEquals(input.length, output2.length);
+        Assert.assertEquals(input[0].length, output[0].length);
+        Assert.assertEquals(input[0].length, output2[0].length);
+        Assert.assertEquals(input[1].length, output[1].length);
+        Assert.assertEquals(input[1].length, output2[1].length);
+
+        for (int i = 0; i < input.length; i++) {
+            for (int j = 0; j < input[0].length; j++) {
+                Assert.assertEquals(input[i][j].getImaginary(), output2[i][j].getImaginary(),
+                             tolerance);
+                Assert.assertEquals(input[i][j].getReal(), output2[i][j].getReal(), tolerance);
+                Assert.assertEquals(goodOutput[i][j].getImaginary(), output[i][j].getImaginary(),
+                             tolerance);
+                Assert.assertEquals(goodOutput[i][j].getReal(), output[i][j].getReal(), tolerance);
+            }
+        }
+    }
+
+    @Test
+    public void test2DDataUnitary() {
+        FastFourierTransformer transformer = FastFourierTransformer.createUnitary();
         double tolerance = 1E-12;
         Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),
                                                             new Complex(2, 0)},
@@ -119,7 +159,7 @@ public final class FastFourierTransformerTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
         Complex result[]; int N = 1 << 8;
         double min, max, tolerance = 1E-12;
 
@@ -152,7 +192,7 @@ public final class FastFourierTransformerTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateFunction f = new SinFunction();
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
 
         try {
             // bad interval
