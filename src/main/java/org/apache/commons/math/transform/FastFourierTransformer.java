@@ -32,14 +32,17 @@ import org.apache.commons.math.util.FastMath;
  * chapter 6.
  * <p>
  * There are several conventions for the definition of FFT and inverse FFT,
- * mainly on different coefficient and exponent. Here the equations are listed
- * in the comments of the corresponding methods.</p>
+ * mainly on different coefficient and exponent. The conventions adopted in the
+ * present implementation are specified in the comments of the two provided
+ * factory methods, {@link #create()} and {@link #createUnitary()}.
+ * </p>
  * <p>
  * We require the length of data set to be power of 2, this greatly simplifies
  * and speeds up the code. Users can pad the data with zeros to meet this
  * requirement. There are other flavors of FFT, for reference, see S. Winograd,
- * <i>On computing the discrete Fourier transform</i>, Mathematics of Computation,
- * 32 (1978), 175 - 199.</p>
+ * <i>On computing the discrete Fourier transform</i>, Mathematics of
+ * Computation, 32 (1978), 175 - 199.
+ * </p>
  *
  * @version $Id$
  * @since 1.2
@@ -49,19 +52,82 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
+
+    /**
+     * {@code true} if the orthogonal version of the FFT should be used.
+     *
+     * @see #create()
+     * @see #createUnitary()
+     */
+    private final boolean unitary;
+
     /** The roots of unity. */
     private RootsOfUnity roots = new RootsOfUnity();
 
     /** Construct a default transformer. */
-    public FastFourierTransformer() {
+    private FastFourierTransformer() {
         super();
+        this.unitary = false;
     }
 
     /**
-     * Transform the given real data set.
+     * Creates a new instance of this class, with various normalization
+     * conventions.
+     *
+     * @param unitary {@code false} if the direct Fourier transform is
+     * <em>not</em> to be scaled, {@code true} if it is to be scaled so as to
+     * make the transform unitary.
+     * @see #create()
+     * @see #createUnitary()
+     */
+    private FastFourierTransformer(final boolean unitary) {
+        this.unitary = unitary;
+    }
+
+    /**
      * <p>
-     * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
+     * Returns a new instance of this class. The returned transformer uses the
+     * normalizing conventions described below.
      * </p>
+     * <ul>
+     * <li>Forward transform:
+     * y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
+     * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
+     * <li>Inverse transform:
+     * x<sub>k</sub> = N<sup>-1</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
+     * y<sub>n</sub> exp(2&pi;i n k / N).</li>
+     * </ul>
+     *
+     * @return a new FFT transformer, with "standard" normalizing conventions
+     */
+    public static FastFourierTransformer create() {
+        return new FastFourierTransformer(false);
+    }
+
+    /**
+     * <p>
+     * Returns a new instance of this class. The returned transformer uses the
+     * normalizing conventions described below.
+     * <ul>
+     * <li>Forward transform:
+     * y<sub>n</sub> = N<sup>-1/2</sup> &sum;<sub>k=0</sub><sup>N-1</sup>
+     * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
+     * <li>Inverse transform:
+     * x<sub>k</sub> = N<sup>-1/2</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
+     * y<sub>n</sub> exp(2&pi;i n k / N),</li>
+     * </ul>
+     * which make the transform unitary.
+     * </p>
+     *
+     * @return a new FFT transformer, with unitary normalizing conventions
+     */
+    public static FastFourierTransformer createUnitary() {
+        return new FastFourierTransformer(true);
+    }
+
+
+    /**
+     * Returns the forward transform of the specified real data set.
      *
      * @param f the real data array to be transformed
      * @return the complex transformed array
@@ -69,18 +135,20 @@ public class FastFourierTransformer implements Serializable {
      */
     public Complex[] transform(double[] f)
         throws IllegalArgumentException {
+        if (unitary) {
+            final double s = 1.0 / FastMath.sqrt(f.length);
+            return scaleArray(fft(f, false), s);
+        }
         return fft(f, false);
     }
 
     /**
-     * Transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
-     * </p>
+     * Returns the forward transform of the specified real function, sampled on
+     * the specified interval.
      *
      * @param f the function to be sampled and transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param min the (inclusive) lower bound for the interval
+     * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -88,15 +156,16 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform(UnivariateFunction f,
                                double min, double max, int n)
         throws IllegalArgumentException {
-        double[] data = sample(f, min, max, n);
+        final double[] data = sample(f, min, max, n);
+        if (unitary) {
+            final double s = 1.0 / FastMath.sqrt(n);
+            return scaleArray(fft(data, false), s);
+        }
         return fft(data, false);
     }
 
     /**
-     * Transform the given complex data set.
-     * <p>
-     * The formula is $ y_n = \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k $
-     * </p>
+     * Returns the forward transform of the specified complex data set.
      *
      * @param f the complex data array to be transformed
      * @return the complex transformed array
@@ -105,71 +174,15 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform(Complex[] f)
         throws IllegalArgumentException {
         roots.computeOmega(f.length);
+        if (unitary) {
+            final double s = 1.0 / FastMath.sqrt(f.length);
+            return scaleArray(fft(f), s);
+        }
         return fft(f);
     }
 
     /**
-     * Transform the given real data set.
-     * <p>
-     * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     * </p>
-     *
-     * @param f the real data array to be transformed
-     * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] transform2(double[] f)
-        throws IllegalArgumentException {
-
-        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f, false), scalingCoefficient);
-    }
-
-    /**
-     * Transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     * </p>
-     *
-     * @param f the function to be sampled and transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param n the number of sample points
-     * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] transform2(UnivariateFunction f,
-                                double min, double max, int n)
-        throws IllegalArgumentException {
-
-        double[] data = sample(f, min, max, n);
-        double scalingCoefficient = 1.0 / FastMath.sqrt(n);
-        return scaleArray(fft(data, false), scalingCoefficient);
-    }
-
-    /**
-     * Transform the given complex data set.
-     * <p>
-     * The formula is $y_n = (1/\sqrt{N}) \Sigma_{k=0}^{N-1} e^{-2 \pi i nk/N} x_k$
-     * </p>
-     *
-     * @param f the complex data array to be transformed
-     * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] transform2(Complex[] f)
-        throws IllegalArgumentException {
-
-        roots.computeOmega(f.length);
-        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given real data set.
-     * <p>
-     * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     * </p>
+     * Returns the inverse transform of the specified real data set.
      *
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
@@ -178,19 +191,17 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] inverseTransform(double[] f)
         throws IllegalArgumentException {
 
-        double scalingCoefficient = 1.0 / f.length;
-        return scaleArray(fft(f, true), scalingCoefficient);
+        final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
+        return scaleArray(fft(f, true), s);
     }
 
     /**
-     * Inversely transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     * </p>
+     * Returns the inverse transform of the specified real function, sampled
+     * on the given interval.
      *
      * @param f the function to be sampled and inversely transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param min the (inclusive) lower bound for the interval
+     * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -199,16 +210,13 @@ public class FastFourierTransformer implements Serializable {
                                       double min, double max, int n)
         throws IllegalArgumentException {
 
-        double[] data = sample(f, min, max, n);
-        double scalingCoefficient = 1.0 / n;
-        return scaleArray(fft(data, true), scalingCoefficient);
+        final double[] data = sample(f, min, max, n);
+        final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
+        return scaleArray(fft(data, true), s);
     }
 
     /**
-     * Inversely transform the given complex data set.
-     * <p>
-     * The formula is $ x_k = (1/N) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n $
-     * </p>
+     * Returns the inverse transform of the specified complex data set.
      *
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
@@ -218,65 +226,8 @@ public class FastFourierTransformer implements Serializable {
         throws IllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
-        double scalingCoefficient = 1.0 / f.length;
-        return scaleArray(fft(f), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given real data set.
-     * <p>
-     * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     * </p>
-     *
-     * @param f the real data array to be inversely transformed
-     * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] inverseTransform2(double[] f)
-        throws IllegalArgumentException {
-
-        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f, true), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     * </p>
-     *
-     * @param f the function to be sampled and inversely transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param n the number of sample points
-     * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] inverseTransform2(UnivariateFunction f,
-                                       double min, double max, int n)
-        throws IllegalArgumentException {
-
-        double[] data = sample(f, min, max, n);
-        double scalingCoefficient = 1.0 / FastMath.sqrt(n);
-        return scaleArray(fft(data, true), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given complex data set.
-     * <p>
-     * The formula is $x_k = (1/\sqrt{N}) \Sigma_{n=0}^{N-1} e^{2 \pi i nk/N} y_n$
-     * </p>
-     *
-     * @param f the complex data array to be inversely transformed
-     * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public Complex[] inverseTransform2(Complex[] f)
-        throws IllegalArgumentException {
-
-        roots.computeOmega(-f.length);    // pass negative argument
-        double scalingCoefficient = 1.0 / FastMath.sqrt(f.length);
-        return scaleArray(fft(f), scalingCoefficient);
+        final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
+        return scaleArray(fft(f), s);
     }
 
     /**
@@ -387,10 +338,10 @@ public class FastFourierTransformer implements Serializable {
                     final double omegaKmImag = roots.getOmegaImaginary(km);
                     //z = f[i+j+k].multiply(omega[k*m]);
                     final Complex z = new Complex(
-                        f[i + j + k].getReal() * omegaKmReal
-                        - f[i + j + k].getImaginary() * omegaKmImag,
-                        f[i + j + k].getReal() * omegaKmImag
-                        + f[i + j + k].getImaginary() * omegaKmReal);
+                        f[i + j + k].getReal() * omegaKmReal -
+                        f[i + j + k].getImaginary() * omegaKmImag,
+                        f[i + j + k].getReal() * omegaKmImag +
+                        f[i + j + k].getImaginary() * omegaKmReal);
 
                     f[i + j + k] = f[j + k].subtract(z);
                     f[j + k] = f[j + k].add(z);
@@ -409,8 +360,8 @@ public class FastFourierTransformer implements Serializable {
      * require that.</p>
      *
      * @param f the function to be sampled
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param min the (inclusive) lower bound for the interval
+     * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the samples array
      * @throws IllegalArgumentException if any parameters are invalid
@@ -517,17 +468,20 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Performs a multi-dimensional Fourier transform on a given array.
-     * Use {@link #inverseTransform2(Complex[])} and
-     * {@link #transform2(Complex[])} in a row-column implementation
-     * in any number of dimensions with O(N&times;log(N)) complexity with
-     * N=n<sub>1</sub>&times;n<sub>2</sub>&times;n<sub>3</sub>&times;...&times;n<sub>d</sub>,
-     * n<sub>x</sub>=number of elements in dimension x,
-     * and d=total number of dimensions.
+     * Performs a multi-dimensional Fourier transform on a given array. Use
+     * {@link #transform(Complex[])} and {@link #inverseTransform(Complex[])} in
+     * a row-column implementation in any number of dimensions with
+     * O(N&times;log(N)) complexity with
+     * N = n<sub>1</sub> &times; n<sub>2</sub> &times;n<sub>3</sub> &times; ...
+     * &times; n<sub>d</sub>, where n<sub>k</sub> is the number of elements in
+     * dimension k, and d is the total number of dimensions.
      *
-     * @param mdca Multi-Dimensional Complex Array id est Complex[][][][]
-     * @param forward inverseTransform2 is preformed if this is false
-     * @return transform of mdca as a Multi-Dimensional Complex Array id est Complex[][][][]
+     * @param mdca Multi-Dimensional Complex Array id est
+     * {@code Complex[][][][]}
+     * @param forward {@link #inverseTransform} is performed if this is
+     * {@code false}
+     * @return transform of {@code mdca} as a Multi-Dimensional Complex Array
+     * id est {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
      */
     public Object mdfft(Object mdca, boolean forward)
@@ -546,7 +500,8 @@ public class FastFourierTransformer implements Serializable {
      * Performs one dimension of a multi-dimensional Fourier transform.
      *
      * @param mdcm input matrix
-     * @param forward inverseTransform2 is preformed if this is false
+     * @param forward {@link #inverseTransform} is performed if this is
+     * {@code false}
      * @param d index of the dimension to process
      * @param subVector recursion subvector
      * @throws IllegalArgumentException if any dimension is not a power of two
@@ -565,9 +520,9 @@ public class FastFourierTransformer implements Serializable {
             }
 
             if (forward) {
-                temp = transform2(temp);
+                temp = transform(temp);
             } else {
-                temp = inverseTransform2(temp);
+                temp = inverseTransform(temp);
             }
 
             for (int i = 0; i < dimensionSize[d]; i++) {
@@ -842,10 +797,10 @@ public class FastFourierTransformer implements Serializable {
         omegaImaginaryForward[0] = 0.0;
         omegaImaginaryInverse[0] = 0.0;
         for (int i = 1; i < absN; i++) {
-          omegaReal[i] = omegaReal[i - 1] * cosT
-                         + omegaImaginaryForward[i - 1] * sinT;
-          omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT
-                                     - omegaReal[i - 1] * sinT;
+          omegaReal[i] = omegaReal[i - 1] * cosT +
+                         omegaImaginaryForward[i - 1] * sinT;
+          omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT -
+                                     omegaReal[i - 1] * sinT;
           omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
         }
         omegaCount = absN;

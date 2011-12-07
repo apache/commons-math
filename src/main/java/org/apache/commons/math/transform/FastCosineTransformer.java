@@ -241,7 +241,7 @@ public class FastCosineTransformer implements RealTransformer {
             x[n - i] = a + b;
             t1 += c;
         }
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
         Complex[] y = transformer.transform(x);
 
         // reconstruct the FCT result for the original array

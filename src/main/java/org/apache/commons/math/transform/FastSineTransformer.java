@@ -227,7 +227,7 @@ public class FastSineTransformer implements RealTransformer {
             x[i]     = a + b;
             x[n - i] = a - b;
         }
-        FastFourierTransformer transformer = new FastFourierTransformer();
+        FastFourierTransformer transformer = FastFourierTransformer.create();
         Complex[] y = transformer.transform(x);
 
         // reconstruct the FST result for the original array
