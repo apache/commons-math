@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /**
- * Special implementation of the {@link DifferentiableMultivariateVectorialOptimizer}
+ * Special implementation of the {@link DifferentiableMultivariateVectorOptimizer}
  * interface addind multi-start features to an existing optimizer.
  *
  * This class wraps a classical optimizer to use it several times in
@@ -31,9 +31,9 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Id$
  * @since 2.0
  */
-public class MultiStartDifferentiableMultivariateVectorialOptimizer
-    extends BaseMultiStartMultivariateVectorialOptimizer<DifferentiableMultivariateVectorFunction>
-    implements DifferentiableMultivariateVectorialOptimizer {
+public class DifferentiableMultivariateVectorMultiStartOptimizer
+    extends BaseMultivariateVectorMultiStartOptimizer<DifferentiableMultivariateVectorFunction>
+    implements DifferentiableMultivariateVectorOptimizer {
     /**
      * Create a multi-start optimizer from a single-start optimizer.
      *
@@ -43,8 +43,8 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizer
      * equal to 1.
      * @param generator Random vector generator to use for restarts.
      */
-    public MultiStartDifferentiableMultivariateVectorialOptimizer(
-                final DifferentiableMultivariateVectorialOptimizer optimizer,
+    public DifferentiableMultivariateVectorMultiStartOptimizer(
+                final DifferentiableMultivariateVectorOptimizer optimizer,
                 final int starts,
                 final RandomVectorGenerator generator) {
         super(optimizer, starts, generator);

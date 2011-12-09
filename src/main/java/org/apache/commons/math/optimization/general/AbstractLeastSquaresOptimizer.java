@@ -26,7 +26,7 @@ import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer;
 import org.apache.commons.math.util.FastMath;
@@ -50,7 +50,7 @@ import org.apache.commons.math.util.FastMath;
  */
 public abstract class AbstractLeastSquaresOptimizer
     extends BaseAbstractVectorialOptimizer<DifferentiableMultivariateVectorFunction>
-    implements DifferentiableMultivariateVectorialOptimizer {
+    implements DifferentiableMultivariateVectorOptimizer {
     /** Singularity threshold (cf. {@link #getCovariances(double)}). */
     private static final double DEFAULT_SINGULARITY_THRESHOLD = 1e-14;
     /**

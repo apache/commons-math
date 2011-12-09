@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
@@ -41,14 +41,14 @@ import org.apache.commons.math.optimization.VectorialPointValuePair;
  */
 public class CurveFitter {
     /** Optimizer to use for the fitting. */
-    private final DifferentiableMultivariateVectorialOptimizer optimizer;
+    private final DifferentiableMultivariateVectorOptimizer optimizer;
     /** Observed points. */
     private final List<WeightedObservedPoint> observations;
 
     /** Simple constructor.
      * @param optimizer optimizer to use for the fitting
      */
-    public CurveFitter(final DifferentiableMultivariateVectorialOptimizer optimizer) {
+    public CurveFitter(final DifferentiableMultivariateVectorOptimizer optimizer) {
         this.optimizer = optimizer;
         observations = new ArrayList<WeightedObservedPoint>();
     }

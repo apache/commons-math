@@ -27,5 +27,5 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction
  * @version $Id$
  * @since 3.0
  */
-public interface DifferentiableMultivariateVectorialOptimizer
-    extends BaseMultivariateVectorialOptimizer<DifferentiableMultivariateVectorFunction> {}
+public interface DifferentiableMultivariateVectorOptimizer
+    extends BaseMultivariateVectorOptimizer<DifferentiableMultivariateVectorFunction> {}

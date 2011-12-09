@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.fitting.CurveFitter;
 import org.apache.commons.math.optimization.fitting.WeightedObservedPoint;
 
@@ -64,7 +64,7 @@ public class GaussianFitter extends CurveFitter {
      *
      * @param optimizer Optimizer to use for the fitting.
      */
-    public GaussianFitter(DifferentiableMultivariateVectorialOptimizer optimizer) {
+    public GaussianFitter(DifferentiableMultivariateVectorOptimizer optimizer) {
         super(optimizer);
     }
 

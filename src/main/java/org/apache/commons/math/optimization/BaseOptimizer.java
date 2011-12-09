@@ -24,7 +24,7 @@ package org.apache.commons.math.optimization;
  * <ul>
  *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer}</li>
  *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer}</li>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer}</li>
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer}</li>
  *  <li>{@link org.apache.commons.math.optimization.univariate.UnivariateRealOptimizer}</li>
  * </ul>
  *

@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.MultivariateVectorFunction;
  * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer}</li>
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.
@@ -32,7 +32,7 @@ import org.apache.commons.math.analysis.MultivariateVectorFunction;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseMultivariateVectorialOptimizer<FUNC extends MultivariateVectorFunction>
+public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction>
     extends BaseOptimizer<VectorialPointValuePair> {
     /**
      * Optimize an objective function.

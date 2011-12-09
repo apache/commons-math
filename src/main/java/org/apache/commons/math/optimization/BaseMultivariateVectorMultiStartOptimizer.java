@@ -33,17 +33,17 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  *
  * This interface is mainly intended to enforce the internal coherence of
  * Commons-Math. Users of the API are advised to base their code on
- * {@link MultiStartDifferentiableMultivariateVectorialOptimizer}.
+ * {@link DifferentiableMultivariateVectorMultiStartOptimizer}.
  *
  * @param <FUNC> Type of the objective function to be optimized.
  *
  * @version $Id$
  * @since 3.0
  */
-public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends MultivariateVectorFunction>
-    implements BaseMultivariateVectorialOptimizer<FUNC> {
+public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends MultivariateVectorFunction>
+    implements BaseMultivariateVectorOptimizer<FUNC> {
     /** Underlying classical optimizer. */
-    private final BaseMultivariateVectorialOptimizer<FUNC> optimizer;
+    private final BaseMultivariateVectorOptimizer<FUNC> optimizer;
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
     /** Number of evaluations already performed for all starts. */
@@ -67,7 +67,7 @@ public class BaseMultiStartMultivariateVectorialOptimizer<FUNC extends Multivari
      * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
-    protected BaseMultiStartMultivariateVectorialOptimizer(final BaseMultivariateVectorialOptimizer<FUNC> optimizer,
+    protected BaseMultivariateVectorMultiStartOptimizer(final BaseMultivariateVectorOptimizer<FUNC> optimizer,
                                                            final int starts,
                                                            final RandomVectorGenerator generator) {
         if (optimizer == null ||

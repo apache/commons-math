@@ -42,8 +42,8 @@
  *      DifferentiableMultivariateRealOptimizer} for {@link
  *      org.apache.commons.math.analysis.DifferentiableMultivariateFunction
  *      differentiable multivariate real functions}</li>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer
- *      DifferentiableMultivariateVectorialOptimizer} for {@link
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer
+ *      DifferentiableMultivariateVectorOptimizer} for {@link
  *      org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction
  *      differentiable multivariate vectorial functions}</li>
  * </ul>

@@ -93,21 +93,21 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
+public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
 
     @Test
     public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
-        DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
+        DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true,
                                      new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(16069223052l);
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(1, new GaussianRandomGenerator(g));
-        MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
-            new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
+        DifferentiableMultivariateVectorMultiStartOptimizer optimizer =
+            new DifferentiableMultivariateVectorMultiStartOptimizer(underlyingOptimizer,
                                                                        10, generator);
 
         // no optima before first optimization attempt
@@ -134,15 +134,15 @@ public class MultiStartDifferentiableMultivariateVectorialOptimizerTest {
 
     @Test(expected=TestException.class)
     public void testNoOptimum() {
-        DifferentiableMultivariateVectorialOptimizer underlyingOptimizer =
+        DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true,
                                      new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(12373523445l);
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(1, new GaussianRandomGenerator(g));
-        MultiStartDifferentiableMultivariateVectorialOptimizer optimizer =
-            new MultiStartDifferentiableMultivariateVectorialOptimizer(underlyingOptimizer,
+        DifferentiableMultivariateVectorMultiStartOptimizer optimizer =
+            new DifferentiableMultivariateVectorMultiStartOptimizer(underlyingOptimizer,
                                                                        10, generator);
         optimizer.optimize(100, new DifferentiableMultivariateVectorFunction() {
                 public MultivariateMatrixFunction jacobian() {

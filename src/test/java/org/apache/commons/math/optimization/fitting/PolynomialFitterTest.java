@@ -21,7 +21,7 @@ import java.util.Random;
 
 import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math.exception.ConvergenceException;
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math.util.FastMath;
@@ -89,12 +89,12 @@ public class PolynomialFitterTest {
     @Test
     public void testRedundantUnsolvable() {
         // Gauss-Newton should not be able to solve redundant information
-        DifferentiableMultivariateVectorialOptimizer optimizer =
+        DifferentiableMultivariateVectorOptimizer optimizer =
             new GaussNewtonOptimizer(true);
         checkUnsolvableProblem(optimizer, false);
     }
 
-    private void checkUnsolvableProblem(DifferentiableMultivariateVectorialOptimizer optimizer,
+    private void checkUnsolvableProblem(DifferentiableMultivariateVectorOptimizer optimizer,
                                         boolean solvable) {
         Random randomizer = new Random(1248788532l);
         for (int degree = 0; degree < 10; ++degree) {

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.optimization.fitting;
 
-import org.apache.commons.math.optimization.DifferentiableMultivariateVectorialOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math.analysis.function.HarmonicOscillator;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -41,7 +41,7 @@ public class HarmonicFitter extends CurveFitter {
      * Simple constructor.
      * @param optimizer Optimizer to use for the fitting.
      */
-    public HarmonicFitter(final DifferentiableMultivariateVectorialOptimizer optimizer) {
+    public HarmonicFitter(final DifferentiableMultivariateVectorOptimizer optimizer) {
         super(optimizer);
     }
 
