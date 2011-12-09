@@ -31,4 +31,4 @@ import org.apache.commons.math.analysis.MultivariateFunction;
  * @since 2.0
  */
 public interface MultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<MultivariateFunction> {}
+    extends BaseMultivariateOptimizer<MultivariateFunction> {}

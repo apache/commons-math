@@ -54,7 +54,7 @@ import org.apache.commons.math.util.MathUtils;
  * user is responsible for converting his bounded point to unbounded by calling
  * {@link #boundedToUnbounded(double[])} before providing them to the optimizer.
  * For the same reason, the point returned by the {@link
- * org.apache.commons.math.optimization.BaseMultivariateRealOptimizer#optimize(int,
+ * org.apache.commons.math.optimization.BaseMultivariateOptimizer#optimize(int,
  * MultivariateFunction, org.apache.commons.math.optimization.GoalType, double[])}
  * method is unbounded. So to convert this point to bounded, users must call
  * {@link #unboundedToBounded(double[])} by themselves!</p>

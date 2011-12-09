@@ -34,7 +34,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
  * @since 3.0
  */
 public interface BaseMultivariateSimpleBoundsOptimizer<FUNC extends MultivariateFunction>
-    extends BaseMultivariateRealOptimizer<FUNC> {
+    extends BaseMultivariateOptimizer<FUNC> {
     /**
      * Optimize an objective function.
      *

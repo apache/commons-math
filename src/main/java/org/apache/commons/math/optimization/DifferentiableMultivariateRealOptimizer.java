@@ -33,4 +33,4 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
  * @since 2.0
  */
 public interface DifferentiableMultivariateRealOptimizer
-    extends BaseMultivariateRealOptimizer<DifferentiableMultivariateFunction> {}
+    extends BaseMultivariateOptimizer<DifferentiableMultivariateFunction> {}

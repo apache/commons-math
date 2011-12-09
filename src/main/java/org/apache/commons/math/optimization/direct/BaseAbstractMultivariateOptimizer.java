@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
+import org.apache.commons.math.optimization.BaseMultivariateOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -39,7 +39,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @since 2.2
  */
 public abstract class BaseAbstractMultivariateOptimizer<FUNC extends MultivariateFunction>
-    implements BaseMultivariateRealOptimizer<FUNC> {
+    implements BaseMultivariateOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
     /** Convergence checker. */

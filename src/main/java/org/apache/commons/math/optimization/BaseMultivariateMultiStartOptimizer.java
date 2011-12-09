@@ -41,9 +41,9 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @since 3.0
  */
 public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFunction>
-    implements BaseMultivariateRealOptimizer<FUNC> {
+    implements BaseMultivariateOptimizer<FUNC> {
     /** Underlying classical optimizer. */
-    private final BaseMultivariateRealOptimizer<FUNC> optimizer;
+    private final BaseMultivariateOptimizer<FUNC> optimizer;
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
     /** Number of evaluations already performed for all starts. */
@@ -67,7 +67,7 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
      * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
-    protected BaseMultivariateMultiStartOptimizer(final BaseMultivariateRealOptimizer<FUNC> optimizer,
+    protected BaseMultivariateMultiStartOptimizer(final BaseMultivariateOptimizer<FUNC> optimizer,
                                                       final int starts,
                                                       final RandomVectorGenerator generator) {
         if (optimizer == null ||
