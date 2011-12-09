@@ -50,7 +50,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * @since 3.0
  */
 public class BOBYQAOptimizer
-    extends BaseAbstractSimpleBoundsScalarOptimizer<MultivariateFunction>
+    extends BaseAbstractMultivariateSimpleBoundsOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Minimum dimension of the problem: {@value} */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;

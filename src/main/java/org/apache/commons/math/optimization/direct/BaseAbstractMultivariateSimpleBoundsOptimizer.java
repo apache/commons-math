@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.BaseMultivariateRealOptimizer;
-import org.apache.commons.math.optimization.BaseSimpleBoundsMultivariateRealOptimizer;
+import org.apache.commons.math.optimization.BaseMultivariateSimpleBoundsOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -39,10 +39,10 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
  * @version $Id$
  * @since 3.0
  */
-public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends MultivariateFunction>
+public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends MultivariateFunction>
     extends BaseAbstractMultivariateOptimizer<FUNC>
     implements BaseMultivariateRealOptimizer<FUNC>,
-               BaseSimpleBoundsMultivariateRealOptimizer<FUNC> {
+               BaseMultivariateSimpleBoundsOptimizer<FUNC> {
     /** Lower bounds. */
     private double[] lowerBound;
     /** Upper bounds. */
@@ -56,12 +56,12 @@ public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends Multi
      *
      * @see BaseAbstractMultivariateOptimizer#BaseAbstractMultivariateOptimizer()
      */
-    protected BaseAbstractSimpleBoundsScalarOptimizer() {}
+    protected BaseAbstractMultivariateSimpleBoundsOptimizer() {}
 
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractSimpleBoundsScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    protected BaseAbstractMultivariateSimpleBoundsOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
         super(checker);
     }
 
