@@ -81,7 +81,7 @@ import org.apache.commons.math.util.MathArrays;
  */
 
 public class CMAESOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateFunction>
+    extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;

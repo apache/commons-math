@@ -46,7 +46,7 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  * @since 2.2
  */
 public class PowellOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateFunction>
+    extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /**
      * Minimum relative tolerance.

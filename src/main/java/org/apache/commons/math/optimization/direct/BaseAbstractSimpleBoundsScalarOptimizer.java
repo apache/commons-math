@@ -40,7 +40,7 @@ import org.apache.commons.math.exception.NumberIsTooLargeException;
  * @since 3.0
  */
 public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends MultivariateFunction>
-    extends BaseAbstractScalarOptimizer<FUNC>
+    extends BaseAbstractMultivariateOptimizer<FUNC>
     implements BaseMultivariateRealOptimizer<FUNC>,
                BaseSimpleBoundsMultivariateRealOptimizer<FUNC> {
     /** Lower bounds. */
@@ -54,7 +54,7 @@ public abstract class BaseAbstractSimpleBoundsScalarOptimizer<FUNC extends Multi
      * {@link org.apache.commons.math.optimization.SimpleScalarValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      *
-     * @see BaseAbstractScalarOptimizer#BaseAbstractScalarOptimizer()
+     * @see BaseAbstractMultivariateOptimizer#BaseAbstractMultivariateOptimizer()
      */
     protected BaseAbstractSimpleBoundsScalarOptimizer() {}
 

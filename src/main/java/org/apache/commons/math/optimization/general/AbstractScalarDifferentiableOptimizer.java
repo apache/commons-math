@@ -23,7 +23,7 @@ import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimi
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.direct.BaseAbstractScalarOptimizer;
+import org.apache.commons.math.optimization.direct.BaseAbstractMultivariateOptimizer;
 
 /**
  * Base class for implementing optimizers for multivariate scalar
@@ -34,7 +34,7 @@ import org.apache.commons.math.optimization.direct.BaseAbstractScalarOptimizer;
  * @since 2.0
  */
 public abstract class AbstractScalarDifferentiableOptimizer
-    extends BaseAbstractScalarOptimizer<DifferentiableMultivariateFunction>
+    extends BaseAbstractMultivariateOptimizer<DifferentiableMultivariateFunction>
     implements DifferentiableMultivariateRealOptimizer {
     /**
      * Objective function gradient.

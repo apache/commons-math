@@ -38,7 +38,7 @@ import org.apache.commons.math.optimization.SimpleScalarValueChecker;
  * @version $Id$
  * @since 2.2
  */
-public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateFunction>
+public abstract class BaseAbstractMultivariateOptimizer<FUNC extends MultivariateFunction>
     implements BaseMultivariateRealOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
@@ -56,13 +56,13 @@ public abstract class BaseAbstractScalarOptimizer<FUNC extends MultivariateFunct
      * The convergence check is set to a {@link SimpleScalarValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
-    protected BaseAbstractScalarOptimizer() {
+    protected BaseAbstractMultivariateOptimizer() {
         this(new SimpleScalarValueChecker());
     }
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractScalarOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    protected BaseAbstractMultivariateOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
         this.checker = checker;
     }
 

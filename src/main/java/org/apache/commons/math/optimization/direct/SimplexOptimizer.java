@@ -84,7 +84,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  * @since 3.0
  */
 public class SimplexOptimizer
-    extends BaseAbstractScalarOptimizer<MultivariateFunction>
+    extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
     implements MultivariateRealOptimizer {
     /** Simplex. */
     private AbstractSimplex simplex;
