@@ -29,7 +29,7 @@ import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.MultivariateOptimizer;
 
 /**
  * Powell's BOBYQA algorithm. This implementation is translated and
@@ -51,7 +51,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  */
 public class BOBYQAOptimizer
     extends BaseAbstractMultivariateSimpleBoundsOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+    implements MultivariateOptimizer {
     /** Minimum dimension of the problem: {@value} */
     public static final int MINIMUM_PROBLEM_DIMENSION = 2;
     /** Default value for {@link #initialTrustRegionRadius}: {@value} . */

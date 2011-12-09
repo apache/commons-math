@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /**
- * Special implementation of the {@link MultivariateRealOptimizer} interface adding
+ * Special implementation of the {@link MultivariateOptimizer} interface adding
  * multi-start features to an existing optimizer.
  *
  * This class wraps a classical optimizer to use it several times in
@@ -33,7 +33,7 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  */
 public class MultivariateMultiStartOptimizer
     extends BaseMultivariateMultiStartOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+    implements MultivariateOptimizer {
     /**
      * Create a multi-start optimizer from a single-start optimizer.
      *
@@ -43,7 +43,7 @@ public class MultivariateMultiStartOptimizer
      * equal to 1.
      * @param generator Random vector generator to use for restarts.
      */
-    public MultivariateMultiStartOptimizer(final MultivariateRealOptimizer optimizer,
+    public MultivariateMultiStartOptimizer(final MultivariateOptimizer optimizer,
                                                final int starts,
                                                final RandomVectorGenerator generator) {
         super(optimizer, starts, generator);

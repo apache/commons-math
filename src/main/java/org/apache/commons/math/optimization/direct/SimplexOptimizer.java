@@ -25,7 +25,7 @@ import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.MultivariateOptimizer;
 
 /**
  * This class implements simplex-based direct search optimization.
@@ -85,7 +85,7 @@ import org.apache.commons.math.optimization.MultivariateRealOptimizer;
  */
 public class SimplexOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+    implements MultivariateOptimizer {
     /** Simplex. */
     private AbstractSimplex simplex;
 

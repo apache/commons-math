@@ -26,7 +26,7 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.MultivariateOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math.optimization.univariate.UnivariateRealPointValuePair;
@@ -47,7 +47,7 @@ import org.apache.commons.math.optimization.univariate.UnivariateRealPointValueP
  */
 public class PowellOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+    implements MultivariateOptimizer {
     /**
      * Minimum relative tolerance.
      */

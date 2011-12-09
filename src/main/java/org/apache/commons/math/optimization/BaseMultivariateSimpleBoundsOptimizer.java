@@ -24,8 +24,8 @@ import org.apache.commons.math.analysis.MultivariateFunction;
  * Commons-FastMath. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer}</li>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer}</li>
+ *  <li>{@link org.apache.commons.math.optimization.MultivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.

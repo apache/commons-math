@@ -25,10 +25,10 @@ import org.apache.commons.math.analysis.MultivariateFunction;
  * <p>Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.</p>
  *
- * @see DifferentiableMultivariateRealOptimizer
+ * @see DifferentiableMultivariateOptimizer
  * @see DifferentiableMultivariateVectorOptimizer
  * @version $Id$
  * @since 2.0
  */
-public interface MultivariateRealOptimizer
+public interface MultivariateOptimizer
     extends BaseMultivariateOptimizer<MultivariateFunction> {}

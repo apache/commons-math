@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.general;
 
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorFunction;
-import org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer;
+import org.apache.commons.math.optimization.DifferentiableMultivariateOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.direct.BaseAbstractMultivariateOptim
  */
 public abstract class AbstractScalarDifferentiableOptimizer
     extends BaseAbstractMultivariateOptimizer<DifferentiableMultivariateFunction>
-    implements DifferentiableMultivariateRealOptimizer {
+    implements DifferentiableMultivariateOptimizer {
     /**
      * Objective function gradient.
      */

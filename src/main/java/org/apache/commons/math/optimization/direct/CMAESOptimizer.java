@@ -33,7 +33,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.MultivariateOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.random.MersenneTwister;
@@ -82,7 +82,7 @@ import org.apache.commons.math.util.MathArrays;
 
 public class CMAESOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+    implements MultivariateOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;
     /** Default value for {@link #stopFitness}: {@value}. */

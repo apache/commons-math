@@ -792,7 +792,7 @@ public class BatteryNISTTest {
     }
     
     /* generic test runner */
-    private double[] run(MultivariateRealOptimizer optim, DifferentiableMultivariateFunction func, double[] start) {
+    private double[] run(MultivariateOptimizer optim, DifferentiableMultivariateFunction func, double[] start) {
         return (optim.optimize(1000000, func, GoalType.MINIMIZE, start).getPointRef());
     }
     /* generic test runner for AbstractScalarDifferentiableOptimizer */

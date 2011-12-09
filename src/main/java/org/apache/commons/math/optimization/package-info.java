@@ -35,11 +35,11 @@
  *  <li>{@link org.apache.commons.math.optimization.univariate.UnivariateRealOptimizer
  *      UnivariateRealOptimizer} for {@link org.apache.commons.math.analysis.UnivariateFunction
  *      univariate real functions}</li>
- *  <li>{@link org.apache.commons.math.optimization.MultivariateRealOptimizer
- *      MultivariateRealOptimizer} for {@link org.apache.commons.math.analysis.MultivariateFunction
+ *  <li>{@link org.apache.commons.math.optimization.MultivariateOptimizer
+ *      MultivariateOptimizer} for {@link org.apache.commons.math.analysis.MultivariateFunction
  *      multivariate real functions}</li>
- *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateRealOptimizer
- *      DifferentiableMultivariateRealOptimizer} for {@link
+ *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateOptimizer
+ *      DifferentiableMultivariateOptimizer} for {@link
  *      org.apache.commons.math.analysis.DifferentiableMultivariateFunction
  *      differentiable multivariate real functions}</li>
  *  <li>{@link org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer
@@ -57,7 +57,7 @@
  * real function} thanks to the {@link
  * org.apache.commons.math.optimization.LeastSquaresConverter LeastSquaresConverter} helper class.
  * The transformed function can be optimized using any implementation of the {@link
- * org.apache.commons.math.optimization.MultivariateRealOptimizer MultivariateRealOptimizer} interface.
+ * org.apache.commons.math.optimization.MultivariateOptimizer MultivariateOptimizer} interface.
  * </p>
  *
  * <p>

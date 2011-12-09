@@ -27,7 +27,7 @@ import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.MultivariateOptimizer;
 import org.apache.commons.math.optimization.RealPointValuePair;
 import org.apache.commons.math.random.MersenneTwister;
 import org.junit.Assert;
@@ -375,7 +375,7 @@ public class CMAESOptimizerTest {
             RealPointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
-        MultivariateRealOptimizer optim =
+        MultivariateOptimizer optim =
             new CMAESOptimizer(
                     lambda, inSigma, boundaries, 30000,
                     stopValue, isActive, diagonalOnly, 0, new MersenneTwister(),false);

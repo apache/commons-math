@@ -253,7 +253,7 @@ public class BOBYQAOptimizerTest {
         System.out.println(func.getClass().getName() + " BEGIN"); // XXX
 
         int dim = startPoint.length;
-//        MultivariateRealOptimizer optim =
+//        MultivariateOptimizer optim =
 //            new PowellOptimizer(1e-13, Math.ulp(1d));
 //        RealPointValuePair result = optim.optimize(100000, func, goal, startPoint);
         final double[] lB = boundaries == null ? null : boundaries[0];
