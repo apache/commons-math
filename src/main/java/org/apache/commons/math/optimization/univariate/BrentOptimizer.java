@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.GoalType;
  * @version $Id$
  * @since 2.0
  */
-public class BrentOptimizer extends AbstractUnivariateRealOptimizer {
+public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
     /**
      * Golden section.
      */

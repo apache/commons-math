@@ -32,7 +32,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  * @version $Id$
  * @since 2.0
  */
-public abstract class AbstractUnivariateRealOptimizer
+public abstract class BaseAbstractUnivariateOptimizer
     implements UnivariateRealOptimizer {
     /** Convergence checker. */
     private final ConvergenceChecker<UnivariateRealPointValuePair> checker;
@@ -52,7 +52,7 @@ public abstract class AbstractUnivariateRealOptimizer
     /**
      * @param checker Convergence checking procedure.
      */
-    protected AbstractUnivariateRealOptimizer(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+    protected BaseAbstractUnivariateOptimizer(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
         this.checker = checker;
     }
 

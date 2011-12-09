@@ -42,10 +42,10 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
  * @version $Id$
  * @since 3.0
  */
-public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateFunction>
-    implements BaseUnivariateRealOptimizer<FUNC> {
+public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
+    implements BaseUnivariateOptimizer<FUNC> {
     /** Underlying classical optimizer. */
-    private final BaseUnivariateRealOptimizer<FUNC> optimizer;
+    private final BaseUnivariateOptimizer<FUNC> optimizer;
     /** Maximal number of evaluations allowed. */
     private int maxEvaluations;
     /** Number of evaluations already performed for all starts. */
@@ -69,7 +69,7 @@ public class MultiStartUnivariateRealOptimizer<FUNC extends UnivariateFunction>
      * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
-    public MultiStartUnivariateRealOptimizer(final BaseUnivariateRealOptimizer<FUNC> optimizer,
+    public UnivariateMultiStartOptimizer(final BaseUnivariateOptimizer<FUNC> optimizer,
                                              final int starts,
                                              final RandomGenerator generator) {
         if (optimizer == null ||

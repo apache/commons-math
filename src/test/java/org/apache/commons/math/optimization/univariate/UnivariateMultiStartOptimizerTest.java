@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class MultiStartUnivariateRealOptimizerTest {
+public class UnivariateMultiStartOptimizerTest {
 
     @Test
     public void testSinMin() {
@@ -35,8 +35,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);
-        MultiStartUnivariateRealOptimizer<UnivariateFunction> optimizer =
-            new MultiStartUnivariateRealOptimizer<UnivariateFunction>(underlying, 10, g);
+        UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
+            new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 10, g);
         optimizer.optimize(300, f, GoalType.MINIMIZE, -100.0, 100.0);
         UnivariateRealPointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
@@ -57,8 +57,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
-        MultiStartUnivariateRealOptimizer<UnivariateFunction> optimizer =
-            new MultiStartUnivariateRealOptimizer<UnivariateFunction>(underlying, 5, g);
+        UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
+            new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 5, g);
 
         UnivariateRealPointValuePair optimum
             = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
@@ -86,8 +86,8 @@ public class MultiStartUnivariateRealOptimizerTest {
         UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
-        MultiStartUnivariateRealOptimizer<UnivariateFunction> optimizer =
-            new MultiStartUnivariateRealOptimizer<UnivariateFunction>(underlying, 5, g);
+        UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
+            new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 5, g);
  
         try {
             optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);

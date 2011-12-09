@@ -34,7 +34,7 @@ import org.apache.commons.math.optimization.GoalType;
  * @version $Id$
  * @since 3.0
  */
-public interface BaseUnivariateRealOptimizer<FUNC extends UnivariateFunction>
+public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
     extends BaseOptimizer<UnivariateRealPointValuePair> {
     /**
      * Find an optimum in the given interval.
