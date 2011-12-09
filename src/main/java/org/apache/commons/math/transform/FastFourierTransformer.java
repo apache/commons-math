@@ -52,9 +52,8 @@ public class FastFourierTransformer implements Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 5138259215438106000L;
 
-
     /**
-     * {@code true} if the orthogonal version of the FFT should be used.
+     * {@code true} if the unitary version of the DFT should be used.
      *
      * @see #create()
      * @see #createUnitary()
@@ -64,19 +63,12 @@ public class FastFourierTransformer implements Serializable {
     /** The roots of unity. */
     private RootsOfUnity roots = new RootsOfUnity();
 
-    /** Construct a default transformer. */
-    private FastFourierTransformer() {
-        super();
-        this.unitary = false;
-    }
-
     /**
      * Creates a new instance of this class, with various normalization
      * conventions.
      *
-     * @param unitary {@code false} if the direct Fourier transform is
-     * <em>not</em> to be scaled, {@code true} if it is to be scaled so as to
-     * make the transform unitary.
+     * @param unitary {@code false} if the DFT is <em>not</em> to be scaled,
+     * {@code true} if it is to be scaled so as to make the transform unitary.
      * @see #create()
      * @see #createUnitary()
      */
@@ -88,17 +80,18 @@ public class FastFourierTransformer implements Serializable {
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
      * normalizing conventions described below.
-     * </p>
      * <ul>
      * <li>Forward transform:
      * y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
      * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
      * <li>Inverse transform:
      * x<sub>k</sub> = N<sup>-1</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
-     * y<sub>n</sub> exp(2&pi;i n k / N).</li>
+     * y<sub>n</sub> exp(2&pi;i n k / N),</li>
      * </ul>
+     * where N is the size of the data sample.
+     * </p>
      *
-     * @return a new FFT transformer, with "standard" normalizing conventions
+     * @return a new DFT transformer, with "standard" normalizing conventions
      */
     public static FastFourierTransformer create() {
         return new FastFourierTransformer(false);
@@ -116,7 +109,7 @@ public class FastFourierTransformer implements Serializable {
      * x<sub>k</sub> = N<sup>-1/2</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
      * y<sub>n</sub> exp(2&pi;i n k / N),</li>
      * </ul>
-     * which make the transform unitary.
+     * which make the transform unitary. N is the size of the data sample.
      * </p>
      *
      * @return a new FFT transformer, with unitary normalizing conventions
