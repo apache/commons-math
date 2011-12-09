@@ -17,12 +17,12 @@
 
 package org.apache.commons.math.optimization;
 
-import org.apache.commons.math.analysis.MultivariateFunction;
+import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.random.RandomVectorGenerator;
 
 /**
- * Special implementation of the {@link MultivariateRealOptimizer} interface adding
- * multi-start features to an existing optimizer.
+ * Special implementation of the {@link DifferentiableMultivariateRealOptimizer}
+ * interface adding multi-start features to an existing optimizer.
  *
  * This class wraps a classical optimizer to use it several times in
  * turn with different starting points in order to avoid being trapped
@@ -31,9 +31,9 @@ import org.apache.commons.math.random.RandomVectorGenerator;
  * @version $Id$
  * @since 2.0
  */
-public class MultiStartMultivariateRealOptimizer
-    extends BaseMultiStartMultivariateRealOptimizer<MultivariateFunction>
-    implements MultivariateRealOptimizer {
+public class DifferentiableMultivariateMultiStartOptimizer
+    extends BaseMultivariateMultiStartOptimizer<DifferentiableMultivariateFunction>
+    implements DifferentiableMultivariateRealOptimizer {
     /**
      * Create a multi-start optimizer from a single-start optimizer.
      *
@@ -43,9 +43,9 @@ public class MultiStartMultivariateRealOptimizer
      * equal to 1.
      * @param generator Random vector generator to use for restarts.
      */
-    public MultiStartMultivariateRealOptimizer(final MultivariateRealOptimizer optimizer,
-                                               final int starts,
-                                               final RandomVectorGenerator generator) {
+    public DifferentiableMultivariateMultiStartOptimizer(final DifferentiableMultivariateRealOptimizer optimizer,
+                                                             final int starts,
+                                                             final RandomVectorGenerator generator) {
         super(optimizer, starts, generator);
     }
 }

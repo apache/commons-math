@@ -28,7 +28,7 @@ import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MultiStartMultivariateRealOptimizerTest {
+public class MultivariateMultiStartOptimizerTest {
     @Test
     public void testRosenbrock() {
         Rosenbrock rosenbrock = new Rosenbrock();
@@ -42,8 +42,8 @@ public class MultiStartMultivariateRealOptimizerTest {
         g.setSeed(16069223052l);
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
-        MultiStartMultivariateRealOptimizer optimizer =
-            new MultiStartMultivariateRealOptimizer(underlying, 10, generator);
+        MultivariateMultiStartOptimizer optimizer =
+            new MultivariateMultiStartOptimizer(underlying, 10, generator);
         RealPointValuePair optimum =
             optimizer.optimize(1100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 

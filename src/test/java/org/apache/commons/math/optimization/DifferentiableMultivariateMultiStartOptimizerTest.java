@@ -33,7 +33,7 @@ import org.apache.commons.math.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class MultiStartDifferentiableMultivariateRealOptimizerTest {
+public class DifferentiableMultivariateMultiStartOptimizerTest {
 
     @Test
     public void testCircleFitting() {
@@ -51,8 +51,8 @@ public class MultiStartDifferentiableMultivariateRealOptimizerTest {
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(new double[] { 50.0, 50.0 }, new double[] { 10.0, 10.0 },
                                                   new GaussianRandomGenerator(g));
-        MultiStartDifferentiableMultivariateRealOptimizer optimizer =
-            new MultiStartDifferentiableMultivariateRealOptimizer(underlying, 10, generator);
+        DifferentiableMultivariateMultiStartOptimizer optimizer =
+            new DifferentiableMultivariateMultiStartOptimizer(underlying, 10, generator);
         RealPointValuePair optimum =
             optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         Assert.assertEquals(200, optimizer.getMaxEvaluations());
