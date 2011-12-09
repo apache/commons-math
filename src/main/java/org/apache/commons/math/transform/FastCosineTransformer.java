@@ -40,167 +40,142 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer {
+    /**
+     * {@code true} if the orthogonal version of the DCT should be used.
+     *
+     * @see #create()
+     * @see #createOrthogonal()
+     */
+    private final boolean orthogonal;
 
-    /** Construct a default transformer. */
-    public FastCosineTransformer() {
-        super();
+    /**
+     * Creates a new instance of this class, with various normalization
+     * conventions.
+     *
+     * @param orthogonal {@code false} if the DCT is <em>not</em> to be scaled,
+     * {@code true} if it is to be scaled so as to make the transform
+     * orthogonal.
+     * @see #create()
+     * @see #createOrthogonal()
+     */
+    public FastCosineTransformer(final boolean orthogonal) {
+        this.orthogonal = orthogonal;
     }
 
     /**
-     * Transform the given real data set.
      * <p>
-     * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
-     *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
+     * Returns a new instance of this class. The returned transformer uses the
+     * normalizing conventions described below.
+     * <ul>
+     * <li>Forward transform:
+     * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
+     * + &sum;<sub>k=1</sub><sup>N-2</sup>
+     * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+     * <li>Inverse transform:
+     * x<sub>k</sub> = [1 / (N - 1)] [y<sub>0</sub>
+     * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+     * + [2 / (N - 1)] &sum;<sub>n=1</sub><sup>N-2</sup>
+     * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+     * </ul>
+     * where N is the size of the data sample.
      * </p>
+     *
+     * @return a new DCT transformer, with "standard" normalizing conventions
+     */
+    public static FastCosineTransformer create() {
+        return new FastCosineTransformer(false);
+    }
+
+    /**
+     * <p>
+     * Returns a new instance of this class. The returned transformer uses the
+     * normalizing conventions described below.
+     * <ul>
+     * <li>Forward transform:
+     * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
+     * + (-1)<sup>n</sup>x<sub>N-1</sub>]
+     * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>k=1</sub><sup>N-2</sup>
+     * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+     * <li>Inverse transform:
+     * x<sub>k</sub> = [2(N - 1)]<sup>-1/2</sup> [y<sub>0</sub>
+     * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+     * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
+     * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+     * </ul>
+     * which make the transform orthogonal. N is the size of the data sample.
+     * </p>
+     *
+     * @return a new DCT transformer, with "orthogonal" normalizing conventions
+     */
+    public static FastCosineTransformer createOrthogonal() {
+        return new FastCosineTransformer(true);
+    }
+
+    /**
+     * Returns the forward transform of the specified real data set.
      *
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] transform(double[] f) throws IllegalArgumentException {
+
+        if (orthogonal) {
+            final double s = FastMath.sqrt(2.0 / (f.length - 1));
+            return FastFourierTransformer.scaleArray(fct(f), s);
+        }
         return fct(f);
     }
 
     /**
-     * Transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is F<sub>n</sub> = (1/2) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
-     *                        &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
-     * </p>
+     * Returns the forward transform of the specified real function, sampled on
+     * the specified interval.
      *
      * @param f the function to be sampled and transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param min the (inclusive) lower bound for the interval
+     * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] transform(UnivariateFunction f,
-                              double min, double max, int n)
-        throws IllegalArgumentException {
-        double[] data = FastFourierTransformer.sample(f, min, max, n);
-        return fct(data);
+        double min, double max, int n) throws IllegalArgumentException {
+
+        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        return transform(data);
     }
 
     /**
-     * Transform the given real data set.
-     * <p>
-     * The formula is F<sub>n</sub> = &radic;(1/2N) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
-     *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
-     * </p>
-     *
-     * @param f the real data array to be transformed
-     * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double[] transform2(double[] f) throws IllegalArgumentException {
-
-        double scalingCoefficient = FastMath.sqrt(2.0 / (f.length - 1));
-        return FastFourierTransformer.scaleArray(fct(f), scalingCoefficient);
-    }
-
-    /**
-     * Transform the given real function, sampled on the given interval.
-     * <p>
-     * The formula is F<sub>n</sub> = &radic;(1/2N) [f<sub>0</sub> + (-1)<sup>n</sup> f<sub>N</sub>] +
-     *                        &radic;(2/N) &sum;<sub>k=1</sub><sup>N-1</sup> f<sub>k</sub> cos(&pi; nk/N)
-     *
-     * </p>
-     *
-     * @param f the function to be sampled and transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param n the number of sample points
-     * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double[] transform2(UnivariateFunction f,
-                               double min, double max, int n)
-        throws IllegalArgumentException {
-
-        double[] data = FastFourierTransformer.sample(f, min, max, n);
-        double scalingCoefficient = FastMath.sqrt(2.0 / (n - 1));
-        return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given real data set.
-     * <p>
-     * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
-     *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
-     * </p>
+     * Returns the inverse transform of the specified real data set.
      *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] inverseTransform(double[] f)
-    throws IllegalArgumentException {
+        throws IllegalArgumentException {
 
-        double scalingCoefficient = 2.0 / (f.length - 1);
-        return FastFourierTransformer.scaleArray(fct(f), scalingCoefficient);
+        final double s2 = 2.0 / (f.length - 1);
+        final double s1 = orthogonal ? FastMath.sqrt(s2) : s2;
+        return FastFourierTransformer.scaleArray(fct(f), s1);
     }
 
     /**
-     * Inversely transform the given real function, sampled on the given
-     * interval.
-     * <p>
-     * The formula is f<sub>k</sub> = (1/N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
-     *                        (2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
-     * </p>
+     * Returns the inverse transform of the specified real function, sampled
+     * on the given interval.
      *
      * @param f the function to be sampled and inversely transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
+     * @param min the (inclusive) lower bound for the interval
+     * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
      * @throws IllegalArgumentException if any parameters are invalid
      */
     public double[] inverseTransform(UnivariateFunction f,
-                                     double min, double max, int n)
-        throws IllegalArgumentException {
+        double min, double max, int n) throws IllegalArgumentException {
 
-        double[] data = FastFourierTransformer.sample(f, min, max, n);
-        double scalingCoefficient = 2.0 / (n - 1);
-        return FastFourierTransformer.scaleArray(fct(data), scalingCoefficient);
-    }
-
-    /**
-     * Inversely transform the given real data set.
-     * <p>
-     * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
-     *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
-     * </p>
-     *
-     * @param f the real data array to be inversely transformed
-     * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double[] inverseTransform2(double[] f)
-        throws IllegalArgumentException {
-        return transform2(f);
-    }
-
-    /**
-     * Inversely transform the given real function, sampled on the given
-     * interval.
-     * <p>
-     * The formula is f<sub>k</sub> = &radic;(1/2N) [F<sub>0</sub> + (-1)<sup>k</sup> F<sub>N</sub>] +
-     *                        &radic;(2/N) &sum;<sub>n=1</sub><sup>N-1</sup> F<sub>n</sub> cos(&pi; nk/N)
-     * </p>
-     *
-     * @param f the function to be sampled and inversely transformed
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @param n the number of sample points
-     * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
-    public double[] inverseTransform2(UnivariateFunction f,
-                                      double min, double max, int n)
-        throws IllegalArgumentException {
-
-        return transform2(f, min, max, n);
+        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        return inverseTransform(data);
     }
 
     /**
