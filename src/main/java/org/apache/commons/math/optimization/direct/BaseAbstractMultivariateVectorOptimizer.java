@@ -38,7 +38,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
  * @version $Id$
  * @since 3.0
  */
-public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVectorFunction>
+public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction>
     implements BaseMultivariateVectorOptimizer<FUNC> {
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
@@ -58,13 +58,13 @@ public abstract class BaseAbstractVectorialOptimizer<FUNC extends MultivariateVe
      * The convergence check is set to a {@link SimpleVectorialValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
-    protected BaseAbstractVectorialOptimizer() {
+    protected BaseAbstractMultivariateVectorOptimizer() {
         this(new SimpleVectorialValueChecker());
     }
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractVectorialOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+    protected BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
         this.checker = checker;
     }
 
