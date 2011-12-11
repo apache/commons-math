@@ -20,7 +20,12 @@ package org.apache.commons.math.random;
 import org.junit.Assert;
 import org.junit.Test;
 
-public final class ISAACTest {
+public final class ISAACTest extends RandomGeneratorAbstractTest {
+
+    @Override
+    protected RandomGenerator makeGenerator() {
+        return new ISAACRandom(1000);
+    }
 
     private static final int[] SEED_1 = {
             0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
