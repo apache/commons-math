@@ -151,7 +151,6 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      */
     @Override
     public void setSeed(final int[] seed) {
-
         if (seed == null) {
             setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
@@ -167,7 +166,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
         }
 
         index = 0;
-
+        clear();  // Clear normal deviate cache
     }
 
     /** Reinitialize the generator as if just built with the given long seed.

@@ -150,6 +150,8 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
             longMT = (1812433253l * (longMT ^ (longMT >> 30)) + mti) & 0xffffffffL;
             mt[mti]= (int) longMT;
         }
+
+        clear(); // Clear normal deviate cache
     }
 
     /** Reinitialize the generator as if just built with the given int array seed.
@@ -199,6 +201,8 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         }
 
         mt[0] = 0x80000000; // MSB is 1; assuring non-zero initial array
+
+        clear(); // Clear normal deviate cache
 
     }
 

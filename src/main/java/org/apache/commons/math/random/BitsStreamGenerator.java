@@ -157,4 +157,12 @@ public abstract class BitsStreamGenerator implements RandomGenerator {
         return high | low;
     }
 
+    /**
+     * Clears the cache used by the default implementation of
+     * {@link #nextGaussian}.
+     */
+    public void clear() {
+        nextGaussian = Double.NaN;
+    }
+
 }

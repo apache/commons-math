@@ -46,7 +46,8 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
         
         @Override
         public void setSeed(int seed) {
-           ran.setSeed(seed);   
+           ran.setSeed(seed);
+           clear();
         }
 
         @Override
