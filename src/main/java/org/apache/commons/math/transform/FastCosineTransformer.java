@@ -111,13 +111,7 @@ public class FastCosineTransformer implements RealTransformer {
         return new FastCosineTransformer(true);
     }
 
-    /**
-     * Returns the forward transform of the specified real data set.
-     *
-     * @param f the real data array to be transformed
-     * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
+    /** {@inheritDoc} */
     public double[] transform(double[] f) throws IllegalArgumentException {
 
         if (orthogonal) {
@@ -127,17 +121,7 @@ public class FastCosineTransformer implements RealTransformer {
         return fct(f);
     }
 
-    /**
-     * Returns the forward transform of the specified real function, sampled on
-     * the specified interval.
-     *
-     * @param f the function to be sampled and transformed
-     * @param min the (inclusive) lower bound for the interval
-     * @param max the (exclusive) upper bound for the interval
-     * @param n the number of sample points
-     * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
+    /** {@inheritDoc} */
     public double[] transform(UnivariateFunction f,
         double min, double max, int n) throws IllegalArgumentException {
 
@@ -145,13 +129,7 @@ public class FastCosineTransformer implements RealTransformer {
         return transform(data);
     }
 
-    /**
-     * Returns the inverse transform of the specified real data set.
-     *
-     * @param f the real data array to be inversely transformed
-     * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
+    /** {@inheritDoc} */
     public double[] inverseTransform(double[] f)
         throws IllegalArgumentException {
 
@@ -160,17 +138,7 @@ public class FastCosineTransformer implements RealTransformer {
         return FastFourierTransformer.scaleArray(fct(f), s1);
     }
 
-    /**
-     * Returns the inverse transform of the specified real function, sampled
-     * on the given interval.
-     *
-     * @param f the function to be sampled and inversely transformed
-     * @param min the (inclusive) lower bound for the interval
-     * @param max the (exclusive) upper bound for the interval
-     * @param n the number of sample points
-     * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     */
+    /** {@inheritDoc} */
     public double[] inverseTransform(UnivariateFunction f,
         double min, double max, int n) throws IllegalArgumentException {
 
