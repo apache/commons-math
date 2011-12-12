@@ -58,7 +58,7 @@ public class FastCosineTransformer implements RealTransformer {
      * @see #create()
      * @see #createOrthogonal()
      */
-    public FastCosineTransformer(final boolean orthogonal) {
+    private FastCosineTransformer(final boolean orthogonal) {
         this.orthogonal = orthogonal;
     }
 
