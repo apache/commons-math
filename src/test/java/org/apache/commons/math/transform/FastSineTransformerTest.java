@@ -36,7 +36,7 @@ public final class FastSineTransformerTest {
      */
     @Test
     public void testAdHocData() {
-        FastSineTransformer transformer = new FastSineTransformer();
+        FastSineTransformer transformer = FastSineTransformer.create();
         double result[], tolerance = 1E-12;
 
         double x[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
@@ -55,13 +55,14 @@ public final class FastSineTransformerTest {
         }
 
         FastFourierTransformer.scaleArray(x, FastMath.sqrt(x.length / 2.0));
+        transformer = FastSineTransformer.createOrthogonal();
 
-        result = transformer.transform2(y);
+        result = transformer.transform(y);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        result = transformer.inverseTransform2(x);
+        result = transformer.inverseTransform(x);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
@@ -73,7 +74,7 @@ public final class FastSineTransformerTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        FastSineTransformer transformer = new FastSineTransformer();
+        FastSineTransformer transformer = FastSineTransformer.create();
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;
 
         min = 0.0; max = 2.0 * FastMath.PI;
@@ -97,7 +98,7 @@ public final class FastSineTransformerTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateFunction f = new SinFunction();
-        FastSineTransformer transformer = new FastSineTransformer();
+        FastSineTransformer transformer = FastSineTransformer.create();
 
         try {
             // bad interval
