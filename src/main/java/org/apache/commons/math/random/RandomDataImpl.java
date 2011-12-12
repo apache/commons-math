@@ -157,7 +157,12 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Construct a RandomDataImpl.
+     * Construct a RandomDataImpl, using a default random generator as the source
+     * of randomness.
+     *
+     * <p>The default generator is a {@link Well19937c} seeded
+     * with {@code System.currentTimeMillis() + System.identityHashCode(this))}.
+     * The generator is initialized and seeded on first use.</p>
      */
     public RandomDataImpl() {
     }
@@ -167,7 +172,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * the source of (non-secure) random data.
      *
      * @param rand the source of (non-secure) random data
-     * (may be null, resulting in default JDK-supplied generator)
+     * (may be null, resulting in the default generator)
      * @since 1.1
      */
     public RandomDataImpl(RandomGenerator rand) {
@@ -836,9 +841,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     private RandomGenerator getRan() {
         if (rand == null) {
-            rand = new Well19937c(System.currentTimeMillis() + System.identityHashCode(this));
+            initRan();
         }
         return rand;
+    }
+
+    /**
+     * Sets the default generator to a {@link Well19937c} generator seeded with
+     * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
+     */
+    private void initRan() {
+        rand = new Well19937c(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /**
@@ -869,7 +882,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public void reSeed(long seed) {
         if (rand == null) {
-            rand = new JDKRandomGenerator();
+            initRan();
         }
         rand.setSeed(seed);
     }
@@ -905,14 +918,14 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Reseeds the random number generator with the current time in
-     * milliseconds.
+     * Reseeds the random number generator with
+     * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
      */
     public void reSeed() {
         if (rand == null) {
-            rand = new JDKRandomGenerator();
+            initRan();
         }
-        rand.setSeed(System.currentTimeMillis());
+        rand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /**
