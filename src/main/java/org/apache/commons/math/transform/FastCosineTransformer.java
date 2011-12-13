@@ -38,7 +38,7 @@ import org.apache.commons.math.util.FastMath;
  * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
  * to be cosine transformed, the extended data set
- * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-2</sub><sup>&#35;</sup>
+ * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>
  * is defined as follows
  * <ul>
  * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>k</sub> if  0 &le; k &lt; N,</li>
@@ -50,7 +50,7 @@ import org.apache.commons.math.util.FastMath;
  * Then, the "standard" DCT-I (as returned by {@link #create()}) of the real
  * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to
  * <em>half</em> of the N first elements of the DFT of the extended data set
- * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-2</sub><sup>&#35;</sup>.
+ * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>.
  * </p>
  * <p>
  * The present implementation of the fast cosine transform requires the length
