@@ -23,17 +23,41 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
- * StandardPackages/LinearAlgebra/FourierTrig.html">Fast Cosine Transform</a>
- * for transformation of one-dimensional data sets. For reference, see
- * <b>Fast Fourier Transforms</b>, ISBN 0849371635, chapter 3.
  * <p>
- * FCT is its own inverse, up to a multiplier depending on conventions.
- * The equations are listed in the comments of the corresponding methods.</p>
+ * Implements the Fast Cosine Transform for transformation of one-dimensional
+ * real data sets. For reference, see James S. Walker, <em>Fast Fourier
+ * Transforms</em>, chapter 3 (ISBN 0849371635).
  * <p>
- * Different from FFT and FST, FCT requires the length of data set to be
- * power of 2 plus one. Users should especially pay attention to the
- * function transformation on how this affects the sampling.</p>
+ * <p>
+ * There are several variants of the discrete cosine transform. The present
+ * implementation corresponds to DCT-I, with various normalization conventions,
+ * which are specified in the comments of the factory methods {@link #create()}
+ * and {@link #createOrthogonal()}.
+ * </p>
+ * <p>
+ * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
+ * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
+ * to be cosine transformed, the extended data set
+ * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-2</sub><sup>&#35;</sup>
+ * is defined as follows
+ * <ul>
+ * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>k</sub> if  0 &le; k &lt; N,</li>
+ * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>2N-2-k</sub>
+ * if  N &le; k &lt; 2N - 2.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Then, the "standard" DCT-I (as returned by {@link #create()}) of the real
+ * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to
+ * <em>half</em> of the N first elements of the DFT of the extended data set
+ * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-2</sub><sup>&#35;</sup>.
+ * </p>
+ * <p>
+ * The present implementation of the fast cosine transform requires the length
+ * of the data set to be a power of two plus one
+ * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
+ * that the sampled function is even.
+ * </p>
  * <p>As of version 2.0 this no longer implements Serializable</p>
  *
  * @version $Id$
@@ -65,7 +89,7 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
+     * "standard" normalizing conventions
      * <ul>
      * <li>Forward transform:
      * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
@@ -89,7 +113,7 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
+     * "orthogonal" normalizing conventions
      * <ul>
      * <li>Forward transform:
      * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
