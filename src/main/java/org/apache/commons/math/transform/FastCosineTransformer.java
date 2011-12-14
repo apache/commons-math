@@ -31,9 +31,48 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * There are several variants of the discrete cosine transform. The present
  * implementation corresponds to DCT-I, with various normalization conventions,
- * which are specified in the comments of the factory methods {@link #create()}
- * and {@link #createOrthogonal()}.
+ * which are described below.
  * </p>
+ * <h3><a id="standard">Standard DCT-I</a></h3>
+ * <p>
+ * The standard normalization convention is defined as follows
+ * <ul>
+ * <li>forward transform:
+ * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
+ * + &sum;<sub>k=1</sub><sup>N-2</sup>
+ * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+ * <li>inverse transform:
+ * x<sub>k</sub> = [1 / (N - 1)] [y<sub>0</sub>
+ * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+ * + [2 / (N - 1)] &sum;<sub>n=1</sub><sup>N-2</sup>
+ * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+ * </ul>
+ * where N is the size of the data sample.
+ * </p>
+ * <p> {@link RealTransformer}s following this convention are returned by the
+ * factory method {@link #create()}.
+ * </p>
+ * <h3><a id="orthogonal">Orthogonal DCT-I</a></h3>
+ * <p>
+ * The orthogonal normalization convention is defined as follows
+ * <ul>
+ * <li>forward transform:
+ * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
+ * + (-1)<sup>n</sup>x<sub>N-1</sub>]
+ * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>k=1</sub><sup>N-2</sup>
+ * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
+ * <li>inverse transform:
+ * x<sub>k</sub> = [2(N - 1)]<sup>-1/2</sup> [y<sub>0</sub>
+ * + (-1)<sup>k</sup>y<sub>N-1</sub>]
+ * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
+ * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
+ * </ul>
+ * which make the transform orthogonal. N is the size of the data sample.
+ * </p>
+ * <p> {@link RealTransformer}s following this convention are returned by the
+ * factory method {@link #createOrthogonal()}.
+ * </p>
+ * <h3>Link with the DFT, and assumptions on the layout of the data set</h3>
  * <p>
  * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -41,16 +80,20 @@ import org.apache.commons.math.util.FastMath;
  * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>
  * is defined as follows
  * <ul>
- * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>k</sub> if  0 &le; k &lt; N,</li>
+ * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>k</sub> if 0 &le; k &lt; N,</li>
  * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>2N-2-k</sub>
- * if  N &le; k &lt; 2N - 2.</li>
+ * if N &le; k &lt; 2N - 2.</li>
  * </ul>
  * </p>
  * <p>
- * Then, the "standard" DCT-I (as returned by {@link #create()}) of the real
- * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to
- * <em>half</em> of the N first elements of the DFT of the extended data set
- * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>.
+ * Then, the standard DCT-I y<sub>0</sub>, &hellip;, y<sub>N-1</sub> of the real
+ * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to <em>half</em>
+ * of the N first elements of the DFT of the extended data set
+ * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>
+ * <br/>
+ * 2y<sub>n</sub> = &sum;<sub>k=0</sub><sup>2N-3</sup>
+ * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N - 2)]
+ * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.
  * </p>
  * <p>
  * The present implementation of the fast cosine transform requires the length
@@ -60,7 +103,8 @@ import org.apache.commons.math.util.FastMath;
  * </p>
  * <p>As of version 2.0 this no longer implements Serializable</p>
  *
- * @version $Id$
+ * @version $Id: FastCosineTransformer.java 1213585 2011-12-13 07:44:52Z
+ *          celestin $
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer {
@@ -89,22 +133,10 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * "standard" normalizing conventions
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
-     * + &sum;<sub>k=1</sub><sup>N-2</sup>
-     * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = [1 / (N - 1)] [y<sub>0</sub>
-     * + (-1)<sup>k</sup>y<sub>N-1</sub>]
-     * + [2 / (N - 1)] &sum;<sub>n=1</sub><sup>N-2</sup>
-     * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
-     * </ul>
-     * where N is the size of the data sample.
+     * <a href="#standard">standard normalizing conventions</a>.
      * </p>
      *
-     * @return a new DCT transformer, with "standard" normalizing conventions
+     * @return a new DCT transformer, with standard normalizing conventions
      */
     public static FastCosineTransformer create() {
         return new FastCosineTransformer(false);
@@ -113,23 +145,10 @@ public class FastCosineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * "orthogonal" normalizing conventions
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
-     * + (-1)<sup>n</sup>x<sub>N-1</sub>]
-     * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>k=1</sub><sup>N-2</sup>
-     * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = [2(N - 1)]<sup>-1/2</sup> [y<sub>0</sub>
-     * + (-1)<sup>k</sup>y<sub>N-1</sub>]
-     * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
-     * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
-     * </ul>
-     * which make the transform orthogonal. N is the size of the data sample.
+     * <a href="#orthogonal">orthogonal normalizing conventions</a>.
      * </p>
      *
-     * @return a new DCT transformer, with "orthogonal" normalizing conventions
+     * @return a new DCT transformer, with orthogonal normalizing conventions
      */
     public static FastCosineTransformer createOrthogonal() {
         return new FastCosineTransformer(true);
