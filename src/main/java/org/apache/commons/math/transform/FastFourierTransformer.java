@@ -26,25 +26,57 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Implements the <a href="http://mathworld.wolfram.com/FastFourierTransform.html">
- * Fast Fourier Transform</a> for transformation of one-dimensional data sets.
- * For reference, see <b>Applied Numerical Linear Algebra</b>, ISBN 0898713897,
- * chapter 6.
  * <p>
- * There are several conventions for the definition of FFT and inverse FFT,
- * mainly on different coefficient and exponent. The conventions adopted in the
- * present implementation are specified in the comments of the two provided
- * factory methods, {@link #create()} and {@link #createUnitary()}.
+ * Implements the Fast Fourier Transform for transformation of one-dimensional
+ * real or complex data sets. For reference, see <em>Applied Numerical Linear
+ * Algebra</em>, ISBN 0898713897, chapter 6.
  * </p>
  * <p>
- * We require the length of data set to be power of 2, this greatly simplifies
- * and speeds up the code. Users can pad the data with zeros to meet this
- * requirement. There are other flavors of FFT, for reference, see S. Winograd,
+ * There are several variants of the discrete Fourier transform, with various
+ * normalization conventions, which are described below.
+ * </p>
+ * <p>
+ * The current implementation of the discrete Fourier transform as a fast
+ * Fourier transform requires the length of the data set to be a power of 2.
+ * This greatly simplifies and speeds up the code. Users can pad the data with
+ * zeros to meet this requirement. There are other flavors of FFT, for
+ * reference, see S. Winograd,
  * <i>On computing the discrete Fourier transform</i>, Mathematics of
  * Computation, 32 (1978), 175 - 199.
  * </p>
+ * <h3><a id="standard">Standard DFT</a></h3>
+ * <p>
+ * The standard normalization convention is defined as follows
+ * <ul>
+ * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
+ * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
+ * <li>inverse transform: x<sub>k</sub> = N<sup>-1</sup>
+ * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+ * </ul>
+ * where N is the size of the data sample.
+ * </p>
+ * <p>
+ * {@link FastFourierTransformer}s following this convention are returned by the
+ * factory method {@link #create()}.
+ * </p>
+ * <h3><a id="unitary">Unitary DFT</a></h3>
+ * <p>
+ * The unitary normalization convention is defined as follows
+ * <ul>
+ * <li>forward transform: y<sub>n</sub> = (1 / &radic;N)
+ * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub> exp(-2&pi;i n k / N),</li>
+ * <li>inverse transform: x<sub>k</sub> = (1 / &radic;N)
+ * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
+ * </ul>
+ * which makes the transform unitary. N is the size of the data sample.
+ * </p>
+ * <p>
+ * {@link FastFourierTransformer}s following this convention are returned by the
+ * factory method {@link #createUnitary()}.
+ * </p>
  *
- * @version $Id$
+ * @version $Id: FastFourierTransformer.java 1212260 2011-12-09 06:45:09Z
+ * celestin $
  * @since 1.2
  */
 public class FastFourierTransformer implements Serializable {
@@ -76,22 +108,14 @@ public class FastFourierTransformer implements Serializable {
         this.unitary = unitary;
     }
 
+
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
-     * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = N<sup>-1</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
-     * y<sub>n</sub> exp(2&pi;i n k / N),</li>
-     * </ul>
-     * where N is the size of the data sample.
+     * <a href="#standard">standard normalizing conventions</a>.
      * </p>
      *
-     * @return a new DFT transformer, with "standard" normalizing conventions
+     * @return a new DFT transformer, with standard normalizing conventions
      */
     public static FastFourierTransformer create() {
         return new FastFourierTransformer(false);
@@ -100,19 +124,10 @@ public class FastFourierTransformer implements Serializable {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = N<sup>-1/2</sup> &sum;<sub>k=0</sub><sup>N-1</sup>
-     * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = N<sup>-1/2</sup> &sum;<sub>n=0</sub><sup>N-1</sup>
-     * y<sub>n</sub> exp(2&pi;i n k / N),</li>
-     * </ul>
-     * which make the transform unitary. N is the size of the data sample.
+     * <a href="#unitary">unitary normalizing conventions</a>.
      * </p>
      *
-     * @return a new FFT transformer, with unitary normalizing conventions
+     * @return a new DFT transformer, with unitary normalizing conventions
      */
     public static FastFourierTransformer createUnitary() {
         return new FastFourierTransformer(true);

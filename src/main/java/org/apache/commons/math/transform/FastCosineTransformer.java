@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
  * Implements the Fast Cosine Transform for transformation of one-dimensional
  * real data sets. For reference, see James S. Walker, <em>Fast Fourier
  * Transforms</em>, chapter 3 (ISBN 0849371635).
- * <p>
+ * </p>
  * <p>
  * There are several variants of the discrete cosine transform. The present
  * implementation corresponds to DCT-I, with various normalization conventions,
@@ -67,7 +67,7 @@ import org.apache.commons.math.util.FastMath;
  * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
  * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
  * </ul>
- * which make the transform orthogonal. N is the size of the data sample.
+ * which makes the transform orthogonal. N is the size of the data sample.
  * </p>
  * <p> {@link RealTransformer}s following this convention are returned by the
  * factory method {@link #createOrthogonal()}.
@@ -91,17 +91,17 @@ import org.apache.commons.math.util.FastMath;
  * of the N first elements of the DFT of the extended data set
  * x<sub>0</sub><sup>&#35;</sup>, &hellip;, x<sub>2N-3</sub><sup>&#35;</sup>
  * <br/>
- * 2y<sub>n</sub> = &sum;<sub>k=0</sub><sup>2N-3</sup>
+ * y<sub>n</sub> = (1 / 2) &sum;<sub>k=0</sub><sup>2N-3</sup>
  * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N - 2)]
  * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.
  * </p>
  * <p>
- * The present implementation of the fast cosine transform requires the length
- * of the data set to be a power of two plus one
+ * The present implementation of the discrete cosine transform as a fast cosine
+ * transform requires the length of the data set to be a power of two plus one
  * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
  * that the sampled function is even.
  * </p>
- * <p>As of version 2.0 this no longer implements Serializable</p>
+ * <p>As of version 2.0 this no longer implements Serializable.</p>
  *
  * @version $Id: FastCosineTransformer.java 1213585 2011-12-13 07:44:52Z
  *          celestin $

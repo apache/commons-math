@@ -23,20 +23,87 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Implements the <a href="http://documents.wolfram.com/v5/Add-onsLinks/
- * StandardPackages/LinearAlgebra/FourierTrig.html">Fast Sine Transform</a>
- * for transformation of one-dimensional data sets. For reference, see
- * <b>Fast Fourier Transforms</b>, ISBN 0849371635, chapter 3.
  * <p>
- * FST is its own inverse, up to a multiplier depending on conventions.
- * The equations are listed in the comments of the corresponding methods.</p>
+ * Implements the Fast Sine Transform for transformation of one-dimensional real
+ * data sets. For reference, see James S. Walker, <em>Fast Fourier
+ * Transforms</em>, chapter 3 (ISBN 0849371635).
+ * </p>
  * <p>
- * Similar to FFT, we also require the length of data set to be power of 2.
- * In addition, the first element must be 0 and it's enforced in function
- * transformation after sampling.</p>
- * <p>As of version 2.0 this no longer implements Serializable</p>
+ * There are several variants of the discrete sine transform. The present
+ * implementation corresponds to DST-I, with various normalization conventions,
+ * which are described below. <strong>It should be noted that regardless to the
+ * convention, the first element of the dataset to be transformed must be
+ * zero.</strong>
+ * </p>
+ * <h3><a id="standard">Standard DST-I</a></h3>
+ * <p>
+ * The standard normalization convention is defined as follows
+ * <ul>
+ * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
+ * x<sub>k</sub> sin(&pi; nk / N),</li>
+ * <li>inverse transform: x<sub>k</sub> = (2 / N)
+ * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
+ * </ul>
+ * where N is the size of the data sample, and x<sub>0</sub> = 0.
+ * </p>
+ * <p>
+ * {@link RealTransformer}s following this convention are returned by the
+ * factory method {@link #create()}.
+ * </p>
+ * <h3><a id="orthogonal">Orthogonal DST-I</a></h3>
+ * <p>
+ * The orthogonal normalization convention is defined as follows
+ * <ul>
+ * <li>Forward transform: y<sub>n</sub> = &radic;(2 / N)
+ * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub> sin(&pi; nk / N),</li>
+ * <li>Inverse transform: x<sub>k</sub> = &radic;(2 / N)
+ * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
+ * </ul>
+ * which makes the transform orthogonal. N is the size of the data sample, and
+ * x<sub>0</sub> = 0.
+ * </p>
+ * <p>
+ * {@link RealTransformer}s following this convention are returned by the
+ * factory method {@link #createOrthogonal()}.
+ * </p>
+ * <h3>Link with the DFT, and assumptions on the layout of the data set</h3>
+ * <p>
+ * DST-I is equivalent to DFT of an <em>odd extension</em> of the data series.
+ * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
+ * to be sine transformed, the extended data set x<sub>0</sub><sup>&#35;</sup>,
+ * &hellip;, x<sub>2N-1</sub><sup>&#35;</sup> is defined as follows
+ * <ul>
+ * <li>x<sub>0</sub><sup>&#35;</sup> = x<sub>0</sub> = 0,</li>
+ * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>k</sub> if 1 &le; k &lt; N,</li>
+ * <li>x<sub>N</sub><sup>&#35;</sup> = 0,</li>
+ * <li>x<sub>k</sub><sup>&#35;</sup> = -x<sub>2N-k</sub> if N + 1 &le; k &lt;
+ * 2N.</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Then, the standard DST-I y<sub>0</sub>, &hellip;, y<sub>N-1</sub> of the real
+ * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to <em>half</em>
+ * of i (the pure imaginary number) times the N first elements of the DFT of the
+ * extended data set x<sub>0</sub><sup>&#35;</sup>, &hellip;,
+ * x<sub>2N-1</sub><sup>&#35;</sup> <br />
+ * y<sub>n</sub> = (i / 2) &sum;<sub>k=0</sub><sup>2N-1</sup>
+ * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N)]
+ * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.
+ * </p>
+ * <p>
+ * The present implementation of the discrete sine transform as a fast sine
+ * transform requires the length of the data to be a power of two. Besides,
+ * it implicitly assumes that the sampled function is odd. In particular, the
+ * first element of the data set must be 0, which is enforced in
+ * {@link #transform(UnivariateFunction, double, double, int)} and
+ * {@link #inverseTransform(UnivariateFunction, double, double, int)}, after
+ * sampling.
+ * </p>
+ * <p>
+ * As of version 2.0 this no longer implements Serializable.
+ * </p>
  *
- * @version $Id$
+ * @version $Id: FastSineTransformer.java 1213157 2011-12-12 07:19:23Z celestin$
  * @since 1.2
  */
 public class FastSineTransformer implements RealTransformer {
@@ -65,19 +132,10 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
-     * x<sub>k</sub> sin(&pi; nk / N),</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = (2 / N) &sum;<sub>n=0</sub><sup>N-1</sup>
-     * y<sub>n</sub> sin(&pi; nk / N),</li>
-     * </ul>
-     * where N is the size of the data sample.
+     * <a href="#standard">standard normalizing conventions</a>.
      * </p>
      *
-     * @return a new DST transformer, with "standard" normalizing conventions
+     * @return a new DST transformer, with standard normalizing conventions
      */
     public static FastSineTransformer create() {
         return new FastSineTransformer(false);
@@ -86,19 +144,10 @@ public class FastSineTransformer implements RealTransformer {
     /**
      * <p>
      * Returns a new instance of this class. The returned transformer uses the
-     * normalizing conventions described below.
-     * <ul>
-     * <li>Forward transform:
-     * y<sub>n</sub> = &radic;(2 / N) &sum;<sub>k=0</sub><sup>N-1</sup>
-     * x<sub>k</sub> sin(&pi; nk / N),</li>
-     * <li>Inverse transform:
-     * x<sub>k</sub> = &radic;(2 / N) &sum;<sub>n=0</sub><sup>N-1</sup>
-     * y<sub>n</sub> sin(&pi; nk / N),</li>
-     * </ul>
-     * which make the transform orthogonal. N is the size of the data sample.
+     * <a href="#orthogonal">orthogonal normalizing conventions</a>.
      * </p>
      *
-     * @return a new DST transformer, with "orthogonal" normalizing conventions
+     * @return a new DST transformer, with orthogonal normalizing conventions
      */
     public static FastSineTransformer createOrthogonal() {
         return new FastSineTransformer(true);
@@ -110,7 +159,7 @@ public class FastSineTransformer implements RealTransformer {
      * The first element of the specified data set is required to be {@code 0}.
      */
     public double[] transform(double[] f) throws IllegalArgumentException {
-        if (orthogonal){
+        if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / f.length);
             return FastFourierTransformer.scaleArray(fst(f), s);
         }
