@@ -116,6 +116,7 @@ public enum LocalizedFormats implements Localizable {
     INDEX_OUT_OF_RANGE("index {0} out of allowed range [{1}, {2}]"),
     INDEX("index ({0})"), /* keep */
     NOT_FINITE_NUMBER("{0} is not a finite number"), /* keep */
+    INFINITE_BOUND("interval bounds must be finite"),
     ARRAY_ELEMENT("value {0} at index {1}"), /* keep */
     INFINITE_ARRAY_ELEMENT("Array contains an infinite element, {0} at index {1}"),
     INFINITE_VALUE_CONVERSION("cannot convert infinite value"),
@@ -240,6 +241,7 @@ public enum LocalizedFormats implements Localizable {
     NO_REGRESSORS("Regression model must include at least one regressor"),
     NO_RESULT_AVAILABLE("no result available"),
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
+    NAN_NOT_ALLOWED("NaN is not allowed"),
     NULL_NOT_ALLOWED("null is not allowed"), /* keep */
     ARRAY_ZERO_LENGTH_OR_NULL_NOTALLOWED("A null or zero length array not allowed"),
     COVARIANCE_MATRIX("covariance matrix"), /* keep */

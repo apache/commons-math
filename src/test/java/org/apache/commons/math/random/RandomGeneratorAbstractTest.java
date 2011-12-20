@@ -70,11 +70,21 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     
     // Omit secureXxx tests, since they do not use the provided generator
     @Override
-    public void testNextSecureLong() {}
-    
+    public void testNextSecureLongIAE() {}
     @Override
-    public void testNextSecureInt() {}
-    
+    public void testNextSecureLongNegativeToPositiveRange() {}
+    @Override
+    public void testNextSecureLongNegativeRange() {}
+    @Override
+    public void testNextSecureLongPositiveRange() {}
+    @Override
+    public void testNextSecureIntIAE() {}
+    @Override
+    public void testNextSecureIntNegativeToPositiveRange() {}
+    @Override
+    public void testNextSecureIntNegativeRange() {}
+    @Override
+    public void testNextSecureIntPositiveRange() {}
     @Override
     public void testNextSecureHex() {}
 

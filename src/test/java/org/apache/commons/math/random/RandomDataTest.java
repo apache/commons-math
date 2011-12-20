@@ -88,122 +88,236 @@ public class RandomDataTest {
         long y = randomData.nextLong(Long.MIN_VALUE, Long.MAX_VALUE);
         Assert.assertFalse(x == y);
     }
-
-    /** test dispersion and failure modes for nextInt() */
+    
     @Test
-    public void testNextInt() {
+    public void testNextUniformExtremeValues() {
+        double x = randomData.nextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
+        double y = randomData.nextUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
+        Assert.assertFalse(x == y);
+        Assert.assertFalse(Double.isNaN(x));
+        Assert.assertFalse(Double.isNaN(y));
+        Assert.assertFalse(Double.isInfinite(x));
+        Assert.assertFalse(Double.isInfinite(y));
+    }
+    
+    @Test
+    public void testNextIntIAE() throws Exception {
         try {
             randomData.nextInt(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency freq = new Frequency();
-        int value = 0;
+    }
+    
+    @Test
+    public void testNextIntNegativeToPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextIntUniform(-3, 5);
+            checkNextIntUniform(-3, 6);
+        }
+    }
+    
+    @Test 
+    public void testNextIntNegativeRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextIntUniform(-7, -4);
+            checkNextIntUniform(-15, -2);
+        }
+    }
+    
+    @Test 
+    public void testNextIntPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextIntUniform(0, 3);
+            checkNextIntUniform(2, 12);
+            checkNextIntUniform(1,2);
+        }
+    }
+    
+    
+    private void checkNextIntUniform(int min, int max) throws Exception {
+        final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
-            value = randomData.nextInt(0, 3);
-            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            final int value = randomData.nextInt(min, max);
+            Assert.assertTrue("nextInt range", (value >= min) && (value <= max));
             freq.addValue(value);
         }
-        long[] observed = new long[4];
-        for (int i = 0; i < 4; i++) {
-            observed[i] = freq.getCount(i);
+        final int len = max - min + 1;
+        final long[] observed = new long[len];
+        for (int i = 0; i < len; i++) {
+            observed[i] = freq.getCount(min + i);
         }
-
-        /*
-         * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 16.27);
+        final double[] expected = new double[len];
+        for (int i = 0; i < len; i++) {
+            expected[i] = 1d / len;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
-    /** test dispersion and failure modes for nextLong() */
     @Test
-    public void testNextLong() {
+    public void testNextLongIAE() {
         try {
             randomData.nextLong(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency freq = new Frequency();
-        long value = 0;
+    }
+    
+    @Test
+    public void testNextLongNegativeToPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextLongUniform(-3, 5);
+            checkNextLongUniform(-3, 6);
+        }
+    }
+    
+    @Test 
+    public void testNextLongNegativeRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextLongUniform(-7, -4);
+            checkNextLongUniform(-15, -2);
+        }
+    }
+    
+    @Test 
+    public void testNextLongPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextLongUniform(0, 3);
+            checkNextLongUniform(2, 12);
+        }
+    }
+    
+    private void checkNextLongUniform(int min, int max) throws Exception {
+        final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
-            value = randomData.nextLong(0, 3);
-            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            final long value = randomData.nextLong(min, max);
+            Assert.assertTrue("nextLong range", (value >= min) && (value <= max));
             freq.addValue(value);
         }
-        long[] observed = new long[4];
-        for (int i = 0; i < 4; i++) {
-            observed[i] = freq.getCount(i);
+        final int len = max - min + 1;
+        final long[] observed = new long[len];
+        for (int i = 0; i < len; i++) {
+            observed[i] = freq.getCount(min + i);
         }
-
-        /*
-         * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 16.27);
+        final double[] expected = new double[len];
+        for (int i = 0; i < len; i++) {
+            expected[i] = 1d / len;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
-    /** test dispersion and failure modes for nextSecureLong() */
     @Test
-    public void testNextSecureLong() {
+    public void testNextSecureLongIAE() {
         try {
             randomData.nextSecureLong(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency freq = new Frequency();
-        long value = 0;
+    }
+    @Test
+    public void testNextSecureLongNegativeToPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureLongUniform(-3, 5);
+            checkNextSecureLongUniform(-3, 6);
+        }
+    }
+    
+    @Test 
+    public void testNextSecureLongNegativeRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureLongUniform(-7, -4);
+            checkNextSecureLongUniform(-15, -2);
+        }
+    }
+    
+    @Test 
+    public void testNextSecureLongPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureLongUniform(0, 3);
+            checkNextSecureLongUniform(2, 12);
+        }
+    }
+    
+    private void checkNextSecureLongUniform(int min, int max) throws Exception {
+        final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
-            value = randomData.nextSecureLong(0, 3);
-            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            final long value = randomData.nextSecureLong(min, max);
+            Assert.assertTrue("nextLong range", (value >= min) && (value <= max));
             freq.addValue(value);
         }
-        long[] observed = new long[4];
-        for (int i = 0; i < 4; i++) {
-            observed[i] = freq.getCount(i);
+        final int len = max - min + 1;
+        final long[] observed = new long[len];
+        for (int i = 0; i < len; i++) {
+            observed[i] = freq.getCount(min + i);
         }
-
-        /*
-         * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 16.27);
+        final double[] expected = new double[len];
+        for (int i = 0; i < len; i++) {
+            expected[i] = 1d / len;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
 
-    /** test dispersion and failure modes for nextSecureInt() */
     @Test
-    public void testNextSecureInt() {
+    public void testNextSecureIntIAE() {
         try {
             randomData.nextSecureInt(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency freq = new Frequency();
-        int value = 0;
+    }
+    
+    @Test
+    public void testNextSecureIntNegativeToPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureIntUniform(-3, 5);
+            checkNextSecureIntUniform(-3, 6);
+        }
+    }
+    
+    @Test 
+    public void testNextSecureIntNegativeRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureIntUniform(-7, -4);
+            checkNextSecureIntUniform(-15, -2);
+        }
+    }
+    
+    @Test 
+    public void testNextSecureIntPositiveRange() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextSecureIntUniform(0, 3);
+            checkNextSecureIntUniform(2, 12);
+        }
+    }
+     
+    private void checkNextSecureIntUniform(int min, int max) throws Exception {
+        final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
-            value = randomData.nextSecureInt(0, 3);
-            Assert.assertTrue("nextInt range", (value >= 0) && (value <= 3));
+            final int value = randomData.nextSecureInt(min, max);
+            Assert.assertTrue("nextInt range", (value >= min) && (value <= max));
             freq.addValue(value);
         }
-        long[] observed = new long[4];
-        for (int i = 0; i < 4; i++) {
-            observed[i] = freq.getCount(i);
+        final int len = max - min + 1;
+        final long[] observed = new long[len];
+        for (int i = 0; i < len; i++) {
+            observed[i] = freq.getCount(min + i);
         }
-
-        /*
-         * Use ChiSquare dist with df = 4-1 = 3, alpha = .001 Change to 11.34
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 16.27);
+        final double[] expected = new double[len];
+        for (int i = 0; i < len; i++) {
+            expected[i] = 1d / len;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
+    
+    
 
     /**
      * Make sure that empirical distribution of random Poisson(4)'s has P(X <=
@@ -505,9 +619,8 @@ public class RandomDataTest {
                 testStatistic.chiSquare(expected, observed) < 37.70);
     }
 
-    /** test failure modes and dispersion of nextUniform() */
     @Test
-    public void testNextUniform() {
+    public void testNextUniformIAE() {
         try {
             randomData.nextUniform(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
@@ -515,34 +628,91 @@ public class RandomDataTest {
             // ignored
         }
         try {
-            randomData.nextUniform(3, 3);
+            randomData.nextUniform(0, Double.POSITIVE_INFINITY);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        double[] expected = { 500, 500 };
-        long[] observed = { 0, 0 };
-        double lower = -1d;
-        double upper = 20d;
-        double midpoint = (lower + upper) / 2d;
-        double result = 0;
-        for (int i = 0; i < 1000; i++) {
-            result = randomData.nextUniform(lower, upper);
-            if ((result == lower) || (result == upper)) {
-                Assert.fail("generated value equal to an endpoint: " + result);
-            }
-            if (result < midpoint) {
-                observed[0]++;
-            } else {
-                observed[1]++;
-            }
+        try {
+            randomData.nextUniform(Double.NEGATIVE_INFINITY, 0);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
         }
-        /*
-         * Use ChiSquare dist with df = 2-1 = 1, alpha = .001 Change to 6.64 for
-         * alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 10.83);
+        try {
+            randomData.nextUniform(0, Double.NaN);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+        try {
+            randomData.nextUniform(Double.NaN, 0);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
+    }
+    
+    @Test
+    public void testNextUniformUniformPositiveBounds() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextUniformUniform(0, 10);
+        }
+    }
+    
+    @Test
+    public void testNextUniformUniformNegativeToPositiveBounds() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextUniformUniform(-3, 5);
+        }
+    }
+    
+    @Test
+    public void testNextUniformUniformNegaiveBounds() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextUniformUniform(-7, -3);
+        }
+    }
+    
+    @Test
+    public void testNextUniformUniformMaximalInterval() throws Exception {
+        for (int i = 0; i < 5; i++) {
+            checkNextUniformUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
+        }
+    }
+    
+    private void checkNextUniformUniform(double min, double max) throws Exception {
+        // Set up bin bounds - min, binBound[0], ..., binBound[binCount-2], max
+        final int binCount = 5;
+        final double binSize = max / binCount - min/binCount; // Prevent overflow in extreme value case
+        final double[] binBounds = new double[binCount - 1];
+        binBounds[0] = min + binSize;
+        for (int i = 1; i < binCount - 1; i++) {
+            binBounds[i] = binBounds[i - 1] + binSize;  // + instead of * to avoid overflow in extreme case
+        }
+        
+        final Frequency freq = new Frequency();
+        for (int i = 0; i < smallSampleSize; i++) {
+            final double value = randomData.nextUniform(min, max);
+            Assert.assertTrue("nextUniform range", (value > min) && (value < max));
+            // Find bin
+            int j = 0;
+            while (j < binCount - 1 && value > binBounds[j]) {
+                j++;
+            }
+            freq.addValue(j);
+        }
+       
+        final long[] observed = new long[binCount];
+        for (int i = 0; i < binCount; i++) {
+            observed[i] = freq.getCount(i);
+        }
+        final double[] expected = new double[binCount];
+        for (int i = 0; i < binCount; i++) {
+            expected[i] = 1d / binCount;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
     /** test exclusive endpoints of nextUniform **/

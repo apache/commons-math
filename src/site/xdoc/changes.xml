@@ -52,6 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="psteitz" type="fixe" issue="MATH-724" due-to="Dennis Hendricks">
+        Fixed rounding error in RandomDataImpl nextInt, nextLong methods causing lower
+        endpoints to be excluded when negative. Also improved robustness of nextUniform
+        for extreme values and changed its contract to throw IAE when provided bounds
+        are infinite or NaN.
+      </action>
       <action dev="erans" type="fix" issue="MATH-728" due-to="Bruce A. Johnson">
         Fixed "offset by one" bug in "BOBYQAOptimizer".
       </action>
