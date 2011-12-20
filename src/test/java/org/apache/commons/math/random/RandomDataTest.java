@@ -153,7 +153,7 @@ public class RandomDataTest {
             expected[i] = 1d / len;
         }
         
-        TestUtils.assertChiSquareAccept(expected, observed, 0.01);
+        TestUtils.assertChiSquareAccept(expected, observed, 0.001);
     }
 
     @Test
