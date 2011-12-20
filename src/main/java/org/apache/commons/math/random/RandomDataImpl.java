@@ -107,16 +107,16 @@ public class RandomDataImpl implements RandomData, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -626730818244969716L;
 
-    /** Used when generating Exponential samples
-     * [1] writes:
-     * One table containing the constants
+    /** 
+     * Used when generating Exponential samples.
+     * Table containing the constants
      * q_i = sum_{j=1}^i (ln 2)^j/j! = ln 2 + (ln 2)^2/2 + ... + (ln 2)^i/i!
      * until the largest representable fraction below 1 is exceeded.
      *
      * Note that
      * 1 = 2 - 1 = exp(ln 2) - 1 = sum_{n=1}^infty (ln 2)^n / n!
      * thus q_i -> 1 as i -> infty,
-     * so the higher 1, the closer to one we get (the series is not alternating).
+     * so the higher i, the closer to one we get (the series is not alternating).
      *
      * By trying, n = 16 in Java is enough to reach 1.0.
      */
