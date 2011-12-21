@@ -52,7 +52,7 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
-      <action dev="psteitz" type="fixe" issue="MATH-724" due-to="Dennis Hendricks">
+      <action dev="psteitz" type="fixe" issue="MATH-724" due-to="Dennis Hendriks">
         Fixed rounding error in RandomDataImpl nextInt, nextLong methods causing lower
         endpoints to be excluded when negative. Also improved robustness of nextUniform
         for extreme values and changed its contract to throw IAE when provided bounds
