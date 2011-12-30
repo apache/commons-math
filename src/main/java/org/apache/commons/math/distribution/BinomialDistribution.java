@@ -23,7 +23,7 @@ import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Implementation of the binomial distribution. DUMMY MODIFICATION
+ * Implementation of the binomial distribution.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Binomial_distribution">Binomial distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/BinomialDistribution.html">Binomial Distribution (MathWorld)</a>
