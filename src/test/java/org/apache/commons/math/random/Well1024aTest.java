@@ -24,9 +24,9 @@ public class Well1024aTest extends RandomGeneratorAbstractTest {
 
     @Override
     protected RandomGenerator makeGenerator() {
-        return new Well1024a(100);
+        return new Well1024a(1000);
     }
-    
+
     @Test
     public void testReferenceCode() {
         Well1024a mt = new Well1024a(new int[] {

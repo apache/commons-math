@@ -174,18 +174,6 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
         return normal.cumulativeProbability(x + 0.5);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        return Integer.MAX_VALUE;
-    }
-
     /**
      * {@inheritDoc}
      *

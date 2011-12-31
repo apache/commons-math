@@ -111,18 +111,6 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
         return generalizedHarmonic(x, exponent) / generalizedHarmonic(numberOfElements, exponent);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(final double p) {
-        return 0;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(final double p) {
-        return numberOfElements;
-    }
-
     /**
      * {@inheritDoc}
      *
@@ -176,7 +164,7 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /**
-     * used by {@link #getNumericalVariance()}
+     * Used by {@link #getNumericalVariance()}.
      *
      * @return the variance of this distribution
      */

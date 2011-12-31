@@ -98,42 +98,10 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
         } else if (x >= numberOfTrials) {
             ret = 1.0;
         } else {
-            ret = 1.0 - Beta.regularizedBeta(getProbabilityOfSuccess(),
+            ret = 1.0 - Beta.regularizedBeta(probabilityOfSuccess,
                     x + 1.0, numberOfTrials - x);
         }
         return ret;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * This implementation return -1 when {@code p == 0} and
-     * {@code Integer.MAX_VALUE} when {@code p == 1}.
-     */
-    @Override
-    public int inverseCumulativeProbability(final double p) {
-        // handle extreme values explicitly
-        if (p == 0) {
-            return -1;
-        }
-        if (p == 1) {
-            return Integer.MAX_VALUE;
-        }
-
-        // use default bisection impl
-        return super.inverseCumulativeProbability(p);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return -1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        return numberOfTrials;
     }
 
     /**
@@ -143,7 +111,7 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      * {@code n * p}.
      */
     public double getNumericalMean() {
-        return getNumberOfTrials() * getProbabilityOfSuccess();
+        return numberOfTrials * probabilityOfSuccess;
     }
 
     /**
@@ -153,31 +121,32 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      * {@code n * p * (1 - p)}.
      */
     public double getNumericalVariance() {
-        final double p = getProbabilityOfSuccess();
-        return getNumberOfTrials() * p * (1 - p);
+        final double p = probabilityOfSuccess;
+        return numberOfTrials * p * (1 - p);
     }
 
     /**
      * {@inheritDoc}
      *
-     * The lower bound of the support is always 0 no matter the number of trials
-     * and probability parameter.
+     * The lower bound of the support is always 0 except for the probability
+     * parameter {@code p = 1}.
      *
-     * @return lower bound of the support (always 0)
+     * @return lower bound of the support (0 or the number of trials)
      */
     public int getSupportLowerBound() {
-        return 0;
+        return probabilityOfSuccess < 1.0 ? 0 : numberOfTrials;
     }
 
     /**
      * {@inheritDoc}
      *
-     * The upper bound of the support is the number of trials.
+     * The upper bound of the support is the number of trials except for the
+     * probability parameter {@code p = 0}.
      *
-     * @return upper bound of the support (equal to number of trials)
+     * @return upper bound of the support (number of trials or 0)
      */
     public int getSupportUpperBound() {
-        return getNumberOfTrials();
+        return probabilityOfSuccess > 0.0 ? numberOfTrials : 0;
     }
 
     /**

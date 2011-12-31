@@ -74,7 +74,7 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Override
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] { -1, 1, 2, 3, 4, 4, 9, 9, 9, 8, 8, Integer.MAX_VALUE };
+        return new int[] { 0, 2, 3, 4, 5, 5, 10, 10, 10, 9, 9, 10 };
     }
 
     // ----------------- Additional test cases ---------------------------------
@@ -82,31 +82,37 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
     /** Test degenerate case p = 0 */
     @Test
     public void testDegenerate0() throws Exception {
-        setDistribution(new BinomialDistribution(5, 0.0d));
+        BinomialDistribution dist = new BinomialDistribution(5, 0.0d);
+        setDistribution(dist);
         setCumulativeTestPoints(new int[] { -1, 0, 1, 5, 10 });
         setCumulativeTestValues(new double[] { 0d, 1d, 1d, 1d, 1d });
         setDensityTestPoints(new int[] { -1, 0, 1, 10, 11 });
         setDensityTestValues(new double[] { 0d, 1d, 0d, 0d, 0d });
         setInverseCumulativeTestPoints(new double[] { 0.1d, 0.5d });
-        setInverseCumulativeTestValues(new int[] { -1, -1 });
+        setInverseCumulativeTestValues(new int[] { 0, 0 });
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        Assert.assertEquals(dist.getSupportLowerBound(), 0);
+        Assert.assertEquals(dist.getSupportUpperBound(), 0);
     }
 
     /** Test degenerate case p = 1 */
     @Test
     public void testDegenerate1() throws Exception {
-        setDistribution(new BinomialDistribution(5, 1.0d));
+        BinomialDistribution dist = new BinomialDistribution(5, 1.0d);
+        setDistribution(dist);
         setCumulativeTestPoints(new int[] { -1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] { 0d, 0d, 0d, 0d, 1d, 1d });
         setDensityTestPoints(new int[] { -1, 0, 1, 2, 5, 10 });
         setDensityTestValues(new double[] { 0d, 0d, 0d, 0d, 1d, 0d });
         setInverseCumulativeTestPoints(new double[] { 0.1d, 0.5d });
-        setInverseCumulativeTestValues(new int[] { 4, 4 });
+        setInverseCumulativeTestValues(new int[] { 5, 5 });
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        Assert.assertEquals(dist.getSupportLowerBound(), 5);
+        Assert.assertEquals(dist.getSupportUpperBound(), 5);
     }
 
     @Test

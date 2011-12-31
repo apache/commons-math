@@ -417,15 +417,15 @@ public class RandomDataTest {
         }
 
         // Set bin width for interior bins.  For poisson, only need to look at end bins.
-        int binWidth = 1;
+        int binWidth = 0;
         boolean widthSufficient = false;
         double lowerBinMass = 0;
         double upperBinMass = 0;
         while (!widthSufficient) {
-            lowerBinMass = poissonDistribution.cumulativeProbability(lower, lower + binWidth - 1);
-            upperBinMass = poissonDistribution.cumulativeProbability(upper - binWidth + 1, upper);
-            widthSufficient = FastMath.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
             binWidth++;
+            lowerBinMass = poissonDistribution.cumulativeProbability(lower - 1, lower + binWidth - 1);
+            upperBinMass = poissonDistribution.cumulativeProbability(upper - binWidth - 1, upper - 1);
+            widthSufficient = FastMath.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
         }
 
         /*
@@ -441,8 +441,7 @@ public class RandomDataTest {
             binBounds.add(bound);
             bound += binWidth;
         }
-        binBounds.add(bound);
-        binBounds.add(upper);
+        binBounds.add(upper); // The size of bin [binBounds[binCount - 2], upper) satisfies binWidth <= size < 2*binWidth.
 
         // Compute observed and expected bin counts
         final int binCount = binBounds.size() + 1;
@@ -468,7 +467,7 @@ public class RandomDataTest {
             observed[i] = 0;
             for (int j = binBounds.get(i - 1); j < binBounds.get(i); j++) {
                 observed[i] += frequency.getCount(j);
-            } // Expected count is (mass in [binBounds[i], binBounds[i+1])) * sampleSize
+            } // Expected count is (mass in [binBounds[i-1], binBounds[i])) * sampleSize
             expected[i] = (poissonDistribution.cumulativeProbability(binBounds.get(i) - 1) -
                 poissonDistribution.cumulativeProbability(binBounds.get(i - 1) -1)) * sampleSize;
         }
@@ -1226,7 +1225,7 @@ public class RandomDataTest {
         }
         TestUtils.assertChiSquareAccept(densityPoints, expectedCounts, observedCounts, .001);
     }
-    
+
     @Test
     /**
      * MATH-720

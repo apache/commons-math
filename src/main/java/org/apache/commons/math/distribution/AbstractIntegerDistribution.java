@@ -20,10 +20,11 @@ import java.io.Serializable;
 
 import org.apache.commons.math.exception.MathInternalError;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
-import org.apache.commons.math.exception.NumberIsTooSmallException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.FastMath;
 
 /**
  * Base class for integer-valued discrete distributions.  Default
@@ -49,85 +50,105 @@ implements IntegerDistribution, Serializable {
      * {@inheritDoc}
      *
      * The default implementation uses the identity
-     * <p>{@code P(x0 <= X <= x1) = P(X <= x1) - P(X <= x0 - 1)}</p>
+     * <p>{@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}</p>
      */
-    public double cumulativeProbability(int x0, int x1) {
+    public double cumulativeProbability(int x0, int x1) throws NumberIsTooLargeException {
         if (x1 < x0) {
-            throw new NumberIsTooSmallException(
-                    LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
-                    x1, x0, true);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
+                    x0, x1, true);
         }
-        return cumulativeProbability(x1) - cumulativeProbability(x0 - 1);
+        return cumulativeProbability(x1) - cumulativeProbability(x0);
     }
 
-    /** {@inheritDoc} */
-    public int inverseCumulativeProbability(final double p) {
-        if (p < 0 || p > 1) {
+    /**
+     * {@inheritDoc}
+     *
+     * The default implementation returns
+     * <ul>
+     * <li>{@link #getSupportLowerBound()} for {@code p = 0},</li>
+     * <li>{@link #getSupportUpperBound()} for {@code p = 1}, and</li>
+     * <li>{@link #solveInverseCumulativeProbability(double, int, int)} for
+     *     {@code 0 < p < 1}.</li>
+     * </ul>
+     */
+    public int inverseCumulativeProbability(final double p) throws OutOfRangeException {
+        if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);
         }
 
-        // by default, do simple bisection.
-        // subclasses can override if there is a better method.
-        int x0 = getDomainLowerBound(p);
-        int x1 = getDomainUpperBound(p);
-        double pm;
-        while (x0 < x1) {
-            int xm = x0 + (x1 - x0) / 2;
-            pm = checkedCumulativeProbability(xm);
-            if (pm > p) {
-                // update x1
-                if (xm == x1) {
-                    // this can happen with integer division
-                    // simply decrement x1
-                    --x1;
-                } else {
-                    // update x1 normally
-                    x1 = xm;
-                }
-            } else {
-                // update x0
-                if (xm == x0) {
-                    // this can happen with integer division
-                    // simply increment x0
-                    ++x0;
-                } else {
-                    // update x0 normally
-                    x0 = xm;
-                }
+        int lower = getSupportLowerBound();
+        if (p == 0.0) {
+            return lower;
+        }
+        if (lower == Integer.MIN_VALUE) {
+            if (checkedCumulativeProbability(lower) >= p) {
+                return lower;
+            }
+        } else {
+            lower -= 1; // this ensures cumulativeProbability(lower) < p, which
+                        // is important for the solving step
+        }
+
+        int upper = getSupportUpperBound();
+        if (p == 1.0) {
+            return upper;
+        }
+
+        // use the one-sided Chebyshev inequality to narrow the bracket
+        // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
+        final double mu = getNumericalMean();
+        final double sigma = FastMath.sqrt(getNumericalVariance());
+        final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
+        if (chebyshevApplies) {
+            double k = FastMath.sqrt((1.0 - p) / p);
+            double tmp = mu - k * sigma;
+            if (tmp > lower) {
+                lower = ((int) Math.ceil(tmp)) - 1;
+            }
+            k = 1.0 / k;
+            tmp = mu + k * sigma;
+            if (tmp < upper) {
+                upper = ((int) Math.ceil(tmp)) - 1;
             }
         }
 
-        // insure x0 is the correct critical point
-        pm = checkedCumulativeProbability(x0);
-        while (pm > p) {
-            --x0;
-            pm = checkedCumulativeProbability(x0);
-        }
-
-        return x0;
+        return solveInverseCumulativeProbability(p, lower, upper);
     }
 
     /**
-     * Access the domain value lower bound, based on {@code p}, used to
-     * bracket a CDF root. This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
+     * This is a utility function used by {@link
+     * #inverseCumulativeProbability(double)}. It assumes {@code 0 < p < 1} and
+     * that the inverse cumulative probability lies in the bracket {@code
+     * (lower, upper]}. The implementation does simple bisection to find the
+     * smallest {@code p}-quantile <code>inf{x in Z | P(X<=x) >= p}</code>.
      *
-     * @param p the desired probability for the critical value ({@code 0 < p < 1})
-     * @return a domain value lower bound, i.e. a value {@code x} such that
-     * {@code P(X <= x) < p}
+     * @param p the cumulative probability
+     * @param lower a value satisfying {@code cumulativeProbability(lower) < p}
+     * @param upper a value satisfying {@code p <= cumulativeProbability(upper)}
+     * @return the smallest {@code p}-quantile of this distribution
      */
-    protected abstract int getDomainLowerBound(double p);
+    protected int solveInverseCumulativeProbability(final double p, int lower, int upper) {
+        while (lower + 1 < upper) {
+            int xm = (lower + upper) / 2;
+            if (xm < lower || xm > upper) {
+                /*
+                 * Overflow.
+                 * There will never be an overflow in both calculation methods
+                 * for xm at the same time
+                 */
+                xm = lower + (upper - lower) / 2;
+            }
 
-    /**
-     * Access the domain value upper bound, based on {@code p}, used to
-     * bracket a CDF root. This method is used by
-     * {@link #inverseCumulativeProbability(double)} to find critical values.
-     *
-     * @param p the desired probability for the critical value ({@code 0 < p < 1})
-     * @return a domain value upper bound, i.e. a value {@code x} such that
-     * {@code P(X <= x) >= p}
-     */
-    protected abstract int getDomainUpperBound(double p);
+            double pm = checkedCumulativeProbability(xm);
+            if (pm >= p) {
+                upper = xm;
+            } else {
+                lower = xm;
+            }
+        }
+        return upper;
+    }
 
     /** {@inheritDoc} */
     public void reseedRandomGenerator(long seed) {

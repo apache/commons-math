@@ -16,8 +16,8 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
-import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.special.Beta;
 import org.apache.commons.math.util.ArithmeticUtils;
@@ -68,19 +68,19 @@ public class PascalDistribution extends AbstractIntegerDistribution {
     private final double probabilityOfSuccess;
 
     /**
-     * Create a Pascal distribution with the given number of trials and
+     * Create a Pascal distribution with the given number of successes and
      * probability of success.
      *
      * @param r Number of successes.
      * @param p Probability of success.
-     * @throws NotPositiveException if the number of successes is not positive
+     * @throws NotStrictlyPositiveException if the number of successes is not positive
      * @throws OutOfRangeException if the probability of success is not in the
      * range [0, 1]
      */
     public PascalDistribution(int r, double p)
-        throws NotPositiveException, OutOfRangeException {
-        if (r < 0) {
-            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,
+        throws NotStrictlyPositiveException, OutOfRangeException {
+        if (r <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,
                                            r);
         }
         if (p < 0 || p > 1) {
@@ -138,41 +138,6 @@ public class PascalDistribution extends AbstractIntegerDistribution {
     /**
      * {@inheritDoc}
      *
-     * Returns {@code -1} when {@code p == 0} and
-     * {@code Integer.MAX_VALUE} when {@code p == 1}.
-     */
-    @Override
-    public int inverseCumulativeProbability(final double p) {
-        int ret;
-
-        // handle extreme values explicitly
-        if (p == 0) {
-            ret = -1;
-        } else if (p == 1) {
-            ret = Integer.MAX_VALUE;
-        } else {
-            ret = super.inverseCumulativeProbability(p);
-        }
-
-        return ret;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return -1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        // use MAX - 1 because MAX causes loop
-        return Integer.MAX_VALUE - 1;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * For number of successes {@code r} and probability of success {@code p},
      * the mean is {@code r * (1 - p) / p}.
      */
@@ -209,7 +174,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * {@inheritDoc}
      *
      * The upper bound of the support is always positive infinity no matter the
-     * parameters. Positive infinity is symbolised by {@code Integer.MAX_VALUE}.
+     * parameters. Positive infinity is symbolized by {@code Integer.MAX_VALUE}.
      *
      * @return upper bound of the support (always {@code Integer.MAX_VALUE}
      * for positive infinity)

@@ -24,7 +24,7 @@ public final class ISAACTest extends RandomGeneratorAbstractTest {
 
     @Override
     protected RandomGenerator makeGenerator() {
-        return new ISAACRandom(1000);
+        return new ISAACRandom(500);
     }
 
     private static final int[] SEED_1 = {

@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math.distribution;
 
+import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.exception.OutOfRangeException;
+
 /**
  * Interface for distributions on the integers.
  *
@@ -25,61 +28,56 @@ public interface IntegerDistribution {
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X = x)}. In other
-     * words, this method represents the probability mass function for the
-     * distribution.
+     * words, this method represents the probability mass function (PMF)
+     * for the distribution.
      *
-     * @param x the point at which the probability density function is evaluated.
-     * @return the value of the probability density function at {@code x}
+     * @param x the point at which the PMF is evaluated
+     * @return the value of the probability mass function at {@code x}
      */
     double probability(int x);
 
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X <= x)}.  In other
-     * words, this method represents the probability distribution function, or
-     * PDF for the distribution.
+     * words, this method represents the (cumulative) distribution function
+     * (CDF) for this distribution.
      *
-     * @param x the point at which the PDF is evaluated
-     * @return PDF for this distribution.
+     * @param x the point at which the CDF is evaluated
+     * @return the probability that a random variable with this
+     * distribution takes a value less than or equal to {@code x}
      */
     double cumulativeProbability(int x);
 
     /**
      * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(x0 <= X <= x1)}.
+     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
      *
-     * @param x0 the inclusive lower bound
+     * @param x0 the exclusive lower bound
      * @param x1 the inclusive upper bound
-     * @return the cumulative probability
-     * @throws IllegalArgumentException if {@code x0 > x1}
+     * @return the probability that a random variable with this distribution
+     * will take a value between {@code x0} and {@code x1},
+     * excluding the lower and including the upper endpoint
+     * @throws NumberIsTooLargeException if {@code x0 > x1}
      */
-    double cumulativeProbability(int x0, int x1);
+    double cumulativeProbability(int x0, int x1) throws NumberIsTooLargeException;
 
     /**
-     * For this distribution, {@code X}, this method returns the largest
-     * {@code x} such that {@code P(X <= x) <= p}.
-     * <br/>
-     * Note that this definition implies:
+     * Computes the quantile function of this distribution.
+     * For a random variable {@code X} distributed according to this distribution,
+     * the returned value is
      * <ul>
-     *  <li> If there is a minimum value, {@code m}, with positive
-     *   probability under (the density of) {@code X}, then {@code m - 1} is
-     *   returned by {@code inverseCumulativeProbability(0).}  If there is
-     *   no such value {@code m},  {@code Integer.MIN_VALUE} is returned.
-     *  </li>
-     *  <li> If there is a maximum value, {@code M}, such that
-     *   {@code P(X <= M) = 1}, then {@code M} is returned by
-     *   {@code inverseCumulativeProbability(1)}.
-     *   If there is no such value, {@code M}, {@code Integer.MAX_VALUE} is
-     *   returned.
-     *  </li>
+     * <li><code>inf{x in Z | P(X<=x) >= p}</code> for {@code 0 < p <= 1},</li>
+     * <li><code>inf{x in Z | P(X<=x) > 0}</code> for {@code p = 0}.</li>
      * </ul>
+     * If the result exceeds the range of the data type {@code int},
+     * then {@code Integer.MIN_VALUE} or {@code Integer.MAX_VALUE} is returned.
      *
      * @param p the cumulative probability
-     * @return the largest {@code x} such that {@code P(X < x) <= p}
-     * @throws IllegalArgumentException if {@code p} is not between 0 and 1
-     * (inclusive)
+     * @return the smallest {@code p}-quantile of this distribution
+     * (largest 0-quantile for {@code p = 0})
+     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}
      */
-    int inverseCumulativeProbability(double p);
+    int inverseCumulativeProbability(double p) throws OutOfRangeException;
 
     /**
      * Use this method to get the numerical value of the mean of this
@@ -99,7 +97,10 @@ public interface IntegerDistribution {
     double getNumericalVariance();
 
     /**
-     * Access the lower bound of the support.
+     * Access the lower bound of the support. This method must return the same
+     * value as {@code inverseCumulativeProbability(0)}. In other words, this
+     * method must return
+     * <p><code>inf {x in Z | P(X <= x) > 0}</code>.</p>
      *
      * @return lower bound of the support ({@code Integer.MIN_VALUE}
      * for negative infinity)
@@ -107,7 +108,10 @@ public interface IntegerDistribution {
     int getSupportLowerBound();
 
     /**
-     * Access the upper bound of the support.
+     * Access the upper bound of the support. This method must return the same
+     * value as {@code inverseCumulativeProbability(1)}. In other words, this
+     * method must return
+     * <p><code>inf {x in R | P(X <= x) = 1}</code>.</p>
      *
      * @return upper bound of the support ({@code Integer.MAX_VALUE}
      * for positive infinity)

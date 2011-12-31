@@ -25,40 +25,37 @@ import org.junit.Test;
  * @version $Id$
  */
 public class AbtractIntegerDistributionTest {
-
     protected final DiceDistribution diceDistribution = new DiceDistribution();
     protected final double p = diceDistribution.probability(1);
-    
+
     @Test
-    public void testCumulativeProbabilitiesSingleIntegerArguments() throws Exception {
-        int lower = 1;
+    public void testCumulativeProbabilitiesSingleArguments() throws Exception {
         for (int i = 1; i < 7; i++) {
             Assert.assertEquals(p * i,
-                    diceDistribution.cumulativeProbability(lower), Double.MIN_VALUE);
-            lower++;
+                    diceDistribution.cumulativeProbability(i), Double.MIN_VALUE);
         }
-        Assert.assertEquals(0,
-                diceDistribution.cumulativeProbability(-1), Double.MIN_VALUE);
-        Assert.assertEquals(1,
+        Assert.assertEquals(0.0,
+                diceDistribution.cumulativeProbability(0), Double.MIN_VALUE);
+        Assert.assertEquals(1.0,
                 diceDistribution.cumulativeProbability(7), Double.MIN_VALUE);
     }
-    
+
     @Test
     public void testCumulativeProbabilitiesRangeArguments() throws Exception {
-        int lower = 1;
+        int lower = 0;
         int upper = 6;
         for (int i = 0; i < 2; i++) {
-            // cum(1,6) = p(1 <= X <= 6) = 1, cum(2,5) = 4/6, cum(3,4) = 2/6 
-            Assert.assertEquals(1 - p * 2 * i, 
+            // cum(0,6) = p(0 < X <= 6) = 1, cum(1,5) = 4/6, cum(2,4) = 2/6
+            Assert.assertEquals(1 - p * 2 * i,
                     diceDistribution.cumulativeProbability(lower, upper), 1E-12);
             lower++;
             upper--;
         }
-        for (int i = 1; i < 7; i++) {
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(i, i), 1E-12);
+        for (int i = 0; i < 6; i++) {
+            Assert.assertEquals(p, diceDistribution.cumulativeProbability(i, i+1), 1E-12);
         }
     }
-    
+
     /**
      * Simple distribution modeling a 6-sided die
      */
@@ -83,16 +80,6 @@ public class AbtractIntegerDistributionTest {
             } else {
                 return p * x;
             }
-        }
-
-        @Override
-        protected int getDomainLowerBound(double p) {
-            return 1;
-        }
-
-        @Override
-        protected int getDomainUpperBound(double p) {
-            return 6;
         }
 
         public double getNumericalMean() {

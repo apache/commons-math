@@ -38,7 +38,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Creates the default discrete distribution instance to use in tests. */
     @Override
     public IntegerDistribution makeDistribution() {
-        return new HypergeometricDistribution(10,5, 5);
+        return new HypergeometricDistribution(10, 5, 5);
     }
 
     /** Creates the default probability density test input values */
@@ -77,7 +77,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Creates the default inverse cumulative probability density test expected values */
     @Override
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] {-1, -1, 0, 0, 0, 0, 4, 3, 3, 3, 3, 5};
+        return new int[] {0, 0, 1, 1, 1, 1, 5, 4, 4, 4, 4, 5};
     }
 
     //-------------------- Additional test cases ------------------------------
@@ -85,46 +85,55 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
     /** Verify that if there are no failures, mass is concentrated on sampleSize */
     @Test
     public void testDegenerateNoFailures() throws Exception {
-        setDistribution(new HypergeometricDistribution(5,5,3));
+        HypergeometricDistribution dist = new HypergeometricDistribution(5,5,3);
+        setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
         setDensityTestValues(new double[] {0d, 0d, 0d, 1d, 0d});
         setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
-        setInverseCumulativeTestValues(new int[] {2, 2});
+        setInverseCumulativeTestValues(new int[] {3, 3});
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        Assert.assertEquals(dist.getSupportLowerBound(), 3);
+        Assert.assertEquals(dist.getSupportUpperBound(), 3);
     }
 
     /** Verify that if there are no successes, mass is concentrated on 0 */
     @Test
     public void testDegenerateNoSuccesses() throws Exception {
-        setDistribution(new HypergeometricDistribution(5,0,3));
+        HypergeometricDistribution dist = new HypergeometricDistribution(5,0,3);
+        setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
         setDensityTestValues(new double[] {0d, 1d, 0d, 0d, 0d});
         setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
-        setInverseCumulativeTestValues(new int[] {-1, -1});
+        setInverseCumulativeTestValues(new int[] {0, 0});
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        Assert.assertEquals(dist.getSupportLowerBound(), 0);
+        Assert.assertEquals(dist.getSupportUpperBound(), 0);
     }
 
     /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
     @Test
     public void testDegenerateFullSample() throws Exception {
-        setDistribution(new HypergeometricDistribution(5,3,5));
+        HypergeometricDistribution dist = new HypergeometricDistribution(5,3,5);
+        setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 3, 10});
         setDensityTestValues(new double[] {0d, 0d, 0d, 1d, 0d});
         setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
-        setInverseCumulativeTestValues(new int[] {2, 2});
+        setInverseCumulativeTestValues(new int[] {3, 3});
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
+        Assert.assertEquals(dist.getSupportLowerBound(), 3);
+        Assert.assertEquals(dist.getSupportUpperBound(), 3);
     }
 
     @Test
@@ -202,9 +211,9 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         HypergeometricDistribution dist = new HypergeometricDistribution(populationSize, numberOfSucceses, sampleSize);
         for (int i = 0; i < data.length; ++i) {
             int x = (int)data[i][0];
-            double pdf = data[i][1];
-            double actualPdf = dist.probability(x);
-            TestUtils.assertRelativelyEquals("Expected equals for <"+x+"> pdf",pdf, actualPdf, 1.0e-9);
+            double pmf = data[i][1];
+            double actualPmf = dist.probability(x);
+            TestUtils.assertRelativelyEquals("Expected equals for <"+x+"> pmf",pmf, actualPmf, 1.0e-9);
 
             double cdf = data[i][2];
             double actualCdf = dist.cumulativeProbability(x);

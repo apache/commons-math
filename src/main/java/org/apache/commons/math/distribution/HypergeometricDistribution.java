@@ -121,18 +121,6 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
         return new int[] { getLowerDomain(n, m, k), getUpperDomain(m, k) };
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainLowerBound(double p) {
-        return getLowerDomain(populationSize, numberOfSuccesses, sampleSize);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    protected int getDomainUpperBound(double p) {
-        return getUpperDomain(sampleSize, numberOfSuccesses);
-    }
-
     /**
      * Return the lowest domain value for the given hypergeometric distribution
      * parameters.

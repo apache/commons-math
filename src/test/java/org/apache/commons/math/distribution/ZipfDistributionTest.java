@@ -79,14 +79,14 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default inverse cumulative probability test input values */
     @Override
     public double[] makeInverseCumulativeTestPoints() {
-        return new double[] {0, 0.001d, 0.010d, 0.025d, 0.050d, 0.3414d, 0.3415d, 0.999d,
-                0.990d, 0.975d, 0.950d, 0.900d, 1};
+        return new double[] {0d, 0.001d, 0.010d, 0.025d, 0.050d, 0.3413d, 0.3415d, 0.999d,
+                0.990d, 0.975d, 0.950d, 0.900d, 1d};
         }
 
     /** Creates the default inverse cumulative probability density test expected values */
     @Override
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] {0, 0, 0, 0, 0, 0, 1, 9, 9, 9, 8, 7, 10};
+        return new int[] {1, 1, 1, 1, 1, 1, 2, 10, 10, 10, 9, 8, 10};
     }
 
     @Test

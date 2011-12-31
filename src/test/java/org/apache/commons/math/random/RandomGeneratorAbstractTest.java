@@ -23,17 +23,17 @@ import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
- 
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Base class for RandomGenerator tests.
- * 
- * Tests RandomGenerator methods directly and also executes RandomDataTest 
+ *
+ * Tests RandomGenerator methods directly and also executes RandomDataTest
  * test cases against a RandomDataImpl created using the provided generator.
- * 
+ *
  * RandomGenerator test classes should extend this class, implementing
  * makeGenerator() to provide a concrete generator to test. The generator
  * returned by makeGenerator should be seeded with a fixed seed.
@@ -45,9 +45,9 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
 
     /** RandomGenerator under test */
     protected RandomGenerator generator;
-    
-    /** 
-     * Override this method in subclasses to provide a concrete generator to test.  
+
+    /**
+     * Override this method in subclasses to provide a concrete generator to test.
      * Return a generator seeded with a fixed seed.
      */
     protected abstract RandomGenerator makeGenerator();
@@ -59,7 +59,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         generator = makeGenerator();
         randomData = new RandomDataImpl(generator);
     }
-    
+
     /**
      * Set a fixed seed for the tests
      */
@@ -96,7 +96,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
      * the expected uniform distribution.  Tests are performed at the .01
      * level and an average failure rate higher than 2% (i.e. more than 20
      * null hypothesis rejections) causes the test case to fail.
-     * 
+     *
      * All random values are generated using the generator instance used by
      * other tests and the generator is not reseeded, so this is a fixed seed
      * test.
@@ -108,7 +108,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
             final int val = generator.nextInt();
             testValues[i] = val < 0 ? -val : val + 1;
         }
-        
+
         final int numTests = 1000;
         for (int i = 0; i < testValues.length; i++) {
             final int n = testValues[i];
@@ -126,7 +126,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
                     binUpperBounds[k] = (k + 1) * step;
                 }
                 binUpperBounds[9] = n - 1;
-            }  
+            }
             // Run the tests
             int numFailures = 0;
             final int binCount = binUpperBounds.length;
@@ -135,7 +135,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
             expected[0] = binUpperBounds[0] == 0 ? (double) smallSampleSize / (double) n :
                 (double) ((binUpperBounds[0] + 1) * smallSampleSize) / (double) n;
             for (int k = 1; k < binCount; k++) {
-                expected[k] = (double) smallSampleSize * 
+                expected[k] = (double) smallSampleSize *
                 (double) (binUpperBounds[k] - binUpperBounds[k - 1]) / (double) n;
             }
             for (int j = 0; j < numTests; j++) {
@@ -152,7 +152,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
                 }
                 if (testStatistic.chiSquareTest(expected, observed) < 0.01) {
                     numFailures++;
-                }  
+                }
             }
             if ((double) numFailures / (double) numTests > 0.02) {
                 Assert.fail("Too many failures for n = " + n +
@@ -160,7 +160,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
             }
         }
     }
-    
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testNextIntIAE() {
         try {
@@ -259,25 +259,27 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     @Test
     public void testDoubleDirect() {
         SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 10000; ++i) {
+        final int N = 10000;
+        for (int i = 0; i < N; ++i) {
             sample.addValue(generator.nextDouble());
         }
-        Assert.assertEquals(0.5, sample.getMean(), 0.02);
+        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
+                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
         Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.01);
+                     sample.getStandardDeviation(), 0.01);
     }
 
     @Test
     public void testFloatDirect() {
         SummaryStatistics sample = new SummaryStatistics();
-        for (int i = 0; i < 1000; ++i) {
+        final int N = 1000;
+        for (int i = 0; i < N; ++i) {
             sample.addValue(generator.nextFloat());
         }
-        Assert.assertEquals(0.5, sample.getMean(), 0.01);
+        Assert.assertEquals("Note: This test will fail randomly about 1 in 100 times.",
+                0.5, sample.getMean(), FastMath.sqrt(N/12.0) * 2.576);
         Assert.assertEquals(1.0 / (2.0 * FastMath.sqrt(3.0)),
-                     sample.getStandardDeviation(),
-                     0.01);
+                     sample.getStandardDeviation(), 0.01);
     }
 
     @Test(expected=MathIllegalArgumentException.class)
@@ -288,40 +290,49 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     @Test
     public void testNextInt2() {
         int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
+        final int N = 10000;
+        for (int k = 0; k < N; ++k) {
            if (generator.nextInt() >= 0) {
                ++walk;
            } else {
                --walk;
            }
         }
-        Assert.assertTrue("Walked too far astray: " + walk, FastMath.abs(walk) < 120);
+        Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
+        		"test will fail randomly about 1 in 100 times.",
+                FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
     @Test
     public void testNextLong2() {
         int walk = 0;
-        for (int k = 0; k < 1000; ++k) {
+        final int N = 1000;
+        for (int k = 0; k < N; ++k) {
            if (generator.nextLong() >= 0) {
                ++walk;
            } else {
                --walk;
            }
         }
-        Assert.assertTrue("Walked too far astray: " + walk, FastMath.abs(walk) < 100);
+        Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
+        		"test will fail randomly about 1 in 100 times.",
+                FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
     @Test
     public void testNexBoolean2() {
         int walk = 0;
-        for (int k = 0; k < 10000; ++k) {
+        final int N = 10000;
+        for (int k = 0; k < N; ++k) {
            if (generator.nextBoolean()) {
                ++walk;
            } else {
                --walk;
            }
         }
-        Assert.assertTrue(FastMath.abs(walk) < 250);
+        Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
+        		"test will fail randomly about 1 in 100 times.",
+                FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
     @Test
@@ -330,22 +341,22 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         byte[] bytes = new byte[10];
         double[] expected = new double[256];
         final int sampleSize = 100000;
-        
+
         for (int i = 0; i < 256; i++) {
             expected[i] = (double) sampleSize / 265f;
         }
-        
+
         for (int k = 0; k < sampleSize; ++k) {
            generator.nextBytes(bytes);
            for (byte b : bytes) {
                ++count[b + 128];
            }
         }
-        
+
         TestUtils.assertChiSquareAccept(expected, count, 0.001);
-        
+
     }
-    
+
     @Test
     public void testSeeding() throws Exception {
         // makeGenerator initializes with fixed seed
@@ -359,7 +370,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         gen1.setSeed(100);
         checkSameSequence(gen, gen1);
     }
-    
+
     private void checkSameSequence(RandomGenerator gen1, RandomGenerator gen2) throws Exception {
         final int len = 11;  // Needs to be an odd number to check MATH-723
         final double[][] values = new double[2][len];
@@ -369,49 +380,49 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextDouble();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextFloat();
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextFloat();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextInt();
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextInt();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextLong();
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextLong();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextInt(len);
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextInt(len);
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextBoolean() ? 1 : 0;
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextBoolean() ? 1 : 0;
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1]));  
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
         for (int i = 0; i < len; i++) {
             values[0][i] = gen1.nextGaussian();
         }
         for (int i = 0; i < len; i++) {
             values[1][i] = gen2.nextGaussian();
         }
-        Assert.assertTrue(Arrays.equals(values[0], values[1])); 
+        Assert.assertTrue(Arrays.equals(values[0], values[1]));
     }
 
 }

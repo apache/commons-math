@@ -1076,13 +1076,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      */
     public int nextInversionDeviate(IntegerDistribution distribution) {
-        final double target = nextUniform(0, 1);
-        final int glb = distribution.inverseCumulativeProbability(target);
-        if (distribution.cumulativeProbability(glb) == 1.0d) { // No mass above
-            return glb;
-        } else {
-            return glb + 1;
-        }
+        return distribution.inverseCumulativeProbability(nextUniform(0, 1));
     }
 
     // ------------------------Private methods----------------------------------

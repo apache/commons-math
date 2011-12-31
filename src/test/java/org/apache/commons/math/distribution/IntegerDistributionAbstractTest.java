@@ -193,6 +193,24 @@ public abstract class IntegerDistributionAbstractTest {
         verifyInverseCumulativeProbabilities();
     }
 
+    @Test
+    public void testConsistencyAtSupportBounds() {
+        final int lower = distribution.getSupportLowerBound();
+        Assert.assertEquals("Cumulative probability mmust be 0 below support lower bound.",
+                0.0, distribution.cumulativeProbability(lower - 1), 0.0);
+        Assert.assertEquals("Cumulative probability of support lower bound must be equal to probability mass at this point.",
+                distribution.probability(lower), distribution.cumulativeProbability(lower), tolerance);
+        Assert.assertEquals("Inverse cumulative probability of 0 must be equal to support lower bound.",
+                lower, distribution.inverseCumulativeProbability(0.0));
+
+        final int upper = distribution.getSupportUpperBound();
+        if (upper != Integer.MAX_VALUE)
+            Assert.assertEquals("Cumulative probability of support upper bound must be equal to 1.",
+                    1.0, distribution.cumulativeProbability(upper), 0.0);
+        Assert.assertEquals("Inverse cumulative probability of 1 must be equal to support upper bound.",
+                upper, distribution.inverseCumulativeProbability(1.0));
+    }
+
     /**
      * Verifies that illegal arguments are correctly handled
      */
@@ -217,7 +235,7 @@ public abstract class IntegerDistributionAbstractTest {
             // expected
         }
     }
-    
+
     /**
      * Test sampling
      */

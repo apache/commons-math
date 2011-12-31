@@ -75,14 +75,14 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default inverse cumulative probability test input values */
     @Override
     public double[] makeInverseCumulativeTestPoints() {
-      return new double[] {0, 0.001d, 0.010d, 0.025d, 0.050d, 0.100d, 0.999d,
-          0.990d, 0.975d, 0.950d, 0.900d, 1};
+      return new double[] {0.0, 0.001, 0.010, 0.025, 0.050, 0.100, 0.999,
+          0.990, 0.975, 0.950, 0.900, 1.0};
         }
 
     /** Creates the default inverse cumulative probability density test expected values */
     @Override
     public int[] makeInverseCumulativeTestValues() {
-      return new int[] {-1, -1, -1, -1, 0, 0, 13, 10, 9, 8, 7, Integer.MAX_VALUE};
+      return new int[] {0, 0, 0, 0, 1, 1, 14, 11, 10, 9, 8, Integer.MAX_VALUE};
     }
 
     //----------------- Additional test cases ---------------------------------
@@ -90,13 +90,13 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     /** Test degenerate case p = 0   */
     @Test
     public void testDegenerate0() throws Exception {
-        setDistribution(new PascalDistribution(5,0.0d));
+        setDistribution(new PascalDistribution(5, 0.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 0d, 0d});
         setDensityTestPoints(new int[] {-1, 0, 1, 10, 11});
         setDensityTestValues(new double[] {0d, 0d, 0d, 0d, 0d});
         setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
-        setInverseCumulativeTestValues(new int[] {Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 1});
+        setInverseCumulativeTestValues(new int[] {Integer.MAX_VALUE, Integer.MAX_VALUE});
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();
@@ -105,13 +105,13 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
     /** Test degenerate case p = 1   */
     @Test
     public void testDegenerate1() throws Exception {
-        setDistribution(new PascalDistribution(5,1.0d));
+        setDistribution(new PascalDistribution(5, 1.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d, 1d});
         setDensityTestPoints(new int[] {-1, 0, 1, 2, 5, 10});
         setDensityTestValues(new double[] {0d, 1d, 0d, 0d, 0d, 0d});
         setInverseCumulativeTestPoints(new double[] {0.1d, 0.5d});
-        setInverseCumulativeTestValues(new int[] {-1, -1});
+        setInverseCumulativeTestValues(new int[] {0, 0});
         verifyDensities();
         verifyCumulativeProbabilities();
         verifyInverseCumulativeProbabilities();

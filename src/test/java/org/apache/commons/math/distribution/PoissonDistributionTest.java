@@ -87,15 +87,15 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Creates the default inverse cumulative probability test input values.
-     * Increased 3rd and 7th values slightly as computed cumulative
-     * probabilities for corresponding values exceeds the target value (still
-     * within tolerance).
      */
     @Override
     public double[] makeInverseCumulativeTestPoints() {
-        return new double[] { 0d,  0.018315638889d, 0.0915781944437d,
-                0.238103305554d, 0.433470120367d, 0.62883693518,
-                0.78513038704d,  0.99716023388d, 0.999999998077 };
+        IntegerDistribution dist = getDistribution();
+        return new double[] { 0d, 0.018315638886d, 0.018315638890d,
+                0.091578194441d, 0.091578194445d, 0.238103305552d,
+                0.238103305556d, dist.cumulativeProbability(3),
+                dist.cumulativeProbability(4), dist.cumulativeProbability(5),
+                dist.cumulativeProbability(10), dist.cumulativeProbability(20)};
     }
 
     /**
@@ -103,7 +103,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      */
     @Override
     public int[] makeInverseCumulativeTestValues() {
-        return new int[] { -1, 0, 1, 2, 3, 4, 5, 10, 20};
+        return new int[] { 0, 0, 1, 1, 2, 2, 3, 3, 4, 5, 10, 20};
     }
 
     /**
@@ -132,7 +132,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     public void testDegenerateInverseCumulativeProbability() throws Exception {
         PoissonDistribution dist = new PoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
         Assert.assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
-        Assert.assertEquals(-1, dist.inverseCumulativeProbability(0d));
+        Assert.assertEquals(0, dist.inverseCumulativeProbability(0d));
     }
 
     @Test(expected=NotStrictlyPositiveException.class)
@@ -209,8 +209,8 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 try {
                     int ret = dist.inverseCumulativeProbability(p);
                     // Verify that returned value satisties definition
-                    Assert.assertTrue(p >= dist.cumulativeProbability(ret));
-                    Assert.assertTrue(p < dist.cumulativeProbability(ret + 1));
+                    Assert.assertTrue(p <= dist.cumulativeProbability(ret));
+                    Assert.assertTrue(p > dist.cumulativeProbability(ret - 1));
                 } catch (Exception ex) {
                     Assert.fail("mean of " + mean + " and p of " + p + " caused " + ex.getMessage());
                 }
