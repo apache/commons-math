@@ -107,7 +107,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -626730818244969716L;
 
-    /** 
+    /**
      * Used when generating Exponential samples.
      * Table containing the constants
      * q_i = sum_{j=1}^i (ln 2)^j/j! = ln 2 + (ln 2)^2/2 + ... + (ln 2)^i/i!
