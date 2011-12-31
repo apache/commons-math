@@ -19,9 +19,15 @@ package org.apache.commons.math.transform;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -75,8 +81,7 @@ import org.apache.commons.math.util.FastMath;
  * factory method {@link #createUnitary()}.
  * </p>
  *
- * @version $Id: FastFourierTransformer.java 1212260 2011-12-09 06:45:09Z
- * celestin $
+ * @version $Id$
  * @since 1.2
  */
 public class FastFourierTransformer implements Serializable {
@@ -139,10 +144,12 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param f the real data array to be transformed
      * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     public Complex[] transform(double[] f)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
+
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
             return scaleArray(fft(f, false), s);
@@ -159,11 +166,19 @@ public class FastFourierTransformer implements Serializable {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points
+     * {@code n} is negative
+     * @throws MathIllegalArgumentException if the number of sample points
+     * {@code n} is not a power of two
      */
     public Complex[] transform(UnivariateFunction f,
-                               double min, double max, int n)
-        throws IllegalArgumentException {
+            double min, double max, int n) throws
+            NonMonotonicSequenceException,
+            NotStrictlyPositiveException,
+            MathIllegalArgumentException {
+
         final double[] data = sample(f, min, max, n);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(n);
@@ -177,10 +192,13 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param f the complex data array to be transformed
      * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     public Complex[] transform(Complex[] f)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
+
+        // TODO Is this necessary?
         roots.computeOmega(f.length);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
@@ -194,10 +212,11 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param f the real data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     public Complex[] inverseTransform(double[] f)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
 
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
         return scaleArray(fft(f, true), s);
@@ -212,11 +231,18 @@ public class FastFourierTransformer implements Serializable {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points
+     * {@code n} is negative
+     * @throws MathIllegalArgumentException if the number of sample points
+     * {@code n} is not a power of two
      */
     public Complex[] inverseTransform(UnivariateFunction f,
-                                      double min, double max, int n)
-        throws IllegalArgumentException {
+            double min, double max, int n) throws
+            NonMonotonicSequenceException,
+            NotStrictlyPositiveException,
+            MathIllegalArgumentException {
 
         final double[] data = sample(f, min, max, n);
         final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
@@ -228,10 +254,11 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param f the complex data array to be inversely transformed
      * @return the complex inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     public Complex[] inverseTransform(Complex[] f)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
 
         roots.computeOmega(-f.length);    // pass negative argument
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
@@ -245,9 +272,10 @@ public class FastFourierTransformer implements Serializable {
      * @param isInverse the indicator of forward or inverse transform
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if array length is not a power of 2
      */
     protected Complex[] fft(double[] f, boolean isInverse)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
 
         verifyDataSet(f);
         Complex[] transformed = new Complex[f.length];
@@ -290,15 +318,17 @@ public class FastFourierTransformer implements Serializable {
      * @param data the complex data array to be transformed
      * @return the complex transformed array
      * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if array length is not a power of 2
      */
     protected Complex[] fft(Complex[] data)
-        throws IllegalArgumentException {
+            throws MathIllegalArgumentException {
+
+        verifyDataSet(data);
 
         final int n = data.length;
         final Complex[] f = new Complex[n];
 
         // initial simple cases
-        verifyDataSet(data);
         if (n == 1) {
             f[0] = data[0];
             return f;
@@ -372,15 +402,20 @@ public class FastFourierTransformer implements Serializable {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the samples array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points
+     * {@code n} is negative
      */
-    public static double[] sample(UnivariateFunction f, double min, double max, int n)
-        throws IllegalArgumentException {
+    public static double[] sample(UnivariateFunction f,
+            double min, double max, int n) throws
+            NonMonotonicSequenceException,
+            NotStrictlyPositiveException {
 
         if (n <= 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new NotStrictlyPositiveException(
                     LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
-                    n);
+                    Integer.valueOf(n));
         }
         verifyInterval(min, max);
 
@@ -401,6 +436,7 @@ public class FastFourierTransformer implements Serializable {
      * @return a reference to the scaled array
      */
     public static double[] scaleArray(double[] f, double d) {
+
         for (int i = 0; i < f.length; i++) {
             f[i] *= d;
         }
@@ -416,6 +452,7 @@ public class FastFourierTransformer implements Serializable {
      * @return a reference to the scaled array
      */
     public static Complex[] scaleArray(Complex[] f, double d) {
+
         for (int i = 0; i < f.length; i++) {
             f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
         }
@@ -436,12 +473,15 @@ public class FastFourierTransformer implements Serializable {
      * Verifies that the data set has length of power of 2.
      *
      * @param d the data array
-     * @throws IllegalArgumentException if array length is not power of 2
+     * @throws MathIllegalArgumentException if array length is not a power of 2
      */
-    public static void verifyDataSet(double[] d) throws IllegalArgumentException {
+    public static void verifyDataSet(double[] d)
+        throws MathIllegalArgumentException {
+
         if (!isPowerOf2(d.length)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, d.length);
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                    Integer.valueOf(d.length));
         }
     }
 
@@ -449,29 +489,34 @@ public class FastFourierTransformer implements Serializable {
      * Verifies that the data set has length of power of 2.
      *
      * @param o the data array
-     * @throws IllegalArgumentException if array length is not power of 2
+     * @throws MathIllegalArgumentException if array length is not a power of 2
      */
-    public static void verifyDataSet(Object[] o) throws IllegalArgumentException {
+    public static void verifyDataSet(Object[] o)
+        throws MathIllegalArgumentException {
+
         if (!isPowerOf2(o.length)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, o.length);
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                    Integer.valueOf(o.length));
         }
     }
 
     /**
-     * Verifies that the endpoints specify an interval.
+     * Verifies that the end-points specify an interval.
      *
-     * @param lower lower endpoint
-     * @param upper upper endpoint
-     * @throws IllegalArgumentException if not interval
+     * @param lower the lower end-point
+     * @param upper the upper end-point
+     * @throws NonMonotonicSequenceException if the lower end-point is greater
+     * than, or equal to the upper end-point
      */
     public static void verifyInterval(double lower, double upper)
-        throws IllegalArgumentException {
+        throws NonMonotonicSequenceException {
 
         if (lower >= upper) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
-                    lower, upper);
+            throw new NonMonotonicSequenceException(
+                    Double.valueOf(upper),
+                    Double.valueOf(lower),
+                    1);
         }
     }
 
@@ -494,6 +539,7 @@ public class FastFourierTransformer implements Serializable {
      */
     public Object mdfft(Object mdca, boolean forward)
         throws IllegalArgumentException {
+
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
         int[] dimensionSize = mdcm.getDimensionSizes();
@@ -514,9 +560,10 @@ public class FastFourierTransformer implements Serializable {
      * @param subVector recursion subvector
      * @throws IllegalArgumentException if any dimension is not a power of two
      */
-    private void mdfft(MultiDimensionalComplexMatrix mdcm, boolean forward,
-                       int d, int[] subVector)
-        throws IllegalArgumentException {
+    private void mdfft(MultiDimensionalComplexMatrix mdcm,
+            boolean forward, int d, int[] subVector) throws
+            IllegalArgumentException {
+
         int[] dimensionSize = mdcm.getDimensionSizes();
         //if done
         if (subVector.length == dimensionSize.length) {
@@ -557,9 +604,8 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Complex matrix implementation.
-     * Not designed for synchronized access
-     * may eventually be replaced by jsr-83 of the java community process
+     * Complex matrix implementation. Not designed for synchronized access may
+     * eventually be replaced by jsr-83 of the java community process
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
      */
@@ -572,10 +618,14 @@ public class FastFourierTransformer implements Serializable {
         /** Storage array. */
         protected Object multiDimensionalComplexArray;
 
-        /** Simple constructor.
-         * @param multiDimensionalComplexArray array containing the matrix elements
+        /**
+         * Simple constructor.
+         *
+         * @param multiDimensionalComplexArray array containing the matrix
+         * elements
          */
-        public MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
+        public MultiDimensionalComplexMatrix(
+                Object multiDimensionalComplexArray) {
 
             this.multiDimensionalComplexArray = multiDimensionalComplexArray;
 
@@ -604,22 +654,26 @@ public class FastFourierTransformer implements Serializable {
 
         /**
          * Get a matrix element.
+         *
          * @param vector indices of the element
          * @return matrix element
-         * @exception IllegalArgumentException if dimensions do not match
+         * @exception DimensionMismatchException if dimensions do not match
          */
         public Complex get(int... vector)
-            throws IllegalArgumentException {
+                throws DimensionMismatchException {
+
             if (vector == null) {
                 if (dimensionSize.length > 0) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, dimensionSize.length);
+                    throw new DimensionMismatchException(
+                            0,
+                            dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length, dimensionSize.length);
+                throw new DimensionMismatchException(
+                        vector.length,
+                        dimensionSize.length);
             }
 
             Object lastDimension = multiDimensionalComplexArray;
@@ -632,23 +686,27 @@ public class FastFourierTransformer implements Serializable {
 
         /**
          * Set a matrix element.
+         *
          * @param magnitude magnitude of the element
          * @param vector indices of the element
          * @return the previous value
-         * @exception IllegalArgumentException if dimensions do not match
+         * @exception DimensionMismatchException if dimensions do not match
          */
         public Complex set(Complex magnitude, int... vector)
-            throws IllegalArgumentException {
+                throws DimensionMismatchException {
+
             if (vector == null) {
                 if (dimensionSize.length > 0) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, dimensionSize.length);
+                    throw new DimensionMismatchException(
+                            0,
+                            dimensionSize.length);
                 }
                 return null;
             }
             if (vector.length != dimensionSize.length) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, vector.length, dimensionSize.length);
+                throw new DimensionMismatchException(
+                        vector.length,
+                        dimensionSize.length);
             }
 
             Object[] lastDimension = (Object[]) multiDimensionalComplexArray;
@@ -664,6 +722,7 @@ public class FastFourierTransformer implements Serializable {
 
         /**
          * Get the size in all dimensions.
+         *
          * @return size in all dimensions
          */
         public int[] getDimensionSizes() {
@@ -672,6 +731,7 @@ public class FastFourierTransformer implements Serializable {
 
         /**
          * Get the underlying storage array.
+         *
          * @return underlying storage array
          */
         public Object getArray() {
@@ -690,9 +750,11 @@ public class FastFourierTransformer implements Serializable {
 
         /**
          * Copy contents of current array into mdcm.
+         *
          * @param mdcm array where to copy data
          */
         private void clone(MultiDimensionalComplexMatrix mdcm) {
+
             int[] vector = new int[dimensionSize.length];
             int size = 1;
             for (int i = 0; i < dimensionSize.length; i++) {
@@ -719,146 +781,170 @@ public class FastFourierTransformer implements Serializable {
     }
 
 
-    /** Computes the n<sup>th</sup> roots of unity.
-     * A cache of already computed values is maintained.
+    /**
+     * Computes the {@code n}<sup>th</sup> roots of unity. A cache of already
+     * computed values is maintained.
      */
     private static class RootsOfUnity implements Serializable {
 
-      /** Serializable version id. */
-      private static final long serialVersionUID = 6404784357747329667L;
+        /** Serializable version id. */
+        private static final long serialVersionUID = 6404784357747329667L;
 
-      /** Number of roots of unity. */
-      private int      omegaCount;
+        /** Number of roots of unity. */
+        private int omegaCount;
 
-      /** Real part of the roots. */
-      private double[] omegaReal;
+        /** Real part of the roots. */
+        private double[] omegaReal;
 
-      /** Imaginary part of the roots for forward transform. */
-      private double[] omegaImaginaryForward;
+        /** Imaginary part of the roots for forward transform. */
+        private double[] omegaImaginaryForward;
 
-      /** Imaginary part of the roots for reverse transform. */
-      private double[] omegaImaginaryInverse;
+        /** Imaginary part of the roots for reverse transform. */
+        private double[] omegaImaginaryInverse;
 
-      /** Forward/reverse indicator. */
-      private boolean  isForward;
+        /** Forward/reverse indicator. */
+        private boolean isForward;
 
-      /**
-       * Build an engine for computing then <sup>th</sup> roots of unity.
-       */
-      public RootsOfUnity() {
+        /**
+         * Build an engine for computing the {@code n}<sup>th</sup> roots of
+         * unity.
+         */
+        public RootsOfUnity() {
 
-        omegaCount = 0;
-        omegaReal = null;
-        omegaImaginaryForward = null;
-        omegaImaginaryInverse = null;
-        isForward = true;
-
-      }
-
-      /**
-       * Check if computation has been done for forward or reverse transform.
-       * @return true if computation has been done for forward transform
-       * @throws IllegalStateException if no roots of unity have been computed yet
-       */
-      public synchronized boolean isForward() throws IllegalStateException {
-
-        if (omegaCount == 0) {
-          throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-        }
-        return isForward;
-
-      }
-
-      /** Computes the n<sup>th</sup> roots of unity.
-       * <p>The computed omega[] = { 1, w, w<sup>2</sup>, ... w<sup>(n-1)</sup> } where
-       * w = exp(-2 &pi; i / n), i = &sqrt;(-1).</p>
-       * <p>Note that n is positive for
-       * forward transform and negative for inverse transform.</p>
-       * @param n number of roots of unity to compute,
-       * positive for forward transform, negative for inverse transform
-       * @throws IllegalArgumentException if n = 0
-       */
-      public synchronized void computeOmega(int n) throws IllegalArgumentException {
-
-        if (n == 0) {
-          throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
+            omegaCount = 0;
+            omegaReal = null;
+            omegaImaginaryForward = null;
+            omegaImaginaryInverse = null;
+            isForward = true;
         }
 
-        isForward = n > 0;
+        /**
+         * Check if computation has been done for forward or reverse transform.
+         *
+         * @return {@code true} if computation has been done for forward transform
+         * @throws MathIllegalStateException if no roots of unity have been computed
+         * yet
+         */
+        public synchronized boolean isForward()
+                throws MathIllegalStateException {
 
-        // avoid repetitive calculations
-        final int absN = FastMath.abs(n);
-
-        if (absN == omegaCount) {
-            return;
+            if (omegaCount == 0) {
+                throw new MathIllegalStateException(
+                        LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
+            }
+            return isForward;
         }
 
-        // calculate everything from scratch, for both forward and inverse versions
-        final double t    = 2.0 * FastMath.PI / absN;
-        final double cosT = FastMath.cos(t);
-        final double sinT = FastMath.sin(t);
-        omegaReal             = new double[absN];
-        omegaImaginaryForward = new double[absN];
-        omegaImaginaryInverse = new double[absN];
-        omegaReal[0]             = 1.0;
-        omegaImaginaryForward[0] = 0.0;
-        omegaImaginaryInverse[0] = 0.0;
-        for (int i = 1; i < absN; i++) {
-          omegaReal[i] = omegaReal[i - 1] * cosT +
-                         omegaImaginaryForward[i - 1] * sinT;
-          omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT -
-                                     omegaReal[i - 1] * sinT;
-          omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
-        }
-        omegaCount = absN;
+        /**
+         * <p>
+         * Computes the {@code n}<sup>th</sup> roots of unity. The roots are
+         * stored in {@code omega[]}, such that {@code omega[k] = w ^ k}, where
+         * {@code k = 0, ..., n - 1}, {@code w = exp(-2 &pi; i / n)} and
+         * {@code i = sqrt(-1)}.
+         * </p>
+         * <p>
+         * Note that {@code n} is positive for forward transform and negative
+         * for inverse transform.
+         * </p>
+         *
+         * @param n number of roots of unity to compute, positive for forward
+         * transform, negative for inverse transform
+         * @throws ZeroException if {@code n = 0}
+         */
+        public synchronized void computeOmega(int n) throws ZeroException {
 
-      }
+            if (n == 0) {
+                throw new ZeroException(
+                        LocalizedFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
+            }
 
-      /**
-       * Get the real part of the k<sup>th</sup> n<sup>th</sup> root of unity.
-       * @param k index of the n<sup>th</sup> root of unity
-       * @return real part of the k<sup>th</sup> n<sup>th</sup> root of unity
-       * @throws IllegalStateException if no roots of unity have been computed yet
-       * @throws IllegalArgumentException if k is out of range
-       */
-      public synchronized double getOmegaReal(int k)
-        throws IllegalStateException, IllegalArgumentException {
+            isForward = n > 0;
 
-        if (omegaCount == 0) {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-        }
-        if ((k < 0) || (k >= omegaCount)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, k, 0, omegaCount - 1);
-        }
+            // avoid repetitive calculations
+            final int absN = FastMath.abs(n);
 
-        return omegaReal[k];
+            if (absN == omegaCount) {
+                return;
+            }
 
-      }
-
-      /**
-       * Get the imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity.
-       * @param k index of the n<sup>th</sup> root of unity
-       * @return imaginary part of the k<sup>th</sup> n<sup>th</sup> root of unity
-       * @throws IllegalStateException if no roots of unity have been computed yet
-       * @throws IllegalArgumentException if k is out of range
-       */
-      public synchronized double getOmegaImaginary(int k)
-        throws IllegalStateException, IllegalArgumentException {
-
-        if (omegaCount == 0) {
-            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
-        }
-        if ((k < 0) || (k >= omegaCount)) {
-          throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, k, 0, omegaCount - 1);
+            // calculate everything from scratch, for both forward and inverse
+            // versions
+            final double t = 2.0 * FastMath.PI / absN;
+            final double cosT = FastMath.cos(t);
+            final double sinT = FastMath.sin(t);
+            omegaReal = new double[absN];
+            omegaImaginaryForward = new double[absN];
+            omegaImaginaryInverse = new double[absN];
+            omegaReal[0] = 1.0;
+            omegaImaginaryForward[0] = 0.0;
+            omegaImaginaryInverse[0] = 0.0;
+            for (int i = 1; i < absN; i++) {
+                omegaReal[i] = omegaReal[i - 1] * cosT +
+                        omegaImaginaryForward[i - 1] * sinT;
+                omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT -
+                        omegaReal[i - 1] * sinT;
+                omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
+            }
+            omegaCount = absN;
         }
 
-        return isForward ? omegaImaginaryForward[k] : omegaImaginaryInverse[k];
+        /**
+         * Get the real part of the {@code k}<sup>th</sup>
+         * {@code n}<sup>th</sup> root of unity.
+         *
+         * @param k index of the {@code n}<sup>th</sup> root of unity
+         * @return real part of the {@code k}<sup>th</sup>
+         * {@code n}<sup>th</sup> root of unity
+         * @throws MathIllegalStateException if no roots of unity have been
+         * computed yet
+         * @throws MathIllegalArgumentException if {@code k} is out of range
+         */
+        public synchronized double getOmegaReal(int k)
+                throws MathIllegalStateException, MathIllegalArgumentException {
 
-      }
+            if (omegaCount == 0) {
+                throw new MathIllegalStateException(
+                        LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
+            }
+            if ((k < 0) || (k >= omegaCount)) {
+                throw new OutOfRangeException(
+                        LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX,
+                        Integer.valueOf(k),
+                        Integer.valueOf(0),
+                        Integer.valueOf(omegaCount - 1));
+            }
 
+            return omegaReal[k];
+        }
+
+        /**
+         * Get the imaginary part of the {@code k}<sup>th</sup>
+         * {@code n}<sup>th</sup> root of unity.
+         *
+         * @param k index of the {@code n}<sup>th</sup> root of unity
+         * @return imaginary part of the {@code k}<sup>th</sup>
+         * {@code n}<sup>th</sup> root of unity
+         * @throws MathIllegalStateException if no roots of unity have been
+         * computed yet
+         * @throws OutOfRangeException if {@code k} is out of range
+         */
+        public synchronized double getOmegaImaginary(int k)
+                throws MathIllegalStateException, OutOfRangeException {
+
+            if (omegaCount == 0) {
+                throw new MathIllegalStateException(
+                        LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
+            }
+            if ((k < 0) || (k >= omegaCount)) {
+                throw new OutOfRangeException(
+                        LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX,
+                        Integer.valueOf(k),
+                        Integer.valueOf(0),
+                        Integer.valueOf(omegaCount - 1));
+            }
+
+            return isForward ? omegaImaginaryForward[k] :
+                omegaImaginaryInverse[k];
+        }
     }
-
 }
