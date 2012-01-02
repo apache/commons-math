@@ -38,10 +38,8 @@ public interface RealTransformer  {
      *
      * @param f the real data array to be transformed (signal)
      * @return the real transformed array (spectrum)
-     * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] transform(double[] f)
-        throws IllegalArgumentException;
+    double[] transform(double[] f);
 
     /**
      * Returns the forward transform of the specified real function, sampled on
@@ -52,20 +50,16 @@ public interface RealTransformer  {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] transform(UnivariateFunction f, double min, double max, int n)
-        throws IllegalArgumentException;
+    double[] transform(UnivariateFunction f, double min, double max, int n);
 
     /**
      * Returns the inverse transform of the specified real data set.
      *
      * @param f the real data array to be inversely transformed
      * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inverseTransform(double[] f)
-        throws IllegalArgumentException;
+    double[] inverseTransform(double[] f);
 
     /**
      * Returns the inverse transform of the specified real function, sampled
@@ -76,9 +70,6 @@ public interface RealTransformer  {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the real inversely transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
      */
-    double[] inverseTransform(UnivariateFunction f, double min, double max, int n)
-        throws IllegalArgumentException;
-
+    double[] inverseTransform(UnivariateFunction f, double min, double max, int n);
 }

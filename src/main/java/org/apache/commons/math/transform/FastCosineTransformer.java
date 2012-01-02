@@ -16,9 +16,11 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -103,8 +105,7 @@ import org.apache.commons.math.util.FastMath;
  * </p>
  * <p>As of version 2.0 this no longer implements Serializable.</p>
  *
- * @version $Id: FastCosineTransformer.java 1213585 2011-12-13 07:44:52Z
- *          celestin $
+ * @version $Id$
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer {
@@ -154,8 +155,13 @@ public class FastCosineTransformer implements RealTransformer {
         return new FastCosineTransformer(true);
     }
 
-    /** {@inheritDoc} */
-    public double[] transform(double[] f) throws IllegalArgumentException {
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two plus one
+     */
+    public double[] transform(double[] f) throws MathIllegalArgumentException {
 
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / (f.length - 1));
@@ -164,26 +170,55 @@ public class FastCosineTransformer implements RealTransformer {
         return fct(f);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two plus one
+     */
     public double[] transform(UnivariateFunction f,
-        double min, double max, int n) throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
 
         final double[] data = FastFourierTransformer.sample(f, min, max, n);
         return transform(data);
     }
 
-    /** {@inheritDoc} */
-    public double[] inverseTransform(double[] f)
-        throws IllegalArgumentException {
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two plus one
+     */
+    public double[] inverseTransform(double[] f) throws
+        MathIllegalArgumentException {
 
         final double s2 = 2.0 / (f.length - 1);
         final double s1 = orthogonal ? FastMath.sqrt(s2) : s2;
         return FastFourierTransformer.scaleArray(fct(f), s1);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two plus one
+     */
     public double[] inverseTransform(UnivariateFunction f,
-        double min, double max, int n) throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
 
         final double[] data = FastFourierTransformer.sample(f, min, max, n);
         return inverseTransform(data);
@@ -194,18 +229,19 @@ public class FastCosineTransformer implements RealTransformer {
      *
      * @param f the real data array to be transformed
      * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two plus one
      */
     protected double[] fct(double[] f)
-        throws IllegalArgumentException {
+        throws MathIllegalArgumentException {
 
         final double[] transformed = new double[f.length];
 
         final int n = f.length - 1;
         if (!FastFourierTransformer.isPowerOf2(n)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE,
-                    f.length);
+            throw new MathIllegalArgumentException(
+                LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE,
+                Integer.valueOf(f.length));
         }
         if (n == 1) {       // trivial case
             transformed[0] = 0.5 * (f[0] + f[1]);
