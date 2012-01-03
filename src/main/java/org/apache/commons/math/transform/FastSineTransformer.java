@@ -16,9 +16,11 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
@@ -157,8 +159,11 @@ public class FastSineTransformer implements RealTransformer {
      * {@inheritDoc}
      *
      * The first element of the specified data set is required to be {@code 0}.
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two, or the first element of the data array is not zero
      */
-    public double[] transform(double[] f) throws IllegalArgumentException {
+    public double[] transform(double[] f) throws MathIllegalArgumentException {
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / f.length);
             return FastFourierTransformer.scaleArray(fst(f), s);
@@ -170,9 +175,19 @@ public class FastSineTransformer implements RealTransformer {
      * {@inheritDoc}
      *
      * This implementation enforces {@code f(x) = 0.0} at {@code x = 0.0}.
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two
      */
     public double[] transform(UnivariateFunction f,
-        double min, double max, int n) throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
 
         final double[] data = FastFourierTransformer.sample(f, min, max, n);
         data[0] = 0.0;
@@ -187,6 +202,9 @@ public class FastSineTransformer implements RealTransformer {
      * {@inheritDoc}
      *
      * The first element of the specified data set is required to be {@code 0}.
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two, or the first element of the data array is not zero
      */
     public double[] inverseTransform(double[] f)
         throws IllegalArgumentException {
@@ -202,10 +220,19 @@ public class FastSineTransformer implements RealTransformer {
      * {@inheritDoc}
      *
      * This implementation enforces {@code f(x) = 0.0} at {@code x = 0.0}.
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two
      */
     public double[] inverseTransform(UnivariateFunction f,
-        double min, double max, int n)
-        throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
 
         if (orthogonal) {
             return transform(f, min, max, n);
@@ -224,17 +251,18 @@ public class FastSineTransformer implements RealTransformer {
      *
      * @param f the real data array to be transformed
      * @return the real transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two, or the first element of the data array is not zero
      */
-    protected double[] fst(double[] f) throws IllegalArgumentException {
+    protected double[] fst(double[] f) throws MathIllegalArgumentException {
 
         final double[] transformed = new double[f.length];
 
         FastFourierTransformer.verifyDataSet(f);
         if (f[0] != 0.0) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.FIRST_ELEMENT_NOT_ZERO,
-                    f[0]);
+                    Double.valueOf(f[0]));
         }
         final int n = f.length;
         if (n == 1) {       // trivial case
