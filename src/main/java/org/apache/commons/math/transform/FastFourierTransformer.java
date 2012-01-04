@@ -266,13 +266,14 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Perform the base-4 Cooley-Tukey FFT algorithm (including inverse).
+     * Returns the FFT of the specified real data set. Performs the base-4
+     * Cooley-Tukey FFT algorithm.
      *
      * @param f the real data array to be transformed
-     * @param isInverse the indicator of forward or inverse transform
+     * @param isInverse {@code true} if inverse transform is to be carried out
      * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     * @throws MathIllegalArgumentException if array length is not a power of 2
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     protected Complex[] fft(double[] f, boolean isInverse)
             throws MathIllegalArgumentException {
@@ -313,12 +314,13 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Perform the base-4 Cooley-Tukey FFT algorithm (including inverse).
+     * Returns the FFT of the specified complex data set. Performs the base-4
+     * Cooley-Tukey FFT algorithm.
      *
      * @param data the complex data array to be transformed
      * @return the complex transformed array
-     * @throws IllegalArgumentException if any parameters are invalid
-     * @throws MathIllegalArgumentException if array length is not a power of 2
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
     protected Complex[] fft(Complex[] data)
             throws MathIllegalArgumentException {
@@ -390,12 +392,16 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Sample the given univariate real function on the given interval.
      * <p>
-     * The interval is divided equally into N sections and sample points
-     * are taken from min to max-(max-min)/N. Usually f(x) is periodic
-     * such that f(min) = f(max) (note max is not sampled), but we don't
-     * require that.</p>
+     * Sample the given univariate real function on the given interval.
+     * </p>
+     * <p>
+     * The interval is divided equally into {@code n} sections and sample points
+     * are taken from {@code min} to {@code max - (max - min) / N}. Usually
+     * {@code f(x)} is periodic such that {@code f(min) = f(max)} (note that
+     * {@code max} is not sampled), but this condition is not required by the
+     * present method.
+     * </p>
      *
      * @param f the function to be sampled
      * @param min the (inclusive) lower bound for the interval
@@ -460,10 +466,10 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Returns true if the argument is power of 2.
+     * Returns true if the argument is a power of 2.
      *
      * @param n the number to test
-     * @return true if the argument is power of 2
+     * @return true if the argument is a power of 2
      */
     public static boolean isPowerOf2(long n) {
         return (n > 0) && ((n & (n - 1)) == 0);
