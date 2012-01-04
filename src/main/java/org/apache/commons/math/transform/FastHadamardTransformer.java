@@ -16,8 +16,10 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -33,44 +35,79 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  */
 public class FastHadamardTransformer implements RealTransformer {
 
-    /** {@inheritDoc} */
-    public double[] transform(double[] f)
-        throws IllegalArgumentException {
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
+     */
+    public double[] transform(double[] f) throws MathIllegalArgumentException {
         return fht(f);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two
+     */
     public double[] transform(UnivariateFunction f,
-                              double min, double max, int n)
-        throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
+
         return fht(FastFourierTransformer.sample(f, min, max, n));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
+     */
     public double[] inverseTransform(double[] f)
-    throws IllegalArgumentException {
+        throws IllegalArgumentException {
+
         return FastFourierTransformer.scaleArray(fht(f), 1.0 / f.length);
    }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NonMonotonicSequenceException if the lower bound is greater
+     * than, or equal to the upper bound
+     * @throws NotStrictlyPositiveException if the number of sample points is
+     * negative
+     * @throws MathIllegalArgumentException if the number of sample points is
+     * not a power of two
+     */
     public double[] inverseTransform(UnivariateFunction f,
-                                     double min, double max, int n)
-        throws IllegalArgumentException {
+        double min, double max, int n) throws
+        NonMonotonicSequenceException,
+        NotStrictlyPositiveException,
+        MathIllegalArgumentException {
+
         final double[] unscaled =
             fht(FastFourierTransformer.sample(f, min, max, n));
         return FastFourierTransformer.scaleArray(unscaled, 1.0 / n);
     }
 
     /**
-     * Transform the given real data set.
-     * <p>The integer transform cannot be inverted directly, due to a scaling
-     * factor it may lead to double results.</p>
+     * Returns the forward transform of the specified integer data set.The
+     * integer transform cannot be inverted directly, due to a scaling factor
+     * which may lead to double results.
+     *
      * @param f the integer data array to be transformed (signal)
      * @return the integer transformed array (spectrum)
-     * @throws IllegalArgumentException if any parameters are invalid
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
-    public int[] transform(int[] f)
-        throws IllegalArgumentException {
+    public int[] transform(int[] f) throws MathIllegalArgumentException {
         return fht(f);
     }
 
@@ -212,25 +249,26 @@ public class FastHadamardTransformer implements RealTransformer {
      * </tbody>
      * </table>
      *
-     * @param x the input vector
-     * @return the output vector, {@code y}
-     * @exception IllegalArgumentException if input array is not a power of 2
+     * @param x the real data array to be transformed
+     * @return the real transformed array, {@code y}
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
      */
-    protected double[] fht(double[] x) throws IllegalArgumentException {
+    protected double[] fht(double[] x) throws MathIllegalArgumentException {
 
-        // n is the row count of the input vector x
         final int n     = x.length;
         final int halfN = n / 2;
 
-        // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO,
-                    n);
+                    Integer.valueOf(n));
         }
 
-        // Instead of creating a matrix with p+1 columns and n rows
-        // we will use two single dimension arrays which we will use in an alternating way.
+        /*
+         * Instead of creating a matrix with p+1 columns and n rows, we use two
+         * one dimension arrays which we are used in an alternating way.
+         */
         double[] yPrevious = new double[n];
         double[] yCurrent  = x.clone();
 
@@ -244,44 +282,45 @@ public class FastHadamardTransformer implements RealTransformer {
 
             // iterate from top to bottom (row)
             for (int i = 0; i < halfN; ++i) {
-                // D<sub>top</sub>
-                // The top part works with addition
+                // Dtop: the top part works with addition
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
             }
             for (int i = halfN; i < n; ++i) {
-                // D<sub>bottom</sub>
-                // The bottom part works with subtraction
+                // Dbottom: the bottom part works with subtraction
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
             }
         }
 
-        // return the last computed output vector y
         return yCurrent;
 
     }
-    /**
-     * The FHT (Fast Hadamard Transformation) which uses only subtraction and addition.
-     * @param x input vector
-     * @return y output vector
-     * @exception IllegalArgumentException if input array is not a power of 2
-     */
-    protected int[] fht(int[] x) throws IllegalArgumentException {
 
-        // n is the row count of the input vector x
+    /**
+     * Returns the forward transform of the specified integer data set. The FHT
+     * (Fast Hadamard Transform) uses only subtraction and addition.
+     *
+     * @param x the integer data array to be transformed
+     * @return the integer transformed array, {@code y}
+     * @throws MathIllegalArgumentException if the length of the data array is
+     * not a power of two
+     */
+    protected int[] fht(int[] x) throws MathIllegalArgumentException {
+
         final int n     = x.length;
         final int halfN = n / 2;
 
-        // n has to be of the form n = 2^p !!
         if (!FastFourierTransformer.isPowerOf2(n)) {
-            throw MathRuntimeException.createIllegalArgumentException(
+            throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO,
-                    n);
+                    Integer.valueOf(n));
         }
 
-        // Instead of creating a matrix with p+1 columns and n rows
-        // we will use two single dimension arrays which we will use in an alternating way.
+        /*
+         * Instead of creating a matrix with p+1 columns and n rows, we use two
+         * one dimension arrays which we are used in an alternating way.
+         */
         int[] yPrevious = new int[n];
         int[] yCurrent  = x.clone();
 
@@ -295,14 +334,12 @@ public class FastHadamardTransformer implements RealTransformer {
 
             // iterate from top to bottom (row)
             for (int i = 0; i < halfN; ++i) {
-                // D<sub>top</sub>
-                // The top part works with addition
+                // Dtop: the top part works with addition
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI] + yPrevious[twoI + 1];
             }
             for (int i = halfN; i < n; ++i) {
-                // D<sub>bottom</sub>
-                // The bottom part works with subtraction
+                // Dbottom: the bottom part works with subtraction
                 final int twoI = 2 * i;
                 yCurrent[i] = yPrevious[twoI - n] - yPrevious[twoI - n + 1];
             }
