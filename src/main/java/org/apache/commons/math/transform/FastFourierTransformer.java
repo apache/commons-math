@@ -29,6 +29,7 @@ import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -466,16 +467,6 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * Returns true if the argument is a power of 2.
-     *
-     * @param n the number to test
-     * @return true if the argument is a power of 2
-     */
-    public static boolean isPowerOf2(long n) {
-        return (n > 0) && ((n & (n - 1)) == 0);
-    }
-
-    /**
      * Verifies that the data set has length of power of 2.
      *
      * @param d the data array
@@ -484,7 +475,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(double[] d)
         throws MathIllegalArgumentException {
 
-        if (!isPowerOf2(d.length)) {
+        if (!ArithmeticUtils.isPowerOfTwo(d.length)) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
                     Integer.valueOf(d.length));
@@ -500,7 +491,7 @@ public class FastFourierTransformer implements Serializable {
     public static void verifyDataSet(Object[] o)
         throws MathIllegalArgumentException {
 
-        if (!isPowerOf2(o.length)) {
+        if (!ArithmeticUtils.isPowerOfTwo(o.length)) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
                     Integer.valueOf(o.length));

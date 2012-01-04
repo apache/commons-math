@@ -22,6 +22,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -238,7 +239,7 @@ public class FastCosineTransformer implements RealTransformer {
         final double[] transformed = new double[f.length];
 
         final int n = f.length - 1;
-        if (!FastFourierTransformer.isPowerOf2(n)) {
+        if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new MathIllegalArgumentException(
                 LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE,
                 Integer.valueOf(f.length));

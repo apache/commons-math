@@ -18,7 +18,6 @@ package org.apache.commons.math.util;
 
 import java.math.BigInteger;
 import org.apache.commons.math.exception.MathArithmeticException;
-import org.apache.commons.math.exception.MathIllegalNumberException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.Localizable;
@@ -942,5 +941,15 @@ public final class ArithmeticUtils {
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER, n);
         }
+    }
+
+    /**
+     * Returns true if the argument is a power of two.
+     *
+     * @param n the number to test
+     * @return true if the argument is a power of two
+     */
+    public static boolean isPowerOfTwo(long n) {
+        return (n > 0) && ((n & (n - 1)) == 0);
     }
 }

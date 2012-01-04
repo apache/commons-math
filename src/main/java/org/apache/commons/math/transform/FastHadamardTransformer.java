@@ -21,6 +21,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.ArithmeticUtils;
 
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
@@ -259,7 +260,7 @@ public class FastHadamardTransformer implements RealTransformer {
         final int n     = x.length;
         final int halfN = n / 2;
 
-        if (!FastFourierTransformer.isPowerOf2(n)) {
+        if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO,
                     Integer.valueOf(n));
@@ -311,7 +312,7 @@ public class FastHadamardTransformer implements RealTransformer {
         final int n     = x.length;
         final int halfN = n / 2;
 
-        if (!FastFourierTransformer.isPowerOf2(n)) {
+        if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO,
                     Integer.valueOf(n));
