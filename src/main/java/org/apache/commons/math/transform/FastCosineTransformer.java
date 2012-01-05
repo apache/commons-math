@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
+import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -187,7 +188,7 @@ public class FastCosineTransformer implements RealTransformer {
         NotStrictlyPositiveException,
         MathIllegalArgumentException {
 
-        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         return transform(data);
     }
 
@@ -221,7 +222,7 @@ public class FastCosineTransformer implements RealTransformer {
         NotStrictlyPositiveException,
         MathIllegalArgumentException {
 
-        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         return inverseTransform(data);
     }
 

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
+import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
@@ -62,7 +63,7 @@ public class FastHadamardTransformer implements RealTransformer {
         NotStrictlyPositiveException,
         MathIllegalArgumentException {
 
-        return fht(FastFourierTransformer.sample(f, min, max, n));
+        return fht(FunctionUtils.sample(f, min, max, n));
     }
 
     /**
@@ -94,7 +95,7 @@ public class FastHadamardTransformer implements RealTransformer {
         MathIllegalArgumentException {
 
         final double[] unscaled =
-            fht(FastFourierTransformer.sample(f, min, max, n));
+            fht(FunctionUtils.sample(f, min, max, n));
         return FastFourierTransformer.scaleArray(unscaled, 1.0 / n);
     }
 

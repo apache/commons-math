@@ -18,6 +18,9 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.analysis.function.Identity;
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Utilities for manipulating function objects.
@@ -289,5 +292,50 @@ public class FunctionUtils {
                 return f.value(x, fixed);
             }
         };
+    }
+
+    /**
+     * <p>
+     * Samples the specified univariate real function on the specified interval.
+     * </p>
+     * <p>
+     * The interval is divided equally into {@code n} sections and sample points
+     * are taken from {@code min} to {@code max - (max - min) / n}; therefore
+     * {@code f} is not sampled at the upper bound {@code max}.
+     * </p>
+     *
+     * @param f the function to be sampled
+     * @param min the (inclusive) lower bound of the interval
+     * @param max the (exclusive) upper bound of the interval
+     * @param n the number of sample points
+     * @return the array of samples
+     * @throws NonMonotonicSequenceException if the lower bound {@code min} is
+     * greater than, or equal to the upper bound {@code max}
+     * @throws NotStrictlyPositiveException if the number of sample points
+     * {@code n} is negative
+     */
+    public static double[] sample(UnivariateFunction f,
+            double min, double max, int n) throws
+            NonMonotonicSequenceException,
+            NotStrictlyPositiveException {
+
+        if (n <= 0) {
+            throw new NotStrictlyPositiveException(
+                    LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
+                    Integer.valueOf(n));
+        }
+        if (min >= max) {
+            throw new NonMonotonicSequenceException(
+                    Double.valueOf(max),
+                    Double.valueOf(min),
+                    1);
+        }
+
+        double[] s = new double[n];
+        double h = (max - min) / n;
+        for (int i = 0; i < n; i++) {
+            s[i] = f.value(min + i * h);
+        }
+        return s;
     }
 }

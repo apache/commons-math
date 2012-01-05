@@ -17,26 +17,25 @@
 
 package org.apache.commons.math.analysis;
 
-import org.apache.commons.math.analysis.UnivariateFunction;
-import org.apache.commons.math.analysis.function.Identity;
+import org.apache.commons.math.analysis.function.Add;
 import org.apache.commons.math.analysis.function.Constant;
-import org.apache.commons.math.analysis.function.Minus;
+import org.apache.commons.math.analysis.function.Cos;
+import org.apache.commons.math.analysis.function.Cosh;
+import org.apache.commons.math.analysis.function.Divide;
+import org.apache.commons.math.analysis.function.Identity;
 import org.apache.commons.math.analysis.function.Inverse;
+import org.apache.commons.math.analysis.function.Log;
+import org.apache.commons.math.analysis.function.Max;
+import org.apache.commons.math.analysis.function.Min;
+import org.apache.commons.math.analysis.function.Minus;
+import org.apache.commons.math.analysis.function.Multiply;
+import org.apache.commons.math.analysis.function.Pow;
 import org.apache.commons.math.analysis.function.Power;
 import org.apache.commons.math.analysis.function.Sin;
 import org.apache.commons.math.analysis.function.Sinc;
-import org.apache.commons.math.analysis.function.Cos;
-import org.apache.commons.math.analysis.function.Cosh;
-import org.apache.commons.math.analysis.BivariateRealFunction;
-import org.apache.commons.math.analysis.function.Add;
-import org.apache.commons.math.analysis.function.Multiply;
-import org.apache.commons.math.analysis.function.Divide;
-import org.apache.commons.math.analysis.function.Min;
-import org.apache.commons.math.analysis.function.Max;
-import org.apache.commons.math.analysis.function.Pow;
-import org.apache.commons.math.analysis.function.Log;
-import org.apache.commons.math.analysis.MultivariateFunction;
-
+import org.apache.commons.math.exception.NonMonotonicSequenceException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -202,6 +201,33 @@ public class FunctionUtilsTest {
         for (int i = 0; i < 10; i++) {
             double x = Math.random() * 10;
             Assert.assertEquals(pow1.value(x), pow2.value(x), 0);
+        }
+    }
+
+    @Test(expected = NonMonotonicSequenceException.class)
+    public void testSampleWrongBounds(){
+        FunctionUtils.sample(new Sin(), Math.PI, 0.0, 10);
+    }
+
+    @Test(expected = NotStrictlyPositiveException.class)
+    public void testSampleNegativeNumberOfPoints(){
+        FunctionUtils.sample(new Sin(), 0.0, Math.PI, -1);
+    }
+
+    @Test(expected = NotStrictlyPositiveException.class)
+    public void testSampleNullNumberOfPoints(){
+        FunctionUtils.sample(new Sin(), 0.0, Math.PI, 0);
+    }
+
+    @Test
+    public void testSample() {
+        final int n = 11;
+        final double min = 0.0;
+        final double max = Math.PI;
+        final double[] actual = FunctionUtils.sample(new Sin(), min, max, n);
+        for (int i = 0; i < n; i++) {
+            final double x = min + (max - min) / n * i;
+            Assert.assertEquals("x = " + x, FastMath.sin(x), actual[i], 0.0);
         }
     }
 }

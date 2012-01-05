@@ -19,6 +19,7 @@ package org.apache.commons.math.transform;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
+import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.DimensionMismatchException;
@@ -180,7 +181,7 @@ public class FastFourierTransformer implements Serializable {
             NotStrictlyPositiveException,
             MathIllegalArgumentException {
 
-        final double[] data = sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(n);
             return scaleArray(fft(data, false), s);
@@ -245,7 +246,7 @@ public class FastFourierTransformer implements Serializable {
             NotStrictlyPositiveException,
             MathIllegalArgumentException {
 
-        final double[] data = sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
         return scaleArray(fft(data, true), s);
     }
@@ -393,48 +394,6 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
-     * <p>
-     * Sample the given univariate real function on the given interval.
-     * </p>
-     * <p>
-     * The interval is divided equally into {@code n} sections and sample points
-     * are taken from {@code min} to {@code max - (max - min) / N}. Usually
-     * {@code f(x)} is periodic such that {@code f(min) = f(max)} (note that
-     * {@code max} is not sampled), but this condition is not required by the
-     * present method.
-     * </p>
-     *
-     * @param f the function to be sampled
-     * @param min the (inclusive) lower bound for the interval
-     * @param max the (exclusive) upper bound for the interval
-     * @param n the number of sample points
-     * @return the samples array
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative
-     */
-    public static double[] sample(UnivariateFunction f,
-            double min, double max, int n) throws
-            NonMonotonicSequenceException,
-            NotStrictlyPositiveException {
-
-        if (n <= 0) {
-            throw new NotStrictlyPositiveException(
-                    LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
-                    Integer.valueOf(n));
-        }
-        verifyInterval(min, max);
-
-        double[] s = new double[n];
-        double h = (max - min) / n;
-        for (int i = 0; i < n; i++) {
-            s[i] = f.value(min + i * h);
-        }
-        return s;
-    }
-
-    /**
      * Multiply every component in the given real array by the
      * given real number. The change is made in place.
      *
@@ -495,25 +454,6 @@ public class FastFourierTransformer implements Serializable {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
                     Integer.valueOf(o.length));
-        }
-    }
-
-    /**
-     * Verifies that the end-points specify an interval.
-     *
-     * @param lower the lower end-point
-     * @param upper the upper end-point
-     * @throws NonMonotonicSequenceException if the lower end-point is greater
-     * than, or equal to the upper end-point
-     */
-    public static void verifyInterval(double lower, double upper)
-        throws NonMonotonicSequenceException {
-
-        if (lower >= upper) {
-            throw new NonMonotonicSequenceException(
-                    Double.valueOf(upper),
-                    Double.valueOf(lower),
-                    1);
         }
     }
 

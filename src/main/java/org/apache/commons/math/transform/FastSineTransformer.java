@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math.transform;
 
+import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -189,7 +190,7 @@ public class FastSineTransformer implements RealTransformer {
         NotStrictlyPositiveException,
         MathIllegalArgumentException {
 
-        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         data[0] = 0.0;
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / n);
@@ -238,7 +239,7 @@ public class FastSineTransformer implements RealTransformer {
             return transform(f, min, max, n);
         }
 
-        final double[] data = FastFourierTransformer.sample(f, min, max, n);
+        final double[] data = FunctionUtils.sample(f, min, max, n);
         data[0] = 0.0;
         final double s = 2.0 / n;
 
