@@ -20,6 +20,9 @@ import org.apache.commons.math.complex.Complex;
 
 /**
  * Useful functions for the implementation of various transforms.
+ *
+ * @version $Id $
+ * @since 3.0
  */
 public class TransformUtils {
     /** Private constructor. */
@@ -36,7 +39,7 @@ public class TransformUtils {
      * @return a reference to the scaled array
      */
     public static double[] scaleArray(double[] f, double d) {
-    
+
         for (int i = 0; i < f.length; i++) {
             f[i] *= d;
         }
@@ -52,7 +55,7 @@ public class TransformUtils {
      * @return a reference to the scaled array
      */
     public static Complex[] scaleArray(Complex[] f, double d) {
-    
+
         for (int i = 0; i < f.length; i++) {
             f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
         }
