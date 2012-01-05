@@ -280,7 +280,11 @@ public class FastFourierTransformer implements Serializable {
     protected Complex[] fft(double[] f, boolean isInverse)
             throws MathIllegalArgumentException {
 
-        verifyDataSet(f);
+        if (!ArithmeticUtils.isPowerOfTwo(f.length)) {
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                    Integer.valueOf(f.length));
+        }
         Complex[] transformed = new Complex[f.length];
         if (f.length == 1) {
             transformed[0] = new Complex(f[0], 0.0);
@@ -327,7 +331,11 @@ public class FastFourierTransformer implements Serializable {
     protected Complex[] fft(Complex[] data)
             throws MathIllegalArgumentException {
 
-        verifyDataSet(data);
+        if (!ArithmeticUtils.isPowerOfTwo(data.length)) {
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                    Integer.valueOf(data.length));
+        }
 
         final int n = data.length;
         final Complex[] f = new Complex[n];
@@ -423,38 +431,6 @@ public class FastFourierTransformer implements Serializable {
             f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
         }
         return f;
-    }
-
-    /**
-     * Verifies that the data set has length of power of 2.
-     *
-     * @param d the data array
-     * @throws MathIllegalArgumentException if array length is not a power of 2
-     */
-    public static void verifyDataSet(double[] d)
-        throws MathIllegalArgumentException {
-
-        if (!ArithmeticUtils.isPowerOfTwo(d.length)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(d.length));
-        }
-    }
-
-    /**
-     * Verifies that the data set has length of power of 2.
-     *
-     * @param o the data array
-     * @throws MathIllegalArgumentException if array length is not a power of 2
-     */
-    public static void verifyDataSet(Object[] o)
-        throws MathIllegalArgumentException {
-
-        if (!ArithmeticUtils.isPowerOfTwo(o.length)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(o.length));
-        }
     }
 
     /**

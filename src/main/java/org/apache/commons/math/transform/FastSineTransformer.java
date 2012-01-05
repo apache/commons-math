@@ -23,6 +23,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -259,7 +260,11 @@ public class FastSineTransformer implements RealTransformer {
 
         final double[] transformed = new double[f.length];
 
-        FastFourierTransformer.verifyDataSet(f);
+        if (!ArithmeticUtils.isPowerOfTwo(f.length)) {
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                    Integer.valueOf(f.length));
+        }
         if (f[0] != 0.0) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.FIRST_ELEMENT_NOT_ZERO,
