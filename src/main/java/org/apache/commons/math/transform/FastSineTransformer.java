@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.transform;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
@@ -110,7 +112,11 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id: FastSineTransformer.java 1213157 2011-12-12 07:19:23Z celestin$
  * @since 1.2
  */
-public class FastSineTransformer implements RealTransformer {
+public class FastSineTransformer implements RealTransformer, Serializable {
+
+    /** Serializable version identifier. */
+    static final long serialVersionUID = 20120501L;
+
     /**
      * {@code true} if the orthogonal version of the DCT should be used.
      *

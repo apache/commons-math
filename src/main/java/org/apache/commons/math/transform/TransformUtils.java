@@ -21,7 +21,7 @@ import org.apache.commons.math.complex.Complex;
 /**
  * Useful functions for the implementation of various transforms.
  *
- * @version $Id $
+ * @version $Id$
  * @since 3.0
  */
 public class TransformUtils {

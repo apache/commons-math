@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.transform;
 
+import java.io.Serializable;
+
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -35,7 +37,10 @@ import org.apache.commons.math.util.ArithmeticUtils;
  * @version $Id$
  * @since 2.0
  */
-public class FastHadamardTransformer implements RealTransformer {
+public class FastHadamardTransformer implements RealTransformer, Serializable {
+
+    /** Serializable version identifier. */
+    static final long serialVersionUID = 20120501L;
 
     /**
      * {@inheritDoc}

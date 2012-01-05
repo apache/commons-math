@@ -89,7 +89,7 @@ import org.apache.commons.math.util.FastMath;
 public class FastFourierTransformer implements Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 5138259215438106000L;
+    static final long serialVersionUID = 20120501L;
 
     /**
      * {@code true} if the unitary version of the DFT should be used.
