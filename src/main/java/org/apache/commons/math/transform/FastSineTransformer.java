@@ -168,7 +168,7 @@ public class FastSineTransformer implements RealTransformer {
     public double[] transform(double[] f) throws MathIllegalArgumentException {
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / f.length);
-            return FastFourierTransformer.scaleArray(fst(f), s);
+            return TransformUtils.scaleArray(fst(f), s);
         }
         return fst(f);
     }
@@ -195,7 +195,7 @@ public class FastSineTransformer implements RealTransformer {
         data[0] = 0.0;
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / n);
-            return FastFourierTransformer.scaleArray(fst(data), s);
+            return TransformUtils.scaleArray(fst(data), s);
         }
         return fst(data);
     }
@@ -215,7 +215,7 @@ public class FastSineTransformer implements RealTransformer {
             return transform(f);
         }
         final double s = 2.0 / f.length;
-        return FastFourierTransformer.scaleArray(fst(f), s);
+        return TransformUtils.scaleArray(fst(f), s);
     }
 
     /**
@@ -244,7 +244,7 @@ public class FastSineTransformer implements RealTransformer {
         data[0] = 0.0;
         final double s = 2.0 / n;
 
-        return FastFourierTransformer.scaleArray(fst(data), s);
+        return TransformUtils.scaleArray(fst(data), s);
     }
 
     /**

@@ -54,7 +54,7 @@ public final class FastCosineTransformerTest {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        FastFourierTransformer.scaleArray(x, FastMath.sqrt(0.5 * (x.length-1)));
+        TransformUtils.scaleArray(x, FastMath.sqrt(0.5 * (x.length-1)));
 
         transformer = FastCosineTransformer.createOrthogonal();
         result = transformer.transform(y);

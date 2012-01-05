@@ -64,7 +64,7 @@ public final class FastFourierTransformerTest {
         }
 
         double x2[] = {10.4, 21.6, 40.8, 13.6, 23.2, 32.8, 13.6, 19.2};
-        FastFourierTransformer.scaleArray(x2, 1.0 / FastMath.sqrt(x2.length));
+        TransformUtils.scaleArray(x2, 1.0 / FastMath.sqrt(x2.length));
         Complex y2[] = y;
 
         transformer = FastFourierTransformer.createUnitary();
@@ -93,7 +93,7 @@ public final class FastFourierTransformerTest {
                 1.5), new Complex(-1, -.5)}, new Complex[] {new Complex(-2,
                 -1.5), new Complex(0, .5)}};
         for (int i = 0; i < goodOutput.length; i++) {
-            FastFourierTransformer.scaleArray(
+            TransformUtils.scaleArray(
                 goodOutput[i],
                 FastMath.sqrt(goodOutput[i].length) *
                     FastMath.sqrt(goodOutput.length));

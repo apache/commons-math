@@ -154,7 +154,7 @@ public class FastFourierTransformer implements Serializable {
 
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
-            return scaleArray(fft(f, false), s);
+            return TransformUtils.scaleArray(fft(f, false), s);
         }
         return fft(f, false);
     }
@@ -184,7 +184,7 @@ public class FastFourierTransformer implements Serializable {
         final double[] data = FunctionUtils.sample(f, min, max, n);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(n);
-            return scaleArray(fft(data, false), s);
+            return TransformUtils.scaleArray(fft(data, false), s);
         }
         return fft(data, false);
     }
@@ -204,7 +204,7 @@ public class FastFourierTransformer implements Serializable {
         roots.computeOmega(f.length);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
-            return scaleArray(fft(f), s);
+            return TransformUtils.scaleArray(fft(f), s);
         }
         return fft(f);
     }
@@ -221,7 +221,7 @@ public class FastFourierTransformer implements Serializable {
             throws MathIllegalArgumentException {
 
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
-        return scaleArray(fft(f, true), s);
+        return TransformUtils.scaleArray(fft(f, true), s);
     }
 
     /**
@@ -248,7 +248,7 @@ public class FastFourierTransformer implements Serializable {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
         final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
-        return scaleArray(fft(data, true), s);
+        return TransformUtils.scaleArray(fft(data, true), s);
     }
 
     /**
@@ -264,7 +264,7 @@ public class FastFourierTransformer implements Serializable {
 
         roots.computeOmega(-f.length);    // pass negative argument
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
-        return scaleArray(fft(f), s);
+        return TransformUtils.scaleArray(fft(f), s);
     }
 
     /**
@@ -316,7 +316,7 @@ public class FastFourierTransformer implements Serializable {
             transformed[2 * n - i] = transformed[i].conjugate();
         }
 
-        return scaleArray(transformed, 0.5);
+        return TransformUtils.scaleArray(transformed, 0.5);
     }
 
     /**
@@ -397,38 +397,6 @@ public class FastFourierTransformer implements Serializable {
                     f[j + k] = f[j + k].add(z);
                 }
             }
-        }
-        return f;
-    }
-
-    /**
-     * Multiply every component in the given real array by the
-     * given real number. The change is made in place.
-     *
-     * @param f the real array to be scaled
-     * @param d the real scaling coefficient
-     * @return a reference to the scaled array
-     */
-    public static double[] scaleArray(double[] f, double d) {
-
-        for (int i = 0; i < f.length; i++) {
-            f[i] *= d;
-        }
-        return f;
-    }
-
-    /**
-     * Multiply every component in the given complex array by the
-     * given real number. The change is made in place.
-     *
-     * @param f the complex array to be scaled
-     * @param d the real scaling coefficient
-     * @return a reference to the scaled array
-     */
-    public static Complex[] scaleArray(Complex[] f, double d) {
-
-        for (int i = 0; i < f.length; i++) {
-            f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
         }
         return f;
     }

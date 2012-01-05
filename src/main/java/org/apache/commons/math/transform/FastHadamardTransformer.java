@@ -75,7 +75,7 @@ public class FastHadamardTransformer implements RealTransformer {
     public double[] inverseTransform(double[] f)
         throws IllegalArgumentException {
 
-        return FastFourierTransformer.scaleArray(fht(f), 1.0 / f.length);
+        return TransformUtils.scaleArray(fht(f), 1.0 / f.length);
    }
 
     /**
@@ -96,7 +96,7 @@ public class FastHadamardTransformer implements RealTransformer {
 
         final double[] unscaled =
             fht(FunctionUtils.sample(f, min, max, n));
-        return FastFourierTransformer.scaleArray(unscaled, 1.0 / n);
+        return TransformUtils.scaleArray(unscaled, 1.0 / n);
     }
 
     /**

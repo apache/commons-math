@@ -167,7 +167,7 @@ public class FastCosineTransformer implements RealTransformer {
 
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / (f.length - 1));
-            return FastFourierTransformer.scaleArray(fct(f), s);
+            return TransformUtils.scaleArray(fct(f), s);
         }
         return fct(f);
     }
@@ -203,7 +203,7 @@ public class FastCosineTransformer implements RealTransformer {
 
         final double s2 = 2.0 / (f.length - 1);
         final double s1 = orthogonal ? FastMath.sqrt(s2) : s2;
-        return FastFourierTransformer.scaleArray(fct(f), s1);
+        return TransformUtils.scaleArray(fct(f), s1);
     }
 
     /**
