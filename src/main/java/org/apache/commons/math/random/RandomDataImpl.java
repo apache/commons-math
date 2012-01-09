@@ -593,9 +593,34 @@ public class RandomDataImpl implements RandomData, Serializable {
      * or either bound is infinite or NaN
      */
     public double nextUniform(double lower, double upper) {
+        return nextUniform(lower, upper, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * <strong>Algorithm Description</strong>: if the lower bound is excluded,
+     * scales the output of Random.nextDouble(), but rejects 0 values (i.e.,
+     * will generate another random double if Random.nextDouble() returns 0).
+     * This is necessary to provide a symmetric output interval (both
+     * endpoints excluded).
+     * </p>
+     *
+     * @param lower
+     *            the lower bound.
+     * @param upper
+     *            the upper bound.
+     * @param lowerInclusive
+     *            whether the lower bound is included in the interval
+     * @return a uniformly distributed random value from the interval (lower,
+     *         upper)
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @since 3.0
+     */
+    public double nextUniform(double lower, double upper, boolean lowerInclusive) {
         if (lower >= upper) {
-            throw new MathIllegalArgumentException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                                                lower, upper);
+            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
+                                                lower, upper, false);
         }
 
         if (Double.isInfinite(lower) || Double.isInfinite(upper)) {
@@ -610,7 +635,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
         // ensure nextDouble() isn't 0.0
         double u = generator.nextDouble();
-        while (u <= 0.0) {
+        while (!lowerInclusive && u <= 0.0) {
             u = generator.nextDouble();
         }
 

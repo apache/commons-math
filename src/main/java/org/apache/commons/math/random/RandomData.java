@@ -203,7 +203,7 @@ public interface RandomData {
 
     /**
      * Generates a uniformly distributed random value from the open interval
-     * (<code>lower</code>,<code>upper</code>) (i.e., endpoints excluded).
+     * {@code (lower, upper)} (i.e., endpoints excluded).
      * <p>
      * <strong>Definition</strong>:
      * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
@@ -211,11 +211,6 @@ public interface RandomData {
      * <code>upper - lower</code> are the
      * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
      * location and scale parameters</a>, respectively.</p>
-     * <p>
-     * <strong>Preconditions</strong>:<ul>
-     * <li><code>lower < upper</code> (otherwise an IllegalArgumentException
-     *     is thrown.)</li>
-     * </ul></p>
      *
      * @param lower lower endpoint of the interval of support
      * @param upper upper endpoint of the interval of support
@@ -223,6 +218,29 @@ public interface RandomData {
      * and upper (exclusive)
      */
     double nextUniform(double lower, double upper);
+
+    /**
+     * Generates a uniformly distributed random value from the interval
+     * {@code (lower, upper)} or the interval {@code [lower, upper)}. The lower
+     * bound is thus optionally included, while the upper bound is always
+     * excluded.
+     * <p>
+     * <strong>Definition</strong>:
+     * <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda3662.htm">
+     * Uniform Distribution</a> <code>lower</code> and
+     * <code>upper - lower</code> are the
+     * <a href = "http://www.itl.nist.gov/div898/handbook/eda/section3/eda364.htm">
+     * location and scale parameters</a>, respectively.</p>
+     *
+     * @param lower lower endpoint of the interval of support
+     * @param upper upper endpoint of the interval of support
+     * @param lowerInclusive {@code true} if the lower bound is included in the
+     * interval
+     * @return uniformly distributed random value in the {@code (lower, upper)}
+     * interval, if {@code lowerInclusive} is {@code false}, or in the
+     * {@code [lower, upper)} interval, if {@code lowerInclusive} is {@code true}
+     */
+    double nextUniform(double lower, double upper, boolean lowerInclusive);
 
     /**
      * Generates an integer array of length <code>k</code> whose entries
