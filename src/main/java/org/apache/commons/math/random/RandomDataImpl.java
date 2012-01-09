@@ -589,7 +589,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param lower the lower bound.
      * @param upper the upper bound.
      * @return a uniformly distributed random value from the interval (lower, upper)
-     * @throws MathIllegalArgumentException if {@code lower >= upper}
+     * @throws NumberIsTooLargeException if {@code lower >= upper}
      * or either bound is infinite or NaN
      */
     public double nextUniform(double lower, double upper) {
