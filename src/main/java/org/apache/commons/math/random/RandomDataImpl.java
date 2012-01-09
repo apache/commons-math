@@ -590,7 +590,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param upper the upper bound.
      * @return a uniformly distributed random value from the interval (lower, upper)
      * @throws NumberIsTooLargeException if {@code lower >= upper}
-     * @throws MathIllegalArgumentException if one of the bounds is infinite of
+     * @throws MathIllegalArgumentException if one of the bounds is infinite or
      * {@code NaN}
      * or either bound is infinite or NaN
      */
@@ -617,7 +617,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @return a uniformly distributed random value from the interval (lower,
      *         upper)
      * @throws NumberIsTooLargeException if {@code lower >= upper}
-     * @throws MathIllegalArgumentException if one of the bounds is infinite of
+     * @throws MathIllegalArgumentException if one of the bounds is infinite or
      * {@code NaN}
      * @since 3.0
      */
