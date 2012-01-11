@@ -16,8 +16,12 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.analysis.*;
-import org.apache.commons.math.complex.*;
+import java.util.Random;
+
+import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.function.Sinc;
+import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,6 +35,11 @@ import org.junit.Test;
  * @version $Id$
  */
 public final class FastFourierTransformerTest {
+    /**
+     * The common (for repeatability) seed of all random number generators used
+     * in this test.
+     */
+    private final static long SEED = 20110111L;
 
     /**
      * Test of transformer for the ad hoc data taken from Mathematica.
@@ -214,6 +223,327 @@ public final class FastFourierTransformerTest {
             Assert.fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
             // expected
+        }
+    }
+
+    /** Naive implementation of DFT, for reference. */
+    private static Complex[] dft(final Complex[] x, final int sgn) {
+        final int n = x.length;
+        final double[] cos = new double[n];
+        final double[] sin = new double[n];
+        final Complex[] y = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            final double arg = 2.0 * FastMath.PI * i / n;
+            cos[i] = FastMath.cos(arg);
+            sin[i] = FastMath.sin(arg);
+        }
+        for (int i = 0; i < n; i++) {
+            double yr = 0.0;
+            double yi = 0.0;
+            for (int j = 0; j < n; j++) {
+                final int index = (i * j) % n;
+                final double c = cos[index];
+                final double s = sin[index];
+                final double xr = x[j].getReal();
+                final double xi = x[j].getImaginary();
+                yr += c * xr - sgn * s * xi;
+                yi += sgn * s * xr + c * xi;
+            }
+            y[i] = new Complex(yr, yi);
+        }
+        return y;
+    }
+    
+    @Test
+    public void testStandardTransformComplex() {
+        final boolean forward = true;
+        final boolean standard = true;
+        doTestTransformComplex(2, 1.0E-15, forward, standard);
+        doTestTransformComplex(4, 1.0E-14, forward, standard);
+        doTestTransformComplex(8, 1.0E-14, forward, standard);
+        doTestTransformComplex(16, 1.0E-13, forward, standard);
+        doTestTransformComplex(32, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-13, forward, standard);
+        doTestTransformComplex(128, 1.0E-12, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryTransformComplex() {
+        final boolean forward = true;
+        final boolean standard = false;
+        doTestTransformComplex(2, 1.0E-15, forward, standard);
+        doTestTransformComplex(4, 1.0E-14, forward, standard);
+        doTestTransformComplex(8, 1.0E-14, forward, standard);
+        doTestTransformComplex(16, 1.0E-13, forward, standard);
+        doTestTransformComplex(32, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-13, forward, standard);
+        doTestTransformComplex(128, 1.0E-12, forward, standard);
+    }
+
+    @Test
+    public void testStandardInverseTransformComplex() {
+        final boolean forward = false;
+        final boolean standard = true;
+        doTestTransformComplex(2, 1.0E-15, forward, standard);
+        doTestTransformComplex(4, 1.0E-14, forward, standard);
+        doTestTransformComplex(8, 1.0E-14, forward, standard);
+        doTestTransformComplex(16, 1.0E-13, forward, standard);
+        doTestTransformComplex(32, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-12, forward, standard);
+        doTestTransformComplex(128, 1.0E-12, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryInverseTransformComplex() {
+        final boolean forward = false;
+        final boolean standard = false;
+        doTestTransformComplex(2, 1.0E-15, forward, standard);
+        doTestTransformComplex(4, 1.0E-14, forward, standard);
+        doTestTransformComplex(8, 1.0E-14, forward, standard);
+        doTestTransformComplex(16, 1.0E-13, forward, standard);
+        doTestTransformComplex(32, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-12, forward, standard);
+        doTestTransformComplex(128, 1.0E-12, forward, standard);
+    }
+
+    @Test
+    public void testStandardTransformReal() {
+        final boolean forward = true;
+        final boolean standard = true;
+        doTestTransformReal(2, 1.0E-15, forward, standard);
+        doTestTransformReal(4, 1.0E-14, forward, standard);
+        doTestTransformReal(8, 1.0E-14, forward, standard);
+        doTestTransformReal(16, 1.0E-13, forward, standard);
+        doTestTransformReal(32, 1.0E-13, forward, standard);
+        doTestTransformReal(64, 1.0E-13, forward, standard);
+        doTestTransformReal(128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryTransformReal() {
+        final boolean forward = true;
+        final boolean standard = false;
+        doTestTransformReal(2, 1.0E-15, forward, standard);
+        doTestTransformReal(4, 1.0E-14, forward, standard);
+        doTestTransformReal(8, 1.0E-14, forward, standard);
+        doTestTransformReal(16, 1.0E-13, forward, standard);
+        doTestTransformReal(32, 1.0E-13, forward, standard);
+        doTestTransformReal(64, 1.0E-13, forward, standard);
+        doTestTransformReal(128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testStandardInverseTransformReal() {
+        final boolean forward = false;
+        final boolean standard = true;
+        doTestTransformReal(2, 1.0E-15, forward, standard);
+        doTestTransformReal(4, 1.0E-14, forward, standard);
+        doTestTransformReal(8, 1.0E-14, forward, standard);
+        doTestTransformReal(16, 1.0E-13, forward, standard);
+        doTestTransformReal(32, 1.0E-13, forward, standard);
+        doTestTransformReal(64, 1.0E-12, forward, standard);
+        doTestTransformReal(128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryInverseTransformReal() {
+        final boolean forward = false;
+        final boolean standard = false;
+        doTestTransformReal(2, 1.0E-15, forward, standard);
+        doTestTransformReal(4, 1.0E-14, forward, standard);
+        doTestTransformReal(8, 1.0E-14, forward, standard);
+        doTestTransformReal(16, 1.0E-13, forward, standard);
+        doTestTransformReal(32, 1.0E-13, forward, standard);
+        doTestTransformReal(64, 1.0E-12, forward, standard);
+        doTestTransformReal(128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testStandardTransformFunction() {
+        final UnivariateFunction f = new Sinc();
+        final double min = -FastMath.PI;
+        final double max = FastMath.PI;
+        final boolean forward = true;
+        final boolean standard = true;
+        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
+        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
+        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryTransformFunction() {
+        final UnivariateFunction f = new Sinc();
+        final double min = -FastMath.PI;
+        final double max = FastMath.PI;
+        final boolean forward = true;
+        final boolean standard = false;
+        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
+        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
+        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testStandardInverseTransformFunction() {
+        final UnivariateFunction f = new Sinc();
+        final double min = -FastMath.PI;
+        final double max = FastMath.PI;
+        final boolean forward = false;
+        final boolean standard = true;
+        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
+        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
+        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
+    }
+
+    @Test
+    public void testUnitaryInverseTransformFunction() {
+        final UnivariateFunction f = new Sinc();
+        final double min = -FastMath.PI;
+        final double max = FastMath.PI;
+        final boolean forward = false;
+        final boolean standard = false;
+        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
+        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
+        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
+        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
+        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
+    }
+
+    private static Complex[] createComplexData(final int n) {
+        final Random random = new Random(SEED);
+        final Complex[] data = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            final double re = 2.0 * random.nextDouble() - 1.0;
+            final double im = 2.0 * random.nextDouble() - 1.0;
+            data[i] = new Complex(re, im);
+        }
+        return data;
+    }
+
+    private static double[] createRealData(final int n) {
+        final Random random = new Random(SEED);
+        final double[] data = new double[n];
+        for (int i = 0; i < n; i++) {
+            data[i] = 2.0 * random.nextDouble() - 1.0;
+        }
+        return data;
+    }
+
+    private static void doTestTransformComplex(final int n, final double tol,
+        final boolean forward, final boolean standard) {
+        final FastFourierTransformer fft;
+        if (standard) {
+            fft = FastFourierTransformer.create();
+        } else {
+            fft = FastFourierTransformer.createUnitary();
+        }
+        final Complex[] x = createComplexData(n);
+        final Complex[] expected;
+        final Complex[] actual;
+        final double s;
+        if (forward) {
+            expected = dft(x, -1);
+            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
+            actual = fft.transform(x);
+        } else {
+            expected = dft(x, 1);
+            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
+            actual = fft.inverseTransform(x);
+        }
+        for (int i = 0; i < n; i++) {
+            final String msg = String.format("%d, %d", n, i);
+            final double re = s * expected[i].getReal();
+            Assert.assertEquals(msg, re, actual[i].getReal(),
+                tol * FastMath.abs(re));
+            final double im = s * expected[i].getImaginary();
+            Assert.assertEquals(msg, im, actual[i].getImaginary(), tol *
+                FastMath.abs(re));
+        }
+    }
+
+    private static void doTestTransformReal(final int n, final double tol,
+        final boolean forward, final boolean standard) {
+        final FastFourierTransformer fft;
+        if (standard) {
+            fft = FastFourierTransformer.create();
+        } else {
+            fft = FastFourierTransformer.createUnitary();
+        }
+        final double[] x = createRealData(n);
+        final Complex[] xc = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            xc[i] = new Complex(x[i], 0.0);
+        }
+        final Complex[] expected;
+        final Complex[] actual;
+        final double s;
+        if (forward) {
+            expected = dft(xc, -1);
+            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
+            actual = fft.transform(x);
+        } else {
+            expected = dft(xc, 1);
+            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
+            actual = fft.inverseTransform(x);
+        }
+        for (int i = 0; i < n; i++) {
+            final String msg = String.format("%d, %d", n, i);
+            final double re = s * expected[i].getReal();
+            Assert.assertEquals(msg, re, actual[i].getReal(),
+                tol * FastMath.abs(re));
+            final double im = s * expected[i].getImaginary();
+            Assert.assertEquals(msg, im, actual[i].getImaginary(), tol *
+                FastMath.abs(re));
+        }
+    }
+
+    private static void doTestTransformFunction(final UnivariateFunction f,
+        final double min, final double max, int n, final double tol,
+        final boolean forward, final boolean standard) {
+        final FastFourierTransformer fft;
+        if (standard) {
+            fft = FastFourierTransformer.create();
+        } else {
+            fft = FastFourierTransformer.createUnitary();
+        }
+        final Complex[] x = new Complex[n];
+        for (int i = 0; i < n; i++) {
+            final double t = min + i * (max - min) / n;
+            x[i] = new Complex(f.value(t));
+        }
+        final Complex[] expected;
+        final Complex[] actual;
+        final double s;
+        if (forward) {
+            expected = dft(x, -1);
+            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
+            actual = fft.transform(f, min, max, n);
+        } else {
+            expected = dft(x, 1);
+            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
+            actual = fft.inverseTransform(f, min, max, n);
+        }
+        for (int i = 0; i < n; i++) {
+            final String msg = String.format("%d, %d", n, i);
+            final double re = s * expected[i].getReal();
+            Assert.assertEquals(msg, re, actual[i].getReal(),
+                tol * FastMath.abs(re));
+            final double im = s * expected[i].getImaginary();
+            Assert.assertEquals(msg, im, actual[i].getImaginary(), tol *
+                FastMath.abs(re));
         }
     }
 }
