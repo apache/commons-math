@@ -100,7 +100,10 @@ public class TriangularDistributionTest extends RealDistributionAbstractTest {
         // probability of zero and one, meaning the inverse returns the
         // limits and not the points outside the limits.
         double[] points = makeCumulativeTestValues();
-        return Arrays.copyOfRange(points, 1, points.length - 1);
+        double[] points2 = new double[points.length-2];
+        System.arraycopy(points, 1, points2, 0, points2.length);
+        return points2;
+        //return Arrays.copyOfRange(points, 1, points.length - 1);
     }
 
     /**
@@ -113,7 +116,10 @@ public class TriangularDistributionTest extends RealDistributionAbstractTest {
         // probability of zero and one, meaning the inverse returns the
         // limits and not the points outside the limits.
         double[] points = makeCumulativeTestPoints();
-        return Arrays.copyOfRange(points, 1, points.length - 1);
+        double[] points2 = new double[points.length-2];
+        System.arraycopy(points, 1, points2, 0, points2.length);
+        return points2;
+        //return Arrays.copyOfRange(points, 1, points.length - 1);
     }
 
     /** Creates the default probability density test expected values. */
