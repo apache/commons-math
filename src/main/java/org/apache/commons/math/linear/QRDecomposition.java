@@ -49,7 +49,6 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2 (changed to concrete class in 3.0)
  */
 public class QRDecomposition {
-
     /**
      * A packed TRANSPOSED representation of the QR decomposition.
      * <p>The elements BELOW the diagonal are the elements of the UPPER triangular
@@ -57,27 +56,40 @@ public class QRDecomposition {
      * from which an explicit form of Q can be recomputed if desired.</p>
      */
     private double[][] qrt;
-
     /** The diagonal elements of R. */
     private double[] rDiag;
-
     /** Cached value of Q. */
     private RealMatrix cachedQ;
-
     /** Cached value of QT. */
     private RealMatrix cachedQT;
-
     /** Cached value of R. */
     private RealMatrix cachedR;
-
     /** Cached value of H. */
     private RealMatrix cachedH;
+    /** Singularity threshold. */
+    private final double threshold;
 
     /**
      * Calculates the QR-decomposition of the given matrix.
+     * The singularity threshold defaults to zero.
+     *
      * @param matrix The matrix to decompose.
+     *
+     * @see #QRDecomposition(RealMatrix,double)
      */
     public QRDecomposition(RealMatrix matrix) {
+        this(matrix, 0d);
+    }
+
+    /**
+     * Calculates the QR-decomposition of the given matrix.
+     *
+     * @param matrix The matrix to decompose.
+     * @param threshold Singularity threshold.
+     */
+    public QRDecomposition(RealMatrix matrix,
+                           double threshold) {
+        this.threshold = threshold;
 
         final int m = matrix.getRowDimension();
         final int n = matrix.getColumnDimension();
@@ -268,12 +280,11 @@ public class QRDecomposition {
      * @return a solver
      */
     public DecompositionSolver getSolver() {
-        return new Solver(qrt, rDiag);
+        return new Solver(qrt, rDiag, threshold);
     }
 
     /** Specialized solver. */
     private static class Solver implements DecompositionSolver {
-
         /**
          * A packed TRANSPOSED representation of the QR decomposition.
          * <p>The elements BELOW the diagonal are the elements of the UPPER triangular
@@ -281,25 +292,30 @@ public class QRDecomposition {
          * from which an explicit form of Q can be recomputed if desired.</p>
          */
         private final double[][] qrt;
-
         /** The diagonal elements of R. */
         private final double[] rDiag;
+        /** Singularity threshold. */
+        private final double threshold;
 
         /**
          * Build a solver from decomposed matrix.
-         * @param qrt packed TRANSPOSED representation of the QR decomposition
-         * @param rDiag diagonal elements of R
+         *
+         * @param qrt Packed TRANSPOSED representation of the QR decomposition.
+         * @param rDiag Diagonal elements of R.
+         * @param threshold Singularity threshold.
          */
-        private Solver(final double[][] qrt, final double[] rDiag) {
+        private Solver(final double[][] qrt,
+                       final double[] rDiag,
+                       final double threshold) {
             this.qrt   = qrt;
             this.rDiag = rDiag;
+            this.threshold = threshold;
         }
 
         /** {@inheritDoc} */
         public boolean isNonSingular() {
-
             for (double diag : rDiag) {
-                if (diag == 0) {
+                if (FastMath.abs(diag) <= threshold) {
                     return false;
                 }
             }
