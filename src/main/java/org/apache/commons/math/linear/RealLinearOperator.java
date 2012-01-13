@@ -17,22 +17,23 @@
 
 package org.apache.commons.math.linear;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
+
 /**
  * This class defines a linear operator operating on real ({@code double})
- * vector spaces.
- * No direct access to the coefficients of the underlying matrix is provided.
+ * vector spaces. No direct access to the coefficients of the underlying matrix
+ * is provided.
  *
  * The motivation for such an interface is well stated by
  * <a href="#BARR1994">Barrett et al. (1994)</a>:
  * <blockquote>
  *  We restrict ourselves to iterative methods, which work by repeatedly
  *  improving an approximate solution until it is accurate enough. These
- *  methods access the coefficient matrix {@code A} of the linear system
- *  only via the matrix-vector product {@code y = A x} (and perhaps
- *  {@code z} = {@code A}<sup>T</sup> {@code x}). Thus the user need only
- *  supply a subroutine for computing {@code y} (and perhaps {@code z})
- *  given {@code x}, which permits full exploitation of the sparsity or
- *  other special structure of A.
+ *  methods access the coefficient matrix A of the linear system only via the
+ *  matrix-vector product y = A &middot; x
+ *  (and perhaps z = A<sup>T</sup> &middot; x). Thus the user need only
+ *  supply a subroutine for computing y (and perhaps z) given x, which permits
+ *  full exploitation of the sparsity or other special structure of A.
  * </blockquote>
  * <br/>
  *
@@ -73,4 +74,36 @@ public abstract class RealLinearOperator {
      * if the column dimension does not match the size of {@code x}.
      */
     public abstract RealVector operate(final RealVector x);
+
+    /**
+     * Returns the result of multiplying the transpose of {@code this} operator
+     * by the vector {@code x} (optional operation). The default implementation
+     * throws an {@link UnsupportedOperationException}. Users overriding this
+     * method must also override {@link #isTransposable()}.
+     *
+     * @param x Vector to operate on.
+     * @return the product of the transpose of {@code this} instance with
+     * {@code x}.
+     * @throws org.apache.commons.math.exception.DimensionMismatchException
+     * if the row dimension does not match the size of {@code x}.
+     * @throws UnsupportedOperationException if this operation is not supported
+     * by {@code this} operator
+     */
+    public RealVector operateTranspose(final RealVector x)
+        throws DimensionMismatchException, UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns {@code true} if this operator supports
+     * {@link #operateTranspose(RealVector)}. If {@code true} is returned,
+     * {@link #operateTranspose(RealVector)} should not throw
+     * {@code UnsupportedOperationException}. The default implementation returns
+     * {@code false}.
+     *
+     * @return {@code false}
+     */
+    public boolean isTransposable() {
+        return false;
+    }
 }
