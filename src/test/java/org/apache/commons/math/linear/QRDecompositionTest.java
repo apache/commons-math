@@ -18,28 +18,29 @@
 package org.apache.commons.math.linear;
 
 import java.util.Random;
+import org.apache.commons.math.linear.SingularMatrixException;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 
 public class QRDecompositionTest {
-    double[][] testData3x3NonSingular = {
+    private double[][] testData3x3NonSingular = {
             { 12, -51, 4 },
             { 6, 167, -68 },
             { -4, 24, -41 }, };
 
-    double[][] testData3x3Singular = {
+    private double[][] testData3x3Singular = {
             { 1, 4, 7, },
             { 2, 5, 8, },
             { 3, 6, 9, }, };
 
-    double[][] testData3x4 = {
+    private double[][] testData3x4 = {
             { 12, -51, 4, 1 },
             { 6, 167, -68, 2 },
             { -4, 24, -41, 3 }, };
 
-    double[][] testData4x3 = {
+    private double[][] testData4x3 = {
             { 12, -51, 4, },
             { 6, 167, -68, },
             { -4, 24, -41, },
@@ -238,6 +239,14 @@ public class QRDecompositionTest {
         Assert.assertTrue(r == qr.getR());
         Assert.assertTrue(h == qr.getH());
 
+    }
+
+    @Test(expected=SingularMatrixException.class)
+    public void testNonInvertible() {
+        QRDecomposition qr =
+            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3Singular));
+
+        final RealMatrix inv = qr.getSolver().getInverse();
     }
 
     private RealMatrix createTestMatrix(final Random r, final int rows, final int columns) {
