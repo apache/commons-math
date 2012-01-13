@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.distribution;
 
-import java.util.Arrays;
-
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.junit.Assert;
