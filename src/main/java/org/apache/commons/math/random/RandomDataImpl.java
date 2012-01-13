@@ -187,19 +187,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <strong>Algorithm Description:</strong> hex strings are generated using a
      * 2-step process.
      * <ol>
-     * <li>
-     * len/2+1 binary bytes are generated using the underlying Random</li>
-     * <li>
-     * Each binary byte is translated into 2 hex digits</li>
+     * <li>{@code len / 2 + 1} binary bytes are generated using the underlying
+     * Random</li>
+     * <li>Each binary byte is translated into 2 hex digits</li>
      * </ol>
      * </p>
      *
-     * @param len
-     *            the desired string length.
+     * @param len the desired string length.
      * @return the random string.
      * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
-    public String nextHexString(int len) {
+    public String nextHexString(int len) throws NotStrictlyPositiveException {
         if (len <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
@@ -234,38 +232,18 @@ public class RandomDataImpl implements RandomData, Serializable {
         return outBuffer.toString().substring(0, len);
     }
 
-    /**
-     * Generate a random int value uniformly distributed between
-     * <code>lower</code> and <code>upper</code>, inclusive.
-     *
-     * @param lower
-     *            the lower bound.
-     * @param upper
-     *            the upper bound.
-     * @return the random integer.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
-    public int nextInt(int lower, int upper) {
+    /** {@inheritDoc} */
+    public int nextInt(int lower, int upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
         double r = getRan().nextDouble();
         double scaled = r * upper + (1.0 - r) * lower + r;
-        return (int)FastMath.floor(scaled);
+        return (int) FastMath.floor(scaled);
     }
 
-    /**
-     * Generate a random long value uniformly distributed between
-     * <code>lower</code> and <code>upper</code>, inclusive.
-     *
-     * @param lower
-     *            the lower bound.
-     * @param upper
-     *            the upper bound.
-     * @return the random integer.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
+    /** {@inheritDoc} */
     public long nextLong(long lower, long upper) {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -291,13 +269,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Each byte of the binary digest is converted to 2 hex digits.</li>
      * </ol>
      * </p>
-     *
-     * @param len
-     *            the length of the generated string
-     * @return the random string
-     * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
-    public String nextSecureHexString(int len) {
+    public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
         if (len <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
@@ -323,7 +296,7 @@ public class RandomDataImpl implements RandomData, Serializable {
             alg.update(randomBytes);
 
             // Compute hash -- will create 20-byte binary hash
-            byte hash[] = alg.digest();
+            byte[] hash = alg.digest();
 
             // Loop over the hash, converting each byte to 2 hex digits
             for (int i = 0; i < hash.length; i++) {
@@ -346,18 +319,7 @@ public class RandomDataImpl implements RandomData, Serializable {
         return outBuffer.toString().substring(0, len);
     }
 
-    /**
-     * Generate a random int value uniformly distributed between
-     * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
-     * a secure random number generator.
-     *
-     * @param lower
-     *            the lower bound.
-     * @param upper
-     *            the upper bound.
-     * @return the random integer.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
+    /**  {@inheritDoc} */
     public int nextSecureInt(int lower, int upper) {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -369,19 +331,10 @@ public class RandomDataImpl implements RandomData, Serializable {
         return (int)FastMath.floor(scaled);
     }
 
-    /**
-     * Generate a random long value uniformly distributed between
-     * <code>lower</code> and <code>upper</code>, inclusive. This algorithm uses
-     * a secure random number generator.
-     *
-     * @param lower
-     *            the lower bound.
-     * @param upper
-     *            the upper bound.
-     * @return the random integer.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     */
-    public long nextSecureLong(long lower, long upper) {
+    /** {@inheritDoc} */
+    public long nextSecureLong(long lower, long upper)
+        throws NumberIsTooLargeException {
+
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
@@ -404,12 +357,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      * <li> For large means, uses the rejection algorithm described in <br/>
      * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
      * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
-     *
-     * @param mean mean of the Poisson distribution.
-     * @return the random Poisson value.
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
-    public long nextPoisson(double mean) {
+    public long nextPoisson(double mean) throws NotStrictlyPositiveException {
         if (mean <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
@@ -500,19 +449,10 @@ public class RandomDataImpl implements RandomData, Serializable {
         }
     }
 
-    /**
-     * Generate a random value from a Normal (a.k.a. Gaussian) distribution with
-     * the given mean, <code>mu</code> and the given standard deviation,
-     * <code>sigma</code>.
-     *
-     * @param mu
-     *            the mean of the distribution
-     * @param sigma
-     *            the standard deviation of the distribution
-     * @return the random Normal value
-     * @throws NotStrictlyPositiveException if {@code sigma <= 0}.
-     */
-    public double nextGaussian(double mu, double sigma) {
+    /** {@inheritDoc} */
+    public double nextGaussian(double mu, double sigma)
+        throws NotStrictlyPositiveException {
+
         if (sigma <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sigma);
         }
@@ -520,8 +460,8 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Returns a random value from an Exponential distribution with the given
-     * mean.
+     * {@inheritDoc}
+     *
      * <p>
      * <strong>Algorithm Description</strong>: Uses the Algorithm SA (Ahrens)
      * from p. 876 in:
@@ -529,12 +469,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * sampling from the exponential and normal distributions.
      * Communications of the ACM, 15, 873-882.
      * </p>
-     *
-     * @param mean the mean of the distribution
-     * @return the random Exponential value
-     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
      */
-    public double nextExponential(double mean) {
+    public double nextExponential(double mean)
+        throws NotStrictlyPositiveException {
+
         if (mean <= 0.0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
@@ -579,6 +517,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * {@inheritDoc}
+     *
      * <p>
      * <strong>Algorithm Description</strong>: scales the output of
      * Random.nextDouble(), but rejects 0 values (i.e., will generate another
@@ -586,20 +525,18 @@ public class RandomDataImpl implements RandomData, Serializable {
      * provide a symmetric output interval (both endpoints excluded).
      * </p>
      *
-     * @param lower the lower bound.
-     * @param upper the upper bound.
-     * @return a uniformly distributed random value from the interval (lower, upper)
-     * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws MathIllegalArgumentException if one of the bounds is infinite or
-     * {@code NaN}
-     * or either bound is infinite or NaN
+     * {@code NaN} or either bound is infinite or NaN
      */
-    public double nextUniform(double lower, double upper) {
+    public double nextUniform(double lower, double upper)
+        throws NumberIsTooLargeException, MathIllegalArgumentException {
+
         return nextUniform(lower, upper, false);
     }
 
     /**
      * {@inheritDoc}
+     *
      * <p>
      * <strong>Algorithm Description</strong>: if the lower bound is excluded,
      * scales the output of Random.nextDouble(), but rejects 0 values (i.e.,
@@ -608,20 +545,14 @@ public class RandomDataImpl implements RandomData, Serializable {
      * endpoints excluded).
      * </p>
      *
-     * @param lower
-     *            the lower bound.
-     * @param upper
-     *            the upper bound.
-     * @param lowerInclusive
-     *            whether the lower bound is included in the interval
-     * @return a uniformly distributed random value from the interval (lower,
-     *         upper)
-     * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws MathIllegalArgumentException if one of the bounds is infinite or
      * {@code NaN}
      * @since 3.0
      */
-    public double nextUniform(double lower, double upper, boolean lowerInclusive) {
+    public double nextUniform(double lower, double upper,
+        boolean lowerInclusive)
+        throws NumberIsTooLargeException, MathIllegalArgumentException {
+
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
@@ -997,41 +928,20 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates an integer array of length <code>k</code> whose entries are
-     * selected randomly, without repetition, from the integers
-     * <code>0 through n-1</code> (inclusive).
-     * <p>
-     * Generated arrays represent permutations of <code>n</code> taken
-     * <code>k</code> at a time.
-     * </p>
-     * <p>
-     * <strong>Preconditions:</strong>
-     * <ul>
-     * <li> <code>k <= n</code></li>
-     * <li> <code>n > 0</code></li>
-     * </ul>
-     * If the preconditions are not met, an IllegalArgumentException is thrown.
-     * </p>
+     * {@inheritDoc}
+     *
      * <p>
      * Uses a 2-cycle permutation shuffle. The shuffling process is described <a
      * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>.
      * </p>
-     *
-     * @param n
-     *            domain of the permutation (must be positive)
-     * @param k
-     *            size of the permutation (must satisfy 0 < k <= n).
-     * @return the random permutation as an int array
-     * @throws NumberIsTooLargeException if {@code k > n}.
-     * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
     public int[] nextPermutation(int n, int k) {
         if (k > n) {
             throw new NumberIsTooLargeException(LocalizedFormats.PERMUTATION_EXCEEDS_N,
                                                 k, n, true);
         }
-        if (k == 0) {
+        if (k <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.PERMUTATION_SIZE,
                                                    k);
         }
@@ -1047,24 +957,21 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Uses a 2-cycle permutation shuffle to generate a random permutation.
+     * {@inheritDoc}
+     *
+     * <p>
      * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation
      * shuffle to generate a random permutation of <code>c.size()</code> and
      * then returns the elements whose indexes correspond to the elements of the
      * generated permutation. This technique is described, and proven to
-     * generate random samples, <a
+     * generate random samples <a
      * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
      * here</a>
-     *
-     * @param c
-     *            Collection to sample from.
-     * @param k
-     *            sample size.
-     * @return the random sample.
-     * @throws NumberIsTooLargeException if {@code k > c.size()}.
-     * @throws NotStrictlyPositiveException if {@code k <= 0}.
+     * </p>
      */
-    public Object[] nextSample(Collection<?> c, int k) {
+    public Object[] nextSample(Collection<?> c, int k)
+        throws NumberIsTooLargeException, NotStrictlyPositiveException {
+
         int len = c.size();
         if (k > len) {
             throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE,
