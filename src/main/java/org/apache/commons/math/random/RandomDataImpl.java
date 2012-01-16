@@ -197,7 +197,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @return the random string.
      * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
-    public String nextHexString(int len) throws NotStrictlyPositiveException {
+    public String nextHexString(int len) {
         if (len <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
@@ -233,7 +233,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /** {@inheritDoc} */
-    public int nextInt(int lower, int upper) throws NumberIsTooLargeException {
+    public int nextInt(int lower, int upper) {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
@@ -270,7 +270,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * </ol>
      * </p>
      */
-    public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
+    public String nextSecureHexString(int len) {
         if (len <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.LENGTH, len);
         }
@@ -332,8 +332,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /** {@inheritDoc} */
-    public long nextSecureLong(long lower, long upper)
-        throws NumberIsTooLargeException {
+    public long nextSecureLong(long lower, long upper) {
 
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -358,7 +357,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
      * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
      */
-    public long nextPoisson(double mean) throws NotStrictlyPositiveException {
+    public long nextPoisson(double mean) {
         if (mean <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
@@ -450,8 +449,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /** {@inheritDoc} */
-    public double nextGaussian(double mu, double sigma)
-        throws NotStrictlyPositiveException {
+    public double nextGaussian(double mu, double sigma) {
 
         if (sigma <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sigma);
@@ -470,8 +468,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Communications of the ACM, 15, 873-882.
      * </p>
      */
-    public double nextExponential(double mean)
-        throws NotStrictlyPositiveException {
+    public double nextExponential(double mean) {
 
         if (mean <= 0.0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
@@ -528,8 +525,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @throws MathIllegalArgumentException if one of the bounds is infinite or
      * {@code NaN} or either bound is infinite or NaN
      */
-    public double nextUniform(double lower, double upper)
-        throws NumberIsTooLargeException, MathIllegalArgumentException {
+    public double nextUniform(double lower, double upper) {
 
         return nextUniform(lower, upper, false);
     }
@@ -550,8 +546,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 3.0
      */
     public double nextUniform(double lower, double upper,
-        boolean lowerInclusive)
-        throws NumberIsTooLargeException, MathIllegalArgumentException {
+        boolean lowerInclusive) {
 
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -969,8 +964,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * here</a>
      * </p>
      */
-    public Object[] nextSample(Collection<?> c, int k)
-        throws NumberIsTooLargeException, NotStrictlyPositiveException {
+    public Object[] nextSample(Collection<?> c, int k) {
 
         int len = c.size();
         if (k > len) {
