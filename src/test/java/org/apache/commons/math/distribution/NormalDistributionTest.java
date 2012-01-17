@@ -22,9 +22,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases for NormalDistribution.
- * Extends ContinuousDistributionAbstractTest.  See class javadoc for
- * ContinuousDistributionAbstractTest for details.
+ * Test cases for {@link NormalDistribution}. Extends
+ * {@link RealDistributionAbstractTest}. See class javadoc of that class
+ * for details.
  *
  * @version $Id$
  */
@@ -32,7 +32,7 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
 
     //-------------- Implementations for abstract methods -----------------------
 
-    /** Creates the default continuous distribution instance to use in tests. */
+    /** Creates the default real distribution instance to use in tests. */
     @Override
     public NormalDistribution makeDistribution() {
         return new NormalDistribution(2.1, 1.4);
@@ -170,8 +170,7 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
         Assert.assertEquals(distribution.cumulativeProbability(-Double.MAX_VALUE), 0, 0);
         Assert.assertEquals(distribution.cumulativeProbability(Double.POSITIVE_INFINITY), 1, 0);
         Assert.assertEquals(distribution.cumulativeProbability(Double.NEGATIVE_INFINITY), 0, 0);
-
-   }
+    }
 
     @Test
     public void testMath280() {
