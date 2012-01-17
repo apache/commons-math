@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * <a id="parameters"><strong>Parameters:</strong></a>
  * {@code X} is log-normally distributed if its natural logarithm {@code log(X)}
  * is normally distributed. The probability distribution function of {@code X}
- * is given by (for {@code x >= 0})
+ * is given by (for {@code x > 0})
  * </p>
  * <p>
  * {@code exp(-0.5 * ((ln(x) - m) / s)^2) / (s * sqrt(2 * pi) * x)}
