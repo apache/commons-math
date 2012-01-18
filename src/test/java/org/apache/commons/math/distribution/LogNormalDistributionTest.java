@@ -164,13 +164,13 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testGetMean() {
+    public void testGetScale() {
         LogNormalDistribution distribution = (LogNormalDistribution)getDistribution();
         Assert.assertEquals(2.1, distribution.getScale(), 0);
     }
 
     @Test
-    public void testGetStandardDeviation() {
+    public void testGetShape() {
         LogNormalDistribution distribution = (LogNormalDistribution)getDistribution();
         Assert.assertEquals(1.4, distribution.getShape(), 0);
     }
@@ -193,8 +193,9 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
                                                0.1836267118});
     }
 
-    private void checkDensity(double mean, double sd, double[] x, double[] expected) {
-        LogNormalDistribution d = new LogNormalDistribution(mean, sd);
+    private void checkDensity(double scale, double shape, double[] x,
+        double[] expected) {
+        LogNormalDistribution d = new LogNormalDistribution(scale, shape);
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(expected[i], d.density(x[i]), 1e-9);
         }

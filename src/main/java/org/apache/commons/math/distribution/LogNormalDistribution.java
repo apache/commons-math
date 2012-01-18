@@ -27,7 +27,7 @@ import org.apache.commons.math.util.FastMath;
  * Implementation of the log-normal (gaussian) distribution.
  *
  * <p>
- * <a id="parameters"><strong>Parameters:</strong></a>
+ * <strong>Parameters:</strong>
  * {@code X} is log-normally distributed if its natural logarithm {@code log(X)}
  * is normally distributed. The probability distribution function of {@code X}
  * is given by (for {@code x > 0})
@@ -64,19 +64,17 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     /** &radic;(2) */
     private static final double SQRT2 = FastMath.sqrt(2.0);
 
-    /** The <a href="#parameters">scale</a> parameter of this distribution. */
+    /** The scale parameter of this distribution. */
     private final double scale;
 
-    /** The <a href="#parameters">shape</a> parameter of this distribution. */
+    /** The shape parameter of this distribution. */
     private final double shape;
 
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Create a log-normal distribution using the specified
-     * <a href="#parameters">scale</a> and
-     * <a href="#parameters">shape</a>.
+     * Create a log-normal distribution using the specified scale and shape.
      *
      * @param scale the scale parameter of this distribution
      * @param shape the shape parameter of this distribution
@@ -88,8 +86,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a log-normal distribution using the specified
-     * <a href="#parameters">scale</a>, <a href="#parameters">shape</a> and
+     * Create a log-normal distribution using the specified scale, shape and
      * inverse cumulative distribution accuracy.
      *
      * @param scale the scale parameter of this distribution
@@ -100,7 +97,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     public LogNormalDistribution(double scale, double shape,
         double inverseCumAccuracy) throws NotStrictlyPositiveException {
         if (shape <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, shape);
+            throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }
 
         this.scale = scale;
@@ -120,7 +117,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Returns the <a href="#parameters">scale</a> parameter of this distribution.
+     * Returns the scale parameter of this distribution.
      *
      * @return the scale parameter
      */
@@ -129,8 +126,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Returns the <a href="#parameters">shape</a> parameter of this
-     * distribution.
+     * Returns the shape parameter of this distribution.
      *
      * @return the shape parameter
      */
