@@ -25,8 +25,6 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -149,9 +147,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] transform(double[] f)
-            throws MathIllegalArgumentException {
-
+    public Complex[] transform(double[] f) {
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
             return TransformUtils.scaleArray(fft(f, false), s);
@@ -168,18 +164,15 @@ public class FastFourierTransformer implements Serializable {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex transformed array
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative
+     * @throws org.apache.commons.math.exception.NumberIsTooLargeException
+     * if the lower bound is greater than, or equal to the upper bound
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if the number of sample points {@code n} is negative
      * @throws MathIllegalArgumentException if the number of sample points
      * {@code n} is not a power of two
      */
     public Complex[] transform(UnivariateFunction f,
-            double min, double max, int n) throws
-            NonMonotonicSequenceException,
-            NotStrictlyPositiveException,
-            MathIllegalArgumentException {
+            double min, double max, int n) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
         if (unitary) {
@@ -197,9 +190,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] transform(Complex[] f)
-            throws MathIllegalArgumentException {
-
+    public Complex[] transform(Complex[] f) {
         // TODO Is this necessary?
         roots.computeOmega(f.length);
         if (unitary) {
@@ -217,9 +208,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] inverseTransform(double[] f)
-            throws MathIllegalArgumentException {
-
+    public Complex[] inverseTransform(double[] f) {
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
         return TransformUtils.scaleArray(fft(f, true), s);
     }
@@ -233,19 +222,15 @@ public class FastFourierTransformer implements Serializable {
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
      * @return the complex inversely transformed array
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative
+     * @throws org.apache.commons.math.exception.NumberIsTooLargeException
+     * if the lower bound is greater than, or equal to the upper bound
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if the number of sample points {@code n} is negative
      * @throws MathIllegalArgumentException if the number of sample points
      * {@code n} is not a power of two
      */
     public Complex[] inverseTransform(UnivariateFunction f,
-            double min, double max, int n) throws
-            NonMonotonicSequenceException,
-            NotStrictlyPositiveException,
-            MathIllegalArgumentException {
-
+            double min, double max, int n) {
         final double[] data = FunctionUtils.sample(f, min, max, n);
         final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
         return TransformUtils.scaleArray(fft(data, true), s);
@@ -259,9 +244,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] inverseTransform(Complex[] f)
-            throws MathIllegalArgumentException {
-
+    public Complex[] inverseTransform(Complex[] f) {
         roots.computeOmega(-f.length);    // pass negative argument
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
         return TransformUtils.scaleArray(fft(f), s);
@@ -277,8 +260,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    protected Complex[] fft(double[] f, boolean isInverse)
-            throws MathIllegalArgumentException {
+    protected Complex[] fft(double[] f, boolean isInverse) {
 
         if (!ArithmeticUtils.isPowerOfTwo(f.length)) {
             throw new MathIllegalArgumentException(
@@ -328,8 +310,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    protected Complex[] fft(Complex[] data)
-            throws MathIllegalArgumentException {
+    protected Complex[] fft(Complex[] data) {
 
         if (!ArithmeticUtils.isPowerOfTwo(data.length)) {
             throw new MathIllegalArgumentException(
@@ -418,9 +399,7 @@ public class FastFourierTransformer implements Serializable {
      * id est {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
      */
-    public Object mdfft(Object mdca, boolean forward)
-        throws IllegalArgumentException {
-
+    public Object mdfft(Object mdca, boolean forward) {
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
         int[] dimensionSize = mdcm.getDimensionSizes();
@@ -442,8 +421,7 @@ public class FastFourierTransformer implements Serializable {
      * @throws IllegalArgumentException if any dimension is not a power of two
      */
     private void mdfft(MultiDimensionalComplexMatrix mdcm,
-            boolean forward, int d, int[] subVector) throws
-            IllegalArgumentException {
+            boolean forward, int d, int[] subVector) {
 
         int[] dimensionSize = mdcm.getDimensionSizes();
         //if done
