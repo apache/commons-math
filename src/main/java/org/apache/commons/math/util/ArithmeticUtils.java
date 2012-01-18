@@ -99,7 +99,8 @@ public final class ArithmeticUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws MathIllegalNumberException if preconditions are not met.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws MathArithmeticException if the result is too large to be
      * represented by a long integer.
      */
@@ -178,7 +179,8 @@ public final class ArithmeticUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws IllegalArgumentException if preconditions are not met.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      */
     public static double binomialCoefficientDouble(final int n, final int k) {
         ArithmeticUtils.checkBinomial(n, k);
@@ -219,7 +221,8 @@ public final class ArithmeticUtils {
      * @param n the size of the set
      * @param k the size of the subsets to be counted
      * @return {@code n choose k}
-     * @throws IllegalArgumentException if preconditions are not met.
+     * @throws NotPositiveException if {@code n < 0}.
+     * @throws NumberIsTooLargeException if {@code k > n}.
      */
     public static double binomialCoefficientLog(final int n, final int k) {
         ArithmeticUtils.checkBinomial(n, k);
