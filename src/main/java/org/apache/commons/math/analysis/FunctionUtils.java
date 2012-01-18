@@ -18,8 +18,8 @@
 package org.apache.commons.math.analysis;
 
 import org.apache.commons.math.analysis.function.Identity;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -309,15 +309,13 @@ public class FunctionUtils {
      * @param max the (exclusive) upper bound of the interval
      * @param n the number of sample points
      * @return the array of samples
-     * @throws NonMonotonicSequenceException if the lower bound {@code min} is
+     * @throws NumberIsTooLargeException if the lower bound {@code min} is
      * greater than, or equal to the upper bound {@code max}
      * @throws NotStrictlyPositiveException if the number of sample points
      * {@code n} is negative
      */
     public static double[] sample(UnivariateFunction f,
-            double min, double max, int n) throws
-            NonMonotonicSequenceException,
-            NotStrictlyPositiveException {
+            double min, double max, int n) {
 
         if (n <= 0) {
             throw new NotStrictlyPositiveException(
@@ -325,10 +323,7 @@ public class FunctionUtils {
                     Integer.valueOf(n));
         }
         if (min >= max) {
-            throw new NonMonotonicSequenceException(
-                    Double.valueOf(max),
-                    Double.valueOf(min),
-                    1);
+            throw new NumberIsTooLargeException(min, max, false);
         }
 
         double[] s = new double[n];
