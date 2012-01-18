@@ -64,19 +64,22 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     private int count;
 
     /** Accumulator */
-    private int a;
+    private int isaacA;
 
     /** The last result */
-    private int b;
+    private int isaacB;
 
     /** Counter, guarantees cycle is at least 2^40 */
-    private int c;
+    private int isaacC;
 
-    /** The global service variables */
+    /** Service variable. */
     private transient int[] arr;
-    private transient int x;
-    private transient int i;
-    private transient int j;
+    /** Service variable. */
+    private transient int isaacX;
+    /** Service variable. */
+    private transient int isaacI;
+    /** Service variable. */
+    private transient int isaacJ;
 
 
     /**
@@ -136,12 +139,13 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
             setSeed(System.currentTimeMillis() + System.identityHashCode(this));
             return;
         }
-        int seedLen = seed.length, rslLen = rsl.length;
+        final int seedLen = seed.length;
+        final int rslLen = rsl.length;
         System.arraycopy(seed, 0, rsl, 0, Math.min(seedLen, rslLen));
         if (seedLen < rslLen) {
-            for (i = seedLen; i < rslLen; i++) {
-                long k = rsl[i - seedLen];
-                rsl[i] = (int) (0x6c078965L * (k ^ k >> 30) + i & 0xffffffffL);
+            for (int j = seedLen; j < rslLen; j++) {
+                long k = rsl[j - seedLen];
+                rsl[j] = (int) (0x6c078965L * (k ^ k >> 30) + j & 0xffffffffL);
             }
         }
         initState();
@@ -159,79 +163,81 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
 
     /** Generate 256 results */
     private void isaac() {
-        i = 0;
-        j = H_SIZE;
-        b += ++c;
-        while (i < H_SIZE) {
+        isaacI = 0;
+        isaacJ = H_SIZE;
+        isaacB += ++isaacC;
+        while (isaacI < H_SIZE) {
             isaac2();
         }
-        j = 0;
-        while (j < H_SIZE) {
+        isaacJ = 0;
+        while (isaacJ < H_SIZE) {
             isaac2();
         }
     }
 
     /** Intermediate internal loop. */
     private void isaac2() {
-        x = mem[i];
-        a ^= a << 13;
-        a += mem[j++];
+        isaacX = mem[isaacI];
+        isaacA ^= isaacA << 13;
+        isaacA += mem[isaacJ++];
         isaac3();
-        x = mem[i];
-        a ^= a >>> 6;
-        a += mem[j++];
+        isaacX = mem[isaacI];
+        isaacA ^= isaacA >>> 6;
+        isaacA += mem[isaacJ++];
         isaac3();
-        x = mem[i];
-        a ^= a << 2;
-        a += mem[j++];
+        isaacX = mem[isaacI];
+        isaacA ^= isaacA << 2;
+        isaacA += mem[isaacJ++];
         isaac3();
-        x = mem[i];
-        a ^= a >>> 16;
-        a += mem[j++];
+        isaacX = mem[isaacI];
+        isaacA ^= isaacA >>> 16;
+        isaacA += mem[isaacJ++];
         isaac3();
     }
 
     /** Lowest level internal loop. */
     private void isaac3() {
-        mem[i] = mem[(x & MASK) >> 2] + a + b;
-        b = mem[(mem[i] >> SIZE_L & MASK) >> 2] + x;
-        rsl[i++] = b;
+        mem[isaacI] = mem[(isaacX & MASK) >> 2] + isaacA + isaacB;
+        isaacB = mem[(mem[isaacI] >> SIZE_L & MASK) >> 2] + isaacX;
+        rsl[isaacI++] = isaacB;
     }
 
     /** Initialize, or reinitialize, this instance of rand. */
     private void initState() {
-        a = b = c = 0;
-        for (i = 0; i < arr.length; i++) {
-            arr[i] = GLD_RATIO;
+        isaacA = 0;
+        isaacB = 0;
+        isaacC = 0;
+        for (int j = 0; j < arr.length; j++) {
+            arr[j] = GLD_RATIO;
         }
-        for (i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
             shuffle();
         }
         // fill in mem[] with messy stuff
-        for (i = 0; i < SIZE; i += 8) {
-            arr[0] += rsl[i];
-            arr[1] += rsl[i + 1];
-            arr[2] += rsl[i + 2];
-            arr[3] += rsl[i + 3];
-            arr[4] += rsl[i + 4];
-            arr[5] += rsl[i + 5];
-            arr[6] += rsl[i + 6];
-            arr[7] += rsl[i + 7];
+        for (int j = 0; j < SIZE; j += 8) {
+            arr[0] += rsl[j];
+            arr[1] += rsl[j + 1];
+            arr[2] += rsl[j + 2];
+            arr[3] += rsl[j + 3];
+            arr[4] += rsl[j + 4];
+            arr[5] += rsl[j + 5];
+            arr[6] += rsl[j + 6];
+            arr[7] += rsl[j + 7];
             shuffle();
-            setState();
+            setState(j);
         }
         // second pass makes all of seed affect all of mem
-        for (i = 0; i < SIZE; i += 8) {
-            arr[0] += mem[i];
-            arr[1] += mem[i + 1];
-            arr[2] += mem[i + 2];
-            arr[3] += mem[i + 3];
-            arr[4] += mem[i + 4];
-            arr[5] += mem[i + 5];
-            arr[6] += mem[i + 6];
-            arr[7] += mem[i + 7];
+        for (int j = 0; j < SIZE; j += 8) {
+            arr[0] += mem[j];
+            arr[1] += mem[j + 1];
+            arr[2] += mem[j + 2];
+            arr[3] += mem[j + 3];
+            arr[4] += mem[j + 4];
+            arr[5] += mem[j + 5];
+            arr[6] += mem[j + 6];
+            arr[7] += mem[j + 7];
             shuffle();
-            setState();
+            setState(j);
         }
         isaac();
         count = SIZE - 1;
@@ -266,15 +272,18 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
         arr[0] += arr[1];
     }
 
-    /** Set the state by copying the internal arrays. */
-    private void setState() {
-        mem[i] = arr[0];
-        mem[i + 1] = arr[1];
-        mem[i + 2] = arr[2];
-        mem[i + 3] = arr[3];
-        mem[i + 4] = arr[4];
-        mem[i + 5] = arr[5];
-        mem[i + 6] = arr[6];
-        mem[i + 7] = arr[7];
+    /** Set the state by copying the internal arrays.
+     *
+     * @param start First index into {@link #mem} array.
+     */
+    private void setState(int start) {
+        mem[start] = arr[0];
+        mem[start + 1] = arr[1];
+        mem[start + 2] = arr[2];
+        mem[start + 3] = arr[3];
+        mem[start + 4] = arr[4];
+        mem[start + 5] = arr[5];
+        mem[start + 6] = arr[6];
+        mem[start + 7] = arr[7];
     }
 }
