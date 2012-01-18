@@ -216,7 +216,9 @@ public class LevenbergMarquardtOptimizerTest {
                              new double[] { 0, 0, 0 });
         Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
 
-        optimizer.getCovariances();
+        // The default singularity threshold (1e-14) does not trigger the
+        // expected exception.
+        double[][] cov = optimizer.getCovariances(1.5e-14);
     }
 
     @Test

@@ -177,7 +177,7 @@ public class QRDecomposition {
             // R is supposed to be m x n
             final int n = qrt.length;
             final int m = qrt[0].length;
-            double[][] ra = new double[m][n];         
+            double[][] ra = new double[m][n];
             // copy the diagonal from rDiag and the upper triangle of qr
             for (int row = FastMath.min(m, n) - 1; row >= 0; row--) {
                 ra[row][row] = rDiag[row];

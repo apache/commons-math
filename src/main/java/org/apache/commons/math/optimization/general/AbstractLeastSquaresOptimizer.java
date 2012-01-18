@@ -22,7 +22,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.linear.LUDecomposition;
+import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.optimization.ConvergenceChecker;
@@ -180,6 +180,8 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the covariance matrix.
      * @throws org.apache.commons.math.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
+     *
+     * @see #getCovriances(double)
      */
     public double[][] getCovariances() {
         return getCovariances(DEFAULT_SINGULARITY_THRESHOLD);
@@ -187,6 +189,13 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Get the covariance matrix of the optimized parameters.
+     * <br/>
+     * Note that this operation involves the inversion of the
+     * <code>J<sup>T</sup>J</code> matrix, where {@code J} is the
+     * Jacobian matrix.
+     * The {@code threshold} parameter is a way for the caller to specify
+     * that the result of this computation should be considered meaningless,
+     * and thus trigger an exception.
      *
      * @param threshold Singularity threshold.
      * @return the covariance matrix.
@@ -212,7 +221,7 @@ public abstract class AbstractLeastSquaresOptimizer
 
         // Compute the covariances matrix.
         final DecompositionSolver solver
-            = new LUDecomposition(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
+            = new QRDecomposition(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
         return solver.getInverse().getData();
     }
 
