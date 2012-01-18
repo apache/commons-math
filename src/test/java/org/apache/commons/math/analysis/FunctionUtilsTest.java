@@ -33,8 +33,8 @@ import org.apache.commons.math.analysis.function.Pow;
 import org.apache.commons.math.analysis.function.Power;
 import org.apache.commons.math.analysis.function.Sin;
 import org.apache.commons.math.analysis.function.Sinc;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -204,7 +204,7 @@ public class FunctionUtilsTest {
         }
     }
 
-    @Test(expected = NonMonotonicSequenceException.class)
+    @Test(expected = NumberIsTooLargeException.class)
     public void testSampleWrongBounds(){
         FunctionUtils.sample(new Sin(), Math.PI, 0.0, 10);
     }
