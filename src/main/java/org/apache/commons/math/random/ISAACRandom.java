@@ -20,58 +20,50 @@ package org.apache.commons.math.random;
 import java.io.Serializable;
 
 /**
- * <h3>ISAAC: a fast cryptographic pseudo-random number generator</h3>
- * <p/>
- * ISAAC (Indirection, Shift, Accumulate, Add, and Count) generates 32-bit random numbers.<br>
- * ISAAC has been designed to be cryptographically secure and is inspired by RC4.<br>
- * Cycles are guaranteed to be at least 2<sup>40</sup> values long, and they are 2<sup>8295</sup>
- * values long on average.<br>
- * The results are uniformly distributed, unbiased, and unpredictable unless you know the seed.<br>
- * <br>
- * This is Java implementation (with minor changes and improvements) of original algorithm by Bob Jenkins.<br>
- * <br>
+ * <a href="http://burtleburtle.net/bob/rand/isaacafa.html">
+ *  ISAAC: a fast cryptographic pseudo-random number generator</a>
+ * <br/>
+ * ISAAC (Indirection, Shift, Accumulate, Add, and Count) generates 32-bit
+ * random numbers.
+ * ISAAC has been designed to be cryptographically secure and is inspired
+ * by RC4.
+ * Cycles are guaranteed to be at least 2<sup>40</sup> values long, and they
+ * are 2<sup>8295</sup> values long on average.
+ * The results are uniformly distributed, unbiased, and unpredictable unless
+ * you know the seed.
+ * <br/>
+ * This code is based (with minor changes and improvements) on the original
+ * implementation of the algorithm by Bob Jenkins.
+ * <br/>
  *
- * @see <a href="http://burtleburtle.net/bob/rand/isaacafa.html">ISAAC: a fast cryptographic random number generator</a>
+ * @version $Id$
  * @since 3.0
  */
 public class ISAACRandom extends BitsStreamGenerator implements Serializable {
-
     /** Serializable version identifier */
     private static final long serialVersionUID = 7288197941165002400L;
-
     /** Log of size of rsl[] and mem[] */
     private static final int SIZE_L = 8;
-
     /** Size of rsl[] and mem[] */
     private static final int SIZE = 1 << SIZE_L;
-
     /** Half-size of rsl[] and mem[] */
     private static final int H_SIZE = SIZE >> 1;
-
     /** For pseudo-random lookup */
     private static final int MASK = SIZE - 1 << 2;
-
     /** The golden ratio */
     private static final int GLD_RATIO = 0x9e3779b9;
-
     /** The results given to the user */
     private int[] rsl;
-
     /** The internal state */
     private int[] mem;
-
     /** Count through the results in rsl[] */
     private int count;
-
     /** Accumulator */
     private int isaacA;
-
     /** The last result */
     private int isaacB;
-
     /** Counter, guarantees cycle is at least 2^40 */
     private int isaacC;
-
     /** Service variable. */
     private transient int[] arr;
     /** Service variable. */
