@@ -34,10 +34,8 @@ public interface PermutationChromosome<T> {
      * represents a permutation (3,0,1,2), and the unpermuted sequence is
      * (a,b,c,d), this yields (d,a,b,c).
      *
-     * @param sequence
-     *            the unpermuted (original) sequence of objects
-     * @return permutation of <code>sequence</code> represented by this
-     *         permutation
+     * @param sequence the unpermuted (original) sequence of objects
+     * @return permutation of <code>sequence</code> represented by this permutation
      */
     List<T> decode(List<T> sequence);
 

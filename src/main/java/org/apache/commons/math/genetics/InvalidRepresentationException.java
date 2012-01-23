@@ -36,8 +36,7 @@ public class InvalidRepresentationException extends MathIllegalArgumentException
      * @param pattern Message pattern.
      * @param args Arguments.
      */
-    public InvalidRepresentationException(Localizable pattern,
-            Object ... args) {
+    public InvalidRepresentationException(Localizable pattern, Object ... args) {
        super(pattern, args);
     }
 

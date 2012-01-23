@@ -44,13 +44,15 @@ public abstract class ListPopulation implements Population {
      *
      * @param chromosomes list of chromosomes in the population
      * @param populationLimit maximal size of the population
+     * @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit
+     * @throws NotPositiveException if the population limit is not a positive number (&lt; 1)
      */
-    public ListPopulation (List<Chromosome> chromosomes, int populationLimit) {
+    public ListPopulation(final List<Chromosome> chromosomes, final int populationLimit) {
         if (chromosomes.size() > populationLimit) {
             throw new NumberIsTooLargeException(LocalizedFormats.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
                                                 chromosomes.size(), populationLimit, false);
         }
-        if (populationLimit < 0) {
+        if (populationLimit <= 0) {
             throw new NotPositiveException(LocalizedFormats.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);
         }
 
@@ -59,13 +61,13 @@ public abstract class ListPopulation implements Population {
     }
 
     /**
-     * Creates a new ListPopulation instance and initializes its inner
-     * chromosome list.
+     * Creates a new ListPopulation instance and initializes its inner chromosome list.
      *
      * @param populationLimit maximal size of the population
+     * @throws NotPositiveException if the population limit is not a positive number (&lt; 1)
      */
-    public ListPopulation (int populationLimit) {
-        if (populationLimit < 0) {
+    public ListPopulation(final int populationLimit) {
+        if (populationLimit <= 0) {
             throw new NotPositiveException(LocalizedFormats.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);
         }
         this.populationLimit = populationLimit;
@@ -76,7 +78,7 @@ public abstract class ListPopulation implements Population {
      * Sets the list of chromosomes.
      * @param chromosomes the list of chromosomes
      */
-    public void setChromosomes(List<Chromosome> chromosomes) {
+    public void setChromosomes(final List<Chromosome> chromosomes) {
         this.chromosomes = chromosomes;
     }
 
@@ -92,7 +94,7 @@ public abstract class ListPopulation implements Population {
      * Add the given chromosome to the population.
      * @param chromosome the chromosome to add.
      */
-    public void addChromosome(Chromosome chromosome) {
+    public void addChromosome(final Chromosome chromosome) {
         this.chromosomes.add(chromosome);
     }
 
@@ -124,7 +126,7 @@ public abstract class ListPopulation implements Population {
      * Sets the maximal population size.
      * @param populationLimit maximal population size.
      */
-    public void setPopulationLimit(int populationLimit) {
+    public void setPopulationLimit(final int populationLimit) {
         this.populationLimit = populationLimit;
     }
 

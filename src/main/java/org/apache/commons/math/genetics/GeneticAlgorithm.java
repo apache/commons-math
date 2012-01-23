@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.genetics;
 
+import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.random.JDKRandomGenerator;
 
@@ -61,16 +63,21 @@ public class GeneticAlgorithm {
      * @param mutationPolicy The {@link MutationPolicy}
      * @param mutationRate The mutation rate as a percentage (0-1 inclusive)
      * @param selectionPolicy The {@link SelectionPolicy}
+     * @throws OutOfRangeException if the crossover or mutation rate is outside the [0, 1] range
      */
-    public GeneticAlgorithm(
-            CrossoverPolicy crossoverPolicy, double crossoverRate,
-            MutationPolicy mutationPolicy, double mutationRate,
-            SelectionPolicy selectionPolicy) {
+    public GeneticAlgorithm(final CrossoverPolicy crossoverPolicy,
+                            final double crossoverRate,
+                            final MutationPolicy mutationPolicy,
+                            final double mutationRate,
+                            final SelectionPolicy selectionPolicy) {
+
         if (crossoverRate < 0 || crossoverRate > 1) {
-            throw new IllegalArgumentException("crossoverRate must be between 0 and 1");
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_CROSSOVER_RATE,
+                                          crossoverRate, 0, 1);
         }
         if (mutationRate < 0 || mutationRate > 1) {
-            throw new IllegalArgumentException("mutationRate must be between 0 and 1");
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_MUTATION_RATE,
+                                          mutationRate, 0, 1);
         }
         this.crossoverPolicy = crossoverPolicy;
         this.crossoverRate = crossoverRate;
@@ -84,7 +91,7 @@ public class GeneticAlgorithm {
      *
      * @param random random generator
      */
-    public static synchronized void setRandomGenerator(RandomGenerator random) {
+    public static synchronized void setRandomGenerator(final RandomGenerator random) {
         randomGenerator = random;
     }
 
@@ -107,7 +114,7 @@ public class GeneticAlgorithm {
      * @param condition the stopping condition used to stop evolution.
      * @return the population that satisfies the stopping condition.
      */
-    public Population evolve(Population initial, StoppingCondition condition) {
+    public Population evolve(final Population initial, final StoppingCondition condition) {
         Population current = initial;
         generationsEvolved = 0;
         while (!condition.isSatisfied(current)) {
@@ -139,7 +146,7 @@ public class GeneticAlgorithm {
      * @param current the current population.
      * @return the population for the next generation.
      */
-    public Population nextGeneration(Population current) {
+    public Population nextGeneration(final Population current) {
         Population nextGeneration = current.nextGeneration();
 
         RandomGenerator randGen = getRandomGenerator();

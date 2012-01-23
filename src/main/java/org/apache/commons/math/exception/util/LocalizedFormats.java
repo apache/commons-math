@@ -80,6 +80,7 @@ public enum LocalizedFormats implements Localizable {
     CROSSING_BOUNDARY_LOOPS("some outline boundary loops cross each other"),
     CUMULATIVE_PROBABILITY_RETURNED_NAN("Cumulative probability function returned NaN for argument {0} p = {1}"),
     DIFFERENT_ROWS_LENGTHS("some rows have length {0} while others have length {1}"),
+    DIFFERENT_ORIG_AND_PERMUTED_DATA("original and permuted data must contain the same elements"),
     DIGEST_NOT_INITIALIZED("digest not initialized"),
     DIMENSIONS_MISMATCH_2x2("got {0}x{1} but expected {2}x{3}"), /* keep */
     DIMENSIONS_MISMATCH_SIMPLE("{0} != {1}"), /* keep */
@@ -133,7 +134,10 @@ public enum LocalizedFormats implements Localizable {
     INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS("{0} method needs at least two previous points"),
     INTERNAL_ERROR("internal error, please fill a bug report at {0}"),
     INVALID_BINARY_DIGIT("invalid binary digit: {0}"),
+    INVALID_BINARY_CHROMOSOME("binary mutation works on BinaryChromosome only"),
     INVALID_BRACKETING_PARAMETERS("invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}"),
+    INVALID_CROSSOVER_CHROMOSOME_LENGTH("both chromosomes must have same lengths: ({0}) ({1})"),
+    INVALID_FIXED_LENGTH_CHROMOSOME("one-point crossover works only on instances of AbstractListChromosome"),
     INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS("invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}"),
     INVALID_ITERATIONS_LIMITS("invalid iteration limits: min={0}, max={1}"),
     INVALID_MAX_ITERATIONS("bad value for maximum iterations number: {0}"),
@@ -270,6 +274,9 @@ public enum LocalizedFormats implements Localizable {
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
     SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),
+    OUT_OF_RANGE_CROSSOVER_RATE("crossover rate ({0}) out of [{1}, {2}] range"),
+    OUT_OF_RANGE_ELITISM_RATE("elitism rate ({0}) out of [{1}, {2}] range"),
+    OUT_OF_RANGE_MUTATION_RATE("mutation rate ({0}) out of [{1}, {2}] range"),
     OUT_OF_RANGE_ROOT_OF_UNITY_INDEX("out of range root of unity index {0} (must be in [{1};{2}])"),
     OUT_OF_RANGE("out of range"), /* keep */
     OUT_OF_RANGE_SIMPLE("{0} out of [{1}, {2}] range"), /* keep */
@@ -303,10 +310,12 @@ public enum LocalizedFormats implements Localizable {
     SINGULAR_OPERATOR("operator is singular"),
     SUBARRAY_ENDS_AFTER_ARRAY_END("subarray ends after array end"),
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
+    TOO_LARGE_TOURNAMENT_ARITY("tournament arity ({0}) cannot be bigger than population size ({1})"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),
     TOO_MUCH_CANCELLATION("too much cancellation in a denominator"),
     TOO_MANY_REGRESSORS("too many regressors ({0}) specified, only {1} in the model"),
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
+    TOO_SMALL_GENERATION_COUNT("number of generations ({0}) must be >= {1}"),
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),
     TOO_SMALL_ORTHOGONALITY_TOLERANCE("orthogonality tolerance is too small ({0}), solution is orthogonal to the jacobian"),
     TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE("parameters relative tolerance is too small ({0}), no further improvement in the approximate solution is possible"),
@@ -340,6 +349,9 @@ public enum LocalizedFormats implements Localizable {
     WEIGHT_AT_LEAST_ONE_NON_ZERO("weigth array must contain at least one non-zero value"),
     WRONG_BLOCK_LENGTH("wrong array shape (block length = {0}, expected {1})"),
     WRONG_NUMBER_OF_POINTS("{0} points are required, got only {1}"),
+    WRONG_SEQUENCE_LENGTH_RANDOMKEY("length of sequence for decoding ({0}) has to be equal to the RandomKey length ({1})"),
+    WRONG_REPR_AND_SREPR_SIZE("size of representation and sorted representation must be equals: {0} != {1}"),
+    WRONG_ORIG_AND_PERMUTED_SIZE("original and permuted data must have same length: {0} != {1}"),
     NUMBER_OF_POINTS("number of points ({0})"), /* keep */
     ZERO_DENOMINATOR("denominator must be different from 0"),
     ZERO_DENOMINATOR_IN_FRACTION("zero denominator in fraction {0}/{1}"),

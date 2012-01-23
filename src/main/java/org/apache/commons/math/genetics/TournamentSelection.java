@@ -19,6 +19,9 @@ package org.apache.commons.math.genetics;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
 /**
  * Tournament selection scheme. Each of the two selected chromosomes is selected
  * based on n-ary tournament -- this is done by drawing {@link #arity} random
@@ -36,10 +39,9 @@ public class TournamentSelection implements SelectionPolicy {
     /**
      * Creates a new TournamentSelection instance.
      *
-     * @param arity
-     *            how many chromosomes will be drawn to the tournament
+     * @param arity how many chromosomes will be drawn to the tournament
      */
-    public TournamentSelection(int arity) {
+    public TournamentSelection(final int arity) {
         this.arity = arity;
     }
 
@@ -49,15 +51,12 @@ public class TournamentSelection implements SelectionPolicy {
      * drawing {@link #arity} random chromosomes without replacement from the
      * population, and then selecting the fittest chromosome among them.
      *
-     * @param population
-     *            the population from which the chromosomes are choosen.
+     * @param population the population from which the chromosomes are choosen.
      * @return the selected chromosomes.
      */
-    public ChromosomePair select(Population population) {
-        return new ChromosomePair(
-                tournament((ListPopulation) population),
-                tournament((ListPopulation)population)
-                );
+    public ChromosomePair select(final Population population) {
+        return new ChromosomePair(tournament((ListPopulation) population),
+                                  tournament((ListPopulation)population));
     }
 
     /**
@@ -65,13 +64,15 @@ public class TournamentSelection implements SelectionPolicy {
      * chromosomes without replacement from the population, and then select the
      * fittest chromosome among them.
      *
-     * @param population
-     *            the population from which the chromosomes are choosen.
+     * @param population the population from which the chromosomes are choosen.
      * @return the selected chromosome.
+     * @throws MathIllegalArgumentException if the tournament arity is bigger than the
+     * population size
      */
-    private Chromosome tournament(ListPopulation population) {
+    private Chromosome tournament(final ListPopulation population) {
         if (population.getPopulationSize() < this.arity) {
-            throw new IllegalArgumentException("Tournament arity cannot be bigger than population size.");
+            throw new MathIllegalArgumentException(LocalizedFormats.TOO_LARGE_TOURNAMENT_ARITY,
+                                                   arity, population.getPopulationSize());
         }
         // auxiliary population
         ListPopulation tournamentPopulation = new ListPopulation(this.arity) {
@@ -108,7 +109,7 @@ public class TournamentSelection implements SelectionPolicy {
      *
      * @param arity arity of the tournament
      */
-    public void setArity(int arity) {
+    public void setArity(final int arity) {
         this.arity = arity;
     }
 

@@ -32,6 +32,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     /**
      * Constructor.
      * @param representation list of {0,1} values representing the chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
+     *         a valid chromosome
      */
     public BinaryChromosome(List<Integer> representation) {
         super(representation);
@@ -40,6 +42,8 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
     /**
      * Constructor.
      * @param representation array of {0,1} values representing the chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
+     *         a valid chromosome
      */
     public BinaryChromosome(Integer[] representation) {
         super(representation);

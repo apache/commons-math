@@ -36,6 +36,8 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     /**
      * Constructor.
      * @param representation inner representation of the chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
+     *         a valid chromosome
      */
     public AbstractListChromosome(final List<T> representation) {
         checkValidity(representation);
