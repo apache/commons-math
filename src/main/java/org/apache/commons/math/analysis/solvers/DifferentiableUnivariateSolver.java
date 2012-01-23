@@ -25,5 +25,5 @@ import org.apache.commons.math.analysis.DifferentiableUnivariateFunction;
  *
  * @version $Id$
  */
-public interface DifferentiableUnivariateRealSolver
-    extends BaseUnivariateRealSolver<DifferentiableUnivariateFunction> {}
+public interface DifferentiableUnivariateSolver
+    extends BaseUnivariateSolver<DifferentiableUnivariateFunction> {}

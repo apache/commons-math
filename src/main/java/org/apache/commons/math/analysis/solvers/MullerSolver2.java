@@ -45,7 +45,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2
  * @see MullerSolver
  */
-public class MullerSolver2 extends AbstractUnivariateRealSolver {
+public class MullerSolver2 extends AbstractUnivariateSolver {
 
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

@@ -34,7 +34,7 @@ import org.junit.Test;
 public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealSolver getSolver() {
+    protected UnivariateSolver getSolver() {
         return new BracketingNthOrderBrentSolver();
     }
 

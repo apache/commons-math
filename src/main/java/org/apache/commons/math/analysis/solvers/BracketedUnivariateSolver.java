@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.solvers;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
 
-/** Interface for {@link UnivariateRealSolver (univariate real) root-finding
+/** Interface for {@link UnivariateSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
  * to having such root-finding algorithms:
  * <ul>
@@ -44,8 +44,8 @@ import org.apache.commons.math.analysis.UnivariateFunction;
  * @since 3.0
  * @version $Id$
  */
-public interface BracketedUnivariateRealSolver<FUNC extends UnivariateFunction>
-    extends BaseUnivariateRealSolver<FUNC> {
+public interface BracketedUnivariateSolver<FUNC extends UnivariateFunction>
+    extends BaseUnivariateSolver<FUNC> {
 
     /**
      * Solve for a zero in the given interval.

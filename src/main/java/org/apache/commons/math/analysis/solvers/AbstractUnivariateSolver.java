@@ -25,15 +25,15 @@ import org.apache.commons.math.analysis.UnivariateFunction;
  * @version $Id$
  * @since 3.0
  */
-public abstract class AbstractUnivariateRealSolver
-    extends BaseAbstractUnivariateRealSolver<UnivariateFunction>
-    implements UnivariateRealSolver {
+public abstract class AbstractUnivariateSolver
+    extends BaseAbstractUnivariateSolver<UnivariateFunction>
+    implements UnivariateSolver {
     /**
      * Construct a solver with given absolute accuracy.
      *
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected AbstractUnivariateRealSolver(final double absoluteAccuracy) {
+    protected AbstractUnivariateSolver(final double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
     /**
@@ -42,7 +42,7 @@ public abstract class AbstractUnivariateRealSolver
      * @param relativeAccuracy Maximum relative error.
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected AbstractUnivariateRealSolver(final double relativeAccuracy,
+    protected AbstractUnivariateSolver(final double relativeAccuracy,
                                            final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy);
     }
@@ -53,7 +53,7 @@ public abstract class AbstractUnivariateRealSolver
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected AbstractUnivariateRealSolver(final double relativeAccuracy,
+    protected AbstractUnivariateSolver(final double relativeAccuracy,
                                            final double absoluteAccuracy,
                                            final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);

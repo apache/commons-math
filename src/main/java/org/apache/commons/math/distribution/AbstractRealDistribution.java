@@ -19,7 +19,7 @@ package org.apache.commons.math.distribution;
 import java.io.Serializable;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -153,7 +153,7 @@ implements RealDistribution, Serializable {
             }
         };
 
-        double x = UnivariateRealSolverUtils.solve(toSolve,
+        double x = UnivariateSolverUtils.solve(toSolve,
                                                    lowerBound,
                                                    upperBound,
                                                    getSolverAbsoluteAccuracy());

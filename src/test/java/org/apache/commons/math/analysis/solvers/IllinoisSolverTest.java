@@ -25,7 +25,7 @@ package org.apache.commons.math.analysis.solvers;
 public final class IllinoisSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealSolver getSolver() {
+    protected UnivariateSolver getSolver() {
         return new IllinoisSolver();
     }
 

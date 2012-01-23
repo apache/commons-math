@@ -25,15 +25,15 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * Utility routines for {@link UnivariateRealSolver} objects.
+ * Utility routines for {@link UnivariateSolver} objects.
  *
  * @version $Id$
  */
-public class UnivariateRealSolverUtils {
+public class UnivariateSolverUtils {
     /**
      * Class contains only static methods.
      */
-    private UnivariateRealSolverUtils() {}
+    private UnivariateSolverUtils() {}
 
     /**
      * Convenience method to find a zero of a univariate real function.  A default
@@ -50,7 +50,7 @@ public class UnivariateRealSolverUtils {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
-        final UnivariateRealSolver solver = new BrentSolver();
+        final UnivariateSolver solver = new BrentSolver();
         return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
@@ -73,7 +73,7 @@ public class UnivariateRealSolverUtils {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
-        final UnivariateRealSolver solver = new BrentSolver(absoluteAccuracy);
+        final UnivariateSolver solver = new BrentSolver(absoluteAccuracy);
         return solver.solve(Integer.MAX_VALUE, function, x0, x1);
     }
 
@@ -92,7 +92,7 @@ public class UnivariateRealSolverUtils {
      * @return a root approximation, on the specified side of the exact root
      */
     public static double forceSide(final int maxEval, final UnivariateFunction f,
-                                   final BracketedUnivariateRealSolver<UnivariateFunction> bracketing,
+                                   final BracketedUnivariateSolver<UnivariateFunction> bracketing,
                                    final double baseRoot, final double min, final double max,
                                    final AllowedSolution allowedSolution) {
 

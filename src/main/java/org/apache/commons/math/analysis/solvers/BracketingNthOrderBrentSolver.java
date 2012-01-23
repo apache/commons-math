@@ -41,8 +41,8 @@ import org.apache.commons.math.util.Precision;
  * @version $Id$
  */
 public class BracketingNthOrderBrentSolver
-    extends AbstractUnivariateRealSolver
-    implements BracketedUnivariateRealSolver<UnivariateFunction> {
+    extends AbstractUnivariateSolver
+    implements BracketedUnivariateSolver<UnivariateFunction> {
 
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

@@ -17,7 +17,7 @@
 package org.apache.commons.math.analysis.integration;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
@@ -226,7 +226,7 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
 
         // Checks.
         MathUtils.checkNotNull(f);
-        UnivariateRealSolverUtils.verifyInterval(lower, upper);
+        UnivariateSolverUtils.verifyInterval(lower, upper);
 
         // Reset.
         this.min = lower;

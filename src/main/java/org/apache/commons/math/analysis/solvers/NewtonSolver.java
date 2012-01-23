@@ -28,7 +28,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Id$
  */
-public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
+public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
@@ -63,7 +63,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateRealSolver {
     @Override
     public double solve(int maxEval, final DifferentiableUnivariateFunction f,
                         final double min, final double max) {
-        return super.solve(maxEval, f, UnivariateRealSolverUtils.midpoint(min, max));
+        return super.solve(maxEval, f, UnivariateSolverUtils.midpoint(min, max));
     }
 
     /**

@@ -25,5 +25,5 @@ import org.apache.commons.math.analysis.UnivariateFunction;
  *
  * @version $Id$
  */
-public interface UnivariateRealSolver
-    extends BaseUnivariateRealSolver<UnivariateFunction> {}
+public interface UnivariateSolver
+    extends BaseUnivariateSolver<UnivariateFunction> {}

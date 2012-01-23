@@ -46,7 +46,7 @@ public final class MullerSolverTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
         min = 3.0; max = 4.0; expected = FastMath.PI;
@@ -68,7 +68,7 @@ public final class MullerSolverTest {
     @Test
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
         min = -0.4; max = 0.2; expected = 0.0;
@@ -100,7 +100,7 @@ public final class MullerSolverTest {
     @Test
     public void testExpm1Function() {
         UnivariateFunction f = new Expm1Function();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateSolver solver = new MullerSolver();
         double min, max, expected, result, tolerance;
 
         min = -1.0; max = 2.0; expected = 0.0;
@@ -128,7 +128,7 @@ public final class MullerSolverTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealSolver solver = new MullerSolver();
+        UnivariateSolver solver = new MullerSolver();
 
         try {
             // bad interval

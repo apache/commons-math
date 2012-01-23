@@ -46,7 +46,7 @@ public final class BrentSolverTest {
         // still converge quadratically.
         UnivariateFunction f = new SinFunction();
         double result;
-        UnivariateRealSolver solver = new BrentSolver();
+        UnivariateSolver solver = new BrentSolver();
         // Somewhat benign interval. The function is monotone.
         result = solver.solve(100, f, 3, 4);
         // System.out.println(
@@ -73,7 +73,7 @@ public final class BrentSolverTest {
         UnivariateFunction f = new QuinticFunction();
         double result;
         // Brent-Dekker solver.
-        UnivariateRealSolver solver = new BrentSolver();
+        UnivariateSolver solver = new BrentSolver();
         // Symmetric bracket around 0. Test whether solvers can handle hitting
         // the root in the first iteration.
         result = solver.solve(100, f, -0.2, 0.2);

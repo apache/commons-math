@@ -30,7 +30,7 @@ import org.junit.Assert;
 public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealSolver getSolver() {
+    protected UnivariateSolver getSolver() {
         return new RegulaFalsiSolver();
     }
 
@@ -52,7 +52,7 @@ public final class RegulaFalsiSolverTest extends BaseSecantSolverAbstractTest {
                 }
             };
 
-        final UnivariateRealSolver solver = new RegulaFalsiSolver();
+        final UnivariateSolver solver = new RegulaFalsiSolver();
         final double root = solver.solve(3624, f, 1, 10);
         Assert.assertEquals(3.4341896575482003, root, 1e-15);
     }

@@ -47,8 +47,8 @@ import org.apache.commons.math.exception.MathInternalError;
  * @version $Id$
  */
 public abstract class BaseSecantSolver
-    extends AbstractUnivariateRealSolver
-    implements BracketedUnivariateRealSolver<UnivariateFunction> {
+    extends AbstractUnivariateSolver
+    implements BracketedUnivariateSolver<UnivariateFunction> {
 
     /** Default absolute accuracy. */
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

@@ -19,7 +19,7 @@ package org.apache.commons.math.ode;
 
 import java.util.Collection;
 
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepHandler;
 
@@ -64,7 +64,7 @@ public interface ODEIntegrator  {
     void clearStepHandlers();
 
     /** Add an event handler to the integrator.
-     * Uses a default {@link UnivariateRealSolver}
+     * Uses a default {@link UnivariateSolver}
      * with an absolute accuracy equal to the given convergence threshold,
      * as root-finding algorithm to detect the state events.
      * @param handler event handler
@@ -95,7 +95,7 @@ public interface ODEIntegrator  {
      */
     void addEventHandler(EventHandler handler, double maxCheckInterval,
                          double convergence, int maxIterationCount,
-                         UnivariateRealSolver solver);
+                         UnivariateSolver solver);
 
     /** Get all the event handlers that have been added to the integrator.
      * @return an unmodifiable collection of the added events handlers

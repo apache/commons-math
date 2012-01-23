@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Id$
  */
-public class BisectionSolver extends AbstractUnivariateRealSolver {
+public class BisectionSolver extends AbstractUnivariateSolver {
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
@@ -69,7 +69,7 @@ public class BisectionSolver extends AbstractUnivariateRealSolver {
         double fmin;
 
         while (true) {
-            m = UnivariateRealSolverUtils.midpoint(min, max);
+            m = UnivariateSolverUtils.midpoint(min, max);
             fmin = computeObjectiveValue(min);
             fm = computeObjectiveValue(m);
 
@@ -82,7 +82,7 @@ public class BisectionSolver extends AbstractUnivariateRealSolver {
             }
 
             if (FastMath.abs(max - min) <= absoluteAccuracy) {
-                m = UnivariateRealSolverUtils.midpoint(min, max);
+                m = UnivariateSolverUtils.midpoint(min, max);
                 return m;
             }
         }

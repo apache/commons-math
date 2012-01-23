@@ -18,7 +18,7 @@
 package org.apache.commons.math.analysis.solvers;
 
 
-/** The kinds of solutions that a {@link BracketedUnivariateRealSolver
+/** The kinds of solutions that a {@link BracketedUnivariateSolver
  * (bracketed univariate real) root-finding algorithm} may accept as solutions.
  * This basically controls whether or not under-approximations and
  * over-approximations are allowed.
@@ -34,7 +34,7 @@ package org.apache.commons.math.analysis.solvers;
  * may be necessary to guarantee that a solution is returned that lies on a
  * specific side the solution.</p>
  *
- * @see BracketedUnivariateRealSolver
+ * @see BracketedUnivariateSolver
  * @since 3.0
  * @version $Id$
  */

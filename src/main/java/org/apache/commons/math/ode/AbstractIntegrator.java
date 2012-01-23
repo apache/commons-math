@@ -27,7 +27,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.MathIllegalStateException;
@@ -135,7 +135,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount,
-                                final UnivariateRealSolver solver) {
+                                final UnivariateSolver solver) {
         eventsStates.add(new EventState(handler, maxCheckInterval, convergence,
                                         maxIterationCount, solver));
     }

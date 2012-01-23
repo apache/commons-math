@@ -38,7 +38,7 @@ import org.apache.commons.math.util.FastMath;
  *
  * @version $Id$
  */
-public class SecantSolver extends AbstractUnivariateRealSolver {
+public class SecantSolver extends AbstractUnivariateSolver {
 
     /** Default absolute accuracy. */
     protected static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

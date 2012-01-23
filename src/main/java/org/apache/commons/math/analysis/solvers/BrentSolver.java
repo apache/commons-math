@@ -33,7 +33,7 @@ import org.apache.commons.math.util.Precision;
  *
  * @version $Id$
  */
-public class BrentSolver extends AbstractUnivariateRealSolver {
+public class BrentSolver extends AbstractUnivariateSolver {
 
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;

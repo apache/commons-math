@@ -26,4 +26,4 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
  * @since 3.0
  */
 public interface PolynomialSolver
-    extends BaseUnivariateRealSolver<PolynomialFunction> {}
+    extends BaseUnivariateSolver<PolynomialFunction> {}

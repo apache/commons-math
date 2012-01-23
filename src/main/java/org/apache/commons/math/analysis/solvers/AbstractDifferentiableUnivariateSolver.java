@@ -27,9 +27,9 @@ import org.apache.commons.math.analysis.UnivariateFunction;
  * @version $Id$
  * @since 3.0
  */
-public abstract class AbstractDifferentiableUnivariateRealSolver
-    extends BaseAbstractUnivariateRealSolver<DifferentiableUnivariateFunction>
-    implements DifferentiableUnivariateRealSolver {
+public abstract class AbstractDifferentiableUnivariateSolver
+    extends BaseAbstractUnivariateSolver<DifferentiableUnivariateFunction>
+    implements DifferentiableUnivariateSolver {
     /** Derivative of the function to solve. */
     private UnivariateFunction functionDerivative;
 
@@ -38,7 +38,7 @@ public abstract class AbstractDifferentiableUnivariateRealSolver
      *
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected AbstractDifferentiableUnivariateRealSolver(final double absoluteAccuracy) {
+    protected AbstractDifferentiableUnivariateSolver(final double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
 
@@ -49,7 +49,7 @@ public abstract class AbstractDifferentiableUnivariateRealSolver
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected AbstractDifferentiableUnivariateRealSolver(final double relativeAccuracy,
+    protected AbstractDifferentiableUnivariateSolver(final double relativeAccuracy,
                                                          final double absoluteAccuracy,
                                                          final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);

@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunction;
  * @since 3.0
  */
 public abstract class AbstractPolynomialSolver
-    extends BaseAbstractUnivariateRealSolver<PolynomialFunction>
+    extends BaseAbstractUnivariateSolver<PolynomialFunction>
     implements PolynomialSolver {
     /** Function. */
     private PolynomialFunction polynomialFunction;

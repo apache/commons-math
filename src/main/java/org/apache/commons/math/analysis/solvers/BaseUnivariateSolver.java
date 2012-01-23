@@ -25,17 +25,17 @@ import org.apache.commons.math.analysis.UnivariateFunction;
  *
  * This class is not intended for use outside of the Apache Commons Math
  * library, regular user should rely on more specific interfaces like
- * {@link UnivariateRealSolver}, {@link PolynomialSolver} or {@link
- * DifferentiableUnivariateRealSolver}.
+ * {@link UnivariateSolver}, {@link PolynomialSolver} or {@link
+ * DifferentiableUnivariateSolver}.
  * @param <FUNC> Type of function to solve.
  *
  * @version $Id$
  * @since 3.0
- * @see UnivariateRealSolver
+ * @see UnivariateSolver
  * @see PolynomialSolver
- * @see DifferentiableUnivariateRealSolver
+ * @see DifferentiableUnivariateSolver
  */
-public interface BaseUnivariateRealSolver<FUNC extends UnivariateFunction> {
+public interface BaseUnivariateSolver<FUNC extends UnivariateFunction> {
     /**
      * Get the maximum number of function evaluations.
      *

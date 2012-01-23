@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.general;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.BrentSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.RealPointValuePair;
@@ -47,7 +47,7 @@ public class NonLinearConjugateGradientOptimizer
     /** Preconditioner (may be null). */
     private final Preconditioner preconditioner;
     /** solver to use in the line search (may be null). */
-    private final UnivariateRealSolver solver;
+    private final UnivariateSolver solver;
     /** Initial step used to bracket the optimum in line search. */
     private double initialStep;
     /** Current point. */
@@ -96,7 +96,7 @@ public class NonLinearConjugateGradientOptimizer
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
                                                ConvergenceChecker<RealPointValuePair> checker,
-                                               final UnivariateRealSolver lineSearchSolver) {
+                                               final UnivariateSolver lineSearchSolver) {
         this(updateFormula,
              checker,
              lineSearchSolver,
@@ -113,7 +113,7 @@ public class NonLinearConjugateGradientOptimizer
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
                                                ConvergenceChecker<RealPointValuePair> checker,
-                                               final UnivariateRealSolver lineSearchSolver,
+                                               final UnivariateSolver lineSearchSolver,
                                                final Preconditioner preconditioner) {
         super(checker);
 

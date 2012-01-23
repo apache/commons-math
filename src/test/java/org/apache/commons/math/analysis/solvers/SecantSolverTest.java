@@ -25,7 +25,7 @@ package org.apache.commons.math.analysis.solvers;
 public final class SecantSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealSolver getSolver() {
+    protected UnivariateSolver getSolver() {
         return new SecantSolver();
     }
 

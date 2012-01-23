@@ -30,7 +30,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 1.2
  */
-public class RiddersSolver extends AbstractUnivariateRealSolver {
+public class RiddersSolver extends AbstractUnivariateSolver {
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 

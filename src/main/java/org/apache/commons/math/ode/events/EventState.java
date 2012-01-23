@@ -19,10 +19,10 @@ package org.apache.commons.math.ode.events;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.solvers.AllowedSolution;
-import org.apache.commons.math.analysis.solvers.BracketedUnivariateRealSolver;
+import org.apache.commons.math.analysis.solvers.BracketedUnivariateSolver;
 import org.apache.commons.math.analysis.solvers.PegasusSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
-import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.ode.events.EventHandler;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
@@ -85,7 +85,7 @@ public class EventState {
     private EventHandler.Action nextAction;
 
     /** Root-finding algorithm to use to detect state events. */
-    private final UnivariateRealSolver solver;
+    private final UnivariateSolver solver;
 
     /** Simple constructor.
      * @param handler event handler
@@ -99,7 +99,7 @@ public class EventState {
      */
     public EventState(final EventHandler handler, final double maxCheckInterval,
                       final double convergence, final int maxIterationCount,
-                      final UnivariateRealSolver solver) {
+                      final UnivariateSolver solver) {
         this.handler           = handler;
         this.maxCheckInterval  = maxCheckInterval;
         this.convergence       = FastMath.abs(convergence);
@@ -222,10 +222,10 @@ public class EventState {
 
                     // find the event time making sure we select a solution just at or past the exact root
                     final double root;
-                    if (solver instanceof BracketedUnivariateRealSolver<?>) {
+                    if (solver instanceof BracketedUnivariateSolver<?>) {
                         @SuppressWarnings("unchecked")
-                        BracketedUnivariateRealSolver<UnivariateFunction> bracketing =
-                                (BracketedUnivariateRealSolver<UnivariateFunction>) solver;
+                        BracketedUnivariateSolver<UnivariateFunction> bracketing =
+                                (BracketedUnivariateSolver<UnivariateFunction>) solver;
                         root = forward ?
                                bracketing.solve(maxIterationCount, f, ta, tb, AllowedSolution.RIGHT_SIDE) :
                                bracketing.solve(maxIterationCount, f, tb, ta, AllowedSolution.LEFT_SIDE);
@@ -234,12 +234,12 @@ public class EventState {
                                                 solver.solve(maxIterationCount, f, ta, tb) :
                                                 solver.solve(maxIterationCount, f, tb, ta);
                         final int remainingEval = maxIterationCount - solver.getEvaluations();
-                        BracketedUnivariateRealSolver<UnivariateFunction> bracketing =
+                        BracketedUnivariateSolver<UnivariateFunction> bracketing =
                                 new PegasusSolver(solver.getRelativeAccuracy(), solver.getAbsoluteAccuracy());
                         root = forward ?
-                               UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
+                               UnivariateSolverUtils.forceSide(remainingEval, f, bracketing,
                                                                    baseRoot, ta, tb, AllowedSolution.RIGHT_SIDE) :
-                               UnivariateRealSolverUtils.forceSide(remainingEval, f, bracketing,
+                               UnivariateSolverUtils.forceSide(remainingEval, f, bracketing,
                                                                    baseRoot, tb, ta, AllowedSolution.LEFT_SIDE);
                     }
 

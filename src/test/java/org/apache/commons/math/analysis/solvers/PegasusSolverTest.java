@@ -25,7 +25,7 @@ package org.apache.commons.math.analysis.solvers;
 public final class PegasusSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealSolver getSolver() {
+    protected UnivariateSolver getSolver() {
         return new PegasusSolver();
     }
 

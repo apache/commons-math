@@ -33,8 +33,8 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  * @since 2.0
  */
-public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFunction>
-    implements BaseUnivariateRealSolver<FUNC> {
+public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFunction>
+    implements BaseUnivariateSolver<FUNC> {
     /** Default relative accuracy. */
     private static final double DEFAULT_RELATIVE_ACCURACY = 1e-14;
     /** Default function value accuracy. */
@@ -61,7 +61,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      *
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected BaseAbstractUnivariateRealSolver(final double absoluteAccuracy) {
+    protected BaseAbstractUnivariateSolver(final double absoluteAccuracy) {
         this(DEFAULT_RELATIVE_ACCURACY,
              absoluteAccuracy,
              DEFAULT_FUNCTION_VALUE_ACCURACY);
@@ -73,7 +73,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      * @param relativeAccuracy Maximum relative error.
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected BaseAbstractUnivariateRealSolver(final double relativeAccuracy,
+    protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
                                                final double absoluteAccuracy) {
         this(relativeAccuracy,
              absoluteAccuracy,
@@ -87,7 +87,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected BaseAbstractUnivariateRealSolver(final double relativeAccuracy,
+    protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
                                                final double absoluteAccuracy,
                                                final double functionValueAccuracy) {
         this.absoluteAccuracy = absoluteAccuracy;
@@ -223,7 +223,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      */
     protected boolean isBracketing(final double lower,
                                    final double upper) {
-        return UnivariateRealSolverUtils.isBracketing(function, lower, upper);
+        return UnivariateSolverUtils.isBracketing(function, lower, upper);
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
     protected boolean isSequence(final double start,
                                  final double mid,
                                  final double end) {
-        return UnivariateRealSolverUtils.isSequence(start, mid, end);
+        return UnivariateSolverUtils.isSequence(start, mid, end);
     }
 
     /**
@@ -250,7 +250,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      */
     protected void verifyInterval(final double lower,
                                   final double upper) {
-        UnivariateRealSolverUtils.verifyInterval(lower, upper);
+        UnivariateSolverUtils.verifyInterval(lower, upper);
     }
 
     /**
@@ -265,7 +265,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
     protected void verifySequence(final double lower,
                                   final double initial,
                                   final double upper) {
-        UnivariateRealSolverUtils.verifySequence(lower, initial, upper);
+        UnivariateSolverUtils.verifySequence(lower, initial, upper);
     }
 
     /**
@@ -279,7 +279,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      */
     protected void verifyBracketing(final double lower,
                                     final double upper) {
-        UnivariateRealSolverUtils.verifyBracketing(function, lower, upper);
+        UnivariateSolverUtils.verifyBracketing(function, lower, upper);
     }
 
     /**
@@ -287,7 +287,7 @@ public abstract class BaseAbstractUnivariateRealSolver<FUNC extends UnivariateFu
      * Method {@link #computeObjectiveValue(double)} calls this method internally.
      * It is provided for subclasses that do not exclusively use
      * {@code computeObjectiveValue} to solve the function.
-     * See e.g. {@link AbstractDifferentiableUnivariateRealSolver}.
+     * See e.g. {@link AbstractDifferentiableUnivariateSolver}.
      */
     protected void incrementEvaluationCount() {
         try {
