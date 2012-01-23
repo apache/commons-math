@@ -16,10 +16,19 @@
  */
 package org.apache.commons.math.transform;
 
-import org.apache.commons.math.analysis.*;
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.apache.commons.math.analysis.SinFunction;
+import org.apache.commons.math.analysis.UnivariateFunction;
+import org.apache.commons.math.analysis.function.Sinc;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Test case for fast sine transformer.
@@ -29,7 +38,159 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public final class FastSineTransformerTest {
+@RunWith(value = Parameterized.class)
+public final class FastSineTransformerTest extends RealTransformerAbstractTest {
+
+    private final boolean standard;
+
+    private final int[] invalidDataSize;
+
+    private final double[] relativeTolerance;
+
+    private final int[] validDataSize;
+
+    public FastSineTransformerTest(final boolean standard) {
+        this.standard = standard;
+        this.validDataSize = new int[] {
+            1, 2, 4, 8, 16, 32, 64, 128
+        };
+        this.invalidDataSize = new int[] {
+            129
+        };
+        this.relativeTolerance = new double[] {
+            1E-15, 1E-15, 1E-14, 1E-14, 1E-13, 1E-12, 1E-11, 1E-11
+        };
+    }
+
+    /**
+     * Returns an array containing {@code true, false} in order to check both
+     * standard and orthogonal DSTs.
+     *
+     * @return an array of parameters for this parameterized test
+     */
+    @Parameters
+    public static Collection<Object[]> data() {
+        final Object[][] data = new Boolean[][] {
+            {
+                Boolean.TRUE
+            }, {
+                Boolean.FALSE
+            }
+        };
+        return Arrays.asList(data);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Overriding the default implementation allows to ensure that the first
+     * element of the data set is zero.
+     */
+    @Override
+    double[] createRealData(final int n) {
+        final double[] data = super.createRealData(n);
+        data[0] = 0.0;
+        return data;
+    }
+
+    @Override
+    RealTransformer createRealTransformer() {
+        if (standard) {
+            return FastSineTransformer.create();
+        } else {
+            return FastSineTransformer.createOrthogonal();
+        }
+    }
+
+    @Override
+    int getInvalidDataSize(final int i) {
+        return invalidDataSize[i];
+    }
+
+    @Override
+    int getNumberOfInvalidDataSizes() {
+        return invalidDataSize.length;
+    }
+
+    @Override
+    int getNumberOfValidDataSizes() {
+        return validDataSize.length;
+    }
+
+    @Override
+    double getRelativeTolerance(final int i) {
+        return relativeTolerance[i];
+    }
+
+    @Override
+    int getValidDataSize(final int i) {
+        return validDataSize[i];
+    }
+
+    @Override
+    UnivariateFunction getValidFunction() {
+        return new Sinc();
+    }
+
+    @Override
+    double getValidLowerBound() {
+        return 0.0;
+    }
+
+    @Override
+    double getValidUpperBound() {
+        return FastMath.PI;
+    }
+
+    @Override
+    double[] transform(final double[] x, final boolean forward) {
+        final int n = x.length;
+        final double[] y = new double[n];
+        final double[] sin = new double[2 * n];
+        for (int i = 0; i < sin.length; i++) {
+            sin[i] = FastMath.sin(FastMath.PI * i / (double) n);
+        }
+        for (int j = 0; j < n; j++) {
+            double yj = 0.0;
+            for (int i = 0; i < n; i++) {
+                yj += x[i] * sin[(i * j) % sin.length];
+            }
+            y[j] = yj;
+        }
+        final double s;
+        if (forward) {
+            s = standard ? 1.0 : FastMath.sqrt(2.0 / (double) n);
+        } else {
+            s = standard ? 2.0 / n : FastMath.sqrt(2.0 / (double) n);
+        }
+        TransformUtils.scaleArray(y, s);
+        return y;
+    }
+
+    /*
+     * Additional tests.
+     */
+    @Test(expected = MathIllegalArgumentException.class)
+    public void testTransformRealFirstElementNotZero() {
+        final double[] data = new double[] {
+            1.0, 1.0, 1.0, 1.0
+        };
+        final RealTransformer transformer = createRealTransformer();
+        transformer.transform(data);
+    }
+
+    @Test(expected = MathIllegalArgumentException.class)
+    public void testInverseTransformRealFirstElementNotZero() {
+        final double[] data = new double[] {
+            1.0, 1.0, 1.0, 1.0
+        };
+        final RealTransformer transformer = createRealTransformer();
+        transformer.inverseTransform(data);
+    }
+
+    /*
+     * Additional (legacy) tests.
+     */
 
     /**
      * Test of transformer for the ad hoc data.

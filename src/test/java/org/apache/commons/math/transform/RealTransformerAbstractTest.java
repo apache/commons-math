@@ -44,22 +44,6 @@ public abstract class RealTransformerAbstractTest {
     private final static long SEED = 20110119L;
 
     /**
-     * Returns a random array of doubles. Random generator always uses the same
-     * seed.
-     *
-     * @param n the size of the array to be returned
-     * @return a random array of specified size
-     */
-    static double[] createRealData(final int n) {
-        final Random random = new Random(SEED);
-        final double[] data = new double[n];
-        for (int i = 0; i < n; i++) {
-            data[i] = 2.0 * random.nextDouble() - 1.0;
-        }
-        return data;
-    }
-
-    /**
      * Returns a new instance of the {@link RealTransformer} to be tested.
      *
      * @return a the transformer to be tested
@@ -414,6 +398,26 @@ public abstract class RealTransformerAbstractTest {
             final double tol = getRelativeTolerance(i);
             doTestTransformFunction(n, tol, false);
         }
+    }
+
+    /*
+     * Utility methods.
+     */
+
+    /**
+     * Returns a random array of doubles. Random generator always uses the same
+     * seed.
+     *
+     * @param n the size of the array to be returned
+     * @return a random array of specified size
+     */
+    double[] createRealData(final int n) {
+        final Random random = new Random(SEED);
+        final double[] data = new double[n];
+        for (int i = 0; i < n; i++) {
+            data[i] = 2.0 * random.nextDouble() - 1.0;
+        }
+        return data;
     }
 
     /*
