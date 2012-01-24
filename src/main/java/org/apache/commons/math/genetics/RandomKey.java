@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
@@ -118,21 +119,23 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @param representation representation of the permutation ([0,1] vector)
      * @param sortedRepr sorted <code>representation</code>
      * @return list with the sequence values permuted according to the representation
+     * @throws DimensionMismatchException iff the length of the <code>sequence</code>,
+     * <code>representation</code> or <code>sortedRepr</code> lists are not equal
      */
     private static <S> List<S> decodeGeneric(final List<S> sequence, List<Double> representation,
                                              final List<Double> sortedRepr) {
         int l = sequence.size();
 
+        // the size of the three lists must be equal
         if (representation.size() != l) {
-            throw new MathIllegalArgumentException(LocalizedFormats.WRONG_SEQUENCE_LENGTH_RANDOMKEY,
-                                                   l, representation.size());
+            throw new DimensionMismatchException(representation.size(), l);
         }
-        if (representation.size() != sortedRepr.size()) {
-            throw new MathIllegalArgumentException(LocalizedFormats.WRONG_REPR_AND_SREPR_SIZE,
-                                                   representation.size(), sortedRepr.size());
+        if (sortedRepr.size() != l) {
+            throw new DimensionMismatchException(sortedRepr.size(), l);
         }
 
-        List<Double> reprCopy = new ArrayList<Double> (representation);// do not modify the orig. representation
+        // do not modify the original representation
+        List<Double> reprCopy = new ArrayList<Double> (representation);
 
         // now find the indices in the original repr and use them for permuting
         List<S> res = new ArrayList<S> (l);
@@ -186,7 +189,8 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
 
         for (double val : chromosomeRepresentation) {
             if (val < 0 || val > 1) {
-                throw new InvalidRepresentationException(LocalizedFormats.OUT_OF_RANGE_SIMPLE, val, 0, 1);
+                throw new InvalidRepresentationException(LocalizedFormats.OUT_OF_RANGE_SIMPLE,
+                                                         val, 0, 1);
             }
         }
     }
@@ -255,16 +259,16 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @param permutedData the data, somehow permuted
      * @return representation of a permutation corresponding to the permutation
      * <code>originalData -> permutedData</code>
-     * @throws IllegalArgumentException iff the <code>permutedData</code> and
-     * <code>originalData</code> contains different data
+     * @throws DimensionMismatchException iff the length of <code>originalData</code>
+     * and <code>permutedData</code> lists are not equal
+     * @throws MathIllegalArgumentException iff the <code>permutedData</code> and
+     * <code>originalData</code> lists contain different data
      */
     public static <S> List<Double> inducedPermutation(final List<S> originalData,
-                                                      final List<S> permutedData)
-        throws IllegalArgumentException {
+                                                      final List<S> permutedData) {
 
         if (originalData.size() != permutedData.size()) {
-            throw new MathIllegalArgumentException(LocalizedFormats.WRONG_ORIG_AND_PERMUTED_SIZE,
-                                                   originalData.size(), permutedData.size());
+            throw new DimensionMismatchException(permutedData.size(), originalData.size());
         }
         int l = originalData.size();
 

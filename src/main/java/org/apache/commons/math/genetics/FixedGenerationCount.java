@@ -17,7 +17,6 @@
 package org.apache.commons.math.genetics;
 
 import org.apache.commons.math.exception.NumberIsTooSmallException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Stops after a fixed number of generations.  Each time
@@ -44,8 +43,7 @@ public class FixedGenerationCount implements StoppingCondition {
      */
     public FixedGenerationCount(final int maxGenerations) {
         if (maxGenerations <= 0) {
-            throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_GENERATION_COUNT,
-                                                maxGenerations, 1, true);
+            throw new NumberIsTooSmallException(maxGenerations, 1, true);
         }
         this.maxGenerations = maxGenerations;
     }

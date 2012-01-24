@@ -72,11 +72,11 @@ public class GeneticAlgorithm {
                             final SelectionPolicy selectionPolicy) {
 
         if (crossoverRate < 0 || crossoverRate > 1) {
-            throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_CROSSOVER_RATE,
+            throw new OutOfRangeException(LocalizedFormats.CROSSOVER_RATE,
                                           crossoverRate, 0, 1);
         }
         if (mutationRate < 0 || mutationRate > 1) {
-            throw new OutOfRangeException(LocalizedFormats.OUT_OF_RANGE_MUTATION_RATE,
+            throw new OutOfRangeException(LocalizedFormats.MUTATION_RATE,
                                           mutationRate, 0, 1);
         }
         this.crossoverPolicy = crossoverPolicy;
