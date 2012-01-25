@@ -6136,41 +6136,41 @@ class FastMathLiteralArrays {
     /**
      * Load "EXP_INT_A".
      *
-     * @return the data array.
+     * @return a clone of the data array.
      */
     static double[] loadExpIntA() {
-        return EXP_INT_A;
+        return EXP_INT_A.clone();
     }
     /**
      * Load "EXP_INT_B".
      *
-     * @return the data array.
+     * @return a clone of the data array.
      */
     static double[] loadExpIntB() {
-        return EXP_INT_B;
+        return EXP_INT_B.clone();
     }
     /**
      * Load "EXP_FRAC_A".
      *
-     * @return the data array.
+     * @return a clone of the data array.
      */
     static double[] loadExpFracA() {
-        return EXP_FRAC_A;
+        return EXP_FRAC_A.clone();
     }
     /**
      * Load "EXP_FRAC_B".
      *
-     * @return the data array.
+     * @return a clone of the data array.
      */
     static double[] loadExpFracB() {
-        return EXP_FRAC_B;
+        return EXP_FRAC_B.clone();
     }
     /**
      * Load "LN_MANT".
      *
-     * @return the data array.
+     * @return a clone of the data array.
      */
     static double[][] loadLnMant() {
-        return LN_MANT;
+        return LN_MANT.clone();
     }
 }
