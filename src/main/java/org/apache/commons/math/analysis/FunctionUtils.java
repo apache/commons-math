@@ -211,7 +211,7 @@ public class FunctionUtils {
      * @param g Function.
      * @return the composite function.
      */
-    public static UnivariateFunction combine(final BivariateRealFunction combiner,
+    public static UnivariateFunction combine(final BivariateFunction combiner,
                                                  final UnivariateFunction f,
                                                  final UnivariateFunction g) {
         return new UnivariateFunction() {
@@ -232,7 +232,7 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateFunction collector(final BivariateRealFunction combiner,
+    public static MultivariateFunction collector(final BivariateFunction combiner,
                                                      final UnivariateFunction f,
                                                      final double initialValue) {
         return new MultivariateFunction() {
@@ -256,7 +256,7 @@ public class FunctionUtils {
      * @param initialValue Initial value.
      * @return a collector function.
      */
-    public static MultivariateFunction collector(final BivariateRealFunction combiner,
+    public static MultivariateFunction collector(final BivariateFunction combiner,
                                                      final double initialValue) {
         return collector(combiner, new Identity(), initialValue);
     }
@@ -268,7 +268,7 @@ public class FunctionUtils {
      * @param fixed Value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
-    public static UnivariateFunction fix1stArgument(final BivariateRealFunction f,
+    public static UnivariateFunction fix1stArgument(final BivariateFunction f,
                                                         final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
@@ -284,7 +284,7 @@ public class FunctionUtils {
      * @param fixed Value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
-    public static UnivariateFunction fix2ndArgument(final BivariateRealFunction f,
+    public static UnivariateFunction fix2ndArgument(final BivariateFunction f,
                                                         final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */

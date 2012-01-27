@@ -23,7 +23,7 @@ package org.apache.commons.math.analysis;
  * @since 2.1
  * @version $Id$
  */
-public interface BivariateRealFunction {
+public interface BivariateFunction {
     /**
      * Compute the value for the function.
      *

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -31,7 +31,7 @@ import org.apache.commons.math.util.MathArrays;
  * @since 2.1
  */
 public class BicubicSplineInterpolatingFunction
-    implements BivariateRealFunction {
+    implements BivariateFunction {
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
@@ -70,7 +70,7 @@ public class BicubicSplineInterpolatingFunction
      * 3 = second partial derivatives wrt y
      * 4 = cross partial derivatives
      */
-    private BivariateRealFunction[][][] partialDerivatives = null;
+    private BivariateFunction[][][] partialDerivatives = null;
 
     /**
      * @param x Sample values of the x-coordinate, in increasing order.
@@ -248,7 +248,7 @@ public class BicubicSplineInterpolatingFunction
     private void computePartialDerivatives() {
         final int lastI = xval.length - 1;
         final int lastJ = yval.length - 1;
-        partialDerivatives = new BivariateRealFunction[5][lastI][lastJ];
+        partialDerivatives = new BivariateFunction[5][lastI][lastJ];
 
         for (int i = 0; i < lastI; i++) {
             for (int j = 0; j < lastJ; j++) {
@@ -335,7 +335,7 @@ public class BicubicSplineInterpolatingFunction
  * @version $Id$
  */
 class BicubicSplineFunction
-    implements BivariateRealFunction {
+    implements BivariateFunction {
 
     /** Number of points. */
     private static final short N = 4;
@@ -344,19 +344,19 @@ class BicubicSplineFunction
     private final double[][] a;
 
     /** First partial derivative along x. */
-    private BivariateRealFunction partialDerivativeX;
+    private BivariateFunction partialDerivativeX;
 
     /** First partial derivative along y. */
-    private BivariateRealFunction partialDerivativeY;
+    private BivariateFunction partialDerivativeY;
 
     /** Second partial derivative along x. */
-    private BivariateRealFunction partialDerivativeXX;
+    private BivariateFunction partialDerivativeXX;
 
     /** Second partial derivative along y. */
-    private BivariateRealFunction partialDerivativeYY;
+    private BivariateFunction partialDerivativeYY;
 
     /** Second crossed partial derivative. */
-    private BivariateRealFunction partialDerivativeXY;
+    private BivariateFunction partialDerivativeXY;
 
     /**
      * Simple constructor.
@@ -415,7 +415,7 @@ class BicubicSplineFunction
     /**
      * @return the partial derivative wrt {@code x}.
      */
-    public BivariateRealFunction partialDerivativeX() {
+    public BivariateFunction partialDerivativeX() {
         if (partialDerivativeX == null) {
             computePartialDerivatives();
         }
@@ -425,7 +425,7 @@ class BicubicSplineFunction
     /**
      * @return the partial derivative wrt {@code y}.
      */
-    public BivariateRealFunction partialDerivativeY() {
+    public BivariateFunction partialDerivativeY() {
         if (partialDerivativeY == null) {
             computePartialDerivatives();
         }
@@ -435,7 +435,7 @@ class BicubicSplineFunction
     /**
      * @return the second partial derivative wrt {@code x}.
      */
-    public BivariateRealFunction partialDerivativeXX() {
+    public BivariateFunction partialDerivativeXX() {
         if (partialDerivativeXX == null) {
             computePartialDerivatives();
         }
@@ -445,7 +445,7 @@ class BicubicSplineFunction
     /**
      * @return the second partial derivative wrt {@code y}.
      */
-    public BivariateRealFunction partialDerivativeYY() {
+    public BivariateFunction partialDerivativeYY() {
         if (partialDerivativeYY == null) {
             computePartialDerivatives();
         }
@@ -455,7 +455,7 @@ class BicubicSplineFunction
     /**
      * @return the second partial cross-derivative.
      */
-    public BivariateRealFunction partialDerivativeXY() {
+    public BivariateFunction partialDerivativeXY() {
         if (partialDerivativeXY == null) {
             computePartialDerivatives();
         }
@@ -484,7 +484,7 @@ class BicubicSplineFunction
             }
         }
 
-        partialDerivativeX = new BivariateRealFunction() {
+        partialDerivativeX = new BivariateFunction() {
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double[] pX = {0, 1, x, x2};
@@ -496,7 +496,7 @@ class BicubicSplineFunction
                     return apply(pX, pY, aX);
                 }
             };
-        partialDerivativeY = new BivariateRealFunction() {
+        partialDerivativeY = new BivariateFunction() {
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double x3 = x2 * x;
@@ -508,7 +508,7 @@ class BicubicSplineFunction
                     return apply(pX, pY, aY);
                 }
             };
-        partialDerivativeXX = new BivariateRealFunction() {
+        partialDerivativeXX = new BivariateFunction() {
                 public double value(double x, double y)  {
                     final double[] pX = {0, 0, 1, x};
 
@@ -519,7 +519,7 @@ class BicubicSplineFunction
                     return apply(pX, pY, aXX);
                 }
             };
-        partialDerivativeYY = new BivariateRealFunction() {
+        partialDerivativeYY = new BivariateFunction() {
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double x3 = x2 * x;
@@ -530,7 +530,7 @@ class BicubicSplineFunction
                     return apply(pX, pY, aYY);
                 }
             };
-        partialDerivativeXY = new BivariateRealFunction() {
+        partialDerivativeXY = new BivariateFunction() {
                 public double value(double x, double y)  {
                     final double x2 = x * x;
                     final double[] pX = {0, 1, x, x2};

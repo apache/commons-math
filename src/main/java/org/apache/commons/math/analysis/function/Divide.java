@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 
 /**
  * Divide the first operand by the second.
@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public class Divide implements BivariateRealFunction {
+public class Divide implements BivariateFunction {
     /** {@inheritDoc} */
     public double value(double x, double y) {
         return x / y;

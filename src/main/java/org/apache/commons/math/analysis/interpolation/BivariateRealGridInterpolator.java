@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 
 /**
  * Interface representing a bivariate real interpolating function where the
@@ -40,6 +40,6 @@ public interface BivariateRealGridInterpolator {
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the array lengths are inconsistent.
      */
-    BivariateRealFunction interpolate(double[] xval, double[] yval,
+    BivariateFunction interpolate(double[] xval, double[] yval,
                                       double[][] fval);
 }

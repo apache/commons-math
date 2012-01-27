@@ -145,7 +145,7 @@ public class FunctionUtilsTest {
 
     @Test
     public void testCombine() {
-        BivariateRealFunction bi = new Add();
+        BivariateFunction bi = new Add();
         UnivariateFunction id = new Identity();
         UnivariateFunction m = new Minus();
         UnivariateFunction c = FunctionUtils.combine(bi, id, m);
@@ -159,7 +159,7 @@ public class FunctionUtilsTest {
 
     @Test
     public void testCollector() {
-        BivariateRealFunction bi = new Add();
+        BivariateFunction bi = new Add();
         MultivariateFunction coll = FunctionUtils.collector(bi, 0);
         Assert.assertEquals(10, coll.value(new double[] {1, 2, 3, 4}), EPS);
 
@@ -178,7 +178,7 @@ public class FunctionUtilsTest {
 
     @Test
     public void testSinc() {
-        BivariateRealFunction div = new Divide();
+        BivariateFunction div = new Divide();
         UnivariateFunction sin = new Sin();
         UnivariateFunction id = new Identity();
         UnivariateFunction sinc1 = FunctionUtils.combine(div, sin, id);

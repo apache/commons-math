@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public final class BicubicSplineInterpolatorTest {
         BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
         
         @SuppressWarnings("unused")
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
@@ -81,7 +81,7 @@ public final class BicubicSplineInterpolatorTest {
      */
     @Test
     public void testPlane() {
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
                 }
@@ -98,7 +98,7 @@ public final class BicubicSplineInterpolatorTest {
             }
         }
 
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
         
@@ -128,7 +128,7 @@ public final class BicubicSplineInterpolatorTest {
      */
     @Test
     public void testParaboloid() {
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }
@@ -145,7 +145,7 @@ public final class BicubicSplineInterpolatorTest {
             }
         }
 
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
         

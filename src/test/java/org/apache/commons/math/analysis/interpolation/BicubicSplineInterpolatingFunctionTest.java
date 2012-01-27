@@ -18,7 +18,7 @@ package org.apache.commons.math.analysis.interpolation;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         double[][] zval = new double[xval.length][yval.length];
 
         @SuppressWarnings("unused")
-        BivariateRealFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
+        BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                            zval, zval, zval);
         
         double[] wxval = new double[] {3, 2, 5, 6.5};
@@ -118,7 +118,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         // Function values
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
                 }
@@ -151,7 +151,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
             }
         }
 
-        BivariateRealFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
+        BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                            dZdX, dZdY, dZdXdY);
         double x, y;
         double expected, result;
@@ -188,7 +188,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
         // Function values
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }
@@ -201,7 +201,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
         // Partial derivatives with respect to x
         double[][] dZdX = new double[xval.length][yval.length];
-        BivariateRealFunction dfdX = new BivariateRealFunction() {
+        BivariateFunction dfdX = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 4 * (x + y);
                 }
@@ -213,7 +213,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
         // Partial derivatives with respect to y
         double[][] dZdY = new double[xval.length][yval.length];
-        BivariateRealFunction dfdY = new BivariateRealFunction() {
+        BivariateFunction dfdY = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 4 * x - 6 * y;
                 }
@@ -231,7 +231,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
             }
         }
 
-        BivariateRealFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
+        BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                            dZdX, dZdY, dZdXdY);
         double x, y;
         double expected, result;
@@ -275,12 +275,12 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
 
         final BicubicSplineFunction f = new BicubicSplineFunction(coeff);
-        BivariateRealFunction derivative;
+        BivariateFunction derivative;
         final double x = 0.435;
         final double y = 0.776;
         final double tol = 1e-13;
 
-        derivative = new BivariateRealFunction() {
+        derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double y2 = y * y;
@@ -292,7 +292,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         Assert.assertEquals("dFdX", derivative.value(x, y),
                             f.partialDerivativeX().value(x, y), tol);
         
-        derivative = new BivariateRealFunction() {
+        derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double x3 = x2 * x;
@@ -304,7 +304,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         Assert.assertEquals("dFdY", derivative.value(x, y),
                             f.partialDerivativeY().value(x, y), tol);
 
-        derivative = new BivariateRealFunction() {
+        derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double y2 = y * y;
                     final double y3 = y2 * y;
@@ -315,7 +315,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         Assert.assertEquals("d2FdX2", derivative.value(x, y),
                             f.partialDerivativeXX().value(x, y), tol);
 
-        derivative = new BivariateRealFunction() {
+        derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double x3 = x2 * x;
@@ -326,7 +326,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         Assert.assertEquals("d2FdY2", derivative.value(x, y),
                             f.partialDerivativeYY().value(x, y), tol);
 
-        derivative = new BivariateRealFunction() {
+        derivative = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double y2 = y * y;
@@ -357,7 +357,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
             val[i] = i * delta;
         }
         // Function values
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double x3 = x2 * x;
@@ -378,7 +378,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
         // Partial derivatives with respect to x
         double[][] dFdX = new double[sz][sz];
-        BivariateRealFunction dfdX = new BivariateRealFunction() {
+        BivariateFunction dfdX = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double y2 = y * y;                    
@@ -392,7 +392,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
         // Partial derivatives with respect to y
         double[][] dFdY = new double[sz][sz];
-        BivariateRealFunction dfdY = new BivariateRealFunction() {
+        BivariateFunction dfdY = new BivariateFunction() {
                 public double value(double x, double y) {
                     final double x2 = x * x;
                     final double y2 = y * y;                    
@@ -406,7 +406,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
         }
         // Partial cross-derivatives
         double[][] d2FdXdY = new double[sz][sz];
-        BivariateRealFunction d2fdXdY = new BivariateRealFunction() {
+        BivariateFunction d2fdXdY = new BivariateFunction() {
                 public double value(double x, double y) {
                     return -1 + 8 * x - 2 * y;
                 }

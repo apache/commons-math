@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 import org.apache.commons.math.util.FastMath;
 
 /**
@@ -26,7 +26,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class Max implements BivariateRealFunction {
+public class Max implements BivariateFunction {
     /** {@inheritDoc} */
     public double value(double x, double y) {
         return FastMath.max(x, y);

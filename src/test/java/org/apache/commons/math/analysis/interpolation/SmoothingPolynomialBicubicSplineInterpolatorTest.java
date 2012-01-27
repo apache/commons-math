@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
         
         @SuppressWarnings("unused")
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
@@ -89,7 +89,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
      */
     @Test
     public void testPlane() {
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x - 3 * y + 5
                         + ((int) (FastMath.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
@@ -107,7 +107,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
             }
         }
 
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
         
@@ -137,7 +137,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
      */
     @Test
     public void testParaboloid() {
-        BivariateRealFunction f = new BivariateRealFunction() {
+        BivariateFunction f = new BivariateFunction() {
                 public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5
                         + ((int) (FastMath.abs(5 * x + 3 * y)) % 2 == 0 ? 1 : -1);
@@ -155,7 +155,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
             }
         }
 
-        BivariateRealFunction p = interpolator.interpolate(xval, yval, zval);
+        BivariateFunction p = interpolator.interpolate(xval, yval, zval);
         double x, y;
         double expected, result;
 

@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.analysis.function;
 
-import org.apache.commons.math.analysis.BivariateRealFunction;
+import org.apache.commons.math.analysis.BivariateFunction;
 
 /**
  * Subtract the second operand from the first.
@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.BivariateRealFunction;
  * @version $Id$
  * @since 3.0
  */
-public class Subtract implements BivariateRealFunction {
+public class Subtract implements BivariateFunction {
     /** {@inheritDoc} */
     public double value(double x, double y) {
         return x - y;
