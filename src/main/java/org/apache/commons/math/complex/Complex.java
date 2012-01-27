@@ -993,8 +993,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *  </code>
      * </pre>
      * where the (real) functions on the right-hand side are
-     * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link FastMath#cosh} and {@link FastMath#sinh}.
+     * {@link FastMath#sin}, {@link FastMath#cos}, {@link FastMath#cosh} and
+     * {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -1004,8 +1004,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * <pre>
      *  Examples:
      *  <code>
-     *   tan(1 &plusmn; INFINITY i) = 0 + NaN i
-     *   tan(&plusmn;INFINITY + i) = NaN + NaN i
+     *   tan(a &plusmn; INFINITY i) = 0 &plusmn; i
+     *   tan(&plusmn;INFINITY + bi) = NaN + NaN i
      *   tan(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
      *   tan(&plusmn;&pi;/2 + 0 i) = &plusmn;INFINITY + NaN i
      *  </code>
@@ -1015,8 +1015,14 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex tan() {
-        if (isNaN) {
+        if (isNaN || Double.isInfinite(real)) {
             return NaN;
+        }
+        if (imaginary > 20.0) {
+            return createComplex(0.0, 1.0);
+        }
+        if (imaginary < -20.0) {
+            return createComplex(0.0, -1.0);
         }
 
         double real2 = 2.0 * real;
@@ -1038,8 +1044,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      *  </code>
      * </pre>
      * where the (real) functions on the right-hand side are
-     * {@link java.lang.Math#sin}, {@link java.lang.Math#cos},
-     * {@link FastMath#cosh} and {@link FastMath#sinh}.
+     * {@link FastMath#sin}, {@link FastMath#cos}, {@link FastMath#cosh} and
+     * {@link FastMath#sinh}.
      * <br/>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is {@code NaN}.
@@ -1049,8 +1055,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * <pre>
      *  Examples:
      *  <code>
-     *   tanh(1 &plusmn; INFINITY i) = NaN + NaN i
-     *   tanh(&plusmn;INFINITY + i) = NaN + 0 i
+     *   tanh(a &plusmn; INFINITY i) = NaN + NaN i
+     *   tanh(&plusmn;INFINITY + bi) = &plusmn;1 + 0 i
      *   tanh(&plusmn;INFINITY &plusmn; INFINITY i) = NaN + NaN i
      *   tanh(0 + (&pi;/2)i) = NaN + INFINITY i
      *  </code>
@@ -1060,10 +1066,15 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex tanh() {
-        if (isNaN) {
+        if (isNaN || Double.isInfinite(imaginary)) {
             return NaN;
         }
-
+        if (real > 20.0) {
+            return createComplex(1.0, 0.0);
+        }
+        if (real < -20.0) {
+            return createComplex(-1.0, 0.0);
+        }
         double real2 = 2.0 * real;
         double imaginary2 = 2.0 * imaginary;
         double d = FastMath.cosh(real2) + FastMath.cos(imaginary2);
