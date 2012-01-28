@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.TrivariateRealFunction;
+import org.apache.commons.math.analysis.TrivariateFunction;
 
 /**
  * Interface representing a trivariate real interpolating function where the
@@ -43,6 +43,6 @@ public interface TrivariateRealGridInterpolator {
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the array lengths are inconsistent.
      */
-    TrivariateRealFunction interpolate(double[] xval, double[] yval, double[] zval,
+    TrivariateFunction interpolate(double[] xval, double[] yval, double[] zval,
                                        double[][][] fval);
 }

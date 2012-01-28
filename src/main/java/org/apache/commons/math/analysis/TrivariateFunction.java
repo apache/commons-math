@@ -23,7 +23,7 @@ package org.apache.commons.math.analysis;
  * @since 2.2
  * @version $Id$
  */
-public interface TrivariateRealFunction {
+public interface TrivariateFunction {
     /**
      * Compute the value for the function.
      *

@@ -19,7 +19,7 @@ package org.apache.commons.math.analysis.interpolation;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.util.FastMath;
-import org.apache.commons.math.analysis.TrivariateRealFunction;
+import org.apache.commons.math.analysis.TrivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public final class TricubicSplineInterpolatorTest {
         TrivariateRealGridInterpolator interpolator = new TricubicSplineInterpolator();
         
         @SuppressWarnings("unused")
-        TrivariateRealFunction p = interpolator.interpolate(xval, yval, zval, fval);
+        TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         
         double[] wxval = new double[] {3, 2, 5, 6.5};
         try {
@@ -98,7 +98,7 @@ public final class TricubicSplineInterpolatorTest {
      */
     @Test
     public void testPlane() {
-        TrivariateRealFunction f = new TrivariateRealFunction() {
+        TrivariateFunction f = new TrivariateFunction() {
                 public double value(double x, double y, double z) {
                     return 2 * x - 3 * y - z + 5;
                 }
@@ -118,7 +118,7 @@ public final class TricubicSplineInterpolatorTest {
             }
         }
 
-        TrivariateRealFunction p = interpolator.interpolate(xval, yval, zval, fval);
+        TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         double x, y, z;
         double expected, result;
         
@@ -164,7 +164,7 @@ public final class TricubicSplineInterpolatorTest {
         final double ky = 1;
 
         // Function values
-        TrivariateRealFunction f = new TrivariateRealFunction() {
+        TrivariateFunction f = new TrivariateFunction() {
                 public double value(double x, double y, double z) {
                     return a * FastMath.cos(omega * z - kx * x - ky * y);
                 }
@@ -181,7 +181,7 @@ public final class TricubicSplineInterpolatorTest {
 
         TrivariateRealGridInterpolator interpolator = new TricubicSplineInterpolator();
 
-        TrivariateRealFunction p = interpolator.interpolate(xval, yval, zval, fval);
+        TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         double x, y, z;
         double expected, result;
         

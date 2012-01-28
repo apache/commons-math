@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.TrivariateRealFunction;
+import org.apache.commons.math.analysis.TrivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.OutOfRangeException;
@@ -36,7 +36,7 @@ import org.apache.commons.math.util.MathArrays;
  * @since 2.2
  */
 public class TricubicSplineInterpolatingFunction
-    implements TrivariateRealFunction {
+    implements TrivariateFunction {
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
@@ -421,7 +421,7 @@ public class TricubicSplineInterpolatingFunction
  * @version $Id$
  */
 class TricubicSplineFunction
-    implements TrivariateRealFunction {
+    implements TrivariateFunction {
     /** Number of points. */
     private static final short N = 4;
     /** Coefficients */
