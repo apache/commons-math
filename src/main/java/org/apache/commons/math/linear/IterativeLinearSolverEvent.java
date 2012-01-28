@@ -54,6 +54,23 @@ public abstract class IterativeLinearSolverEvent
     public abstract RealVector getRightHandSideVector();
 
     /**
+     * Returns the norm of the residual. The returned value is not required to
+     * be <em>exact</em>. Instead, the norm of the so-called <em>updated</em>
+     * residual (if available) should be returned. For example, the
+     * {@link ConjugateGradient conjugate gradient} method computes a sequence
+     * of residuals, the norm of which is cheap to compute. However, due to
+     * accumulation of round-off errors, this residual might differ from the
+     * true residual after some iterations. See e.g. A. Greenbaum and
+     * Z. Strakos, <em>Predicting the Behavior of Finite Precision Lanzos and
+     * Conjugate Gradient Computations</em>, Technical Report 538, Department of
+     * Computer Science, New York University, 1991 (available
+     * <a href="http://www.archive.org/details/predictingbehavi00gree">here</a>).
+     *
+     * @return an estimate of the norm of the residual
+     */
+    public abstract double getNormOfResidual();
+
+    /**
      * Returns the current estimate of the solution to the linear system to be
      * solved. This method should return an unmodifiable view, or a deep copy of
      * the actual current solution, in order not to compromise subsequent

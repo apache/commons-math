@@ -99,6 +99,9 @@ public class ConjugateGradient
         /** The current estimate of the residual. */
         private final RealVector r;
 
+        /** The current estimate of the norm of the residual. */
+        private final double rnorm;
+
         /** The current estimate of the solution. */
         private final RealVector x;
 
@@ -112,12 +115,22 @@ public class ConjugateGradient
          * @param x the current estimate of the solution
          * @param b the right-hand side vector
          * @param r the current estimate of the residual
+         * @param rnorm the norm of the current estimate of the residual
          */
-        public ConjugateGradientEvent(final Object source, final int iterations, final RealVector x, final RealVector b, final RealVector r) {
+        public ConjugateGradientEvent(final Object source, final int iterations,
+            final RealVector x, final RealVector b, final RealVector r,
+            final double rnorm) {
             super(source, iterations);
             this.x = RealVector.unmodifiableRealVector(x);
             this.b = RealVector.unmodifiableRealVector(b);
             this.r = RealVector.unmodifiableRealVector(r);
+            this.rnorm = rnorm;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double getNormOfResidual() {
+            return rnorm;
         }
 
         /** {@inheritDoc} */
@@ -206,7 +219,7 @@ public class ConjugateGradient
         final IterationManager manager = getIterationManager();
         // Initialization of default stopping criterion
         manager.resetIterationCount();
-        final double r2max = delta * delta * b.dotProduct(b);
+        final double rmax = delta * b.getNorm();
 
         // Initialization phase counts as one iteration.
         manager.incrementIterationCount();
@@ -218,7 +231,7 @@ public class ConjugateGradient
         RealVector q = a.operate(p);
 
         final RealVector r = b.combine(1, -1, q);
-        double r2 = r.dotProduct(r);
+        double rnorm = r.getNorm();
         RealVector z;
         if (m == null) {
             z = r;
@@ -226,16 +239,16 @@ public class ConjugateGradient
             z = null;
         }
         IterativeLinearSolverEvent evt;
-        evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+        evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
         manager.fireInitializationEvent(evt);
-        if (r2 <= r2max) {
+        if (rnorm <= rmax) {
             manager.fireTerminationEvent(evt);
             return x;
         }
         double rhoPrev = 0.;
         while (true) {
             manager.incrementIterationCount();
-            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
             manager.fireIterationStartedEvent(evt);
             if (m != null) {
                 z = m.solve(r);
@@ -268,10 +281,10 @@ public class ConjugateGradient
             x.combineToSelf(1., alpha, p);
             r.combineToSelf(1., -alpha, q);
             rhoPrev = rhoNext;
-            r2 = r.dotProduct(r);
-            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+            rnorm = r.getNorm();
+            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
             manager.fireIterationPerformedEvent(evt);
-            if (r2 <= r2max) {
+            if (rnorm <= rmax) {
                 manager.fireTerminationEvent(evt);
                 return x;
             }

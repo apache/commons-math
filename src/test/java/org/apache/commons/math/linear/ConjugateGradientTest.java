@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.IterationEvent;
 import org.apache.commons.math.util.IterationListener;
 import org.junit.Assert;
@@ -175,7 +176,7 @@ public class ConjugateGradientTest {
             }
 
             public void iterationPerformed(final IterationEvent e) {
-                RealVector v = ((ProvidesResidual)e).getResidual();
+                RealVector v = ((ProvidesResidual) e).getResidual();
                 r.setSubVector(0, v);
                 v = ((IterativeLinearSolverEvent) e).getSolution();
                 x.setSubVector(0, v);
@@ -463,7 +464,6 @@ public class ConjugateGradientTest {
          */
         final int[] count = new int[] {0, 0, 0, 0};
         final IterationListener listener = new IterationListener() {
-
             public void initializationPerformed(final IterationEvent e) {
                 ++count[0];
             }
@@ -496,6 +496,99 @@ public class ConjugateGradientTest {
             Assert.assertEquals(msg, 1, count[0]);
             msg = String.format("column %d (finalization)", j);
             Assert.assertEquals(msg, 1, count[3]);
+        }
+    }
+
+    @Test
+    public void testUnpreconditionedNormOfResidual() {
+        final int n = 5;
+        final int maxIterations = 100;
+        final RealLinearOperator a = new HilbertMatrix(n);
+        final IterativeLinearSolver solver;
+        final IterationListener listener = new IterationListener() {
+
+            private void doTestNormOfResidual(final IterationEvent e) {
+                final IterativeLinearSolverEvent evt;
+                evt = (IterativeLinearSolverEvent) e;
+                final RealVector x = evt.getSolution();
+                final RealVector b = evt.getRightHandSideVector();
+                final RealVector r = b.subtract(a.operate(x));
+                final double rnorm = r.getNorm();
+                Assert.assertEquals("iteration performed (residual)",
+                    rnorm, evt.getNormOfResidual(),
+                    FastMath.max(1E-5 * rnorm, 1E-10));
+            }
+
+            public void initializationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void iterationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void iterationStarted(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void terminationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+        };
+        solver = new ConjugateGradient(maxIterations, 1E-10, true);
+        solver.getIterationManager().addIterationListener(listener);
+        final RealVector b = new ArrayRealVector(n);
+        for (int j = 0; j < n; j++) {
+            b.set(0.);
+            b.setEntry(j, 1.);
+            solver.solve(a, b);
+        }
+    }
+
+    @Test
+    public void testPreconditionedNormOfResidual() {
+        final int n = 5;
+        final int maxIterations = 100;
+        final RealLinearOperator a = new HilbertMatrix(n);
+        final InvertibleRealLinearOperator m = JacobiPreconditioner.create(a);
+        final PreconditionedIterativeLinearSolver solver;
+        final IterationListener listener = new IterationListener() {
+
+            private void doTestNormOfResidual(final IterationEvent e) {
+                final IterativeLinearSolverEvent evt;
+                evt = (IterativeLinearSolverEvent) e;
+                final RealVector x = evt.getSolution();
+                final RealVector b = evt.getRightHandSideVector();
+                final RealVector r = b.subtract(a.operate(x));
+                final double rnorm = r.getNorm();
+                Assert.assertEquals("iteration performed (residual)",
+                    rnorm, evt.getNormOfResidual(),
+                    FastMath.max(1E-5 * rnorm, 1E-10));
+            }
+
+            public void initializationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void iterationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void iterationStarted(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+
+            public void terminationPerformed(final IterationEvent e) {
+                doTestNormOfResidual(e);
+            }
+        };
+        solver = new ConjugateGradient(maxIterations, 1E-10, true);
+        solver.getIterationManager().addIterationListener(listener);
+        final RealVector b = new ArrayRealVector(n);
+        for (int j = 0; j < n; j++) {
+            b.set(0.);
+            b.setEntry(j, 1.);
+            solver.solve(a, m, b);
         }
     }
 }

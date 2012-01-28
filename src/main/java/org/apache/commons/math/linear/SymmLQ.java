@@ -664,7 +664,7 @@ public class SymmLQ
          */
 
         /** */
-        private static final long serialVersionUID = 20120128L;
+        private static final long serialVersionUID = 2012012801L;
 
         /** A reference to the state of this solver. */
         private final State state;
@@ -681,9 +681,16 @@ public class SymmLQ
             this.state = state;
         }
 
+        /** {@inheritDoc} */
         @Override
         public int getIterations() {
             return getIterationManager().getIterations();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public double getNormOfResidual() {
+            return FastMath.min(state.cgnorm, state.lqnorm);
         }
 
         /** {@inheritDoc} */
