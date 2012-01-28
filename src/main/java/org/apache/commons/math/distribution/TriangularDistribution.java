@@ -77,7 +77,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
         this.a = a;
         this.c = c;
         this.b = b;
-        solverAbsoluteAccuracy = FastMath.ulp(c);
+        solverAbsoluteAccuracy = FastMath.max(FastMath.ulp(a), FastMath.ulp(b));
     }
 
     /**
@@ -89,7 +89,19 @@ public class TriangularDistribution extends AbstractRealDistribution {
         return c;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * For this distribution, the returned value is not really meaningful,
+     * since exact formulas are implemented for the computation of the
+     * {@link #inverseCumulativeProbability(double)} (no solver is invoked).
+     * </p>
+     * <p>
+     * For lower limit {@code a} and upper limit {@code b}, the current
+     * implementation returns {@code max(ulp(a), ulp(b)}.
+     * </p>
+     */
     @Override
     protected double getSolverAbsoluteAccuracy() {
         return solverAbsoluteAccuracy;
