@@ -652,6 +652,56 @@ public class SymmLQ
         }
     }
 
+    /**
+     * The type of all events fired by this implementation of the SYMMLQ method.
+     *
+     * @version $Id$
+     */
+    private class SymmLQEvent extends IterativeLinearSolverEvent {
+        /*
+         * TODO This class relies dangerously on references being transparently
+         * updated.
+         */
+
+        /** */
+        private static final long serialVersionUID = 20120128L;
+
+        /** A reference to the state of this solver. */
+        private final State state;
+
+        /**
+         * Creates a new instance of this class.
+         *
+         * @param source the iterative algorithm on which the event initially
+         * occurred
+         * @param state the state of this solver at the time of creation
+         */
+        public SymmLQEvent(final Object source, final State state) {
+            super(source, getIterationManager().getIterations());
+            this.state = state;
+        }
+
+        @Override
+        public int getIterations() {
+            return getIterationManager().getIterations();
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public RealVector getRightHandSideVector() {
+            return RealVector.unmodifiableRealVector(state.b);
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public RealVector getSolution() {
+            final int n = state.x.getDimension();
+            final RealVector x = new ArrayRealVector(n);
+            state.refine(x);
+            return x;
+        }
+    }
+
     /** The cubic root of {@link #MACH_PREC}. */
     private static final double CBRT_MACH_PREC;
 
@@ -1141,7 +1191,7 @@ public class SymmLQ
         manager.incrementIterationCount();
 
         final State state = new State(a, m, b, x, goodb, shift);
-        final IterativeLinearSolverEvent event = createEvent(state);
+        final IterativeLinearSolverEvent event = new SymmLQEvent(this, state);
         if (state.beta1 == 0.) {
             /* If b = 0 exactly, stop with x = 0. */
             manager.fireTerminationEvent(event);
@@ -1200,37 +1250,5 @@ public class SymmLQ
         DimensionMismatchException, NonSelfAdjointOperatorException,
         IllConditionedOperatorException, MaxCountExceededException {
         return solveInPlace(a, null, b, x, false, 0.);
-    }
-
-    /**
-     * Creates the event to be fired during the solution process. Unmodifiable
-     * views of the RHS vector, and the current estimate of the solution are
-     * returned by the created event.
-     *
-     * @param state Reference to the current state of this algorithm.
-     * @return The newly created event.
-     */
-    private IterativeLinearSolverEvent createEvent(final State state) {
-        final RealVector bb = RealVector.unmodifiableRealVector(state.b);
-
-        final IterativeLinearSolverEvent event;
-        event = new IterativeLinearSolverEvent(this) {
-
-           private static final long serialVersionUID = 3656926699603081076L;
-
-            @Override
-            public RealVector getRightHandSideVector() {
-                return bb;
-            }
-
-            @Override
-            public RealVector getSolution() {
-                final int n = state.x.getDimension();
-                final RealVector x = new ArrayRealVector(n);
-                state.refine(x);
-                return x;
-            }
-        };
-        return event;
     }
 }

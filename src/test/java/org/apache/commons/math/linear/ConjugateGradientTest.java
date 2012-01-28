@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math.linear;
 
+import java.util.Arrays;
+
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.util.IterationEvent;
@@ -453,26 +455,29 @@ public class ConjugateGradientTest {
         final int maxIterations = 100;
         final RealLinearOperator a = new HilbertMatrix(n);
         final IterativeLinearSolver solver;
-        final int[] count = new int[] {
-            0, 0, 0, 0
-        };
+        /*
+         * count[0] = number of calls to initializationPerformed
+         * count[1] = number of calls to iterationStarted
+         * count[2] = number of calls to iterationPerformed
+         * count[3] = number of calls to terminationPerformed
+         */
+        final int[] count = new int[] {0, 0, 0, 0};
         final IterationListener listener = new IterationListener() {
 
             public void initializationPerformed(final IterationEvent e) {
-                count[0] = 1;
-                count[1] = 0;
-                count[2] = 0;
-                count[3] = 0;
-
+                ++count[0];
             }
 
             public void iterationPerformed(final IterationEvent e) {
                 ++count[2];
+                Assert.assertEquals("iteration performed",
+                    count[2], e.getIterations() - 1);
             }
 
-            public void iterationStarted(IterationEvent e) {
+            public void iterationStarted(final IterationEvent e) {
                 ++count[1];
-
+                Assert.assertEquals("iteration started",
+                    count[1], e.getIterations() - 1);
             }
 
             public void terminationPerformed(final IterationEvent e) {
@@ -483,17 +488,12 @@ public class ConjugateGradientTest {
         solver.getIterationManager().addIterationListener(listener);
         final RealVector b = new ArrayRealVector(n);
         for (int j = 0; j < n; j++) {
+            Arrays.fill(count, 0);
             b.set(0.);
             b.setEntry(j, 1.);
             solver.solve(a, b);
             String msg = String.format("column %d (initialization)", j);
             Assert.assertEquals(msg, 1, count[0]);
-            msg = String.format("column %d (iterations started)", j);
-            Assert.assertEquals(msg, solver.getIterationManager()
-                .getIterations() - 1, count[1]);
-            msg = String.format("column %d (iterations performed)", j);
-            Assert.assertEquals(msg, solver.getIterationManager()
-                .getIterations() - 1, count[2]);
             msg = String.format("column %d (finalization)", j);
             Assert.assertEquals(msg, 1, count[3]);
         }

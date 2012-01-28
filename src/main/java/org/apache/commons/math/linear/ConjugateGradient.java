@@ -86,21 +86,55 @@ public class ConjugateGradient
      * @version $Id: ConjugateGradient.java 1175404 2011-09-25 14:48:18Z
      * celestin $
      */
-    public abstract static class ConjugateGradientEvent
+    public static class ConjugateGradientEvent
         extends IterativeLinearSolverEvent
         implements ProvidesResidual {
 
         /** */
-        private static final long serialVersionUID = 6461730085343318121L;
+        private static final long serialVersionUID = 20120128L;
+
+        /** The right-hand side vector. */
+        private final RealVector b;
+
+        /** The current estimate of the residual. */
+        private final RealVector r;
+
+        /** The current estimate of the solution. */
+        private final RealVector x;
 
         /**
          * Creates a new instance of this class.
          *
-         * @param source The iterative algorithm on which the event initially
-         * occurred.
+         * @param source the iterative algorithm on which the event initially
+         * occurred
+         * @param iterations the number of iterations performed at the time
+         * {@code this} event is created
+         * @param x the current estimate of the solution
+         * @param b the right-hand side vector
+         * @param r the current estimate of the residual
          */
-        public ConjugateGradientEvent(final Object source) {
-            super(source);
+        public ConjugateGradientEvent(final Object source, final int iterations, final RealVector x, final RealVector b, final RealVector r) {
+            super(source, iterations);
+            this.x = RealVector.unmodifiableRealVector(x);
+            this.b = RealVector.unmodifiableRealVector(b);
+            this.r = RealVector.unmodifiableRealVector(r);
+        }
+
+        /** {@inheritDoc} */
+        public RealVector getResidual() {
+            return r;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public RealVector getRightHandSideVector() {
+            return b;
+        }
+
+        /** {@inheritDoc} */
+        @Override
+        public RealVector getSolution() {
+            return x;
         }
     }
 
@@ -191,34 +225,18 @@ public class ConjugateGradient
         } else {
             z = null;
         }
-        final IterativeLinearSolverEvent event;
-        event = new ConjugateGradientEvent(this) {
-
-            private static final long serialVersionUID = 756911840348776676L;
-
-            public RealVector getResidual() {
-                return ArrayRealVector.unmodifiableRealVector(r);
-            }
-
-            @Override
-            public RealVector getRightHandSideVector() {
-                return ArrayRealVector.unmodifiableRealVector(b);
-            }
-
-            @Override
-            public RealVector getSolution() {
-                return ArrayRealVector.unmodifiableRealVector(x);
-            }
-        };
-        manager.fireInitializationEvent(event);
+        IterativeLinearSolverEvent evt;
+        evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+        manager.fireInitializationEvent(evt);
         if (r2 <= r2max) {
-            manager.fireTerminationEvent(event);
+            manager.fireTerminationEvent(evt);
             return x;
         }
         double rhoPrev = 0.;
         while (true) {
             manager.incrementIterationCount();
-            manager.fireIterationStartedEvent(event);
+            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+            manager.fireIterationStartedEvent(evt);
             if (m != null) {
                 z = m.solve(r);
             }
@@ -251,9 +269,10 @@ public class ConjugateGradient
             r.combineToSelf(1., -alpha, q);
             rhoPrev = rhoNext;
             r2 = r.dotProduct(r);
-            manager.fireIterationPerformedEvent(event);
+            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r);
+            manager.fireIterationPerformedEvent(evt);
             if (r2 <= r2max) {
-                manager.fireTerminationEvent(event);
+                manager.fireTerminationEvent(evt);
                 return x;
             }
         }

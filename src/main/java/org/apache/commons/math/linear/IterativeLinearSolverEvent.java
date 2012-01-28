@@ -29,16 +29,18 @@ public abstract class IterativeLinearSolverEvent
     extends IterationEvent {
 
     /** */
-    private static final long serialVersionUID = 283291016904748030L;
+    private static final long serialVersionUID = 20120128L;
 
     /**
      * Creates a new instance of this class.
      *
-     * @param source The iterative algorithm on which the event initially
-     *        occurred.
+     * @param source the iterative algorithm on which the event initially
+     * occurred
+     * @param iterations the number of iterations performed at the time
+     * {@code this} event is created
      */
-    public IterativeLinearSolverEvent(final Object source) {
-        super(source);
+    public IterativeLinearSolverEvent(final Object source, final int iterations) {
+        super(source, iterations);
     }
 
     /**
