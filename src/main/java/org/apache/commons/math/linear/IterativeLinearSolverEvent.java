@@ -46,10 +46,10 @@ public abstract class IterativeLinearSolverEvent
     /**
      * Returns the current right-hand side of the linear system to be solved.
      * This method should return an unmodifiable view, or a deep copy of the
-     * actual right-hand side, in order not to compromise subsequent iterations
-     * of the source {@link IterativeLinearSolver}.
+     * actual right-hand side vector, in order not to compromise subsequent
+     * iterations of the source {@link IterativeLinearSolver}.
      *
-     * @return The right-hand side vector, b.
+     * @return the right-hand side vector, b
      */
     public abstract RealVector getRightHandSideVector();
 
@@ -66,7 +66,7 @@ public abstract class IterativeLinearSolverEvent
      * Computer Science, New York University, 1991 (available
      * <a href="http://www.archive.org/details/predictingbehavi00gree">here</a>).
      *
-     * @return an estimate of the norm of the residual
+     * @return the norm of the residual, ||r||
      */
     public abstract double getNormOfResidual();
 
@@ -76,7 +76,7 @@ public abstract class IterativeLinearSolverEvent
      * the actual current solution, in order not to compromise subsequent
      * iterations of the source {@link IterativeLinearSolver}.
      *
-     * @return The solution, x.
+     * @return the solution, x
      */
     public abstract RealVector getSolution();
 }

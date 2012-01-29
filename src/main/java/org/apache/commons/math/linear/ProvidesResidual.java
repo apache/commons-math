@@ -30,7 +30,7 @@ public interface ProvidesResidual {
      * unmodifiable view or a deep copy of the residual, in order not to
      * compromise the subsequent iterations.
      *
-     * @return the current value of the residual.
+     * @return the current value of the residual
      */
     RealVector getResidual();
 }

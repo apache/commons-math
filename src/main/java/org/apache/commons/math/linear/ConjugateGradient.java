@@ -170,10 +170,10 @@ public class ConjugateGradient
      * Creates a new instance of this class, with <a href="#stopcrit">default
      * stopping criterion</a>.
      *
-     * @param maxIterations Maximum number of iterations.
-     * @param delta &delta; parameter for the default stopping criterion.
+     * @param maxIterations the maximum number of iterations
+     * @param delta the &delta; parameter for the default stopping criterion
      * @param check {@code true} if positive definiteness of both matrix and
-     * preconditioner should be checked.
+     * preconditioner should be checked
      */
     public ConjugateGradient(final int maxIterations, final double delta,
                              final boolean check) {
@@ -186,10 +186,10 @@ public class ConjugateGradient
      * Creates a new instance of this class, with <a href="#stopcrit">default
      * stopping criterion</a> and custom iteration manager.
      *
-     * @param manager Custom iteration manager.
-     * @param delta &delta; parameter for the default stopping criterion.
+     * @param manager the custom iteration manager
+     * @param delta the &delta; parameter for the default stopping criterion
      * @param check {@code true} if positive definiteness of both matrix and
-     * preconditioner should be checked.
+     * preconditioner should be checked
      */
     public ConjugateGradient(final IterationManager manager,
                              final double delta, final boolean check) {
@@ -202,7 +202,7 @@ public class ConjugateGradient
      * Returns {@code true} if positive-definiteness should be checked for both
      * matrix and preconditioner.
      *
-     * @return {@code true} if the tests are to be performed.
+     * @return {@code true} if the tests are to be performed
      */
     public final boolean getCheck() {
         return check;
@@ -211,11 +211,10 @@ public class ConjugateGradient
     /** {@inheritDoc} */
     @Override
     public RealVector solveInPlace(final RealLinearOperator a,
-                                   final InvertibleRealLinearOperator m,
-                                   final RealVector b, final RealVector x0)
+        final RealLinearOperator minv, final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        checkParameters(a, m, b, x0);
+        checkParameters(a, minv, b, x0);
         final IterationManager manager = getIterationManager();
         // Initialization of default stopping criterion
         manager.resetIterationCount();
@@ -233,7 +232,7 @@ public class ConjugateGradient
         final RealVector r = b.combine(1, -1, q);
         double rnorm = r.getNorm();
         RealVector z;
-        if (m == null) {
+        if (minv == null) {
             z = r;
         } else {
             z = null;
@@ -250,15 +249,15 @@ public class ConjugateGradient
             manager.incrementIterationCount();
             evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
             manager.fireIterationStartedEvent(evt);
-            if (m != null) {
-                z = m.solve(r);
+            if (minv != null) {
+                z = minv.operate(r);
             }
             final double rhoNext = r.dotProduct(z);
             if (check && (rhoNext <= 0.)) {
                 final NonPositiveDefiniteOperatorException e;
                 e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();
-                context.setValue(OPERATOR, m);
+                context.setValue(OPERATOR, minv);
                 context.setValue(VECTOR, r);
                 throw e;
             }

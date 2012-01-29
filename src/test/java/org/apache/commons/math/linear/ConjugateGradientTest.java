@@ -216,8 +216,7 @@ public class ConjugateGradientTest {
     @Test(expected = NonSquareOperatorException.class)
     public void testNonSquarePreconditioner() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 2);
-        final InvertibleRealLinearOperator m;
-        m = new InvertibleRealLinearOperator() {
+        final RealLinearOperator m = new RealLinearOperator() {
 
             @Override
             public RealVector operate(final RealVector x) {
@@ -233,11 +232,6 @@ public class ConjugateGradientTest {
             public int getColumnDimension() {
                 return 3;
             }
-
-            @Override
-            public RealVector solve(final RealVector b) {
-                throw new UnsupportedOperationException();
-            }
         };
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(10, 0d, false);
@@ -248,8 +242,7 @@ public class ConjugateGradientTest {
     @Test(expected = DimensionMismatchException.class)
     public void testMismatchedOperatorDimensions() {
         final Array2DRowRealMatrix a = new Array2DRowRealMatrix(2, 2);
-        final InvertibleRealLinearOperator m;
-        m = new InvertibleRealLinearOperator() {
+        final RealLinearOperator m = new RealLinearOperator() {
 
             @Override
             public RealVector operate(final RealVector x) {
@@ -265,11 +258,6 @@ public class ConjugateGradientTest {
             public int getColumnDimension() {
                 return 3;
             }
-
-            @Override
-            public RealVector solve(final RealVector b) {
-                throw new UnsupportedOperationException();
-            }
         };
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(10, 0d, false);
@@ -284,8 +272,7 @@ public class ConjugateGradientTest {
         a.setEntry(0, 1, 2d);
         a.setEntry(1, 0, 3d);
         a.setEntry(1, 1, 4d);
-        final InvertibleRealLinearOperator m;
-        m = new InvertibleRealLinearOperator() {
+        final RealLinearOperator m = new RealLinearOperator() {
 
             @Override
             public RealVector operate(final RealVector x) {
@@ -304,14 +291,6 @@ public class ConjugateGradientTest {
             public int getColumnDimension() {
                 return 2;
             }
-
-            @Override
-            public RealVector solve(final RealVector b) {
-                final ArrayRealVector x = new ArrayRealVector(2);
-                x.setEntry(0, -b.getEntry(0));
-                x.setEntry(1, b.getEntry(1));
-                return x;
-            }
         };
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(10, 0d, true);
@@ -327,7 +306,7 @@ public class ConjugateGradientTest {
         final int maxIterations = 100;
         final RealLinearOperator a = new HilbertMatrix(n);
         final InverseHilbertMatrix ainv = new InverseHilbertMatrix(n);
-        final InvertibleRealLinearOperator m = JacobiPreconditioner.create(a);
+        final RealLinearOperator m = JacobiPreconditioner.create(a);
         final PreconditionedIterativeLinearSolver solver;
         solver = new ConjugateGradient(maxIterations, 1E-15, true);
         final RealVector b = new ArrayRealVector(n);
@@ -350,7 +329,7 @@ public class ConjugateGradientTest {
         final int n = 10;
         final int maxIterations = n;
         final RealLinearOperator a = new HilbertMatrix(n);
-        final InvertibleRealLinearOperator m = JacobiPreconditioner.create(a);
+        final RealLinearOperator m = JacobiPreconditioner.create(a);
         final ConjugateGradient solver;
         solver = new ConjugateGradient(maxIterations, 1E-15, true);
         final RealVector r = new ArrayRealVector(n);
@@ -422,7 +401,7 @@ public class ConjugateGradientTest {
                 }
             }
         }
-        final InvertibleRealLinearOperator m = JacobiPreconditioner.create(a);
+        final RealLinearOperator m = JacobiPreconditioner.create(a);
         final PreconditionedIterativeLinearSolver pcg;
         final IterativeLinearSolver cg;
         pcg = new ConjugateGradient(maxIterations, 1E-6, true);
@@ -550,7 +529,7 @@ public class ConjugateGradientTest {
         final int n = 5;
         final int maxIterations = 100;
         final RealLinearOperator a = new HilbertMatrix(n);
-        final InvertibleRealLinearOperator m = JacobiPreconditioner.create(a);
+        final RealLinearOperator m = JacobiPreconditioner.create(a);
         final PreconditionedIterativeLinearSolver solver;
         final IterationListener listener = new IterationListener() {
 

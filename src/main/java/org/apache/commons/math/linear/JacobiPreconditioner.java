@@ -17,13 +17,17 @@
 package org.apache.commons.math.linear;
 
 /**
- * This class implements the standard Jacobi (diagonal) preconditioner.
+ * This class implements the standard Jacobi (diagonal) preconditioner. For a
+ * matrix A<sub>ij</sub>, this preconditioner is
+ * M = diag(A<sub>11</sub>, A<sub>22</sub>, &hellip;).
+ * {@link #create(RealLinearOperator)} returns the <em>inverse</em> of this
+ * preconditioner,
+ * M<sup>-1</sup> = diag(1 / A<sub>11</sub>, 1 / A<sub>22</sub>, &hellip;)
  *
  * @version $Id$
  * @since 3.0
  */
-public class JacobiPreconditioner
-    extends InvertibleRealLinearOperator {
+public class JacobiPreconditioner extends RealLinearOperator {
 
     /** The diagonal coefficients of the preconditioner. */
     private final ArrayRealVector diag;
@@ -31,9 +35,10 @@ public class JacobiPreconditioner
     /**
      * Creates a new instance of this class.
      *
-     * @param diag Diagonal coefficients of the preconditioner.
+     * @param diag the diagonal coefficients of the linear operator to be
+     * preconditioned
      * @param deep {@code true} if a deep copy of the above array should be
-     *        performed.
+     * performed
      */
     public JacobiPreconditioner(final double[] diag, final boolean deep) {
         this.diag = new ArrayRealVector(diag, deep);
@@ -47,10 +52,10 @@ public class JacobiPreconditioner
      * matrix-vector products with the basis vectors (and might therefore take
      * some time). With matrices, direct entry access is carried out.
      *
-     * @param a Linear operator for which the preconditioner should be built.
-     * @return Preconditioner made of the diagonal coefficients of the specified
-     *         linear operator.
-     * @throws NonSquareOperatorException if {@code a} is not square.
+     * @param a the linear operator for which the preconditioner should be built
+     * @return the inverse of the preconditioner made of the inverse of the
+     * diagonal coefficients of the specified linear operator
+     * @throws NonSquareOperatorException if {@code a} is not square
      */
     public static JacobiPreconditioner create(final RealLinearOperator a)
         throws NonSquareOperatorException {
@@ -91,13 +96,6 @@ public class JacobiPreconditioner
     @Override
     public RealVector operate(final RealVector x) {
         // Dimension check is carried out by ebeMultiply
-        return x.ebeMultiply(diag);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public RealVector solve(final RealVector b) {
-        // Dimension check is carried out by ebeDivide
-        return b.ebeDivide(diag);
+        return x.ebeDivide(diag);
     }
 }

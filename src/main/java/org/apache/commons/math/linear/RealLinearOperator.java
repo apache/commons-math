@@ -54,24 +54,24 @@ public abstract class RealLinearOperator {
     /**
      * Returns the dimension of the codomain of this operator.
      *
-     * @return the number of rows of the underlying matrix.
+     * @return the number of rows of the underlying matrix
      */
     public abstract int getRowDimension();
 
     /**
      * Returns the dimension of the domain of this operator.
      *
-     * @return the number of columns of the underlying matrix.
+     * @return the number of columns of the underlying matrix
      */
     public abstract int getColumnDimension();
 
     /**
      * Returns the result of multiplying {@code this} by the vector {@code x}.
      *
-     * @param x Vector to operate on.
-     * @return the product of {@code this} instance with {@code x}.
+     * @param x the vector to operate on
+     * @return the product of {@code this} instance with {@code x}
      * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if the column dimension does not match the size of {@code x}.
+     * if the column dimension does not match the size of {@code x}
      */
     public abstract RealVector operate(final RealVector x);
 
@@ -81,11 +81,11 @@ public abstract class RealLinearOperator {
      * throws an {@link UnsupportedOperationException}. Users overriding this
      * method must also override {@link #isTransposable()}.
      *
-     * @param x Vector to operate on.
+     * @param x the vector to operate on
      * @return the product of the transpose of {@code this} instance with
-     * {@code x}.
+     * {@code x}
      * @throws org.apache.commons.math.exception.DimensionMismatchException
-     * if the row dimension does not match the size of {@code x}.
+     * if the row dimension does not match the size of {@code x}
      * @throws UnsupportedOperationException if this operation is not supported
      * by {@code this} operator
      */
