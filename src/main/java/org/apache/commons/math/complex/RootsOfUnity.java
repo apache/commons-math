@@ -26,8 +26,8 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
 /**
- * A helper class for the computation and caching of the {@code n}<sup>th</sup>
- * roots of unity.
+ * A helper class for the computation and caching of the {@code n}-th roots of
+ * unity.
  *
  * @version $Id$
  * @since 3.0
@@ -43,59 +43,75 @@ public class RootsOfUnity implements Serializable {
     /** Real part of the roots. */
     private double[] omegaReal;
 
-    /** Imaginary part of the roots for forward transform. */
-    private double[] omegaImaginaryForward;
-
-    /** Imaginary part of the roots for reverse transform. */
-    private double[] omegaImaginaryInverse;
-
-    /** Forward/reverse indicator. */
-    private boolean isForward;
+    /**
+     * Imaginary part of the {@code n}-th roots of unity, for positive values
+     * of {@code n}. In this array, the roots are stored in counter-clockwise
+     * order.
+     */
+    private double[] omegaImaginaryCounterClockwise;
 
     /**
-     * Build an engine for computing the {@code n}<sup>th</sup> roots of
-     * unity.
+     * Imaginary part of the {@code n}-th roots of unity, for negative values
+     * of {@code n}. In this array, the roots are stored in clockwise order.
+     */
+    private double[] omegaImaginaryClockwise;
+
+    /**
+     * {@code true} if {@link #computeOmega(int)} was called with a positive
+     * value of its argument {@code n}. In this case, counter-clockwise ordering
+     * of the roots of unity should be used.
+     */
+    private boolean isCounterClockWise;
+
+    /**
+     * Build an engine for computing the {@code n}-th roots of unity.
      */
     public RootsOfUnity() {
 
         omegaCount = 0;
         omegaReal = null;
-        omegaImaginaryForward = null;
-        omegaImaginaryInverse = null;
-        isForward = true;
+        omegaImaginaryCounterClockwise = null;
+        omegaImaginaryClockwise = null;
+        isCounterClockWise = true;
     }
 
     /**
-     * Check if computation has been done for forward or reverse transform.
+     * Returns {@code true} if {@link #computeOmega(int)} was called with a
+     * positive value of its argument {@code n}. If {@code true}, then
+     * counter-clockwise ordering of the roots of unity should be used.
      *
-     * @return {@code true} if computation has been done for forward transform
+     * @return {@code true} if the roots of unity are stored in
+     * counter-clockwise order
      * @throws MathIllegalStateException if no roots of unity have been computed
      * yet
      */
-    public synchronized boolean isForward()
+    public synchronized boolean isCounterClockWise()
             throws MathIllegalStateException {
 
         if (omegaCount == 0) {
             throw new MathIllegalStateException(
                     LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET);
         }
-        return isForward;
+        return isCounterClockWise;
     }
 
     /**
      * <p>
-     * Computes the {@code n}<sup>th</sup> roots of unity. The roots are
-     * stored in {@code omega[]}, such that {@code omega[k] = w ^ k}, where
-     * {@code k = 0, ..., n - 1}, {@code w = exp(-2 &pi; i / n)} and
+     * Computes the {@code n}-th roots of unity. The roots are stored in
+     * {@code omega[]}, such that {@code omega[k] = w ^ k}, where
+     * {@code k = 0, ..., n - 1}, {@code w = exp(2 * pi * i / n)} and
      * {@code i = sqrt(-1)}.
      * </p>
      * <p>
-     * Note that {@code n} is positive for forward transform and negative
-     * for inverse transform.
+     * Note that {@code n} can be positive of negative
      * </p>
+     * <ul>
+     * <li>{@code abs(n)} is always the number of roots of unity.</li>
+     * <li>If {@code n > 0}, then the roots are stored in counter-clockwise order.</li>
+     * <li>If {@code n < 0}, then the roots are stored in clockwise order.</p>
+     * </ul>
      *
-     * @param n number of roots of unity to compute, positive for forward
-     * transform, negative for inverse transform
+     * @param n the (signed) number of roots of unity to be computed
      * @throws ZeroException if {@code n = 0}
      */
     public synchronized void computeOmega(int n) throws ZeroException {
@@ -105,7 +121,7 @@ public class RootsOfUnity implements Serializable {
                     LocalizedFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY);
         }
 
-        isForward = n > 0;
+        isCounterClockWise = n > 0;
 
         // avoid repetitive calculations
         final int absN = FastMath.abs(n);
@@ -114,34 +130,31 @@ public class RootsOfUnity implements Serializable {
             return;
         }
 
-        // calculate everything from scratch, for both forward and inverse
-        // versions
+        // calculate everything from scratch
         final double t = 2.0 * FastMath.PI / absN;
         final double cosT = FastMath.cos(t);
         final double sinT = FastMath.sin(t);
         omegaReal = new double[absN];
-        omegaImaginaryForward = new double[absN];
-        omegaImaginaryInverse = new double[absN];
+        omegaImaginaryCounterClockwise = new double[absN];
+        omegaImaginaryClockwise = new double[absN];
         omegaReal[0] = 1.0;
-        omegaImaginaryForward[0] = 0.0;
-        omegaImaginaryInverse[0] = 0.0;
+        omegaImaginaryCounterClockwise[0] = 0.0;
+        omegaImaginaryClockwise[0] = 0.0;
         for (int i = 1; i < absN; i++) {
-            omegaReal[i] = omegaReal[i - 1] * cosT +
-                    omegaImaginaryForward[i - 1] * sinT;
-            omegaImaginaryForward[i] = omegaImaginaryForward[i - 1] * cosT -
-                    omegaReal[i - 1] * sinT;
-            omegaImaginaryInverse[i] = -omegaImaginaryForward[i];
+            omegaReal[i] = omegaReal[i - 1] * cosT -
+                    omegaImaginaryCounterClockwise[i - 1] * sinT;
+            omegaImaginaryCounterClockwise[i] = omegaReal[i - 1] * sinT +
+                    omegaImaginaryCounterClockwise[i - 1] * cosT;
+            omegaImaginaryClockwise[i] = -omegaImaginaryCounterClockwise[i];
         }
         omegaCount = absN;
     }
 
     /**
-     * Get the real part of the {@code k}<sup>th</sup>
-     * {@code n}<sup>th</sup> root of unity.
+     * Get the real part of the {@code k}-th {@code n}-th root of unity.
      *
-     * @param k index of the {@code n}<sup>th</sup> root of unity
-     * @return real part of the {@code k}<sup>th</sup>
-     * {@code n}<sup>th</sup> root of unity
+     * @param k index of the {@code n}-th root of unity
+     * @return real part of the {@code k}-th {@code n}-th root of unity
      * @throws MathIllegalStateException if no roots of unity have been
      * computed yet
      * @throws MathIllegalArgumentException if {@code k} is out of range
@@ -165,12 +178,10 @@ public class RootsOfUnity implements Serializable {
     }
 
     /**
-     * Get the imaginary part of the {@code k}<sup>th</sup>
-     * {@code n}<sup>th</sup> root of unity.
+     * Get the imaginary part of the {@code k}-th {@code n}-th root of unity.
      *
-     * @param k index of the {@code n}<sup>th</sup> root of unity
-     * @return imaginary part of the {@code k}<sup>th</sup>
-     * {@code n}<sup>th</sup> root of unity
+     * @param k index of the {@code n}-th root of unity
+     * @return imaginary part of the {@code k}-th {@code n}-th root of unity
      * @throws MathIllegalStateException if no roots of unity have been
      * computed yet
      * @throws OutOfRangeException if {@code k} is out of range
@@ -190,7 +201,7 @@ public class RootsOfUnity implements Serializable {
                     Integer.valueOf(omegaCount - 1));
         }
 
-        return isForward ? omegaImaginaryForward[k] :
-            omegaImaginaryInverse[k];
+        return isCounterClockWise ? omegaImaginaryCounterClockwise[k] :
+            omegaImaginaryClockwise[k];
     }
 }
