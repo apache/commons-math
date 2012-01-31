@@ -189,8 +189,7 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] transform(Complex[] f) {
-        // TODO Is this necessary?
-        roots.computeOmega(f.length);
+        roots.computeOmega(-f.length);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
             return TransformUtils.scaleArray(fft(f), s);
@@ -243,7 +242,7 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] inverseTransform(Complex[] f) {
-        roots.computeOmega(-f.length);    // pass negative argument
+        roots.computeOmega(f.length);
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
         return TransformUtils.scaleArray(fft(f), s);
     }
@@ -278,11 +277,11 @@ public class FastFourierTransformer implements Serializable {
         for (int i = 0; i < n; i++) {
             repacked[i] = new Complex(f[2 * i], f[2 * i + 1]);
         }
-        roots.computeOmega(isInverse ? -n : n);
+        roots.computeOmega(isInverse ? n : -n);
         Complex[] z = fft(repacked);
 
         // reconstruct the FFT result for the original array
-        roots.computeOmega(isInverse ? -2 * n : 2 * n);
+        roots.computeOmega(isInverse ? 2 * n : -2 * n);
         transformed[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
         transformed[n] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
         for (int i = 1; i < n; i++) {
@@ -352,8 +351,8 @@ public class FastFourierTransformer implements Serializable {
             f[i] = a.add(b);
             f[i + 2] = a.subtract(b);
             // omegaCount indicates forward or inverse transform
-            f[i + 1] = roots.isForward() ? e2 : e1;
-            f[i + 3] = roots.isForward() ? e1 : e2;
+            f[i + 1] = roots.isCounterClockWise() ? e1 : e2;
+            f[i + 3] = roots.isCounterClockWise() ? e2 : e1;
         }
 
         // iterations from bottom to top take O(N*logN) time
