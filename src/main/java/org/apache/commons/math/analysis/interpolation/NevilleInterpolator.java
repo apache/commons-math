@@ -32,7 +32,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeFo
  * @version $Id$
  * @since 1.2
  */
-public class NevilleInterpolator implements UnivariateRealInterpolator,
+public class NevilleInterpolator implements UnivariateInterpolator,
     Serializable {
 
     /** serializable version identifier */

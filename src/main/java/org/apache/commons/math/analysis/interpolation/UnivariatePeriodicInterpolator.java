@@ -22,7 +22,7 @@ import org.apache.commons.math.util.MathArrays;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 
 /**
- * Adapter for classes implementing the {@link UnivariateRealInterpolator}
+ * Adapter for classes implementing the {@link UnivariateInterpolator}
  * interface.
  * The data to be interpolated is assumed to be periodic. Thus values that are
  * outside of the range can be passed to the interpolation function: They will
@@ -31,12 +31,12 @@ import org.apache.commons.math.exception.NumberIsTooSmallException;
  *
  * @version $Id$
  */
-public class UnivariateRealPeriodicInterpolator
-    implements UnivariateRealInterpolator {
+public class UnivariatePeriodicInterpolator
+    implements UnivariateInterpolator {
     /** Default number of extension points of the samples array. */
     public static final int DEFAULT_EXTEND = 5;
     /** Interpolator. */
-    private final UnivariateRealInterpolator interpolator;
+    private final UnivariateInterpolator interpolator;
     /** Period. */
     private final double period;
     /** Number of extension points. */
@@ -53,7 +53,7 @@ public class UnivariateRealPeriodicInterpolator
      * number of sample points which the original {@code interpolator} needs
      * on each side of the interpolated point.
      */
-    public UnivariateRealPeriodicInterpolator(UnivariateRealInterpolator interpolator,
+    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
                                               double period,
                                               int extend) {
         this.interpolator = interpolator;
@@ -69,7 +69,7 @@ public class UnivariateRealPeriodicInterpolator
      * @param interpolator Interpolator.
      * @param period Period.
      */
-    public UnivariateRealPeriodicInterpolator(UnivariateRealInterpolator interpolator,
+    public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
                                               double period) {
         this(interpolator, period, DEFAULT_EXTEND);
     }

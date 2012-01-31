@@ -49,7 +49,7 @@ public final class NevilleInterpolatorTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealInterpolator interpolator = new NevilleInterpolator();
+        UnivariateInterpolator interpolator = new NevilleInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
         // 6 interpolating points on interval [0, 2*PI]
@@ -81,7 +81,7 @@ public final class NevilleInterpolatorTest {
     @Test
     public void testExpm1Function() {
         UnivariateFunction f = new Expm1Function();
-        UnivariateRealInterpolator interpolator = new NevilleInterpolator();
+        UnivariateInterpolator interpolator = new NevilleInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
         // 5 interpolating points on interval [-1, 1]
@@ -114,7 +114,7 @@ public final class NevilleInterpolatorTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateRealInterpolator interpolator = new NevilleInterpolator();
+        UnivariateInterpolator interpolator = new NevilleInterpolator();
 
         try {
             // bad abscissas array

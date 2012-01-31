@@ -30,7 +30,7 @@ import org.apache.commons.math.random.UnitSphereRandomVectorGenerator;
  * @version $Id$
  */
 public class MicrosphereInterpolator
-    implements MultivariateRealInterpolator {
+    implements MultivariateInterpolator {
     /**
      * Default number of surface elements that composes the microsphere.
      */

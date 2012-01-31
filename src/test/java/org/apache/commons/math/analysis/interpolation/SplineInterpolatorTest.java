@@ -48,7 +48,7 @@ public class SplineInterpolatorTest {
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
-        UnivariateRealInterpolator i = new SplineInterpolator();
+        UnivariateInterpolator i = new SplineInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
         verifyConsistency((PolynomialSplineFunction) f, x);
@@ -71,7 +71,7 @@ public class SplineInterpolatorTest {
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
-        UnivariateRealInterpolator i = new SplineInterpolator();
+        UnivariateInterpolator i = new SplineInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
@@ -94,7 +94,7 @@ public class SplineInterpolatorTest {
     public void testInterpolateLinear() throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 0.0 };
-        UnivariateRealInterpolator i = new SplineInterpolator();
+        UnivariateInterpolator i = new SplineInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
         verifyConsistency((PolynomialSplineFunction) f, x);
@@ -121,7 +121,7 @@ public class SplineInterpolatorTest {
                 11d * FastMath.PI / 6d,
                 2.d * FastMath.PI };
         double y[] = { 0d, 0.5d, 1d, 0.5d, 0d, -0.5d, -1d, -0.5d, 0d };
-        UnivariateRealInterpolator i = new SplineInterpolator();
+        UnivariateInterpolator i = new SplineInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
         verifyConsistency((PolynomialSplineFunction) f, x);
@@ -161,7 +161,7 @@ public class SplineInterpolatorTest {
     @Test
     public void testIllegalArguments() {
         // Data set arrays of different size.
-        UnivariateRealInterpolator i = new SplineInterpolator();
+        UnivariateInterpolator i = new SplineInterpolator();
         try {
             double xval[] = { 0.0, 1.0 };
             double yval[] = { 0.0, 1.0, 2.0 };

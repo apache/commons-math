@@ -50,7 +50,7 @@ import org.apache.commons.math.util.MathArrays;
  * @version $Id$
  *
  */
-public class SplineInterpolator implements UnivariateRealInterpolator {
+public class SplineInterpolator implements UnivariateInterpolator {
 
     /**
      * Computes an interpolating function for the data set.

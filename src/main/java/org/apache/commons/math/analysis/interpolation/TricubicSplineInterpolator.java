@@ -27,7 +27,7 @@ import org.apache.commons.math.util.MathArrays;
  * @since 2.2
  */
 public class TricubicSplineInterpolator
-    implements TrivariateRealGridInterpolator {
+    implements TrivariateGridInterpolator {
     /**
      * {@inheritDoc}
      */

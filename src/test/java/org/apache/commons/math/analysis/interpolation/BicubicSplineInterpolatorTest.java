@@ -37,7 +37,7 @@ public final class BicubicSplineInterpolatorTest {
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
 
-        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
+        BivariateGridInterpolator interpolator = new BicubicSplineInterpolator();
         
         @SuppressWarnings("unused")
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
@@ -87,7 +87,7 @@ public final class BicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
+        BivariateGridInterpolator interpolator = new BicubicSplineInterpolator();
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -134,7 +134,7 @@ public final class BicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new BicubicSplineInterpolator();
+        BivariateGridInterpolator interpolator = new BicubicSplineInterpolator();
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -2, -1, 0.5, 2.5};

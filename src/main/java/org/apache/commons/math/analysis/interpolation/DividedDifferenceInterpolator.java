@@ -34,7 +34,7 @@ import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm
  * @since 1.2
  */
 public class DividedDifferenceInterpolator
-    implements UnivariateRealInterpolator, Serializable {
+    implements UnivariateInterpolator, Serializable {
     /** serializable version identifier */
     private static final long serialVersionUID = 107049519551235069L;
 

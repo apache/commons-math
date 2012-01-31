@@ -27,9 +27,9 @@ import org.junit.Test;
 
 
 /**
- * Test for {@link UnivariateRealPeriodicInterpolator}.
+ * Test for {@link UnivariatePeriodicInterpolator}.
  */
-public class UnivariateRealPeriodicInterpolatorTest {
+public class UnivariatePeriodicInterpolatorTest {
     private final Random rng = new Random(1224465L);
 
     @Test
@@ -47,11 +47,11 @@ public class UnivariateRealPeriodicInterpolatorTest {
             yval[i] = FastMath.sin(xval[i]);
         }
 
-        final UnivariateRealInterpolator inter = new LinearInterpolator();
+        final UnivariateInterpolator inter = new LinearInterpolator();
         final UnivariateFunction f = inter.interpolate(xval, yval);
 
-        final UnivariateRealInterpolator interP
-            = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
+        final UnivariateInterpolator interP
+            = new UnivariatePeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
         final UnivariateFunction fP = interP.interpolate(xval, yval);
 
@@ -92,8 +92,8 @@ public class UnivariateRealPeriodicInterpolatorTest {
             yval[i] = FastMath.sin(xval[i]);
         }
 
-        final UnivariateRealInterpolator interP
-            = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
+        final UnivariateInterpolator interP
+            = new UnivariatePeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
         final UnivariateFunction fP = interP.interpolate(xval, yval);
 
@@ -123,8 +123,8 @@ public class UnivariateRealPeriodicInterpolatorTest {
             yval[i] = FastMath.sin(xval[i]);
         }
 
-        final UnivariateRealInterpolator interP
-            = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(),
+        final UnivariateInterpolator interP
+            = new UnivariatePeriodicInterpolator(new LinearInterpolator(),
                                                      period, 1);
         final UnivariateFunction fP = interP.interpolate(xval, yval);
 
@@ -145,8 +145,8 @@ public class UnivariateRealPeriodicInterpolatorTest {
         final double[] yval = { 1, 6, 5 };
         final double period = 10;
 
-        final UnivariateRealInterpolator interpolator
-            = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(), period);
+        final UnivariateInterpolator interpolator
+            = new UnivariatePeriodicInterpolator(new LinearInterpolator(), period);
         interpolator.interpolate(xval, yval);
     }
 
@@ -156,8 +156,8 @@ public class UnivariateRealPeriodicInterpolatorTest {
         final double[] yval = { 1, 6, 5, -1, -2 };
         final double period = 10;
 
-        final UnivariateRealInterpolator interpolator
-            = new UnivariateRealPeriodicInterpolator(new LinearInterpolator(), period);
+        final UnivariateInterpolator interpolator
+            = new UnivariatePeriodicInterpolator(new LinearInterpolator(), period);
         interpolator.interpolate(xval, yval);
     }
 }

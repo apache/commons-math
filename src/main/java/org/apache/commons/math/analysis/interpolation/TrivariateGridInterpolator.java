@@ -16,15 +16,16 @@
  */
 package org.apache.commons.math.analysis.interpolation;
 
-import org.apache.commons.math.analysis.BivariateFunction;
+import org.apache.commons.math.analysis.TrivariateFunction;
 
 /**
- * Interface representing a bivariate real interpolating function where the
+ * Interface representing a trivariate real interpolating function where the
  * sample points must be specified on a regular grid.
  *
  * @version $Id$
+ * @since 2.2
  */
-public interface BivariateRealGridInterpolator {
+public interface TrivariateGridInterpolator {
     /**
      * Compute an interpolating function for the dataset.
      *
@@ -32,14 +33,16 @@ public interface BivariateRealGridInterpolator {
      * in increasing order.
      * @param yval All the y-coordinates of the interpolation points, sorted
      * in increasing order.
-     * @param fval The values of the interpolation points on all the grid knots:
-     * {@code fval[i][j] = f(xval[i], yval[j])}.
-     * @return a function which interpolates the dataset.
+     * @param zval All the z-coordinates of the interpolation points, sorted
+     * in increasing order.
+     * @param fval the values of the interpolation points on all the grid knots:
+     * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
+     * @return a function that interpolates the data set.
      * @throws org.apache.commons.math.exception.NoDataException if any of
      * the arrays has zero length.
      * @throws org.apache.commons.math.exception.DimensionMismatchException
      * if the array lengths are inconsistent.
      */
-    BivariateFunction interpolate(double[] xval, double[] yval,
-                                      double[][] fval);
+    TrivariateFunction interpolate(double[] xval, double[] yval, double[] zval,
+                                       double[][][] fval);
 }

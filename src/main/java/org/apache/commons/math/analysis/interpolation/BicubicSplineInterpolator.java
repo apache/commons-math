@@ -29,7 +29,7 @@ import org.apache.commons.math.util.MathArrays;
  * @since 2.2
  */
 public class BicubicSplineInterpolator
-    implements BivariateRealGridInterpolator {
+    implements BivariateGridInterpolator {
     /**
      * {@inheritDoc}
      */

@@ -38,7 +38,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[][] zval = new double[xval.length][yval.length];
 
-        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
+        BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
         
         @SuppressWarnings("unused")
         BivariateFunction p = interpolator.interpolate(xval, yval, zval);
@@ -96,7 +96,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(1);
+        BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(1);
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -144,7 +144,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
                 }
             };
 
-        BivariateRealGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(4);
+        BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(4);
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -2, -1, 0.5, 2.5};

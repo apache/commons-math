@@ -39,7 +39,7 @@ public final class TricubicSplineInterpolatorTest {
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 2.5};
         double[][][] fval = new double[xval.length][yval.length][zval.length];
 
-        TrivariateRealGridInterpolator interpolator = new TricubicSplineInterpolator();
+        TrivariateGridInterpolator interpolator = new TricubicSplineInterpolator();
         
         @SuppressWarnings("unused")
         TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
@@ -104,7 +104,7 @@ public final class TricubicSplineInterpolatorTest {
                 }
             };
 
-        TrivariateRealGridInterpolator interpolator = new TricubicSplineInterpolator();
+        TrivariateGridInterpolator interpolator = new TricubicSplineInterpolator();
 
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -179,7 +179,7 @@ public final class TricubicSplineInterpolatorTest {
             }
         }
 
-        TrivariateRealGridInterpolator interpolator = new TricubicSplineInterpolator();
+        TrivariateGridInterpolator interpolator = new TricubicSplineInterpolator();
 
         TrivariateFunction p = interpolator.interpolate(xval, yval, zval, fval);
         double x, y, z;

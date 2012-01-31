@@ -45,7 +45,7 @@ public class LinearInterpolatorTest {
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
-        UnivariateRealInterpolator i = new LinearInterpolator();
+        UnivariateInterpolator i = new LinearInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
@@ -67,7 +67,7 @@ public class LinearInterpolatorTest {
         throws Exception {
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
-        UnivariateRealInterpolator i = new LinearInterpolator();
+        UnivariateInterpolator i = new LinearInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
@@ -90,7 +90,7 @@ public class LinearInterpolatorTest {
     public void testInterpolateLinear() throws Exception {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 0.0 };
-        UnivariateRealInterpolator i = new LinearInterpolator();
+        UnivariateInterpolator i = new LinearInterpolator();
         UnivariateFunction f = i.interpolate(x, y);
         verifyInterpolation(f, x, y);
 
@@ -105,7 +105,7 @@ public class LinearInterpolatorTest {
     @Test
     public void testIllegalArguments() {
         // Data set arrays of different size.
-        UnivariateRealInterpolator i = new LinearInterpolator();
+        UnivariateInterpolator i = new LinearInterpolator();
         try {
             double xval[] = { 0.0, 1.0 };
             double yval[] = { 0.0, 1.0, 2.0 };

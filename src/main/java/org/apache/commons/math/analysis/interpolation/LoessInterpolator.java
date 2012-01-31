@@ -47,7 +47,7 @@ import org.apache.commons.math.util.MathArrays;
  * @since 2.0
  */
 public class LoessInterpolator
-        implements UnivariateRealInterpolator, Serializable {
+        implements UnivariateInterpolator, Serializable {
     /** Default value of the bandwidth parameter. */
     public static final double DEFAULT_BANDWIDTH = 0.3;
     /** Default value of the number of robustness iterations. */
