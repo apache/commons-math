@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
 public class RootsOfUnity implements Serializable {
 
     /** Serializable version id. */
-    private static final long serialVersionUID = 6404784357747329667L;
+    private static final long serialVersionUID = 20120201L;
 
     /** Number of roots of unity. */
     private int omegaCount;
