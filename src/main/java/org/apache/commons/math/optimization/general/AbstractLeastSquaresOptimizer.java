@@ -181,7 +181,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws org.apache.commons.math.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      *
-     * @see #getCovriances(double)
+     * @see #getCovariances(double)
      */
     public double[][] getCovariances() {
         return getCovariances(DEFAULT_SINGULARITY_THRESHOLD);
