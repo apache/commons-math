@@ -57,7 +57,7 @@ public class RootsOfUnity implements Serializable {
     private double[] omegaImaginaryClockwise;
 
     /**
-     * {@code true} if {@link #computeOmega(int)} was called with a positive
+     * {@code true} if {@link #computeRoots(int)} was called with a positive
      * value of its argument {@code n}. In this case, counter-clockwise ordering
      * of the roots of unity should be used.
      */
@@ -76,7 +76,7 @@ public class RootsOfUnity implements Serializable {
     }
 
     /**
-     * Returns {@code true} if {@link #computeOmega(int)} was called with a
+     * Returns {@code true} if {@link #computeRoots(int)} was called with a
      * positive value of its argument {@code n}. If {@code true}, then
      * counter-clockwise ordering of the roots of unity should be used.
      *
@@ -114,7 +114,7 @@ public class RootsOfUnity implements Serializable {
      * @param n the (signed) number of roots of unity to be computed
      * @throws ZeroException if {@code n = 0}
      */
-    public synchronized void computeOmega(int n) throws ZeroException {
+    public synchronized void computeRoots(int n) throws ZeroException {
 
         if (n == 0) {
             throw new ZeroException(
@@ -159,7 +159,7 @@ public class RootsOfUnity implements Serializable {
      * computed yet
      * @throws MathIllegalArgumentException if {@code k} is out of range
      */
-    public synchronized double getOmegaReal(int k)
+    public synchronized double getReal(int k)
             throws MathIllegalStateException, MathIllegalArgumentException {
 
         if (omegaCount == 0) {
@@ -186,7 +186,7 @@ public class RootsOfUnity implements Serializable {
      * computed yet
      * @throws OutOfRangeException if {@code k} is out of range
      */
-    public synchronized double getOmegaImaginary(int k)
+    public synchronized double getImaginary(int k)
             throws MathIllegalStateException, OutOfRangeException {
 
         if (omegaCount == 0) {
@@ -203,5 +203,17 @@ public class RootsOfUnity implements Serializable {
 
         return isCounterClockWise ? omegaImaginaryCounterClockwise[k] :
             omegaImaginaryClockwise[k];
+    }
+
+    /**
+     * Returns the number of roots of unity currently stored. If
+     * {@link #computeRoots(int)} was called with {@code n}, then this method
+     * returns {@code abs(n)}. If no roots of unity have been computed yet, this
+     * method returns 0.
+     *
+     * @return the number of roots of unity currently stored
+     */
+    public synchronized int getNumberOfRoots() {
+        return omegaCount;
     }
 }

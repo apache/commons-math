@@ -189,7 +189,7 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] transform(Complex[] f) {
-        roots.computeOmega(-f.length);
+        roots.computeRoots(-f.length);
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
             return TransformUtils.scaleArray(fft(f), s);
@@ -242,7 +242,7 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] inverseTransform(Complex[] f) {
-        roots.computeOmega(f.length);
+        roots.computeRoots(f.length);
         final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
         return TransformUtils.scaleArray(fft(f), s);
     }
@@ -277,11 +277,11 @@ public class FastFourierTransformer implements Serializable {
         for (int i = 0; i < n; i++) {
             repacked[i] = new Complex(f[2 * i], f[2 * i + 1]);
         }
-        roots.computeOmega(isInverse ? n : -n);
+        roots.computeRoots(isInverse ? n : -n);
         Complex[] z = fft(repacked);
 
         // reconstruct the FFT result for the original array
-        roots.computeOmega(isInverse ? 2 * n : -2 * n);
+        roots.computeRoots(isInverse ? 2 * n : -2 * n);
         transformed[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
         transformed[n] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
         for (int i = 1; i < n; i++) {
@@ -289,8 +289,8 @@ public class FastFourierTransformer implements Serializable {
             Complex b = z[i].add(a);
             Complex c = z[i].subtract(a);
             //Complex D = roots.getOmega(i).multiply(Complex.I);
-            Complex d = new Complex(-roots.getOmegaImaginary(i),
-                                    roots.getOmegaReal(i));
+            Complex d = new Complex(-roots.getImaginary(i),
+                                    roots.getReal(i));
             transformed[i] = b.subtract(c.multiply(d));
             transformed[2 * n - i] = transformed[i].conjugate();
         }
@@ -362,8 +362,8 @@ public class FastFourierTransformer implements Serializable {
                 for (int k = 0; k < i; k++) {
                     //z = f[i+j+k].multiply(roots.getOmega(k*m));
                     final int km = k * m;
-                    final double omegaKmReal = roots.getOmegaReal(km);
-                    final double omegaKmImag = roots.getOmegaImaginary(km);
+                    final double omegaKmReal = roots.getReal(km);
+                    final double omegaKmImag = roots.getImaginary(km);
                     //z = f[i+j+k].multiply(omega[k*m]);
                     final Complex z = new Complex(
                         f[i + j + k].getReal() * omegaKmReal -
