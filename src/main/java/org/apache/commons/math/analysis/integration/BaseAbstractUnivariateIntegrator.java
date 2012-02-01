@@ -33,7 +33,7 @@ import org.apache.commons.math.util.MathUtils;
  * @version $Id$
  * @since 1.2
  */
-public abstract class UnivariateRealIntegratorImpl implements UnivariateRealIntegrator {
+public abstract class BaseAbstractUnivariateIntegrator implements UnivariateIntegrator {
 
     /** Default absolute accuracy. */
     public static final double DEFAULT_ABSOLUTE_ACCURACY = 1.0e-15;
@@ -106,7 +106,7 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      */
-    protected UnivariateRealIntegratorImpl(final double relativeAccuracy,
+    protected BaseAbstractUnivariateIntegrator(final double relativeAccuracy,
                                            final double absoluteAccuracy,
                                            final int minimalIterationCount,
                                            final int maximalIterationCount)
@@ -137,7 +137,7 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
      * @param relativeAccuracy relative accuracy of the result
      * @param absoluteAccuracy absolute accuracy of the result
      */
-    protected UnivariateRealIntegratorImpl(final double relativeAccuracy,
+    protected BaseAbstractUnivariateIntegrator(final double relativeAccuracy,
                                            final double absoluteAccuracy) {
         this(relativeAccuracy, absoluteAccuracy,
              DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
@@ -152,7 +152,7 @@ public abstract class UnivariateRealIntegratorImpl implements UnivariateRealInte
      * @exception NumberIsTooSmallException if maximal number of iterations
      * is lesser than or equal to the minimal number of iterations
      */
-    protected UnivariateRealIntegratorImpl(final int minimalIterationCount,
+    protected BaseAbstractUnivariateIntegrator(final int minimalIterationCount,
                                            final int maximalIterationCount)
         throws NotStrictlyPositiveException, NumberIsTooSmallException {
         this(DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY,

@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.TooManyEvaluationsException;
  * @version $Id$
  * @since 1.2
  */
-public interface UnivariateRealIntegrator {
+public interface UnivariateIntegrator {
 
     /**
      * Get the actual relative accuracy.

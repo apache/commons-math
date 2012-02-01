@@ -36,7 +36,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 1.2
  */
-public class RombergIntegrator extends UnivariateRealIntegratorImpl {
+public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximal number of iterations for Romberg. */
     public static final int ROMBERG_MAX_ITERATIONS_COUNT = 32;

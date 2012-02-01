@@ -42,7 +42,7 @@ public final class SimpsonIntegratorTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealIntegrator integrator = new SimpsonIntegrator();
+        UnivariateIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
 
         min = 0; max = FastMath.PI; expected = 2;
@@ -66,7 +66,7 @@ public final class SimpsonIntegratorTest {
     @Test
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
-        UnivariateRealIntegrator integrator = new SimpsonIntegrator();
+        UnivariateIntegrator integrator = new SimpsonIntegrator();
         double min, max, expected, result, tolerance;
 
         min = 0; max = 1; expected = -1.0/48;

@@ -34,7 +34,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 1.2
  */
-public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
+public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximum number of iterations for trapezoid. */
     public static final int TRAPEZOID_MAX_ITERATIONS_COUNT = 64;
@@ -113,7 +113,7 @@ public class TrapezoidIntegrator extends UnivariateRealIntegratorImpl {
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    double stage(final UnivariateRealIntegratorImpl baseIntegrator, final int n)
+    double stage(final BaseAbstractUnivariateIntegrator baseIntegrator, final int n)
         throws TooManyEvaluationsException {
 
         if (n == 0) {

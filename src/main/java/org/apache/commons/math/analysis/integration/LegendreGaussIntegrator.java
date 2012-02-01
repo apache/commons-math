@@ -51,7 +51,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 1.2
  */
 
-public class LegendreGaussIntegrator extends UnivariateRealIntegratorImpl {
+public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Abscissas for the 2 points method. */
     private static final double[] ABSCISSAS_2 = {

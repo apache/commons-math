@@ -33,7 +33,7 @@ public class LegendreGaussIntegratorTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealIntegratorImpl integrator = new LegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
+        BaseAbstractUnivariateIntegrator integrator = new LegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
         double min, max, expected, result, tolerance;
 
         min = 0; max = FastMath.PI; expected = 2;
@@ -52,11 +52,11 @@ public class LegendreGaussIntegratorTest {
     @Test
     public void testQuinticFunction() {
         UnivariateFunction f = new QuinticFunction();
-        UnivariateRealIntegrator integrator =
+        UnivariateIntegrator integrator =
                 new LegendreGaussIntegrator(3,
-                                            UnivariateRealIntegratorImpl.DEFAULT_RELATIVE_ACCURACY,
-                                            UnivariateRealIntegratorImpl.DEFAULT_ABSOLUTE_ACCURACY,
-                                            UnivariateRealIntegratorImpl.DEFAULT_MIN_ITERATIONS_COUNT,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_RELATIVE_ACCURACY,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_ABSOLUTE_ACCURACY,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_MIN_ITERATIONS_COUNT,
                                             64);
         double min, max, expected, result;
 
@@ -79,9 +79,9 @@ public class LegendreGaussIntegratorTest {
         for (int n = 2; n < 6; ++n) {
             LegendreGaussIntegrator integrator =
                 new LegendreGaussIntegrator(n,
-                                            UnivariateRealIntegratorImpl.DEFAULT_RELATIVE_ACCURACY,
-                                            UnivariateRealIntegratorImpl.DEFAULT_ABSOLUTE_ACCURACY,
-                                            UnivariateRealIntegratorImpl.DEFAULT_MIN_ITERATIONS_COUNT,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_RELATIVE_ACCURACY,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_ABSOLUTE_ACCURACY,
+                                            BaseAbstractUnivariateIntegrator.DEFAULT_MIN_ITERATIONS_COUNT,
                                             64);
 
             // an n points Gauss-Legendre integrator integrates 2n-1 degree polynoms exactly

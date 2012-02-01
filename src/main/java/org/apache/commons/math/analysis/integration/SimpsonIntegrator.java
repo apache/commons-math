@@ -35,7 +35,7 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 1.2
  */
-public class SimpsonIntegrator extends UnivariateRealIntegratorImpl {
+public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximal number of iterations for Simpson. */
     public static final int SIMPSON_MAX_ITERATIONS_COUNT = 64;

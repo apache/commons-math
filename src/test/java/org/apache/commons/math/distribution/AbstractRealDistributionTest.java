@@ -18,7 +18,7 @@ package org.apache.commons.math.distribution;
 
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.integration.RombergIntegrator;
-import org.apache.commons.math.analysis.integration.UnivariateRealIntegrator;
+import org.apache.commons.math.analysis.integration.UnivariateIntegrator;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -156,7 +156,7 @@ public class AbstractRealDistributionTest {
                         return x * density(x);
                     }
                 };
-                final UnivariateRealIntegrator integrator = new RombergIntegrator();
+                final UnivariateIntegrator integrator = new RombergIntegrator();
                 return integrator.integrate(Integer.MAX_VALUE, f, x0, x4);
             }
 
@@ -168,7 +168,7 @@ public class AbstractRealDistributionTest {
                         return x * x * density(x);
                     }
                 };
-                final UnivariateRealIntegrator integrator = new RombergIntegrator();
+                final UnivariateIntegrator integrator = new RombergIntegrator();
                 final double meanX2 = integrator.integrate(Integer.MAX_VALUE,
                         f, x0, x4);
                 return meanX2 - meanX * meanX;
