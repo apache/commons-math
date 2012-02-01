@@ -79,78 +79,6 @@ import org.apache.commons.math.util.IterationManager;
 public class ConjugateGradient
     extends PreconditionedIterativeLinearSolver {
 
-    /**
-     * The type of all events fired by this implementation of the Conjugate
-     * Gradient method.
-     *
-     * @version $Id: ConjugateGradient.java 1175404 2011-09-25 14:48:18Z
-     * celestin $
-     */
-    public static class ConjugateGradientEvent
-        extends IterativeLinearSolverEvent
-        implements ProvidesResidual {
-
-        /** */
-        private static final long serialVersionUID = 20120128L;
-
-        /** The right-hand side vector. */
-        private final RealVector b;
-
-        /** The current estimate of the residual. */
-        private final RealVector r;
-
-        /** The current estimate of the norm of the residual. */
-        private final double rnorm;
-
-        /** The current estimate of the solution. */
-        private final RealVector x;
-
-        /**
-         * Creates a new instance of this class.
-         *
-         * @param source the iterative algorithm on which the event initially
-         * occurred
-         * @param iterations the number of iterations performed at the time
-         * {@code this} event is created
-         * @param x the current estimate of the solution
-         * @param b the right-hand side vector
-         * @param r the current estimate of the residual
-         * @param rnorm the norm of the current estimate of the residual
-         */
-        public ConjugateGradientEvent(final Object source, final int iterations,
-            final RealVector x, final RealVector b, final RealVector r,
-            final double rnorm) {
-            super(source, iterations);
-            this.x = RealVector.unmodifiableRealVector(x);
-            this.b = RealVector.unmodifiableRealVector(b);
-            this.r = RealVector.unmodifiableRealVector(r);
-            this.rnorm = rnorm;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public double getNormOfResidual() {
-            return rnorm;
-        }
-
-        /** {@inheritDoc} */
-        public RealVector getResidual() {
-            return r;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public RealVector getRightHandSideVector() {
-            return b;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public RealVector getSolution() {
-            return x;
-        }
-    }
-
     /** Key for the <a href="#context">exception context</a>. */
     public static final String OPERATOR = "operator";
 
@@ -219,6 +147,7 @@ public class ConjugateGradient
         // Initialization of default stopping criterion
         manager.resetIterationCount();
         final double rmax = delta * b.getNorm();
+        final RealVector bro = RealVector.unmodifiableRealVector(b);
 
         // Initialization phase counts as one iteration.
         manager.incrementIterationCount();
@@ -226,10 +155,12 @@ public class ConjugateGradient
         // of x is optimized for the calculation of the matrix-vector product
         // A.x.
         final RealVector x = x0;
+        final RealVector xro = RealVector.unmodifiableRealVector(x);
         final RealVector p = x.copy();
         RealVector q = a.operate(p);
 
         final RealVector r = b.combine(1, -1, q);
+        final RealVector rro = RealVector.unmodifiableRealVector(r);
         double rnorm = r.getNorm();
         RealVector z;
         if (minv == null) {
@@ -238,7 +169,8 @@ public class ConjugateGradient
             z = null;
         }
         IterativeLinearSolverEvent evt;
-        evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
+        evt = new DefaultIterativeLinearSolverEvent(this,
+            manager.getIterations(), xro, bro, rro, rnorm);
         manager.fireInitializationEvent(evt);
         if (rnorm <= rmax) {
             manager.fireTerminationEvent(evt);
@@ -247,7 +179,8 @@ public class ConjugateGradient
         double rhoPrev = 0.;
         while (true) {
             manager.incrementIterationCount();
-            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
+            evt = new DefaultIterativeLinearSolverEvent(this,
+                manager.getIterations(), xro, bro, rro, rnorm);
             manager.fireIterationStartedEvent(evt);
             if (minv != null) {
                 z = minv.operate(r);
@@ -281,7 +214,8 @@ public class ConjugateGradient
             r.combineToSelf(1., -alpha, q);
             rhoPrev = rhoNext;
             rnorm = r.getNorm();
-            evt = new ConjugateGradientEvent(this, manager.getIterations(), x, b, r, rnorm);
+            evt = new DefaultIterativeLinearSolverEvent(this,
+                manager.getIterations(), xro, bro, rro, rnorm);
             manager.fireIterationPerformedEvent(evt);
             if (rnorm <= rmax) {
                 manager.fireTerminationEvent(evt);

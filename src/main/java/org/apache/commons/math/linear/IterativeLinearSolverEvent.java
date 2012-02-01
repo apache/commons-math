@@ -29,7 +29,7 @@ public abstract class IterativeLinearSolverEvent
     extends IterationEvent {
 
     /** */
-    private static final long serialVersionUID = 20120128L;
+    private static final long serialVersionUID = 20120129L;
 
     /**
      * Creates a new instance of this class.
@@ -71,6 +71,29 @@ public abstract class IterativeLinearSolverEvent
     public abstract double getNormOfResidual();
 
     /**
+     * <p>
+     * Returns the residual. This is an optional operation, as all iterative
+     * linear solvers do not provide cheap estimate of the updated residual
+     * vector, in which case
+     * </p>
+     * <ul>
+     * <li>this method should throw a
+     * {@link MathUnsupportedOperationException},</li>
+     * <li>{@link #providesResidual()} returns {@code false}.</li>
+     * </ul>
+     * <p>
+     * The default implementation throws a
+     * {@link MathUnsupportedOperationException}. If this method is overriden,
+     * then {@link #providesResidual()} should be overriden as well.
+     * </p>
+     *
+     * @return the updated residual, r
+     */
+    public RealVector getResidual() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * Returns the current estimate of the solution to the linear system to be
      * solved. This method should return an unmodifiable view, or a deep copy of
      * the actual current solution, in order not to compromise subsequent
@@ -79,4 +102,15 @@ public abstract class IterativeLinearSolverEvent
      * @return the solution, x
      */
     public abstract RealVector getSolution();
+
+    /**
+     * Returns {@code true} if {@link #getResidual()} is supported. The default
+     * implementation returns {@code false}.
+     *
+     * @return {@code false} if {@link #getResidual()} throws a
+     * {@link MathUnsupportedOperationException}
+     */
+    public boolean providesResidual() {
+        return false;
+    }
 }

@@ -19,6 +19,7 @@ package org.apache.commons.math.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.IterationEvent;
@@ -176,9 +177,11 @@ public class ConjugateGradientTest {
             }
 
             public void iterationPerformed(final IterationEvent e) {
-                RealVector v = ((ProvidesResidual) e).getResidual();
+                final IterativeLinearSolverEvent evt;
+                evt = (IterativeLinearSolverEvent) e;
+                RealVector v = evt.getResidual();
                 r.setSubVector(0, v);
-                v = ((IterativeLinearSolverEvent) e).getSolution();
+                v = evt.getSolution();
                 x.setSubVector(0, v);
             }
 
@@ -345,9 +348,11 @@ public class ConjugateGradientTest {
             }
 
             public void iterationPerformed(final IterationEvent e) {
-                RealVector v = ((ProvidesResidual)e).getResidual();
+                final IterativeLinearSolverEvent evt;
+                evt = (IterativeLinearSolverEvent) e;
+                RealVector v = evt.getResidual();
                 r.setSubVector(0, v);
-                v = ((IterativeLinearSolverEvent) e).getSolution();
+                v = evt.getSolution();
                 x.setSubVector(0, v);
             }
 
@@ -443,24 +448,51 @@ public class ConjugateGradientTest {
          */
         final int[] count = new int[] {0, 0, 0, 0};
         final IterationListener listener = new IterationListener() {
+            private void doTestVectorsAreUnmodifiable(final IterationEvent e) {
+                final IterativeLinearSolverEvent evt;
+                evt = (IterativeLinearSolverEvent) e;
+                try {
+                    evt.getResidual().set(0.0);
+                    Assert.fail("r is modifiable");
+                } catch (MathUnsupportedOperationException exc){
+                    // Expected behavior
+                }
+                try {
+                    evt.getRightHandSideVector().set(0.0);
+                    Assert.fail("b is modifiable");
+                } catch (MathUnsupportedOperationException exc){
+                    // Expected behavior
+                }
+                try {
+                    evt.getSolution().set(0.0);
+                    Assert.fail("x is modifiable");
+                } catch (MathUnsupportedOperationException exc){
+                    // Expected behavior
+                }
+            }
+
             public void initializationPerformed(final IterationEvent e) {
                 ++count[0];
+                doTestVectorsAreUnmodifiable(e);
             }
 
             public void iterationPerformed(final IterationEvent e) {
                 ++count[2];
                 Assert.assertEquals("iteration performed",
                     count[2], e.getIterations() - 1);
+                doTestVectorsAreUnmodifiable(e);
             }
 
             public void iterationStarted(final IterationEvent e) {
                 ++count[1];
                 Assert.assertEquals("iteration started",
                     count[1], e.getIterations() - 1);
+                doTestVectorsAreUnmodifiable(e);
             }
 
             public void terminationPerformed(final IterationEvent e) {
                 ++count[3];
+                doTestVectorsAreUnmodifiable(e);
             }
         };
         solver = new ConjugateGradient(maxIterations, 1E-10, true);
