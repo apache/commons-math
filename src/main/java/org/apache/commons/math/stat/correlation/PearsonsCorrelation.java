@@ -16,10 +16,9 @@
  */
 package org.apache.commons.math.stat.correlation;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.linear.RealMatrix;
@@ -158,9 +157,10 @@ public class PearsonsCorrelation {
      * <i>significance</i> of the corresponding correlation coefficients.</p>
      *
      * @return matrix of p-values
-     * @throws MathException if an error occurs estimating probabilities
+     * @throws org.apache.commons.math.exception.MaxCountExceededException
+     * if an error occurs estimating probabilities
      */
-    public RealMatrix getCorrelationPValues() throws MathException {
+    public RealMatrix getCorrelationPValues() {
         TDistribution tDistribution = new TDistribution(nObs - 2);
         int nVars = correlationMatrix.getColumnDimension();
         double[][] out = new double[nVars][nVars];
@@ -221,16 +221,16 @@ public class PearsonsCorrelation {
      * @param xArray first data array
      * @param yArray second data array
      * @return Returns Pearson's correlation coefficient for the two arrays
-     * @throws  IllegalArgumentException if the arrays lengths do not match or
-     * there is insufficient data
+     * @throws DimensionMismatchException if the arrays lengths do not match
+     * @throws MathIllegalArgumentException if there is insufficient data
      */
-    public double correlation(final double[] xArray, final double[] yArray) throws IllegalArgumentException {
+    public double correlation(final double[] xArray, final double[] yArray) {
         SimpleRegression regression = new SimpleRegression();
         if (xArray.length != yArray.length) {
             throw new DimensionMismatchException(xArray.length, yArray.length);
         } else if (xArray.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
+            throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
+                                                   xArray.length, 2);
         } else {
             for(int i=0; i<xArray.length; i++) {
                 regression.addData(xArray[i], yArray[i]);
@@ -271,14 +271,14 @@ public class PearsonsCorrelation {
      * two columns and two rows
      *
      * @param matrix matrix to check for sufficiency
+     * @throws MathIllegalArgumentException if there is insufficient data
      */
     private void checkSufficientData(final RealMatrix matrix) {
         int nRows = matrix.getRowDimension();
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
-                    nRows, nCols);
+            throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
+                                                   nRows, nCols);
         }
     }
 }

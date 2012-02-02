@@ -17,7 +17,8 @@
 
 package org.apache.commons.math.stat.correlation;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
@@ -135,23 +136,18 @@ public class SpearmansCorrelation {
     /**
      * Computes the Spearman's rank correlation coefficient between the two arrays.
      *
-     * </p>Throws IllegalArgumentException if the arrays do not have the same length
-     * or their common length is less than 2</p>
-     *
      * @param xArray first data array
      * @param yArray second data array
      * @return Returns Spearman's rank correlation coefficient for the two arrays
-     * @throws  IllegalArgumentException if the arrays lengths do not match or
-     * there is insufficient data
+     * @throws DimensionMismatchException if the arrays lengths do not match
+     * @throws MathIllegalArgumentException if the array length is less than 2
      */
-    public double correlation(final double[] xArray, final double[] yArray)
-    throws IllegalArgumentException {
+    public double correlation(final double[] xArray, final double[] yArray) {
         if (xArray.length != yArray.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, xArray.length, yArray.length);
+            throw new DimensionMismatchException(xArray.length, yArray.length);
         } else if (xArray.length < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.INSUFFICIENT_DIMENSION, xArray.length, 2);
+            throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
+                                                   xArray.length, 2);
         } else {
             return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
                     rankingAlgorithm.rank(yArray));
