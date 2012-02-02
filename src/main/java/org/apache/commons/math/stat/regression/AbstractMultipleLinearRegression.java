@@ -16,8 +16,13 @@
  */
 package org.apache.commons.math.stat.regression;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.linear.NonSquareMatrixException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealVector;
@@ -87,20 +92,21 @@ public abstract class AbstractMultipleLinearRegression implements
      * @param data input data array
      * @param nobs number of observations (rows)
      * @param nvars number of independent variables (columns, not counting y)
-     * @throws IllegalArgumentException if the preconditions are not met
+     * @throws NullArgumentException if the data array is null
+     * @throws DimensionMismatchException if the length of the data array is not equal
+     * to <code>nobs * (nvars + 1)</code>
+     * @throws NumberIsTooSmallException if <code>nobs</code> is smaller than
+     * <code>nvars</code>
      */
     public void newSampleData(double[] data, int nobs, int nvars) {
         if (data == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NULL_NOT_ALLOWED);
+            throw new NullArgumentException();
         }
         if (data.length != nobs * (nvars + 1)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.INVALID_REGRESSION_ARRAY, data.length, nobs, nvars);
+            throw new DimensionMismatchException(data.length, nobs * (nvars + 1));
         }
         if (nobs <= nvars) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS);
+            throw new NumberIsTooSmallException(nobs, nvars, false);
         }
         double[] y = new double[nobs];
         final int cols = noIntercept ? nvars: nvars + 1;
@@ -123,16 +129,15 @@ public abstract class AbstractMultipleLinearRegression implements
      * Loads new y sample data, overriding any previous data.
      *
      * @param y the array representing the y sample
-     * @throws IllegalArgumentException if y is null or empty
+     * @throws NullArgumentException if y is null
+     * @throws NoDataException if y is empty
      */
     protected void newYSampleData(double[] y) {
         if (y == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NULL_NOT_ALLOWED);
+            throw new NullArgumentException();
         }
         if (y.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NO_DATA);
+            throw new NoDataException();
         }
         this.Y = new ArrayRealVector(y);
     }
@@ -158,16 +163,16 @@ public abstract class AbstractMultipleLinearRegression implements
      * specifying a model including an intercept term.
      * </p>
      * @param x the rectangular array representing the x sample
-     * @throws IllegalArgumentException if x is null, empty or not rectangular
+     * @throws NullArgumentException if x is null
+     * @throws NoDataException if x is empty
+     * @throws DimensionMismatchException if x is not rectangular
      */
     protected void newXSampleData(double[][] x) {
         if (x == null) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NULL_NOT_ALLOWED);
+            throw new NullArgumentException();
         }
         if (x.length == 0) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NO_DATA);
+            throw new NoDataException();
         }
         if (noIntercept) {
             this.X = new Array2DRowRealMatrix(x, true);
@@ -176,9 +181,7 @@ public abstract class AbstractMultipleLinearRegression implements
             final double[][] xAug = new double[x.length][nVars + 1];
             for (int i = 0; i < x.length; i++) {
                 if (x[i].length != nVars) {
-                    throw MathRuntimeException.createIllegalArgumentException(
-                            LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                            x[i].length, nVars);
+                    throw new DimensionMismatchException(x[i].length, nVars);
                 }
                 xAug[i][0] = 1.0d;
                 System.arraycopy(x[i], 0, xAug[i], 1, nVars);
@@ -198,24 +201,27 @@ public abstract class AbstractMultipleLinearRegression implements
      *
      * @param x the [n,k] array representing the x data
      * @param y the [n,1] array representing the y data
-     * @throws IllegalArgumentException if any of the checks fail
-     *
+     * @throws NullArgumentException if {@code x} or {@code y} is null
+     * @throws DimensionMismatchException if {@code x} and {@code y} do not
+     * have the same length
+     * @throws NoDataException if {@code x} or {@code y} are zero-length
+     * @throws MathIllegalArgumentException if the number of rows of {@code x}
+     * is not larger than the number of columns + 1
      */
     protected void validateSampleData(double[][] x, double[] y) {
-        if ((x == null) || (y == null) || (x.length != y.length)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
-                  (x == null) ? 0 : x.length,
-                  (y == null) ? 0 : y.length);
+        if ((x == null) || (y == null)) {
+            throw new NullArgumentException();
+        }
+        if (x.length != y.length) {
+            throw new DimensionMismatchException(y.length, x.length);
         }
         if (x.length == 0) {  // Must be no y data either
-            throw MathRuntimeException.createIllegalArgumentException(
-                    LocalizedFormats.NO_DATA);
+            throw new NoDataException();
         }
         if (x[0].length + 1 > x.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
-                  x.length, x[0].length);
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS,
+                    x.length, x[0].length);
         }
     }
 
@@ -225,18 +231,16 @@ public abstract class AbstractMultipleLinearRegression implements
      *
      * @param x the [n,k] array representing the x sample
      * @param covariance the [n,n] array representing the covariance matrix
-     * @throws IllegalArgumentException if the number of rows in x is not equal
-     * to the number of rows in covariance or covariance is not square.
+     * @throws DimensionMismatchException if the number of rows in x is not equal
+     * to the number of rows in covariance
+     * @throws NonSquareMatrixException if the covariance matrix is not square
      */
     protected void validateCovarianceData(double[][] x, double[][] covariance) {
         if (x.length != covariance.length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                 LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, x.length, covariance.length);
+            throw new DimensionMismatchException(x.length, covariance.length);
         }
         if (covariance.length > 0 && covariance.length != covariance[0].length) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.NON_SQUARE_MATRIX,
-                  covariance.length, covariance[0].length);
+            throw new NonSquareMatrixException(covariance.length, covariance[0].length);
         }
     }
 

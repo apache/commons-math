@@ -18,7 +18,6 @@
 package org.apache.commons.math.stat.regression;
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.distribution.TDistribution;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
@@ -137,7 +136,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         } else {
             if( hasIntercept ){
                 final double fact1 = 1.0 + n;
-                final double fact2 = (n) / (1.0 + n);
+                final double fact2 = n / (1.0 + n);
                 final double dx = x - xbar;
                 final double dy = y - ybar;
                 sumXX += dx * dx * fact2;
@@ -176,7 +175,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         if (n > 0) {
             if (hasIntercept) {
                 final double fact1 = n - 1.0;
-                final double fact2 = (n) / (n - 1.0);
+                final double fact2 = n / (n - 1.0);
                 final double dx = x - xbar;
                 final double dy = y - ybar;
                 sumXX -= dx * dx * fact2;
@@ -609,9 +608,9 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * Bivariate Normal Distribution</a>.</p>
      *
      * @return half-width of 95% confidence interval for the slope estimate
-     * @throws MathException if the confidence interval can not be computed.
+     * @throws OutOfRangeException if the confidence interval can not be computed.
      */
-    public double getSlopeConfidenceInterval() throws MathException {
+    public double getSlopeConfidenceInterval() {
         return getSlopeConfidenceInterval(0.05d);
     }
 
@@ -639,15 +638,14 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * <code>Double.NaN</code>.
      * </li>
      * <li><code>(0 < alpha < 1)</code>; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
+     * <code>OutOfRangeException</code> is thrown.
      * </li></ul></p>
      *
      * @param alpha the desired significance level
      * @return half-width of 95% confidence interval for the slope estimate
-     * @throws MathException if the confidence interval can not be computed.
+     * @throws OutOfRangeException if the confidence interval can not be computed.
      */
-    public double getSlopeConfidenceInterval(final double alpha)
-        throws MathException {
+    public double getSlopeConfidenceInterval(final double alpha) {
         if (alpha >= 1 || alpha <= 0) {
             throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
                                           alpha, 0, 1);
@@ -676,9 +674,10 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * <code>Double.NaN</code>.</p>
      *
      * @return significance level for slope/correlation
-     * @throws MathException if the significance level can not be computed.
+     * @throws org.apache.commons.math.exception.MaxCountExceededException
+     * if the significance level can not be computed.
      */
-    public double getSignificance() throws MathException {
+    public double getSignificance() {
         TDistribution distribution = new TDistribution(n - 2);
         return 2d * (1.0 - distribution.cumulativeProbability(
                     FastMath.abs(getSlope()) / getSlopeStdErr()));
@@ -724,16 +723,16 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
           if( FastMath.abs( sumXX ) > Precision.SAFE_MIN ){
               final double[] params = new double[]{ getIntercept(), getSlope() };
               final double mse = getMeanSquareError();
-              final double _syy = sumYY + sumY * sumY / (n);
+              final double _syy = sumYY + sumY * sumY / n;
               final double[] vcv = new double[]{
-                mse * (xbar *xbar /sumXX + 1.0 / (n)),
+                mse * (xbar *xbar /sumXX + 1.0 / n),
                 -xbar*mse/sumXX,
                 mse/sumXX };
               return new RegressionResults(
                       params, new double[][]{vcv}, true, n, 2,
                       sumY, _syy, getSumSquaredErrors(),true,false);
           }else{
-              final double[] params = new double[]{ sumY/(n), Double.NaN };
+              final double[] params = new double[]{ sumY / n, Double.NaN };
               //final double mse = getMeanSquareError();
               final double[] vcv = new double[]{
                 ybar / (n - 1.0),
@@ -797,7 +796,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                 if( variablesToInclude[0] != 1 && variablesToInclude[0] != 0 ){
                      throw new OutOfRangeException( variablesToInclude[0],0,1 );
                 }
-                final double _mean = sumY * sumY / (n);
+                final double _mean = sumY * sumY / n;
                 final double _syy = sumYY + _mean;
                 if( variablesToInclude[0] == 0 ){
                     //just the mean
@@ -809,8 +808,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
 
                 }else if( variablesToInclude[0] == 1){
                     //final double _syy = sumYY + sumY * sumY / ((double) n);
-                    final double _sxx = sumXX + sumX * sumX / (n);
-                    final double _sxy = sumXY + sumX * sumY / (n);
+                    final double _sxx = sumXX + sumX * sumX / n;
+                    final double _sxy = sumXY + sumX * sumY / n;
                     final double _sse = FastMath.max(0d, _syy - _sxy * _sxy / _sxx);
                     final double _mse = _sse/((n-1));
                     if( !Double.isNaN(_sxx) ){
