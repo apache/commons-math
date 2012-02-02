@@ -18,7 +18,7 @@ package org.apache.commons.math.stat.descriptive.moment;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic;
@@ -98,8 +98,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
         if (incMoment) {
             moment.increment(d);
         }  else  {
-            throw MathRuntimeException.createIllegalStateException(
-                    LocalizedFormats.CANNOT_INCREMENT_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
+            throw new MathIllegalStateException(LocalizedFormats.CANNOT_INCREMENT_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 
@@ -132,8 +131,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
         if (incMoment) {
             moment.clear();
         } else  {
-            throw MathRuntimeException.createIllegalStateException(
-                    LocalizedFormats.CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
+            throw new MathIllegalStateException(LocalizedFormats.CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 
