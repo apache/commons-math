@@ -53,9 +53,9 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /** The golden ratio */
     private static final int GLD_RATIO = 0x9e3779b9;
     /** The results given to the user */
-    private int[] rsl;
+    private final int[] rsl = new int[SIZE];
     /** The internal state */
-    private int[] mem;
+    private final int[] mem = new int[SIZE];
     /** Count through the results in rsl[] */
     private int count;
     /** Accumulator */
@@ -65,7 +65,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /** Counter, guarantees cycle is at least 2^40 */
     private int isaacC;
     /** Service variable. */
-    private transient int[] arr;
+    private final transient int[] arr = new int[8];
     /** Service variable. */
     private transient int isaacX;
     /** Service variable. */
@@ -81,7 +81,6 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
      * current time and system hash code of the instance as the seed.
      */
     public ISAACRandom() {
-        allocArrays();
         setSeed(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
@@ -91,7 +90,6 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
      * @param seed Initial seed.
      */
     public ISAACRandom(long seed) {
-        allocArrays();
         setSeed(seed);
     }
 
@@ -102,15 +100,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
      * to the current time.
      */
     public ISAACRandom(int[] seed) {
-        allocArrays();
         setSeed(seed);
-    }
-
-    /** Allocate the pools arrays. */
-    private void allocArrays() {
-        rsl = new int[SIZE];
-        mem = new int[SIZE];
-        arr = new int[8];
     }
 
     /** {@inheritDoc} */
