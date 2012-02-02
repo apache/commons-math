@@ -76,8 +76,9 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
 
     /**
      * Creates a new ISAAC random number generator.
-     * <p>The instance is initialized using a combination of the
-     * current time and system hash code of the instance as the seed.</p>
+     * <br/>
+     * The instance is initialized using a combination of the
+     * current time and system hash code of the instance as the seed.
      */
     public ISAACRandom() {
         allocArrays();
@@ -87,7 +88,7 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /**
      * Creates a new ISAAC random number generator using a single long seed.
      *
-     * @param seed the initial seed (64 bits integer)
+     * @param seed Initial seed.
      */
     public ISAACRandom(long seed) {
         allocArrays();
@@ -97,8 +98,8 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /**
      * Creates a new ISAAC random number generator using an int array seed.
      *
-     * @param seed the initial seed (32 bits integers array), if null the
-     *             seed of the generator will be related to the current time
+     * @param seed Initial seed. If {@code null}, the seed will be related
+     * to the current time.
      */
     public ISAACRandom(int[] seed) {
         allocArrays();
