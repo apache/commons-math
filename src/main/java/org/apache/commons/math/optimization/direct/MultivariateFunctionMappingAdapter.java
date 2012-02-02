@@ -22,7 +22,6 @@ import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Logit;
 import org.apache.commons.math.analysis.function.Sigmoid;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
@@ -92,7 +91,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
      * @param upper upper bounds for each element of the input parameters array
      * (some elements may be set to {@code Double.POSITIVE_INFINITY} for
      * unbounded values)
-     * @exception MathIllegalArgumentException if lower and upper bounds are not
+     * @exception DimensionMismatchException if lower and upper bounds are not
      * consistent, either according to dimension or to values
      */
     public MultivariateFunctionMappingAdapter(final MultivariateFunction bounded,
@@ -151,8 +150,7 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
 
     }
 
-    /** 
-     * Map an array from bounded to unbounded.
+    /** Map an array from bounded to unbounded.
      * @param point bounded value
      * @return unbounded value
      */
@@ -174,6 +172,8 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
      * set up at construction and calls the underlying function using
      * the bounded point.
      * </p>
+     * @param point unbounded value
+     * @return underlying function value
      * @see #unboundedToBounded(double[])
      */
     public double value(double[] point) {
@@ -181,19 +181,19 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
     }
 
     /** Mapping interface. */
-    private static interface Mapper {
+    private interface Mapper {
 
         /** Map a value from unbounded to bounded.
          * @param y unbounded value
          * @return bounded value
          */
-        public double unboundedToBounded(double y);
+        double unboundedToBounded(double y);
 
         /** Map a value from bounded to unbounded.
          * @param x bounded value
          * @return unbounded value
          */
-        public double boundedToUnbounded(double x);
+        double boundedToUnbounded(double x);
 
     }
 
@@ -259,12 +259,12 @@ public class MultivariateFunctionMappingAdapter implements MultivariateFunction 
         public double unboundedToBounded(final double y) {
             return upper - FastMath.exp(-y);
         }
-        
+
         /** {@inheritDoc} */
         public double boundedToUnbounded(final double x) {
             return -FastMath.log(upper - x);
         }
-        
+
     }
 
     /** Local class for lower and bounds mapping. */

@@ -19,7 +19,6 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
@@ -117,7 +116,7 @@ public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction 
      * unbounded values)
      * @param offset base offset of the penalty function
      * @param scale scale of the penalty function
-     * @exception MathIllegalArgumentException if lower bounds, upper bounds and
+     * @exception DimensionMismatchException if lower bounds, upper bounds and
      * scales are not consistent, either according to dimension or to bounadary
      * values
      */
@@ -157,6 +156,7 @@ public class MultivariateFunctionPenaltyAdapter implements MultivariateFunction 
      * a replacement value using the offset and scale if bounds are
      * violated, without calling the function at all.
      * </p>
+     * @param point unbounded point
      * @return either underlying function value or penalty function value
      */
     public double value(double[] point) {

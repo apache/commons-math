@@ -409,7 +409,7 @@ class SimplexTableau implements Serializable {
           Integer basicRow = getBasicRow(colIndex);
           if (basicRow != null && basicRow == 0) {
               // if the basic row is found to be the objective function row
-              // set the coefficient to 0 -> this case handles unconstrained 
+              // set the coefficient to 0 -> this case handles unconstrained
               // variables that are still part of the objective function
               coefficients[i] = 0;
           } else if (basicRows.contains(basicRow)) {
