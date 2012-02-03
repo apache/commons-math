@@ -17,7 +17,7 @@
 package org.apache.commons.math.genetics;
 
 /**
- * Algorithm used to mutate a chrommosome.
+ * Algorithm used to mutate a chromosome.
  *
  * @since 2.0
  * @version $Id$
@@ -27,7 +27,7 @@ public interface MutationPolicy {
     /**
      * Mutate the given chromosome.
      * @param original the original chromosome.
-     * @return the mutated chromomsome.
+     * @return the mutated chromosome.
      */
     Chromosome mutate(Chromosome original);
 }
