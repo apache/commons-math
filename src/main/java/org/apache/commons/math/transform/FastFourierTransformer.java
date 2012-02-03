@@ -395,7 +395,10 @@ public class FastFourierTransformer implements Serializable {
      * @return transform of {@code mdca} as a Multi-Dimensional Complex Array
      * id est {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
+     * @deprecated see
+     * <a href="https://issues.apache.org/jira/browse/MATH-736">MATH-736</a>
      */
+    @Deprecated
     public Object mdfft(Object mdca, boolean forward) {
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
@@ -464,7 +467,10 @@ public class FastFourierTransformer implements Serializable {
      * eventually be replaced by jsr-83 of the java community process
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
+     *
+     * @deprecated see MATH-736
      */
+    @Deprecated
     private static class MultiDimensionalComplexMatrix
         implements Cloneable {
 
