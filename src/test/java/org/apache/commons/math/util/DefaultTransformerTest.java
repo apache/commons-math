@@ -20,8 +20,8 @@ package org.apache.commons.math.util;
 import java.math.BigDecimal;
 
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.TestUtils;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -98,7 +98,7 @@ public class DefaultTransformerTest {
         try {
             t.transform(input);
             Assert.fail("Expecting MathException");
-        } catch (MathException e) {
+        } catch (MathIllegalArgumentException e) {
             // expected
         }
     }

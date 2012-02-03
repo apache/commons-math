@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math.util.DefaultTransformer;
@@ -113,7 +113,7 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
         try {
             value = transformer.transform(list.get(calcIndex));
-        } catch (MathException e) {
+        } catch (MathIllegalArgumentException e) {
             e.printStackTrace();
         }
 
