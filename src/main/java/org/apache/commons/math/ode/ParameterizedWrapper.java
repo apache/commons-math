@@ -40,10 +40,18 @@ class ParameterizedWrapper implements ParameterizedODE {
         this.fode = ode;
     }
 
+    /** Get the dimension of the underlying FODE.
+     * @return dimension of the underlying FODE
+     */
     public int getDimension() {
         return fode.getDimension();
     }
 
+    /** Get the current time derivative of the state vector of the underlying FODE.
+     * @param t current value of the independent <I>time</I> variable
+     * @param y array containing the current value of the state vector
+     * @param yDot placeholder array where to put the time derivative of the state vector
+     */
     public void computeDerivatives(double t, double[] y, double[] yDot) {
         fode.computeDerivatives(t, y, yDot);
     }

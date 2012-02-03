@@ -58,10 +58,10 @@ class ParameterConfiguration implements Serializable {
     }
 
     /** Set parameter step.
-     * @param hP parameter step
+     * @param hParam parameter step
      */
-    public void setHP(final double hP) {
-        this.hP = hP;
+    public void setHP(final double hParam) {
+        this.hP = hParam;
     }
 
 }

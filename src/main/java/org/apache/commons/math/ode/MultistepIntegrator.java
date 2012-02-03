@@ -382,7 +382,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         /** {@inheritDoc} */
-        public void init(double t0, double[] y0, double t) {
+        public void init(double t0, double[] y0, double time) {
             // nothing to do
         }
 
