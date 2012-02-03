@@ -18,9 +18,11 @@ package org.apache.commons.math.stat.inference;
 
 import java.util.Collection;
 
-import org.apache.commons.math.MathException;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.distribution.FDistribution;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
@@ -65,7 +67,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * here</a></p>
      */
     public double anovaFValue(Collection<double[]> categoryData)
-        throws IllegalArgumentException, MathException {
+        throws MathIllegalArgumentException {
         AnovaStats a = anovaStats(categoryData);
         return a.F;
     }
@@ -81,7 +83,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * is the commons-math implementation of the F distribution.</p>
      */
     public double anovaPValue(Collection<double[]> categoryData)
-        throws IllegalArgumentException, MathException {
+        throws NullArgumentException, DimensionMismatchException {
         AnovaStats a = anovaStats(categoryData);
         FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
@@ -99,11 +101,10 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * <p>True is returned iff the estimated p-value is less than alpha.</p>
      */
     public boolean anovaTest(Collection<double[]> categoryData, double alpha)
-        throws IllegalArgumentException, MathException {
+        throws NullArgumentException, DimensionMismatchException, OutOfRangeException {
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                  alpha, 0, 0.5);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
+                                          alpha, 0, 0.5);
         }
         return anovaPValue(categoryData) < alpha;
     }
@@ -115,26 +116,30 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * @param categoryData <code>Collection</code> of <code>double[]</code>
      * arrays each containing data for one category
      * @return computed AnovaStats
-     * @throws IllegalArgumentException if categoryData does not meet
-     * preconditions specified in the interface definition
-     * @throws MathException if an error occurs computing the Anova stats
+     * @throws NullArgumentException if <code>categoryData</code> is <code>null</code>
+     * @throws DimensionMismatchException if the length of the <code>categoryData</code>
+     * array is less than 2 or a contained <code>double[]</code> array does not contain
+     * at least two values
      */
     private AnovaStats anovaStats(Collection<double[]> categoryData)
-        throws IllegalArgumentException, MathException {
+        throws NullArgumentException, DimensionMismatchException {
+
+        if (categoryData == null) {
+            throw new NullArgumentException();
+        }
 
         // check if we have enough categories
         if (categoryData.size() < 2) {
-            throw MathRuntimeException.createIllegalArgumentException(
-                  LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
-                  categoryData.size());
+            throw new DimensionMismatchException(LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
+                                                 categoryData.size(), 2);
         }
 
         // check if each category has enough data and all is double[]
         for (double[] array : categoryData) {
             if (array.length <= 1) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                      LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
-                      array.length);
+                throw new DimensionMismatchException(
+                        LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
+                        array.length, 2);
             }
         }
 
