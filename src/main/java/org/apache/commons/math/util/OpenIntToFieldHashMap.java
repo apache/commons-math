@@ -25,8 +25,6 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.math.Field;
 import org.apache.commons.math.FieldElement;
-import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * Open addressed map from int to FieldElement.
@@ -539,10 +537,10 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
         public int key()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+                throw new ConcurrentModificationException();
             }
             if (current < 0) {
-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+                throw new NoSuchElementException();
             }
             return keys[current];
         }
@@ -556,10 +554,10 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
         public T value()
             throws ConcurrentModificationException, NoSuchElementException {
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+                throw new ConcurrentModificationException();
             }
             if (current < 0) {
-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+                throw new NoSuchElementException();
             }
             return values[current];
         }
@@ -573,7 +571,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             throws ConcurrentModificationException, NoSuchElementException {
 
             if (referenceCount != count) {
-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+                throw new ConcurrentModificationException();
             }
 
             // advance on step
@@ -587,7 +585,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             } catch (ArrayIndexOutOfBoundsException e) {
                 next = -2;
                 if (current < 0) {
-                    throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+                    throw new NoSuchElementException();
                 }
             }
 
