@@ -16,11 +16,11 @@
 package org.apache.commons.math.optimization;
 
 import java.util.Arrays;
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.TestUtils;
 import org.apache.commons.math.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.MultivariateVectorFunction;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.direct.BOBYQAOptimizer;
 import org.apache.commons.math.optimization.direct.PowellOptimizer;
@@ -821,8 +821,8 @@ public class BatteryNISTTest {
 
         public nistMVRF(double[] data, int nvars, int nobs, int nparams) {
             if ((nvars + 1) * nobs != data.length) {
-                throw MathRuntimeException.createIllegalArgumentException(
-                        LocalizedFormats.INVALID_REGRESSION_ARRAY, data.length, nobs, nvars);
+                throw new MathIllegalArgumentException(LocalizedFormats.INVALID_REGRESSION_ARRAY,
+                                                       data.length, nobs, nvars);
             }
             this.nobs = nobs;
             this.nvars = nvars;

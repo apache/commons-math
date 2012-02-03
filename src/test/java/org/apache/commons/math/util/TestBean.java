@@ -17,7 +17,7 @@
 
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
@@ -60,7 +60,7 @@ public class TestBean {
      *
      */
     public Double getZ() {
-        throw new MathRuntimeException(LocalizedFormats.SIMPLE_MESSAGE, "?");
+        throw new MathUnsupportedOperationException(LocalizedFormats.SIMPLE_MESSAGE, "?");
     }
 
     /**
