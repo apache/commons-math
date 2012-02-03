@@ -19,8 +19,8 @@ package org.apache.commons.math.util;
 
 import java.io.Serializable;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NullArgumentException;
 
 /**
@@ -39,11 +39,14 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
     /**
      * @param o  the object that gets transformed.
      * @return a double primitive representation of the Object o.
-     * @throws MathException if it cannot successfully be transformed.
-     * @throws NullArgumentException if is {@code null}.
+     * @throws NullArgumentException if Object <code>o</code> is {@code null}.
+     * @throws MathIllegalArgumentException if Object <code>o</code>
+     * cannot successfully be transformed
      * @see <a href="http://commons.apache.org/collections/api-release/org/apache/commons/collections/Transformer.html">Commons Collections Transformer</a>
      */
-    public double transform(Object o) throws MathException {
+    public double transform(Object o)
+        throws NullArgumentException, MathIllegalArgumentException {
+
         if (o == null) {
             throw new NullArgumentException(LocalizedFormats.OBJECT_TRANSFORMATION);
         }
@@ -55,8 +58,8 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         try {
             return Double.valueOf(o.toString()).doubleValue();
         } catch (NumberFormatException e) {
-            throw new MathException(e,
-                                    LocalizedFormats.CANNOT_TRANSFORM_TO_DOUBLE, e.getMessage());
+            throw new MathIllegalArgumentException(LocalizedFormats.CANNOT_TRANSFORM_TO_DOUBLE,
+                                                   o.toString());
         }
     }
 

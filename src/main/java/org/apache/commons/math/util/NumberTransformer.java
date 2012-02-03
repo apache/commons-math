@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math.util;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
@@ -33,7 +33,7 @@ public interface NumberTransformer {
      *
      * @param o the Object to be transformed.
      * @return the double value of the Object.
-     * @throws MathException if the Object can not be transformed into a Double.
+     * @throws MathIllegalArgumentException if the Object can not be transformed into a Double.
      */
-    double transform(Object o) throws MathException;
+    double transform(Object o) throws MathIllegalArgumentException;
 }

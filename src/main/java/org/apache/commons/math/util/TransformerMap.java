@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 
 /**
  * This TansformerMap automates the transformation of mixed object types.
@@ -134,10 +134,11 @@ public class TransformerMap implements NumberTransformer, Serializable {
      *
      * @param o the Object to be transformed.
      * @return the double value of the Object.
-     * @throws MathException if the Object can not be transformed into a Double.
+     * @throws MathIllegalArgumentException if the Object can not be
+     * transformed into a Double.
      * @see org.apache.commons.math.util.NumberTransformer#transform(java.lang.Object)
      */
-    public double transform(Object o) throws MathException {
+    public double transform(Object o) throws MathIllegalArgumentException {
         double value = Double.NaN;
 
         if (o instanceof Number || o instanceof String) {
