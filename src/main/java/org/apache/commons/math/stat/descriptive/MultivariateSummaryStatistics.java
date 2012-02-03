@@ -19,9 +19,9 @@ package org.apache.commons.math.stat.descriptive;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.descriptive.moment.GeometricMean;
 import org.apache.commons.math.stat.descriptive.moment.Mean;
@@ -605,13 +605,13 @@ public class MultivariateSummaryStatistics
     }
 
     /**
-     * Throws IllegalStateException if n > 0.
+     * Throws MathIllegalStateException if the statistic is not empty.
+     * @throws MathIllegalStateException if n > 0.
      */
     private void checkEmpty() {
         if (n > 0) {
-            throw MathRuntimeException.createIllegalStateException(
-                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,
-                    n);
+            throw new MathIllegalStateException(
+                    LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC, n);
         }
     }
 
