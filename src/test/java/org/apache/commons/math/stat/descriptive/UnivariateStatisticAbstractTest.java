@@ -210,9 +210,9 @@ public abstract class UnivariateStatisticAbstractTest {
         // Compare result of weighted statistic computation with direct computation
         // on array of repeated values
         WeightedEvaluation weightedStatistic = (WeightedEvaluation) statistic;
-        TestUtils.assertEquals(statistic.evaluate(repeatedValues),
+        TestUtils.assertRelativelyEquals(statistic.evaluate(repeatedValues),
                 weightedStatistic.evaluate(values, weights, 0, values.length),
-                10E-14);
+                10E-12);
 
         // Check consistency of weighted evaluation methods
         Assert.assertEquals(weightedStatistic.evaluate(values, weights, 0, values.length),
