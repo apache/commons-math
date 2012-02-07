@@ -19,8 +19,9 @@ package org.apache.commons.math.stat.inference;
 import java.util.Collection;
 
 import org.apache.commons.math.distribution.FDistribution;
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -67,9 +68,11 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * here</a></p>
      */
     public double anovaFValue(Collection<double[]> categoryData)
-        throws MathIllegalArgumentException {
+        throws NullArgumentException, DimensionMismatchException {
+
         AnovaStats a = anovaStats(categoryData);
         return a.F;
+
     }
 
     /**
@@ -83,10 +86,13 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * is the commons-math implementation of the F distribution.</p>
      */
     public double anovaPValue(Collection<double[]> categoryData)
-        throws NullArgumentException, DimensionMismatchException {
+        throws NullArgumentException, DimensionMismatchException,
+        ConvergenceException, MaxCountExceededException {
+
         AnovaStats a = anovaStats(categoryData);
         FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
+
     }
 
     /**
@@ -101,12 +107,15 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * <p>True is returned iff the estimated p-value is less than alpha.</p>
      */
     public boolean anovaTest(Collection<double[]> categoryData, double alpha)
-        throws NullArgumentException, DimensionMismatchException, OutOfRangeException {
+        throws NullArgumentException, DimensionMismatchException, OutOfRangeException,
+        ConvergenceException, MaxCountExceededException {
+
         if ((alpha <= 0) || (alpha > 0.5)) {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                                           alpha, 0, 0.5);
         }
         return anovaPValue(categoryData) < alpha;
+
     }
 
 

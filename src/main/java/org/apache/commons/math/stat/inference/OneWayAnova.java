@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
 
@@ -76,9 +78,12 @@ public interface OneWayAnova {
      * @throws DimensionMismatchException if the length of the <code>categoryData</code>
      * array is less than 2 or a contained <code>double[]</code> array does not have
      * at least two values
+     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
+     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
      */
     double anovaPValue(Collection<double[]> categoryData)
-        throws NullArgumentException, DimensionMismatchException;
+        throws NullArgumentException, DimensionMismatchException,
+        ConvergenceException, MaxCountExceededException;
 
     /**
      * Performs an ANOVA test, evaluating the null hypothesis that there
@@ -103,8 +108,11 @@ public interface OneWayAnova {
      * array is less than 2 or a contained <code>double[]</code> array does not have
      * at least two values
      * @throws OutOfRangeException if <code>alpha</code> is not in the range (0, 0.5]
+     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
+     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
      */
     boolean anovaTest(Collection<double[]> categoryData, double alpha)
-        throws NullArgumentException, DimensionMismatchException, OutOfRangeException;
+        throws NullArgumentException, DimensionMismatchException, OutOfRangeException,
+        ConvergenceException, MaxCountExceededException;
 
 }
