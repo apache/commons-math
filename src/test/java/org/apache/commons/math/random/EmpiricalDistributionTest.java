@@ -38,18 +38,18 @@ import org.junit.Test;
 
 public final class EmpiricalDistributionTest {
 
-    protected EmpiricalDistributionImpl empiricalDistribution = null;
-    protected EmpiricalDistributionImpl empiricalDistribution2 = null;
+    protected EmpiricalDistribution empiricalDistribution = null;
+    protected EmpiricalDistribution empiricalDistribution2 = null;
     protected File file = null;
     protected URL url = null;
     protected double[] dataArray = null;
 
     @Before
     public void setUp() throws IOException {
-        empiricalDistribution = new EmpiricalDistributionImpl(100);
+        empiricalDistribution = new EmpiricalDistribution(100);
         url = getClass().getResource("testData.txt");
 
-        empiricalDistribution2 = new EmpiricalDistributionImpl(100);
+        empiricalDistribution2 = new EmpiricalDistribution(100);
         BufferedReader in =
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));
@@ -142,9 +142,9 @@ public final class EmpiricalDistributionTest {
      */
     @Test
     public void testGridTooFine() throws Exception {
-        empiricalDistribution = new EmpiricalDistributionImpl(1001);
+        empiricalDistribution = new EmpiricalDistribution(1001);
         tstGen(0.1);
-        empiricalDistribution2 = new EmpiricalDistributionImpl(1001);
+        empiricalDistribution2 = new EmpiricalDistribution(1001);
         tstDoubleGen(0.1);
     }
 
@@ -153,10 +153,10 @@ public final class EmpiricalDistributionTest {
      */
     @Test
     public void testGridTooFat() throws Exception {
-        empiricalDistribution = new EmpiricalDistributionImpl(1);
+        empiricalDistribution = new EmpiricalDistribution(1);
         tstGen(5); // ridiculous tolerance; but ridiculous grid size
                    // really just checking to make sure we do not bomb
-        empiricalDistribution2 = new EmpiricalDistributionImpl(1);
+        empiricalDistribution2 = new EmpiricalDistribution(1);
         tstDoubleGen(5);
     }
 
@@ -166,13 +166,13 @@ public final class EmpiricalDistributionTest {
     @Test
     public void testBinIndexOverflow() throws Exception {
         double[] x = new double[] {9474.94326071674, 2080107.8865462579};
-        new EmpiricalDistributionImpl().load(x);
+        new EmpiricalDistribution().load(x);
     }
 
     @Test
     public void testSerialization() {
         // Empty
-        EmpiricalDistribution dist = new EmpiricalDistributionImpl();
+        EmpiricalDistribution dist = new EmpiricalDistribution();
         EmpiricalDistribution dist2 = (EmpiricalDistribution) TestUtils.serializeAndRecover(dist);
         verifySame(dist, dist2);
 
@@ -184,17 +184,17 @@ public final class EmpiricalDistributionTest {
 
     @Test(expected=NullArgumentException.class)
     public void testLoadNullDoubleArray() {
-       new EmpiricalDistributionImpl().load((double[]) null);
+       new EmpiricalDistribution().load((double[]) null);
     }
 
     @Test(expected=NullArgumentException.class)
     public void testLoadNullURL() throws Exception {
-        new EmpiricalDistributionImpl().load((URL) null);
+        new EmpiricalDistribution().load((URL) null);
     }
 
     @Test(expected=NullArgumentException.class)
     public void testLoadNullFile() throws Exception {
-        new EmpiricalDistributionImpl().load((File) null);
+        new EmpiricalDistribution().load((File) null);
     }
 
     /**
@@ -203,7 +203,7 @@ public final class EmpiricalDistributionTest {
     @Test
     public void testGetBinUpperBounds() {
         double[] testData = {0, 1, 1, 2, 3, 4, 4, 5, 6, 7, 8, 9, 10};
-        EmpiricalDistributionImpl dist = new EmpiricalDistributionImpl(5);
+        EmpiricalDistribution dist = new EmpiricalDistribution(5);
         dist.load(testData);
         double[] expectedBinUpperBounds = {2, 4, 6, 8, 10};
         double[] expectedGeneratorUpperBounds = {4d/13d, 7d/13d, 9d/13d, 11d/13d, 1};
@@ -217,14 +217,14 @@ public final class EmpiricalDistributionTest {
         double[] testData = {0, 1, 2, 3, 4};
         RandomGenerator generator = new RandomAdaptorTest.ConstantGenerator(0.5);
         
-        EmpiricalDistribution dist = new EmpiricalDistributionImpl(5, generator);
+        EmpiricalDistribution dist = new EmpiricalDistribution(5, generator);
         dist.load(testData);
         for (int i = 0; i < 5; i++) {
             Assert.assertEquals(2.0, dist.getNextValue(), 0d);
         }
         
         // Verify no NPE with null generator argument
-        dist = new EmpiricalDistributionImpl(5, (RandomGenerator) null);
+        dist = new EmpiricalDistribution(5, (RandomGenerator) null);
         dist.load(testData);
         dist.getNextValue();
     }

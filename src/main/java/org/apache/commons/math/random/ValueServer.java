@@ -170,7 +170,7 @@ public class ValueServer {
      * @throws IOException if an I/O error occurs reading the input file
      */
     public void computeDistribution() throws IOException {
-        computeDistribution(EmpiricalDistributionImpl.DEFAULT_BIN_COUNT);
+        computeDistribution(EmpiricalDistribution.DEFAULT_BIN_COUNT);
     }
 
     /**
@@ -189,7 +189,7 @@ public class ValueServer {
      */
     public void computeDistribution(int binCount)
             throws IOException {
-        empiricalDistribution = new EmpiricalDistributionImpl(binCount, randomData);
+        empiricalDistribution = new EmpiricalDistribution(binCount, randomData);
         empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
         sigma = empiricalDistribution.getSampleStats().getStandardDeviation();
