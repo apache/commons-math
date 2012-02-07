@@ -16,8 +16,13 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.NormalDistribution;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.stat.ranking.NaNStrategy;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.TiesStrategy;
@@ -53,7 +58,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      *            specifies the strategy that should be used for ties
      */
     public WilcoxonSignedRankTestImpl(NaNStrategy nanStrategy,
-            TiesStrategy tiesStrategy) {
+                                      TiesStrategy tiesStrategy) {
         naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
     }
 
@@ -62,27 +67,24 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      *
      * @param x first sample
      * @param y second sample
-     * @throws IllegalArgumentException
-     *             if assumptions are not met
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     * @throws DimensionMismatchException if {@code x} and {@code y} do not
+     * have the same length.
      */
     private void ensureDataConformance(final double[] x, final double[] y)
-            throws IllegalArgumentException {
-        if (x == null) {
-            throw new IllegalArgumentException("x must not be null");
-        }
+        throws NullArgumentException, NoDataException, DimensionMismatchException {
 
-        if (y == null) {
-            throw new IllegalArgumentException("y must not be null");
+        if (x == null ||
+            y == null) {
+                throw new NullArgumentException();
         }
-
-        if (x.length != y.length) {
-            throw new IllegalArgumentException(
-                    "x and y must contain the same number of elements");
+        if (x.length == 0 ||
+            y.length == 0) {
+            throw new NoDataException();
         }
-
-        if (x.length == 0) {
-            throw new IllegalArgumentException(
-                    "x and y must contain at least one element");
+        if (y.length != x.length) {
+            throw new DimensionMismatchException(y.length, x.length);
         }
     }
 
@@ -109,18 +111,18 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      *
      * @param z sample
      * @return |z|
-     * @throws IllegalArgumentException
-     *             if assumptions are not met
+     * @throws NullArgumentException if {@code z} is {@code null}
+     * @throws NoDataException if {@code z} is zero-length.
      */
     private double[] calculateAbsoluteDifferences(final double[] z)
-            throws IllegalArgumentException {
+        throws NullArgumentException, NoDataException {
+
         if (z == null) {
-            throw new IllegalArgumentException("z must not be null");
+            throw new NullArgumentException();
         }
 
         if (z.length == 0) {
-            throw new IllegalArgumentException(
-                    "z must contain at least one element");
+            throw new NoDataException();
         }
 
         final double[] zAbs = new double[z.length];
@@ -132,19 +134,9 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
         return zAbs;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
-     * @return wilcoxonSignedRank statistic (the larger of W+ and W-)
-     * @throws IllegalArgumentException
-     *             if preconditions are not met
-     */
+    /** {@inheritDoc} */
     public double wilcoxonSignedRank(final double[] x, final double[] y)
-            throws IllegalArgumentException {
+        throws NullArgumentException, NoDataException, DimensionMismatchException {
 
         ensureDataConformance(x, y);
 
@@ -214,9 +206,8 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      * @param Wmin smallest Wilcoxon signed rank value
      * @param N number of subjects (corresponding to x.length)
      * @return two-sided asymptotic p-value
-     * @throws MathException if an error occurs computing the p-value
      */
-    private double calculateAsymptoticPValue(final double Wmin, final int N) throws MathException {
+    private double calculateAsymptoticPValue(final double Wmin, final int N) {
 
         final double ES = (double) (N * (N + 1)) / 4.0;
 
@@ -233,25 +224,11 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
         return 2*standardNormal.cumulativeProbability(z);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
-     * @param exactPValue
-     *            if the exact p-value is wanted (only for x.length <= 30)
-     * @return p-value
-     * @throws IllegalArgumentException
-     *             if preconditions are not met or exact p-value is wanted for
-     *             when x.length > 30
-     * @throws MathException
-     *             if an error occurs computing the p-value
-     */
+    /** {@inheritDoc} */
     public double wilcoxonSignedRankTest(final double[] x, final double[] y,
-            boolean exactPValue) throws IllegalArgumentException,
-            MathException {
+                                         boolean exactPValue)
+        throws NullArgumentException, NoDataException, DimensionMismatchException,
+        NumberIsTooLargeException, ConvergenceException, MaxCountExceededException {
 
         ensureDataConformance(x, y);
 
@@ -259,7 +236,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
         final double Wmax = wilcoxonSignedRank(x, y);
 
         if (exactPValue && N > 30) {
-            throw new IllegalArgumentException("Exact test can only be made for N <= 30.");
+            throw new NumberIsTooLargeException(N, 30, true);
         }
 
         if (exactPValue) {

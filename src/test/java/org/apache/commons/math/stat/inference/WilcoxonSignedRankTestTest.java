@@ -16,6 +16,10 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -78,8 +82,8 @@ public class WilcoxonSignedRankTestTest {
         
         try {
             testStatistic.wilcoxonSignedRankTest(x2, y2, true);
-            Assert.fail("More than 30 samples and exact chosen, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("More than 30 samples and exact chosen, NumberIsTooLargeException expected");
+        } catch (NumberIsTooLargeException ex) {
             // expected
         }
         
@@ -87,29 +91,29 @@ public class WilcoxonSignedRankTestTest {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { }, new double[] { 1.0 }, true);
-            Assert.fail("x does not contain samples (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x does not contain samples (exact), NoDataException expected");
+        } catch (NoDataException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { }, new double[] { 1.0 }, false);
-            Assert.fail("x does not contain samples (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x does not contain samples (asymptotic), NoDataException expected");
+        } catch (NoDataException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, new double[] { }, true);
-            Assert.fail("y does not contain samples (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("y does not contain samples (exact), NoDataException expected");
+        } catch (NoDataException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, new double[] { }, false);
-            Assert.fail("y does not contain samples (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("y does not contain samples (asymptotic), NoDataException expected");
+        } catch (NoDataException ex) {
             // expected
         }
 
@@ -117,15 +121,15 @@ public class WilcoxonSignedRankTestTest {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0, 2.0 }, new double[] { 3.0 }, true);
-            Assert.fail("x and y not same size (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x and y not same size (exact), DimensionMismatchException expected");
+        } catch (DimensionMismatchException ex) {
             // expected
         }
 
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0, 2.0 }, new double[] { 3.0 }, false);
-            Assert.fail("x and y not same size (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x and y not same size (asymptotic), DimensionMismatchException expected");
+        } catch (DimensionMismatchException ex) {
             // expected
         }
         
@@ -134,15 +138,15 @@ public class WilcoxonSignedRankTestTest {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(null, null, true);
-            Assert.fail("x and y is null (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x and y is null (exact), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(null, null, false);
-            Assert.fail("x and y is null (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x and y is null (asymptotic), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         
@@ -151,29 +155,29 @@ public class WilcoxonSignedRankTestTest {
          */
         try {
             testStatistic.wilcoxonSignedRankTest(null, new double[] { 1.0 }, true);
-            Assert.fail("x is null (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x is null (exact), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(null, new double[] { 1.0 }, false);
-            Assert.fail("x is null (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("x is null (asymptotic), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, null, true);
-            Assert.fail("y is null (exact), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("y is null (exact), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         
         try {
             testStatistic.wilcoxonSignedRankTest(new double[] { 1.0 }, null, false);
-            Assert.fail("y is null (asymptotic), IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("y is null (asymptotic), NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }

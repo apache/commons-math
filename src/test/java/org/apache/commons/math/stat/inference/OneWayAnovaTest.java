@@ -19,6 +19,7 @@ package org.apache.commons.math.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -65,8 +66,8 @@ public class OneWayAnovaTest {
         emptyContents.add(classC);
         try {
             testStatistic.anovaFValue(emptyContents);
-            Assert.fail("empty array for key classX, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("empty array for key classX, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
 
@@ -74,8 +75,8 @@ public class OneWayAnovaTest {
         tooFew.add(classA);
         try {
             testStatistic.anovaFValue(tooFew);
-            Assert.fail("less than two classes, IllegalArgumentException expected");
-        } catch (IllegalArgumentException ex) {
+            Assert.fail("less than two classes, MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
             // expected
         }
     }
