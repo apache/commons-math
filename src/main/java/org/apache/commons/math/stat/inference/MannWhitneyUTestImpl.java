@@ -16,8 +16,11 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.NormalDistribution;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.stat.ranking.NaNStrategy;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.TiesStrategy;
@@ -63,27 +66,19 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      *
      * @param x first sample
      * @param y second sample
-     * @throws IllegalArgumentException
-     *             if assumptions are not met
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
      */
     private void ensureDataConformance(final double[] x, final double[] y)
-            throws IllegalArgumentException {
-        if (x == null) {
-            throw new IllegalArgumentException("x must not be null");
-        }
+        throws NullArgumentException, NoDataException {
 
-        if (y == null) {
-            throw new IllegalArgumentException("y must not be null");
+        if (x == null ||
+            y == null) {
+            throw new NullArgumentException();
         }
-
-        if (x.length == 0) {
-            throw new IllegalArgumentException(
-                    "x must contain at least one element");
-        }
-
-        if (y.length == 0) {
-            throw new IllegalArgumentException(
-                    "y must contain at least one element");
+        if (x.length == 0 ||
+            y.length == 0) {
+            throw new NoDataException();
         }
     }
 
@@ -101,16 +96,9 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
         return z;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param x the first sample
-     * @param y the second sample
-     * @return mannWhitneyU statistic U (maximum of U<sup>x</sup> and U<sup>y</sup>)
-     * @throws IllegalArgumentException if preconditions are not met
-     */
+    /** {@inheritDoc} */
     public double mannWhitneyU(final double[] x, final double[] y)
-            throws IllegalArgumentException {
+        throws NullArgumentException, NoDataException {
 
         ensureDataConformance(x, y);
 
@@ -146,10 +134,15 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      * @param n1 number of subjects in first sample
      * @param n2 number of subjects in second sample
      * @return two-sided asymptotic p-value
-     * @throws MathException if an error occurs computing the p-value
+     * @throws ConvergenceException if the p-value can not be computed
+     * due to a convergence error
+     * @throws MaxCountExceededException if the maximum number of
+     * iterations is exceeded
      */
-    private double calculateAsymptoticPValue(final double Umin, final int n1,
-            final int n2) throws MathException {
+    private double calculateAsymptoticPValue(final double Umin,
+                                             final int n1,
+                                             final int n2)
+        throws ConvergenceException, MaxCountExceededException {
 
         final int n1n2prod = n1 * n2;
 
@@ -159,8 +152,7 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
 
         final double z = (Umin - EU) / FastMath.sqrt(VarU);
 
-        final NormalDistribution standardNormal = new NormalDistribution(
-                0, 1);
+        final NormalDistribution standardNormal = new NormalDistribution(0, 1);
 
         return 2 * standardNormal.cumulativeProbability(z);
     }
@@ -171,15 +163,10 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      * >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.
      *
      * {@inheritDoc}
-     *
-     * @param x the first sample
-     * @param y the second sample
-     * @return asymptotic p-value (biased for samples with ties)
-     * @throws IllegalArgumentException if preconditions are not met
-     * @throws MathException if an error occurs computing the p-value
      */
     public double mannWhitneyUTest(final double[] x, final double[] y)
-            throws IllegalArgumentException, MathException {
+        throws NullArgumentException, NoDataException,
+        ConvergenceException, MaxCountExceededException {
 
         ensureDataConformance(x, y);
 

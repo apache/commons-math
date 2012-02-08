@@ -16,7 +16,10 @@
  */
 package org.apache.commons.math.stat.inference;
 
-import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NoDataException;
+import org.apache.commons.math.exception.NullArgumentException;
 
 /**
  * An interface for Mann-Whitney U test (also called Wilcoxon rank-sum test).
@@ -47,16 +50,14 @@ public interface MannWhitneyUTest {
      * </ul>
      * </p>
      *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
-     * @return mannWhitneyU statistic
-     * @throws IllegalArgumentException
-     *             if preconditions are not met
+     * @param x the first sample
+     * @param y the second sample
+     * @return Mann-Whitney U statistic (maximum of U<sup>x</sup> and U<sup>y</sup>)
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
      */
     double mannWhitneyU(final double[] x, final double[] y)
-            throws IllegalArgumentException;
+        throws NullArgumentException, NoDataException;
 
     /**
      * Returns the asymptotic <i>observed significance level</i>, or <a href=
@@ -77,16 +78,17 @@ public interface MannWhitneyUTest {
      * </ul>
      * </p>
      *
-     * @param x
-     *            the first sample
-     * @param y
-     *            the second sample
+     * @param x the first sample
+     * @param y the second sample
      * @return asymptotic p-value
-     * @throws IllegalArgumentException
-     *             if preconditions are not met
-     * @throws MathException
-     *             if an error occurs computing the p-value
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     * @throws ConvergenceException if the p-value can not be computed due to a
+     * convergence error
+     * @throws MaxCountExceededException if the maximum number of iterations
+     * is exceeded
      */
     double mannWhitneyUTest(final double[] x, final double[] y)
-            throws IllegalArgumentException, MathException;
+        throws NullArgumentException, NoDataException,
+        ConvergenceException, MaxCountExceededException;
 }

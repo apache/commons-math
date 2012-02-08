@@ -103,10 +103,12 @@ public interface WilcoxonSignedRankTest {
      * @throws NoDataException if {@code x} or {@code y} are zero-length.
      * @throws DimensionMismatchException if {@code x} and {@code y} do not
      * have the same length.
-     * @throws NumberIsTooLargeException if {@code exactPValue} is {@code true} and
-     * {@code x.length} > 30
-     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
-     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
+     * @throws NumberIsTooLargeException if {@code exactPValue} is {@code true}
+     * and {@code x.length} > 30
+     * @throws ConvergenceException if the p-value can not be computed due to
+     * a convergence error
+     * @throws MaxCountExceededException if the maximum number of iterations
+     * is exceeded
      */
     double wilcoxonSignedRankTest(final double[] x, final double[] y, boolean exactPValue)
         throws NullArgumentException, NoDataException, DimensionMismatchException,
