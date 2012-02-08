@@ -56,8 +56,8 @@ public class MannWhitneyUTestImpl implements MannWhitneyUTest {
      * @param tiesStrategy
      *            specifies the strategy that should be used for ties
      */
-    public MannWhitneyUTestImpl(NaNStrategy nanStrategy,
-            TiesStrategy tiesStrategy) {
+    public MannWhitneyUTestImpl(final NaNStrategy nanStrategy,
+                                final TiesStrategy tiesStrategy) {
         naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
     }
 

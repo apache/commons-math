@@ -57,8 +57,8 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
      * @param tiesStrategy
      *            specifies the strategy that should be used for ties
      */
-    public WilcoxonSignedRankTestImpl(NaNStrategy nanStrategy,
-                                      TiesStrategy tiesStrategy) {
+    public WilcoxonSignedRankTestImpl(final NaNStrategy nanStrategy,
+                                      final TiesStrategy tiesStrategy) {
         naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
     }
 
@@ -226,7 +226,7 @@ public class WilcoxonSignedRankTestImpl implements WilcoxonSignedRankTest {
 
     /** {@inheritDoc} */
     public double wilcoxonSignedRankTest(final double[] x, final double[] y,
-                                         boolean exactPValue)
+                                         final boolean exactPValue)
         throws NullArgumentException, NoDataException, DimensionMismatchException,
         NumberIsTooLargeException, ConvergenceException, MaxCountExceededException {
 

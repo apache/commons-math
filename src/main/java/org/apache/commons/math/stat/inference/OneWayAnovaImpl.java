@@ -67,7 +67,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * are as defined <a href="http://faculty.vassar.edu/lowry/ch13pt1.html">
      * here</a></p>
      */
-    public double anovaFValue(Collection<double[]> categoryData)
+    public double anovaFValue(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException {
 
         AnovaStats a = anovaStats(categoryData);
@@ -85,7 +85,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * where <code>F</code> is the F value and <code>cumulativeProbability</code>
      * is the commons-math implementation of the F distribution.</p>
      */
-    public double anovaPValue(Collection<double[]> categoryData)
+    public double anovaPValue(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException,
         ConvergenceException, MaxCountExceededException {
 
@@ -106,13 +106,15 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * is the commons-math implementation of the F distribution.</p>
      * <p>True is returned iff the estimated p-value is less than alpha.</p>
      */
-    public boolean anovaTest(Collection<double[]> categoryData, double alpha)
-        throws NullArgumentException, DimensionMismatchException, OutOfRangeException,
-        ConvergenceException, MaxCountExceededException {
+    public boolean anovaTest(final Collection<double[]> categoryData,
+                             final double alpha)
+        throws NullArgumentException, DimensionMismatchException,
+        OutOfRangeException, ConvergenceException, MaxCountExceededException {
 
         if ((alpha <= 0) || (alpha > 0.5)) {
-            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
-                                          alpha, 0, 0.5);
+            throw new OutOfRangeException(
+                    LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
+                    alpha, 0, 0.5);
         }
         return anovaPValue(categoryData) < alpha;
 
@@ -130,7 +132,7 @@ public class OneWayAnovaImpl implements OneWayAnova  {
      * array is less than 2 or a contained <code>double[]</code> array does not contain
      * at least two values
      */
-    private AnovaStats anovaStats(Collection<double[]> categoryData)
+    private AnovaStats anovaStats(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException {
 
         if (categoryData == null) {
@@ -139,8 +141,9 @@ public class OneWayAnovaImpl implements OneWayAnova  {
 
         // check if we have enough categories
         if (categoryData.size() < 2) {
-            throw new DimensionMismatchException(LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
-                                                 categoryData.size(), 2);
+            throw new DimensionMismatchException(
+                    LocalizedFormats.TWO_OR_MORE_CATEGORIES_REQUIRED,
+                    categoryData.size(), 2);
         }
 
         // check if each category has enough data and all is double[]
