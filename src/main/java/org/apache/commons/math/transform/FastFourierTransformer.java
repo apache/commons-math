@@ -18,7 +18,6 @@ package org.apache.commons.math.transform;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
@@ -28,6 +27,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.MathArrays;
 
 /**
  * <p>
@@ -394,7 +394,7 @@ public class FastFourierTransformer implements Serializable {
      */
     public Complex[] transform(double[] f) {
         final double[][] dataRI = new double[][] {
-            Arrays.copyOf(f, f.length), new double[f.length]
+            MathArrays.copyOf(f, f.length), new double[f.length]
         };
 
         transformInPlace(dataRI, false);
@@ -463,7 +463,7 @@ public class FastFourierTransformer implements Serializable {
      */
     public Complex[] inverseTransform(double[] f) {
         final double[][] dataRI = new double[][] {
-            Arrays.copyOf(f, f.length), new double[f.length]
+            MathArrays.copyOf(f, f.length), new double[f.length]
         };
 
         transformInPlace(dataRI, true);
