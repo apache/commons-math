@@ -23,6 +23,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * Default implementation of a {@link MeasurementModel} for the use with a
  * {@link KalmanFilter}.
  *
+ * @since 3.0
  * @version $Id$
  */
 public class DefaultMeasurementModel implements MeasurementModel {
@@ -42,10 +43,8 @@ public class DefaultMeasurementModel implements MeasurementModel {
      * Create a new {@link MeasurementModel}, taking double arrays as input
      * parameters for the respective measurement matrix and noise.
      *
-     * @param measMatrix
-     *            the measurement matrix
-     * @param measNoise
-     *            the measurement noise matrix
+     * @param measMatrix the measurement matrix
+     * @param measNoise the measurement noise matrix
      */
     public DefaultMeasurementModel(final double[][] measMatrix,
             final double[][] measNoise) {
@@ -57,10 +56,8 @@ public class DefaultMeasurementModel implements MeasurementModel {
      * Create a new {@link MeasurementModel}, taking {@link RealMatrix} objects
      * as input parameters for the respective measurement matrix and noise.
      *
-     * @param measMatrix
-     *            the measurement matrix
-     * @param measNoise
-     *            the measurement noise matrix
+     * @param measMatrix the measurement matrix
+     * @param measNoise the measurement noise matrix
      */
     public DefaultMeasurementModel(final RealMatrix measMatrix,
             final RealMatrix measNoise) {
@@ -68,16 +65,12 @@ public class DefaultMeasurementModel implements MeasurementModel {
         this.measurementNoise = measNoise;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getMeasurementMatrix() {
         return measurementMatrix;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getMeasurementNoise() {
         return measurementNoise;
     }

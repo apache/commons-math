@@ -78,6 +78,7 @@ import org.apache.commons.math.util.MathUtils;
  *      Kalman filter example by Dan Simon</a>
  * @see ProcessModel
  * @see MeasurementModel
+ * @since 3.0
  * @version $Id$
  */
 public class KalmanFilter {
@@ -286,10 +287,9 @@ public class KalmanFilter {
     /**
      * Predict the internal state estimation one time step ahead.
      *
-     * @param u
-     *            the control vector
-     * @throws DimensionMismatchException
-     *             if the dimension of the control vector does not fit
+     * @param u the control vector
+     * @throws DimensionMismatchException if the dimension of the control
+     * vector does not fit
      */
     public void predict(final RealVector u) {
         // sanity checks
@@ -318,12 +318,11 @@ public class KalmanFilter {
     /**
      * Correct the current state estimate with an actual measurement.
      *
-     * @param z
-     *            the measurement vector
+     * @param z the measurement vector
      * @throws DimensionMismatchException
-     *             if the dimension of the measurement vector does not fit
+     * if the dimension of the measurement vector does not fit
      * @throws org.apache.commons.math.linear.SingularMatrixException
-     *             if the covariance matrix could not be inverted
+     * if the covariance matrix could not be inverted
      */
     public void correct(final double[] z) {
         correct(new ArrayRealVector(z));
@@ -332,12 +331,11 @@ public class KalmanFilter {
     /**
      * Correct the current state estimate with an actual measurement.
      *
-     * @param z
-     *            the measurement vector
-     * @throws DimensionMismatchException
-     *             if the dimension of the measurement vector does not fit
+     * @param z the measurement vector
+     * @throws DimensionMismatchException if the dimension of the
+     * measurement vector does not fit
      * @throws org.apache.commons.math.linear.SingularMatrixException
-     *             if the covariance matrix could not be inverted
+     * if the covariance matrix could not be inverted
      */
     public void correct(final RealVector z) {
         // sanity checks

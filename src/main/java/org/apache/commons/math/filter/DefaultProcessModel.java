@@ -25,6 +25,7 @@ import org.apache.commons.math.linear.RealVector;
  * Default implementation of a {@link ProcessModel} for the use with a
  * {@link KalmanFilter}.
  *
+ * @since 3.0
  * @version $Id$
  */
 public class DefaultProcessModel implements ProcessModel {
@@ -40,40 +41,30 @@ public class DefaultProcessModel implements ProcessModel {
      */
     private RealMatrix controlMatrix;
 
-    /**
-     * The process noise covariance matrix.
-     */
+    /** The process noise covariance matrix. */
     private RealMatrix processNoiseCovMatrix;
 
-    /**
-     * The initial state estimation of the observed process.
-     */
+    /** The initial state estimation of the observed process. */
     private RealVector initialStateEstimateVector;
 
-    /**
-     * The initial error covariance matrix of the observed process.
-     */
+    /** The initial error covariance matrix of the observed process. */
     private RealMatrix initialErrorCovMatrix;
 
     /**
      * Create a new {@link ProcessModel}, taking double arrays as input
      * parameters.
      *
-     * @param stateTransition
-     *            the state transition matrix
-     * @param control
-     *            the control matrix
-     * @param processNoise
-     *            the process noise matrix
-     * @param initialStateEstimate
-     *            the initial state estimate vector
-     * @param initialErrorCovariance
-     *            the initial error covariance matrix
+     * @param stateTransition the state transition matrix
+     * @param control the control matrix
+     * @param processNoise the process noise matrix
+     * @param initialStateEstimate the initial state estimate vector
+     * @param initialErrorCovariance the initial error covariance matrix
      */
     public DefaultProcessModel(final double[][] stateTransition,
-            final double[][] control, final double[][] processNoise,
-            final double[] initialStateEstimate,
-            final double[][] initialErrorCovariance) {
+                               final double[][] control,
+                               final double[][] processNoise,
+                               final double[] initialStateEstimate,
+                               final double[][] initialErrorCovariance) {
         this(new Array2DRowRealMatrix(stateTransition),
                 new Array2DRowRealMatrix(control),
                 new Array2DRowRealMatrix(processNoise),
@@ -86,15 +77,13 @@ public class DefaultProcessModel implements ProcessModel {
      * parameters. The initial state estimate and error covariance are omitted
      * and will be initialized by the {@link KalmanFilter} to default values.
      *
-     * @param stateTransition
-     *            the state transition matrix
-     * @param control
-     *            the control matrix
-     * @param processNoise
-     *            the process noise matrix
+     * @param stateTransition the state transition matrix
+     * @param control the control matrix
+     * @param processNoise the process noise matrix
      */
     public DefaultProcessModel(final double[][] stateTransition,
-            final double[][] control, final double[][] processNoise) {
+                               final double[][] control,
+                               final double[][] processNoise) {
         this(new Array2DRowRealMatrix(stateTransition),
                 new Array2DRowRealMatrix(control),
                 new Array2DRowRealMatrix(processNoise), null, null);
@@ -104,21 +93,17 @@ public class DefaultProcessModel implements ProcessModel {
      * Create a new {@link ProcessModel}, taking double arrays as input
      * parameters.
      *
-     * @param stateTransition
-     *            the state transition matrix
-     * @param control
-     *            the control matrix
-     * @param processNoise
-     *            the process noise matrix
-     * @param initialStateEstimate
-     *            the initial state estimate vector
-     * @param initialErrorCovariance
-     *            the initial error covariance matrix
+     * @param stateTransition the state transition matrix
+     * @param control the control matrix
+     * @param processNoise the process noise matrix
+     * @param initialStateEstimate the initial state estimate vector
+     * @param initialErrorCovariance the initial error covariance matrix
      */
     public DefaultProcessModel(final RealMatrix stateTransition,
-            final RealMatrix control, final RealMatrix processNoise,
-            final RealVector initialStateEstimate,
-            final RealMatrix initialErrorCovariance) {
+                               final RealMatrix control,
+                               final RealMatrix processNoise,
+                               final RealVector initialStateEstimate,
+                               final RealMatrix initialErrorCovariance) {
         this.stateTransitionMatrix = stateTransition;
         this.controlMatrix = control;
         this.processNoiseCovMatrix = processNoise;
@@ -126,37 +111,27 @@ public class DefaultProcessModel implements ProcessModel {
         this.initialErrorCovMatrix = initialErrorCovariance;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getStateTransitionMatrix() {
         return stateTransitionMatrix;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getControlMatrix() {
         return controlMatrix;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getProcessNoise() {
         return processNoiseCovMatrix;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealVector getInitialStateEstimate() {
         return initialStateEstimateVector;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     public RealMatrix getInitialErrorCovariance() {
         return initialErrorCovMatrix;
     }
