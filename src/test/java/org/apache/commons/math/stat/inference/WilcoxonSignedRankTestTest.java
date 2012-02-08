@@ -25,14 +25,14 @@ import org.junit.Test;
 
 
 /**
- * Test cases for the ChiSquareTestImpl class.
+ * Test cases for the WilcoxonSignedRangTest class.
  *
  * @version $Id$
  */
 
 public class WilcoxonSignedRankTestTest {
 
-    protected WilcoxonSignedRankTest testStatistic = new WilcoxonSignedRankTestImpl();
+    protected WilcoxonSignedRankTest testStatistic = new WilcoxonSignedRankTest();
 
     @Test
     public void testWilcoxonSignedRankSimple() throws Exception {

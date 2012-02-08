@@ -30,7 +30,7 @@ import org.junit.Test;
 
 public class MannWhitneyUTestTest {
 
-    protected MannWhitneyUTest testStatistic = new MannWhitneyUTestImpl();
+    protected MannWhitneyUTest testStatistic = new MannWhitneyUTest();
 
     @Test
     public void testMannWhitneyUSimple() throws Exception {

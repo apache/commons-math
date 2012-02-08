@@ -450,7 +450,7 @@ public class TestUtilsTest {
       {110.0, 115.0, 111.0, 117.0, 128.0};
 
     private List<double[]> classes = new ArrayList<double[]>();
-    private OneWayAnova oneWayAnova = new OneWayAnovaImpl();
+    private OneWayAnova oneWayAnova = new OneWayAnova();
 
     @Test
     public void testOneWayAnovaUtils() throws Exception {

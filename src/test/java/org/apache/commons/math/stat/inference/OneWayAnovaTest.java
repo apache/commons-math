@@ -32,7 +32,7 @@ import org.junit.Test;
 
 public class OneWayAnovaTest {
 
-    protected OneWayAnova testStatistic = new OneWayAnovaImpl();
+    protected OneWayAnova testStatistic = new OneWayAnova();
 
     private double[] emptyArray = {};
 

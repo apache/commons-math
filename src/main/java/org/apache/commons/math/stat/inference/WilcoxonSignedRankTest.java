@@ -16,19 +16,123 @@
  */
 package org.apache.commons.math.stat.inference;
 
+import org.apache.commons.math.distribution.NormalDistribution;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
+import org.apache.commons.math.stat.ranking.NaNStrategy;
+import org.apache.commons.math.stat.ranking.NaturalRanking;
+import org.apache.commons.math.stat.ranking.TiesStrategy;
+import org.apache.commons.math.util.FastMath;
 
 /**
- * An interface for Wilcoxon signed-rank test.
+ * An implementation of the Wilcoxon signed-rank test.
  *
  * @version $Id$
  */
-public interface WilcoxonSignedRankTest {
+public class WilcoxonSignedRankTest {
+
+    /** Ranking algorithm. */
+    private NaturalRanking naturalRanking;
+
+    /**
+     * Create a test instance where NaN's are left in place and ties get
+     * the average of applicable ranks. Use this unless you are very sure
+     * of what you are doing.
+     */
+    public WilcoxonSignedRankTest() {
+        naturalRanking = new NaturalRanking(NaNStrategy.FIXED,
+                TiesStrategy.AVERAGE);
+    }
+
+    /**
+     * Create a test instance using the given strategies for NaN's and ties.
+     * Only use this if you are sure of what you are doing.
+     *
+     * @param nanStrategy
+     *            specifies the strategy that should be used for Double.NaN's
+     * @param tiesStrategy
+     *            specifies the strategy that should be used for ties
+     */
+    public WilcoxonSignedRankTest(final NaNStrategy nanStrategy,
+                                  final TiesStrategy tiesStrategy) {
+        naturalRanking = new NaturalRanking(nanStrategy, tiesStrategy);
+    }
+
+    /**
+     * Ensures that the provided arrays fulfills the assumptions.
+     *
+     * @param x first sample
+     * @param y second sample
+     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
+     * @throws NoDataException if {@code x} or {@code y} are zero-length.
+     * @throws DimensionMismatchException if {@code x} and {@code y} do not
+     * have the same length.
+     */
+    private void ensureDataConformance(final double[] x, final double[] y)
+        throws NullArgumentException, NoDataException, DimensionMismatchException {
+
+        if (x == null ||
+            y == null) {
+                throw new NullArgumentException();
+        }
+        if (x.length == 0 ||
+            y.length == 0) {
+            throw new NoDataException();
+        }
+        if (y.length != x.length) {
+            throw new DimensionMismatchException(y.length, x.length);
+        }
+    }
+
+    /**
+     * Calculates y[i] - x[i] for all i
+     *
+     * @param x first sample
+     * @param y second sample
+     * @return z = y - x
+     */
+    private double[] calculateDifferences(final double[] x, final double[] y) {
+
+        final double[] z = new double[x.length];
+
+        for (int i = 0; i < x.length; ++i) {
+            z[i] = y[i] - x[i];
+        }
+
+        return z;
+    }
+
+    /**
+     * Calculates |z[i]| for all i
+     *
+     * @param z sample
+     * @return |z|
+     * @throws NullArgumentException if {@code z} is {@code null}
+     * @throws NoDataException if {@code z} is zero-length.
+     */
+    private double[] calculateAbsoluteDifferences(final double[] z)
+        throws NullArgumentException, NoDataException {
+
+        if (z == null) {
+            throw new NullArgumentException();
+        }
+
+        if (z.length == 0) {
+            throw new NoDataException();
+        }
+
+        final double[] zAbs = new double[z.length];
+
+        for (int i = 0; i < z.length; ++i) {
+            zAbs[i] = FastMath.abs(z[i]);
+        }
+
+        return zAbs;
+    }
 
     /**
      * Computes the <a
@@ -65,8 +169,94 @@ public interface WilcoxonSignedRankTest {
      * @throws DimensionMismatchException if {@code x} and {@code y} do not
      * have the same length.
      */
-    double wilcoxonSignedRank(final double[] x, final double[] y)
-        throws NullArgumentException, NoDataException, DimensionMismatchException;
+    public double wilcoxonSignedRank(final double[] x, final double[] y)
+        throws NullArgumentException, NoDataException, DimensionMismatchException {
+
+        ensureDataConformance(x, y);
+
+        // throws IllegalArgumentException if x and y are not correctly
+        // specified
+        final double[] z = calculateDifferences(x, y);
+        final double[] zAbs = calculateAbsoluteDifferences(z);
+
+        final double[] ranks = naturalRanking.rank(zAbs);
+
+        double Wplus = 0;
+
+        for (int i = 0; i < z.length; ++i) {
+            if (z[i] > 0) {
+                Wplus += ranks[i];
+            }
+        }
+
+        final int N = x.length;
+        final double Wminus = (((double) (N * (N + 1))) / 2.0) - Wplus;
+
+        return FastMath.max(Wplus, Wminus);
+    }
+
+    /**
+     * Algorithm inspired by
+     * http://www.fon.hum.uva.nl/Service/Statistics/Signed_Rank_Algorihms.html#C
+     * by Rob van Son, Institute of Phonetic Sciences & IFOTT,
+     * University of Amsterdam
+     *
+     * @param Wmax largest Wilcoxon signed rank value
+     * @param N number of subjects (corresponding to x.length)
+     * @return two-sided exact p-value
+     */
+    private double calculateExactPValue(final double Wmax, final int N) {
+
+        // Total number of outcomes (equal to 2^N but a lot faster)
+        final int m = 1 << N;
+
+        int largerRankSums = 0;
+
+        for (int i = 0; i < m; ++i) {
+            int rankSum = 0;
+
+            // Generate all possible rank sums
+            for (int j = 0; j < N; ++j) {
+
+                // (i >> j) & 1 extract i's j-th bit from the right
+                if (((i >> j) & 1) == 1) {
+                    rankSum += j + 1;
+                }
+            }
+
+            if (rankSum >= Wmax) {
+                ++largerRankSums;
+            }
+        }
+
+        /*
+         * largerRankSums / m gives the one-sided p-value, so it's multiplied
+         * with 2 to get the two-sided p-value
+         */
+        return 2 * ((double) largerRankSums) / ((double) m);
+    }
+
+    /**
+     * @param Wmin smallest Wilcoxon signed rank value
+     * @param N number of subjects (corresponding to x.length)
+     * @return two-sided asymptotic p-value
+     */
+    private double calculateAsymptoticPValue(final double Wmin, final int N) {
+
+        final double ES = (double) (N * (N + 1)) / 4.0;
+
+        /* Same as (but saves computations):
+         * final double VarW = ((double) (N * (N + 1) * (2*N + 1))) / 24;
+         */
+        final double VarS = ES * ((double) (2 * N + 1) / 6.0);
+
+        // - 0.5 is a continuity correction
+        final double z = (Wmin - ES - 0.5) / FastMath.sqrt(VarS);
+
+        final NormalDistribution standardNormal = new NormalDistribution(0, 1);
+
+        return 2*standardNormal.cumulativeProbability(z);
+    }
 
     /**
      * Returns the <i>observed significance level</i>, or <a href=
@@ -110,7 +300,25 @@ public interface WilcoxonSignedRankTest {
      * @throws MaxCountExceededException if the maximum number of iterations
      * is exceeded
      */
-    double wilcoxonSignedRankTest(final double[] x, final double[] y, boolean exactPValue)
+    public double wilcoxonSignedRankTest(final double[] x, final double[] y,
+                                         final boolean exactPValue)
         throws NullArgumentException, NoDataException, DimensionMismatchException,
-        NumberIsTooLargeException, ConvergenceException, MaxCountExceededException;
+        NumberIsTooLargeException, ConvergenceException, MaxCountExceededException {
+
+        ensureDataConformance(x, y);
+
+        final int N = x.length;
+        final double Wmax = wilcoxonSignedRank(x, y);
+
+        if (exactPValue && N > 30) {
+            throw new NumberIsTooLargeException(N, 30, true);
+        }
+
+        if (exactPValue) {
+            return calculateExactPValue(Wmax, N);
+        } else {
+            final double Wmin = ( (double)(N*(N+1)) / 2.0 ) - Wmax;
+            return calculateAsymptoticPValue(Wmin, N);
+        }
+    }
 }

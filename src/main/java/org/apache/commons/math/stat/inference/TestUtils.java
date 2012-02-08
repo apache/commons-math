@@ -18,6 +18,11 @@ package org.apache.commons.math.stat.inference;
 
 import java.util.Collection;
 import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.ConvergenceException;
+import org.apache.commons.math.exception.DimensionMismatchException;
+import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
@@ -29,18 +34,25 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
  */
 public class TestUtils  {
 
-    /** Singleton TTest instance using default implementation. */
+    /** Singleton TTest instance. */
     private static final TTest T_TEST = new TTestImpl();
 
-    /** Singleton ChiSquareTest instance using default implementation. */
+    /** Singleton ChiSquareTest instance. */
     private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTestImpl();
 
-    /** Singleton ChiSquareTest instance using default implementation. */
+    /** Singleton ChiSquareTest instance. */
     private static final UnknownDistributionChiSquareTest UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST =
         new ChiSquareTestImpl();
 
-    /** Singleton OneWayAnova instance using default implementation. */
-    private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnovaImpl();
+    /** Singleton OneWayAnova instance. */
+    private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnova();
+
+    /** Singleton MannWhitneyUTest instance using default ranking. */
+    private static final MannWhitneyUTest MANN_WHITNEY_U_TEST = new MannWhitneyUTest();
+
+    /** Singleton WilcoxonSignedRankTest instance. */
+    private static final WilcoxonSignedRankTest WILCOXON_SIGNED_RANK_TEST =
+        new WilcoxonSignedRankTest();
 
     /**
      * Prevent instantiation.
@@ -74,7 +86,7 @@ public class TestUtils  {
     public static boolean homoscedasticTTest(double[] sample1, double[] sample2,
             double alpha)
         throws IllegalArgumentException, MathException {
-        return T_TEST. homoscedasticTTest(sample1, sample2, alpha);
+        return T_TEST.homoscedasticTTest(sample1, sample2, alpha);
     }
 
     /**
@@ -174,7 +186,7 @@ public class TestUtils  {
     public static boolean tTest(double mu, StatisticalSummary sampleStats,
         double alpha)
         throws IllegalArgumentException, MathException {
-        return T_TEST. tTest(mu, sampleStats, alpha);
+        return T_TEST.tTest(mu, sampleStats, alpha);
     }
 
     /**
@@ -207,7 +219,7 @@ public class TestUtils  {
     public static boolean tTest(StatisticalSummary sampleStats1,
         StatisticalSummary sampleStats2, double alpha)
         throws IllegalArgumentException, MathException {
-        return T_TEST. tTest(sampleStats1, sampleStats2, alpha);
+        return T_TEST.tTest(sampleStats1, sampleStats2, alpha);
     }
 
     /**
@@ -257,7 +269,7 @@ public class TestUtils  {
      */
     public static boolean chiSquareTest(long[][] counts, double alpha)
         throws IllegalArgumentException, MathException {
-        return CHI_SQUARE_TEST. chiSquareTest(counts, alpha);
+        return CHI_SQUARE_TEST.chiSquareTest(counts, alpha);
     }
 
     /**
@@ -305,8 +317,8 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static double oneWayAnovaFValue(Collection<double[]> categoryData)
-    throws IllegalArgumentException, MathException {
+    public static double oneWayAnovaFValue(final Collection<double[]> categoryData)
+        throws NullArgumentException, DimensionMismatchException {
         return ONE_WAY_ANANOVA.anovaFValue(categoryData);
     }
 
@@ -315,8 +327,9 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static double oneWayAnovaPValue(Collection<double[]> categoryData)
-    throws IllegalArgumentException, MathException {
+    public static double oneWayAnovaPValue(final Collection<double[]> categoryData)
+        throws NullArgumentException, DimensionMismatchException,
+        ConvergenceException, MaxCountExceededException {
         return ONE_WAY_ANANOVA.anovaPValue(categoryData);
     }
 
@@ -325,8 +338,10 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static boolean oneWayAnovaTest(Collection<double[]> categoryData, double alpha)
-    throws IllegalArgumentException, MathException {
+    public static boolean oneWayAnovaTest(final Collection<double[]> categoryData,
+                                          final double alpha)
+        throws NullArgumentException, DimensionMismatchException,
+        OutOfRangeException, ConvergenceException, MaxCountExceededException {
         return ONE_WAY_ANANOVA.anovaTest(categoryData, alpha);
     }
 
