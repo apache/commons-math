@@ -18,11 +18,11 @@ package org.apache.commons.math.transform;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
-import org.apache.commons.math.complex.RootsOfUnity;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
@@ -85,7 +85,53 @@ import org.apache.commons.math.util.FastMath;
 public class FastFourierTransformer implements Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120501L;
+    static final long serialVersionUID = 20120802L;
+
+    /**
+     * {@code W_SUB_N_R[i]} is the real part of
+     * {@code exp(- 2 * i * pi / n)}:
+     * {@code W_SUB_N_R[i] = cos(2 * pi/ n)}, where {@code n = 2^i}.
+     */
+    private static final double[] W_SUB_N_R =
+            {  0x1.0p0, -0x1.0p0, 0x1.1a62633145c07p-54, 0x1.6a09e667f3bcdp-1
+            , 0x1.d906bcf328d46p-1, 0x1.f6297cff75cbp-1, 0x1.fd88da3d12526p-1, 0x1.ff621e3796d7ep-1
+            , 0x1.ffd886084cd0dp-1, 0x1.fff62169b92dbp-1, 0x1.fffd8858e8a92p-1, 0x1.ffff621621d02p-1
+            , 0x1.ffffd88586ee6p-1, 0x1.fffff62161a34p-1, 0x1.fffffd8858675p-1, 0x1.ffffff621619cp-1
+            , 0x1.ffffffd885867p-1, 0x1.fffffff62161ap-1, 0x1.fffffffd88586p-1, 0x1.ffffffff62162p-1
+            , 0x1.ffffffffd8858p-1, 0x1.fffffffff6216p-1, 0x1.fffffffffd886p-1, 0x1.ffffffffff621p-1
+            , 0x1.ffffffffffd88p-1, 0x1.fffffffffff62p-1, 0x1.fffffffffffd9p-1, 0x1.ffffffffffff6p-1
+            , 0x1.ffffffffffffep-1, 0x1.fffffffffffffp-1, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0, 0x1.0p0
+            , 0x1.0p0, 0x1.0p0, 0x1.0p0 };
+
+    /**
+     * {@code W_SUB_N_I[i]} is the imaginary part of
+     * {@code exp(- 2 * i * pi / n)}:
+     * {@code W_SUB_N_I[i] = -sin(2 * pi/ n)}, where {@code n = 2^i}.
+     */
+    private static final double[] W_SUB_N_I =
+            {  0x1.1a62633145c07p-52, -0x1.1a62633145c07p-53, -0x1.0p0, -0x1.6a09e667f3bccp-1
+            , -0x1.87de2a6aea963p-2, -0x1.8f8b83c69a60ap-3, -0x1.917a6bc29b42cp-4, -0x1.91f65f10dd814p-5
+            , -0x1.92155f7a3667ep-6, -0x1.921d1fcdec784p-7, -0x1.921f0fe670071p-8, -0x1.921f8becca4bap-9
+            , -0x1.921faaee6472dp-10, -0x1.921fb2aecb36p-11, -0x1.921fb49ee4ea6p-12, -0x1.921fb51aeb57bp-13
+            , -0x1.921fb539ecf31p-14, -0x1.921fb541ad59ep-15, -0x1.921fb5439d73ap-16, -0x1.921fb544197ap-17
+            , -0x1.921fb544387bap-18, -0x1.921fb544403c1p-19, -0x1.921fb544422c2p-20, -0x1.921fb54442a83p-21
+            , -0x1.921fb54442c73p-22, -0x1.921fb54442cefp-23, -0x1.921fb54442d0ep-24, -0x1.921fb54442d15p-25
+            , -0x1.921fb54442d17p-26, -0x1.921fb54442d18p-27, -0x1.921fb54442d18p-28, -0x1.921fb54442d18p-29
+            , -0x1.921fb54442d18p-30, -0x1.921fb54442d18p-31, -0x1.921fb54442d18p-32, -0x1.921fb54442d18p-33
+            , -0x1.921fb54442d18p-34, -0x1.921fb54442d18p-35, -0x1.921fb54442d18p-36, -0x1.921fb54442d18p-37
+            , -0x1.921fb54442d18p-38, -0x1.921fb54442d18p-39, -0x1.921fb54442d18p-40, -0x1.921fb54442d18p-41
+            , -0x1.921fb54442d18p-42, -0x1.921fb54442d18p-43, -0x1.921fb54442d18p-44, -0x1.921fb54442d18p-45
+            , -0x1.921fb54442d18p-46, -0x1.921fb54442d18p-47, -0x1.921fb54442d18p-48, -0x1.921fb54442d18p-49
+            , -0x1.921fb54442d18p-50, -0x1.921fb54442d18p-51, -0x1.921fb54442d18p-52, -0x1.921fb54442d18p-53
+            , -0x1.921fb54442d18p-54, -0x1.921fb54442d18p-55, -0x1.921fb54442d18p-56, -0x1.921fb54442d18p-57
+            , -0x1.921fb54442d18p-58, -0x1.921fb54442d18p-59, -0x1.921fb54442d18p-60 };
 
     /**
      * {@code true} if the unitary version of the DFT should be used.
@@ -94,9 +140,6 @@ public class FastFourierTransformer implements Serializable {
      * @see #createUnitary()
      */
     private final boolean unitary;
-
-    /** The roots of unity. */
-    private RootsOfUnity roots = new RootsOfUnity();
 
     /**
      * Creates a new instance of this class, with various normalization
@@ -136,6 +179,210 @@ public class FastFourierTransformer implements Serializable {
         return new FastFourierTransformer(true);
     }
 
+    public static void bitReversalShuffle2(double[] a, double[] b) {
+        final int n = a.length;
+        assert(b.length == n);
+        final int halfOfN = n >> 1;
+
+        int j = 0;
+        for (int i = 0; i < n; i++) {
+            if (i < j) {
+                // swap indices i & j
+                double temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+
+                temp = b[i];
+                b[i] = b[j];
+                b[j] = temp;
+            }
+
+            int k = halfOfN;
+            while (k <= j && k > 0) {
+                j -= k;
+                k >>= 1;
+            }
+            j += k;
+        }
+    }
+
+    /**
+     * Computes the standard transform of the specified complex data. The
+     * computation is done in place. The input data is laid out as follows
+     * <ul>
+     * <li>{@code dataRI[0][i]} is the real part of the {@code i}-th data point,
+     * </li>
+     * <li>{@code dataRI[1][i]} is the imaginary part of the {@code i}-th data
+     * point.</li>
+     * </ul>
+     *
+     * @param dataRI the two dimensional array of real and imaginary parts of
+     * the data
+     * @param inverse {@code true} if the inverse standard transform must be
+     * performed
+     * @throws DimensionMismatchException if the number of rows of the specified
+     * array is not two, or the array is not rectangular
+     * @throws MathIllegalArgumentException if the number of data points is not
+     * a power of two
+     */
+    public static void transformInPlace(final double[][] dataRI,
+        boolean inverse) throws
+        DimensionMismatchException, MathIllegalArgumentException {
+
+        if (dataRI.length != 2) {
+            throw new DimensionMismatchException(dataRI.length, 2);
+        }
+        final double[] dataR = dataRI[0];
+        final double[] dataI = dataRI[1];
+        if (dataR.length != dataI.length) {
+            throw new DimensionMismatchException(dataI.length, dataR.length);
+        }
+
+        final int n = dataR.length;
+        if (!ArithmeticUtils.isPowerOfTwo(n)) {
+            throw new MathIllegalArgumentException(
+                LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
+                Integer.valueOf(n));
+        }
+
+        if (n == 1) {
+            return;
+        } else if (n == 2) {
+            final double srcR0 = dataR[0];
+            final double srcI0 = dataI[0];
+            final double srcR1 = dataR[1];
+            final double srcI1 = dataI[1];
+
+            // X_0 = x_0 + x_1
+            dataR[0] = srcR0 + srcR1;
+            dataI[0] = srcI0 + srcI1;
+            // X_1 = x_0 - x_1
+            dataR[1] = srcR0 - srcR1;
+            dataI[1] = srcI0 - srcI1;
+
+            if (inverse) {
+                dataR[0] /= 2;
+                dataI[0] /= 2;
+                dataR[1] /= 2;
+                dataI[1] /= 2;
+            }
+            return;
+        }
+
+        bitReversalShuffle2(dataR, dataI);
+
+        // Do 4-term DFT.
+        if (inverse) {
+            for (int i0 = 0; i0 < n; i0 += 4) {
+                final int i1 = i0 + 1;
+                final int i2 = i0 + 2;
+                final int i3 = i0 + 3;
+
+                final double srcR0 = dataR[i0];
+                final double srcI0 = dataI[i0];
+                final double srcR1 = dataR[i2];
+                final double srcI1 = dataI[i2];
+                final double srcR2 = dataR[i1];
+                final double srcI2 = dataI[i1];
+                final double srcR3 = dataR[i3];
+                final double srcI3 = dataI[i3];
+
+                // 4-term DFT
+                // X_0 = x_0 + x_1 + x_2 + x_3
+                dataR[i0] = srcR0 + srcR1 + srcR2 + srcR3;
+                dataI[i0] = srcI0 + srcI1 + srcI2 + srcI3;
+                // X_1 = x_0 - x_2 + j * (x_3 - x_1)
+                dataR[i1] = srcR0 - srcR2 + (srcI3 - srcI1);
+                dataI[i1] = srcI0 - srcI2 + (srcR1 - srcR3);
+                // X_2 = x_0 - x_1 + x_2 - x_3
+                dataR[i2] = srcR0 - srcR1 + srcR2 - srcR3;
+                dataI[i2] = srcI0 - srcI1 + srcI2 - srcI3;
+                // X_3 = x_0 - x_2 + j * (x_1 - x_3)
+                dataR[i3] = srcR0 - srcR2 + (srcI1 - srcI3);
+                dataI[i3] = srcI0 - srcI2 + (srcR3 - srcR1);
+            }
+        } else {
+            for (int i0 = 0; i0 < n; i0 += 4) {
+                final int i1 = i0 + 1;
+                final int i2 = i0 + 2;
+                final int i3 = i0 + 3;
+
+                final double srcR0 = dataR[i0];
+                final double srcI0 = dataI[i0];
+                final double srcR1 = dataR[i2];
+                final double srcI1 = dataI[i2];
+                final double srcR2 = dataR[i1];
+                final double srcI2 = dataI[i1];
+                final double srcR3 = dataR[i3];
+                final double srcI3 = dataI[i3];
+
+                // 4-term DFT
+                // X_0 = x_0 + x_1 + x_2 + x_3
+                dataR[i0] = srcR0 + srcR1 + srcR2 + srcR3;
+                dataI[i0] = srcI0 + srcI1 + srcI2 + srcI3;
+                // X_1 = x_0 - x_2 + j * (x_3 - x_1)
+                dataR[i1] = srcR0 - srcR2 + (srcI1 - srcI3);
+                dataI[i1] = srcI0 - srcI2 + (srcR3 - srcR1);
+                // X_2 = x_0 - x_1 + x_2 - x_3
+                dataR[i2] = srcR0 - srcR1 + srcR2 - srcR3;
+                dataI[i2] = srcI0 - srcI1 + srcI2 - srcI3;
+                // X_3 = x_0 - x_2 + j * (x_1 - x_3)
+                dataR[i3] = srcR0 - srcR2 + (srcI3 - srcI1);
+                dataI[i3] = srcI0 - srcI2 + (srcR1 - srcR3);
+            }
+        }
+
+        int lastN0 = 4;
+        int lastLogN0 = 2;
+        while (lastN0 < n) {
+            int n0 = lastN0 << 1;
+            int logN0 = lastLogN0 + 1;
+            double wSubN0R = W_SUB_N_R[logN0];
+            double wSubN0I = W_SUB_N_I[logN0];
+            if (inverse) {
+                wSubN0I = -wSubN0I;
+            }
+
+            // Combine even/odd transforms of size lastN0 into a transform of size N0 (lastN0 * 2).
+            for (int destEvenStartIndex = 0; destEvenStartIndex < n; destEvenStartIndex += n0) {
+                int destOddStartIndex = destEvenStartIndex + lastN0;
+
+                double wSubN0ToRR = 1;
+                double wSubN0ToRI = 0;
+
+                for (int r = 0; r < lastN0; r++) {
+                    double grR = dataR[destEvenStartIndex + r];
+                    double grI = dataI[destEvenStartIndex + r];
+                    double hrR = dataR[destOddStartIndex + r];
+                    double hrI = dataI[destOddStartIndex + r];
+
+                    // dest[destEvenStartIndex + r] = Gr + WsubN0ToR * Hr
+                    dataR[destEvenStartIndex + r] = grR + wSubN0ToRR * hrR - wSubN0ToRI * hrI;
+                    dataI[destEvenStartIndex + r] = grI + wSubN0ToRR * hrI + wSubN0ToRI * hrR;
+                    // dest[destOddStartIndex + r] = Gr - WsubN0ToR * Hr
+                    dataR[destOddStartIndex + r] = grR - (wSubN0ToRR * hrR - wSubN0ToRI * hrI);
+                    dataI[destOddStartIndex + r] = grI - (wSubN0ToRR * hrI + wSubN0ToRI * hrR);
+
+                    // WsubN0ToR *= WsubN0R
+                    double nextWsubN0ToRR = wSubN0ToRR * wSubN0R - wSubN0ToRI * wSubN0I;
+                    double nextWsubN0ToRI = wSubN0ToRR * wSubN0I + wSubN0ToRI * wSubN0R;
+                    wSubN0ToRR = nextWsubN0ToRR;
+                    wSubN0ToRI = nextWsubN0ToRI;
+                }
+            }
+
+            lastN0 = n0;
+            lastLogN0 = logN0;
+        }
+
+        if (inverse) {
+            final double scaleFactor = 1.0 / ((double) n);
+            for (int i = 0; i < n; i++) {
+                dataR[i] *= scaleFactor;
+                dataI[i] *= scaleFactor;
+            }
+        }
+    }
 
     /**
      * Returns the forward transform of the specified real data set.
@@ -146,11 +393,19 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] transform(double[] f) {
+        final double[][] dataRI = new double[][] {
+            Arrays.copyOf(f, f.length), new double[f.length]
+        };
+
+        transformInPlace(dataRI, false);
+
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
-            return TransformUtils.scaleArray(fft(f, false), s);
+            TransformUtils.scaleArray(dataRI[0], s);
+            TransformUtils.scaleArray(dataRI[1], s);
         }
-        return fft(f, false);
+
+        return TransformUtils.createComplexArray(dataRI);
     }
 
     /**
@@ -173,11 +428,7 @@ public class FastFourierTransformer implements Serializable {
             double min, double max, int n) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
-        if (unitary) {
-            final double s = 1.0 / FastMath.sqrt(n);
-            return TransformUtils.scaleArray(fft(data, false), s);
-        }
-        return fft(data, false);
+        return transform(data);
     }
 
     /**
@@ -189,12 +440,17 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] transform(Complex[] f) {
-        roots.computeRoots(-f.length);
+        final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
+
+        transformInPlace(dataRI, false);
+
         if (unitary) {
             final double s = 1.0 / FastMath.sqrt(f.length);
-            return TransformUtils.scaleArray(fft(f), s);
+            TransformUtils.scaleArray(dataRI[0], s);
+            TransformUtils.scaleArray(dataRI[1], s);
         }
-        return fft(f);
+
+        return TransformUtils.createComplexArray(dataRI);
     }
 
     /**
@@ -206,8 +462,19 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] inverseTransform(double[] f) {
-        final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
-        return TransformUtils.scaleArray(fft(f, true), s);
+        final double[][] dataRI = new double[][] {
+            Arrays.copyOf(f, f.length), new double[f.length]
+        };
+
+        transformInPlace(dataRI, true);
+
+        if (unitary) {
+            final double s = FastMath.sqrt(f.length);
+            TransformUtils.scaleArray(dataRI[0], s);
+            TransformUtils.scaleArray(dataRI[1], s);
+        }
+
+        return TransformUtils.createComplexArray(dataRI);
     }
 
     /**
@@ -229,8 +496,7 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] inverseTransform(UnivariateFunction f,
             double min, double max, int n) {
         final double[] data = FunctionUtils.sample(f, min, max, n);
-        final double s = 1.0 / (unitary ? FastMath.sqrt(n) : n);
-        return TransformUtils.scaleArray(fft(data, true), s);
+        return inverseTransform(data);
     }
 
     /**
@@ -242,141 +508,19 @@ public class FastFourierTransformer implements Serializable {
      * not a power of two
      */
     public Complex[] inverseTransform(Complex[] f) {
-        roots.computeRoots(f.length);
-        final double s = 1.0 / (unitary ? FastMath.sqrt(f.length) : f.length);
-        return TransformUtils.scaleArray(fft(f), s);
-    }
+        final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
+        final double[] dataR = dataRI[0];
+        final double[] dataI = dataRI[1];
 
-    /**
-     * Returns the FFT of the specified real data set. Performs the base-4
-     * Cooley-Tukey FFT algorithm.
-     *
-     * @param f the real data array to be transformed
-     * @param isInverse {@code true} if inverse transform is to be carried out
-     * @return the complex transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
-     */
-    protected Complex[] fft(double[] f, boolean isInverse) {
+        transformInPlace(dataRI, true);
 
-        if (!ArithmeticUtils.isPowerOfTwo(f.length)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(f.length));
-        }
-        Complex[] transformed = new Complex[f.length];
-        if (f.length == 1) {
-            transformed[0] = new Complex(f[0], 0.0);
-            return transformed;
+        if (unitary) {
+            final double s = FastMath.sqrt(f.length);
+            TransformUtils.scaleArray(dataR, s);
+            TransformUtils.scaleArray(dataI, s);
         }
 
-        // Rather than the naive real to complex conversion, pack 2N
-        // real numbers into N complex numbers for better performance.
-        int n = f.length >> 1;
-        Complex[] repacked = new Complex[n];
-        for (int i = 0; i < n; i++) {
-            repacked[i] = new Complex(f[2 * i], f[2 * i + 1]);
-        }
-        roots.computeRoots(isInverse ? n : -n);
-        Complex[] z = fft(repacked);
-
-        // reconstruct the FFT result for the original array
-        roots.computeRoots(isInverse ? 2 * n : -2 * n);
-        transformed[0] = new Complex(2 * (z[0].getReal() + z[0].getImaginary()), 0.0);
-        transformed[n] = new Complex(2 * (z[0].getReal() - z[0].getImaginary()), 0.0);
-        for (int i = 1; i < n; i++) {
-            Complex a = z[n - i].conjugate();
-            Complex b = z[i].add(a);
-            Complex c = z[i].subtract(a);
-            //Complex D = roots.getOmega(i).multiply(Complex.I);
-            Complex d = new Complex(-roots.getImaginary(i),
-                                    roots.getReal(i));
-            transformed[i] = b.subtract(c.multiply(d));
-            transformed[2 * n - i] = transformed[i].conjugate();
-        }
-
-        return TransformUtils.scaleArray(transformed, 0.5);
-    }
-
-    /**
-     * Returns the FFT of the specified complex data set. Performs the base-4
-     * Cooley-Tukey FFT algorithm.
-     *
-     * @param data the complex data array to be transformed
-     * @return the complex transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
-     */
-    protected Complex[] fft(Complex[] data) {
-
-        if (!ArithmeticUtils.isPowerOfTwo(data.length)) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(data.length));
-        }
-
-        final int n = data.length;
-        final Complex[] f = new Complex[n];
-
-        // initial simple cases
-        if (n == 1) {
-            f[0] = data[0];
-            return f;
-        }
-        if (n == 2) {
-            f[0] = data[0].add(data[1]);
-            f[1] = data[0].subtract(data[1]);
-            return f;
-        }
-
-        // permute original data array in bit-reversal order
-        int ii = 0;
-        for (int i = 0; i < n; i++) {
-            f[i] = data[ii];
-            int k = n >> 1;
-            while (ii >= k && k > 0) {
-                ii -= k; k >>= 1;
-            }
-            ii += k;
-        }
-
-        // the bottom base-4 round
-        for (int i = 0; i < n; i += 4) {
-            final Complex a = f[i].add(f[i + 1]);
-            final Complex b = f[i + 2].add(f[i + 3]);
-            final Complex c = f[i].subtract(f[i + 1]);
-            final Complex d = f[i + 2].subtract(f[i + 3]);
-            final Complex e1 = c.add(d.multiply(Complex.I));
-            final Complex e2 = c.subtract(d.multiply(Complex.I));
-            f[i] = a.add(b);
-            f[i + 2] = a.subtract(b);
-            // omegaCount indicates forward or inverse transform
-            f[i + 1] = roots.isCounterClockWise() ? e1 : e2;
-            f[i + 3] = roots.isCounterClockWise() ? e2 : e1;
-        }
-
-        // iterations from bottom to top take O(N*logN) time
-        for (int i = 4; i < n; i <<= 1) {
-            final int m = n / (i << 1);
-            for (int j = 0; j < n; j += i << 1) {
-                for (int k = 0; k < i; k++) {
-                    //z = f[i+j+k].multiply(roots.getOmega(k*m));
-                    final int km = k * m;
-                    final double omegaKmReal = roots.getReal(km);
-                    final double omegaKmImag = roots.getImaginary(km);
-                    //z = f[i+j+k].multiply(omega[k*m]);
-                    final Complex z = new Complex(
-                        f[i + j + k].getReal() * omegaKmReal -
-                        f[i + j + k].getImaginary() * omegaKmImag,
-                        f[i + j + k].getReal() * omegaKmImag +
-                        f[i + j + k].getImaginary() * omegaKmReal);
-
-                    f[i + j + k] = f[j + k].subtract(z);
-                    f[j + k] = f[j + k].add(z);
-                }
-            }
-        }
-        return f;
+        return TransformUtils.createComplexArray(dataRI);
     }
 
     /**
@@ -395,10 +539,7 @@ public class FastFourierTransformer implements Serializable {
      * @return transform of {@code mdca} as a Multi-Dimensional Complex Array
      * id est {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
-     * @deprecated see
-     * <a href="https://issues.apache.org/jira/browse/MATH-736">MATH-736</a>
      */
-    @Deprecated
     public Object mdfft(Object mdca, boolean forward) {
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
@@ -467,10 +608,7 @@ public class FastFourierTransformer implements Serializable {
      * eventually be replaced by jsr-83 of the java community process
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
-     *
-     * @deprecated see MATH-736
      */
-    @Deprecated
     private static class MultiDimensionalComplexMatrix
         implements Cloneable {
 

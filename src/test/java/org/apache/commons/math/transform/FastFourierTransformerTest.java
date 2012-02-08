@@ -380,7 +380,7 @@ public final class FastFourierTransformerTest {
         doTestTransformComplex(8, 1.0E-14, forward, standard);
         doTestTransformComplex(16, 1.0E-13, forward, standard);
         doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-12, forward, standard);
         doTestTransformComplex(128, 1.0E-12, forward, standard);
     }
 
@@ -468,7 +468,7 @@ public final class FastFourierTransformerTest {
         doTestTransformComplex(8, 1.0E-14, forward, standard);
         doTestTransformComplex(16, 1.0E-13, forward, standard);
         doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-13, forward, standard);
+        doTestTransformComplex(64, 1.0E-12, forward, standard);
         doTestTransformComplex(128, 1.0E-12, forward, standard);
     }
 
@@ -505,7 +505,7 @@ public final class FastFourierTransformerTest {
     public void testUnitaryInverseTransformComplex() {
         final boolean forward = false;
         final boolean standard = false;
-        doTestTransformComplex(2, 1.0E-15, forward, standard);
+        doTestTransformComplex(2, 1.0E-14, forward, standard);
         doTestTransformComplex(4, 1.0E-14, forward, standard);
         doTestTransformComplex(8, 1.0E-14, forward, standard);
         doTestTransformComplex(16, 1.0E-13, forward, standard);
