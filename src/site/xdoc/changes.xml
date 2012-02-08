@@ -52,11 +52,14 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
-      <action dev="tn" type="fix" issue="MATH-670">
+      <action dev="tn" type="update" issue="MATH-670">
       	Merged interface and implementation of EmpiricalDistribution.
       </action>
       <action dev="tn" type="fix" issue="MATH-588">
       	Relaxed test for equality in UnivariateStatisticAbstractTest.
+      </action>
+      <action dev="tn" type="update" issue="MATH-575">
+      	Modified the genetics package to use localized exception messages.
       </action>
       <action dev="tn" type="fix" issue="MATH-652" due-to="Greg Sterijevski">
         Fixed a faulty test for zero in TridiagonalTransformer.
