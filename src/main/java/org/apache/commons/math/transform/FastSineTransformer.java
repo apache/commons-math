@@ -25,6 +25,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.transform.FastFourierTransformer.Normalization;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
@@ -292,7 +293,8 @@ public class FastSineTransformer implements RealTransformer, Serializable {
             x[i]     = a + b;
             x[n - i] = a - b;
         }
-        FastFourierTransformer transformer = FastFourierTransformer.create();
+        FastFourierTransformer transformer;
+        transformer = new FastFourierTransformer(Normalization.STANDARD);
         Complex[] y = transformer.transform(x);
 
         // reconstruct the FST result for the original array

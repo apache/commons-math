@@ -24,6 +24,7 @@ import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
@@ -84,8 +85,17 @@ import org.apache.commons.math.util.MathArrays;
  */
 public class FastFourierTransformer implements Serializable {
 
+    /** The various types of normalizations that can be applied. */
+    public static enum Normalization {
+        /** Standard DFT. */
+        STANDARD,
+
+        /** Unitary DFT. */
+        UNITARY;
+    }
+
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120802L;
+    static final long serialVersionUID = 20120902L;
 
     /**
      * {@code W_SUB_N_R[i]} is the real part of
@@ -134,54 +144,33 @@ public class FastFourierTransformer implements Serializable {
             , -0x1.921fb54442d18p-58, -0x1.921fb54442d18p-59, -0x1.921fb54442d18p-60 };
 
     /**
-     * {@code true} if the unitary version of the DFT should be used.
-     *
-     * @see #create()
-     * @see #createUnitary()
+     * The type of DFT to be performed.
      */
-    private final boolean unitary;
+    private final Normalization type;
 
     /**
      * Creates a new instance of this class, with various normalization
      * conventions.
      *
-     * @param unitary {@code false} if the DFT is <em>not</em> to be scaled,
-     * {@code true} if it is to be scaled so as to make the transform unitary.
-     * @see #create()
-     * @see #createUnitary()
+     * @param type the type of transform to be computed
      */
-    private FastFourierTransformer(final boolean unitary) {
-        this.unitary = unitary;
-    }
-
-
-    /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#standard">standard normalizing conventions</a>.
-     * </p>
-     *
-     * @return a new DFT transformer, with standard normalizing conventions
-     */
-    public static FastFourierTransformer create() {
-        return new FastFourierTransformer(false);
+    public FastFourierTransformer(final Normalization type) {
+        this.type = type;
     }
 
     /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#unitary">unitary normalizing conventions</a>.
-     * </p>
+     * Performs identical index bit reversal shuffles on two arrays of identical
+     * size. Each element in the array is swapped with another element based on
+     * the bit-reversal of the index. For example, in an array with length 16,
+     * item at binary index 0011 (decimal 3) would be swapped with the item at
+     * binary index 1100 (decimal 12).
      *
-     * @return a new DFT transformer, with unitary normalizing conventions
+     * @param a the first array to be shuffled
+     * @param b the second array to be shuffled
      */
-    public static FastFourierTransformer createUnitary() {
-        return new FastFourierTransformer(true);
-    }
-
-    public static void bitReversalShuffle2(double[] a, double[] b) {
+    private static void bitReversalShuffle2(double[] a, double[] b) {
         final int n = a.length;
-        assert(b.length == n);
+        assert b.length == n;
         final int halfOfN = n >> 1;
 
         int j = 0;
@@ -207,6 +196,50 @@ public class FastFourierTransformer implements Serializable {
     }
 
     /**
+     * Applies the proper normalization to the specified transformed data.
+     *
+     * @param dataRI the unscaled transformed data
+     * @param type the type of transform
+     * @param inverse {@code true} if normalization should be performed for the
+     * inverse transform
+     */
+    private static void normalizeTransformedData(final double[][] dataRI,
+        final Normalization type, final boolean inverse) {
+
+        final double[] dataR = dataRI[0];
+        final double[] dataI = dataRI[1];
+        final int n = dataR.length;
+        assert dataI.length == n;
+
+        switch (type) {
+            case STANDARD:
+                if (inverse) {
+                    final double scaleFactor = 1.0 / ((double) n);
+                    for (int i = 0; i < n; i++) {
+                        dataR[i] *= scaleFactor;
+                        dataI[i] *= scaleFactor;
+                    }
+                }
+                break;
+            case UNITARY:
+                final double scaleFactor = 1.0 / FastMath.sqrt(n);
+                for (int i = 0; i < n; i++) {
+                    dataR[i] *= scaleFactor;
+                    dataI[i] *= scaleFactor;
+                }
+                break;
+            default:
+                /*
+                 * This should never occur in normal conditions. However this
+                 * clause has been added as a safeguard if other types of
+                 * normalizations are ever implemented, and the corresponding
+                 * test is forgotten in the present switch.
+                 */
+                throw new MathIllegalStateException();
+        }
+    }
+
+    /**
      * Computes the standard transform of the specified complex data. The
      * computation is done in place. The input data is laid out as follows
      * <ul>
@@ -218,6 +251,8 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param dataRI the two dimensional array of real and imaginary parts of
      * the data
+     * @param type the type of normalization to be applied to the transformed
+     * data
      * @param inverse {@code true} if the inverse standard transform must be
      * performed
      * @throws DimensionMismatchException if the number of rows of the specified
@@ -226,7 +261,7 @@ public class FastFourierTransformer implements Serializable {
      * a power of two
      */
     public static void transformInPlace(final double[][] dataRI,
-        boolean inverse) throws
+        final Normalization type, final boolean inverse) throws
         DimensionMismatchException, MathIllegalArgumentException {
 
         if (dataRI.length != 2) {
@@ -260,12 +295,7 @@ public class FastFourierTransformer implements Serializable {
             dataR[1] = srcR0 - srcR1;
             dataI[1] = srcI0 - srcI1;
 
-            if (inverse) {
-                dataR[0] /= 2;
-                dataI[0] /= 2;
-                dataR[1] /= 2;
-                dataI[1] /= 2;
-            }
+            normalizeTransformedData(dataRI, type, inverse);
             return;
         }
 
@@ -375,13 +405,7 @@ public class FastFourierTransformer implements Serializable {
             lastLogN0 = logN0;
         }
 
-        if (inverse) {
-            final double scaleFactor = 1.0 / ((double) n);
-            for (int i = 0; i < n; i++) {
-                dataR[i] *= scaleFactor;
-                dataI[i] *= scaleFactor;
-            }
-        }
+        normalizeTransformedData(dataRI, type, inverse);
     }
 
     /**
@@ -397,13 +421,13 @@ public class FastFourierTransformer implements Serializable {
             MathArrays.copyOf(f, f.length), new double[f.length]
         };
 
-        transformInPlace(dataRI, false);
+        transformInPlace(dataRI, type, false);
 
-        if (unitary) {
-            final double s = 1.0 / FastMath.sqrt(f.length);
-            TransformUtils.scaleArray(dataRI[0], s);
-            TransformUtils.scaleArray(dataRI[1], s);
-        }
+//        if (unitary) {
+//            final double s = 1.0 / FastMath.sqrt(f.length);
+//            TransformUtils.scaleArray(dataRI[0], s);
+//            TransformUtils.scaleArray(dataRI[1], s);
+//        }
 
         return TransformUtils.createComplexArray(dataRI);
     }
@@ -442,13 +466,12 @@ public class FastFourierTransformer implements Serializable {
     public Complex[] transform(Complex[] f) {
         final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
 
-        transformInPlace(dataRI, false);
-
-        if (unitary) {
-            final double s = 1.0 / FastMath.sqrt(f.length);
-            TransformUtils.scaleArray(dataRI[0], s);
-            TransformUtils.scaleArray(dataRI[1], s);
-        }
+        transformInPlace(dataRI, type, false);
+        // if (unitary) {
+        // final double s = 1.0 / FastMath.sqrt(f.length);
+        // TransformUtils.scaleArray(dataRI[0], s);
+        // TransformUtils.scaleArray(dataRI[1], s);
+        // }
 
         return TransformUtils.createComplexArray(dataRI);
     }
@@ -466,13 +489,12 @@ public class FastFourierTransformer implements Serializable {
             MathArrays.copyOf(f, f.length), new double[f.length]
         };
 
-        transformInPlace(dataRI, true);
-
-        if (unitary) {
-            final double s = FastMath.sqrt(f.length);
-            TransformUtils.scaleArray(dataRI[0], s);
-            TransformUtils.scaleArray(dataRI[1], s);
-        }
+        transformInPlace(dataRI, type, true);
+        // if (unitary) {
+        // final double s = FastMath.sqrt(f.length);
+        // TransformUtils.scaleArray(dataRI[0], s);
+        // TransformUtils.scaleArray(dataRI[1], s);
+        // }
 
         return TransformUtils.createComplexArray(dataRI);
     }
@@ -512,13 +534,12 @@ public class FastFourierTransformer implements Serializable {
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];
 
-        transformInPlace(dataRI, true);
-
-        if (unitary) {
-            final double s = FastMath.sqrt(f.length);
-            TransformUtils.scaleArray(dataR, s);
-            TransformUtils.scaleArray(dataI, s);
-        }
+        transformInPlace(dataRI, type, true);
+//        if (unitary) {
+//            final double s = FastMath.sqrt(f.length);
+//            TransformUtils.scaleArray(dataR, s);
+//            TransformUtils.scaleArray(dataI, s);
+//        }
 
         return TransformUtils.createComplexArray(dataRI);
     }
