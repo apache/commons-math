@@ -2454,11 +2454,11 @@ public class FastMath {
         }
 
         /* Estimate the closest tabulated arctan value, compute eps = xa-tangentTable */
-        if (xa < 1.0) {
+        if (xa < 1) {
             idx = (int) (((-1.7168146928204136 * xa * xa + 8.0) * xa) + 0.5);
         } else {
-            double temp = 1.0/xa;
-            idx = (int) (-((-1.7168146928204136 * temp * temp + 8.0) * temp) + 13.07);
+            final double oneOverXa = 1 / xa;
+            idx = (int) (-((-1.7168146928204136 * oneOverXa * oneOverXa + 8.0) * oneOverXa) + 13.07);
         }
         double epsA = xa - TANGENT_TABLE_A[idx];
         double epsB = -(epsA - xa + TANGENT_TABLE_A[idx]);
@@ -2479,14 +2479,14 @@ public class FastMath {
         if (idx == 0) {
             /* If the slope of the arctan is gentle enough (< 0.45), this approximation will suffice */
             //double denom = 1.0 / (1.0 + xa*tangentTableA[idx] + xb*tangentTableA[idx] + xa*tangentTableB[idx] + xb*tangentTableB[idx]);
-            double denom = 1.0 / (1.0 + (xa + xb) * (TANGENT_TABLE_A[idx] + TANGENT_TABLE_B[idx]));
+            final double denom = 1d / (1d + (xa + xb) * (TANGENT_TABLE_A[idx] + TANGENT_TABLE_B[idx]));
             //double denom = 1.0 / (1.0 + xa*tangentTableA[idx]);
             ya = epsA * denom;
             yb = epsB * denom;
         } else {
             double temp2 = xa * TANGENT_TABLE_A[idx];
-            double za = 1.0 + temp2;
-            double zb = -(za - 1.0 - temp2);
+            double za = 1d + temp2;
+            double zb = -(za - 1d - temp2);
             temp2 = xb * TANGENT_TABLE_A[idx] + xa * TANGENT_TABLE_B[idx];
             temp = za + temp2;
             zb += -(temp - za - temp2);
@@ -2515,7 +2515,7 @@ public class FastMath {
         epsB = yb;
 
         /* Evaluate polynomial */
-        double epsA2 = epsA*epsA;
+        final double epsA2 = epsA * epsA;
 
         /*
     yb = -0.09001346640161823;
@@ -2542,10 +2542,7 @@ public class FastMath {
         ya = temp;
 
         /* Add in effect of epsB.   atan'(x) = 1/(1+x^2) */
-        yb += epsB / (1.0 + epsA * epsA);
-
-        double result;
-        double resultb;
+        yb += epsB / (1d + epsA * epsA);
 
         //result = yb + eighths[idx] + ya;
         double za = EIGHTHS[idx] + ya;
@@ -2554,13 +2551,13 @@ public class FastMath {
         zb += -(temp - za - yb);
         za = temp;
 
-        result = za + zb;
-        resultb = -(result - za - zb);
+        double result = za + zb;
+        double resultb = -(result - za - zb);
 
         if (leftPlane) {
             // Result is in the left plane
-            final double pia = 1.5707963267948966*2.0;
-            final double pib = 6.123233995736766E-17*2.0;
+            final double pia = 1.5707963267948966 * 2;
+            final double pib = 6.123233995736766E-17 * 2;
 
             za = pia - result;
             zb = -(za - pia + result);
