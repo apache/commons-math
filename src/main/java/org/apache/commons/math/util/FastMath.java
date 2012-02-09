@@ -342,6 +342,8 @@ public class FastMath {
     private static final double F_5_6 = 5d / 6d;
     /** Constant: {@value}. */
     private static final double F_1_2 = 1d / 2d;
+    /** Constant: {@value}. */
+    private static final double F_1_4 = 1d / 4d;
 
     /**
      * Private Constructor
@@ -2448,7 +2450,7 @@ public class FastMath {
         }
 
         if (xa > 1.633123935319537E16) { // Very large input
-            return (negate ^ leftPlane) ? (-Math.PI/2.0) : (Math.PI/2.0);
+            return (negate ^ leftPlane) ? (-Math.PI * F_1_2) : (Math.PI * F_1_2);
         }
 
         /* Estimate the closest tabulated arctan value, compute eps = xa-tangentTable */
@@ -2583,16 +2585,16 @@ public class FastMath {
      * @return phase angle of point (x,y) between {@code -PI} and {@code PI}
      */
     public static double atan2(double y, double x) {
-        if (x !=x || y != y) {
+        if (x != x || y != y) {
             return Double.NaN;
         }
 
-        if (y == 0.0) {
-            double result = x*y;
-            double invx = 1.0/x;
-            double invy = 1.0/y;
+        if (y == 0) {
+            final double result = x * y;
+            final double invx = 1d / x;
+            final double invy = 1d / y;
 
-            if (invx == 0.0) { // X is infinite
+            if (invx == 0) { // X is infinite
                 if (x > 0) {
                     return y; // return +/- 0.0
                 } else {
@@ -2600,8 +2602,8 @@ public class FastMath {
                 }
             }
 
-            if (x < 0.0 || invx < 0.0) {
-                if (y < 0.0 || invy < 0.0) {
+            if (x < 0 || invx < 0) {
+                if (y < 0 || invy < 0) {
                     return -Math.PI;
                 } else {
                     return Math.PI;
@@ -2615,45 +2617,45 @@ public class FastMath {
 
         if (y == Double.POSITIVE_INFINITY) {
             if (x == Double.POSITIVE_INFINITY) {
-                return Math.PI/4.0;
+                return Math.PI * F_1_4;
             }
 
             if (x == Double.NEGATIVE_INFINITY) {
                 return Math.PI * F_3_4;
             }
 
-            return Math.PI/2.0;
+            return Math.PI * F_1_2;
         }
 
         if (y == Double.NEGATIVE_INFINITY) {
             if (x == Double.POSITIVE_INFINITY) {
-                return -Math.PI/4.0;
+                return -Math.PI * F_1_4;
             }
 
             if (x == Double.NEGATIVE_INFINITY) {
                 return -Math.PI * F_3_4;
             }
 
-            return -Math.PI/2.0;
+            return -Math.PI * F_1_2;
         }
 
         if (x == Double.POSITIVE_INFINITY) {
-            if (y > 0.0 || 1/y > 0.0) {
-                return 0.0;
+            if (y > 0 || 1 / y > 0) {
+                return 0d;
             }
 
-            if (y < 0.0 || 1/y < 0.0) {
-                return -0.0;
+            if (y < 0 || 1 / y < 0) {
+                return -0d;
             }
         }
 
         if (x == Double.NEGATIVE_INFINITY)
         {
-            if (y > 0.0 || 1/y > 0.0) {
+            if (y > 0.0 || 1 / y > 0.0) {
                 return Math.PI;
             }
 
-            if (y < 0.0 || 1/y < 0.0) {
+            if (y < 0 || 1 / y < 0) {
                 return -Math.PI;
             }
         }
@@ -2661,17 +2663,17 @@ public class FastMath {
         // Neither y nor x can be infinite or NAN here
 
         if (x == 0) {
-            if (y > 0.0 || 1/y > 0.0) {
-                return Math.PI/2.0;
+            if (y > 0 || 1 / y > 0) {
+                return Math.PI * F_1_2;
             }
 
-            if (y < 0.0 || 1/y < 0.0) {
-                return -Math.PI/2.0;
+            if (y < 0 || 1 / y < 0) {
+                return -Math.PI * F_1_2;
             }
         }
 
         // Compute ratio r = y/x
-        final double r = y/x;
+        final double r = y / x;
         if (Double.isInfinite(r)) { // bypass calculations that can create NaN
             return atan(r, 0, x < 0);
         }
@@ -2685,16 +2687,16 @@ public class FastMath {
 
         rb += (y - ra * xa - ra * xb - rb * xa - rb * xb) / x;
 
-        double temp = ra + rb;
+        final double temp = ra + rb;
         rb = -(temp - ra - rb);
         ra = temp;
 
         if (ra == 0) { // Fix up the sign so atan works correctly
-            ra = copySign(0.0, y);
+            ra = copySign(0d, y);
         }
 
         // Call atan
-        double result = atan(ra, rb, x < 0);
+        final double result = atan(ra, rb, x < 0);
 
         return result;
     }
