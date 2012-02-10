@@ -26,7 +26,7 @@ import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
-import org.apache.commons.math.transform.FastFourierTransformer.Normalization;
+import org.apache.commons.math.transform.FastFourierTransformer.DftNormalization;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,191 +44,123 @@ public final class FastFourierTransformerTest {
     private final static long SEED = 20110111L;
 
     /*
-     * Precondition checks for standard transform.
+     * Precondition checks.
      */
 
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardTransformComplexSizeNotAPowerOfTwo() {
+    @Test
+    public void testTransformComplexSizeNotAPowerOfTwo() {
         final int n = 127;
         final Complex[] x = createComplexData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(x);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                final FastFourierTransformer fft;
+                fft = new FastFourierTransformer(norm[i]);
+                try {
+                    fft.transform(x, type[j]);
+                    Assert.fail(norm[i] + ", " + type[j] +
+                        ": MathIllegalArgumentException was expected");
+                } catch (MathIllegalArgumentException e) {
+                    // Expected behaviour
+                }
+            }
+        }
     }
 
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardTransformRealSizeNotAPowerOfTwo() {
+    @Test
+    public void testTransformRealSizeNotAPowerOfTwo() {
         final int n = 127;
         final double[] x = createRealData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(x);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                final FastFourierTransformer fft;
+                fft = new FastFourierTransformer(norm[i]);
+                try {
+                    fft.transform(x, type[j]);
+                    Assert.fail(norm[i] + ", " + type[j] +
+                        ": MathIllegalArgumentException was expected");
+                } catch (MathIllegalArgumentException e) {
+                    // Expected behaviour
+                }
+            }
+        }
     }
 
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardTransformFunctionSizeNotAPowerOfTwo() {
+    @Test
+    public void testTransformFunctionSizeNotAPowerOfTwo() {
         final int n = 127;
         final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(f, 0.0, Math.PI, n);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                final FastFourierTransformer fft;
+                fft = new FastFourierTransformer(norm[i]);
+                try {
+                    fft.transform(f, 0.0, Math.PI, n, type[j]);
+                    Assert.fail(norm[i] + ", " + type[j] +
+                        ": MathIllegalArgumentException was expected");
+                } catch (MathIllegalArgumentException e) {
+                    // Expected behaviour
+                }
+            }
+        }
     }
 
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testStandardTransformFunctionNotStrictlyPositiveNumberOfSamples() {
+    @Test
+    public void testTransformFunctionNotStrictlyPositiveNumberOfSamples() {
         final int n = -128;
         final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(f, 0.0, Math.PI, n);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                final FastFourierTransformer fft;
+                fft = new FastFourierTransformer(norm[i]);
+                try {
+                    fft.transform(f, 0.0, Math.PI, n, type[j]);
+                    fft.transform(f, 0.0, Math.PI, n, type[j]);
+                    Assert.fail(norm[i] + ", " + type[j] +
+                        ": NotStrictlyPositiveException was expected");
+                } catch (NotStrictlyPositiveException e) {
+                    // Expected behaviour
+                }
+            }
+        }
     }
 
-    @Test(expected = NumberIsTooLargeException.class)
-    public void testStandardTransformFunctionInvalidBounds() {
+    @Test
+    public void testTransformFunctionInvalidBounds() {
         final int n = 128;
         final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(f, Math.PI, 0.0, n);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardInverseTransformComplexSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final Complex[] x = createComplexData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.inverseTransform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardInverseTransformRealSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final double[] x = createRealData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.inverseTransform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testStandardInverseTransformFunctionSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.inverseTransform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testStandardInverseTransformFunctionNotStrictlyPositiveNumberOfSamples() {
-        final int n = -128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.inverseTransform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NumberIsTooLargeException.class)
-    public void testStandardInverseTransformFunctionInvalidBounds() {
-        final int n = 128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.STANDARD);
-        fft.transform(f, Math.PI, 0.0, n);
-    }
-
-    /*
-     * Precondition checks for unitary transform.
-     */
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryTransformComplexSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final Complex[] x = createComplexData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryTransformRealSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final double[] x = createRealData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryTransformFunctionSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testUnitaryTransformFunctionNotStrictlyPositiveNumberOfSamples() {
-        final int n = -128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NumberIsTooLargeException.class)
-    public void testUnitaryTransformFunctionInvalidBounds() {
-        final int n = 128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(f, Math.PI, 0.0, n);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryInverseTransformComplexSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final Complex[] x = createComplexData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.inverseTransform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryInverseTransformRealSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final double[] x = createRealData(n);
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.inverseTransform(x);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testUnitaryInverseTransformFunctionSizeNotAPowerOfTwo() {
-        final int n = 127;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.inverseTransform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NotStrictlyPositiveException.class)
-    public void testUnitaryInverseTransformFunctionNotStrictlyPositiveNumberOfSamples() {
-        final int n = -128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.inverseTransform(f, 0.0, Math.PI, n);
-    }
-
-    @Test(expected = NumberIsTooLargeException.class)
-    public void testUnitaryInverseTransformFunctionInvalidBounds() {
-        final int n = 128;
-        final UnivariateFunction f = new Sin();
-        final FastFourierTransformer fft;
-        fft = new FastFourierTransformer(Normalization.UNITARY);
-        fft.transform(f, Math.PI, 0.0, n);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                final FastFourierTransformer fft;
+                fft = new FastFourierTransformer(norm[i]);
+                try {
+                    fft.transform(f, Math.PI, 0.0, n, type[j]);
+                    Assert.fail(norm[i] + ", " + type[j] +
+                        ": NumberIsTooLargeException was expected");
+                } catch (NumberIsTooLargeException e) {
+                    // Expected behaviour
+                }
+            }
+        }
     }
 
     /*
@@ -284,28 +216,32 @@ public final class FastFourierTransformerTest {
     }
 
     private static void doTestTransformComplex(final int n, final double tol,
-        final boolean forward, final boolean standard) {
+        final FastFourierTransformer.DftNormalization normalization,
+        final TransformType type) {
         final FastFourierTransformer fft;
-        if (standard) {
-            fft = new FastFourierTransformer(Normalization.STANDARD);
-        } else {
-            fft = new FastFourierTransformer(Normalization.UNITARY);
-        }
+        fft = new FastFourierTransformer(normalization);
         final Complex[] x = createComplexData(n);
         final Complex[] expected;
-        final Complex[] actual;
         final double s;
-        if (forward) {
+        if (type==TransformType.FORWARD) {
             expected = dft(x, -1);
-            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
-            actual = fft.transform(x);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD){
+                s = 1.0;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         } else {
             expected = dft(x, 1);
-            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
-            actual = fft.inverseTransform(x);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD) {
+                s = 1.0 / n;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         }
+        final Complex[] actual = fft.transform(x, type);
         for (int i = 0; i < n; i++) {
-            final String msg = String.format("%d, %d", n, i);
+            final String msg;
+            msg = String.format("%s, %s, %d, %d", normalization, type, n, i);
             final double re = s * expected[i].getReal();
             Assert.assertEquals(msg, re, actual[i].getReal(),
                 tol * FastMath.abs(re));
@@ -316,32 +252,36 @@ public final class FastFourierTransformerTest {
     }
 
     private static void doTestTransformReal(final int n, final double tol,
-        final boolean forward, final boolean standard) {
+        final FastFourierTransformer.DftNormalization normalization,
+        final TransformType type) {
         final FastFourierTransformer fft;
-        if (standard) {
-            fft = new FastFourierTransformer(Normalization.STANDARD);
-        } else {
-            fft = new FastFourierTransformer(Normalization.UNITARY);
-        }
+        fft = new FastFourierTransformer(normalization);
         final double[] x = createRealData(n);
         final Complex[] xc = new Complex[n];
         for (int i = 0; i < n; i++) {
             xc[i] = new Complex(x[i], 0.0);
         }
         final Complex[] expected;
-        final Complex[] actual;
         final double s;
-        if (forward) {
+        if (type == TransformType.FORWARD) {
             expected = dft(xc, -1);
-            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
-            actual = fft.transform(x);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD) {
+                s = 1.0;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         } else {
             expected = dft(xc, 1);
-            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
-            actual = fft.inverseTransform(x);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD) {
+                s = 1.0 / n;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         }
+        final Complex[] actual = fft.transform(x, type);
         for (int i = 0; i < n; i++) {
-            final String msg = String.format("%d, %d", n, i);
+            final String msg;
+            msg = String.format("%s, %s, %d, %d", normalization, type, n, i);
             final double re = s * expected[i].getReal();
             Assert.assertEquals(msg, re, actual[i].getReal(),
                 tol * FastMath.abs(re));
@@ -353,30 +293,33 @@ public final class FastFourierTransformerTest {
 
     private static void doTestTransformFunction(final UnivariateFunction f,
         final double min, final double max, int n, final double tol,
-        final boolean forward, final boolean standard) {
+        final FastFourierTransformer.DftNormalization normalization,
+        final TransformType type) {
         final FastFourierTransformer fft;
-        if (standard) {
-            fft = new FastFourierTransformer(Normalization.STANDARD);
-        } else {
-            fft = new FastFourierTransformer(Normalization.UNITARY);
-        }
+        fft = new FastFourierTransformer(normalization);
         final Complex[] x = new Complex[n];
         for (int i = 0; i < n; i++) {
             final double t = min + i * (max - min) / n;
             x[i] = new Complex(f.value(t));
         }
         final Complex[] expected;
-        final Complex[] actual;
         final double s;
-        if (forward) {
+        if (type == TransformType.FORWARD) {
             expected = dft(x, -1);
-            s = standard ? 1.0 : 1.0 / FastMath.sqrt(n);
-            actual = fft.transform(f, min, max, n);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD) {
+                s = 1.0;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         } else {
             expected = dft(x, 1);
-            s = standard ? 1.0 / n : 1.0 / FastMath.sqrt(n);
-            actual = fft.inverseTransform(f, min, max, n);
+            if (normalization == FastFourierTransformer.DftNormalization.STANDARD) {
+                s = 1.0 / n;
+            } else {
+                s = 1.0 / FastMath.sqrt(n);
+            }
         }
+        final Complex[] actual = fft.transform(f, min, max, n, type);
         for (int i = 0; i < n; i++) {
             final String msg = String.format("%d, %d", n, i);
             final double re = s * expected[i].getReal();
@@ -393,29 +336,41 @@ public final class FastFourierTransformerTest {
      */
 
     @Test
-    public void testStandardTransformComplex() {
-        final boolean forward = true;
-        final boolean standard = true;
-        doTestTransformComplex(2, 1.0E-15, forward, standard);
-        doTestTransformComplex(4, 1.0E-14, forward, standard);
-        doTestTransformComplex(8, 1.0E-14, forward, standard);
-        doTestTransformComplex(16, 1.0E-13, forward, standard);
-        doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-12, forward, standard);
-        doTestTransformComplex(128, 1.0E-12, forward, standard);
+    public void testTransformComplex() {
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                doTestTransformComplex(2, 1.0E-15, norm[i], type[j]);
+                doTestTransformComplex(4, 1.0E-14, norm[i], type[j]);
+                doTestTransformComplex(8, 1.0E-14, norm[i], type[j]);
+                doTestTransformComplex(16, 1.0E-13, norm[i], type[j]);
+                doTestTransformComplex(32, 1.0E-13, norm[i], type[j]);
+                doTestTransformComplex(64, 1.0E-12, norm[i], type[j]);
+                doTestTransformComplex(128, 1.0E-12, norm[i], type[j]);
+            }
+        }
     }
 
     @Test
     public void testStandardTransformReal() {
-        final boolean forward = true;
-        final boolean standard = true;
-        doTestTransformReal(2, 1.0E-15, forward, standard);
-        doTestTransformReal(4, 1.0E-14, forward, standard);
-        doTestTransformReal(8, 1.0E-14, forward, standard);
-        doTestTransformReal(16, 1.0E-13, forward, standard);
-        doTestTransformReal(32, 1.0E-13, forward, standard);
-        doTestTransformReal(64, 1.0E-13, forward, standard);
-        doTestTransformReal(128, 1.0E-11, forward, standard);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                doTestTransformReal(2, 1.0E-15, norm[i], type[j]);
+                doTestTransformReal(4, 1.0E-14, norm[i], type[j]);
+                doTestTransformReal(8, 1.0E-14, norm[i], type[j]);
+                doTestTransformReal(16, 1.0E-13, norm[i], type[j]);
+                doTestTransformReal(32, 1.0E-13, norm[i], type[j]);
+                doTestTransformReal(64, 1.0E-13, norm[i], type[j]);
+                doTestTransformReal(128, 1.0E-11, norm[i], type[j]);
+            }
+        }
     }
 
     @Test
@@ -423,145 +378,21 @@ public final class FastFourierTransformerTest {
         final UnivariateFunction f = new Sinc();
         final double min = -FastMath.PI;
         final double max = FastMath.PI;
-        final boolean forward = true;
-        final boolean standard = true;
-        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
-        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
-        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
-    }
-
-    @Test
-    public void testStandardInverseTransformComplex() {
-        final boolean forward = false;
-        final boolean standard = true;
-        doTestTransformComplex(2, 1.0E-15, forward, standard);
-        doTestTransformComplex(4, 1.0E-14, forward, standard);
-        doTestTransformComplex(8, 1.0E-14, forward, standard);
-        doTestTransformComplex(16, 1.0E-13, forward, standard);
-        doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-12, forward, standard);
-        doTestTransformComplex(128, 1.0E-12, forward, standard);
-    }
-
-    @Test
-    public void testStandardInverseTransformReal() {
-        final boolean forward = false;
-        final boolean standard = true;
-        doTestTransformReal(2, 1.0E-15, forward, standard);
-        doTestTransformReal(4, 1.0E-14, forward, standard);
-        doTestTransformReal(8, 1.0E-14, forward, standard);
-        doTestTransformReal(16, 1.0E-13, forward, standard);
-        doTestTransformReal(32, 1.0E-13, forward, standard);
-        doTestTransformReal(64, 1.0E-12, forward, standard);
-        doTestTransformReal(128, 1.0E-11, forward, standard);
-    }
-
-    @Test
-    public void testStandardInverseTransformFunction() {
-        final UnivariateFunction f = new Sinc();
-        final double min = -FastMath.PI;
-        final double max = FastMath.PI;
-        final boolean forward = false;
-        final boolean standard = true;
-        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
-        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
-        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
-    }
-
-    /*
-     * Tests of unitary transform (when data is valid).
-     */
-
-    @Test
-    public void testUnitaryTransformComplex() {
-        final boolean forward = true;
-        final boolean standard = false;
-        doTestTransformComplex(2, 1.0E-15, forward, standard);
-        doTestTransformComplex(4, 1.0E-14, forward, standard);
-        doTestTransformComplex(8, 1.0E-14, forward, standard);
-        doTestTransformComplex(16, 1.0E-13, forward, standard);
-        doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-12, forward, standard);
-        doTestTransformComplex(128, 1.0E-12, forward, standard);
-    }
-
-    @Test
-    public void testUnitaryTransformReal() {
-        final boolean forward = true;
-        final boolean standard = false;
-        doTestTransformReal(2, 1.0E-15, forward, standard);
-        doTestTransformReal(4, 1.0E-14, forward, standard);
-        doTestTransformReal(8, 1.0E-14, forward, standard);
-        doTestTransformReal(16, 1.0E-13, forward, standard);
-        doTestTransformReal(32, 1.0E-13, forward, standard);
-        doTestTransformReal(64, 1.0E-13, forward, standard);
-        doTestTransformReal(128, 1.0E-11, forward, standard);
-    }
-
-    @Test
-    public void testUnitaryTransformFunction() {
-        final UnivariateFunction f = new Sinc();
-        final double min = -FastMath.PI;
-        final double max = FastMath.PI;
-        final boolean forward = true;
-        final boolean standard = false;
-        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
-        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
-        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
-    }
-
-    @Test
-    public void testUnitaryInverseTransformComplex() {
-        final boolean forward = false;
-        final boolean standard = false;
-        doTestTransformComplex(2, 1.0E-14, forward, standard);
-        doTestTransformComplex(4, 1.0E-14, forward, standard);
-        doTestTransformComplex(8, 1.0E-14, forward, standard);
-        doTestTransformComplex(16, 1.0E-13, forward, standard);
-        doTestTransformComplex(32, 1.0E-13, forward, standard);
-        doTestTransformComplex(64, 1.0E-12, forward, standard);
-        doTestTransformComplex(128, 1.0E-12, forward, standard);
-    }
-
-    @Test
-    public void testUnitaryInverseTransformReal() {
-        final boolean forward = false;
-        final boolean standard = false;
-        doTestTransformReal(2, 1.0E-15, forward, standard);
-        doTestTransformReal(4, 1.0E-14, forward, standard);
-        doTestTransformReal(8, 1.0E-14, forward, standard);
-        doTestTransformReal(16, 1.0E-13, forward, standard);
-        doTestTransformReal(32, 1.0E-13, forward, standard);
-        doTestTransformReal(64, 1.0E-12, forward, standard);
-        doTestTransformReal(128, 1.0E-11, forward, standard);
-    }
-
-    @Test
-    public void testUnitaryInverseTransformFunction() {
-        final UnivariateFunction f = new Sinc();
-        final double min = -FastMath.PI;
-        final double max = FastMath.PI;
-        final boolean forward = false;
-        final boolean standard = false;
-        doTestTransformFunction(f, min, max, 2, 1.0E-15, forward, standard);
-        doTestTransformFunction(f, min, max, 4, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 8, 1.0E-14, forward, standard);
-        doTestTransformFunction(f, min, max, 16, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 32, 1.0E-13, forward, standard);
-        doTestTransformFunction(f, min, max, 64, 1.0E-12, forward, standard);
-        doTestTransformFunction(f, min, max, 128, 1.0E-11, forward, standard);
+        final FastFourierTransformer.DftNormalization[] norm;
+        norm = FastFourierTransformer.DftNormalization.values();
+        final TransformType[] type;
+        type = TransformType.values();
+        for (int i = 0; i < norm.length; i++) {
+            for (int j = 0; j < type.length; j++) {
+                doTestTransformFunction(f, min, max, 2, 1.0E-15, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 4, 1.0E-14, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 8, 1.0E-14, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 16, 1.0E-13, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 32, 1.0E-13, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 64, 1.0E-12, norm[i], type[j]);
+                doTestTransformFunction(f, min, max, 128, 1.0E-11, norm[i], type[j]);
+            }
+        }
     }
 
     /*
@@ -574,7 +405,7 @@ public final class FastFourierTransformerTest {
     @Test
     public void testAdHocData() {
         FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(Normalization.STANDARD);
+        transformer = new FastFourierTransformer(DftNormalization.STANDARD);
         Complex result[]; double tolerance = 1E-12;
 
         double x[] = {1.3, 2.4, 1.7, 4.1, 2.9, 1.7, 5.1, 2.7};
@@ -588,13 +419,13 @@ public final class FastFourierTransformerTest {
             new Complex(-2.6, -2.7),
             new Complex(-2.09497474683058, -1.91507575950825)};
 
-        result = transformer.transform(x);
+        result = transformer.transform(x, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i].getReal(), result[i].getReal(), tolerance);
             Assert.assertEquals(y[i].getImaginary(), result[i].getImaginary(), tolerance);
         }
 
-        result = transformer.inverseTransform(y);
+        result = transformer.transform(y, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
@@ -604,14 +435,14 @@ public final class FastFourierTransformerTest {
         TransformUtils.scaleArray(x2, 1.0 / FastMath.sqrt(x2.length));
         Complex y2[] = y;
 
-        transformer = new FastFourierTransformer(Normalization.UNITARY);
-        result = transformer.transform(y2);
+        transformer = new FastFourierTransformer(DftNormalization.UNITARY);
+        result = transformer.transform(y2, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x2[i], result[i].getReal(), tolerance);
             Assert.assertEquals(0.0, result[i].getImaginary(), tolerance);
         }
 
-        result = transformer.inverseTransform(x2);
+        result = transformer.transform(x2, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y2[i].getReal(), result[i].getReal(), tolerance);
             Assert.assertEquals(y2[i].getImaginary(), result[i].getImaginary(), tolerance);
@@ -625,12 +456,12 @@ public final class FastFourierTransformerTest {
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
         FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(Normalization.STANDARD);
+        transformer = new FastFourierTransformer(DftNormalization.STANDARD);
         Complex result[]; int N = 1 << 8;
         double min, max, tolerance = 1E-12;
 
         min = 0.0; max = 2.0 * FastMath.PI;
-        result = transformer.transform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
         Assert.assertEquals(0.0, result[1].getReal(), tolerance);
         Assert.assertEquals(-(N >> 1), result[1].getImaginary(), tolerance);
         Assert.assertEquals(0.0, result[N-1].getReal(), tolerance);
@@ -641,7 +472,7 @@ public final class FastFourierTransformerTest {
         }
 
         min = -FastMath.PI; max = FastMath.PI;
-        result = transformer.inverseTransform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.INVERSE);
         Assert.assertEquals(0.0, result[1].getReal(), tolerance);
         Assert.assertEquals(-0.5, result[1].getImaginary(), tolerance);
         Assert.assertEquals(0.0, result[N-1].getReal(), tolerance);
@@ -659,7 +490,7 @@ public final class FastFourierTransformerTest {
     @Test
     public void test2DData() {
         FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(Normalization.STANDARD);
+        transformer = new FastFourierTransformer(DftNormalization.STANDARD);
 
         double tolerance = 1E-12;
         Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),
@@ -675,8 +506,8 @@ public final class FastFourierTransformerTest {
                 FastMath.sqrt(goodOutput[i].length) *
                     FastMath.sqrt(goodOutput.length));
         }
-        Complex[][] output = (Complex[][])transformer.mdfft(input, true);
-        Complex[][] output2 = (Complex[][])transformer.mdfft(output, false);
+        Complex[][] output = (Complex[][])transformer.mdfft(input, TransformType.FORWARD);
+        Complex[][] output2 = (Complex[][])transformer.mdfft(output, TransformType.INVERSE);
 
         Assert.assertEquals(input.length, output.length);
         Assert.assertEquals(input.length, output2.length);
@@ -687,6 +518,8 @@ public final class FastFourierTransformerTest {
 
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
+                System.out.println(i + ", " + j + ", " + input[i][j] + ", " +
+                        goodOutput[i][j] + ", " + output[i][j] + ", ");
                 Assert.assertEquals(input[i][j].getImaginary(), output2[i][j].getImaginary(),
                              tolerance);
                 Assert.assertEquals(input[i][j].getReal(), output2[i][j].getReal(), tolerance);
@@ -700,7 +533,7 @@ public final class FastFourierTransformerTest {
     @Test
     public void test2DDataUnitary() {
         FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(Normalization.UNITARY);
+        transformer = new FastFourierTransformer(DftNormalization.UNITARY);
         double tolerance = 1E-12;
         Complex[][] input = new Complex[][] {new Complex[] {new Complex(1, 0),
                                                             new Complex(2, 0)},
@@ -709,8 +542,8 @@ public final class FastFourierTransformerTest {
         Complex[][] goodOutput = new Complex[][] {new Complex[] {new Complex(5,
                 1.5), new Complex(-1, -.5)}, new Complex[] {new Complex(-2,
                 -1.5), new Complex(0, .5)}};
-        Complex[][] output = (Complex[][])transformer.mdfft(input, true);
-        Complex[][] output2 = (Complex[][])transformer.mdfft(output, false);
+        Complex[][] output = (Complex[][])transformer.mdfft(input, TransformType.FORWARD);
+        Complex[][] output2 = (Complex[][])transformer.mdfft(output, TransformType.INVERSE);
 
         Assert.assertEquals(input.length, output.length);
         Assert.assertEquals(input.length, output2.length);

@@ -85,17 +85,22 @@ import org.apache.commons.math.util.MathArrays;
  */
 public class FastFourierTransformer implements Serializable {
 
-    /** The various types of normalizations that can be applied. */
-    public static enum Normalization {
-        /** Standard DFT. */
+    /**
+     * The various types of normalizations that can be applied to discrete
+     * Fourier transforms.
+     *
+     * @see FastFourierTransformer
+     */
+    public static enum DftNormalization {
+        /** The normalization to be specified for standard DFT. */
         STANDARD,
 
-        /** Unitary DFT. */
+        /** The normalization to be specified for unitary DFT. */
         UNITARY;
     }
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120902L;
+    static final long serialVersionUID = 20120210L;
 
     /**
      * {@code W_SUB_N_R[i]} is the real part of
@@ -143,19 +148,18 @@ public class FastFourierTransformer implements Serializable {
             , -0x1.921fb54442d18p-54, -0x1.921fb54442d18p-55, -0x1.921fb54442d18p-56, -0x1.921fb54442d18p-57
             , -0x1.921fb54442d18p-58, -0x1.921fb54442d18p-59, -0x1.921fb54442d18p-60 };
 
-    /**
-     * The type of DFT to be performed.
-     */
-    private final Normalization type;
+    /** The type of DFT to be performed. */
+    private final DftNormalization normalization;
 
     /**
      * Creates a new instance of this class, with various normalization
      * conventions.
      *
-     * @param type the type of transform to be computed
+     * @param normalization the type of normalization to be applied to the
+     * transformed data
      */
-    public FastFourierTransformer(final Normalization type) {
-        this.type = type;
+    public FastFourierTransformer(final DftNormalization normalization) {
+        this.normalization = normalization;
     }
 
     /**
@@ -199,21 +203,21 @@ public class FastFourierTransformer implements Serializable {
      * Applies the proper normalization to the specified transformed data.
      *
      * @param dataRI the unscaled transformed data
-     * @param type the type of transform
-     * @param inverse {@code true} if normalization should be performed for the
-     * inverse transform
+     * @param normalization the normalization to be applied
+     * @param type the type of transform (forward, inverse) which resulted in the
+     * specified data
      */
     private static void normalizeTransformedData(final double[][] dataRI,
-        final Normalization type, final boolean inverse) {
+        final DftNormalization normalization, final TransformType type) {
 
         final double[] dataR = dataRI[0];
         final double[] dataI = dataRI[1];
         final int n = dataR.length;
         assert dataI.length == n;
 
-        switch (type) {
+        switch (normalization) {
             case STANDARD:
-                if (inverse) {
+                if (type == TransformType.INVERSE) {
                     final double scaleFactor = 1.0 / ((double) n);
                     for (int i = 0; i < n; i++) {
                         dataR[i] *= scaleFactor;
@@ -251,18 +255,16 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param dataRI the two dimensional array of real and imaginary parts of
      * the data
-     * @param type the type of normalization to be applied to the transformed
+     * @param normalization the normalization to be applied to the transformed
      * data
-     * @param inverse {@code true} if the inverse standard transform must be
-     * performed
+     * @param type the type of transform (forward, inverse) to be performed
      * @throws DimensionMismatchException if the number of rows of the specified
      * array is not two, or the array is not rectangular
      * @throws MathIllegalArgumentException if the number of data points is not
      * a power of two
      */
     public static void transformInPlace(final double[][] dataRI,
-        final Normalization type, final boolean inverse) throws
-        DimensionMismatchException, MathIllegalArgumentException {
+        final DftNormalization normalization, final TransformType type) {
 
         if (dataRI.length != 2) {
             throw new DimensionMismatchException(dataRI.length, 2);
@@ -295,14 +297,14 @@ public class FastFourierTransformer implements Serializable {
             dataR[1] = srcR0 - srcR1;
             dataI[1] = srcI0 - srcI1;
 
-            normalizeTransformedData(dataRI, type, inverse);
+            normalizeTransformedData(dataRI, normalization, type);
             return;
         }
 
         bitReversalShuffle2(dataR, dataI);
 
         // Do 4-term DFT.
-        if (inverse) {
+        if (type == TransformType.INVERSE) {
             for (int i0 = 0; i0 < n; i0 += 4) {
                 final int i1 = i0 + 1;
                 final int i2 = i0 + 2;
@@ -369,7 +371,7 @@ public class FastFourierTransformer implements Serializable {
             int logN0 = lastLogN0 + 1;
             double wSubN0R = W_SUB_N_R[logN0];
             double wSubN0I = W_SUB_N_I[logN0];
-            if (inverse) {
+            if (type == TransformType.INVERSE) {
                 wSubN0I = -wSubN0I;
             }
 
@@ -405,41 +407,37 @@ public class FastFourierTransformer implements Serializable {
             lastLogN0 = logN0;
         }
 
-        normalizeTransformedData(dataRI, type, inverse);
+        normalizeTransformedData(dataRI, normalization, type);
     }
 
     /**
-     * Returns the forward transform of the specified real data set.
+     * Returns the (forward, inverse) transform of the specified real data set.
      *
      * @param f the real data array to be transformed
+     * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] transform(double[] f) {
+    public Complex[] transform(final double[] f, final TransformType type) {
         final double[][] dataRI = new double[][] {
             MathArrays.copyOf(f, f.length), new double[f.length]
         };
 
-        transformInPlace(dataRI, type, false);
-
-//        if (unitary) {
-//            final double s = 1.0 / FastMath.sqrt(f.length);
-//            TransformUtils.scaleArray(dataRI[0], s);
-//            TransformUtils.scaleArray(dataRI[1], s);
-//        }
+        transformInPlace(dataRI, normalization, type);
 
         return TransformUtils.createComplexArray(dataRI);
     }
 
     /**
-     * Returns the forward transform of the specified real function, sampled on
-     * the specified interval.
+     * Returns the (forward, inverse) transform of the specified real function,
+     * sampled on the specified interval.
      *
      * @param f the function to be sampled and transformed
      * @param min the (inclusive) lower bound for the interval
      * @param max the (exclusive) upper bound for the interval
      * @param n the number of sample points
+     * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
      * @throws org.apache.commons.math.exception.NumberIsTooLargeException
      * if the lower bound is greater than, or equal to the upper bound
@@ -448,98 +446,28 @@ public class FastFourierTransformer implements Serializable {
      * @throws MathIllegalArgumentException if the number of sample points
      * {@code n} is not a power of two
      */
-    public Complex[] transform(UnivariateFunction f,
-            double min, double max, int n) {
+    public Complex[] transform(final UnivariateFunction f,
+            final double min, final double max, final int n,
+            final TransformType type) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
-        return transform(data);
+        return transform(data, type);
     }
 
     /**
-     * Returns the forward transform of the specified complex data set.
+     * Returns the (forward, inverse) transform of the specified complex data
+     * set.
      *
      * @param f the complex data array to be transformed
+     * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public Complex[] transform(Complex[] f) {
+    public Complex[] transform(final Complex[] f, final TransformType type) {
         final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
 
-        transformInPlace(dataRI, type, false);
-        // if (unitary) {
-        // final double s = 1.0 / FastMath.sqrt(f.length);
-        // TransformUtils.scaleArray(dataRI[0], s);
-        // TransformUtils.scaleArray(dataRI[1], s);
-        // }
-
-        return TransformUtils.createComplexArray(dataRI);
-    }
-
-    /**
-     * Returns the inverse transform of the specified real data set.
-     *
-     * @param f the real data array to be inversely transformed
-     * @return the complex inversely transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
-     */
-    public Complex[] inverseTransform(double[] f) {
-        final double[][] dataRI = new double[][] {
-            MathArrays.copyOf(f, f.length), new double[f.length]
-        };
-
-        transformInPlace(dataRI, type, true);
-        // if (unitary) {
-        // final double s = FastMath.sqrt(f.length);
-        // TransformUtils.scaleArray(dataRI[0], s);
-        // TransformUtils.scaleArray(dataRI[1], s);
-        // }
-
-        return TransformUtils.createComplexArray(dataRI);
-    }
-
-    /**
-     * Returns the inverse transform of the specified real function, sampled
-     * on the given interval.
-     *
-     * @param f the function to be sampled and inversely transformed
-     * @param min the (inclusive) lower bound for the interval
-     * @param max the (exclusive) upper bound for the interval
-     * @param n the number of sample points
-     * @return the complex inversely transformed array
-     * @throws org.apache.commons.math.exception.NumberIsTooLargeException
-     * if the lower bound is greater than, or equal to the upper bound
-     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
-     * if the number of sample points {@code n} is negative
-     * @throws MathIllegalArgumentException if the number of sample points
-     * {@code n} is not a power of two
-     */
-    public Complex[] inverseTransform(UnivariateFunction f,
-            double min, double max, int n) {
-        final double[] data = FunctionUtils.sample(f, min, max, n);
-        return inverseTransform(data);
-    }
-
-    /**
-     * Returns the inverse transform of the specified complex data set.
-     *
-     * @param f the complex data array to be inversely transformed
-     * @return the complex inversely transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
-     */
-    public Complex[] inverseTransform(Complex[] f) {
-        final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
-        final double[] dataR = dataRI[0];
-        final double[] dataI = dataRI[1];
-
-        transformInPlace(dataRI, type, true);
-//        if (unitary) {
-//            final double s = FastMath.sqrt(f.length);
-//            TransformUtils.scaleArray(dataR, s);
-//            TransformUtils.scaleArray(dataI, s);
-//        }
+        transformInPlace(dataRI, normalization, type);
 
         return TransformUtils.createComplexArray(dataRI);
     }
@@ -555,19 +483,20 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param mdca Multi-Dimensional Complex Array id est
      * {@code Complex[][][][]}
-     * @param forward {@link #inverseTransform} is performed if this is
-     * {@code false}
+     * @param type the type of transform (forward, inverse) to be performed
      * @return transform of {@code mdca} as a Multi-Dimensional Complex Array
      * id est {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
+     * @deprecated see MATH-736
      */
-    public Object mdfft(Object mdca, boolean forward) {
+    @Deprecated
+    public Object mdfft(Object mdca, TransformType type) {
         MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix)
                 new MultiDimensionalComplexMatrix(mdca).clone();
         int[] dimensionSize = mdcm.getDimensionSizes();
         //cycle through each dimension
         for (int i = 0; i < dimensionSize.length; i++) {
-            mdfft(mdcm, forward, i, new int[0]);
+            mdfft(mdcm, type, i, new int[0]);
         }
         return mdcm.getArray();
     }
@@ -576,14 +505,15 @@ public class FastFourierTransformer implements Serializable {
      * Performs one dimension of a multi-dimensional Fourier transform.
      *
      * @param mdcm input matrix
-     * @param forward {@link #inverseTransform} is performed if this is
-     * {@code false}
+     * @param type the type of transform (forward, inverse) to be performed
      * @param d index of the dimension to process
      * @param subVector recursion subvector
      * @throws IllegalArgumentException if any dimension is not a power of two
+     * @deprecated see MATH-736
      */
+    @Deprecated
     private void mdfft(MultiDimensionalComplexMatrix mdcm,
-            boolean forward, int d, int[] subVector) {
+            TransformType type, int d, int[] subVector) {
 
         int[] dimensionSize = mdcm.getDimensionSizes();
         //if done
@@ -595,11 +525,7 @@ public class FastFourierTransformer implements Serializable {
                 temp[i] = mdcm.get(subVector);
             }
 
-            if (forward) {
-                temp = transform(temp);
-            } else {
-                temp = inverseTransform(temp);
-            }
+            temp = transform(temp, type);
 
             for (int i = 0; i < dimensionSize[d]; i++) {
                 subVector[d] = i;
@@ -612,12 +538,12 @@ public class FastFourierTransformer implements Serializable {
                 //value is not important once the recursion is done.
                 //then an fft will be applied along the dimension d.
                 vector[d] = 0;
-                mdfft(mdcm, forward, d, vector);
+                mdfft(mdcm, type, d, vector);
             } else {
                 for (int i = 0; i < dimensionSize[subVector.length]; i++) {
                     vector[subVector.length] = i;
                     //further split along the next dimension
-                    mdfft(mdcm, forward, d, vector);
+                    mdfft(mdcm, type, d, vector);
                 }
             }
         }
@@ -629,7 +555,10 @@ public class FastFourierTransformer implements Serializable {
      * eventually be replaced by jsr-83 of the java community process
      * http://jcp.org/en/jsr/detail?id=83
      * may require additional exception throws for other basic requirements.
+     *
+     * @deprecated see MATH-736
      */
+    @Deprecated
     private static class MultiDimensionalComplexMatrix
         implements Cloneable {
 

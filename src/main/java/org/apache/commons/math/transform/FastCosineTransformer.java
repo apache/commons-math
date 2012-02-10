@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NonMonotonicSequenceException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.transform.FastFourierTransformer.Normalization;
+import org.apache.commons.math.transform.FastFourierTransformer.DftNormalization;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
 
@@ -273,8 +273,8 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
             t1 += c;
         }
         FastFourierTransformer transformer;
-        transformer = new FastFourierTransformer(Normalization.STANDARD);
-        Complex[] y = transformer.transform(x);
+        transformer = new FastFourierTransformer(DftNormalization.STANDARD);
+        Complex[] y = transformer.transform(x, TransformType.FORWARD);
 
         // reconstruct the FCT result for the original array
         transformed[0] = y[0].getReal();
