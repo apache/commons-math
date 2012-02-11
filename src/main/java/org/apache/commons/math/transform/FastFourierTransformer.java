@@ -38,7 +38,8 @@ import org.apache.commons.math.util.MathArrays;
  * </p>
  * <p>
  * There are several variants of the discrete Fourier transform, with various
- * normalization conventions, which are described below.
+ * normalization conventions, which are specified by the parameter
+ * {@link DftNormalization}.
  * </p>
  * <p>
  * The current implementation of the discrete Fourier transform as a fast
@@ -49,55 +50,12 @@ import org.apache.commons.math.util.MathArrays;
  * <i>On computing the discrete Fourier transform</i>, Mathematics of
  * Computation, 32 (1978), 175 - 199.
  * </p>
- * <h3><a id="standard">Standard DFT</a></h3>
- * <p>
- * The standard normalization convention is defined as follows
- * <ul>
- * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
- * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
- * <li>inverse transform: x<sub>k</sub> = N<sup>-1</sup>
- * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
- * </ul>
- * where N is the size of the data sample.
- * </p>
- * <p>
- * {@link FastFourierTransformer}s following this convention are returned by the
- * factory method {@link #create()}.
- * </p>
- * <h3><a id="unitary">Unitary DFT</a></h3>
- * <p>
- * The unitary normalization convention is defined as follows
- * <ul>
- * <li>forward transform: y<sub>n</sub> = (1 / &radic;N)
- * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub> exp(-2&pi;i n k / N),</li>
- * <li>inverse transform: x<sub>k</sub> = (1 / &radic;N)
- * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
- * </ul>
- * which makes the transform unitary. N is the size of the data sample.
- * </p>
- * <p>
- * {@link FastFourierTransformer}s following this convention are returned by the
- * factory method {@link #createUnitary()}.
- * </p>
  *
+ * @see DftNormalization
  * @version $Id$
  * @since 1.2
  */
 public class FastFourierTransformer implements Serializable {
-
-    /**
-     * The various types of normalizations that can be applied to discrete
-     * Fourier transforms.
-     *
-     * @see FastFourierTransformer
-     */
-    public static enum DftNormalization {
-        /** The normalization to be specified for standard DFT. */
-        STANDARD,
-
-        /** The normalization to be specified for unitary DFT. */
-        UNITARY;
-    }
 
     /** Serializable version identifier. */
     static final long serialVersionUID = 20120210L;
