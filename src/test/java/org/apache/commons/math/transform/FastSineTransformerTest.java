@@ -23,6 +23,7 @@ import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Sinc;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -143,7 +144,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     }
 
     @Override
-    double[] transform(final double[] x, final boolean forward) {
+    double[] transform(final double[] x, final TransformType type) {
         final int n = x.length;
         final double[] y = new double[n];
         final double[] sin = new double[2 * n];
@@ -158,10 +159,16 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
             y[j] = yj;
         }
         final double s;
-        if (forward) {
+        if (type == TransformType.FORWARD) {
             s = standard ? 1.0 : FastMath.sqrt(2.0 / (double) n);
-        } else {
+        } else if (type == TransformType.INVERSE){
             s = standard ? 2.0 / n : FastMath.sqrt(2.0 / (double) n);
+        } else {
+            /*
+             * Should never occur. This clause is a safeguard in case other
+             * types are used to TransformType (which should not be done).
+             */
+            throw new MathIllegalStateException();
         }
         TransformUtils.scaleArray(y, s);
         return y;
@@ -170,22 +177,21 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     /*
      * Additional tests.
      */
-    @Test(expected = MathIllegalArgumentException.class)
+    @Test
     public void testTransformRealFirstElementNotZero() {
+        final TransformType[] type = TransformType.values();
         final double[] data = new double[] {
             1.0, 1.0, 1.0, 1.0
         };
         final RealTransformer transformer = createRealTransformer();
-        transformer.transform(data);
-    }
-
-    @Test(expected = MathIllegalArgumentException.class)
-    public void testInverseTransformRealFirstElementNotZero() {
-        final double[] data = new double[] {
-            1.0, 1.0, 1.0, 1.0
-        };
-        final RealTransformer transformer = createRealTransformer();
-        transformer.inverseTransform(data);
+        for (int j = 0; j < type.length; j++) {
+            try {
+                transformer.transform(data, type[j]);
+                Assert.fail(type[j].toString());
+            } catch (MathIllegalArgumentException e) {
+                // Expected: do nothing
+            }
+        }
     }
 
     /*
@@ -205,12 +211,12 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
                        5.98642305066196, -4.0, 2.67271455167720,
                       -1.65685424949238, 0.795649469518633 };
 
-        result = transformer.transform(x);
+        result = transformer.transform(x, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
 
-        result = transformer.inverseTransform(y);
+        result = transformer.transform(y, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
@@ -218,12 +224,12 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         TransformUtils.scaleArray(x, FastMath.sqrt(x.length / 2.0));
         transformer = FastSineTransformer.createOrthogonal();
 
-        result = transformer.transform(y);
+        result = transformer.transform(y, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        result = transformer.inverseTransform(x);
+        result = transformer.transform(x, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
@@ -239,14 +245,14 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;
 
         min = 0.0; max = 2.0 * FastMath.PI;
-        result = transformer.transform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
         Assert.assertEquals(N >> 1, result[2], tolerance);
         for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
             Assert.assertEquals(0.0, result[i], tolerance);
         }
 
         min = -FastMath.PI; max = FastMath.PI;
-        result = transformer.transform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
         Assert.assertEquals(-(N >> 1), result[2], tolerance);
         for (int i = 0; i < N; i += (i == 1 ? 2 : 1)) {
             Assert.assertEquals(0.0, result[i], tolerance);
@@ -263,21 +269,21 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
 
         try {
             // bad interval
-            transformer.transform(f, 1, -1, 64);
+            transformer.transform(f, 1, -1, 64, TransformType.FORWARD);
             Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 0);
+            transformer.transform(f, -1, 1, 0, TransformType.FORWARD);
             Assert.fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 100);
+            transformer.transform(f, -1, 1, 100, TransformType.FORWARD);
             Assert.fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
             // expected

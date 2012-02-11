@@ -22,8 +22,6 @@ import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
@@ -105,9 +103,6 @@ import org.apache.commons.math.util.FastMath;
  * {@link #inverseTransform(UnivariateFunction, double, double, int)}, after
  * sampling.
  * </p>
- * <p>
- * As of version 2.0 this no longer implements Serializable.
- * </p>
  *
  * @version $Id: FastSineTransformer.java 1213157 2011-12-12 07:19:23Z celestin$
  * @since 1.2
@@ -115,7 +110,7 @@ import org.apache.commons.math.util.FastMath;
 public class FastSineTransformer implements RealTransformer, Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120501L;
+    static final long serialVersionUID = 20120211L;
 
     /**
      * {@code true} if the orthogonal version of the DCT should be used.
@@ -171,54 +166,13 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two, or the first element of the data array is not zero
      */
-    public double[] transform(double[] f) throws MathIllegalArgumentException {
+    public double[] transform(final double[] f, final TransformType type) {
         if (orthogonal) {
             final double s = FastMath.sqrt(2.0 / f.length);
             return TransformUtils.scaleArray(fst(f), s);
         }
-        return fst(f);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * This implementation enforces {@code f(x) = 0.0} at {@code x = 0.0}.
-     *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
-     * @throws MathIllegalArgumentException if the number of sample points is
-     * not a power of two
-     */
-    public double[] transform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
-
-        final double[] data = FunctionUtils.sample(f, min, max, n);
-        data[0] = 0.0;
-        if (orthogonal) {
-            final double s = FastMath.sqrt(2.0 / n);
-            return TransformUtils.scaleArray(fst(data), s);
-        }
-        return fst(data);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The first element of the specified data set is required to be {@code 0}.
-     *
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two, or the first element of the data array is not zero
-     */
-    public double[] inverseTransform(double[] f)
-        throws IllegalArgumentException {
-
-        if (orthogonal) {
-            return transform(f);
+        if (type == TransformType.FORWARD) {
+            return fst(f);
         }
         final double s = 2.0 / f.length;
         return TransformUtils.scaleArray(fst(f), s);
@@ -229,28 +183,20 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      *
      * This implementation enforces {@code f(x) = 0.0} at {@code x = 0.0}.
      *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
+     * if the lower bound is greater than, or equal to the upper bound
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if the number of sample points is negative
      * @throws MathIllegalArgumentException if the number of sample points is
      * not a power of two
      */
-    public double[] inverseTransform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
-
-        if (orthogonal) {
-            return transform(f, min, max, n);
-        }
+    public double[] transform(final UnivariateFunction f,
+        final double min, final double max, final int n,
+        final TransformType type) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
         data[0] = 0.0;
-        final double s = 2.0 / n;
-
-        return TransformUtils.scaleArray(fst(data), s);
+        return transform(data, type);
     }
 
     /**

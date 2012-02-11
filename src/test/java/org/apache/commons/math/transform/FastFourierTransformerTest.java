@@ -517,8 +517,6 @@ public final class FastFourierTransformerTest {
 
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[0].length; j++) {
-                System.out.println(i + ", " + j + ", " + input[i][j] + ", " +
-                        goodOutput[i][j] + ", " + output[i][j] + ", ");
                 Assert.assertEquals(input[i][j].getImaginary(), output2[i][j].getImaginary(),
                              tolerance);
                 Assert.assertEquals(input[i][j].getReal(), output2[i][j].getReal(), tolerance);

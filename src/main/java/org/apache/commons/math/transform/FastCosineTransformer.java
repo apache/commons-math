@@ -22,8 +22,6 @@ import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.ArithmeticUtils;
 import org.apache.commons.math.util.FastMath;
@@ -115,7 +113,7 @@ import org.apache.commons.math.util.FastMath;
 public class FastCosineTransformer implements RealTransformer, Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120501L;
+    static final long serialVersionUID = 20120211L;
 
     /**
      * {@code true} if the orthogonal version of the DCT should be used.
@@ -169,44 +167,14 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two plus one
      */
-    public double[] transform(double[] f) throws MathIllegalArgumentException {
-
-        if (orthogonal) {
-            final double s = FastMath.sqrt(2.0 / (f.length - 1));
-            return TransformUtils.scaleArray(fct(f), s);
+    public double[] transform(final double[] f, final TransformType type) {
+        if (type == TransformType.FORWARD) {
+            if (orthogonal) {
+                final double s = FastMath.sqrt(2.0 / (f.length - 1));
+                return TransformUtils.scaleArray(fct(f), s);
+            }
+            return fct(f);
         }
-        return fct(f);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
-     * @throws MathIllegalArgumentException if the number of sample points is
-     * not a power of two plus one
-     */
-    public double[] transform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
-
-        final double[] data = FunctionUtils.sample(f, min, max, n);
-        return transform(data);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two plus one
-     */
-    public double[] inverseTransform(double[] f) throws
-        MathIllegalArgumentException {
-
         final double s2 = 2.0 / (f.length - 1);
         final double s1 = orthogonal ? FastMath.sqrt(s2) : s2;
         return TransformUtils.scaleArray(fct(f), s1);
@@ -215,21 +183,19 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
     /**
      * {@inheritDoc}
      *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
+     * if the lower bound is greater than, or equal to the upper bound
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if the number of sample points is negative
      * @throws MathIllegalArgumentException if the number of sample points is
      * not a power of two plus one
      */
-    public double[] inverseTransform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
+    public double[] transform(final UnivariateFunction f,
+        final double min, final double max, final int n,
+        final TransformType type) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
-        return inverseTransform(data);
+        return transform(data, type);
     }
 
     /**

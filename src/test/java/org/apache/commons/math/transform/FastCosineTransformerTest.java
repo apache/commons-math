@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.apache.commons.math.analysis.SinFunction;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.analysis.function.Sinc;
+import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -130,7 +131,7 @@ public final class FastCosineTransformerTest
     }
 
     @Override
-    double[] transform(final double[] x, final boolean forward) {
+    double[] transform(final double[] x, final TransformType type) {
         final int n = x.length;
         final double[] y = new double[n];
         final double[] cos = new double[2 * (n - 1)];
@@ -147,10 +148,16 @@ public final class FastCosineTransformerTest
             sgn *= -1;
         }
         final double s;
-        if (forward) {
+        if (type == TransformType.FORWARD) {
             s = standard ? 1.0 : FastMath.sqrt(2.0 / (n - 1.0));
-        } else {
+        } else if (type == TransformType.INVERSE) {
             s = standard ? 2.0 / (n - 1.0) : FastMath.sqrt(2.0 / (n - 1.0));
+        } else {
+            /*
+             * Should never occur. This clause is a safeguard in case other
+             * types are used to TransformType (which should not be done).
+             */
+            throw new MathIllegalStateException();
         }
         TransformUtils.scaleArray(y, s);
         return y;
@@ -176,12 +183,12 @@ public final class FastCosineTransformerTest
                 4.0
             };
 
-        result = transformer.transform(x);
+        result = transformer.transform(x, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
 
-        result = transformer.inverseTransform(y);
+        result = transformer.transform(y, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
@@ -189,12 +196,12 @@ public final class FastCosineTransformerTest
         TransformUtils.scaleArray(x, FastMath.sqrt(0.5 * (x.length - 1)));
 
         transformer = FastCosineTransformer.createOrthogonal();
-        result = transformer.transform(y);
+        result = transformer.transform(y, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
         }
 
-        result = transformer.inverseTransform(x);
+        result = transformer.transform(x, TransformType.INVERSE);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(y[i], result[i], tolerance);
         }
@@ -209,14 +216,14 @@ public final class FastCosineTransformerTest
 
         try {
             // bad interval
-            transformer.transform(f, 1, -1, 65);
+            transformer.transform(f, 1, -1, 65, TransformType.FORWARD);
             Assert.fail("Expecting IllegalArgumentException - bad interval");
         } catch (IllegalArgumentException ex) {
             // expected
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 1);
+            transformer.transform(f, -1, 1, 1, TransformType.FORWARD);
             Assert
                 .fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
@@ -224,7 +231,7 @@ public final class FastCosineTransformerTest
         }
         try {
             // bad samples number
-            transformer.transform(f, -1, 1, 64);
+            transformer.transform(f, -1, 1, 64, TransformType.FORWARD);
             Assert
                 .fail("Expecting IllegalArgumentException - bad samples number");
         } catch (IllegalArgumentException ex) {
@@ -247,14 +254,14 @@ public final class FastCosineTransformerTest
             };
         min = 0.0;
         max = 2.0 * FastMath.PI * N / (N - 1);
-        result = transformer.transform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
         for (int i = 0; i < N; i++) {
             Assert.assertEquals(expected[i], result[i], tolerance);
         }
 
         min = -FastMath.PI;
         max = FastMath.PI * (N + 1) / (N - 1);
-        result = transformer.transform(f, min, max, N);
+        result = transformer.transform(f, min, max, N, TransformType.FORWARD);
         for (int i = 0; i < N; i++) {
             Assert.assertEquals(-expected[i], result[i], tolerance);
         }

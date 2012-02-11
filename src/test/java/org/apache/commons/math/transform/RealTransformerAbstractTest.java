@@ -137,181 +137,107 @@ public abstract class RealTransformerAbstractTest {
      * Returns the expected transform of the specified real data array.
      *
      * @param x the real data array to be transformed
-     * @param forward {@code true} (resp. {@code false}) if the forward (resp.
-     * inverse) transform is to be performed
+     * @param type the type of transform (forward, inverse) to be performed
      * @return the expected transform
      */
-    abstract double[] transform(double[] x, boolean forward);
+    abstract double[] transform(double[] x, TransformType type);
 
     /*
      * Check of preconditions.
      */
 
     /**
-     * {@link RealTransformer#transform(double[])} should throw a
+     * {@link RealTransformer#transform(double[], TransformType))} should throw a
      * {@link MathIllegalArgumentException} if data size is invalid.
      */
     @Test
     public void testTransformRealInvalidDataSize() {
+        final TransformType[] type = TransformType.values();
         final RealTransformer transformer = createRealTransformer();
         for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
             final int n = getInvalidDataSize(i);
-            try {
-                transformer.transform(createRealData(n));
-                Assert.fail(Integer.toString(n));
-            } catch (MathIllegalArgumentException e) {
-                // Expected: do nothing
+            for (int j = 0; j < type.length; j++) {
+                try {
+                    transformer.transform(createRealData(n), type[j]);
+                    Assert.fail(type[j] + ", " + n);
+                } catch (MathIllegalArgumentException e) {
+                    // Expected: do nothing
+                }
             }
         }
     }
 
     /**
-     * {@link RealTransformer#transform(UnivariateFunction, double, double, int)}
+     * {@link RealTransformer#transform(UnivariateFunction, double, double, int, TransformType)}
      * should throw a {@link MathIllegalArgumentException} if number of samples
      * is invalid.
      */
     @Test
     public void testTransformFunctionInvalidDataSize() {
+        final TransformType[] type = TransformType.values();
         final RealTransformer transformer = createRealTransformer();
         final UnivariateFunction f = getValidFunction();
         final double a = getValidLowerBound();
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
             final int n = getInvalidDataSize(i);
-            try {
-                transformer.transform(f, a, b, n);
-                Assert.fail(Integer.toString(n));
-            } catch (MathIllegalArgumentException e) {
-                // Expected: do nothing
+            for (int j = 0; j < type.length; j++) {
+                try {
+                    transformer.transform(f, a, b, n, type[j]);
+                    Assert.fail(type[j] + ", " + n);
+                } catch (MathIllegalArgumentException e) {
+                    // Expected: do nothing
+                }
             }
         }
     }
 
     /**
-     * {@link RealTransformer#transform(UnivariateFunction, double, double, int)}
+     * {@link RealTransformer#transform(UnivariateFunction, double, double, int, TransformType)}
      * should throw a {@link NotStrictlyPositiveException} if number of samples
      * is not strictly positive.
      */
     @Test
     public void testTransformFunctionNotStrictlyPositiveNumberOfSamples() {
+        final TransformType[] type = TransformType.values();
         final RealTransformer transformer = createRealTransformer();
         final UnivariateFunction f = getValidFunction();
         final double a = getValidLowerBound();
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
-            try {
-                transformer.transform(f, a, b, -n);
-                Assert.fail(Integer.toString(-n));
-            } catch (NotStrictlyPositiveException e) {
-                // Expected: do nothing
+            for (int j = 0; j < type.length; j++) {
+                try {
+                    transformer.transform(f, a, b, -n, type[j]);
+                    Assert.fail(type[j] + ", " + (-n));
+                } catch (NotStrictlyPositiveException e) {
+                    // Expected: do nothing
+                }
             }
         }
     }
 
     /**
-     * {@link RealTransformer#transform(UnivariateFunction, double, double, int)}
+     * {@link RealTransformer#transform(UnivariateFunction, double, double, int, TransformType)}
      * should throw a {@link NumberIsTooLargeException} if sampling bounds are
      * not correctly ordered.
      */
     @Test
     public void testTransformFunctionInvalidBounds() {
+        final TransformType[] type = TransformType.values();
         final RealTransformer transformer = createRealTransformer();
         final UnivariateFunction f = getValidFunction();
         final double a = getValidLowerBound();
         final double b = getValidUpperBound();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
-            try {
-                transformer.transform(f, b, a, n);
-                Assert.fail(Double.toString(b) + ", " + Double.toString(a));
-            } catch (NumberIsTooLargeException e) {
-                // Expected: do nothing
-            }
-        }
-    }
-
-    /**
-     * {@link RealTransformer#inverseTransform(double[])} should throw a
-     * {@link MathIllegalArgumentException} if data size is invalid.
-     */
-    @Test
-    public void testInverseTransformRealInvalidDataSize() {
-        final RealTransformer transformer = createRealTransformer();
-        for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
-            final int n = getInvalidDataSize(i);
-            try {
-                transformer.inverseTransform(createRealData(n));
-                Assert.fail(Integer.toString(n));
-            } catch (MathIllegalArgumentException e) {
-                // Expected: do nothing
-            }
-        }
-    }
-
-    /**
-     * {@link RealTransformer#inverseTransform(UnivariateFunction, double, double, int)}
-     * should throw a {@link MathIllegalArgumentException} if number of samples
-     * is invalid.
-     */
-    @Test
-    public void testInverseTransformFunctionInvalidDataSize() {
-        final RealTransformer transformer = createRealTransformer();
-        final UnivariateFunction f = getValidFunction();
-        final double a = getValidLowerBound();
-        final double b = getValidUpperBound();
-        for (int i = 0; i < getNumberOfInvalidDataSizes(); i++) {
-            final int n = getInvalidDataSize(i);
-            try {
-                transformer.inverseTransform(f, a, b, n);
-                Assert.fail(Integer.toString(n));
-            } catch (MathIllegalArgumentException e) {
-                // Expected: do nothing
-            }
-        }
-    }
-
-    /**
-     * {@link RealTransformer#inverseTransform(UnivariateFunction, double, double, int)}
-     * should throw a {@link NotStrictlyPositiveException} if number of samples
-     * is not strictly positive.
-     */
-    @Test
-    public void
-        testInverseTransformFunctionNotStrictlyPositiveNumberOfSamples() {
-        final RealTransformer transformer = createRealTransformer();
-        final UnivariateFunction f = getValidFunction();
-        final double a = getValidLowerBound();
-        final double b = getValidUpperBound();
-        for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
-            final int n = getValidDataSize(i);
-            try {
-                transformer.inverseTransform(f, a, b, -n);
-                Assert.fail(Integer.toString(-n));
-            } catch (NotStrictlyPositiveException e) {
-                // Expected: do nothing
-            }
-        }
-    }
-
-    /**
-     * {@link RealTransformer#inverseTransform(UnivariateFunction, double, double, int)}
-     * should throw a {@link NumberIsTooLargeException} if sampling bounds are
-     * not correctly ordered.
-     */
-    @Test
-    public void testInverseTransformFunctionInvalidBounds() {
-        final RealTransformer transformer = createRealTransformer();
-        final UnivariateFunction f = getValidFunction();
-        final double a = getValidLowerBound();
-        final double b = getValidUpperBound();
-        for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
-            final int n = getValidDataSize(i);
-            try {
-                transformer.inverseTransform(f, b, a, n);
-                Assert.fail(Double.toString(b) + ", " + Double.toString(a));
-            } catch (NumberIsTooLargeException e) {
-                // Expected: do nothing
+            for (int j = 0; j < type.length; j++) {
+                try {
+                    transformer.transform(f, b, a, n, type[j]);
+                    Assert.fail(type[j] + ", " + b + ", " + a);
+                } catch (NumberIsTooLargeException e) {
+                    // Expected: do nothing
+                }
             }
         }
     }
@@ -333,10 +259,13 @@ public abstract class RealTransformerAbstractTest {
      */
     @Test
     public void testTransformReal() {
+        final TransformType[] type = TransformType.values();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
             final double tol = getRelativeTolerance(i);
-            doTestTransformReal(n, tol, true);
+            for (int j = 0; j < type.length; j++) {
+                doTestTransformReal(n, tol, type[j]);
+            }
         }
     }
 
@@ -353,50 +282,13 @@ public abstract class RealTransformerAbstractTest {
      */
     @Test
     public void testTransformFunction() {
+        final TransformType[] type = TransformType.values();
         for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
             final int n = getValidDataSize(i);
             final double tol = getRelativeTolerance(i);
-            doTestTransformFunction(n, tol, true);
-        }
-    }
-
-    /**
-     * Accuracy check of {@link RealTransformer#inverseTransform(double[])}. For
-     * each valid data size returned by
-     * {@link #getValidDataSize(int) getValidDataSize(i)},
-     * a random data array is generated with
-     * {@link RealTransformerAbstractTest#createRealData(int)}. The actual
-     * transform is computed and compared to the expected transform, return by
-     * {@link #transform(double[], boolean)}. Actual and expected values should
-     * be equal to within the relative error returned by
-     * {@link #getRelativeTolerance(int) getRelativeTolerance(i)}.
-     */
-    @Test
-    public void testInverseTransformReal() {
-        for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
-            final int n = getValidDataSize(i);
-            final double tol = getRelativeTolerance(i);
-            doTestTransformReal(n, tol, false);
-        }
-    }
-
-    /**
-     * Accuracy check of
-     * {@link RealTransformer#inverseTransform(UnivariateFunction, double, double, int)}.
-     * For each valid data size returned by
-     * {@link #getValidDataSize(int) getValidDataSize(i)},
-     * the {@link UnivariateFunction} returned by {@link #getValidFunction()} is
-     * sampled. The actual transform is computed and compared to the expected
-     * transform, return by {@link #transform(double[], boolean)}. Actual and
-     * expected values should be equal to within the relative error returned by
-     * {@link #getRelativeTolerance(int) getRelativeTolerance(i)}.
-     */
-    @Test
-    public void testInverseTransformFunction() {
-        for (int i = 0; i < getNumberOfValidDataSizes(); i++) {
-            final int n = getValidDataSize(i);
-            final double tol = getRelativeTolerance(i);
-            doTestTransformFunction(n, tol, false);
+            for (int j = 0; j < type.length; j++) {
+                doTestTransformFunction(n, tol, type[j]);
+            }
         }
     }
 
@@ -425,16 +317,11 @@ public abstract class RealTransformerAbstractTest {
      */
 
     private void doTestTransformReal(final int n, final double tol,
-        final boolean forward) {
+        final TransformType type) {
         final RealTransformer transformer = createRealTransformer();
         final double[] x = createRealData(n);
-        final double[] expected = transform(x, forward);
-        final double[] actual;
-        if (forward) {
-            actual = transformer.transform(x);
-        } else {
-            actual = transformer.inverseTransform(x);
-        }
+        final double[] expected = transform(x, type);
+        final double[] actual = transformer.transform(x, type);
         for (int i = 0; i < n; i++) {
             final String msg = String.format("%d, %d", n, i);
             final double delta = tol * FastMath.abs(expected[i]);
@@ -443,7 +330,7 @@ public abstract class RealTransformerAbstractTest {
     }
 
     private void doTestTransformFunction(final int n, final double tol,
-        final boolean forward) {
+        final TransformType type) {
         final RealTransformer transformer = createRealTransformer();
         final UnivariateFunction f = getValidFunction();
         final double a = getValidLowerBound();
@@ -453,13 +340,8 @@ public abstract class RealTransformerAbstractTest {
             final double t = a + i * (b - a) / n;
             x[i] = f.value(t);
         }
-        final double[] expected = transform(x, forward);
-        final double[] actual;
-        if (forward) {
-            actual = transformer.transform(f, a, b, n);
-        } else {
-            actual = transformer.inverseTransform(f, a, b, n);
-        }
+        final double[] expected = transform(x, type);
+        final double[] actual = transformer.transform(f, a, b, n, type);
         for (int i = 0; i < n; i++) {
             final String msg = String.format("%d, %d", n, i);
             final double delta = tol * FastMath.abs(expected[i]);

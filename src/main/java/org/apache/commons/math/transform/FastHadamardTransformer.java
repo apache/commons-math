@@ -21,8 +21,6 @@ import java.io.Serializable;
 import org.apache.commons.math.analysis.FunctionUtils;
 import org.apache.commons.math.analysis.UnivariateFunction;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
-import org.apache.commons.math.exception.NonMonotonicSequenceException;
-import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.ArithmeticUtils;
 
@@ -40,7 +38,7 @@ import org.apache.commons.math.util.ArithmeticUtils;
 public class FastHadamardTransformer implements RealTransformer, Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120501L;
+    static final long serialVersionUID = 20120211L;
 
     /**
      * {@inheritDoc}
@@ -48,60 +46,28 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public double[] transform(double[] f) throws MathIllegalArgumentException {
-        return fht(f);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
-     * @throws MathIllegalArgumentException if the number of sample points is
-     * not a power of two
-     */
-    public double[] transform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
-
-        return fht(FunctionUtils.sample(f, min, max, n));
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
-     */
-    public double[] inverseTransform(double[] f)
-        throws IllegalArgumentException {
-
+    public double[] transform(final double[] f, final TransformType type) {
+        if (type == TransformType.FORWARD) {
+            return fht(f);
+        }
         return TransformUtils.scaleArray(fht(f), 1.0 / f.length);
-   }
+    }
 
     /**
      * {@inheritDoc}
      *
-     * @throws NonMonotonicSequenceException if the lower bound is greater
-     * than, or equal to the upper bound
-     * @throws NotStrictlyPositiveException if the number of sample points is
-     * negative
+     * @throws org.apache.commons.math.exception.NonMonotonicSequenceException
+     * if the lower bound is greater than, or equal to the upper bound
+     * @throws org.apache.commons.math.exception.NotStrictlyPositiveException
+     * if the number of sample points is negative
      * @throws MathIllegalArgumentException if the number of sample points is
      * not a power of two
      */
-    public double[] inverseTransform(UnivariateFunction f,
-        double min, double max, int n) throws
-        NonMonotonicSequenceException,
-        NotStrictlyPositiveException,
-        MathIllegalArgumentException {
+    public double[] transform(final UnivariateFunction f,
+        final double min, final double max, final int n,
+        final TransformType type) {
 
-        final double[] unscaled =
-            fht(FunctionUtils.sample(f, min, max, n));
-        return TransformUtils.scaleArray(unscaled, 1.0 / n);
+        return transform(FunctionUtils.sample(f, min, max, n), type);
     }
 
     /**
@@ -114,7 +80,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * @throws MathIllegalArgumentException if the length of the data array is
      * not a power of two
      */
-    public int[] transform(int[] f) throws MathIllegalArgumentException {
+    public int[] transform(final int[] f) {
         return fht(f);
     }
 
