@@ -27,7 +27,7 @@ import org.apache.commons.math.linear.QRDecomposition;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
+import org.apache.commons.math.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math.optimization.PointVectorValuePair;
 
 /**
@@ -51,7 +51,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /**
      * Simple constructor with default settings.
      * The normal equations will be solved using LU decomposition and the
-     * convergence check is set to a {@link SimpleVectorialValueChecker}
+     * convergence check is set to a {@link SimpleVectorValueChecker}
      * with default tolerances.
      */
     public GaussNewtonOptimizer() {
@@ -70,7 +70,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleVectorialValueChecker}
+     * The convergence check is set to a {@link SimpleVectorValueChecker}
      * with default tolerances.
      *
      * @param useLU If {@code true}, the normal equations will be solved
@@ -78,7 +78,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      * decomposition.
      */
     public GaussNewtonOptimizer(final boolean useLU) {
-        this(useLU, new SimpleVectorialValueChecker());
+        this(useLU, new SimpleVectorValueChecker());
     }
 
     /**

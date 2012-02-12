@@ -101,7 +101,7 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true,
-                                     new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+                                     new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(16069223052l);
         RandomVectorGenerator generator =
@@ -136,7 +136,7 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
     public void testNoOptimum() {
         DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
             new GaussNewtonOptimizer(true,
-                                     new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
+                                     new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(12373523445l);
         RandomVectorGenerator generator =

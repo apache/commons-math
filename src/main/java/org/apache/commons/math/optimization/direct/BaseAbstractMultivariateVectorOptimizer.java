@@ -26,7 +26,7 @@ import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.BaseMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.PointVectorValuePair;
-import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
+import org.apache.commons.math.optimization.SimpleVectorValueChecker;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -55,11 +55,11 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleVectorialValueChecker} and
+     * The convergence check is set to a {@link SimpleVectorValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
     protected BaseAbstractMultivariateVectorOptimizer() {
-        this(new SimpleVectorialValueChecker());
+        this(new SimpleVectorValueChecker());
     }
     /**
      * @param checker Convergence checker.

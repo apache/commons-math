@@ -33,7 +33,7 @@ import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SingularMatrixException;
-import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
+import org.apache.commons.math.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
@@ -480,7 +480,7 @@ public class LevenbergMarquardtOptimizerTest {
             circle.addPoint(points[i][0], points[i][1]);
         }
         LevenbergMarquardtOptimizer optimizer
-            = new LevenbergMarquardtOptimizer(new SimpleVectorialValueChecker(1.0e-8, 1.0e-8));
+            = new LevenbergMarquardtOptimizer(new SimpleVectorValueChecker(1.0e-8, 1.0e-8));
         PointVectorValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
         Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
