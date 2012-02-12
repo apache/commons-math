@@ -24,7 +24,7 @@ package org.apache.commons.math.optimization;
  * user should provide a class implementing this interface to allow the optimization
  * algorithm to stop its search according to the problem at hand.</p>
  * <p>For convenience, two implementations that fit simple needs are already provided:
- * {@link SimpleVectorialValueChecker} and {@link SimpleVectorialPointChecker}. The first
+ * {@link SimpleVectorialValueChecker} and {@link SimplePointChecker<PointVectorValuePair>}. The first
  * one considers convergence is reached when the objective function value does not
  * change much anymore, it does not use the point set at all. The second one
  * considers convergence is reached when the input point set does not change

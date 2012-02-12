@@ -21,7 +21,7 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleRealPointChecker;
+import org.apache.commons.math.optimization.SimplePointChecker;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -79,7 +79,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
 
-        SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleRealPointChecker(1.0e-11, 1.0e-20));
+        SimplexOptimizer optimizer = new SimplexOptimizer(new SimplePointChecker<PointValuePair>(1.0e-11, 1.0e-20));
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
         final PointValuePair optimum
@@ -125,7 +125,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
                                                            biQuadratic.getUpper(),
                                                            1000.0, new double[] { 100.0, 100.0 });
 
-        SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleRealPointChecker(1.0e-10, 1.0e-20));
+        SimplexOptimizer optimizer = new SimplexOptimizer(new SimplePointChecker<PointValuePair>(1.0e-10, 1.0e-20));
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
         final PointValuePair optimum

@@ -18,6 +18,7 @@
 package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.util.FastMath;
+import org.apache.commons.math.util.Pair;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
@@ -28,15 +29,18 @@ import org.apache.commons.math.util.FastMath;
  * or if either the absolute difference between the point coordinates are
  * smaller than another threshold.
  *
+ * @param <PAIR> Type of the (point, value) pair.
+ * @param <V> Type of the "value" part of the pair (not used by this class).
+ *
  * @version $Id$
  * @since 3.0
  */
-public class SimpleRealPointChecker
-    extends AbstractConvergenceChecker<PointValuePair> {
+public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>
+    extends AbstractConvergenceChecker<PAIR> {
     /**
      * Build an instance with default threshold.
      */
-    public SimpleRealPointChecker() {}
+    public SimplePointChecker() {}
 
     /**
      * Build an instance with specified thresholds.
@@ -47,8 +51,8 @@ public class SimpleRealPointChecker
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public SimpleRealPointChecker(final double relativeThreshold,
-                                  final double absoluteThreshold) {
+    public SimplePointChecker(final double relativeThreshold,
+                              final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
     }
 
@@ -70,13 +74,15 @@ public class SimpleRealPointChecker
      */
     @Override
     public boolean converged(final int iteration,
-                             final PointValuePair previous,
-                             final PointValuePair current) {
-        final double[] p = previous.getPoint();
-        final double[] c = current.getPoint();
+                             final PAIR previous,
+                             final PAIR current) {
+        final double[] p = previous.getKey();
+        final double[] c = current.getKey();
         for (int i = 0; i < p.length; ++i) {
-            final double difference = FastMath.abs(p[i] - c[i]);
-            final double size = FastMath.max(FastMath.abs(p[i]), FastMath.abs(c[i]));
+            final double pi = p[i];
+            final double ci = c[i];
+            final double difference = FastMath.abs(pi - ci);
+            final double size = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));
             if (difference > size * getRelativeThreshold() &&
                 difference > getAbsoluteThreshold()) {
                 return false;
