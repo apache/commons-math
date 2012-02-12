@@ -17,13 +17,14 @@
 package org.apache.commons.math.stat.inference;
 
 import java.util.Collection;
-import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
@@ -38,7 +39,7 @@ import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 public class TestUtils  {
 
     /** Singleton TTest instance. */
-    private static final TTest T_TEST = new TTestImpl();
+    private static final TTest T_TEST = new TTest();
 
     /** Singleton ChiSquareTest instance. */
     private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTest();
@@ -58,168 +59,182 @@ public class TestUtils  {
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticT(double[], double[])
      */
-    public static double homoscedasticT(double[] sample1, double[] sample2)
-        throws IllegalArgumentException {
+    public static double homoscedasticT(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.homoscedasticT(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticT(org.apache.commons.math.stat.descriptive.StatisticalSummary, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double homoscedasticT(StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2)
-        throws IllegalArgumentException {
+    public static double homoscedasticT(final StatisticalSummary sampleStats1,
+                                        final StatisticalSummary sampleStats2)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.homoscedasticT(sampleStats1, sampleStats2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticTTest(double[], double[], double)
      */
-    public static boolean homoscedasticTTest(double[] sample1, double[] sample2,
-            double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean homoscedasticTTest(final double[] sample1, final double[] sample2,
+                                             final double alpha)
+        throws NullArgumentException, NumberIsTooSmallException,
+        OutOfRangeException, MaxCountExceededException {
         return T_TEST.homoscedasticTTest(sample1, sample2, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticTTest(double[], double[])
      */
-    public static double homoscedasticTTest(double[] sample1, double[] sample2)
-        throws IllegalArgumentException, MathException {
+    public static double homoscedasticTTest(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NumberIsTooSmallException, MaxCountExceededException {
         return T_TEST.homoscedasticTTest(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#homoscedasticTTest(org.apache.commons.math.stat.descriptive.StatisticalSummary, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double homoscedasticTTest(StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2)
-        throws IllegalArgumentException, MathException {
+    public static double homoscedasticTTest(final StatisticalSummary sampleStats1,
+                                            final StatisticalSummary sampleStats2)
+        throws NullArgumentException, NumberIsTooSmallException, MaxCountExceededException {
         return T_TEST.homoscedasticTTest(sampleStats1, sampleStats2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#pairedT(double[], double[])
      */
-    public static double pairedT(double[] sample1, double[] sample2)
-        throws IllegalArgumentException, MathException {
+    public static double pairedT(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NoDataException,
+        DimensionMismatchException, NumberIsTooSmallException {
         return T_TEST.pairedT(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#pairedTTest(double[], double[], double)
      */
-    public static boolean pairedTTest(double[] sample1, double[] sample2,
-        double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean pairedTTest(final double[] sample1, final double[] sample2,
+                                      final double alpha)
+        throws NullArgumentException, NoDataException, DimensionMismatchException,
+        NumberIsTooSmallException, OutOfRangeException, MaxCountExceededException {
         return T_TEST.pairedTTest(sample1, sample2, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#pairedTTest(double[], double[])
      */
-    public static double pairedTTest(double[] sample1, double[] sample2)
-        throws IllegalArgumentException, MathException {
+    public static double pairedTTest(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NoDataException, DimensionMismatchException,
+        NumberIsTooSmallException, MaxCountExceededException {
         return T_TEST.pairedTTest(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#t(double, double[])
      */
-    public static double t(double mu, double[] observed)
-        throws IllegalArgumentException {
+    public static double t(final double mu, final double[] observed)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.t(mu, observed);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#t(double, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double t(double mu, StatisticalSummary sampleStats)
-        throws IllegalArgumentException {
+    public static double t(final double mu, final StatisticalSummary sampleStats)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.t(mu, sampleStats);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#t(double[], double[])
      */
-    public static double t(double[] sample1, double[] sample2)
-        throws IllegalArgumentException {
+    public static double t(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.t(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#t(org.apache.commons.math.stat.descriptive.StatisticalSummary, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double t(StatisticalSummary sampleStats1,
-            StatisticalSummary sampleStats2)
-        throws IllegalArgumentException {
+    public static double t(final StatisticalSummary sampleStats1,
+                           final StatisticalSummary sampleStats2)
+        throws NullArgumentException, NumberIsTooSmallException {
         return T_TEST.t(sampleStats1, sampleStats2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double, double[], double)
      */
-    public static boolean tTest(double mu, double[] sample, double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean tTest(final double mu, final double[] sample, final double alpha)
+        throws NullArgumentException, NumberIsTooSmallException,
+        OutOfRangeException, MaxCountExceededException {
         return T_TEST.tTest(mu, sample, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double, double[])
      */
-    public static double tTest(double mu, double[] sample)
-        throws IllegalArgumentException, MathException {
+    public static double tTest(final double mu, final double[] sample)
+        throws NullArgumentException, NumberIsTooSmallException,
+        MaxCountExceededException {
         return T_TEST.tTest(mu, sample);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double, org.apache.commons.math.stat.descriptive.StatisticalSummary, double)
      */
-    public static boolean tTest(double mu, StatisticalSummary sampleStats,
-        double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean tTest(final double mu, final StatisticalSummary sampleStats,
+                                final double alpha)
+        throws NullArgumentException, NumberIsTooSmallException,
+        OutOfRangeException, MaxCountExceededException {
         return T_TEST.tTest(mu, sampleStats, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double tTest(double mu, StatisticalSummary sampleStats)
-        throws IllegalArgumentException, MathException {
+    public static double tTest(final double mu, final StatisticalSummary sampleStats)
+        throws NullArgumentException, NumberIsTooSmallException,
+        MaxCountExceededException {
         return T_TEST.tTest(mu, sampleStats);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double[], double[], double)
      */
-    public static boolean tTest(double[] sample1, double[] sample2, double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean tTest(final double[] sample1, final double[] sample2,
+                                final double alpha)
+        throws NullArgumentException, NumberIsTooSmallException,
+        OutOfRangeException, MaxCountExceededException {
         return T_TEST.tTest(sample1, sample2, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(double[], double[])
      */
-    public static double tTest(double[] sample1, double[] sample2)
-        throws IllegalArgumentException, MathException {
+    public static double tTest(final double[] sample1, final double[] sample2)
+        throws NullArgumentException, NumberIsTooSmallException,
+        MaxCountExceededException {
         return T_TEST.tTest(sample1, sample2);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(org.apache.commons.math.stat.descriptive.StatisticalSummary, org.apache.commons.math.stat.descriptive.StatisticalSummary, double)
      */
-    public static boolean tTest(StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2, double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean tTest(final StatisticalSummary sampleStats1,
+                                final StatisticalSummary sampleStats2,
+                                final double alpha)
+        throws NullArgumentException, NumberIsTooSmallException,
+        OutOfRangeException, MaxCountExceededException {
         return T_TEST.tTest(sampleStats1, sampleStats2, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.TTest#tTest(org.apache.commons.math.stat.descriptive.StatisticalSummary, org.apache.commons.math.stat.descriptive.StatisticalSummary)
      */
-    public static double tTest(StatisticalSummary sampleStats1,
-        StatisticalSummary sampleStats2)
-        throws IllegalArgumentException, MathException {
+    public static double tTest(final StatisticalSummary sampleStats1,
+                               final StatisticalSummary sampleStats2)
+        throws NullArgumentException, NumberIsTooSmallException,
+        MaxCountExceededException {
         return T_TEST.tTest(sampleStats1, sampleStats2);
     }
 

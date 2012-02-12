@@ -20,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.exception.DimensionMismatchException;
-import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
@@ -218,55 +219,55 @@ public class TestUtilsTest {
 
         try {
             TestUtils.t(mu, (double[]) null);
-            Assert.fail("arguments too short, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("arguments too short, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, (SummaryStatistics) null);
-            Assert.fail("arguments too short, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("arguments too short, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, emptyObs);
-            Assert.fail("arguments too short, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("arguments too short, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, emptyStats);
-            Assert.fail("arguments too short, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("arguments too short, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, tooShortObs);
-            Assert.fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data to compute t statistic, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
         try {
             TestUtils.tTest(mu, tooShortObs);
-            Assert.fail("insufficient data to perform t test, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data to perform t test, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.t(mu, (SummaryStatistics) null);
-            Assert.fail("insufficient data to compute t statistic, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data to compute t statistic, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
         try {
             TestUtils.tTest(mu, (SummaryStatistics) null);
-            Assert.fail("insufficient data to perform t test, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data to perform t test, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
@@ -295,15 +296,15 @@ public class TestUtilsTest {
 
         try {
             TestUtils.tTest(0d, oneSidedP, 95);
-            Assert.fail("alpha out of range, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("alpha out of range, OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(0d, oneSidedPStats, 95);
-            Assert.fail("alpha out of range, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("alpha out of range, OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected
         }
 
@@ -342,57 +343,57 @@ public class TestUtilsTest {
 
         try {
             TestUtils.tTest(sample1, sample2, .95);
-            Assert.fail("alpha out of range, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("alpha out of range, OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, sampleStats2, .95);
-            Assert.fail("alpha out of range, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("alpha out of range, OutOfRangeException expected");
+        } catch (OutOfRangeException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sample1, tooShortObs, .01);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, (SummaryStatistics) null, .01);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sample1, tooShortObs);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.tTest(sampleStats1, (SummaryStatistics) null);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
 
         try {
             TestUtils.t(sample1, tooShortObs);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NumberIsTooSmallException expected");
+        } catch (NumberIsTooSmallException ex) {
             // expected
         }
 
         try {
             TestUtils.t(sampleStats1, (SummaryStatistics) null);
-            Assert.fail("insufficient data, MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("insufficient data, NullArgumentException expected");
+        } catch (NullArgumentException ex) {
             // expected
         }
     }
