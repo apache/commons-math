@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.BaseMultivariateVectorOptimizer;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 
 /**
@@ -43,7 +43,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
     /** Convergence checker. */
-    private ConvergenceChecker<VectorialPointValuePair> checker;
+    private ConvergenceChecker<PointVectorValuePair> checker;
     /** Target value for the objective functions at optimum. */
     private double[] target;
     /** Weight for the least squares cost computation. */
@@ -64,7 +64,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+    protected BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {
         this.checker = checker;
     }
 
@@ -79,7 +79,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
         return checker;
     }
 
@@ -101,7 +101,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     }
 
     /** {@inheritDoc} */
-    public VectorialPointValuePair optimize(int maxEval, FUNC f, double[] t, double[] w,
+    public PointVectorValuePair optimize(int maxEval, FUNC f, double[] t, double[] w,
                                             double[] startPoint) {
         // Checks.
         if (f == null) {
@@ -147,7 +147,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * @return the point/value pair giving the optimal value for the
      * objective function.
      */
-    protected abstract VectorialPointValuePair doOptimize();
+    protected abstract PointVectorValuePair doOptimize();
 
     /**
      * @return a reference to the {@link #target array}.

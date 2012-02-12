@@ -30,7 +30,7 @@ package org.apache.commons.math.optimization;
  * @since 3.0
  */
 public class SimpleVectorialPointChecker
-    extends AbstractConvergenceChecker<VectorialPointValuePair> {
+    extends AbstractConvergenceChecker<PointVectorValuePair> {
     /**
      * Build an instance with default threshold.
      */
@@ -69,8 +69,8 @@ public class SimpleVectorialPointChecker
      */
     @Override
     public boolean converged(final int iteration,
-                             final VectorialPointValuePair previous,
-                             final VectorialPointValuePair current) {
+                             final PointVectorValuePair previous,
+                             final PointVectorValuePair current) {
         final double[] p = previous.getPointRef();
         final double[] c = current.getPointRef();
         for (int i = 0; i < p.length; ++i) {

@@ -33,7 +33,7 @@ import org.apache.commons.math.analysis.MultivariateVectorFunction;
  * @since 3.0
  */
 public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction>
-    extends BaseOptimizer<VectorialPointValuePair> {
+    extends BaseOptimizer<PointVectorValuePair> {
     /**
      * Optimize an objective function.
      * Optimization is considered to be a weighted least-squares minimization.
@@ -54,6 +54,6 @@ public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVector
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
      */
-    VectorialPointValuePair optimize(int maxEval, FUNC f, double[] target,
+    PointVectorValuePair optimize(int maxEval, FUNC f, double[] target,
                                      double[] weight, double[] startPoint);
 }

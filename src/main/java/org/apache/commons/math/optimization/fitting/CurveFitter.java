@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction
 import org.apache.commons.math.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
  * <p>When a univariate real function y = f(x) does depend on some
@@ -154,7 +154,7 @@ public class CurveFitter {
         }
 
         // perform the fit
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(maxEval, new TheoreticalValuesFunction(f),
                                target, weights, initialGuess);
 

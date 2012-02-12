@@ -28,7 +28,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.SingularMatrixException;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 
 /**
  * Gauss-Newton least-squares solver.
@@ -64,7 +64,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      *
      * @param checker Convergence checker.
      */
-    public GaussNewtonOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+    public GaussNewtonOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {
         this(true, checker);
     }
 
@@ -88,29 +88,29 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      * @param checker Convergence checker.
      */
     public GaussNewtonOptimizer(final boolean useLU,
-                                ConvergenceChecker<VectorialPointValuePair> checker) {
+                                ConvergenceChecker<PointVectorValuePair> checker) {
         super(checker);
         this.useLU = useLU;
     }
 
     /** {@inheritDoc} */
     @Override
-    public VectorialPointValuePair doOptimize() {
+    public PointVectorValuePair doOptimize() {
 
-        final ConvergenceChecker<VectorialPointValuePair> checker
+        final ConvergenceChecker<PointVectorValuePair> checker
             = getConvergenceChecker();
 
         // iterate until convergence is reached
-        VectorialPointValuePair current = null;
+        PointVectorValuePair current = null;
         int iter = 0;
         for (boolean converged = false; !converged;) {
             ++iter;
 
             // evaluate the objective function and its jacobian
-            VectorialPointValuePair previous = current;
+            PointVectorValuePair previous = current;
             updateResidualsAndCost();
             updateJacobian();
-            current = new VectorialPointValuePair(point, objective);
+            current = new PointVectorValuePair(point, objective);
 
             final double[] targetValues = getTargetRef();
             final double[] residualsWeights = getWeightRef();

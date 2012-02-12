@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.util.Precision;
 import org.apache.commons.math.util.FastMath;
@@ -166,7 +166,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      *
      * @param checker Convergence checker.
      */
-    public LevenbergMarquardtOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+    public LevenbergMarquardtOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {
         this(100, checker, 1e-10, 1e-10, 1e-10, Precision.SAFE_MIN);
     }
 
@@ -193,7 +193,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * of the matrix is reduced.
      */
     public LevenbergMarquardtOptimizer(double initialStepBoundFactor,
-                                       ConvergenceChecker<VectorialPointValuePair> checker,
+                                       ConvergenceChecker<PointVectorValuePair> checker,
                                        double costRelativeTolerance,
                                        double parRelativeTolerance,
                                        double orthoTolerance,
@@ -269,7 +269,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    protected VectorialPointValuePair doOptimize() {
+    protected PointVectorValuePair doOptimize() {
         // arrays shared with the other private methods
         solvedCols  = FastMath.min(rows, cols);
         diagR       = new double[cols];
@@ -296,9 +296,9 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
         // outer loop
         lmPar = 0;
         boolean firstIteration = true;
-        VectorialPointValuePair current = new VectorialPointValuePair(point, objective);
+        PointVectorValuePair current = new PointVectorValuePair(point, objective);
         int iter = 0;
-        final ConvergenceChecker<VectorialPointValuePair> checker = getConvergenceChecker();
+        final ConvergenceChecker<PointVectorValuePair> checker = getConvergenceChecker();
         while (true) {
             ++iter;
 
@@ -307,7 +307,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             }
 
             // compute the Q.R. decomposition of the jacobian matrix
-            VectorialPointValuePair previous = current;
+            PointVectorValuePair previous = current;
             updateJacobian();
             qrDecomposition();
 
@@ -357,7 +357,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             if (maxCosine <= orthoTolerance) {
                 // convergence has been reached
                 updateResidualsAndCost();
-                current = new VectorialPointValuePair(point, objective);
+                current = new PointVectorValuePair(point, objective);
                 return current;
             }
 
@@ -457,7 +457,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                         xNorm += xK * xK;
                     }
                     xNorm = FastMath.sqrt(xNorm);
-                    current = new VectorialPointValuePair(point, objective);
+                    current = new PointVectorValuePair(point, objective);
 
                     // tests for convergence.
                     if (checker != null) {

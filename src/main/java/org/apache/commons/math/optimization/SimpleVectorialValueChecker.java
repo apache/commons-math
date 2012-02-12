@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 3.0
  */
 public class SimpleVectorialValueChecker
-    extends AbstractConvergenceChecker<VectorialPointValuePair> {
+    extends AbstractConvergenceChecker<PointVectorValuePair> {
     /**
      * Build an instance with default thresholds.
      */
@@ -71,8 +71,8 @@ public class SimpleVectorialValueChecker
      */
     @Override
     public boolean converged(final int iteration,
-                             final VectorialPointValuePair previous,
-                             final VectorialPointValuePair current) {
+                             final PointVectorValuePair previous,
+                             final PointVectorValuePair current) {
         final double[] p = previous.getValueRef();
         final double[] c = current.getValueRef();
         for (int i = 0; i < p.length; ++i) {

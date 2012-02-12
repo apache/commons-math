@@ -27,7 +27,7 @@ import org.apache.commons.math.linear.DecompositionSolver;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.optimization.direct.BaseAbstractMultivariateVectorOptimizer;
 import org.apache.commons.math.util.FastMath;
 
@@ -89,7 +89,7 @@ public abstract class AbstractLeastSquaresOptimizer
     /**
      * @param checker Convergence checker.
      */
-    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {
+    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {
         super(checker);
     }
 
@@ -252,7 +252,7 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public VectorialPointValuePair optimize(int maxEval,
+    public PointVectorValuePair optimize(int maxEval,
                                             final DifferentiableMultivariateVectorFunction f,
                                             final double[] target, final double[] weights,
                                             final double[] startPoint) {

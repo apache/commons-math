@@ -53,7 +53,7 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
     /** Random generator for multi-start. */
     private RandomVectorGenerator generator;
     /** Found optima. */
-    private VectorialPointValuePair[] optima;
+    private PointVectorValuePair[] optima;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.
@@ -110,7 +110,7 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
      * #optimize(int,MultivariateVectorFunction,double[],double[],double[]) optimize} has not been
      * called.
      */
-    public VectorialPointValuePair[] getOptima() {
+    public PointVectorValuePair[] getOptima() {
         if (optima == null) {
             throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
@@ -128,19 +128,19 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }
 
     /**
      * {@inheritDoc}
      */
-    public VectorialPointValuePair optimize(int maxEval, final FUNC f,
+    public PointVectorValuePair optimize(int maxEval, final FUNC f,
                                             double[] target, double[] weights,
                                             double[] startPoint) {
         maxEvaluations = maxEval;
         RuntimeException lastException = null;
-        optima = new VectorialPointValuePair[starts];
+        optima = new PointVectorValuePair[starts];
         totalEvaluations = 0;
 
         // Multi-start loop.
@@ -179,9 +179,9 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
      */
     private void sortPairs(final double[] target,
                            final double[] weights) {
-        Arrays.sort(optima, new Comparator<VectorialPointValuePair>() {
-                public int compare(final VectorialPointValuePair o1,
-                                   final VectorialPointValuePair o2) {
+        Arrays.sort(optima, new Comparator<PointVectorValuePair>() {
+                public int compare(final PointVectorValuePair o1,
+                                   final PointVectorValuePair o2) {
                     if (o1 == null) {
                         return (o2 == null) ? 0 : 1;
                     } else if (o2 == null) {
@@ -189,7 +189,7 @@ public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends Multivariate
                     }
                     return Double.compare(weightedResidual(o1), weightedResidual(o2));
                 }
-                private double weightedResidual(final VectorialPointValuePair pv) {
+                private double weightedResidual(final PointVectorValuePair pv) {
                     final double[] value = pv.getValueRef();
                     double sum = 0;
                     for (int i = 0; i < value.length; ++i) {

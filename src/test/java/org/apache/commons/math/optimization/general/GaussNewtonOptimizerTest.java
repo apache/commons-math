@@ -30,7 +30,7 @@ import org.apache.commons.math.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math.linear.BlockRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -107,7 +107,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
@@ -124,7 +124,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         Assert.assertEquals(7.0, optimum.getPoint()[0], 1.0e-10);
@@ -149,7 +149,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -170,7 +170,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         Assert.assertEquals(1.0, optimum.getPoint()[0], 1.0e-10);
@@ -194,7 +194,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1, 1, 1, 1 },
                                new double[] { 0, 0, 0, 0, 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -234,7 +234,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum1 =
+        PointVectorValuePair optimum1 =
             optimizer.optimize(100, problem1, problem1.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -249,7 +249,7 @@ public class GaussNewtonOptimizerTest {
                 {  8.00, 5.98, 9.89, 9.00 },
                 {  6.99, 4.99, 9.00, 9.98 }
         }, new double[] { 32, 23, 33, 31 });
-        VectorialPointValuePair optimum2 =
+        PointVectorValuePair optimum2 =
             optimizer.optimize(100, problem2, problem2.target, new double[] { 1, 1, 1, 1 },
                                new double[] { 0, 1, 2, 3 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -304,7 +304,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 },
                                new double[] { 1, 1 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
@@ -336,7 +336,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         Assert.assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
@@ -355,7 +355,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1, 1 }, new double[] { 0, 0 });
         Assert.assertEquals(0, optimizer.getRMS(), 1.0e-10);
         Assert.assertEquals(-1, optimum.getPoint()[0], 1.0e-10);
@@ -395,7 +395,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-13, 1.0e-13));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 },
                                new double[] { 1, 1, 1, 1, 1 },
                                new double[] { 98.680, 47.345 });
@@ -439,7 +439,7 @@ public class GaussNewtonOptimizerTest {
         GaussNewtonOptimizer optimizer
             = new GaussNewtonOptimizer(new SimpleVectorialValueChecker(1.0e-6, 1.0e-6));
 
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { 0, 0 });
         Assert.assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1.0e-6);
         Assert.assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1.0e-6);

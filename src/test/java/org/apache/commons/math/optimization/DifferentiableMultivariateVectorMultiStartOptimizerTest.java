@@ -117,11 +117,11 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
         } catch (MathIllegalStateException ise) {
             // expected
         }
-        VectorialPointValuePair optimum =
+        PointVectorValuePair optimum =
             optimizer.optimize(100, problem, problem.target, new double[] { 1 }, new double[] { 0 });
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(3.0, optimum.getValue()[0], 1.0e-10);
-        VectorialPointValuePair[] optima = optimizer.getOptima();
+        PointVectorValuePair[] optima = optimizer.getOptima();
         Assert.assertEquals(10, optima.length);
         for (int i = 0; i < optima.length; ++i) {
             Assert.assertEquals(1.5, optima[i].getPoint()[0], 1.0e-10);

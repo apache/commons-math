@@ -20,15 +20,15 @@ package org.apache.commons.math.optimization;
 import org.apache.commons.math.util.Pair;
 
 /**
- * This class holds a point and the value of an objective function at
+ * This class holds a point and the vectorial value of an objective function at
  * that point.
  *
- * @see PointVectorValuePair
- * @see org.apache.commons.math.analysis.MultivariateFunction
+ * @see PointValuePair
+ * @see org.apache.commons.math.analysis.MultivariateVectorFunction
  * @version $Id$
  * @since 3.0
  */
-public class PointValuePair extends Pair<double[], Double> {
+public class PointVectorValuePair extends Pair<double[], double[]> {
     /**
      * Builds a point/objective function value pair.
      *
@@ -36,25 +36,29 @@ public class PointValuePair extends Pair<double[], Double> {
      * a copy of the array, not the array passed as argument.
      * @param value Value of the objective function at the point.
      */
-    public PointValuePair(final double[] point,
-                          final double value) {
+    public PointVectorValuePair(final double[] point,
+                                final double[] value) {
         this(point, value, true);
     }
 
     /**
-     * Builds a point/objective function value pair.
+     * Build a point/objective function value pair.
      *
      * @param point Point coordinates.
      * @param value Value of the objective function at the point.
-     * @param copyArray if {@code true}, the input array will be copied,
-     * otherwise it will be referenced.
+     * @param copyArray if {@code true}, the input arrays will be copied,
+     * otherwise they will be referenced.
      */
-    public PointValuePair(final double[] point,
-                          final double value,
-                          final boolean copyArray) {
-        super(copyArray ? ((point == null) ? null :
-                           point.clone()) :
+    public PointVectorValuePair(final double[] point,
+                                final double[] value,
+                                final boolean copyArray) {
+        super(copyArray ?
+              ((point == null) ? null :
+               point.clone()) :
               point,
+              copyArray ?
+              ((value == null) ? null :
+               value.clone()) :
               value);
     }
 
@@ -75,5 +79,26 @@ public class PointValuePair extends Pair<double[], Double> {
      */
     public double[] getPointRef() {
         return getKey();
+    }
+
+    /**
+     * Gets the value of the objective function.
+     *
+     * @return a copy of the stored value of the objective function.
+     */
+    @Override
+    public double[] getValue() {
+        final double[] v = super.getValue();
+        return v == null ? null : v.clone();
+    }
+
+    /**
+     * Gets a reference to the value of the objective function.
+     *
+     * @return a reference to the internal array storing the value of
+     * the objective function.
+     */
+    public double[] getValueRef() {
+        return super.getValue();
     }
 }

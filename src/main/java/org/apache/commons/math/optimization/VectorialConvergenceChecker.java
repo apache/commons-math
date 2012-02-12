@@ -50,6 +50,6 @@ public interface VectorialConvergenceChecker {
    * @param current point from current iteration
    * @return true if the algorithm is considered to have converged
    */
-  boolean converged(int iteration, VectorialPointValuePair previous, VectorialPointValuePair current);
+  boolean converged(int iteration, PointVectorValuePair previous, PointVectorValuePair current);
 
 }

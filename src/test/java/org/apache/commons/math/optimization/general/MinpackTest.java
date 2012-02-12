@@ -24,7 +24,7 @@ import java.util.Arrays;
 import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math.optimization.VectorialPointValuePair;
+import org.apache.commons.math.optimization.PointVectorValuePair;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -509,7 +509,7 @@ public class MinpackTest {
                                             2.22044604926e-16);
 //      Assert.assertTrue(function.checkTheoreticalStartCost(optimizer.getRMS()));
       try {
-          VectorialPointValuePair optimum =
+          PointVectorValuePair optimum =
               optimizer.optimize(400 * (function.getN() + 1), function,
                                  function.getTarget(), function.getWeight(),
                                  function.getStartPoint());
@@ -579,7 +579,7 @@ public class MinpackTest {
           Assert.assertEquals(theoreticalMinCost, FastMath.sqrt(m) * rms, threshold);
       }
 
-      public void checkTheoreticalMinParams(VectorialPointValuePair optimum) {
+      public void checkTheoreticalMinParams(PointVectorValuePair optimum) {
           double[] params = optimum.getPointRef();
           if (theoreticalMinParams != null) {
               for (int i = 0; i < theoreticalMinParams.length; ++i) {
