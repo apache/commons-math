@@ -31,7 +31,6 @@ import org.apache.commons.math.distribution.RealDistribution;
 import org.apache.commons.math.linear.FieldMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
-import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.Precision;
 import org.junit.Assert;
@@ -357,7 +356,7 @@ public class TestUtils {
      * @param alpha significance level of the test
      */
     public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) throws Exception {
-        ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
+        ChiSquareTest chiSquareTest = new ChiSquareTest();
 
         // Fail if we can reject null hypothesis that distributions are the same
         if (chiSquareTest.chiSquareTest(expected, observed, alpha)) {

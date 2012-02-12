@@ -21,8 +21,11 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.exception.ConvergenceException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MaxCountExceededException;
+import org.apache.commons.math.exception.NotPositiveException;
+import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.OutOfRangeException;
+import org.apache.commons.math.exception.ZeroException;
 import org.apache.commons.math.stat.descriptive.StatisticalSummary;
 
 /**
@@ -38,21 +41,10 @@ public class TestUtils  {
     private static final TTest T_TEST = new TTestImpl();
 
     /** Singleton ChiSquareTest instance. */
-    private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTestImpl();
-
-    /** Singleton ChiSquareTest instance. */
-    private static final UnknownDistributionChiSquareTest UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST =
-        new ChiSquareTestImpl();
+    private static final ChiSquareTest CHI_SQUARE_TEST = new ChiSquareTest();
 
     /** Singleton OneWayAnova instance. */
     private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnova();
-
-    /** Singleton MannWhitneyUTest instance using default ranking. */
-    private static final MannWhitneyUTest MANN_WHITNEY_U_TEST = new MannWhitneyUTest();
-
-    /** Singleton WilcoxonSignedRankTest instance. */
-    private static final WilcoxonSignedRankTest WILCOXON_SIGNED_RANK_TEST =
-        new WilcoxonSignedRankTest();
 
     /**
      * Prevent instantiation.
@@ -234,49 +226,55 @@ public class TestUtils  {
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquare(double[], long[])
      */
-    public static double chiSquare(double[] expected, long[] observed)
-        throws IllegalArgumentException {
+    public static double chiSquare(final double[] expected, final long[] observed)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException {
         return CHI_SQUARE_TEST.chiSquare(expected, observed);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquare(long[][])
      */
-    public static double chiSquare(long[][] counts)
-        throws IllegalArgumentException {
+    public static double chiSquare(final long[][] counts)
+        throws NullArgumentException, NotPositiveException,
+        DimensionMismatchException {
         return CHI_SQUARE_TEST.chiSquare(counts);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTest(double[], long[], double)
      */
-    public static boolean chiSquareTest(double[] expected, long[] observed,
-        double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean chiSquareTest(final double[] expected, final long[] observed,
+                                        final double alpha)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException, OutOfRangeException, MaxCountExceededException {
         return CHI_SQUARE_TEST.chiSquareTest(expected, observed, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTest(double[], long[])
      */
-    public static double chiSquareTest(double[] expected, long[] observed)
-        throws IllegalArgumentException, MathException {
+    public static double chiSquareTest(final double[] expected, final long[] observed)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException, MaxCountExceededException {
         return CHI_SQUARE_TEST.chiSquareTest(expected, observed);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTest(long[][], double)
      */
-    public static boolean chiSquareTest(long[][] counts, double alpha)
-        throws IllegalArgumentException, MathException {
+    public static boolean chiSquareTest(final long[][] counts, final double alpha)
+        throws NullArgumentException, DimensionMismatchException,
+        NotPositiveException, OutOfRangeException, MaxCountExceededException {
         return CHI_SQUARE_TEST.chiSquareTest(counts, alpha);
     }
 
     /**
      * @see org.apache.commons.math.stat.inference.ChiSquareTest#chiSquareTest(long[][])
      */
-    public static double chiSquareTest(long[][] counts)
-        throws IllegalArgumentException, MathException {
+    public static double chiSquareTest(final long[][] counts)
+        throws NullArgumentException, DimensionMismatchException,
+        NotPositiveException, MaxCountExceededException {
         return CHI_SQUARE_TEST.chiSquareTest(counts);
     }
 
@@ -285,9 +283,10 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static double chiSquareDataSetsComparison(long[] observed1, long[] observed2)
-        throws IllegalArgumentException {
-        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareDataSetsComparison(observed1, observed2);
+    public static double chiSquareDataSetsComparison(final long[] observed1,
+                                                     final long[] observed2)
+        throws DimensionMismatchException, NotPositiveException, ZeroException {
+        return CHI_SQUARE_TEST.chiSquareDataSetsComparison(observed1, observed2);
     }
 
     /**
@@ -295,21 +294,24 @@ public class TestUtils  {
      *
      * @since 1.2
      */
-    public static double chiSquareTestDataSetsComparison(long[] observed1, long[] observed2)
-        throws IllegalArgumentException, MathException {
-        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2);
+    public static double chiSquareTestDataSetsComparison(final long[] observed1,
+                                                         final long[] observed2)
+        throws DimensionMismatchException, NotPositiveException, ZeroException,
+        MaxCountExceededException {
+        return CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2);
     }
-
 
     /**
      * @see org.apache.commons.math.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      *
      * @since 1.2
      */
-    public static boolean chiSquareTestDataSetsComparison(long[] observed1, long[] observed2,
-        double alpha)
-        throws IllegalArgumentException, MathException {
-        return UNKNOWN_DISTRIBUTION_CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
+    public static boolean chiSquareTestDataSetsComparison(final long[] observed1,
+                                                          final long[] observed2,
+                                                          final double alpha)
+        throws DimensionMismatchException, NotPositiveException,
+        ZeroException, OutOfRangeException, MaxCountExceededException {
+        return CHI_SQUARE_TEST.chiSquareTestDataSetsComparison(observed1, observed2, alpha);
     }
 
     /**

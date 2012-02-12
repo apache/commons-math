@@ -45,7 +45,6 @@ import org.apache.commons.math.distribution.ZipfDistributionTest;
 import org.apache.commons.math.stat.Frequency;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math.stat.inference.ChiSquareTest;
-import org.apache.commons.math.stat.inference.ChiSquareTestImpl;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.junit.Assert;
@@ -73,7 +72,7 @@ public class RandomDataTest {
     private final String[] hex = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "a", "b", "c", "d", "e", "f" };
     protected RandomDataImpl randomData = null;
-    protected final ChiSquareTestImpl testStatistic = new ChiSquareTestImpl();
+    protected final ChiSquareTest testStatistic = new ChiSquareTest();
 
     @Test
     public void testNextIntExtremeValues() {
@@ -473,7 +472,7 @@ public class RandomDataTest {
         }
 
         // Use chisquare test to verify that generated values are poisson(mean)-distributed
-        ChiSquareTest chiSquareTest = new ChiSquareTestImpl();
+        ChiSquareTest chiSquareTest = new ChiSquareTest();
             // Fail if we can reject null hypothesis that distributions are the same
         if (chiSquareTest.chiSquareTest(expected, observed, alpha)) {
             StringBuilder msgBuffer = new StringBuilder();
