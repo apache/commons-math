@@ -34,7 +34,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
  * @since 3.0
  */
 public interface BaseMultivariateOptimizer<FUNC extends MultivariateFunction>
-    extends BaseOptimizer<RealPointValuePair> {
+    extends BaseOptimizer<PointValuePair> {
     /**
      * Optimize an objective function.
      *
@@ -52,6 +52,6 @@ public interface BaseMultivariateOptimizer<FUNC extends MultivariateFunction>
      * @throws org.apache.commons.math.exception.NullArgumentException if
      * any argument is {@code null}.
      */
-    RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                 double[] startPoint);
 }

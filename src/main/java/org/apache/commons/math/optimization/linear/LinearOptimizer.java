@@ -21,7 +21,7 @@ import java.util.Collection;
 
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 
 /**
  * This interface represents an optimization algorithm for linear problems.
@@ -82,7 +82,7 @@ public interface LinearOptimizer {
      * @exception MathIllegalStateException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
-   RealPointValuePair optimize(LinearObjectiveFunction f, Collection<LinearConstraint> constraints,
+   PointValuePair optimize(LinearObjectiveFunction f, Collection<LinearConstraint> constraints,
                                GoalType goalType, boolean restrictToNonNegative)
         throws MathIllegalStateException;
 

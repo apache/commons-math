@@ -34,7 +34,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomGenerator;
@@ -303,7 +303,7 @@ public class CMAESOptimizer
                           double[][] boundaries, int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
                           RandomGenerator random, boolean generateStatistics,
-                          ConvergenceChecker<RealPointValuePair> checker) {
+                          ConvergenceChecker<PointValuePair> checker) {
         super(checker);
         this.lambda = lambda;
         this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
@@ -356,7 +356,7 @@ public class CMAESOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected PointValuePair doOptimize() {
         checkParameters();
          // -------------------- Initialization --------------------------------
         isMinimize = getGoalType().equals(GoalType.MINIMIZE);
@@ -368,9 +368,9 @@ public class CMAESOptimizer
         iterations = 0;
         double bestValue = fitfun.value(guess);
         push(fitnessHistory, bestValue);
-        RealPointValuePair optimum = new RealPointValuePair(getStartPoint(),
+        PointValuePair optimum = new PointValuePair(getStartPoint(),
                 isMinimize ? bestValue : -bestValue);
-        RealPointValuePair lastResult = null;
+        PointValuePair lastResult = null;
 
         // -------------------- Generation Loop --------------------------------
 
@@ -425,7 +425,7 @@ public class CMAESOptimizer
                 if (bestValue > bestFitness) {
                     bestValue = bestFitness;
                     lastResult = optimum;
-                    optimum = new RealPointValuePair(
+                    optimum = new PointValuePair(
                             fitfun.decode(bestArx.getColumn(0)),
                             isMinimize ? bestFitness : -bestFitness);
                     if (getConvergenceChecker() != null && lastResult != null) {
@@ -472,8 +472,8 @@ public class CMAESOptimizer
                 }
                 // user defined termination
                 if (getConvergenceChecker() != null) {
-                    RealPointValuePair current =
-                        new RealPointValuePair(bestArx.getColumn(0),
+                    PointValuePair current =
+                        new PointValuePair(bestArx.getColumn(0),
                                 isMinimize ? bestFitness : -bestFitness);
                     if (lastResult != null &&
                         getConvergenceChecker().converged(iterations, current, lastResult)) {

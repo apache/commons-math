@@ -24,12 +24,12 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.exception.NotStrictlyPositiveException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
 import org.apache.commons.math.optimization.univariate.BracketFinder;
 import org.apache.commons.math.optimization.univariate.BrentOptimizer;
-import org.apache.commons.math.optimization.univariate.UnivariateRealPointValuePair;
+import org.apache.commons.math.optimization.univariate.UnivariatePointValuePair;
 
 /**
  * Powell algorithm.
@@ -78,7 +78,7 @@ public class PowellOptimizer
      */
     public PowellOptimizer(double rel,
                            double abs,
-                           ConvergenceChecker<RealPointValuePair> checker) {
+                           ConvergenceChecker<PointValuePair> checker) {
         super(checker);
 
         if (rel < MIN_RELATIVE_TOLERANCE) {
@@ -114,7 +114,7 @@ public class PowellOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected PointValuePair doOptimize() {
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -124,7 +124,7 @@ public class PowellOptimizer
             direc[i][i] = 1;
         }
 
-        final ConvergenceChecker<RealPointValuePair> checker
+        final ConvergenceChecker<PointValuePair> checker
             = getConvergenceChecker();
 
         double[] x = guess;
@@ -145,7 +145,7 @@ public class PowellOptimizer
 
                 fX2 = fVal;
 
-                final UnivariateRealPointValuePair optimum = line.search(x, d);
+                final UnivariatePointValuePair optimum = line.search(x, d);
                 fVal = optimum.getValue();
                 alphaMin = optimum.getPoint();
                 final double[][] result = newPointAndDirection(x, d, alphaMin);
@@ -162,8 +162,8 @@ public class PowellOptimizer
                 (relativeThreshold * (FastMath.abs(fX) + FastMath.abs(fVal)) +
                  absoluteThreshold);
 
-            final RealPointValuePair previous = new RealPointValuePair(x1, fX);
-            final RealPointValuePair current = new RealPointValuePair(x, fVal);
+            final PointValuePair previous = new PointValuePair(x1, fX);
+            final PointValuePair current = new PointValuePair(x, fVal);
             if (!stop) { // User-defined stopping criteria.
                 if (checker != null) {
                     stop = checker.converged(iter, previous, current);
@@ -195,7 +195,7 @@ public class PowellOptimizer
                 t -= delta * temp * temp;
 
                 if (t < 0.0) {
-                    final UnivariateRealPointValuePair optimum = line.search(x, d);
+                    final UnivariatePointValuePair optimum = line.search(x, d);
                     fVal = optimum.getValue();
                     alphaMin = optimum.getPoint();
                     final double[][] result = newPointAndDirection(x, d, alphaMin);
@@ -262,7 +262,7 @@ public class PowellOptimizer
          * @throws org.apache.commons.math.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
          */
-        public UnivariateRealPointValuePair search(final double[] p, final double[] d) {
+        public UnivariatePointValuePair search(final double[] p, final double[] d) {
             final int n = p.length;
             final UnivariateFunction f = new UnivariateFunction() {
                     public double value(double alpha) {

@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
 
@@ -100,7 +100,7 @@ public class SimplexOptimizer
     /**
      * @param checker Convergence checker.
      */
-    public SimplexOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    public SimplexOptimizer(ConvergenceChecker<PointValuePair> checker) {
         super(checker);
     }
 
@@ -123,7 +123,7 @@ public class SimplexOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected PointValuePair doOptimize() {
         if (simplex == null) {
             throw new NullArgumentException();
         }
@@ -138,10 +138,10 @@ public class SimplexOptimizer
             };
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
-        final Comparator<RealPointValuePair> comparator
-            = new Comparator<RealPointValuePair>() {
-            public int compare(final RealPointValuePair o1,
-                               final RealPointValuePair o2) {
+        final Comparator<PointValuePair> comparator
+            = new Comparator<PointValuePair>() {
+            public int compare(final PointValuePair o1,
+                               final PointValuePair o2) {
                 final double v1 = o1.getValue();
                 final double v2 = o2.getValue();
                 return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
@@ -152,14 +152,14 @@ public class SimplexOptimizer
         simplex.build(getStartPoint());
         simplex.evaluate(evalFunc, comparator);
 
-        RealPointValuePair[] previous = null;
+        PointValuePair[] previous = null;
         int iteration = 0;
-        final ConvergenceChecker<RealPointValuePair> checker = getConvergenceChecker();
+        final ConvergenceChecker<PointValuePair> checker = getConvergenceChecker();
         while (true) {
             if (iteration > 0) {
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
-                    RealPointValuePair prev = previous[i];
+                    PointValuePair prev = previous[i];
                     converged &= checker.converged(iteration, prev, simplex.getPoint(i));
                 }
                 if (converged) {

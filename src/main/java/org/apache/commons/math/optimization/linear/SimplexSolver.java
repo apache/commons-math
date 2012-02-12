@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.exception.MaxCountExceededException;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.util.Precision;
 
 
@@ -182,7 +182,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    public RealPointValuePair doOptimize()
+    public PointValuePair doOptimize()
         throws MaxCountExceededException, UnboundedSolutionException, NoFeasibleSolutionException {
         final SimplexTableau tableau =
             new SimplexTableau(function, linearConstraints, goal, nonNegative,

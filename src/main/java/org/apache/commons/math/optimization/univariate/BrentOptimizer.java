@@ -71,7 +71,7 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
      */
     public BrentOptimizer(double rel,
                           double abs,
-                          ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+                          ConvergenceChecker<UnivariatePointValuePair> checker) {
         super(checker);
 
         if (rel < MIN_RELATIVE_TOLERANCE) {
@@ -105,14 +105,14 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
 
     /** {@inheritDoc} */
     @Override
-    protected UnivariateRealPointValuePair doOptimize() {
+    protected UnivariatePointValuePair doOptimize() {
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final double lo = getMin();
         final double mid = getStartValue();
         final double hi = getMax();
 
         // Optional additional convergence criteria.
-        final ConvergenceChecker<UnivariateRealPointValuePair> checker
+        final ConvergenceChecker<UnivariatePointValuePair> checker
             = getConvergenceChecker();
 
         double a;
@@ -137,9 +137,9 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
         double fv = fx;
         double fw = fx;
 
-        UnivariateRealPointValuePair previous = null;
-        UnivariateRealPointValuePair current
-            = new UnivariateRealPointValuePair(x, isMinim ? fx : -fx);
+        UnivariatePointValuePair previous = null;
+        UnivariatePointValuePair current
+            = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
 
         int iter = 0;
         while (true) {
@@ -254,7 +254,7 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                 }
 
                 previous = current;
-                current = new UnivariateRealPointValuePair(x, isMinim ? fx : -fx);
+                current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
 
                 // User-defined convergence checker.
                 if (checker != null) {

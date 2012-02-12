@@ -28,7 +28,7 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.ArrayRealVector;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
 
 /**
@@ -231,7 +231,7 @@ public class BOBYQAOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
+    protected PointValuePair doOptimize() {
         final double[] lowerBound = getLowerBound();
         final double[] upperBound = getUpperBound();
 
@@ -243,7 +243,7 @@ public class BOBYQAOptimizer
 
         final double value = bobyqa(lowerBound, upperBound);
 
-        return new RealPointValuePair(currentBest.getDataRef(),
+        return new PointValuePair(currentBest.getDataRef(),
                                       isMinimize ? value : -value);
     }
 

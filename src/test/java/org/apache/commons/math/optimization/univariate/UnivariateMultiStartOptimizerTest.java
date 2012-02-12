@@ -38,7 +38,7 @@ public class UnivariateMultiStartOptimizerTest {
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
             new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 10, g);
         optimizer.optimize(300, f, GoalType.MINIMIZE, -100.0, 100.0);
-        UnivariateRealPointValuePair[] optima = optimizer.getOptima();
+        UnivariatePointValuePair[] optima = optimizer.getOptima();
         for (int i = 1; i < optima.length; ++i) {
             double d = (optima[i].getPoint() - optima[i-1].getPoint()) / (2 * FastMath.PI);
             Assert.assertTrue(FastMath.abs(d - FastMath.rint(d)) < 1.0e-8);
@@ -60,12 +60,12 @@ public class UnivariateMultiStartOptimizerTest {
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
             new UnivariateMultiStartOptimizer<UnivariateFunction>(underlying, 5, g);
 
-        UnivariateRealPointValuePair optimum
+        UnivariatePointValuePair optimum
             = optimizer.optimize(300, f, GoalType.MINIMIZE, -0.3, -0.2);
         Assert.assertEquals(-0.2719561293, optimum.getPoint(), 1e-9);
         Assert.assertEquals(-0.0443342695, optimum.getValue(), 1e-9);
 
-        UnivariateRealPointValuePair[] optima = optimizer.getOptima();
+        UnivariatePointValuePair[] optima = optimizer.getOptima();
         for (int i = 0; i < optima.length; ++i) {
             Assert.assertEquals(f.value(optima[i].getPoint()), optima[i].getValue(), 1e-9);
         }

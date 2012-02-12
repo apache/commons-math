@@ -32,7 +32,7 @@ import org.apache.commons.math.util.FastMath;
  * @since 3.0
  */
 public class SimpleScalarValueChecker
-    extends AbstractConvergenceChecker<RealPointValuePair> {
+    extends AbstractConvergenceChecker<PointValuePair> {
     /**
      * Build an instance with default thresholds.
      */
@@ -70,8 +70,8 @@ public class SimpleScalarValueChecker
      */
     @Override
     public boolean converged(final int iteration,
-                             final RealPointValuePair previous,
-                             final RealPointValuePair current) {
+                             final PointValuePair previous,
+                             final PointValuePair current) {
         final double p = previous.getValue();
         final double c = current.getValue();
         final double difference = FastMath.abs(p - c);

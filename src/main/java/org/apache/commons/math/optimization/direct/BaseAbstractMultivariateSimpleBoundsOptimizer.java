@@ -21,7 +21,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.BaseMultivariateOptimizer;
 import org.apache.commons.math.optimization.BaseMultivariateSimpleBoundsOptimizer;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
@@ -61,7 +61,7 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractMultivariateSimpleBoundsOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    protected BaseAbstractMultivariateSimpleBoundsOptimizer(ConvergenceChecker<PointValuePair> checker) {
         super(checker);
     }
 
@@ -80,13 +80,13 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                        double[] startPoint) {
         return optimize(maxEval, f, goalType, startPoint, null, null);
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                        double[] startPoint,
                                        double[] lower, double[] upper) {
         // Checks.

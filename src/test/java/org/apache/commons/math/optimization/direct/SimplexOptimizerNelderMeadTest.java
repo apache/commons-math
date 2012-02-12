@@ -25,7 +25,7 @@ import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.LeastSquaresConverter;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
         Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 2e-7);
         Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 2e-5);
@@ -52,7 +52,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(100, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 5e-6);
         Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 6e-6);
@@ -67,7 +67,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { -3, 0 });
         Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 1e-5);
         Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 3e-6);
@@ -82,7 +82,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(100, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 4e-6);
         Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 5e-6);
@@ -99,7 +99,7 @@ public class SimplexOptimizerNelderMeadTest {
         optimizer.setSimplex(new NelderMeadSimplex(new double[][] {
                     { -1.2,  1 }, { 0.9, 1.2 } , {  3.5, -2.3 }
                 }));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
 
         Assert.assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());
@@ -114,7 +114,7 @@ public class SimplexOptimizerNelderMeadTest {
         Powell powell = new Powell();
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
         optimizer.setSimplex(new NelderMeadSimplex(4));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(200, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
         Assert.assertEquals(powell.getCount(), optimizer.getEvaluations());
         Assert.assertTrue(optimizer.getEvaluations() > 110);
@@ -137,7 +137,7 @@ public class SimplexOptimizerNelderMeadTest {
             }, new double[] { 2.0, -3.0 });
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
         optimizer.setSimplex(new NelderMeadSimplex(2));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         Assert.assertEquals( 2, optimum.getPointRef()[0], 3e-5);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 4e-4);
@@ -161,7 +161,7 @@ public class SimplexOptimizerNelderMeadTest {
             }, new double[] { 2, -3 }, new double[] { 10, 0.1 });
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
         optimizer.setSimplex(new NelderMeadSimplex(2));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         Assert.assertEquals( 2, optimum.getPointRef()[0], 5e-5);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 8e-4);
@@ -187,7 +187,7 @@ public class SimplexOptimizerNelderMeadTest {
                 }));
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-6);
         optimizer.setSimplex(new NelderMeadSimplex(2));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(200, ls, GoalType.MINIMIZE, new double[] { 10, 10 });
         Assert.assertEquals( 2, optimum.getPointRef()[0], 2e-3);
         Assert.assertEquals(-3, optimum.getPointRef()[1], 8e-4);

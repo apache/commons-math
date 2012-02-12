@@ -58,7 +58,7 @@ public interface BaseMultivariateSimpleBoundsOptimizer<FUNC extends Multivariate
      * @throws org.apache.commons.math.exception.NumberIsTooLargeException if any
      * of the initial values is greater than its upper bound.
      */
-    RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                 double[] startPoint,
                                 double[] lowerBound, double[] upperBound);
 }

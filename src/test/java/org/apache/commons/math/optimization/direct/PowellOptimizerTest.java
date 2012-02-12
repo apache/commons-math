@@ -20,7 +20,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.analysis.SumSincFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -133,7 +133,7 @@ public class PowellOptimizerTest {
                         double pointTol) {
         final MultivariateOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d));
 
-        final RealPointValuePair result = optim.optimize(1000, func, goal, init);
+        final PointValuePair result = optim.optimize(1000, func, goal, init);
         final double[] found = result.getPoint();
 
         for (int i = 0, dim = optimum.length; i < dim; i++) {

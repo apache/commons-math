@@ -22,7 +22,7 @@ import java.util.Collection;
 import org.apache.commons.math.exception.MathIllegalStateException;
 import org.apache.commons.math.exception.MaxCountExceededException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 
 /**
  * Base class for implementing linear optimizers.
@@ -101,7 +101,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(final LinearObjectiveFunction f,
+    public PointValuePair optimize(final LinearObjectiveFunction f,
                                        final Collection<LinearConstraint> constraints,
                                        final GoalType goalType, final boolean restrictToNonNegative)
          throws MathIllegalStateException {
@@ -124,7 +124,7 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
      * @exception MathIllegalStateException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
-    protected abstract RealPointValuePair doOptimize()
+    protected abstract PointValuePair doOptimize()
         throws MathIllegalStateException;
 
 }

@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.MathIllegalArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 
 /**
  * This class implements the simplex concept.
@@ -49,7 +49,7 @@ import org.apache.commons.math.optimization.RealPointValuePair;
  */
 public abstract class AbstractSimplex {
     /** Simplex. */
-    private RealPointValuePair[] simplex;
+    private PointValuePair[] simplex;
     /** Start simplex configuration. */
     private double[][] startConfiguration;
     /** Simplex dimension (must be equal to {@code simplex.length - 1}). */
@@ -203,7 +203,7 @@ public abstract class AbstractSimplex {
      * if the algorithm fails to converge.
      */
     public abstract void iterate(final MultivariateFunction evaluationFunction,
-                                 final Comparator<RealPointValuePair> comparator);
+                                 final Comparator<PointValuePair> comparator);
 
     /**
      * Build an initial simplex.
@@ -218,8 +218,8 @@ public abstract class AbstractSimplex {
         }
 
         // Set first vertex.
-        simplex = new RealPointValuePair[dimension + 1];
-        simplex[0] = new RealPointValuePair(startPoint, Double.NaN);
+        simplex = new PointValuePair[dimension + 1];
+        simplex[0] = new PointValuePair(startPoint, Double.NaN);
 
         // Set remaining vertices.
         for (int i = 0; i < dimension; i++) {
@@ -228,7 +228,7 @@ public abstract class AbstractSimplex {
             for (int k = 0; k < dimension; k++) {
                 vertexI[k] = startPoint[k] + confI[k];
             }
-            simplex[i + 1] = new RealPointValuePair(vertexI, Double.NaN);
+            simplex[i + 1] = new PointValuePair(vertexI, Double.NaN);
         }
     }
 
@@ -241,13 +241,13 @@ public abstract class AbstractSimplex {
      * if the maximal number of evaluations is exceeded.
      */
     public void evaluate(final MultivariateFunction evaluationFunction,
-                         final Comparator<RealPointValuePair> comparator) {
+                         final Comparator<PointValuePair> comparator) {
         // Evaluate the objective function at all non-evaluated simplex points.
         for (int i = 0; i < simplex.length; i++) {
-            final RealPointValuePair vertex = simplex[i];
+            final PointValuePair vertex = simplex[i];
             final double[] point = vertex.getPointRef();
             if (Double.isNaN(vertex.getValue())) {
-                simplex[i] = new RealPointValuePair(point, evaluationFunction.value(point), false);
+                simplex[i] = new PointValuePair(point, evaluationFunction.value(point), false);
             }
         }
 
@@ -262,11 +262,11 @@ public abstract class AbstractSimplex {
      * @param comparator Comparator to use for sorting the simplex vertices
      * from best to worst.
      */
-    protected void replaceWorstPoint(RealPointValuePair pointValuePair,
-                                     final Comparator<RealPointValuePair> comparator) {
+    protected void replaceWorstPoint(PointValuePair pointValuePair,
+                                     final Comparator<PointValuePair> comparator) {
         for (int i = 0; i < dimension; i++) {
             if (comparator.compare(simplex[i], pointValuePair) > 0) {
-                RealPointValuePair tmp = simplex[i];
+                PointValuePair tmp = simplex[i];
                 simplex[i] = pointValuePair;
                 pointValuePair = tmp;
             }
@@ -279,8 +279,8 @@ public abstract class AbstractSimplex {
      *
      * @return all the simplex points.
      */
-    public RealPointValuePair[] getPoints() {
-        final RealPointValuePair[] copy = new RealPointValuePair[simplex.length];
+    public PointValuePair[] getPoints() {
+        final PointValuePair[] copy = new PointValuePair[simplex.length];
         System.arraycopy(simplex, 0, copy, 0, simplex.length);
         return copy;
     }
@@ -291,7 +291,7 @@ public abstract class AbstractSimplex {
      * @param index Location.
      * @return the point at location {@code index}.
      */
-    public RealPointValuePair getPoint(int index) {
+    public PointValuePair getPoint(int index) {
         if (index < 0 ||
             index >= simplex.length) {
             throw new OutOfRangeException(index, 0, simplex.length - 1);
@@ -306,7 +306,7 @@ public abstract class AbstractSimplex {
      * @param index Location.
      * @param point New value.
      */
-    protected void setPoint(int index, RealPointValuePair point) {
+    protected void setPoint(int index, PointValuePair point) {
         if (index < 0 ||
             index >= simplex.length) {
             throw new OutOfRangeException(index, 0, simplex.length - 1);
@@ -320,7 +320,7 @@ public abstract class AbstractSimplex {
      *
      * @param points New Points.
      */
-    protected void setPoints(RealPointValuePair[] points) {
+    protected void setPoints(PointValuePair[] points) {
         if (points.length != simplex.length) {
             throw new DimensionMismatchException(points.length, simplex.length);
         }

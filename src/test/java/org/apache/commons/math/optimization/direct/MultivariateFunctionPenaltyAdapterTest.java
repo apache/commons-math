@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleRealPointChecker;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(300, wrapped, GoalType.MINIMIZE, new double[] { 1.5, 2.25 });
 
         Assert.assertEquals(biQuadratic.getBoundedXOptimum(), optimum.getPoint()[0], 2e-7);
@@ -61,7 +61,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(300, wrapped, GoalType.MINIMIZE, new double[] { -1.5, 4.0 });
 
         Assert.assertEquals(biQuadratic.getBoundedXOptimum(), optimum.getPoint()[0], 2e-7);
@@ -82,7 +82,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleRealPointChecker(1.0e-11, 1.0e-20));
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(600, wrapped, GoalType.MINIMIZE, new double[] { -1.5, 4.0 });
 
         Assert.assertEquals(biQuadratic.getBoundedXOptimum(), optimum.getPoint()[0], 2e-7);
@@ -105,7 +105,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(300, wrapped, GoalType.MINIMIZE, new double[] { -1.5, 4.0 });
 
         Assert.assertEquals(biQuadratic.getBoundedXOptimum(), optimum.getPoint()[0], 2e-7);
@@ -128,7 +128,7 @@ public class MultivariateFunctionPenaltyAdapterTest {
         SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleRealPointChecker(1.0e-10, 1.0e-20));
         optimizer.setSimplex(new NelderMeadSimplex(new double[] { 1.0, 0.5 }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(400, wrapped, GoalType.MINIMIZE, new double[] { -1.5, 4.0 });
 
         Assert.assertEquals(biQuadratic.getBoundedXOptimum(), optimum.getPoint()[0], 2e-7);

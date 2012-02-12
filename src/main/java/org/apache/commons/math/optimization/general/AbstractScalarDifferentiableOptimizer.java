@@ -22,7 +22,7 @@ import org.apache.commons.math.analysis.MultivariateVectorFunction;
 import org.apache.commons.math.optimization.DifferentiableMultivariateOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.direct.BaseAbstractMultivariateOptimizer;
 
 /**
@@ -51,7 +51,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /**
      * @param checker Convergence checker.
      */
-    protected AbstractScalarDifferentiableOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    protected AbstractScalarDifferentiableOptimizer(ConvergenceChecker<PointValuePair> checker) {
         super(checker);
     }
 
@@ -69,7 +69,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public RealPointValuePair optimize(int maxEval,
+    public PointValuePair optimize(int maxEval,
                                        final DifferentiableMultivariateFunction f,
                                        final GoalType goalType,
                                        final double[] startPoint) {

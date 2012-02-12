@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.GoalType;
  * @since 3.0
  */
 public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
-    extends BaseOptimizer<UnivariateRealPointValuePair> {
+    extends BaseOptimizer<UnivariatePointValuePair> {
     /**
      * Find an optimum in the given interval.
      *
@@ -55,7 +55,7 @@ public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
      */
-    UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    UnivariatePointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                           double min, double max);
 
     /**
@@ -79,7 +79,7 @@ public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
      * @throws org.apache.commons.math.exception.NullArgumentException if any
      * argument is {@code null}.
      */
-    UnivariateRealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    UnivariatePointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                           double min, double max,
                                           double startValue);
 }

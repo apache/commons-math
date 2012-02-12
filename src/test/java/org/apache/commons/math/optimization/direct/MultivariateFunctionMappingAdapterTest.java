@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class MultivariateFunctionMappingAdapterTest {
             wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
         }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(300, wrapped, GoalType.MINIMIZE,
                                  wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 }));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -68,7 +68,7 @@ public class MultivariateFunctionMappingAdapterTest {
             wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
         }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(100, wrapped, GoalType.MINIMIZE,
                                  wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 }));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -96,7 +96,7 @@ public class MultivariateFunctionMappingAdapterTest {
             wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
         }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(300, wrapped, GoalType.MINIMIZE,
                                  wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 }));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());
@@ -124,7 +124,7 @@ public class MultivariateFunctionMappingAdapterTest {
             wrapped.boundedToUnbounded(new double[] { 1.7, 2.90 })
         }));
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(200, wrapped, GoalType.MINIMIZE,
                                  wrapped.boundedToUnbounded(new double[] { 1.5, 2.25 }));
         final double[] bounded = wrapped.unboundedToBounded(optimum.getPoint());

@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
 public abstract class BaseAbstractUnivariateOptimizer
     implements UnivariateRealOptimizer {
     /** Convergence checker. */
-    private final ConvergenceChecker<UnivariateRealPointValuePair> checker;
+    private final ConvergenceChecker<UnivariatePointValuePair> checker;
     /** Evaluations counter. */
     private final Incrementor evaluations = new Incrementor();
     /** Optimization type */
@@ -52,7 +52,7 @@ public abstract class BaseAbstractUnivariateOptimizer
     /**
      * @param checker Convergence checking procedure.
      */
-    protected BaseAbstractUnivariateOptimizer(ConvergenceChecker<UnivariateRealPointValuePair> checker) {
+    protected BaseAbstractUnivariateOptimizer(ConvergenceChecker<UnivariatePointValuePair> checker) {
         this.checker = checker;
     }
 
@@ -109,7 +109,7 @@ public abstract class BaseAbstractUnivariateOptimizer
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(int maxEval, UnivariateFunction f,
+    public UnivariatePointValuePair optimize(int maxEval, UnivariateFunction f,
                                                  GoalType goalType,
                                                  double min, double max,
                                                  double startValue) {
@@ -135,7 +135,7 @@ public abstract class BaseAbstractUnivariateOptimizer
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(int maxEval,
+    public UnivariatePointValuePair optimize(int maxEval,
                                                  UnivariateFunction f,
                                                  GoalType goalType,
                                                  double min, double max){
@@ -145,7 +145,7 @@ public abstract class BaseAbstractUnivariateOptimizer
     /**
      * {@inheritDoc}
      */
-    public ConvergenceChecker<UnivariateRealPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<UnivariatePointValuePair> getConvergenceChecker() {
         return checker;
     }
 
@@ -157,5 +157,5 @@ public abstract class BaseAbstractUnivariateOptimizer
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    protected abstract UnivariateRealPointValuePair doOptimize();
+    protected abstract UnivariatePointValuePair doOptimize();
 }

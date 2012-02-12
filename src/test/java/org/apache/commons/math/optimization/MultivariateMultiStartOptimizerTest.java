@@ -44,7 +44,7 @@ public class MultivariateMultiStartOptimizerTest {
             new UncorrelatedRandomVectorGenerator(2, new GaussianRandomGenerator(g));
         MultivariateMultiStartOptimizer optimizer =
             new MultivariateMultiStartOptimizer(underlying, 10, generator);
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(1100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1.0 });
 
         Assert.assertEquals(rosenbrock.getCount(), optimizer.getEvaluations());

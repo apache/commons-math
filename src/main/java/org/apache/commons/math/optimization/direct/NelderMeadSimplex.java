@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.analysis.MultivariateFunction;
 
 /**
@@ -185,14 +185,14 @@ public class NelderMeadSimplex extends AbstractSimplex {
     /** {@inheritDoc} */
     @Override
     public void iterate(final MultivariateFunction evaluationFunction,
-                        final Comparator<RealPointValuePair> comparator) {
+                        final Comparator<PointValuePair> comparator) {
         // The simplex has n + 1 points if dimension is n.
         final int n = getDimension();
 
         // Interesting values.
-        final RealPointValuePair best = getPoint(0);
-        final RealPointValuePair secondBest = getPoint(n - 1);
-        final RealPointValuePair worst = getPoint(n);
+        final PointValuePair best = getPoint(0);
+        final PointValuePair secondBest = getPoint(n - 1);
+        final PointValuePair worst = getPoint(n);
         final double[] xWorst = worst.getPointRef();
 
         // Compute the centroid of the best vertices (dismissing the worst
@@ -214,8 +214,8 @@ public class NelderMeadSimplex extends AbstractSimplex {
         for (int j = 0; j < n; j++) {
             xR[j] = centroid[j] + rho * (centroid[j] - xWorst[j]);
         }
-        final RealPointValuePair reflected
-            = new RealPointValuePair(xR, evaluationFunction.value(xR), false);
+        final PointValuePair reflected
+            = new PointValuePair(xR, evaluationFunction.value(xR), false);
 
         if (comparator.compare(best, reflected) <= 0 &&
             comparator.compare(reflected, secondBest) < 0) {
@@ -227,8 +227,8 @@ public class NelderMeadSimplex extends AbstractSimplex {
             for (int j = 0; j < n; j++) {
                 xE[j] = centroid[j] + khi * (xR[j] - centroid[j]);
             }
-            final RealPointValuePair expanded
-                = new RealPointValuePair(xE, evaluationFunction.value(xE), false);
+            final PointValuePair expanded
+                = new PointValuePair(xE, evaluationFunction.value(xE), false);
 
             if (comparator.compare(expanded, reflected) < 0) {
                 // Accept the expansion point.
@@ -244,8 +244,8 @@ public class NelderMeadSimplex extends AbstractSimplex {
                 for (int j = 0; j < n; j++) {
                     xC[j] = centroid[j] + gamma * (xR[j] - centroid[j]);
                 }
-                final RealPointValuePair outContracted
-                    = new RealPointValuePair(xC, evaluationFunction.value(xC), false);
+                final PointValuePair outContracted
+                    = new PointValuePair(xC, evaluationFunction.value(xC), false);
                 if (comparator.compare(outContracted, reflected) <= 0) {
                     // Accept the contraction point.
                     replaceWorstPoint(outContracted, comparator);
@@ -257,8 +257,8 @@ public class NelderMeadSimplex extends AbstractSimplex {
                 for (int j = 0; j < n; j++) {
                     xC[j] = centroid[j] - gamma * (centroid[j] - xWorst[j]);
                 }
-                final RealPointValuePair inContracted
-                    = new RealPointValuePair(xC, evaluationFunction.value(xC), false);
+                final PointValuePair inContracted
+                    = new PointValuePair(xC, evaluationFunction.value(xC), false);
 
                 if (comparator.compare(inContracted, worst) < 0) {
                     // Accept the contraction point.
@@ -274,7 +274,7 @@ public class NelderMeadSimplex extends AbstractSimplex {
                 for (int j = 0; j < n; j++) {
                     x[j] = xSmallest[j] + sigma * (x[j] - xSmallest[j]);
                 }
-                setPoint(i, new RealPointValuePair(x, Double.NaN, false));
+                setPoint(i, new PointValuePair(x, Double.NaN, false));
             }
             evaluate(evaluationFunction, comparator);
         }

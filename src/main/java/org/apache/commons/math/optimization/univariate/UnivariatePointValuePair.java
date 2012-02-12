@@ -27,7 +27,7 @@ import java.io.Serializable;
  * @version $Id$
  * @since 3.0
  */
-public class UnivariateRealPointValuePair implements Serializable {
+public class UnivariatePointValuePair implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1003888396256744753L;
     /** Point. */
@@ -41,7 +41,7 @@ public class UnivariateRealPointValuePair implements Serializable {
      * @param point Point.
      * @param value Value of an objective function at the point
      */
-    public UnivariateRealPointValuePair(final double point,
+    public UnivariatePointValuePair(final double point,
                                         final double value) {
         this.point = point;
         this.value = value;

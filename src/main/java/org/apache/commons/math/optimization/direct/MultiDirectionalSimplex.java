@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import java.util.Comparator;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 
 /**
  * This class implements the multi-directional direct search method.
@@ -153,18 +153,18 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
     /** {@inheritDoc} */
     @Override
     public void iterate(final MultivariateFunction evaluationFunction,
-                        final Comparator<RealPointValuePair> comparator) {
+                        final Comparator<PointValuePair> comparator) {
         // Save the original simplex.
-        final RealPointValuePair[] original = getPoints();
-        final RealPointValuePair best = original[0];
+        final PointValuePair[] original = getPoints();
+        final PointValuePair best = original[0];
 
         // Perform a reflection step.
-        final RealPointValuePair reflected = evaluateNewSimplex(evaluationFunction,
+        final PointValuePair reflected = evaluateNewSimplex(evaluationFunction,
                                                                 original, 1, comparator);
         if (comparator.compare(reflected, best) < 0) {
             // Compute the expanded simplex.
-            final RealPointValuePair[] reflectedSimplex = getPoints();
-            final RealPointValuePair expanded = evaluateNewSimplex(evaluationFunction,
+            final PointValuePair[] reflectedSimplex = getPoints();
+            final PointValuePair expanded = evaluateNewSimplex(evaluationFunction,
                                                                    original, khi, comparator);
             if (comparator.compare(reflected, expanded) <= 0) {
                 // Keep the reflected simplex.
@@ -191,10 +191,10 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @throws org.apache.commons.math.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    private RealPointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction,
-                                                  final RealPointValuePair[] original,
+    private PointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction,
+                                                  final PointValuePair[] original,
                                                   final double coeff,
-                                                  final Comparator<RealPointValuePair> comparator) {
+                                                  final Comparator<PointValuePair> comparator) {
         final double[] xSmallest = original[0].getPointRef();
         // Perform a linear transformation on all the simplex points,
         // except the first one.
@@ -206,7 +206,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
             for (int j = 0; j < dim; j++) {
                 xTransformed[j] = xSmallest[j] + coeff * (xSmallest[j] - xOriginal[j]);
             }
-            setPoint(i, new RealPointValuePair(xTransformed, Double.NaN, false));
+            setPoint(i, new PointValuePair(xTransformed, Double.NaN, false));
         }
 
         // Evaluate the simplex.

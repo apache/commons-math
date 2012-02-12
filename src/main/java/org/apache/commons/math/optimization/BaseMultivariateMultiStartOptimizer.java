@@ -53,7 +53,7 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
     /** Random generator for multi-start. */
     private RandomVectorGenerator generator;
     /** Found optima. */
-    private RealPointValuePair[] optima;
+    private PointValuePair[] optima;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.
@@ -109,7 +109,7 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
      * #optimize(int,MultivariateFunction,GoalType,double[]) optimize}
      * has not been called.
      */
-    public RealPointValuePair[] getOptima() {
+    public PointValuePair[] getOptima() {
         if (optima == null) {
             throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
@@ -127,19 +127,19 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<RealPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<PointValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }
 
     /**
      * {@inheritDoc}
      */
-    public RealPointValuePair optimize(int maxEval, final FUNC f,
+    public PointValuePair optimize(int maxEval, final FUNC f,
                                        final GoalType goal,
                                        double[] startPoint) {
         maxEvaluations = maxEval;
         RuntimeException lastException = null;
-        optima = new RealPointValuePair[starts];
+        optima = new PointValuePair[starts];
         totalEvaluations = 0;
 
         // Multi-start loop.
@@ -173,9 +173,9 @@ public class BaseMultivariateMultiStartOptimizer<FUNC extends MultivariateFuncti
      * @param goal Goal type.
      */
     private void sortPairs(final GoalType goal) {
-        Arrays.sort(optima, new Comparator<RealPointValuePair>() {
-                public int compare(final RealPointValuePair o1,
-                                   final RealPointValuePair o2) {
+        Arrays.sort(optima, new Comparator<PointValuePair>() {
+                public int compare(final PointValuePair o1,
+                                   final PointValuePair o2) {
                     if (o1 == null) {
                         return (o2 == null) ? 0 : 1;
                     } else if (o2 == null) {

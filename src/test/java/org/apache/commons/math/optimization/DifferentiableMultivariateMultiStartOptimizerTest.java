@@ -53,11 +53,11 @@ public class DifferentiableMultivariateMultiStartOptimizerTest {
                                                   new GaussianRandomGenerator(g));
         DifferentiableMultivariateMultiStartOptimizer optimizer =
             new DifferentiableMultivariateMultiStartOptimizer(underlying, 10, generator);
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(200, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
         Assert.assertEquals(200, optimizer.getMaxEvaluations());
-        RealPointValuePair[] optima = optimizer.getOptima();
-        for (RealPointValuePair o : optima) {
+        PointValuePair[] optima = optimizer.getOptima();
+        for (PointValuePair o : optima) {
             Point2D.Double center = new Point2D.Double(o.getPointRef()[0], o.getPointRef()[1]);
             Assert.assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
             Assert.assertEquals(96.075902096, center.x, 1.0e-8);

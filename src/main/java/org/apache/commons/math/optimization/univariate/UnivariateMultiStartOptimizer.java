@@ -55,7 +55,7 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
     /** Random generator for multi-start. */
     private RandomGenerator generator;
     /** Found optima. */
-    private UnivariateRealPointValuePair[] optima;
+    private UnivariatePointValuePair[] optima;
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.
@@ -88,7 +88,7 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
     /**
      * {@inheritDoc}
      */
-    public ConvergenceChecker<UnivariateRealPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<UnivariatePointValuePair> getConvergenceChecker() {
         return optimizer.getConvergenceChecker();
     }
 
@@ -129,7 +129,7 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
      * #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * has not been called.
      */
-    public UnivariateRealPointValuePair[] getOptima() {
+    public UnivariatePointValuePair[] getOptima() {
         if (optima == null) {
             throw new MathIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);
         }
@@ -137,19 +137,19 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(int maxEval, final FUNC f,
+    public UnivariatePointValuePair optimize(int maxEval, final FUNC f,
                                                  final GoalType goal,
                                                  final double min, final double max) {
         return optimize(maxEval, f, goal, min, max, min + 0.5 * (max - min));
     }
 
     /** {@inheritDoc} */
-    public UnivariateRealPointValuePair optimize(int maxEval, final FUNC f,
+    public UnivariatePointValuePair optimize(int maxEval, final FUNC f,
                                                  final GoalType goal,
                                                  final double min, final double max,
                                                  final double startValue) {
         RuntimeException lastException = null;
-        optima = new UnivariateRealPointValuePair[starts];
+        optima = new UnivariatePointValuePair[starts];
         totalEvaluations = 0;
 
         // Multi-start loop.
@@ -183,9 +183,9 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
      * @param goal Goal type.
      */
     private void sortPairs(final GoalType goal) {
-        Arrays.sort(optima, new Comparator<UnivariateRealPointValuePair>() {
-                public int compare(final UnivariateRealPointValuePair o1,
-                                   final UnivariateRealPointValuePair o2) {
+        Arrays.sort(optima, new Comparator<UnivariatePointValuePair>() {
+                public int compare(final UnivariatePointValuePair o1,
+                                   final UnivariatePointValuePair o2) {
                     if (o1 == null) {
                         return (o2 == null) ? 0 : 1;
                     } else if (o2 == null) {

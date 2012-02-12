@@ -19,7 +19,7 @@ package org.apache.commons.math.optimization.direct;
 
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
@@ -32,7 +32,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(200, fourExtrema, GoalType.MINIMIZE, new double[] { -3, 0 });
         Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 4e-6);
         Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 3e-6);
@@ -47,7 +47,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             =  optimizer.optimize(200, fourExtrema, GoalType.MINIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 2e-8);
         Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 3e-6);
@@ -62,7 +62,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(200, fourExtrema, GoalType.MAXIMIZE, new double[] { -3.0, 0.0 });
         Assert.assertEquals(fourExtrema.xM, optimum.getPoint()[0], 7e-7);
         Assert.assertEquals(fourExtrema.yM, optimum.getPoint()[1], 3e-7);
@@ -77,7 +77,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 
-        final RealPointValuePair optimum
+        final PointValuePair optimum
             = optimizer.optimize(200, fourExtrema, GoalType.MAXIMIZE, new double[] { 1, 0 });
         Assert.assertEquals(fourExtrema.xP, optimum.getPoint()[0], 2e-8);
         Assert.assertEquals(fourExtrema.yP, optimum.getPoint()[1], 3e-6);
@@ -103,7 +103,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[][] {
                     { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
                 }));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(100, rosenbrock, GoalType.MINIMIZE, new double[] { -1.2, 1 });
 
         Assert.assertEquals(count, optimizer.getEvaluations());
@@ -129,7 +129,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         count = 0;
         SimplexOptimizer optimizer = new SimplexOptimizer(-1, 1e-3);
         optimizer.setSimplex(new MultiDirectionalSimplex(4));
-        RealPointValuePair optimum =
+        PointValuePair optimum =
             optimizer.optimize(1000, powell, GoalType.MINIMIZE, new double[] { 3, -1, 0, 1 });
         Assert.assertEquals(count, optimizer.getEvaluations());
         Assert.assertTrue(optimizer.getEvaluations() > 800);
@@ -144,7 +144,7 @@ public class SimplexOptimizerMultiDirectionalTest {
         SimplexOptimizer optimizer = new SimplexOptimizer();
         optimizer.setSimplex(new MultiDirectionalSimplex(2));
         final Gaussian2D function = new Gaussian2D(0, 0, 1);
-        RealPointValuePair estimate = optimizer.optimize(1000, function,
+        PointValuePair estimate = optimizer.optimize(1000, function,
                                                          GoalType.MAXIMIZE, function.getMaximumPosition());
         final double EPSILON = 1e-5;
         final double expectedMaximum = function.getMaximum();

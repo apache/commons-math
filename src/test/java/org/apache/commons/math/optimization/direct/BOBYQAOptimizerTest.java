@@ -25,7 +25,7 @@ import org.apache.commons.math.exception.TooManyEvaluationsException;
 import org.apache.commons.math.exception.NumberIsTooLargeException;
 import org.apache.commons.math.exception.NumberIsTooSmallException;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -76,7 +76,7 @@ public class BOBYQAOptimizerTest {
     public void testRosen() {
         double[] startPoint = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected = new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected = new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 2000, expected);
@@ -86,7 +86,7 @@ public class BOBYQAOptimizerTest {
     public void testMaximize() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected = new RealPointValuePair(point(DIM,0.0),1.0);
+        PointValuePair expected = new PointValuePair(point(DIM,0.0),1.0);
         doTest(new MinusElli(), startPoint, boundaries,
                 GoalType.MAXIMIZE, 
                 2e-10, 5e-6, 1000, expected);
@@ -101,8 +101,8 @@ public class BOBYQAOptimizerTest {
     public void testEllipse() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Elli(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 1000, expected);
@@ -112,8 +112,8 @@ public class BOBYQAOptimizerTest {
     public void testElliRotated() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new ElliRotated(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-12, 1e-6, 10000, expected);
@@ -123,8 +123,8 @@ public class BOBYQAOptimizerTest {
     public void testCigar() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Cigar(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 100, expected);
@@ -134,8 +134,8 @@ public class BOBYQAOptimizerTest {
     public void testTwoAxes() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new TwoAxes(), startPoint, boundaries,
                 GoalType.MINIMIZE, 2*
                 1e-13, 1e-6, 100, expected);
@@ -145,8 +145,8 @@ public class BOBYQAOptimizerTest {
     public void testCigTab() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new CigTab(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 5e-5, 100, expected);
@@ -156,8 +156,8 @@ public class BOBYQAOptimizerTest {
     public void testSphere() {
         double[] startPoint = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Sphere(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 100, expected);
@@ -167,8 +167,8 @@ public class BOBYQAOptimizerTest {
     public void testTablet() {
         double[] startPoint = point(DIM,1.0); 
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Tablet(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 100, expected);
@@ -178,8 +178,8 @@ public class BOBYQAOptimizerTest {
     public void testDiffPow() {
         double[] startPoint = point(DIM/2,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM/2,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM/2,0.0),0.0);
         doTest(new DiffPow(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-8, 1e-1, 12000, expected);
@@ -189,8 +189,8 @@ public class BOBYQAOptimizerTest {
     public void testSsDiffPow() {
         double[] startPoint = point(DIM/2,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM/2,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM/2,0.0),0.0);
         doTest(new SsDiffPow(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-2, 1.3e-1, 50000, expected);
@@ -200,8 +200,8 @@ public class BOBYQAOptimizerTest {
     public void testAckley() {
         double[] startPoint = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Ackley(), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-8, 1e-5, 1000, expected);
@@ -212,8 +212,8 @@ public class BOBYQAOptimizerTest {
         double[] startPoint = point(DIM,1.0);
 
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Rastrigin(), startPoint, boundaries,
                 GoalType.MINIMIZE, 
                 1e-13, 1e-6, 1000, expected);
@@ -224,8 +224,8 @@ public class BOBYQAOptimizerTest {
         double[] startPoint = point(DIM,0.1);
 
         double[][] boundaries = boundaries(DIM,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, boundaries,
                 GoalType.MINIMIZE,
                 1e-13, 1e-6, 2000, expected);
@@ -236,7 +236,7 @@ public class BOBYQAOptimizerTest {
     public void testConstrainedRosenWithMoreInterpolationPoints() {
         final double[] startPoint = point(DIM, 0.1);
         final double[][] boundaries = boundaries(DIM, -1, 2);
-        final RealPointValuePair expected = new RealPointValuePair(point(DIM, 1.0), 0.0);
+        final PointValuePair expected = new PointValuePair(point(DIM, 1.0), 0.0);
 
         // This should have been 78 because in the code the hard limit is
         // said to be
@@ -272,7 +272,7 @@ public class BOBYQAOptimizerTest {
                         double fTol,
                         double pointTol,
                         int maxEvaluations,
-                        RealPointValuePair expected) {
+                        PointValuePair expected) {
         doTest(func,
                startPoint,
                boundaries,
@@ -305,7 +305,7 @@ public class BOBYQAOptimizerTest {
                         double pointTol,
                         int maxEvaluations,
                         int additionalInterpolationPoints,
-                        RealPointValuePair expected,
+                        PointValuePair expected,
                         String assertMsg) {
 
         System.out.println(func.getClass().getName() + " BEGIN"); // XXX
@@ -313,12 +313,12 @@ public class BOBYQAOptimizerTest {
         int dim = startPoint.length;
 //        MultivariateOptimizer optim =
 //            new PowellOptimizer(1e-13, Math.ulp(1d));
-//        RealPointValuePair result = optim.optimize(100000, func, goal, startPoint);
+//        PointValuePair result = optim.optimize(100000, func, goal, startPoint);
         final double[] lB = boundaries == null ? null : boundaries[0];
         final double[] uB = boundaries == null ? null : boundaries[1];
         final int numIterpolationPoints = 2 * dim + 1 + additionalInterpolationPoints;
         BOBYQAOptimizer optim = new BOBYQAOptimizer(numIterpolationPoints);
-        RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
+        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
 //        System.out.println(func.getClass().getName() + " = " 
 //              + optim.getEvaluations() + " f(");
 //        for (double x: result.getPoint())  System.out.print(x + " ");

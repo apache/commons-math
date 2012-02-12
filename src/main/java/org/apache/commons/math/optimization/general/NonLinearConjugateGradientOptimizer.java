@@ -23,7 +23,7 @@ import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.util.FastMath;
@@ -77,7 +77,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param checker Convergence checker.
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
-                                               ConvergenceChecker<RealPointValuePair> checker) {
+                                               ConvergenceChecker<PointValuePair> checker) {
         this(updateFormula,
              checker,
              new BrentSolver(),
@@ -95,7 +95,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param lineSearchSolver Solver to use during line search.
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
-                                               ConvergenceChecker<RealPointValuePair> checker,
+                                               ConvergenceChecker<PointValuePair> checker,
                                                final UnivariateSolver lineSearchSolver) {
         this(updateFormula,
              checker,
@@ -112,7 +112,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param preconditioner Preconditioner.
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula,
-                                               ConvergenceChecker<RealPointValuePair> checker,
+                                               ConvergenceChecker<PointValuePair> checker,
                                                final UnivariateSolver lineSearchSolver,
                                                final Preconditioner preconditioner) {
         super(checker);
@@ -143,8 +143,8 @@ public class NonLinearConjugateGradientOptimizer
 
     /** {@inheritDoc} */
     @Override
-    protected RealPointValuePair doOptimize() {
-        final ConvergenceChecker<RealPointValuePair> checker = getConvergenceChecker();
+    protected PointValuePair doOptimize() {
+        final ConvergenceChecker<PointValuePair> checker = getConvergenceChecker();
         point = getStartPoint();
         final GoalType goal = getGoalType();
         final int n = point.length;
@@ -164,15 +164,15 @@ public class NonLinearConjugateGradientOptimizer
             delta += r[i] * searchDirection[i];
         }
 
-        RealPointValuePair current = null;
+        PointValuePair current = null;
         int iter = 0;
         int maxEval = getMaxEvaluations();
         while (true) {
             ++iter;
 
             final double objective = computeObjectiveValue(point);
-            RealPointValuePair previous = current;
-            current = new RealPointValuePair(point, objective);
+            PointValuePair previous = current;
+            current = new PointValuePair(point, objective);
             if (previous != null) {
                 if (checker.converged(iter, previous, current)) {
                     // We have found an optimum.

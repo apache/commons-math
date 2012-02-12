@@ -28,7 +28,7 @@ import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.OutOfRangeException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.random.MersenneTwister;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,8 +48,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,3);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -60,8 +60,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM+1,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -73,8 +73,8 @@ public class CMAESOptimizerTest {
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM,-1,2);
         boundaries[1] = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -85,8 +85,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM,-0.5);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -97,8 +97,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM, 1.1);
         double[][] boundaries = boundaries(DIM,-0.5,0.5);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -109,8 +109,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM+1,-0.5);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -122,8 +122,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -138,8 +138,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),1.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),1.0);
         doTest(new MinusElli(), startPoint, insigma, boundaries,
                 GoalType.MAXIMIZE, LAMBDA, true, 0, 1.0-1e-13,
                 2e-10, 5e-6, 100000, expected);
@@ -158,8 +158,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Elli(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -173,8 +173,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new ElliRotated(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -188,8 +188,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Cigar(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 200000, expected);
@@ -203,8 +203,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new TwoAxes(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 2*LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 200000, expected);
@@ -218,8 +218,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.3);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new CigTab(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 5e-5, 100000, expected);
@@ -233,8 +233,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Sphere(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -248,8 +248,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Tablet(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -263,8 +263,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new DiffPow(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, true, 0, 1e-13,
                 1e-8, 1e-1, 100000, expected);
@@ -278,8 +278,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new SsDiffPow(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 10, true, 0, 1e-13,
                 1e-4, 1e-1, 200000, expected);
@@ -293,8 +293,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,1.0);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Ackley(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 2*LAMBDA, true, 0, 1e-13,
                 1e-9, 1e-5, 100000, expected);
@@ -308,8 +308,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,0.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Rastrigin(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, (int)(200*Math.sqrt(DIM)), true, 0, 1e-13,
                 1e-13, 1e-6, 200000, expected);
@@ -323,8 +323,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = boundaries(DIM,-1,2);
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, 2*LAMBDA, true, 0, 1e-13,
                 1e-13, 1e-6, 100000, expected);
@@ -338,8 +338,8 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,0.1);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
-        RealPointValuePair expected =
-            new RealPointValuePair(point(DIM,1.0),0.0);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
                 GoalType.MINIMIZE, LAMBDA, false, 1, 1e-13,
                 1e-10, 1e-4, 1000000, expected);
@@ -372,14 +372,14 @@ public class CMAESOptimizerTest {
             double fTol,
             double pointTol,
             int maxEvaluations,
-            RealPointValuePair expected) {
+            PointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
         MultivariateOptimizer optim =
             new CMAESOptimizer(
                     lambda, inSigma, boundaries, 30000,
                     stopValue, isActive, diagonalOnly, 0, new MersenneTwister(),false);
-        RealPointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);
+        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);
         Assert.assertEquals(expected.getValue(),
                 result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {

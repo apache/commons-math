@@ -32,7 +32,7 @@ import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.optimization.GoalType;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.util.Precision;
 
 /**
@@ -393,7 +393,7 @@ class SimplexTableau implements Serializable {
      *
      * @return current solution
      */
-    protected RealPointValuePair getSolution() {
+    protected PointValuePair getSolution() {
       int negativeVarColumn = columnLabels.indexOf(NEGATIVE_VAR_COLUMN_LABEL);
       Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
       double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
@@ -423,7 +423,7 @@ class SimplexTableau implements Serializable {
                   (restrictToNonNegative ? 0 : mostNegative);
           }
       }
-      return new RealPointValuePair(coefficients, f.getValue(coefficients));
+      return new PointValuePair(coefficients, f.getValue(coefficients));
     }
 
     /**

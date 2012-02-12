@@ -25,7 +25,7 @@ import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.BaseMultivariateOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
-import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.PointValuePair;
 import org.apache.commons.math.optimization.SimpleScalarValueChecker;
 
 /**
@@ -43,7 +43,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     /** Evaluations counter. */
     protected final Incrementor evaluations = new Incrementor();
     /** Convergence checker. */
-    private ConvergenceChecker<RealPointValuePair> checker;
+    private ConvergenceChecker<PointValuePair> checker;
     /** Type of optimization. */
     private GoalType goal;
     /** Initial guess. */
@@ -62,7 +62,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     /**
      * @param checker Convergence checker.
      */
-    protected BaseAbstractMultivariateOptimizer(ConvergenceChecker<RealPointValuePair> checker) {
+    protected BaseAbstractMultivariateOptimizer(ConvergenceChecker<PointValuePair> checker) {
         this.checker = checker;
     }
 
@@ -77,7 +77,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<RealPointValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<PointValuePair> getConvergenceChecker() {
         return checker;
     }
 
@@ -99,7 +99,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     }
 
     /** {@inheritDoc} */
-    public RealPointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
+    public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                        double[] startPoint) {
         // Checks.
         if (f == null) {
@@ -145,5 +145,5 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @return the point/value pair giving the optimal value for the
      * objective function.
      */
-    protected abstract RealPointValuePair doOptimize();
+    protected abstract PointValuePair doOptimize();
 }
