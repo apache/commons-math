@@ -35,48 +35,8 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * There are several variants of the discrete cosine transform. The present
  * implementation corresponds to DCT-I, with various normalization conventions,
- * which are described below.
+ * which are specified by the parameter {@link DctNormalization}.
  * </p>
- * <h3><a id="standard">Standard DCT-I</a></h3>
- * <p>
- * The standard normalization convention is defined as follows
- * <ul>
- * <li>forward transform:
- * y<sub>n</sub> = (1/2) [x<sub>0</sub> + (-1)<sup>n</sup>x<sub>N-1</sub>]
- * + &sum;<sub>k=1</sub><sup>N-2</sup>
- * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
- * <li>inverse transform:
- * x<sub>k</sub> = [1 / (N - 1)] [y<sub>0</sub>
- * + (-1)<sup>k</sup>y<sub>N-1</sub>]
- * + [2 / (N - 1)] &sum;<sub>n=1</sub><sup>N-2</sup>
- * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
- * </ul>
- * where N is the size of the data sample.
- * </p>
- * <p> {@link RealTransformer}s following this convention are returned by the
- * factory method {@link #create()}.
- * </p>
- * <h3><a id="orthogonal">Orthogonal DCT-I</a></h3>
- * <p>
- * The orthogonal normalization convention is defined as follows
- * <ul>
- * <li>forward transform:
- * y<sub>n</sub> = [2(N - 1)]<sup>-1/2</sup> [x<sub>0</sub>
- * + (-1)<sup>n</sup>x<sub>N-1</sub>]
- * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>k=1</sub><sup>N-2</sup>
- * x<sub>k</sub> cos[&pi; nk / (N - 1)],</li>
- * <li>inverse transform:
- * x<sub>k</sub> = [2(N - 1)]<sup>-1/2</sup> [y<sub>0</sub>
- * + (-1)<sup>k</sup>y<sub>N-1</sub>]
- * + [2 / (N - 1)]<sup>1/2</sup> &sum;<sub>n=1</sub><sup>N-2</sup>
- * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
- * </ul>
- * which makes the transform orthogonal. N is the size of the data sample.
- * </p>
- * <p> {@link RealTransformer}s following this convention are returned by the
- * factory method {@link #createOrthogonal()}.
- * </p>
- * <h3>Link with the DFT, and assumptions on the layout of the data set</h3>
  * <p>
  * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -105,7 +65,6 @@ import org.apache.commons.math.util.FastMath;
  * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
  * that the sampled function is even.
  * </p>
- * <p>As of version 2.0 this no longer implements Serializable.</p>
  *
  * @version $Id$
  * @since 1.2
@@ -113,52 +72,20 @@ import org.apache.commons.math.util.FastMath;
 public class FastCosineTransformer implements RealTransformer, Serializable {
 
     /** Serializable version identifier. */
-    static final long serialVersionUID = 20120211L;
+    static final long serialVersionUID = 20120212L;
 
-    /**
-     * {@code true} if the orthogonal version of the DCT should be used.
-     *
-     * @see #create()
-     * @see #createOrthogonal()
-     */
-    private final boolean orthogonal;
+    /** The type of DCT to be performed. */
+    private final DctNormalization normalization;
 
     /**
      * Creates a new instance of this class, with various normalization
      * conventions.
      *
-     * @param orthogonal {@code false} if the DCT is <em>not</em> to be scaled,
-     * {@code true} if it is to be scaled so as to make the transform
-     * orthogonal.
-     * @see #create()
-     * @see #createOrthogonal()
+     * @param normalization the type of normalization to be applied to the
+     * transformed data
      */
-    private FastCosineTransformer(final boolean orthogonal) {
-        this.orthogonal = orthogonal;
-    }
-
-    /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#standard">standard normalizing conventions</a>.
-     * </p>
-     *
-     * @return a new DCT transformer, with standard normalizing conventions
-     */
-    public static FastCosineTransformer create() {
-        return new FastCosineTransformer(false);
-    }
-
-    /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#orthogonal">orthogonal normalizing conventions</a>.
-     * </p>
-     *
-     * @return a new DCT transformer, with orthogonal normalizing conventions
-     */
-    public static FastCosineTransformer createOrthogonal() {
-        return new FastCosineTransformer(true);
+    public FastCosineTransformer(final DctNormalization normalization) {
+        this.normalization = normalization;
     }
 
     /**
@@ -169,14 +96,19 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
      */
     public double[] transform(final double[] f, final TransformType type) {
         if (type == TransformType.FORWARD) {
-            if (orthogonal) {
+            if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
                 final double s = FastMath.sqrt(2.0 / (f.length - 1));
                 return TransformUtils.scaleArray(fct(f), s);
             }
             return fct(f);
         }
         final double s2 = 2.0 / (f.length - 1);
-        final double s1 = orthogonal ? FastMath.sqrt(s2) : s2;
+        final double s1;
+        if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
+            s1 = FastMath.sqrt(s2);
+        } else {
+            s1 = s2;
+        }
         return TransformUtils.scaleArray(fct(f), s1);
     }
 

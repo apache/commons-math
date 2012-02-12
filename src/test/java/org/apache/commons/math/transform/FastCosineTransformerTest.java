@@ -42,7 +42,7 @@ import org.junit.runners.Parameterized.Parameters;
 public final class FastCosineTransformerTest
     extends RealTransformerAbstractTest {
 
-    private final boolean standard;
+    private DctNormalization normalization;
 
     private final int[] invalidDataSize;
 
@@ -50,8 +50,8 @@ public final class FastCosineTransformerTest
 
     private final int[] validDataSize;
 
-    public FastCosineTransformerTest(final boolean standard) {
-        this.standard = standard;
+    public FastCosineTransformerTest(final DctNormalization normalization) {
+        this.normalization = normalization;
         this.validDataSize = new int[] {
             2, 3, 5, 9, 17, 33, 65, 129
         };
@@ -71,23 +71,17 @@ public final class FastCosineTransformerTest
      */
     @Parameters
     public static Collection<Object[]> data() {
-        final Object[][] data = new Boolean[][] {
-            {
-                Boolean.TRUE
-            }, {
-                Boolean.FALSE
-            }
-        };
+        final DctNormalization[] normalization = DctNormalization.values();
+        final Object[][] data = new DctNormalization[normalization.length][1];
+        for (int i = 0; i < normalization.length; i++){
+            data[i][0] = normalization[i];
+        }
         return Arrays.asList(data);
     }
 
     @Override
     RealTransformer createRealTransformer() {
-        if (standard) {
-            return FastCosineTransformer.create();
-        } else {
-            return FastCosineTransformer.createOrthogonal();
-        }
+        return new FastCosineTransformer(normalization);
     }
 
     @Override
@@ -149,9 +143,21 @@ public final class FastCosineTransformerTest
         }
         final double s;
         if (type == TransformType.FORWARD) {
-            s = standard ? 1.0 : FastMath.sqrt(2.0 / (n - 1.0));
+            if (normalization == DctNormalization.STANDARD_DCT_I) {
+                s = 1.0;
+            } else if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
+                s = FastMath.sqrt(2.0 / (n - 1.0));
+            } else {
+                throw new MathIllegalStateException();
+            }
         } else if (type == TransformType.INVERSE) {
-            s = standard ? 2.0 / (n - 1.0) : FastMath.sqrt(2.0 / (n - 1.0));
+            if (normalization == DctNormalization.STANDARD_DCT_I) {
+                s = 2.0 / (n - 1.0);
+            } else if (normalization == DctNormalization.ORTHOGONAL_DCT_I) {
+                s = FastMath.sqrt(2.0 / (n - 1.0));
+            } else {
+                throw new MathIllegalStateException();
+            }
         } else {
             /*
              * Should never occur. This clause is a safeguard in case other
@@ -170,7 +176,8 @@ public final class FastCosineTransformerTest
     /** Test of transformer for the ad hoc data. */
     @Test
     public void testAdHocData() {
-        FastCosineTransformer transformer = FastCosineTransformer.create();
+        FastCosineTransformer transformer;
+        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
         double result[], tolerance = 1E-12;
 
         double x[] = {
@@ -195,7 +202,7 @@ public final class FastCosineTransformerTest
 
         TransformUtils.scaleArray(x, FastMath.sqrt(0.5 * (x.length - 1)));
 
-        transformer = FastCosineTransformer.createOrthogonal();
+        transformer = new FastCosineTransformer(DctNormalization.ORTHOGONAL_DCT_I);
         result = transformer.transform(y, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
             Assert.assertEquals(x[i], result[i], tolerance);
@@ -212,7 +219,8 @@ public final class FastCosineTransformerTest
     public void testParameters()
         throws Exception {
         UnivariateFunction f = new SinFunction();
-        FastCosineTransformer transformer = FastCosineTransformer.create();
+        FastCosineTransformer transformer;
+        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
 
         try {
             // bad interval
@@ -243,7 +251,8 @@ public final class FastCosineTransformerTest
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        FastCosineTransformer transformer = FastCosineTransformer.create();
+        FastCosineTransformer transformer;
+        transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
         double min, max, result[], tolerance = 1E-12;
         int N = 9;
 

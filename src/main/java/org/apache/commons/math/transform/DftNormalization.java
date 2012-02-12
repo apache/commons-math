@@ -28,9 +28,9 @@ package org.apache.commons.math.transform;
 public enum DftNormalization {
     /**
      * <p>
-     * Should be passed to the constructor of e.g.
-     * {@link FastFourierTransformer} to use the <em>standard</em> normalization
-     * convention. This normalization convention is defined as follows
+     * Should be passed to the constructor of {@link FastFourierTransformer}
+     * to use the <em>standard</em> normalization convention. This normalization
+     * convention is defined as follows
      * <ul>
      * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
      * x<sub>k</sub> exp(-2&pi;i n k / N),</li>
@@ -44,9 +44,9 @@ public enum DftNormalization {
 
     /**
      * <p>
-     * Should be passed to the constructor of e.g.
-     * {@link FastFourierTransformer} to use the <em>unitary</em> normalization
-     * convention. This normalization convention is defined as follows
+     * Should be passed to the constructor of {@link FastFourierTransformer}
+     * to use the <em>unitary</em> normalization convention. This normalization
+     * convention is defined as follows
      * <ul>
      * <li>forward transform: y<sub>n</sub> = (1 / &radic;N)
      * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub>
