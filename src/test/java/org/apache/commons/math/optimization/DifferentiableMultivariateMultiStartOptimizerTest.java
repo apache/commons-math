@@ -45,7 +45,7 @@ public class DifferentiableMultivariateMultiStartOptimizerTest {
         circle.addPoint( 45.0,  97.0);
         NonLinearConjugateGradientOptimizer underlying =
             new NonLinearConjugateGradientOptimizer(ConjugateGradientFormula.POLAK_RIBIERE,
-                                                    new SimpleScalarValueChecker(1.0e-10, 1.0e-10));
+                                                    new SimpleValueChecker(1.0e-10, 1.0e-10));
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(753289573253l);
         RandomVectorGenerator generator =

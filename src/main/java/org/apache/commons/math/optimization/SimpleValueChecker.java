@@ -31,12 +31,12 @@ import org.apache.commons.math.util.FastMath;
  * @version $Id$
  * @since 3.0
  */
-public class SimpleScalarValueChecker
+public class SimpleValueChecker
     extends AbstractConvergenceChecker<PointValuePair> {
     /**
      * Build an instance with default thresholds.
      */
-    public SimpleScalarValueChecker() {}
+    public SimpleValueChecker() {}
 
     /** Build an instance with specified thresholds.
      *
@@ -47,7 +47,7 @@ public class SimpleScalarValueChecker
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
      */
-    public SimpleScalarValueChecker(final double relativeThreshold,
+    public SimpleValueChecker(final double relativeThreshold,
                                     final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
     }

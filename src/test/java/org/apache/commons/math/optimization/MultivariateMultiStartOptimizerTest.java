@@ -33,7 +33,7 @@ public class MultivariateMultiStartOptimizerTest {
     public void testRosenbrock() {
         Rosenbrock rosenbrock = new Rosenbrock();
         SimplexOptimizer underlying
-            = new SimplexOptimizer(new SimpleScalarValueChecker(-1, 1.0e-3));
+            = new SimplexOptimizer(new SimpleValueChecker(-1, 1.0e-3));
         NelderMeadSimplex simplex = new NelderMeadSimplex(new double[][] {
                 { -1.2,  1.0 }, { 0.9, 1.2 } , {  3.5, -2.3 }
             });

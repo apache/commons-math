@@ -26,7 +26,7 @@ package org.apache.commons.math.optimization;
  *
  * @param <PAIR> Type of the (point, objective value) pair.
  *
- * @see org.apache.commons.math.optimization.SimpleScalarValueChecker
+ * @see org.apache.commons.math.optimization.SimpleValueChecker
  * @see org.apache.commons.math.optimization.SimplePointChecker<PointValuePair>
  *
  * @version $Id$

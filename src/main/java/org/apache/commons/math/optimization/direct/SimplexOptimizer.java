@@ -24,7 +24,7 @@ import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
 
 /**
@@ -90,11 +90,11 @@ public class SimplexOptimizer
     private AbstractSimplex simplex;
 
     /**
-     * Constructor using a default {@link SimpleScalarValueChecker convergence
+     * Constructor using a default {@link SimpleValueChecker convergence
      * checker}.
      */
     public SimplexOptimizer() {
-        this(new SimpleScalarValueChecker());
+        this(new SimpleValueChecker());
     }
 
     /**
@@ -109,7 +109,7 @@ public class SimplexOptimizer
      * @param abs Absolute threshold.
      */
     public SimplexOptimizer(double rel, double abs) {
-        this(new SimpleScalarValueChecker(rel, abs));
+        this(new SimpleValueChecker(rel, abs));
     }
 
     /**

@@ -44,8 +44,8 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /**
      * Simple constructor with default settings.
      * The convergence check is set to a
-     * {@link org.apache.commons.math.optimization.SimpleScalarValueChecker
-     * SimpleScalarValueChecker}.
+     * {@link org.apache.commons.math.optimization.SimpleValueChecker
+     * SimpleValueChecker}.
      */
     protected AbstractScalarDifferentiableOptimizer() {}
     /**

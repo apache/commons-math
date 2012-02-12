@@ -26,7 +26,7 @@ import org.apache.commons.math.optimization.BaseMultivariateOptimizer;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -53,11 +53,11 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleScalarValueChecker} and
+     * The convergence check is set to a {@link SimpleValueChecker} and
      * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
      */
     protected BaseAbstractMultivariateOptimizer() {
-        this(new SimpleScalarValueChecker());
+        this(new SimpleValueChecker());
     }
     /**
      * @param checker Convergence checker.

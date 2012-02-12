@@ -35,7 +35,7 @@ import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.MultivariateOptimizer;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 import org.apache.commons.math.random.MersenneTwister;
 import org.apache.commons.math.random.RandomGenerator;
 import org.apache.commons.math.util.MathArrays;
@@ -280,7 +280,7 @@ public class CMAESOptimizer
                           RandomGenerator random, boolean generateStatistics) {
         this(lambda, inputSigma, boundaries, maxIterations, stopFitness, isActiveCMA,
              diagonalOnly, checkFeasableCount, random, generateStatistics,
-             new SimpleScalarValueChecker());
+             new SimpleValueChecker());
     }
 
     /**

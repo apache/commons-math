@@ -20,7 +20,7 @@ package org.apache.commons.math.optimization.direct;
 import org.apache.commons.math.analysis.MultivariateFunction;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 import org.apache.commons.math.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -73,7 +73,7 @@ public class SimplexOptimizerMultiDirectionalTest {
 
     @Test
     public void testMaximize2() {
-        SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleScalarValueChecker(1e-15, 1e-30));
+        SimplexOptimizer optimizer = new SimplexOptimizer(new SimpleValueChecker(1e-15, 1e-30));
         optimizer.setSimplex(new MultiDirectionalSimplex(new double[] { 0.2, 0.2 }));
         final FourExtrema fourExtrema = new FourExtrema();
 

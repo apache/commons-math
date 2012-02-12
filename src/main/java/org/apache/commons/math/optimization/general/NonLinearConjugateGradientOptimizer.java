@@ -24,7 +24,7 @@ import org.apache.commons.math.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.optimization.GoalType;
 import org.apache.commons.math.optimization.PointValuePair;
-import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+import org.apache.commons.math.optimization.SimpleValueChecker;
 import org.apache.commons.math.optimization.ConvergenceChecker;
 import org.apache.commons.math.util.FastMath;
 
@@ -54,7 +54,7 @@ public class NonLinearConjugateGradientOptimizer
     private double[] point;
 
     /**
-     * Constructor with default {@link SimpleScalarValueChecker checker},
+     * Constructor with default {@link SimpleValueChecker checker},
      * {@link BrentSolver line search solver} and
      * {@link IdentityPreconditioner preconditioner}.
      *
@@ -64,7 +64,7 @@ public class NonLinearConjugateGradientOptimizer
      */
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula) {
         this(updateFormula,
-             new SimpleScalarValueChecker());
+             new SimpleValueChecker());
     }
 
     /**
