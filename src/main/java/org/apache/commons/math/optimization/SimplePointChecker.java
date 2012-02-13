@@ -30,7 +30,7 @@ import org.apache.commons.math.util.Pair;
  * smaller than another threshold.
  *
  * @param <PAIR> Type of the (point, value) pair.
- * @param <V> Type of the "value" part of the pair (not used by this class).
+ * The type of the "value" part of the pair (not used by this class).
  *
  * @version $Id$
  * @since 3.0
