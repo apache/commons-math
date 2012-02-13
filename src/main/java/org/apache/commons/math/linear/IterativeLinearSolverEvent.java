@@ -17,6 +17,7 @@
 package org.apache.commons.math.linear;
 
 import org.apache.commons.math.util.IterationEvent;
+import org.apache.commons.math.exception.MathUnsupportedOperationException;
 
 /**
  * This is the base class for all events occuring during the iterations of a
@@ -27,8 +28,7 @@ import org.apache.commons.math.util.IterationEvent;
  */
 public abstract class IterativeLinearSolverEvent
     extends IterationEvent {
-
-    /** */
+    /** Serialization identifier. */
     private static final long serialVersionUID = 20120129L;
 
     /**
@@ -90,7 +90,7 @@ public abstract class IterativeLinearSolverEvent
      * @return the updated residual, r
      */
     public RealVector getResidual() {
-        throw new UnsupportedOperationException();
+        throw new MathUnsupportedOperationException();
     }
 
     /**
