@@ -91,16 +91,11 @@ public class DefaultTransformerTest {
     /**
      *
      */
-    @Test
+    @Test(expected=MathIllegalArgumentException.class)
     public void testTransformObject(){
         Boolean input = Boolean.TRUE;
         DefaultTransformer t = new DefaultTransformer();
-        try {
-            t.transform(input);
-            Assert.fail("Expecting MathException");
-        } catch (MathIllegalArgumentException e) {
-            // expected
-        }
+        t.transform(input);
     }
 
     @Test

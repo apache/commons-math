@@ -714,7 +714,7 @@ public class MillerUpdatingRegressionTest {
     }
 
 //    @Test
-//    public void testRegressReorder() throws MathException {
+//    public void testRegressReorder() {
 //        // System.out.println("testRegressReorder");
 //        MillerUpdatingRegression instance = new MillerUpdatingRegression(4, false);
 //        double[][] x = new double[airdata[0].length][];
