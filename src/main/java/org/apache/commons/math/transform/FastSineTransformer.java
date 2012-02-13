@@ -35,42 +35,10 @@ import org.apache.commons.math.util.FastMath;
  * <p>
  * There are several variants of the discrete sine transform. The present
  * implementation corresponds to DST-I, with various normalization conventions,
- * which are described below. <strong>It should be noted that regardless to the
- * convention, the first element of the dataset to be transformed must be
- * zero.</strong>
+ * which are specified by the parameter {@link DstNormalization}.
+ * <strong>It should be noted that regardless to the convention, the first
+ * element of the dataset to be transformed must be zero.</strong>
  * </p>
- * <h3><a id="standard">Standard DST-I</a></h3>
- * <p>
- * The standard normalization convention is defined as follows
- * <ul>
- * <li>forward transform: y<sub>n</sub> = &sum;<sub>k=0</sub><sup>N-1</sup>
- * x<sub>k</sub> sin(&pi; nk / N),</li>
- * <li>inverse transform: x<sub>k</sub> = (2 / N)
- * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
- * </ul>
- * where N is the size of the data sample, and x<sub>0</sub> = 0.
- * </p>
- * <p>
- * {@link RealTransformer}s following this convention are returned by the
- * factory method {@link #create()}.
- * </p>
- * <h3><a id="orthogonal">Orthogonal DST-I</a></h3>
- * <p>
- * The orthogonal normalization convention is defined as follows
- * <ul>
- * <li>Forward transform: y<sub>n</sub> = &radic;(2 / N)
- * &sum;<sub>k=0</sub><sup>N-1</sup> x<sub>k</sub> sin(&pi; nk / N),</li>
- * <li>Inverse transform: x<sub>k</sub> = &radic;(2 / N)
- * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
- * </ul>
- * which makes the transform orthogonal. N is the size of the data sample, and
- * x<sub>0</sub> = 0.
- * </p>
- * <p>
- * {@link RealTransformer}s following this convention are returned by the
- * factory method {@link #createOrthogonal()}.
- * </p>
- * <h3>Link with the DFT, and assumptions on the layout of the data set</h3>
  * <p>
  * DST-I is equivalent to DFT of an <em>odd extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -104,7 +72,7 @@ import org.apache.commons.math.util.FastMath;
  * sampling.
  * </p>
  *
- * @version $Id: FastSineTransformer.java 1213157 2011-12-12 07:19:23Z celestin$
+ * @version $Id$
  * @since 1.2
  */
 public class FastSineTransformer implements RealTransformer, Serializable {
@@ -112,50 +80,18 @@ public class FastSineTransformer implements RealTransformer, Serializable {
     /** Serializable version identifier. */
     static final long serialVersionUID = 20120211L;
 
-    /**
-     * {@code true} if the orthogonal version of the DCT should be used.
-     *
-     * @see #create()
-     * @see #createOrthogonal()
-     */
-    private final boolean orthogonal;
+    /** The type of DST to be performed. */
+    private final DstNormalization normalization;
 
     /**
      * Creates a new instance of this class, with various normalization
      * conventions.
      *
-     * @param orthogonal {@code false} if the DST is <em>not</em> to be scaled,
-     * {@code true} if it is to be scaled so as to make the transform
-     * orthogonal.
-     * @see #create()
-     * @see #createOrthogonal()
+     * @param normalization the type of normalization to be applied to the
+     * transformed data
      */
-    private FastSineTransformer(final boolean orthogonal) {
-        this.orthogonal = orthogonal;
-    }
-
-    /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#standard">standard normalizing conventions</a>.
-     * </p>
-     *
-     * @return a new DST transformer, with standard normalizing conventions
-     */
-    public static FastSineTransformer create() {
-        return new FastSineTransformer(false);
-    }
-
-    /**
-     * <p>
-     * Returns a new instance of this class. The returned transformer uses the
-     * <a href="#orthogonal">orthogonal normalizing conventions</a>.
-     * </p>
-     *
-     * @return a new DST transformer, with orthogonal normalizing conventions
-     */
-    public static FastSineTransformer createOrthogonal() {
-        return new FastSineTransformer(true);
+    public FastSineTransformer(final DstNormalization normalization) {
+        this.normalization = normalization;
     }
 
     /**
@@ -167,7 +103,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * not a power of two, or the first element of the data array is not zero
      */
     public double[] transform(final double[] f, final TransformType type) {
-        if (orthogonal) {
+        if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
             final double s = FastMath.sqrt(2.0 / f.length);
             return TransformUtils.scaleArray(fst(f), s);
         }
