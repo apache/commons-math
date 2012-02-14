@@ -294,7 +294,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.UnknownDistributionChiSquareTest#chiSquareDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
      *
      * @since 1.2
      */
@@ -305,7 +305,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
      *
      * @since 1.2
      */
@@ -317,7 +317,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.UnknownDistributionChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
+     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      *
      * @since 1.2
      */
