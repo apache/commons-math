@@ -97,9 +97,9 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Override
     RealTransformer createRealTransformer() {
         if (standard) {
-            return FastSineTransformer.create();
+            return new FastSineTransformer(DstNormalization.STANDARD_DST_I);
         } else {
-            return FastSineTransformer.createOrthogonal();
+            return new FastSineTransformer(DstNormalization.ORTHOGONAL_DST_I);
         }
     }
 
@@ -203,7 +203,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
      */
     @Test
     public void testAdHocData() {
-        FastSineTransformer transformer = FastSineTransformer.create();
+        FastSineTransformer transformer = new FastSineTransformer(DstNormalization.STANDARD_DST_I);
         double result[], tolerance = 1E-12;
 
         double x[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 };
@@ -222,7 +222,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         }
 
         TransformUtils.scaleArray(x, FastMath.sqrt(x.length / 2.0));
-        transformer = FastSineTransformer.createOrthogonal();
+        transformer = new FastSineTransformer(DstNormalization.ORTHOGONAL_DST_I);
 
         result = transformer.transform(y, TransformType.FORWARD);
         for (int i = 0; i < result.length; i++) {
@@ -241,7 +241,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Test
     public void testSinFunction() {
         UnivariateFunction f = new SinFunction();
-        FastSineTransformer transformer = FastSineTransformer.create();
+        FastSineTransformer transformer = new FastSineTransformer(DstNormalization.STANDARD_DST_I);
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;
 
         min = 0.0; max = 2.0 * FastMath.PI;
@@ -265,7 +265,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
     @Test
     public void testParameters() throws Exception {
         UnivariateFunction f = new SinFunction();
-        FastSineTransformer transformer = FastSineTransformer.create();
+        FastSineTransformer transformer = new FastSineTransformer(DstNormalization.STANDARD_DST_I);
 
         try {
             // bad interval
