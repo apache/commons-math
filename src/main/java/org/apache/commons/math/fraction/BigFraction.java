@@ -687,7 +687,7 @@ public class BigFraction
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
             int shift = Math.max(numerator.bitLength(),
-                                 denominator.bitLength()) - Double.MAX_EXPONENT;
+                                 denominator.bitLength()) - FastMath.getExponent(Double.MAX_VALUE);
             result = numerator.shiftRight(shift).doubleValue() /
                 denominator.shiftRight(shift).doubleValue();
         }
@@ -740,7 +740,7 @@ public class BigFraction
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
             int shift = Math.max(numerator.bitLength(),
-                                 denominator.bitLength()) - Float.MAX_EXPONENT;
+                                 denominator.bitLength()) - FastMath.getExponent(Float.MAX_VALUE);
             result = numerator.shiftRight(shift).floatValue() /
                 denominator.shiftRight(shift).floatValue();
         }
