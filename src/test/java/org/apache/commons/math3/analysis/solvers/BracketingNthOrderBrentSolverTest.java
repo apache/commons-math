@@ -1,0 +1,210 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.commons.math3.analysis.solvers;
+
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.QuinticFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.util.FastMath;
+import org.junit.Assert;
+import org.junit.Test;
+
+/**
+ * Test case for {@link BracketingNthOrderBrentSolver bracketing n<sup>th</sup> order Brent} solver.
+ *
+ * @version $Id$
+ */
+public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbstractTest {
+    /** {@inheritDoc} */
+    @Override
+    protected UnivariateSolver getSolver() {
+        return new BracketingNthOrderBrentSolver();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected int[] getQuinticEvalCounts() {
+        return new int[] {1, 3, 8, 1, 9, 4, 8, 1, 12, 1, 16};
+    }
+
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testInsufficientOrder1() {
+        new BracketingNthOrderBrentSolver(1.0e-10, 1);
+    }
+
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testInsufficientOrder2() {
+        new BracketingNthOrderBrentSolver(1.0e-10, 1.0e-10, 1);
+    }
+
+    @Test(expected=NumberIsTooSmallException.class)
+    public void testInsufficientOrder3() {
+        new BracketingNthOrderBrentSolver(1.0e-10, 1.0e-10, 1.0e-10, 1);
+    }
+
+    @Test
+    public void testConstructorsOK() {
+        Assert.assertEquals(2, new BracketingNthOrderBrentSolver(1.0e-10, 2).getMaximalOrder());
+        Assert.assertEquals(2, new BracketingNthOrderBrentSolver(1.0e-10, 1.0e-10, 2).getMaximalOrder());
+        Assert.assertEquals(2, new BracketingNthOrderBrentSolver(1.0e-10, 1.0e-10, 1.0e-10, 2).getMaximalOrder());
+    }
+
+    @Test
+    public void testConvergenceOnFunctionAccuracy() {
+        BracketingNthOrderBrentSolver solver =
+                new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-10, 0.001, 3);
+        QuinticFunction f = new QuinticFunction();
+        double result = solver.solve(20, f, 0.2, 0.9, 0.4, AllowedSolution.BELOW_SIDE);
+        Assert.assertEquals(0, f.value(result), solver.getFunctionValueAccuracy());
+        Assert.assertTrue(f.value(result) <= 0);
+        Assert.assertTrue(result - 0.5 > solver.getAbsoluteAccuracy());
+        result = solver.solve(20, f, -0.9, -0.2,  -0.4, AllowedSolution.ABOVE_SIDE);
+        Assert.assertEquals(0, f.value(result), solver.getFunctionValueAccuracy());
+        Assert.assertTrue(f.value(result) >= 0);
+        Assert.assertTrue(result + 0.5 < -solver.getAbsoluteAccuracy());
+    }
+
+    @Test
+    public void testIssue716() {
+        BracketingNthOrderBrentSolver solver =
+                new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-10, 1.0e-22, 5);
+        UnivariateFunction sharpTurn = new UnivariateFunction() {
+            public double value(double x) {
+                return (2 * x + 1) / (1.0e9 * (x + 1));
+            }
+        };
+        double result = solver.solve(100, sharpTurn, -0.9999999, 30, 15, AllowedSolution.RIGHT_SIDE);
+        Assert.assertEquals(0, sharpTurn.value(result), solver.getFunctionValueAccuracy());
+        Assert.assertTrue(sharpTurn.value(result) >= 0);
+        Assert.assertEquals(-0.5, result, 1.0e-10);
+    }
+
+    @Test
+    public void testFasterThanNewton() {
+        // the following test functions come from Beny Neta's paper:
+        // "Several New Methods for solving Equations"
+        // intern J. Computer Math Vol 23 pp 265-282
+        // available here: http://www.math.nps.navy.mil/~bneta/SeveralNewMethods.PDF
+        // the reference roots have been computed by the Dfp solver to more than
+        // 80 digits and checked with emacs (only the first 20 digits are reproduced here)
+        compare(new TestFunction(0.0, -2, 2) {
+            @Override
+            public double value(double x)      { return FastMath.sin(x) - 0.5 * x; }
+            @Override
+            public double derivative(double x) { return FastMath.cos(x) - 0.5; }
+        });
+        compare(new TestFunction(6.3087771299726890947, -5, 10) {
+            @Override
+            public double value(double x)      { return FastMath.pow(x, 5) + x - 10000; }
+            @Override
+            public double derivative(double x) { return 5 * FastMath.pow(x, 4) + 1; }
+        });
+        compare(new TestFunction(9.6335955628326951924, 0.001, 10) {
+            @Override
+            public double value(double x)      { return FastMath.sqrt(x) - 1 / x - 3; }
+            @Override
+            public double derivative(double x) { return 0.5 / FastMath.sqrt(x) + 1 / (x * x); }
+        });
+        compare(new TestFunction(2.8424389537844470678, -5, 5) {
+            @Override
+            public double value(double x)      { return FastMath.exp(x) + x - 20; }
+            @Override
+            public double derivative(double x) { return FastMath.exp(x) + 1; }
+        });
+        compare(new TestFunction(8.3094326942315717953, 0.001, 10) {
+            @Override
+            public double value(double x)      { return FastMath.log(x) + FastMath.sqrt(x) - 5; }
+            @Override
+            public double derivative(double x) { return 1 / x + 0.5 / FastMath.sqrt(x); }
+        });
+        compare(new TestFunction(1.4655712318767680266, -0.5, 1.5) {
+            @Override
+            public double value(double x)      { return (x - 1) * x * x - 1; }
+            @Override
+            public double derivative(double x) { return (3 * x - 2) * x; }
+        });
+
+    }
+
+    private void compare(TestFunction f) {
+        compare(f, f.getRoot(), f.getMin(), f.getMax());
+    }
+
+    private void compare(DifferentiableUnivariateFunction f,
+                         double root, double min, double max) {
+        NewtonSolver newton = new NewtonSolver(1.0e-12);
+        BracketingNthOrderBrentSolver bracketing =
+                new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-12, 1.0e-18, 5);
+        double resultN;
+        try {
+            resultN = newton.solve(100, f, min, max);
+        } catch (TooManyEvaluationsException tmee) {
+            resultN = Double.NaN;
+        }
+        double resultB;
+        try {
+            resultB = bracketing.solve(100, f, min, max);
+        } catch (TooManyEvaluationsException tmee) {
+            resultB = Double.NaN;
+        }
+        Assert.assertEquals(root, resultN, newton.getAbsoluteAccuracy());
+        Assert.assertEquals(root, resultB, bracketing.getAbsoluteAccuracy());
+        Assert.assertTrue(bracketing.getEvaluations() < newton.getEvaluations());
+    }
+
+    private static abstract class TestFunction implements DifferentiableUnivariateFunction {
+
+        private final double root;
+        private final double min;
+        private final double max;
+
+        protected TestFunction(final double root, final double min, final double max) {
+            this.root = root;
+            this.min  = min;
+            this.max  = max;
+        }
+
+        public double getRoot() {
+            return root;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public abstract double value(double x);
+
+        public abstract double derivative(double x);
+
+        public UnivariateFunction derivative() {
+            return new UnivariateFunction() {
+                public double value(double x) {
+                     return derivative(x);
+                }
+            };
+        }
+
+    }
+
+}

@@ -32,7 +32,7 @@
 <subsection name="6.1 Overview" href="overview">
     <p>
     The <a href="../apidocs/org/apache/commons/math/util/package-summary.html">
-    org.apache.commons.math.util</a> package collects a group of array utilities,
+    org.apache.commons.math3.util</a> package collects a group of array utilities,
     value transformers,  and numerical routines used by implementation classes in
     commons-math.
     </p>

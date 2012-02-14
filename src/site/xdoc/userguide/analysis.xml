@@ -513,7 +513,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
       <subsection name="4.6 Polynomials" href="polynomials">
         <p>
           The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package-summary.html">
-          org.apache.commons.math.analysis.polynomials</a> package provides real
+          org.apache.commons.math3.analysis.polynomials</a> package provides real
           coefficients polynomials.
         </p>
         <p>

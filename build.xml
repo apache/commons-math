@@ -46,7 +46,7 @@
   <property name="component.name"          value="commons-math"/>
 
   <!-- The primary package name of this component -->
-  <property name="component.package"       value="org.apache.commons.math"/>
+  <property name="component.package"       value="org.apache.commons.math3"/>
 
   <!-- The title of this component -->
   <property name="component.title"         value="Commons MATH"/>
@@ -200,7 +200,7 @@
                <classpath refid="test.classpath"/>
                <!-- If test.entry is defined, run a single test, otherwise run all valid tests -->
                <!-- N.B. test.entry must be the full path to the test class, for example:
-               ant test -Dtest.entry=org.apache.commons.math.util.FastMathTestPerformance
+               ant test -Dtest.entry=org.apache.commons.math3.util.FastMathTestPerformance
                -->
                <test name="${test.entry}" todir="${test.reports}" if="test.entry"/>
                <batchtest todir="${test.reports}" unless="test.entry">

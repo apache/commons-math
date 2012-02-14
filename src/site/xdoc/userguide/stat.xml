@@ -618,7 +618,7 @@ regression.newSampleData(y, x, omega);
       <p>
          Some statistical algorithms require that input data be replaced by ranks.
          The <a href="../apidocs/org/apache/commons/math/stat/ranking/package-summary.html">
-         org.apache.commons.math.stat.ranking</a> package provides rank transformation.
+         org.apache.commons.math3.stat.ranking</a> package provides rank transformation.
          <a href="../apidocs/org/apache/commons/math/stat/ranking/RankingAlgorithm.html">
          RankingAlgorithm</a> defines the interface for ranking.  
          <a href="../apidocs/org/apache/commons/math/stat/ranking/NaturalRanking.html">
@@ -659,7 +659,7 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
       <subsection name="1.7 Covariance and correlation">
         <p>
           The <a href="../apidocs/org/apache/commons/math/stat/correlation/package-summary.html">
-          org.apache.commons.math.stat.correlation</a> package computes covariances
+          org.apache.commons.math3.stat.correlation</a> package computes covariances
           and correlations for pairs of arrays or columns of a matrix.
           <a href="../apidocs/org/apache/commons/math/stat/correlation/Covariance.html">
           Covariance</a> computes covariances, 
@@ -806,7 +806,7 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
         <p>
           The interfaces and implementations in the
           <a href="../apidocs/org/apache/commons/math/stat/inference/">
-          org.apache.commons.math.stat.inference</a> package provide
+          org.apache.commons.math3.stat.inference</a> package provide
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
           Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">

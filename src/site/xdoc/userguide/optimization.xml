@@ -454,7 +454,7 @@ can be seen below:
 
 <p>
 Below is the the class containing all the implementation details
-(Taken from the Apache Commons Math <b>org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizerTest</b>):
+(Taken from the Apache Commons Math <b>org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizerTest</b>):
 </p>
 
 <source>

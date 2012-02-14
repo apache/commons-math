@@ -212,7 +212,7 @@ are reproduced below.
 ===============================================================================
 For the lmder, lmpar and qrsolv Fortran routine from minpack and translated in
 the LevenbergMarquardtOptimizer class in package
-org.apache.commons.math.optimization.general 
+org.apache.commons.math3.optimization.general 
 Original source copyright and license statement:
 
 Minpack Copyright Notice (1999) University of Chicago.  All rights reserved
@@ -270,7 +270,7 @@ POSSIBILITY OF SUCH LOSS OR DAMAGES.
 
 Copyright and license statement for the odex Fortran routine developed by
 E. Hairer and G. Wanner and translated in GraggBulirschStoerIntegrator class
-in package org.apache.commons.math.ode.nonstiff:
+in package org.apache.commons.math3.ode.nonstiff:
 
 
 Copyright (c) 2004, Ernst Hairer
@@ -301,7 +301,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Copyright and license statement for the original lapack fortran routines
 translated in EigenDecompositionImpl class in package
-org.apache.commons.math.linear:
+org.apache.commons.math3.linear:
 
 Copyright (c) 1992-2008 The University of Tennessee.  All rights reserved.
 
@@ -342,7 +342,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Copyright and license statement for the original Mersenne twister C
 routines translated in MersenneTwister class in package 
-org.apache.commons.math.random:
+org.apache.commons.math3.random:
 
    Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
    All rights reserved.                          

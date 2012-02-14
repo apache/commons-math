@@ -777,7 +777,7 @@ This is primarily a maintenance release, but it also includes new features and e
   2.1, there was no way to estimate models without intercept terms, and, while this was not clear from
   the documentation, design (X) matrices needed to include initial unitary columns.  In 2.2, initial
   unitary columns are not necessary and whether or not models include intercept terms is configurable.
-  See the change log and javadoc for the classes in org.apache.commons.math.stat.regression for details.
+  See the change log and javadoc for the classes in org.apache.commons.math3.stat.regression for details.
 
   The major new features are:
   a new FastMath class, both faster, more accurate and with a few additional functions than StrictMath and Math;
