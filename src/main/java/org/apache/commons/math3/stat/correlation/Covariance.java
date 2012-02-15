@@ -145,7 +145,6 @@ public class Covariance {
      *
      * @return number of observations
      */
-
     public int getN() {
         return n;
     }

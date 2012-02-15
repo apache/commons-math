@@ -16,56 +16,97 @@
  */
 package org.apache.commons.math3.stat.correlation;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
  * Bivariate Covariance implementation that does not require input data to be
  * stored in memory.
  *
+ * <p>This class is based on a paper written by Philippe Pébay:
+ * <a href="http://prod.sandia.gov/techlib/access-control.cgi/2008/086212.pdf">
+ * Formulas for Robust, One-Pass Parallel Computation of Covariances and
+ * Arbitrary-Order Statistical Moments</a>, 2008, Technical Report SAND2008-6212,
+ * Sandia National Laboratories. It computes the covariance for a pair of variables.
+ * Use {@link StorelessCovariance} to estimate an entire covariance matrix.</p>
+ *
  * @version $Id$
  * @since 3.0
  */
 public class StorelessBivariateCovariance {
 
-    private double deltaX = 0.0;
+    /** the mean of variable x */
+    private double meanX;
 
-    private double deltaY = 0.0;
+    /** the mean of variable y */
+    private double meanY;
 
-    private double meanX = 0.0;
+    /** number of observations */
+    private double n;
 
-    private double meanY = 0.0;
+    /** the running covariance estimate */
+    private double covarianceNumerator;
 
-    private double n = 0;
+    /** flag for bias correction */
+    private boolean biasCorrected;
 
-    private double covarianceNumerator = 0.0;
-
-    private boolean biasCorrected = true;
-
+    /**
+     * Create an empty {@link StorelessBivariateCovariance} instance with
+     * bias correction.
+     */
     public StorelessBivariateCovariance() {
+        this(true);
     }
 
-    public StorelessBivariateCovariance(boolean biasCorrected) {
-        this.biasCorrected = biasCorrected;
+    /**
+     * Create an empty {@link StorelessBivariateCovariance} instance.
+     *
+     * @param biasCorrection if <code>true</code> the covariance estimate is corrected
+     * for bias, i.e. n-1 in the denominator, otherwise there is no bias correction,
+     * i.e. n in the denominator.
+     */
+    public StorelessBivariateCovariance(final boolean biasCorrection) {
+        meanX = meanY = 0.0;
+        n = 0;
+        covarianceNumerator = 0.0;
+        biasCorrected = biasCorrection;
     }
 
-    public void increment(double x, double y) {
+    /**
+     * Update the covariance estimation with a pair of variables (x, y).
+     *
+     * @param x the x value
+     * @param y the y value
+     */
+    public void increment(final double x, final double y) {
         n++;
-        deltaX = x - meanX;
-        deltaY = y - meanY;
+        final double deltaX = x - meanX;
+        final double deltaY = y - meanY;
         meanX += deltaX / n;
         meanY += deltaY / n;
         covarianceNumerator += ((n - 1.0) / n) * deltaX * deltaY;
     }
 
+    /**
+     * Returns the number of observations.
+     *
+     * @return number of observations
+     */
     public double getN() {
         return n;
     }
 
-    public double getResult() throws IllegalArgumentException {
+    /**
+     * Return the current covariance estimate.
+     *
+     * @return the current covariance
+     * @throws NumberIsTooSmallException if the number of observations
+     * is &lt; 2
+     */
+    public double getResult() throws NumberIsTooSmallException {
         if (n < 2) {
-            throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
-                                                   n, 2);
+            throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_DIMENSION,
+                                                n, 2, true);
         }
         if (biasCorrected) {
             return covarianceNumerator / (n - 1d);
@@ -73,6 +114,5 @@ public class StorelessBivariateCovariance {
             return covarianceNumerator / n;
         }
     }
-
 }
 
