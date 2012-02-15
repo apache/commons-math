@@ -193,7 +193,6 @@ public enum LocalizedFormats implements Localizable {
     NOT_MULTIPLICATION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not multiplication compatible"),
     ALPHA("alpha"), /* keep */
     BETA("beta"), /* keep */
-    NOT_POSITIVE_COLUMNDIMENSION("invalid column dimension: {0} (must be positive)"),
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"), /* keep */
     NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({1},{1}) is smaller than {2} ({0})"),
     NON_POSITIVE_DEFINITE_OPERATOR("non positive definite linear operator"), /* keep */
@@ -249,7 +248,7 @@ public enum LocalizedFormats implements Localizable {
     NO_SUCH_MATRIX_ENTRY("no entry at indices ({0}, {1}) in a {2}x{3} matrix"),
     NAN_NOT_ALLOWED("NaN is not allowed"),
     NULL_NOT_ALLOWED("null is not allowed"), /* keep */
-    ARRAY_ZERO_LENGTH_OR_NULL_NOTALLOWED("A null or zero length array not allowed"),
+    ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED("a null or zero length array not allowed"),
     COVARIANCE_MATRIX("covariance matrix"), /* keep */
     DENOMINATOR("denominator"), /* keep */
     DENOMINATOR_FORMAT("denominator format"), /* keep */
@@ -292,7 +291,6 @@ public enum LocalizedFormats implements Localizable {
     POLYNOMIAL("polynomial"), /* keep */
     POLYNOMIAL_INTERPOLANTS_MISMATCH_SEGMENTS("number of polynomial interpolants must match the number of segments ({0} != {1} - 1)"),
     POPULATION_LIMIT_NOT_POSITIVE("population limit has to be positive"),
-    POSITION_SIZE_MISMATCH_INPUT_ARRAY("position {0} and size {1} don't fit to the size of the input array {2}"),
     POWER_NEGATIVE_PARAMETERS("cannot raise an integral value to a negative power ({0}^{1})"),
     PROPAGATION_DIRECTION_MISMATCH("propagation direction mismatch"),
     RANDOMKEY_MUTATION_WRONG_CLASS("RandomKeyMutation works only with RandomKeys, not {0}"),
@@ -311,7 +309,6 @@ public enum LocalizedFormats implements Localizable {
     TOO_LARGE_CUTOFF_SINGULAR_VALUE("cutoff singular value is {0}, should be at most {1}"),
     TOO_LARGE_TOURNAMENT_ARITY("tournament arity ({0}) cannot be bigger than population size ({1})"),
     TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY("cannot discard {0} elements from a {1} elements array"),
-    TOO_MUCH_CANCELLATION("too much cancellation in a denominator"),
     TOO_MANY_REGRESSORS("too many regressors ({0}) specified, only {1} in the model"),
     TOO_SMALL_COST_RELATIVE_TOLERANCE("cost relative tolerance is too small ({0}), no further reduction in the sum of squares is possible"),
     TOO_SMALL_INTEGRATION_INTERVAL("too small integration interval: length = {0}"),

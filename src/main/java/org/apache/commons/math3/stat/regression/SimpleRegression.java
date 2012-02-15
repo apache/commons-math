@@ -773,7 +773,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      */
     public RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException{
         if( variablesToInclude == null || variablesToInclude.length == 0){
-          throw new MathIllegalArgumentException(LocalizedFormats.ARRAY_ZERO_LENGTH_OR_NULL_NOTALLOWED);
+          throw new MathIllegalArgumentException(LocalizedFormats.ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
         }
         if( variablesToInclude.length > 2 || (variablesToInclude.length > 1 && !hasIntercept) ){
             throw new ModelSpecificationException(
