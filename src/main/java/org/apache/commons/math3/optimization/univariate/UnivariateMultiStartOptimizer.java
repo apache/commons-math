@@ -30,7 +30,7 @@ import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 
 /**
- * Special implementation of the {@link UnivariateRealOptimizer} interface
+ * Special implementation of the {@link UnivariateOptimizer} interface
  * adding multi-start features to an existing optimizer.
  *
  * This class wraps a classical optimizer to use it several times in

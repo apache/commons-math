@@ -32,7 +32,7 @@ public class UnivariateMultiStartOptimizerTest {
     @Test
     public void testSinMin() {
         UnivariateFunction f = new SinFunction();
-        UnivariateRealOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
+        UnivariateOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
@@ -54,7 +54,7 @@ public class UnivariateMultiStartOptimizerTest {
         // The quintic function has zeros at 0, +-0.5 and +-1.
         // The function has extrema (first derivative is zero) at 0.27195613 and 0.82221643,
         UnivariateFunction f = new QuinticFunction();
-        UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
+        UnivariateOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =
@@ -83,7 +83,7 @@ public class UnivariateMultiStartOptimizerTest {
                     return 0;
                 }
             };
-        UnivariateRealOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
+        UnivariateOptimizer underlying = new BrentOptimizer(1e-9, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(4312000053L);
         UnivariateMultiStartOptimizer<UnivariateFunction> optimizer =

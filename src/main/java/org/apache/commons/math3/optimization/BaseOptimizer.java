@@ -25,7 +25,7 @@ package org.apache.commons.math3.optimization;
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>
  *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer}</li>
  *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateRealOptimizer}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer}</li>
  * </ul>
  *
  * @param <PAIR> Type of the point/objective pair.

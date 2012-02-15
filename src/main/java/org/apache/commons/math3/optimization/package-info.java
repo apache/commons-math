@@ -32,8 +32,8 @@
  * interfaces defining the common behavior of optimizers, one for each supported type of objective
  * function:
  * <ul>
- *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateRealOptimizer
- *      UnivariateRealOptimizer} for {@link org.apache.commons.math3.analysis.UnivariateFunction
+ *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer
+ *      UnivariateOptimizer} for {@link org.apache.commons.math3.analysis.UnivariateFunction
  *      univariate real functions}</li>
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer
  *      MultivariateOptimizer} for {@link org.apache.commons.math3.analysis.MultivariateFunction

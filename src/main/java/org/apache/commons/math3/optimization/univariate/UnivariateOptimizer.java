@@ -24,5 +24,5 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  * @version $Id$
  * @since 3.0
  */
-public interface UnivariateRealOptimizer
+public interface UnivariateOptimizer
     extends BaseUnivariateOptimizer<UnivariateFunction> {}

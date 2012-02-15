@@ -26,7 +26,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateRealOptimizer}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.
