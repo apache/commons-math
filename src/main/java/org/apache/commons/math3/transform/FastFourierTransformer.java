@@ -432,8 +432,8 @@ public class FastFourierTransformer implements Serializable {
 
     /**
      * Performs a multi-dimensional Fourier transform on a given array. Use
-     * {@link #transform(Complex[])} and {@link #inverseTransform(Complex[])} in
-     * a row-column implementation in any number of dimensions with
+     * {@link #transform(Complex[], TransformType)} in a row-column
+     * implementation in any number of dimensions with
      * O(N&times;log(N)) complexity with
      * N = n<sub>1</sub> &times; n<sub>2</sub> &times;n<sub>3</sub> &times; ...
      * &times; n<sub>d</sub>, where n<sub>k</sub> is the number of elements in

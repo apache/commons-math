@@ -208,8 +208,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *
      * The upper bound of the support is positive infinity,
      * regardless of the parameter values. There is no integer infinity,
-     * so this method returns {@code Integer.MAX_VALUE} and
-     * {@link #isSupportUpperBoundInclusive()} returns {@code true}.
+     * so this method returns {@code Integer.MAX_VALUE}.
      *
      * @return upper bound of the support (always {@code Integer.MAX_VALUE} for
      * positive infinity)

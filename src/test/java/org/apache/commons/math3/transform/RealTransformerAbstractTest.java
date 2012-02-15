@@ -31,9 +31,9 @@ import org.junit.Test;
  * This abstract test handles the automatic generation of random data of various
  * sizes. For each generated data array, actual values (returned by the
  * transformer to be tested) are compared to expected values, returned by the
- * {@link #transform(double[], boolean)} (to be implemented by the user: a naive
- * method may be used). Methods are also provided to test that invalid parameters
- * throw the expected exceptions.
+ * {@link #transform(double[], TransformType)} (to be implemented by the user:
+ * a naive method may be used). Methods are also provided to test that invalid
+ * parameters throw the expected exceptions.
  *
  * @since 3.0
  * @version $Id$
@@ -147,7 +147,7 @@ public abstract class RealTransformerAbstractTest {
      */
 
     /**
-     * {@link RealTransformer#transform(double[], TransformType))} should throw a
+     * {@link RealTransformer#transform(double[], TransformType)} should throw a
      * {@link MathIllegalArgumentException} if data size is invalid.
      */
     @Test
@@ -247,14 +247,14 @@ public abstract class RealTransformerAbstractTest {
      */
 
     /**
-     * Accuracy check of {@link RealTransformer#transform(double[])}. For each
-     * valid data size returned by
+     * Accuracy check of {@link RealTransformer#transform(double[], TransformType)}.
+     * For each valid data size returned by
      * {@link #getValidDataSize(int) getValidDataSize(i)},
      * a random data array is generated with
      * {@link #createRealData(int) createRealData(i)}. The actual
      * transform is computed and compared to the expected transform, return by
-     * {@link #transform(double[], boolean)}. Actual and expected values should
-     * be equal to within the relative error returned by
+     * {@link #transform(double[], TransformType)}. Actual and expected values
+     * should be equal to within the relative error returned by
      * {@link #getRelativeTolerance(int) getRelativeTolerance(i)}.
      */
     @Test
@@ -271,14 +271,14 @@ public abstract class RealTransformerAbstractTest {
 
     /**
      * Accuracy check of
-     * {@link RealTransformer#transform(UnivariateFunction, double, double, int)}.
+     * {@link RealTransformer#transform(UnivariateFunction, double, double, int, TransformType)}.
      * For each valid data size returned by
      * {@link #getValidDataSize(int) getValidDataSize(i)},
      * the {@link UnivariateFunction} returned by {@link #getValidFunction()} is
      * sampled. The actual transform is computed and compared to the expected
-     * transform, return by {@link #transform(double[], boolean)}. Actual and
-     * expected values should be equal to within the relative error returned by
-     * {@link #getRelativeTolerance(int) getRelativeTolerance(i)}.
+     * transform, return by {@link #transform(double[], TransformType)}. Actual
+     * and expected values should be equal to within the relative error returned
+     * by {@link #getRelativeTolerance(int) getRelativeTolerance(i)}.
      */
     @Test
     public void testTransformFunction() {

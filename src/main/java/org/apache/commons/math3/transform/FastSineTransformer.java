@@ -67,9 +67,8 @@ import org.apache.commons.math3.util.FastMath;
  * transform requires the length of the data to be a power of two. Besides,
  * it implicitly assumes that the sampled function is odd. In particular, the
  * first element of the data set must be 0, which is enforced in
- * {@link #transform(UnivariateFunction, double, double, int)} and
- * {@link #inverseTransform(UnivariateFunction, double, double, int)}, after
- * sampling.
+ * {@link #transform(UnivariateFunction, double, double, int, TransformType)},
+ * after sampling.
  * </p>
  *
  * @version $Id$
