@@ -26,6 +26,11 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
+    <Class name="org.apache.commons.math3.util.Precision" />
+	<Method name="roundUnscaled" params="double,double,int" returns="double" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.distribution.SaddlePointExpansion" />
     <Or>
       <Method name="getDeviancePart" params="double,double" returns="double" />
@@ -58,7 +63,7 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.EigenDecompositionImpl" />
+    <Class name="org.apache.commons.math3.linear.EigenDecomposition" />
     <Method name="findEigenVectors" params="double[][]" returns="void" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -160,32 +165,12 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.BigMatrixImpl"/>
-    <Method name="&lt;init>" params="java.math3.BigDecimal[][],boolean" returns="void" />
-    <Bug pattern="EI_EXPOSE_REP2" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math3.linear.BigMatrixImpl"/>
-    <Method name="getDataRef" params="" returns="java.math3.BigDecimal[][]" />
-    <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
     <Class name="org.apache.commons.math3.linear.Array2DRowRealMatrix"/>
     <Method name="&lt;init>" params="double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math3.linear.Array2DRowRealMatrix"/>
-    <Method name="getDataRef" params="" returns="double[][]" />
-    <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math3.linear.RealMatrixImpl"/>
-    <Method name="&lt;init>" params="double[][],boolean" returns="void" />
-    <Bug pattern="EI_EXPOSE_REP2" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math3.linear.RealMatrixImpl"/>
     <Method name="getDataRef" params="" returns="double[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
@@ -263,7 +248,7 @@
 
   <!-- False positive warning from findbugs, the integer division result cast to double is correct here -->
   <Match>
-    <Class name="org.apache.commons.math3.stat.inference.MannWhitneyUTestImpl" />
+    <Class name="org.apache.commons.math3.stat.inference.MannWhitneyUTest" />
     <Method name="mannWhitneyU" params="double[],double[]" returns="double" />
     <Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
   </Match>
