@@ -324,7 +324,7 @@ public abstract class AdaptiveStepsizeIntegrator
               filteredH = forward ? minStep : -minStep;
           } else {
               throw new NumberIsTooSmallException(LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION,
-                                                  minStep, FastMath.abs(h), true);
+                                                  FastMath.abs(h), minStep, true);
           }
       }
 
