@@ -376,8 +376,9 @@ public enum LocalizedFormats implements Localizable {
     /** {@inheritDoc} */
     public String getLocalizedString(final Locale locale) {
         try {
+            final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
             ResourceBundle bundle =
-                    ResourceBundle.getBundle("META-INF/localization/LocalizedFormats", locale);
+                    ResourceBundle.getBundle("assets/" + path, locale);
             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
                 // the value of the resource is the translated format
                 return bundle.getString(toString());

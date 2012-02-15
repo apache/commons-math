@@ -52,6 +52,10 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="luc" type="update">
+        Resources for error messages translations have been moved out of META-INF
+        folder in the jar, to avoid interferences with some build systems
+      </action>
       <action dev="erans" type="fix" issue="MATH-744" due-to="Thundre">
         Fixed "doubleValue" and "floatValue" method in "BigFraction" when
         numerator and denominator are larger than the range of the

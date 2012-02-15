@@ -41,9 +41,10 @@ public class LocalizedFormatsTest {
 
     @Test
     public void testAllKeysPresentInPropertiesFiles() {
+        final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
         for (final String language : new String[] { "fr" } ) {
             ResourceBundle bundle =
-                ResourceBundle.getBundle("META-INF/localization/LocalizedFormats", new Locale(language));
+                ResourceBundle.getBundle("assets/" + path, new Locale(language));
             for (LocalizedFormats message : LocalizedFormats.values()) {
                 final String messageKey = message.toString();
                 boolean keyPresent = false;
@@ -60,9 +61,10 @@ public class LocalizedFormatsTest {
 
     @Test
     public void testAllPropertiesCorrespondToKeys() {
+        final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
         for (final String language : new String[] { "fr" } ) {
             ResourceBundle bundle =
-                ResourceBundle.getBundle("META-INF/localization/LocalizedFormats", new Locale(language));
+                ResourceBundle.getBundle("assets/" + path, new Locale(language));
             for (final Enumeration<String> keys = bundle.getKeys(); keys.hasMoreElements();) {
                 final String propertyKey = keys.nextElement();
                 try {
