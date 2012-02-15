@@ -102,8 +102,6 @@ public class FastMath {
      * </p>
      */
     private static /* final */ boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
-    /** Indicator for loading big tables from "resource" files. */
-    private static /* final */ boolean LOAD_RESOURCES = false;
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
@@ -3738,10 +3736,6 @@ public class FastMath {
                         EXP_INT_TABLE_B[FastMath.EXP_INT_TABLE_MAX_INDEX - i] = recip[1];
                     }
                 }
-            } else if (LOAD_RESOURCES) {
-                final double[][] expInt = FastMathResources.loadExpInt();
-                EXP_INT_TABLE_A = expInt[0];
-                EXP_INT_TABLE_B = expInt[1];
             } else {
                 EXP_INT_TABLE_A = FastMathLiteralArrays.loadExpIntA();
                 EXP_INT_TABLE_B = FastMathLiteralArrays.loadExpIntB();
@@ -3775,10 +3769,6 @@ public class FastMath {
                     EXP_FRAC_TABLE_A[i] = tmp[0];
                     EXP_FRAC_TABLE_B[i] = tmp[1];
                 }
-            } else if (LOAD_RESOURCES) {
-                final double[][] expFrac = FastMathResources.loadExpFrac();
-                EXP_FRAC_TABLE_A = expFrac[0];
-                EXP_FRAC_TABLE_B = expFrac[1];
             } else {
                 EXP_FRAC_TABLE_A = FastMathLiteralArrays.loadExpFracA();
                 EXP_FRAC_TABLE_B = FastMathLiteralArrays.loadExpFracB();
@@ -3800,8 +3790,6 @@ public class FastMath {
                     final double d = Double.longBitsToDouble( (((long) i) << 42) | 0x3ff0000000000000L );
                     LN_MANT[i] = FastMathCalc.slowLog(d);
                 }
-            } else if (LOAD_RESOURCES) {
-                LN_MANT = FastMathResources.loadLnMant();
             } else {
                 LN_MANT = FastMathLiteralArrays.loadLnMant();
             }

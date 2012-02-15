@@ -52,9 +52,12 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="sebb" type="fix" issue="MATH-650" >
+        Added pre-computed arrays to speed up initial loading time for FastMath.
+      </action>
       <action dev="luc" type="update">
         Resources for error messages translations have been moved out of META-INF
-        folder in the jar, to avoid interferences with some build systems
+        folder in the jar, to avoid interferences with some build systems.
       </action>
       <action dev="erans" type="fix" issue="MATH-744" due-to="Thundre">
         Fixed "doubleValue" and "floatValue" method in "BigFraction" when
