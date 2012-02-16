@@ -463,7 +463,6 @@ public class SymmLQTest {
             final int np = prec.getIterationManager().getIterations();
             final int nup = unprec.getIterationManager().getIterations();
             msg = String.format(pattern, np, nup);
-//             System.out.println(np + ", " + nup);
             for (int i = 0; i < n; i++) {
                 msg = String.format("row %d, column %d", i, j);
                 final double expected = x.getEntry(i);
