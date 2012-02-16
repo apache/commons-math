@@ -6136,7 +6136,7 @@ class FastMathLiteralArrays {
     /**
      * Load "EXP_INT_A".
      *
-     * @return a clone of the data array.
+     * @return the data array.
      */
     static double[] loadExpIntA() {
         return EXP_INT_A;
@@ -6144,7 +6144,7 @@ class FastMathLiteralArrays {
     /**
      * Load "EXP_INT_B".
      *
-     * @return a clone of the data array.
+     * @return the data array.
      */
     static double[] loadExpIntB() {
         return EXP_INT_B;
@@ -6152,7 +6152,7 @@ class FastMathLiteralArrays {
     /**
      * Load "EXP_FRAC_A".
      *
-     * @return a clone of the data array.
+     * @return the data array.
      */
     static double[] loadExpFracA() {
         return EXP_FRAC_A;
@@ -6160,7 +6160,7 @@ class FastMathLiteralArrays {
     /**
      * Load "EXP_FRAC_B".
      *
-     * @return a clone of the data array.
+     * @return the data array.
      */
     static double[] loadExpFracB() {
         return EXP_FRAC_B;
@@ -6168,7 +6168,7 @@ class FastMathLiteralArrays {
     /**
      * Load "LN_MANT".
      *
-     * @return a clone of the data array.
+     * @return the data array.
      */
     static double[][] loadLnMant() {
         return LN_MANT;
