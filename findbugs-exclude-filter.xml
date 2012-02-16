@@ -26,11 +26,6 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
-    <Class name="org.apache.commons.math3.util.Precision" />
-	<Method name="roundUnscaled" params="double,double,int" returns="double" />
-    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
-  </Match>
-  <Match>
     <Class name="org.apache.commons.math3.distribution.SaddlePointExpansion" />
     <Or>
       <Method name="getDeviancePart" params="double,double" returns="double" />
@@ -86,8 +81,8 @@
 
   <!-- The following equality test is intentional and needed for rounding purposes -->
   <Match>
-    <Class name="org.apache.commons.math3.util.MathUtils" />
-    <Method name="roundUnscaled" params="double,double,int" returns="double" />
+    <Class name="org.apache.commons.math3.util.Precision" />
+	<Method name="roundUnscaled" params="double,double,int" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
@@ -119,17 +114,17 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.RealPointValuePair"/>
+    <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.RealPointValuePair"/>
+    <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.VectorialPointValuePair"/>
+    <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
     <Or>
       <Method name="getPointRef" params="" returns="double[]" />
       <Method name="getValueRef" params="" returns="double[]" />
@@ -137,7 +132,7 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.VectorialPointValuePair"/>
+    <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
     <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
