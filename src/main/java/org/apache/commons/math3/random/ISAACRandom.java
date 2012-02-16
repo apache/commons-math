@@ -65,13 +65,13 @@ public class ISAACRandom extends BitsStreamGenerator implements Serializable {
     /** Counter, guarantees cycle is at least 2^40 */
     private int isaacC;
     /** Service variable. */
-    private final transient int[] arr = new int[8];
+    private final int[] arr = new int[8];
     /** Service variable. */
-    private transient int isaacX;
+    private int isaacX;
     /** Service variable. */
-    private transient int isaacI;
+    private int isaacI;
     /** Service variable. */
-    private transient int isaacJ;
+    private int isaacJ;
 
 
     /**
