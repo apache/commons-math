@@ -466,7 +466,7 @@ public class BOBYQAOptimizer
                             gradientAtTrustRegionCenter.setEntry(i, gradientAtTrustRegionCenter.getEntry(i) + temp * interpolationPoints.getEntry(k, i));
                         }
                     }
-                    throw new PathIsExploredException(); // XXX
+                    // throw new PathIsExploredException(); // XXX
                 }
             }
 
@@ -538,7 +538,7 @@ public class BOBYQAOptimizer
                         if (bdtest < bdtol) {
                             state = 650; break;
                         }
-                        throw new PathIsExploredException(); // XXX
+                        // throw new PathIsExploredException(); // XXX
                     }
                 }
                 state = 680; break;
@@ -1634,7 +1634,7 @@ public class BOBYQAOptimizer
                     stepa = initialTrustRegionRadius;
                     if (upperDifference.getEntry(nfmm) == ZERO) {
                         stepa = -stepa;
-                        throw new PathIsExploredException(); // XXX
+                        // throw new PathIsExploredException(); // XXX
                     }
                     interpolationPoints.setEntry(nfm, nfmm, stepa);
                 } else if (nfm > n) {
@@ -1642,11 +1642,11 @@ public class BOBYQAOptimizer
                     stepb = -initialTrustRegionRadius;
                     if (lowerDifference.getEntry(nfxm) == ZERO) {
                         stepb = Math.min(TWO * initialTrustRegionRadius, upperDifference.getEntry(nfxm));
-                        throw new PathIsExploredException(); // XXX
+                        // throw new PathIsExploredException(); // XXX
                     }
                     if (upperDifference.getEntry(nfxm) == ZERO) {
                         stepb = Math.max(-TWO * initialTrustRegionRadius, lowerDifference.getEntry(nfxm));
-                        throw new PathIsExploredException(); // XXX
+                        // throw new PathIsExploredException(); // XXX
                     }
                     interpolationPoints.setEntry(nfm, nfxm, stepb);
                 }
@@ -1708,7 +1708,7 @@ public class BOBYQAOptimizer
                         bMatrix.setEntry(0, nfmm, -oneOverStepA);
                         bMatrix.setEntry(nfm, nfmm, oneOverStepA);
                         bMatrix.setEntry(npt + nfmm, nfmm, -HALF * rhosq);
-                        throw new PathIsExploredException(); // XXX
+                        // throw new PathIsExploredException(); // XXX
                     }
                 } else if (numEval >= n + 2) {
                     final int ih = nfx * (nfx + 1) / 2 - 1;

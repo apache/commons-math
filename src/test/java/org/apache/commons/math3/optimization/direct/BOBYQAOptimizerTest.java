@@ -308,7 +308,7 @@ public class BOBYQAOptimizerTest {
                         PointValuePair expected,
                         String assertMsg) {
 
-        System.out.println(func.getClass().getName() + " BEGIN"); // XXX
+//         System.out.println(func.getClass().getName() + " BEGIN"); // XXX
 
         int dim = startPoint.length;
 //        MultivariateOptimizer optim =
@@ -329,7 +329,7 @@ public class BOBYQAOptimizerTest {
                                 result.getPoint()[i], pointTol);
         }
 
-        System.out.println(func.getClass().getName() + " END"); // XXX
+//         System.out.println(func.getClass().getName() + " END"); // XXX
     }
 
     private static double[] point(int n, double value) {
