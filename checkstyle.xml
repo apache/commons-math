@@ -188,6 +188,9 @@
     <property name="onCommentFormat"  value="CHECKSTYLE\: resume DeclarationOrder"/>
     <property name="checkFormat"      value="DeclarationOrder"/>
   </module>
-
+  <module name="SuppressionCommentFilter">
+    <property name="offCommentFormat" value="CHECKSTYLE\: stop all"/>
+    <property name="onCommentFormat" value="CHECKSTYLE\: resume all"/>
+  </module>
 </module>
 

@@ -1,3 +1,4 @@
+// CHECKSTYLE: stop all
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -160,7 +161,7 @@ public class BOBYQAOptimizer
      * XXX "su" in the original code.
      */
     private ArrayRealVector upperDifference;
-    /** 
+    /**
      * Parameters of the implicit second derivatives of the quadratic model.
      * XXX "pq" in the original code.
      */
