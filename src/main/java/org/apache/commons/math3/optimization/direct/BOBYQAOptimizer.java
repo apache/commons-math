@@ -2481,3 +2481,4 @@ public class BOBYQAOptimizer
         }
     }
 }
+//CHECKSTYLE: resume all
