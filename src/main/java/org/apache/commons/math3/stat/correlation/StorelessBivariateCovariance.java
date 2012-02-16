@@ -30,10 +30,13 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Sandia National Laboratories. It computes the covariance for a pair of variables.
  * Use {@link StorelessCovariance} to estimate an entire covariance matrix.</p>
  *
+ * <p>Note: This class is package private as it is only used internally in
+ * the {@link StorelessCovariance} class.</p>
+ *
  * @version $Id$
  * @since 3.0
  */
-public class StorelessBivariateCovariance {
+class StorelessBivariateCovariance {
 
     /** the mean of variable x */
     private double meanX;

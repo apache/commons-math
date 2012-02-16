@@ -34,62 +34,90 @@ import org.apache.commons.math3.linear.RealMatrix;
  * Arbitrary-Order Statistical Moments</a>, 2008, Technical Report SAND2008-6212,
  * Sandia National Laboratories.</p>
  *
+ * <p>Note: the underlying covariance matrix is symmetric, thus only the
+ * upper triangular part of the matrix is stored and updated each increment.</p>
+ *
  * @version $Id$
  * @since 3.0
  */
 public class StorelessCovariance extends Covariance {
 
-    /** the two-dimensional covariance matrix */
-    private StorelessBivariateCovariance[][] covMatrix;
+    /** the square covariance matrix (upper triangular part) */
+    private StorelessBivariateCovariance[] covMatrix;
 
-    /** row dimension of the covariance matrix */
-    private int rowDimension;
-
-    /** column dimension of the covariance matrix */
-    private int colDimension;
-
-    /** flag for bias correction */
-    private boolean biasCorrected;
+    /** dimension of the square covariance matrix */
+    private int dimension;
 
     /**
-     * Create a bias corrected covariance matrix with a given number of rows and columns.
+     * Create a bias corrected covariance matrix with a given dimension.
      *
-     * @param rows number of rows
-     * @param cols number of columns
+     * @param dim the dimension of the square covariance matrix
      */
-    public StorelessCovariance(final int rows, final int cols) {
-        this(rows, cols, true);
+    public StorelessCovariance(final int dim) {
+        this(dim, true);
     }
 
     /**
      * Create a covariance matrix with a given number of rows and columns and the
      * indicated bias correction.
      *
-     * @param rows number of variables in the rows
-     * @param cols number of variables in the columns
-     * @param biasCorrection if <code>true</code> the covariance estimate is corrected
+     * @param dim the dimension of the covariance matrix
+     * @param biasCorrected if <code>true</code> the covariance estimate is corrected
      * for bias, i.e. n-1 in the denominator, otherwise there is no bias correction,
      * i.e. n in the denominator.
      */
-    public StorelessCovariance(final int rows, final int cols,
-                               final boolean biasCorrection) {
-        rowDimension = rows;
-        colDimension = cols;
-        biasCorrected = biasCorrection;
-        covMatrix = new StorelessBivariateCovariance[rowDimension][colDimension];
-        initializeMatrix();
+    public StorelessCovariance(final int dim, final boolean biasCorrected) {
+        dimension = dim;
+        covMatrix = new StorelessBivariateCovariance[dimension * (dimension + 1) / 2];
+        initializeMatrix(biasCorrected);
     }
 
     /**
      * Initialize the internal two-dimensional array of
      * {@link StorelessBivariateCovariance} instances.
+     *
+     * @param biasCorrected if the covariance estimate shall be corrected for bias
      */
-    private void initializeMatrix() {
-        for(int i=0;i<rowDimension;i++){
-            for(int j=0;j<colDimension;j++){
-                covMatrix[i][j] = new StorelessBivariateCovariance(biasCorrected);
+    private void initializeMatrix(final boolean biasCorrected) {
+        for(int i = 0; i < dimension; i++){
+            for(int j = 0; j < dimension; j++){
+                setElement(i, j, new StorelessBivariateCovariance(biasCorrected));
             }
         }
+    }
+
+    /**
+     * Returns the index (i, j) translated into the one-dimensional
+     * array used to store the upper triangular part of the symmetric
+     * covariance matrix.
+     *
+     * @param i the row index
+     * @param j the column index
+     * @return the corresponding index in the matrix array
+     */
+    private int indexOf(final int i, final int j) {
+        return j < i ? i * (i + 1) / 2 + j : j * (j + 1) / 2 + i;
+    }
+
+    /**
+     * Gets the element at index (i, j) from the covariance matrix
+     * @param i the row index
+     * @param j the column index
+     * @return the {@link StorelessBivariateCovariance} element at the given index
+     */
+    private StorelessBivariateCovariance getElement(final int i, final int j) {
+        return covMatrix[indexOf(i, j)];
+    }
+
+    /**
+     * Sets the covariance element at index (i, j) in the covariance matrix
+     * @param i the row index
+     * @param j the column index
+     * @param cov the {@link StorelessBivariateCovariance} element to be set
+     */
+    private void setElement(final int i, final int j,
+                            final StorelessBivariateCovariance cov) {
+        covMatrix[indexOf(i, j)] = cov;
     }
 
     /**
@@ -98,57 +126,37 @@ public class StorelessCovariance extends Covariance {
      * @param xIndex row index in the covariance matrix
      * @param yIndex column index in the covariance matrix
      * @return the covariance of the given element
+     * @throws NumberIsTooSmallException if the number of observations
+     * in the cell is &lt; 2
      */
-    public StorelessBivariateCovariance getCovariance(final int xIndex,
-                                                      final int yIndex) {
-        return covMatrix[xIndex][yIndex];
-    }
+    public double getCovariance(final int xIndex,
+                                final int yIndex)
+        throws NumberIsTooSmallException {
 
-    /**
-     * Set the covariance for an individual element of the covariance matrix.
-     *
-     * @param xIndex row index in the covariance matrix
-     * @param yIndex column index in the covariance matrix
-     * @param cov the covariance to be set
-     */
-    public void setCovariance(final int xIndex, final int yIndex,
-                              final StorelessBivariateCovariance cov) {
-        covMatrix[xIndex][yIndex] = cov;
-    }
+        return getElement(xIndex, yIndex).getResult();
 
-    /**
-     * Increment one individual element of the covariance matrix.
-     *
-     * <p>The element is specified by the xIndex and yIndex and incremented with the
-     * corresponding values of x and y.</p>
-     *
-     * @param xIndex row index in the covariance matrix
-     * @param yIndex column index in the covariance matrix
-     * @param x value of x
-     * @param y value of y
-     */
-    public void incrementCovariance(final int xIndex, final int yIndex,
-                                    final double x, final double y) {
-        covMatrix[xIndex][yIndex].increment(x, y);
     }
 
     /**
      * Increment the covariance matrix with one row of data.
      *
-     * @param rowData array representing one row of data.
+     * @param data array representing one row of data.
      * @throws DimensionMismatchException if the length of <code>rowData</code>
      * does not match with the covariance matrix
      */
-    public void incrementRow(final double[] rowData)
+    public void increment(final double[] data)
         throws DimensionMismatchException {
 
-        int length = rowData.length;
-        if (length != colDimension) {
-            throw new DimensionMismatchException(length, colDimension);
+        int length = data.length;
+        if (length != dimension) {
+            throw new DimensionMismatchException(length, dimension);
         }
+
+        // only update the upper triangular part of the covariance matrix
+        // as only these parts are actually stored
         for (int i = 0; i < length; i++){
-            for (int j = 0; j < length; j++){
-                covMatrix[i][j].increment(rowData[i], rowData[j]);
+            for (int j = i; j < length; j++){
+                getElement(i, j).increment(data[i], data[j]);
             }
         }
 
@@ -171,10 +179,10 @@ public class StorelessCovariance extends Covariance {
      * for a cell is &lt; 2
      */
     public double[][] getData() throws NumberIsTooSmallException {
-        final double[][] data = new double[rowDimension][rowDimension];
-        for (int i = 0; i < rowDimension; i++) {
-            for (int j = 0; j < colDimension; j++) {
-                data[i][j] = covMatrix[i][j].getResult();
+        final double[][] data = new double[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                data[i][j] = getElement(i, j).getResult();
             }
         }
         return data;

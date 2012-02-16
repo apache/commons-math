@@ -19,8 +19,8 @@ package org.apache.commons.math3.stat.correlation;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.junit.Assert;
 import org.junit.Test;
-
 
 public class StorelessCovarianceTest {
 
@@ -163,9 +163,9 @@ public class StorelessCovarianceTest {
          2973.033333333333, 1382.433333333333, 32917.40000000, 22.66666666666667
         };
 
-        StorelessCovariance covMatrix = new StorelessCovariance(7, 7);
+        StorelessCovariance covMatrix = new StorelessCovariance(7);
         for(int i=0;i<matrix.getRowDimension();i++){
-            covMatrix.incrementRow(matrix.getRow(i));
+            covMatrix.increment(matrix.getRow(i));
         }
 
         RealMatrix covarianceMatrix = covMatrix.getCovarianceMatrix();
@@ -173,8 +173,6 @@ public class StorelessCovarianceTest {
         TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 7, 7), covarianceMatrix, 10E-7);
 
     }
-
-
 
     /**
      * Test R Swiss fertility dataset against R.
@@ -192,9 +190,9 @@ public class StorelessCovarianceTest {
             241.5632030527289, 379.9043755781684, -190.56061054579092, -61.6988297872340, 1739.2945371877890
          };
 
-        StorelessCovariance covMatrix = new StorelessCovariance(5, 5);
+        StorelessCovariance covMatrix = new StorelessCovariance(5);
         for(int i=0;i<matrix.getRowDimension();i++){
-            covMatrix.incrementRow(matrix.getRow(i));
+            covMatrix.increment(matrix.getRow(i));
         }
 
         RealMatrix covarianceMatrix = covMatrix.getCovarianceMatrix();
@@ -203,93 +201,26 @@ public class StorelessCovarianceTest {
     }
 
     /**
-     * Test Longley dataset against R.
-     * Data Source: J. Longley (1967) "An Appraisal of Least Squares
-     * Programs for the Electronic Computer from the Point of View of the User"
-     * Journal of the American Statistical Association, vol. 62. September,
-     * pp. 819-841.
-     *
-     * Data are from NIST:
-     * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
+     * Test symmetry of the covariance matrix
      */
     @Test
-    public void testLonglyByEntry() {
-        RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
+    public void testSymmetry() {
+        RealMatrix matrix = createRealMatrix(swissData, 47, 5);
 
-        double[] rData = new double[] {
-         12333921.73333333246, 3.679666000000000e+04, 343330206.333333313,
-         1649102.666666666744, 1117681.066666666651, 23461965.733333334, 16240.93333333333248,
-         36796.66000000000, 1.164576250000000e+02, 1063604.115416667,
-         6258.666250000000, 3490.253750000000, 73503.000000000, 50.92333333333334,
-         343330206.33333331347, 1.063604115416667e+06, 9879353659.329166412,
-         56124369.854166664183, 30880428.345833335072, 685240944.600000024, 470977.90000000002328,
-         1649102.66666666674, 6.258666250000000e+03, 56124369.854166664,
-         873223.429166666698, -115378.762499999997, 4462741.533333333, 2973.03333333333330,
-         1117681.06666666665, 3.490253750000000e+03, 30880428.345833335,
-         -115378.762499999997, 484304.095833333326, 1764098.133333333, 1382.43333333333339,
-         23461965.73333333433, 7.350300000000000e+04, 685240944.600000024,
-         4462741.533333333209, 1764098.133333333302, 48387348.933333330, 32917.40000000000146,
-         16240.93333333333, 5.092333333333334e+01, 470977.900000000,
-         2973.033333333333, 1382.433333333333, 32917.40000000, 22.66666666666667
-        };
-
-        int row = matrix.getRowDimension();
-        int col = matrix.getColumnDimension();
-        double x = 0.0;
-        double y = 0.0;
-        StorelessCovariance covMatrix = new StorelessCovariance(7, 7);
-        for(int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
-                x = matrix.getEntry(i, j);
-                for(int k=0;k<col;k++){
-                    y = matrix.getEntry(i, k);
-                    covMatrix.incrementCovariance(j, k, x, y);
-                }
-            }
+        final int dimension = 5;
+        StorelessCovariance storelessCov = new StorelessCovariance(dimension);
+        for(int i=0;i<matrix.getRowDimension();i++){
+            storelessCov.increment(matrix.getRow(i));
         }
 
-        RealMatrix covarianceMatrix = covMatrix.getCovarianceMatrix();
-
-        TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 7, 7), covarianceMatrix, 10E-7);
-
-    }
-
-    /**
-     * Test R Swiss fertility dataset against R.
-     * Data Source: R datasets package
-     */
-    @Test
-    public void testSwissFertilityByEntry() {
-         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
-
-         double[] rData = new double[] {
-           156.0424976873265, 100.1691489361702, -64.36692876965772, -79.7295097132285, 241.5632030527289,
-           100.169148936170251, 515.7994172062905, -124.39283071230344, -139.6574005550416, 379.9043755781684,
-           -64.3669287696577, -124.3928307123034, 63.64662349676226, 53.5758556891767, -190.5606105457909,
-           -79.7295097132285, -139.6574005550416, 53.57585568917669, 92.4560592044403, -61.6988297872340,
-            241.5632030527289, 379.9043755781684, -190.56061054579092, -61.6988297872340, 1739.2945371877890
-         };
-
-        int row = matrix.getRowDimension();
-        int col = matrix.getColumnDimension();
-        double x = 0.0;
-        double y = 0.0;
-        StorelessCovariance covMatrix = new StorelessCovariance(5, 5);
-        for(int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
-                x = matrix.getEntry(i, j);
-                for(int k=0;k<col;k++){
-                    y = matrix.getEntry(i, k);
-                    covMatrix.incrementCovariance(j, k, x, y);
-                }
+        double[][] covMatrix = storelessCov.getData();
+        for (int i = 0; i < dimension; i++) {
+            for (int j = i; j < dimension; j++) {
+                Assert.assertEquals(covMatrix[i][j], covMatrix[j][i], 10e-9);
             }
         }
-
-        RealMatrix covarianceMatrix = covMatrix.getCovarianceMatrix();
-
-        TestUtils.assertEquals("covariance matrix", createRealMatrix(rData, 5, 5), covarianceMatrix, 10E-13);
     }
-
+    
     protected RealMatrix createRealMatrix(double[] data, int nRows, int nCols) {
         double[][] matrixData = new double[nRows][nCols];
         int ptr = 0;
