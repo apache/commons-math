@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.MultiDimensionMismatchException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -509,22 +509,16 @@ public class CMAESOptimizer
         double[] init = getStartPoint();
         if (boundaries != null) {
             if (boundaries.length != 2) {
-                throw new MultiDimensionMismatchException(
-                        new Integer[] { boundaries.length },
-                        new Integer[] { 2 });
+                throw new DimensionMismatchException(boundaries.length, 2);
             }
             if (boundaries[0] == null || boundaries[1] == null) {
                 throw new NoDataException();
             }
             if (boundaries[0].length != init.length) {
-                throw new MultiDimensionMismatchException(
-                        new Integer[] { boundaries[0].length },
-                        new Integer[] { init.length });
+                throw new DimensionMismatchException(boundaries[0].length, init.length);
             }
             if (boundaries[1].length != init.length) {
-                throw new MultiDimensionMismatchException(
-                        new Integer[] { boundaries[1].length },
-                        new Integer[] { init.length });
+                throw new DimensionMismatchException(boundaries[1].length, init.length);
             }
             for (int i = 0; i < init.length; i++) {
                 if (boundaries[0][i] > init[i] || boundaries[1][i] < init[i]) {
@@ -535,9 +529,7 @@ public class CMAESOptimizer
         }
         if (inputSigma != null) {
             if (inputSigma.length != init.length) {
-                throw new MultiDimensionMismatchException(
-                        new Integer[] { inputSigma.length },
-                        new Integer[] { init.length });
+                throw new DimensionMismatchException(inputSigma.length, init.length);
             }
             for (int i = 0; i < init.length; i++) {
                 if (inputSigma[i] < 0) {

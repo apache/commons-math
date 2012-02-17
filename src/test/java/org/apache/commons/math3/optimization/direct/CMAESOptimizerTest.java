@@ -22,7 +22,7 @@ import java.util.Random;
 import org.apache.commons.math3.Retry;
 import org.apache.commons.math3.RetryRunner;
 import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.MultiDimensionMismatchException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -55,7 +55,7 @@ public class CMAESOptimizerTest {
                 1e-13, 1e-6, 100000, expected);
     }
     
-    @Test(expected = MultiDimensionMismatchException.class)
+    @Test(expected = DimensionMismatchException.class)
     public void testBoundariesDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = null;
@@ -104,7 +104,7 @@ public class CMAESOptimizerTest {
                 1e-13, 1e-6, 100000, expected);
     }
 
-    @Test(expected = MultiDimensionMismatchException.class)
+    @Test(expected = DimensionMismatchException.class)
     public void testInputSigmaDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = point(DIM+1,-0.5);
