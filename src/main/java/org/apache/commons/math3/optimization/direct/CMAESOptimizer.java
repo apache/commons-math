@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
@@ -81,7 +81,7 @@ import org.apache.commons.math3.util.MathArrays;
  */
 
 public class CMAESOptimizer
-    extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
+    extends BaseAbstractMultivariateSimpleBoundsOptimizer<MultivariateFunction>
     implements MultivariateOptimizer {
     /** Default value for {@link #checkFeasableCount}: {@value}. */
     public static final int DEFAULT_CHECKFEASABLECOUNT = 0;
@@ -242,7 +242,7 @@ public class CMAESOptimizer
      * @param lambda Population size.
      */
     public CMAESOptimizer(int lambda) {
-        this(lambda, null, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
+        this(lambda, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
              DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
     }
@@ -250,11 +250,9 @@ public class CMAESOptimizer
     /**
      * @param lambda Population size.
      * @param inputSigma Initial search volume; sigma of offspring objective variables.
-     * @param boundaries Boundaries for objective variables.
      */
-    public CMAESOptimizer(int lambda, double[] inputSigma,
-                          double[][] boundaries) {
-        this(lambda, inputSigma, boundaries, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
+    public CMAESOptimizer(int lambda, double[] inputSigma) {
+        this(lambda, inputSigma, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
              DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
     }
@@ -262,7 +260,6 @@ public class CMAESOptimizer
     /**
      * @param lambda Population size.
      * @param inputSigma Initial search volume; sigma of offspring objective variables.
-     * @param boundaries Boundaries for objective variables.
      * @param maxIterations Maximal number of iterations.
      * @param stopFitness Whether to stop if objective function value is smaller than
      * {@code stopFitness}.
@@ -275,10 +272,10 @@ public class CMAESOptimizer
      * @param generateStatistics Whether statistic data is collected.
      */
     public CMAESOptimizer(int lambda, double[] inputSigma,
-                          double[][] boundaries, int maxIterations, double stopFitness,
+                          int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
                           RandomGenerator random, boolean generateStatistics) {
-        this(lambda, inputSigma, boundaries, maxIterations, stopFitness, isActiveCMA,
+        this(lambda, inputSigma, maxIterations, stopFitness, isActiveCMA,
              diagonalOnly, checkFeasableCount, random, generateStatistics,
              new SimpleValueChecker());
     }
@@ -286,7 +283,6 @@ public class CMAESOptimizer
     /**
      * @param lambda Population size.
      * @param inputSigma Initial search volume; sigma of offspring objective variables.
-     * @param boundaries Boundaries for objective variables.
      * @param maxIterations Maximal number of iterations.
      * @param stopFitness Whether to stop if objective function value is smaller than
      * {@code stopFitness}.
@@ -300,23 +296,13 @@ public class CMAESOptimizer
      * @param checker Convergence checker.
      */
     public CMAESOptimizer(int lambda, double[] inputSigma,
-                          double[][] boundaries, int maxIterations, double stopFitness,
+                          int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
                           RandomGenerator random, boolean generateStatistics,
                           ConvergenceChecker<PointValuePair> checker) {
         super(checker);
         this.lambda = lambda;
         this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
-        if (boundaries == null) {
-            this.boundaries = null;
-        } else {
-            final int len = boundaries.length;
-            this.boundaries = new double[len][];
-            for (int i = 0; i < len; i++) {
-                this.boundaries[i] =
-                    boundaries[i] == null ? null : (double[]) boundaries[i].clone();
-            }
-        }
         this.maxIterations = maxIterations;
         this.stopFitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
@@ -506,27 +492,45 @@ public class CMAESOptimizer
      * Checks dimensions and values of boundaries and inputSigma if defined.
      */
     private void checkParameters() {
-        double[] init = getStartPoint();
-        if (boundaries != null) {
-            if (boundaries.length != 2) {
-                throw new DimensionMismatchException(boundaries.length, 2);
-            }
-            if (boundaries[0] == null || boundaries[1] == null) {
-                throw new NoDataException();
-            }
-            if (boundaries[0].length != init.length) {
-                throw new DimensionMismatchException(boundaries[0].length, init.length);
-            }
-            if (boundaries[1].length != init.length) {
-                throw new DimensionMismatchException(boundaries[1].length, init.length);
-            }
-            for (int i = 0; i < init.length; i++) {
-                if (boundaries[0][i] > init[i] || boundaries[1][i] < init[i]) {
-                    throw new OutOfRangeException(init[i], boundaries[0][i],
-                            boundaries[1][i]);
-                }
+        final double[] init = getStartPoint();
+        final double[] lB = getLowerBound();
+        final double[] uB = getUpperBound();
+
+        // Checks whether there is at least one finite bound value.
+        boolean hasFiniteBounds = false;
+        for (int i = 0; i < lB.length; i++) {
+            if (!Double.isInfinite(lB[i]) ||
+                !Double.isInfinite(uB[i])) {
+                hasFiniteBounds = true;
+                break;
             }
         }
+        // Checks whether there is at least one infinite bound value.
+        boolean hasInfiniteBounds = false;
+        if (hasFiniteBounds) {
+            for (int i = 0; i < lB.length; i++) {
+                if (Double.isInfinite(lB[i]) ||
+                    Double.isInfinite(uB[i])) {
+                    hasInfiniteBounds = true;
+                    break;
+                }
+            }
+
+            if (hasInfiniteBounds) {
+                // If there is at least one finite bound, none can be infinite,
+                // because mixed cases are not supported by the current code.
+                throw new MathUnsupportedOperationException();
+            } else {
+                // Convert API to internal handling of boundaries.
+                boundaries = new double[2][];
+                boundaries[0] = lB;
+                boundaries[1] = uB;
+            }
+        } else {
+            // Convert API to internal handling of boundaries.
+            boundaries = null;
+        }
+
         if (inputSigma != null) {
             if (inputSigma.length != init.length) {
                 throw new DimensionMismatchException(inputSigma.length, init.length);

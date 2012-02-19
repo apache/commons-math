@@ -22,8 +22,10 @@ import java.util.Random;
 import org.apache.commons.math3.Retry;
 import org.apache.commons.math3.RetryRunner;
 import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.optimization.GoalType;
@@ -43,9 +45,20 @@ public class CMAESOptimizerTest {
     static final int DIM = 13;
     static final int LAMBDA = 4 + (int)(3.*Math.log(DIM));
    
-    @Test(expected = OutOfRangeException.class)
-    public void testInitOutofbounds() {
+    @Test(expected = NumberIsTooLargeException.class)
+    public void testInitOutofbounds1() {
         double[] startPoint = point(DIM,3);
+        double[] insigma = null;
+        double[][] boundaries = boundaries(DIM,-1,2);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
+        doTest(new Rosen(), startPoint, insigma, boundaries,
+                GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
+                1e-13, 1e-6, 100000, expected);
+    }
+    @Test(expected = NumberIsTooSmallException.class)
+    public void testInitOutofbounds2() {
+        double[] startPoint = point(DIM, -2);
         double[] insigma = null;
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
@@ -67,12 +80,27 @@ public class CMAESOptimizerTest {
                 1e-13, 1e-6, 100000, expected);
     }
 
-    @Test(expected = NoDataException.class)
-    public void testBoundariesNoData() {
+    @Test(expected = MathUnsupportedOperationException.class)
+    public void testUnsupportedBoundaries1() {
         double[] startPoint = point(DIM,0.5);
         double[] insigma = null;
-        double[][] boundaries = boundaries(DIM,-1,2);
-        boundaries[1] = null;
+        double[][] boundaries = boundaries(DIM,-1, Double.POSITIVE_INFINITY);
+        PointValuePair expected =
+            new PointValuePair(point(DIM,1.0),0.0);
+        doTest(new Rosen(), startPoint, insigma, boundaries,
+                GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
+                1e-13, 1e-6, 100000, expected);
+    }
+
+    @Test(expected = MathUnsupportedOperationException.class)
+    public void testUnsupportedBoundaries2() {
+        double[] startPoint = point(DIM, 0.5);
+        double[] insigma = null;
+        final double[] lB = new double[] { -1, -1, -1, -1, -1, Double.NEGATIVE_INFINITY, -1, -1, -1, -1, -1, -1, -1 };
+        final double[] uB = new double[] { 2, 2, 2, Double.POSITIVE_INFINITY, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+        double[][] boundaries = new double[2][];
+        boundaries[0] = lB;
+        boundaries[1] = uB;
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
@@ -375,11 +403,12 @@ public class CMAESOptimizerTest {
             PointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
-        MultivariateOptimizer optim =
-            new CMAESOptimizer(
-                    lambda, inSigma, boundaries, 30000,
-                    stopValue, isActive, diagonalOnly, 0, new MersenneTwister(),false);
-        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint);
+        CMAESOptimizer optim = new CMAESOptimizer( lambda, inSigma, 30000,
+                                                   stopValue, isActive, diagonalOnly,
+                                                   0, new MersenneTwister(), false);
+        final double[] lB = boundaries == null ? null : boundaries[0];
+        final double[] uB = boundaries == null ? null : boundaries[1];
+        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
         Assert.assertEquals(expected.getValue(),
                 result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {
