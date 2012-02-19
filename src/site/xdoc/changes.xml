@@ -52,6 +52,11 @@ The <action> type attribute can be add,update,fix,remove.
     If the output is not quite correct, check for invisible trailing spaces!
      -->
     <release version="3.0" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-698">
+        Classes "CMAESOptimizer" and "BOBYQAOptimizer" inherit from
+        "BaseAbstractMultivariateSimpleBoundsOptimizer (in package
+        "o.a.c.m.optimization.direct").
+      </action>
       <action dev="sebb" type="fix" issue="MATH-650" >
         Added pre-computed arrays to speed up initial loading time for FastMath.
       </action>
