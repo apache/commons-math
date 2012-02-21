@@ -804,37 +804,38 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
       </subsection>
             <subsection name="1.8 Statistical tests">
         <p>
-          The interfaces and implementations in the
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/">
-          org.apache.commons.math3.stat.inference</a> package provide
+          The <a href="../apidocs/org/apache/commons/math3/stat/inference/">
+          org.apache.commons.math3.stat.inference</a> package provides implementations for
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
           Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
-          Chi-Square</a> and 
+          Chi-Square</a>, 
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc43.htm">
-          One-Way ANOVA</a> test statistics as well as
+          One-Way ANOVA</a>,
+          <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc35.htm">
+          Mann-Whitney U</a> and
+          <a href="http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test">
+          Wilcoxon signed rank</a> test statistics as well as
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code>,
-          <code>Chi-Square</code> and <code>One-Way ANOVA</code> tests.  The
-          interfaces are
+          <code>Chi-Square</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
+          and <code>Wilcoxon signed rank</code> tests. The respective test classes are
           <a href="../apidocs/org/apache/commons/math3/stat/inference/TTest.html">
           TTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/ChiSquareTest.html">
-          ChiSquareTest</a>, and
+          ChiSquareTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/OneWayAnova.html">
-          OneWayAnova</a> with provided implementations
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/TTestImpl.html">
-          TTestImpl</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/ChiSquareTestImpl.html">
-          ChiSquareTestImpl</a> and
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/OneWayAnovaImpl.html">
-          OneWayAnovaImpl</a>, respectively.
+          OneWayAnova</a>,
+          <a href="../apidocs/org/apache/commons/math3/stat/inference/MannWhitneyUTest.html">
+          MannWhitneyUTest</a>, and
+          <a href="../apidocs/org/apache/commons/math3/stat/inference/WilcoxonSignedRankTest.html">
+          WilcoxonSignedRankTest</a>.          
           The <a href="../apidocs/org/apache/commons/math3/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
           static methods in <code>TestUtils</code> to execute tests.  To get
           test object instances, either use e.g., <code>TestUtils.getTTest()</code>
-          or use the implementation constructors directly, e.g. <code>new TTestImpl()</code>.
+          or use the implementation constructors directly, e.g. <code>new TTest()</code>.
         </p>
         <p>
           <strong>Implementation Notes</strong>

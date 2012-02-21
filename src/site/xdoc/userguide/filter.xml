@@ -144,7 +144,7 @@ for (int i = 0; i &lt; 60; i++) {
 
     filter.correct(z);
 
-	double voltage = filter.getStateEstimation()[0];
+    double voltage = filter.getStateEstimation()[0];
 }
           </source>
           </dd>
@@ -214,8 +214,8 @@ for (int i = 0; i &lt; 60; i++) {
 
     filter.correct(z);
 
-	double position = filter.getStateEstimation()[0];
-	double velocity = filter.getStateEstimation()[1];
+    double position = filter.getStateEstimation()[0];
+    double velocity = filter.getStateEstimation()[1];
 }
           </source>
           </dd>          
