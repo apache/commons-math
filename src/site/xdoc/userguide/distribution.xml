@@ -70,19 +70,19 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</sour
         Since there are numerous distributions and Commons-Math only directly
         supports a handful, it may be necessary to extend the distribution
         framework to satisfy individual needs.  It is recommended that the
-        <a href="../apidocs/org/apache/commons/math/distribution/Distribution.html">Distribution</a>,
-        <a href="../apidocs/org/apache/commons/math/distribution/ContinuousDistribution.html">
+        <a href="../apidocs/org/apache/commons/math3/distribution/Distribution.html">Distribution</a>,
+        <a href="../apidocs/org/apache/commons/math3/distribution/ContinuousDistribution.html">
         ContinuousDistribution</a>,
-        <a href="../apidocs/org/apache/commons/math/distribution/DiscreteDistribution.html">
-        DiscreteDistribution</a>, and <a href="../apidocs/org/apache/commons/math/distribution/IntegerDistribution.html">
+        <a href="../apidocs/org/apache/commons/math3/distribution/DiscreteDistribution.html">
+        DiscreteDistribution</a>, and <a href="../apidocs/org/apache/commons/math3/distribution/IntegerDistribution.html">
         IntegerDistribution</a> interfaces serve as
         base types for any extension.  These serve as the basis for all the
         distributions directly supported by Commons-Math and using those interfaces
         for implementation purposes will ensure any extension is compatible with the
         remainder of Commons-Math.  To aid in implementing a distribution extension,
-        the <a href="../apidocs/org/apache/commons/math/distribution/AbstractDistribution.html">
-        AbstractDistribution</a>, <a href="../apidocs/org/apache/commons/math/distribution/AbstractContinuousDistribution.html">
-        AbstractContinuousDistribution</a>, and <a href="../apidocs/org/apache/commons/math/distribution/AbstractIntegerDistribution.html">
+        the <a href="../apidocs/org/apache/commons/math3/distribution/AbstractDistribution.html">
+        AbstractDistribution</a>, <a href="../apidocs/org/apache/commons/math3/distribution/AbstractContinuousDistribution.html">
+        AbstractContinuousDistribution</a>, and <a href="../apidocs/org/apache/commons/math3/distribution/AbstractIntegerDistribution.html">
         AbstractIntegerDistribution</a> provide implementation building blocks and
         offer basic distribution functionality.  By extending these abstract classes
         directly, much of the repetitive distribution implementation is already

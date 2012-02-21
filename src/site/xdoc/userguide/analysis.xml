@@ -93,13 +93,13 @@
       </subsection>
       <subsection name="4.3 Root-finding" href="rootfinding">
         <p>
-          <a href="../apidocs/org/apache/commons/math/analysis/solvers/UnivariateRealSolver.html">
-          UnivariateRealSolver</a>, <a href="../apidocs/org/apache/commons/math/analysis/solvers/DifferentiableUnivariateRealSolver.html">
-          DifferentiableUnivariateRealSolver</a> and <a href="../apidocs/org/apache/commons/math/analysis/solvers/PolynomialSolver.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/solvers/UnivariateRealSolver.html">
+          UnivariateRealSolver</a>, <a href="../apidocs/org/apache/commons/math3/analysis/solvers/DifferentiableUnivariateRealSolver.html">
+          DifferentiableUnivariateRealSolver</a> and <a href="../apidocs/org/apache/commons/math3/analysis/solvers/PolynomialSolver.html">
           PolynomialSolver</a> provide means to find roots of
-          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>,
-          <a href="../apidocs/org/apache/commons/math/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a>,
-          and <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
+          <a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a>,
+          <a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a>,
+          and <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
           A root is the value where the function takes the value 0.  Commons-Math
           includes implementations of the several root-finding algorithms:
         </p>
@@ -107,84 +107,84 @@
             <tr BGCOLOR="#CCCCFF"><td colspan="5"><font size="+2">Root solvers</font></td></tr>
             <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Function type</td><td>Convergence</td><td>Needs initial bracketing</td><td>Bracket side selection</td></font></tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BisectionSolver.html">Bisection</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BisectionSolver.html">Bisection</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BrentSolver.html">Brent-Dekker</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BrentSolver.html">Brent-Dekker</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
               <td>variable order, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/LaguerreSolver.html">Laguerre's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">polynomial functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/LaguerreSolver.html">Laguerre's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">polynomial functions</a></td>
               <td>cubic for simple root, linear for multiple root</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver.html">Muller's Method</a> using bracketing to deal with real-valued functions</td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/MullerSolver.html">Muller's Method</a> using bracketing to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>quadratic close to roots</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/MullerSolver2.html">Muller's Method</a> using modulus to deal with real-valued functions</td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/MullerSolver2.html">Muller's Method</a> using modulus to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>quadratic close to root</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/NewtonSolver.html">Newton's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonSolver.html">Newton's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableUnivariateRealFunction.html">differentiable univariate real-valued functions</a></td>
               <td>quadratic, non-guaranteed</td>
               <td>no</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/PegasusSolver.html">Pegasus Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/PegasusSolver.html">Pegasus Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/RegulaFalsiSolver.html">Regula Falsi (false position) Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/RegulaFalsiSolver.html">Regula Falsi (false position) Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/RiddersSolver.html">Ridder's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/RiddersSolver.html">Ridder's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/solvers/SecantSolver.html">Secant Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/SecantSolver.html">Secant Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, non-guaranteed</td>
               <td>yes</td>
               <td>no</td>
@@ -240,9 +240,9 @@
           ill-conditioned problems is to be solved, this number can be decreased in order
           to avoid wasting time.
           <a
-          href="../apidocs/org/apache/commons/math/analysis/solvers/BracketedUnivariateRealSolver.html">Bracketed
+          href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketedUnivariateRealSolver.html">Bracketed
           solvers</a> also take an <a
-          href="../apidocs/org/apache/commons/math/analysis/solvers/AllowedSolutions.html">allowedSolutions</a>
+          href="../apidocs/org/apache/commons/math3/analysis/solvers/AllowedSolutions.html">allowedSolutions</a>
           enum parameter to specify which side of the final convergence interval should be
           selected as the root. It can be <code>ANY_SIDE</code>, <code>LEFT_SIDE</code>, <code>RIGHT_SIDE</code>,
           <code>BELOW_SIDE</code> or <code>ABOVE_SIDE</code>. Left and right are used to specify the root along
@@ -376,13 +376,13 @@ double c = UnivariateRealSolverUtils.forceSide(100, function,
       </subsection>
       <subsection name="4.4 Interpolation" href="interpolation">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/UnivariateRealInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/UnivariateRealInterpolator.html">
           UnivariateRealInterpolator</a> is used to find a univariate real-valued
           function <code>f</code> which for a given set of ordered pairs 
           (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
           <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. The result
           is provided as an object implementing the <a
-          href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">
+          href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">
           UnivariateRealFunction</a> interface. It can therefore be evaluated at any point,
           including point not belonging to the original set.
           Currently, only an interpolator for generating natural cubic splines and a polynomial
@@ -437,13 +437,13 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
         </p>
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BivariateRealGridInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BivariateRealGridInterpolator.html">
           BivariateRealGridInterpolator</a> is used to find a bivariate real-valued
           function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>f<sub>ij</sub></code>)
           yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=f<sub>ij</sub></code> to the best accuracy
           possible. The result is provided as an object implementing the
-          <a href="../apidocs/org/apache/commons/math/analysis/BivariateRealFunction.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/BivariateRealFunction.html">
           BivariateRealFunction</a> interface. It can therefore be evaluated at any point,
           including a point not belonging to the original set.
           The arrays <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be
@@ -455,25 +455,25 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           are computed from the function values sampled on a grid, as well as the values of the
           partial derivatives of the function at those grid points.
           From two-dimensional data sampled on a grid, the
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BicubicSplineInterpolator.html">
           BicubicSplineInterpolator</a> computes a
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
           bicubic interpolating function</a>.
           Prior to computing an interpolating function, the
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
           SmoothingPolynomialBicubicSplineInterpolator</a> class performs smoothing of
           the data by computing the polynomial that best fits each of the one-dimensional
           curves along each of the coordinate axes.
         </p>
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TrivariateRealGridInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TrivariateRealGridInterpolator.html">
           TrivariateRealGridInterpolator</a> is used to find a trivariate real-valued
           function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>k</sub></code>,
           <code>f<sub>ijk</sub></code>)
           yields <code>f(x<sub>i</sub>,y<sub>j</sub>,z<sub>k</sub>)=f<sub>ijk</sub></code>
           to the best accuracy possible. The result is provided as an object implementing the
-          <a href="../apidocs/org/apache/commons/math/analysis/TrivariateRealFunction.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/TrivariateRealFunction.html">
           TrivariateRealFunction</a> interface. It can therefore be evaluated at any point,
           including a point not belonging to the original set.
           The arrays <code>x<sub>i</sub></code>, <code>y<sub>j</sub></code> and
@@ -486,41 +486,41 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           are computed from the function values sampled on a grid, as well as the values of the
           partial derivatives of the function at those grid points.
           From three-dimensional data sampled on a grid, the
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TricubicSplineInterpolator.html">
           TricubicSplineInterpolator</a> computes a
-          <a href="../apidocs/org/apache/commons/math/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
           tricubic interpolating function</a>.
         </p>
       </subsection>
       <subsection name="4.5 Integration" href="integration">
         <p>
-          A <a href="../apidocs/org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.html">
+          A <a href="../apidocs/org/apache/commons/math3/analysis/integration/UnivariateRealIntegrator.html">
           UnivariateRealIntegrator</a> provides the means to numerically integrate
-          <a href="../apidocs/org/apache/commons/math/analysis/UnivariateRealFunction.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">
           univariate real-valued functions</a>.
           Commons-Math includes implementations of the following integration algorithms: <ul>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/RombergIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/RombergIntegrator.html">
           Romberg's method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/SimpsonIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/SimpsonIntegrator.html">
           Simpson's method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/TrapezoidIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/TrapezoidIntegrator.html">
           trapezoid method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math/analysis/integration/LegendreGaussIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/LegendreGaussIntegrator.html">
           Legendre-Gauss method</a></li>
           </ul>      
         </p>
       </subsection>
       <subsection name="4.6 Polynomials" href="polynomials">
         <p>
-          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/package-summary.html">
+          The <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/package-summary.html">
           org.apache.commons.math3.analysis.polynomials</a> package provides real
           coefficients polynomials.
         </p>
         <p>
-          The <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialFunction.html">
+          The <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">
           PolynomialFunction</a> class is the most general one, using traditional
           coefficients arrays. The
-          <a href="../apidocs/org/apache/commons/math/analysis/polynomials/PolynomialsUtils.html">
+          <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialsUtils.html">
           PolynomialsUtils</a> utility class provides static factory methods to build
           Chebyshev, Hermite, Jacobi, Laguerre and Legendre polynomials. Coefficients are
           computed using exact fractions so these factory methods can build polynomials
