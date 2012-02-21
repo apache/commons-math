@@ -28,7 +28,7 @@
       <section name="Table of Contents" href="toc">
 
         <ul>
-            <li><a href="overview.html">0. Overview</a>
+          <li><a href="overview.html">0. Overview</a>
             <ul>
               <li><a href="overview.html#a0.1_About_the_User_Guide">0.1 About the User Guide</a></li>
               <li><a href="overview.html#a0.2_Whats_in_commons-math">0.2 What's in commons-math</a></li>
@@ -141,12 +141,21 @@
                 <li><a href="genetics.html#a14.1_Overview">14.1 Overview</a></li>
                 <li><a href="genetics.html#a14.2_GA_Framework">14.2 GA Framework</a></li>
                 <li><a href="genetics.html#a14.3_Implementation">14.3 Implementation and Examples</a></li>  
-                </ul></li>                           
-        <li><a href="filter.html">15. Filters</a>   
-                <ul>
-                <li><a href="filter.html#a15.1_Overview">15.1 Overview</a></li>
-                <li><a href="filter.html#a15.2_Kalman_Filter">15.2 Kalman Filter</a></li>
-                </ul></li>                           
+        </ul></li>
+        <li><a href="filter.html">15. Filters</a>
+          <ul>
+            <li><a href="filter.html#a15.1_Overview">15.1 Overview</a></li>
+            <li><a href="filter.html#a15.2_Kalman_Filter">15.2 Kalman Filter</a></li>
+          </ul>
+        </li>
+        <li><a href="exceptions.html">16. Exceptions</a>
+          <ul>
+            <li><a href="exceptions.html#a16.1_Overview">16.1 Overview</a></li>
+            <li><a href="exceptions.html#a16.2_Unchecked_Exceptions">16.2 Unchecked Exceptions</a></li>
+            <li><a href="exceptions.html#a16.3_Hierarchies">16.3 Hierarchies</a></li>
+            <li><a href="exceptions.html#a16.4_Features">16.4 Features</a></li>
+          </ul>
+        </li>
         </ul>
       </section>
     
