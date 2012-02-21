@@ -63,21 +63,21 @@
         are only four interfaces defining the common behavior of optimizers, one for each
         supported type of objective function:
         <ul>
-          <li><a href="../apidocs/org/apache/commons/math3/optimization/UnivariateRealOptimizer.html">
-              UnivariateRealOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math3/analysis/UnivariateRealFunction.html">
+          <li><a href="../apidocs/org/apache/commons/math3/optimization/univariate/UnivariateOptimizer.html">
+              UnivariateOptimizer</a> for <a
+              href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">
               univariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/optimization/MultivariateRealOptimizer.html">
-              MultivariateRealOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math3/analysis/MultivariateRealFunction.html">
+          <li><a href="../apidocs/org/apache/commons/math3/optimization/MultivariateOptimizer.html">
+              MultivariateOptimizer</a> for <a
+              href="../apidocs/org/apache/commons/math3/analysis/MultivariateFunction.html">
               multivariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/optimization/DifferentiableMultivariateRealOptimizer.html">
-              DifferentiableMultivariateRealOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateRealFunction.html">
+          <li><a href="../apidocs/org/apache/commons/math3/optimization/DifferentiableMultivariateOptimizer.html">
+              DifferentiableMultivariateOptimizer</a> for <a
+              href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateFunction.html">
               differentiable multivariate real functions</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/optimization/DifferentiableMultivariateVectorialOptimizer.html">
-              DifferentiableMultivariateVectorialOptimizer</a> for <a
-              href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorialFunction.html">
+          <li><a href="../apidocs/org/apache/commons/math3/optimization/DifferentiableMultivariateVectorOptimizer.html">
+              DifferentiableMultivariateVectorOptimizer</a> for <a
+              href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorFunction.html">
               differentiable multivariate vectorial functions</a></li>
         </ul>
         </p>
@@ -85,15 +85,15 @@
         <p>
         Despite there are only four types of supported optimizers, it is possible to optimize
         a transform a <a
-        href="../apidocs/org/apache/commons/math3/analysis/MultivariateVectorialFunction.html">
+        href="../apidocs/org/apache/commons/math3/analysis/MultivariateVectorFunction.html">
         non-differentiable multivariate vectorial function</a> by converting it to a <a
-        href="../apidocs/org/apache/commons/math3/analysis/MultivariateRealFunction.html">
+        href="../apidocs/org/apache/commons/math3/analysis/MultivariateFunction.html">
         non-differentiable multivariate real function</a> thanks to the <a
         href="../apidocs/org/apache/commons/math3/optimization/LeastSquaresConverter.html">
         LeastSquaresConverter</a> helper class. The transformed function can be optimized using
         any implementation of the <a
-        href="../apidocs/org/apache/commons/math3/optimization/MultivariateRealOptimizer.html">
-        MultivariateRealOptimizer</a> interface.
+        href="../apidocs/org/apache/commons/math3/optimization/MultivariateOptimizer.html">
+        MultivariateOptimizer</a> interface.
         </p>
 
         <p>
@@ -106,8 +106,8 @@
       </subsection>
       <subsection name="12.2 Univariate Functions" href="univariate">
         <p>
-          A <a href="../apidocs/org/apache/commons/math3/optimization/UnivariateRealOptimizer.html">
-          UnivariateRealOptimizer</a> is used to find the minimal values of a univariate real-valued
+          A <a href="../apidocs/org/apache/commons/math3/optimization/univariate/UnivariateOptimizer.html">
+          UnivariateOptimizer</a> is used to find the minimal values of a univariate real-valued
           function <code>f</code>.
         </p>
         <p>
@@ -174,10 +174,10 @@
         <p>
           The first two simplex-based methods do not handle simple bounds constraints by themselves.
           However there are two adapters(<a
-          href="../apidocs/org/apache/commons/math3/optimization/direct/MultivariateRealFunctionMappingAdapter.html">
-          MultivariateRealFunctionMappingAdapter</a> and <a
-          href="../apidocs/org/apache/commons/math3/optimization/direct/MultivariateRealFunctionPenaltyAdapter.html">
-          MultivariateRealFunctionPenaltyAdapter</a>) that can be used to wrap the user function in
+          href="../apidocs/org/apache/commons/math3/optimization/direct/MultivariateFunctionMappingAdapter.html">
+          MultivariateFunctionMappingAdapter</a> and <a
+          href="../apidocs/org/apache/commons/math3/optimization/direct/MultivariateFunctionPenaltyAdapter.html">
+          MultivariateFunctionPenaltyAdapter</a>) that can be used to wrap the user function in
           such a way the wrapped function is unbounded and can be used with these optimizers, despite
           the fact the underlying function is still bounded and will be called only with feasible
           points that fulfill the constraints. Note however that using these adapters are only a
@@ -238,8 +238,8 @@
         <p>
           In order to solve a vectorial optimization problem, the user must provide it as
           an object implementing the <a
-          href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorialFunction.html">
-          DifferentiableMultivariateVectorialFunction</a> interface. The object will be provided to
+          href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorFunction.html">
+          DifferentiableMultivariateVectorFunction</a> interface. The object will be provided to
           the <code>estimate</code> method of the optimizer, along with the target and weight arrays,
           thus allowing the optimizer to compute the residuals at will. The last parameter to the
           <code>estimate</code> method is the point from which the optimizer will start its
@@ -251,9 +251,10 @@
     <dd>
 	
 	
-	We are looking to find the best parameters [a, b, c] for the quadratic function <b><tt> f(x)=a*x^2 + b*x + c </tt></b>.
-	The data set below was generated using [a = 8, b = 10, c = 16].  A random number between zero and one was added
-	to each y value calculated.
+	We are looking to find the best parameters [a, b, c] for the quadratic function
+    <b><code>f(x) = a x<sup>2</sup> + b x + c</code></b>.
+	The data set below was generated using [a = 8, b = 10, c = 16]. 
+    A random number between zero and one was added to each y value calculated.
 
     <table cellspacing="0" cellpadding="3">
 <tr>
@@ -303,7 +304,7 @@
 </table>
 
 <p>
-First we need to implement the interface <a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorialFunction.html">DifferentiableMultivariateVectorialFunction</a>.
+First we need to implement the interface <a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateVectorFunction.html">DifferentiableMultivariateVectorFunction</a>.
 This requires the implementation of the method signatures:
 </p>
 
@@ -318,24 +319,23 @@ We'll tackle the implementation of the <code>MultivariateMatrixFunction jacobian
 In this case the Jacobian is the partial derivative of the function with respect
 to the parameters a, b and c.  These derivatives are computed as follows:
 <ul>
-	<li>d(ax^2+bx+c)/da = x2</li>
-	<li>d(ax^2+bx+c)/db = x</li>
-	<li>d(ax^2+bx+c)/dc = 1</li>
+	<li>d(ax<sup>2</sup> + bx + c)/da = x<sup>2</sup></li>
+	<li>d(ax<sup>2</sup> + bx + c)/db = x</li>
+	<li>d(ax<sup>2</sup> + bx + c)/dc = 1</li>
 </ul>
 </p>
 
 <p>
 For a quadratic which has three variables the Jacobian Matrix will have three columns, one for each variable, and the number
-of rows will equal the number of rows in our data set, which in this case is ten.  So for example for <b><tt>[a = 1, b=1, c=1]</tt></b>
-the Jacobian Matrix is (Exluding the first column which shows the value of x):
+of rows will equal the number of rows in our data set, which in this case is ten.  So for example for <tt>[a = 1, b = 1, c = 1]</tt>, the Jacobian Matrix is (excluding the first column which shows the value of x):
 </p>
 
 <table cellspacing="0" cellpadding="3">
 <tr>
 <td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>x</b></td>
-<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/da</b></td>
-<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/db</b></td>
-<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax^2+bx+c)/dc</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax<sup>2</sup> + bx + c)/da</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax<sup>2</sup> + bx + c)/db</b></td>
+<td  valign="bottom"  align="left"  style=" font-size:10pt;"><b>d(ax<sup>2</sup> + bx + c)/dc</b></td>
 </tr>
 <tr>
 <td  valign="bottom"  align="center"  style=" font-size:10pt;">1</td>
@@ -405,8 +405,7 @@ parameter is an ArrayList containing the independent values of the data set):
 </p>
 
 <source>
- private double[][] jacobian(double[] variables)
- {
+ private double[][] jacobian(double[] variables) {
      double[][] jacobian = new double[x.size()][3];
      for (int i = 0; i &lt; jacobian.length; ++i) {
          jacobian[i][0] = x.get(i) * x.get(i);
@@ -416,8 +415,7 @@ parameter is an ArrayList containing the independent values of the data set):
      return jacobian;
  }
 
- public MultivariateMatrixFunction jacobian()
- {
+ public MultivariateMatrixFunction jacobian() {
      return new MultivariateMatrixFunction() {
          private static final long serialVersionUID = -8673650298627399464L;
          public double[][] value(double[] point) {
@@ -458,7 +456,8 @@ Below is the the class containing all the implementation details
 </p>
 
 <source>
-private static class QuadraticProblem implements DifferentiableMultivariateVectorialFunction, Serializable {
+private static class QuadraticProblem
+    implements DifferentiableMultivariateVectorFunction, Serializable {
 
     private static final long serialVersionUID = 7072187082052755854L;
     private List&lt;Double&gt; x;
@@ -474,11 +473,9 @@ private static class QuadraticProblem implements DifferentiableMultivariateVecto
         this.y.add(y);
     }
 
-    public double[] calculateTarget()
-    {
+    public double[] calculateTarget() {
     	double[] target = new double[y.size()];
-    	for (int i = 0; i &lt; y.size(); i++)
-    	{
+    	for (int i = 0; i &lt; y.size(); i++) {
     		target[i] = y.get(i).doubleValue();
     	}
     	return target;
@@ -522,34 +519,30 @@ optimal set of quadratic curve fitting parameters:
     <source>
  QuadraticProblem problem = new QuadraticProblem();
 
- problem.addPoint (1, 34.234064369);
- problem.addPoint (2, 68.2681162306);
- problem.addPoint (3, 118.6158990846);
- problem.addPoint (4, 184.1381972386);
- problem.addPoint (5, 266.5998779163);
- problem.addPoint (6, 364.1477352516);
- problem.addPoint (7, 478.0192260919);
- problem.addPoint (8, 608.1409492707);
- problem.addPoint (9, 754.5988686671);
- problem.addPoint (10, 916.1288180859);
+ problem.addPoint(1, 34.234064369);
+ problem.addPoint(2, 68.2681162306);
+ problem.addPoint(3, 118.6158990846);
+ problem.addPoint(4, 184.1381972386);
+ problem.addPoint(5, 266.5998779163);
+ problem.addPoint(6, 364.1477352516);
+ problem.addPoint(7, 478.0192260919);
+ problem.addPoint(8, 608.1409492707);
+ problem.addPoint(9, 754.5988686671);
+ problem.addPoint(10, 916.1288180859);
 
- LevenbergMarquardtOptimizer optimizer
-     = new LevenbergMarquardtOptimizer();
+ LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
 
- double[] weights =
- 	{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+ final double[] weights = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
- double[] initialSolution = {1, 1, 1};
+ final double[] initialSolution = {1, 1, 1};
 
- VectorialPointValuePair optimum =
- 	optimizer.optimize(
- 		100,
- 		problem,
- 		problem.calculateTarget(),
- 		weights,
- 		initialSolution);
+ PointVectorValuePair optimum = optimizer.optimize(100,
+                                                   problem,
+                                                   problem.calculateTarget(),
+                                                   weights,
+                                                   initialSolution);
 
- double[] optimalValues = optimum.getPoint();
+ final double[] optimalValues = optimum.getPoint();
 
  System.out.println(&quot;A: &quot; + optimalValues[0]);
  System.out.println(&quot;B: &quot; + optimalValues[1]);
@@ -574,14 +567,14 @@ C: 16.324008168386605
           href="../apidocs/org/apache/commons/math3/optimization/general/NonLinearConjugateGradientOptimizer.html">
           NonLinearConjugateGradientOptimizer</a> class provides a non-linear conjugate gradient algorithm
           to optimize <a
-          href="../apidocs/org/apache/commons/math3/optimization/DifferentiableMultivariateRealFunction.html">
-          DifferentiableMultivariateRealFunction</a>. Both the Fletcher-Reeves and the Polak-Ribi&#232;re
+          href="../apidocs/org/apache/commons/math3/analysis/DifferentiableMultivariateFunction.html">
+          DifferentiableMultivariateFunction</a>. Both the Fletcher-Reeves and the Polak-Ribi&#232;re
           search direction update methods are supported. It is also possible to set up a preconditioner
           or to change the line-search algorithm of the inner loop if desired (the default one is a Brent
           solver).
         </p>
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/optimization/general/PowellOptimizer.html">
+          The <a href="../apidocs/org/apache/commons/math3/optimization/direct/PowellOptimizer.html">
           PowellOptimizer</a> provides an optimization method for non-differentiable functions.
         </p>
       </subsection>
@@ -612,8 +605,8 @@ C: 16.324008168386605
           CurveFitter</a> class provides curve fitting for general curves. Users must
           provide their own implementation of the curve template as a class implementing
           the <a
-          href="../apidocs/org/apache/commons/math3/optimization/fitting/ParametricRealFunction.html">
-          ParametricRealFunction</a> interface and they must provide the initial guess of the
+          href="../apidocs/org/apache/commons/math3/analysis/ParametricUnivariateFunction.html">
+          ParametricUnivariateFunction</a> interface and they must provide the initial guess of the
           parameters. The more specialized <a
           href="../apidocs/org/apache/commons/math3/optimization/fitting/PolynomialFitter.html">
           PolynomialFitter</a> and <a
@@ -625,11 +618,11 @@ C: 16.324008168386605
           An example of fitting a polynomial is given here:
         </p>
         <source>PolynomialFitter fitter = new PolynomialFitter(degree, new LevenbergMarquardtOptimizer());
-fitter.addObservedPoint(-1.00,  2.021170021833143);
-fitter.addObservedPoint(-0.99   2.221135431136975);
-fitter.addObservedPoint(-0.98   2.09985277659314);
-fitter.addObservedPoint(-0.97   2.0211192647627025);
-// lots of lines ommitted
+fitter.addObservedPoint(-1.00, 2.021170021833143);
+fitter.addObservedPoint(-0.99, 2.221135431136975);
+fitter.addObservedPoint(-0.98, 2.09985277659314);
+fitter.addObservedPoint(-0.97, 2.0211192647627025);
+// ... Lots of lines omitted ...
 fitter.addObservedPoint( 0.99, -2.4345814727089854);
 PolynomialFunction fitted = fitter.fit();
         </source>
