@@ -18,7 +18,7 @@
   -->
   
 <?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
-<!-- $Revision: 937893 $ $Date: 2010-04-25 23:42:47 +0200 (Sun, 25 Apr 2010) $ -->
+<!-- $Id$ -->
 <document url="filter.html">
   <properties>
     <title>The Commons Math User Guide - Filters</title>
