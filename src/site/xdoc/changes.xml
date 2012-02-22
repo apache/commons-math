@@ -55,11 +55,14 @@ The <action> type attribute can be add,update,fix,remove.
 This is a major release: It combines bug fixes, new features and
 changes to existing features.
 
-Most notable among the new features are: XXX
+Most notable among the new features are: Iterative solvers, Kalman filter,
+ISAAC RNG, Illinois and Pegasus root finders, enhanced ODE framework,
+refactored geometry package, Binary Space Partition trees.
 
 Most notable among the changes are: Exclusive use of unchecked exceptions,
 removal of interfaces for which a single implementation is assumed to exist,
-improved coding and API consistency across packages.
+improved coding and API consistency across packages, performance (matrix
+product, FFT) and robustness (SVD).
 
 Because of the bas package name change, this release can be used together
 with earlier versions of Commons Math.
