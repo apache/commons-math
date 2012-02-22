@@ -26,6 +26,11 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
+    <Class name="org.apache.commons.math3.analysis.solvers.BaseSecantSolver" />
+    <Method name="doSolve" params="" returns="double" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.distribution.SaddlePointExpansion" />
     <Or>
       <Method name="getDeviancePart" params="double,double" returns="double" />
