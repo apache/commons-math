@@ -251,20 +251,16 @@ public class TriangularDistribution extends AbstractRealDistribution {
     @Override
     public double inverseCumulativeProbability(double p)
         throws OutOfRangeException {
-        if (p < 0.0 || p > 1.0) {
+        if (p < 0 || p > 1) {
             throw new OutOfRangeException(p, 0, 1);
         }
-        if (p == 0.0) {
+        if (p == 0) {
             return a;
         }
-        if (p == 1.0) {
+        if (p == 1) {
             return b;
         }
-        final double pc = (c - a) / (b - a);
-        if (p == pc) {
-            return c;
-        }
-        if (p < pc) {
+        if (p <= (c - a) / (b - a)) {
             return a + FastMath.sqrt(p * (b - a) * (c - a));
         }
         return b - FastMath.sqrt((1 - p) * (b - a) * (b - c));
