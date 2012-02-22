@@ -114,6 +114,11 @@
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
+    <Class name="org.apache.commons.math3.stat.regression.RegressionResults"/>
+    <Method name="&lt;init>" params="double[],double[][],boolean,long,int,double,double,double,boolean,boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic"/>
     <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
