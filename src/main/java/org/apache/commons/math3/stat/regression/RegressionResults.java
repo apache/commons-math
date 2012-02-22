@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
  * Results of a Multiple Linear Regression model fit.
@@ -56,8 +57,6 @@ public class RegressionResults implements Serializable {
     private final boolean containsConstant;
     /** array storing global results, SSE, MSE, RSQ, adjRSQ */
     private final double[] globalFitInfo;
-    /** error message */
-    private final String indexOutOfBound = "Index is outside of the 0 to number of variables - 1 range";
 
     /**
      *  Set the default constructor to private access
@@ -143,16 +142,17 @@ public class RegressionResults implements Serializable {
      * <p>A redundant regressor will have its redundancy flag set, as well as
      *  a parameters estimated equal to {@code Double.NaN}</p>
      *
-     * @param index an integer index which must be in the range [0, numberOfParameters-1]
-     * @return parameters estimated for regressor at index
-     * @throws IndexOutOfBoundsException thrown if the index >= numberOfParameters
+     * @param index Index.
+     * @return the parameters estimated for regressor at index.
+     * @throws OutOfRangeException if {@code index} is not in the interval
+     * {@code [0, number of parameters)}.
      */
-    public double getParameterEstimate(int index) throws IndexOutOfBoundsException {
+    public double getParameterEstimate(int index) {
         if (parameters == null) {
             return Double.NaN;
         }
         if (index < 0 || index >= this.parameters.length) {
-            throw new IndexOutOfBoundsException(indexOutOfBound);
+            throw new OutOfRangeException(index, 0, this.parameters.length - 1);
         }
         return this.parameters[index];
     }
@@ -179,16 +179,17 @@ public class RegressionResults implements Serializable {
      * error of the parameter estimate at index</a>,
      * usually denoted s(b<sub>index</sub>).
      *
-     * @param index an integer index which must be in the range [0, numberOfParameters-1]
-     * @return standard errors associated with parameters estimated at index
-     * @throws IndexOutOfBoundsException thrown if the index >= numberOfParameters
+     * @param index Index.
+     * @return the standard errors associated with parameters estimated at index.
+     * @throws OutOfRangeException if {@code index} is not in the interval
+     * {@code [0, number of parameters)}.
      */
-    public double getStdErrorOfEstimate(int index) throws IndexOutOfBoundsException {
+    public double getStdErrorOfEstimate(int index) {
         if (parameters == null) {
             return Double.NaN;
         }
         if (index < 0 || index >= this.parameters.length) {
-            throw new IndexOutOfBoundsException(indexOutOfBound);
+            throw new OutOfRangeException(index, 0, this.parameters.length - 1);
         }
         double var = this.getVcvElement(index, index);
         if (!Double.isNaN(var) && var > Double.MIN_VALUE) {
@@ -230,22 +231,21 @@ public class RegressionResults implements Serializable {
      * <p>If there are problems with an ill conditioned design matrix then the covariance
      * which involves redundant columns will be assigned {@code Double.NaN}. </p>
      *
-     * @param i - the ith regression parameter
-     * @param j - the jth regression parameter
-     * @return the covariance of the parameter estimates
-     * @throws IndexOutOfBoundsException thrown when i,j >= number of parameters
+     * @param i {@code i}th regression parameter.
+     * @param j {@code j}th regression parameter.
+     * @return the covariance of the parameter estimates.
+     * @throws OutOfRangeException if {@code i} or {@code j} is not in the
+     * interval {@code [0, number of parameters)}.
      */
-    public double getCovarianceOfParameters(int i, int j) throws IndexOutOfBoundsException {
+    public double getCovarianceOfParameters(int i, int j) {
         if (parameters == null) {
             return Double.NaN;
         }
         if (i < 0 || i >= this.parameters.length) {
-            throw new IndexOutOfBoundsException(" Row index is outside of the 0 " +
-                    "to number of variables - 1 range");
+            throw new OutOfRangeException(i, 0, this.parameters.length - 1);
         }
         if (j < 0 || j >= this.parameters.length) {
-            throw new IndexOutOfBoundsException(" Column index is outside of the 0" +
-                    " to number of variables - 1 range");
+            throw new OutOfRangeException(j, 0, this.parameters.length - 1);
         }
         return this.getVcvElement(i, j);
     }
