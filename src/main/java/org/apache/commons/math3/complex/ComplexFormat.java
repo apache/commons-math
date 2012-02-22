@@ -179,7 +179,7 @@ public class ComplexFormat {
 
         // format sign and imaginary
         double im = complex.getImaginary();
-        StringBuffer imAppendTo = new StringBuffer();
+        StringBuffer imAppendTo;
         if (im < 0.0) {
             toAppendTo.append(" - ");
             imAppendTo = formatImaginary(-im, new StringBuffer(), pos);
