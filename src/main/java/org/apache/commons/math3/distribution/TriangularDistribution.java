@@ -260,7 +260,7 @@ public class TriangularDistribution extends AbstractRealDistribution {
         if (p == 1) {
             return b;
         }
-        if (p <= (c - a) / (b - a)) {
+        if (p < (c - a) / (b - a)) {
             return a + FastMath.sqrt(p * (b - a) * (c - a));
         }
         return b - FastMath.sqrt((1 - p) * (b - a) * (b - c));
