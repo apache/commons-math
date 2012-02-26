@@ -63,10 +63,8 @@ public interface FieldElement<T> {
     /** Compute this &divide; a.
      * @param a element to add
      * @return a new element representing this &divide; a
-     * @exception ArithmeticException if a is the zero of the
-     * additive operation (i.e. additive identity)
      */
-    T divide(T a) throws ArithmeticException;
+    T divide(T a);
 
     /**
      * Returns the multiplicative inverse of {@code this} element.
