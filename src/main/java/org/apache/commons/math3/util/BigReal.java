@@ -25,6 +25,8 @@ import java.math.RoundingMode;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
  * Arbitrary precision decimal number.
@@ -241,14 +243,32 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         return new BigReal(d.negate());
     }
 
-    /** {@inheritDoc} */
-    public BigReal divide(BigReal a) throws ArithmeticException {
-        return new BigReal(d.divide(a.d, scale, roundingMode));
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathArithmeticException if {@code a} is zero
+     */
+    public BigReal divide(BigReal a) {
+        try {
+            return new BigReal(d.divide(a.d, scale, roundingMode));
+        } catch (ArithmeticException e) {
+            // Division by zero has occured
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NOT_ALLOWED);
+        }
     }
 
-    /** {@inheritDoc}} */
-    public BigReal reciprocal(){
-        return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
+    /**
+     * {@inheritDoc}
+     *
+     * @throws MathArithmeticException if {@code this} is zero
+     */
+    public BigReal reciprocal() {
+        try {
+            return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
+        } catch (ArithmeticException e) {
+            // Division by zero has occured
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NOT_ALLOWED);
+        }
     }
 
     /** {@inheritDoc} */

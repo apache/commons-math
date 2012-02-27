@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -113,6 +114,13 @@ public class BigRealTest {
         Assert.assertEquals(1024.0, a.divide(b).doubleValue(), 1.0e-15);
     }
 
+    @Test(expected = MathArithmeticException.class)
+    public void testDivisionByZero() {
+        final BigReal a = BigReal.ONE;
+        final BigReal b = BigReal.ZERO;
+        a.divide(b);
+    }
+
     @Test
     public void testReciprocal() {
         BigReal a = new BigReal("1.2345678");
@@ -123,6 +131,11 @@ public class BigRealTest {
         Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
         r = one.subtract(b.multiply(a));
         Assert.assertTrue(FastMath.abs(r.doubleValue()) <= eps);
+    }
+
+    @Test(expected = MathArithmeticException.class)
+    public void testReciprocalOfZero() {
+        BigReal.ZERO.reciprocal();
     }
 
     @Test
