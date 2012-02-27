@@ -21,13 +21,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.ArithmeticUtils;
 
 /**
  * Representation of a rational number without any overflow. This class is
@@ -598,36 +599,34 @@ public class BigFraction
 
     /**
      * <p>
-     * Divide the value of this fraction by the passed <code>BigInteger</code>,
-     * ie "this * 1 / bg", returning the result in reduced form.
+     * Divide the value of this fraction by the passed {@code BigInteger},
+     * ie {@code this * 1 / bg}, returning the result in reduced form.
      * </p>
      *
-     * @param bg
-     *            the <code>BigInteger</code> to divide by, must not be
-     *            <code>null</code>.
-     * @return a {@link BigFraction} instance with the resulting values.
-     * @throws NullArgumentException if the {@code BigInteger} is {@code null}.
-     * @throws ZeroException
-     *             if the fraction to divide by is zero.
+     * @param bg the {@code BigInteger} to divide by, must not be {@code null}
+     * @return a {@link BigFraction} instance with the resulting values
+     * @throws NullArgumentException if the {@code BigInteger} is {@code null}
+     * @throws MathArithmeticException if the fraction to divide by is zero
      */
     public BigFraction divide(final BigInteger bg) {
+        if (bg == null) {
+            throw new NullArgumentException(LocalizedFormats.FRACTION);
+        }
         if (BigInteger.ZERO.equals(bg)) {
-            throw new ZeroException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
         return new BigFraction(numerator, denominator.multiply(bg));
     }
 
     /**
      * <p>
-     * Divide the value of this fraction by the passed <tt>int</tt>, ie
-     * "this * 1 / i", returning the result in reduced form.
+     * Divide the value of this fraction by the passed {@code int}, ie
+     * {@code this * 1 / i}, returning the result in reduced form.
      * </p>
      *
-     * @param i
-     *            the <tt>int</tt> to divide by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     * @throws ArithmeticException
-     *             if the fraction to divide by is zero.
+     * @param i the {@code int} to divide by
+     * @return a {@link BigFraction} instance with the resulting values
+     * @throws MathArithmeticException if the fraction to divide by is zero
      */
     public BigFraction divide(final int i) {
         return divide(BigInteger.valueOf(i));
@@ -635,15 +634,13 @@ public class BigFraction
 
     /**
      * <p>
-     * Divide the value of this fraction by the passed <tt>long</tt>, ie
-     * "this * 1 / l", returning the result in reduced form.
+     * Divide the value of this fraction by the passed {@code long}, ie
+     * {@code this * 1 / l}, returning the result in reduced form.
      * </p>
      *
-     * @param l
-     *            the <tt>long</tt> to divide by.
-     * @return a {@link BigFraction} instance with the resulting values.
-     * @throws ArithmeticException
-     *             if the fraction to divide by is zero.
+     * @param l the {@code long} to divide by
+     * @return a {@link BigFraction} instance with the resulting values
+     * @throws MathArithmeticException if the fraction to divide by is zero
      */
     public BigFraction divide(final long l) {
         return divide(BigInteger.valueOf(l));
@@ -658,14 +655,14 @@ public class BigFraction
      * @param fraction Fraction to divide by, must not be {@code null}.
      * @return a {@link BigFraction} instance with the resulting values.
      * @throws NullArgumentException if the {@code fraction} is {@code null}.
-     * @throws ZeroException if the fraction to divide by is zero.
+     * @throws MathArithmeticException if the fraction to divide by is zero
      */
     public BigFraction divide(final BigFraction fraction) {
         if (fraction == null) {
             throw new NullArgumentException(LocalizedFormats.FRACTION);
         }
         if (BigInteger.ZERO.equals(fraction.numerator)) {
-            throw new ZeroException(LocalizedFormats.ZERO_DENOMINATOR);
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
         }
 
         return multiply(fraction.reciprocal());

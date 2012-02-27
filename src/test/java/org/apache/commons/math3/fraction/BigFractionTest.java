@@ -21,6 +21,7 @@ import java.math.BigInteger;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.util.FastMath;
@@ -423,8 +424,8 @@ public class BigFractionTest {
         BigFraction f2 = BigFraction.ZERO;
         try {
             f1.divide(f2);
-            Assert.fail("expecting ArithmeticException");
-        } catch (ZeroException ex) {
+            Assert.fail("expecting MathArithmeticException");
+        } catch (MathArithmeticException ex) {
         }
 
         f1 = new BigFraction(0, 5);
