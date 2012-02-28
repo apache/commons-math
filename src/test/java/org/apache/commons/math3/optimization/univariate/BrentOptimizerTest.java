@@ -17,6 +17,8 @@
 package org.apache.commons.math3.optimization.univariate;
 
 
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.SinFunction;
@@ -47,6 +49,30 @@ public final class BrentOptimizerTest {
         } catch (TooManyEvaluationsException fee) {
             // expected
         }
+    }
+
+    @Test
+    public void testBoundaries() {
+        final double lower = -1.0;
+        final double upper = +1.0;
+        UnivariateFunction f = new UnivariateFunction() {            
+            public double value(double x) {
+                if (x < lower) {
+                    throw new NumberIsTooSmallException(x, lower, true);
+                } else if (x > upper) {
+                    throw new NumberIsTooLargeException(x, upper, true);
+                } else {
+                    return x;
+                }
+            }
+        };
+        UnivariateOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
+        Assert.assertEquals(lower,
+                            optimizer.optimize(100, f, GoalType.MINIMIZE, lower, upper).getPoint(),
+                            1.0e-8);
+        Assert.assertEquals(upper,
+                            optimizer.optimize(100, f, GoalType.MAXIMIZE, lower, upper).getPoint(),
+                            1.0e-8);
     }
 
     @Test
