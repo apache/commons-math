@@ -160,17 +160,17 @@ public class MathArrays {
                                       boolean strict) {
         Comparable previous = val[0];
         final int max = val.length;
-        int comp;
         for (int i = 1; i < max; i++) {
+            final int comp;
             switch (dir) {
             case INCREASING:
-                comp = -val[i].compareTo(previous);
+                comp = previous.compareTo(val[i]);
                 if (strict) {
-                    if (0 <= comp) {
+                    if (comp >= 0) {
                         return false;
                     }
                 } else {
-                    if ( comp > 0) {
+                    if (comp > 0) {
                         return false;
                     }
                 }
