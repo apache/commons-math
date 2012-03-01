@@ -658,17 +658,17 @@ public class SymmLQ
      *
      * @version $Id$
      */
-    private class SymmLQEvent extends IterativeLinearSolverEvent {
+    private static class SymmLQEvent extends IterativeLinearSolverEvent {
         /*
          * TODO This class relies dangerously on references being transparently
          * updated.
          */
 
-        /** */
+        /** Identifier. */
         private static final long serialVersionUID = 2012012801L;
 
         /** A reference to the state of this solver. */
-        private final State state;
+        private final transient State state;
 
         /**
          * Creates a new instance of this class.
@@ -677,15 +677,15 @@ public class SymmLQ
          * occurred
          * @param state the state of this solver at the time of creation
          */
-        public SymmLQEvent(final Object source, final State state) {
-            super(source, getIterationManager().getIterations());
+        public SymmLQEvent(final SymmLQ source, final State state) {
+            super(source, source.getIterationManager().getIterations());
             this.state = state;
         }
 
         /** {@inheritDoc} */
         @Override
         public int getIterations() {
-            return getIterationManager().getIterations();
+            return ((SymmLQ) getSource()).getIterationManager().getIterations();
         }
 
         /** {@inheritDoc} */

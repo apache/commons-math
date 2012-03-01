@@ -24,7 +24,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.0</version>
   <name>Commons Math</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -275,7 +275,8 @@
 
   <properties>
     <commons.componentid>math</commons.componentid>
-    <commons.release.version>3.0-SNAPSHOT</commons.release.version>
+    <commons.release.version>3.0</commons.release.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
