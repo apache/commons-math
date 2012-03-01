@@ -170,7 +170,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     super(METHOD_NAME, minStep, maxStep,
           scalAbsoluteTolerance, scalRelativeTolerance);
     setStabilityCheck(true, -1, -1, -1);
-    setStepsizeControl(-1, -1, -1, -1);
+    setControlFactors(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
     setInterpolationControl(true, -1);
   }
@@ -192,7 +192,7 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
     super(METHOD_NAME, minStep, maxStep,
           vecAbsoluteTolerance, vecRelativeTolerance);
     setStabilityCheck(true, -1, -1, -1);
-    setStepsizeControl(-1, -1, -1, -1);
+    setControlFactors(-1, -1, -1, -1);
     setOrderControl(-1, -1, -1);
     setInterpolationControl(true, -1);
   }
@@ -255,8 +255,8 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * @param control4 fourth stepsize control factor (the factor
    * is reset to default if lower than 1.0001 or greater than 999.9)
    */
-  public void setStepsizeControl(final double control1, final double control2,
-                                 final double control3, final double control4) {
+  public void setControlFactors(final double control1, final double control2,
+                                final double control3, final double control4) {
 
     if ((control1 < 0.0001) || (control1 > 0.9999)) {
       this.stepControl1 = 0.65;

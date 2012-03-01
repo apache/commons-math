@@ -155,9 +155,9 @@ public class GraggBulirschStoerIntegratorTest {
     Assert.assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
     integ.setStabilityCheck(true, -1, -1, -1);
 
-    integ.setStepsizeControl(0.5, 0.99, 0.1, 2.5);
+    integ.setControlFactors(0.5, 0.99, 0.1, 2.5);
     Assert.assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
-    integ.setStepsizeControl(-1, -1, -1, -1);
+    integ.setControlFactors(-1, -1, -1, -1);
 
     integ.setOrderControl(10, 0.7, 0.95);
     Assert.assertTrue(errorWithDefaultSettings < getMaxError(integ, pb));
