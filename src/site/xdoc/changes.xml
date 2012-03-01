@@ -64,17 +64,18 @@ removal of interfaces for which a single implementation is assumed to exist,
 improved coding and API consistency across packages, performance (matrix
 product, FFT) and robustness (SVD).
 
-Because of the bas package name change, this release can be used together
+Because of the base package name change, this release can be used together
 with earlier versions of Commons Math.
 The minimal version of the Java platform required to compile and use
 Commons Math is Java 5.
-Users are encouraged to upgrade to this version, as in addition to new
+Users are encouraged to upgrade to this version as, in addition to new
 features, this release includes numerous bug fixes.
 Users of Commons Math 2.0-2 should recompile their code against the 3.0 JAR
 file and must adjust the import statements to use the appropriate
 org.apache.commons.math3 base package.
-Most of the compilation errors users will encounter after the switch will be
-due to moved or deleted classes/interfaces due to package reorganization.
+Most of the compilation errors users will encounter after the switch will
+be due to moved or deleted classes/interfaces resulting from package
+reorganization.
 
 Caveat:
 1. The implementation of the BOBYQA optimization algorithm is in alpha state
@@ -82,7 +83,7 @@ Caveat:
 for volunteers to improve the code readability, robustness and performance
 and to extend the unit tests suite.
 2. A few methods in the FastMath class are in fact slower that their
-counterparts in either Math or StrictMath (cf. MATH-740). 
+counterpart in either Math or StrictMath (cf. MATH-740). 
 ">
       <action dev="erans" type="update" issue="MATH-698">
         Classes "CMAESOptimizer" and "BOBYQAOptimizer" inherit from
