@@ -69,8 +69,6 @@ public abstract class AbstractLeastSquaresOptimizer
     protected double[] point;
     /** Current objective function value. */
     protected double[] objective;
-    /** Current residuals. */
-    protected double[] residuals;
     /** Weighted residuals */
     protected double[] weightedResiduals;
     /** Cost value (square root of the sum of the residuals). */
@@ -261,7 +259,6 @@ public abstract class AbstractLeastSquaresOptimizer
 
         // Store least squares problem characteristics.
         jF = f.jacobian();
-        this.residuals = new double[target.length];
 
         // Arrays shared with the other private methods.
         point = startPoint.clone();
