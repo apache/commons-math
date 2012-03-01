@@ -26,9 +26,11 @@ package org.apache.commons.math3.genetics;
  * @version $Id$
  */
 public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
+    /** Value assigned when no fitness has been computed yet. */
+    private static final double NO_FITNESS = Double.NEGATIVE_INFINITY;
 
     /** Cached value of the fitness of this chromosome. */
-    private double fitness = Double.MIN_VALUE;
+    private double fitness = NO_FITNESS;
 
     /**
      * Access the fitness of this chromosome. The bigger the fitness, the better
@@ -40,7 +42,7 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
      * @return the fitness.
      */
     public double getFitness() {
-        if (this.fitness == Double.MIN_VALUE) {
+        if (this.fitness == NO_FITNESS) {
             // no cache - compute the fitness
             this.fitness = fitness();
         }
