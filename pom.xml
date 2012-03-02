@@ -332,23 +332,8 @@
         </configuration>
         </plugin>
       </plugins>
-      <!-- This section can be dropped once the parent pom is corrected (v22+) -->
-      <resources>
-        <resource>
-          <directory>${basedir}</directory>
-          <targetPath>META-INF</targetPath>
-          <includes>
-            <include>NOTICE.txt</include>
-            <include>LICENSE.txt</include>
-          </includes>
-        </resource>
-        <!-- This is the default from the super-pom, currently missing from commons parent -->
-        <resource>
-          <directory>src/main/resources</directory>
-        </resource>
-      </resources>
-
   </build>
+
   <reporting>
     <plugins>
       <plugin>
