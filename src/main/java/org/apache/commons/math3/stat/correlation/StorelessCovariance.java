@@ -167,6 +167,7 @@ public class StorelessCovariance extends Covariance {
      * @throws NumberIsTooSmallException if the number of observations
      * in a cell is &lt; 2
      */
+    @Override
     public RealMatrix getCovarianceMatrix() throws NumberIsTooSmallException {
         return MatrixUtils.createRealMatrix(getData());
     }
@@ -197,6 +198,7 @@ public class StorelessCovariance extends Covariance {
      * {@link MathUnsupportedOperationException}
      * @throws MathUnsupportedOperationException in all cases
      */
+    @Override
     public int getN()
         throws MathUnsupportedOperationException {
         throw new MathUnsupportedOperationException();
