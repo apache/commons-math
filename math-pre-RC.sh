@@ -26,6 +26,6 @@
 # $Revision$ $Date$
 # ----------------------------------------------------------------------------
 
-mvn changes:announcement-generate -Rrelease-notes [-Dchanges.version=m.n]
+mvn changes:announcement-generate -Prelease-notes [-Dchanges.version=m.n]
 
 mvn commons:download-page
