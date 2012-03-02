@@ -35,6 +35,7 @@ public class AbstractRealDistributionTest {
         final double p12 = 0.5;
         final AbstractRealDistribution distribution;
         distribution = new AbstractRealDistribution() {
+            private static final long serialVersionUID = 1L;
 
             public double cumulativeProbability(final double x) {
                 if ((x < x0) || (x > x3)) {
@@ -118,6 +119,7 @@ public class AbstractRealDistributionTest {
         final double p23 = 2.0 / 3.0;
         final AbstractRealDistribution distribution;
         distribution = new AbstractRealDistribution() {
+            private static final long serialVersionUID = 1L;
 
             public double cumulativeProbability(final double x) {
                 if ((x < x0) || (x > x4)) {
