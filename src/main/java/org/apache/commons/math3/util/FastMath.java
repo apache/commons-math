@@ -101,7 +101,7 @@ public class FastMath {
      * already computed ones provided as literal arrays below.
      * </p>
      */
-    private static /* final */ boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
+    private static final boolean RECOMPUTE_TABLES_AT_RUNTIME = false;
 
     /** log(2) (high bits). */
     private static final double LN_2_A = 0.693147063255310059;
