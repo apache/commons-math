@@ -120,7 +120,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * By trying, n = 16 in Java is enough to reach 1.0.
      */
-    private static double[] EXPONENTIAL_SA_QI = null;
+    private static final double[] EXPONENTIAL_SA_QI;
 
     /** underlying random number generator */
     private RandomGenerator rand = null;
