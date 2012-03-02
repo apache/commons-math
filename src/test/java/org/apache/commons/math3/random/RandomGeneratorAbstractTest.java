@@ -299,7 +299,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
            }
         }
         Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
-        		"test will fail randomly about 1 in 100 times.",
+                "test will fail randomly about 1 in 100 times.",
                 FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
@@ -315,7 +315,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
            }
         }
         Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
-        		"test will fail randomly about 1 in 100 times.",
+                "test will fail randomly about 1 in 100 times.",
                 FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
@@ -331,7 +331,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
            }
         }
         Assert.assertTrue("Walked too far astray: " + walk + "\nNote: This " +
-        		"test will fail randomly about 1 in 100 times.",
+                "test will fail randomly about 1 in 100 times.",
                 FastMath.abs(walk) < FastMath.sqrt(N) * 2.576);
     }
 
