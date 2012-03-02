@@ -285,6 +285,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Allow severity to be overriden by the command-line option -DminSeverity=level -->
     <minSeverity>info</minSeverity>
+    <math.pmd.version>2.7.1</math.pmd.version>
   </properties> 
 
   <build>
@@ -322,6 +323,13 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${math.pmd.version}</version>
+        <configuration>
+          <targetJdk>${maven.compile.target}</targetJdk>  
+        </configuration>
         </plugin>
       </plugins>
       <!-- This section can be dropped once the parent pom is corrected (v22+) -->
@@ -373,7 +381,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.5</version>
+        <version>${math.pmd.version}</version>
         <configuration>
           <targetJdk>${maven.compile.target}</targetJdk>  
         </configuration>
