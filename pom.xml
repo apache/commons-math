@@ -276,6 +276,7 @@
   <properties>
     <commons.componentid>math</commons.componentid>
     <commons.release.version>3.0-SNAPSHOT</commons.release.version>
+    <!-- <commons.rc.version>RC1</commons.rc.version> -->
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
