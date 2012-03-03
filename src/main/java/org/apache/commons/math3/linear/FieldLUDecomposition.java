@@ -346,7 +346,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
          */
         public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
             final int m = pivot.length;
-            final int length = b.getDataRef().length;
+            final int length = b.getDimension();
             if (length != m) {
                 throw new DimensionMismatchException(length, m);
             }
