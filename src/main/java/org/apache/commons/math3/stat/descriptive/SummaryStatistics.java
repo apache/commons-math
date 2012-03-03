@@ -64,34 +64,34 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
     private static final long serialVersionUID = -2021321786743555871L;
 
     /** count of values that have been added */
-    protected long n = 0;
+    private long n = 0;
 
     /** SecondMoment is used to compute the mean and variance */
-    protected SecondMoment secondMoment = new SecondMoment();
+    private SecondMoment secondMoment = new SecondMoment();
 
     /** sum of values that have been added */
-    protected Sum sum = new Sum();
+    private Sum sum = new Sum();
 
     /** sum of the square of each value that has been added */
-    protected SumOfSquares sumsq = new SumOfSquares();
+    private SumOfSquares sumsq = new SumOfSquares();
 
     /** min of values that have been added */
-    protected Min min = new Min();
+    private Min min = new Min();
 
     /** max of values that have been added */
-    protected Max max = new Max();
+    private Max max = new Max();
 
     /** sumLog of values that have been added */
-    protected SumOfLogs sumLog = new SumOfLogs();
+    private SumOfLogs sumLog = new SumOfLogs();
 
     /** geoMean of values that have been added */
-    protected GeometricMean geoMean = new GeometricMean(sumLog);
+    private GeometricMean geoMean = new GeometricMean(sumLog);
 
     /** mean of values that have been added */
-    protected Mean mean = new Mean(secondMoment);
+    private Mean mean = new Mean(secondMoment);
 
     /** variance of values that have been added */
-    protected Variance variance = new Variance(secondMoment);
+    private Variance variance = new Variance(secondMoment);
 
     /** Sum statistic implementation - can be reset by setter. */
     private StorelessUnivariateStatistic sumImpl = sum;

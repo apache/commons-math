@@ -238,14 +238,6 @@ public class SummaryStatisticsTest {
         SummaryStatistics v = new SummaryStatistics(u);
         Assert.assertEquals(u, v);
         Assert.assertEquals(v, u);
-        Assert.assertTrue(v.geoMean == v.getGeoMeanImpl());
-        Assert.assertTrue(v.mean == v.getMeanImpl());
-        Assert.assertTrue(v.min == v.getMinImpl());
-        Assert.assertTrue(v.max == v.getMaxImpl());
-        Assert.assertTrue(v.sum == v.getSumImpl());
-        Assert.assertTrue(v.sumsq == v.getSumsqImpl());
-        Assert.assertTrue(v.sumLog == v.getSumLogImpl());
-        Assert.assertTrue(v.variance == v.getVarianceImpl());
 
         // Make sure both behave the same with additional values added
         u.addValue(7d);
@@ -263,7 +255,6 @@ public class SummaryStatisticsTest {
         u.clear();
         u.setSumImpl(new Sum());
         SummaryStatistics.copy(u,v);
-        Assert.assertEquals(u.sum, v.sum);
         Assert.assertEquals(u.getSumImpl(), v.getSumImpl());
 
     }
