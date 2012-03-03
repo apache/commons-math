@@ -75,6 +75,8 @@ public class DfpField implements Field<Dfp> {
     /** High precision string representation of &radic;2. */
     private static String sqr2String;
 
+    // Note: the static strings are set up (once) by the ctor and @GuardedBy("DfpField.class")
+
     /** High precision string representation of &radic;2 / 2. */
     private static String sqr2ReciprocalString;
 
