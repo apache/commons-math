@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optimization.linear;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
@@ -41,25 +42,25 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
      * Linear objective function.
      * @since 2.1
      */
-    protected LinearObjectiveFunction function;
+    private LinearObjectiveFunction function;
 
     /**
      * Linear constraints.
      * @since 2.1
      */
-    protected Collection<LinearConstraint> linearConstraints;
+    private Collection<LinearConstraint> linearConstraints;
 
     /**
      * Type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
      * @since 2.1
      */
-    protected GoalType goal;
+    private GoalType goal;
 
     /**
      * Whether to restrict the variables to non-negative values.
      * @since 2.1
      */
-    protected boolean nonNegative;
+    private boolean nonNegative;
 
     /** Maximal number of iterations allowed. */
     private int maxIterations;
@@ -72,6 +73,34 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
      */
     protected AbstractLinearOptimizer() {
         setMaxIterations(DEFAULT_MAX_ITERATIONS);
+    }
+
+    /**
+     * @return {@code true} if the variables are restricted to non-negative values.
+     */
+    protected boolean restrictToNonNegative() {
+        return nonNegative;
+    }
+
+    /**
+     * @return the optimization type.
+     */
+    protected GoalType getGoalType() {
+        return goal;
+    }
+
+    /**
+     * @return the optimization type.
+     */
+    protected LinearObjectiveFunction getFunction() {
+        return function;
+    }
+
+    /**
+     * @return the optimization type.
+     */
+    protected Collection<LinearConstraint> getConstraints() {
+        return Collections.unmodifiableCollection(linearConstraints);
     }
 
     /** {@inheritDoc} */

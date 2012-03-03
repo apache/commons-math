@@ -185,8 +185,12 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     public PointValuePair doOptimize()
         throws MaxCountExceededException, UnboundedSolutionException, NoFeasibleSolutionException {
         final SimplexTableau tableau =
-            new SimplexTableau(function, linearConstraints, goal, nonNegative,
-                               epsilon, maxUlps);
+            new SimplexTableau(getFunction(),
+                               getConstraints(),
+                               getGoalType(),
+                               restrictToNonNegative(),
+                               epsilon,
+                               maxUlps);
 
         solvePhase1(tableau);
         tableau.dropPhase1Objective();
