@@ -102,7 +102,7 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
         throws TooManyEvaluationsException, MaxCountExceededException {
 
         TrapezoidIntegrator qtrap = new TrapezoidIntegrator();
-        if (minimalIterationCount == 1) {
+        if (getMinimalIterationCount() == 1) {
             return (4 * qtrap.stage(this, 1) - qtrap.stage(this, 0)) / 3.0;
         }
 
@@ -113,11 +113,11 @@ public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {
             final double t = qtrap.stage(this, iterations.getCount());
             iterations.incrementCount();
             final double s = (4 * t - oldt) / 3.0;
-            if (iterations.getCount() >= minimalIterationCount) {
+            if (iterations.getCount() >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(s - olds);
                 final double rLimit =
-                    relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
+                    getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
+                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return s;
                 }
             }

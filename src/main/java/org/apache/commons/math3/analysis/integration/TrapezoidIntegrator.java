@@ -117,16 +117,20 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
         throws TooManyEvaluationsException {
 
         if (n == 0) {
-            s = 0.5 * (baseIntegrator.max - baseIntegrator.min) *
-                      (baseIntegrator.computeObjectiveValue(baseIntegrator.min) +
-                       baseIntegrator.computeObjectiveValue(baseIntegrator.max));
+            final double max = baseIntegrator.getMax();
+            final double min = baseIntegrator.getMin();
+            s = 0.5 * (max - min) *
+                      (baseIntegrator.computeObjectiveValue(min) +
+                       baseIntegrator.computeObjectiveValue(max));
             return s;
         } else {
             final long np = 1L << (n-1);           // number of new points in this stage
             double sum = 0;
+            final double max = baseIntegrator.getMax();
+            final double min = baseIntegrator.getMin();
             // spacing between adjacent new points
-            final double spacing = (baseIntegrator.max - baseIntegrator.min) / np;
-            double x = baseIntegrator.min + 0.5 * spacing;    // the first new point
+            final double spacing = (max - min) / np;
+            double x = min + 0.5 * spacing;    // the first new point
             for (long i = 0; i < np; i++) {
                 sum += baseIntegrator.computeObjectiveValue(x);
                 x += spacing;
@@ -147,11 +151,11 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
         while (true) {
             final int i = iterations.getCount();
             final double t = stage(this, i);
-            if (i >= minimalIterationCount) {
+            if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(t - oldt);
                 final double rLimit =
-                    relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
-                if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
+                    getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5;
+                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return t;
                 }
             }

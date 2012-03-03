@@ -48,28 +48,28 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     public static final int DEFAULT_MAX_ITERATIONS_COUNT = Integer.MAX_VALUE;
 
     /** Maximum absolute error. */
-    protected double absoluteAccuracy;
+    private final double absoluteAccuracy;
 
     /** Maximum relative error. */
-    protected double relativeAccuracy;
+    private final double relativeAccuracy;
 
     /** minimum number of iterations */
-    protected int minimalIterationCount;
+    private final int minimalIterationCount;
 
     /** The iteration count. */
-    protected Incrementor iterations;
+    protected final Incrementor iterations;
 
     /** The functions evaluation count. */
-    protected Incrementor evaluations;
+    private final Incrementor evaluations;
 
     /** Function to integrate. */
-    protected UnivariateFunction function;
+    private UnivariateFunction function;
 
     /** Lower bound for the interval. */
-    protected double min;
+    private double min;
 
     /** Upper bound for the interval. */
-    protected double max;
+    private double max;
 
     /**
      * Construct an integrator with given accuracies and iteration counts.
@@ -190,6 +190,19 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     }
 
     /**
+     * @return the lower bound.
+     */
+    protected double getMin() {
+        return min;
+    }
+    /**
+     * @return the upper bound.
+     */
+    protected double getMax() {
+        return max;
+    }
+
+    /**
      * Compute the objective function value.
      *
      * @param point Point at which the objective function must be evaluated.
@@ -229,8 +242,8 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
         UnivariateSolverUtils.verifyInterval(lower, upper);
 
         // Reset.
-        this.min = lower;
-        this.max = upper;
+        min = lower;
+        max = upper;
         function = f;
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();

@@ -128,10 +128,10 @@ public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {
                 currentRow[j] = tIJm1 + (tIJm1 - previousRow[j - 1]) / r;
             }
             final double s = currentRow[i];
-            if (i >= minimalIterationCount) {
+            if (i >= getMinimalIterationCount()) {
                 final double delta  = FastMath.abs(s - olds);
-                final double rLimit = relativeAccuracy * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
-                if ((delta <= rLimit) || (delta <= absoluteAccuracy)) {
+                final double rLimit = getRelativeAccuracy() * (FastMath.abs(olds) + FastMath.abs(s)) * 0.5;
+                if ((delta <= rLimit) || (delta <= getAbsoluteAccuracy())) {
                     return s;
                 }
             }

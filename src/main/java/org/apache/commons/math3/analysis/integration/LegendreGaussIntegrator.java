@@ -210,11 +210,11 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
             // estimate error
             final double delta = FastMath.abs(t - oldt);
             final double limit =
-                FastMath.max(absoluteAccuracy,
-                         relativeAccuracy * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
+                FastMath.max(getAbsoluteAccuracy(),
+                             getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
-            if ((iterations.getCount() + 1 >= minimalIterationCount) && (delta <= limit)) {
+            if ((iterations.getCount() + 1 >= getMinimalIterationCount()) && (delta <= limit)) {
                 return t;
             }
 
@@ -239,11 +239,11 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
         throws TooManyEvaluationsException {
 
         // set up the step for the current stage
-        final double step     = (max - min) / n;
+        final double step     = (getMax() - getMin()) / n;
         final double halfStep = step / 2.0;
 
         // integrate over all elementary steps
-        double midPoint = min + halfStep;
+        double midPoint = getMin() + halfStep;
         double sum = 0.0;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < abscissas.length; ++j) {
