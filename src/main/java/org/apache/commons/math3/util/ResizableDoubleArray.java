@@ -90,7 +90,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * contracted to fit the number of elements contained in the element
      *  array + 1.
      */
-    protected float contractionCriteria = 2.5f;
+    private float contractionCriteria = 2.5f;
 
     /**
      * The expansion factor of the array.  When the array needs to be expanded,
@@ -100,30 +100,30 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <code>internalArray.length + expansionFactor</code> if
      * <code>expansionMode</code> is set to ADDITIVE_MODE.
      */
-    protected float expansionFactor = 2.0f;
+    private float expansionFactor = 2.0f;
 
     /**
      * Determines whether array expansion by <code>expansionFactor</code>
      * is additive or multiplicative.
      */
-    protected int expansionMode = MULTIPLICATIVE_MODE;
+    private int expansionMode = MULTIPLICATIVE_MODE;
 
     /**
      * The initial capacity of the array.  Initial capacity is not exposed as a
      * property as it is only meaningful when passed to a constructor.
      */
-    protected int initialCapacity = 16;
+    private int initialCapacity = 16;
 
     /**
      * The internal storage array.
      */
-    protected double[] internalArray;
+    private double[] internalArray;
 
     /**
      * The number of addressable elements in the array.  Note that this
      * has nothing to do with the length of the internal storage array.
      */
-    protected int numElements = 0;
+    private int numElements = 0;
 
     /**
      * The position of the first addressable element in the internal storage
@@ -131,7 +131,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * internalArray[startIndex],...,internalArray[startIndex + numElements -1]
      * </code>
      */
-    protected int startIndex = 0;
+    private int startIndex = 0;
 
     /**
      * Create a ResizableArray with default properties.
