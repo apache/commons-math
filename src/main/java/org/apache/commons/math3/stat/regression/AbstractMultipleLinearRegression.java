@@ -39,13 +39,27 @@ public abstract class AbstractMultipleLinearRegression implements
         MultipleLinearRegression {
 
     /** X sample data. */
-    protected RealMatrix X;
+    private RealMatrix xMatrix;
 
     /** Y sample data. */
-    protected RealVector Y;
+    private RealVector yVector;
 
     /** Whether or not the regression model includes an intercept.  True means no intercept. */
     private boolean noIntercept = false;
+
+    /**
+     * @return the X sample data.
+     */
+    protected RealMatrix getX() {
+        return xMatrix;
+    }
+
+    /**
+     * @return the Y sample data.
+     */
+    protected RealVector getY() {
+        return yVector;
+    }
 
     /**
      * @return true if the model has no intercept term; false otherwise
@@ -121,8 +135,8 @@ public abstract class AbstractMultipleLinearRegression implements
                 x[i][j] = data[pointer++];
             }
         }
-        this.X = new Array2DRowRealMatrix(x);
-        this.Y = new ArrayRealVector(y);
+        this.xMatrix = new Array2DRowRealMatrix(x);
+        this.yVector = new ArrayRealVector(y);
     }
 
     /**
@@ -139,7 +153,7 @@ public abstract class AbstractMultipleLinearRegression implements
         if (y.length == 0) {
             throw new NoDataException();
         }
-        this.Y = new ArrayRealVector(y);
+        this.yVector = new ArrayRealVector(y);
     }
 
     /**
@@ -175,7 +189,7 @@ public abstract class AbstractMultipleLinearRegression implements
             throw new NoDataException();
         }
         if (noIntercept) {
-            this.X = new Array2DRowRealMatrix(x, true);
+            this.xMatrix = new Array2DRowRealMatrix(x, true);
         } else { // Augment design matrix with initial unitary column
             final int nVars = x[0].length;
             final double[][] xAug = new double[x.length][nVars + 1];
@@ -186,7 +200,7 @@ public abstract class AbstractMultipleLinearRegression implements
                 xAug[i][0] = 1.0d;
                 System.arraycopy(x[i], 0, xAug[i], 1, nVars);
             }
-            this.X = new Array2DRowRealMatrix(xAug, false);
+            this.xMatrix = new Array2DRowRealMatrix(xAug, false);
         }
     }
 
@@ -257,7 +271,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     public double[] estimateResiduals() {
         RealVector b = calculateBeta();
-        RealVector e = Y.subtract(X.operate(b));
+        RealVector e = yVector.subtract(xMatrix.operate(b));
         return e.toArray();
     }
 
@@ -332,7 +346,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @return Y variance
      */
     protected double calculateYVariance() {
-        return new Variance().evaluate(Y.toArray());
+        return new Variance().evaluate(yVector.toArray());
     }
 
     /**
@@ -349,7 +363,7 @@ public abstract class AbstractMultipleLinearRegression implements
     protected double calculateErrorVariance() {
         RealVector residuals = calculateResiduals();
         return residuals.dotProduct(residuals) /
-               (X.getRowDimension() - X.getColumnDimension());
+               (xMatrix.getRowDimension() - xMatrix.getColumnDimension());
     }
 
     /**
@@ -364,7 +378,7 @@ public abstract class AbstractMultipleLinearRegression implements
      */
     protected RealVector calculateResiduals() {
         RealVector b = calculateBeta();
-        return Y.subtract(X.operate(b));
+        return yVector.subtract(xMatrix.operate(b));
     }
 
 }

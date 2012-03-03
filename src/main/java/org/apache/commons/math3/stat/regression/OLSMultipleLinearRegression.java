@@ -78,7 +78,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     public void newSampleData(double[] data, int nobs, int nvars) {
         super.newSampleData(data, nobs, nvars);
-        qr = new QRDecomposition(X);
+        qr = new QRDecomposition(getX());
     }
 
     /**
@@ -132,9 +132,9 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     public double calculateTotalSumOfSquares() {
         if (isNoIntercept()) {
-            return StatUtils.sumSq(Y.toArray());
+            return StatUtils.sumSq(getY().toArray());
         } else {
-            return new SecondMoment().evaluate(Y.toArray());
+            return new SecondMoment().evaluate(getY().toArray());
         }
     }
 
@@ -180,12 +180,12 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * @since 2.2
      */
     public double calculateAdjustedRSquared() {
-        final double n = X.getRowDimension();
+        final double n = getX().getRowDimension();
         if (isNoIntercept()) {
-            return 1 - (1 - calculateRSquared()) * (n / (n - X.getColumnDimension()));
+            return 1 - (1 - calculateRSquared()) * (n / (n - getX().getColumnDimension()));
         } else {
             return 1 - (calculateResidualSumOfSquares() * (n - 1)) /
-                (calculateTotalSumOfSquares() * (n - X.getColumnDimension()));
+                (calculateTotalSumOfSquares() * (n - getX().getColumnDimension()));
         }
     }
 
@@ -197,7 +197,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected void newXSampleData(double[][] x) {
         super.newXSampleData(x);
-        qr = new QRDecomposition(X);
+        qr = new QRDecomposition(getX());
     }
 
     /**
@@ -207,7 +207,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealVector calculateBeta() {
-        return qr.getSolver().solve(Y);
+        return qr.getSolver().solve(getY());
     }
 
     /**
@@ -223,7 +223,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     @Override
     protected RealMatrix calculateBetaVariance() {
-        int p = X.getColumnDimension();
+        int p = getX().getColumnDimension();
         RealMatrix Raug = qr.getR().getSubMatrix(0, p - 1 , 0, p - 1);
         RealMatrix Rinv = new LUDecomposition(Raug).getSolver().getInverse();
         return Rinv.multiply(Rinv.transpose());

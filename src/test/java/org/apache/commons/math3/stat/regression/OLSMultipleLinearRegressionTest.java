@@ -434,7 +434,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
          */
         double[] residuals = model.estimateResiduals();
         RealMatrix I = MatrixUtils.createRealIdentityMatrix(10);
-        double[] hatResiduals = I.subtract(hat).operate(model.Y).toArray();
+        double[] hatResiduals = I.subtract(hat).operate(model.getY()).toArray();
         TestUtils.assertEquals(residuals, hatResiduals, 10e-12);
     }
 
@@ -457,11 +457,11 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      */
     protected void checkVarianceConsistency(OLSMultipleLinearRegression model) throws Exception {
         // Check Y variance consistency
-        TestUtils.assertEquals(StatUtils.variance(model.Y.toArray()), model.calculateYVariance(), 0);
+        TestUtils.assertEquals(StatUtils.variance(model.getY().toArray()), model.calculateYVariance(), 0);
         
         // Check residual variance consistency
         double[] residuals = model.calculateResiduals().toArray();
-        RealMatrix X = model.X;
+        RealMatrix X = model.getX();
         TestUtils.assertEquals(
                 StatUtils.variance(model.calculateResiduals().toArray()) * (residuals.length - 1),
                 model.calculateErrorVariance() * (X.getRowDimension() - X.getColumnDimension()), 1E-20);
@@ -482,22 +482,22 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         };
         OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
         regression.newSampleData(y, x);
-        RealMatrix combinedX = regression.X.copy();
-        RealVector combinedY = regression.Y.copy();
+        RealMatrix combinedX = regression.getX().copy();
+        RealVector combinedY = regression.getY().copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        Assert.assertEquals(combinedX, regression.X);
-        Assert.assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedX, regression.getX());
+        Assert.assertEquals(combinedY, regression.getY());
         
         // No intercept
         regression.setNoIntercept(true);
         regression.newSampleData(y, x);
-        combinedX = regression.X.copy();
-        combinedY = regression.Y.copy();
+        combinedX = regression.getX().copy();
+        combinedY = regression.getY().copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        Assert.assertEquals(combinedX, regression.X);
-        Assert.assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedX, regression.getX());
+        Assert.assertEquals(combinedY, regression.getY());
     }
     
     @Test(expected=IllegalArgumentException.class)

@@ -93,10 +93,10 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected RealVector calculateBeta() {
         RealMatrix OI = getOmegaInverse();
-        RealMatrix XT = X.transpose();
-        RealMatrix XTOIX = XT.multiply(OI).multiply(X);
+        RealMatrix XT = getX().transpose();
+        RealMatrix XTOIX = XT.multiply(OI).multiply(getX());
         RealMatrix inverse = new LUDecomposition(XTOIX).getSolver().getInverse();
-        return inverse.multiply(XT).multiply(OI).operate(Y);
+        return inverse.multiply(XT).multiply(OI).operate(getY());
     }
 
     /**
@@ -109,7 +109,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected RealMatrix calculateBetaVariance() {
         RealMatrix OI = getOmegaInverse();
-        RealMatrix XTOIX = X.transpose().multiply(OI).multiply(X);
+        RealMatrix XTOIX = getX().transpose().multiply(OI).multiply(getX());
         return new LUDecomposition(XTOIX).getSolver().getInverse();
     }
 
@@ -129,7 +129,7 @@ public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     protected double calculateErrorVariance() {
         RealVector residuals = calculateResiduals();
         double t = residuals.dotProduct(getOmegaInverse().operate(residuals));
-        return t / (X.getRowDimension() - X.getColumnDimension());
+        return t / (getX().getRowDimension() - getX().getColumnDimension());
 
     }
 

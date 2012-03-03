@@ -86,22 +86,22 @@ public abstract class MultipleLinearRegressionAbstractTest {
         };
         AbstractMultipleLinearRegression regression = createRegression();
         regression.newSampleData(design, 4, 3);
-        RealMatrix flatX = regression.X.copy();
-        RealVector flatY = regression.Y.copy();
+        RealMatrix flatX = regression.getX().copy();
+        RealVector flatY = regression.getY().copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        Assert.assertEquals(flatX, regression.X);
-        Assert.assertEquals(flatY, regression.Y);
+        Assert.assertEquals(flatX, regression.getX());
+        Assert.assertEquals(flatY, regression.getY());
         
         // No intercept
         regression.setNoIntercept(true);
         regression.newSampleData(design, 4, 3);
-        flatX = regression.X.copy();
-        flatY = regression.Y.copy();
+        flatX = regression.getX().copy();
+        flatY = regression.getY().copy();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        Assert.assertEquals(flatX, regression.X);
-        Assert.assertEquals(flatY, regression.Y);
+        Assert.assertEquals(flatX, regression.getX());
+        Assert.assertEquals(flatY, regression.getY());
     }
     
     @Test(expected=IllegalArgumentException.class)

@@ -178,13 +178,13 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         double[][] covariance = MatrixUtils.createRealIdentityMatrix(4).scalarMultiply(2).getData();
         GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
         regression.newSampleData(y, x, covariance);
-        RealMatrix combinedX = regression.X.copy();
-        RealVector combinedY = regression.Y.copy();
+        RealMatrix combinedX = regression.getX().copy();
+        RealVector combinedY = regression.getY().copy();
         RealMatrix combinedCovInv = regression.getOmegaInverse();
         regression.newXSampleData(x);
         regression.newYSampleData(y);
-        Assert.assertEquals(combinedX, regression.X);
-        Assert.assertEquals(combinedY, regression.Y);
+        Assert.assertEquals(combinedX, regression.getX());
+        Assert.assertEquals(combinedY, regression.getY());
         Assert.assertEquals(combinedCovInv, regression.getOmegaInverse());
     }
     
@@ -253,7 +253,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
         ols.newSampleData(longley, nObs, 6);
         final RealVector b = ols.calculateBeta().copy();
-        final RealMatrix x = ols.X.copy();
+        final RealMatrix x = ols.getX().copy();
         
         // Create a GLS model to reuse
         GLSMultipleLinearRegression gls = new GLSMultipleLinearRegression();
