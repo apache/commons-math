@@ -37,10 +37,10 @@ public abstract class AbstractFormat extends NumberFormat implements Serializabl
     private static final long serialVersionUID = -6981118387974191891L;
 
     /** The format used for the denominator. */
-    protected NumberFormat denominatorFormat;
+    private NumberFormat denominatorFormat;
 
     /** The format used for the numerator. */
-    protected NumberFormat numeratorFormat;
+    private NumberFormat numeratorFormat;
 
     /**
      * Create an improper formatting instance with the default number format
