@@ -45,7 +45,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     /** Serializable version identifier */
     private static final long serialVersionUID = 7260756672015356458L;
     /** Entries of the matrix */
-    protected T[][] data;
+    private T[][] data;
 
     /**
      * Creates a matrix with no data
