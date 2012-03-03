@@ -79,7 +79,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     /**
      *  Stored data values
      */
-    protected ResizableDoubleArray eDA = new ResizableDoubleArray();
+    private ResizableDoubleArray eDA = new ResizableDoubleArray();
 
     /** Mean statistic implementation - can be reset by setter. */
     private UnivariateStatistic meanImpl = new Mean();
