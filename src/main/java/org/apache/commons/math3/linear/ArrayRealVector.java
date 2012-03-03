@@ -39,8 +39,9 @@ public class ArrayRealVector extends RealVector implements Serializable {
     private static final long serialVersionUID = -1097961340710804027L;
     /** Default format. */
     private static final RealVectorFormat DEFAULT_FORMAT = RealVectorFormat.getInstance();
+
     /** Entries of the vector. */
-    protected double data[];
+    private double data[];
 
     /**
      * Build a 0-length vector.
