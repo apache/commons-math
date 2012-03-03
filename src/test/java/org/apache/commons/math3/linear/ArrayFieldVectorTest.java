@@ -313,12 +313,12 @@ public class ArrayFieldVectorTest {
         ArrayFieldVector<Fraction> v8 = new ArrayFieldVector<Fraction>(v1, true);
         Assert.assertEquals(7, v8.getDimension());
         Assert.assertEquals(new Fraction(0), v8.getEntry(6));
-        Assert.assertNotSame("testData not same object ", v1.data, v8.data);
+        Assert.assertNotSame("testData not same object ", v1.getDataRef(), v8.getDataRef());
 
         ArrayFieldVector<Fraction> v8_2 = new ArrayFieldVector<Fraction>(v1, false);
         Assert.assertEquals(7, v8_2.getDimension());
         Assert.assertEquals(new Fraction(0), v8_2.getEntry(6));
-        Assert.assertArrayEquals(v1.data, v8_2.data);
+        Assert.assertArrayEquals(v1.getDataRef(), v8_2.getDataRef());
 
         ArrayFieldVector<Fraction> v9 = new ArrayFieldVector<Fraction>(v1, v3);
         Assert.assertEquals(10, v9.getDimension());
@@ -348,16 +348,16 @@ public class ArrayFieldVectorTest {
 
         FieldVector<Fraction> v_copy = v1.copy();
         Assert.assertEquals(3, v_copy.getDimension());
-        Assert.assertNotSame("testData not same object ", v1.data, v_copy.getData());
+        Assert.assertNotSame("testData not same object ", v1.getDataRef(), v_copy.getData());
 
         Fraction[] a_frac = v1.toArray();
         Assert.assertEquals(3, a_frac.length);
-        Assert.assertNotSame("testData not same object ", v1.data, a_frac);
+        Assert.assertNotSame("testData not same object ", v1.getDataRef(), a_frac);
 
 
 //      ArrayFieldVector<Fraction> vout4 = (ArrayFieldVector<Fraction>) v1.clone();
 //      Assert.assertEquals(3, vout4.getDimension());
-//      Assert.assertEquals(v1.data, vout4.data);
+//      Assert.assertEquals(v1.getDataRef(), vout4.getDataRef());
 
 
         FieldVector<Fraction> vout5 = v4.getSubVector(3, 3);
@@ -563,7 +563,7 @@ public class ArrayFieldVectorTest {
         /*
          Fraction[] dout1 = v1.copyOut();
         Assert.assertEquals(3, dout1.length);
-        assertNotSame("testData not same object ", v1.data, dout1);
+        assertNotSame("testData not same object ", v1.getDataRef(), dout1);
          */
         try {
             v1.checkVectorDimensions(2);
