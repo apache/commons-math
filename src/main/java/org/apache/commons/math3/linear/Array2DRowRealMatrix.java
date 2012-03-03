@@ -35,8 +35,9 @@ import org.apache.commons.math3.util.MathUtils;
 public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1067294169172445528L;
+
     /** Entries of the matrix. */
-    protected double data[][];
+    private double data[][];
 
     /**
      * Creates a matrix with no data
