@@ -346,8 +346,9 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
          */
         public ArrayFieldVector<T> solve(ArrayFieldVector<T> b) {
             final int m = pivot.length;
-            if (b.data.length != m) {
-                throw new DimensionMismatchException(b.data.length, m);
+            final int length = b.getDataRef().length;
+            if (length != m) {
+                throw new DimensionMismatchException(length, m);
             }
             if (singular) {
                 throw new SingularMatrixException();
@@ -360,7 +361,7 @@ public class FieldLUDecomposition<T extends FieldElement<T>> {
 
             // Apply permutations to b
             for (int row = 0; row < m; row++) {
-                bp[row] = b.data[pivot[row]];
+                bp[row] = b.getEntry(pivot[row]);
             }
 
             // Solve LY = b
