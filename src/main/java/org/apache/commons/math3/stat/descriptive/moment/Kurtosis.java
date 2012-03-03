@@ -115,7 +115,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
                 } else {
                     double n = moment.n;
                     kurtosis =
-                        (n * (n + 1) * moment.m4 -
+                        (n * (n + 1) * moment.getResult() -
                                 3 * moment.m2 * moment.m2 * (n - 1)) /
                                 ((n - 1) * (n -2) * (n -3) * variance * variance);
                 }

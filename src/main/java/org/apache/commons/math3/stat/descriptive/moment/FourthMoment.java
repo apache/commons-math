@@ -59,7 +59,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
     private static final long serialVersionUID = 4763990447117157611L;
 
     /** fourth moment of values that have been added */
-    protected double m4;
+    private double m4;
 
     /**
      * Create a FourthMoment instance
