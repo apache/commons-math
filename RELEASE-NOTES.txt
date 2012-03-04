@@ -1,7 +1,7 @@
 
               Apache Commons Math 3.0 RELEASE NOTES
 
-The Commons Math team is pleased to announce the release of commons-math3-3.0-SNAPSHOT
+The Commons Math team is pleased to announce the release of commons-math3-3.0
 
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
