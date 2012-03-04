@@ -47,6 +47,9 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
     /** Default maximal iteration count. */
     public static final int DEFAULT_MAX_ITERATIONS_COUNT = Integer.MAX_VALUE;
 
+    /** The iteration count. */
+    protected final Incrementor iterations;
+
     /** Maximum absolute error. */
     private final double absoluteAccuracy;
 
@@ -55,9 +58,6 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
 
     /** minimum number of iterations */
     private final int minimalIterationCount;
-
-    /** The iteration count. */
-    protected final Incrementor iterations;
 
     /** The functions evaluation count. */
     private final Incrementor evaluations;
