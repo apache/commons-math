@@ -225,13 +225,22 @@ public class SymmLQ
      * the current number of evaluations of matrix-vector products.
      * </p>
      */
-    private class State {
+    private static class State {
 
         /** Reference to the linear operator. */
         private final RealLinearOperator a;
 
         /** Reference to the right-hand side vector. */
         private final RealVector b;
+
+        /** {@code true} if symmetry of matrix and conditioner must be checked. */
+        private final boolean check;
+
+        /**
+         * The value of the custom tolerance &delta; for the default stopping
+         * criterion.
+         */
+        private final double delta;
 
         /** The value of beta[k+1]. */
         private double beta;
@@ -341,7 +350,9 @@ public class SymmLQ
          */
         public State(final RealLinearOperator a, final RealLinearOperator minv,
             final RealVector b, final RealVector x, final boolean goodb,
-            final double shift) {
+            final double shift,
+            final boolean check,
+            final double delta) {
             this.a = a;
             this.minv = minv;
             this.b = b;
@@ -350,6 +361,8 @@ public class SymmLQ
             this.shift = shift;
             this.minvb = minv == null ? b : minv.operate(b);
             this.hasConverged = false;
+            this.check = check;
+            this.delta = delta;
             init();
         }
 
@@ -1134,7 +1147,7 @@ public class SymmLQ
         manager.resetIterationCount();
         manager.incrementIterationCount();
 
-        final State state = new State(a, minv, b, x, goodb, shift);
+        final State state = new State(a, minv, b, x, goodb, shift, check, delta);
         final IterativeLinearSolverEvent event = new SymmLQEvent(this, state);
         if (state.beta1 == 0.) {
             /* If b = 0 exactly, stop with x = 0. */
