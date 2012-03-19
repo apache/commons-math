@@ -347,12 +347,18 @@ public class SymmLQ
          * to contain a large multiple of {@code b}
          * @param shift the amount to be subtracted to all diagonal elements of
          * A
+         * @param delta the &delta; parameter for the default stopping criterion
+         * @param check {@code true} if self-adjointedness of both matrix and
+         * preconditioner should be checked
          */
-        public State(final RealLinearOperator a, final RealLinearOperator minv,
-            final RealVector b, final RealVector x, final boolean goodb,
+        public State(final RealLinearOperator a,
+            final RealLinearOperator minv,
+            final RealVector b,
+            final RealVector x,
+            final boolean goodb,
             final double shift,
-            final boolean check,
-            final double delta) {
+            final double delta,
+            final boolean check) {
             this.a = a;
             this.minv = minv;
             this.b = b;
@@ -364,6 +370,93 @@ public class SymmLQ
             this.check = check;
             this.delta = delta;
             init();
+        }
+
+        /**
+         * Performs a symmetry check on the specified linear operator, and throws an
+         * exception in case this check fails. Given a linear operator L, and a
+         * vector x, this method checks that
+         * x' &middot; L &middot; y = y' &middot; L &middot; x
+         * (within a given accuracy), where y = L &middot; x.
+         *
+         * @param l the linear operator L
+         * @param x the candidate vector x
+         * @param y the candidate vector y = L &middot; x
+         * @param z the vector z = L &middot; y
+         * @throws NonSelfAdjointOperatorException when the test fails
+         */
+        private static void checkSymmetry(final RealLinearOperator l,
+            final RealVector x, final RealVector y, final RealVector z)
+            throws NonSelfAdjointOperatorException {
+            final double s = y.dotProduct(y);
+            final double t = x.dotProduct(z);
+            final double epsa = (s + SymmLQ.MACH_PREC) * SymmLQ.CBRT_MACH_PREC;
+            if (FastMath.abs(s - t) > epsa) {
+                final NonSelfAdjointOperatorException e;
+                e = new NonSelfAdjointOperatorException();
+                final ExceptionContext context = e.getContext();
+                context.setValue(SymmLQ.OPERATOR, l);
+                context.setValue(SymmLQ.VECTOR1, x);
+                context.setValue(SymmLQ.VECTOR2, y);
+                context.setValue(SymmLQ.THRESHOLD, Double.valueOf(epsa));
+                throw e;
+            }
+        }
+
+        /**
+         * Throws a new {@link NonPositiveDefiniteOperatorException} with
+         * appropriate context.
+         *
+         * @param l the offending linear operator
+         * @param v the offending vector
+         * @throws NonPositiveDefiniteOperatorException in any circumstances
+         */
+        private static void throwNPDLOException(final RealLinearOperator l,
+            final RealVector v) throws NonPositiveDefiniteOperatorException {
+            final NonPositiveDefiniteOperatorException e;
+            e = new NonPositiveDefiniteOperatorException();
+            final ExceptionContext context = e.getContext();
+            context.setValue(OPERATOR, l);
+            context.setValue(VECTOR, v);
+            throw e;
+        }
+
+        /**
+         * A clone of the BLAS {@code DAXPY} function, which carries out the
+         * operation y &larr; a &middot; x + y. This is for internal use only: no
+         * dimension checks are provided.
+         *
+         * @param a the scalar by which {@code x} is to be multiplied
+         * @param x the vector to be added to {@code y}
+         * @param y the vector to be incremented
+         */
+        private static void daxpy(final double a, final RealVector x,
+            final RealVector y) {
+            final int n = x.getDimension();
+            for (int i = 0; i < n; i++) {
+                y.setEntry(i, a * x.getEntry(i) + y.getEntry(i));
+            }
+        }
+
+        /**
+         * A BLAS-like function, for the operation z &larr; a &middot; x + b
+         * &middot; y + z. This is for internal use only: no dimension checks are
+         * provided.
+         *
+         * @param a the scalar by which {@code x} is to be multiplied
+         * @param x the first vector to be added to {@code z}
+         * @param b the scalar by which {@code y} is to be multiplied
+         * @param y the second vector to be added to {@code z}
+         * @param z the vector to be incremented
+         */
+        private static void daxpbypz(final double a, final RealVector x,
+            final double b, final RealVector y, final RealVector z) {
+            final int n = z.getDimension();
+            for (int i = 0; i < n; i++) {
+                final double zi;
+                zi = a * x.getEntry(i) + b * y.getEntry(i) + z.getEntry(i);
+                z.setEntry(i, zi);
+            }
         }
 
         /**
@@ -422,7 +515,7 @@ public class SymmLQ
              */
             this.r1 = this.b.copy();
             this.y = this.minv == null ? this.b.copy() : this.minv.operate(this.r1);
-            if ((this.minv != null) && check) {
+            if ((this.minv != null) && this.check) {
                 checkSymmetry(this.minv, this.r1, this.y, this.minv.operate(this.y));
             }
 
@@ -442,7 +535,7 @@ public class SymmLQ
              */
             final RealVector v = this.y.mapMultiply(1. / this.beta1);
             this.y = this.a.operate(v);
-            if (check) {
+            if (this.check) {
                 checkSymmetry(this.a, v, this.y, this.a.operate(this.y));
             }
             /*
@@ -505,7 +598,7 @@ public class SymmLQ
          * value of the state variables of {@code this} object correspond to the
          * current iteration count {@code k}.
          */
-        private void update() {
+        protected void update() {
             final RealVector v = y.mapMultiply(1. / beta);
             y = a.operate(v);
             daxpbypz(-shift, v, -beta / oldb, r1, y);
@@ -672,11 +765,6 @@ public class SymmLQ
      * @version $Id$
      */
     private static class SymmLQEvent extends IterativeLinearSolverEvent {
-        /*
-         * TODO This class relies dangerously on references being transparently
-         * updated.
-         */
-
         /** Identifier. */
         private static final long serialVersionUID = 2012012801L;
 
@@ -724,10 +812,10 @@ public class SymmLQ
     }
 
     /** The cubic root of {@link #MACH_PREC}. */
-    private static final double CBRT_MACH_PREC;
+    protected static final double CBRT_MACH_PREC;
 
     /** The machine precision. */
-    private static final double MACH_PREC;
+    protected static final double MACH_PREC;
 
     /** Key for the exception context. */
     private static final String OPERATOR = "operator";
@@ -791,93 +879,6 @@ public class SymmLQ
     static {
         MACH_PREC = Math.ulp(1.);
         CBRT_MACH_PREC = Math.cbrt(MACH_PREC);
-    }
-
-    /**
-     * Performs a symmetry check on the specified linear operator, and throws an
-     * exception in case this check fails. Given a linear operator L, and a
-     * vector x, this method checks that
-     * x' &middot; L &middot; y = y' &middot; L &middot; x
-     * (within a given accuracy), where y = L &middot; x.
-     *
-     * @param l the linear operator L
-     * @param x the candidate vector x
-     * @param y the candidate vector y = L &middot; x
-     * @param z the vector z = L &middot; y
-     * @throws NonSelfAdjointOperatorException when the test fails
-     */
-    private static void checkSymmetry(final RealLinearOperator l,
-        final RealVector x, final RealVector y, final RealVector z)
-        throws NonSelfAdjointOperatorException {
-        final double s = y.dotProduct(y);
-        final double t = x.dotProduct(z);
-        final double epsa = (s + MACH_PREC) * CBRT_MACH_PREC;
-        if (FastMath.abs(s - t) > epsa) {
-            final NonSelfAdjointOperatorException e;
-            e = new NonSelfAdjointOperatorException();
-            final ExceptionContext context = e.getContext();
-            context.setValue(OPERATOR, l);
-            context.setValue(VECTOR1, x);
-            context.setValue(VECTOR2, y);
-            context.setValue(THRESHOLD, Double.valueOf(epsa));
-            throw e;
-        }
-    }
-
-    /**
-     * A BLAS-like function, for the operation z &larr; a &middot; x + b
-     * &middot; y + z. This is for internal use only: no dimension checks are
-     * provided.
-     *
-     * @param a the scalar by which {@code x} is to be multiplied
-     * @param x the first vector to be added to {@code z}
-     * @param b the scalar by which {@code y} is to be multiplied
-     * @param y the second vector to be added to {@code z}
-     * @param z the vector to be incremented
-     */
-    private static void daxpbypz(final double a, final RealVector x,
-        final double b, final RealVector y, final RealVector z) {
-        final int n = z.getDimension();
-        for (int i = 0; i < n; i++) {
-            final double zi;
-            zi = a * x.getEntry(i) + b * y.getEntry(i) + z.getEntry(i);
-            z.setEntry(i, zi);
-        }
-    }
-
-    /**
-     * A clone of the BLAS {@code DAXPY} function, which carries out the
-     * operation y &larr; a &middot; x + y. This is for internal use only: no
-     * dimension checks are provided.
-     *
-     * @param a the scalar by which {@code x} is to be multiplied
-     * @param x the vector to be added to {@code y}
-     * @param y the vector to be incremented
-     */
-    private static void daxpy(final double a, final RealVector x,
-        final RealVector y) {
-        final int n = x.getDimension();
-        for (int i = 0; i < n; i++) {
-            y.setEntry(i, a * x.getEntry(i) + y.getEntry(i));
-        }
-    }
-
-    /**
-     * Throws a new {@link NonPositiveDefiniteOperatorException} with
-     * appropriate context.
-     *
-     * @param l the offending linear operator
-     * @param v the offending vector
-     * @throws NonPositiveDefiniteOperatorException in any circumstances
-     */
-    private static void throwNPDLOException(final RealLinearOperator l,
-        final RealVector v) throws NonPositiveDefiniteOperatorException {
-        final NonPositiveDefiniteOperatorException e;
-        e = new NonPositiveDefiniteOperatorException();
-        final ExceptionContext context = e.getContext();
-        context.setValue(OPERATOR, l);
-        context.setValue(VECTOR, v);
-        throw e;
     }
 
     /**
@@ -1147,7 +1148,7 @@ public class SymmLQ
         manager.resetIterationCount();
         manager.incrementIterationCount();
 
-        final State state = new State(a, minv, b, x, goodb, shift, check, delta);
+        final State state = new State(a, minv, b, x, goodb, shift, delta, check);
         final IterativeLinearSolverEvent event = new SymmLQEvent(this, state);
         if (state.beta1 == 0.) {
             /* If b = 0 exactly, stop with x = 0. */
