@@ -757,6 +757,15 @@ public class SymmLQ
             }
             hasConverged = (cgnorm <= epsx) || (cgnorm <= epsr);
         }
+
+        /**
+         * Returns {@code true} if the default stopping criterion is fulfilled.
+         *
+         * @return {@code true} if convergence of the iterations has occured
+         */
+        public boolean hasConverged() {
+            return hasConverged;
+        }
     }
 
     /**
@@ -1157,7 +1166,7 @@ public class SymmLQ
         }
         /* Cause termination if beta is essentially zero. */
         final boolean earlyStop;
-        earlyStop = (state.beta < MACH_PREC) || (state.hasConverged);
+        earlyStop = (state.beta < MACH_PREC) || (state.hasConverged());
         manager.fireInitializationEvent(event);
         if (!earlyStop) {
             do {
@@ -1165,7 +1174,7 @@ public class SymmLQ
                 manager.fireIterationStartedEvent(event);
                 state.update();
                 manager.fireIterationPerformedEvent(event);
-            } while (!state.hasConverged);
+            } while (!state.hasConverged());
         }
         state.refine(x);
         /*
