@@ -598,7 +598,7 @@ public class SymmLQ
          * value of the state variables of {@code this} object correspond to the
          * current iteration count {@code k}.
          */
-        protected void update() {
+        void update() {
             final RealVector v = y.mapMultiply(1. / beta);
             y = a.operate(v);
             daxpbypz(-shift, v, -beta / oldb, r1, y);
@@ -812,10 +812,10 @@ public class SymmLQ
     }
 
     /** The cubic root of {@link #MACH_PREC}. */
-    protected static final double CBRT_MACH_PREC;
+    static final double CBRT_MACH_PREC;
 
     /** The machine precision. */
-    protected static final double MACH_PREC;
+    static final double MACH_PREC;
 
     /** Key for the exception context. */
     private static final String OPERATOR = "operator";
