@@ -226,6 +226,11 @@ public class SymmLQ
      * </p>
      */
     private static class State {
+        /** The cubic root of {@link #MACH_PREC}. */
+        static final double CBRT_MACH_PREC;
+
+        /** The machine precision. */
+        static final double MACH_PREC;
 
         /** Reference to the linear operator. */
         private final RealLinearOperator a;
@@ -334,6 +339,14 @@ public class SymmLQ
         /** The value of zeta[1]^2 + ... + zeta[k-1]^2. */
         private double ynorm2;
 
+        /** The value of {@code b == 0} (exact floating-point equality). */
+        private boolean bIsNull;
+
+        static {
+            MACH_PREC = Math.ulp(1.);
+            CBRT_MACH_PREC = Math.cbrt(MACH_PREC);
+        }
+
         /**
          * Creates and inits to k = 1 a new instance of this class.
          *
@@ -390,7 +403,7 @@ public class SymmLQ
             throws NonSelfAdjointOperatorException {
             final double s = y.dotProduct(y);
             final double t = x.dotProduct(z);
-            final double epsa = (s + SymmLQ.MACH_PREC) * SymmLQ.CBRT_MACH_PREC;
+            final double epsa = (s + MACH_PREC) * CBRT_MACH_PREC;
             if (FastMath.abs(s - t) > epsa) {
                 final NonSelfAdjointOperatorException e;
                 e = new NonSelfAdjointOperatorException();
@@ -525,8 +538,10 @@ public class SymmLQ
             }
             if (this.beta1 == 0.) {
                 /* If b = 0 exactly, stop with x = 0. */
+                this.bIsNull = true;
                 return;
             }
+            this.bIsNull = false;
             this.beta1 = FastMath.sqrt(this.beta1);
             /* At this point
              *   r1 = b,
@@ -766,6 +781,25 @@ public class SymmLQ
         public boolean hasConverged() {
             return hasConverged;
         }
+
+        /**
+         * Returns {@code true} if the right-hand side vector is zero exactly.
+         *
+         * @return the boolean value of {@code b == 0}
+         */
+        public boolean bEqualsNullVector() {
+            return bIsNull;
+        }
+
+        /**
+         * Returns {@code true} if {@code beta} is essentially zero. This method
+         * is used to check for early stop of the iterations.
+         *
+         * @return {@code true} if {@code beta < }{@link #MACH_PREC}
+         */
+        public boolean betaEqualsZero() {
+            return beta < MACH_PREC;
+        }
     }
 
     /**
@@ -819,12 +853,6 @@ public class SymmLQ
             return x;
         }
     }
-
-    /** The cubic root of {@link #MACH_PREC}. */
-    static final double CBRT_MACH_PREC;
-
-    /** The machine precision. */
-    static final double MACH_PREC;
 
     /** Key for the exception context. */
     private static final String OPERATOR = "operator";
@@ -883,11 +911,6 @@ public class SymmLQ
         super(manager);
         this.delta = delta;
         this.check = check;
-    }
-
-    static {
-        MACH_PREC = Math.ulp(1.);
-        CBRT_MACH_PREC = Math.cbrt(MACH_PREC);
     }
 
     /**
@@ -1159,14 +1182,14 @@ public class SymmLQ
 
         final State state = new State(a, minv, b, x, goodb, shift, delta, check);
         final IterativeLinearSolverEvent event = new SymmLQEvent(this, state);
-        if (state.beta1 == 0.) {
+        if (state.bEqualsNullVector()) {
             /* If b = 0 exactly, stop with x = 0. */
             manager.fireTerminationEvent(event);
             return x;
         }
         /* Cause termination if beta is essentially zero. */
         final boolean earlyStop;
-        earlyStop = (state.beta < MACH_PREC) || (state.hasConverged());
+        earlyStop = state.betaEqualsZero() || state.hasConverged();
         manager.fireInitializationEvent(event);
         if (!earlyStop) {
             do {
