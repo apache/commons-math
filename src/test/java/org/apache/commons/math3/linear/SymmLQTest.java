@@ -486,6 +486,7 @@ public class SymmLQTest {
          * count[3] = number of calls to terminationPerformed
          */
         final int[] count = new int[] {0, 0, 0, 0};
+        final RealVector xFromListener = new ArrayRealVector(n);
         final IterationListener listener = new IterationListener() {
 
             public void initializationPerformed(final IterationEvent e) {
@@ -506,6 +507,8 @@ public class SymmLQTest {
 
             public void terminationPerformed(final IterationEvent e) {
                 ++count[3];
+                final IterativeLinearSolverEvent ilse = (IterativeLinearSolverEvent) e;
+                xFromListener.setSubVector(0, ilse.getSolution());
             }
         };
         solver = new SymmLQ(maxIterations, 1E-10, true);
@@ -515,11 +518,21 @@ public class SymmLQTest {
             Arrays.fill(count, 0);
             b.set(0.);
             b.setEntry(j, 1.);
-            solver.solve(a, b);
+            final RealVector xFromSolver = solver.solve(a, b);
             String msg = String.format("column %d (initialization)", j);
             Assert.assertEquals(msg, 1, count[0]);
             msg = String.format("column %d (finalization)", j);
             Assert.assertEquals(msg, 1, count[3]);
+            /*
+             *  Check that solution is not "over-refined". When the last iteration has
+             *  occurred, no further refinement should be performed.
+             */
+            for (int i = 0; i < n; i++){
+                msg = String.format("row %d, column %d", i, j);
+                final double expected = xFromSolver.getEntry(i);
+                final double actual = xFromListener.getEntry(i);
+                Assert.assertEquals(msg, expected, actual, 0.0);
+            }
         }
     }
 
