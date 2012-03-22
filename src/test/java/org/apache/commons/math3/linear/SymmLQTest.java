@@ -19,6 +19,7 @@ package org.apache.commons.math3.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.IterationEvent;
 import org.apache.commons.math3.util.IterationListener;
@@ -496,18 +497,21 @@ public class SymmLQTest {
             public void iterationPerformed(final IterationEvent e) {
                 ++count[2];
                 Assert.assertEquals("iteration performed",
-                    count[2], e.getIterations() - 1);
+                                    count[2],
+                                    e.getIterations() - 1);
             }
 
             public void iterationStarted(final IterationEvent e) {
                 ++count[1];
                 Assert.assertEquals("iteration started",
-                    count[1], e.getIterations() - 1);
+                                    count[1],
+                                    e.getIterations() - 1);
             }
 
             public void terminationPerformed(final IterationEvent e) {
                 ++count[3];
-                final IterativeLinearSolverEvent ilse = (IterativeLinearSolverEvent) e;
+                final IterativeLinearSolverEvent ilse;
+                ilse = (IterativeLinearSolverEvent) e;
                 xFromListener.setSubVector(0, ilse.getSolution());
             }
         };
@@ -524,8 +528,9 @@ public class SymmLQTest {
             msg = String.format("column %d (finalization)", j);
             Assert.assertEquals(msg, 1, count[3]);
             /*
-             *  Check that solution is not "over-refined". When the last iteration has
-             *  occurred, no further refinement should be performed.
+             *  Check that solution is not "over-refined". When the last
+             *  iteration has occurred, no further refinement should be
+             *  performed.
              */
             for (int i = 0; i < n; i++){
                 msg = String.format("row %d, column %d", i, j);
