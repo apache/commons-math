@@ -343,8 +343,8 @@ public class SymmLQ
         private boolean bIsNull;
 
         static {
-            MACH_PREC = Math.ulp(1.);
-            CBRT_MACH_PREC = Math.cbrt(MACH_PREC);
+            MACH_PREC = FastMath.ulp(1.);
+            CBRT_MACH_PREC = FastMath.cbrt(MACH_PREC);
         }
 
         /**
