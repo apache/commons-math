@@ -628,7 +628,7 @@ public class SymmLQTest {
                 doTestNormOfResidual(e);
             }
         };
-        solver = new ConjugateGradient(maxIterations, 1E-10, true);
+        solver = new SymmLQ(maxIterations, 1E-10, true);
         solver.getIterationManager().addIterationListener(listener);
         final RealVector b = new ArrayRealVector(n);
         for (int j = 0; j < n; j++) {
@@ -675,7 +675,7 @@ public class SymmLQTest {
                 doTestNormOfResidual(e);
             }
         };
-        solver = new ConjugateGradient(maxIterations, 1E-10, true);
+        solver = new SymmLQ(maxIterations, 1E-10, true);
         solver.getIterationManager().addIterationListener(listener);
         final RealVector b = new ArrayRealVector(n);
         for (int j = 0; j < n; j++) {
