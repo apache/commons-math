@@ -19,7 +19,6 @@ package org.apache.commons.math3.linear;
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.IterationEvent;
 import org.apache.commons.math3.util.IterationListener;
@@ -643,7 +642,8 @@ public class SymmLQTest {
         final int n = 5;
         final int maxIterations = 100;
         final RealLinearOperator a = new HilbertMatrix(n);
-        final RealLinearOperator m = JacobiPreconditioner.create(a);
+        final JacobiPreconditioner m = JacobiPreconditioner.create(a);
+        final RealLinearOperator p = m.sqrt();
         final PreconditionedIterativeLinearSolver solver;
         final IterationListener listener = new IterationListener() {
 
@@ -653,7 +653,7 @@ public class SymmLQTest {
                 final RealVector x = evt.getSolution();
                 final RealVector b = evt.getRightHandSideVector();
                 final RealVector r = b.subtract(a.operate(x));
-                final double rnorm = r.getNorm();
+                final double rnorm = p.operate(r).getNorm();
                 Assert.assertEquals("iteration performed (residual)",
                     rnorm, evt.getNormOfResidual(),
                     FastMath.max(1E-5 * rnorm, 1E-10));
