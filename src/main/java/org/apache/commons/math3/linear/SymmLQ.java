@@ -360,8 +360,6 @@ public class SymmLQ
          * @param minv the inverse of the preconditioner, M<sup>-1</sup>
          * (can be {@code null})
          * @param b the right-hand side vector
-         * @param x the vector to be updated with the solution; {@code x} should
-         * not be considered as an initial guess (<a href="#initguess">more</a>)
          * @param goodb usually {@code false}, except if {@code x} is expected
          * to contain a large multiple of {@code b}
          * @param shift the amount to be subtracted to all diagonal elements of
@@ -373,7 +371,6 @@ public class SymmLQ
         public State(final RealLinearOperator a,
             final RealLinearOperator minv,
             final RealVector b,
-            final RealVector x,
             final boolean goodb,
             final double shift,
             final double delta,
@@ -381,14 +378,13 @@ public class SymmLQ
             this.a = a;
             this.minv = minv;
             this.b = b;
-            this.xL = x;
+            this.xL = new ArrayRealVector(b.getDimension());
             this.goodb = goodb;
             this.shift = shift;
             this.minvb = minv == null ? b : minv.operate(b);
             this.hasConverged = false;
             this.check = check;
             this.delta = delta;
-            init();
         }
 
         /**
@@ -483,19 +479,19 @@ public class SymmLQ
          * the convergence tests involve only cgnorm, so we're unlikely to stop
          * at an LQ point, except if the iteration limit interferes.
          *
-         * @param xC the vector to be updated with the refined value of xL
+         * @param x the vector to be updated with the refined value of xL
          */
-        void moveToCG(final RealVector xC) {
+         void refineSolution(final RealVector x) {
             final int n = this.xL.getDimension();
             if (lqnorm < cgnorm) {
                 if (!goodb) {
-                    xC.setSubVector(0, this.xL);
+                    x.setSubVector(0, this.xL);
                 } else {
                     final double step = bstep / beta1;
                     for (int i = 0; i < n; i++) {
                         final double bi = minvb.getEntry(i);
                         final double xi = this.xL.getEntry(i);
-                        xC.setEntry(i, xi + step * bi);
+                        x.setEntry(i, xi + step * bi);
                     }
                 }
             } else {
@@ -508,14 +504,14 @@ public class SymmLQ
                     for (int i = 0; i < n; i++) {
                         final double xi = this.xL.getEntry(i);
                         final double wi = wbar.getEntry(i);
-                        xC.setEntry(i, xi + zbar * wi);
+                        x.setEntry(i, xi + zbar * wi);
                     }
                 } else {
                     for (int i = 0; i < n; i++) {
                         final double xi = this.xL.getEntry(i);
                         final double wi = wbar.getEntry(i);
                         final double bi = minvb.getEntry(i);
-                        xC.setEntry(i, xi + zbar * wi + step * bi);
+                        x.setEntry(i, xi + zbar * wi + step * bi);
                     }
                 }
             }
@@ -526,7 +522,7 @@ public class SymmLQ
          * value of the state variables of {@code this} object correspond to k =
          * 1.
          */
-        private void init() {
+         void init() {
             this.xL.set(0.);
             /*
              * Set up y for the first Lanczos vector. y and beta1 will be zero
@@ -809,81 +805,12 @@ public class SymmLQ
         }
 
         /**
-         * Returns the right-hand side vector.
-         *
-         * @return the right-hand side vector, b
-         */
-        RealVector getRightHandSideVector() {
-            return b;
-        }
-
-        /**
-         * Returns the current estimate of the solution (LQ point).
-         *
-         * @return the solution, xL
-         */
-        RealVector getSolution() {
-            return xL;
-        }
-
-        /**
          * Returns the norm of the updated, preconditioned residual.
          *
          * @return the norm of the residual, ||P * r||
          */
         double getNormOfResidual() {
             return rnorm;
-        }
-    }
-
-    /**
-     * The type of all events fired by this implementation of the SYMMLQ method.
-     *
-     * @version $Id$
-     */
-    private static class SymmLQEvent extends IterativeLinearSolverEvent {
-        /** Identifier. */
-        private static final long serialVersionUID = 2012012801L;
-
-        /** A reference to the state of this solver. */
-        private final transient State state;
-
-        /**
-         * Creates a new instance of this class.
-         *
-         * @param source the iterative algorithm on which the event initially
-         * occurred
-         * @param state the state of this solver at the time of creation
-         */
-        public SymmLQEvent(final SymmLQ source, final State state) {
-            super(source, source.getIterationManager().getIterations());
-            this.state = state;
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public int getIterations() {
-            return ((SymmLQ) getSource()).getIterationManager().getIterations();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public double getNormOfResidual() {
-            return state.getNormOfResidual();
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public RealVector getRightHandSideVector() {
-            return RealVector.unmodifiableRealVector(state.getRightHandSideVector());
-        }
-
-        /** {@inheritDoc} */
-        @Override
-        public RealVector getSolution() {
-            final RealVector x = state.getSolution().copy();
-            state.moveToCG(x);
-            return x;
         }
     }
 
@@ -1213,12 +1140,16 @@ public class SymmLQ
         manager.resetIterationCount();
         manager.incrementIterationCount();
 
-        final State state = new State(a, minv, b, x.copy(), goodb, shift, delta, check);
-        /*
-         * There is no need to create a new SymmLQEvent each time the state is
-         * updated, as SymmLQEvent keeps a reference to the current state.
-         */
-        final IterativeLinearSolverEvent event = new SymmLQEvent(this, state);
+        final State state;
+        state = new State(a, minv, b, goodb, shift, delta, check);
+        state.init();
+        state.refineSolution(x);
+        IterativeLinearSolverEvent event;
+        event = new DefaultIterativeLinearSolverEvent(this,
+                                                      manager.getIterations(),
+                                                      x,
+                                                      b,
+                                                      state.getNormOfResidual());
         if (state.bEqualsNullVector()) {
             /* If b = 0 exactly, stop with x = 0. */
             manager.fireTerminationEvent(event);
@@ -1231,12 +1162,27 @@ public class SymmLQ
         if (!earlyStop) {
             do {
                 manager.incrementIterationCount();
+                event = new DefaultIterativeLinearSolverEvent(this,
+                                                              manager.getIterations(),
+                                                              x,
+                                                              b,
+                                                              state.getNormOfResidual());
                 manager.fireIterationStartedEvent(event);
                 state.update();
+                state.refineSolution(x);
+                event = new DefaultIterativeLinearSolverEvent(this,
+                                                              manager.getIterations(),
+                                                              x,
+                                                              b,
+                                                              state.getNormOfResidual());
                 manager.fireIterationPerformedEvent(event);
             } while (!state.hasConverged());
         }
-        state.moveToCG(x);
+        event = new DefaultIterativeLinearSolverEvent(this,
+                                                      manager.getIterations(),
+                                                      x,
+                                                      b,
+                                                      state.getNormOfResidual());
         manager.fireTerminationEvent(event);
         return x;
     }
