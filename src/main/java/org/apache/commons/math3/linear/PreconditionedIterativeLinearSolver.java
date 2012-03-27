@@ -26,15 +26,23 @@ import org.apache.commons.math3.util.MathUtils;
  * <p>
  * This abstract class defines preconditioned iterative solvers. When A is
  * ill-conditioned, instead of solving system A &middot; x = b directly, it is
- * preferable to solve M<sup>-1</sup> &middot; A &middot; x = M<sup>-1</sup>
- * &middot; b, where M approximates in some way A, while remaining comparatively
- * easier to invert. M (not M<sup>-1</sup>!) is called the
+ * preferable to solve either
+ * <center>
+ * (M &middot; A) &middot; x = M &middot; b
+ * </center>
+ * (left preconditioning), or
+ * <center>
+ * (A &middot; M) &middot; y = b, &nbsp;&nbsp;&nbsp;&nbsp;followed by
+ * M &middot; y = x
+ * </center>
+ * (right preconditioning), where M approximates in some way A<sup>-1</sup>,
+ * while matrix-vector products of the type M &middot; y remain comparatively
+ * easy to compute. In this library, M (not M<sup>-1</sup>!) is called the
  * <em>preconditionner</em>.
  * </p>
  * <p>
- * Concrete implementations of this abstract class must be provided with
- * M<sup>-1</sup>, the inverse of the preconditioner, as a
- * {@link RealLinearOperator}.
+ * Concrete implementations of this abstract class must be provided with the
+ * preconditioner M, as a {@link RealLinearOperator}.
  * </p>
  *
  * @version $Id$
@@ -68,15 +76,14 @@ public abstract class PreconditionedIterativeLinearSolver
      * b.
      *
      * @param a the linear operator A of the system
-     * @param minv the inverse of the preconditioner, M<sup>-1</sup>
-     * (can be {@code null})
+     * @param m the preconditioner, M (can be {@code null})
      * @param b the right-hand side vector
      * @param x0 the initial guess of the solution
      * @return a new vector containing the solution
      * @throws NullArgumentException if one of the parameters is {@code null}
-     * @throws NonSquareOperatorException if {@code a} or {@code minv} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square
-     * @throws DimensionMismatchException if {@code minv}, {@code b} or
+     * @throws DimensionMismatchException if {@code m}, {@code b} or
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
@@ -84,11 +91,11 @@ public abstract class PreconditionedIterativeLinearSolver
      * has been set at construction
      */
     public RealVector solve(final RealLinearOperator a,
-        final RealLinearOperator minv, final RealVector b, final RealVector x0)
+        final RealLinearOperator m, final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(x0);
-        return solveInPlace(a, minv, b, x0.copy());
+        return solveInPlace(a, m, b, x0.copy());
     }
 
     /** {@inheritDoc} */
@@ -120,28 +127,27 @@ public abstract class PreconditionedIterativeLinearSolver
      * and throws an exception if one of the checks fails.
      *
      * @param a the linear operator A of the system
-     * @param minv the inverse of the preconditioner, M<sup>-1</sup>
-     * (can be {@code null})
+     * @param m the preconditioner, M (can be {@code null})
      * @param b the right-hand side vector
      * @param x0 the initial guess of the solution
      * @throws NullArgumentException if one of the parameters is {@code null}
-     * @throws NonSquareOperatorException if {@code a} or {@code minv} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square
-     * @throws DimensionMismatchException if {@code minv}, {@code b} or
+     * @throws DimensionMismatchException if {@code m}, {@code b} or
      * {@code x0} have dimensions inconsistent with {@code a}
      */
     protected static void checkParameters(final RealLinearOperator a,
-        final RealLinearOperator minv, final RealVector b, final RealVector x0)
+        final RealLinearOperator m, final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException {
         checkParameters(a, b, x0);
-        if (minv != null) {
-            if (minv.getColumnDimension() != minv.getRowDimension()) {
-                throw new NonSquareOperatorException(minv.getColumnDimension(),
-                                                     minv.getRowDimension());
+        if (m != null) {
+            if (m.getColumnDimension() != m.getRowDimension()) {
+                throw new NonSquareOperatorException(m.getColumnDimension(),
+                                                     m.getRowDimension());
             }
-            if (minv.getRowDimension() != a.getRowDimension()) {
-                throw new DimensionMismatchException(minv.getRowDimension(),
+            if (m.getRowDimension() != a.getRowDimension()) {
+                throw new DimensionMismatchException(m.getRowDimension(),
                                                      a.getRowDimension());
             }
         }
@@ -152,26 +158,25 @@ public abstract class PreconditionedIterativeLinearSolver
      * b.
      *
      * @param a the linear operator A of the system
-     * @param minv the inverse of the preconditioner, M<sup>-1</sup>
-     * (can be {@code null})
+     * @param m the preconditioner, M (can be {@code null})
      * @param b the right-hand side vector
      * @return a new vector containing the solution
      * @throws NullArgumentException if one of the parameters is {@code null}
-     * @throws NonSquareOperatorException if {@code a} or {@code minv} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square
-     * @throws DimensionMismatchException if {@code minv} or {@code b} have
+     * @throws DimensionMismatchException if {@code m} or {@code b} have
      * dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction
      */
-    public RealVector solve(RealLinearOperator a, RealLinearOperator minv,
+    public RealVector solve(RealLinearOperator a, RealLinearOperator m,
         RealVector b) throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
         MathUtils.checkNotNull(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, minv, b, x);
+        return solveInPlace(a, m, b, x);
     }
 
     /**
@@ -179,16 +184,15 @@ public abstract class PreconditionedIterativeLinearSolver
      * b. The solution is computed in-place (initial guess is modified).
      *
      * @param a the linear operator A of the system
-     * @param minv the inverse of the preconditioner, M<sup>-1</sup>
-     * (can be {@code null})
+     * @param m the preconditioner, M (can be {@code null})
      * @param b the right-hand side vector
      * @param x0 the initial guess of the solution
      * @return a reference to {@code x0} (shallow copy) updated with the
      * solution
      * @throws NullArgumentException if one of the parameters is {@code null}
-     * @throws NonSquareOperatorException if {@code a} or {@code minv} is not
+     * @throws NonSquareOperatorException if {@code a} or {@code m} is not
      * square
-     * @throws DimensionMismatchException if {@code minv}, {@code b} or
+     * @throws DimensionMismatchException if {@code m}, {@code b} or
      * {@code x0} have dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
@@ -196,7 +200,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * has been set at construction.
      */
     public abstract RealVector solveInPlace(RealLinearOperator a,
-        RealLinearOperator minv, RealVector b, RealVector x0) throws
+        RealLinearOperator m, RealVector b, RealVector x0) throws
         NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException;
 
