@@ -50,17 +50,33 @@ import org.apache.commons.math3.util.MathUtils;
  * </p>
  * <h3>Preconditioning</h3>
  * <p>
- * Preconditioning may reduce the number of iterations required. The solver may be
- * provided with a positive definite preconditioner M = C &middot; C<sup>T</sup>
- * that is known to approximate (A - shift &middot; I) in some sense, where
- * systems of the form M &middot; y = x can be solved efficiently. Then SYMMLQ
- * will implicitly solve the system of equations P &middot; (A - shift &middot;
- * I) &middot; P<sup>T</sup> &middot; xhat = P &middot; b, i.e. Ahat &middot;
- * xhat = bhat, where P = C<sup>-1</sup>, Ahat = P &middot; (A - shift &middot;
- * I) &middot; P<sup>T</sup>, bhat = P &middot; b, and return the solution x =
- * P<sup>T</sup> &middot; xhat. The associated residual is rhat = bhat - Ahat
- * &middot; xhat = P &middot; [b - (A - shift &middot; I) &middot; x] = P
- * &middot; r.
+ * Preconditioning may reduce the number of iterations required. The solver may
+ * be provided with a positive definite preconditioner
+ * M = C &middot; C<sup>T</sup>
+ * that is known to approximate
+ * (A - shift &middot; I) in some sense, where systems of the form
+ * M &middot; y = x
+ * can be solved efficiently. Then SYMMLQ will implicitly solve the system of
+ * equations
+ * P &middot; (A - shift &middot; I) &middot; P<sup>T</sup> &middot;
+ * x<sub>hat</sub> = P &middot; b, i.e.
+ * A<sub>hat</sub> &middot; x<sub>hat</sub> = b<sub>hat</sub>,
+ * where P = C<sup>-1</sup>,
+ * A<sub>hat</sub> = P &middot; (A - shift &middot; I) &middot; P<sup>T</sup>,
+ * b<sub>hat</sub> = P &middot; b,
+ * and return the solution
+ * x = P<sup>T</sup> &middot; x<sub>hat</sub>.
+ * The associated residual is
+ * r<sub>hat</sub> = b<sub>hat</sub> - A<sub>hat</sub> &middot; x<sub>hat</sub>
+ *                 = P &middot; [b - (A - shift &middot; I) &middot; x]
+ *                 = P &middot; r.
+ * </p>
+ * <p>
+ * In the case of preconditioning, the {@link IterativeLinearSolverEvent}s that
+ * this solver throws are such that
+ * {@link IterativeLinearSolverEvent#getNormOfResidual()} returns the norm of
+ * the <em>preconditioned</em>, updated residual, ||P &middot; r||, not the norm
+ * of the <em>true</em> residual ||r||.
  * </p>
  * <h3><a id="stopcrit">Default stopping criterion</a></h3>
  * <p>
@@ -475,9 +491,15 @@ public class SymmLQ
         }
 
         /**
+         * <p>
          * Move to the CG point if it seems better. In this version of SYMMLQ,
          * the convergence tests involve only cgnorm, so we're unlikely to stop
          * at an LQ point, except if the iteration limit interferes.
+         * </p>
+         * <p>
+         * Additional upudates are also carried out in case {@code goodb} is set
+         * to {@code true}.
+         * </p>
          *
          * @param x the vector to be updated with the refined value of xL
          */
