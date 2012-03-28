@@ -51,6 +51,16 @@ The <action> type attribute can be add,update,fix,remove.
     with a new-line in the release notes. (These spaces are ignored when displaying HTML).
     If the output is not quite correct, check for invisible trailing spaces!
      -->
+    <release version="3.1" date="TBD" description="
+">
+    </release>
+    <!-- NOTE:
+    The description below is specially formatted so as to improve the layout of the generated release notes:
+    The parsing process removes all line feeds, replacing them with a single space.
+    The Velocity template in resources/templates has been enhanced to replace pairs of adjacent spaces
+    with a new-line in the release notes. (These spaces are ignored when displaying HTML).
+    If the output is not quite correct, check for invisible trailing spaces!
+     -->
     <release version="3.0" date="2012-03-07" description="
 This is a major release: It combines bug fixes, new features and
 changes to existing features.
