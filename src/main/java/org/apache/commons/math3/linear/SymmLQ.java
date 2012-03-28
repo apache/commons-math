@@ -913,14 +913,14 @@ public class SymmLQ
      */
     @Override
     public RealVector solve(final RealLinearOperator a,
-        final RealLinearOperator minv, final RealVector b) throws
+        final RealLinearOperator m, final RealVector b) throws
         NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException,
         NonSelfAdjointOperatorException, NonPositiveDefiniteOperatorException,
         IllConditionedOperatorException {
         MathUtils.checkNotNull(a);
         final RealVector x = new ArrayRealVector(a.getColumnDimension());
-        return solveInPlace(a, minv, b, x, false, 0.);
+        return solveInPlace(a, m, b, x, false, 0.);
     }
 
     /**
