@@ -604,7 +604,7 @@ class FastMathCalc {
         checkLen(expectedLen, array2d.length);
         out.println(TABLE_START_DECL + " ");
         int i = 0;
-        for(double array[] : array2d) {
+        for(double[] array : array2d) { // "double array[]" causes PMD parsing error
             out.print("        {");
             for(double d : array) { // assume inner array has very few entries
                 out.printf("%-25.25s", format(d)); // multiple entries per line
