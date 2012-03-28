@@ -139,10 +139,10 @@ public class ConjugateGradient
     /** {@inheritDoc} */
     @Override
     public RealVector solveInPlace(final RealLinearOperator a,
-        final RealLinearOperator minv, final RealVector b, final RealVector x0)
+        final RealLinearOperator m, final RealVector b, final RealVector x0)
         throws NullArgumentException, NonSquareOperatorException,
         DimensionMismatchException, MaxCountExceededException {
-        checkParameters(a, minv, b, x0);
+        checkParameters(a, m, b, x0);
         final IterationManager manager = getIterationManager();
         // Initialization of default stopping criterion
         manager.resetIterationCount();
@@ -163,7 +163,7 @@ public class ConjugateGradient
         final RealVector rro = RealVector.unmodifiableRealVector(r);
         double rnorm = r.getNorm();
         RealVector z;
-        if (minv == null) {
+        if (m == null) {
             z = r;
         } else {
             z = null;
@@ -182,15 +182,15 @@ public class ConjugateGradient
             evt = new DefaultIterativeLinearSolverEvent(this,
                 manager.getIterations(), xro, bro, rro, rnorm);
             manager.fireIterationStartedEvent(evt);
-            if (minv != null) {
-                z = minv.operate(r);
+            if (m != null) {
+                z = m.operate(r);
             }
             final double rhoNext = r.dotProduct(z);
             if (check && (rhoNext <= 0.)) {
                 final NonPositiveDefiniteOperatorException e;
                 e = new NonPositiveDefiniteOperatorException();
                 final ExceptionContext context = e.getContext();
-                context.setValue(OPERATOR, minv);
+                context.setValue(OPERATOR, m);
                 context.setValue(VECTOR, r);
                 throw e;
             }
