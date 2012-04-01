@@ -207,7 +207,7 @@ public class QRDecomposition {
     /**
      * Returns the transpose of the matrix Q of the decomposition.
      * <p>Q is an orthogonal matrix</p>
-     * @return the Q matrix
+     * @return the transpose of the Q matrix, Q<sup>T</sup>
      */
     public RealMatrix getQT() {
         if (cachedQT == null) {
