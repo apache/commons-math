@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="add" issue="MATH-773" due-to="Reid Hochstedler">
+        Added class FixedElapsedTime (new StoppingCondition for evolution of generations) to genetics package.
+      </action>
       <action dev="celestin" type="add" issue="MATH-756">
         Added classes Decimal64 and Decimal64Field, which are wrapper classes around primitive doubles. These classes implement FieldElement and Field, respectively.
       </action>
