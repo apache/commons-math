@@ -64,7 +64,7 @@ public class ElitisticListPopulation extends ListPopulation {
     }
 
     /**
-     * Start the population for the next generation. The <code>{@link #elitismRate}<code>
+     * Start the population for the next generation. The <code>{@link #elitismRate}</code>
      * percents of the best chromosomes are directly copied to the next generation.
      *
      * @return the beginnings of the next generation.

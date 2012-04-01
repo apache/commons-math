@@ -254,7 +254,7 @@ public class TTest {
      * </p><p>
      * <code>var = sqrt(((n1 - 1)var1 + (n2 - 1)var2) / ((n1-1) + (n2-1)))</code>
      * </p><p>
-     * with <strong><code>var1<code></strong> the variance of the first sample and
+     * with <strong><code>var1</code></strong> the variance of the first sample and
      * <strong><code>var2</code></strong> the variance of the second sample.
      * </p><p>
      * <strong>Preconditions</strong>: <ul>
@@ -384,7 +384,7 @@ public class TTest {
      * </p><p>
      * <code>var = sqrt(((n1 - 1)var1 + (n2 - 1)var2) / ((n1-1) + (n2-1)))</code>
      * </p><p>
-     * with <strong><code>var1<code></strong> the variance of the first sample and
+     * with <strong><code>var1</code></strong> the variance of the first sample and
      * <strong><code>var2</code></strong> the variance of the second sample.
      * </p><p>
      * <strong>Preconditions</strong>: <ul>

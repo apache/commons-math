@@ -25,7 +25,7 @@ import org.apache.commons.math3.util.Precision;
  *
  * Abstract implementation of the {@link StorelessUnivariateStatistic} interface.
  * <p>
- * Provides default <code>evaluate()</code> and <code>incrementAll(double[])<code>
+ * Provides default <code>evaluate()</code> and <code>incrementAll(double[])</code>
  * implementations.</p>
  * <p>
  * <strong>Note that these implementations are not synchronized.</strong></p>

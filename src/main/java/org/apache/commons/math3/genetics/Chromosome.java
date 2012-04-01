@@ -66,7 +66,7 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     }
 
     /**
-     * Returns <code>true<code> iff <code>another</code> has the same
+     * Returns <code>true</code> iff <code>another</code> has the same
      * representation and therefore the same fitness. By default, it returns
      * false -- override it in your implementation if you need it.
      * @param another chromosome to compare
