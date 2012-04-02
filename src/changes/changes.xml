@@ -52,6 +52,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-776" due-to="Reid Hochstedler">
+        Use same range check in constructor for ElitisticListPopulation as in corresponding setter.
+      </action>
+      <action dev="tn" type="fix" issue="MATH-767" due-to="Dennis Hendriks">
+        Fixed unbalanced use of code tags in javadoc of several classes.
+      </action>
       <action dev="tn" type="add" issue="MATH-773" due-to="Reid Hochstedler">
         Added class FixedElapsedTime (new StoppingCondition for evolution of generations) to genetics package.
       </action>
