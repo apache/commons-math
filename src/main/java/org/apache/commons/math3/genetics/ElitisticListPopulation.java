@@ -36,7 +36,7 @@ public class ElitisticListPopulation extends ListPopulation {
     private double elitismRate = 0.9;
 
     /**
-     * Creates a new ElitisticListPopulation instance.
+     * Creates a new {@link ElitisticListPopulation} instance.
      *
      * @param chromosomes list of chromosomes in the population
      * @param populationLimit maximal size of the population
@@ -52,7 +52,7 @@ public class ElitisticListPopulation extends ListPopulation {
     }
 
     /**
-     * Creates a new ListPopulation instance and initializes its inner
+     * Creates a new {@link ElitisticListPopulation} instance and initializes its inner
      * chromosome list.
      *
      * @param populationLimit maximal size of the population
@@ -73,7 +73,8 @@ public class ElitisticListPopulation extends ListPopulation {
      */
     public Population nextGeneration() {
         // initialize a new generation with the same parameters
-        ElitisticListPopulation nextGeneration = new ElitisticListPopulation(this.getPopulationLimit(), this.getElitismRate());
+        ElitisticListPopulation nextGeneration =
+                new ElitisticListPopulation(this.getPopulationLimit(), this.getElitismRate());
 
         List<Chromosome> oldChromosomes = this.getChromosomes();
         Collections.sort(oldChromosomes);
