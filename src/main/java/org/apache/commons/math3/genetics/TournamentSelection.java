@@ -51,12 +51,12 @@ public class TournamentSelection implements SelectionPolicy {
      * drawing {@link #arity} random chromosomes without replacement from the
      * population, and then selecting the fittest chromosome among them.
      *
-     * @param population the population from which the chromosomes are choosen.
+     * @param population the population from which the chromosomes are chosen.
      * @return the selected chromosomes.
      */
     public ChromosomePair select(final Population population) {
         return new ChromosomePair(tournament((ListPopulation) population),
-                                  tournament((ListPopulation)population));
+                                  tournament((ListPopulation) population));
     }
 
     /**

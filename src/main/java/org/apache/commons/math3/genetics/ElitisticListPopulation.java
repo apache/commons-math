@@ -74,14 +74,14 @@ public class ElitisticListPopulation extends ListPopulation {
     public Population nextGeneration() {
         // initialize a new generation with the same parameters
         ElitisticListPopulation nextGeneration =
-                new ElitisticListPopulation(this.getPopulationLimit(), this.getElitismRate());
+                new ElitisticListPopulation(getPopulationLimit(), getElitismRate());
 
-        List<Chromosome> oldChromosomes = this.getChromosomes();
+        final List<Chromosome> oldChromosomes = getChromosomeList();
         Collections.sort(oldChromosomes);
 
         // index of the last "not good enough" chromosome
-        int boundIndex = (int) FastMath.ceil((1.0 - this.getElitismRate()) * oldChromosomes.size());
-        for (int i=boundIndex; i<oldChromosomes.size(); i++) {
+        int boundIndex = (int) FastMath.ceil((1.0 - getElitismRate()) * oldChromosomes.size());
+        for (int i = boundIndex; i < oldChromosomes.size(); i++) {
             nextGeneration.addChromosome(oldChromosomes.get(i));
         }
         return nextGeneration;
