@@ -76,13 +76,13 @@ public class ElitisticListPopulation extends ListPopulation {
         ElitisticListPopulation nextGeneration =
                 new ElitisticListPopulation(getPopulationLimit(), getElitismRate());
 
-        final List<Chromosome> oldChromosomes = getChromosomeList();
-        Collections.sort(oldChromosomes);
+        // sort the chromosomes inplace
+        Collections.sort(chromosomes);
 
         // index of the last "not good enough" chromosome
-        int boundIndex = (int) FastMath.ceil((1.0 - getElitismRate()) * oldChromosomes.size());
-        for (int i = boundIndex; i < oldChromosomes.size(); i++) {
-            nextGeneration.addChromosome(oldChromosomes.get(i));
+        int boundIndex = (int) FastMath.ceil((1.0 - getElitismRate()) * chromosomes.size());
+        for (int i = boundIndex; i < chromosomes.size(); i++) {
+            nextGeneration.addChromosome(chromosomes.get(i));
         }
         return nextGeneration;
     }
