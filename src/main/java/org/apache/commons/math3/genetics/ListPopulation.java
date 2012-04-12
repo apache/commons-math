@@ -37,7 +37,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 public abstract class ListPopulation implements Population {
 
     /** List of chromosomes */
-    protected List<Chromosome> chromosomes;
+    private List<Chromosome> chromosomes;
 
     /** maximal size of the population */
     private int populationLimit;
@@ -114,10 +114,18 @@ public abstract class ListPopulation implements Population {
 
     /**
      * Returns an unmodifiable list of the chromosomes in this population.
-     * @return the list of chromosomes
+     * @return the unmodifiable list of chromosomes
      */
     public List<Chromosome> getChromosomes() {
         return Collections.unmodifiableList(chromosomes);
+    }
+
+    /**
+     * Access the list of chromosomes.
+     * @return the list of chromosomes
+     */
+    protected List<Chromosome> getChromosomeList() {
+        return chromosomes;
     }
 
     /**
