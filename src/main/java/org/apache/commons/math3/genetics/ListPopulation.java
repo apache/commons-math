@@ -200,11 +200,12 @@ public abstract class ListPopulation implements Population {
     }
 
     /**
-     * Chromosome list iterator
+     * Returns an iterator over the unmodifiable list of chromosomes.
+     * <p>Any call to {@link Iterator#remove()} will result in a {@link UnsupportedOperationException}.</p>
      *
      * @return chromosome iterator
      */
     public Iterator<Chromosome> iterator() {
-        return chromosomes.iterator();
+        return getChromosomes().iterator();
     }
 }

@@ -18,6 +18,7 @@ package org.apache.commons.math3.genetics;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
@@ -160,6 +161,29 @@ public class ListPopulationTest {
 
         for (int i = 0; i <= population.getPopulationLimit(); i++) {
             population.addChromosome(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
+        }
+    }
+    
+    @Test(expected = UnsupportedOperationException.class)
+    public void testIterator() {
+        final ArrayList<Chromosome> chromosomes = new ArrayList<Chromosome>();
+        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
+        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
+        chromosomes.add(new DummyBinaryChromosome(BinaryChromosome.randomBinaryRepresentation(3)));
+
+        final ListPopulation population = new ListPopulation(10) {
+            public Population nextGeneration() {
+                // not important
+                return null;
+            }
+        };
+
+        population.addChromosomes(chromosomes);
+
+        final Iterator<Chromosome> iter = population.iterator();
+        while (iter.hasNext()) {
+            iter.next();
+            iter.remove();
         }
     }
     
