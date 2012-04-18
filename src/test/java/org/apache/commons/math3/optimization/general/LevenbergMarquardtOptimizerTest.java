@@ -513,6 +513,83 @@ public class LevenbergMarquardtOptimizerTest {
         }
     }
 
+    /**
+     * Non-linear test case: fitting of decay curve (from Chapter 8 of
+     * Bevington's textbook, "Data reduction and analysis for the physical sciences").
+     * XXX The expected ("reference") values may not be accurate and the tolerance too
+     * relaxed for this test to be currently really useful (the issue is under
+     * investigation).
+     */
+    @Test
+    public void testBevington() {
+        final double[][] dataPoints = {
+            // column 1 = times
+            { 15, 30, 45, 60, 75, 90, 105, 120, 135, 150,
+              165, 180, 195, 210, 225, 240, 255, 270, 285, 300,
+              315, 330, 345, 360, 375, 390, 405, 420, 435, 450,
+              465, 480, 495, 510, 525, 540, 555, 570, 585, 600,
+              615, 630, 645, 660, 675, 690, 705, 720, 735, 750,
+              765, 780, 795, 810, 825, 840, 855, 870, 885, },
+            // column 2 = measured counts
+            { 775, 479, 380, 302, 185, 157, 137, 119, 110, 89,
+              74, 61, 66, 68, 48, 54, 51, 46, 55, 29,
+              28, 37, 49, 26, 35, 29, 31, 24, 25, 35,
+              24, 30, 26, 28, 21, 18, 20, 27, 17, 17,
+              14, 17, 24, 11, 22, 17, 12, 10, 13, 16,
+              9, 9, 14, 21, 17, 13, 12, 18, 10, },
+        };
+
+        final BevingtonProblem problem = new BevingtonProblem();
+
+        final int len = dataPoints[0].length;
+        final double[] weights = new double[len];
+        for (int i = 0; i < len; i++) {
+            problem.addPoint(dataPoints[0][i],
+                             dataPoints[1][i]);
+
+            weights[i] = 1 / dataPoints[1][i];
+        }
+
+        final LevenbergMarquardtOptimizer optimizer
+            = new LevenbergMarquardtOptimizer();
+        
+        final PointVectorValuePair optimum =
+            optimizer.optimize(100, problem, dataPoints[1], weights,
+                               new double[] { 10, 900, 80, 27, 225 });
+        
+        final double chi2 = optimizer.getChiSquare();
+        final double[] solution = optimum.getPoint();
+        final double[] expectedSolution = { 10.4, 958.3, 131.4, 33.9, 205.0 };
+
+        final double[][] covarMatrix = optimizer.getCovariances();
+        final double[][] expectedCovarMatrix = {
+            { 3.38, -3.69, 27.98, -2.34, -49.24 },
+            { -3.69, 2492.26, 81.89, -69.21, -8.9 },
+            { 27.98, 81.89, 468.99, -44.22, -615.44 },
+            { -2.34, -69.21, -44.22, 6.39, 53.80 },
+            { -49.24, -8.9, -615.44, 53.8, 929.45 }
+        };
+
+        final int numParams = expectedSolution.length;
+
+        // Check that the computed solution is within the reference error range.
+        for (int i = 0; i < numParams; i++) {
+            final double error = FastMath.sqrt(expectedCovarMatrix[i][i]);
+            Assert.assertEquals("Parameter " + i, expectedSolution[i], solution[i], error);
+        }
+
+        // Check that each entry of the computed covariance matrix is within 10%
+        // of the reference matrix entry.
+        for (int i = 0; i < numParams; i++) {
+            for (int j = 0; j < numParams; j++) {
+                Assert.assertEquals("Covariance matrix [" + i + "][" + j + "]",
+                                    expectedCovarMatrix[i][j],
+                                    covarMatrix[i][j],
+                                    FastMath.abs(0.1 * expectedCovarMatrix[i][j]));
+            }
+        }
+    }
+
     private static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
@@ -566,6 +643,60 @@ public class LevenbergMarquardtOptimizerTest {
             double[] values = new double[x.size()];
             for (int i = 0; i < values.length; ++i) {
                 values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
+            }
+            return values;
+        }
+
+        public MultivariateMatrixFunction jacobian() {
+            return new MultivariateMatrixFunction() {
+                public double[][] value(double[] point) {
+                    return jacobian(point);
+                }
+            };
+        }
+    }
+
+    private static class BevingtonProblem
+        implements DifferentiableMultivariateVectorFunction {
+        private List<Double> time;
+        private List<Double> count;
+
+        public BevingtonProblem() {
+            time = new ArrayList<Double>();
+            count = new ArrayList<Double>();
+        }
+
+        public void addPoint(double t, double c) {
+            time.add(t);
+            count.add(c);
+        }
+
+        private double[][] jacobian(double[] params) {
+            double[][] jacobian = new double[time.size()][5];
+
+            for (int i = 0; i < jacobian.length; ++i) {
+                final double t = time.get(i);
+                jacobian[i][0] = 1;
+                
+                final double p3 =  params[3];
+                final double p4 =  params[4];
+                final double tOp3 = t / p3;
+                final double tOp4 = t / p4;
+                jacobian[i][1] = Math.exp(-tOp3);
+                jacobian[i][2] = Math.exp(-tOp4);
+                jacobian[i][3] = params[1] * Math.exp(-tOp3) * tOp3 / p3;
+                jacobian[i][4] = params[2] * Math.exp(-tOp4) * tOp4 / p4;
+            }
+            return jacobian;
+        }
+
+        public double[] value(double[] params) {
+            double[] values = new double[time.size()];
+            for (int i = 0; i < values.length; ++i) {
+                final double t = time.get(i);
+                values[i] = params[0]
+                    + params[1] * Math.exp(-t / params[3])
+                    + params[2] * Math.exp(-t / params[4]);
             }
             return values;
         }
