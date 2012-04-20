@@ -30,17 +30,23 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  */
 public class Precision {
+
+    /** Exponent offset in IEEE754 representation. */
+    private static final long EXPONENT_OFFSET = 1023l;
+
     /**
      * Smallest positive number such that {@code 1 - EPSILON} is not
      * numerically equal to 1: {@value}.
+     * In IEEE 754 arithmetic, this is 2<sup>-53</sup>: {@value}.
      */
-    public static final double EPSILON = 0x1.0p-53;
+    public static final double EPSILON = Double.longBitsToDouble((EXPONENT_OFFSET - 53l) << 52);
     /**
      * Safe minimum, such that {@code 1 / SAFE_MIN} does not overflow.
      * In IEEE 754 arithmetic, this is also the smallest normalized
      * number 2<sup>-1022</sup>: {@value}.
      */
-    public static final double SAFE_MIN = 0x1.0p-1022;
+    public static final double SAFE_MIN = Double.longBitsToDouble((EXPONENT_OFFSET - 1022l) << 52);
+
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
     /** Offset to order signed double numbers lexicographically. */

@@ -467,8 +467,14 @@ public class PrecisionTest {
 
 
     @Test
+    public void testIssue721() {
+        Assert.assertEquals(-53,   FastMath.getExponent(Precision.EPSILON));
+        Assert.assertEquals(-1022, FastMath.getExponent(Precision.SAFE_MIN));
+    }
+
+
+    @Test
     public void testRepresentableDelta() {
-        int totalCount = 0;
         int nonRepresentableCount = 0;
         final double x = 100;
         final int numTrials = 10000;
