@@ -40,12 +40,17 @@ public class Precision {
      * In IEEE 754 arithmetic, this is 2<sup>-53</sup>: {@value}.
      */
     public static final double EPSILON = Double.longBitsToDouble((EXPONENT_OFFSET - 53l) << 52);
+    //This was previously expressed as = 0x1.0p-53;
+    // However, OpenJDK (Sparc Solaris) cannot handle such small constants: MATH-721
+
     /**
      * Safe minimum, such that {@code 1 / SAFE_MIN} does not overflow.
      * In IEEE 754 arithmetic, this is also the smallest normalized
      * number 2<sup>-1022</sup>: {@value}.
      */
     public static final double SAFE_MIN = Double.longBitsToDouble((EXPONENT_OFFSET - 1022l) << 52);
+    // This was previously expressed as = 0x1.0p-1022;
+    // However, OpenJDK (Sparc Solaris) cannot handle such small constants: MATH-721
 
     /** Offset to order signed double numbers lexicographically. */
     private static final long SGN_MASK = 0x8000000000000000L;
