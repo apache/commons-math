@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math3.util.Precision;
 
 /** This class represents a 1D region: a set of intervals.
  * @version $Id$
@@ -108,21 +109,21 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
         if (Double.isInfinite(upper) && (upper > 0)) {
             // the tree must be open on the positive infinity side
             return new BSPTree<Euclidean1D>(lowerCut,
-                               new BSPTree<Euclidean1D>(Boolean.FALSE),
-                               new BSPTree<Euclidean1D>(Boolean.TRUE),
-                               null);
+                                            new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                            new BSPTree<Euclidean1D>(Boolean.TRUE),
+                                            null);
         }
 
         // the tree must be bounded on the two sides
         final SubHyperplane<Euclidean1D> upperCut =
             new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();
         return new BSPTree<Euclidean1D>(lowerCut,
-                           new BSPTree<Euclidean1D>(Boolean.FALSE),
-                           new BSPTree<Euclidean1D>(upperCut,
-                                       new BSPTree<Euclidean1D>(Boolean.FALSE),
-                                       new BSPTree<Euclidean1D>(Boolean.TRUE),
-                                       null),
-                                       null);
+                                        new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                        new BSPTree<Euclidean1D>(upperCut,
+                                                                 new BSPTree<Euclidean1D>(Boolean.FALSE),
+                                                                 new BSPTree<Euclidean1D>(Boolean.TRUE),
+                                                                 null),
+                                        null);
 
     }
 
@@ -146,7 +147,13 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
                 sum  += interval.getLength() * interval.getMidPoint();
             }
             setSize(size);
-            setBarycenter(Double.isInfinite(size) ? Vector1D.NaN : new Vector1D(sum / size));
+            if (Double.isInfinite(size)) {
+                setBarycenter(Vector1D.NaN);
+            } else if (size >= Precision.SAFE_MIN) {
+                setBarycenter(new Vector1D(sum / size));
+            } else {
+                setBarycenter(((OrientedPoint) getTree(false).getCut().getHyperplane()).getLocation());
+            }
         }
     }
 

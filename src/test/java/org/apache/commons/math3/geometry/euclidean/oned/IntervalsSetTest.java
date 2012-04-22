@@ -24,6 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -93,6 +94,13 @@ public class IntervalsSetTest {
         Assert.assertEquals( 9.0, list.get(2).getLower(), 1.0e-10);
         Assert.assertEquals(11.0, list.get(2).getUpper(), 1.0e-10);
 
+    }
+
+    @Test
+    public void testSinglePoint() {
+        IntervalsSet set = new IntervalsSet(1.0, 1.0);
+        Assert.assertEquals(0.0, set.getSize(), Precision.SAFE_MIN);
+        Assert.assertEquals(1.0, ((Vector1D) set.getBarycenter()).getX(), Precision.EPSILON);
     }
 
 }
