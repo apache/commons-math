@@ -36,7 +36,7 @@ import org.apache.commons.math3.geometry.Space;
 public interface SubHyperplane<S extends Space> {
 
     /** Copy the instance.
-     * <p>The instance created is completely independant of the original
+     * <p>The instance created is completely independent of the original
      * one. A deep copy is used, none of the underlying objects are
      * shared (except for the nodes attributes and immutable
      * objects).</p>
@@ -62,7 +62,7 @@ public interface SubHyperplane<S extends Space> {
 
     /** Compute the relative position of the instance with respect
      * to an hyperplane.
-     * @param hyperplane hyperplane to check instane against
+     * @param hyperplane hyperplane to check instance against
      * @return one of {@link Side#PLUS}, {@link Side#MINUS}, {@link Side#BOTH},
      * {@link Side#HYPER}
      */
@@ -79,7 +79,7 @@ public interface SubHyperplane<S extends Space> {
     /** Compute the union of the instance and another sub-hyperplane.
      * @param other other sub-hyperplane to union (<em>must</em> be in the
      * same hyperplane as the instance)
-     * @return a new sub-hyperplane, union of the instane and other
+     * @return a new sub-hyperplane, union of the instance and other
      */
     SubHyperplane<S> reunite(SubHyperplane<S> other);
 
