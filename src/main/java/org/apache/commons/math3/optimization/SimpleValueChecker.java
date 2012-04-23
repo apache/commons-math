@@ -48,7 +48,7 @@ public class SimpleValueChecker
      * @param absoluteThreshold absolute tolerance threshold
      */
     public SimpleValueChecker(final double relativeThreshold,
-                                    final double absoluteThreshold) {
+                              final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
     }
 
