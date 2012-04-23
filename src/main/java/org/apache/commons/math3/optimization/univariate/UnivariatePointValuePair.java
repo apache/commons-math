@@ -42,7 +42,7 @@ public class UnivariatePointValuePair implements Serializable {
      * @param value Value of an objective function at the point
      */
     public UnivariatePointValuePair(final double point,
-                                        final double value) {
+                                    final double value) {
         this.point = point;
         this.value = value;
     }
