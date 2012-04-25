@@ -233,6 +233,16 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                     fw = fx;
                     x = u;
                     fx = fu;
+
+                    // User-defined convergence checker.
+                    previous = current;
+                    current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
+
+                    if (checker != null) {
+                        if (checker.converged(iter, previous, current)) {
+                            return current;
+                        }
+                    }
                 } else {
                     if (u < x) {
                         a = u;
@@ -250,16 +260,6 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                                Precision.equals(v, w)) {
                         v = u;
                         fv = fu;
-                    }
-                }
-
-                previous = current;
-                current = new UnivariatePointValuePair(x, isMinim ? fx : -fx);
-
-                // User-defined convergence checker.
-                if (checker != null) {
-                    if (checker.converged(iter, previous, current)) {
-                        return current;
                     }
                 }
             } else { // Default termination (Brent's criterion).

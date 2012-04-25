@@ -24,6 +24,7 @@ import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,6 +50,18 @@ public final class BrentOptimizerTest {
         } catch (TooManyEvaluationsException fee) {
             // expected
         }
+    }
+
+    @Test
+    public void testSinMinWithValueChecker() {
+        final UnivariateFunction f = new SinFunction();
+        final ConvergenceChecker checker = new SimpleUnivariateValueChecker(1e-5, 1e-14);
+        // The default stopping criterion of Brent's algorithm should not
+        // pass, but the search will stop at the given relative tolerance
+        // for the function value.
+        final UnivariateOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14, checker);
+        final UnivariatePointValuePair result = optimizer.optimize(200, f, GoalType.MINIMIZE, 4, 5);
+        Assert.assertEquals(3 * Math.PI / 2, result.getPoint(), 1e-3);
     }
 
     @Test
