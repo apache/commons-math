@@ -86,6 +86,7 @@ public abstract class ListPopulation implements Population {
      * @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit
      * @deprecated use {@link #addChromosomes(Collection)} instead
      */
+    @Deprecated
     public void setChromosomes(final List<Chromosome> chromosomes) {
         if (chromosomes == null) {
             throw new NullArgumentException();
