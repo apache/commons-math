@@ -590,6 +590,55 @@ public class LevenbergMarquardtOptimizerTest {
         }
     }
 
+    @Test
+    public void testCircleFitting2() {
+        final double xCenter = 123.456;
+        final double yCenter = 654.321;
+        final double xSigma = 10;
+        final double ySigma = 15;
+        final double radius = 111.111;
+        final RandomCirclePointGenerator factory
+            = new RandomCirclePointGenerator(xCenter, yCenter, radius,
+                                             xSigma, ySigma,
+                                             59421063L);
+        final CircleProblem circle = new CircleProblem(xSigma, ySigma);
+
+        final int numPoints = 10;
+        for (Point2D.Double p : factory.generate(numPoints)) {
+            circle.addPoint(p.x, p.y);
+            // System.out.println(p.x + " " + p.y);
+        }
+
+        // First guess for the center's coordinates and radius.
+        final double[] init = { 90, 659, 115 };
+
+        final LevenbergMarquardtOptimizer optimizer
+            = new LevenbergMarquardtOptimizer();
+        final PointVectorValuePair optimum = optimizer.optimize(100, circle,
+                                                                circle.target(), circle.weight(),
+                                                                init);
+
+        final double[] paramFound = optimum.getPoint();
+
+        // Retrieve errors estimation.
+        final double[][] covMatrix = optimizer.getCovariances();
+        final double[] asymptoticStandardErrorFound = optimizer.guessParametersErrors();
+        final double[] sigmaFound = new double[covMatrix.length];
+        for (int i = 0; i < covMatrix.length; i++) {
+            sigmaFound[i] = FastMath.sqrt(covMatrix[i][i]);
+//             System.out.println("i=" + i + " value=" + paramFound[i]
+//                                + " sigma=" + sigmaFound[i]
+//                                + " ase=" + asymptoticStandardErrorFound[i]);
+        }
+
+        // System.out.println("chi2=" + optimizer.getChiSquare());
+
+        // Check that the parameters are found within the assumed error bars.
+        Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);
+        Assert.assertEquals(yCenter, paramFound[1], asymptoticStandardErrorFound[1]);
+        Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
+    }
+
     private static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
