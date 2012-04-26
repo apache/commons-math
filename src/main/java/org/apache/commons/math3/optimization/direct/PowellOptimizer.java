@@ -26,10 +26,12 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
 import org.apache.commons.math3.optimization.univariate.BracketFinder;
 import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
 import org.apache.commons.math3.optimization.univariate.UnivariatePointValuePair;
+import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChecker;
 
 /**
  * Powell algorithm.
@@ -90,12 +92,9 @@ public class PowellOptimizer
         relativeThreshold = rel;
         absoluteThreshold = abs;
 
-        // Line search tolerances can be much lower than the tolerances
-        // required for the optimizer itself.
-        final double minTol = 1e-4;
-        final double lsRel = Math.min(FastMath.sqrt(relativeThreshold), minTol);
-        final double lsAbs = Math.min(FastMath.sqrt(absoluteThreshold), minTol);
-        line = new LineSearch(lsRel, lsAbs);
+        // Line search tolerances can be much less stringent than the tolerances
+        // required for the optimizer itself. XXX Is it still true with the new checker?
+        line = new LineSearch(rel, abs);
     }
 
     /**
@@ -240,17 +239,35 @@ public class PowellOptimizer
      */
     private class LineSearch extends BrentOptimizer {
         /**
+         * Value that will pass the precondition check for {@link BrentOptimizer}
+         * but will not pass the convergence check, so that the custom checker
+         * will always decide when to stop the line search.
+         */
+        private static final double REL_TOL_UNUSED = 1e-15;
+        /**
+         * Value that will pass the precondition check for {@link BrentOptimizer}
+         * but will not pass the convergence check, so that the custom checker
+         * will always decide when to stop the line search.
+         */
+        private static final double ABS_TOL_UNUSED = Double.MIN_VALUE;
+        /**
          * Automatic bracketing.
          */
         private final BracketFinder bracket = new BracketFinder();
 
         /**
+         * The "BrentOptimizer" default stopping criterion uses the tolerances
+         * to check the domain (point) values, not the function values.
+         * We thus create a custom checker to use function values.
+         *
          * @param rel Relative threshold.
          * @param abs Absolute threshold.
          */
         LineSearch(double rel,
                    double abs) {
-            super(rel, abs);
+            super(REL_TOL_UNUSED,
+                  ABS_TOL_UNUSED,
+                  new SimpleUnivariateValueChecker(rel, abs));
         }
 
         /**

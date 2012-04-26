@@ -21,6 +21,7 @@ import org.apache.commons.math3.analysis.SumSincFunction;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
 import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -117,6 +118,65 @@ public class PowellOptimizerTest {
     }
 
     /**
+     * Ensure that we do not increase the number of function evaluations when
+     * the function values are scaled up.
+     * Note that the tolerances parameters passed to the constructor must
+     * still hold sensible values because they are used to set the line search
+     * tolerances.
+     */
+    @Test
+    public void testRelativeToleranceOnScaledValues() {
+        final MultivariateFunction func = new MultivariateFunction() {
+                public double value(double[] x) {
+                    final double a = x[0] - 1;
+                    final double b = x[1] - 1;
+                    return a * a * FastMath.sqrt(FastMath.abs(a)) + b * b + 1;
+                }
+            };
+
+        int dim = 2;
+        final double[] minPoint = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            minPoint[i] = 1;
+        }
+
+        double[] init = new double[dim];
+        // Initial is far from minimum.
+        for (int i = 0; i < dim; i++) {
+            init[i] = minPoint[i] - 20;
+        }
+
+        final double relTol = 1e-10;
+
+        final int maxEval = 1000;
+        // Very small absolute tolerance to rely solely on the relative
+        // tolerance as a stopping criterion
+        final MultivariateOptimizer optim = new PowellOptimizer(relTol, 1e-100);
+
+        final PointValuePair funcResult = optim.optimize(maxEval, func, GoalType.MINIMIZE, init);
+        final double funcValue = func.value(funcResult.getPoint());
+        final int funcEvaluations = optim.getEvaluations();
+
+        final double scale = 1e10;
+        final MultivariateFunction funcScaled = new MultivariateFunction() {
+                public double value(double[] x) {
+                    return scale * func.value(x);
+                }
+            };
+
+        final PointValuePair funcScaledResult = optim.optimize(maxEval, funcScaled, GoalType.MINIMIZE, init);
+        final double funcScaledValue = funcScaled.value(funcScaledResult.getPoint());
+        final int funcScaledEvaluations = optim.getEvaluations();
+
+        // Check that both minima provide the same objective funciton values,
+        // within the relative function tolerance.
+        Assert.assertEquals(1, funcScaledValue / (scale * funcValue), relTol);
+
+        // Check that the numbers of evaluations are the same.
+        Assert.assertEquals(funcEvaluations, funcScaledEvaluations);
+    }
+
+    /**
      * @param func Function to optimize.
      * @param optimum Expected optimum.
      * @param init Starting point.
@@ -134,10 +194,11 @@ public class PowellOptimizerTest {
         final MultivariateOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d));
 
         final PointValuePair result = optim.optimize(1000, func, goal, init);
-        final double[] found = result.getPoint();
+        final double[] point = result.getPoint();
 
         for (int i = 0, dim = optimum.length; i < dim; i++) {
-            Assert.assertEquals(optimum[i], found[i], pointTol);
+            Assert.assertEquals("found[" + i + "]=" + point[i] + " value=" + result.getValue(),
+                                optimum[i], point[i], pointTol);
         }
     }
 }
