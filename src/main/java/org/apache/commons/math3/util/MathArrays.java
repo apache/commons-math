@@ -155,10 +155,10 @@ public class MathArrays {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise.
      */
-    public static boolean isMonotonic(Comparable[] val,
+    public static  <T extends Comparable<? super T>> boolean isMonotonic(T[] val,
                                       OrderDirection dir,
                                       boolean strict) {
-        Comparable previous = val[0];
+        T previous = val[0];
         final int max = val.length;
         for (int i = 1; i < max; i++) {
             final int comp;
