@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.MultivariateOptimizer;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.junit.Assert;
