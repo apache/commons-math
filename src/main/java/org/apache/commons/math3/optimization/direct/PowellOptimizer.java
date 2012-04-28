@@ -93,8 +93,9 @@ public class PowellOptimizer
         absoluteThreshold = abs;
 
         // Line search tolerances can be much less stringent than the tolerances
-        // required for the optimizer itself. XXX Is it still true with the new checker?
-        line = new LineSearch(rel, abs);
+        // required for the optimizer itself.
+        line = new LineSearch(FastMath.sqrt(rel),
+                              FastMath.sqrt(abs));
     }
 
     /**
