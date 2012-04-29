@@ -52,7 +52,7 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i] + 3;
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
+        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-5);
     }
 
     @Test
