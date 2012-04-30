@@ -150,6 +150,7 @@ public class MathArrays {
     /**
      * Check that an array is monotonically increasing or decreasing.
      *
+     * @param <T> the type of the elements in the specified array
      * @param val Values.
      * @param dir Ordering direction.
      * @param strict Whether the order should be strict.

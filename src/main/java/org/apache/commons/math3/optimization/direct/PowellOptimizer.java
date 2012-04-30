@@ -26,7 +26,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
 import org.apache.commons.math3.optimization.univariate.BracketFinder;
 import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
