@@ -224,12 +224,27 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
-     * Guess the errors in optimized parameters.
-     * Guessing is covariance-based: It only gives a rough order of magnitude.
+     * <p>
+     * Returns an estimate of the standard deviation of each parameter. The
+     * returned values are the so-called (asymptotic) standard errors on the
+     * parameters, defined as {@code sd(a[i]) = sqrt(S / (n - m) * C[i][i])},
+     * where {@code a[i]} is the optimized value of the {@code i}-th parameter,
+     * {@code S} is the minimized value of the sum of squares objective function
+     * (as returned by {@link #getChiSquare()}), {@code n} is the number of
+     * observations, {@code m} is the number of parameters and {@code C} is the
+     * covariance matrix.
+     * </p>
+     * <p>
+     * See also
+     * <a href="http://en.wikipedia.org/wiki/Least_squares">Wikipedia</a>,
+     * or
+     * <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">MathWorld</a>,
+     * equations (34) and (35) for a particular case.
+     * </p>
      *
-     * @return errors in optimized parameters
+     * @return an estimate of the standard deviation of the optimized parameters
      * @throws org.apache.commons.math3.linear.SingularMatrixException
-     * if the covariances matrix cannot be computed.
+     * if the covariance matrix cannot be computed.
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.
