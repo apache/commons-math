@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-781" due-to="Scheiber Ernő">
+        Use epsilon instead of ulp in floating-point comparison when dropping columns after phase 1 in SimplexSolver.
+      </action>
       <action dev="luc" type="fix" issue="MATH-721">
         Added a workaround for an OpenJDK issue on sparc solaris with too small constants.
       </action>
@@ -179,7 +182,7 @@ counterpart in either Math or StrictMath (cf. MATH-740).
         Broke up bloated "MathUtils" class into "MathArrays", "Precision",
         "ArithmeticUtils" classes.
       </action>
-      <action dev="psteitz" type="fix" issue="MATH-704" due-to="Thomas Niedhart">
+      <action dev="psteitz" type="fix" issue="MATH-704" due-to="Thomas Neidhart">
         Fixed array indexing error in Variance evaluate method for
         computing the weighted variance of an array segment.
       </action>
