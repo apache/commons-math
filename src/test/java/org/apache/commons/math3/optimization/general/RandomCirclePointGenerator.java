@@ -38,15 +38,15 @@ public class RandomCirclePointGenerator {
     private final double y;
     /** Error on the x-coordinate of the center. */
     private final double xSigma;
-    /** Error on the x-coordinate of the center. */
+    /** Error on the y-coordinate of the center. */
     private final double ySigma;
 
     /**
      * @param x Abscissa of the circle center.
      * @param y Ordinate of the circle center.
      * @param radius Radius of the circle.
-     * @param xSigma Error on the x-coordinate of the circumferenc points.
-     * @param ySigma Error on the y-coordinate of the circumferenc points.
+     * @param xSigma Error on the x-coordinate of the circumference points.
+     * @param ySigma Error on the y-coordinate of the circumference points.
      * @param seed RNG seed.
      */
     public RandomCirclePointGenerator(double x,
