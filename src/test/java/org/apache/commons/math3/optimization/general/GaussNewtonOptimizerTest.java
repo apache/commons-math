@@ -17,6 +17,8 @@
 
 package org.apache.commons.math3.optimization.general;
 
+import java.io.IOException;
+
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
@@ -131,8 +133,19 @@ public class GaussNewtonOptimizerTest
     @Test(expected=ConvergenceException.class)
     public void testCircleFittingBadInit() {
         /*
-         * This test does not converge with this optimizer
+         * This test does not converge with this optimizer.
          */
         super.testCircleFittingBadInit();
+    }
+
+    @Override
+    @Test(expected = ConvergenceException.class)
+    public void testHahn1()
+        throws IOException {
+        /*
+         * TODO This test leads to a singular problem with the Gauss-Newton
+         * optimizer. This should be inquired.
+         */
+        super.testHahn1();
     }
 }

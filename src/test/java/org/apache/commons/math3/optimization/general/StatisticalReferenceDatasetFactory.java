@@ -152,6 +152,41 @@ public class StatisticalReferenceDatasetFactory {
         return dataset;
     }
 
+    public static StatisticalReferenceDataset createLanczos1()
+        throws IOException {
+        final BufferedReader in =
+            createBufferedReaderFromResource("Lanczos1.dat");
+        StatisticalReferenceDataset dataset = null;
+        try {
+            dataset = new StatisticalReferenceDataset(in) {
+
+                @Override
+                public double getModelValue(final double x, final double[] a) {
+                    System.out.println(a[0]+", "+a[1]+", "+a[2]+", "+a[3]+", "+a[4]+", "+a[5]);
+                    return a[0] * FastMath.exp(-a[3] * x) +
+                           a[1] * FastMath.exp(-a[4] * x) +
+                           a[2] * FastMath.exp(-a[5] * x);
+                }
+
+                @Override
+                public double[] getModelDerivatives(final double x,
+                    final double[] a) {
+                    final double[] dy = new double[6];
+                    dy[0] = FastMath.exp(-x * a[3]);
+                    dy[1] = FastMath.exp(-x * a[4]);
+                    dy[2] = FastMath.exp(-x * a[5]);
+                    dy[3] = -x * a[0] * dy[0];
+                    dy[4] = -x * a[1] * dy[1];
+                    dy[5] = -x * a[2] * dy[2];
+                    return dy;
+                }
+            };
+        } finally {
+            in.close();
+        }
+        return dataset;
+    }
+
     /**
      * Returns an array with all available reference datasets.
      *

@@ -17,6 +17,7 @@
 package org.apache.commons.math3.optimization.general;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -465,6 +466,43 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         { 0.140653,  0.089229}, { 0.078666,  0.024981}, { 0.023807, -0.037022},
         {-0.048837, -0.077056}, {-0.127729, -0.075338}, {-0.221271, -0.067526}
     };
+
+    public void doTestStRD(final StatisticalReferenceDataset dataset,
+        final double errParams, final double errParamsSd) {
+        final AbstractLeastSquaresOptimizer optimizer = createOptimizer();
+        final double[] w = new double[dataset.getNumObservations()];
+        Arrays.fill(w, 1.0);
+
+        final double[][] data = dataset.getData();
+        final double[] initial = dataset.getStartingPoint(0);
+        final DifferentiableMultivariateVectorFunction problem;
+        problem = dataset.getLeastSquaresProblem();
+        final PointVectorValuePair optimum;
+        optimum = optimizer.optimize(100, problem, data[1], w, initial);
+
+        final double[] actual = optimum.getPoint();
+        final double[] actualSig = optimizer.guessParametersErrors();
+        for (int i = 0; i < actual.length; i++) {
+            double expected = dataset.getParameter(i);
+            double delta = FastMath.abs(errParams * expected);
+            Assert.assertEquals(dataset.getName() + ", param #" + i,
+                                expected, actual[i], delta);
+            expected = dataset.getParameterStandardDeviation(i);
+            delta = FastMath.abs(errParamsSd * expected);
+            Assert.assertEquals(dataset.getName() + ", sd of param #" + i,
+                                expected, actualSig[i], delta);
+        }
+    }
+
+    @Test
+    public void testKirby2() throws IOException {
+        doTestStRD(StatisticalReferenceDatasetFactory.createKirby2(), 1E-7, 1E-7);
+    }
+
+    @Test
+    public void testHahn1() throws IOException {
+        doTestStRD(StatisticalReferenceDatasetFactory.createHahn1(), 1E-7, 1E-4);
+    }
 
     static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
 
