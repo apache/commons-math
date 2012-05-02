@@ -51,7 +51,7 @@ class CircleProblem implements DifferentiableMultivariateVectorFunction {
 
     /**
      * @param xError Assumed error for the x-coordinate of the circle points.
-     * @param xError Assumed error for the y-coordinate of the circle points.
+     * @param yError Assumed error for the y-coordinate of the circle points.
      * @param searchResolution Number of points to try when searching the one
      * that is closest to a given "observed" point.
      */
@@ -66,7 +66,7 @@ class CircleProblem implements DifferentiableMultivariateVectorFunction {
 
     /**
      * @param xError Assumed error for the x-coordinate of the circle points.
-     * @param xError Assumed error for the y-coordinate of the circle points.
+     * @param yError Assumed error for the y-coordinate of the circle points.
      */
     public CircleProblem(double xError,
                          double yError) {
