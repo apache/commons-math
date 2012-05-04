@@ -302,8 +302,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
             checkVectorDimensions(v);
             double[] out = data.clone();
             Iterator<Entry> it = v.sparseIterator();
-            Entry e;
-            while (it.hasNext() && (e = it.next()) != null) {
+            while (it.hasNext()) {
+                final Entry e = it.next();
                 out[e.getIndex()] += e.getValue();
             }
             return new ArrayRealVector(out, false);
@@ -327,8 +327,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
             checkVectorDimensions(v);
             double[] out = data.clone();
             Iterator<Entry> it = v.sparseIterator();
-            Entry e;
-            while(it.hasNext() && (e = it.next()) != null) {
+            while (it.hasNext()) {
+                final Entry e = it.next();
                 out[e.getIndex()] -= e.getValue();
             }
             return new ArrayRealVector(out, false);
@@ -457,8 +457,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
             checkVectorDimensions(v);
             double dot = 0;
             Iterator<Entry> it = v.sparseIterator();
-            Entry e;
-            while(it.hasNext() && (e = it.next()) != null) {
+            while (it.hasNext()) {
+                final Entry e = it.next();
                 dot += data[e.getIndex()] * e.getValue();
             }
             return dot;

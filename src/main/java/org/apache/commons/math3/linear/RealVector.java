@@ -202,8 +202,8 @@ public abstract class RealVector {
     public RealVector add(RealVector v) {
         RealVector result = v.copy();
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             final int index = e.getIndex();
             result.setEntry(index, e.getValue() + result.getEntry(index));
         }
@@ -222,8 +222,8 @@ public abstract class RealVector {
     public RealVector subtract(RealVector v) {
         RealVector result = v.copy();
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             final int index = e.getIndex();
             result.setEntry(index, e.getValue() - result.getEntry(index));
         }
@@ -274,8 +274,8 @@ public abstract class RealVector {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             d += e.getValue() * v.getEntry(e.getIndex());
         }
         return d;
@@ -337,8 +337,8 @@ public abstract class RealVector {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             final double diff = e.getValue() - v.getEntry(e.getIndex());
             d += diff * diff;
         }
@@ -358,8 +358,8 @@ public abstract class RealVector {
     public double getNorm() {
         double sum = 0;
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             final double value = e.getValue();
             sum += value * value;
         }
@@ -379,8 +379,8 @@ public abstract class RealVector {
     public double getL1Norm() {
         double norm = 0;
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             norm += FastMath.abs(e.getValue());
         }
         return norm;
@@ -399,8 +399,8 @@ public abstract class RealVector {
     public double getLInfNorm() {
         double norm = 0;
         Iterator<Entry> it = sparseIterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             norm = FastMath.max(norm, FastMath.abs(e.getValue()));
         }
         return norm;
@@ -421,8 +421,8 @@ public abstract class RealVector {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             d += FastMath.abs(e.getValue() - v.getEntry(e.getIndex()));
         }
         return d;
@@ -446,8 +446,8 @@ public abstract class RealVector {
         checkVectorDimensions(v);
         double d = 0;
         Iterator<Entry> it = iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             d = FastMath.max(FastMath.abs(e.getValue() - v.getEntry(e.getIndex())), d);
         }
         return d;
@@ -598,11 +598,11 @@ public abstract class RealVector {
                                                v.getDimension());
         }
         Iterator<Entry> thisIt = sparseIterator();
-        Entry thisE = null;
-        while (thisIt.hasNext() && (thisE = thisIt.next()) != null) {
+        while (thisIt.hasNext()) {
+            final Entry thisE = thisIt.next();
             Iterator<Entry> otherIt = v.sparseIterator();
-            Entry otherE = null;
-            while (otherIt.hasNext() && (otherE = otherIt.next()) != null) {
+            while (otherIt.hasNext()) {
+                final Entry otherE = otherIt.next();
                 product.setEntry(thisE.getIndex(), otherE.getIndex(),
                                  thisE.getValue() * otherE.getValue());
             }
@@ -629,8 +629,8 @@ public abstract class RealVector {
      */
     public void set(double value) {
         Iterator<Entry> it = iterator();
-        Entry e = null;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             e.setValue(value);
         }
     }
@@ -684,6 +684,10 @@ public abstract class RealVector {
      * In dense implementations, this method will often delegate to
      * {@link #iterator()}.
      *
+     * <p>Note: derived classes are required to return an {@link Iterator} that
+     * returns non-null {@link Entry} objects as long as {@link Iterator#hasNext()}
+     * returns {@code true}.</p>
+     *
      * @return a sparse iterator.
      */
     public Iterator<Entry> sparseIterator() {
@@ -693,6 +697,10 @@ public abstract class RealVector {
     /**
      * Generic dense iterator. Iteration is in increasing order
      * of the vector index.
+     *
+     * <p>Note: derived classes are required to return an {@link Iterator} that
+     * returns non-null {@link Entry} objects as long as {@link Iterator#hasNext()}
+     * returns {@code true}.</p>
      *
      * @return a dense iterator.
      */
@@ -753,8 +761,8 @@ public abstract class RealVector {
      */
     public RealVector mapToSelf(UnivariateFunction function) {
         Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
-        Entry e;
-        while (it.hasNext() && (e = it.next()) != null) {
+        while (it.hasNext()) {
+            final Entry e = it.next();
             e.setValue(function.value(e.getValue()));
         }
         return this;

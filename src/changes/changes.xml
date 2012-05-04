@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-627" due-to="Arne Plöse">
+        Avoid superfluous null check when using iterators in RealVector and ArrayRealVector.
+      </action>
       <action dev="tn" type="fix" issue="MATH-781" due-to="Scheiber Ernő">
         Use epsilon instead of ulp in floating-point comparison when dropping columns after phase 1 in SimplexSolver.
       </action>
