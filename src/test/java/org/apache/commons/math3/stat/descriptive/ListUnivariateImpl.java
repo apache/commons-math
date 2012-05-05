@@ -81,10 +81,9 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
         // take into account only the last n elements of the list
         // as definied by windowSize
 
-        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW &&
-            windowSize < list.size())
-        {
-            length = list.size() - FastMath.max(0, list.size() - windowSize);
+        final int wSize = getWindowSize();
+        if (wSize != DescriptiveStatistics.INFINITE_WINDOW && wSize < list.size()) {
+            length = list.size() - FastMath.max(0, list.size() - wSize);
         }
 
         // Create an array to hold all values
@@ -104,10 +103,9 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
         int calcIndex = index;
 
-        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW &&
-            windowSize < list.size())
-        {
-            calcIndex = (list.size() - windowSize) + index;
+        final int wSize = getWindowSize();
+        if (wSize != DescriptiveStatistics.INFINITE_WINDOW && wSize < list.size()) {
+            calcIndex = (list.size() - wSize) + index;
         }
 
 
@@ -125,9 +123,10 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
     public long getN() {
         int n = 0;
 
-        if (windowSize != DescriptiveStatistics.INFINITE_WINDOW) {
-            if (list.size() > windowSize) {
-                n = windowSize;
+        final int wSize = getWindowSize();
+        if (wSize != DescriptiveStatistics.INFINITE_WINDOW) {
+            if (list.size() > wSize) {
+                n = wSize;
             } else {
                 n = list.size();
             }
@@ -194,20 +193,14 @@ public class ListUnivariateImpl extends DescriptiveStatistics implements Seriali
 
     /** {@inheritDoc} */
     @Override
-    public synchronized void setWindowSize(int windowSize) {
-        this.windowSize = windowSize;
+    public void setWindowSize(int windowSize) {
+        super.setWindowSize(windowSize);
         //Discard elements from the front of the list if the windowSize is less than
         // the size of the list.
         int extra = list.size() - windowSize;
         for (int i = 0; i < extra; i++) {
             list.remove(0);
         }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public synchronized int getWindowSize() {
-        return windowSize;
     }
 
 }
