@@ -248,6 +248,9 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.
+     * @deprecated as of version 3.1, {@link #getSigma()} should be used
+     * instead. It should be emphasized that {@link #guessParametersErrors()} and
+     * {@link #getSigma()} are <em>not</em> strictly equivalent.
      */
     public double[] guessParametersErrors() {
         if (rows <= cols) {
@@ -261,6 +264,28 @@ public abstract class AbstractLeastSquaresOptimizer
             errors[i] = FastMath.sqrt(covar[i][i]) * c;
         }
         return errors;
+    }
+
+    /**
+     * <p>
+     * Returns an estimate of the standard deviation of the parameters. The
+     * returned values are the square root of the diagonal coefficients of the
+     * covariance matrix, {@code sd(a[i]) ~= sqrt(C[i][i])}, where {@code a[i]}
+     * is the optimized value of the {@code i}-th parameter, and {@code C} is
+     * the covariance matrix.
+     * </p>
+     *
+     * @return an estimate of the standard deviation of the optimized parameters
+     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * if the covariance matrix cannot be computed.
+     */
+    public double[] getSigma() {
+        double[] sig = new double[cols];
+        double[][] cov = getCovariances();
+        for (int i = 0; i < sig.length; ++i) {
+            sig[i] = FastMath.sqrt(cov[i][i]);
+        }
+        return sig;
     }
 
     /** {@inheritDoc} */

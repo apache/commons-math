@@ -75,7 +75,7 @@ public class AbstractLeastSquaresOptimizerTest {
     }
 
     @Test
-    public void testGuessParametersErrors() throws IOException {
+    public void testGetSigma() throws IOException {
         final StatisticalReferenceDataset dataset;
         dataset = StatisticalReferenceDatasetFactory.createKirby2();
         final AbstractLeastSquaresOptimizer optimizer;
@@ -85,12 +85,14 @@ public class AbstractLeastSquaresOptimizerTest {
         final double[] w = new double[y.length];
         Arrays.fill(w, 1.0);
 
+        final int dof = y.length-a.length;
         optimizer.optimize(1, dataset.getLeastSquaresProblem(), y, w, a);
-        final double[] actual = optimizer.guessParametersErrors();
+        final double[] sig = optimizer.getSigma();
         final double[] expected = dataset.getParametersStandardDeviations();
-        for (int i = 0; i < actual.length; i++) {
+        for (int i = 0; i < sig.length; i++) {
+            final double actual = FastMath.sqrt(optimizer.getChiSquare()/dof)*sig[i];
             Assert.assertEquals(dataset.getName() + ", parameter #" + i,
-                                actual[i], expected[i], 1E-8 * expected[i]);
+                                actual, expected[i], 1E-8 * expected[i]);
         }
     }
 }

@@ -325,4 +325,12 @@ public class Gamma {
 
         return trigamma(x + 1) + 1 / (x * x);
     }
+
+    public static double lanczos(final double x){
+        double sum = 0.0;
+        for (int i = LANCZOS.length - 1; i > 0; --i) {
+            sum = sum + (LANCZOS[i] / (x + i));
+        }
+        return sum + LANCZOS[0];
+    }
 }
