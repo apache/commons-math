@@ -17,7 +17,9 @@
 
 package org.apache.commons.math3.linear;
 
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -54,10 +56,10 @@ class SchurTransformer {
     private RealMatrix cachedPt;
 
     /** Maximum allowed iterations for convergence of the transformation. */
-    private final int maxIterations = 40;
+    private final int maxIterations = 100;
 
-    /** Epsilon criteria taken from JAMA code (2^-52). */
-    private final double epsilon = 2.220446049250313E-16;
+    /** Epsilon criteria taken from JAMA code (originally was 2^-52). */
+    private final double epsilon = Precision.EPSILON;
 
     /**
      * Build the transformation to Schur form of a general real matrix.
@@ -126,7 +128,7 @@ class SchurTransformer {
 
     /**
      * Transform original matrix to Schur form.
-     * @throws TooManyEvaluationsException if the transformation does not converge
+     * @throws MaxCountExceededException if the transformation does not converge
      */
     private void transform() {
         final int n = matrixT.length;
@@ -205,7 +207,8 @@ class SchurTransformer {
 
                 // stop transformation after too many iterations
                 if (++iteration > maxIterations) {
-                    throw new TooManyEvaluationsException(maxIterations);
+                    throw new MaxCountExceededException(LocalizedFormats.CONVERGENCE_FAILED,
+                                                        maxIterations);
                 }
 
                 // Look for two consecutive small sub-diagonal elements
