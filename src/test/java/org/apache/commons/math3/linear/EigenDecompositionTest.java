@@ -324,6 +324,74 @@ public class EigenDecompositionTest {
         }
     }
 
+    @Test
+    public void testSymmetric() {
+        RealMatrix symmetric = MatrixUtils.createRealMatrix(new double[][] {
+                {4, 1, 1},
+                {1, 2, 3},
+                {1, 3, 6}
+        });
+
+        EigenDecomposition ed;
+        ed = new EigenDecomposition(symmetric, Precision.SAFE_MIN);
+        
+        RealMatrix d = ed.getD();
+        RealMatrix v = ed.getV();
+        RealMatrix vT = ed.getVT();
+
+        double norm = v.multiply(d).multiply(vT).subtract(symmetric).getNorm();
+        Assert.assertEquals(0, norm, 6.0e-13);
+
+//           check(A.times(V),V.times(D));
+    }
+
+    @Test
+    public void testUnsymmetric() {
+        // Vandermonde matrix V(x;i,j) = x_i^{n - j} with x = (-1,-2,3,4)
+        double[][] vData = { { -1.0, 1.0, -1.0, 1.0 },
+                             { -8.0, 4.0, -2.0, 1.0 },
+                             { 27.0, 9.0,  3.0, 1.0 },
+                             { 64.0, 16.0, 4.0, 1.0 } };
+        checkUnsymmetricMatrix(MatrixUtils.createRealMatrix(vData));
+      
+        RealMatrix randMatrix = MatrixUtils.createRealMatrix(new double[][] {
+                {0,  1,     0,     0},
+                {1,  0,     2.e-7, 0},
+                {0, -2.e-7, 0,     1},
+                {0,  0,     1,     0}
+        });
+        checkUnsymmetricMatrix(randMatrix);
+
+        // from http://eigen.tuxfamily.org/dox/classEigen_1_1RealSchur.html
+        double[][] randData2 = {
+                {  0.680, -0.3300, -0.2700, -0.717, -0.687,  0.0259 },
+                { -0.211,  0.5360,  0.0268,  0.214, -0.198,  0.6780 },
+                {  0.566, -0.4440,  0.9040, -0.967, -0.740,  0.2250 },
+                {  0.597,  0.1080,  0.8320, -0.514, -0.782, -0.4080 },
+                {  0.823, -0.0452,  0.2710, -0.726,  0.998,  0.2750 },
+                { -0.605,  0.2580,  0.4350,  0.608, -0.563,  0.0486 }
+        };
+        checkUnsymmetricMatrix(MatrixUtils.createRealMatrix(randData2));
+    }
+    
+    private void checkUnsymmetricMatrix(final RealMatrix m) {
+        EigenDecomposition ed = new EigenDecomposition(m, Precision.SAFE_MIN);
+        
+        RealMatrix d = ed.getD();
+        RealMatrix v = ed.getV();
+        //RealMatrix vT = ed.getVT();
+
+        RealMatrix x = m.multiply(v);
+        RealMatrix y = v.multiply(d);
+        
+        Assert.assertTrue("The norm of (X-Y) is too large",
+                x.subtract(y).getNorm() < 1000 * Precision.EPSILON * FastMath.max(x.getNorm(), y.getNorm()));
+        
+        RealMatrix invV = new LUDecomposition(v).getSolver().getInverse();
+        double norm = v.multiply(d).multiply(invV).subtract(m).getNorm();
+        Assert.assertEquals(0.0, norm, 6.0e-13);
+    }
+
     /** test eigenvectors */
     @Test
     public void testEigenvectors() {

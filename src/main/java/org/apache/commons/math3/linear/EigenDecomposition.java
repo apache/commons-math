@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.linear;
 
+import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -24,8 +25,7 @@ import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * Calculates the eigen decomposition of a real <strong>symmetric</strong>
- * matrix.
+ * Calculates the eigen decomposition of a real matrix.
  * <p>The eigen decomposition of matrix A is a set of two matrices:
  * V and D such that A = V &times; D &times; V<sup>T</sup>.
  * A, V and D are all m &times; m matrices.</p>
@@ -42,16 +42,24 @@ import org.apache.commons.math3.util.FastMath;
  *   <li>a {@link #getSolver() getSolver} method has been added.</li>
  * </ul>
  * <p>
- * As of 2.0, this class supports only <strong>symmetric</strong> matrices, and
- * hence computes only real realEigenvalues. This implies the D matrix returned
- * by {@link #getD()} is always diagonal and the imaginary values returned
- * {@link #getImagEigenvalue(int)} and {@link #getImagEigenvalues()} are always
- * null.
+ * As of 3.1, this class supports general real matrices (both symmetric and non-symmetric):
  * </p>
  * <p>
- * When called with a {@link RealMatrix} argument, this implementation only uses
- * the upper part of the matrix, the part below the diagonal is not accessed at
- * all.
+ * If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is diagonal and the eigenvector
+ * matrix V is orthogonal, i.e. A = V.multiply(D.multiply(V.transpose())) and
+ * V.multiply(V.transpose()) equals the identity matrix.
+ * </p>
+ * <p>
+ * If A is not symmetric, then the eigenvalue matrix D is block diagonal with the real eigenvalues
+ * in 1-by-1 blocks and any complex eigenvalues, lambda + i*mu, in 2-by-2 blocks:
+ * <pre>
+ *    [lambda, mu    ]
+ *    [   -mu, lambda]
+ * </pre>
+ * The columns of V represent the eigenvectors in the sense that A*V = V*D,
+ * i.e. A.multiply(V) equals V.multiply(D).
+ * The matrix V may be badly conditioned, or even singular, so the validity of the equation
+ * A = V*D*inverse(V) depends upon the condition of V.
  * </p>
  * <p>
  * This implementation is based on the paper by A. Drubrulle, R.S. Martin and
@@ -64,7 +72,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
-public class EigenDecomposition{
+public class EigenDecomposition {
     /** Maximum number of iterations accepted in the implicit QL transformation */
     private byte maxIter = 30;
     /** Main diagonal of the tridiagonal matrix. */
@@ -89,20 +97,25 @@ public class EigenDecomposition{
     /** Cached value of Vt. */
     private RealMatrix cachedVt;
 
+    /** Internally used epsilon criteria. */
+    private final double epsilon = 1e-16;
+
     /**
-     * Calculates the eigen decomposition of the given symmetric matrix.
+     * Calculates the eigen decomposition of the given real matrix.
      *
-     * @param matrix Matrix to decompose. It <em>must</em> be symmetric.
+     * @param matrix Matrix to decompose.
      * @param splitTolerance Dummy parameter (present for backward
      * compatibility only).
-     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public EigenDecomposition(final RealMatrix matrix,
-                                  final double splitTolerance)  {
-        if (isSymmetric(matrix, true)) {
+                              final double splitTolerance)  {
+        if (isSymmetric(matrix, false)) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
+        } else {
+            final SchurTransformer t = transformToSchur(matrix);
+            findEigenVectorsFromSchur(t);
         }
     }
 
@@ -116,15 +129,15 @@ public class EigenDecomposition{
      * compatibility only).
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
-    public EigenDecomposition(final double[] main,final double[] secondary,
-                                  final double splitTolerance) {
+    public EigenDecomposition(final double[] main, final double[] secondary,
+                              final double splitTolerance) {
         this.main      = main.clone();
         this.secondary = secondary.clone();
         transformer    = null;
-        final int size=main.length;
-        double[][] z = new double[size][size];
-        for (int i=0;i<size;i++) {
-            z[i][i]=1.0;
+        final int size = main.length;
+        final double[][] z = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            z[i][i] = 1.0;
         }
         findEigenVectors(z);
     }
@@ -199,6 +212,14 @@ public class EigenDecomposition{
         if (cachedD == null) {
             // cache the matrix for subsequent calls
             cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
+
+            for (int i = 0; i < imagEigenvalues.length; i++) {
+                if (Precision.compareTo(imagEigenvalues[i], 0.0, epsilon) > 0) {
+                    cachedD.setEntry(i, i+1, imagEigenvalues[i]);
+                } else if (Precision.compareTo(imagEigenvalues[i], 0.0, epsilon) < 0) {
+                    cachedD.setEntry(i, i-1, imagEigenvalues[i]);
+                }
+            }
         }
         return cachedD;
     }
@@ -221,7 +242,6 @@ public class EigenDecomposition{
             for (int k = 0; k < m; ++k) {
                 cachedVt.setRowVector(k, eigenvectors[k]);
             }
-
         }
 
         // return the cached matrix
@@ -482,7 +502,7 @@ public class EigenDecomposition{
      * @param householderMatrix Householder matrix of the transformation
      * to tridiagonal form.
      */
-    private void findEigenVectors(double[][] householderMatrix) {
+    private void findEigenVectors(final double[][] householderMatrix) {
         final double[][]z = householderMatrix.clone();
         final int n = main.length;
         realEigenvalues = new double[n];
@@ -616,7 +636,7 @@ public class EigenDecomposition{
             }
         }
         // Make null any eigen value too small to be significant
-        if (maxAbsoluteValue!=0.0) {
+        if (maxAbsoluteValue != 0.0) {
             for (int i=0; i < n; i++) {
                 if (FastMath.abs(realEigenvalues[i]) < Precision.EPSILON * maxAbsoluteValue) {
                     realEigenvalues[i] = 0;
@@ -628,6 +648,241 @@ public class EigenDecomposition{
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 tmp[j] = z[j][i];
+            }
+            eigenvectors[i] = new ArrayRealVector(tmp);
+        }
+    }
+
+    /**
+     * Transforms the matrix to Schur form and calculates the eigenvalues.
+     *
+     * @param matrix Matrix to transform.
+     * @return the {@link SchurTransform} for this matrix
+     */
+    private SchurTransformer transformToSchur(final RealMatrix matrix) {
+        final SchurTransformer schurTransform = new SchurTransformer(matrix);
+        final double[][] matT = schurTransform.getT().getData();
+
+        realEigenvalues = new double[matT.length];
+        imagEigenvalues = new double[matT.length];
+
+        for (int i = 0; i < realEigenvalues.length; i++) {
+            if (i == (realEigenvalues.length - 1) ||
+                Precision.equals(matT[i + 1][i], 0.0, epsilon)) {
+                realEigenvalues[i] = matT[i][i];
+            } else {
+                final double x = matT[i + 1][i + 1];
+                final double p = 0.5 * (matT[i][i] - x);
+                final double z = FastMath.sqrt(FastMath.abs(p * p + matT[i + 1][i] * matT[i][i + 1]));
+                realEigenvalues[i] = x + p;
+                imagEigenvalues[i] = z;
+                realEigenvalues[i + 1] = x + p;
+                imagEigenvalues[i + 1] = -z;
+                i++;
+            }
+        }
+        return schurTransform;
+    }
+
+    /**
+     * Performs a division of two complex numbers.
+     *
+     * @param xr real part of the first number
+     * @param xi imaginary part of the first number
+     * @param yr real part of the second number
+     * @param yi imaginary part of the second number
+     * @return result of the complex division
+     */
+    private Complex cdiv(final double xr, final double xi,
+                         final double yr, final double yi) {
+        return new Complex(xr, xi).divide(new Complex(yr, yi));
+    }
+
+    /**
+     * Find eigenvectors from a matrix transformed to Schur form.
+     *
+     * @param schur the schur transformation of the matrix
+     */
+    private void findEigenVectorsFromSchur(final SchurTransformer schur) {
+        final double[][] matrixT = schur.getT().getData();
+        final double[][] matrixP = schur.getP().getData();
+
+        final int n = matrixT.length;
+
+        // compute matrix norm
+        double norm = 0.0;
+        for (int i = 0; i < n; i++) {
+           for (int j = FastMath.max(i - 1, 0); j < n; j++) {
+              norm = norm + FastMath.abs(matrixT[i][j]);
+           }
+        }
+
+        if (Precision.equals(norm, 0.0)) {
+            // TODO: we can not handle a zero matrix, what exception to throw?
+           return;
+        }
+
+        // Backsubstitute to find vectors of upper triangular form
+
+        double r = 0.0;
+        double s = 0.0;
+        double z = 0.0;
+
+        for (int idx = n - 1; idx >= 0; idx--) {
+            double p = realEigenvalues[idx];
+            double q = imagEigenvalues[idx];
+
+            if (Precision.equals(q, 0.0)) {
+                // Real vector
+                int l = idx;
+                matrixT[idx][idx] = 1.0;
+                for (int i = idx - 1; i >= 0; i--) {
+                    double w = matrixT[i][i] - p;
+                    r = 0.0;
+                    for (int j = l; j <= idx; j++) {
+                        r = r + matrixT[i][j] * matrixT[j][idx];
+                    }
+                    if (Precision.compareTo(imagEigenvalues[i], 0.0, epsilon) < 0.0) {
+                        z = w;
+                        s = r;
+                    } else {
+                        l = i;
+                        if (Precision.equals(imagEigenvalues[i], 0.0)) {
+                            if (w != 0.0) {
+                                matrixT[i][idx] = -r / w;
+                            } else {
+                                matrixT[i][idx] = -r / (Precision.EPSILON * norm);
+                            }
+                        } else {
+                            // Solve real equations
+                            double x = matrixT[i][i + 1];
+                            double y = matrixT[i + 1][i];
+                            q = (realEigenvalues[i] - p) * (realEigenvalues[i] - p) +
+                                imagEigenvalues[i] * imagEigenvalues[i];
+                            double t = (x * s - z * r) / q;
+                            matrixT[i][idx] = t;
+                            if (FastMath.abs(x) > FastMath.abs(z)) {
+                                matrixT[i + 1][idx] = (-r - w * t) / x;
+                            } else {
+                                matrixT[i + 1][idx] = (-s - y * t) / z;
+                            }
+                        }
+
+                        // Overflow control
+                        double t = FastMath.abs(matrixT[i][idx]);
+                        if ((Precision.EPSILON * t) * t > 1) {
+                            for (int j = i; j <= idx; j++) {
+                                matrixT[j][idx] = matrixT[j][idx] / t;
+                            }
+                        }
+                    }
+                }
+            } else if (q < 0.0) {
+                // Complex vector
+                int l = idx - 1;
+
+                // Last vector component imaginary so matrix is triangular
+                if (FastMath.abs(matrixT[idx][idx - 1]) > FastMath.abs(matrixT[idx - 1][idx])) {
+                    matrixT[idx - 1][idx - 1] = q / matrixT[idx][idx - 1];
+                    matrixT[idx - 1][idx]     = -(matrixT[idx][idx] - p) / matrixT[idx][idx - 1];
+                } else {
+                    final Complex result = cdiv(0.0, -matrixT[idx - 1][idx],
+                                                matrixT[idx - 1][idx - 1] - p, q);
+                    matrixT[idx - 1][idx - 1] = result.getReal();
+                    matrixT[idx - 1][idx]     = result.getImaginary();
+                }
+
+                matrixT[idx][idx - 1] = 0.0;
+                matrixT[idx][idx]     = 1.0;
+
+                for (int i = idx - 2; i >= 0; i--) {
+                    double ra = 0.0;
+                    double sa = 0.0;
+                    for (int j = l; j <= idx; j++) {
+                        ra = ra + matrixT[i][j] * matrixT[j][idx - 1];
+                        sa = sa + matrixT[i][j] * matrixT[j][idx];
+                    }
+                    double w = matrixT[i][i] - p;
+
+                    if (Precision.compareTo(imagEigenvalues[i], 0.0, epsilon) < 0.0) {
+                        z = w;
+                        r = ra;
+                        s = sa;
+                    } else {
+                        l = i;
+                        if (Precision.equals(imagEigenvalues[i], 0.0)) {
+                            final Complex c = cdiv(-ra, -sa, w, q);
+                            matrixT[i][idx - 1] = c.getReal();
+                            matrixT[i][idx] = c.getImaginary();
+                        } else {
+                            // Solve complex equations
+                            double x = matrixT[i][i + 1];
+                            double y = matrixT[i + 1][i];
+                            double vr = (realEigenvalues[i] - p) * (realEigenvalues[i] - p) +
+                                        imagEigenvalues[i] * imagEigenvalues[i] - q * q;
+                            final double vi = (realEigenvalues[i] - p) * 2.0 * q;
+                            if (Precision.equals(vr, 0.0) && Precision.equals(vi, 0.0)) {
+                                vr = Precision.EPSILON * norm *
+                                     (FastMath.abs(w) + FastMath.abs(q) + FastMath.abs(x) +
+                                      FastMath.abs(y) + FastMath.abs(z));
+                            }
+                            final Complex c     = cdiv(x * r - z * ra + q * sa,
+                                                       x * s - z * sa - q * ra, vr, vi);
+                            matrixT[i][idx - 1] = c.getReal();
+                            matrixT[i][idx]     = c.getImaginary();
+
+                            if (FastMath.abs(x) > (FastMath.abs(z) + FastMath.abs(q))) {
+                                matrixT[i + 1][idx - 1] = (-ra - w * matrixT[i][idx - 1] +
+                                                           q * matrixT[i][idx]) / x;
+                                matrixT[i + 1][idx]     = (-sa - w * matrixT[i][idx] -
+                                                           q * matrixT[i][idx - 1]) / x;
+                            } else {
+                                final Complex c2        = cdiv(-r - y * matrixT[i][idx - 1],
+                                                               -s - y * matrixT[i][idx], z, q);
+                                matrixT[i + 1][idx - 1] = c2.getReal();
+                                matrixT[i + 1][idx]     = c2.getImaginary();
+                            }
+                        }
+
+                        // Overflow control
+                        double t = FastMath.max(FastMath.abs(matrixT[i][idx - 1]),
+                                                FastMath.abs(matrixT[i][idx]));
+                        if ((Precision.EPSILON * t) * t > 1) {
+                            for (int j = i; j <= idx; j++) {
+                                matrixT[j][idx - 1] = matrixT[j][idx - 1] / t;
+                                matrixT[j][idx]     = matrixT[j][idx] / t;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Vectors of isolated roots
+        for (int i = 0; i < n; i++) {
+            if (i < 0 | i > n - 1) {
+                for (int j = i; j < n; j++) {
+                    matrixP[i][j] = matrixT[i][j];
+                }
+            }
+        }
+
+        // Back transformation to get eigenvectors of original matrix
+        for (int j = n - 1; j >= 0; j--) {
+            for (int i = 0; i <= n - 1; i++) {
+                z = 0.0;
+                for (int k = 0; k <= FastMath.min(j, n - 1); k++) {
+                    z = z + matrixP[i][k] * matrixT[k][j];
+                }
+                matrixP[i][j] = z;
+            }
+        }
+
+        eigenvectors = new ArrayRealVector[n];
+        final double[] tmp = new double[n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                tmp[j] = matrixP[j][i];
             }
             eigenvectors[i] = new ArrayRealVector(tmp);
         }
