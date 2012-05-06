@@ -23,7 +23,7 @@ import org.apache.commons.math3.util.Precision;
 /**
  * Class transforming a general real matrix to Hessenberg form.
  * <p>A m &times; m matrix A can be written as the product of three matrices: A = P
- * &times; H &times; P<sup>T</sup> with P an unitary matrix and H a Hessenberg
+ * &times; H &times; P<sup>T</sup> with P an orthogonal matrix and H a Hessenberg
  * matrix. Both P and H are m &times; m matrices.</p>
  * <p>Transformation to Hessenberg form is often not a goal by itself, but it is an
  * intermediate step in more general decomposition algorithms like
@@ -54,10 +54,10 @@ class HessenbergTransformer {
     /**
      * Build the transformation to Hessenberg form of a general matrix.
      *
-     * @param matrix matrix to transform.
-     * @throws NonSquareMatrixException if the matrix is not square.
+     * @param matrix matrix to transform
+     * @throws NonSquareMatrixException if the matrix is not square
      */
-    public HessenbergTransformer(RealMatrix matrix) {
+    public HessenbergTransformer(final RealMatrix matrix) {
         if (!matrix.isSquare()) {
             throw new NonSquareMatrixException(matrix.getRowDimension(),
                     matrix.getColumnDimension());
@@ -76,7 +76,7 @@ class HessenbergTransformer {
 
     /**
      * Returns the matrix P of the transform.
-     * <p>P is an unitary matrix, i.e. its inverse is also its transpose.</p>
+     * <p>P is an orthogonal matrix, i.e. its inverse is also its transpose.</p>
      *
      * @return the P matrix
      */
@@ -122,7 +122,7 @@ class HessenbergTransformer {
 
     /**
      * Returns the transpose of the matrix P of the transform.
-     * <p>P is an unitary matrix, i.e. its inverse is also its transpose.</p>
+     * <p>P is an orthogonal matrix, i.e. its inverse is also its transpose.</p>
      *
      * @return the transpose of the P matrix
      */
