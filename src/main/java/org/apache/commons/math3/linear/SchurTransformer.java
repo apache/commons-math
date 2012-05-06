@@ -153,12 +153,12 @@ class SchurTransformer {
                 iteration = 0;
             } else if (l == idx - 1) {
                 // Two roots found
-                shift.w = matrixT[idx][idx-1] * matrixT[idx-1][idx];
-                double p = (matrixT[idx-1][idx-1] - matrixT[idx][idx]) / 2.0;
+                shift.w = matrixT[idx][idx - 1] * matrixT[idx - 1][idx];
+                double p = (matrixT[idx - 1][idx - 1] - matrixT[idx][idx]) / 2.0;
                 double q = p * p + shift.w;
                 double z = FastMath.sqrt(FastMath.abs(q));
                 matrixT[idx][idx] = matrixT[idx][idx] + shift.exShift;
-                matrixT[idx-1][idx-1] = matrixT[idx-1][idx-1] + shift.exShift;
+                matrixT[idx - 1][idx - 1] = matrixT[idx - 1][idx - 1] + shift.exShift;
                 shift.x = matrixT[idx][idx];
 
                 if (q >= 0) {
@@ -167,7 +167,7 @@ class SchurTransformer {
                     } else {
                         z = p - z;
                     }
-                    shift.x = matrixT[idx][idx-1];
+                    shift.x = matrixT[idx][idx - 1];
                     double s = FastMath.abs(shift.x) + FastMath.abs(z);
                     p = shift.x / s;
                     q = z / s;
@@ -176,23 +176,23 @@ class SchurTransformer {
                     q = q / r;
 
                     // Row modification
-                    for (int j = idx-1; j < n; j++) {
-                        z = matrixT[idx-1][j];
-                        matrixT[idx-1][j] = q * z + p * matrixT[idx][j];
+                    for (int j = idx - 1; j < n; j++) {
+                        z = matrixT[idx - 1][j];
+                        matrixT[idx - 1][j] = q * z + p * matrixT[idx][j];
                         matrixT[idx][j] = q * matrixT[idx][j] - p * z;
                     }
 
                     // Column modification
                     for (int i = 0; i <= idx; i++) {
-                        z = matrixT[i][idx-1];
-                        matrixT[i][idx-1] = q * z + p * matrixT[i][idx];
+                        z = matrixT[i][idx - 1];
+                        matrixT[i][idx - 1] = q * z + p * matrixT[i][idx];
                         matrixT[i][idx] = q * matrixT[i][idx] - p * z;
                     }
 
                     // Accumulate transformations
                     for (int i = 0; i <= n - 1; i++) {
-                        z = matrixP[i][idx-1];
-                        matrixP[i][idx-1] = q * z + p * matrixP[i][idx];
+                        z = matrixP[i][idx - 1];
+                        matrixP[i][idx - 1] = q * z + p * matrixP[i][idx];
                         matrixP[i][idx] = q * matrixP[i][idx] - p * z;
                     }
                 }
@@ -434,11 +434,11 @@ class SchurTransformer {
      * Contains variable names as present in the original JAMA code.
      */
     private static class ShiftInfo {
-        /** TODO: document */
+        /** TODO: describe */
         double x;
-        /** TODO: document */
+        /** TODO: describe */
         double y;
-        /** TODO: document */
+        /** TODO: describe */
         double w;
         /** Indicates an exceptional shift. */
         double exShift;
