@@ -280,8 +280,8 @@ public abstract class AbstractLeastSquaresOptimizer
      * if the covariance matrix cannot be computed.
      */
     public double[] getSigma() {
-        double[] sig = new double[cols];
-        double[][] cov = getCovariances();
+        final double[] sig = new double[cols];
+        final double[][] cov = getCovariances();
         for (int i = 0; i < sig.length; ++i) {
             sig[i] = FastMath.sqrt(cov[i][i]);
         }
@@ -291,9 +291,9 @@ public abstract class AbstractLeastSquaresOptimizer
     /** {@inheritDoc} */
     @Override
     public PointVectorValuePair optimize(int maxEval,
-                                            final DifferentiableMultivariateVectorFunction f,
-                                            final double[] target, final double[] weights,
-                                            final double[] startPoint) {
+                                         final DifferentiableMultivariateVectorFunction f,
+                                         final double[] target, final double[] weights,
+                                         final double[] startPoint) {
         // Reset counter.
         jacobianEvaluations = 0;
 
