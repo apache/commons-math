@@ -32,6 +32,13 @@ public class Gamma {
      * @since 2.0
      */
     public static final double GAMMA = 0.577215664901532860606512090082;
+
+    /**
+     * The value of the {@code g} constant in the Lanczos approximation, see
+     * {@link #lanczos(double)}.
+     */
+    public static final double LANCZOS_G = 607.0 / 128.0;
+
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-15;
     /** Lanczos coefficients */
@@ -89,13 +96,7 @@ public class Gamma {
             ret = Double.NaN;
         } else {
             double g = 607.0 / 128.0;
-
-            double sum = 0.0;
-            for (int i = LANCZOS.length - 1; i > 0; --i) {
-                sum = sum + (LANCZOS[i] / (x + i));
-            }
-            sum = sum + LANCZOS[0];
-
+            double sum = lanczos(x);
             double tmp = x + g + .5;
             ret = ((x + .5) * FastMath.log(tmp)) - tmp +
                 HALF_LOG_2_PI + FastMath.log(sum / x);
@@ -324,5 +325,32 @@ public class Gamma {
         }
 
         return trigamma(x + 1) + 1 / (x * x);
+    }
+
+    /**
+     * <p>
+     * Returns the Lanczos approximation used to compute the gamma function.
+     * The Lanczos approximation is related to the Gamma function by the
+     * following equation
+     * <center>
+     * {@code gamma(x) = sqrt(2 * pi) / x * (x + g + 0.5) ^ (x + 0.5)
+     *                   * exp(-x - g - 0.5) * lanczos(x)},
+     * </center>
+     * where {@code g} is a constant, returned by {@link #getLanczosG()}.
+     * </p>
+     *
+     * @param x the argument
+     * @return the Lanczos approximation
+     * @see <a href="http://mathworld.wolfram.com/LanczosApproximation.html">Lanczos Approximation</a>,
+     * equations (1) through (5), and Paul Godfrey's
+     * <a href="http://my.fit.edu/~gabdo/gamma.txt">Note on the computation
+     * of the convergent Lanczos complex Gamma approximation</a>
+     */
+    public static double lanczos(final double x) {
+        double sum = 0.0;
+        for (int i = LANCZOS.length - 1; i > 0; --i) {
+            sum = sum + (LANCZOS[i] / (x + i));
+        }
+        return sum + LANCZOS[0];
     }
 }
