@@ -60,24 +60,6 @@ public class PairTest {
         // Different contents, different hash codes.
         m2.set(2);
         Assert.assertFalse(p1.hashCode() == p2.hashCode());
-
-        // Test cache.
-
-        final MyInteger m3 = new MyInteger(1);
-        final Pair<MyInteger, MyInteger> p3 = new Pair<MyInteger, MyInteger>(m3, m3, true);
-        final int hC3 = p3.hashCode();
-        // Contents change will not affect the hash code because it is cached.
-        m3.set(3);
-        Assert.assertTrue(hC3 == p3.hashCode());
-
-        final Pair<MyInteger, MyInteger> p4 = new Pair<MyInteger, MyInteger>(p3, false);
-        // p3 and p4 do not have the same hash code because p4 was contructed after m3
-        // was changed.
-        Assert.assertFalse(p4.hashCode() == p3.hashCode());
-        final int hC4 = p4.hashCode();
-        // Contents change will affect the hash code because it is not cached.
-        m3.set(4);
-        Assert.assertFalse(hC4 == p4.hashCode());
     }
 
     /**

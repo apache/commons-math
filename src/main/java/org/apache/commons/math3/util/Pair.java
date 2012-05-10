@@ -34,28 +34,6 @@ public class Pair<K, V> {
     private final K key;
     /** Value. */
     private final V value;
-    /** Whether the pair contents can be assumed to be immutable. */
-    private final boolean isImmutable;
-    /** Cached has code. */
-    private final int cachedHashCode;
-
-    /**
-     * Create an entry representing a mapping from the specified key to the
-     * specified value.
-     * If the pair can be assumed to be immutable, the hash code will be
-     * cached.
-     *
-     * @param k Key.
-     * @param v Value.
-     * @param assumeImmutable Whether the pair contents can be assumed to
-     * be immutable.
-     */
-    public Pair(K k, V v, boolean assumeImmutable) {
-        key = k;
-        value = v;
-        isImmutable = assumeImmutable;
-        cachedHashCode = computeHashCode();
-    }
 
     /**
      * Create an entry representing a mapping from the specified key to the
@@ -65,20 +43,8 @@ public class Pair<K, V> {
      * @param v Value.
      */
     public Pair(K k, V v) {
-        this(k, v, false);
-    }
-
-    /**
-     * Create an entry representing the same mapping as the specified entry.
-     * If the pair can be assumed to be immutable, the hash code will be
-     * cached.
-     *
-     * @param entry Entry to copy.
-     * @param assumeImmutable Whether the pair contents can be assumed to
-     * be immutable.
-     */
-    public Pair(Pair<? extends K, ? extends V> entry, boolean assumeImmutable) {
-        this(entry.getKey(), entry.getValue(), assumeImmutable);
+        key = k;
+        value = v;
     }
 
     /**
@@ -87,7 +53,7 @@ public class Pair<K, V> {
      * @param entry Entry to copy.
      */
     public Pair(Pair<? extends K, ? extends V> entry) {
-        this(entry, false);
+        this(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -125,11 +91,11 @@ public class Pair<K, V> {
         } else {
             Pair<?, ?> oP = (Pair<?, ?>) o;
             return (key == null ?
-                    oP.getKey() == null :
-                    key.equals(oP.getKey())) &&
+                    oP.key == null :
+                    key.equals(oP.key)) &&
                 (value == null ?
-                 oP.getValue() == null :
-                 value.equals(oP.getValue()));
+                 oP.value == null :
+                 value.equals(oP.value));
         }
     }
 
@@ -140,15 +106,6 @@ public class Pair<K, V> {
      */
     @Override
     public int hashCode() {
-        return isImmutable ? cachedHashCode : computeHashCode();
-    }
-
-    /**
-     * Compute a hash code.
-     *
-     * @return the hash code value.
-     */
-    private final int computeHashCode() {
         int result = key == null ? 0 : key.hashCode();
 
         final int h = value == null ? 0 : value.hashCode();
