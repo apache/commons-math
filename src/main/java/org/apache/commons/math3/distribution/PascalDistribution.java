@@ -130,7 +130,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
             ret = 0.0;
         } else {
             ret = Beta.regularizedBeta(probabilityOfSuccess,
-                    numberOfSuccesses, x + 1);
+                    numberOfSuccesses, x + 1.0);
         }
         return ret;
     }
