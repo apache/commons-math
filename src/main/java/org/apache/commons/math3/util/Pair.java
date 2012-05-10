@@ -18,7 +18,10 @@ package org.apache.commons.math3.util;
 
 /**
  * Generic pair.
- * Immutable class.
+ * <br/>
+ * Although the instances of this class are immutable, it is impossible
+ * to ensure that the references passed to the constructor will not be
+ * modified by the caller.
  *
  * @param <K> Key type.
  * @param <V> Value type.
@@ -31,6 +34,28 @@ public class Pair<K, V> {
     private final K key;
     /** Value. */
     private final V value;
+    /** Whether the pair contents can be assumed to be immutable. */
+    private final boolean isImmutable;
+    /** Cached has code. */
+    private final int cachedHashCode;
+
+    /**
+     * Create an entry representing a mapping from the specified key to the
+     * specified value.
+     * If the pair can be assumed to be immutable, the hash code will be
+     * cached.
+     *
+     * @param k Key.
+     * @param v Value.
+     * @param assumeImmutable Whether the pair contents can be assumed to
+     * be immutable.
+     */
+    public Pair(K k, V v, boolean assumeImmutable) {
+        key = k;
+        value = v;
+        isImmutable = assumeImmutable;
+        cachedHashCode = computeHashCode();
+    }
 
     /**
      * Create an entry representing a mapping from the specified key to the
@@ -40,8 +65,20 @@ public class Pair<K, V> {
      * @param v Value.
      */
     public Pair(K k, V v) {
-        key = k;
-        value = v;
+        this(k, v, false);
+    }
+
+    /**
+     * Create an entry representing the same mapping as the specified entry.
+     * If the pair can be assumed to be immutable, the hash code will be
+     * cached.
+     *
+     * @param entry Entry to copy.
+     * @param assumeImmutable Whether the pair contents can be assumed to
+     * be immutable.
+     */
+    public Pair(Pair<? extends K, ? extends V> entry, boolean assumeImmutable) {
+        this(entry.getKey(), entry.getValue(), assumeImmutable);
     }
 
     /**
@@ -50,8 +87,7 @@ public class Pair<K, V> {
      * @param entry Entry to copy.
      */
     public Pair(Pair<? extends K, ? extends V> entry) {
-        key = entry.getKey();
-        value = entry.getValue();
+        this(entry, false);
     }
 
     /**
@@ -104,7 +140,20 @@ public class Pair<K, V> {
      */
     @Override
     public int hashCode() {
-        return (key == null ? 0 : key.hashCode()) ^
-            (value == null ? 0 : value.hashCode());
+        return isImmutable ? cachedHashCode : computeHashCode();
+    }
+
+    /**
+     * Compute a hash code.
+     *
+     * @return the hash code value.
+     */
+    private final int computeHashCode() {
+        int result = key == null ? 0 : key.hashCode();
+
+        final int h = value == null ? 0 : value.hashCode();
+        result = 37 * result + h ^ (h >>> 16);
+
+        return result;
     }
 }

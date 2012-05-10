@@ -46,4 +46,69 @@ public class PairTest {
         Pair<Integer, Float> p3 = new Pair<Integer, Float>(new Integer(1), new Float(2));
         Assert.assertFalse(p1.equals(p3));
     }
+
+    @Test
+    public void testHashCode() {
+        final MyInteger m1 = new MyInteger(1);
+        final MyInteger m2 = new MyInteger(1);
+
+        final Pair<MyInteger, MyInteger> p1 = new Pair<MyInteger, MyInteger>(m1, m1);
+        final Pair<MyInteger, MyInteger> p2 = new Pair<MyInteger, MyInteger>(m2, m2);
+        // Same contents, same hash code.
+        Assert.assertTrue(p1.hashCode() == p2.hashCode());
+
+        // Different contents, different hash codes.
+        m2.set(2);
+        Assert.assertFalse(p1.hashCode() == p2.hashCode());
+
+        // Test cache.
+
+        final MyInteger m3 = new MyInteger(1);
+        final Pair<MyInteger, MyInteger> p3 = new Pair<MyInteger, MyInteger>(m3, m3, true);
+        final int hC3 = p3.hashCode();
+        // Contents change will not affect the hash code because it is cached.
+        m3.set(3);
+        Assert.assertTrue(hC3 == p3.hashCode());
+
+        final Pair<MyInteger, MyInteger> p4 = new Pair<MyInteger, MyInteger>(p3, false);
+        // p3 and p4 do not have the same hash code because p4 was contructed after m3
+        // was changed.
+        Assert.assertFalse(p4.hashCode() == p3.hashCode());
+        final int hC4 = p4.hashCode();
+        // Contents change will affect the hash code because it is not cached.
+        m3.set(4);
+        Assert.assertFalse(hC4 == p4.hashCode());
+    }
+
+    /**
+     * A mutable integer.
+     */
+    private static class MyInteger {
+        private int i;
+
+        public MyInteger(int i) {
+            this.i = i;
+        }
+
+        public void set(int i) {
+            this.i = i;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null) {
+                return false;
+            }
+            if (!(o instanceof MyInteger)) {
+                return false;
+            } else {
+                return i == ((MyInteger) o).i;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return i;
+        }
+    }
 }
