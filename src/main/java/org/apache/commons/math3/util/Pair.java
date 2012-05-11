@@ -83,6 +83,9 @@ public class Pair<K, V> {
      */
     @Override
     public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
         if (!(o instanceof Pair)) {
             return false;
         } else {
