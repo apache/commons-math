@@ -78,9 +78,6 @@ public class PairTest {
 
         @Override
         public boolean equals(Object o) {
-            if (o == null) {
-                return false;
-            }
             if (!(o instanceof MyInteger)) {
                 return false;
             } else {

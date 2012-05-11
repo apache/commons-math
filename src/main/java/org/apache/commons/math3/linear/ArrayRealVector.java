@@ -823,7 +823,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
             return true;
         }
 
-        if (other == null || !(other instanceof RealVector)) {
+        if (!(other instanceof RealVector)) {
             return false;
         }
 

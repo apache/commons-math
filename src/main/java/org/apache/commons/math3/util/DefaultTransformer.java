@@ -69,9 +69,6 @@ public class DefaultTransformer implements NumberTransformer, Serializable {
         if (this == other) {
             return true;
         }
-        if (other == null) {
-            return false;
-        }
         return other instanceof DefaultTransformer;
     }
 
