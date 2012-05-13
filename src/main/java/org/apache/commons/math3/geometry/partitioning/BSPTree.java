@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.util.FastMath;
@@ -273,7 +274,7 @@ public class BSPTree<S extends Space> {
                 plus.visit(visitor);
                 break;
             default:
-                throw new RuntimeException("internal error");
+                throw new MathInternalError();
             }
 
         }
