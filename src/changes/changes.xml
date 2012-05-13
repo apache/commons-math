@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="fix" issue="MATH-780" >
+        Fixed a wrong assumption on BSP tree attributes when boundary collapses to a too
+        small polygon at a non-leaf node.
+      </action>
       <action dev="luc" type="fix" issue="MATH-787" >
         Put serialization back for PointValuePair and PointVectorValuePair.
       </action>
