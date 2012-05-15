@@ -34,12 +34,59 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
+
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3239549463135430361L;
+
     /** The shape parameter. */
     private final double alpha;
+
     /** The scale parameter. */
     private final double beta;
+
+    /**
+     * The constant value of {@code alpha + g + 0.5}, where {@code alpha} is
+     * the shape parameter, and {@code g} is the Lanczos constant
+     * {@link Gamma#LANCZOS_G}.
+     */
+    private final double shiftedShape;
+
+    /**
+     * The constant value of
+     * {@code alpha / beta * sqrt(e / (2 * pi * (alpha + g + 0.5))) / L(alpha)},
+     * where {@code alpha} is the shape parameter, {@code beta} is the scale
+     * parameter, and {@code L(alpha)} is the Lanczos approximation returned by
+     * {@link Gamma#lanczos(double)}. This prefactor is used in
+     * {@link #density(double)}, when no overflow occurs with the natural
+     * calculation.
+     */
+    private final double densityPrefactor1;
+
+    /**
+     * The constant value of
+     * {@code alpha * sqrt(e / (2 * pi * (alpha + g + 0.5))) / L(alpha)},
+     * where {@code alpha} is the shape parameter, and {@code L(alpha)} is the
+     * Lanczos approximation returned by {@link Gamma#lanczos(double)}. This
+     * prefactor is used in {@link #density(double)}, when overflow occurs with
+     * the natural calculation.
+     */
+    private final double densityPrefactor2;
+
+    /**
+     * Lower bound on {@code y = x / beta} for the selection of the computation
+     * method in {@link #density(double)}. For {@code y <= minY}, the natural
+     * calculation overflows. {@code beta} is the shape parameter.
+     */
+    private final double minY;
+
+    /**
+     * Upper bound on {@code log(y)} ({@code y = x / beta}) for the selection of
+     * the computation method in {@link #density(double)}. For
+     * {@code log(y) >= maxLogY}, the natural calculation overflows.
+     * {@code beta} is the shape parameter.
+     */
+    private final double maxLogY;
+
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -77,7 +124,15 @@ public class GammaDistribution extends AbstractRealDistribution {
 
         this.alpha = alpha;
         this.beta = beta;
-        solverAbsoluteAccuracy = inverseCumAccuracy;
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+        this.shiftedShape = alpha + Gamma.LANCZOS_G + 0.5;
+        final double aux = FastMath.E / (2.0 * FastMath.PI * shiftedShape);
+        this.densityPrefactor2 = alpha * FastMath.sqrt(aux) / Gamma.lanczos(alpha);
+        this.densityPrefactor1 = this.densityPrefactor2 / beta *
+                FastMath.pow(shiftedShape, -alpha) *
+                FastMath.exp(alpha + Gamma.LANCZOS_G);
+        this.minY = alpha + Gamma.LANCZOS_G - FastMath.log(Double.MAX_VALUE);
+        this.maxLogY = FastMath.log(Double.MAX_VALUE) / (alpha - 1.0);
     }
 
     /**
@@ -111,11 +166,63 @@ public class GammaDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double density(double x) {
+       /* The present method must return the value of
+        *
+        *     1       x a     - x
+        * ---------- (-)  exp(---)
+        * x Gamma(a)  b        b
+        *
+        * where a is the shape parameter, and b the scale parameter.
+        * Substituting the Lanczos approximation of Gamma(a) leads to the
+        * following expression of the density
+        *
+        * a              e            1         y      a
+        * - sqrt(------------------) ---- (-----------)  exp(a - y + g),
+        * x      2 pi (a + g + 0.5)  L(a)  a + g + 0.5
+        *
+        * where y = x / b. The above formula is the "natural" computation, which
+        * is implemented when no overflow is likely to occur. If overflow occurs
+        * with the natural computation, the following identity is used. It is
+        * based on the BOOST library
+        * http://www.boost.org/doc/libs/1_35_0/libs/math/doc/sf_and_dist/html/math_toolkit/special/sf_gamma/igamma.html
+        * Formula (15) needs adaptations, which are detailed below.
+        *
+        *       y      a
+        * (-----------)  exp(a - y + g)
+        *  a + g + 0.5
+        *                              y - a - g - 0.5    y (g + 0.5)
+        *               = exp(a log1pm(---------------) - ----------- + g),
+        *                                a + g + 0.5      a + g + 0.5
+        *
+        *  where log1pm(z) = log(1 + z) - z. Therefore, the value to be
+        *  returned is
+        *
+        * a              e            1
+        * - sqrt(------------------) ----
+        * x      2 pi (a + g + 0.5)  L(a)
+        *                              y - a - g - 0.5    y (g + 0.5)
+        *               * exp(a log1pm(---------------) - ----------- + g).
+        *                                a + g + 0.5      a + g + 0.5
+        */
         if (x < 0) {
             return 0;
         }
-        return FastMath.pow(x / beta, alpha - 1) / beta *
-               FastMath.exp(-x / beta) / FastMath.exp(Gamma.logGamma(alpha));
+        final double y = x / beta;
+        if ((y <= minY) || (FastMath.log(y) >= maxLogY)) {
+            /*
+             * Overflow.
+             */
+            final double aux1 = (y - shiftedShape) / shiftedShape;
+            final double aux2 = alpha * (FastMath.log1p(aux1) - aux1);
+            final double aux3 = -y * (Gamma.LANCZOS_G + 0.5) / shiftedShape +
+                    Gamma.LANCZOS_G + aux2;
+            return densityPrefactor2 / x * FastMath.exp(aux3);
+        }
+        /*
+         * Natural calculation.
+         */
+        return densityPrefactor1  * FastMath.exp(-y) *
+                FastMath.pow(y, alpha - 1);
     }
 
     /**
