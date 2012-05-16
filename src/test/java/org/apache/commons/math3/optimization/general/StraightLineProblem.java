@@ -135,7 +135,7 @@ class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
 
         for (int i = 0; i < points.size(); i++) {
             final double[] p = points.get(i);
-            // Partial derivative wrt "a". 
+            // Partial derivative wrt "a".
             jacobian[i][0] = p[0];
             // Partial derivative wrt "b".
             jacobian[i][1] = 1;
@@ -157,7 +157,6 @@ class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
             this.b = b;
         }
 
-        @Override
         public double value(double x) {
             return a * x + b;
         }
