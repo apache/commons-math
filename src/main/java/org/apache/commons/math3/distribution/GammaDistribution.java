@@ -36,7 +36,7 @@ public class GammaDistribution extends AbstractRealDistribution {
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 20120522L;
+    private static final long serialVersionUID = 20120524L;
 
     /** The shape parameter. */
     private final double shape;
@@ -104,7 +104,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @param shape the shape parameter
      * @param scale the scale parameter
-     * @param inverseCumAccuracy the aximum absolute error in inverse
+     * @param inverseCumAccuracy the maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @throws NotStrictlyPositiveException if {@code shape <= 0} or
@@ -114,10 +114,10 @@ public class GammaDistribution extends AbstractRealDistribution {
     public GammaDistribution(double shape, double scale, double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
         if (shape <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.ALPHA, shape);
+            throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }
         if (scale <= 0) {
-            throw new NotStrictlyPositiveException(LocalizedFormats.BETA, scale);
+            throw new NotStrictlyPositiveException(LocalizedFormats.SCALE, scale);
         }
 
         this.shape = shape;
@@ -137,8 +137,19 @@ public class GammaDistribution extends AbstractRealDistribution {
      * Returns the shape parameter of {@code this} distribution.
      *
      * @return the shape parameter
+     * @deprecated as of version 3.1, {@link #getShape()} should be preferred.
+     * This method will be removed in version 4.0.
      */
     public double getAlpha() {
+        return shape;
+    }
+
+    /**
+     * Returns the shape parameter of {@code this} distribution.
+     *
+     * @return the shape parameter
+     */
+    public double getShape() {
         return shape;
     }
 
@@ -146,8 +157,19 @@ public class GammaDistribution extends AbstractRealDistribution {
      * Returns the scale parameter of {@code this} distribution.
      *
      * @return the scale parameter
+     * @deprecated as of version 3.1, {@link #getScale()} should be preferred.
+     * This method will be removed in version 4.0.
      */
     public double getBeta() {
+        return scale;
+    }
+
+    /**
+     * Returns the scale parameter of {@code this} distribution.
+     *
+     * @return the scale parameter
+     */
+    public double getScale() {
         return scale;
     }
 
@@ -262,7 +284,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * mean is {@code alpha * beta}.
      */
     public double getNumericalMean() {
-        return getAlpha() * getBeta();
+        return shape * scale;
     }
 
     /**
@@ -274,8 +296,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @return {@inheritDoc}
      */
     public double getNumericalVariance() {
-        final double b = getBeta();
-        return getAlpha() * b * b;
+        return shape * scale * scale;
     }
 
     /**
