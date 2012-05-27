@@ -108,6 +108,11 @@
       <email>erans at apache dot org</email>
     </developer>
     <developer>
+      <name>Phil Steitz</name>
+      <id>psteitz</id>
+      <email>psteitz at apache dot org</email>
+    </developer>
+    <developer>
       <name>Greg Sterijevski</name>
       <id>gregs</id>
       <email>gregs at apache dot org</email>
