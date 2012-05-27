@@ -506,8 +506,7 @@ public class RandomDataTest {
 
     /** test dispersion and failure modes for nextHex() */
     @Test
-    @Retry(3)
-    public void testNextHex() {
+    public void testNextHex() throws Exception {
         try {
             randomData.nextHexString(-1);
             Assert.fail("negative length supplied -- MathIllegalArgumentException expected");
@@ -534,9 +533,6 @@ public class RandomDataTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        if (hexString.length() != 1) {
-            Assert.fail("incorrect length for generated string");
-        }
         Frequency f = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             hexString = randomData.nextHexString(100);
@@ -553,17 +549,12 @@ public class RandomDataTest {
             expected[i] = (double) smallSampleSize * 100 / 16;
             observed[i] = f.getCount(hex[i]);
         }
-        /*
-         * Use ChiSquare dist with df = 16-1 = 15, alpha = .001 Change to 30.58
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 37.70);
+        TestUtils.assertChiSquareAccept(expected, observed, 0.001);
     }
 
     /** test dispersion and failure modes for nextHex() */
     @Test
-    public void testNextSecureHex() {
+    public void testNextSecureHex() throws Exception {
         try {
             randomData.nextSecureHexString(-1);
             Assert.fail("negative length -- MathIllegalArgumentException expected");
@@ -590,9 +581,6 @@ public class RandomDataTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        if (hexString.length() != 1) {
-            Assert.fail("incorrect length for generated string");
-        }
         Frequency f = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             hexString = randomData.nextSecureHexString(100);
@@ -609,12 +597,7 @@ public class RandomDataTest {
             expected[i] = (double) smallSampleSize * 100 / 16;
             observed[i] = f.getCount(hex[i]);
         }
-        /*
-         * Use ChiSquare dist with df = 16-1 = 15, alpha = .001 Change to 30.58
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 37.70);
+        TestUtils.assertChiSquareAccept(expected, observed, 0.001);
     }
 
     @Test
