@@ -881,26 +881,4 @@ public class ArrayRealVector extends RealVector implements Serializable {
         }
         return this;
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor) {
-        visitor.start(data.length, 0, data.length - 1);
-        for (int i = 0; i < data.length; i++) {
-            visitor.visit(i, data[i]);
-        }
-        return visitor.end();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
-                                     final int start, final int end) {
-        checkIndices(start, end);
-        visitor.start(data.length, start, end);
-        for (int i = start; i <= end; i++) {
-            visitor.visit(i, data[i]);
-        }
-        return visitor.end();
-    }
 }
