@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.commons.math3.Retry;
+import org.apache.commons.math3.RetryRunner;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.distribution.BetaDistribution;
 import org.apache.commons.math3.distribution.BinomialDistribution;
@@ -46,6 +48,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Test cases for the RandomData class.
@@ -53,7 +56,7 @@ import org.junit.Test;
  * @version $Id$
  *          2009) $
  */
-
+@RunWith(RetryRunner.class)
 public class RandomDataTest {
 
     public RandomDataTest() {
