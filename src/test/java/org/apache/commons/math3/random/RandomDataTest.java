@@ -216,7 +216,9 @@ public class RandomDataTest {
             // ignored
         }
     }
+    
     @Test
+    @Retry(3)
     public void testNextSecureLongNegativeToPositiveRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(-3, 5);
@@ -224,7 +226,8 @@ public class RandomDataTest {
         }
     }
     
-    @Test 
+    @Test
+    @Retry(3)
     public void testNextSecureLongNegativeRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(-7, -4);
@@ -232,7 +235,8 @@ public class RandomDataTest {
         }
     }
     
-    @Test 
+    @Test
+    @Retry(3)
     public void testNextSecureLongPositiveRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(0, 3);
@@ -271,6 +275,7 @@ public class RandomDataTest {
     }
     
     @Test
+    @Retry(3)
     public void testNextSecureIntNegativeToPositiveRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(-3, 5);
@@ -278,7 +283,8 @@ public class RandomDataTest {
         }
     }
     
-    @Test 
+    @Test
+    @Retry(3)
     public void testNextSecureIntNegativeRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(-7, -4);
@@ -287,6 +293,7 @@ public class RandomDataTest {
     }
     
     @Test 
+    @Retry(3)
     public void testNextSecureIntPositiveRange() throws Exception {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(0, 3);
@@ -552,6 +559,7 @@ public class RandomDataTest {
 
     /** test dispersion and failure modes for nextHex() */
     @Test
+    @Retry(3)
     public void testNextSecureHex() throws Exception {
         try {
             randomData.nextSecureHexString(-1);
@@ -913,7 +921,7 @@ public class RandomDataTest {
 
     /** tests for nextPermutation */
     @Test
-    public void testNextPermutation() {
+    public void testNextPermutation() throws Exception {
         int[][] p = { { 0, 1, 2 }, { 0, 2, 1 }, { 1, 0, 2 }, { 1, 2, 0 },
                 { 2, 0, 1 }, { 2, 1, 0 } };
         long[] observed = { 0, 0, 0, 0, 0, 0 };
@@ -923,13 +931,10 @@ public class RandomDataTest {
             int[] perm = randomData.nextPermutation(3, 3);
             observed[findPerm(p, perm)]++;
         }
-
-        /*
-         * Use ChiSquare dist with df = 6-1 = 5, alpha = .001 Change to 15.09
-         * for alpha = .01
-         */
-        Assert.assertTrue("chi-square test -- will fail about 1 in 1000 times",
-                testStatistic.chiSquare(expected, observed) < 20.52);
+        
+        String[] labels = {"{0, 1, 2}", "{ 0, 2, 1 }", "{ 1, 0, 2 }",
+        		"{ 1, 2, 0 }", "{ 2, 0, 1 }", "{ 2, 1, 0 }"};
+        TestUtils.assertChiSquareAccept(labels, expected, observed, 0.001);
 
         // Check size = 1 boundary case
         int[] perm = randomData.nextPermutation(1, 1);
