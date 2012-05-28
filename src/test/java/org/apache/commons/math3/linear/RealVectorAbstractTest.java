@@ -226,6 +226,6 @@ public abstract class RealVectorAbstractTest {
                 return 0;
             }
         };
-        v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
+        v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
     }
 }
