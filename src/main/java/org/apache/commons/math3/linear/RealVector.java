@@ -835,7 +835,7 @@ public abstract class RealVector {
 
 
     /**
-     * Visits (but does not change) all entries of this vector in default order
+     * Visits (but does not alter) all entries of this vector in default order
      * (increasing index).
      *
      * @param visitor the visitor to be used to process the entries of this
@@ -853,7 +853,7 @@ public abstract class RealVector {
     }
 
     /**
-     * Visits (and possibly change) some entries of this vector in default order
+     * Visits (but does not alter) some entries of this vector in default order
      * (increasing index).
      *
      * @param visitor visitor to be used to process the entries of this vector
@@ -865,7 +865,7 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
-                              int start, int end) {
+                                     int start, int end) {
         checkIndices(start, end);
         visitor.start(getDimension(), start, end);
         for (int i = start; i <= end; i++) {
@@ -875,7 +875,7 @@ public abstract class RealVector {
     }
 
     /**
-     * Visits (but does not change) all entries of this vector in optimized
+     * Visits (but does not alter) all entries of this vector in optimized
      * order. The order in which the entries are visited is selected so as to
      * lead to the most efficient implementation; it might depend on the
      * concrete implementation of this abstract class.
@@ -890,10 +890,10 @@ public abstract class RealVector {
     }
 
     /**
-     * Visits (and possibly change) some entries of this vector in default order
-     * (increasing index). The order in which the entries are visited is
-     * selected so as to lead to the most efficient implementation; it might
-     * depend on the concrete implementation of this abstract class.
+     * Visits (but does not alter) some entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
      *
      * @param visitor visitor to be used to process the entries of this vector
      * @param start the index of the first entry to be visited
@@ -904,6 +904,80 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
+                                       int start, int end) {
+        return walkInDefaultOrder(visitor, start, end);
+    }
+
+    /**
+     * Visits (and possibly alters) all entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor the visitor to be used to process and modify the entries
+     * of this vector
+     * @return the value returned by {@link RealVectorChangingVisitor#end()}
+     * at the end of the walk
+     */
+    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor) {
+        final int dim = getDimension();
+        visitor.start(dim, 0, dim - 1);
+        for (int i = 0; i < dim; i++) {
+            setEntry(i, visitor.visit(i, getEntry(i)));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (and possibly alters) some entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link RealVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @throws org.apache.commons.math3.exception.OutOfRangeException if
+     * the indices are not valid.
+     */
+    public double walkInDefaultOrder(final RealVectorChangingVisitor visitor,
+                              int start, int end) {
+        checkIndices(start, end);
+        visitor.start(getDimension(), start, end);
+        for (int i = start; i <= end; i++) {
+            setEntry(i, visitor.visit(i, getEntry(i)));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (and possibly alters) all entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link RealVectorChangingVisitor#end()}
+     * at the end of the walk
+     */
+    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor) {
+        return walkInDefaultOrder(visitor);
+    }
+
+    /**
+     * Visits (and possibly change) some entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link RealVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @throws org.apache.commons.math3.exception.OutOfRangeException if
+     * the indices are not valid.
+     */
+    public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor,
                                        int start, int end) {
         return walkInDefaultOrder(visitor, start, end);
     }
