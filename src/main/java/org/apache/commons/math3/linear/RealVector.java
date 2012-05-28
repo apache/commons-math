@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.analysis.FunctionUtils;
@@ -187,6 +188,37 @@ public abstract class RealVector {
             index >= getDimension()) {
             throw new OutOfRangeException(LocalizedFormats.INDEX,
                                           index, 0, getDimension() - 1);
+        }
+    }
+
+    /**
+     * Checks that the indices of a subvector are valid.
+     *
+     * @param start the index of the first entry of the subvector
+     * @param end the index of the last entry of the subvector (inclusive)
+     * @throws OutOfRangeException if {@code start} of {@code end} are not valid
+     * @throws NumberIsTooSmallException if {@code end < start}
+     */
+    protected void checkIndices(final int start, final int end) {
+        final int dim = getDimension();
+        if ((start < 0) || (start >= dim)) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX,
+                                          Integer.valueOf(start),
+                                          Integer.valueOf(0),
+                                          Integer.valueOf(dim - 1));
+        }
+        if ((end < 0) || (end >= dim)) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX,
+                                          Integer.valueOf(end),
+                                          Integer.valueOf(0),
+                                          Integer.valueOf(dim - 1));
+        }
+        if (end < start){
+            // TODO Use more specific error message
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW,
+                                                Integer.valueOf(end),
+                                                Integer.valueOf(start),
+                                                false);
         }
     }
 
@@ -807,9 +839,82 @@ public abstract class RealVector {
         return this;
     }
 
+
     /**
-     *  An entry in the vector.
+     * Visits (but does not change) all entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link RealVectorPreservingVisitor#end()}
+     * at the end of the walk
      */
+    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor) {
+        final int dim = getDimension();
+        visitor.start(dim, 0, dim - 1);
+        for (int i = 0; i < dim; i++) {
+            visitor.visit(i, getEntry(i));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (and possibly change) some entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link RealVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @throws org.apache.commons.math3.exception.OutOfRangeException if
+     * the indices are not valid.
+     */
+    public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
+                              int start, int end) {
+        checkIndices(start, end);
+        visitor.start(getDimension(), start, end);
+        for (int i = start; i <= end; i++) {
+            visitor.visit(i, getEntry(i));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (but does not change) all entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link RealVectorPreservingVisitor#end()}
+     * at the end of the walk
+     */
+    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor) {
+        return walkInDefaultOrder(visitor);
+    }
+
+    /**
+     * Visits (and possibly change) some entries of this vector in default order
+     * (increasing index). The order in which the entries are visited is
+     * selected so as to lead to the most efficient implementation; it might
+     * depend on the concrete implementation of this abstract class.
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link RealVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @throws org.apache.commons.math3.exception.OutOfRangeException if
+     * the indices are not valid.
+     */
+    public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
+                                       int start, int end) {
+        return walkInDefaultOrder(visitor, start, end);
+    }
+
+    /** An entry in the vector. */
     protected class Entry {
         /** Index of this entry. */
         private int index;

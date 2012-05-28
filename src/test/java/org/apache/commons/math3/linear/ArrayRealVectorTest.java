@@ -59,7 +59,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class ArrayRealVectorTest {
+public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
     //
     protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
@@ -1429,5 +1429,10 @@ public class ArrayRealVectorTest {
         for (int i = 0; i < m.length; i++) {
             Assert.assertEquals(msg + " " +  i + " elements differ", m[i],n[i],tolerance);
         }
+    }
+
+    @Override
+    public RealVector create(final double[] data) {
+        return new ArrayRealVector(data, true);
     }
 }

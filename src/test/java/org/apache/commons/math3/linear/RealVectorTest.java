@@ -28,7 +28,7 @@ import java.util.Random;
 /**
  * Tests for {@link RealVector}.
  */
-public class RealVectorTest {
+public class RealVectorTest extends RealVectorAbstractTest{
     private double[] vec1 = { 1d, 2d, 3d, 4d, 5d };
     private double[] vec2 = { -3d, 0d, 0d, 2d, 1d };
 
@@ -329,5 +329,10 @@ public class RealVectorTest {
         for (int i = 0; i < x.getDimension(); i++) {
             Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
         }
+    }
+
+    @Override
+    public RealVector create(final double[] data) {
+        return new OpenMapRealVector(data);
     }
 }

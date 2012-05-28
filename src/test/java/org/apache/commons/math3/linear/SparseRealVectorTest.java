@@ -57,7 +57,7 @@ import org.apache.commons.math3.analysis.function.Power;
  *
  * @version $Id$
  */
-public class SparseRealVectorTest {
+public class SparseRealVectorTest extends RealVectorAbstractTest {
 
     //
     protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
@@ -954,5 +954,10 @@ public class SparseRealVectorTest {
 
         u.ebeMultiply(v1);
         u.ebeDivide(v1);
+    }
+
+    @Override
+    public RealVector create(double[] data) {
+        return new OpenMapRealVector(data);
     }
 }

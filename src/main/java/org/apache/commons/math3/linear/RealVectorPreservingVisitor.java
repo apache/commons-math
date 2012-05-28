@@ -47,9 +47,12 @@ public interface RealVectorPreservingVisitor {
      * End visiting a vector. This method is called once, after all entries of
      * the vector have been visited.
      *
-     * @return the value that the {@code walkInXxxOrder} must return
+     * @return the value returned by
+     * {@link RealVector#walkInDefaultOrder(RealVectorPreservingVisitor)},
+     * {@link RealVector#walkInDefaultOrder(RealVectorPreservingVisitor, int, int)},
+     * {@link RealVector#walkInOptimizedOrder(RealVectorPreservingVisitor)}
+     * or
+     * {@link RealVector#walkInOptimizedOrder(RealVectorPreservingVisitor, int, int)
      */
-    // TODO Check above javadoc comment (add proper link to methods in
-    // RealVector class)
     double end();
 }
