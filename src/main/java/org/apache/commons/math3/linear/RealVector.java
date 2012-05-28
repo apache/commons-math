@@ -202,23 +202,17 @@ public abstract class RealVector {
     protected void checkIndices(final int start, final int end) {
         final int dim = getDimension();
         if ((start < 0) || (start >= dim)) {
-            throw new OutOfRangeException(LocalizedFormats.INDEX,
-                                          Integer.valueOf(start),
-                                          Integer.valueOf(0),
-                                          Integer.valueOf(dim - 1));
+            throw new OutOfRangeException(LocalizedFormats.INDEX, start, 0,
+                                          dim - 1);
         }
         if ((end < 0) || (end >= dim)) {
-            throw new OutOfRangeException(LocalizedFormats.INDEX,
-                                          Integer.valueOf(end),
-                                          Integer.valueOf(0),
-                                          Integer.valueOf(dim - 1));
+            throw new OutOfRangeException(LocalizedFormats.INDEX, end, 0,
+                                          dim - 1);
         }
-        if (end < start){
+        if (end < start) {
             // TODO Use more specific error message
             throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW,
-                                                Integer.valueOf(end),
-                                                Integer.valueOf(start),
-                                                false);
+                                                end, start, false);
         }
     }
 
