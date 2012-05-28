@@ -52,7 +52,7 @@ public interface RealVectorPreservingVisitor {
      * {@link RealVector#walkInDefaultOrder(RealVectorPreservingVisitor, int, int)},
      * {@link RealVector#walkInOptimizedOrder(RealVectorPreservingVisitor)}
      * or
-     * {@link RealVector#walkInOptimizedOrder(RealVectorPreservingVisitor, int, int)
+     * {@link RealVector#walkInOptimizedOrder(RealVectorPreservingVisitor, int, int)}
      */
     double end();
 }
