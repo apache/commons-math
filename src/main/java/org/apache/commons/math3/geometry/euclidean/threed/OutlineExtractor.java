@@ -246,8 +246,8 @@ public class OutlineExtractor {
             }
         }
 
-        /** Get the projecion of the polyhedrons set on the plane.
-         * @return projecion of the polyhedrons set on the plane
+        /** Get the projection of the polyhedrons set on the plane.
+         * @return projection of the polyhedrons set on the plane
          */
         public PolygonsSet getProjected() {
             return projected;
