@@ -865,7 +865,7 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
-                                     int start, int end) {
+                                     final int start, final int end) {
         checkIndices(start, end);
         visitor.start(getDimension(), start, end);
         for (int i = start; i <= end; i++) {
@@ -904,7 +904,7 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
-                                       int start, int end) {
+                                       final int start, final int end) {
         return walkInDefaultOrder(visitor, start, end);
     }
 
@@ -939,7 +939,7 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInDefaultOrder(final RealVectorChangingVisitor visitor,
-                              int start, int end) {
+                              final int start, final int end) {
         checkIndices(start, end);
         visitor.start(getDimension(), start, end);
         for (int i = start; i <= end; i++) {
@@ -978,7 +978,7 @@ public abstract class RealVector {
      * the indices are not valid.
      */
     public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor,
-                                       int start, int end) {
+                                       final int start, final int end) {
         return walkInDefaultOrder(visitor, start, end);
     }
 
