@@ -301,12 +301,12 @@ public class OrderedTuple implements Comparable<OrderedTuple> {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(components)   ^
-               ((Integer) offset).hashCode() ^
-               ((Integer) lsb).hashCode()    ^
-               ((Boolean) posInf).hashCode() ^
-               ((Boolean) negInf).hashCode() ^
-               ((Boolean) nan).hashCode();
+        return Arrays.hashCode(components)        ^
+               Integer.valueOf(offset).hashCode() ^
+               Integer.valueOf(lsb).hashCode()    ^
+               Boolean.valueOf(posInf).hashCode() ^
+               Boolean.valueOf(negInf).hashCode() ^
+               Boolean.valueOf(nan).hashCode();
     }
 
     /** Get the components array.
