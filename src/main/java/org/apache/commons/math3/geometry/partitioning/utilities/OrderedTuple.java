@@ -301,10 +301,23 @@ public class OrderedTuple implements Comparable<OrderedTuple> {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(components) * offset * (lsb << 7) +
-               ((posInf ?  43422 : 875342) *
-                (negInf ? 86535631 : 632442767) *
-                (nan ? 51108941 : 64234));
+        // the following constants are arbitrary small primes
+        final int multiplier = 37;
+        final int trueHash   = 97;
+        final int falseHash  = 71;
+
+        // hash fields and combine them
+        // (we rely on the multiplier to have different combined weights
+        //  for all int fields and all boolean fields)
+        int hash = Arrays.hashCode(components);
+        hash = hash * multiplier + offset;
+        hash = hash * multiplier + lsb;
+        hash = hash * multiplier + (posInf ? trueHash : falseHash);
+        hash = hash * multiplier + (negInf ? trueHash : falseHash);
+        hash = hash * multiplier + (nan    ? trueHash : falseHash);
+
+        return hash;
+
     }
 
     /** Get the components array.
