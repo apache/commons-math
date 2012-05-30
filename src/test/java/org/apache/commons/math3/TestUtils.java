@@ -30,6 +30,7 @@ import org.apache.commons.math3.complex.ComplexFormat;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.linear.FieldMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -239,6 +240,28 @@ public class TestUtils {
        assertContains(null, values, x, epsilon);
     }
 
+    /**
+     * Asserts that all entries of the specified vectors are equal to within a
+     * positive {@code delta}.
+     *
+     * @param message the identifying message for the assertion error (can be
+     * {@code null})
+     * @param expected expected value
+     * @param actual actual value
+     * @param delta the maximum difference between the entries of the expected
+     * and actual vectors for which both entries are still considered equal
+     */
+    public static void assertEquals(final String message,
+        final RealVector expected, final RealVector actual, final double delta) {
+        Assert.assertEquals(message + ", dimension", expected.getDimension(),
+            actual.getDimension());
+        final int dim = expected.getDimension();
+        for (int i = 0; i < dim; i++) {
+            Assert.assertEquals(message + ", entry #" + i,
+                expected.getEntry(i), actual.getEntry(i), delta);
+        }
+    }
+
     /** verifies that two matrices are close (1-norm) */
     public static void assertEquals(String msg, RealMatrix expected, RealMatrix observed, double tolerance) {
 
@@ -345,11 +368,11 @@ public class TestUtils {
         }
         return sumsq;
     }
-    
+
     /**
      * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
      * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
-     * 
+     *
      * @param valueLabels labels for the values of the discrete distribution under test
      * @param expected expected counts
      * @param observed observed counts
@@ -381,13 +404,13 @@ public class TestUtils {
             msgBuffer.append(alpha);
             msgBuffer.append(".");
             Assert.fail(msgBuffer.toString());
-        }   
+        }
     }
-    
+
     /**
      * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
      * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
-     * 
+     *
      * @param values integer values whose observed and expected counts are being compared
      * @param expected expected counts
      * @param observed observed counts
@@ -400,11 +423,11 @@ public class TestUtils {
         }
         assertChiSquareAccept(labels, expected, observed, alpha);
     }
-    
+
     /**
      * Asserts the null hypothesis for a ChiSquare test.  Fails and dumps arguments and test
      * statistics if the null hypothesis can be rejected with confidence 100 * (1 - alpha)%
-     * 
+     *
      * @param expected expected counts
      * @param observed observed counts
      * @param alpha significance level of the test
@@ -416,7 +439,7 @@ public class TestUtils {
         }
         assertChiSquareAccept(labels, expected, observed, alpha);
     }
-    
+
     /**
      * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
      * these values in an array.
@@ -428,7 +451,7 @@ public class TestUtils {
         quantiles[2] = distribution.inverseCumulativeProbability(0.75d);
         return quantiles;
     }
-    
+
     /**
      * Updates observed counts of values in quartiles.
      * counts[0] <-> 1st quartile ... counts[3] <-> top quartile
@@ -442,9 +465,9 @@ public class TestUtils {
             counts[2]++;
         } else {
             counts[1]++;
-        }  
+        }
     }
-    
+
     /**
      * Eliminates points with zero mass from densityPoints and densityValues parallel
      * arrays.  Returns the number of positive mass points and collapses the arrays so
@@ -473,5 +496,5 @@ public class TestUtils {
             System.arraycopy(newValues,0,densityValues,0,positiveMassCount);
         }
         return positiveMassCount;
-    } 
+    }
 }
