@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-644" due-to="marzieh">
+        Fix computation of upperCumulativeProbability in HypergeometricDistribution and
+        cleanup of duplicate probability mass function.
+      </action>
       <action dev="celestin" type="fix" issue="MATH-791">
         In GammaDistribution, deprecated getAlpha() and getBeta(). Replaced with
         getShape() and getScale(), respectively.
