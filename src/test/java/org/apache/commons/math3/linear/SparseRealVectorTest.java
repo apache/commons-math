@@ -26,7 +26,6 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.analysis.function.Abs;
 import org.apache.commons.math3.analysis.function.Acos;
 import org.apache.commons.math3.analysis.function.Asin;
@@ -58,17 +57,6 @@ import org.apache.commons.math3.analysis.function.Power;
  * @version $Id$
  */
 public class SparseRealVectorTest extends RealVectorAbstractTest {
-
-    //
-    protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
-    protected double[] vec1 = {1d, 2d, 3d};
-    protected double[] vec2 = {4d, 5d, 6d};
-    protected double[] vec3 = {7d, 8d, 9d};
-    protected double[] vec4 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[] vec5 = { -4d, 0d, 3d, 1d, -6d, 3d};
-    protected double[] vec_null = {0d, 0d, 0d};
-    protected Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[][] mat1 = {{1d, 2d, 3d}, {4d, 5d, 6d},{ 7d, 8d, 9d}};
 
     // tolerances
     protected double entryTolerance = 10E-16;
@@ -336,82 +324,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         OpenMapRealVector v8 = new OpenMapRealVector(v1);
         Assert.assertEquals("testData len", 7, v8.getDimension());
         Assert.assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6), 0);
-
-    }
-
-    @Test
-    public void testDataInOut() {
-
-        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
-        OpenMapRealVector v2 = new OpenMapRealVector(vec2);
-        OpenMapRealVector v4 = new OpenMapRealVector(vec4);
-        SparseRealVectorTestImpl v2_t = new SparseRealVectorTestImpl(vec2);
-
-        RealVector v_append_1 = v1.append(v2);
-        Assert.assertEquals("testData len", 6, v_append_1.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_1.getEntry(3), 0);
-
-        RealVector v_append_2 = v1.append(2.0);
-        Assert.assertEquals("testData len", 4, v_append_2.getDimension());
-        Assert.assertEquals("testData is 2.0 ", 2.0, v_append_2.getEntry(3), 0);
-
-        RealVector v_append_4 = v1.append(v2_t);
-        Assert.assertEquals("testData len", 6, v_append_4.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3), 0);
-
-        RealVector vout5 = v4.getSubVector(3, 3);
-        Assert.assertEquals("testData len", 3, vout5.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1), 0);
-        try {
-            v4.getSubVector(3, 7);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        OpenMapRealVector v_set1 = v1.copy();
-        v_set1.setEntry(1, 11.0);
-        Assert.assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1), 0);
-        try {
-            v_set1.setEntry(3, 11.0);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        OpenMapRealVector v_set2 = v4.copy();
-        v_set2.setSubVector(3, v1);
-        Assert.assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6), 0);
-        try {
-            v_set2.setSubVector(7, v1);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        OpenMapRealVector v_set3 = v1.copy();
-        v_set3.set(13.0);
-        Assert.assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2), 0);
-
-        try {
-            v_set3.getEntry(23);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        OpenMapRealVector v_set4 = v4.copy();
-        v_set4.setSubVector(3, v2_t);
-        Assert.assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6), 0);
-        try {
-            v_set4.setSubVector(7, v2_t);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
 
     }
 
@@ -959,5 +871,10 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
     @Override
     public RealVector create(double[] data) {
         return new OpenMapRealVector(data);
+    }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new SparseRealVectorTestImpl(data);
     }
 }

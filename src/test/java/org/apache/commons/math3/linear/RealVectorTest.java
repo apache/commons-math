@@ -335,4 +335,9 @@ public class RealVectorTest extends RealVectorAbstractTest{
     public RealVector create(final double[] data) {
         return new OpenMapRealVector(data);
     }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new TestVectorImpl(data);
+    }
 }

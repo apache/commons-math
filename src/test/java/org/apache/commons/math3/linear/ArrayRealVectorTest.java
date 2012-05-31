@@ -49,7 +49,6 @@ import org.apache.commons.math3.analysis.function.Ulp;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -60,18 +59,6 @@ import org.junit.Test;
  * @version $Id$
  */
 public class ArrayRealVectorTest extends RealVectorAbstractTest {
-
-    //
-    protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
-    protected double[] vec1 = {1d, 2d, 3d};
-    protected double[] vec2 = {4d, 5d, 6d};
-    protected double[] vec3 = {7d, 8d, 9d};
-    protected double[] vec4 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[] vec5 = { -4d, 0d, 3d, 1d, -6d, 3d};
-    protected double[] vec_null = {0d, 0d, 0d};
-    protected Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[][] mat1 = {{1d, 2d, 3d}, {4d, 5d, 6d},{ 7d, 8d, 9d}};
-
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
@@ -508,29 +495,12 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
     }
 
+    @Override
     @Test
     public void testDataInOut() {
+        super.testDataInOut();
 
         ArrayRealVector v1 = new ArrayRealVector(vec1);
-        ArrayRealVector v2 = new ArrayRealVector(vec2);
-        ArrayRealVector v4 = new ArrayRealVector(vec4);
-        RealVectorTestImpl v2_t = new RealVectorTestImpl(vec2);
-
-        RealVector v_append_1 = v1.append(v2);
-        Assert.assertEquals("testData len", 6, v_append_1.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_1.getEntry(3), 0);
-
-        RealVector v_append_2 = v1.append(2.0);
-        Assert.assertEquals("testData len", 4, v_append_2.getDimension());
-        Assert.assertEquals("testData is 2.0 ", 2.0, v_append_2.getEntry(3), 0);
-
-        RealVector v_append_4 = v1.append(v2_t);
-        Assert.assertEquals("testData len", 6, v_append_4.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3), 0);
-
-        RealVector v_append_5 = v1.append((RealVector) v2);
-        Assert.assertEquals("testData len", 6, v_append_5.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_5.getEntry(3), 0);
 
         RealVector v_copy = v1.copy();
         Assert.assertEquals("testData len", 3, v_copy.getDimension());
@@ -539,62 +509,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         double[] a_double = v1.toArray();
         Assert.assertEquals("testData len", 3, a_double.length);
         Assert.assertNotSame("testData not same object ", v1.getDataRef(), a_double);
-
-
-//      ArrayRealVector vout4 = (ArrayRealVector) v1.clone();
-//      Assert.assertEquals("testData len", 3, vout4.getDimension());
-//      Assert.assertEquals("testData not same object ", v1.getDataRef(), vout4.getDataRef());
-
-
-        RealVector vout5 = v4.getSubVector(3, 3);
-        Assert.assertEquals("testData len", 3, vout5.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1), 0);
-        try {
-            v4.getSubVector(3, 7);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        ArrayRealVector v_set1 = v1.copy();
-        v_set1.setEntry(1, 11.0);
-        Assert.assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1), 0);
-        try {
-            v_set1.setEntry(3, 11.0);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        ArrayRealVector v_set3 = v1.copy();
-        v_set3.set(13.0);
-        Assert.assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2), 0);
-
-        try {
-            v_set3.getEntry(23);
-            Assert.fail("ArrayIndexOutOfBoundsException expected");
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            // expected behavior
-        }
-
-        ArrayRealVector v_set4 = v4.copy();
-        v_set4.setSubVector(3, v2_t);
-        Assert.assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6), 0);
-        try {
-            v_set4.setSubVector(7, v2_t);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-
-        ArrayRealVector vout10 = v1.copy();
-        ArrayRealVector vout10_2 = v1.copy();
-        Assert.assertEquals(vout10, vout10_2);
-        vout10_2.setEntry(0, 1.1);
-        Assert.assertNotSame(vout10, vout10_2);
-
     }
 
     @Test
@@ -1434,5 +1348,10 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     @Override
     public RealVector create(final double[] data) {
         return new ArrayRealVector(data, true);
+    }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new RealVectorTestImpl(data);
     }
 }
