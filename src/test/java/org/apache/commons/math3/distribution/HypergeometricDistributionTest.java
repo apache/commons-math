@@ -21,6 +21,7 @@ import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -265,5 +266,22 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
         dist = new HypergeometricDistribution(3000, 55, 200);
         Assert.assertEquals(dist.getNumericalMean(), 55d * 200d / 3000d, tol);
         Assert.assertEquals(dist.getNumericalVariance(), ( 200d * 55d * (3000d - 200d) * (3000d - 55d) ) / ( (3000d * 3000d * 2999d) ), tol);
+    }
+    
+    @Test
+    public void testMath644() {
+        int N = 14761461;  // population
+        int m = 1035;      // successes in population
+        int n = 1841;      // number of trials
+
+        int k = 0;
+        final HypergeometricDistribution dist = new HypergeometricDistribution(N, m, n);
+        
+        Assert.assertTrue(Precision.compareTo(1.0, dist.upperCumulativeProbability(k), 1) == 0);
+        Assert.assertTrue(Precision.compareTo(dist.cumulativeProbability(k), 0.0, 1) > 0);
+        
+        // another way to calculate the upper cumulative probability
+        double upper = 1.0 - dist.cumulativeProbability(k) + dist.probability(k);
+        Assert.assertTrue(Precision.compareTo(1.0, upper, 1) == 0);
     }
 }
