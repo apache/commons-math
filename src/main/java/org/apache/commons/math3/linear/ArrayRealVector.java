@@ -25,6 +25,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.FastMath;
@@ -620,7 +621,12 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public double getEntry(int index) {
-        return data[index];
+        try {
+            return data[index];
+        } catch (IndexOutOfBoundsException e) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, index, 0,
+                getDimension() - 1);
+        }
     }
 
     /** {@inheritDoc} */
