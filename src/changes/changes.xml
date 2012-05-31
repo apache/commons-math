@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="celestin" type="fix" issue="MATH-791">
+        In GammaDistribution, deprecated getAlpha() and getBeta(). Replaced with
+        getShape() and getScale(), respectively.
+      </action>
       <action dev="luc" type="fix" issue="MATH-793"  due-to="Sebb">
         Use inline computation for OrderedTuple hash code.
       </action>
