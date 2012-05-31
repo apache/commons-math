@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -101,8 +100,7 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
         } else if (x >= domain[1]) {
             ret = 1.0;
         } else {
-            ret = innerCumulativeProbability(domain[0], x, 1, populationSize,
-                                             numberOfSuccesses, sampleSize);
+            ret = innerCumulativeProbability(domain[0], x, 1);
         }
 
         return ret;
@@ -197,22 +195,6 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /**
-     * For this distribution, {@code X}, defined by the given hypergeometric
-     * distribution parameters, this method returns {@code P(X = x)}.
-     *
-     * @param x Value at which the PMF is evaluated.
-     * @param n the population size.
-     * @param m number of successes in the population.
-     * @param k the sample size.
-     * @return PMF for the distribution.
-     */
-    private double probability(int n, int m, int k, int x) {
-        return FastMath.exp(ArithmeticUtils.binomialCoefficientLog(m, x) +
-               ArithmeticUtils.binomialCoefficientLog(n - m, k - x) -
-               ArithmeticUtils.binomialCoefficientLog(n, k));
-    }
-
-    /**
      * For this distribution, {@code X}, this method returns {@code P(X >= x)}.
      *
      * @param x Value at which the CDF is evaluated.
@@ -223,13 +205,12 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
         double ret;
 
         final int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
-        if (x < domain[0]) {
+        if (x <= domain[0]) {
             ret = 1.0;
         } else if (x > domain[1]) {
             ret = 0.0;
         } else {
-            ret = innerCumulativeProbability(domain[1], x, -1, populationSize,
-                                             numberOfSuccesses, sampleSize);
+            ret = innerCumulativeProbability(domain[1], x, -1);
         }
 
         return ret;
@@ -246,17 +227,13 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
      * @param x1 Inclusive upper bound.
      * @param dx Direction of summation (1 indicates summing from x0 to x1, and
      * 0 indicates summing from x1 to x0).
-     * @param n the population size.
-     * @param m number of successes in the population.
-     * @param k the sample size.
      * @return {@code P(x0 <= X <= x1)}.
      */
-    private double innerCumulativeProbability(int x0, int x1, int dx,
-                                              int n, int m, int k) {
-        double ret = probability(n, m, k, x0);
+    private double innerCumulativeProbability(int x0, int x1, int dx) {
+        double ret = probability(x0);
         while (x0 != x1) {
             x0 += dx;
-            ret += probability(n, m, k, x0);
+            ret += probability(x0);
         }
         return ret;
     }
