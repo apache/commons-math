@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -278,94 +279,125 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     public BSPTree<S> getTree(final boolean includeBoundaryAttributes) {
         if (includeBoundaryAttributes && (tree.getCut() != null) && (tree.getAttribute() == null)) {
             // we need to compute the boundary attributes
-            recurseBuildBoundary(tree);
+            tree.visit(new BoundaryBuilder<S>());
         }
         return tree;
     }
 
-    /** Recursively build the boundary shell tree.
-     * @param node current node in the inout tree
+    /** Visitor building boundary shell tree.
+     * <p>
+     * The boundary shell is represented as {@link BoundaryAttribute boundary attributes}
+     * at each internal node.
+     * </p>
      */
-    private void recurseBuildBoundary(final BSPTree<S> node) {
-        if (node.getCut() != null) {
+    private static class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
+
+        /** {@inheritDoc} */
+        public Order visitOrder(BSPTree<S> node) {
+            return Order.PLUS_MINUS_SUB;
+        }
+
+        /** {@inheritDoc} */
+        public void visitInternalNode(BSPTree<S> node) {
 
             SubHyperplane<S> plusOutside = null;
             SubHyperplane<S> plusInside  = null;
 
             // characterize the cut sub-hyperplane,
             // first with respect to the plus sub-tree
-            final Characterization<S> plusChar = new Characterization<S>();
+            @SuppressWarnings("unchecked")
+            final SubHyperplane<S>[] plusChar = (SubHyperplane<S>[]) Array.newInstance(SubHyperplane.class, 2);
             characterize(node.getPlus(), node.getCut().copySelf(), plusChar);
 
-            if (plusChar.hasOut()) {
-                // plusChar.getOut() corresponds to a subset of the cut
-                // sub-hyperplane known to have outside cells on its plus
-                // side, we want to check if parts of this subset do have
-                // inside cells on their minus side
-                final Characterization<S> minusChar = new Characterization<S>();
-                characterize(node.getMinus(), plusChar.getOut(), minusChar);
-                if (minusChar.hasIn()) {
-                    plusOutside = minusChar.getIn();
+            if (plusChar[0] != null && !plusChar[0].isEmpty()) {
+                // plusChar[0] corresponds to a subset of the cut sub-hyperplane known to have
+                // outside cells on its plus side, we want to check if parts of this subset
+                // do have inside cells on their minus side
+                @SuppressWarnings("unchecked")
+                final SubHyperplane<S>[] minusChar = (SubHyperplane<S>[]) Array.newInstance(SubHyperplane.class, 2);
+                characterize(node.getMinus(), plusChar[0], minusChar);
+                if (minusChar[1] != null && !minusChar[1].isEmpty()) {
+                    // this part belongs to the boundary,
+                    // it has the outside on its plus side and the inside on its minus side
+                    plusOutside = minusChar[1];
                 }
             }
 
-            if (plusChar.hasIn()) {
-                // plusChar.getIn() corresponds to a subset of the cut
-                // sub-hyperplane known to have inside cells on its plus
-                // side, we want to check if parts of this subset do have
-                // outside cells on their minus side
-                final Characterization<S> minusChar = new Characterization<S>();
-                characterize(node.getMinus(), plusChar.getIn(), minusChar);
-                if (minusChar.hasOut()) {
-                    plusInside = minusChar.getOut();
+            if (plusChar[1] != null && !plusChar[1].isEmpty()) {
+                // plusChar[1] corresponds to a subset of the cut sub-hyperplane known to have
+                // inside cells on its plus side, we want to check if parts of this subset
+                // do have outside cells on their minus side
+                @SuppressWarnings("unchecked")
+                final SubHyperplane<S>[] minusChar = (SubHyperplane<S>[]) Array.newInstance(SubHyperplane.class, 2);
+                characterize(node.getMinus(), plusChar[1], minusChar);
+                if (minusChar[0] != null && !minusChar[0].isEmpty()) {
+                    // this part belongs to the boundary,
+                    // it has the inside on its plus side and the outside on its minus side
+                    plusInside = minusChar[0];
                 }
             }
 
+            // set the boundary attribute at non-leaf nodes
             node.setAttribute(new BoundaryAttribute<S>(plusOutside, plusInside));
-            recurseBuildBoundary(node.getPlus());
-            recurseBuildBoundary(node.getMinus());
 
         }
-    }
 
-    /** Filter the parts of an hyperplane belonging to the boundary.
-     * <p>The filtering consist in splitting the specified
-     * sub-hyperplane into several parts lying in inside and outside
-     * cells of the tree. The principle is to call this method twice for
-     * each cut sub-hyperplane in the tree, once one the plus node and
-     * once on the minus node. The parts that have the same flag
-     * (inside/inside or outside/outside) do not belong to the boundary
-     * while parts that have different flags (inside/outside or
-     * outside/inside) do belong to the boundary.</p>
-     * @param node current BSP tree node
-     * @param sub sub-hyperplane to characterize
-     * @param characterization placeholder where to put the characterized parts
-     */
-    private void characterize(final BSPTree<S> node, final SubHyperplane<S> sub,
-                              final Characterization<S> characterization) {
-        if (node.getCut() == null) {
-            // we have reached a leaf node
-            final boolean inside = (Boolean) node.getAttribute();
-            characterization.add(sub, inside);
-        } else {
-            final Hyperplane<S> hyperplane = node.getCut().getHyperplane();
-            switch (sub.side(hyperplane)) {
-            case PLUS:
-                characterize(node.getPlus(), sub, characterization);
-                break;
-            case MINUS:
-                characterize(node.getMinus(), sub, characterization);
-                break;
-            case BOTH:
-                final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
-                characterize(node.getPlus(),  split.getPlus(),  characterization);
-                characterize(node.getMinus(), split.getMinus(), characterization);
-                break;
-            default:
-                // this should not happen
-                throw new MathInternalError();
+        /** {@inheritDoc} */
+        public void visitLeafNode(BSPTree<S> node) {
+        }
+
+        /** Filter the parts of an hyperplane belonging to the boundary.
+         * <p>The filtering consist in splitting the specified
+         * sub-hyperplane into several parts lying in inside and outside
+         * cells of the tree. The principle is to call this method twice for
+         * each cut sub-hyperplane in the tree, once one the plus node and
+         * once on the minus node. The parts that have the same flag
+         * (inside/inside or outside/outside) do not belong to the boundary
+         * while parts that have different flags (inside/outside or
+         * outside/inside) do belong to the boundary.</p>
+         * @param node current BSP tree node
+         * @param sub sub-hyperplane to characterize
+         * @param characterization placeholder where to put the characterized parts
+         */
+        private void characterize(final BSPTree<S> node, final SubHyperplane<S> sub,
+                                  final SubHyperplane<S>[] characterization) {
+            if (node.getCut() == null) {
+                // we have reached a leaf node
+                final boolean inside = (Boolean) node.getAttribute();
+                if (inside) {
+                    if (characterization[1] == null) {
+                        characterization[1] = sub;
+                    } else {
+                        characterization[1] = characterization[1].reunite(sub);
+                    }
+                } else {
+                    if (characterization[0] == null) {
+                        characterization[0] = sub;
+                    } else {
+                        characterization[0] = characterization[0].reunite(sub);
+                    }
+                }
+            } else {
+                final Hyperplane<S> hyperplane = node.getCut().getHyperplane();
+                switch (sub.side(hyperplane)) {
+                case PLUS:
+                    characterize(node.getPlus(), sub, characterization);
+                    break;
+                case MINUS:
+                    characterize(node.getMinus(), sub, characterization);
+                    break;
+                case BOTH:
+                    final SubHyperplane.SplitSubHyperplane<S> split = sub.split(hyperplane);
+                    characterize(node.getPlus(),  split.getPlus(),  characterization);
+                    characterize(node.getMinus(), split.getMinus(), characterization);
+                    break;
+                default:
+                    // this should not happen
+                    throw new MathInternalError();
+                }
             }
         }
+
     }
 
     /** {@inheritDoc} */
