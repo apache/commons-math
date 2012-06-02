@@ -191,8 +191,6 @@ public enum LocalizedFormats implements Localizable {
     NOT_INCREASING_NUMBER_OF_POINTS("points {0} and {1} are not increasing ({2} > {3})"),
     NOT_INCREASING_SEQUENCE("points {3} and {2} are not increasing ({1} > {0})"), /* keep */
     NOT_MULTIPLICATION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not multiplication compatible"),
-    ALPHA("alpha"), /* keep */
-    BETA("beta"), /* keep */
     NOT_POSITIVE_DEFINITE_MATRIX("not positive definite matrix"), /* keep */
     NON_POSITIVE_DEFINITE_MATRIX("not positive definite matrix: diagonal element at ({1},{1}) is smaller than {2} ({0})"),
     NON_POSITIVE_DEFINITE_OPERATOR("non positive definite linear operator"), /* keep */
