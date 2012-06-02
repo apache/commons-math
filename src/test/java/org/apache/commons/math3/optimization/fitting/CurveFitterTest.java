@@ -18,8 +18,13 @@
 package org.apache.commons.math3.optimization.fitting;
 
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
+import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -131,6 +136,69 @@ public class CurveFitterTest {
         Assert.assertEquals(55347.47, estimatedParameters[3], 300.00);
         Assert.assertTrue(optimizer.getRMS() < 600.0);
 
+    }
+
+    @Test
+    public void testMath798() {
+        final double tol = 1e-14;
+        final SimpleVectorValueChecker checker = new SimpleVectorValueChecker(tol, tol);
+        final double[] init = new double[] { 0, 0 };
+        final int maxEval = 3;
+
+        final double[] lm = doMath798(new LevenbergMarquardtOptimizer(checker), maxEval, init);
+        final double[] gn = doMath798(new GaussNewtonOptimizer(checker), maxEval, init);
+
+        for (int i = 0; i <= 1; i++) {
+            Assert.assertEquals(lm[i], gn[i], tol);
+        }
+    }
+
+    /**
+     * @param optimizer Optimizer.
+     * @param maxEval Maximum number of function evaluations.
+     * @param init First guess.
+     * @return the solution found by the given optimizer.
+     */
+    private double[] doMath798(DifferentiableMultivariateVectorOptimizer optimizer,
+                               int maxEval,
+                               double[] init) {
+        final CurveFitter fitter = new CurveFitter(optimizer);
+
+        fitter.addObservedPoint(-0.2, -7.12442E-13);
+        fitter.addObservedPoint(-0.199, -4.33397E-13);
+        fitter.addObservedPoint(-0.198, -2.823E-13);
+        fitter.addObservedPoint(-0.197, -1.40405E-13);
+        fitter.addObservedPoint(-0.196, -7.80821E-15);
+        fitter.addObservedPoint(-0.195, 6.20484E-14);
+        fitter.addObservedPoint(-0.194, 7.24673E-14);
+        fitter.addObservedPoint(-0.193, 1.47152E-13);
+        fitter.addObservedPoint(-0.192, 1.9629E-13);
+        fitter.addObservedPoint(-0.191, 2.12038E-13);
+        fitter.addObservedPoint(-0.19, 2.46906E-13);
+        fitter.addObservedPoint(-0.189, 2.77495E-13);
+        fitter.addObservedPoint(-0.188, 2.51281E-13);
+        fitter.addObservedPoint(-0.187, 2.64001E-13);
+        fitter.addObservedPoint(-0.186, 2.8882E-13);
+        fitter.addObservedPoint(-0.185, 3.13604E-13);
+        fitter.addObservedPoint(-0.184, 3.14248E-13);
+        fitter.addObservedPoint(-0.183, 3.1172E-13);
+        fitter.addObservedPoint(-0.182, 3.12912E-13);
+        fitter.addObservedPoint(-0.181, 3.06761E-13);
+        fitter.addObservedPoint(-0.18, 2.8559E-13);
+        fitter.addObservedPoint(-0.179, 2.86806E-13);
+        fitter.addObservedPoint(-0.178, 2.985E-13);
+        fitter.addObservedPoint(-0.177, 2.67148E-13);
+        fitter.addObservedPoint(-0.176, 2.94173E-13);
+        fitter.addObservedPoint(-0.175, 3.27528E-13);
+        fitter.addObservedPoint(-0.174, 3.33858E-13);
+        fitter.addObservedPoint(-0.173, 2.97511E-13);
+        fitter.addObservedPoint(-0.172, 2.8615E-13);
+        fitter.addObservedPoint(-0.171, 2.84624E-13);
+
+        final double[] coeff = fitter.fit(maxEval,
+                                          new PolynomialFunction.Parametric(),
+                                          init);
+        return coeff;
     }
 
     private static class SimpleInverseFunction implements ParametricUnivariateFunction {
