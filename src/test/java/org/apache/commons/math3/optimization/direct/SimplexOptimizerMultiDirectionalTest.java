@@ -141,7 +141,7 @@ public class SimplexOptimizerMultiDirectionalTest {
     public void testMath283() {
         // fails because MultiDirectional.iterateSimplex is looping forever
         // the while(true) should be replaced with a convergence check
-        SimplexOptimizer optimizer = new SimplexOptimizer();
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-14, 1e-14);
         optimizer.setSimplex(new MultiDirectionalSimplex(2));
         final Gaussian2D function = new Gaussian2D(0, 0, 1);
         PointValuePair estimate = optimizer.optimize(1000, function,

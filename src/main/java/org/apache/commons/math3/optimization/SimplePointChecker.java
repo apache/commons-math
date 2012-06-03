@@ -39,7 +39,9 @@ public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>
     extends AbstractConvergenceChecker<PAIR> {
     /**
      * Build an instance with default threshold.
+     * @deprecated See {@link AbstractConvergenceChecker#AbstractConvergenceChecker()}
      */
+    @Deprecated
     public SimplePointChecker() {}
 
     /**

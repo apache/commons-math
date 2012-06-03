@@ -53,9 +53,10 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
 
     /**
      * Simple constructor with default settings.
-     * The convergence check is set to a {@link SimpleValueChecker} and
-     * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
+     * The convergence check is set to a {@link SimpleValueChecker}.
+     * @deprecated See {@link SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     protected BaseAbstractMultivariateOptimizer() {
         this(new SimpleValueChecker());
     }

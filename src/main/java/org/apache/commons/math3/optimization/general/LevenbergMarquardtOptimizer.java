@@ -260,6 +260,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                                        double parRelativeTolerance,
                                        double orthoTolerance,
                                        double threshold) {
+        super(null); // No custom convergence criterion.
         this.initialStepBoundFactor = initialStepBoundFactor;
         this.costRelativeTolerance = costRelativeTolerance;
         this.parRelativeTolerance = parRelativeTolerance;

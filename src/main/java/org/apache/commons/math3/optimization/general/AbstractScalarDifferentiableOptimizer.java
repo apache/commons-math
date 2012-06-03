@@ -46,8 +46,11 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * The convergence check is set to a
      * {@link org.apache.commons.math3.optimization.SimpleValueChecker
      * SimpleValueChecker}.
+     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     protected AbstractScalarDifferentiableOptimizer() {}
+
     /**
      * @param checker Convergence checker.
      */

@@ -25,7 +25,7 @@ import org.junit.Test;
 public class AbstractLeastSquaresOptimizerTest {
 
     public static AbstractLeastSquaresOptimizer createOptimizer() {
-        return new AbstractLeastSquaresOptimizer() {
+        return new AbstractLeastSquaresOptimizer(null) {
 
             @Override
             protected PointVectorValuePair doOptimize() {

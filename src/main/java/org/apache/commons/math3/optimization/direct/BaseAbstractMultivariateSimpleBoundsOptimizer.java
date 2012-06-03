@@ -51,11 +51,12 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
     /**
      * Simple constructor with default settings.
      * The convergence checker is set to a
-     * {@link org.apache.commons.math3.optimization.SimpleValueChecker} and
-     * the allowed number of evaluations is set to {@link Integer#MAX_VALUE}.
+     * {@link org.apache.commons.math3.optimization.SimpleValueChecker}.
      *
      * @see BaseAbstractMultivariateOptimizer#BaseAbstractMultivariateOptimizer()
+     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     protected BaseAbstractMultivariateSimpleBoundsOptimizer() {}
 
     /**

@@ -225,6 +225,7 @@ public class BOBYQAOptimizer
     public BOBYQAOptimizer(int numberOfInterpolationPoints,
                            double initialTrustRegionRadius,
                            double stoppingTrustRegionRadius) {
+        super(null); // No custom convergence criterion.
         this.numberOfInterpolationPoints = numberOfInterpolationPoints;
         this.initialTrustRegionRadius = initialTrustRegionRadius;
         this.stoppingTrustRegionRadius = stoppingTrustRegionRadius;

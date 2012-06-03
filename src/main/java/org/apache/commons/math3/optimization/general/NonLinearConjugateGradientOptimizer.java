@@ -61,7 +61,9 @@ public class NonLinearConjugateGradientOptimizer
      * @param updateFormula formula to use for updating the &beta; parameter,
      * must be one of {@link ConjugateGradientFormula#FLETCHER_REEVES} or {@link
      * ConjugateGradientFormula#POLAK_RIBIERE}.
+     * @deprecated See {@link SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     public NonLinearConjugateGradientOptimizer(final ConjugateGradientFormula updateFormula) {
         this(updateFormula,
              new SimpleValueChecker());

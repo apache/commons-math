@@ -270,7 +270,9 @@ public class CMAESOptimizer
      * generated in case they are out of bounds.
      * @param random Random generator.
      * @param generateStatistics Whether statistic data is collected.
+     * @deprecated See {@link SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     public CMAESOptimizer(int lambda, double[] inputSigma,
                           int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,

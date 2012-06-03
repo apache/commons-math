@@ -82,8 +82,11 @@ public abstract class AbstractLeastSquaresOptimizer
      * Simple constructor with default settings.
      * The convergence check is set to a {@link
      * org.apache.commons.math3.optimization.SimpleVectorValueChecker}.
+     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     protected AbstractLeastSquaresOptimizer() {}
+
     /**
      * @param checker Convergence checker.
      */

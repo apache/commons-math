@@ -305,6 +305,10 @@ public class AbstractLeastSquaresOptimizerTestValidation {
  * Used for computing the covariance matrix.
  */
 class DummyOptimizer extends AbstractLeastSquaresOptimizer {
+    public DummyOptimizer() {
+        super(null);
+    }
+
     /**
      * This method does nothing and returns a dummy value.
      */

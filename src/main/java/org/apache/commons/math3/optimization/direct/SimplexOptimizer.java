@@ -92,7 +92,9 @@ public class SimplexOptimizer
     /**
      * Constructor using a default {@link SimpleValueChecker convergence
      * checker}.
+     * @deprecated See {@link SimpleValueChecker#SimpleValueChecker()}
      */
+    @Deprecated
     public SimplexOptimizer() {
         this(new SimpleValueChecker());
     }

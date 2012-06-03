@@ -35,7 +35,9 @@ public class SimpleVectorValueChecker
     extends AbstractConvergenceChecker<PointVectorValuePair> {
     /**
      * Build an instance with default thresholds.
+     * @deprecated See {@link AbstractConvergenceChecker#AbstractConvergenceChecker()}
      */
+    @Deprecated
     public SimpleVectorValueChecker() {}
 
     /**

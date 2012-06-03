@@ -53,7 +53,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      * The normal equations will be solved using LU decomposition and the
      * convergence check is set to a {@link SimpleVectorValueChecker}
      * with default tolerances.
+     * @deprecated See {@link SimpleVectorValueChecker#SimpleVectorValueChecker()}
      */
+    @Deprecated
     public GaussNewtonOptimizer() {
         this(true);
     }
@@ -76,7 +78,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
      * @param useLU If {@code true}, the normal equations will be solved
      * using LU decomposition, otherwise they will be solved using QR
      * decomposition.
+     * @deprecated See {@link SimpleVectorValueChecker#SimpleVectorValueChecker()}
      */
+    @Deprecated
     public GaussNewtonOptimizer(final boolean useLU) {
         this(useLU, new SimpleVectorValueChecker());
     }
