@@ -45,9 +45,9 @@ import org.apache.commons.math3.analysis.function.Tan;
 import org.apache.commons.math3.analysis.function.Tanh;
 import org.apache.commons.math3.analysis.function.Ulp;
 import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.linear.ArrayRealVectorTest.RealVectorTestImpl;
 import org.junit.Test;
 
 
@@ -665,6 +665,52 @@ public abstract class RealVectorAbstractTest {
         RealVector v_projection_2 = v1.projection(v2_t);
         double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection_2.toArray(), result_projection_2, normTolerance);
+    }
+
+    @Test
+    public void testOuterProduct() {
+        final RealVector u = create(new double[] {1, 2, -3});
+        final RealVector v = create(new double[] {4, -2});
+
+        final RealMatrix uv = u.outerProduct(v);
+
+        final double tol = Math.ulp(1d);
+        Assert.assertEquals(4, uv.getEntry(0, 0), tol);
+        Assert.assertEquals(-2, uv.getEntry(0, 1), tol);
+        Assert.assertEquals(8, uv.getEntry(1, 0), tol);
+        Assert.assertEquals(-4, uv.getEntry(1, 1), tol);
+        Assert.assertEquals(-12, uv.getEntry(2, 0), tol);
+        Assert.assertEquals(6, uv.getEntry(2, 1), tol);
+    }
+
+    @Test
+    public void testMisc() {
+        RealVector v1 = create(vec1);
+        RealVector v4 = create(vec4);
+        RealVector v4_2 = create(vec4);
+
+        String out1 = v1.toString();
+        Assert.assertTrue("some output ",  out1.length()!=0);
+        try {
+            v1.checkVectorDimensions(2);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // expected behavior
+        }
+
+       try {
+            v1.checkVectorDimensions(v4);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // expected behavior
+        }
+
+        try {
+            v1.checkVectorDimensions(v4_2);
+            Assert.fail("MathIllegalArgumentException expected");
+        } catch (MathIllegalArgumentException ex) {
+            // expected behavior
+        }
     }
 
     /*

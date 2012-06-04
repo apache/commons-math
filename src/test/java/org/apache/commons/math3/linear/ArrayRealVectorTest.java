@@ -22,30 +22,6 @@ import java.util.Random;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Abs;
-import org.apache.commons.math3.analysis.function.Acos;
-import org.apache.commons.math3.analysis.function.Asin;
-import org.apache.commons.math3.analysis.function.Atan;
-import org.apache.commons.math3.analysis.function.Cbrt;
-import org.apache.commons.math3.analysis.function.Ceil;
-import org.apache.commons.math3.analysis.function.Cos;
-import org.apache.commons.math3.analysis.function.Cosh;
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Expm1;
-import org.apache.commons.math3.analysis.function.Floor;
-import org.apache.commons.math3.analysis.function.Inverse;
-import org.apache.commons.math3.analysis.function.Log;
-import org.apache.commons.math3.analysis.function.Log10;
-import org.apache.commons.math3.analysis.function.Log1p;
-import org.apache.commons.math3.analysis.function.Power;
-import org.apache.commons.math3.analysis.function.Rint;
-import org.apache.commons.math3.analysis.function.Signum;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.analysis.function.Sinh;
-import org.apache.commons.math3.analysis.function.Sqrt;
-import org.apache.commons.math3.analysis.function.Tan;
-import org.apache.commons.math3.analysis.function.Tanh;
-import org.apache.commons.math3.analysis.function.Ulp;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -509,54 +485,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
-    public void testBasicFunctions() {
-        super.testBasicFunctions();
-        ArrayRealVector v1 = new ArrayRealVector(vec1);
-        ArrayRealVector v2 = new ArrayRealVector(vec2);
-        ArrayRealVector v5 = new ArrayRealVector(vec5);
-        ArrayRealVector v_null = new ArrayRealVector(vec_null);
-
-        RealVectorTestImpl v2_t = new RealVectorTestImpl(vec2);
-
-    }
-
-    @Test
-    public void testMisc() {
-        ArrayRealVector v1 = new ArrayRealVector(vec1);
-        ArrayRealVector v4 = new ArrayRealVector(vec4);
-        RealVector v4_2 = new ArrayRealVector(vec4);
-
-        String out1 = v1.toString();
-        Assert.assertTrue("some output ",  out1.length()!=0);
-        /*
-         double[] dout1 = v1.copyOut();
-        Assert.assertEquals("testData len", 3, dout1.length);
-        Assert.assertNotSame("testData not same object ", v1.getDataRef(), dout1);
-         */
-        try {
-            v1.checkVectorDimensions(2);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
-       try {
-            v1.checkVectorDimensions(v4);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
-        try {
-            v1.checkVectorDimensions(v4_2);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
-    }
-
-    @Test
     public void testPredicates() {
 
         ArrayRealVector v = new ArrayRealVector(new double[] { 0, 1, 2 });
@@ -668,22 +596,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         final ArrayRealVector v = new ArrayRealVector(new double[] {1, 2, 3});
         final ArrayRealVector w = new ArrayRealVector(new double[] {1, 2, 3, 4});
         v.cosine(w);
-    }
-
-    @Test
-    public void testOuterProduct() {
-        final ArrayRealVector u = new ArrayRealVector(new double[] {1, 2, -3});
-        final ArrayRealVector v = new ArrayRealVector(new double[] {4, -2});
-
-        final RealMatrix uv = u.outerProduct(v);
-
-        final double tol = Math.ulp(1d);
-        Assert.assertEquals(4, uv.getEntry(0, 0), tol);
-        Assert.assertEquals(-2, uv.getEntry(0, 1), tol);
-        Assert.assertEquals(8, uv.getEntry(1, 0), tol);
-        Assert.assertEquals(-4, uv.getEntry(1, 1), tol);
-        Assert.assertEquals(-12, uv.getEntry(2, 0), tol);
-        Assert.assertEquals(6, uv.getEntry(2, 1), tol);
     }
 
     @Test(expected=DimensionMismatchException.class)

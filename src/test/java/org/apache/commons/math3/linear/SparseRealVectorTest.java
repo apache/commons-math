@@ -25,31 +25,6 @@ import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.analysis.function.Abs;
-import org.apache.commons.math3.analysis.function.Acos;
-import org.apache.commons.math3.analysis.function.Asin;
-import org.apache.commons.math3.analysis.function.Atan;
-import org.apache.commons.math3.analysis.function.Cbrt;
-import org.apache.commons.math3.analysis.function.Cosh;
-import org.apache.commons.math3.analysis.function.Cos;
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Expm1;
-import org.apache.commons.math3.analysis.function.Inverse;
-import org.apache.commons.math3.analysis.function.Log10;
-import org.apache.commons.math3.analysis.function.Log1p;
-import org.apache.commons.math3.analysis.function.Log;
-import org.apache.commons.math3.analysis.function.Sinh;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.analysis.function.Sqrt;
-import org.apache.commons.math3.analysis.function.Tanh;
-import org.apache.commons.math3.analysis.function.Tan;
-import org.apache.commons.math3.analysis.function.Floor;
-import org.apache.commons.math3.analysis.function.Ceil;
-import org.apache.commons.math3.analysis.function.Rint;
-import org.apache.commons.math3.analysis.function.Signum;
-import org.apache.commons.math3.analysis.function.Ulp;
-import org.apache.commons.math3.analysis.function.Power;
 
 /**
  * Test cases for the {@link OpenMapRealVector} class.
@@ -320,38 +295,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         OpenMapRealVector v8 = new OpenMapRealVector(v1);
         Assert.assertEquals("testData len", 7, v8.getDimension());
         Assert.assertEquals("testData is 0.0 ", 0.0, v8.getEntry(6), 0);
-
-    }
-
-    @Test
-    public void testOuterProduct() {
-        final OpenMapRealVector u = new OpenMapRealVector(new double[] {1, 2, -3});
-        final OpenMapRealVector v = new OpenMapRealVector(new double[] {4, -2});
-
-        final RealMatrix uv = u.outerProduct(v);
-
-        final double tol = Math.ulp(1d);
-        Assert.assertEquals(4, uv.getEntry(0, 0), tol);
-        Assert.assertEquals(-2, uv.getEntry(0, 1), tol);
-        Assert.assertEquals(8, uv.getEntry(1, 0), tol);
-        Assert.assertEquals(-4, uv.getEntry(1, 1), tol);
-        Assert.assertEquals(-12, uv.getEntry(2, 0), tol);
-        Assert.assertEquals(6, uv.getEntry(2, 1), tol);
-    }
-
-    @Test
-    public void testMisc() {
-        OpenMapRealVector v1 = new OpenMapRealVector(vec1);
-
-        String out1 = v1.toString();
-        Assert.assertTrue("some output ",  out1.length()!=0);
-        try {
-            v1.checkVectorDimensions(2);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
 
     }
 
