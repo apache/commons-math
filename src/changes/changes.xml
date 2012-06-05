@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="fix" issue="MATH-801">
+        Fixed a problem when building rotations from two pairs of vectors. In very rare cases,
+        due to numerical inaccuracies the computed quaternion was not normalized (some examples
+        went as high as 1.0e8) and even after normalization, the quaternion was plain wrong.
+      </action>
       <action dev="celestin" type="remove" issue="MATH-796">
         Removed unused fields LocalizedFormats.ALPHA and LocalizedFormats.BETA. This is
         an acceptable compatibility break, as these fields are only meant for internal

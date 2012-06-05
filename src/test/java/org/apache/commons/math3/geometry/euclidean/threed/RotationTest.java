@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -141,7 +142,7 @@ public class RotationTest {
     try {
         new Rotation(u1, u2, Vector3D.ZERO, v2);
         Assert.fail("an exception should have been thrown");
-    } catch (IllegalArgumentException e) {
+    } catch (MathArithmeticException e) {
       // expected behavior
     }
 
@@ -515,6 +516,25 @@ public class RotationTest {
       Assert.assertEquals( 0.0257707621456498790029987, rot.getQ1(), 1.0e-15);
       Assert.assertEquals(-0.0000000002503012255839931, rot.getQ2(), 1.0e-15);
       Assert.assertEquals(-0.7819270390861109450724902, rot.getQ3(), 1.0e-15);
+  }
+
+  @Test
+  public void testIssue801() {
+      Vector3D u1 = new Vector3D(0.9999988431610581, -0.0015210774290851095, 0.0);
+      Vector3D u2 = new Vector3D(0.0, 0.0, 1.0);
+
+      Vector3D v1 = new Vector3D(0.9999999999999999, 0.0, 0.0);
+      Vector3D v2 = new Vector3D(0.0, 0.0, -1.0);
+
+      Rotation quat = new Rotation(u1, u2, v1, v2);
+      double q2 = quat.getQ0() * quat.getQ0() +
+                  quat.getQ1() * quat.getQ1() +
+                  quat.getQ2() * quat.getQ2() +
+                  quat.getQ3() * quat.getQ3();
+      Assert.assertEquals(1.0, q2, 1.0e-14);
+      Assert.assertEquals(0.0, Vector3D.angle(v1, quat.applyTo(u1)), 1.0e-14);
+      Assert.assertEquals(0.0, Vector3D.angle(v2, quat.applyTo(u2)), 1.0e-14);
+      
   }
 
   private void checkVector(Vector3D v1, Vector3D v2) {
