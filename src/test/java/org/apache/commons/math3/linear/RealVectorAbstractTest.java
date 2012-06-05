@@ -48,6 +48,7 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Test;
 
 
@@ -711,6 +712,32 @@ public abstract class RealVectorAbstractTest {
         } catch (MathIllegalArgumentException ex) {
             // expected behavior
         }
+    }
+
+    @Test
+    public void testPredicates() {
+        final RealVector v = create(new double[] { 0, 1, 2 });
+
+        Assert.assertFalse(v.isNaN());
+        v.setEntry(1, Double.NaN);
+        Assert.assertTrue(v.isNaN());
+
+        Assert.assertFalse(v.isInfinite());
+        v.setEntry(0, Double.POSITIVE_INFINITY);
+        Assert.assertFalse(v.isInfinite());
+        v.setEntry(1, 1);
+        Assert.assertTrue(v.isInfinite());
+
+        v.setEntry(0, 0);
+        Assert.assertEquals(v, create(new double[] { 0, 1, 2 }));
+        Assert.assertNotSame(v, create(new double[] { 0, 1, 2 + FastMath.ulp(2)}));
+        Assert.assertNotSame(v, create(new double[] { 0, 1, 2, 3 }));
+
+        Assert.assertTrue(v.equals(v));
+        Assert.assertTrue(v.equals(v.copy()));
+        Assert.assertFalse(v.equals(null));
+        Assert.assertFalse(v.equals(v.getSubVector(0, v.getDimension() - 1)));
+        Assert.assertTrue(v.equals(v.getSubVector(0, v.getDimension())));
     }
 
     /*

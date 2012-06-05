@@ -485,40 +485,18 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
+    @Override
     public void testPredicates() {
+        super.testPredicates();
 
-        ArrayRealVector v = new ArrayRealVector(new double[] { 0, 1, 2 });
-
-        Assert.assertFalse(v.isNaN());
-        v.setEntry(1, Double.NaN);
-        Assert.assertTrue(v.isNaN());
-
-        Assert.assertFalse(v.isInfinite());
-        v.setEntry(0, Double.POSITIVE_INFINITY);
-        Assert.assertFalse(v.isInfinite());
-        v.setEntry(1, 1);
-        Assert.assertTrue(v.isInfinite());
-        v.setEntry(0, 1);
-        Assert.assertFalse(v.isInfinite());
-
-        v.setEntry(0, 0);
-        Assert.assertEquals(v, new ArrayRealVector(new double[] { 0, 1, 2 }));
-        Assert.assertNotSame(v, new ArrayRealVector(new double[] { 0, 1, 2 + FastMath.ulp(2)}));
-        Assert.assertNotSame(v, new ArrayRealVector(new double[] { 0, 1, 2, 3 }));
-
-        Assert.assertEquals(new ArrayRealVector(new double[] { Double.NaN, 1, 2 }).hashCode(),
-                     new ArrayRealVector(new double[] { 0, Double.NaN, 2 }).hashCode());
-
-        Assert.assertTrue(new ArrayRealVector(new double[] { Double.NaN, 1, 2 }).hashCode() !=
-                   new ArrayRealVector(new double[] { 0, 1, 2 }).hashCode());
-
-        Assert.assertTrue(v.equals(v));
-        Assert.assertTrue(v.equals(v.copy()));
-        Assert.assertFalse(v.equals(null));
+        final ArrayRealVector v = (ArrayRealVector) create(new double[] { 0, 1, 2 });
         Assert.assertFalse(v.equals(v.getDataRef()));
-        Assert.assertFalse(v.equals(v.getSubVector(0, v.getDimension() - 1)));
-        Assert.assertTrue(v.equals(v.getSubVector(0, v.getDimension())));
 
+        Assert.assertEquals(create(new double[] { Double.NaN, 1, 2 }).hashCode(),
+                     create(new double[] { 0, Double.NaN, 2 }).hashCode());
+
+        Assert.assertTrue(create(new double[] { Double.NaN, 1, 2 }).hashCode() !=
+                   create(new double[] { 0, 1, 2 }).hashCode());
     }
 
     @Test
