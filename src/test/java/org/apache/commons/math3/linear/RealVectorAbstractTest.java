@@ -752,7 +752,6 @@ public abstract class RealVectorAbstractTest {
         Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
     }
 
-
     @Test
     public void testAddToEntry() {
         final double[] v = new double[] { 1, 2, 3 };
@@ -764,6 +763,30 @@ public abstract class RealVectorAbstractTest {
         for (int i = 0; i < x.getDimension(); i++) {
             Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
         }
+    }
+
+    @Test
+    public void testMinMax() {
+        final RealVector v1 = create(new double[] {0, -6, 4, 12, 7});
+        Assert.assertEquals(1, v1.getMinIndex());
+        Assert.assertEquals(-6, v1.getMinValue(), 1.0e-12);
+        Assert.assertEquals(3, v1.getMaxIndex());
+        Assert.assertEquals(12, v1.getMaxValue(), 1.0e-12);
+        final RealVector v2 = create(new double[] {Double.NaN, 3, Double.NaN, -2});
+        Assert.assertEquals(3, v2.getMinIndex());
+        Assert.assertEquals(-2, v2.getMinValue(), 1.0e-12);
+        Assert.assertEquals(1, v2.getMaxIndex());
+        Assert.assertEquals(3, v2.getMaxValue(), 1.0e-12);
+        final RealVector v3 = create(new double[] {Double.NaN, Double.NaN});
+        Assert.assertEquals(-1, v3.getMinIndex());
+        Assert.assertTrue(Double.isNaN(v3.getMinValue()));
+        Assert.assertEquals(-1, v3.getMaxIndex());
+        Assert.assertTrue(Double.isNaN(v3.getMaxValue()));
+        final RealVector v4 = create(new double[0]);
+        Assert.assertEquals(-1, v4.getMinIndex());
+        Assert.assertTrue(Double.isNaN(v4.getMinValue()));
+        Assert.assertEquals(-1, v4.getMaxIndex());
+        Assert.assertTrue(Double.isNaN(v4.getMaxValue()));
     }
 
     /*

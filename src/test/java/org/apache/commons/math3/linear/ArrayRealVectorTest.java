@@ -507,30 +507,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
-    public void testMinMax()  {
-        ArrayRealVector v1 = new ArrayRealVector(new double[] { 0, -6, 4, 12, 7 });
-        Assert.assertEquals(1,  v1.getMinIndex());
-        Assert.assertEquals(-6, v1.getMinValue(), 1.0e-12);
-        Assert.assertEquals(3,  v1.getMaxIndex());
-        Assert.assertEquals(12, v1.getMaxValue(), 1.0e-12);
-        ArrayRealVector v2 = new ArrayRealVector(new double[] { Double.NaN, 3, Double.NaN, -2 });
-        Assert.assertEquals(3,  v2.getMinIndex());
-        Assert.assertEquals(-2, v2.getMinValue(), 1.0e-12);
-        Assert.assertEquals(1,  v2.getMaxIndex());
-        Assert.assertEquals(3, v2.getMaxValue(), 1.0e-12);
-        ArrayRealVector v3 = new ArrayRealVector(new double[] { Double.NaN, Double.NaN });
-        Assert.assertEquals(-1,  v3.getMinIndex());
-        Assert.assertTrue(Double.isNaN(v3.getMinValue()));
-        Assert.assertEquals(-1,  v3.getMaxIndex());
-        Assert.assertTrue(Double.isNaN(v3.getMaxValue()));
-        ArrayRealVector v4 = new ArrayRealVector(new double[0]);
-        Assert.assertEquals(-1,  v4.getMinIndex());
-        Assert.assertTrue(Double.isNaN(v4.getMinValue()));
-        Assert.assertEquals(-1,  v4.getMaxIndex());
-        Assert.assertTrue(Double.isNaN(v4.getMaxValue()));
-    }
-
-    @Test
     public void testCosine() {
         final ArrayRealVector v = new ArrayRealVector(new double[] {1, 0, 0});
 
