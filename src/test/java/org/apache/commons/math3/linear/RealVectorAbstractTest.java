@@ -45,6 +45,7 @@ import org.apache.commons.math3.analysis.function.Sqrt;
 import org.apache.commons.math3.analysis.function.Tan;
 import org.apache.commons.math3.analysis.function.Tanh;
 import org.apache.commons.math3.analysis.function.Ulp;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
@@ -808,6 +809,27 @@ public abstract class RealVectorAbstractTest {
         wData = new double[] {-1, 0, 0};
         w = create(wData);
         Assert.assertEquals(-1, v.cosine(w), normTolerance);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCosinePrecondition1() {
+        final RealVector v = create(new double[] {0, 0, 0});
+        final RealVector w = create(new double[] {1, 0, 0});
+        v.cosine(w);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCosinePrecondition2() {
+        final RealVector v = create(new double[] {0, 0, 0});
+        final RealVector w = create(new double[] {1, 0, 0});
+        w.cosine(v);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testCosinePrecondition3() {
+        final RealVector v = create(new double[] {1, 2, 3});
+        final RealVector w = create(new double[] {1, 2, 3, 4});
+        v.cosine(w);
     }
 
     /*
