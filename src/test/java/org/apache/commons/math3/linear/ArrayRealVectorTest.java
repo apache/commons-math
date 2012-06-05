@@ -506,27 +506,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         Assert.assertEquals(0, new ArrayRealVector(new double[0], false).getDimension());
     }
 
-    @Test
-    public void testCosine() {
-        final ArrayRealVector v = new ArrayRealVector(new double[] {1, 0, 0});
-
-        double[] wData = new double[] {1, 1, 0};
-        RealVector w = new ArrayRealVector(wData);
-        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(w), normTolerance);
-
-        wData = new double[] {1, 0, 0};
-        w = new ArrayRealVector(wData);
-        Assert.assertEquals(1, v.cosine(w), normTolerance);
-
-        wData = new double[] {0, 1, 0};
-        w = new ArrayRealVector(wData);
-        Assert.assertEquals(0, v.cosine(w), 0);
-
-        wData = new double[] {-1, 0, 0};
-        w = new ArrayRealVector(wData);
-        Assert.assertEquals(-1, v.cosine(w), normTolerance);
-    }
-
     @Test(expected=MathArithmeticException.class)
     public void testCosinePrecondition1() {
         final ArrayRealVector v = new ArrayRealVector(new double[] {0, 0, 0});

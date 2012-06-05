@@ -108,16 +108,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
 
         @Override
-        public double dotProduct(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double getNorm() {
-            throw unsupported();
-        }
-
-        @Override
         public double getL1Norm() {
             throw unsupported();
         }

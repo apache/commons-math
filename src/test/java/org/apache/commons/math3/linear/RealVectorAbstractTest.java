@@ -789,6 +789,27 @@ public abstract class RealVectorAbstractTest {
         Assert.assertTrue(Double.isNaN(v4.getMaxValue()));
     }
 
+    @Test
+    public void testCosine() {
+        final RealVector v = create(new double[] {1, 0, 0});
+
+        double[] wData = new double[] {1, 1, 0};
+        RealVector w = create(wData);
+        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(w), normTolerance);
+
+        wData = new double[] {1, 0, 0};
+        w = create(wData);
+        Assert.assertEquals(1, v.cosine(w), normTolerance);
+
+        wData = new double[] {0, 1, 0};
+        w = create(wData);
+        Assert.assertEquals(0, v.cosine(w), 0);
+
+        wData = new double[] {-1, 0, 0};
+        w = create(wData);
+        Assert.assertEquals(-1, v.cosine(w), normTolerance);
+    }
+
     /*
      * TESTS OF THE VISITOR PATTERN
      */
