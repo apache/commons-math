@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import junit.framework.Assert;
 
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.function.Abs;
 import org.apache.commons.math3.analysis.function.Acos;
 import org.apache.commons.math3.analysis.function.Asin;
@@ -55,7 +56,10 @@ import org.junit.Test;
 public abstract class RealVectorAbstractTest {
     /**
      * Creates a new instance of {@link RealVector}, with specified entries.
-     * The returned vector must be of the type currently tested.
+     * The returned vector must be of the type currently tested. It should be
+     * noted that some tests assume that no references to the specified
+     * {@code double[]} are kept in the returned object: if necessary, defensive
+     * copy of this array should be made.
      *
      * @param data the entries of the vector to be created
      * @return a new {@link RealVector} of the type to be tested
@@ -65,7 +69,9 @@ public abstract class RealVectorAbstractTest {
     /**
      * Creates a new instance of {@link RealVector}, with specified entries.
      * The type of the returned vector must be different from the type currently
-     * tested.
+     * tested. It should be noted that some tests assume that no references to
+     * the specified {@code double[]} are kept in the returned object: if
+     * necessary, defensive copy of this array should be made.
      *
      * @param data the entries of the vector to be created
      * @return a new {@link RealVector} of an alien type
@@ -738,6 +744,12 @@ public abstract class RealVectorAbstractTest {
         Assert.assertFalse(v.equals(null));
         Assert.assertFalse(v.equals(v.getSubVector(0, v.getDimension() - 1)));
         Assert.assertTrue(v.equals(v.getSubVector(0, v.getDimension())));
+    }
+
+    @Test
+    public void testSerial()  {
+        RealVector v = create(new double[] { 0, 1, 2 });
+        Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
     }
 
     /*

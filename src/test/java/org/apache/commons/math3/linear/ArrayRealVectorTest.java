@@ -500,12 +500,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
-    public void testSerial()  {
-        ArrayRealVector v = new ArrayRealVector(new double[] { 0, 1, 2 });
-        Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
-    }
-
-    @Test
     public void testZeroVectors() {
         Assert.assertEquals(0, new ArrayRealVector(new double[0]).getDimension());
         Assert.assertEquals(0, new ArrayRealVector(new double[0], true).getDimension());

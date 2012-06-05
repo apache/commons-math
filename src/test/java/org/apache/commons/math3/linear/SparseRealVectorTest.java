@@ -298,12 +298,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
     }
 
-    @Test
-    public void testSerial()  {
-        OpenMapRealVector v = new OpenMapRealVector(new double[] { 0, 1, 2 });
-        Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
-    }
-
     /* Check that the operations do not throw an exception (cf. MATH-645). */
     @Test
     public void testConcurrentModification() {
