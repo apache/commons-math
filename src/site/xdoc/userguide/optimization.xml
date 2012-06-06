@@ -607,25 +607,36 @@ C: 16.324008168386605
           the <a
           href="../apidocs/org/apache/commons/math3/analysis/ParametricUnivariateFunction.html">
           ParametricUnivariateFunction</a> interface and they must provide the initial guess of the
-          parameters. The more specialized <a
-          href="../apidocs/org/apache/commons/math3/optimization/fitting/PolynomialFitter.html">
-          PolynomialFitter</a> and <a
-          href="../apidocs/org/apache/commons/math3/optimization/fitting/HarmonicFitter.html">
-          HarmonicFitter</a> classes require neither an implementation of the parametric real function
-          not an initial guess as they are able to compute them by themselves.
+          parameters.
         </p>
+
         <p>
-          An example of fitting a polynomial is given here:
+        The following example shows how to fit data with a polynomial function.
         </p>
-        <source>PolynomialFitter fitter = new PolynomialFitter(degree, new LevenbergMarquardtOptimizer());
+        <source>final CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
 fitter.addObservedPoint(-1.00, 2.021170021833143);
 fitter.addObservedPoint(-0.99, 2.221135431136975);
 fitter.addObservedPoint(-0.98, 2.09985277659314);
 fitter.addObservedPoint(-0.97, 2.0211192647627025);
 // ... Lots of lines omitted ...
 fitter.addObservedPoint( 0.99, -2.4345814727089854);
-PolynomialFunction fitted = fitter.fit();
+
+// The degree of the polynomial is deduced from the length of the array containing
+// the initial guess for the coefficients of the polynomial.
+final double[] init = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
+
+// Compute optimal coefficients.
+final double[] best = fitter.fit(new PolynomialFunction.Parametric(), init);
+
+// Construct the polynomial that best fits the data.
+final PolynomialFunction fitted = new PolynomialFunction(best);
         </source>
+
+        <p>
+          The more specialized <a href="../apidocs/org/apache/commons/math3/optimization/fitting/HarmonicFitter.html">
+          HarmonicFitter</a> classes requires neither an implementation of the parametric real function
+          nor an initial guess as it is are able to compute them internally.
+        </p>
       </subsection>
      </section>
   </body>

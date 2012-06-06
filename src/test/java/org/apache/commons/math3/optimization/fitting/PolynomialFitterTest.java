@@ -26,6 +26,8 @@ import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.TestUtils;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -35,6 +37,28 @@ import org.junit.Assert;
  * polynomial.
  */
 public class PolynomialFitterTest {
+    @Test
+    public void testFit() {
+        final RandomDataImpl rng = new RandomDataImpl();
+        rng.reSeed(64925784252L);
+
+        final LevenbergMarquardtOptimizer optim = new LevenbergMarquardtOptimizer();
+        final CurveFitter fitter = new CurveFitter(optim);
+        final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
+        final PolynomialFunction f = new PolynomialFunction(coeff);
+
+        // Collect data from a known polynomial.
+        for (int i = 0; i < 100; i++) {
+            final double x = rng.nextUniform(-100, 100);
+            fitter.addObservedPoint(x, f.value(x));
+        }
+
+        // Start fit from initial guesses that are far from the optimal values.
+        final double[] best = fitter.fit(new PolynomialFunction.Parametric(),
+                                         new double[] { -1e-20, 3e15, -5e25 });
+
+        TestUtils.assertEquals("best != coeff", coeff, best, 1e-12);
+    }
 
     @Test
     public void testNoError() {
