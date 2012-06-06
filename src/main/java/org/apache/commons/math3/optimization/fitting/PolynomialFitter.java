@@ -26,8 +26,14 @@ import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOpt
  * searched by a least square estimator.</p>
  * @version $Id$
  * @since 2.0
+ *
+ * @deprecated Since 3.1 (to be removed in 4.0, see <a href="https://issues.apache.org/jira/browse/MATH-800">MATH-800</a>).
+ * Please use {@link CurveFitter} directly, by passing an instance of
+ * {@link org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric PolynomialFunction.Parametric}
+ * as an argument to the
+ * {@link CurveFitter#fit(int,org.apache.commons.math3.analysis.ParametricUnivariateFunction,double[]) fit}
+ * method.
  */
-
 public class PolynomialFitter extends CurveFitter {
     /** Polynomial degree. */
     private final int degree;

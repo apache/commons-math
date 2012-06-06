@@ -24,11 +24,16 @@ import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
 
 import org.junit.Test;
 import org.junit.Assert;
 
+/**
+ * Test for class {@link CurveFitter} where the function to fit is a
+ * polynomial.
+ */
 public class PolynomialFitterTest {
 
     @Test
@@ -37,13 +42,15 @@ public class PolynomialFitterTest {
         for (int degree = 1; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            PolynomialFitter fitter =
-                new PolynomialFitter(degree, new LevenbergMarquardtOptimizer());
+            CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
             for (int i = 0; i <= degree; ++i) {
                 fitter.addObservedPoint(1.0, i, p.value(i));
             }
 
-            PolynomialFunction fitted = new PolynomialFunction(fitter.fit());
+            final double[] init = new double[degree + 1];
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(Integer.MAX_VALUE,
+                                                                          new PolynomialFunction.Parametric(),
+                                                                          init));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
@@ -60,14 +67,16 @@ public class PolynomialFitterTest {
         for (int degree = 0; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            PolynomialFitter fitter =
-                new PolynomialFitter(degree, new LevenbergMarquardtOptimizer());
+            CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 fitter.addObservedPoint(1.0, x,
                                         p.value(x) + 0.1 * randomizer.nextGaussian());
             }
 
-            PolynomialFunction fitted = new PolynomialFunction(fitter.fit());
+            final double[] init = new double[degree + 1];
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(Integer.MAX_VALUE,
+                                                                          new PolynomialFunction.Parametric(),
+                                                                          init));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
@@ -77,7 +86,6 @@ public class PolynomialFitterTest {
             }
         }
         Assert.assertTrue(maxError > 0.01);
-
     }
 
     @Test
@@ -89,9 +97,7 @@ public class PolynomialFitterTest {
     @Test
     public void testRedundantUnsolvable() {
         // Gauss-Newton should not be able to solve redundant information
-        DifferentiableMultivariateVectorOptimizer optimizer =
-            new GaussNewtonOptimizer(true);
-        checkUnsolvableProblem(optimizer, false);
+        checkUnsolvableProblem(new GaussNewtonOptimizer(true, new SimpleVectorValueChecker(1e-15, 1e-15)), false);
     }
 
     private void checkUnsolvableProblem(DifferentiableMultivariateVectorOptimizer optimizer,
@@ -100,7 +106,7 @@ public class PolynomialFitterTest {
         for (int degree = 0; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            PolynomialFitter fitter = new PolynomialFitter(degree, optimizer);
+            CurveFitter fitter = new CurveFitter(optimizer);
 
             // reusing the same point over and over again does not bring
             // information, the problem cannot be solved in this case for
@@ -111,7 +117,10 @@ public class PolynomialFitterTest {
             }
 
             try {
-                fitter.fit();
+                final double[] init = new double[degree + 1];
+                fitter.fit(Integer.MAX_VALUE,
+                           new PolynomialFunction.Parametric(),
+                           init);
                 Assert.assertTrue(solvable || (degree == 0));
             } catch(ConvergenceException e) {
                 Assert.assertTrue((! solvable) && (degree > 0));
