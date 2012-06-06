@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.linear;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -185,6 +186,22 @@ public class RealVectorTest extends RealVectorAbstractTest{
         return new TestVectorImpl(data);
     }
 
+    @Test
+    @Ignore("Abstract class RealVector does not implement append(RealVector).")
+    @Override
+    public void testAppendVector() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement append(double)")
+    @Override
+    public void testAppendScalar() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore
     @Override
     public void testBasicFunctions() {
         /*
@@ -291,6 +308,7 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
     }
 
+    @Override
     @Test
     public void testAddToEntry() {
         final double[] v = new double[] { 1, 2, 3 };
@@ -304,6 +322,8 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
     }
 
+    @Test
+    @Ignore
     @Override
     public void testDataInOut() {
         /*
@@ -317,6 +337,8 @@ public class RealVectorTest extends RealVectorAbstractTest{
          */
     }
 
+    @Test
+    @Ignore
     @Override
     public void testPredicates() {
         /*
@@ -330,11 +352,10 @@ public class RealVectorTest extends RealVectorAbstractTest{
          */
     }
 
+    @Test
+    @Ignore("Abstract class RealVector is not serializable.")
     @Override
     public void testSerial() {
-        /*
-         * Abstract class RealVector is not serializable, so this test is skipped
-         * (@Test annotation ommitted).
-         */
+        // Do nothing
     }
 }

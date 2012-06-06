@@ -120,28 +120,62 @@ public abstract class RealVectorAbstractTest {
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
 
+    private void doTestAppendVector(final String message, final RealVector v1,
+        final RealVector v2, final double delta) {
+
+        final int n1 = v1.getDimension();
+        final int n2 = v2.getDimension();
+        final RealVector v = v1.append(v2);
+        Assert.assertEquals(message, n1 + n2, v.getDimension());
+        for (int i = 0; i < n1; i++) {
+            final String msg = message + ", entry #" + i;
+            Assert.assertEquals(msg, v1.getEntry(i), v.getEntry(i), delta);
+        }
+        for (int i = 0; i < n2; i++) {
+            final String msg = message + ", entry #" + (n1 + i);
+            Assert.assertEquals(msg, v2.getEntry(i), v.getEntry(n1 + i), delta);
+        }
+    }
+
+    @Test
+    public void testAppendVector() {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = new double[] {x, 1d, 2d, x, x};
+        final double[] data2 = new double[] {x, x, 3d, x, 4d, x};
+
+        doTestAppendVector("same type", create(data1), create(data2), 0d);
+        doTestAppendVector("mixed types", create(data1), createAlien(data2), 0d);
+    }
+
+    private void doTestAppendScalar(final String message, final RealVector v,
+        final double d, final double delta) {
+
+        final int n = v.getDimension();
+        final RealVector w = v.append(d);
+        Assert.assertEquals(message, n + 1, w.getDimension());
+        for (int i = 0; i < n; i++) {
+            final String msg = message + ", entry #" + i;
+            Assert.assertEquals(msg, v.getEntry(i), w.getEntry(i), delta);
+        }
+        final String msg = message + ", entry #" + n;
+        Assert.assertEquals(msg, d, w.getEntry(n), delta);
+    }
+
+    @Test
+    public void testAppendScalar() {
+        final double x = getPreferredEntryValue();
+        final double[] data = new double[] {x, 1d, 2d, x, x};
+
+        doTestAppendScalar("same type", create(data), 1d, 0d);
+        doTestAppendScalar("mixed types", create(data), x, 0d);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
         final RealVector v4 = create(vec4);
         final RealVector v2_t = createAlien(vec2);
-
-        final RealVector v_append_1 = v1.append(v2);
-        Assert.assertEquals("testData len", 6, v_append_1.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_1.getEntry(3), 0);
-
-        final RealVector v_append_2 = v1.append(2.0);
-        Assert.assertEquals("testData len", 4, v_append_2.getDimension());
-        Assert.assertEquals("testData is 2.0 ", 2.0, v_append_2.getEntry(3), 0);
-
-        final RealVector v_append_4 = v1.append(v2_t);
-        Assert.assertEquals("testData len", 6, v_append_4.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_4.getEntry(3), 0);
-
-        final RealVector v_append_5 = v1.append(v2);
-        Assert.assertEquals("testData len", 6, v_append_5.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 4.0, v_append_5.getEntry(3), 0);
 
         final RealVector vout5 = v4.getSubVector(3, 3);
         Assert.assertEquals("testData len", 3, vout5.getDimension());
