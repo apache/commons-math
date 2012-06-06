@@ -116,9 +116,43 @@ public abstract class RealVectorAbstractTest {
     protected Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
     protected double[][] mat1 = {{1d, 2d, 3d}, {4d, 5d, 6d},{ 7d, 8d, 9d}};
 
+    /**
+     * Data which can be used to create a specific vector. The array is
+     * interspersed with the value returned by
+     * {@link #getPreferredEntryValue()}.
+     */
+    private final double[] data1;
+
+
+    /**
+     * Data which can be used to create a specific vector. The array is
+     * interspersed with the value returned by
+     * {@link #getPreferredEntryValue()}.
+     */
+    private final double[] data2;
+
+    public RealVectorAbstractTest() {
+        final double x = getPreferredEntryValue();
+        data1 = new double[] {x, 1d, 2d, x, x};
+        data2 = new double[] {x, x, 3d, x, 4d, x};
+    }
+
     // tolerances
     protected double entryTolerance = 10E-16;
     protected double normTolerance = 10E-14;
+
+    @Test
+    public void testGetDimension() {
+        Assert.assertEquals(data1.length, create(data1).getDimension());
+    }
+
+    @Test
+    public void testGetEntry() {
+        final RealVector v = create(data1);
+        for (int i = 0; i < data1.length; i++) {
+            Assert.assertEquals("entry " + i, data1[i], v.getEntry(i), 0d);
+        }
+    }
 
     private void doTestAppendVector(final String message, final RealVector v1,
         final RealVector v2, final double delta) {
@@ -139,10 +173,6 @@ public abstract class RealVectorAbstractTest {
 
     @Test
     public void testAppendVector() {
-        final double x = getPreferredEntryValue();
-        final double[] data1 = new double[] {x, 1d, 2d, x, x};
-        final double[] data2 = new double[] {x, x, 3d, x, 4d, x};
-
         doTestAppendVector("same type", create(data1), create(data2), 0d);
         doTestAppendVector("mixed types", create(data1), createAlien(data2), 0d);
     }
@@ -163,11 +193,9 @@ public abstract class RealVectorAbstractTest {
 
     @Test
     public void testAppendScalar() {
-        final double x = getPreferredEntryValue();
-        final double[] data = new double[] {x, 1d, 2d, x, x};
 
-        doTestAppendScalar("same type", create(data), 1d, 0d);
-        doTestAppendScalar("mixed types", create(data), x, 0d);
+        doTestAppendScalar("", create(data1), 1d, 0d);
+        doTestAppendScalar("", create(data1), getPreferredEntryValue(), 0d);
     }
 
     @Test
