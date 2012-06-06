@@ -918,6 +918,92 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
+    @Test(expected=DimensionMismatchException.class)
+    public void testCombineToSelfPreconditionSameType() {
+        final double a = 1d;
+        final double b = 2d;
+        double[] aux = new double[] { 3d, 4d, 5d };
+        final RealVector x = create(aux);
+        aux = new double[] { 6d, 7d };
+        final RealVector y = create(aux);
+        x.combineToSelf(a, b, y);
+    }
+
+    @Test
+    public void testCombineToSelfSameType() {
+        final Random random = new Random(20110726);
+        final int dim = 10;
+        final double a = (2 * random.nextDouble() - 1);
+        final double b = (2 * random.nextDouble() - 1);
+        final double[] dataX = new double[dim];
+        final double[] dataY = new double[dim];
+        final double[] expected = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            dataX[i] = 2 * random.nextDouble() - 1;
+            dataY[i] = 2 * random.nextDouble() - 1;
+            expected[i] = a * dataX[i] + b * dataY[i];
+        }
+        final RealVector x = create(dataX);
+        final RealVector y = create(dataY);
+        Assert.assertSame(x, x.combineToSelf(a, b, y));
+        final double[] actual = x.toArray();
+        for (int i = 0; i < dim; i++) {
+            final double delta;
+            if (expected[i] == 0d) {
+                delta = Math.ulp(1d);
+            } else {
+                delta = Math.ulp(expected[i]);
+            }
+            Assert.assertEquals("elements [" + i + "] differ",
+                                expected[i],
+                                actual[i],
+                                delta);
+        }
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testCombineToSelfPreconditionMixedType() {
+        final double a = 1d;
+        final double b = 2d;
+        double[] aux = new double[] { 3d, 4d, 5d };
+        final RealVector x = create(aux);
+        aux = new double[] { 6d, 7d };
+        final RealVector y = createAlien(aux);
+        x.combineToSelf(a, b, y);
+    }
+
+    @Test
+    public void testCombineToSelfMixedTypes() {
+        final Random random = new Random(20110726);
+        final int dim = 10;
+        final double a = (2 * random.nextDouble() - 1);
+        final double b = (2 * random.nextDouble() - 1);
+        final double[] dataX = new double[dim];
+        final double[] dataY = new double[dim];
+        final double[] expected = new double[dim];
+        for (int i = 0; i < dim; i++) {
+            dataX[i] = 2 * random.nextDouble() - 1;
+            dataY[i] = 2 * random.nextDouble() - 1;
+            expected[i] = a * dataX[i] + b * dataY[i];
+        }
+        final RealVector x = create(dataX);
+        final RealVector y = create(dataY);
+        Assert.assertSame(x, x.combineToSelf(a, b, y));
+        final double[] actual = x.toArray();
+        for (int i = 0; i < dim; i++) {
+            final double delta;
+            if (expected[i] == 0d) {
+                delta = Math.ulp(1d);
+            } else {
+                delta = Math.ulp(expected[i]);
+            }
+            Assert.assertEquals("elements [" + i + "] differ",
+                                expected[i],
+                                actual[i],
+                                delta);
+        }
+    }
+
     /*
      * TESTS OF THE VISITOR PATTERN
      */
