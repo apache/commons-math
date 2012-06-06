@@ -18,14 +18,9 @@ package org.apache.commons.math3.linear;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.Random;
 
-import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -359,6 +354,16 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         }
     }
 
+    @Override
+    public RealVector create(final double[] data) {
+        return new ArrayRealVector(data, true);
+    }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new RealVectorTestImpl(data);
+    }
+
     @Test
     public void testConstructors() {
 
@@ -504,15 +509,5 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         Assert.assertEquals(0, new ArrayRealVector(new double[0]).getDimension());
         Assert.assertEquals(0, new ArrayRealVector(new double[0], true).getDimension());
         Assert.assertEquals(0, new ArrayRealVector(new double[0], false).getDimension());
-    }
-
-    @Override
-    public RealVector create(final double[] data) {
-        return new ArrayRealVector(data, true);
-    }
-
-    @Override
-    public RealVector createAlien(double[] data) {
-        return new RealVectorTestImpl(data);
     }
 }

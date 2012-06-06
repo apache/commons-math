@@ -18,13 +18,10 @@ package org.apache.commons.math3.linear;
 
 import java.io.Serializable;
 import java.util.Iterator;
+
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * Test cases for the {@link OpenMapRealVector} class.
@@ -250,6 +247,16 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
     }
 
+    @Override
+    public RealVector create(double[] data) {
+        return new OpenMapRealVector(data);
+    }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new SparseRealVectorTestImpl(data);
+    }
+
     @Test
     public void testConstructors() {
 
@@ -313,15 +320,5 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
         u.ebeMultiply(v1);
         u.ebeDivide(v1);
-    }
-
-    @Override
-    public RealVector create(double[] data) {
-        return new OpenMapRealVector(data);
-    }
-
-    @Override
-    public RealVector createAlien(double[] data) {
-        return new SparseRealVectorTestImpl(data);
     }
 }

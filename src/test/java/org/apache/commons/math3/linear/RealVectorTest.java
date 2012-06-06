@@ -176,6 +176,16 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Override
+    public RealVector create(final double[] data) {
+        return new TestVectorImpl(data);
+    }
+
+    @Override
+    public RealVector createAlien(double[] data) {
+        return new TestVectorImpl(data);
+    }
+
+    @Override
     public void testBasicFunctions() {
         /*
          *  TODO this test is huge, and some of the methods being tested are not
@@ -292,16 +302,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         for (int i = 0; i < x.getDimension(); i++) {
             Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
         }
-    }
-
-    @Override
-    public RealVector create(final double[] data) {
-        return new TestVectorImpl(data);
-    }
-
-    @Override
-    public RealVector createAlien(double[] data) {
-        return new TestVectorImpl(data);
     }
 
     @Override
