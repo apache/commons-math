@@ -80,6 +80,21 @@ public abstract class RealVectorAbstractTest {
      */
     public abstract RealVector createAlien(double[] data);
 
+    /**
+     * Returns a preferred value of the entries, to be tested specifically. Some
+     * implementations of {@link RealVector} (e.g. {@link OpenMapRealVector}) do
+     * not store specific values of entries. In order to ensure that all tests
+     * take into account this specific value, some entries of the vectors to be
+     * tested are deliberately set to the value returned by the present method.
+     * The default implementation returns {@code 0.0}.
+     *
+     * @return a value which <em>should</em> be present in all vectors to be
+     * tested
+     */
+    public double getPreferredEntryValue() {
+        return 0.0;
+    }
+
     /** verifies that two vectors are close (sup norm) */
     protected void assertClose(String msg, double[] m, double[] n,
             double tolerance) {
