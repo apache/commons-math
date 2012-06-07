@@ -690,7 +690,12 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public void addToEntry(int index, double increment) {
+        try {
         data[index] += increment;
+        } catch(IndexOutOfBoundsException e){
+            throw new OutOfRangeException(LocalizedFormats.INDEX,
+                                          index, 0, data.length - 1);
+        }
     }
 
     /** {@inheritDoc} */
