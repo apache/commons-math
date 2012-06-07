@@ -252,6 +252,27 @@ public class TestUtils {
      * and actual vectors for which both entries are still considered equal
      */
     public static void assertEquals(final String message,
+        final double[] expected, final RealVector actual, final double delta) {
+        Assert.assertEquals(message + ", dimension", expected.length,
+            actual.getDimension());
+        for (int i = 0; i < expected.length; i++) {
+            Assert.assertEquals(message + ", entry #" + i, expected[i],
+                actual.getEntry(i), delta);
+        }
+    }
+
+    /**
+     * Asserts that all entries of the specified vectors are equal to within a
+     * positive {@code delta}.
+     *
+     * @param message the identifying message for the assertion error (can be
+     * {@code null})
+     * @param expected expected value
+     * @param actual actual value
+     * @param delta the maximum difference between the entries of the expected
+     * and actual vectors for which both entries are still considered equal
+     */
+    public static void assertEquals(final String message,
         final RealVector expected, final RealVector actual, final double delta) {
         Assert.assertEquals(message + ", dimension", expected.getDimension(),
             actual.getDimension());
