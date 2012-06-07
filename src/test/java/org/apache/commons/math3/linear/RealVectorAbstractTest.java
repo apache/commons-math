@@ -154,6 +154,16 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
+    @Test(expected=OutOfRangeException.class)
+    public void testGetEntryInvalidIndex1() {
+        create(data1).getEntry(-1);
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testGetEntryInvalidIndex2() {
+        create(data1).getEntry(data1.length);
+    }
+
     private void doTestAppendVector(final String message, final RealVector v1,
         final RealVector v2, final double delta) {
 

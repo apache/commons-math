@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.RealVector.Entry;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -125,12 +127,22 @@ public class RealVectorTest extends RealVectorAbstractTest{
 
         @Override
         public double getEntry(int index) {
-            return values[index];
+            try {
+                return values[index];
+            } catch (IndexOutOfBoundsException e) {
+                throw new OutOfRangeException(LocalizedFormats.INDEX, index, 0,
+                    getDimension() - 1);
+            }
         }
 
         @Override
         public void setEntry(int index, double value) {
-            values[index] = value;
+            try {
+                values[index] = value;
+            } catch (IndexOutOfBoundsException e) {
+                throw new OutOfRangeException(LocalizedFormats.INDEX, index, 0,
+                    getDimension() - 1);
+            }
         }
 
         @Override
