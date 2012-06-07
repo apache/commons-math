@@ -52,6 +52,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 import org.junit.Test;
 
 
@@ -162,6 +163,96 @@ public abstract class RealVectorAbstractTest {
     @Test(expected=OutOfRangeException.class)
     public void testGetEntryInvalidIndex2() {
         create(data1).getEntry(data1.length);
+    }
+
+    @Test
+    public void testSetEntry() {
+        final double[] expected = MathArrays.copyOf(data1);
+        final RealVector actual = create(data1);
+
+        /*
+         * Try setting to any value.
+         */
+        for (int i = 0; i < data1.length; i++) {
+            final double oldValue = data1[i];
+            final double newValue = oldValue + 1d;
+            expected[i] = newValue;
+            actual.setEntry(i, newValue);
+            TestUtils.assertEquals("while setting entry #" + i, expected,
+                actual, 0d);
+            expected[i] = oldValue;
+            actual.setEntry(i, oldValue);
+        }
+
+        /*
+         * Try setting to the preferred value.
+         */
+        final double x = getPreferredEntryValue();
+        for (int i = 0; i < data1.length; i++) {
+            final double oldValue = data1[i];
+            final double newValue = x;
+            expected[i] = newValue;
+            actual.setEntry(i, newValue);
+            TestUtils.assertEquals("while setting entry #" + i, expected,
+                actual, 0d);
+            expected[i] = oldValue;
+            actual.setEntry(i, oldValue);
+        }
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testSetEntryInvalidIndex1() {
+        create(data1).setEntry(-1, getPreferredEntryValue());
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testSetEntryInvalidIndex2() {
+        create(data1).setEntry(data1.length, getPreferredEntryValue());
+    }
+
+    @Test
+    public void testAddToEntry() {
+        final double[] expected = MathArrays.copyOf(data1);
+        final RealVector actual = create(data1);
+
+        /*
+         * Try adding any value.
+         */
+        double increment = 1d;
+        for (int i = 0; i < data1.length; i++) {
+            final double oldValue = data1[i];
+            expected[i] += increment;
+            actual.addToEntry(i, increment);
+            TestUtils.assertEquals("while incrementing entry #" + i, expected,
+                actual, 0d);
+            expected[i] = oldValue;
+            actual.setEntry(i, oldValue);
+        }
+
+        /*
+         * Try incrementing so that result is equal to preferred value.
+         */
+        final double x = getPreferredEntryValue();
+        for (int i = 0; i < data1.length; i++) {
+            final double oldValue = data1[i];
+            increment = x - oldValue;
+            expected[i] = x;
+            actual.addToEntry(i, increment);
+            TestUtils.assertEquals("while incrementing entry #" + i, expected,
+                actual, 0d);
+            expected[i] = oldValue;
+            actual.setEntry(i, oldValue);
+        }
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testAddToEntryInvalidIndex1() {
+        create(data1).addToEntry(-1, getPreferredEntryValue());
+    }
+
+    @Test(expected=OutOfRangeException.class)
+    public void testAddToEntryInvalidIndex2() {
+        create(data1).addToEntry(data1.length, getPreferredEntryValue());
     }
 
     private void doTestAppendVector(final String message, final RealVector v1,
@@ -839,19 +930,6 @@ public abstract class RealVectorAbstractTest {
     public void testSerial()  {
         RealVector v = create(new double[] { 0, 1, 2 });
         Assert.assertEquals(v,TestUtils.serializeAndRecover(v));
-    }
-
-    @Test
-    public void testAddToEntry() {
-        final double[] v = new double[] { 1, 2, 3 };
-        final RealVector x = create(v);
-        final double inc = 7;
-        for (int i = 0; i < x.getDimension(); i++) {
-            x.addToEntry(i, inc);
-        }
-        for (int i = 0; i < x.getDimension(); i++) {
-            Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
-        }
     }
 
     @Test
