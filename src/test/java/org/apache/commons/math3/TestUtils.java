@@ -253,10 +253,11 @@ public class TestUtils {
      */
     public static void assertEquals(final String message,
         final double[] expected, final RealVector actual, final double delta) {
-        Assert.assertEquals(message + ", dimension", expected.length,
+        final String msgAndSep = message.equals("") ? "" : message + ", ";
+        Assert.assertEquals(msgAndSep + "dimension", expected.length,
             actual.getDimension());
         for (int i = 0; i < expected.length; i++) {
-            Assert.assertEquals(message + ", entry #" + i, expected[i],
+            Assert.assertEquals(msgAndSep + "entry #" + i, expected[i],
                 actual.getEntry(i), delta);
         }
     }
@@ -274,11 +275,12 @@ public class TestUtils {
      */
     public static void assertEquals(final String message,
         final RealVector expected, final RealVector actual, final double delta) {
-        Assert.assertEquals(message + ", dimension", expected.getDimension(),
+        final String msgAndSep = message.equals("") ? "" : message + ", ";
+        Assert.assertEquals(msgAndSep + "dimension", expected.getDimension(),
             actual.getDimension());
         final int dim = expected.getDimension();
         for (int i = 0; i < dim; i++) {
-            Assert.assertEquals(message + ", entry #" + i,
+            Assert.assertEquals(msgAndSep + "entry #" + i,
                 expected.getEntry(i), actual.getEntry(i), delta);
         }
     }
