@@ -343,7 +343,21 @@ public class GammaDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * <p>This implementation uses the following algorithms: </p>
+     *
+     * <p>For 0 < shape < 1: <br/>
+     * Ahrens, J. H. and Dieter, U., <i>Computer methods for
+     * sampling from gamma, beta, Poisson and binomial distributions.</i>
+     * Computing, 12, 223-246, 1974.</p>
+     *
+     * <p>For shape >= 1: <br/>
+     * Marsaglia and Tsang, <i>A Simple Method for Generating
+     * Gamma Variables.</i> ACM Transactions on Mathematical Software,
+     * Volume 26 Issue 3, September, 2000.</p>
+     *
+     * @return random value sampled from the Gamma(shape, scale) distribution
+     */
     @Override
     public double sample()  {
         return randomData.nextGamma(shape, scale);
