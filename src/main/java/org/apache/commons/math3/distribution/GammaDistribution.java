@@ -342,4 +342,10 @@ public class GammaDistribution extends AbstractRealDistribution {
     public boolean isSupportConnected() {
         return true;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public double sample()  {
+        return randomData.nextGamma(shape, scale);
+    }
 }
