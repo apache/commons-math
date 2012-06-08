@@ -300,15 +300,24 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
+    public void testGetSubvector() {
+        final double x = getPreferredEntryValue();
+        final double[] data = {x, x, x, 1d, x, 2d, x, x, 3d, x, x, x, 4d, x, x, x};
+        final int index = 1;
+        final int n = data.length - 5;
+        final RealVector actual = create(data).getSubVector(index, n);
+        final double[] expected = new double[n];
+        System.arraycopy(data, index, expected, 0, n);
+        TestUtils.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
         final RealVector v4 = create(vec4);
         final RealVector v2_t = createAlien(vec2);
 
-        final RealVector vout5 = v4.getSubVector(3, 3);
-        Assert.assertEquals("testData len", 3, vout5.getDimension());
-        Assert.assertEquals("testData is 4.0 ", 5.0, vout5.getEntry(1), 0);
         try {
             v4.getSubVector(3, 7);
             Assert.fail("OutOfRangeException expected");
