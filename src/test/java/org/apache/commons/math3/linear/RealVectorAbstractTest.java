@@ -337,6 +337,51 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
+    public void testSetSubVectorSameType() {
+        final double x = getPreferredEntryValue();
+        final double[] expected = {x, x, x, 1d, x, 2d, x, x, 3d, x, x, x, 4d, x, x, x};
+        final double[] sub = {5d, x, 6d, 7d, 8d};
+        final RealVector actual = create(expected);
+        final int index = 2;
+        actual.setSubVector(index, create(sub));
+
+        for (int i = 0; i < sub.length; i++){
+            expected[index + i] = sub[i];
+        }
+        TestUtils.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testSetSubVectorMixedType() {
+        final double x = getPreferredEntryValue();
+        final double[] expected = {x, x, x, 1d, x, 2d, x, x, 3d, x, x, x, 4d, x, x, x};
+        final double[] sub = {5d, x, 6d, 7d, 8d};
+        final RealVector actual = create(expected);
+        final int index = 2;
+        actual.setSubVector(index, createAlien(sub));
+
+        for (int i = 0; i < sub.length; i++){
+            expected[index + i] = sub[i];
+        }
+        TestUtils.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testSetSubVectorInvalidIndex1() {
+        create(new double[10]).setSubVector(-1, create(new double[2]));
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testSetSubVectorInvalidIndex2() {
+        create(new double[10]).setSubVector(10, create(new double[2]));
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testSetSubVectorInvalidIndex3() {
+        create(new double[10]).setSubVector(9, create(new double[2]));
+    }
+
+    @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
