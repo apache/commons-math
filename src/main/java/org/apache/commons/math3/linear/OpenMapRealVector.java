@@ -19,6 +19,7 @@ package org.apache.commons.math3.linear;
 import java.io.Serializable;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.OpenIntToDoubleHashMap;
 import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
@@ -365,6 +366,9 @@ public class OpenMapRealVector extends SparseRealVector
     @Override
     public OpenMapRealVector getSubVector(int index, int n) {
         checkIndex(index);
+        if (n < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+        }
         checkIndex(index + n - 1);
         OpenMapRealVector res = new OpenMapRealVector(n);
         int end = index + n;

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
@@ -667,6 +668,9 @@ public class ArrayRealVector extends RealVector implements Serializable {
     /** {@inheritDoc} */
     @Override
     public RealVector getSubVector(int index, int n) {
+        if (n < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+        }
         ArrayRealVector out = new ArrayRealVector(n);
         try {
             System.arraycopy(data, index, out.data, 0, n);

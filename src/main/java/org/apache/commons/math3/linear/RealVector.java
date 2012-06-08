@@ -123,6 +123,8 @@ public abstract class RealVector {
      * @return a vector containing n elements.
      * @throws org.apache.commons.math3.exception.OutOfRangeException
      * if the index is not valid.
+     * @throws org.apache.commons.math3.exception.NotPositiveException
+     * if the number of elements is not positive
      */
     public abstract RealVector getSubVector(int index, int n);
 

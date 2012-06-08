@@ -215,7 +215,35 @@ public class RealVectorTest extends RealVectorAbstractTest{
     @Test
     @Ignore("Abstract class RealVector does not implement getSubvector(int, int)")
     @Override
-    public void testGetSubvector() {
+    public void testGetSubVector() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement getSubvector(int, int)")
+    @Override
+    public void testGetSubVectorInvalidIndex1() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement getSubvector(int, int)")
+    @Override
+    public void testGetSubVectorInvalidIndex2() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement getSubvector(int, int)")
+    @Override
+    public void testGetSubVectorInvalidIndex3() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement getSubvector(int, int)")
+    @Override
+    public void testGetSubVectorInvalidIndex4() {
         // Do nothing
     }
 

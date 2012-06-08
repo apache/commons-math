@@ -200,6 +200,7 @@ public enum LocalizedFormats implements Localizable {
     NOT_POSITIVE_DEGREES_OF_FREEDOM("degrees of freedom must be positive ({0})"),
     NOT_POSITIVE_ELEMENT_AT_INDEX("element {0} is not positive: {1}"),
     NOT_POSITIVE_EXPONENT("invalid exponent {0} (must be positive)"),
+    NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE("number of elements should be positive ({0})"),
     EXPONENT("exponent ({0})"), /* keep */
     NOT_POSITIVE_LENGTH("length must be positive ({0})"),
     LENGTH("length ({0})"), /* keep */

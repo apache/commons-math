@@ -49,6 +49,7 @@ import org.apache.commons.math3.analysis.function.Ulp;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
@@ -300,7 +301,7 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
-    public void testGetSubvector() {
+    public void testGetSubVector() {
         final double x = getPreferredEntryValue();
         final double[] data = {x, x, x, 1d, x, 2d, x, x, 3d, x, x, x, 4d, x, x, x};
         final int index = 1;
@@ -311,19 +312,36 @@ public abstract class RealVectorAbstractTest {
         TestUtils.assertEquals("", expected, actual, 0d);
     }
 
+    @Test(expected = OutOfRangeException.class)
+    public void testGetSubVectorInvalidIndex1() {
+        final int n = 10;
+        create(new double[n]).getSubVector(-1, 2);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testGetSubVectorInvalidIndex2() {
+        final int n = 10;
+        create(new double[n]).getSubVector(n, 2);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testGetSubVectorInvalidIndex3() {
+        final int n = 10;
+        create(new double[n]).getSubVector(0, n + 1);
+    }
+
+    @Test(expected = NotPositiveException.class)
+    public void testGetSubVectorInvalidIndex4() {
+        final int n = 10;
+        create(new double[n]).getSubVector(3, -2);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
         final RealVector v4 = create(vec4);
         final RealVector v2_t = createAlien(vec2);
-
-        try {
-            v4.getSubVector(3, 7);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
 
         final RealVector v_set1 = v1.copy();
         v_set1.setEntry(1, 11.0);
