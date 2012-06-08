@@ -391,6 +391,17 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
+    public void testIsInfinite() {
+        final RealVector v = create(new double[] { 0, 1, 2 });
+
+        Assert.assertFalse(v.isInfinite());
+        v.setEntry(0, Double.POSITIVE_INFINITY);
+        Assert.assertTrue(v.isInfinite());
+        v.setEntry(1, Double.NaN);
+        Assert.assertFalse(v.isInfinite());
+    }
+
+    @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
@@ -984,16 +995,6 @@ public abstract class RealVectorAbstractTest {
     @Test
     public void testPredicates() {
         final RealVector v = create(new double[] { 0, 1, 2 });
-
-        Assert.assertFalse(v.isNaN());
-        v.setEntry(1, Double.NaN);
-        Assert.assertTrue(v.isNaN());
-
-        Assert.assertFalse(v.isInfinite());
-        v.setEntry(0, Double.POSITIVE_INFINITY);
-        Assert.assertFalse(v.isInfinite());
-        v.setEntry(1, 1);
-        Assert.assertTrue(v.isInfinite());
 
         v.setEntry(0, 0);
         Assert.assertEquals(v, create(new double[] { 0, 1, 2 }));
