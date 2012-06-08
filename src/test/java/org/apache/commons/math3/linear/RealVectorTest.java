@@ -283,6 +283,13 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
+    @Ignore("Abstract class RealVector does not implement isNaN()")
+    @Override
+    public void testIsNaN() {
+        // Do nothing
+    }
+
+    @Test
     @Ignore
     @Override
     public void testBasicFunctions() {

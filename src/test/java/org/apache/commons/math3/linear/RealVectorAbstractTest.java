@@ -382,6 +382,15 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
+    public void testIsNaN() {
+        final RealVector v = create(new double[] {0, 1, 2});
+
+        Assert.assertFalse(v.isNaN());
+        v.setEntry(1, Double.NaN);
+        Assert.assertTrue(v.isNaN());
+    }
+
+    @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
