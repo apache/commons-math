@@ -228,6 +228,7 @@ public abstract class RealVector {
      * if {@code v} is not the same size as this vector.
      */
     public RealVector add(RealVector v) {
+        checkVectorDimensions(v);
         RealVector result = v.copy();
         Iterator<Entry> it = sparseIterator();
         while (it.hasNext()) {
@@ -248,6 +249,7 @@ public abstract class RealVector {
      * if {@code v} is not the same size as this vector.
      */
     public RealVector subtract(RealVector v) {
+        checkVectorDimensions(v);
         RealVector result = v.mapMultiply(-1d);
         Iterator<Entry> it = sparseIterator();
         while (it.hasNext()) {
