@@ -57,18 +57,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
 
         @Override
-        public RealVector add(RealVector v) {
-            RealVector result = new ArrayRealVector(v);
-            return result.add(this);
-        }
-
-        @Override
-        public RealVector subtract(RealVector v) {
-            RealVector result = new ArrayRealVector(v);
-            return result.subtract(this).mapMultiplyToSelf(-1);
-        }
-
-        @Override
         public RealVector mapAddToSelf(double d) {
             for(int i=0; i<values.length; i++) {
                 values[i] += d;
@@ -293,6 +281,48 @@ public class RealVectorTest extends RealVectorAbstractTest{
     @Ignore("Abstract class RealVector does not implement isNaN()")
     @Override
     public void testIsInfinite() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeMultiply(RealVector)")
+    @Override
+    public void testEbeMultiplySameType() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeMultiply(RealVector)")
+    @Override
+    public void testEbeMultiplyMixedTypes() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeMultiply(RealVector)")
+    @Override
+    public void testEbeMultiplyDimensionMismatch() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeDivide(RealVector)")
+    @Override
+    public void testEbeDivideSameType() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeDivide(RealVector)")
+    @Override
+    public void testEbeDivideMixedTypes() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement ebeDivide(RealVector)")
+    @Override
+    public void testEbeDivideDimensionMismatch() {
         // Do nothing
     }
 

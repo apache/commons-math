@@ -19,8 +19,6 @@ package org.apache.commons.math3.linear;
 import java.util.Arrays;
 import java.util.Random;
 
-import junit.framework.Assert;
-
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.function.Abs;
 import org.apache.commons.math3.analysis.function.Acos;
@@ -54,10 +52,16 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
+import org.junit.Assert;
 import org.junit.Test;
 
 
 public abstract class RealVectorAbstractTest {
+
+    private enum BinaryOperation {
+        ADD, SUB, MUL, DIV
+    };
+
     /**
      * Creates a new instance of {@link RealVector}, with specified entries.
      * The returned vector must be of the type currently tested. It should be
@@ -399,6 +403,201 @@ public abstract class RealVectorAbstractTest {
         Assert.assertTrue(v.isInfinite());
         v.setEntry(1, Double.NaN);
         Assert.assertFalse(v.isInfinite());
+    }
+
+    private void doTestEbeBinaryOperation(final BinaryOperation op, final boolean mixed) {
+        /*
+         * Make sure that x, y, z are three different values. Also, x is the
+         * preferred value (e.g. the value which is not stored in sparse
+         * implementations).
+         */
+        final double x = getPreferredEntryValue();
+        final double y = x + 1d;
+        final double z = y + 1d;
+
+        /*
+         * This is an attempt at covering most particular cases of combining
+         * two values.
+         *
+         * 1. Addition
+         *    --------
+         * The following cases should be covered
+         * (2 * x) + (-x)
+         * (-x) + 2 * x
+         * x + y
+         * y + x
+         * y + z
+         * y + (x - y)
+         * (y - x) + x
+         *
+         * The values to be considered are: x, y, z, 2 * x, -x, x - y, y - x.
+         *
+         * 2. Subtraction
+         *    -----------
+         * The following cases should be covered
+         * (2 * x) - x
+         * x - y
+         * y - x
+         * y - z
+         * y - (y - x)
+         * (y + x) - y
+         *
+         * The values to be considered are: x, y, z, x + y, y - x.
+         *
+         * 3. Multiplication
+         *    --------------
+         * (x * x) * (1 / x)
+         * (1 / x) * (x * x)
+         * x * y
+         * y * x
+         * y * z
+         *
+         * The values to be considered are: x, y, z, 1 / x, x * x.
+         *
+         * 4. Division
+         *    --------
+         * (x * x) / x
+         * x / y
+         * y / x
+         * y / z
+         *
+         * The values to be considered are: x, y, z, x * x.
+         *
+         * Also to be considered NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY.
+         */
+        final double[] values = {x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x};
+        final double[] data1 = new double[values.length * values.length];
+        final double[] data2 = new double[values.length * values.length];
+        int k = 0;
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                data1[k] = values[i];
+                data2[k] = values[j];
+                ++k;
+            }
+        }
+        final RealVector v1 = create(data1);
+        final RealVector v2 = mixed ? createAlien(data2) : create(data2);
+        final RealVector actual;
+        switch (op) {
+            case ADD:
+                actual = v1.add(v2);
+                break;
+            case SUB:
+                actual = v1.subtract(v2);
+                break;
+            case MUL:
+                actual = v1.ebeMultiply(v2);
+                break;
+            case DIV:
+                actual = v1.ebeDivide(v2);
+                break;
+            default:
+                throw new AssertionError("unexpected value");
+        }
+        final double[] expected = new double[data1.length];
+        for (int i = 0; i < expected.length; i++) {
+            switch (op) {
+                case ADD:
+                    expected[i] = data1[i] + data2[i];
+                    break;
+                case SUB:
+                    expected[i] = data1[i] - data2[i];
+                    break;
+                case MUL:
+                    expected[i] = data1[i] * data2[i];
+                    break;
+                case DIV:
+                    expected[i] = data1[i] / data2[i];
+                    break;
+                default:
+                    throw new AssertionError("unexpected value");
+            }
+        }
+        for (int i = 0; i < expected.length; i++) {
+            final String msg = "entry #"+i+", left = "+data1[i]+", right = " + data2[i];
+            Assert.assertEquals(msg, expected[i], actual.getEntry(i), 0.0);
+        }
+    }
+
+    private void doTestEbeBinaryOperationDimensionMismatch(final BinaryOperation op) {
+        final int n = 10;
+        switch (op) {
+            case ADD:
+                create(new double[n]).add(create(new double[n + 1]));
+                break;
+            case SUB:
+                create(new double[n]).subtract(create(new double[n + 1]));
+                break;
+            case MUL:
+                create(new double[n]).ebeMultiply(create(new double[n + 1]));
+                break;
+            case DIV:
+                create(new double[n]).ebeDivide(create(new double[n + 1]));
+                break;
+            default:
+                throw new AssertionError("unexpected value");
+        }
+    }
+
+    @Test
+    public void testAddSameType() {
+        doTestEbeBinaryOperation(BinaryOperation.ADD, false);
+    }
+
+    @Test
+    public void testAddMixedTypes() {
+        doTestEbeBinaryOperation(BinaryOperation.ADD, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testAddDimensionMismatch() {
+        doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.ADD);
+    }
+
+    @Test
+    public void testSubtractSameType() {
+        doTestEbeBinaryOperation(BinaryOperation.SUB, false);
+    }
+
+    @Test
+    public void testSubtractMixedTypes() {
+        doTestEbeBinaryOperation(BinaryOperation.SUB, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testSubtractDimensionMismatch() {
+        doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.SUB);
+    }
+
+    @Test
+    public void testEbeMultiplySameType() {
+        doTestEbeBinaryOperation(BinaryOperation.MUL, false);
+    }
+
+    @Test
+    public void testEbeMultiplyMixedTypes() {
+        doTestEbeBinaryOperation(BinaryOperation.MUL, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testEbeMultiplyDimensionMismatch() {
+        doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.MUL);
+    }
+
+    @Test
+    public void testEbeDivideSameType() {
+        doTestEbeBinaryOperation(BinaryOperation.DIV, false);
+    }
+
+    @Test
+    public void testEbeDivideMixedTypes() {
+        doTestEbeBinaryOperation(BinaryOperation.DIV, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testEbeDivideDimensionMismatch() {
+        doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.DIV);
     }
 
     @Test
@@ -838,66 +1037,6 @@ public abstract class RealVectorAbstractTest {
         double d_getLInfDistance_2 = v1.getLInfDistance(v2_t);
         Assert.assertEquals("compare values  ", 3d, d_getLInfDistance_2,
                             normTolerance);
-
-        // octave = v1 + v2
-        final RealVector v_add = v1.add(v2);
-        double[] result_add = {
-            5d, 7d, 9d
-        };
-        assertClose("compare vect", v_add.toArray(), result_add, normTolerance);
-
-        final RealVector vt2 = createAlien(vec2);
-        RealVector v_add_i = v1.add(vt2);
-        double[] result_add_i = {
-            5d, 7d, 9d
-        };
-        assertClose("compare vect", v_add_i.toArray(), result_add_i,
-                    normTolerance);
-
-        // octave = v1 - v2
-        final RealVector v_subtract = v1.subtract(v2);
-        double[] result_subtract = {
-            -3d, -3d, -3d
-        };
-        assertClose("compare vect", v_subtract.toArray(), result_subtract,
-                    normTolerance);
-
-        final RealVector v_subtract_i = v1.subtract(vt2);
-        double[] result_subtract_i = {
-            -3d, -3d, -3d
-        };
-        assertClose("compare vect", v_subtract_i.toArray(), result_subtract_i,
-                    normTolerance);
-
-        // octave v1 .* v2
-        final RealVector v_ebeMultiply = v1.ebeMultiply(v2);
-        double[] result_ebeMultiply = {
-            4d, 10d, 18d
-        };
-        assertClose("compare vect", v_ebeMultiply.toArray(),
-                    result_ebeMultiply, normTolerance);
-
-        final RealVector v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
-        double[] result_ebeMultiply_2 = {
-            4d, 10d, 18d
-        };
-        assertClose("compare vect", v_ebeMultiply_2.toArray(),
-                    result_ebeMultiply_2, normTolerance);
-
-        // octave v1 ./ v2
-        final RealVector v_ebeDivide = v1.ebeDivide(v2);
-        double[] result_ebeDivide = {
-            0.25d, 0.4d, 0.5d
-        };
-        assertClose("compare vect", v_ebeDivide.toArray(), result_ebeDivide,
-                    normTolerance);
-
-        final RealVector v_ebeDivide_2 = v1.ebeDivide(v2_t);
-        double[] result_ebeDivide_2 = {
-            0.25d, 0.4d, 0.5d
-        };
-        assertClose("compare vect", v_ebeDivide_2.toArray(),
-                    result_ebeDivide_2, normTolerance);
 
         // octave dot(v1,v2)
         double dot = v1.dotProduct(v2);
