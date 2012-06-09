@@ -248,12 +248,12 @@ public abstract class RealVector {
      * if {@code v} is not the same size as this vector.
      */
     public RealVector subtract(RealVector v) {
-        RealVector result = v.copy();
+        RealVector result = v.mapMultiply(-1d);
         Iterator<Entry> it = sparseIterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             final int index = e.getIndex();
-            result.setEntry(index, e.getValue() - result.getEntry(index));
+            result.setEntry(index, e.getValue() + result.getEntry(index));
         }
         return result;
     }
