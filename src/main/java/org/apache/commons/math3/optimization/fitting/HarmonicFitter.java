@@ -36,7 +36,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 2.0
  */
-public class HarmonicFitter extends CurveFitter {
+public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
     /**
      * Simple constructor.
      * @param optimizer Optimizer to use for the fitting.

@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-804">
+        Parameterized "CurveFitter" class (package "o.a.c.m.optimization.fitting")
+        with the type of the fitting function. Updated subclasses "PolynomialFitter",
+        "HarmonicFitter", "GaussianFitter".
+      </action>
       <action dev="luc" type="fix" issue="MATH-801">
         Fixed a problem when building rotations from two pairs of vectors. In very rare cases,
         due to numerical inaccuracies the computed quaternion was not normalized (some examples

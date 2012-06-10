@@ -43,7 +43,7 @@ public class PolynomialFitterTest {
         rng.reSeed(64925784252L);
 
         final LevenbergMarquardtOptimizer optim = new LevenbergMarquardtOptimizer();
-        final CurveFitter fitter = new CurveFitter(optim);
+        final PolynomialFitter fitter = new PolynomialFitter(optim);
         final double[] coeff = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
         final PolynomialFunction f = new PolynomialFunction(coeff);
 
@@ -54,8 +54,7 @@ public class PolynomialFitterTest {
         }
 
         // Start fit from initial guesses that are far from the optimal values.
-        final double[] best = fitter.fit(new PolynomialFunction.Parametric(),
-                                         new double[] { -1e-20, 3e15, -5e25 });
+        final double[] best = fitter.fit(new double[] { -1e-20, 3e15, -5e25 });
 
         TestUtils.assertEquals("best != coeff", coeff, best, 1e-12);
     }
@@ -66,15 +65,13 @@ public class PolynomialFitterTest {
         for (int degree = 1; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
+            PolynomialFitter fitter = new PolynomialFitter(new LevenbergMarquardtOptimizer());
             for (int i = 0; i <= degree; ++i) {
                 fitter.addObservedPoint(1.0, i, p.value(i));
             }
 
             final double[] init = new double[degree + 1];
-            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(Integer.MAX_VALUE,
-                                                                          new PolynomialFunction.Parametric(),
-                                                                          init));
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(init));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
@@ -91,16 +88,14 @@ public class PolynomialFitterTest {
         for (int degree = 0; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
+            PolynomialFitter fitter = new PolynomialFitter(new LevenbergMarquardtOptimizer());
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 fitter.addObservedPoint(1.0, x,
                                         p.value(x) + 0.1 * randomizer.nextGaussian());
             }
 
             final double[] init = new double[degree + 1];
-            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(Integer.MAX_VALUE,
-                                                                          new PolynomialFunction.Parametric(),
-                                                                          init));
+            PolynomialFunction fitted = new PolynomialFunction(fitter.fit(init));
 
             for (double x = -1.0; x < 1.0; x += 0.01) {
                 double error = FastMath.abs(p.value(x) - fitted.value(x)) /
@@ -130,7 +125,7 @@ public class PolynomialFitterTest {
         for (int degree = 0; degree < 10; ++degree) {
             PolynomialFunction p = buildRandomPolynomial(degree, randomizer);
 
-            CurveFitter fitter = new CurveFitter(optimizer);
+            PolynomialFitter fitter = new PolynomialFitter(optimizer);
 
             // reusing the same point over and over again does not bring
             // information, the problem cannot be solved in this case for
@@ -142,9 +137,7 @@ public class PolynomialFitterTest {
 
             try {
                 final double[] init = new double[degree + 1];
-                fitter.fit(Integer.MAX_VALUE,
-                           new PolynomialFunction.Parametric(),
-                           init);
+                fitter.fit(init);
                 Assert.assertTrue(solvable || (degree == 0));
             } catch(ConvergenceException e) {
                 Assert.assertTrue((! solvable) && (degree > 0));

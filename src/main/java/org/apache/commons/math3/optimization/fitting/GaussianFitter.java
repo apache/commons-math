@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -58,7 +57,7 @@ import org.apache.commons.math3.optimization.fitting.WeightedObservedPoint;
  * @since 2.2
  * @version $Id$
  */
-public class GaussianFitter extends CurveFitter {
+public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
     /**
      * Constructs an instance using the specified optimizer.
      *
@@ -82,13 +81,11 @@ public class GaussianFitter extends CurveFitter {
      * @since 3.0
      */
     public double[] fit(double[] initialGuess) {
-        final ParametricUnivariateFunction f = new ParametricUnivariateFunction() {
-                private final ParametricUnivariateFunction g = new Gaussian.Parametric();
-
+        final Gaussian.Parametric f = new Gaussian.Parametric() {
                 public double value(double x, double ... p) {
                     double v = Double.POSITIVE_INFINITY;
                     try {
-                        v = g.value(x, p);
+                        v = super.value(x, p);
                     } catch (NotStrictlyPositiveException e) {
                         // Do nothing.
                     }
@@ -100,7 +97,7 @@ public class GaussianFitter extends CurveFitter {
                                    Double.POSITIVE_INFINITY,
                                    Double.POSITIVE_INFINITY };
                     try {
-                        v = g.gradient(x, p);
+                        v = super.gradient(x, p);
                     } catch (NotStrictlyPositiveException e) {
                         // Do nothing.
                     }

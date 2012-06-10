@@ -27,7 +27,8 @@ import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOpt
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
- * <p>When a univariate real function y = f(x) does depend on some
+ * <br/>
+ * When a univariate real function y = f(x) does depend on some
  * unknown parameters p<sub>0</sub>, p<sub>1</sub> ... p<sub>n-1</sub>,
  * this class can be used to find these parameters. It does this
  * by <em>fitting</em> the curve so it remains very close to a set of
@@ -35,11 +36,14 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  * y<sub>1</sub>) ... (x<sub>k-1</sub>, y<sub>k-1</sub>). This fitting
  * is done by finding the parameters values that minimizes the objective
  * function &sum;(y<sub>i</sub>-f(x<sub>i</sub>))<sup>2</sup>. This is
- * really a least squares problem.</p>
+ * really a least squares problem.
+ *
+ * @param <T> Function to use for the fit.
+ *
  * @version $Id$
  * @since 2.0
  */
-public class CurveFitter {
+public class CurveFitter<T extends ParametricUnivariateFunction> {
     /** Optimizer to use for the fitting. */
     private final DifferentiableMultivariateVectorOptimizer optimizer;
     /** Observed points. */
@@ -120,7 +124,7 @@ public class CurveFitter {
      * @throws org.apache.commons.math3.exception.DimensionMismatchException
      * if the start point dimension is wrong.
      */
-    public double[] fit(final ParametricUnivariateFunction f, final double[] initialGuess) {
+    public double[] fit(T f, final double[] initialGuess) {
         return fit(Integer.MAX_VALUE, f, initialGuess);
     }
 
@@ -141,7 +145,7 @@ public class CurveFitter {
      * if the start point dimension is wrong.
      * @since 3.0
      */
-    public double[] fit(int maxEval, final ParametricUnivariateFunction f,
+    public double[] fit(int maxEval, T f,
                         final double[] initialGuess) {
         // prepare least squares problem
         double[] target  = new double[observations.size()];

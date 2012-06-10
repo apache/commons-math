@@ -20,22 +20,18 @@ package org.apache.commons.math3.optimization.fitting;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 
-/** This class implements a curve fitting specialized for polynomials.
- * <p>Polynomial fitting is a very simple case of curve fitting. The
- * estimated coefficients are the polynomial coefficients. They are
- * searched by a least square estimator.</p>
+/**
+ * Polynomial fitting is a very simple case of {@link CurveFitter curve fitting}.
+ * The estimated coefficients are the polynomial coefficients (see the
+ * {@link #fit(double[]) fit} method).
+ *
  * @version $Id$
  * @since 2.0
- *
- * @deprecated Since 3.1 (to be removed in 4.0, see <a href="https://issues.apache.org/jira/browse/MATH-800">MATH-800</a>).
- * Please use {@link CurveFitter} directly, by passing an instance of
- * {@link org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric PolynomialFunction.Parametric}
- * as an argument to the
- * {@link CurveFitter#fit(int,org.apache.commons.math3.analysis.ParametricUnivariateFunction,double[]) fit}
- * method.
  */
-public class PolynomialFitter extends CurveFitter {
-    /** Polynomial degree. */
+public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric> {
+    /** Polynomial degree.
+     * @deprecated
+     */
     private final int degree;
 
     /**
@@ -45,10 +41,22 @@ public class PolynomialFitter extends CurveFitter {
      *
      * @param degree Maximal degree of the polynomial.
      * @param optimizer Optimizer to use for the fitting.
+     * @deprecated Since 3.1 (to be removed in 4.0). Please use
+     * {@link #PolynomialFitter(DifferentiableMultivariateVectorOptimizer)} instead.
      */
     public PolynomialFitter(int degree, final DifferentiableMultivariateVectorOptimizer optimizer) {
         super(optimizer);
         this.degree = degree;
+    }
+
+    /**
+     * Simple constructor.
+     *
+     * @param optimizer Optimizer to use for the fitting.
+     */
+    public PolynomialFitter(DifferentiableMultivariateVectorOptimizer optimizer) {
+        super(optimizer);
+        degree = -1; // To avoid compilation error until the instance variable is removed.
     }
 
     /**
@@ -57,8 +65,23 @@ public class PolynomialFitter extends CurveFitter {
      * @return the coefficients of the polynomial that best fits the observed points.
      * @throws org.apache.commons.math3.exception.ConvergenceException
      * if the algorithm failed to converge.
+     * @deprecated Since 3.1 (to be removed in 4.0). Please use {@link #fit(double[])} instead.
      */
     public double[] fit() {
         return fit(new PolynomialFunction.Parametric(), new double[degree + 1]);
+    }
+
+    /**
+     * Get the coefficients of the polynomial fitting the weighted data points.
+     * The degree of the fitting polynomial is {@code guess.length - 1}.
+     *
+     * @param guess First guess for the coefficients. They must be sorted in
+     * increasing order of the polynomial's degree.
+     * @return the coefficients of the polynomial that best fits the observed points.
+     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * if the algorithm failed to converge.
+     */
+    public double[] fit(double[] guess) {
+        return fit(new PolynomialFunction.Parametric(), guess);
     }
 }
