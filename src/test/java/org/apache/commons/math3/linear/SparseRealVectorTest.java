@@ -237,14 +237,25 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
         @Override
         public boolean isNaN() {
-            throw unsupported();
+            boolean isNaN = false;
+            for (int i = 0; i < data.length; i++) {
+                isNaN |= Double.isNaN(data[i]);
+            }
+            return isNaN;
         }
 
         @Override
         public boolean isInfinite() {
-            throw unsupported();
+            boolean isInfinite = false;
+            for (int i = 0; i < data.length; i++) {
+                final double x = data[i];
+                if (Double.isNaN(x)) {
+                    return false;
+                }
+                isInfinite |= Double.isInfinite(x);
+            }
+            return isInfinite;
         }
-
     }
 
     @Override
