@@ -170,7 +170,10 @@ public class MannWhitneyUTest {
                                              final int n2)
         throws ConvergenceException, MaxCountExceededException {
 
-        final double n1n2prod = n1 * n2;
+        /* long multiplication to avoid overflow (double not used due to efficiency 
+         * and to avoid precision loss)
+         */
+        final long n1n2prod = (long) n1 * n2;
 
         // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation
         final double EU = n1n2prod / 2.0;
