@@ -315,6 +315,35 @@ public class GaussianFitterTest {
         Assert.assertEquals(53.1572792, p[1], 1e-7);
         Assert.assertEquals(5.75214622, p[2], 1e-8);
     }
+
+    @Test
+    public void testMath798() {
+        final GaussianFitter fitter = new GaussianFitter(new LevenbergMarquardtOptimizer());
+
+        // When the data points are not commented out below, the fit stalls.
+        // This is expected however, since the whole dataset hardly looks like
+        // a Gaussian.
+        // When commented out, the fit proceeds fine.
+
+        fitter.addObservedPoint(0.23, 395.0);
+        //fitter.addObservedPoint(0.68, 0.0);
+        fitter.addObservedPoint(1.14, 376.0);
+        //fitter.addObservedPoint(1.59, 0.0);
+        fitter.addObservedPoint(2.05, 163.0);
+        //fitter.addObservedPoint(2.50, 0.0);
+        fitter.addObservedPoint(2.95, 49.0);
+        //fitter.addObservedPoint(3.41, 0.0);
+        fitter.addObservedPoint(3.86, 16.0);
+        //fitter.addObservedPoint(4.32, 0.0);
+        fitter.addObservedPoint(4.77, 1.0);
+
+        final double[] p = fitter.fit();
+
+        // Values are copied from a previous run of this test.
+        Assert.assertEquals(420.8397296167364, p[0], 1e-12);
+        Assert.assertEquals(0.603770729862231, p[1], 1e-15);
+        Assert.assertEquals(1.0786447936766612, p[2], 1e-14);
+    }
     
     /**
      * Adds the specified points to specified <code>GaussianFitter</code>
