@@ -229,7 +229,7 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
             public double[] value(double x) {
                 return derivative(x);
             }
-            
+
         };
     }
 
@@ -237,7 +237,7 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
      * @exception MathIllegalStateException if interpolation cannot be performed
      * because sample is empty
      */
-    private void checkInterpolation() throws MathIllegalStateException {        
+    private void checkInterpolation() throws MathIllegalStateException {
         if (abscissae.isEmpty()) {
             throw new MathIllegalStateException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }
