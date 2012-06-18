@@ -54,7 +54,13 @@ All rights reserved
 The LocalizedFormatsTest class in the unit tests is an adapted version of
 the OrekitMessagesTest class from the orekit library distributed under the
 terms of the Apache 2 licence. Original source copyright:
-Copyright 2010 CS Communication & Systèmes
+Copyright 2010 CS Systèmes d'Information
+===============================================================================
+
+The HermiteInterpolator class and its corresponding test have been imported from
+the orekit library distributed under the terms of the Apache 2 licence. Original
+source copyright:
+Copyright 2010-2012 CS Systèmes d'Information
 ===============================================================================
 
 The complete text of licenses and disclaimers associated with the the original

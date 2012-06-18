@@ -437,6 +437,27 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
           href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
         </p>
         <p>
+          <a href="http://en.wikipedia.org/wiki/Hermite_interpolation">Hermite interpolation</a>
+          is an interpolation method that can use derivatives in addition to function values at sample points. The <a
+          href="../apidocs/org/apache/commons/math3/analysis/interpolation/HermiteInterpolator.html">HermiteInterpolator</a>
+          class implements this method for vector-valued functions. The sampling points can have any spacing (there are
+          no requirements for a regular grid) and some points may provide derivatives while others don't provide them
+          (or provide derivatives to a smaller order). Points are added one at a time, as shown in the following example:
+        </p>
+        <source>HermiteInterpolator interpolator = new HermiteInterpolator;
+// at x = 0, we provide both value and first derivative
+interpolator.addSamplePoint(0.0, new double[] { 1.0 }, new double[] { 2.0 });
+// at x = 1, we provide only function value
+interpolator.addSamplePoint(1.0, new double[] { 4.0 });
+// at x = 2, we provide both value and first derivative
+interpolator.addSamplePoint(2.0, new double[] { 5.0 }, new double[] { 2.0 });
+// should print "value at x = 0.5: 2.5625"
+System.out.println("value at x = 0.5: " + interpolator.value(0.5)[0]);
+// should print "derivative at x = 0.5: 3.5"
+System.out.println("derivative at x = 0.5: " + interpolator.derivative(0.5)[0]);
+// should print "interpolation polynomial: 1 + 2 x + 4 x^2 - 4 x^3 + x^4"
+System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[0]);</source>
+        <p>
           A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BivariateGridInterpolator.html">
           BivariateGridInterpolator</a> is used to find a bivariate real-valued
           function <code>f</code> which for a given set of tuples

@@ -88,9 +88,10 @@ public enum LocalizedFormats implements Localizable {
     DIMENSIONS_MISMATCH("dimensions mismatch"), /* keep */
     DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN("Discrete cumulative probability function returned NaN for argument {0}"),
     DISTRIBUTION_NOT_LOADED("distribution not loaded"),
-    DUPLICATED_ABSCISSA("Abscissa {0} is duplicated at both indices {1} and {2}"),
+    DUPLICATED_ABSCISSA_DIVISION_BY_ZERO("duplicated abscissa {0} causes division by zero"),
     ELITISM_RATE("elitism rate ({0})"),
     EMPTY_CLUSTER_IN_K_MEANS("empty cluster in k-means"),
+    EMPTY_INTERPOLATION_SAMPLE("sample for interpolation is empty"),
     EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY("empty polynomials coefficients array"), /* keep */
     EMPTY_SELECTED_COLUMN_INDEX_ARRAY("empty selected column index array"),
     EMPTY_SELECTED_ROW_INDEX_ARRAY("empty selected row index array"),
@@ -112,7 +113,6 @@ public enum LocalizedFormats implements Localizable {
     GCD_OVERFLOW_32_BITS("overflow: gcd({0}, {1}) is 2^31"),
     GCD_OVERFLOW_64_BITS("overflow: gcd({0}, {1}) is 2^63"),
     HOLE_BETWEEN_MODELS_TIME_RANGES("{0} wide hole between models time ranges"),
-    IDENTICAL_ABSCISSAS_DIVISION_BY_ZERO("identical abscissas x[{0}] == x[{1}] == {2} cause division by zero"),
     ILL_CONDITIONED_OPERATOR("condition number {1} is too high "),
     INDEX_LARGER_THAN_MAX("the index specified: {0} is larger than the current maximal index {1}"),
     INDEX_NOT_POSITIVE("index ({0}) is not positive"),
