@@ -64,6 +64,8 @@ public abstract class UnmodifiableRealVectorAbstractTest {
         EXCLUDE.add("sparseIterator");
         EXCLUDE.add("walkInDefaultOrder");
         EXCLUDE.add("walkInOptimizedOrder");
+        EXCLUDE.add("ebeDivide");
+        EXCLUDE.add("ebeMultiply");
 
         // Excluded because they are inherited from "Object".
         for (Method m : Object.class.getMethods()) {

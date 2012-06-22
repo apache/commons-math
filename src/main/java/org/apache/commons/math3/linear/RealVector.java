@@ -336,7 +336,17 @@ public abstract class RealVector {
      * @return a vector containing this[i] / v[i] for all i.
      * @throws org.apache.commons.math3.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
+     * @deprecated As of version 3.1, this method is deprecated, and will be
+     * removed in version 4.0. This decision follows the discussion reported in
+     * <a href="https://issues.apache.org/jira/browse/MATH-803?focusedCommentId=13399150#comment-13399150">MATH-803</a>.
+     * Uses of this method involving sparse implementations of
+     * {@link RealVector} might lead to wrong results. Since there is no
+     * satisfactory correction to this bug, this method is deprecated. Users who
+     * want to preserve this feature are advised to implement
+     * {@link RealVectorPreservingVisitor} (possibly ignoring corner cases for
+     * the sake of efficiency).
      */
+    @Deprecated
     public abstract RealVector ebeDivide(RealVector v);
 
     /**
@@ -346,7 +356,17 @@ public abstract class RealVector {
      * @return a vector containing this[i] * v[i] for all i.
      * @throws org.apache.commons.math3.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
+     * @deprecated As of version 3.1, this method is deprecated, and will be
+     * removed in version 4.0. This decision follows the discussion reported in
+     * <a href="https://issues.apache.org/jira/browse/MATH-803?focusedCommentId=13399150#comment-13399150">MATH-803</a>.
+     * Uses of this method involving sparse implementations of
+     * {@link RealVector} might lead to wrong results. Since there is no
+     * satisfactory correction to this bug, this method is deprecated. Users who
+     * want to preserve this feature are advised to implement
+     * {@link RealVectorPreservingVisitor} (possibly ignoring corner cases for
+     * the sake of efficiency).
      */
+    @Deprecated
     public abstract RealVector ebeMultiply(RealVector v);
 
     /**

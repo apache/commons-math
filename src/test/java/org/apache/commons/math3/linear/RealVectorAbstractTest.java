@@ -53,6 +53,7 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -463,9 +464,14 @@ public abstract class RealVectorAbstractTest {
          *
          * The values to be considered are: x, y, z, x * x.
          *
-         * Also to be considered NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY.
+         * Also to be considered NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY,
+         * +0.0, -0.0.
          */
-        final double[] values = {x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x};
+        final double[] values =
+            {
+                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x
+            };
         final double[] data1 = new double[values.length * values.length];
         final double[] data2 = new double[values.length * values.length];
         int k = 0;
@@ -570,31 +576,37 @@ public abstract class RealVectorAbstractTest {
         doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.SUB);
     }
 
+    @Ignore("ebeMultiply(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test
     public void testEbeMultiplySameType() {
         doTestEbeBinaryOperation(BinaryOperation.MUL, false);
     }
 
+    @Ignore("ebeMultiply(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test
     public void testEbeMultiplyMixedTypes() {
         doTestEbeBinaryOperation(BinaryOperation.MUL, true);
     }
 
+    @Ignore("ebeMultiply(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test(expected = DimensionMismatchException.class)
     public void testEbeMultiplyDimensionMismatch() {
         doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.MUL);
     }
 
+    @Ignore("ebeDivide(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test
     public void testEbeDivideSameType() {
         doTestEbeBinaryOperation(BinaryOperation.DIV, false);
     }
 
+    @Ignore("ebeDivide(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test
     public void testEbeDivideMixedTypes() {
         doTestEbeBinaryOperation(BinaryOperation.DIV, true);
     }
 
+    @Ignore("ebeDivide(RealVector) is known to be faulty (MATH-803) and is deprecated.")
     @Test(expected = DimensionMismatchException.class)
     public void testEbeDivideDimensionMismatch() {
         doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.DIV);
