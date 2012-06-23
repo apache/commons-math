@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="celestin" type="add" issue="MATH-807">
+        Added a new constructor to o.a.c.m.utils.IterationManager, allowing
+        for the specification of a callback function in case the maximum
+        number of iteration is reached.
+      </action>
       <action dev="luc" type="add">
         A new HermiteInterpolator class allow interpolation of vector-valued
         functions using both values and derivatives of the function at sample

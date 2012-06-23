@@ -956,7 +956,7 @@ public class SymmLQ
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction
+     * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint
      * @throws NonPositiveDefiniteOperatorException if {@code m} is not
@@ -1044,7 +1044,7 @@ public class SymmLQ
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction
+     * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} is not self-adjoint
      * @throws IllConditionedOperatorException if {@code a} is ill-conditioned
@@ -1134,7 +1134,7 @@ public class SymmLQ
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction
+     * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint
      * @throws NonPositiveDefiniteOperatorException if {@code m} is not positive

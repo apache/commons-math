@@ -88,7 +88,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction
+     * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(final RealLinearOperator a,
         final RealLinearOperator m, final RealVector b, final RealVector x0)
@@ -169,7 +169,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction
+     * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(RealLinearOperator a, RealLinearOperator m,
         RealVector b) throws NullArgumentException, NonSquareOperatorException,
@@ -197,7 +197,7 @@ public abstract class PreconditionedIterativeLinearSolver
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
      * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
-     * has been set at construction.
+     * has been set at construction of the {@link IterationManager}
      */
     public abstract RealVector solveInPlace(RealLinearOperator a,
         RealLinearOperator m, RealVector b, RealVector x0) throws

@@ -40,11 +40,22 @@ public class IterationManager {
     /**
      * Creates a new instance of this class.
      *
-     * @param maxIterations Maximum number of iterations.
+     * @param maxIterations the maximum number of iterations
      */
     public IterationManager(final int maxIterations) {
-        this.iterations = new Incrementor();
-        this.iterations.setMaximalCount(maxIterations);
+        this(maxIterations, null);
+    }
+
+    /**
+     * Creates a new instance of this class.
+     *
+     * @param maxIterations the maximum number of iterations
+     * @param callBack the function to be called when the maximum number of
+     * iterations has been reached (can be {@code null})
+     */
+    public IterationManager(final int maxIterations,
+                            final Incrementor.MaxCountExceededCallback callBack) {
+        this.iterations = new Incrementor(maxIterations, callBack);
         this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }
 
