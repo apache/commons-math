@@ -643,6 +643,11 @@ public abstract class RealVectorAbstractTest {
         doTestGetDistance(true);
     }
 
+    @Test(expected = DimensionMismatchException.class)
+    public void testGetDistanceDimensionMismatch() {
+        create(new double[4]).getDistance(createAlien(new double[5]));
+    }
+
     @Test
     public void testGetNorm() {
         final double x = getPreferredEntryValue();
@@ -655,6 +660,104 @@ public abstract class RealVectorAbstractTest {
         }
         expected = FastMath.sqrt(expected);
         Assert.assertEquals("", expected, actual, 0d);
+    }
+
+    private void doTestGetL1Distance(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final double[] data2 = new double[] { 4d, x, x, 5d, 6d, 7d, x, x, 8d };
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        final double actual = v1.getL1Distance(v2);
+        double expected = 0d;
+        for (int i = 0; i < data1.length; i++) {
+            final double delta = data2[i] - data1[i];
+            expected += FastMath.abs(delta);
+        }
+        Assert.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testGetL1DistanceSameType() {
+        doTestGetL1Distance(false);
+    }
+
+    @Test
+    public void testGetL1DistanceMixedTypes() {
+        doTestGetL1Distance(true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testGetL1DistanceDimensionMismatch() {
+        create(new double[4]).getL1Distance(createAlien(new double[5]));
+    }
+
+    @Test
+    public void testGetL1Norm() {
+        final double x = getPreferredEntryValue();
+        final double[] data = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final RealVector v = create(data);
+        final double actual = v.getL1Norm();
+        double expected = 0d;
+        for (int i = 0; i < data.length; i++) {
+            expected += FastMath.abs(data[i]);
+        }
+        Assert.assertEquals("", expected, actual, 0d);
+
+    }
+
+    private void doTestGetLInfDistance(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final double[] data2 = new double[] { 4d, x, x, 5d, 6d, 7d, x, x, 8d };
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        final double actual = v1.getLInfDistance(v2);
+        double expected = 0d;
+        for (int i = 0; i < data1.length; i++) {
+            final double delta = data2[i] - data1[i];
+            expected = FastMath.max(expected, FastMath.abs(delta));
+        }
+        Assert.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testGetLInfDistanceSameType() {
+        doTestGetLInfDistance(false);
+    }
+
+    @Test
+    public void testGetLInfDistanceMixedTypes() {
+        doTestGetLInfDistance(true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testGetLInfDistanceDimensionMismatch() {
+        create(new double[4]).getLInfDistance(createAlien(new double[5]));
+    }
+
+    @Test
+    public void testGetLInfNorm() {
+        final double x = getPreferredEntryValue();
+        final double[] data = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final RealVector v = create(data);
+        final double actual = v.getLInfNorm();
+        double expected = 0d;
+        for (int i = 0; i < data.length; i++) {
+            expected = FastMath.max(expected, FastMath.abs(data[i]));
+        }
+        Assert.assertEquals("", expected, actual, 0d);
+
     }
 
     @Test
@@ -1051,39 +1154,6 @@ public abstract class RealVectorAbstractTest {
         final RealVector v_null = create(vec_null);
 
         final RealVector v2_t = createAlien(vec2);
-
-        // emacs calc: [-4, 0, 3, 1, -6, 3] A --> 8.4261497731763586307
-        double d_getNorm = v5.getNorm();
-        Assert.assertEquals("compare values  ", 8.4261497731763586307,
-                            d_getNorm, normTolerance);
-
-        // emacs calc: [-4, 0, 3, 1, -6, 3] vN --> 17
-        double d_getL1Norm = v5.getL1Norm();
-        Assert.assertEquals("compare values  ", 17.0, d_getL1Norm,
-                            normTolerance);
-
-        // emacs calc: [-4, 0, 3, 1, -6, 3] vn --> 6
-        double d_getLInfNorm = v5.getLInfNorm();
-        Assert.assertEquals("compare values  ", 6.0, d_getLInfNorm,
-                            normTolerance);
-
-        // octave = ???
-        double d_getL1Distance = v1.getL1Distance(v2);
-        Assert.assertEquals("compare values  ", 9d, d_getL1Distance,
-                            normTolerance);
-
-        double d_getL1Distance_2 = v1.getL1Distance(v2_t);
-        Assert.assertEquals("compare values  ", 9d, d_getL1Distance_2,
-                            normTolerance);
-
-        // octave = ???
-        double d_getLInfDistance = v1.getLInfDistance(v2);
-        Assert.assertEquals("compare values  ", 3d, d_getLInfDistance,
-                            normTolerance);
-
-        double d_getLInfDistance_2 = v1.getLInfDistance(v2_t);
-        Assert.assertEquals("compare values  ", 3d, d_getLInfDistance_2,
-                            normTolerance);
 
         // octave dot(v1,v2)
         double dot = v1.dotProduct(v2);

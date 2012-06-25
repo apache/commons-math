@@ -327,6 +327,20 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
+    @Ignore("Abstract class RealVector does not implement getL1Norm()")
+    @Override
+    public void testGetL1Norm() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not implement getLInfNorm()")
+    @Override
+    public void testGetLInfNorm() {
+        // Do nothing
+    }
+
+    @Test
     @Ignore
     @Override
     public void testBasicFunctions() {
