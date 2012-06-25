@@ -43,7 +43,8 @@ public class IterationManager {
      * @param maxIterations the maximum number of iterations
      */
     public IterationManager(final int maxIterations) {
-        this(maxIterations, null);
+        this.iterations = new Incrementor(maxIterations);
+        this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }
 
     /**
@@ -51,10 +52,14 @@ public class IterationManager {
      *
      * @param maxIterations the maximum number of iterations
      * @param callBack the function to be called when the maximum number of
-     * iterations has been reached (can be {@code null})
+     * iterations has been reached
+     * @throws NullPointerException if {@code callBack} is {@code null}
      */
     public IterationManager(final int maxIterations,
                             final Incrementor.MaxCountExceededCallback callBack) {
+        if (callBack == null) {
+            throw new NullPointerException();
+        }
         this.iterations = new Incrementor(maxIterations, callBack);
         this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }

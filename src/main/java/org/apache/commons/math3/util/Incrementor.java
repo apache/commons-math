@@ -58,7 +58,13 @@ public class Incrementor {
      * @param max Maximal count.
      */
     public Incrementor(int max) {
-        this(max, null);
+        this(max,
+             new MaxCountExceededCallback() {
+                 /** {@inheritDoc} */
+                 public void trigger(int max) {
+                     throw new MaxCountExceededException(max);
+                 }
+             });
     }
 
     /**
@@ -66,22 +72,16 @@ public class Incrementor {
      * counter exhaustion.
      *
      * @param max Maximal count.
-     * @param cb Function to be called when the maximal count has been reached
-     * (can be {@code null}).
+     * @param cb Function to be called when the maximal count has been reached.
+     * @throws NullPointerException if {@code cb} is {@code null}
      */
     public Incrementor(int max,
                        MaxCountExceededCallback cb) {
-        maximalCount = max;
-        if (cb != null) {
-            maxCountCallback = cb;
-        } else {
-            maxCountCallback = new MaxCountExceededCallback() {
-                /** {@inheritDoc} */
-                public void trigger(int max) {
-                    throw new MaxCountExceededException(max);
-                }
-            };
+        if (cb == null){
+            throw new NullPointerException();
         }
+        maximalCount = max;
+        maxCountCallback = cb;
     }
 
     /**
