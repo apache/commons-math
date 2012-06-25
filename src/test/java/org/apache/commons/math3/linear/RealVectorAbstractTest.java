@@ -612,6 +612,51 @@ public abstract class RealVectorAbstractTest {
         doTestEbeBinaryOperationDimensionMismatch(BinaryOperation.DIV);
     }
 
+    private void doTestGetDistance(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final double[] data2 = new double[] { 4d, x, x, 5d, 6d, 7d, x, x, 8d };
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        final double actual = v1.getDistance(v2);
+        double expected = 0d;
+        for (int i = 0; i < data1.length; i++) {
+            final double delta = data2[i] - data1[i];
+            expected += delta * delta;
+        }
+        expected = FastMath.sqrt(expected);
+        Assert.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testGetDistanceSameType() {
+        doTestGetDistance(false);
+    }
+
+    @Test
+    public void testGetDistanceMixedTypes() {
+        doTestGetDistance(true);
+    }
+
+    @Test
+    public void testGetNorm() {
+        final double x = getPreferredEntryValue();
+        final double[] data = new double[] { x, x, 1d, x, 2d, x, x, 3d, x };
+        final RealVector v = create(data);
+        final double actual = v.getNorm();
+        double expected = 0d;
+        for (int i = 0; i < data.length; i++) {
+            expected += data[i] * data[i];
+        }
+        expected = FastMath.sqrt(expected);
+        Assert.assertEquals("", expected, actual, 0d);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
@@ -1021,16 +1066,6 @@ public abstract class RealVectorAbstractTest {
         double d_getLInfNorm = v5.getLInfNorm();
         Assert.assertEquals("compare values  ", 6.0, d_getLInfNorm,
                             normTolerance);
-
-        // octave = sqrt(sumsq(v1-v2))
-        double dist = v1.getDistance(v2);
-        Assert.assertEquals("compare values  ", v1.subtract(v2).getNorm(),
-                            dist, normTolerance);
-
-        // octave = sqrt(sumsq(v1-v2))
-        double dist_2 = v1.getDistance(v2_t);
-        Assert.assertEquals("compare values  ", v1.subtract(v2).getNorm(),
-                            dist_2, normTolerance);
 
         // octave = ???
         double d_getL1Distance = v1.getL1Distance(v2);
