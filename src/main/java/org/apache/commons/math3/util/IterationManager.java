@@ -58,9 +58,6 @@ public class IterationManager {
      */
     public IterationManager(final int maxIterations,
                             final Incrementor.MaxCountExceededCallback callBack) {
-        if (callBack == null) {
-            throw new NullArgumentException();
-        }
         this.iterations = new Incrementor(maxIterations, callBack);
         this.listeners = new CopyOnWriteArrayList<IterationListener>();
     }
