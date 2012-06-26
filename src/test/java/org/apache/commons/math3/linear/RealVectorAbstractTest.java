@@ -760,6 +760,117 @@ public abstract class RealVectorAbstractTest {
 
     }
 
+    private void doTestMapBinaryOperation(final BinaryOperation op, final boolean inPlace) {
+        final double x = getPreferredEntryValue();
+        final double y = x + 1d;
+        final double z = y + 1d;
+        final double[] data =
+            {
+                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x
+            };
+        final double[] expected = new double[data.length];
+        for (int i = 0; i < data.length; i++) {
+            final double d = data[i];
+            for (int j = 0; j < expected.length; j++) {
+                switch (op) {
+                    case ADD:
+                        expected[j] = data[j] + d;
+                        break;
+                    case SUB:
+                        expected[j] = data[j] - d;
+                        break;
+                    case MUL:
+                        expected[j] = data[j] * d;
+                        break;
+                    case DIV:
+                        expected[j] = data[j] / d;
+                        break;
+                    default:
+                        throw new AssertionError("unexpected value");
+                }
+            }
+            final RealVector v = create(data);
+            final RealVector actual;
+            if (inPlace) {
+                switch (op) {
+                    case ADD:
+                        actual = v.mapAddToSelf(d);
+                        break;
+                    case SUB:
+                        actual = v.mapSubtractToSelf(d);
+                        break;
+                    case MUL:
+                        actual = v.mapMultiplyToSelf(d);
+                        break;
+                    case DIV:
+                        actual = v.mapDivideToSelf(d);
+                        break;
+                    default:
+                        throw new AssertionError("unexpected value");
+                }
+            } else {
+                switch (op) {
+                    case ADD:
+                        actual = v.mapAdd(d);
+                        break;
+                    case SUB:
+                        actual = v.mapSubtract(d);
+                        break;
+                    case MUL:
+                        actual = v.mapMultiply(d);
+                        break;
+                    case DIV:
+                        actual = v.mapDivide(d);
+                        break;
+                    default:
+                        throw new AssertionError("unexpected value");
+                }
+            }
+            TestUtils.assertEquals(Double.toString(d), expected, actual, 0d);
+        }
+    }
+
+    @Test
+    public void testMapAdd() {
+        doTestMapBinaryOperation(BinaryOperation.ADD, false);
+    }
+
+    @Test
+    public void testMapAddToSelf() {
+        doTestMapBinaryOperation(BinaryOperation.ADD, true);
+    }
+
+    @Test
+    public void testMapSubtract() {
+        doTestMapBinaryOperation(BinaryOperation.SUB, false);
+    }
+
+    @Test
+    public void testMapSubtractToSelf() {
+        doTestMapBinaryOperation(BinaryOperation.SUB, true);
+    }
+
+    @Test
+    public void testMapMultiply() {
+        doTestMapBinaryOperation(BinaryOperation.MUL, false);
+    }
+
+    @Test
+    public void testMapMultiplyToSelf() {
+        doTestMapBinaryOperation(BinaryOperation.MUL, true);
+    }
+
+    @Test
+    public void testMapDivide() {
+        doTestMapBinaryOperation(BinaryOperation.DIV, false);
+    }
+
+    @Test
+    public void testMapDivideToSelf() {
+        doTestMapBinaryOperation(BinaryOperation.DIV, true);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
@@ -820,51 +931,6 @@ public abstract class RealVectorAbstractTest {
     @Test
     public void testMapFunctions() {
         final RealVector v1 = create(vec1);
-
-        //octave =  v1 .+ 2.0
-        RealVector v_mapAdd = v1.mapAdd(2.0d);
-        double[] result_mapAdd = {3d, 4d, 5d};
-        assertClose("compare vectors" ,result_mapAdd,v_mapAdd.toArray(),normTolerance);
-
-        //octave =  v1 .+ 2.0
-        RealVector v_mapAddToSelf = v1.copy();
-        v_mapAddToSelf.mapAddToSelf(2.0d);
-        double[] result_mapAddToSelf = {3d, 4d, 5d};
-        assertClose("compare vectors" ,result_mapAddToSelf,v_mapAddToSelf.toArray(),normTolerance);
-
-        //octave =  v1 .- 2.0
-        RealVector v_mapSubtract = v1.mapSubtract(2.0d);
-        double[] result_mapSubtract = {-1d, 0d, 1d};
-        assertClose("compare vectors" ,result_mapSubtract,v_mapSubtract.toArray(),normTolerance);
-
-        //octave =  v1 .- 2.0
-        RealVector v_mapSubtractToSelf = v1.copy();
-        v_mapSubtractToSelf.mapSubtractToSelf(2.0d);
-        double[] result_mapSubtractToSelf = {-1d, 0d, 1d};
-        assertClose("compare vectors" ,result_mapSubtractToSelf,v_mapSubtractToSelf.toArray(),normTolerance);
-
-        //octave =  v1 .* 2.0
-        RealVector v_mapMultiply = v1.mapMultiply(2.0d);
-        double[] result_mapMultiply = {2d, 4d, 6d};
-        assertClose("compare vectors" ,result_mapMultiply,v_mapMultiply.toArray(),normTolerance);
-
-        //octave =  v1 .* 2.0
-        RealVector v_mapMultiplyToSelf = v1.copy();
-        v_mapMultiplyToSelf.mapMultiplyToSelf(2.0d);
-        double[] result_mapMultiplyToSelf = {2d, 4d, 6d};
-        assertClose("compare vectors" ,result_mapMultiplyToSelf,v_mapMultiplyToSelf.toArray(),normTolerance);
-
-        //octave =  v1 ./ 2.0
-        RealVector v_mapDivide = v1.mapDivide(2.0d);
-        double[] result_mapDivide = {.5d, 1d, 1.5d};
-        assertClose("compare vectors" ,result_mapDivide,v_mapDivide.toArray(),normTolerance);
-
-        //octave =  v1 ./ 2.0
-        RealVector v_mapDivideToSelf = v1.copy();
-        v_mapDivideToSelf.mapDivideToSelf(2.0d);
-        double[] result_mapDivideToSelf = {.5d, 1d, 1.5d};
-        assertClose("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.toArray(),normTolerance);
-
 
         //octave =  v1 .^ 2.0
         RealVector v_mapPow = v1.map(new Power(2));
