@@ -356,18 +356,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
-    public void testMap() throws Exception {
-        double[] vec1Squared = { 1d, 4d, 9d, 16d, 25d };
-        RealVector v = new TestVectorImpl(vec1.clone());
-        RealVector w = v.map(new UnivariateFunction() { public double value(double x) { return x * x; } });
-        double[] d2 = w.toArray();
-        Assert.assertEquals(vec1Squared.length, d2.length);
-        for(int i=0; i<vec1Squared.length; i++) {
-            Assert.assertEquals(vec1Squared[i], d2[i], 0);
-        }
-    }
-
-    @Test
     public void testIterator() throws Exception {
         RealVector v = new TestVectorImpl(vec2.clone());
         Entry e;

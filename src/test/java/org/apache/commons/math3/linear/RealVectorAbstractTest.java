@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Abs;
 import org.apache.commons.math3.analysis.function.Acos;
 import org.apache.commons.math3.analysis.function.Asin;
@@ -871,6 +872,59 @@ public abstract class RealVectorAbstractTest {
         doTestMapBinaryOperation(BinaryOperation.DIV, true);
     }
 
+    private void doTestMapFunction(final UnivariateFunction f,
+        final boolean inPlace) {
+        final double x = getPreferredEntryValue();
+        final double y = x + 1d;
+        final double z = y + 1d;
+        final double[] data =
+            {
+                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x,
+                0.5 * FastMath.PI, -0.5 * FastMath.PI, FastMath.E, -FastMath.E,
+                1.0, -1.0
+            };
+        final double[] expected = new double[data.length];
+        for (int i = 0; i < data.length; i++) {
+            expected[i] = f.value(data[i]);
+        }
+        final RealVector v = create(data);
+        final RealVector actual;
+        if (inPlace) {
+            actual = v.mapToSelf(f);
+            Assert.assertSame(v, actual);
+        } else {
+            actual = v.map(f);
+        }
+        TestUtils.assertEquals(f.getClass().getSimpleName(), expected, actual, 1E-16);
+    }
+
+    private UnivariateFunction[] createFunctions() {
+        return new UnivariateFunction[] {
+            new Power(2.0), new Exp(), new Expm1(), new Log(), new Log10(),
+            new Log1p(), new Cosh(), new Sinh(), new Tanh(), new Cos(),
+            new Sin(), new Tan(), new Acos(), new Asin(), new Atan(),
+            new Inverse(), new Abs(), new Sqrt(), new Cbrt(), new Ceil(),
+            new Floor(), new Rint(), new Signum(), new Ulp()
+        };
+    }
+
+    @Test
+    public void testMap() {
+        final UnivariateFunction[] functions = createFunctions();
+        for (UnivariateFunction f : functions) {
+            doTestMapFunction(f, false);
+        }
+    }
+
+    @Test
+    public void testMapToSelf() {
+        final UnivariateFunction[] functions = createFunctions();
+        for (UnivariateFunction f : functions) {
+            doTestMapFunction(f, true);
+        }
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
@@ -926,290 +980,6 @@ public abstract class RealVectorAbstractTest {
         Assert.assertEquals(vout10, vout10_2);
         vout10_2.setEntry(0, 1.1);
         Assert.assertNotSame(vout10, vout10_2);
-    }
-
-    @Test
-    public void testMapFunctions() {
-        final RealVector v1 = create(vec1);
-
-        //octave =  v1 .^ 2.0
-        RealVector v_mapPow = v1.map(new Power(2));
-        double[] result_mapPow = {1d, 4d, 9d};
-        assertClose("compare vectors" ,result_mapPow,v_mapPow.toArray(),normTolerance);
-
-        //octave =  v1 .^ 2.0
-        RealVector v_mapPowToSelf = v1.copy();
-        v_mapPowToSelf.mapToSelf(new Power(2));
-        double[] result_mapPowToSelf = {1d, 4d, 9d};
-        assertClose("compare vectors" ,result_mapPowToSelf,v_mapPowToSelf.toArray(),normTolerance);
-
-        //octave =  exp(v1)
-        RealVector v_mapExp = v1.map(new Exp());
-        double[] result_mapExp = {2.718281828459045e+00d,7.389056098930650e+00d, 2.008553692318767e+01d};
-        assertClose("compare vectors" ,result_mapExp,v_mapExp.toArray(),normTolerance);
-
-        //octave =  exp(v1)
-        RealVector v_mapExpToSelf = v1.copy();
-        v_mapExpToSelf.mapToSelf(new Exp());
-        double[] result_mapExpToSelf = {2.718281828459045e+00d,7.389056098930650e+00d, 2.008553692318767e+01d};
-        assertClose("compare vectors" ,result_mapExpToSelf,v_mapExpToSelf.toArray(),normTolerance);
-
-
-        //octave =  ???
-        RealVector v_mapExpm1 = v1.map(new Expm1());
-        double[] result_mapExpm1 = {1.718281828459045d,6.38905609893065d, 19.085536923187668d};
-        assertClose("compare vectors" ,result_mapExpm1,v_mapExpm1.toArray(),normTolerance);
-
-        //octave =  ???
-        RealVector v_mapExpm1ToSelf = v1.copy();
-        v_mapExpm1ToSelf.mapToSelf(new Expm1());
-        double[] result_mapExpm1ToSelf = {1.718281828459045d,6.38905609893065d, 19.085536923187668d};
-        assertClose("compare vectors" ,result_mapExpm1ToSelf,v_mapExpm1ToSelf.toArray(),normTolerance);
-
-        //octave =  log(v1)
-        RealVector v_mapLog = v1.map(new Log());
-        double[] result_mapLog = {0d,6.931471805599453e-01d, 1.098612288668110e+00d};
-        assertClose("compare vectors" ,result_mapLog,v_mapLog.toArray(),normTolerance);
-
-        //octave =  log(v1)
-        RealVector v_mapLogToSelf = v1.copy();
-        v_mapLogToSelf.mapToSelf(new Log());
-        double[] result_mapLogToSelf = {0d,6.931471805599453e-01d, 1.098612288668110e+00d};
-        assertClose("compare vectors" ,result_mapLogToSelf,v_mapLogToSelf.toArray(),normTolerance);
-
-        //octave =  log10(v1)
-        RealVector v_mapLog10 = v1.map(new Log10());
-        double[] result_mapLog10 = {0d,3.010299956639812e-01d, 4.771212547196624e-01d};
-        assertClose("compare vectors" ,result_mapLog10,v_mapLog10.toArray(),normTolerance);
-
-        //octave =  log(v1)
-        RealVector v_mapLog10ToSelf = v1.copy();
-        v_mapLog10ToSelf.mapToSelf(new Log10());
-        double[] result_mapLog10ToSelf = {0d,3.010299956639812e-01d, 4.771212547196624e-01d};
-        assertClose("compare vectors" ,result_mapLog10ToSelf,v_mapLog10ToSelf.toArray(),normTolerance);
-
-        //octave =  ???
-        RealVector v_mapLog1p = v1.map(new Log1p());
-        double[] result_mapLog1p = {0.6931471805599453d,1.0986122886681096d,1.3862943611198906d};
-        assertClose("compare vectors" ,result_mapLog1p,v_mapLog1p.toArray(),normTolerance);
-
-        //octave =  ???
-        RealVector v_mapLog1pToSelf = v1.copy();
-        v_mapLog1pToSelf.mapToSelf(new Log1p());
-        double[] result_mapLog1pToSelf = {0.6931471805599453d,1.0986122886681096d,1.3862943611198906d};
-        assertClose("compare vectors" ,result_mapLog1pToSelf,v_mapLog1pToSelf.toArray(),normTolerance);
-
-        //octave =  cosh(v1)
-        RealVector v_mapCosh = v1.map(new Cosh());
-        double[] result_mapCosh = {1.543080634815244e+00d,3.762195691083631e+00d, 1.006766199577777e+01d};
-        assertClose("compare vectors" ,result_mapCosh,v_mapCosh.toArray(),normTolerance);
-
-        //octave =  cosh(v1)
-        RealVector v_mapCoshToSelf = v1.copy();
-        v_mapCoshToSelf.mapToSelf(new Cosh());
-        double[] result_mapCoshToSelf = {1.543080634815244e+00d,3.762195691083631e+00d, 1.006766199577777e+01d};
-        assertClose("compare vectors" ,result_mapCoshToSelf,v_mapCoshToSelf.toArray(),normTolerance);
-
-        //octave =  sinh(v1)
-        RealVector v_mapSinh = v1.map(new Sinh());
-        double[] result_mapSinh = {1.175201193643801e+00d,3.626860407847019e+00d, 1.001787492740990e+01d};
-        assertClose("compare vectors" ,result_mapSinh,v_mapSinh.toArray(),normTolerance);
-
-        //octave =  sinh(v1)
-        RealVector v_mapSinhToSelf = v1.copy();
-        v_mapSinhToSelf.mapToSelf(new Sinh());
-        double[] result_mapSinhToSelf = {1.175201193643801e+00d,3.626860407847019e+00d, 1.001787492740990e+01d};
-        assertClose("compare vectors" ,result_mapSinhToSelf,v_mapSinhToSelf.toArray(),normTolerance);
-
-        //octave =  tanh(v1)
-        RealVector v_mapTanh = v1.map(new Tanh());
-        double[] result_mapTanh = {7.615941559557649e-01d,9.640275800758169e-01d,9.950547536867305e-01d};
-        assertClose("compare vectors" ,result_mapTanh,v_mapTanh.toArray(),normTolerance);
-
-        //octave =  tanh(v1)
-        RealVector v_mapTanhToSelf = v1.copy();
-        v_mapTanhToSelf.mapToSelf(new Tanh());
-        double[] result_mapTanhToSelf = {7.615941559557649e-01d,9.640275800758169e-01d,9.950547536867305e-01d};
-        assertClose("compare vectors" ,result_mapTanhToSelf,v_mapTanhToSelf.toArray(),normTolerance);
-
-        //octave =  cos(v1)
-        RealVector v_mapCos = v1.map(new Cos());
-        double[] result_mapCos = {5.403023058681398e-01d,-4.161468365471424e-01d, -9.899924966004454e-01d};
-        assertClose("compare vectors" ,result_mapCos,v_mapCos.toArray(),normTolerance);
-
-        //octave =  cos(v1)
-        RealVector v_mapCosToSelf = v1.copy();
-        v_mapCosToSelf.mapToSelf(new Cos());
-        double[] result_mapCosToSelf = {5.403023058681398e-01d,-4.161468365471424e-01d, -9.899924966004454e-01d};
-        assertClose("compare vectors" ,result_mapCosToSelf,v_mapCosToSelf.toArray(),normTolerance);
-
-        //octave =  sin(v1)
-        RealVector v_mapSin = v1.map(new Sin());
-        double[] result_mapSin = {8.414709848078965e-01d,9.092974268256817e-01d,1.411200080598672e-01d};
-        assertClose("compare vectors" ,result_mapSin,v_mapSin.toArray(),normTolerance);
-
-        //octave =  sin(v1)
-        RealVector v_mapSinToSelf = v1.copy();
-        v_mapSinToSelf.mapToSelf(new Sin());
-        double[] result_mapSinToSelf = {8.414709848078965e-01d,9.092974268256817e-01d,1.411200080598672e-01d};
-        assertClose("compare vectors" ,result_mapSinToSelf,v_mapSinToSelf.toArray(),normTolerance);
-
-        //octave =  tan(v1)
-        RealVector v_mapTan = v1.map(new Tan());
-        double[] result_mapTan = {1.557407724654902e+00d,-2.185039863261519e+00d,-1.425465430742778e-01d};
-        assertClose("compare vectors" ,result_mapTan,v_mapTan.toArray(),normTolerance);
-
-        //octave =  tan(v1)
-        RealVector v_mapTanToSelf = v1.copy();
-        v_mapTanToSelf.mapToSelf(new Tan());
-        double[] result_mapTanToSelf = {1.557407724654902e+00d,-2.185039863261519e+00d,-1.425465430742778e-01d};
-        assertClose("compare vectors" ,result_mapTanToSelf,v_mapTanToSelf.toArray(),normTolerance);
-
-        double[] vat_a = {0d, 0.5d, 1.0d};
-        final RealVector vat = create(vat_a);
-
-        //octave =  acos(vat)
-        RealVector v_mapAcos = vat.map(new Acos());
-        double[] result_mapAcos = {1.570796326794897e+00d,1.047197551196598e+00d, 0.0d};
-        assertClose("compare vectors" ,result_mapAcos,v_mapAcos.toArray(),normTolerance);
-
-        //octave =  acos(vat)
-        RealVector v_mapAcosToSelf = vat.copy();
-        v_mapAcosToSelf.mapToSelf(new Acos());
-        double[] result_mapAcosToSelf = {1.570796326794897e+00d,1.047197551196598e+00d, 0.0d};
-        assertClose("compare vectors" ,result_mapAcosToSelf,v_mapAcosToSelf.toArray(),normTolerance);
-
-        //octave =  asin(vat)
-        RealVector v_mapAsin = vat.map(new Asin());
-        double[] result_mapAsin = {0.0d,5.235987755982989e-01d,1.570796326794897e+00d};
-        assertClose("compare vectors" ,result_mapAsin,v_mapAsin.toArray(),normTolerance);
-
-        //octave =  asin(vat)
-        RealVector v_mapAsinToSelf = vat.copy();
-        v_mapAsinToSelf.mapToSelf(new Asin());
-        double[] result_mapAsinToSelf = {0.0d,5.235987755982989e-01d,1.570796326794897e+00d};
-        assertClose("compare vectors" ,result_mapAsinToSelf,v_mapAsinToSelf.toArray(),normTolerance);
-
-        //octave =  atan(vat)
-        RealVector v_mapAtan = vat.map(new Atan());
-        double[] result_mapAtan = {0.0d,4.636476090008061e-01d,7.853981633974483e-01d};
-        assertClose("compare vectors" ,result_mapAtan,v_mapAtan.toArray(),normTolerance);
-
-        //octave =  atan(vat)
-        RealVector v_mapAtanToSelf = vat.copy();
-        v_mapAtanToSelf.mapToSelf(new Atan());
-        double[] result_mapAtanToSelf = {0.0d,4.636476090008061e-01d,7.853981633974483e-01d};
-        assertClose("compare vectors" ,result_mapAtanToSelf,v_mapAtanToSelf.toArray(),normTolerance);
-
-        //octave =  v1 .^-1
-        RealVector v_mapInv = v1.map(new Inverse());
-        double[] result_mapInv = {1d,0.5d,3.333333333333333e-01d};
-        assertClose("compare vectors" ,result_mapInv,v_mapInv.toArray(),normTolerance);
-
-        //octave =  v1 .^-1
-        RealVector v_mapInvToSelf = v1.copy();
-        v_mapInvToSelf.mapToSelf(new Inverse());
-        double[] result_mapInvToSelf = {1d,0.5d,3.333333333333333e-01d};
-        assertClose("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray(),normTolerance);
-
-        double[] abs_a = {-1.0d, 0.0d, 1.0d};
-        final RealVector abs_v = create(abs_a);
-
-        //octave =  abs(abs_v)
-        RealVector v_mapAbs = abs_v.map(new Abs());
-        double[] result_mapAbs = {1d,0d,1d};
-        assertClose("compare vectors" ,result_mapAbs,v_mapAbs.toArray(),normTolerance);
-
-        //octave = abs(abs_v)
-        RealVector v_mapAbsToSelf = abs_v.copy();
-        v_mapAbsToSelf.mapToSelf(new Abs());
-        double[] result_mapAbsToSelf = {1d,0d,1d};
-        assertClose("compare vectors" ,result_mapAbsToSelf,v_mapAbsToSelf.toArray(),normTolerance);
-
-        //octave =   sqrt(v1)
-        RealVector v_mapSqrt = v1.map(new Sqrt());
-        double[] result_mapSqrt = {1d,1.414213562373095e+00d,1.732050807568877e+00d};
-        assertClose("compare vectors" ,result_mapSqrt,v_mapSqrt.toArray(),normTolerance);
-
-        //octave =  sqrt(v1)
-        RealVector v_mapSqrtToSelf = v1.copy();
-        v_mapSqrtToSelf.mapToSelf(new Sqrt());
-        double[] result_mapSqrtToSelf = {1d,1.414213562373095e+00d,1.732050807568877e+00d};
-        assertClose("compare vectors" ,result_mapSqrtToSelf,v_mapSqrtToSelf.toArray(),normTolerance);
-
-        double[] cbrt_a = {-2.0d, 0.0d, 2.0d};
-        final RealVector cbrt_v = create(cbrt_a);
-
-        //octave =  ???
-        RealVector v_mapCbrt = cbrt_v.map(new Cbrt());
-        double[] result_mapCbrt = {-1.2599210498948732d,0d,1.2599210498948732d};
-        assertClose("compare vectors" ,result_mapCbrt,v_mapCbrt.toArray(),normTolerance);
-
-        //octave = ???
-        RealVector v_mapCbrtToSelf = cbrt_v.copy();
-        v_mapCbrtToSelf.mapToSelf(new Cbrt());
-        double[] result_mapCbrtToSelf =  {-1.2599210498948732d,0d,1.2599210498948732d};
-        assertClose("compare vectors" ,result_mapCbrtToSelf,v_mapCbrtToSelf.toArray(),normTolerance);
-
-        double[] ceil_a = {-1.1d, 0.9d, 1.1d};
-        ArrayRealVector ceil_v = new ArrayRealVector(ceil_a);
-
-        //octave =  ceil(ceil_v)
-        RealVector v_mapCeil = ceil_v.map(new Ceil());
-        double[] result_mapCeil = {-1d,1d,2d};
-        assertClose("compare vectors" ,result_mapCeil,v_mapCeil.toArray(),normTolerance);
-
-        //octave = ceil(ceil_v)
-        RealVector v_mapCeilToSelf = ceil_v.copy();
-        v_mapCeilToSelf.mapToSelf(new Ceil());
-        double[] result_mapCeilToSelf =  {-1d,1d,2d};
-        assertClose("compare vectors" ,result_mapCeilToSelf,v_mapCeilToSelf.toArray(),normTolerance);
-
-        //octave =  floor(ceil_v)
-        RealVector v_mapFloor = ceil_v.map(new Floor());
-        double[] result_mapFloor = {-2d,0d,1d};
-        assertClose("compare vectors" ,result_mapFloor,v_mapFloor.toArray(),normTolerance);
-
-        //octave = floor(ceil_v)
-        RealVector v_mapFloorToSelf = ceil_v.copy();
-        v_mapFloorToSelf.mapToSelf(new Floor());
-        double[] result_mapFloorToSelf =  {-2d,0d,1d};
-        assertClose("compare vectors" ,result_mapFloorToSelf,v_mapFloorToSelf.toArray(),normTolerance);
-
-        //octave =  ???
-        RealVector v_mapRint = ceil_v.map(new Rint());
-        double[] result_mapRint = {-1d,1d,1d};
-        assertClose("compare vectors" ,result_mapRint,v_mapRint.toArray(),normTolerance);
-
-        //octave = ???
-        RealVector v_mapRintToSelf = ceil_v.copy();
-        v_mapRintToSelf.mapToSelf(new Rint());
-        double[] result_mapRintToSelf =  {-1d,1d,1d};
-        assertClose("compare vectors" ,result_mapRintToSelf,v_mapRintToSelf.toArray(),normTolerance);
-
-        //octave =  ???
-        RealVector v_mapSignum = ceil_v.map(new Signum());
-        double[] result_mapSignum = {-1d,1d,1d};
-        assertClose("compare vectors" ,result_mapSignum,v_mapSignum.toArray(),normTolerance);
-
-        //octave = ???
-        RealVector v_mapSignumToSelf = ceil_v.copy();
-        v_mapSignumToSelf.mapToSelf(new Signum());
-        double[] result_mapSignumToSelf =  {-1d,1d,1d};
-        assertClose("compare vectors" ,result_mapSignumToSelf,v_mapSignumToSelf.toArray(),normTolerance);
-
-
-        // Is with the used resolutions of limited value as test
-        //octave =  ???
-        RealVector v_mapUlp = ceil_v.map(new Ulp());
-        double[] result_mapUlp = {2.220446049250313E-16d,1.1102230246251565E-16d,2.220446049250313E-16d};
-        assertClose("compare vectors" ,result_mapUlp,v_mapUlp.toArray(),normTolerance);
-
-        //octave = ???
-        RealVector v_mapUlpToSelf = ceil_v.copy();
-        v_mapUlpToSelf.mapToSelf(new Ulp());
-        double[] result_mapUlpToSelf = {2.220446049250313E-16d,1.1102230246251565E-16d,2.220446049250313E-16d};
-        assertClose("compare vectors" ,result_mapUlpToSelf,v_mapUlpToSelf.toArray(),normTolerance);
     }
 
     @Test
