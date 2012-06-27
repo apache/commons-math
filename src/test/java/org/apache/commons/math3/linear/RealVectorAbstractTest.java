@@ -65,6 +65,67 @@ public abstract class RealVectorAbstractTest {
     };
 
     /**
+     * <p>
+     * This is an attempt at covering most particular cases of combining two
+     * values. Here {@code x} is the value returned by
+     * {@link #getPreferredEntryValue()}, while {@code y} and {@code z} are two
+     * "normal" values.
+     * </p>
+     * <ol>
+     *   <li>
+     *     Addition: the following cases should be covered
+     *     <ul>
+     *       <li>{@code (2 * x) + (-x)}</li>
+     *       <li>{@code (-x) + 2 * x}</li>
+     *       <li>{@code x + y}</li>
+     *       <li>{@code y + x}</li>
+     *       <li>{@code y + z}</li>
+     *       <li>{@code y + (x - y)}</li>
+     *       <li>{@code (y - x) + x}</li>
+     *     </ul>
+     *     The values to be considered are:
+     *     {@code x, y, z, 2 * x, -x, x - y, y - x}.
+     *   </li>
+     *   <li>
+     *     Subtraction: the following cases should be covered
+     *     <ul>
+     *       <li>{@code (2 * x) - x}</li>
+     *       <li>{@code x - y}</li>
+     *       <li>{@code y - x}</li>
+     *       <li>{@code y - z}</li>
+     *       <li>{@code y - (y - x)}</li>
+     *       <li>{@code (y + x) - y}</li>
+     *     </ul>
+     *     The values to be considered are: {@code x, y, z, x + y, y - x}.
+     *   </li>
+     *   <li>
+     *     Multiplication
+     *     <ul>
+     *       <li>{@code (x * x) * (1 / x)}</li>
+     *       <li>{@code (1 / x) * (x * x)}</li>
+     *       <li>{@code x * y}</li>
+     *       <li>{@code y * x}</li>
+     *       <li>{@code y * z}</li>
+     *     </ul>
+     *     The values to be considered are: {@code x, y, z, 1 / x, x * x}.
+     *   </li>
+     *   <li>
+     *     Division
+     *     <ul>
+     *       <li>{@code (x * x) / x}</li>
+     *       <li>{@code x / y}</li>
+     *       <li>{@code y / x}</li>
+     *       <li>{@code y / z}</li>
+     *     </ul>
+     *     The values to be considered are: {@code x, y, z, x * x}.
+     *   </li>
+     * </ol>
+     * Also to be considered {@code NaN}, {@code POSITIVE_INFINITY},
+     * {@code NEGATIVE_INFINITY}, {@code +0.0}, {@code -0.0}.
+     */
+    private final double[] values;
+
+    /**
      * Creates a new instance of {@link RealVector}, with specified entries.
      * The returned vector must be of the type currently tested. It should be
      * noted that some tests assume that no references to the specified
@@ -143,6 +204,19 @@ public abstract class RealVectorAbstractTest {
         final double x = getPreferredEntryValue();
         data1 = new double[] {x, 1d, 2d, x, x};
         data2 = new double[] {x, x, 3d, x, 4d, x};
+        /*
+         * Make sure that x, y, z are three different values. Also, x is the
+         * preferred value (e.g. the value which is not stored in sparse
+         * implementations).
+         */
+        final double y = x + 1d;
+        final double z = y + 1d;
+
+        values =
+            new double[] {
+                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
+                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x
+            };
     }
 
     // tolerances
@@ -408,71 +482,6 @@ public abstract class RealVectorAbstractTest {
     }
 
     private void doTestEbeBinaryOperation(final BinaryOperation op, final boolean mixed) {
-        /*
-         * Make sure that x, y, z are three different values. Also, x is the
-         * preferred value (e.g. the value which is not stored in sparse
-         * implementations).
-         */
-        final double x = getPreferredEntryValue();
-        final double y = x + 1d;
-        final double z = y + 1d;
-
-        /*
-         * This is an attempt at covering most particular cases of combining
-         * two values.
-         *
-         * 1. Addition
-         *    --------
-         * The following cases should be covered
-         * (2 * x) + (-x)
-         * (-x) + 2 * x
-         * x + y
-         * y + x
-         * y + z
-         * y + (x - y)
-         * (y - x) + x
-         *
-         * The values to be considered are: x, y, z, 2 * x, -x, x - y, y - x.
-         *
-         * 2. Subtraction
-         *    -----------
-         * The following cases should be covered
-         * (2 * x) - x
-         * x - y
-         * y - x
-         * y - z
-         * y - (y - x)
-         * (y + x) - y
-         *
-         * The values to be considered are: x, y, z, x + y, y - x.
-         *
-         * 3. Multiplication
-         *    --------------
-         * (x * x) * (1 / x)
-         * (1 / x) * (x * x)
-         * x * y
-         * y * x
-         * y * z
-         *
-         * The values to be considered are: x, y, z, 1 / x, x * x.
-         *
-         * 4. Division
-         *    --------
-         * (x * x) / x
-         * x / y
-         * y / x
-         * y / z
-         *
-         * The values to be considered are: x, y, z, x * x.
-         *
-         * Also to be considered NaN, POSITIVE_INFINITY, NEGATIVE_INFINITY,
-         * +0.0, -0.0.
-         */
-        final double[] values =
-            {
-                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x
-            };
         final double[] data1 = new double[values.length * values.length];
         final double[] data2 = new double[values.length * values.length];
         int k = 0;
@@ -762,36 +771,28 @@ public abstract class RealVectorAbstractTest {
     }
 
     private void doTestMapBinaryOperation(final BinaryOperation op, final boolean inPlace) {
-        final double x = getPreferredEntryValue();
-        final double y = x + 1d;
-        final double z = y + 1d;
-        final double[] data =
-            {
-                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x
-            };
-        final double[] expected = new double[data.length];
-        for (int i = 0; i < data.length; i++) {
-            final double d = data[i];
+        final double[] expected = new double[values.length];
+        for (int i = 0; i < values.length; i++) {
+            final double d = values[i];
             for (int j = 0; j < expected.length; j++) {
                 switch (op) {
                     case ADD:
-                        expected[j] = data[j] + d;
+                        expected[j] = values[j] + d;
                         break;
                     case SUB:
-                        expected[j] = data[j] - d;
+                        expected[j] = values[j] - d;
                         break;
                     case MUL:
-                        expected[j] = data[j] * d;
+                        expected[j] = values[j] * d;
                         break;
                     case DIV:
-                        expected[j] = data[j] / d;
+                        expected[j] = values[j] / d;
                         break;
                     default:
                         throw new AssertionError("unexpected value");
                 }
             }
-            final RealVector v = create(data);
+            final RealVector v = create(values);
             final RealVector actual;
             if (inPlace) {
                 switch (op) {
@@ -874,16 +875,14 @@ public abstract class RealVectorAbstractTest {
 
     private void doTestMapFunction(final UnivariateFunction f,
         final boolean inPlace) {
-        final double x = getPreferredEntryValue();
-        final double y = x + 1d;
-        final double z = y + 1d;
-        final double[] data =
-            {
-                Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-                0d, -0d, x, y, z, 2 * x, -x, 1 / x, x * x, x + y, x - y, y - x,
-                0.5 * FastMath.PI, -0.5 * FastMath.PI, FastMath.E, -FastMath.E,
-                1.0, -1.0
-            };
+        final double[] data = new double[values.length + 6];
+        System.arraycopy(values, 0, data, 0, values.length);
+        data[values.length + 0] = 0.5 * FastMath.PI;
+        data[values.length + 1] = -0.5 * FastMath.PI;
+        data[values.length + 2] = FastMath.E;
+        data[values.length + 3] = -FastMath.E;
+        data[values.length + 4] = 1.0;
+        data[values.length + 5] = -1.0;
         final double[] expected = new double[data.length];
         for (int i = 0; i < data.length; i++) {
             expected[i] = f.value(data[i]);
