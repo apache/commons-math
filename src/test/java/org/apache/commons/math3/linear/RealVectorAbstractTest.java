@@ -924,6 +924,45 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
+    private void doTestOuterProduct(final boolean mixed) {
+        final double[] dataU = values;
+        final RealVector u = create(dataU);
+        final double[] dataV = new double[values.length + 3];
+        System.arraycopy(values, 0, dataV, 0, values.length);
+        dataV[values.length] = 1d;
+        dataV[values.length] = -2d;
+        dataV[values.length] = 3d;
+        final RealVector v;
+        if (mixed) {
+            v = createAlien(dataV);
+        } else {
+            v = create(dataV);
+        }
+        final RealMatrix uv = u.outerProduct(v);
+        Assert.assertEquals("number of rows", dataU.length, uv
+            .getRowDimension());
+        Assert.assertEquals("number of columns", dataV.length, uv
+            .getColumnDimension());
+        for (int i = 0; i < dataU.length; i++) {
+            for (int j = 0; j < dataV.length; j++) {
+                final double expected = dataU[i] * dataV[j];
+                final double actual = uv.getEntry(i, j);
+                Assert.assertEquals("[" + i + "][" + j + "]", expected, actual,
+                    0d);
+            }
+        }
+    }
+
+    @Test
+    public void testOuterProductSameType() {
+        doTestOuterProduct(false);
+    }
+
+    @Test
+    public void testOuterProductMixedTypes() {
+        doTestOuterProduct(true);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
@@ -998,14 +1037,6 @@ public abstract class RealVectorAbstractTest {
         double dot_2 = v1.dotProduct(v2_t);
         Assert.assertEquals("compare val ", 32d, dot_2, normTolerance);
 
-        RealMatrix m_outerProduct = v1.outerProduct(v2);
-        Assert.assertEquals("compare val ", 4d, m_outerProduct.getEntry(0, 0),
-                            normTolerance);
-
-        RealMatrix m_outerProduct_2 = v1.outerProduct(v2_t);
-        Assert.assertEquals("compare val ", 4d,
-                            m_outerProduct_2.getEntry(0, 0), normTolerance);
-
         RealVector v_unitVector = v1.unitVector();
         RealVector v_unitVector_2 = v1.mapDivide(v1.getNorm());
         assertClose("compare vect", v_unitVector.toArray(),
@@ -1035,22 +1066,6 @@ public abstract class RealVectorAbstractTest {
         RealVector v_projection_2 = v1.projection(v2_t);
         double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
         assertClose("compare vect", v_projection_2.toArray(), result_projection_2, normTolerance);
-    }
-
-    @Test
-    public void testOuterProduct() {
-        final RealVector u = create(new double[] {1, 2, -3});
-        final RealVector v = create(new double[] {4, -2});
-
-        final RealMatrix uv = u.outerProduct(v);
-
-        final double tol = Math.ulp(1d);
-        Assert.assertEquals(4, uv.getEntry(0, 0), tol);
-        Assert.assertEquals(-2, uv.getEntry(0, 1), tol);
-        Assert.assertEquals(8, uv.getEntry(1, 0), tol);
-        Assert.assertEquals(-4, uv.getEntry(1, 1), tol);
-        Assert.assertEquals(-12, uv.getEntry(2, 0), tol);
-        Assert.assertEquals(6, uv.getEntry(2, 1), tol);
     }
 
     @Test
