@@ -709,9 +709,11 @@ public abstract class RealVector {
      * @throws ArithmeticException if the norm is {@code null}.
      */
     public RealVector unitVector() {
-        RealVector copy = copy();
-        copy.unitize();
-        return copy;
+        final double norm = getNorm();
+        if (norm == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
+        return mapDivide(norm);
     }
 
     /**
@@ -722,6 +724,10 @@ public abstract class RealVector {
      * if the norm is zero.
      */
     public void unitize() {
+        final double norm = getNorm();
+        if (norm == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
         mapDivideToSelf(getNorm());
     }
 
@@ -771,8 +777,12 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             public Entry next() {
-                e.setIndex(i++);
-                return e;
+                if (i < dim) {
+                    e.setIndex(i++);
+                    return e;
+                } else {
+                    throw new NoSuchElementException();
+                }
             }
 
             /** {@inheritDoc} */

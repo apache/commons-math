@@ -356,16 +356,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
-    public void testIterator() throws Exception {
-        RealVector v = new TestVectorImpl(vec2.clone());
-        Entry e;
-        int i = 0;
-        for(Iterator<Entry> it = v.iterator(); it.hasNext() && (e = it.next()) != null; i++) {
-            Assert.assertEquals(vec2[i], e.getValue(), 0);
-        }
-    }
-
-    @Test
     public void testSparseIterator() throws Exception {
         RealVector v = new TestVectorImpl(vec2.clone());
         Entry e;

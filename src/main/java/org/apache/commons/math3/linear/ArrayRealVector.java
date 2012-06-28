@@ -568,26 +568,6 @@ public class ArrayRealVector extends RealVector implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    public RealVector unitVector() {
-        final double norm = getNorm();
-        if (norm == 0) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
-        }
-        return mapDivide(norm);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void unitize() {
-        final double norm = getNorm();
-        if (norm == 0) {
-            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
-        }
-        mapDivideToSelf(norm);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealVector projection(RealVector v) {
         return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
     }

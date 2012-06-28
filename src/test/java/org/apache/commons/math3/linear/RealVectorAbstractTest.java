@@ -17,6 +17,8 @@
 package org.apache.commons.math3.linear;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.apache.commons.math3.TestUtils;
@@ -964,6 +966,109 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
+    public void testSet() {
+        for (int i = 0; i < values.length; i++) {
+            final double expected = values[i];
+            final RealVector v = create(values);
+            v.set(expected);
+            for (int j = 0; j < values.length; j++) {
+                Assert.assertEquals("entry #" + j, expected, v.getEntry(j), 0);
+            }
+        }
+    }
+
+    @Test
+    public void testToArray() {
+        final double[] data = create(values).toArray();
+        Assert.assertNotSame(values, data);
+        for (int i = 0; i < values.length; i++) {
+            Assert.assertEquals("entry #" + i, values[i], data[i], 0);
+        }
+    }
+
+    private void doTestUnitVector(final boolean inPlace) {
+        final double x = getPreferredEntryValue();
+        final double[] data = {
+            x, 1d, x, x, 2d, x, x, x, 3d, x, x, x, x
+        };
+        double norm = 0d;
+        for (int i = 0; i < data.length; i++) {
+            norm += data[i] * data[i];
+        }
+        norm = FastMath.sqrt(norm);
+        final double[] expected = new double[data.length];
+        for (int i = 0; i < expected.length; i++) {
+            expected[i] = data[i] / norm;
+        }
+        final RealVector v = create(data);
+        final RealVector actual;
+        if (inPlace) {
+            v.unitize();
+            actual = v;
+        } else {
+            actual = v.unitVector();
+            Assert.assertNotSame(v, actual);
+        }
+        TestUtils.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testUnitVector() {
+        doTestUnitVector(false);
+    }
+
+    @Test
+    public void testUnitize() {
+        doTestUnitVector(true);
+    }
+
+    private void doTestUnitVectorNullVector(final boolean inPlace) {
+        final double[] data = {
+            0d, 0d, 0d, 0d, 0d
+        };
+        if (inPlace) {
+            create(data).unitize();
+        } else {
+            create(data).unitVector();
+        }
+    }
+
+    @Test(expected=ArithmeticException.class)
+    public void testUnitVectorNullVector() {
+        doTestUnitVectorNullVector(false);
+    }
+
+    @Test(expected=ArithmeticException.class)
+    public void testUnitizeNullVector() {
+        doTestUnitVectorNullVector(true);
+    }
+
+    @Test
+    public void testIterator() {
+        final RealVector v = create(values);
+        final Iterator<RealVector.Entry> it = v.iterator();
+        for (int i = 0; i < values.length; i++) {
+            Assert.assertTrue("entry #" + i, it.hasNext());
+            final RealVector.Entry e = it.next();
+            Assert.assertEquals("", i, e.getIndex());
+            Assert.assertEquals("", values[i], e.getValue(), 0d);
+            try {
+                it.remove();
+                Assert.fail("UnsupportedOperationException should have been thrown");
+            } catch (UnsupportedOperationException exc) {
+                // Expected behavior
+            }
+        }
+        Assert.assertFalse(it.hasNext());
+        try {
+            it.next();
+            Assert.fail("NoSuchElementException should have been thrown");
+        } catch (NoSuchElementException e) {
+            // Expected behavior
+        }
+    }
+
+    @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
         final RealVector v2 = create(vec2);
@@ -986,17 +1091,6 @@ public abstract class RealVectorAbstractTest {
         Assert.assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6), 0);
         try {
             v_set2.setSubVector(7, v1);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
-        }
-
-        final RealVector v_set3 = v1.copy();
-        v_set3.set(13.0);
-        Assert.assertEquals("testData is 13.0 ", 13.0, v_set3.getEntry(2), 0);
-
-        try {
-            v_set3.getEntry(23);
             Assert.fail("OutOfRangeException expected");
         } catch (OutOfRangeException ex) {
             // expected behavior
@@ -1036,28 +1130,6 @@ public abstract class RealVectorAbstractTest {
         // octave dot(v1,v2_t)
         double dot_2 = v1.dotProduct(v2_t);
         Assert.assertEquals("compare val ", 32d, dot_2, normTolerance);
-
-        RealVector v_unitVector = v1.unitVector();
-        RealVector v_unitVector_2 = v1.mapDivide(v1.getNorm());
-        assertClose("compare vect", v_unitVector.toArray(),
-                    v_unitVector_2.toArray(), normTolerance);
-
-        try {
-            v_null.unitVector();
-            Assert.fail("Expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
-            // expected behavior
-        }
-
-        RealVector v_unitize = v1.copy();
-        v_unitize.unitize();
-        assertClose("compare vect" ,v_unitVector_2.toArray(),v_unitize.toArray(),normTolerance);
-        try {
-            v_null.unitize();
-            Assert.fail("Expecting MathArithmeticException");
-        } catch (MathArithmeticException ex) {
-            // expected behavior
-        }
 
         RealVector v_projection = v1.projection(v2);
         double[] result_projection = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
