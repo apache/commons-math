@@ -19,7 +19,6 @@ package org.apache.commons.math3.linear;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -1068,6 +1067,96 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
+    private void doTestCombine(final boolean inPlace, final boolean mixed) {
+        final int n = values.length * values.length;
+        final double[] data1 = new double[n];
+        final double[] data2 = new double[n];
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                final int index = values.length * i + j;
+                data1[index] = values[i];
+                data2[index] = values[j];
+            }
+        }
+        final RealVector v1 = create(data1);
+        final RealVector v2 = mixed ? createAlien(data2) : create(data2);
+        final double[] expected = new double[n];
+        for (int i = 0; i < values.length; i++) {
+            final double a1 = values[i];
+            for (int j = 0; j < values.length; j++) {
+                final double a2 = values[j];
+                for (int k = 0; k < n; k++) {
+                    expected[k] = a1 * data1[k] + a2 * data2[k];
+                }
+                final RealVector actual;
+                if (inPlace) {
+                    final RealVector v1bis = v1.copy();
+                    actual = v1bis.combineToSelf(a1, a2, v2);
+                    Assert.assertSame(v1bis, actual);
+                } else {
+                    actual = v1.combine(a1, a2, v2);
+                }
+                TestUtils.assertEquals("a1 = " + a1 + ", a2 = " + a2, expected,
+                    actual, 0.);
+            }
+        }
+    }
+
+    private void doTestCombineDimensionMismatch(final boolean inPlace, final boolean mixed) {
+        final RealVector v1 = create(new double[10]);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(new double[15]);
+        } else {
+            v2 = create(new double[15]);
+        }
+        if (inPlace) {
+            v1.combineToSelf(1.0, 1.0, v2);
+        } else {
+            v1.combine(1.0, 1.0, v2);
+        }
+    }
+
+    @Test
+    public void testCombineSameType() {
+        doTestCombine(false, false);
+    }
+
+    @Test
+    public void testCombineMixedTypes() {
+        doTestCombine(false, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testCombineDimensionMismatchSameType() {
+        doTestCombineDimensionMismatch(false, false);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testCombineDimensionMismatchMixedTypes() {
+        doTestCombineDimensionMismatch(false, true);
+    }
+
+    @Test
+    public void testCombineToSelfSameType() {
+        doTestCombine(true, false);
+    }
+
+    @Test
+    public void testCombineToSelfMixedTypes() {
+        doTestCombine(true, true);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testCombineToSelfDimensionMismatchSameType() {
+        doTestCombineDimensionMismatch(true, false);
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testCombineToSelfDimensionMismatchMixedTypes() {
+        doTestCombineDimensionMismatch(true, true);
+    }
+
     @Test
     public void testDataInOut() {
         final RealVector v1 = create(vec1);
@@ -1256,177 +1345,6 @@ public abstract class RealVectorAbstractTest {
         final RealVector v = create(new double[] {1, 2, 3});
         final RealVector w = create(new double[] {1, 2, 3, 4});
         v.cosine(w);
-    }
-
-    @Test(expected=DimensionMismatchException.class)
-    public void testCombinePreconditionSameType() {
-        final double a = 1d;
-        final double b = 2d;
-        double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = create(aux);
-        aux = new double[] { 6d, 7d };
-        final RealVector y = create(aux);
-        x.combine(a, b, y);
-    }
-
-    @Test
-    public void testCombineSameType() {
-        final Random random = new Random(20110726);
-        final int dim = 10;
-        final double a = (2 * random.nextDouble() - 1);
-        final double b = (2 * random.nextDouble() - 1);
-        final double[] dataX = new double[dim];
-        final double[] dataY = new double[dim];
-        final double[] expected = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            dataX[i] = 2 * random.nextDouble() - 1;
-            dataY[i] = 2 * random.nextDouble() - 1;
-            expected[i] = a * dataX[i] + b * dataY[i];
-        }
-        final RealVector x = create(dataX);
-        final RealVector y = create(dataY);
-        final double[] actual = x.combine(a, b, y).toArray();
-        for (int i = 0; i < dim; i++) {
-            final double delta;
-            if (expected[i] == 0d) {
-                delta = Math.ulp(1d);
-            } else {
-                delta = Math.ulp(expected[i]);
-            }
-            Assert.assertEquals("elements [" + i + "] differ",
-                                expected[i],
-                                actual[i],
-                                delta);
-        }
-    }
-
-    @Test(expected=DimensionMismatchException.class)
-    public void testCombinePreconditionMixedType() {
-        final double a = 1d;
-        final double b = 2d;
-        double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = create(aux);
-        aux = new double[] { 6d, 7d };
-        final RealVector y = create(aux);
-        x.combine(a, b, y);
-    }
-
-    @Test
-    public void testCombineMixedTypes() {
-        final Random random = new Random(20110726);
-        final int dim = 10;
-        final double a = (2 * random.nextDouble() - 1);
-        final double b = (2 * random.nextDouble() - 1);
-        final double[] dataX = new double[dim];
-        final double[] dataY = new double[dim];
-        final double[] expected = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            dataX[i] = 2 * random.nextDouble() - 1;
-            dataY[i] = 2 * random.nextDouble() - 1;
-            expected[i] = a * dataX[i] + b * dataY[i];
-        }
-        final RealVector x = create(dataX);
-        final RealVector y = createAlien(dataY);
-
-        final double[] actual = x.combine(a, b, y).toArray();
-        for (int i = 0; i < dim; i++) {
-            final double delta;
-            if (expected[i] == 0d) {
-                delta = Math.ulp(1d);
-            } else {
-                delta = Math.ulp(expected[i]);
-            }
-            Assert.assertEquals("elements [" + i + "] differ",
-                                expected[i],
-                                actual[i],
-                                delta);
-        }
-    }
-
-    @Test(expected=DimensionMismatchException.class)
-    public void testCombineToSelfPreconditionSameType() {
-        final double a = 1d;
-        final double b = 2d;
-        double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = create(aux);
-        aux = new double[] { 6d, 7d };
-        final RealVector y = create(aux);
-        x.combineToSelf(a, b, y);
-    }
-
-    @Test
-    public void testCombineToSelfSameType() {
-        final Random random = new Random(20110726);
-        final int dim = 10;
-        final double a = (2 * random.nextDouble() - 1);
-        final double b = (2 * random.nextDouble() - 1);
-        final double[] dataX = new double[dim];
-        final double[] dataY = new double[dim];
-        final double[] expected = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            dataX[i] = 2 * random.nextDouble() - 1;
-            dataY[i] = 2 * random.nextDouble() - 1;
-            expected[i] = a * dataX[i] + b * dataY[i];
-        }
-        final RealVector x = create(dataX);
-        final RealVector y = create(dataY);
-        Assert.assertSame(x, x.combineToSelf(a, b, y));
-        final double[] actual = x.toArray();
-        for (int i = 0; i < dim; i++) {
-            final double delta;
-            if (expected[i] == 0d) {
-                delta = Math.ulp(1d);
-            } else {
-                delta = Math.ulp(expected[i]);
-            }
-            Assert.assertEquals("elements [" + i + "] differ",
-                                expected[i],
-                                actual[i],
-                                delta);
-        }
-    }
-
-    @Test(expected=DimensionMismatchException.class)
-    public void testCombineToSelfPreconditionMixedType() {
-        final double a = 1d;
-        final double b = 2d;
-        double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = create(aux);
-        aux = new double[] { 6d, 7d };
-        final RealVector y = createAlien(aux);
-        x.combineToSelf(a, b, y);
-    }
-
-    @Test
-    public void testCombineToSelfMixedTypes() {
-        final Random random = new Random(20110726);
-        final int dim = 10;
-        final double a = (2 * random.nextDouble() - 1);
-        final double b = (2 * random.nextDouble() - 1);
-        final double[] dataX = new double[dim];
-        final double[] dataY = new double[dim];
-        final double[] expected = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            dataX[i] = 2 * random.nextDouble() - 1;
-            dataY[i] = 2 * random.nextDouble() - 1;
-            expected[i] = a * dataX[i] + b * dataY[i];
-        }
-        final RealVector x = create(dataX);
-        final RealVector y = create(dataY);
-        Assert.assertSame(x, x.combineToSelf(a, b, y));
-        final double[] actual = x.toArray();
-        for (int i = 0; i < dim; i++) {
-            final double delta;
-            if (expected[i] == 0d) {
-                delta = Math.ulp(1d);
-            } else {
-                delta = Math.ulp(expected[i]);
-            }
-            Assert.assertEquals("elements [" + i + "] differ",
-                                expected[i],
-                                actual[i],
-                                delta);
-        }
     }
 
     /*
