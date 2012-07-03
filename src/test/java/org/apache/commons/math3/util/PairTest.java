@@ -30,6 +30,17 @@ public class PairTest {
     }
 
     @Test
+    public void testAccessor2() {
+        final Pair<Integer, Double> p
+            = new Pair<Integer, Double>(new Integer(1), new Double(2));
+
+        // Check that both APIs refer to the same data.
+
+        Assert.assertTrue(p.getFirst() == p.getKey());
+        Assert.assertTrue(p.getSecond() == p.getValue());
+    }
+
+    @Test
     public void testEquals() {
         Pair<Integer, Double> p1 = new Pair<Integer, Double>(null, null);
         Assert.assertFalse(p1.equals(null));

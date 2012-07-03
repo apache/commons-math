@@ -39,8 +39,8 @@ public class Pair<K, V> {
      * Create an entry representing a mapping from the specified key to the
      * specified value.
      *
-     * @param k Key.
-     * @param v Value.
+     * @param k Key (first element of the pair).
+     * @param v Value (second element of the pair).
      */
     public Pair(K k, V v) {
         key = k;
@@ -59,7 +59,7 @@ public class Pair<K, V> {
     /**
      * Get the key.
      *
-     * @return the key.
+     * @return the key (first element of the pair).
      */
     public K getKey() {
         return key;
@@ -68,9 +68,27 @@ public class Pair<K, V> {
     /**
      * Get the value.
      *
-     * @return the value.
+     * @return the value (second element of the pair).
      */
     public V getValue() {
+        return value;
+    }
+
+    /**
+     * Get the first element of the pair.
+     *
+     * @return the first element of the pair.
+     */
+    public K getFirst() {
+        return key;
+    }
+
+    /**
+     * Get the second element of the pair.
+     *
+     * @return the second element of the pair.
+     */
+    public V getSecond() {
         return value;
     }
 
