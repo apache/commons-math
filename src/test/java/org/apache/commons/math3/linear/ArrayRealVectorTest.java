@@ -473,10 +473,8 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
     }
 
-    @Override
     @Test
     public void testDataInOut() {
-        super.testDataInOut();
 
         ArrayRealVector v1 = new ArrayRealVector(vec1);
 

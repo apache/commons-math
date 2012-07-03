@@ -443,21 +443,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
     @Test
     @Ignore
     @Override
-    public void testDataInOut() {
-        /*
-         *  TODO Some of the tests carried out in testDataInOut() do not pass,
-         *  as the methods to be tested are not implemented in TestVectorImpl.
-         *  For the time being, testDataInOut() is overriden, while ommitting
-         *  the @Test annotation, which effectively skips the test.
-         *
-         *  In the future, testDataInOut() should be split in smaller units, and
-         *  only those units which do not make sense should be skipped.
-         */
-    }
-
-    @Test
-    @Ignore
-    @Override
     public void testPredicates() {
         /*
          *  TODO Some of the tests carried out in testPredicates() do not pass,

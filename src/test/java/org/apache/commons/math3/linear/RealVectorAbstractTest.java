@@ -1158,49 +1158,93 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
-    public void testDataInOut() {
-        final RealVector v1 = create(vec1);
-        final RealVector v2 = create(vec2);
-        final RealVector v4 = create(vec4);
-        final RealVector v2_t = createAlien(vec2);
+    public void testCopy() {
+        final RealVector v = create(values);
+        final RealVector w = v.copy();
+        Assert.assertNotSame(v, w);
+        TestUtils.assertEquals("", values, w, 0d);
+    }
 
-        final RealVector v_set1 = v1.copy();
-        v_set1.setEntry(1, 11.0);
-        Assert.assertEquals("testData is 11.0 ", 11.0, v_set1.getEntry(1), 0);
-        try {
-            v_set1.setEntry(3, 11.0);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
+    private void doTestDotProductRegularValues(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = {
+            x, 1d, x, x, 2d, x, x, x, 3d, x, x, x, x
+        };
+        final double[] data2 = {
+            5d, -6d, 7d, x, x, -8d, -9d, 10d, 11d, x, 12d, 13d, -15d
+        };
+        double expected = 0d;
+        for (int i = 0; i < data1.length; i++){
+            expected += data1[i] * data2[i];
         }
-
-        final RealVector v_set2 = v4.copy();
-        v_set2.setSubVector(3, v1);
-        Assert.assertEquals("testData is 1.0 ", 1.0, v_set2.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set2.getEntry(6), 0);
-        try {
-            v_set2.setSubVector(7, v1);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
         }
+        final double actual = v1.dotProduct(v2);
+        Assert.assertEquals("", expected, actual, 0d);
+    }
 
-        final RealVector v_set4 = v4.copy();
-        v_set4.setSubVector(3, v2_t);
-        Assert.assertEquals("testData is 1.0 ", 4.0, v_set4.getEntry(3), 0);
-        Assert.assertEquals("testData is 7.0 ", 7.0, v_set4.getEntry(6), 0);
-        try {
-            v_set4.setSubVector(7, v2_t);
-            Assert.fail("OutOfRangeException expected");
-        } catch (OutOfRangeException ex) {
-            // expected behavior
+    private void doTestDotProductSpecialValues(final boolean mixed) {
+        for (int i = 0; i < values.length; i++) {
+            final double[] data1 = {
+                values[i]
+            };
+            final RealVector v1 = create(data1);
+            for (int j = 0; j < values.length; j++) {
+                final double[] data2 = {
+                    values[j]
+                };
+                final RealVector v2;
+                if (mixed) {
+                    v2 = createAlien(data2);
+                } else {
+                    v2 = create(data2);
+                }
+                final double expected = data1[0] * data2[0];
+                final double actual = v1.dotProduct(v2);
+                Assert.assertEquals(data1[0] + " * " + data2[0], expected,
+                    actual, 0d);
+            }
         }
+    }
 
-        final RealVector vout10 = v1.copy();
-        final RealVector vout10_2 = v1.copy();
-        Assert.assertEquals(vout10, vout10_2);
-        vout10_2.setEntry(0, 1.1);
-        Assert.assertNotSame(vout10, vout10_2);
+    private void doTestDotProductDimensionMismatch(final boolean mixed) {
+        final double[] data1 = new double[10];
+        final double[] data2 = new double[data1.length + 1];
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        v1.dotProduct(v2);
+    }
+
+    @Test
+    public void testDotProductSameType() {
+        doTestDotProductRegularValues(false);
+        doTestDotProductSpecialValues(false);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testDotProductDimensionMismatchSameType() {
+        doTestDotProductDimensionMismatch(false);
+    }
+
+    @Test
+    public void testDotProductMixedTypes() {
+        doTestDotProductRegularValues(true);
+        doTestDotProductSpecialValues(true);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testDotProductDimensionMismatchMixedTypes() {
+        doTestDotProductDimensionMismatch(true);
     }
 
     @Test
@@ -1211,14 +1255,6 @@ public abstract class RealVectorAbstractTest {
         final RealVector v_null = create(vec_null);
 
         final RealVector v2_t = createAlien(vec2);
-
-        // octave dot(v1,v2)
-        double dot = v1.dotProduct(v2);
-        Assert.assertEquals("compare val ", 32d, dot, normTolerance);
-
-        // octave dot(v1,v2_t)
-        double dot_2 = v1.dotProduct(v2_t);
-        Assert.assertEquals("compare val ", 32d, dot_2, normTolerance);
 
         RealVector v_projection = v1.projection(v2);
         double[] result_projection = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
