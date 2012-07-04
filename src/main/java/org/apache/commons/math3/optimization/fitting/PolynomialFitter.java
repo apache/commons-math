@@ -77,6 +77,23 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      *
      * @param guess First guess for the coefficients. They must be sorted in
      * increasing order of the polynomial's degree.
+     * @param maxEval Maximum number of evaluations of the polynomial.
+     * @return the coefficients of the polynomial that best fits the observed points.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * the number of evaluations exceeds {@code maxEval}.
+     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * if the algorithm failed to converge.
+     */
+    public double[] fit(int maxEval, double[] guess) {
+        return fit(maxEval, new PolynomialFunction.Parametric(), guess);
+    }
+
+    /**
+     * Get the coefficients of the polynomial fitting the weighted data points.
+     * The degree of the fitting polynomial is {@code guess.length - 1}.
+     *
+     * @param guess First guess for the coefficients. They must be sorted in
+     * increasing order of the polynomial's degree.
      * @return the coefficients of the polynomial that best fits the observed points.
      * @throws org.apache.commons.math3.exception.ConvergenceException
      * if the algorithm failed to converge.

@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-798">
+        Added overridden method in "PolynomialFitter" (package
+        "o.a.c.m.optimization.fitting") to limit the number of evaluations.
+      </action>
       <action dev="celestin" type="add" issue="MATH-807">
         Added a new constructor to o.a.c.m.utils.IterationManager, allowing
         for the specification of a callback function in case the maximum
