@@ -1914,14 +1914,6 @@ public abstract class RealVectorAbstractTest {
         }
 
         @Override
-        public RealVector mapToSelf(UnivariateFunction function) {
-            for (int i = 0; i < data.length; i++) {
-                data[i] = function.value(data[i]);
-            }
-            return this;
-        }
-
-        @Override
         public RealVector copy() {
             return new RealVectorTestImpl(data);
         }
@@ -1971,11 +1963,6 @@ public abstract class RealVectorAbstractTest {
         @Override
         public void setSubVector(int index, RealVector v) {
             throw unsupported();
-        }
-
-        @Override
-        public double[] toArray() {
-            return data.clone();
         }
 
         @Override
