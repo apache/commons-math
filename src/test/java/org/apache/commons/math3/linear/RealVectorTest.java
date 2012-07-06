@@ -336,21 +336,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
-    @Ignore
-    @Override
-    public void testBasicFunctions() {
-        /*
-         *  TODO this test is huge, and some of the methods being tested are not
-         *  supported by TestVectorImpl. For the time being, this test is skipped
-         *  (testBasicFunctions() is overriden, ommitting the @Test anotation).
-         *
-         *  What should really be done: split testBasicFunctions() in many
-         *  smaller unit tests, and skip only those tests which are not meaningfull
-         *  for RealVector.
-         */
-    }
-
-    @Test
     public void testSparseIterator() throws Exception {
         RealVector v = new TestVectorImpl(vec2.clone());
         Entry e;
@@ -436,24 +421,16 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
-    @Ignore
-    @Override
-    public void testPredicates() {
-        /*
-         *  TODO Some of the tests carried out in testPredicates() do not pass,
-         *  as the methods to be tested are not implemented in TestVectorImpl.
-         *  For the time being, testPredicates() is overriden, while ommitting
-         *  the @Test annotation, which effectively skips the test.
-         *
-         *  In the future, testPredicates() should be split in smaller units, and
-         *  only those units which do not make sense should be skipped.
-         */
-    }
-
-    @Test
     @Ignore("Abstract class RealVector is not serializable.")
     @Override
     public void testSerial() {
+        // Do nothing
+    }
+
+    @Test
+    @Ignore("Abstract class RealVector does not override equals(Object).")
+    @Override
+    public void testEquals() {
         // Do nothing
     }
 }

@@ -1076,6 +1076,40 @@ public abstract class RealVector {
     }
 
     /**
+     * <p>
+     * Test for the equality of two real vectors. If all coordinates of two real
+     * vectors are exactly the same, and none are {@code NaN}, the two real
+     * vectors are considered to be equal. {@code NaN} coordinates are
+     * considered to affect globally the vector and be equals to each other -
+     * i.e, if either (or all) coordinates of the real vector are equal to
+     * {@code NaN}, the real vector is equal to a vector with all {@code NaN}
+     * coordinates.
+     * </p>
+     * <p>
+     * This method <em>must</em> be overriden by concrete subclasses of
+     * {@link RealVector}.
+     * </p>
+     *
+     * @param other Object to test for equality.
+     * @return {@code true} if two vector objects are equal, {@code false} if
+     * {@code other} is null, not an instance of {@code RealVector}, or
+     * not equal to this {@code RealVector} instance.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}. This method <em>must</em> be overriden by concrete
+     * subclasses of {@link RealVector}.
+     */
+    @Override
+    public int hashCode() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
      * This class should rarely be used, but is here to provide
      * a default implementation of sparseIterator(), which is implemented
      * by walking over the entries, skipping those whose values are the default one.

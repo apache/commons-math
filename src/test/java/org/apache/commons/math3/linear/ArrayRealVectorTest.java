@@ -488,9 +488,7 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
-    @Override
     public void testPredicates() {
-        super.testPredicates();
 
         final ArrayRealVector v = (ArrayRealVector) create(new double[] { 0, 1, 2 });
         Assert.assertFalse(v.equals(v.getDataRef()));

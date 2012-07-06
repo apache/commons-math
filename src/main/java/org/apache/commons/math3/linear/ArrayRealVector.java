@@ -792,20 +792,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         return false;
     }
 
-    /**
-     * Test for the equality of two real vectors.
-     * If all coordinates of two real vectors are exactly the same, and none are
-     * {@code NaN}, the two real vectors are considered to be equal.
-     * {@code NaN} coordinates are considered to affect globally the vector
-     * and be equals to each other - i.e, if either (or all) coordinates of the
-     * real vector are equal to {@code NaN}, the real vector is equal to
-     * a vector with all {@code NaN} coordinates.
-     *
-     * @param other Object to test for equality.
-     * @return {@code true} if two vector objects are equal, {@code false} if
-     * {@code other} is null, not an instance of {@code RealVector}, or
-     * not equal to this {@code RealVector} instance.
-     */
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -834,10 +821,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     }
 
     /**
-     * Get a hashCode for the real vector.
-     * All {@code NaN} values have the same hash code.
-     *
-     * @return a hash code.
+     * {@inheritDoc} All {@code NaN} values have the same hash code.
      */
     @Override
     public int hashCode() {
