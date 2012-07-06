@@ -167,17 +167,6 @@ public abstract class RealVectorAbstractTest {
         return 0.0;
     }
 
-    /** verifies that two vectors are close (sup norm) */
-    protected void assertClose(String msg, double[] m, double[] n,
-            double tolerance) {
-        if (m.length != n.length) {
-            Assert.fail("vectors have different lengths");
-        }
-        for (int i = 0; i < m.length; i++) {
-            Assert.assertEquals(msg + " " +  i + " elements differ", m[i],n[i],tolerance);
-        }
-    }
-
     public RealVectorAbstractTest() {
         /*
          * Make sure that x, y, z are three different values. Also, x is the
