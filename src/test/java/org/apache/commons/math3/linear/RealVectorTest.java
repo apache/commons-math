@@ -219,47 +219,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
     }
 
-    @Test(expected=DimensionMismatchException.class)
-    public void testCombineToSelfPrecondition() {
-        final double a = 1d;
-        final double b = 2d;
-        double[] aux = new double[] { 3d, 4d, 5d };
-        final RealVector x = new RealVectorTestImpl(aux);
-        aux = new double[] { 6d, 7d };
-        final RealVector y = new RealVectorTestImpl(aux);
-        x.combineToSelf(a, b, y);
-    }
-
-    @Test
-    public void testCombineToSelf() {
-        final Random random = new Random(20110726);
-        final int dim = 10;
-        final double a = (2 * random.nextDouble() - 1);
-        final double b = (2 * random.nextDouble() - 1);
-        final RealVector x = new RealVectorTestImpl(new double[dim]);
-        final RealVector y = new RealVectorTestImpl(new double[dim]);
-        final double[] expected = new double[dim];
-        for (int i = 0; i < dim; i++) {
-            final double xi = 2 * random.nextDouble() - 1;
-            final double yi = 2 * random.nextDouble() - 1;
-            x.setEntry(i, xi);
-            y.setEntry(i, yi);
-            expected[i] = a * xi + b * yi;
-        }
-        Assert.assertSame(x, x.combineToSelf(a, b, y));
-        final double[] actual = x.toArray();
-        for (int i = 0; i < dim; i++) {
-            final double delta;
-            if (expected[i] == 0d) {
-                delta = Math.ulp(1d);
-            } else {
-                delta = Math.ulp(expected[i]);
-            }
-            Assert.assertEquals("elements [" + i + "] differ", expected[i],
-                                actual[i], delta);
-        }
-    }
-
     @Override
     @Test
     public void testAddToEntry() {
