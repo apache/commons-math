@@ -18,9 +18,7 @@
 package org.apache.commons.math3.linear;
 
 import java.util.Iterator;
-import java.util.Random;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.RealVector.Entry;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -216,20 +214,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         for(Iterator<Entry> it = v.sparseIterator(); it.hasNext(); ) {
             e = it.next();
             Assert.assertEquals(onlyOne[1], e.getValue(), 0);
-        }
-    }
-
-    @Override
-    @Test
-    public void testAddToEntry() {
-        final double[] v = new double[] { 1, 2, 3 };
-        final RealVector x = new RealVectorTestImpl(v.clone());
-        final double inc = 7;
-        for (int i = 0; i < x.getDimension(); i++) {
-            x.addToEntry(i, inc);
-        }
-        for (int i = 0; i < x.getDimension(); i++) {
-            Assert.assertEquals(v[i] + inc, x.getEntry(i), 0);
         }
     }
 
