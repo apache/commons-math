@@ -48,7 +48,6 @@ import org.apache.commons.math3.analysis.function.Tanh;
 import org.apache.commons.math3.analysis.function.Ulp;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -176,40 +175,13 @@ public abstract class RealVectorAbstractTest {
         }
     }
 
-    protected double[][] ma1 = {{1d, 2d, 3d}, {4d, 5d, 6d}, {7d, 8d, 9d}};
-    protected double[] vec1 = {1d, 2d, 3d};
-    protected double[] vec2 = {4d, 5d, 6d};
-    protected double[] vec3 = {7d, 8d, 9d};
-    protected double[] vec4 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[] vec5 = { -4d, 0d, 3d, 1d, -6d, 3d};
-    protected double[] vec_null = {0d, 0d, 0d};
-    protected Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
-    protected double[][] mat1 = {{1d, 2d, 3d}, {4d, 5d, 6d},{ 7d, 8d, 9d}};
-
-    /**
-     * Data which can be used to create a specific vector. The array is
-     * interspersed with the value returned by
-     * {@link #getPreferredEntryValue()}.
-     */
-    private final double[] data1;
-
-
-    /**
-     * Data which can be used to create a specific vector. The array is
-     * interspersed with the value returned by
-     * {@link #getPreferredEntryValue()}.
-     */
-    private final double[] data2;
-
     public RealVectorAbstractTest() {
-        final double x = getPreferredEntryValue();
-        data1 = new double[] {x, 1d, 2d, x, x};
-        data2 = new double[] {x, x, 3d, x, 4d, x};
         /*
          * Make sure that x, y, z are three different values. Also, x is the
          * preferred value (e.g. the value which is not stored in sparse
          * implementations).
          */
+        final double x = getPreferredEntryValue();
         final double y = x + 1d;
         final double z = y + 1d;
 
@@ -226,37 +198,46 @@ public abstract class RealVectorAbstractTest {
 
     @Test
     public void testGetDimension() {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = {x, x, x, x};
         Assert.assertEquals(data1.length, create(data1).getDimension());
+        final double y = x + 1;
+        final double[] data2 = {y, y, y, y};
+        Assert.assertEquals(data2.length, create(data2).getDimension());
     }
 
     @Test
     public void testGetEntry() {
-        final RealVector v = create(data1);
-        for (int i = 0; i < data1.length; i++) {
-            Assert.assertEquals("entry " + i, data1[i], v.getEntry(i), 0d);
+        final double x = getPreferredEntryValue();
+        final double[] data = {x, 1d, 2d, x, x};
+        final RealVector v = create(data);
+        for (int i = 0; i < data.length; i++) {
+            Assert.assertEquals("entry " + i, data[i], v.getEntry(i), 0d);
         }
     }
 
     @Test(expected=OutOfRangeException.class)
     public void testGetEntryInvalidIndex1() {
-        create(data1).getEntry(-1);
+        create(new double[4]).getEntry(-1);
     }
 
     @Test(expected=OutOfRangeException.class)
     public void testGetEntryInvalidIndex2() {
-        create(data1).getEntry(data1.length);
+        create(new double[4]).getEntry(4);
     }
 
     @Test
     public void testSetEntry() {
-        final double[] expected = MathArrays.copyOf(data1);
-        final RealVector actual = create(data1);
+        final double x = getPreferredEntryValue();
+        final double[] data = {x, 1d, 2d, x, x};
+        final double[] expected = MathArrays.copyOf(data);
+        final RealVector actual = create(data);
 
         /*
          * Try setting to any value.
          */
-        for (int i = 0; i < data1.length; i++) {
-            final double oldValue = data1[i];
+        for (int i = 0; i < data.length; i++) {
+            final double oldValue = data[i];
             final double newValue = oldValue + 1d;
             expected[i] = newValue;
             actual.setEntry(i, newValue);
@@ -269,9 +250,8 @@ public abstract class RealVectorAbstractTest {
         /*
          * Try setting to the preferred value.
          */
-        final double x = getPreferredEntryValue();
-        for (int i = 0; i < data1.length; i++) {
-            final double oldValue = data1[i];
+        for (int i = 0; i < data.length; i++) {
+            final double oldValue = data[i];
             final double newValue = x;
             expected[i] = newValue;
             actual.setEntry(i, newValue);
@@ -284,16 +264,20 @@ public abstract class RealVectorAbstractTest {
 
     @Test(expected=OutOfRangeException.class)
     public void testSetEntryInvalidIndex1() {
-        create(data1).setEntry(-1, getPreferredEntryValue());
+        create(new double[4]).setEntry(-1, getPreferredEntryValue());
     }
 
     @Test(expected=OutOfRangeException.class)
     public void testSetEntryInvalidIndex2() {
-        create(data1).setEntry(data1.length, getPreferredEntryValue());
+        create(new double[4]).setEntry(4, getPreferredEntryValue());
     }
 
     @Test
     public void testAddToEntry() {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = {x, 1d, 2d, x, x};
+        final double[] data2 = {x, x, 3d, x, 4d, x};
+
         final double[] expected = MathArrays.copyOf(data1);
         final RealVector actual = create(data1);
 
@@ -314,7 +298,6 @@ public abstract class RealVectorAbstractTest {
         /*
          * Try incrementing so that result is equal to preferred value.
          */
-        final double x = getPreferredEntryValue();
         for (int i = 0; i < data1.length; i++) {
             final double oldValue = data1[i];
             increment = x - oldValue;
@@ -329,12 +312,12 @@ public abstract class RealVectorAbstractTest {
 
     @Test(expected=OutOfRangeException.class)
     public void testAddToEntryInvalidIndex1() {
-        create(data1).addToEntry(-1, getPreferredEntryValue());
+        create(new double[3]).addToEntry(-1, getPreferredEntryValue());
     }
 
     @Test(expected=OutOfRangeException.class)
     public void testAddToEntryInvalidIndex2() {
-        create(data1).addToEntry(data1.length, getPreferredEntryValue());
+        create(new double[3]).addToEntry(4, getPreferredEntryValue());
     }
 
     private void doTestAppendVector(final String message, final RealVector v1,
@@ -356,6 +339,10 @@ public abstract class RealVectorAbstractTest {
 
     @Test
     public void testAppendVector() {
+        final double x = getPreferredEntryValue();
+        final double[] data1 =  {x, 1d, 2d, x, x};
+        final double[] data2 =  {x, x, 3d, x, 4d, x};
+
         doTestAppendVector("same type", create(data1), create(data2), 0d);
         doTestAppendVector("mixed types", create(data1), createAlien(data2), 0d);
     }
@@ -376,9 +363,11 @@ public abstract class RealVectorAbstractTest {
 
     @Test
     public void testAppendScalar() {
+        final double x = getPreferredEntryValue();
+        final double[] data = new double[] {x, 1d, 2d, x, x};
 
-        doTestAppendScalar("", create(data1), 1d, 0d);
-        doTestAppendScalar("", create(data1), getPreferredEntryValue(), 0d);
+        doTestAppendScalar("", create(data), 1d, 0d);
+        doTestAppendScalar("", create(data), x, 0d);
     }
 
     @Test

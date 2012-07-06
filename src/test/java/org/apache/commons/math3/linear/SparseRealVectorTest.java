@@ -270,6 +270,8 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
     @Test
     public void testConstructors() {
+        final double[] vec1 = {1d, 2d, 3d};
+        final Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
 
         OpenMapRealVector v0 = new OpenMapRealVector();
         Assert.assertEquals("testData len", 0, v0.getDimension());

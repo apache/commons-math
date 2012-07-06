@@ -366,6 +366,10 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
     @Test
     public void testConstructors() {
+        final double[] vec1 = {1d, 2d, 3d};
+        final double[] vec3 = {7d, 8d, 9d};
+        final double[] vec4 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
+        final Double[] dvec1 = {1d, 2d, 3d, 4d, 5d, 6d, 7d, 8d, 9d};
 
         ArrayRealVector v0 = new ArrayRealVector();
         Assert.assertEquals("testData len", 0, v0.getDimension());
@@ -475,6 +479,8 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
     @Test
     public void testDataInOut() {
+        final double[] vec1 = {1d, 2d, 3d};
+        final double[] vec3 = {7d, 8d, 9d};
 
         ArrayRealVector v1 = new ArrayRealVector(vec1);
 
