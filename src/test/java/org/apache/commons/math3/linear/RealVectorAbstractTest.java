@@ -1363,61 +1363,8 @@ public abstract class RealVectorAbstractTest {
     }
 
     @Test
-    public void testBasicFunctions() {
-        final RealVector v1 = create(vec1);
-        final RealVector v2 = create(vec2);
-        final RealVector v5 = create(vec5);
-        final RealVector v_null = create(vec_null);
-
-        final RealVector v2_t = createAlien(vec2);
-
-        RealVector v_projection = v1.projection(v2);
-        double[] result_projection = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
-        assertClose("compare vect", v_projection.toArray(), result_projection, normTolerance);
-
-        RealVector v_projection_2 = v1.projection(v2_t);
-        double[] result_projection_2 = {1.662337662337662, 2.0779220779220777, 2.493506493506493};
-        assertClose("compare vect", v_projection_2.toArray(), result_projection_2, normTolerance);
-    }
-
-    @Test
-    public void testMisc() {
-        RealVector v1 = create(vec1);
-        RealVector v4 = create(vec4);
-        RealVector v4_2 = create(vec4);
-
-        String out1 = v1.toString();
-        Assert.assertTrue("some output ",  out1.length()!=0);
-        try {
-            v1.checkVectorDimensions(2);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
-       try {
-            v1.checkVectorDimensions(v4);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-
-        try {
-            v1.checkVectorDimensions(v4_2);
-            Assert.fail("MathIllegalArgumentException expected");
-        } catch (MathIllegalArgumentException ex) {
-            // expected behavior
-        }
-    }
-
-    @Test
-    public void testPredicates() {
+    public void testEquals() {
         final RealVector v = create(new double[] { 0, 1, 2 });
-
-        v.setEntry(0, 0);
-        Assert.assertEquals(v, create(new double[] { 0, 1, 2 }));
-        Assert.assertNotSame(v, create(new double[] { 0, 1, 2 + FastMath.ulp(2)}));
-        Assert.assertNotSame(v, create(new double[] { 0, 1, 2, 3 }));
 
         Assert.assertTrue(v.equals(v));
         Assert.assertTrue(v.equals(v.copy()));
