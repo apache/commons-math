@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math3.linear;
 
-import java.io.Serializable;
-
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -150,26 +147,15 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
     }
 
     @Test
-    public void testDataInOut() {
-        final double[] vec1 = {1d, 2d, 3d};
-        final double[] vec3 = {7d, 8d, 9d};
-
-        ArrayRealVector v1 = new ArrayRealVector(vec1);
-
-        RealVector v_copy = v1.copy();
-        Assert.assertEquals("testData len", 3, v_copy.getDimension());
-        Assert.assertNotSame("testData not same object ", v1.getDataRef(), v_copy.toArray());
-
-        double[] a_double = v1.toArray();
-        Assert.assertEquals("testData len", 3, a_double.length);
-        Assert.assertNotSame("testData not same object ", v1.getDataRef(), a_double);
+    public void testGetDataRef() {
+        final double[] data = {1d, 2d, 3d, 4d};
+        final ArrayRealVector v = new ArrayRealVector(data);
+        v.getDataRef()[0] = 0d;
+        Assert.assertEquals("", 0d, v.getEntry(0), 0);
     }
 
     @Test
     public void testPredicates() {
-
-        final ArrayRealVector v = (ArrayRealVector) create(new double[] { 0, 1, 2 });
-        Assert.assertFalse(v.equals(v.getDataRef()));
 
         Assert.assertEquals(create(new double[] { Double.NaN, 1, 2 }).hashCode(),
                      create(new double[] { 0, Double.NaN, 2 }).hashCode());
