@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.linear;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -1901,6 +1902,103 @@ public abstract class RealVectorAbstractTest {
         v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
         for (int i = expectedStart; i <= expectedEnd; i++) {
             Assert.assertEquals("entry " + i, i + data[i], v.getEntry(i), 0.0);
+        }
+    }
+
+    /**
+     * Minimal implementation of the {@link RealVector} abstract class, for
+     * mixed types unit tests.
+     */
+    public static class RealVectorTestImpl extends RealVector
+        implements Serializable {
+
+        /** Serializable version identifier. */
+        private static final long serialVersionUID = 20120706L;
+
+        /** Entries of the vector. */
+        protected double data[];
+
+        public RealVectorTestImpl(double[] d) {
+            data = d.clone();
+        }
+
+        private UnsupportedOperationException unsupported() {
+            return new UnsupportedOperationException("Not supported, unneeded for test purposes");
+        }
+
+        @Override
+        public RealVector mapToSelf(UnivariateFunction function) {
+            for (int i = 0; i < data.length; i++) {
+                data[i] = function.value(data[i]);
+            }
+            return this;
+        }
+
+        @Override
+        public RealVector copy() {
+            return new RealVectorTestImpl(data);
+        }
+
+        @Override
+        public RealVector ebeMultiply(RealVector v) {
+            throw unsupported();
+        }
+
+        @Override
+        public RealVector ebeDivide(RealVector v) {
+            throw unsupported();
+        }
+
+        @Override
+        public double getEntry(int index) {
+            checkIndex(index);
+            return data[index];
+        }
+
+        @Override
+        public int getDimension() {
+            return data.length;
+        }
+
+        @Override
+        public RealVector append(RealVector v) {
+            throw unsupported();
+        }
+
+        @Override
+        public RealVector append(double d) {
+            throw unsupported();
+        }
+
+        @Override
+        public RealVector getSubVector(int index, int n) {
+            throw unsupported();
+        }
+
+        @Override
+        public void setEntry(int index, double value) {
+            checkIndex(index);
+            data[index] = value;
+        }
+
+        @Override
+        public void setSubVector(int index, RealVector v) {
+            throw unsupported();
+        }
+
+        @Override
+        public double[] toArray() {
+            return data.clone();
+        }
+
+        @Override
+        public boolean isNaN() {
+            throw unsupported();
+        }
+
+        @Override
+        public boolean isInfinite() {
+            throw unsupported();
         }
     }
 }
