@@ -219,19 +219,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
     }
 
-    @Test
-    public void testClone() throws Exception {
-        double[] d = new double[1000000];
-        Random r = new Random(1234);
-        for(int i=0;i<d.length; i++) d[i] = r.nextDouble();
-        Assert.assertTrue(new ArrayRealVector(d).getNorm() > 0);
-        double[] c = d.clone();
-        c[0] = 1;
-        Assert.assertNotSame(c[0], d[0]);
-        d[0] = 1;
-        Assert.assertEquals(new ArrayRealVector(d).getNorm(), new ArrayRealVector(c).getNorm(), 0);
-    }
-
     @Test(expected=DimensionMismatchException.class)
     public void testCombineToSelfPrecondition() {
         final double a = 1d;
