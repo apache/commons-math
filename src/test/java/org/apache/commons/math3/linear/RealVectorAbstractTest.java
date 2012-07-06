@@ -184,10 +184,6 @@ public abstract class RealVectorAbstractTest {
             };
     }
 
-    // tolerances
-    protected double entryTolerance = 10E-16;
-    protected double normTolerance = 10E-14;
-
     @Test
     public void testGetDimension() {
         final double x = getPreferredEntryValue();
