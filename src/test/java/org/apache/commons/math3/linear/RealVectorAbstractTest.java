@@ -1247,6 +1247,68 @@ public abstract class RealVectorAbstractTest {
         doTestDotProductDimensionMismatch(true);
     }
 
+    private void doTestCosine(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = {
+            x, 1d, x, x, 2d, x, x, x, 3d, x, x, x, x
+        };
+        final double[] data2 = {
+            5d, -6d, 7d, x, x, -8d, -9d, 10d, 11d, x, 12d, 13d, -15d
+        };
+        double norm1 = 0d;
+        double norm2 = 0d;
+        double dotProduct = 0d;
+        for (int i = 0; i < data1.length; i++){
+            norm1 += data1[i] * data1[i];
+            norm2 += data2[i] * data2[i];
+            dotProduct += data1[i] * data2[i];
+        }
+        norm1 = FastMath.sqrt(norm1);
+        norm2 = FastMath.sqrt(norm2);
+        final double expected = dotProduct / (norm1 * norm2);
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        final double actual = v1.cosine(v2);
+        Assert.assertEquals("", expected, actual, 0d);
+
+    }
+
+    @Test
+    public void testCosineSameType() {
+        doTestCosine(false);
+    }
+
+    @Test
+    public void testCosineMixedTypes() {
+        doTestCosine(true);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCosineLeftNullVector() {
+        final RealVector v = create(new double[] {0, 0, 0});
+        final RealVector w = create(new double[] {1, 0, 0});
+        v.cosine(w);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testCosineRightNullVector() {
+        final RealVector v = create(new double[] {0, 0, 0});
+        final RealVector w = create(new double[] {1, 0, 0});
+        w.cosine(v);
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testCosineDimensionMismatch() {
+        final RealVector v = create(new double[] {1, 2, 3});
+        final RealVector w = create(new double[] {1, 2, 3, 4});
+        v.cosine(w);
+    }
+
     @Test
     public void testBasicFunctions() {
         final RealVector v1 = create(vec1);
@@ -1339,48 +1401,6 @@ public abstract class RealVectorAbstractTest {
         Assert.assertTrue(Double.isNaN(v4.getMinValue()));
         Assert.assertEquals(-1, v4.getMaxIndex());
         Assert.assertTrue(Double.isNaN(v4.getMaxValue()));
-    }
-
-    @Test
-    public void testCosine() {
-        final RealVector v = create(new double[] {1, 0, 0});
-
-        double[] wData = new double[] {1, 1, 0};
-        RealVector w = create(wData);
-        Assert.assertEquals(FastMath.sqrt(2) / 2, v.cosine(w), normTolerance);
-
-        wData = new double[] {1, 0, 0};
-        w = create(wData);
-        Assert.assertEquals(1, v.cosine(w), normTolerance);
-
-        wData = new double[] {0, 1, 0};
-        w = create(wData);
-        Assert.assertEquals(0, v.cosine(w), 0);
-
-        wData = new double[] {-1, 0, 0};
-        w = create(wData);
-        Assert.assertEquals(-1, v.cosine(w), normTolerance);
-    }
-
-    @Test(expected=MathArithmeticException.class)
-    public void testCosinePrecondition1() {
-        final RealVector v = create(new double[] {0, 0, 0});
-        final RealVector w = create(new double[] {1, 0, 0});
-        v.cosine(w);
-    }
-
-    @Test(expected=MathArithmeticException.class)
-    public void testCosinePrecondition2() {
-        final RealVector v = create(new double[] {0, 0, 0});
-        final RealVector w = create(new double[] {1, 0, 0});
-        w.cosine(v);
-    }
-
-    @Test(expected=DimensionMismatchException.class)
-    public void testCosinePrecondition3() {
-        final RealVector v = create(new double[] {1, 2, 3});
-        final RealVector w = create(new double[] {1, 2, 3, 4});
-        v.cosine(w);
     }
 
     /*

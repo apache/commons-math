@@ -317,6 +317,10 @@ public abstract class RealVector {
      *
      * @param v Vector.
      * @return the cosine of the angle between this vector and {@code v}.
+     * @throws MathArithmeticException if {@code this} or {@code v} is the null
+     * vector
+     * @throws DimensionMismatchException if the dimensions of {@code this} and
+     * {@code v} do not match
      */
     public double cosine(RealVector v) {
         final double norm = getNorm();

@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -204,7 +205,11 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
 
         @Override
         public double getNorm() {
-            throw unsupported();
+            double sqrNorm = 0.0;
+            for (int i = 0; i < data.length; i++) {
+                sqrNorm += data[i] * data[i];
+            }
+            return FastMath.sqrt(sqrNorm);
         }
 
         @Override
