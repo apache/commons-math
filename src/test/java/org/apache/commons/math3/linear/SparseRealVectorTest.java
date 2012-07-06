@@ -16,11 +16,6 @@
  */
 package org.apache.commons.math3.linear;
 
-import java.io.Serializable;
-import java.util.Iterator;
-
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,233 +26,6 @@ import org.junit.Test;
  */
 public class SparseRealVectorTest extends RealVectorAbstractTest {
 
-    // Testclass to test the RealVector interface
-    // only with enough content to support the test
-    public static class SparseRealVectorTestImpl extends RealVector implements Serializable {
-
-        private static final long serialVersionUID = -6251371752518113791L;
-        /** Entries of the vector. */
-        protected double data[];
-
-        public SparseRealVectorTestImpl(double[] d) {
-            data = d.clone();
-        }
-
-        private UnsupportedOperationException unsupported() {
-            return new UnsupportedOperationException("Not supported, unneeded for test purposes");
-        }
-
-        @Override
-        public RealVector map(UnivariateFunction function) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapToSelf(UnivariateFunction function) {
-            throw unsupported();
-        }
-
-        @Override
-        public Iterator<Entry> iterator() {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector copy() {
-            return new SparseRealVectorTestImpl(data);
-        }
-
-        @Override
-        public RealVector add(RealVector v) {
-            throw unsupported();
-        }
-
-
-        @Override
-        public RealVector subtract(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapAdd(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapAddToSelf(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapSubtract(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapSubtractToSelf(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapMultiply(double d) {
-            double[] out = new double[data.length];
-            for (int i = 0; i < data.length; i++) {
-                out[i] = data[i] * d;
-            }
-            return new OpenMapRealVector(out);
-        }
-
-        @Override
-        public RealVector mapMultiplyToSelf(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapDivide(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector mapDivideToSelf(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector ebeMultiply(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector ebeDivide(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double dotProduct(RealVector v) {
-            double dot = 0;
-            for (int i = 0; i < data.length; i++) {
-                dot += data[i] * v.getEntry(i);
-            }
-            return dot;
-        }
-
-        @Override
-        public double getNorm() {
-            double sqrNorm = 0.0;
-            for (int i = 0; i < data.length; i++) {
-                sqrNorm += data[i] * data[i];
-            }
-            return FastMath.sqrt(sqrNorm);
-        }
-
-        @Override
-        public double getL1Norm() {
-            throw unsupported();
-        }
-
-        @Override
-        public double getLInfNorm() {
-            throw unsupported();
-        }
-
-        @Override
-        public double getDistance(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double getL1Distance(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double getLInfDistance(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector unitVector() {
-            throw unsupported();
-        }
-
-        @Override
-        public void unitize() {
-            throw unsupported();
-        }
-
-        @Override
-        public RealMatrix outerProduct(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public double getEntry(int index) {
-            return data[index];
-        }
-
-        @Override
-        public int getDimension() {
-            return data.length;
-        }
-
-        @Override
-        public RealVector append(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector append(double d) {
-            throw unsupported();
-        }
-
-        @Override
-        public RealVector getSubVector(int index, int n) {
-            throw unsupported();
-        }
-
-        @Override
-        public void setEntry(int index, double value) {
-            data[index] = value;
-        }
-
-        @Override
-        public void setSubVector(int index, RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
-        public void set(double value) {
-            throw unsupported();
-        }
-
-        @Override
-        public double[] toArray() {
-            return data.clone();
-        }
-
-        @Override
-        public boolean isNaN() {
-            boolean isNaN = false;
-            for (int i = 0; i < data.length; i++) {
-                isNaN |= Double.isNaN(data[i]);
-            }
-            return isNaN;
-        }
-
-        @Override
-        public boolean isInfinite() {
-            boolean isInfinite = false;
-            for (int i = 0; i < data.length; i++) {
-                final double x = data[i];
-                if (Double.isNaN(x)) {
-                    return false;
-                }
-                isInfinite |= Double.isInfinite(x);
-            }
-            return isInfinite;
-        }
-    }
-
     @Override
     public RealVector create(double[] data) {
         return new OpenMapRealVector(data);
@@ -265,7 +33,7 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
     @Override
     public RealVector createAlien(double[] data) {
-        return new SparseRealVectorTestImpl(data);
+        return new RealVectorTestImpl(data);
     }
 
     @Test
@@ -306,7 +74,7 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         Assert.assertEquals("testData len", 7, v7.getDimension());
         Assert.assertEquals("testData is 0.0 ", 0.0, v7.getEntry(6), 0);
 
-        SparseRealVectorTestImpl v7_i = new SparseRealVectorTestImpl(vec1);
+        RealVectorTestImpl v7_i = new RealVectorTestImpl(vec1);
 
         OpenMapRealVector v7_2 = new OpenMapRealVector(v7_i);
         Assert.assertEquals("testData len", 3, v7_2.getDimension());
