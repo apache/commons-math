@@ -30,8 +30,6 @@ import org.junit.Test;
  * Tests for {@link RealVector}.
  */
 public class RealVectorTest extends RealVectorAbstractTest{
-    private double[] vec1 = { 1d, 2d, 3d, 4d, 5d };
-    private double[] vec2 = { -3d, 0d, 0d, 2d, 1d };
 
     @Override
     public RealVector create(final double[] data) {
@@ -194,19 +192,31 @@ public class RealVectorTest extends RealVectorAbstractTest{
 
     @Test
     public void testSparseIterator() throws Exception {
-        RealVector v = new RealVectorTestImpl(vec2.clone());
+        /*
+         * For non-default values, use x + 1, x + 2, etc... to make sure that
+         * these values are really different from x.
+         */
+        final double x = getPreferredEntryValue();
+        final double[] data = {
+            x, x + 1d, x, x, x + 2d, x + 3d, x + 4d, x, x, x, x + 5d, x + 6d, x
+        };
+
+        RealVector v = create(data);
         Entry e;
         int i = 0;
-        double[] nonDefaultV2 = { -3d, 2d, 1d };
-        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; i++) {
-            Assert.assertEquals(nonDefaultV2[i], e.getValue(), 0);
+        final double[] nonDefault = {
+            x + 1d, x + 2d, x + 3d, x + 4d, x + 5d, x + 6d
+        };
+        for (Iterator<Entry> it = v.sparseIterator(); it.hasNext(); i++) {
+            e = it.next();
+            Assert.assertEquals(nonDefault[i], e.getValue(), 0);
         }
-        double [] onlyOne = {0d, 1.0, 0d};
-        v = new RealVectorTestImpl(onlyOne);
-        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext() && (e = it.next()) != null; ) {
+        double [] onlyOne = {x, x + 1d, x};
+        v = create(onlyOne);
+        for(Iterator<Entry> it = v.sparseIterator(); it.hasNext(); ) {
+            e = it.next();
             Assert.assertEquals(onlyOne[1], e.getValue(), 0);
         }
-
     }
 
     @Test
