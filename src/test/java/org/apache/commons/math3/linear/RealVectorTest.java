@@ -109,11 +109,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         }
 
         @Override
-        public RealVector projection(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
         public double getEntry(int index) {
             try {
                 return values[index];

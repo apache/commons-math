@@ -568,12 +568,6 @@ public class ArrayRealVector extends RealVector implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    public RealVector projection(RealVector v) {
-        return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public RealMatrix outerProduct(RealVector v) {
         if (v instanceof ArrayRealVector) {
             final double[] vData = ((ArrayRealVector) v).data;

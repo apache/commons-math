@@ -588,13 +588,6 @@ public class OpenMapRealVector extends SparseRealVector
 
     /** {@inheritDoc} */
     @Override
-    public RealVector projection(RealVector v) {
-        checkVectorDimensions(v.getDimension());
-        return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public void setEntry(int index, double value) {
         checkIndex(index);
         if (!isDefaultValue(value)) {

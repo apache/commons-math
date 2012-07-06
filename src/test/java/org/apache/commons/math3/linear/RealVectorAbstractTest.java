@@ -964,6 +964,59 @@ public abstract class RealVectorAbstractTest {
         doTestOuterProduct(true);
     }
 
+    private void doTestProjection(final boolean mixed) {
+        final double x = getPreferredEntryValue();
+        final double[] data1 = {
+            x, 1d, x, x, 2d, x, x, x, 3d, x, x, x, x
+        };
+        final double[] data2 = {
+            5d, -6d, 7d, x, x, -8d, -9d, 10d, 11d, x, 12d, 13d, -15d
+        };
+        double dotProduct = 0d;
+        double norm2 = 0d;
+        for (int i = 0; i < data1.length; i++){
+            dotProduct += data1[i] * data2[i];
+            norm2 += data2[i] * data2[i];
+        }
+        final double s = dotProduct / norm2;
+        final double[] expected = new double[data1.length];
+        for (int i = 0; i < data2.length; i++) {
+            expected[i] = s * data2[i];
+        }
+        final RealVector v1 = create(data1);
+        final RealVector v2;
+        if (mixed) {
+            v2 = createAlien(data2);
+        } else {
+            v2 = create(data2);
+        }
+        final RealVector actual = v1.projection(v2);
+        TestUtils.assertEquals("", expected, actual, 0d);
+    }
+
+    @Test
+    public void testProjectionSameType() {
+        doTestProjection(false);
+    }
+
+    @Test
+    public void testProjectionMixedTypes() {
+        doTestProjection(true);
+    }
+
+    @Test(expected = MathArithmeticException.class)
+    public void testProjectionNullVector() {
+        create(new double[4]).projection(create(new double[4]));
+    }
+
+    @Test(expected = DimensionMismatchException.class)
+    public void testProjectionDimensionMismatch() {
+        final RealVector v1 = create(new double[4]);
+        final RealVector v2 = create(new double[5]);
+        v2.set(1.0);
+        v1.projection(v2);
+    }
+
     @Test
     public void testSet() {
         for (int i = 0; i < values.length; i++) {

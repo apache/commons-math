@@ -671,10 +671,18 @@ public abstract class RealVector {
      *
      * @param v vector onto which instance must be projected.
      * @return projection of the instance onto {@code v}.
+     * @throws MathArithmeticException if {@code this} or {@code v} is the null
+     * vector
      * @throws org.apache.commons.math3.exception.DimensionMismatchException
      * if {@code v} is not the same size as this vector.
      */
-    public abstract RealVector projection(RealVector v);
+    public RealVector projection(final RealVector v) {
+        final double norm2 = v.dotProduct(v);
+        if (norm2 == 0.0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
+        return v.mapMultiply(dotProduct(v) / v.dotProduct(v));
+    }
 
     /**
      * Set all elements to a single value.
@@ -1367,12 +1375,6 @@ public abstract class RealVector {
             @Override
             public void unitize() {
                 throw new MathUnsupportedOperationException();
-            }
-
-            /** {@inheritDoc} */
-            @Override
-            public RealVector projection(RealVector w) {
-                return v.projection(w);
             }
 
             /** {@inheritDoc} */

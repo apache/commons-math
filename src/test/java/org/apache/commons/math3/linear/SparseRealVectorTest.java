@@ -186,11 +186,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         }
 
         @Override
-        public RealVector projection(RealVector v) {
-            throw unsupported();
-        }
-
-        @Override
         public RealMatrix outerProduct(RealVector v) {
             throw unsupported();
         }

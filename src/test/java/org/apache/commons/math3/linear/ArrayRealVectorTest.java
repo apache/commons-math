@@ -259,11 +259,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
             throw unsupported();
         }
 
-        @Override
-        public RealVector projection(RealVector v) {
-            throw unsupported();
-        }
-
         public RealVector projection(double[] v) {
             throw unsupported();
         }
