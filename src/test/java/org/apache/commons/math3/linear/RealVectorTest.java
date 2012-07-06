@@ -38,11 +38,6 @@ public class RealVectorTest extends RealVectorAbstractTest{
         return new RealVectorTestImpl(data);
     }
 
-    @Override
-    public RealVector createAlien(double[] data) {
-        return new RealVectorTestImpl(data);
-    }
-
     @Test
     @Ignore("Abstract class RealVector does not implement append(RealVector).")
     @Override

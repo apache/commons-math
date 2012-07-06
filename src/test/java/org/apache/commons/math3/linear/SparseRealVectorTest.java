@@ -31,11 +31,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
         return new OpenMapRealVector(data);
     }
 
-    @Override
-    public RealVector createAlien(double[] data) {
-        return new RealVectorTestImpl(data);
-    }
-
     @Test
     public void testConstructors() {
         final double[] vec1 = {1d, 2d, 3d};

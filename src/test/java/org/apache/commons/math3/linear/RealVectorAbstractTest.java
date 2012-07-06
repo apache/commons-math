@@ -148,7 +148,9 @@ public abstract class RealVectorAbstractTest {
      * @param data the entries of the vector to be created
      * @return a new {@link RealVector} of an alien type
      */
-    public abstract RealVector createAlien(double[] data);
+    public RealVector createAlien(double[] data){
+        return new RealVectorTestImpl(data);
+    }
 
     /**
      * Returns a preferred value of the entries, to be tested specifically. Some

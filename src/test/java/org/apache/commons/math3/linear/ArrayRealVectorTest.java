@@ -36,11 +36,6 @@ public class ArrayRealVectorTest extends RealVectorAbstractTest {
         return new ArrayRealVector(data, true);
     }
 
-    @Override
-    public RealVector createAlien(final double[] data) {
-        return new RealVectorTestImpl(data);
-    }
-
     @Test
     public void testConstructors() {
         final double[] vec1 = {1d, 2d, 3d};
