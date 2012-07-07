@@ -583,7 +583,7 @@ double[][] parametersVariance = regression.estimateRegressionParametersVariance(
 
 double regressandVariance = regression.estimateRegressandVariance();
 
-double rSquared = regression.caclulateRSquared();
+double rSquared = regression.calculateRSquared();
 
 double sigma = regression.estimateRegressionStandardError();
          </source>
