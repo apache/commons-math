@@ -925,8 +925,7 @@ public abstract class RealVectorAbstractTest {
             for (int j = 0; j < dataV.length; j++) {
                 final double expected = dataU[i] * dataV[j];
                 final double actual = uv.getEntry(i, j);
-                Assert.assertEquals("[" + i + "][" + j + "]", expected, actual,
-                    0d);
+                Assert.assertEquals(dataU[i] + " * " + dataV[j], expected, actual, 0d);
             }
         }
     }
