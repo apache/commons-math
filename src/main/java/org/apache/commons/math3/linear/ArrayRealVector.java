@@ -455,16 +455,8 @@ public class ArrayRealVector extends RealVector implements Serializable {
                 dot += data[i] * vData[i];
             }
             return dot;
-        } else {
-            checkVectorDimensions(v);
-            double dot = 0;
-            Iterator<Entry> it = v.sparseIterator();
-            while (it.hasNext()) {
-                final Entry e = it.next();
-                dot += data[e.getIndex()] * e.getValue();
-            }
-            return dot;
         }
+        return super.dotProduct(v);
     }
 
     /** {@inheritDoc} */
