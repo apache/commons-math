@@ -17,6 +17,7 @@
 package org.apache.commons.math3.linear;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -105,6 +106,7 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
      */
     @Test
     @Override
+    @Ignore("This test is skipped until MATH-821 is fixed")
     public void testMap() {}
 
     /**
@@ -114,5 +116,6 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
      */
     @Test
     @Override
+    @Ignore("This test is skipped until MATH-821 is fixed")
     public void testMapToSelf() {}
 }
