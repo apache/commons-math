@@ -104,12 +104,9 @@ public class EigenDecomposition {
      * Calculates the eigen decomposition of the given real matrix.
      *
      * @param matrix Matrix to decompose.
-     * @param splitTolerance Dummy parameter (present for backward
-     * compatibility only).
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
-    public EigenDecomposition(final RealMatrix matrix,
-                              final double splitTolerance)  {
+    public EigenDecomposition(final RealMatrix matrix)  {
         if (isSymmetric(matrix, false)) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
@@ -117,6 +114,40 @@ public class EigenDecomposition {
             final SchurTransformer t = transformToSchur(matrix);
             findEigenVectorsFromSchur(t);
         }
+    }
+
+    /**
+     * Calculates the eigen decomposition of the given real matrix.
+     *
+     * @param matrix Matrix to decompose.
+     * @param splitTolerance Dummy parameter (present for backward
+     * compatibility only).
+     * @throws MaxCountExceededException if the algorithm fails to converge.
+     * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
+     */
+    public EigenDecomposition(final RealMatrix matrix,
+                              final double splitTolerance)  {
+        this(matrix);
+    }
+
+    /**
+     * Calculates the eigen decomposition of the symmetric tridiagonal
+     * matrix.  The Householder matrix is assumed to be the identity matrix.
+     *
+     * @param main Main diagonal of the symmetric tridiagonal form.
+     * @param secondary Secondary of the tridiagonal form.
+     * @throws MaxCountExceededException if the algorithm fails to converge.
+     */
+    public EigenDecomposition(final double[] main, final double[] secondary) {
+        this.main      = main.clone();
+        this.secondary = secondary.clone();
+        transformer    = null;
+        final int size = main.length;
+        final double[][] z = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            z[i][i] = 1.0;
+        }
+        findEigenVectors(z);
     }
 
     /**
@@ -128,18 +159,11 @@ public class EigenDecomposition {
      * @param splitTolerance Dummy parameter (present for backward
      * compatibility only).
      * @throws MaxCountExceededException if the algorithm fails to converge.
+     * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
      */
     public EigenDecomposition(final double[] main, final double[] secondary,
                               final double splitTolerance) {
-        this.main      = main.clone();
-        this.secondary = secondary.clone();
-        transformer    = null;
-        final int size = main.length;
-        final double[][] z = new double[size][size];
-        for (int i = 0; i < size; i++) {
-            z[i][i] = 1.0;
-        }
-        findEigenVectors(z);
+        this(main, secondary);
     }
 
     /**

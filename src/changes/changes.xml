@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+	  <action dev="tn" type="add" issue="MATH-822" due-to="Jared Becksfort">
+        Added new constructors in EigenDecomposition and deprecated two constructors
+        with unused parameters.
+      </action>
       <action dev="erans" type="fix" issue="MATH-798">
         Added overridden method in "PolynomialFitter" (package
         "o.a.c.m.optimization.fitting") to limit the number of evaluations.
@@ -78,8 +82,7 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="celestin" type="remove" issue="MATH-796">
         Removed unused fields LocalizedFormats.ALPHA and LocalizedFormats.BETA. This is
-        an acceptable compatibility break, as these fields are only meant for internal
-use.
+        an acceptable compatibility break, as these fields are only meant for internal use.
       </action>
       <action dev="tn" type="fix" issue="MATH-644" due-to="marzieh">
         Fix computation of upperCumulativeProbability in HypergeometricDistribution and
