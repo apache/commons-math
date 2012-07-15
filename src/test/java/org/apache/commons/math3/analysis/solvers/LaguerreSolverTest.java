@@ -19,7 +19,9 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -110,43 +112,26 @@ public final class LaguerreSolverTest {
     }
 
     /**
-     * Test of solver for the quintic function using solveAll().
-     * XXX commented out because "solveAll" is not part of the API.
+     * Test of solver for the quintic function using
+     * {@link LaguerreSolver#solveAllComplex(double[],double) solveAllComplex}.
      */
-    // public void testQuinticFunction2() {
-    //     double initial = 0.0, tolerance;
-    //     Complex expected, result[];
+    @Test
+    public void testQuinticFunction2() {
+        // p(x) = x^5 + 4x^3 + x^2 + 4 = (x+1)(x^2-x+1)(x^2+4)
+        final double[] coefficients = { 4.0, 0.0, 1.0, 4.0, 0.0, 1.0 };
+        final LaguerreSolver solver = new LaguerreSolver();
+        final Complex[] result = solver.solveAllComplex(coefficients, 0);
 
-    //     // p(x) = x^5 + 4x^3 + x^2 + 4 = (x+1)(x^2-x+1)(x^2+4)
-    //     double coefficients[] = { 4.0, 0.0, 1.0, 4.0, 0.0, 1.0 };
-    //     LaguerreSolver solver = new LaguerreSolver();
-    //     result = solver.solveAll(coefficients, initial);
-
-    //     expected = new Complex(0.0, -2.0);
-    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-    //     TestUtils.assertContains(result, expected, tolerance);
-
-    //     expected = new Complex(0.0, 2.0);
-    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-    //     TestUtils.assertContains(result, expected, tolerance);
-
-    //     expected = new Complex(0.5, 0.5 * FastMath.sqrt(3.0));
-    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-    //     TestUtils.assertContains(result, expected, tolerance);
-
-    //     expected = new Complex(-1.0, 0.0);
-    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-    //     TestUtils.assertContains(result, expected, tolerance);
-
-    //     expected = new Complex(0.5, -0.5 * FastMath.sqrt(3.0));
-    //     tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
-    //                 FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
-    //     TestUtils.assertContains(result, expected, tolerance);
-    // }
+        for (Complex expected : new Complex[] { new Complex(0, -2),
+                                                new Complex(0, 2),
+                                                new Complex(0.5, 0.5 * FastMath.sqrt(3)),
+                                                new Complex(-1, 0),
+                                                new Complex(0.5, -0.5 * FastMath.sqrt(3.0)) }) {
+            final double tolerance = FastMath.max(solver.getAbsoluteAccuracy(),
+                                                  FastMath.abs(expected.abs() * solver.getRelativeAccuracy()));
+            TestUtils.assertContains(result, expected, tolerance);
+        }
+    }
 
     /**
      * Test of parameters for the solver.

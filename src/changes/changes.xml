@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-768">
+        Re-instated methods to find all complex roots of a polynomial (class
+        "LaguerreSolver" in package "o.a.c.m.analysis.solvers").
+      </action>
+      <action dev="erans" type="add" issue="MATH-810">
+        Added accessors to the "Pair" class (package "o.a.c.m.util").
+      </action>
 	  <action dev="tn" type="add" issue="MATH-822" due-to="Jared Becksfort">
         Added new constructors in EigenDecomposition and deprecated two constructors
         with unused parameters.

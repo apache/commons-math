@@ -17,6 +17,8 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.complex.ComplexUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NoDataException;
@@ -144,11 +146,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      */
     public double laguerre(double lo, double hi,
                            double fLo, double fHi) {
-        double coefficients[] = getCoefficients();
-        Complex c[] = new Complex[coefficients.length];
-        for (int i = 0; i < coefficients.length; i++) {
-            c[i] = new Complex(coefficients[i], 0);
-        }
+        final Complex c[] = ComplexUtils.convertToComplex(getCoefficients());
+
         Complex initial = new Complex(0.5 * (lo + hi), 0);
         Complex z = complexSolver.solve(c, initial);
         if (complexSolver.isRoot(lo, hi, z)) {
@@ -165,6 +164,58 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
             }
             return r;
         }
+    }
+
+    /**
+     * Find all complex roots for the polynomial with the given
+     * coefficients, starting from the given initial value.
+     * <br/>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     *
+     * @param coefficients Polynomial coefficients.
+     * @param initial Start value.
+     * @return the point at which the function value is zero.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximum number of evaluations is exceeded.
+     * @throws NullArgumentException if the {@code coefficients} is
+     * {@code null}.
+     * @throws NoDataException if the {@code coefficients} array is empty.
+     */
+    public Complex[] solveAllComplex(double[] coefficients,
+                                     double initial) {
+        setup(Integer.MAX_VALUE,
+              new PolynomialFunction(coefficients),
+              Double.NEGATIVE_INFINITY,
+              Double.POSITIVE_INFINITY,
+              initial);
+        return complexSolver.solveAll(ComplexUtils.convertToComplex(coefficients),
+                                      new Complex(initial, 0d));
+    }
+
+    /**
+     * Find a complex root for the polynomial with the given coefficients,
+     * starting from the given initial value.
+     * <br/>
+     * Note: This method is not part of the API of {@link BaseUnivariateSolver}.
+     *
+     * @param coefficients Polynomial coefficients.
+     * @param initial Start value.
+     * @return the point at which the function value is zero.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximum number of evaluations is exceeded.
+     * @throws NullArgumentException if the {@code coefficients} is
+     * {@code null}.
+     * @throws NoDataException if the {@code coefficients} array is empty.
+     */
+    public Complex solveComplex(double[] coefficients,
+                                double initial) {
+        setup(Integer.MAX_VALUE,
+              new PolynomialFunction(coefficients),
+              Double.NEGATIVE_INFINITY,
+              Double.POSITIVE_INFINITY,
+              initial);
+        return complexSolver.solve(ComplexUtils.convertToComplex(coefficients),
+                                   new Complex(initial, 0d));
     }
 
     /**

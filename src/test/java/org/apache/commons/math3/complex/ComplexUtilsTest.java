@@ -20,7 +20,7 @@ package org.apache.commons.math3.complex;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Test;
-
+import org.junit.Assert;
 
 /**
  * @version $Id$
@@ -100,4 +100,13 @@ public class ComplexUtilsTest {
         TestUtils.assertSame(negInfNegInf, ComplexUtils.polar2Complex(inf, 5*pi/4));
     }
 
+    @Test
+    public void testConvertToComplex() {
+        final double[] real = new double[] { negInf, -123.45, 0, 1, 234.56, pi, inf };
+        final Complex[] complex = ComplexUtils.convertToComplex(real);
+
+        for (int i = 0; i < real.length; i++) {
+            Assert.assertEquals(real[i], complex[i].getReal(), 0d);
+        }
+    }
 }

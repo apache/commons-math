@@ -32,9 +32,7 @@ public class ComplexUtils {
     /**
      * Default constructor.
      */
-    private ComplexUtils() {
-        super();
-    }
+    private ComplexUtils() {}
 
     /**
      * Creates a complex number from the given polar representation.
@@ -58,7 +56,7 @@ public class ComplexUtils {
      * @param r the modulus of the complex number to create
      * @param theta  the argument of the complex number to create
      * @return <code>r&middot;e<sup>i&middot;theta</sup></code>
-     * @throws MathIllegalArgumentException  if r is negative
+     * @throws MathIllegalArgumentException if {@code r} is negative.
      * @since 1.1
      */
     public static Complex polar2Complex(double r, double theta) {
@@ -69,4 +67,21 @@ public class ComplexUtils {
         return new Complex(r * FastMath.cos(theta), r * FastMath.sin(theta));
     }
 
+    /**
+     * Convert an array of primitive doubles to an array of {@code Complex} objects.
+     *
+     * @param real Array of numbers to be converted to their {@code Complex}
+     * equivalent.
+     * @return an array of {@code Complex} objects.
+     *
+     * @since 3.1
+     */
+    public static Complex[] convertToComplex(double[] real) {
+        final Complex c[] = new Complex[real.length];
+        for (int i = 0; i < real.length; i++) {
+            c[i] = new Complex(real[i], 0);
+        }
+
+        return c;
+    }
 }
