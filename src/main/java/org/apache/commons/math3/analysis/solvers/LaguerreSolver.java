@@ -262,15 +262,15 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 throw new NoDataException(LocalizedFormats.POLYNOMIAL);
             }
             // Coefficients for deflated polynomial.
-            Complex c[] = new Complex[n + 1];
+            final Complex c[] = new Complex[n + 1];
             for (int i = 0; i <= n; i++) {
                 c[i] = coefficients[i];
             }
 
             // Solve individual roots successively.
-            Complex root[] = new Complex[n];
+            final Complex root[] = new Complex[n];
             for (int i = 0; i < n; i++) {
-                Complex subarray[] = new Complex[n - i + 1];
+                final Complex subarray[] = new Complex[n - i + 1];
                 System.arraycopy(c, 0, subarray, 0, subarray.length);
                 root[i] = solve(subarray, initial);
                 // Polynomial deflation using synthetic division.
@@ -313,26 +313,18 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
             final double relativeAccuracy = getRelativeAccuracy();
             final double functionValueAccuracy = getFunctionValueAccuracy();
 
-            Complex N  = new Complex(n,     0.0);
-            Complex N1 = new Complex(n - 1, 0.0);
+            final Complex N  = new Complex(n, 0);
+            final Complex N1 = new Complex(n - 1, 0);
 
-            Complex pv = null;
-            Complex dv = null;
-            Complex d2v = null;
-            Complex G = null;
-            Complex G2 = null;
-            Complex H = null;
-            Complex delta = null;
-            Complex denominator = null;
             Complex z = initial;
             Complex oldz = new Complex(Double.POSITIVE_INFINITY,
                                        Double.POSITIVE_INFINITY);
             while (true) {
                 // Compute pv (polynomial value), dv (derivative value), and
                 // d2v (second derivative value) simultaneously.
-                pv = coefficients[n];
-                dv = Complex.ZERO;
-                d2v = Complex.ZERO;
+                Complex pv = coefficients[n];
+                Complex dv = Complex.ZERO;
+                Complex d2v = Complex.ZERO;
                 for (int j = n-1; j >= 0; j--) {
                     d2v = dv.add(z.multiply(d2v));
                     dv = pv.add(z.multiply(dv));
@@ -341,8 +333,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 d2v = d2v.multiply(new Complex(2.0, 0.0));
 
                 // check for convergence
-                double tolerance = FastMath.max(relativeAccuracy * z.abs(),
-                                                absoluteAccuracy);
+                final double tolerance = FastMath.max(relativeAccuracy * z.abs(),
+                                                      absoluteAccuracy);
                 if ((z.subtract(oldz)).abs() <= tolerance) {
                     return z;
                 }
@@ -351,15 +343,15 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
                 }
 
                 // now pv != 0, calculate the new approximation
-                G = dv.divide(pv);
-                G2 = G.multiply(G);
-                H = G2.subtract(d2v.divide(pv));
-                delta = N1.multiply((N.multiply(H)).subtract(G2));
+                final Complex G = dv.divide(pv);
+                final Complex G2 = G.multiply(G);
+                final Complex H = G2.subtract(d2v.divide(pv));
+                final Complex delta = N1.multiply((N.multiply(H)).subtract(G2));
                 // choose a denominator larger in magnitude
-                Complex deltaSqrt = delta.sqrt();
-                Complex dplus = G.add(deltaSqrt);
-                Complex dminus = G.subtract(deltaSqrt);
-                denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
+                final Complex deltaSqrt = delta.sqrt();
+                final Complex dplus = G.add(deltaSqrt);
+                final Complex dminus = G.subtract(deltaSqrt);
+                final Complex denominator = dplus.abs() > dminus.abs() ? dplus : dminus;
                 // Perturb z if denominator is zero, for instance,
                 // p(x) = x^3 + 1, z = 0.
                 if (denominator.equals(new Complex(0.0, 0.0))) {
