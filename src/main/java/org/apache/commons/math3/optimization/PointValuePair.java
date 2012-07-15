@@ -93,19 +93,18 @@ public class PointValuePair extends Pair<double[], Double> implements Serializab
 
     /** Internal class used only for serialization. */
     private static class DataTransferObject implements Serializable {
-
         /** Serializable UID. */
         private static final long serialVersionUID = 20120513L;
-
-        /** Point coordinates.
+        /**
+         * Point coordinates.
          * @Serial
          */
-        final double[] point;
-
-        /** Value of the objective function at the point.
+        private final double[] point;
+        /**
+         * Value of the objective function at the point.
          * @Serial
          */
-        final double value;
+        private final double value;
 
         /** Simple constructor.
          * @param point Point coordinates.

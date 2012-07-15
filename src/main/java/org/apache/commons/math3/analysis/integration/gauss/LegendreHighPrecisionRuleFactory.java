@@ -32,6 +32,7 @@ import org.apache.commons.math3.util.Pair;
  * @since 3.1
  */
 public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal> {
+    /** Settings for enhanced precision computations. */
     private final MathContext mContext;
     /** The number {@code 2}. */
     private final BigDecimal two;

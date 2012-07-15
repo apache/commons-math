@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math3.analysis.integration.gauss;
 
-import java.math.MathContext;
-import java.math.BigDecimal;
 import org.apache.commons.math3.util.Pair;
 
 /**
@@ -133,7 +131,7 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
             points[iMax] = 0d;
             weights[iMax] = w;
         }
- 
+
         return new Pair<Double[], Double[]>(points, weights);
     }
 }

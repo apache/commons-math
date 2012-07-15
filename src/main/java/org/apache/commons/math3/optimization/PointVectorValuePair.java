@@ -118,19 +118,18 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
 
     /** Internal class used only for serialization. */
     private static class DataTransferObject implements Serializable {
-
         /** Serializable UID. */
         private static final long serialVersionUID = 20120513L;
-
-        /** Point coordinates.
+        /**
+         * Point coordinates.
          * @Serial
          */
-        final double[] point;
-
-        /** Value of the objective function at the point.
+        private final double[] point;
+        /**
+         * Value of the objective function at the point.
          * @Serial
          */
-        final double[] value;
+        private final double[] value;
 
         /** Simple constructor.
          * @param point Point coordinates.
@@ -147,7 +146,5 @@ public class PointVectorValuePair extends Pair<double[], double[]> implements Se
         private Object readResolve() {
             return new PointVectorValuePair(point, value, false);
         }
-
     }
-
 }

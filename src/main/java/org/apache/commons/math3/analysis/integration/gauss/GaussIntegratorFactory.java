@@ -16,10 +16,7 @@
  */
 package org.apache.commons.math3.analysis.integration.gauss;
 
-import java.util.Map;
-import java.util.TreeMap;
 import org.apache.commons.math3.util.Pair;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 
 /**
  * Class that provides different ways to compute the nodes and weights to be
@@ -108,7 +105,7 @@ public class GaussIntegratorFactory {
      * Performs a change of variable so that the integration can be performed
      * on an arbitrary interval {@code [a, b]}.
      * It is assumed that the natural interval is {@code [-1, 1]}.
-     * 
+     *
      * @param rule Original points and weights.
      * @param a Lower bound of the integration interval.
      * @param b Lower bound of the integration interval.

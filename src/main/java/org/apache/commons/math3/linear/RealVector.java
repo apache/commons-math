@@ -1088,7 +1088,7 @@ public abstract class RealVector {
      * not equal to this {@code RealVector} instance.
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object other) {
         throw new UnsupportedOperationException();
     }
 

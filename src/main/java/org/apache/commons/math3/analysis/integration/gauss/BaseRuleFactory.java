@@ -26,8 +26,8 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * weights.
  * Subclasses must implement the {@link #computeRule(int) computeRule} method.
  *
- * <T> Type of the number used to represent the points and weights of the
- * quadrature rules.
+ * @param <T> Type of the number used to represent the points and weights of
+ * the quadrature rules.
  *
  * @version $Id$
  * @since 3.1
@@ -64,7 +64,7 @@ public abstract class BaseRuleFactory<T extends Number> {
         }
         return rule;
     }
-    
+
     /**
      * Stores a rule.
      *
@@ -92,6 +92,8 @@ public abstract class BaseRuleFactory<T extends Number> {
     /**
      * Converts the from the actual {@code Number} type to {@code double}
      *
+     * @param <T> Type of the number used to represent the points and
+     * weights of the quadrature rules.
      * @param rule Points and weights.
      * @return points and weights as {@code double}s.
      */
