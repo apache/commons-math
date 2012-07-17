@@ -17,6 +17,9 @@
 
 package org.apache.commons.math3.linear;
 
+import java.util.Random;
+
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -63,18 +66,6 @@ public class SchurTransformerTest {
         checkAEqualPTPt(MatrixUtils.createRealMatrix(testRandom));
    }
 
-    private void checkAEqualPTPt(RealMatrix matrix) {
-        SchurTransformer transformer = new SchurTransformer(matrix);
-        RealMatrix p  = transformer.getP();
-        RealMatrix t  = transformer.getT();
-        RealMatrix pT = transformer.getPT();
-        
-        RealMatrix result = p.multiply(t).multiply(pT);
-
-        double norm = result.subtract(matrix).getNorm();
-        Assert.assertEquals(0, norm, 4.0e-14);
-    }
-
     @Test
     public void testPOrthogonal() {
         checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testSquare5)).getP());
@@ -89,17 +80,78 @@ public class SchurTransformerTest {
         checkOrthogonal(new SchurTransformer(MatrixUtils.createRealMatrix(testRandom)).getPT());
     }
 
-    private void checkOrthogonal(RealMatrix m) {
-        RealMatrix mTm = m.transpose().multiply(m);
-        RealMatrix id  = MatrixUtils.createRealIdentityMatrix(mTm.getRowDimension());
-        Assert.assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-14);
-    }
-
     @Test
     public void testSchurForm() {
         checkSchurForm(new SchurTransformer(MatrixUtils.createRealMatrix(testSquare5)).getT());
         checkSchurForm(new SchurTransformer(MatrixUtils.createRealMatrix(testSquare3)).getT());
         checkSchurForm(new SchurTransformer(MatrixUtils.createRealMatrix(testRandom)).getT());
+    }
+
+    @Test
+    public void testRandomData() {
+        for (int run = 0; run < 100; run++) {
+            Random r = new Random(System.currentTimeMillis());
+
+            // matrix size
+            int size = r.nextInt(20) + 4;
+
+            double[][] data = new double[size][size];
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    data[i][j] = r.nextInt(100);
+                }
+            }
+
+            RealMatrix m = MatrixUtils.createRealMatrix(data);
+            RealMatrix s = checkAEqualPTPt(m);
+            checkSchurForm(s);
+        }
+    }
+
+    @Test
+    public void testRandomDataNormalDistribution() {
+        for (int run = 0; run < 100; run++) {
+            Random r = new Random(System.currentTimeMillis());
+            NormalDistribution dist = new NormalDistribution(0.0, r.nextDouble() * 5);
+
+            // matrix size
+            int size = r.nextInt(20) + 4;
+
+            double[][] data = new double[size][size];
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    data[i][j] = dist.sample();
+                }
+            }
+
+            RealMatrix m = MatrixUtils.createRealMatrix(data);
+            RealMatrix s = checkAEqualPTPt(m);
+            checkSchurForm(s);
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Test helpers
+    ///////////////////////////////////////////////////////////////////////////
+
+    private RealMatrix checkAEqualPTPt(RealMatrix matrix) {
+        SchurTransformer transformer = new SchurTransformer(matrix);
+        RealMatrix p  = transformer.getP();
+        RealMatrix t  = transformer.getT();
+        RealMatrix pT = transformer.getPT();
+        
+        RealMatrix result = p.multiply(t).multiply(pT);
+
+        double norm = result.subtract(matrix).getNorm();
+        Assert.assertEquals(0, norm, 1.0e-10);
+        
+        return t;
+    }
+
+    private void checkOrthogonal(RealMatrix m) {
+        RealMatrix mTm = m.transpose().multiply(m);
+        RealMatrix id  = MatrixUtils.createRealIdentityMatrix(mTm.getRowDimension());
+        Assert.assertEquals(0, mTm.subtract(id).getNorm(), 1.0e-14);
     }
 
     private void checkSchurForm(final RealMatrix m) {
