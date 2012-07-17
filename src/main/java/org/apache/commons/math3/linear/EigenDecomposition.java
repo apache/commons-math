@@ -98,7 +98,7 @@ public class EigenDecomposition {
     private RealMatrix cachedVt;
 
     /** Internally used epsilon criteria. */
-    private final double epsilon = 1e-16;
+    private final double epsilon = 1e-12;
 
     /**
      * Calculates the eigen decomposition of the given real matrix.
