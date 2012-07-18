@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+	  <action dev="tn" type="add" issue="MATH-235">
+        Added support for real asymmetric matrices to EigenDecomposition.
+      </action>
       <action dev="erans" type="add" issue="MATH-768">
         Re-instated methods to find all complex roots of a polynomial (class
         "LaguerreSolver" in package "o.a.c.m.analysis.solvers").
