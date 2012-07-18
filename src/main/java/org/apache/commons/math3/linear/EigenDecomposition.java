@@ -18,6 +18,8 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -102,9 +104,13 @@ public class EigenDecomposition {
 
     /**
      * Calculates the eigen decomposition of the given real matrix.
+     * <p>
+     * Supports decomposition of a general matrix since 3.1.
      *
      * @param matrix Matrix to decompose.
      * @throws MaxCountExceededException if the algorithm fails to converge.
+     * @throws MathArithmeticException if the decomposition of a general matrix
+     * results in a matrix with zero norm
      */
     public EigenDecomposition(final RealMatrix matrix)  {
         if (isSymmetric(matrix, false)) {
@@ -218,7 +224,6 @@ public class EigenDecomposition {
         }
         // return the cached matrix
         return cachedV;
-
     }
 
     /**
@@ -233,6 +238,7 @@ public class EigenDecomposition {
      * @see #getImagEigenvalues()
      */
     public RealMatrix getD() {
+
         if (cachedD == null) {
             // cache the matrix for subsequent calls
             cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
@@ -359,10 +365,20 @@ public class EigenDecomposition {
     /**
      * Gets a solver for finding the A &times; X = B solution in exact
      * linear sense.
+     * <p>
+     * Since 3.1, eigen decomposition of a general matrix is supported,
+     * but the {@link DecompositionSolver} only supports real eigenvalues.
      *
-     * @return a solver.
+     * @return a solver
+     * @throws MathUnsupportedOperationException if the decomposition resulted in
+     * complex eigenvalues
      */
     public DecompositionSolver getSolver() {
+        for (int i = 0; i < imagEigenvalues.length; i++) {
+            if (imagEigenvalues[i] != 0.0) {
+                throw new MathUnsupportedOperationException();
+            }
+        }
         return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
     }
 
@@ -726,6 +742,7 @@ public class EigenDecomposition {
      * Find eigenvectors from a matrix transformed to Schur form.
      *
      * @param schur the schur transformation of the matrix
+     * @throws MathArithmeticException if the Schur form has a norm of zero
      */
     private void findEigenVectorsFromSchur(final SchurTransformer schur) {
         final double[][] matrixT = schur.getT().getData();
@@ -741,9 +758,9 @@ public class EigenDecomposition {
            }
         }
 
-        if (Precision.equals(norm, 0.0)) {
-            // TODO: we can not handle a zero matrix, what exception to throw?
-           return;
+        // we can not handle a matrix with zero norm
+        if (Precision.equals(norm, 0.0, epsilon)) {
+           throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
 
         // Backsubstitute to find vectors of upper triangular form

@@ -436,13 +436,17 @@ class SchurTransformer {
      * Contains variable names as present in the original JAMA code.
      */
     private static class ShiftInfo {
-        /** TODO: describe */
+        // CHECKSTYLE: stop all
+
+        /** x shift info */
         double x;
-        /** TODO: describe */
+        /** y shift info */
         double y;
-        /** TODO: describe */
+        /** w shift info */
         double w;
         /** Indicates an exceptional shift. */
         double exShift;
+
+        // CHECKSTYLE: resume all
     }
 }
