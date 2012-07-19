@@ -21,7 +21,6 @@ import org.junit.Test;
  * See class javadoc for IntegerDistributionAbstractTest for details.
  *
  * @version $Id$
- *          2009) $
  */
 public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
 
@@ -140,6 +139,5 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
             int p = dist.inverseCumulativeProbability(0.5);
             Assert.assertEquals(trials / 2, p);
         }
-
     }
 }
