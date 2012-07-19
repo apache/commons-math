@@ -24,7 +24,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class AbtractIntegerDistributionTest {
+public class AbstractIntegerDistributionTest {
     protected final DiceDistribution diceDistribution = new DiceDistribution();
     protected final double p = diceDistribution.probability(1);
 
