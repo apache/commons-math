@@ -401,7 +401,7 @@ public class TestUtils {
      * @param observed observed counts
      * @param alpha significance level of the test
      */
-    public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) throws Exception {
+    public static void assertChiSquareAccept(String[] valueLabels, double[] expected, long[] observed, double alpha) {
         ChiSquareTest chiSquareTest = new ChiSquareTest();
 
         // Fail if we can reject null hypothesis that distributions are the same
@@ -439,7 +439,7 @@ public class TestUtils {
      * @param observed observed counts
      * @param alpha significance level of the test
      */
-    public static void assertChiSquareAccept(int[] values, double[] expected, long[] observed, double alpha) throws Exception {
+    public static void assertChiSquareAccept(int[] values, double[] expected, long[] observed, double alpha) {
         String[] labels = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             labels[i] = Integer.toString(values[i]);
@@ -455,7 +455,7 @@ public class TestUtils {
      * @param observed observed counts
      * @param alpha significance level of the test
      */
-    public static void assertChiSquareAccept(double[] expected, long[] observed, double alpha) throws Exception {
+    public static void assertChiSquareAccept(double[] expected, long[] observed, double alpha) {
         String[] labels = new String[expected.length];
         for (int i = 0; i < labels.length; i++) {
             labels[i] = Integer.toString(i + 1);
@@ -467,7 +467,7 @@ public class TestUtils {
      * Computes the 25th, 50th and 75th percentiles of the given distribution and returns
      * these values in an array.
      */
-    public static double[] getDistributionQuartiles(RealDistribution distribution) throws Exception {
+    public static double[] getDistributionQuartiles(RealDistribution distribution) {
         double[] quantiles = new double[3];
         quantiles[0] = distribution.inverseCumulativeProbability(0.25d);
         quantiles[1] = distribution.inverseCumulativeProbability(0.5d);
