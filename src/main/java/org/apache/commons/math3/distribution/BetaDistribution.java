@@ -21,6 +21,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implements the Beta distribution.
@@ -53,16 +55,9 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
-     * @param inverseCumAccuracy Maximum absolute error in inverse
-     * cumulative probability estimates (defaults to
-     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @since 2.1
      */
-    public BetaDistribution(double alpha, double beta, double inverseCumAccuracy) {
-        this.alpha = alpha;
-        this.beta = beta;
-        z = Double.NaN;
-        solverAbsoluteAccuracy = inverseCumAccuracy;
+    public BetaDistribution(double alpha, double beta) {
+        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -70,9 +65,36 @@ public class BetaDistribution extends AbstractRealDistribution {
      *
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
+     * @param inverseCumAccuracy Maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @since 2.1
      */
-    public BetaDistribution(double alpha, double beta) {
-        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    public BetaDistribution(double alpha, double beta, double inverseCumAccuracy) {
+        this(new Well19937c(), alpha, beta, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a &beta; distribution.
+     *
+     * @param rng Random number generator.
+     * @param alpha First shape parameter (must be positive).
+     * @param beta Second shape parameter (must be positive).
+     * @param inverseCumAccuracy Maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @since 3.1
+     */
+    public BetaDistribution(RandomGenerator rng,
+                            double alpha,
+                            double beta,
+                            double inverseCumAccuracy) {
+        super(rng);
+
+        this.alpha = alpha;
+        this.beta = beta;
+        z = Double.NaN;
+        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /**

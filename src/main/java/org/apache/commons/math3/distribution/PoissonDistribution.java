@@ -20,7 +20,10 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the Poisson distribution.
@@ -35,26 +38,24 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      * @since 2.1
      */
     public static final int DEFAULT_MAX_ITERATIONS = 10000000;
-
     /**
      * Default convergence criterion.
      * @since 2.1
      */
     public static final double DEFAULT_EPSILON = 1e-12;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3349935121172596109L;
-
     /** Distribution used to compute normal approximation. */
     private final NormalDistribution normal;
-
+    /** Distribution needed for the {@link #sample()} method. */
+    private final ExponentialDistribution exponential;
     /** Mean of the distribution. */
     private final double mean;
 
     /**
      * Maximum number of iterations for cumulative probability. Cumulative
-     * probabilities are estimated using either Lanczos series approximation of
-     * {@link Gamma#regularizedGammaP(double, double, double, int)}
+     * probabilities are estimated using either Lanczos series approximation
+     * of {@link Gamma#regularizedGammaP(double, double, double, int)}
      * or continued fraction approximation of
      * {@link Gamma#regularizedGammaQ(double, double, double, int)}.
      */
@@ -86,13 +87,40 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     public PoissonDistribution(double p, double epsilon, int maxIterations)
     throws NotStrictlyPositiveException {
+        this(new Well19937c(), p, epsilon, maxIterations);
+    }
+
+    /**
+     * Creates a new Poisson distribution with specified mean, convergence
+     * criterion and maximum number of iterations.
+     *
+     * @param rng Random number generator.
+     * @param p Poisson mean.
+     * @param epsilon Convergence criterion for cumulative probabilities.
+     * @param maxIterations the maximum number of iterations for cumulative
+     * probabilities.
+     * @throws NotStrictlyPositiveException if {@code p <= 0}.
+     * @since 3.1
+     */
+    public PoissonDistribution(RandomGenerator rng,
+                               double p,
+                               double epsilon,
+                               int maxIterations)
+    throws NotStrictlyPositiveException {
+        super(rng);
+
         if (p <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, p);
         }
         mean = p;
-        normal = new NormalDistribution(p, FastMath.sqrt(p));
         this.epsilon = epsilon;
         this.maxIterations = maxIterations;
+
+        // Use the same RNG instance as the parent class.
+        normal = new NormalDistribution(rng, p, FastMath.sqrt(p),
+                                        NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        exponential = new ExponentialDistribution(rng, 1,
+                                                  ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -252,6 +280,96 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      */
     @Override
     public int sample() {
-        return (int) FastMath.min(randomData.nextPoisson(mean), Integer.MAX_VALUE);
+        return (int) FastMath.min(nextPoisson(mean), Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param meanPoisson Mean of the Poisson distribution.
+     * @return the next sample.
+     */
+    private long nextPoisson(double meanPoisson) {
+        final double pivot = 40.0d;
+        if (meanPoisson < pivot) {
+            double p = FastMath.exp(-meanPoisson);
+            long n = 0;
+            double r = 1.0d;
+            double rnd = 1.0d;
+
+            while (n < 1000 * meanPoisson) {
+                rnd = random.nextDouble();
+                r = r * rnd;
+                if (r >= p) {
+                    n++;
+                } else {
+                    return n;
+                }
+            }
+            return n;
+        } else {
+            final double lambda = FastMath.floor(meanPoisson);
+            final double lambdaFractional = meanPoisson - lambda;
+            final double logLambda = FastMath.log(lambda);
+            final double logLambdaFactorial = ArithmeticUtils.factorialLog((int) lambda);
+            final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
+            final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
+            final double halfDelta = delta / 2;
+            final double twolpd = 2 * lambda + delta;
+            final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / 8 * lambda);
+            final double a2 = (twolpd / delta) * FastMath.exp(-delta * (1 + delta) / twolpd);
+            final double aSum = a1 + a2 + 1;
+            final double p1 = a1 / aSum;
+            final double p2 = a2 / aSum;
+            final double c1 = 1 / (8 * lambda);
+
+            double x = 0;
+            double y = 0;
+            double v = 0;
+            int a = 0;
+            double t = 0;
+            double qr = 0;
+            double qa = 0;
+            for (;;) {
+                final double u = random.nextDouble();
+                if (u <= p1) {
+                    final double n = random.nextGaussian();
+                    x = n * FastMath.sqrt(lambda + halfDelta) - 0.5d;
+                    if (x > delta || x < -lambda) {
+                        continue;
+                    }
+                    y = x < 0 ? FastMath.floor(x) : FastMath.ceil(x);
+                    final double e = exponential.sample();
+                    v = -e - (n * n / 2) + c1;
+                } else {
+                    if (u > p1 + p2) {
+                        y = lambda;
+                        break;
+                    } else {
+                        x = delta + (twolpd / delta) * exponential.sample();
+                        y = FastMath.ceil(x);
+                        v = -exponential.sample() - delta * (x + 1) / twolpd;
+                    }
+                }
+                a = x < 0 ? 1 : 0;
+                t = y * (y + 1) / (2 * lambda);
+                if (v < -t && a == 0) {
+                    y = lambda + y;
+                    break;
+                }
+                qr = t * ((2 * y + 1) / (6 * lambda) - 1);
+                qa = qr - (t * t) / (3 * (lambda + a * (y + 1)));
+                if (v < qa) {
+                    y = lambda + y;
+                    break;
+                }
+                if (v > qr) {
+                    continue;
+                }
+                if (v < y * logLambda - ArithmeticUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
+                    y = lambda + y;
+                    break;
+                }
+            }
+            return y2 + (long) y;
+        }
     }
 }

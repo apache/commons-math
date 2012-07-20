@@ -22,6 +22,8 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the log-normal (gaussian) distribution.
@@ -74,6 +76,17 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
+     * Create a log-normal distribution, where the mean and standard deviation
+     * of the {@link NormalDistribution normally distributed} natural
+     * logarithm of the log-normal distribution are equal to zero and one
+     * respectively. In other words, the scale of the returned distribution is
+     * {@code 0}, while its shape is {@code 1}.
+     */
+    public LogNormalDistribution() {
+        this(0, 1);
+    }
+
+    /**
      * Create a log-normal distribution using the specified scale and shape.
      *
      * @param scale the scale parameter of this distribution
@@ -94,8 +107,27 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
      */
-    public LogNormalDistribution(double scale, double shape,
-        double inverseCumAccuracy) throws NotStrictlyPositiveException {
+    public LogNormalDistribution(double scale, double shape, double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
+        this(new Well19937c(), scale, shape, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a log-normal distribution.
+     *
+     * @param rng Random number generator.
+     * @param scale Scale parameter of this distribution.
+     * @param shape Shape parameter of this distribution.
+     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
+     * @throws NotStrictlyPositiveException if {@code shape <= 0}.
+     */
+    public LogNormalDistribution(RandomGenerator rng,
+                                 double scale,
+                                 double shape,
+                                 double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
+        super(rng);
+
         if (shape <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }
@@ -103,17 +135,6 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         this.scale = scale;
         this.shape = shape;
         this.solverAbsoluteAccuracy = inverseCumAccuracy;
-    }
-
-    /**
-     * Create a log-normal distribution, where the mean and standard deviation
-     * of the {@link NormalDistribution normally distributed} natural
-     * logarithm of the log-normal distribution are equal to zero and one
-     * respectively. In other words, the scale of the returned distribution is
-     * {@code 0}, while its shape is {@code 1}.
-     */
-    public LogNormalDistribution() {
-        this(0, 1);
     }
 
     /**
@@ -285,7 +306,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     @Override
     public double sample()  {
-        double n = randomData.nextGaussian(0, 1);
+        final double n = random.nextGaussian();
         return FastMath.exp(scale + shape * n);
     }
 }

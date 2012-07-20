@@ -23,6 +23,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.util.FastMath;
 
@@ -37,14 +38,31 @@ public abstract class AbstractIntegerDistribution
 implements IntegerDistribution, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -1146319659338487221L;
+     /**
+      * RandomData instance used to generate samples from the distribution.
+      * @deprecated As of 3.1, to be removed in 4.0. Please use the
+      * {@link #random} instance variable instead.
+      */
+    protected final RandomDataImpl randomData = new RandomDataImpl();
+    /** RNG instance used to generate samples from the distribution. */
+    protected final RandomGenerator random;
 
     /**
-     * RandomData instance used to generate samples from the distribution.
+     * @deprecated As of 3.1, to be removed in 4.0. Please use
+     * {@link #AbstractIntegerDistribution(RandomGenerator)} instead.
      */
-    protected final RandomDataImpl randomData = new RandomDataImpl();
-
-    /** Default constructor. */
-    protected AbstractIntegerDistribution() { }
+    @Deprecated
+    protected AbstractIntegerDistribution() {
+        // Legacy users are only allowed to access the deprecated "randomData".
+        // New users are forbidden to use this constructor.
+        random = null;
+    }
+    /**
+     * @param rng Random number generator.
+     */
+    protected AbstractIntegerDistribution(RandomGenerator rng) {
+        random = rng;
+    }
 
     /**
      * {@inheritDoc}
@@ -152,7 +170,7 @@ implements IntegerDistribution, Serializable {
 
     /** {@inheritDoc} */
     public void reseedRandomGenerator(long seed) {
-        randomData.reSeed(seed);
+        random.setSeed(seed);
     }
 
     /**
@@ -163,7 +181,7 @@ implements IntegerDistribution, Serializable {
      * inversion method</a>.
      */
     public int sample() {
-        return randomData.nextInversionDeviate(this);
+        return inverseCumulativeProbability(random.nextDouble());
     }
 
     /**

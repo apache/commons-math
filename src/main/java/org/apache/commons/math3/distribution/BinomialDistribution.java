@@ -21,6 +21,8 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the binomial distribution.
@@ -47,6 +49,24 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
      * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
      */
     public BinomialDistribution(int trials, double p) {
+        this(new Well19937c(), trials, p);
+    }
+
+    /**
+     * Creates a binomial distribution.
+     *
+     * @param rng Random number generator.
+     * @param trials Number of trials.
+     * @param p Probability of success.
+     * @throws NotPositiveException if {@code trials < 0}.
+     * @throws OutOfRangeException if {@code p < 0} or {@code p > 1}.
+     * @since 3.1
+     */
+    public BinomialDistribution(RandomGenerator rng,
+                                int trials,
+                                double p) {
+        super(rng);
+
         if (trials < 0) {
             throw new NotPositiveException(LocalizedFormats.NUMBER_OF_TRIALS,
                                            trials);

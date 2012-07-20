@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.util.FastMath;
 
@@ -39,18 +40,35 @@ public abstract class AbstractRealDistribution
 implements RealDistribution, Serializable {
     /** Default accuracy. */
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
-
-    /** RandomData instance used to generate samples from the distribution. */
+     /**
+      * RandomData instance used to generate samples from the distribution.
+      * @deprecated As of 3.1, to be removed in 4.0. Please use the
+      * {@link #random} instance variable instead.
+      */
     protected final RandomDataImpl randomData = new RandomDataImpl();
-
+    /** RNG instance used to generate samples from the distribution. */
+    protected final RandomGenerator random;
     /** Solver absolute accuracy for inverse cumulative computation */
     private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
-    /** Default constructor. */
-    protected AbstractRealDistribution() { }
+    /**
+     * @deprecated As of 3.1, to be removed in 4.0. Please use
+     * {@link #AbstractRealDistribution(RandomGenerator)} instead.
+     */
+    @Deprecated
+    protected AbstractRealDistribution() {
+        // Legacy users are only allowed to access the deprecated "randomData".
+        // New users are forbidden to use this constructor.
+        random = null;
+    }
+    /**
+     * @param rng Random number generator.
+     */
+    protected AbstractRealDistribution(RandomGenerator rng) {
+        random = rng;
+    }
 
     /**
      * {@inheritDoc}
@@ -193,7 +211,7 @@ implements RealDistribution, Serializable {
 
     /** {@inheritDoc} */
     public void reseedRandomGenerator(long seed) {
-        randomData.reSeed(seed);
+        random.setSeed(seed);
     }
 
     /**
@@ -205,7 +223,7 @@ implements RealDistribution, Serializable {
      * </a>
      */
     public double sample() {
-        return randomData.nextInversionDeviate(this);
+        return inverseCumulativeProbability(random.nextDouble());
     }
 
     /**

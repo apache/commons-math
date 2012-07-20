@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3.distribution;
 
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+
 /**
  * Implementation of the chi-squared distribution.
  *
@@ -56,7 +59,26 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public ChiSquaredDistribution(double degreesOfFreedom,
-                                      double inverseCumAccuracy) {
+                                  double inverseCumAccuracy) {
+        this(new Well19937c(), degreesOfFreedom, inverseCumAccuracy);
+    }
+
+    /**
+     * Create a Chi-Squared distribution with the given degrees of freedom and
+     * inverse cumulative probability accuracy.
+     *
+     * @param rng Random number generator.
+     * @param degreesOfFreedom Degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @since 3.1
+     */
+    public ChiSquaredDistribution(RandomGenerator rng,
+                                  double degreesOfFreedom,
+                                  double inverseCumAccuracy) {
+        super(rng);
+
         gamma = new GammaDistribution(degreesOfFreedom / 2, 2);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
@@ -75,10 +97,10 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      *
      * For this distribution {@code P(X = x)} always evaluates to 0.
      *
-     * @return 0
+     * @return zero.
      */
     public double probability(double x) {
-        return 0.0;
+        return 0;
     }
 
     /** {@inheritDoc} */
@@ -109,9 +131,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      *
-     * For {@code k} degrees of freedom, the variance is {@code 2 * k}.
-     *
-     * @return {@inheritDoc}
+     * @return {@code 2 * k}, where {@code k} is the number of degrees of freedom.
      */
     public double getNumericalVariance() {
         return 2 * getDegreesOfFreedom();
@@ -123,7 +143,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * The lower bound of the support is always 0 no matter the
      * degrees of freedom.
      *
-     * @return lower bound of the support (always 0)
+     * @return zero.
      */
     public double getSupportLowerBound() {
         return 0;
@@ -135,7 +155,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * The upper bound of the support is always positive infinity no matter the
      * degrees of freedom.
      *
-     * @return upper bound of the support (always Double.POSITIVE_INFINITY)
+     * @return {@code Double.POSITIVE_INFINITY}.
      */
     public double getSupportUpperBound() {
         return Double.POSITIVE_INFINITY;

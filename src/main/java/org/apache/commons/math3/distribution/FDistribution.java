@@ -21,6 +21,8 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the F-distribution.
@@ -35,27 +37,22 @@ public class FDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -8516354193418641566L;
-
     /** The numerator degrees of freedom. */
     private final double numeratorDegreesOfFreedom;
-
     /** The numerator degrees of freedom. */
     private final double denominatorDegreesOfFreedom;
-
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
-
     /** Cached numerical variance */
     private double numericalVariance = Double.NaN;
-
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
 
     /**
-     * Create a F distribution using the given degrees of freedom.
+     * Creates an F distribution using the given degrees of freedom.
+     *
      * @param numeratorDegreesOfFreedom Numerator degrees of freedom.
      * @param denominatorDegreesOfFreedom Denominator degrees of freedom.
      * @throws NotStrictlyPositiveException if
@@ -63,29 +60,53 @@ public class FDistribution extends AbstractRealDistribution {
      * {@code denominatorDegreesOfFreedom <= 0}.
      */
     public FDistribution(double numeratorDegreesOfFreedom,
-                             double denominatorDegreesOfFreedom)
+                         double denominatorDegreesOfFreedom)
         throws NotStrictlyPositiveException {
         this(numeratorDegreesOfFreedom, denominatorDegreesOfFreedom,
              DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
-     * Create an F distribution using the given degrees of freedom
+     * Creates an F distribution using the given degrees of freedom
      * and inverse cumulative probability accuracy.
+     *
      * @param numeratorDegreesOfFreedom Numerator degrees of freedom.
      * @param denominatorDegreesOfFreedom Denominator degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse
      * cumulative probability estimates.
-     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY})
      * @throws NotStrictlyPositiveException if
      * {@code numeratorDegreesOfFreedom <= 0} or
      * {@code denominatorDegreesOfFreedom <= 0}.
      * @since 2.1
      */
     public FDistribution(double numeratorDegreesOfFreedom,
-                             double denominatorDegreesOfFreedom,
-                             double inverseCumAccuracy)
+                         double denominatorDegreesOfFreedom,
+                         double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
+        this(new Well19937c(), numeratorDegreesOfFreedom,
+             denominatorDegreesOfFreedom, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates an F distribution.
+     *
+     * @param rng Random number generator.
+     * @param numeratorDegreesOfFreedom Numerator degrees of freedom.
+     * @param denominatorDegreesOfFreedom Denominator degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse
+     * cumulative probability estimates.
+     * @throws NotStrictlyPositiveException if
+     * {@code numeratorDegreesOfFreedom <= 0} or
+     * {@code denominatorDegreesOfFreedom <= 0}.
+     * @since 3.1
+     */
+    public FDistribution(RandomGenerator rng,
+                         double numeratorDegreesOfFreedom,
+                         double denominatorDegreesOfFreedom,
+                         double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
+        super(rng);
+
         if (numeratorDegreesOfFreedom <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.DEGREES_OF_FREEDOM,
                                                    numeratorDegreesOfFreedom);

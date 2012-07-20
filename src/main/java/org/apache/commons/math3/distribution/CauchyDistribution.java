@@ -20,6 +20,8 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the Cauchy distribution.
@@ -74,7 +76,27 @@ public class CauchyDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public CauchyDistribution(double median, double scale,
-                                  double inverseCumAccuracy) {
+                              double inverseCumAccuracy) {
+        this(new Well19937c(), median, scale, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a Cauchy distribution.
+     *
+     * @param rng Random number generator.
+     * @param median Median for this distribution.
+     * @param scale Scale parameter for this distribution.
+     * @param inverseCumAccuracy Maximum absolute error in inverse
+     * cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @throws NotStrictlyPositiveException if {@code scale <= 0}.
+     * @since 3.1
+     */
+    public CauchyDistribution(RandomGenerator rng,
+                              double median,
+                              double scale,
+                              double inverseCumAccuracy) {
+        super(rng);
         if (scale <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SCALE, scale);
         }

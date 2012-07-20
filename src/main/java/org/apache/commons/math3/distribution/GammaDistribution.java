@@ -20,6 +20,8 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the Gamma distribution.
@@ -34,22 +36,17 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120524L;
-
     /** The shape parameter. */
     private final double shape;
-
     /** The scale parameter. */
     private final double scale;
-
     /**
      * The constant value of {@code shape + g + 0.5}, where {@code g} is the
      * Lanczos constant {@link Gamma#LANCZOS_G}.
      */
     private final double shiftedShape;
-
     /**
      * The constant value of
      * {@code shape / scale * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape)},
@@ -59,7 +56,6 @@ public class GammaDistribution extends AbstractRealDistribution {
      * calculation.
      */
     private final double densityPrefactor1;
-
     /**
      * The constant value of
      * {@code shape * sqrt(e / (2 * pi * (shape + g + 0.5))) / L(shape)},
@@ -69,21 +65,18 @@ public class GammaDistribution extends AbstractRealDistribution {
      * calculation.
      */
     private final double densityPrefactor2;
-
     /**
      * Lower bound on {@code y = x / scale} for the selection of the computation
      * method in {@link #density(double)}. For {@code y <= minY}, the natural
      * calculation overflows.
      */
     private final double minY;
-
     /**
      * Upper bound on {@code log(y)} ({@code y = x / scale}) for the selection
      * of the computation method in {@link #density(double)}. For
      * {@code log(y) >= maxLogY}, the natural calculation overflows.
      */
     private final double maxLogY;
-
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -113,6 +106,29 @@ public class GammaDistribution extends AbstractRealDistribution {
      */
     public GammaDistribution(double shape, double scale, double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
+        this(new Well19937c(), shape, scale, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a Gamma distribution.
+     *
+     * @param rng Random number generator.
+     * @param shape the shape parameter
+     * @param scale the scale parameter
+     * @param inverseCumAccuracy the maximum absolute error in inverse
+     * cumulative probability estimates (defaults to
+     * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
+     * {@code scale <= 0}.
+     * @since 3.1
+     */
+    public GammaDistribution(RandomGenerator rng,
+                             double shape,
+                             double scale,
+                             double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
+        super(rng);
+
         if (shape <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE, shape);
         }
@@ -360,6 +376,67 @@ public class GammaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double sample()  {
-        return randomData.nextGamma(shape, scale);
+        if (shape < 1) {
+            // [1]: p. 228, Algorithm GS
+
+            while (true) {
+                // Step 1:
+                final double u = random.nextDouble();
+                final double bGS = 1 + shape / FastMath.E;
+                final double p = bGS * u;
+
+                if (p <= 1) {
+                    // Step 2:
+
+                    final double x = FastMath.pow(p, 1 / shape);
+                    final double u2 = random.nextDouble();
+
+                    if (u2 > FastMath.exp(-x)) {
+                        // Reject
+                        continue;
+                    } else {
+                        return scale * x;
+                    }
+                } else {
+                    // Step 3:
+
+                    final double x = -1 * FastMath.log((bGS - p) / shape);
+                    final double u2 = random.nextDouble();
+
+                    if (u2 > FastMath.pow(x, shape - 1)) {
+                        // Reject
+                        continue;
+                    } else {
+                        return scale * x;
+                    }
+                }
+            }
+        }
+
+        // Now shape >= 1
+
+        final double d = shape - 0.333333333333333333;
+        final double c = 1 / (3 * FastMath.sqrt(d));
+
+        while (true) {
+            final double x = random.nextGaussian();
+            final double v = (1 + c * x) * (1 + c * x) * (1 + c * x);
+
+            if (v <= 0) {
+                continue;
+            }
+
+            final double x2 = x * x;
+            final double u = random.nextDouble();
+
+            // Squeeze
+            if (u < 1 - 0.0331 * x2 * x2) {
+                return scale * d * v;
+            }
+
+            if (FastMath.log(u) < 0.5 * x2 + d * (1 - v + FastMath.log(v))) {
+                return scale * d * v;
+            }
+        }
     }
 }

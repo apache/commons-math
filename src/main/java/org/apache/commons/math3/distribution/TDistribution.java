@@ -21,6 +21,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of Student's t-distribution.
@@ -43,6 +45,17 @@ public class TDistribution extends AbstractRealDistribution {
     private final double solverAbsoluteAccuracy;
 
     /**
+     * Create a t distribution using the given degrees of freedom.
+     *
+     * @param degreesOfFreedom Degrees of freedom.
+     * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
+     */
+    public TDistribution(double degreesOfFreedom)
+        throws NotStrictlyPositiveException {
+        this(degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
      * Create a t distribution using the given degrees of freedom and the
      * specified inverse cumulative probability absolute accuracy.
      *
@@ -55,23 +68,32 @@ public class TDistribution extends AbstractRealDistribution {
      */
     public TDistribution(double degreesOfFreedom, double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
+        this(new Well19937c(), degreesOfFreedom, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a t distribution.
+     *
+     * @param rng Random number generator.
+     * @param degreesOfFreedom Degrees of freedom.
+     * @param inverseCumAccuracy the maximum absolute error in inverse
+     * cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
+     * @since 3.1
+     */
+    public TDistribution(RandomGenerator rng,
+                         double degreesOfFreedom,
+                         double inverseCumAccuracy)
+        throws NotStrictlyPositiveException {
+        super(rng);
+
         if (degreesOfFreedom <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.DEGREES_OF_FREEDOM,
                                                    degreesOfFreedom);
         }
         this.degreesOfFreedom = degreesOfFreedom;
         solverAbsoluteAccuracy = inverseCumAccuracy;
-    }
-
-    /**
-     * Create a t distribution using the given degrees of freedom.
-     *
-     * @param degreesOfFreedom Degrees of freedom.
-     * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
-     */
-    public TDistribution(double degreesOfFreedom)
-        throws NotStrictlyPositiveException {
-        this(degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**

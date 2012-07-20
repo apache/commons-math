@@ -22,6 +22,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * <p>
@@ -75,13 +77,34 @@ public class PascalDistribution extends AbstractIntegerDistribution {
      * @param p Probability of success.
      * @throws NotStrictlyPositiveException if the number of successes is not positive
      * @throws OutOfRangeException if the probability of success is not in the
-     * range [0, 1]
+     * range {@code [0, 1]}.
      */
     public PascalDistribution(int r, double p)
         throws NotStrictlyPositiveException, OutOfRangeException {
+        this(new Well19937c(), r, p);
+    }
+
+    /**
+     * Create a Pascal distribution with the given number of successes and
+     * probability of success.
+     *
+     * @param rng Random number generator.
+     * @param r Number of successes.
+     * @param p Probability of success.
+     * @throws NotStrictlyPositiveException if the number of successes is not positive
+     * @throws OutOfRangeException if the probability of success is not in the
+     * range {@code [0, 1]}.
+     * @since 3.1
+     */
+    public PascalDistribution(RandomGenerator rng,
+                              int r,
+                              double p)
+        throws NotStrictlyPositiveException, OutOfRangeException {
+        super(rng);
+
         if (r <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,
-                                           r);
+                                                   r);
         }
         if (p < 0 || p > 1) {
             throw new OutOfRangeException(p, 0, 1);
@@ -194,4 +217,3 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         return true;
     }
 }
-

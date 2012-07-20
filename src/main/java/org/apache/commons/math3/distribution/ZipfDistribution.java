@@ -20,6 +20,8 @@ package org.apache.commons.math3.distribution;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the Zipf distribution.
@@ -30,22 +32,16 @@ import org.apache.commons.math3.util.FastMath;
 public class ZipfDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -140627372283420404L;
-
     /** Number of elements. */
     private final int numberOfElements;
-
     /** Exponent parameter of the distribution. */
     private final double exponent;
-
     /** Cached numerical mean */
     private double numericalMean = Double.NaN;
-
     /** Whether or not the numerical mean has been calculated */
     private boolean numericalMeanIsCalculated = false;
-
     /** Cached numerical variance */
     private double numericalVariance = Double.NaN;
-
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
 
@@ -58,8 +54,26 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
      * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
      * or {@code exponent <= 0}.
      */
-    public ZipfDistribution(final int numberOfElements, final double exponent)
+    public ZipfDistribution(final int numberOfElements, final double exponent) {
+        this(new Well19937c(), numberOfElements, exponent);
+    }
+
+    /**
+     * Creates a Zipf distribution.
+     *
+     * @param rng Random number generator.
+     * @param numberOfElements Number of elements.
+     * @param exponent Exponent.
+     * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
+     * or {@code exponent <= 0}.
+     * @since 3.1
+     */
+    public ZipfDistribution(RandomGenerator rng,
+                            int numberOfElements,
+                            double exponent)
         throws NotStrictlyPositiveException {
+        super(rng);
+
         if (numberOfElements <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.DIMENSION,
                                                    numberOfElements);

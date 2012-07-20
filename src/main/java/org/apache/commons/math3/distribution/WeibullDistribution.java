@@ -22,6 +22,8 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the Weibull distribution. This implementation uses the
@@ -40,28 +42,20 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
-
     /** The shape parameter. */
     private final double shape;
-
     /** The scale parameter. */
     private final double scale;
-
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
-
     /** Cached numerical mean */
     private double numericalMean = Double.NaN;
-
     /** Whether or not the numerical mean has been calculated */
     private boolean numericalMeanIsCalculated = false;
-
     /** Cached numerical variance */
     private double numericalVariance = Double.NaN;
-
     /** Whether or not the numerical variance has been calculated */
     private boolean numericalVarianceIsCalculated = false;
 
@@ -93,8 +87,30 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @since 2.1
      */
     public WeibullDistribution(double alpha, double beta,
-                                   double inverseCumAccuracy)
+                               double inverseCumAccuracy) {
+        this(new Well19937c(), alpha, beta, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a Weibull distribution.
+     *
+     * @param rng Random number generator.
+     * @param alpha Shape parameter.
+     * @param beta Scale parameter.
+     * @param inverseCumAccuracy Maximum absolute error in inverse
+     * cumulative probability estimates
+     * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
+     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or
+     * {@code beta <= 0}.
+     * @since 3.1
+     */
+    public WeibullDistribution(RandomGenerator rng,
+                               double alpha,
+                               double beta,
+                               double inverseCumAccuracy)
         throws NotStrictlyPositiveException {
+        super(rng);
+
         if (alpha <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.SHAPE,
                                                    alpha);

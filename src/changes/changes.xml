@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-764,MATH-823">
+        For all distibution classes (in package "o.a.c.m.distribution"), a new
+        constructor takes a "RandomGenerator" parameter.
+        The "RandomDataImpl" instance has been superseded by this RNG.
+        All "sample()" methods have been modified to use this RNG instead of
+        delegating to the methods in "RandomData".
+      </action>
 	  <action dev="tn" type="add" issue="MATH-235">
         Added support for real asymmetric matrices to EigenDecomposition.
       </action>

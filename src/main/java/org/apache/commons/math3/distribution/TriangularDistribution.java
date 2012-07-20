@@ -22,6 +22,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the triangular real distribution.
@@ -35,31 +37,48 @@ import org.apache.commons.math3.util.FastMath;
 public class TriangularDistribution extends AbstractRealDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120112L;
-
     /** Lower limit of this distribution (inclusive). */
     private final double a;
-
     /** Upper limit of this distribution (inclusive). */
     private final double b;
-
     /** Mode of this distribution. */
     private final double c;
-
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
     /**
-     * Create a triangular real distribution using the given lower limit,
+     * Creates a triangular real distribution using the given lower limit,
      * upper limit, and mode.
      *
      * @param a Lower limit of this distribution (inclusive).
      * @param b Upper limit of this distribution (inclusive).
      * @param c Mode of this distribution.
-     * @throws NumberIsTooLargeException if {@code a >= b} or if {@code c > b}
-     * @throws NumberIsTooSmallException if {@code c < a}
+     * @throws NumberIsTooLargeException if {@code a >= b} or if {@code c > b}.
+     * @throws NumberIsTooSmallException if {@code c < a}.
      */
     public TriangularDistribution(double a, double c, double b)
         throws NumberIsTooLargeException, NumberIsTooSmallException {
+        this(new Well19937c(), a, c, b);
+    }
+
+    /**
+     * Creates a triangular distribution.
+     *
+     * @param rng Random number generator.
+     * @param a Lower limit of this distribution (inclusive).
+     * @param b Upper limit of this distribution (inclusive).
+     * @param c Mode of this distribution.
+     * @throws NumberIsTooLargeException if {@code a >= b} or if {@code c > b}.
+     * @throws NumberIsTooSmallException if {@code c < a}.
+     * @since 3.1
+     */
+    public TriangularDistribution(RandomGenerator rng,
+                                  double a,
+                                  double c,
+                                  double b)
+        throws NumberIsTooLargeException, NumberIsTooSmallException {
+        super(rng);
+
         if (a >= b) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,

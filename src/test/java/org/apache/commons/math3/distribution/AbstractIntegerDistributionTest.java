@@ -64,6 +64,10 @@ public class AbstractIntegerDistributionTest {
 
         private final double p = 1d/6d;
 
+        public DiceDistribution() {
+            super(null);
+        }
+
         public double probability(int x) {
             if (x < 1 || x > 6) {
                 return 0;

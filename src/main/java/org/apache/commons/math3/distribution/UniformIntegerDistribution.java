@@ -19,6 +19,9 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the uniform integer distribution.
@@ -32,10 +35,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120109L;
-
     /** Lower bound (inclusive) of this distribution. */
     private final int lower;
-
     /** Upper bound (inclusive) of this distribution. */
     private final int upper;
 
@@ -47,7 +48,27 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      * @param upper Upper bound (inclusive) of this distribution.
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
-    public UniformIntegerDistribution(int lower, int upper) throws NumberIsTooLargeException {
+    public UniformIntegerDistribution(int lower, int upper)
+        throws NumberIsTooLargeException {
+        this(new Well19937c(), lower, upper);
+    }
+
+    /**
+     * Creates a new uniform integer distribution using the given lower and
+     * upper bounds (both inclusive).
+     *
+     * @param rng Random number generator.
+     * @param lower Lower bound (inclusive) of this distribution.
+     * @param upper Upper bound (inclusive) of this distribution.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @since 3.1
+     */
+    public UniformIntegerDistribution(RandomGenerator rng,
+                                      int lower,
+                                      int upper)
+        throws NumberIsTooLargeException {
+        super(rng);
+
         if (lower >= upper) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -135,6 +156,8 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     /** {@inheritDoc} */
     @Override
     public int sample() {
-        return randomData.nextInt(lower, upper);
+        final double r = random.nextDouble();
+        final double scaled = r * upper + (1 - r) * lower + r;
+        return (int) FastMath.floor(scaled);
     }
 }

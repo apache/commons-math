@@ -19,6 +19,8 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the uniform real distribution.
@@ -32,18 +34,22 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 public class UniformRealDistribution extends AbstractRealDistribution {
     /** Default inverse cumulative probability accuracy. */
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120109L;
-
     /** Lower bound of this distribution (inclusive). */
     private final double lower;
-
     /** Upper bound of this distribution (exclusive). */
     private final double upper;
-
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
+
+    /**
+     * Create a standard uniform real distribution with lower bound (inclusive)
+     * equal to zero and upper bound (exclusive) equal to one.
+     */
+    public UniformRealDistribution() {
+        this(0, 1);
+    }
 
     /**
      * Create a uniform real distribution using the given lower and upper
@@ -59,8 +65,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Create a normal distribution using the given mean, standard deviation and
-     * inverse cumulative distribution accuracy.
+     * Create a uniform distribution.
      *
      * @param lower Lower bound of this distribution (inclusive).
      * @param upper Upper bound of this distribution (exclusive).
@@ -69,6 +74,25 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     public UniformRealDistribution(double lower, double upper, double inverseCumAccuracy)
         throws NumberIsTooLargeException {
+        this(new  Well19937c(), lower, upper, inverseCumAccuracy);
+    }
+
+    /**
+     * Creates a uniform distribution.
+     *
+     * @param rng Random number generator.
+     * @param lower Lower bound of this distribution (inclusive).
+     * @param upper Upper bound of this distribution (exclusive).
+     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @since 3.1
+     */
+    public UniformRealDistribution(RandomGenerator rng,
+                                   double lower,
+                                   double upper,
+                                   double inverseCumAccuracy)
+        throws NumberIsTooLargeException {
+        super(rng);
         if (lower >= upper) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
@@ -78,14 +102,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
         this.lower = lower;
         this.upper = upper;
         solverAbsoluteAccuracy = inverseCumAccuracy;
-    }
-
-    /**
-     * Create a standard uniform real distribution with lower bound (inclusive)
-     * equal to zero and upper bound (exclusive) equal to one.
-     */
-    public UniformRealDistribution() {
-        this(0, 1);
     }
 
     /**
@@ -193,6 +209,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     /** {@inheritDoc} */
     @Override
     public double sample()  {
-        return randomData.nextUniform(lower, upper, true);
+        final double u = random.nextDouble();
+        return u * upper + (1 - u) * lower;
     }
 }
