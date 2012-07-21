@@ -23,6 +23,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
@@ -39,7 +40,8 @@ public class BaseRuleFactoryTest {
      * whatever the number of times this rule is called concurrently.
      */
     @Test
-    public void testConcurrentCreation() throws InterruptedException {
+        public void testConcurrentCreation() throws InterruptedException,
+                                                    ExecutionException {
         // Number of times the same rule will be called.
         final int numTasks = 20;
 
@@ -47,12 +49,16 @@ public class BaseRuleFactoryTest {
             = new ThreadPoolExecutor(3, numTasks, 1, TimeUnit.SECONDS,
                                      new ArrayBlockingQueue<Runnable>(2));
 
-        final List<RuleBuilder> tasks = new ArrayList<RuleBuilder>();
+        final List<Future<Pair<double[], double[]>>> results
+            = new ArrayList<Future<Pair<double[], double[]>>>();
         for (int i = 0; i < numTasks; i++) {
-            tasks.add(new RuleBuilder());
+            results.add(exec.submit(new RuleBuilder()));
         }
 
-        List<Future<Pair<double[], double[]>>> results = exec.invokeAll(tasks);
+        // Ensure that all computations have completed.
+        for (Future<Pair<double[], double[]>> f : results) {
+            f.get();
+        }
 
         // Assertion would fail if "getRuleInternal" were not "synchronized".
         final int n = RuleBuilder.getNumberOfCalls();
@@ -90,8 +96,13 @@ class DummyRuleFactory extends BaseRuleFactory<Double> {
         }
 
          // Dummy rule (but contents must exist).
-        return new Pair<Double[], Double[]>(new Double[order],
-                                            new Double[order]);
+        final Double[] p = new Double[order];
+        final Double[] w = new Double[order];
+        for (int i = 0; i < order; i++) {
+            p[i] = new Double(i);
+            w[i] = new Double(i);
+        }
+        return new Pair<Double[], Double[]>(p, w);
     }
 
     public int getNumberOfCalls() {
