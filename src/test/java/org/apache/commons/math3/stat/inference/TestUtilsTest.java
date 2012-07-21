@@ -38,7 +38,7 @@ import org.junit.Test;
 public class TestUtilsTest {
 
     @Test
-    public void testChiSquare() throws Exception {
+    public void testChiSquare() {
 
         // Target values computed using R version 1.8.1
         // Some assembly required ;-)
@@ -105,7 +105,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testChiSquareIndependence() throws Exception {
+    public void testChiSquareIndependence() {
 
         // Target values computed using R version 1.8.1
 
@@ -164,7 +164,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testChiSquareLargeTestStatistic() throws Exception {
+    public void testChiSquareLargeTestStatistic() {
         double[] exp = new double[] {
                 3389119.5, 649136.6, 285745.4, 25357364.76, 11291189.78, 543628.0,
                 232921.0, 437665.75
@@ -183,7 +183,7 @@ public class TestUtilsTest {
 
     /** Contingency table containing zeros - PR # 32531 */
     @Test
-    public void testChiSquareZeroCount() throws Exception {
+    public void testChiSquareZeroCount() {
         // Target values computed using R version 1.8.1
         long[][] counts = { {40, 0, 4}, {91, 1, 2}, {60, 2, 0}};
         Assert.assertEquals( "chi-square test statistic", 9.67444662263,
@@ -197,7 +197,7 @@ public class TestUtilsTest {
     private SummaryStatistics emptyStats = new SummaryStatistics();
 
     @Test
-    public void testOneSampleT() throws Exception {
+    public void testOneSampleT() {
         double[] observed =
             {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0,  88.0, 98.0, 94.0, 101.0, 92.0, 95.0 };
         double mu = 100.0;
@@ -273,7 +273,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testOneSampleTTest() throws Exception {
+    public void testOneSampleTTest() {
         double[] oneSidedP =
             {2d, 0d, 6d, 6d, 3d, 3d, 2d, 3d, -6d, 6d, 6d, 6d, 3d, 0d, 1d, 1d, 0d, 2d, 3d, 3d };
         SummaryStatistics oneSidedPStats = new SummaryStatistics();
@@ -311,7 +311,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testTwoSampleTHeterscedastic() throws Exception {
+    public void testTwoSampleTHeterscedastic() {
         double[] sample1 = { 7d, -4d, 18d, 17d, -3d, -5d, 1d, 10d, 11d, -2d };
         double[] sample2 = { -1d, 12d, -1d, -3d, 3d, -5d, 5d, 2d, -11d, -1d, -3d };
         SummaryStatistics sampleStats1 = new SummaryStatistics();
@@ -398,7 +398,7 @@ public class TestUtilsTest {
         }
     }
     @Test
-    public void testTwoSampleTHomoscedastic() throws Exception {
+    public void testTwoSampleTHomoscedastic() {
         double[] sample1 ={2, 4, 6, 8, 10, 97};
         double[] sample2 = {4, 6, 8, 10, 16};
         SummaryStatistics sampleStats1 = new SummaryStatistics();
@@ -422,7 +422,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testSmallSamples() throws Exception {
+    public void testSmallSamples() {
         double[] sample1 = {1d, 3d};
         double[] sample2 = {4d, 5d};
 
@@ -434,7 +434,7 @@ public class TestUtilsTest {
     }
 
     @Test
-    public void testPaired() throws Exception {
+    public void testPaired() {
         double[] sample1 = {1d, 3d, 5d, 7d};
         double[] sample2 = {0d, 6d, 11d, 2d};
         double[] sample3 = {5d, 7d, 8d, 10d};
@@ -458,7 +458,7 @@ public class TestUtilsTest {
     private OneWayAnova oneWayAnova = new OneWayAnova();
 
     @Test
-    public void testOneWayAnovaUtils() throws Exception {
+    public void testOneWayAnovaUtils() {
         classes.add(classA);
         classes.add(classB);
         classes.add(classC);

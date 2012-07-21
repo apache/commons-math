@@ -39,7 +39,7 @@ public class BigFractionFormatTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         properFormat = BigFractionFormat.getProperInstance(getLocale());
         improperFormat = BigFractionFormat.getImproperInstance(getLocale());
     }

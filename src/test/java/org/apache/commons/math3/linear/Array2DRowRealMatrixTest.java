@@ -894,7 +894,7 @@ public final class Array2DRowRealMatrixTest {
     }
 
     @Test
-    public void testSetSubMatrix() throws Exception {
+    public void testSetSubMatrix() {
         Array2DRowRealMatrix m = new Array2DRowRealMatrix(testData);
         m.setSubMatrix(detData2,1,1);
         RealMatrix expected = MatrixUtils.createRealMatrix

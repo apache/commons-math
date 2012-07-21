@@ -130,7 +130,7 @@ public final class PolynomialFunctionNewtonFormTest {
      * Test of parameters for the polynomial.
      */
     @Test
-    public void testParameters() throws Exception {
+    public void testParameters() {
 
         try {
             // bad input array length

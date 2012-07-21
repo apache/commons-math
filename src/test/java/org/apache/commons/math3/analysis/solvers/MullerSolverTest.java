@@ -126,7 +126,7 @@ public final class MullerSolverTest {
      * Test of parameters for the solver.
      */
     @Test
-    public void testParameters() throws Exception {
+    public void testParameters() {
         UnivariateFunction f = new SinFunction();
         UnivariateSolver solver = new MullerSolver();
 

@@ -189,7 +189,7 @@ public class RealVectorTest extends RealVectorAbstractTest{
     }
 
     @Test
-    public void testSparseIterator() throws Exception {
+    public void testSparseIterator() {
         /*
          * For non-default values, use x + 1, x + 2, etc... to make sure that
          * these values are really different from x.

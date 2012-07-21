@@ -38,7 +38,7 @@ import org.junit.Test;
 public class HighamHall54IntegratorTest {
 
   @Test
-  public void testWrongDerivative() throws Exception {
+  public void testWrongDerivative() {
       HighamHall54Integrator integrator =
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
@@ -233,7 +233,7 @@ public class HighamHall54IntegratorTest {
   }
 
   @Test
-  public void testEventsNoConvergence() throws Exception {
+  public void testEventsNoConvergence() {
 
     final TestProblem1 pb = new TestProblem1();
     double minStep = 0;
@@ -274,7 +274,7 @@ public class HighamHall54IntegratorTest {
 }
 
   @Test
-  public void testSanityChecks() throws Exception {
+  public void testSanityChecks() {
       final TestProblem3 pb  = new TestProblem3(0.9);
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();

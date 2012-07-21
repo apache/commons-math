@@ -35,7 +35,7 @@ public class WilcoxonSignedRankTestTest {
     protected WilcoxonSignedRankTest testStatistic = new WilcoxonSignedRankTest();
 
     @Test
-    public void testWilcoxonSignedRankSimple() throws Exception {
+    public void testWilcoxonSignedRankSimple() {
         /* Target values computed using R version 2.11.1
          * x <- c(1.83, 0.50, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
          * y <- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
@@ -65,7 +65,7 @@ public class WilcoxonSignedRankTestTest {
     }
     
     @Test
-    public void testWilcoxonSignedRankInputValidation() throws Exception {
+    public void testWilcoxonSignedRankInputValidation() {
         /*
          * Exact only for sample size <= 30
          */

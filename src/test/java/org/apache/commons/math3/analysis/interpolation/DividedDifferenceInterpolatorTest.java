@@ -113,7 +113,7 @@ public final class DividedDifferenceInterpolatorTest {
      * Test of parameters for the interpolator.
      */
     @Test
-    public void testParameters() throws Exception {
+    public void testParameters() {
         UnivariateInterpolator interpolator = new DividedDifferenceInterpolator();
 
         try {

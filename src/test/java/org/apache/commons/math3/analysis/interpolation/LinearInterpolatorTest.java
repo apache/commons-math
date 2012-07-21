@@ -42,7 +42,7 @@ public class LinearInterpolatorTest {
 
     @Test
     public void testInterpolateLinearDegenerateTwoSegment()
-        throws Exception {
+        {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
         UnivariateInterpolator i = new LinearInterpolator();
@@ -64,7 +64,7 @@ public class LinearInterpolatorTest {
 
     @Test
     public void testInterpolateLinearDegenerateThreeSegment()
-        throws Exception {
+        {
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
         UnivariateInterpolator i = new LinearInterpolator();
@@ -87,7 +87,7 @@ public class LinearInterpolatorTest {
     }
 
     @Test
-    public void testInterpolateLinear() throws Exception {
+    public void testInterpolateLinear() {
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 0.0 };
         UnivariateInterpolator i = new LinearInterpolator();
@@ -138,7 +138,7 @@ public class LinearInterpolatorTest {
      * verifies that f(x[i]) = y[i] for i = 0..n-1 where n is common length.
      */
     protected void verifyInterpolation(UnivariateFunction f, double x[], double y[])
-        throws Exception{
+       {
         for (int i = 0; i < x.length; i++) {
             Assert.assertEquals(f.value(x[i]), y[i], knotTolerance);
         }

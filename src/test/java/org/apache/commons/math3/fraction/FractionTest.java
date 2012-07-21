@@ -36,7 +36,7 @@ public class FractionTest {
     }
 
     @Test
-    public void testConstructor() throws Exception {
+    public void testConstructor() {
         assertFraction(0, 1, new Fraction(0, 1));
         assertFraction(0, 1, new Fraction(0, 2));
         assertFraction(0, 1, new Fraction(0, -1));
@@ -215,7 +215,7 @@ public class FractionTest {
     }
 
     @Test
-    public void testConstructorDouble() throws Exception {
+    public void testConstructorDouble() {
         assertFraction(1, 2, new Fraction(0.5));
         assertFraction(1, 3, new Fraction(1.0 / 3.0));
         assertFraction(17, 100, new Fraction(17.0 / 100.0));

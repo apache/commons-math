@@ -36,7 +36,7 @@ public class ChiSquareTestTest {
     protected ChiSquareTest testStatistic = new ChiSquareTest();
 
     @Test
-    public void testChiSquare() throws Exception {
+    public void testChiSquare() {
 
         // Target values computed using R version 1.8.1
         // Some assembly required ;-)
@@ -103,7 +103,7 @@ public class ChiSquareTestTest {
     }
 
     @Test
-    public void testChiSquareIndependence() throws Exception {
+    public void testChiSquareIndependence() {
 
         // Target values computed using R version 1.8.1
 
@@ -162,7 +162,7 @@ public class ChiSquareTestTest {
     }
 
     @Test
-    public void testChiSquareLargeTestStatistic() throws Exception {
+    public void testChiSquareLargeTestStatistic() {
         double[] exp = new double[] {
             3389119.5, 649136.6, 285745.4, 25357364.76, 11291189.78, 543628.0,
             232921.0, 437665.75
@@ -181,7 +181,7 @@ public class ChiSquareTestTest {
 
     /** Contingency table containing zeros - PR # 32531 */
     @Test
-    public void testChiSquareZeroCount() throws Exception {
+    public void testChiSquareZeroCount() {
         // Target values computed using R version 1.8.1
         long[][] counts = { {40, 0, 4}, {91, 1, 2}, {60, 2, 0}};
         Assert.assertEquals( "chi-square test statistic", 9.67444662263,
@@ -193,7 +193,7 @@ public class ChiSquareTestTest {
     /** Target values verified using DATAPLOT version 2006.3 */
     @Test
     public void testChiSquareDataSetsComparisonEqualCounts()
-        throws Exception {
+        {
         long[] observed1 = {10, 12, 12, 10};
         long[] observed2 = {5, 15, 14, 10};
         Assert.assertEquals("chi-square p value", 0.541096,
@@ -210,7 +210,7 @@ public class ChiSquareTestTest {
     /** Target values verified using DATAPLOT version 2006.3 */
     @Test
     public void testChiSquareDataSetsComparisonUnEqualCounts()
-        throws Exception {
+        {
         long[] observed1 = {10, 12, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
         Assert.assertEquals("chi-square p value", 0.124115,
@@ -229,7 +229,7 @@ public class ChiSquareTestTest {
 
     @Test
     public void testChiSquareDataSetsComparisonBadCounts()
-        throws Exception {
+        {
         long[] observed1 = {10, -1, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
         try {

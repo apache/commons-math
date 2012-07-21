@@ -73,7 +73,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     }
 
     @Test
-    public void testPerfectFit() throws Exception {
+    public void testPerfectFit() {
         double[] betaHat = regression.estimateRegressionParameters();
         TestUtils.assertEquals(betaHat,
                                new double[]{ 11.0, 1.0 / 2.0, 2.0 / 3.0, 3.0 / 4.0, 4.0 / 5.0, 5.0 / 6.0 },
@@ -113,7 +113,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/LINKS/DATA/Longley.dat
      */
     @Test
-    public void testLongly() throws Exception {
+    public void testLongly() {
         // Y values are first, then independent vars
         // Each row is one observation
         double[] design = new double[] {
@@ -220,7 +220,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * Data Source: R datasets package
      */
     @Test
-    public void testSwissFertility() throws Exception {
+    public void testSwissFertility() {
         double[] design = new double[] {
             80.2,17.0,15,12,9.96,
             83.1,45.1,6,9,84.84,
@@ -374,7 +374,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * @throws Exception
      */
     @Test
-    public void testHat() throws Exception {
+    public void testHat() {
 
         /*
          * This example is from "The Hat Matrix in Regression and ANOVA",
@@ -455,7 +455,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * Verifies that calculateYVariance and calculateResidualVariance return consistent
      * values with direct variance computation from Y, residuals, respectively.
      */
-    protected void checkVarianceConsistency(OLSMultipleLinearRegression model) throws Exception {
+    protected void checkVarianceConsistency(OLSMultipleLinearRegression model) {
         // Check Y variance consistency
         TestUtils.assertEquals(StatUtils.variance(model.getY().toArray()), model.calculateYVariance(), 0);
         
@@ -472,7 +472,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * Verifies that setting X and Y separately has the same effect as newSample(X,Y).
      */
     @Test
-    public void testNewSample2() throws Exception {
+    public void testNewSample2() {
         double[] y = new double[] {1, 2, 3, 4}; 
         double[][] x = new double[][] {
           {19, 22, 33},
@@ -515,7 +515,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/Wampler1.shtml
      */
     @Test
-    public void testWampler1() throws Exception {
+    public void testWampler1() {
         double[] data = new double[]{
             1, 0,
             6, 1,
@@ -583,7 +583,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/Wampler2.shtml
      */
     @Test
-    public void testWampler2() throws Exception {
+    public void testWampler2() {
         double[] data = new double[]{
             1.00000, 0,
             1.11111, 1,
@@ -651,7 +651,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/Wampler3.shtml
      */
     @Test
-    public void testWampler3() throws Exception {
+    public void testWampler3() {
         double[] data = new double[]{
             760, 0,
             -2042, 1,
@@ -720,7 +720,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * http://www.itl.nist.gov/div898/strd/lls/data/Wampler4.shtml
      */
     @Test
-    public void testWampler4() throws Exception {
+    public void testWampler4() {
         double[] data = new double[]{
             75901, 0,
             -204794, 1,

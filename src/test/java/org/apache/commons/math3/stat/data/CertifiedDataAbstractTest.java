@@ -102,7 +102,7 @@ public abstract class CertifiedDataAbstractTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         descriptives.clear();
         descriptives = null;
 

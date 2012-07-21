@@ -1158,7 +1158,7 @@ public final class BlockFieldMatrixTest {
     }
 
     @Test
-    public void testSetSubMatrix() throws Exception {
+    public void testSetSubMatrix() {
         BlockFieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(testData);
         m.setSubMatrix(detData2,1,1);
         FieldMatrix<Fraction> expected = new BlockFieldMatrix<Fraction>

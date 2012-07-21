@@ -1069,7 +1069,7 @@ public final class BlockRealMatrixTest {
     }
 
     @Test
-    public void testSetSubMatrix() throws Exception {
+    public void testSetSubMatrix() {
         BlockRealMatrix m = new BlockRealMatrix(testData);
         m.setSubMatrix(detData2,1,1);
         RealMatrix expected = new BlockRealMatrix

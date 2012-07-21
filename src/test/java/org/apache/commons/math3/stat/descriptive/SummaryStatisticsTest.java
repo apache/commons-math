@@ -76,7 +76,7 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testN0andN1Conditions() throws Exception {
+    public void testN0andN1Conditions() {
         SummaryStatistics u = createSummaryStatistics();
         Assert.assertTrue("Mean of n = 0 set should be NaN",
                 Double.isNaN( u.getMean() ) );
@@ -106,7 +106,7 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testProductAndGeometricMean() throws Exception {
+    public void testProductAndGeometricMean() {
         SummaryStatistics u = createSummaryStatistics();
         u.addValue( 1.0 );
         u.addValue( 2.0 );
@@ -229,7 +229,7 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testCopy() throws Exception {
+    public void testCopy() {
         SummaryStatistics u = createSummaryStatistics();
         u.addValue(2d);
         u.addValue(1d);
@@ -270,7 +270,7 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testSetterInjection() throws Exception {
+    public void testSetterInjection() {
         SummaryStatistics u = createSummaryStatistics();
         u.setMeanImpl(new Sum());
         u.setSumLogImpl(new Sum());
@@ -288,7 +288,7 @@ public class SummaryStatisticsTest {
     }
 
     @Test
-    public void testSetterIllegalState() throws Exception {
+    public void testSetterIllegalState() {
         SummaryStatistics u = createSummaryStatistics();
         u.addValue(1);
         u.addValue(3);
@@ -305,7 +305,7 @@ public class SummaryStatisticsTest {
      * JIRA: MATH-691
      */
     @Test
-    public void testOverrideVarianceWithMathClass() throws Exception {
+    public void testOverrideVarianceWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
         stats.setVarianceImpl(new Variance(false)); //use "population variance"
@@ -316,7 +316,7 @@ public class SummaryStatisticsTest {
     }
     
     @Test
-    public void testOverrideMeanWithMathClass() throws Exception {
+    public void testOverrideMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
         stats.setMeanImpl(new Mean()); 
@@ -327,7 +327,7 @@ public class SummaryStatisticsTest {
     }
     
     @Test
-    public void testOverrideGeoMeanWithMathClass() throws Exception {
+    public void testOverrideGeoMeanWithMathClass() {
         double[] scores = {1, 2, 3, 4};
         SummaryStatistics stats = new SummaryStatistics();
         stats.setGeoMeanImpl(new GeometricMean()); 

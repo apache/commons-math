@@ -84,7 +84,7 @@ public final class MixedListUnivariateImplTest {
     }
 
     @Test
-    public void testN0andN1Conditions() throws Exception {
+    public void testN0andN1Conditions() {
         DescriptiveStatistics u = new ListUnivariateImpl(new ArrayList<Object>(),transformers);
 
         Assert.assertTrue(
@@ -148,7 +148,7 @@ public final class MixedListUnivariateImplTest {
     }
 
     @Test
-    public void testProductAndGeometricMean() throws Exception {
+    public void testProductAndGeometricMean() {
         ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<Object>(),transformers);
         u.setWindowSize(10);
 

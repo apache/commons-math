@@ -58,7 +58,7 @@ public final class StatUtilsTest {
     }
 
     @Test
-    public void testN0andN1Conditions() throws Exception {
+    public void testN0andN1Conditions() {
         double[] values = new double[0];
 
         Assert.assertTrue(
@@ -79,7 +79,7 @@ public final class StatUtilsTest {
     }
 
     @Test
-    public void testArrayIndexConditions() throws Exception {
+    public void testArrayIndexConditions() {
         double[] values = { 1.0, 2.0, 3.0, 4.0 };
 
         Assert.assertEquals(
@@ -416,7 +416,7 @@ public final class StatUtilsTest {
     }
 
     @Test
-    public void testDifferenceStats() throws Exception {
+    public void testDifferenceStats() {
         double sample1[] = {1d, 2d, 3d, 4d};
         double sample2[] = {1d, 3d, 4d, 2d};
         double diff[] = {0d, -1d, -1d, 2d};
@@ -448,7 +448,7 @@ public final class StatUtilsTest {
     }
 
     @Test
-    public void testGeometricMean() throws Exception {
+    public void testGeometricMean() {
         double[] test = null;
         try {
             StatUtils.geometricMean(test);

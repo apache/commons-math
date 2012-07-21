@@ -93,7 +93,7 @@ public abstract class UnivariateStatisticAbstractTest {
     }
 
     @Test
-    public void testEvaluation() throws Exception {
+    public void testEvaluation() {
         Assert.assertEquals(
             expectedValue(),
             getUnivariateStatistic().evaluate(testArray),
@@ -144,7 +144,7 @@ public abstract class UnivariateStatisticAbstractTest {
     }
 
     @Test
-    public void testCopy() throws Exception {
+    public void testCopy() {
         UnivariateStatistic original = getUnivariateStatistic();
         UnivariateStatistic copy = original.copy();
         Assert.assertEquals(
@@ -163,7 +163,7 @@ public abstract class UnivariateStatisticAbstractTest {
      */
 
     @Test
-    public void testWeightedConsistency() throws Exception {
+    public void testWeightedConsistency() {
 
         // See if this statistic computes weighted statistics
         // If not, skip this test

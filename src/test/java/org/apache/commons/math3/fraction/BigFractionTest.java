@@ -42,7 +42,7 @@ public class BigFractionTest {
     }
 
     @Test
-    public void testConstructor() throws Exception {
+    public void testConstructor() {
         assertFraction(0, 1, new BigFraction(0, 1));
         assertFraction(0, 1, new BigFraction(0l, 2l));
         assertFraction(0, 1, new BigFraction(0, -1));

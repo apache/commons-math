@@ -90,7 +90,7 @@ public class PolynomialSplineFunctionTest {
     }
 
     @Test
-    public void testValues() throws Exception {
+    public void testValues() {
         PolynomialSplineFunction spline =
             new PolynomialSplineFunction(knots, polynomials);
         UnivariateFunction dSpline = spline.derivative();

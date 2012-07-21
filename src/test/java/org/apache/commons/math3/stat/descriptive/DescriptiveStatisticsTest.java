@@ -164,7 +164,7 @@ public class DescriptiveStatisticsTest {
     }
 
     @Test
-    public void testPercentileSetter() throws Exception {
+    public void testPercentileSetter() {
         DescriptiveStatistics stats = createDescriptiveStatistics();
         stats.addValue(1);
         stats.addValue(2);

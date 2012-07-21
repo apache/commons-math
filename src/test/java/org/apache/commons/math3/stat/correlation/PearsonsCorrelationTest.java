@@ -101,7 +101,7 @@ public class PearsonsCorrelationTest {
      * Test Longley dataset against R.
      */
     @Test
-    public void testLongly() throws Exception {
+    public void testLongly() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
@@ -140,7 +140,7 @@ public class PearsonsCorrelationTest {
      * Test R Swiss fertility dataset against R.
      */
     @Test
-    public void testSwissFertility() throws Exception {
+    public void testSwissFertility() {
          RealMatrix matrix = createRealMatrix(swissData, 47, 5);
          PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
          RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
@@ -168,7 +168,7 @@ public class PearsonsCorrelationTest {
      * Test p-value near 0. JIRA: MATH-371
      */
     @Test
-    public void testPValueNearZero() throws Exception {
+    public void testPValueNearZero() {
         /*
          * Create a dataset that has r -> 1, p -> 0 as dimension increases.
          * Prior to the fix for MATH-371, p vanished for dimension >= 14.
@@ -225,7 +225,7 @@ public class PearsonsCorrelationTest {
      * with reported p-values
      */
     @Test
-    public void testStdErrorConsistency() throws Exception {
+    public void testStdErrorConsistency() {
         TDistribution tDistribution = new TDistribution(45);
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
@@ -246,7 +246,7 @@ public class PearsonsCorrelationTest {
      * direct computation from the original matrix
      */
     @Test
-    public void testCovarianceConsistency() throws Exception {
+    public void testCovarianceConsistency() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         PearsonsCorrelation corrInstance = new PearsonsCorrelation(matrix);
         Covariance covInstance = new Covariance(matrix);

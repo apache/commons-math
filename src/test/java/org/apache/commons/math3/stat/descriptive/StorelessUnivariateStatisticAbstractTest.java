@@ -44,7 +44,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
      *  Verifies that increment() and incrementAll work properly.
      */
     @Test
-    public void testIncrementation() throws Exception {
+    public void testIncrementation() {
 
         StorelessUnivariateStatistic statistic =
             (StorelessUnivariateStatistic) getUnivariateStatistic();
@@ -77,7 +77,7 @@ public abstract class StorelessUnivariateStatisticAbstractTest
     }
     
     @Test
-    public void testSerialization() throws Exception {
+    public void testSerialization() {
 
         StorelessUnivariateStatistic statistic =
             (StorelessUnivariateStatistic) getUnivariateStatistic();

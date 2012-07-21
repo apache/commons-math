@@ -44,7 +44,7 @@ public class OneWayAnovaTest {
             {110.0, 115.0, 111.0, 117.0, 128.0, 117.0 };
 
     @Test
-    public void testAnovaFValue() throws Exception {
+    public void testAnovaFValue() {
         // Target comparison values computed using R version 2.6.0 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
@@ -83,7 +83,7 @@ public class OneWayAnovaTest {
 
 
     @Test
-    public void testAnovaPValue() throws Exception {
+    public void testAnovaPValue() {
         // Target comparison values computed using R version 2.6.0 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);
@@ -103,7 +103,7 @@ public class OneWayAnovaTest {
     }
 
     @Test
-    public void testAnovaTest() throws Exception {
+    public void testAnovaTest() {
         // Target comparison values computed using R version 2.3.1 (Linux version)
         List<double[]> threeClasses = new ArrayList<double[]>();
         threeClasses.add(classA);

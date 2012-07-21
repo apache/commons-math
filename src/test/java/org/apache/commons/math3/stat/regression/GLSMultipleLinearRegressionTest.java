@@ -167,7 +167,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * Verifies that setting X, Y and covariance separately has the same effect as newSample(X,Y,cov).
      */
     @Test
-    public void testNewSample2() throws Exception {
+    public void testNewSample2() {
         double[] y = new double[] {1, 2, 3, 4}; 
         double[][] x = new double[][] {
           {19, 22, 33},
@@ -193,7 +193,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * as OLS.
      */
     @Test
-    public void testGLSOLSConsistency() throws Exception {      
+    public void testGLSOLSConsistency() {      
         RealMatrix identityCov = MatrixUtils.createRealIdentityMatrix(16);
         GLSMultipleLinearRegression glsModel = new GLSMultipleLinearRegression();
         OLSMultipleLinearRegression olsModel = new OLSMultipleLinearRegression();
@@ -215,7 +215,7 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
      * on average, perform better than OLS.
      */
     @Test
-    public void testGLSEfficiency() throws Exception {
+    public void testGLSEfficiency() {
         RandomGenerator rg = new JDKRandomGenerator();
         rg.setSeed(200);  // Seed has been selected to generate non-trivial covariance
         

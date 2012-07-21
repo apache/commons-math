@@ -95,7 +95,7 @@ public class ErfTest {
      * MATH-301, MATH-456
      */
     @Test
-    public void testLargeValues() throws Exception {
+    public void testLargeValues() {
         for (int i = 1; i < 200; i*=10) {
             double result = Erf.erf(i);
             Assert.assertFalse(Double.isNaN(result));
@@ -121,7 +121,7 @@ public class ErfTest {
      * erfl (extended precision erf).
      */
     @Test
-    public void testErfGnu() throws Exception {
+    public void testErfGnu() {
         final double tol = 1E-15;
         final double[] gnuValues = new double[] {-1, -1, -1, -1, -1, 
         -1, -1, -1, -0.99999999999999997848, 
@@ -145,7 +145,7 @@ public class ErfTest {
      * erfcl (extended precision erfc).
      */
     @Test
-    public void testErfcGnu() throws Exception {
+    public void testErfcGnu() {
         final double tol = 1E-15;
         final double[] gnuValues = new double[] { 2,  2,  2,  2,  2, 
         2,  2,  2, 1.9999999999999999785, 
@@ -170,7 +170,7 @@ public class ErfTest {
      * http//www.jstatsoft.org/v11/a05/paper
      */
     @Test
-    public void testErfcMaple() throws Exception {
+    public void testErfcMaple() {
         double[][] ref = new double[][]
                         {{0.1, 4.60172162722971e-01},
                          {1.2, 1.15069670221708e-01},
@@ -201,7 +201,7 @@ public class ErfTest {
      * obtained from Erf.erf(double) and Erf.erfc(double).
      */
     @Test
-    public void testTwoArgumentErf() throws Exception {
+    public void testTwoArgumentErf() {
         double[] xi = new double[]{-2.0, -1.0, -0.9, -0.1, 0.0, 0.1, 0.9, 1.0, 2.0};
         for(double x1 : xi) {
             for(double x2 : xi) {

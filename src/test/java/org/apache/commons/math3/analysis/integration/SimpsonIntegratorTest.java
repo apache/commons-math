@@ -95,7 +95,7 @@ public final class SimpsonIntegratorTest {
      * Test of parameters for the integrator.
      */
     @Test
-    public void testParameters() throws Exception {
+    public void testParameters() {
         UnivariateFunction f = new SinFunction();
         try {
             // bad interval

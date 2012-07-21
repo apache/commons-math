@@ -40,7 +40,7 @@ public class MultivariateSummaryStatisticsTest {
     }
 
     @Test
-    public void testSetterInjection() throws Exception {
+    public void testSetterInjection() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.setMeanImpl(new StorelessUnivariateStatistic[] {
                         new sumMean(), new sumMean()
@@ -66,7 +66,7 @@ public class MultivariateSummaryStatisticsTest {
     }
 
     @Test
-    public void testSetterIllegalState() throws Exception {
+    public void testSetterIllegalState() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(2, true);
         u.addValue(new double[] { 1, 2 });
         u.addValue(new double[] { 3, 4 });
@@ -216,7 +216,7 @@ public class MultivariateSummaryStatisticsTest {
     }
 
     @Test
-    public void testN0andN1Conditions() throws Exception {
+    public void testN0andN1Conditions() {
         MultivariateSummaryStatistics u = createMultivariateSummaryStatistics(1, true);
         Assert.assertTrue(Double.isNaN(u.getMean()[0]));
         Assert.assertTrue(Double.isNaN(u.getStandardDeviation()[0]));

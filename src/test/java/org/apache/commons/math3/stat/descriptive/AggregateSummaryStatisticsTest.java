@@ -80,7 +80,7 @@ public class AggregateSummaryStatisticsTest {
      *     the full dataset
      */
     @Test
-    public void testAggregationConsistency() throws Exception {
+    public void testAggregationConsistency() {
 
         // Generate a random sample and random partition
         double[] totalSample = generateSample();
@@ -131,7 +131,7 @@ public class AggregateSummaryStatisticsTest {
      * @throws Exception
      */
     @Test
-    public void testAggregate() throws Exception {
+    public void testAggregate() {
 
         // Generate a random sample and random partition
         double[] totalSample = generateSample();
@@ -164,7 +164,7 @@ public class AggregateSummaryStatisticsTest {
 
 
     @Test
-    public void testAggregateDegenerate() throws Exception {
+    public void testAggregateDegenerate() {
         double[] totalSample = {1, 2, 3, 4, 5};
         double[][] subSamples = {{1}, {2}, {3}, {4}, {5}};
 
@@ -193,7 +193,7 @@ public class AggregateSummaryStatisticsTest {
     }
 
     @Test
-    public void testAggregateSpecialValues() throws Exception {
+    public void testAggregateSpecialValues() {
         double[] totalSample = {Double.POSITIVE_INFINITY, 2, 3, Double.NaN, 5};
         double[][] subSamples = {{Double.POSITIVE_INFINITY, 2}, {3}, {Double.NaN}, {5}};
 

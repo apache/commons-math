@@ -35,7 +35,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
      */
     @Override
     @Test
-    public void testLongly() throws Exception {
+    public void testLongly() {
         RealMatrix matrix = createRealMatrix(longleyData, 16, 7);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
@@ -56,7 +56,7 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
      * Test R swiss fertility dataset.
      */
     @Test
-    public void testSwiss() throws Exception {
+    public void testSwiss() {
         RealMatrix matrix = createRealMatrix(swissData, 47, 5);
         SpearmansCorrelation corrInstance = new SpearmansCorrelation(matrix);
         RealMatrix correlationMatrix = corrInstance.getCorrelationMatrix();
@@ -121,9 +121,9 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
     // Not relevant here
     @Override
     @Test
-    public void testStdErrorConsistency() throws Exception {}
+    public void testStdErrorConsistency() {}
     @Override
     @Test
-    public void testCovarianceConsistency() throws Exception {}
+    public void testCovarianceConsistency() {}
 
 }

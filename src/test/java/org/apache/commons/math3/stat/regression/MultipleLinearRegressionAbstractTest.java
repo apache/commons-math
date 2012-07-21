@@ -70,7 +70,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
      * in design matrix.  Confirms the fix for MATH-411.
      */
     @Test
-    public void testNewSample() throws Exception {
+    public void testNewSample() {
         double[] design = new double[] {
           1, 19, 22, 33,
           2, 20, 30, 40,
@@ -105,19 +105,19 @@ public abstract class MultipleLinearRegressionAbstractTest {
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void testNewSampleNullData() throws Exception {
+    public void testNewSampleNullData() {
         double[] data = null;
         createRegression().newSampleData(data, 2, 3); 
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void testNewSampleInvalidData() throws Exception {
+    public void testNewSampleInvalidData() {
         double[] data = new double[] {1, 2, 3, 4};
         createRegression().newSampleData(data, 2, 3);
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void testNewSampleInsufficientData() throws Exception {
+    public void testNewSampleInsufficientData() {
         double[] data = new double[] {1, 2, 3, 4};
         createRegression().newSampleData(data, 1, 3);
     }

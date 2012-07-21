@@ -33,7 +33,7 @@ public final class TricubicSplineInterpolatingFunctionTest {
      * Test preconditions.
      */
     @Test
-    public void testPreconditions() throws Exception {
+    public void testPreconditions() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2.5};
         double[] zval = new double[] {-12, -8, -5.5, -3, 0, 2.5};

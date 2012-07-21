@@ -593,7 +593,7 @@ public class SparseFieldMatrixTest {
     */
 
     @Test
-    public void testSetSubMatrix() throws Exception {
+    public void testSetSubMatrix() {
         SparseFieldMatrix<Fraction> m = createSparseMatrix(testData);
         m.setSubMatrix(detData2, 1, 1);
         FieldMatrix<Fraction> expected = createSparseMatrix(new Fraction[][] {

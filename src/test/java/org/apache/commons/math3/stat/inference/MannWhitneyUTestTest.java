@@ -33,7 +33,7 @@ public class MannWhitneyUTestTest {
     protected MannWhitneyUTest testStatistic = new MannWhitneyUTest();
 
     @Test
-    public void testMannWhitneyUSimple() throws Exception {
+    public void testMannWhitneyUSimple() {
         /* Target values computed using R version 2.11.1
          * x <- c(19, 22, 16, 29, 24)
          * y <- c(20, 11, 17, 12)
@@ -49,7 +49,7 @@ public class MannWhitneyUTestTest {
 
 
     @Test
-    public void testMannWhitneyUInputValidation() throws Exception {
+    public void testMannWhitneyUInputValidation() {
         /* Samples must be present, i.e. length > 0
          */
         try {
@@ -102,7 +102,7 @@ public class MannWhitneyUTestTest {
     }
     
     @Test
-    public void testBigDataSet() throws Exception {
+    public void testBigDataSet() {
         double[] d1 = new double[1500];
         double[] d2 = new double[1500];
         for (int i = 0; i < 1500; i++) {

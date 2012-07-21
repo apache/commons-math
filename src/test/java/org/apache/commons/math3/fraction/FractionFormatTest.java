@@ -37,7 +37,7 @@ public class FractionFormatTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         properFormat = FractionFormat.getProperInstance(getLocale());
         improperFormat = FractionFormat.getImproperInstance(getLocale());
     }

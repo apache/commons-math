@@ -314,7 +314,7 @@ public final class SimpleRegressionTest {
     }
 
     @Test
-    public void testInference() throws Exception {
+    public void testInference() {
         //----------  verified against R, version 1.8.1 -----
         // infData
         SimpleRegression regression = new SimpleRegression();
@@ -354,7 +354,7 @@ public final class SimpleRegressionTest {
     }
 
     @Test
-    public void testPerfect() throws Exception {
+    public void testPerfect() {
         SimpleRegression regression = new SimpleRegression();
         int n = 100;
         for (int i = 0; i < n; i++) {
@@ -366,7 +366,7 @@ public final class SimpleRegressionTest {
     }
 
     @Test
-    public void testPerfectNegative() throws Exception {
+    public void testPerfectNegative() {
         SimpleRegression regression = new SimpleRegression();
         int n = 100;
         for (int i = 0; i < n; i++) {
@@ -378,7 +378,7 @@ public final class SimpleRegressionTest {
     }
 
     @Test
-    public void testRandom() throws Exception {
+    public void testRandom() {
         SimpleRegression regression = new SimpleRegression();
         Random random = new Random(1);
         int n = 100;
@@ -405,7 +405,7 @@ public final class SimpleRegressionTest {
 
     // Test remove X,Y (single observation)
     @Test
-    public void testRemoveXY() throws Exception {
+    public void testRemoveXY() {
         // Create regression with inference data then remove to test
         SimpleRegression regression = new SimpleRegression();
         regression.addData(infData);
@@ -425,7 +425,7 @@ public final class SimpleRegressionTest {
 
     // Test remove single observation in array
     @Test
-    public void testRemoveSingle() throws Exception {
+    public void testRemoveSingle() {
         // Create regression with inference data then remove to test
         SimpleRegression regression = new SimpleRegression();
         regression.addData(infData);
@@ -444,7 +444,7 @@ public final class SimpleRegressionTest {
 
     // Test remove multiple observations
     @Test
-    public void testRemoveMultiple() throws Exception {
+    public void testRemoveMultiple() {
         // Create regression with inference data then remove to test
         SimpleRegression regression = new SimpleRegression();
         regression.addData(infData);

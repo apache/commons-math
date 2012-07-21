@@ -878,7 +878,7 @@ public final class FieldMatrixImplTest {
     }
 
     @Test
-    public void testSetSubMatrix() throws Exception {
+    public void testSetSubMatrix() {
         Array2DRowFieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         m.setSubMatrix(detData2,1,1);
         FieldMatrix<Fraction> expected = new Array2DRowFieldMatrix<Fraction>

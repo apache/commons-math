@@ -72,7 +72,7 @@ public final class ListUnivariateImplTest {
     }
 
     @Test
-    public void testN0andN1Conditions() throws Exception {
+    public void testN0andN1Conditions() {
         List<Object> list = new ArrayList<Object>();
 
         DescriptiveStatistics u = new ListUnivariateImpl( list );
@@ -105,7 +105,7 @@ public final class ListUnivariateImplTest {
     }
 
     @Test
-    public void testProductAndGeometricMean() throws Exception {
+    public void testProductAndGeometricMean() {
         ListUnivariateImpl u = new ListUnivariateImpl(new ArrayList<Object>());
         u.setWindowSize(10);
 
