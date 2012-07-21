@@ -29,7 +29,7 @@ public class AbstractIntegerDistributionTest {
     protected final double p = diceDistribution.probability(1);
 
     @Test
-    public void testCumulativeProbabilitiesSingleArguments() throws Exception {
+    public void testCumulativeProbabilitiesSingleArguments() {
         for (int i = 1; i < 7; i++) {
             Assert.assertEquals(p * i,
                     diceDistribution.cumulativeProbability(i), Double.MIN_VALUE);
@@ -41,7 +41,7 @@ public class AbstractIntegerDistributionTest {
     }
 
     @Test
-    public void testCumulativeProbabilitiesRangeArguments() throws Exception {
+    public void testCumulativeProbabilitiesRangeArguments() {
         int lower = 0;
         int upper = 6;
         for (int i = 0; i < 2; i++) {

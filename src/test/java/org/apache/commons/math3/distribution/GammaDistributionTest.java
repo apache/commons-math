@@ -69,7 +69,7 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1e-9);
     }
@@ -99,7 +99,7 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testProbabilities() throws Exception {
+    public void testProbabilities() {
         testProbability(-1.000, 4.0, 2.0, .0000);
         testProbability(15.501, 4.0, 2.0, .9499);
         testProbability(0.504, 4.0, 1.0, .0018);
@@ -108,20 +108,20 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testValues() throws Exception {
+    public void testValues() {
         testValue(15.501, 4.0, 2.0, .9499);
         testValue(0.504, 4.0, 1.0, .0018);
         testValue(10.011, 1.0, 2.0, .9933);
         testValue(5.000, 2.0, 2.0, .7127);
     }
 
-    private void testProbability(double x, double a, double b, double expected) throws Exception {
+    private void testProbability(double x, double a, double b, double expected) {
         GammaDistribution distribution = new GammaDistribution( a, b );
         double actual = distribution.cumulativeProbability(x);
         Assert.assertEquals("probability for " + x, expected, actual, 10e-4);
     }
 
-    private void testValue(double expected, double a, double b, double p) throws Exception {
+    private void testValue(double expected, double a, double b, double p) {
         GammaDistribution distribution = new GammaDistribution( a, b );
         double actual = distribution.inverseCumulativeProbability(p);
         Assert.assertEquals("critical value for " + p, expected, actual, 10e-4);
@@ -156,7 +156,7 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();

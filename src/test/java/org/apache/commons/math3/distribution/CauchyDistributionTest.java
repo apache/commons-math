@@ -33,7 +33,7 @@ public class CauchyDistributionTest extends RealDistributionAbstractTest {
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(defaultTolerance);
     }
@@ -71,7 +71,7 @@ public class CauchyDistributionTest extends RealDistributionAbstractTest {
     //---------------------------- Additional test cases -------------------------
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0.0, 1.0});
         setInverseCumulativeTestValues(
                 new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});

@@ -63,14 +63,14 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
     // --------------------- Override tolerance  --------------
     protected double defaultTolerance = NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY;
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(defaultTolerance);
     }
 
     //---------------------------- Additional test cases -------------------------
 
-    private void verifyQuantiles() throws Exception {
+    private void verifyQuantiles() {
         NormalDistribution distribution = (NormalDistribution) getDistribution();
         double mu = distribution.getMean();
         double sigma = distribution.getStandardDeviation();
@@ -84,7 +84,7 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testQuantiles() throws Exception {
+    public void testQuantiles() {
         setDensityTestValues(new double[] {0.0385649760808, 0.172836231799, 0.284958771715, 0.172836231799, 0.0385649760808,
                 0.00316560600853, 9.55930184035e-05, 1.06194251052e-06});
         verifyQuantiles();
@@ -104,7 +104,7 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
                 new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});
@@ -149,7 +149,7 @@ public class NormalDistributionTest extends RealDistributionAbstractTest {
      * Verifies fixes for JIRA MATH-167, MATH-414
      */
     @Test
-    public void testExtremeValues() throws Exception {
+    public void testExtremeValues() {
         NormalDistribution distribution = new NormalDistribution(0, 1);
         for (int i = 0; i < 100; i++) { // make sure no convergence exception
             double lowerTail = distribution.cumulativeProbability(-i);

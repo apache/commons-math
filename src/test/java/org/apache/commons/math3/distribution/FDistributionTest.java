@@ -60,7 +60,7 @@ public class FDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1e-9);
     }
@@ -68,14 +68,14 @@ public class FDistributionTest extends RealDistributionAbstractTest {
     //---------------------------- Additional test cases -------------------------
 
     @Test
-    public void testCumulativeProbabilityExtremes() throws Exception {
+    public void testCumulativeProbabilityExtremes() {
         setCumulativeTestPoints(new double[] {-2, 0});
         setCumulativeTestValues(new double[] {0, 0});
         verifyCumulativeProbabilities();
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
         verifyInverseCumulativeProbabilities();
@@ -105,7 +105,7 @@ public class FDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testLargeDegreesOfFreedom() throws Exception {
+    public void testLargeDegreesOfFreedom() {
         FDistribution fd = new FDistribution(100000, 100000);
         double p = fd.cumulativeProbability(.999);
         double x = fd.inverseCumulativeProbability(p);
@@ -113,7 +113,7 @@ public class FDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testSmallDegreesOfFreedom() throws Exception {
+    public void testSmallDegreesOfFreedom() {
         FDistribution fd = new FDistribution(1, 1);
         double p = fd.cumulativeProbability(0.975);
         double x = fd.inverseCumulativeProbability(p);

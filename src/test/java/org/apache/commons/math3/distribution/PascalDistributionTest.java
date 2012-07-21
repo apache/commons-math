@@ -89,7 +89,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
 
     /** Test degenerate case p = 0   */
     @Test
-    public void testDegenerate0() throws Exception {
+    public void testDegenerate0() {
         setDistribution(new PascalDistribution(5, 0.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 0d, 0d, 0d, 0d});
@@ -104,7 +104,7 @@ public class PascalDistributionTest extends IntegerDistributionAbstractTest {
 
     /** Test degenerate case p = 1   */
     @Test
-    public void testDegenerate1() throws Exception {
+    public void testDegenerate1() {
         setDistribution(new PascalDistribution(5, 1.0d));
         setCumulativeTestPoints(new int[] {-1, 0, 1, 2, 5, 10 });
         setCumulativeTestValues(new double[] {0d, 1d, 1d, 1d, 1d, 1d});

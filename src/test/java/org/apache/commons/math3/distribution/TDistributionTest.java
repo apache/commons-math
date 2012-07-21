@@ -61,7 +61,7 @@ public class TDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1E-9);
     }
@@ -72,14 +72,14 @@ public class TDistributionTest extends RealDistributionAbstractTest {
      *      Bug report that prompted this unit test.</a>
      */
     @Test
-    public void testCumulativeProbabilityAgainstStackOverflow() throws Exception {
+    public void testCumulativeProbabilityAgainstStackOverflow() {
         TDistribution td = new TDistribution(5.);
         td.cumulativeProbability(.1);
         td.cumulativeProbability(.01);
     }
 
     @Test
-    public void testSmallDf() throws Exception {
+    public void testSmallDf() {
         setDistribution(new TDistribution(1d));
         // quantiles computed using R version 2.9.2
         setCumulativeTestPoints(new double[] {-318.308838986, -31.8205159538, -12.7062047362,
@@ -95,7 +95,7 @@ public class TDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
                 new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY});

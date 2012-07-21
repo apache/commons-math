@@ -30,7 +30,7 @@ public class UniformRealDistributionTest extends RealDistributionAbstractTest {
     // --- Override tolerance -------------------------------------------------
 
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1e-4);
     }

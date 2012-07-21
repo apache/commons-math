@@ -131,7 +131,7 @@ public abstract class IntegerDistributionAbstractTest {
      * Verifies that probability density calculations match expected values
      * using current test instance data
      */
-    protected void verifyDensities() throws Exception {
+    protected void verifyDensities() {
         for (int i = 0; i < densityTestPoints.length; i++) {
             Assert.assertEquals("Incorrect density value returned for " + densityTestPoints[i],
                     densityTestValues[i],
@@ -143,7 +143,7 @@ public abstract class IntegerDistributionAbstractTest {
      * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
      */
-    protected void verifyCumulativeProbabilities() throws Exception {
+    protected void verifyCumulativeProbabilities() {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             Assert.assertEquals("Incorrect cumulative probability value returned for " + cumulativeTestPoints[i],
                     cumulativeTestValues[i],
@@ -156,7 +156,7 @@ public abstract class IntegerDistributionAbstractTest {
      * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
-    protected void verifyInverseCumulativeProbabilities() throws Exception {
+    protected void verifyInverseCumulativeProbabilities() {
         for (int i = 0; i < inverseCumulativeTestPoints.length; i++) {
             Assert.assertEquals("Incorrect inverse cumulative probability value returned for "
                     + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i],
@@ -171,7 +171,7 @@ public abstract class IntegerDistributionAbstractTest {
      * using default test instance data
      */
     @Test
-    public void testDensities() throws Exception {
+    public void testDensities() {
         verifyDensities();
     }
 
@@ -180,7 +180,7 @@ public abstract class IntegerDistributionAbstractTest {
      * using default test instance data
      */
     @Test
-    public void testCumulativeProbabilities() throws Exception {
+    public void testCumulativeProbabilities() {
         verifyCumulativeProbabilities();
     }
 
@@ -189,7 +189,7 @@ public abstract class IntegerDistributionAbstractTest {
      * using default test instance data
      */
     @Test
-    public void testInverseCumulativeProbabilities() throws Exception {
+    public void testInverseCumulativeProbabilities() {
         verifyInverseCumulativeProbabilities();
     }
 
@@ -215,7 +215,7 @@ public abstract class IntegerDistributionAbstractTest {
      * Verifies that illegal arguments are correctly handled
      */
     @Test
-    public void testIllegalArguments() throws Exception {
+    public void testIllegalArguments() {
         try {
             distribution.cumulativeProbability(1, 0);
             Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
@@ -240,7 +240,7 @@ public abstract class IntegerDistributionAbstractTest {
      * Test sampling
      */
     @Test
-    public void testSampling() throws Exception {
+    public void testSampling() {
         int[] densityPoints = makeDensityTestPoints();
         double[] densityValues = makeDensityTestValues();
         int sampleSize = 1000;

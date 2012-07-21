@@ -100,14 +100,14 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(LogNormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     //---------------------------- Additional test cases -------------------------
 
-    private void verifyQuantiles() throws Exception {
+    private void verifyQuantiles() {
         LogNormalDistribution distribution = (LogNormalDistribution)getDistribution();
         double mu = distribution.getScale();
         double sigma = distribution.getShape();
@@ -119,7 +119,7 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testQuantiles() throws Exception {
+    public void testQuantiles() {
         setCumulativeTestValues(new double[] {0, 0.0396495152787,
                                               0.16601209243, 0.272533253269,
                                               0.357618409638, 0.426488363093,
@@ -156,7 +156,7 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0, 1});
         setInverseCumulativeTestValues(
                 new double[] {0, Double.POSITIVE_INFINITY});
@@ -206,7 +206,7 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
      * Verifies fixes for JIRA MATH-167, MATH-414
      */
     @Test
-    public void testExtremeValues() throws Exception {
+    public void testExtremeValues() {
         LogNormalDistribution d = new LogNormalDistribution(0, 1);
         for (int i = 0; i < 1e5; i++) { // make sure no convergence exception
             double upperTail = d.cumulativeProbability(i);

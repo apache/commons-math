@@ -33,7 +33,7 @@ public class ExponentialDistributionTest extends RealDistributionAbstractTest {
 
     // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1E-9);
     }
@@ -71,21 +71,21 @@ public class ExponentialDistributionTest extends RealDistributionAbstractTest {
     //------------ Additional tests -------------------------------------------
 
     @Test
-    public void testCumulativeProbabilityExtremes() throws Exception {
+    public void testCumulativeProbabilityExtremes() {
         setCumulativeTestPoints(new double[] {-2, 0});
         setCumulativeTestValues(new double[] {0, 0});
         verifyCumulativeProbabilities();
     }
 
     @Test
-    public void testInverseCumulativeProbabilityExtremes() throws Exception {
+    public void testInverseCumulativeProbabilityExtremes() {
          setInverseCumulativeTestPoints(new double[] {0, 1});
          setInverseCumulativeTestValues(new double[] {0, Double.POSITIVE_INFINITY});
          verifyInverseCumulativeProbabilities();
     }
 
     @Test
-    public void testCumulativeProbability2() throws Exception {
+    public void testCumulativeProbability2() {
         double actual = getDistribution().cumulativeProbability(0.25, 0.75);
         Assert.assertEquals(0.0905214, actual, 10e-4);
     }

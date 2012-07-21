@@ -85,7 +85,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
     /** Verify that if there are no failures, mass is concentrated on sampleSize */
     @Test
-    public void testDegenerateNoFailures() throws Exception {
+    public void testDegenerateNoFailures() {
         HypergeometricDistribution dist = new HypergeometricDistribution(5,5,3);
         setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
@@ -103,7 +103,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
     /** Verify that if there are no successes, mass is concentrated on 0 */
     @Test
-    public void testDegenerateNoSuccesses() throws Exception {
+    public void testDegenerateNoSuccesses() {
         HypergeometricDistribution dist = new HypergeometricDistribution(5,0,3);
         setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });
@@ -121,7 +121,7 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
 
     /** Verify that if sampleSize = populationSize, mass is concentrated on numberOfSuccesses */
     @Test
-    public void testDegenerateFullSample() throws Exception {
+    public void testDegenerateFullSample() {
         HypergeometricDistribution dist = new HypergeometricDistribution(5,3,5);
         setDistribution(dist);
         setCumulativeTestPoints(new int[] {-1, 0, 1, 3, 10 });

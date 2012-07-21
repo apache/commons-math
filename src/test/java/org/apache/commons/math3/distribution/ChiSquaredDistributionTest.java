@@ -74,7 +74,7 @@ public class ChiSquaredDistributionTest extends RealDistributionAbstractTest {
 
  // --------------------- Override tolerance  --------------
     @Override
-    public void setUp() throws Exception {
+    public void setUp() {
         super.setUp();
         setTolerance(1e-9);
     }
@@ -82,7 +82,7 @@ public class ChiSquaredDistributionTest extends RealDistributionAbstractTest {
  //---------------------------- Additional test cases -------------------------
 
     @Test
-    public void testSmallDf() throws Exception {
+    public void testSmallDf() {
         setDistribution(new ChiSquaredDistribution(0.1d));
         setTolerance(1E-4);
         // quantiles computed using R version 1.8.1 (linux version)

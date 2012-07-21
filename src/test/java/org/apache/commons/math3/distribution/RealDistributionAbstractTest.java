@@ -116,7 +116,7 @@ public abstract class RealDistributionAbstractTest {
      * Setup sets all test instance data to default values
      */
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         distribution = makeDistribution();
         cumulativeTestPoints = makeCumulativeTestPoints();
         cumulativeTestValues = makeCumulativeTestValues();
@@ -129,7 +129,7 @@ public abstract class RealDistributionAbstractTest {
      * Cleans up test instance data
      */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         distribution = null;
         cumulativeTestPoints = null;
         cumulativeTestValues = null;
@@ -144,7 +144,7 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that cumulative probability density calculations match expected values
      * using current test instance data
      */
-    protected void verifyCumulativeProbabilities() throws Exception {
+    protected void verifyCumulativeProbabilities() {
         // verify cumulativeProbability(double)
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect cumulative probability value returned for "
@@ -175,7 +175,7 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that inverse cumulative probability density calculations match expected values
      * using current test instance data
      */
-    protected void verifyInverseCumulativeProbabilities() throws Exception {
+    protected void verifyInverseCumulativeProbabilities() {
         for (int i = 0; i < inverseCumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect inverse cumulative probability value returned for "
                 + inverseCumulativeTestPoints[i], inverseCumulativeTestValues[i],
@@ -187,7 +187,7 @@ public abstract class RealDistributionAbstractTest {
     /**
      * Verifies that density calculations match expected values
      */
-    protected void verifyDensities() throws Exception {
+    protected void verifyDensities() {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect probability density value returned for "
                 + cumulativeTestPoints[i], densityTestValues[i],
@@ -203,7 +203,7 @@ public abstract class RealDistributionAbstractTest {
      * using default test instance data
      */
     @Test
-    public void testCumulativeProbabilities() throws Exception {
+    public void testCumulativeProbabilities() {
         verifyCumulativeProbabilities();
     }
 
@@ -212,7 +212,7 @@ public abstract class RealDistributionAbstractTest {
      * using default test instance data
      */
     @Test
-    public void testInverseCumulativeProbabilities() throws Exception {
+    public void testInverseCumulativeProbabilities() {
         verifyInverseCumulativeProbabilities();
     }
 
@@ -221,7 +221,7 @@ public abstract class RealDistributionAbstractTest {
      * for default test instance data
      */
     @Test
-    public void testDensities() throws Exception {
+    public void testDensities() {
         verifyDensities();
     }
 
@@ -229,7 +229,7 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that probability computations are consistent
      */
     @Test
-    public void testConsistency() throws Exception {
+    public void testConsistency() {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
 
             // check that cdf(x, x) = 0
@@ -252,7 +252,7 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that illegal arguments are correctly handled
      */
     @Test
-    public void testIllegalArguments() throws Exception {
+    public void testIllegalArguments() {
         try {
             distribution.cumulativeProbability(1, 0);
             Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
@@ -277,7 +277,7 @@ public abstract class RealDistributionAbstractTest {
      * Test sampling
      */
     @Test
-    public void testSampling() throws Exception {
+    public void testSampling() {
         final int sampleSize = 1000;
         distribution.reseedRandomGenerator(1000); // Use fixed seed
         double[] sample = distribution.sample(sampleSize);

@@ -30,7 +30,7 @@ public class KolmogorovSmirnovDistributionTest {
     private static final double TOLERANCE = 10e-10;
 
     @Test
-    public void testCumulativeDensityFunction() throws Exception {
+    public void testCumulativeDensityFunction() {
         
         KolmogorovSmirnovDistribution dist;
         

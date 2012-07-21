@@ -101,7 +101,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
      * other tests and the generator is not reseeded, so this is a fixed seed
      * test.
      */
-    public void testNextIntDirect() throws Exception {
+    public void testNextIntDirect() {
         // Set up test values - end of the array filled randomly
         int[] testValues = new int[] {4, 10, 12, 32, 100, 10000, 0, 0, 0, 0};
         for (int i = 6; i < 10; i++) {
@@ -337,7 +337,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     }
 
     @Test
-    public void testNexBytes() throws Exception {
+    public void testNexBytes() {
         long[] count = new long[256];
         byte[] bytes = new byte[10];
         double[] expected = new double[256];
@@ -359,7 +359,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
     }
 
     @Test
-    public void testSeeding() throws Exception {
+    public void testSeeding() {
         // makeGenerator initializes with fixed seed
         RandomGenerator gen = makeGenerator();
         RandomGenerator gen1 = makeGenerator();
@@ -372,7 +372,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         checkSameSequence(gen, gen1);
     }
 
-    private void checkSameSequence(RandomGenerator gen1, RandomGenerator gen2) throws Exception {
+    private void checkSameSequence(RandomGenerator gen1, RandomGenerator gen2) {
         final int len = 11;  // Needs to be an odd number to check MATH-723
         final double[][] values = new double[2][len];
         for (int i = 0; i < len; i++) {

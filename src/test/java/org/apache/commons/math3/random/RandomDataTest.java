@@ -98,7 +98,7 @@ public class RandomDataTest {
     }
     
     @Test
-    public void testNextIntIAE() throws Exception {
+    public void testNextIntIAE() {
         try {
             randomData.nextInt(4, 3);
             Assert.fail("MathIllegalArgumentException expected");
@@ -108,7 +108,7 @@ public class RandomDataTest {
     }
     
     @Test
-    public void testNextIntNegativeToPositiveRange() throws Exception {
+    public void testNextIntNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(-3, 5);
             checkNextIntUniform(-3, 6);
@@ -116,7 +116,7 @@ public class RandomDataTest {
     }
     
     @Test 
-    public void testNextIntNegativeRange() throws Exception {
+    public void testNextIntNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(-7, -4);
             checkNextIntUniform(-15, -2);
@@ -124,7 +124,7 @@ public class RandomDataTest {
     }
     
     @Test 
-    public void testNextIntPositiveRange() throws Exception {
+    public void testNextIntPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(0, 3);
             checkNextIntUniform(2, 12);
@@ -133,7 +133,7 @@ public class RandomDataTest {
     }
     
     
-    private void checkNextIntUniform(int min, int max) throws Exception {
+    private void checkNextIntUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final int value = randomData.nextInt(min, max);
@@ -164,7 +164,7 @@ public class RandomDataTest {
     }
     
     @Test
-    public void testNextLongNegativeToPositiveRange() throws Exception {
+    public void testNextLongNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(-3, 5);
             checkNextLongUniform(-3, 6);
@@ -172,7 +172,7 @@ public class RandomDataTest {
     }
     
     @Test 
-    public void testNextLongNegativeRange() throws Exception {
+    public void testNextLongNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(-7, -4);
             checkNextLongUniform(-15, -2);
@@ -180,14 +180,14 @@ public class RandomDataTest {
     }
     
     @Test 
-    public void testNextLongPositiveRange() throws Exception {
+    public void testNextLongPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(0, 3);
             checkNextLongUniform(2, 12);
         }
     }
     
-    private void checkNextLongUniform(int min, int max) throws Exception {
+    private void checkNextLongUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final long value = randomData.nextLong(min, max);
@@ -219,7 +219,7 @@ public class RandomDataTest {
     
     @Test
     @Retry(3)
-    public void testNextSecureLongNegativeToPositiveRange() throws Exception {
+    public void testNextSecureLongNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(-3, 5);
             checkNextSecureLongUniform(-3, 6);
@@ -228,7 +228,7 @@ public class RandomDataTest {
     
     @Test
     @Retry(3)
-    public void testNextSecureLongNegativeRange() throws Exception {
+    public void testNextSecureLongNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(-7, -4);
             checkNextSecureLongUniform(-15, -2);
@@ -237,14 +237,14 @@ public class RandomDataTest {
     
     @Test
     @Retry(3)
-    public void testNextSecureLongPositiveRange() throws Exception {
+    public void testNextSecureLongPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureLongUniform(0, 3);
             checkNextSecureLongUniform(2, 12);
         }
     }
     
-    private void checkNextSecureLongUniform(int min, int max) throws Exception {
+    private void checkNextSecureLongUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final long value = randomData.nextSecureLong(min, max);
@@ -276,7 +276,7 @@ public class RandomDataTest {
     
     @Test
     @Retry(3)
-    public void testNextSecureIntNegativeToPositiveRange() throws Exception {
+    public void testNextSecureIntNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(-3, 5);
             checkNextSecureIntUniform(-3, 6);
@@ -285,7 +285,7 @@ public class RandomDataTest {
     
     @Test
     @Retry(3)
-    public void testNextSecureIntNegativeRange() throws Exception {
+    public void testNextSecureIntNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(-7, -4);
             checkNextSecureIntUniform(-15, -2);
@@ -294,14 +294,14 @@ public class RandomDataTest {
     
     @Test 
     @Retry(3)
-    public void testNextSecureIntPositiveRange() throws Exception {
+    public void testNextSecureIntPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextSecureIntUniform(0, 3);
             checkNextSecureIntUniform(2, 12);
         }
     }
      
-    private void checkNextSecureIntUniform(int min, int max) throws Exception {
+    private void checkNextSecureIntUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final int value = randomData.nextSecureInt(min, max);
@@ -363,7 +363,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextPoissonConsistency() throws Exception {
+    public void testNextPoissonConsistency() {
 
         // Small integral means
         for (int i = 1; i < 100; i++) {
@@ -389,7 +389,7 @@ public class RandomDataTest {
      * distributions are the same. If the null hypothesis can be rejected with confidence
      * 1 - alpha, the check fails.
      */
-    public void checkNextPoissonConsistency(double mean) throws Exception {
+    public void checkNextPoissonConsistency(double mean) {
         // Generate sample values
         final int sampleSize = 1000;        // Number of deviates to generate
         final int minExpectedCount = 7;     // Minimum size of expected bin count
@@ -511,7 +511,7 @@ public class RandomDataTest {
 
     /** test dispersion and failure modes for nextHex() */
     @Test
-    public void testNextHex() throws Exception {
+    public void testNextHex() {
         try {
             randomData.nextHexString(-1);
             Assert.fail("negative length supplied -- MathIllegalArgumentException expected");
@@ -560,7 +560,7 @@ public class RandomDataTest {
     /** test dispersion and failure modes for nextHex() */
     @Test
     @Retry(3)
-    public void testNextSecureHex() throws Exception {
+    public void testNextSecureHex() {
         try {
             randomData.nextSecureHexString(-1);
             Assert.fail("negative length -- MathIllegalArgumentException expected");
@@ -641,34 +641,34 @@ public class RandomDataTest {
     }
     
     @Test
-    public void testNextUniformUniformPositiveBounds() throws Exception {
+    public void testNextUniformUniformPositiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(0, 10);
         }
     }
     
     @Test
-    public void testNextUniformUniformNegativeToPositiveBounds() throws Exception {
+    public void testNextUniformUniformNegativeToPositiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-3, 5);
         }
     }
     
     @Test
-    public void testNextUniformUniformNegaiveBounds() throws Exception {
+    public void testNextUniformUniformNegaiveBounds() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-7, -3);
         }
     }
     
     @Test
-    public void testNextUniformUniformMaximalInterval() throws Exception {
+    public void testNextUniformUniformMaximalInterval() {
         for (int i = 0; i < 5; i++) {
             checkNextUniformUniform(-Double.MAX_VALUE, Double.MAX_VALUE);
         }
     }
     
-    private void checkNextUniformUniform(double min, double max) throws Exception {
+    private void checkNextUniformUniform(double min, double max) {
         // Set up bin bounds - min, binBound[0], ..., binBound[binCount-2], max
         final int binCount = 5;
         final double binSize = max / binCount - min/binCount; // Prevent overflow in extreme value case
@@ -736,7 +736,7 @@ public class RandomDataTest {
 
     /** test failure modes and distribution of nextExponential() */
     @Test
-    public void testNextExponential() throws Exception {
+    public void testNextExponential() {
         try {
             randomData.nextExponential(-1);
             Assert.fail("negative mean -- expecting MathIllegalArgumentException");
@@ -921,7 +921,7 @@ public class RandomDataTest {
 
     /** tests for nextPermutation */
     @Test
-    public void testNextPermutation() throws Exception {
+    public void testNextPermutation() {
         int[][] p = { { 0, 1, 2 }, { 0, 2, 1 }, { 1, 0, 2 }, { 1, 2, 0 },
                 { 2, 0, 1 }, { 2, 1, 0 } };
         long[] observed = { 0, 0, 0, 0, 0, 0 };
@@ -990,7 +990,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextInversionDeviate() throws Exception {
+    public void testNextInversionDeviate() {
         // Set the seed for the default random generator
         randomData.reSeed(100);
         double[] quantiles = new double[10];
@@ -1012,7 +1012,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextBeta() throws Exception {
+    public void testNextBeta() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new BetaDistribution(2,5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1024,7 +1024,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextCauchy() throws Exception {
+    public void testNextCauchy() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new CauchyDistribution(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1036,7 +1036,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextChiSquare() throws Exception {
+    public void testNextChiSquare() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new ChiSquaredDistribution(12));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1048,7 +1048,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextF() throws Exception {
+    public void testNextF() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new FDistribution(12, 5));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1060,7 +1060,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextGamma() throws Exception {
+    public void testNextGamma() {
         double[] quartiles;
         long[] counts;
 
@@ -1086,7 +1086,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextT() throws Exception {
+    public void testNextT() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new TDistribution(10));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1098,7 +1098,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextWeibull() throws Exception {
+    public void testNextWeibull() {
         double[] quartiles = TestUtils.getDistributionQuartiles(new WeibullDistribution(1.2, 2.1));
         long[] counts = new long[4];
         randomData.reSeed(1000);
@@ -1110,7 +1110,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextBinomial() throws Exception {
+    public void testNextBinomial() {
         BinomialDistributionTest testInstance = new BinomialDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
@@ -1136,7 +1136,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextHypergeometric() throws Exception {
+    public void testNextHypergeometric() {
         HypergeometricDistributionTest testInstance = new HypergeometricDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
@@ -1162,7 +1162,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextPascal() throws Exception {
+    public void testNextPascal() {
         PascalDistributionTest testInstance = new PascalDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();
@@ -1187,7 +1187,7 @@ public class RandomDataTest {
     }
 
     @Test
-    public void testNextZipf() throws Exception {
+    public void testNextZipf() {
         ZipfDistributionTest testInstance = new ZipfDistributionTest();
         int[] densityPoints = testInstance.makeDensityTestPoints();
         double[] densityValues = testInstance.makeDensityTestValues();

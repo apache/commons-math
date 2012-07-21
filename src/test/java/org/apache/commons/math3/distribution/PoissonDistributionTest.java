@@ -112,7 +112,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * P(9900 &le; X &le; 10200) for X  = Po(10000)
      */
     @Test
-    public void testNormalApproximateProbability() throws Exception {
+    public void testNormalApproximateProbability() {
         PoissonDistribution dist = new PoissonDistribution(100);
         double result = dist.normalApproximateProbability(110)
                 - dist.normalApproximateProbability(89);
@@ -129,7 +129,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * @throws Exception
      */
     @Test
-    public void testDegenerateInverseCumulativeProbability() throws Exception {
+    public void testDegenerateInverseCumulativeProbability() {
         PoissonDistribution dist = new PoissonDistribution(DEFAULT_TEST_POISSON_PARAMETER);
         Assert.assertEquals(Integer.MAX_VALUE, dist.inverseCumulativeProbability(1.0d));
         Assert.assertEquals(0, dist.inverseCumulativeProbability(0d));
@@ -179,7 +179,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
      * JIRA: MATH-282
      */
     @Test
-    public void testCumulativeProbabilitySpecial() throws Exception {
+    public void testCumulativeProbabilitySpecial() {
         PoissonDistribution dist;
         dist = new PoissonDistribution(9120);
         checkProbability(dist, 9075);
@@ -190,7 +190,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
         checkProbability(dist, 6950);
     }
 
-    private void checkProbability(PoissonDistribution dist, int x) throws Exception {
+    private void checkProbability(PoissonDistribution dist, int x) {
         double p = dist.cumulativeProbability(x);
         Assert.assertFalse("NaN cumulative probability returned for mean = " +
                 dist.getMean() + " x = " + x, Double.isNaN(p));
@@ -199,7 +199,7 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
     }
 
     @Test
-    public void testLargeMeanInverseCumulativeProbability() throws Exception {
+    public void testLargeMeanInverseCumulativeProbability() {
         double mean = 1.0;
         while (mean <= 100000.0) { // Extended test value: 1E7.  Reduced to limit run time.
             PoissonDistribution dist = new PoissonDistribution(mean);
