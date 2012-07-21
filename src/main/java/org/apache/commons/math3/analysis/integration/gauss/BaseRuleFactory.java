@@ -68,13 +68,14 @@ public abstract class BaseRuleFactory<T extends Number> {
 
     /**
      * Gets a rule.
-     * Rules are computed once, and cached.
+     * Synchronization ensures that rules will be computed and added to the
+     * cache at most once.
      * The returned rule is a reference into the cache.
      *
      * @param numberOfPoints Order of the rule to be retrieved.
      * @return the points and weights corresponding to the given order.
      */
-    protected Pair<T[], T[]> getRuleInternal(int numberOfPoints) {
+    protected synchronized Pair<T[], T[]> getRuleInternal(int numberOfPoints) {
         final Pair<T[], T[]> rule = pointsAndWeights.get(numberOfPoints);
         if (rule == null) {
             addRule(computeRule(numberOfPoints));
