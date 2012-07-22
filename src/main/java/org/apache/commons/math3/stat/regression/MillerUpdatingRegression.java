@@ -23,7 +23,7 @@ import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * <p>This class is a concrete implementation of the {@link UpdatingMultipleLinearRegression} interface.</p>
+ * This class is a concrete implementation of the {@link UpdatingMultipleLinearRegression} interface.
  *
  * <p>The algorithm is described in: <pre>
  * Algorithm AS 274: Least Squares Routines to Supplement Those of Gentleman
@@ -143,7 +143,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         } else {
             this.epsilon = -errorTolerance;
         }
-        return;
     }
 
     /**
@@ -195,7 +194,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             include(tmp, 1.0, y);
         }
         ++nobs;
-        return;
 
     }
 
@@ -225,7 +223,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         for (int i = 0; i < x.length; i++) {
             this.addObservation(x[i], y[i]);
         }
-        return;
     }
 
     /**
@@ -298,7 +295,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             }
         }
         sserr = smartAdd(sserr, w * y * y);
-        return;
     }
 
     /**
@@ -349,7 +345,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         this.sumsqy = 0.0;
         this.rss_set = false;
         this.tol_set = false;
-        return;
     }
 
     /**
@@ -373,7 +368,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             tol[col] = eps * total;
         }
         tol_set = true;
-        return;
     }
 
     /**
@@ -470,7 +464,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                 }
             }
         }
-        return;
     }
 
     /**
@@ -490,7 +483,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             rss[i - 1] = total;
         }
         rss_set = true;
-        return;
     }
 
     /**
@@ -594,7 +586,6 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                 pos -= nreq - row;
             }
         }
-        return;
     }
 
     /**
