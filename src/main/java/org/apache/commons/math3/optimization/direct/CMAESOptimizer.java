@@ -768,7 +768,7 @@ public class CMAESOptimizer
             // to achieve O(N^2)
             C = triu(C, 0).add(triu(C, 1).transpose());
             // enforce symmetry to prevent complex numbers
-            EigenDecomposition eig = new EigenDecomposition(C, 1.0);
+            EigenDecomposition eig = new EigenDecomposition(C);
             B = eig.getV(); // eigen decomposition, B==normalized eigenvectors
             D = eig.getD();
             diagD = diag(D);
