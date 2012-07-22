@@ -845,15 +845,13 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
         while (i < nvars) {
             l = vorder[i];
             for (int j = 0; j < list.length; j++) {
-                if (l == list[j]) {
-                    if (i > next) {
-                        this.vmove(i, next);
-                        ++next;
-                        if (next >= list.length + pos1) {
-                            return 0;
-                        } else {
-                            break;
-                        }
+                if (l == list[j] && i > next) {
+                    this.vmove(i, next);
+                    ++next;
+                    if (next >= list.length + pos1) {
+                        return 0;
+                    } else {
+                        break;
                     }
                 }
             }
