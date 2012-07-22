@@ -48,10 +48,9 @@ import org.apache.commons.math3.util.MathUtils;
  * more of these threads invoke property setters, external synchronization must
  * be provided to ensure correct results.</p>
  *
- * @version $Id$
  * @since 2.1
+ * @version $Id$
  */
-
 public class SemiVariance extends AbstractUnivariateStatistic implements Serializable {
 
     /**
