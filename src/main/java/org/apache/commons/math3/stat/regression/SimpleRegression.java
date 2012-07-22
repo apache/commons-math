@@ -154,7 +154,6 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         sumX += x;
         sumY += y;
         n++;
-        return;
     }
 
 
@@ -195,7 +194,6 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
              sumY -= y;
              n--;
         }
-        return;
     }
 
     /**
@@ -224,7 +222,6 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             }
             addData(data[i][0], data[i][1]);
         }
-        return;
     }
 
     /**
@@ -240,7 +237,6 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
             throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,x!=null?x.length:0, 1);
         }
         addData( x[0], y );
-        return;
     }
 
     /**
@@ -274,7 +270,6 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         for( int i = 0 ; i < x.length ; i++){
             addData( x[i][0], y[i] );
         }
-        return;
     }
 
     /**
