@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 /**
  * Goal type for an optimization problem.
+ *
  * @version $Id$
  * @since 2.0
  */
