@@ -29,8 +29,8 @@ import org.apache.commons.math3.util.FastMath;
  * <a href="http://en.wikipedia.org/wiki/Gaussian_function">
  *  Gaussian</a> function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Gaussian implements DifferentiableUnivariateFunction {
     /** Mean. */

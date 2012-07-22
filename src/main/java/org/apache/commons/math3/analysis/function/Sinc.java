@@ -29,8 +29,8 @@ import org.apache.commons.math3.util.FastMath;
  *             sin(x) / x   otherwise.
  * </code></pre>
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Sinc implements DifferentiableUnivariateFunction {
     /**

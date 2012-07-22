@@ -23,8 +23,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * {@code signum} function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Signum implements UnivariateFunction {
     /** {@inheritDoc} */

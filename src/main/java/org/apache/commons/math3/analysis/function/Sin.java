@@ -23,8 +23,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Sine function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Sin implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

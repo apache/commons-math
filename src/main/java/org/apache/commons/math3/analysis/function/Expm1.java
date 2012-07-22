@@ -24,8 +24,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * <code>e<sup>x</sup>-1</code> function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Expm1 implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

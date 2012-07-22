@@ -22,8 +22,8 @@ import org.apache.commons.math3.analysis.BivariateFunction;
 /**
  * Divide the first operand by the second.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Divide implements BivariateFunction {
     /** {@inheritDoc} */

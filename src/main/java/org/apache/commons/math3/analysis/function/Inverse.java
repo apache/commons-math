@@ -23,8 +23,8 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 /**
  * Inverse function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Inverse implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

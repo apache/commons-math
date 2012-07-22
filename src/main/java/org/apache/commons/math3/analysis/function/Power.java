@@ -24,8 +24,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Power function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Power implements DifferentiableUnivariateFunction {
     /** Power. */

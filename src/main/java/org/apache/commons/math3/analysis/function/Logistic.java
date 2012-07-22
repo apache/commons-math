@@ -29,8 +29,8 @@ import org.apache.commons.math3.util.FastMath;
  * <a href="http://en.wikipedia.org/wiki/Generalised_logistic_function">
  *  Generalised logistic</a> function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Logistic implements DifferentiableUnivariateFunction {
     /** Lower asymptote. */

@@ -28,8 +28,8 @@ import org.apache.commons.math3.util.MathArrays;
  * <a href="http://en.wikipedia.org/wiki/Step_function">
  *  Step function</a>.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class StepFunction implements UnivariateFunction {
     /** Abscissae. */

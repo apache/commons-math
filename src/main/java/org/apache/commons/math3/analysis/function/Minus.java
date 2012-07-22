@@ -22,8 +22,8 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 /**
  * Minus function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Minus implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

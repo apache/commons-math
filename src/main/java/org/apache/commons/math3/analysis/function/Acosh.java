@@ -24,8 +24,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Hyperbolic arc-cosine function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Acosh implements DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

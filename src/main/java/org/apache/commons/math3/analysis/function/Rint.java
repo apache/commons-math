@@ -23,8 +23,8 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * {@code rint} function.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Rint implements UnivariateFunction {
     /** {@inheritDoc} */
