@@ -333,11 +333,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             } else if (k < pivot) {
                 // the element is in the left partition
                 end  = pivot;
-                node = Math.min(2 * node + 1, pivotsHeap.length); // the min is here to avoid integer overflow
+                node = FastMath.min(2 * node + 1, pivotsHeap.length); // the min is here to avoid integer overflow
             } else {
                 // the element is in the right partition
                 begin = pivot + 1;
-                node  = Math.min(2 * node + 2, pivotsHeap.length); // the min is here to avoid integer overflow
+                node  = FastMath.min(2 * node + 2, pivotsHeap.length); // the min is here to avoid integer overflow
             }
 
         }
@@ -401,10 +401,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         int i = begin + 1;
         int j = end - 1;
         while (i < j) {
-            while ((i < j) && (work[j] >= value)) {
+            while ((i < j) && (work[j] > value)) {
                 --j;
             }
-            while ((i < j) && (work[i] <= value)) {
+            while ((i < j) && (work[i] < value)) {
                 ++i;
             }
 

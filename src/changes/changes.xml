@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-578">
+        Improve performance of quantile evaluation in Percentile class for cases
+        with lots of equal values.
+      </action>
       <action dev="erans" type="add" issue="MATH-797">
         New framework for Gauss integration schemes (in package
         "o.a.c.m.analysis.integration.gauss").
