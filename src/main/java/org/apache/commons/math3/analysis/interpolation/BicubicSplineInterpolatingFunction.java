@@ -27,8 +27,8 @@ import org.apache.commons.math3.util.MathArrays;
  * <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">
  * bicubic spline interpolation</a>.
  *
- * @version $Id$
  * @since 2.1
+ * @version $Id$
  */
 public class BicubicSplineInterpolatingFunction
     implements BivariateFunction {

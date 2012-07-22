@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.MathArrays;
  * </p>
  *
  * @version $Id$
- *
  */
 public class SplineInterpolator implements UnivariateInterpolator {
 

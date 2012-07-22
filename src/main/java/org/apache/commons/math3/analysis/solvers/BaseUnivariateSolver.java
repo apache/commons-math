@@ -29,8 +29,8 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  * DifferentiableUnivariateSolver}.
  * @param <FUNC> Type of function to solve.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  * @see UnivariateSolver
  * @see PolynomialSolver
  * @see DifferentiableUnivariateSolver

@@ -25,8 +25,8 @@ import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
  * Interpolator that implements the algorithm described in
  * <em>William Dudziak</em>'s
  * <a href="http://www.dudziak.com/microsphere.pdf">MS thesis</a>.
- * @since 2.1
  *
+ * @since 2.1
  * @version $Id$
  */
 public class MicrosphereInterpolator

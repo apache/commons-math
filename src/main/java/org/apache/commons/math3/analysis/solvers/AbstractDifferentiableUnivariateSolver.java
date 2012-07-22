@@ -24,8 +24,8 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public abstract class AbstractDifferentiableUnivariateSolver
     extends BaseAbstractUnivariateSolver<DifferentiableUnivariateFunction>

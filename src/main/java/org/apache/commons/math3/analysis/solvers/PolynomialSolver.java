@@ -22,8 +22,8 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
  * Interface for (polynomial) root-finding algorithms.
  * Implementations will search for only one zero in the given interval.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public interface PolynomialSolver
     extends BaseUnivariateSolver<PolynomialFunction> {}

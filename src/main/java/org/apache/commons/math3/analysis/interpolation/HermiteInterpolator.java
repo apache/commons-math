@@ -45,6 +45,7 @@ import org.apache.commons.math3.util.ArithmeticUtils;
  * also distributed under the terms of the Apache License V2. Original copyright
  * is: Copyright 2002-2012 CS Systèmes d'Information.
  * </p>
+ *
  * @version $Id$
  * @since 3.1
  */

@@ -28,8 +28,8 @@ import org.apache.commons.math3.util.Pair;
  * presented in <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun"
  * Abramowitz and Stegun, 1964</a>.
  *
- * @version $Id$
  * @since 3.1
+ * @version $Id$
  */
 public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal> {
     /** Settings for enhanced precision computations. */

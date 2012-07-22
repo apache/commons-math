@@ -32,8 +32,8 @@ import org.apache.commons.math3.util.MathArrays;
  *  <em>Int. J. Numer. Meth. Engng</em> 2005; <b>63</b>:455-471
  * </quote>
  *
- * @version $Id$
  * @since 2.2
+ * @version $Id$
  */
 public class TricubicSplineInterpolatingFunction
     implements TrivariateFunction {

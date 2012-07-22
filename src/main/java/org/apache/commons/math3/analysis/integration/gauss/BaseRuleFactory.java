@@ -29,8 +29,8 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * @param <T> Type of the number used to represent the points and weights of
  * the quadrature rules.
  *
- * @version $Id$
  * @since 3.1
+ * @version $Id$
  */
 public abstract class BaseRuleFactory<T extends Number> {
     /** List of points and weights, indexed by the order of the rule. */

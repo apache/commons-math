@@ -22,8 +22,8 @@ import org.apache.commons.math3.util.Pair;
  * Class that provides different ways to compute the nodes and weights to be
  * used by the {@link GaussIntegrator Gaussian integration rule}.
  *
- * @version $Id$
  * @since 3.1
+ * @version $Id$
  */
 public class GaussIntegratorFactory {
     /** Generator of Gauss-Legendre integrators. */

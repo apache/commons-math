@@ -25,6 +25,7 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.
+ *
  * @version $Id$
  */
 public class LinearInterpolator implements UnivariateInterpolator {
