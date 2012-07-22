@@ -27,8 +27,8 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * custom {@link MaxCountExceededCallback callback}, in order to e.g.
  * select which exception must be thrown.
  *
- * @version $Id$
  * @since 3.0
+ * @version $Id$
  */
 public class Incrementor {
     /**
