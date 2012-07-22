@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-827">
+        New "IterativeLegendreGaussIntegrator" that performs the same automatic
+        subdivision of the integration interval as "LegendreGaussIntegrator",
+        but uses the classes from package "o.a.c.m.analysis.integration.gauss"
+        to perform the Gauss integration on the sub-interval.
+        Deprecated "LegendreGaussIntegrator".
+      </action>
       <action dev="tn" type="fix" issue="MATH-578">
         Improve performance of quantile evaluation in Percentile class for cases
         with lots of equal values.

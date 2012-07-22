@@ -49,8 +49,10 @@ import org.apache.commons.math3.util.FastMath;
  * <p>
  * @version $Id$
  * @since 1.2
+ * @deprecated As of 3.1 (to be removed in 4.0). Please use
+ * {@link IterativeLegendreGaussIntegrator} instead.
  */
-
+@Deprecated
 public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Abscissas for the 2 points method. */
