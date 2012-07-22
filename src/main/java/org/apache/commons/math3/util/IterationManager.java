@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NullArgumentException;
 
 /**
  * This abstract class provides a general framework for managing iterative
@@ -54,7 +53,7 @@ public class IterationManager {
      * @param maxIterations the maximum number of iterations
      * @param callBack the function to be called when the maximum number of
      * iterations has been reached
-     * @throws NullArgumentException if {@code callBack} is {@code null}
+     * @throws org.apache.commons.math3.exception.NullArgumentException if {@code callBack} is {@code null}
      */
     public IterationManager(final int maxIterations,
                             final Incrementor.MaxCountExceededCallback callBack) {
