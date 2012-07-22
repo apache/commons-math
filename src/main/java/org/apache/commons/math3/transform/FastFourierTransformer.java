@@ -505,7 +505,6 @@ public class FastFourierTransformer implements Serializable {
                 }
             }
         }
-        return;
     }
 
     /**
