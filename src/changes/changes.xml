@@ -52,6 +52,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-797">
+        New framework for Gauss integration schemes (in package
+        "o.a.c.m.analysis.integration.gauss").
+        Gauss-Legendre quadrature rules (of unlimited order) implemented in
+        double precision, and high precision (using "BigDecimal").
+      </action>
       <action dev="erans" type="add" issue="MATH-764,MATH-823">
         For all distibution classes (in package "o.a.c.m.distribution"), a new
         constructor takes a "RandomGenerator" parameter.
@@ -83,7 +89,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         number of iteration is reached.
       </action>
       <action dev="luc" type="add">
-        A new HermiteInterpolator class allow interpolation of vector-valued
+        A new HermiteInterpolator class allows interpolation of vector-valued
         functions using both values and derivatives of the function at sample
         points.
       </action>

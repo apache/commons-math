@@ -63,6 +63,11 @@ source copyright:
 Copyright 2010-2012 CS Systèmes d'Information
 ===============================================================================
 
+The creation of the package "o.a.c.m.analysis.integration.gauss" was inspired
+by an original code donated by Sébastien Brisard.
+===============================================================================
+
+
 The complete text of licenses and disclaimers associated with the the original
 sources enumerated above at the time of code translation are in the LICENSE.txt
 file.
