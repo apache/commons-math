@@ -86,29 +86,11 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      */
     @SuppressWarnings("unused")
     private MillerUpdatingRegression() {
-        this.d = null;
-        this.hasIntercept = false;
-        this.lindep = null;
-        this.nobs = -1;
-        this.nvars = -1;
-        this.r = null;
-        this.rhs = null;
-        this.rss = null;
-        this.rss_set = false;
-        this.sserr = Double.NaN;
-        this.sumsqy = Double.NaN;
-        this.sumy = Double.NaN;
-        this.tol = null;
-        this.tol_set = false;
-        this.vorder = null;
-        this.work_sing = null;
-        this.work_tolset = null;
-        this.x_sing = null;
-        this.epsilon = Double.NaN;
+        this(-1, false, Double.NaN);
     }
 
     /**
-     * This is the augmented constructor for the MillerUpdatingRegression class
+     * This is the augmented constructor for the MillerUpdatingRegression class.
      *
      * @param numberOfVariables number of regressors to expect, not including constant
      * @param includeConstant include a constant automatically
@@ -146,7 +128,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * Primary constructor for the MillerUpdatingRegression
+     * Primary constructor for the MillerUpdatingRegression.
      *
      * @param numberOfVariables maximum number of potential regressors
      * @param includeConstant include a constant automatically
@@ -156,7 +138,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * A getter method which determines whether a constant is included
+     * A getter method which determines whether a constant is included.
      * @return true regression has an intercept, false no intercept
      */
     public boolean hasIntercept() {
@@ -164,7 +146,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * Gets the number of observations added to the regression model
+     * Gets the number of observations added to the regression model.
      * @return number of observations
      */
     public long getN() {
@@ -172,7 +154,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * Adds an observation to the regression model
+     * Adds an observation to the regression model.
      * @param x the array with regressor values
      * @param y  the value of dependent variable given these regressors
      * @exception ModelSpecificationException if the length of {@code x} does not equal
@@ -198,7 +180,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * Adds multiple observations to the model
+     * Adds multiple observations to the model.
      * @param x observations on the regressors
      * @param y observations on the regressand
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
@@ -221,7 +203,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                   x.length, x[0].length);
         }
         for (int i = 0; i < x.length; i++) {
-            this.addObservation(x[i], y[i]);
+            addObservation(x[i], y[i]);
         }
     }
 
@@ -299,7 +281,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
 
     /**
      * Adds to number a and b such that the contamination due to
-     * numerical smallness of one addend does not corrupt the sum
+     * numerical smallness of one addend does not corrupt the sum.
      * @param a - an addend
      * @param b - an addend
      * @return the sum of the a and b
@@ -589,7 +571,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * <p>In the original algorithm only the partial correlations of the regressors
+     * In the original algorithm only the partial correlations of the regressors
      * is returned to the user. In this implementation, we have <pre>
      * corr =
      * {
@@ -597,7 +579,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      *   corrxy - bottom row of the matrix
      * }
      * Replaces subroutines PCORR and COR of:
-     * ALGORITHM AS274  APPL. STATIST. (1992) VOL.41, NO. 2 </pre></p>
+     * ALGORITHM AS274  APPL. STATIST. (1992) VOL.41, NO. 2 </pre>
      *
      * <p>Calculate partial correlations after the variables in rows
      * 1, 2, ..., IN have been forced into the regression.
@@ -819,7 +801,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
     }
 
     /**
-     * <p>ALGORITHM AS274  APPL. STATIST. (1992) VOL.41, NO. 2</p>
+     * ALGORITHM AS274  APPL. STATIST. (1992) VOL.41, NO. 2
      *
      * <p> Re-order the variables in an orthogonal reduction produced by
      * AS75.1 so that the N variables in LIST start at position POS1,
@@ -942,13 +924,13 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             throw new ModelSpecificationException(
                     LocalizedFormats.TOO_MANY_REGRESSORS, numberOfRegressors, this.nvars);
         }
-        this.tolset();
 
-        this.singcheck();
+        tolset();
+        singcheck();
 
         double[] beta = this.regcf(numberOfRegressors);
 
-        this.ss();
+        ss();
 
         double[] cov = this.cov(numberOfRegressors);
 
@@ -1054,15 +1036,13 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
             series = variablesToInclude;
         }
 
-        this.reorderRegressors(series, 0);
-
-        this.tolset();
-
-        this.singcheck();
+        reorderRegressors(series, 0);
+        tolset();
+        singcheck();
 
         double[] beta = this.regcf(series.length);
 
-        this.ss();
+        ss();
 
         double[] cov = this.cov(series.length);
 
