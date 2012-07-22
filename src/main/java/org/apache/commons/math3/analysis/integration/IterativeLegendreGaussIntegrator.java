@@ -38,7 +38,7 @@ import org.apache.commons.math3.util.FastMath;
 public class IterativeLegendreGaussIntegrator
     extends BaseAbstractUnivariateIntegrator {
     /** Factory that computes the points and weights. */
-    private static final GaussIntegratorFactory factory
+    private static final GaussIntegratorFactory FACTORY
         = new GaussIntegratorFactory();
     /** Number of integration points (per interval). */
     private final int numberOfPoints;
@@ -117,7 +117,7 @@ public class IterativeLegendreGaussIntegrator
                              getRelativeAccuracy() * (FastMath.abs(oldt) + FastMath.abs(t)) * 0.5);
 
             // check convergence
-            if (iterations.getCount() + 1 >= getMinimalIterationCount() && 
+            if (iterations.getCount() + 1 >= getMinimalIterationCount() &&
                 delta <= limit) {
                 return t;
             }
@@ -146,7 +146,7 @@ public class IterativeLegendreGaussIntegrator
                     return computeObjectiveValue(x);
                 }
             };
-        
+
         final double min = getMin();
         final double max = getMax();
         final double step = (max - min) / n;
@@ -156,7 +156,7 @@ public class IterativeLegendreGaussIntegrator
             // Integrate over each sub-interval [a, b].
             final double a = min + i * step;
             final double b = a + step;
-            final GaussIntegrator g = factory.legendreHighPrecision(numberOfPoints, a, b);
+            final GaussIntegrator g = FACTORY.legendreHighPrecision(numberOfPoints, a, b);
             sum += g.integrate(f);
         }
 
