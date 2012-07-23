@@ -279,6 +279,24 @@ public class EigenDecomposition {
     }
 
     /**
+     * Returns whether the calculated eigen values are complex or real.
+     * <p>The method performs a zero check for each element of the
+     * {@link #getImagEigenvalues()} array and returns {@code true} if any
+     * element is not equal to zero.
+     *
+     * @return {@code true} if the eigen values are complex, {@code false} otherwise
+     * @since 3.1
+     */
+    public boolean hasComplexEigenvalues() {
+        for (int i = 0; i < imagEigenvalues.length; i++) {
+            if (!Precision.equals(imagEigenvalues[i], 0.0, epsilon)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Gets a copy of the real parts of the eigenvalues of the original matrix.
      *
      * @return a copy of the real parts of the eigenvalues of the original matrix.
@@ -374,10 +392,8 @@ public class EigenDecomposition {
      * complex eigenvalues
      */
     public DecompositionSolver getSolver() {
-        for (int i = 0; i < imagEigenvalues.length; i++) {
-            if (imagEigenvalues[i] != 0.0) {
-                throw new MathUnsupportedOperationException();
-            }
+        if (hasComplexEigenvalues()) {
+            throw new MathUnsupportedOperationException();
         }
         return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
     }
