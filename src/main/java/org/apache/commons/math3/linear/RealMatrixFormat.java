@@ -323,7 +323,8 @@ public class RealMatrixFormat {
             if (!rowComponents.isEmpty()) {
                 CompositeFormat.parseAndIgnoreWhitespace(source, pos);
                 if (!CompositeFormat.parseFixedstring(source, trimmedColumnSeparator, pos)) {
-                    if (!trimmedRowSuffix.isEmpty() && !CompositeFormat.parseFixedstring(source, trimmedRowSuffix, pos)) {
+                    if (trimmedRowSuffix.length() != 0 &&
+                        !CompositeFormat.parseFixedstring(source, trimmedRowSuffix, pos)) {
                         return null;
                     } else {
                         CompositeFormat.parseAndIgnoreWhitespace(source, pos);
@@ -338,7 +339,8 @@ public class RealMatrixFormat {
                 }
             } else {
                 CompositeFormat.parseAndIgnoreWhitespace(source, pos);
-                if (!trimmedRowPrefix.isEmpty() && !CompositeFormat.parseFixedstring(source, trimmedRowPrefix, pos)) {
+                if (trimmedRowPrefix.length() != 0 &&
+                    !CompositeFormat.parseFixedstring(source, trimmedRowPrefix, pos)) {
                     return null;
                 }
             }
