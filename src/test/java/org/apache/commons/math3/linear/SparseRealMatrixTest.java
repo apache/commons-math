@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * Test cases for the {@link OpenMapRealMatrix} class.
  *
  * @version $Id$
- *          2008) $
  */
 public final class SparseRealMatrixTest {
 
