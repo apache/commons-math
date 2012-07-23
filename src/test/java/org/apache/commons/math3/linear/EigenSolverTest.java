@@ -19,7 +19,6 @@ package org.apache.commons.math3.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class EigenSolverTest {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionTest.createTestMatrix(r, new double[] { 1.0, 0.0, -1.0, -2.0, -3.0 });
-        DecompositionSolver es = new EigenDecomposition(m, Precision.SAFE_MIN).getSolver();
+        DecompositionSolver es = new EigenDecomposition(m).getSolver();
         Assert.assertFalse(es.isNonSingular());
         try {
             es.getInverse();
@@ -49,7 +48,7 @@ public class EigenSolverTest {
         Random r = new Random(9994100315209l);
         RealMatrix m =
             EigenDecompositionTest.createTestMatrix(r, new double[] { 1.0, 0.5, -1.0, -2.0, -3.0 });
-        DecompositionSolver es = new EigenDecomposition(m, Precision.SAFE_MIN).getSolver();
+        DecompositionSolver es = new EigenDecomposition(m).getSolver();
         Assert.assertTrue(es.isNonSingular());
         RealMatrix inverse = es.getInverse();
         RealMatrix error =
@@ -65,7 +64,7 @@ public class EigenSolverTest {
         };
         final RealMatrix matrix = EigenDecompositionTest.createTestMatrix(new Random(35992629946426l), refValues);
 
-        DecompositionSolver es = new EigenDecomposition(matrix, Precision.SAFE_MIN).getSolver();
+        DecompositionSolver es = new EigenDecomposition(matrix).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[2][2]);
         try {
             es.solve(b);
@@ -98,7 +97,7 @@ public class EigenSolverTest {
                 { 40,  2, 21,  9, 51, 19 },
                 { 14, -1,  8,  0, 19, 14 }
         });
-        DecompositionSolver es = new EigenDecomposition(m, Precision.SAFE_MIN).getSolver();
+        DecompositionSolver es = new EigenDecomposition(m).getSolver();
         RealMatrix b = MatrixUtils.createRealMatrix(new double[][] {
                 { 1561, 269, 188 },
                 {   69, -21,  70 },
