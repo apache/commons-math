@@ -47,6 +47,18 @@ import org.apache.commons.math3.util.Precision;
 public class MatrixUtils {
 
     /**
+     * The default format for {@link RealMatrix} objects.
+     * @since 3.1
+     */
+    public static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance();
+
+    /**
+     * A format for {@link RealMatrix} objects compatible with octave.
+     * @since 3.1
+     */
+    public static final RealMatrixFormat OCTAVE_FORMAT = new RealMatrixFormat("[", "]", "", "", "; ", ", ");
+
+    /**
      * Private constructor.
      */
     private MatrixUtils() {

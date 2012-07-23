@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -29,7 +30,7 @@ import org.apache.commons.math3.exception.MathParseException;
 public abstract class RealMatrixFormatAbstractTest {
 
     RealMatrixFormat realMatrixFormat = null;
-    RealMatrixFormat realMatrixFormatOther = null;
+    RealMatrixFormat realMatrixFormatOctave = null;
 
     protected abstract Locale getLocale();
 
@@ -39,13 +40,13 @@ public abstract class RealMatrixFormatAbstractTest {
         realMatrixFormat = RealMatrixFormat.getInstance(getLocale());
         final NumberFormat nf = NumberFormat.getInstance(getLocale());
         nf.setMaximumFractionDigits(2);
-        realMatrixFormatOther = new RealMatrixFormat("{", "}", ", ", " : ", nf);
+        realMatrixFormatOctave = new RealMatrixFormat("[", "]", "", "", "; ", ", ", nf);
     }
 
     @Test
     public void testSimpleNoDecimals() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1, 1, 1}, {1, 1, 1}});
-        String expected = "[1, 1, 1; 1, 1, 1]";
+        String expected = "{{1,1,1},{1,1,1}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -54,13 +55,13 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testSimpleWithDecimals() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.23, 1.43, 1.63}, {2.46, 2.46, 2.66}});
         String expected =
-            "[1"    + getDecimalCharacter() +
-            "23, 1" + getDecimalCharacter() +
-            "43, 1" + getDecimalCharacter() +
-            "63; 2" + getDecimalCharacter() +
-            "46, 2" + getDecimalCharacter() +
-            "46, 2" + getDecimalCharacter() +
-            "66]";
+            "{{1"    + getDecimalCharacter() +
+            "23,1" + getDecimalCharacter() +
+            "43,1" + getDecimalCharacter() +
+            "63},{2" + getDecimalCharacter() +
+            "46,2" + getDecimalCharacter() +
+            "46,2" + getDecimalCharacter() +
+            "66}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -70,45 +71,45 @@ public abstract class RealMatrixFormatAbstractTest {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333},
                                                                     {2.4666, 2.4666, 2.6666}});
         String expected =
-                "[1"    + getDecimalCharacter() +
-                "23, 1" + getDecimalCharacter() +
-                "43, 1" + getDecimalCharacter() +
-                "63; 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "67]";
+                "{{1"    + getDecimalCharacter() +
+                "23,1" + getDecimalCharacter() +
+                "43,1" + getDecimalCharacter() +
+                "63},{2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "67}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testNegativeX() {
+    public void testNegativeComponent() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{-1.2323, 1.4343, 1.6333},
                                                                     {2.4666, 2.4666, 2.6666}});
         String expected =
-                "[-1"    + getDecimalCharacter() +
-                "23, 1" + getDecimalCharacter() +
-                "43, 1" + getDecimalCharacter() +
-                "63; 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "67]";
+                "{{-1"    + getDecimalCharacter() +
+                "23,1" + getDecimalCharacter() +
+                "43,1" + getDecimalCharacter() +
+                "63},{2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "67}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testNegativeY() {
+    public void testNegativeComponent2() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, -1.4343, 1.6333},
                                                                     {2.4666, 2.4666, 2.6666}});
         String expected =
-                "[1"    + getDecimalCharacter() +
-                "23, -1" + getDecimalCharacter() +
-                "43, 1" + getDecimalCharacter() +
-                "63; 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "67]";
+                "{{1"    + getDecimalCharacter() +
+                "23,-1" + getDecimalCharacter() +
+                "43,1" + getDecimalCharacter() +
+                "63},{2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "67}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -118,13 +119,13 @@ public abstract class RealMatrixFormatAbstractTest {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333},
                                                                     {-2.4666, 2.4666, 2.6666}});
         String expected =
-                "[1"    + getDecimalCharacter() +
-                "23, 1" + getDecimalCharacter() +
-                "43, 1" + getDecimalCharacter() +
-                "63; -2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "47, 2" + getDecimalCharacter() +
-                "67]";
+                "{{1"    + getDecimalCharacter() +
+                "23,1" + getDecimalCharacter() +
+                "43,1" + getDecimalCharacter() +
+                "63},{-2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "47,2" + getDecimalCharacter() +
+                "67}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -132,32 +133,32 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testNonDefaultSetting() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1, 1, 1}, {1, 1, 1}});
-        String expected = "{1 : 1 : 1, 1 : 1 : 1}";
-        String actual = realMatrixFormatOther.format(m);
+        String expected = "[1, 1, 1; 1, 1, 1]";
+        String actual = realMatrixFormatOctave.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void testDefaultFormatRealVectorImpl() {
-        Locale defaultLocal = Locale.getDefault();
+    public void testDefaultFormat() {
+        Locale defaultLocale = Locale.getDefault();
         Locale.setDefault(getLocale());
 
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{232.222, -342.33, 432.444}});
         String expected =
-            "[232"    + getDecimalCharacter() +
-            "22, -342" + getDecimalCharacter() +
-            "33, 432" + getDecimalCharacter() +
-            "44]";
+            "{{232"    + getDecimalCharacter() +
+            "22,-342" + getDecimalCharacter() +
+            "33,432" + getDecimalCharacter() +
+            "44}}";
         String actual = (new RealMatrixFormat()).format(m);
         Assert.assertEquals(expected, actual);
 
-        Locale.setDefault(defaultLocal);
+        Locale.setDefault(defaultLocale);
     }
 
     @Test
     public void testNan() {
         RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{Double.NaN, Double.NaN, Double.NaN}});
-        String expected = "[(NaN), (NaN), (NaN)]";
+        String expected = "{{(NaN),(NaN),(NaN)}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -166,7 +167,7 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testPositiveInfinity() {
         RealMatrix m = MatrixUtils.createRealMatrix(
                 new double[][] {{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY}});
-        String expected = "[(Infinity), (Infinity), (Infinity)]";
+        String expected = "{{(Infinity),(Infinity),(Infinity)}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -175,22 +176,23 @@ public abstract class RealMatrixFormatAbstractTest {
     public void tesNegativeInfinity() {
         RealMatrix m = MatrixUtils.createRealMatrix(
                 new double[][] {{Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY}});
-        String expected = "[(-Infinity), (-Infinity), (-Infinity)]";
+        String expected = "{{(-Infinity),(-Infinity),(-Infinity)}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseSimpleNoDecimals() {
-        String source = "[1, 1, 1; 1, 1, 1]";
+        String source = "{{1, 1, 1}, {1, 1, 1}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1, 1, 1}, {1, 1, 1}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
+    @Ignore
     public void testParseSimpleWithClosingRowSeparator() {
-        String source = "[1, 1, 1; 1, 1, 1 ;]";
+        String source = "{{1, 1, 1},{1, 1, 1}, }}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1, 1, 1}, {1, 1, 1}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -200,11 +202,11 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testParseIgnoredWhitespace() {
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1, 1, 1}, {1, 1, 1}});
         ParsePosition pos1 = new ParsePosition(0);
-        String source1 = "[1,1,1;1,1,1]";
+        String source1 = "{{1,1,1},{1,1,1}}";
         Assert.assertEquals(expected, realMatrixFormat.parse(source1, pos1));
         Assert.assertEquals(source1.length(), pos1.getIndex());
         ParsePosition pos2 = new ParsePosition(0);
-        String source2 = " [ 1 , 1 , 1 ; 1 , 1 , 1 ] ";
+        String source2 = " { { 1 , 1 , 1 } , { 1 , 1 , 1 } } ";
         Assert.assertEquals(expected, realMatrixFormat.parse(source2, pos2));
         Assert.assertEquals(source2.length() - 1, pos2.getIndex());
     }
@@ -212,10 +214,10 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseSimpleWithDecimals() {
         String source =
-            "[1" + getDecimalCharacter() +
-            "23, 1" + getDecimalCharacter() +
-            "43, 1" + getDecimalCharacter() +
-            "63]";
+            "{{1" + getDecimalCharacter() +
+            "23,1" + getDecimalCharacter() +
+            "43,1" + getDecimalCharacter() +
+            "63}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1.23, 1.43, 1.63}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -224,10 +226,10 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseSimpleWithDecimalsTrunc() {
         String source =
-            "[1" + getDecimalCharacter() +
-            "2323, 1" + getDecimalCharacter() +
-            "4343, 1" + getDecimalCharacter() +
-            "6333]";
+            "{{1" + getDecimalCharacter() +
+            "2323,1" + getDecimalCharacter() +
+            "4343,1" + getDecimalCharacter() +
+            "6333}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -236,10 +238,10 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseNegativeComponent() {
         String source =
-            "[-1" + getDecimalCharacter() +
-            "2323, 1" + getDecimalCharacter() +
-            "4343, 1" + getDecimalCharacter() +
-            "6333]";
+            "{{-1" + getDecimalCharacter() +
+            "2323,1" + getDecimalCharacter() +
+            "4343,1" + getDecimalCharacter() +
+            "6333}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{-1.2323, 1.4343, 1.6333}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -248,10 +250,10 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseNegativeAll() {
         String source =
-            "[-1" + getDecimalCharacter() +
-            "2323, -1" + getDecimalCharacter() +
-            "4343, -1" + getDecimalCharacter() +
-            "6333]";
+            "{{-1" + getDecimalCharacter() +
+            "2323,-1" + getDecimalCharacter() +
+            "4343,-1" + getDecimalCharacter() +
+            "6333}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{-1.2323, -1.4343, -1.6333}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -260,10 +262,10 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseZeroComponent() {
         String source =
-            "[0" + getDecimalCharacter() +
-            "0, -1" + getDecimalCharacter() +
-            "4343, 1" + getDecimalCharacter() +
-            "6333]";
+            "{{0" + getDecimalCharacter() +
+            "0,-1" + getDecimalCharacter() +
+            "4343,1" + getDecimalCharacter() +
+            "6333}}";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{0.0, -1.4343, 1.6333}});
         RealMatrix actual = realMatrixFormat.parse(source);
         Assert.assertEquals(expected, actual);
@@ -272,18 +274,18 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseNonDefaultSetting() {
         String source =
-            "{1" + getDecimalCharacter() +
-            "2323 : 1" + getDecimalCharacter() +
-            "4343 : 1" + getDecimalCharacter() +
-            "6333}";
+            "[1" + getDecimalCharacter() +
+            "2323, 1" + getDecimalCharacter() +
+            "4343, 1" + getDecimalCharacter() +
+            "6333]";
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333}});
-        RealMatrix actual = realMatrixFormatOther.parse(source);
+        RealMatrix actual = realMatrixFormatOctave.parse(source);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testParseNan() {
-        String source = "[(NaN), (NaN), (NaN)]";
+        String source = "{{(NaN), (NaN), (NaN)}}";
         RealMatrix actual = realMatrixFormat.parse(source);
         RealMatrix expected = MatrixUtils.createRealMatrix(new double[][] {{Double.NaN, Double.NaN, Double.NaN}});
         for (int i = 0; i < expected.getRowDimension(); i++) {
@@ -295,7 +297,7 @@ public abstract class RealMatrixFormatAbstractTest {
 
     @Test
     public void testParsePositiveInfinity() {
-        String source = "[(Infinity), (Infinity), (Infinity)]";
+        String source = "{{(Infinity), (Infinity), (Infinity)}}";
         RealMatrix actual = realMatrixFormat.parse(source);
         RealMatrix expected = MatrixUtils.createRealMatrix(
                 new double[][] {{Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY}});
@@ -304,7 +306,7 @@ public abstract class RealMatrixFormatAbstractTest {
 
     @Test
     public void testParseNegativeInfinity() {
-        String source = "[(-Infinity), (-Infinity), (-Infinity)]";
+        String source = "{{(-Infinity), (-Infinity), (-Infinity)}}";
         RealMatrix actual = realMatrixFormat.parse(source);
         RealMatrix expected = MatrixUtils.createRealMatrix(
                 new double[][] {{Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY}});
@@ -314,7 +316,7 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testParseNoComponents() {
         try {
-            realMatrixFormat.parse("[ ]");
+            realMatrixFormat.parse("{{ }}");
             Assert.fail("Expecting MathParseException");
         } catch (MathParseException pe) {
             // expected behavior
@@ -323,8 +325,8 @@ public abstract class RealMatrixFormatAbstractTest {
 
     @Test
     public void testParseManyComponents() {
-        RealMatrix parsed = realMatrixFormat.parse("[0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0]");
-        Assert.assertEquals(24, parsed.getRowDimension());
+        RealMatrix parsed = realMatrixFormat.parse("{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}");
+        Assert.assertEquals(24, parsed.getColumnDimension());
     }
 
     @Test
@@ -346,16 +348,16 @@ public abstract class RealMatrixFormatAbstractTest {
     @Test
     public void testForgottenSeparator() {
         ParsePosition pos = new ParsePosition(0);
-        final String source = "[1; 1 1]";
+        final String source = "{{1, 1 1}}";
         Assert.assertNull("Should not parse <"+source+">", new RealMatrixFormat().parse(source, pos));
-        Assert.assertEquals(6, pos.getErrorIndex());
+        Assert.assertEquals(7, pos.getErrorIndex());
     }
 
     @Test
     public void testForgottenSuffix() {
         ParsePosition pos = new ParsePosition(0);
-        final String source = "[1; 1; 1 ";
+        final String source = "{{1, 1, 1 ";
         Assert.assertNull("Should not parse <"+source+">", new RealMatrixFormat().parse(source, pos));
-        Assert.assertEquals(8, pos.getErrorIndex());
+        Assert.assertEquals(9, pos.getErrorIndex());
     }
 }

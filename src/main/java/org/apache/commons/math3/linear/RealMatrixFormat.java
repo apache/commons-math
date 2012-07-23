@@ -29,19 +29,19 @@ import org.apache.commons.math3.util.CompositeFormat;
 
 /**
  * Formats a {@code nxm} matrix in components list format
- * "[a<sub>0</sub><sub>0</sub>, a<sub>0</sub><sub>1</sub>, ...,
- * a<sub>0</sub><sub>m-1</sub>; a<sub>1</sub><sub>0</sub>,
- * a<sub>1</sub><sub>1</sub>, ..., a<sub>1</sub><sub>m-1</sub>; ...;
+ * "{{a<sub>0</sub><sub>0</sub>,a<sub>0</sub><sub>1</sub>, ...,
+ * a<sub>0</sub><sub>m-1</sub>},{a<sub>1</sub><sub>0</sub>,
+ * a<sub>1</sub><sub>1</sub>, ..., a<sub>1</sub><sub>m-1</sub>},{...},{
  * a<sub>n-1</sub><sub>0</sub>, a<sub>n-1</sub><sub>1</sub>, ...,
- * a<sub>n-1</sub><sub>m-1</sub>}".
- * <p>The prefix and suffix "[" and "]", the row separator "; " and the column
- * separator ", " can be replaced by any user-defined strings. The number format
- * for components can be configured.</p>
+ * a<sub>n-1</sub><sub>m-1</sub>}}".
+ * <p>The prefix and suffix "{" and "}", the row prefix and suffix "{" and "}",
+ * the row separator "," and the column separator "," can be replaced by any
+ * user-defined strings. The number format for components can be configured.</p>
  *
  * <p>White space is ignored at parse time, even if it is in the prefix, suffix
  * or separator specifications. So even if the default separator does include a space
- * character that is used at format time, both input string "[1,1,1]" and
- * " [ 1 , 1 , 1 ] " will be parsed without error and the same vector will be
+ * character that is used at format time, both input string "{{1,1,1}}" and
+ * " { { 1 , 1 , 1 } } " will be parsed without error and the same matrix will be
  * returned. In the second case, however, the parse position after parsing will be
  * just after the closing curly brace, i.e. just before the trailing space.</p>
  *
@@ -55,29 +55,29 @@ import org.apache.commons.math3.util.CompositeFormat;
 public class RealMatrixFormat {
 
     /** The default prefix: "{". */
-    private static final String DEFAULT_PREFIX = "[";
+    private static final String DEFAULT_PREFIX = "{";
     /** The default suffix: "}". */
-    private static final String DEFAULT_SUFFIX = "]";
-    /** The default row separator: ";". */
-    private static final String DEFAULT_ROW_SEPARATOR = "; ";
-    /** The default column separator: ", ". */
-    private static final String DEFAULT_COLUMN_SEPARATOR = ", ";
+    private static final String DEFAULT_SUFFIX = "}";
+    /** The default row prefix: "{". */
+    private static final String DEFAULT_ROW_PREFIX = "{";
+    /** The default row suffix: "}". */
+    private static final String DEFAULT_ROW_SUFFIX = "}";
+    /** The default row separator: ",". */
+    private static final String DEFAULT_ROW_SEPARATOR = ",";
+    /** The default column separator: ",". */
+    private static final String DEFAULT_COLUMN_SEPARATOR = ",";
     /** Prefix. */
     private final String prefix;
     /** Suffix. */
     private final String suffix;
+    /** Row prefix. */
+    private final String rowPrefix;
+    /** Row suffix. */
+    private final String rowSuffix;
     /** Row separator. */
     private final String rowSeparator;
     /** Column separator. */
     private final String columnSeparator;
-    /** Trimmed prefix. */
-    private final String trimmedPrefix;
-    /** Trimmed suffix. */
-    private final String trimmedSuffix;
-    /** Trimmed row separator. */
-    private final String trimmedRowSeparator;
-    /** Trimmed column separator. */
-    private final String trimmedColumnSeparator;
     /** The format used for components. */
     private final NumberFormat format;
 
@@ -87,8 +87,8 @@ public class RealMatrixFormat {
      * "[", "]", ";" and ", " and the default number format for components.</p>
      */
     public RealMatrixFormat() {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR,
-             CompositeFormat.getDefaultNumberFormat());
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,
+                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -96,19 +96,24 @@ public class RealMatrixFormat {
      * @param format the custom format for components.
      */
     public RealMatrixFormat(final NumberFormat format) {
-        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);
+        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,
+                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);
     }
 
     /**
      * Create an instance with custom prefix, suffix and separator.
      * @param prefix prefix to use instead of the default "{"
      * @param suffix suffix to use instead of the default "}"
+     * @param rowPrefix row prefix to use instead of the default "{"
+     * @param rowSuffix row suffix to use instead of the default "}"
      * @param rowSeparator tow separator to use instead of the default ";"
      * @param columnSeparator column separator to use instead of the default ", "
      */
     public RealMatrixFormat(final String prefix, final String suffix,
+                            final String rowPrefix, final String rowSuffix,
                             final String rowSeparator, final String columnSeparator) {
-        this(prefix, suffix, rowSeparator, columnSeparator, CompositeFormat.getDefaultNumberFormat());
+        this(prefix, suffix, rowPrefix, rowSuffix, rowSeparator, columnSeparator,
+                CompositeFormat.getDefaultNumberFormat());
     }
 
     /**
@@ -116,21 +121,22 @@ public class RealMatrixFormat {
      * for components.
      * @param prefix prefix to use instead of the default "{"
      * @param suffix suffix to use instead of the default "}"
+     * @param rowPrefix row prefix to use instead of the default "{"
+     * @param rowSuffix row suffix to use instead of the default "}"
      * @param rowSeparator tow separator to use instead of the default ";"
      * @param columnSeparator column separator to use instead of the default ", "
      * @param format the custom format for components.
      */
     public RealMatrixFormat(final String prefix, final String suffix,
+                            final String rowPrefix, final String rowSuffix,
                             final String rowSeparator, final String columnSeparator,
                             final NumberFormat format) {
         this.prefix            = prefix;
         this.suffix            = suffix;
+        this.rowPrefix         = rowPrefix;
+        this.rowSuffix         = rowSuffix;
         this.rowSeparator      = rowSeparator;
         this.columnSeparator   = columnSeparator;
-        trimmedPrefix          = prefix.trim();
-        trimmedSuffix          = suffix.trim();
-        trimmedRowSeparator    = rowSeparator.trim();
-        trimmedColumnSeparator = columnSeparator.trim();
         this.format            = format;
         // disable grouping to prevent parsing problems
         this.format.setGroupingUsed(false);
@@ -159,6 +165,22 @@ public class RealMatrixFormat {
      */
     public String getSuffix() {
         return suffix;
+    }
+
+    /**
+     * Get the format prefix.
+     * @return format prefix.
+     */
+    public String getRowPrefix() {
+        return rowPrefix;
+    }
+
+    /**
+     * Get the format suffix.
+     * @return format suffix.
+     */
+    public String getRowSuffix() {
+        return rowSuffix;
     }
 
     /**
@@ -232,12 +254,14 @@ public class RealMatrixFormat {
         // format rows
         final int rows = matrix.getRowDimension();
         for (int i = 0; i < rows; ++i) {
+            toAppendTo.append(rowPrefix);
             for (int j = 0; j < matrix.getColumnDimension(); ++j) {
                 if (j > 0) {
                     toAppendTo.append(columnSeparator);
                 }
                 CompositeFormat.formatDouble(matrix.getEntry(i, j), format, toAppendTo, pos);
             }
+            toAppendTo.append(rowSuffix);
             if (i < rows - 1) {
                 toAppendTo.append(rowSeparator);
             }
@@ -278,6 +302,13 @@ public class RealMatrixFormat {
     public RealMatrix parse(String source, ParsePosition pos) {
         int initialIndex = pos.getIndex();
 
+        final String trimmedPrefix = prefix.trim();
+        final String trimmedSuffix = suffix.trim();
+        final String trimmedRowPrefix = rowPrefix.trim();
+        final String trimmedRowSuffix = rowSuffix.trim();
+        final String trimmedColumnSeparator = columnSeparator.trim();
+        final String trimmedRowSeparator = rowSeparator.trim();
+
         // parse prefix
         CompositeFormat.parseAndIgnoreWhitespace(source, pos);
         if (!CompositeFormat.parseFixedstring(source, trimmedPrefix, pos)) {
@@ -292,12 +323,23 @@ public class RealMatrixFormat {
             if (!rowComponents.isEmpty()) {
                 CompositeFormat.parseAndIgnoreWhitespace(source, pos);
                 if (!CompositeFormat.parseFixedstring(source, trimmedColumnSeparator, pos)) {
-                    if (CompositeFormat.parseFixedstring(source, trimmedRowSeparator, pos)) {
-                        matrix.add(rowComponents);
-                        rowComponents = new ArrayList<Number>();
+                    if (!trimmedRowSuffix.isEmpty() && !CompositeFormat.parseFixedstring(source, trimmedRowSuffix, pos)) {
+                        return null;
                     } else {
-                        loop = false;
+                        CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+                        if (CompositeFormat.parseFixedstring(source, trimmedRowSeparator, pos)) {
+                            matrix.add(rowComponents);
+                            rowComponents = new ArrayList<Number>();
+                            continue;
+                        } else {
+                            loop = false;
+                        }
                     }
+                }
+            } else {
+                CompositeFormat.parseAndIgnoreWhitespace(source, pos);
+                if (!trimmedRowPrefix.isEmpty() && !CompositeFormat.parseFixedstring(source, trimmedRowPrefix, pos)) {
+                    return null;
                 }
             }
 

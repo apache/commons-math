@@ -38,6 +38,14 @@ import org.apache.commons.math3.util.FastMath;
 public abstract class AbstractRealMatrix
     extends RealLinearOperator
     implements RealMatrix {
+
+    /** Default format. */
+    private static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance();
+    static {
+        // set the minimum fraction digits to 1 to keep compatibility
+        DEFAULT_FORMAT.getFormat().setMinimumFractionDigits(1);
+    }
+
     /**
      * Creates a matrix with no data
      */
@@ -871,28 +879,11 @@ public abstract class AbstractRealMatrix
      */
     @Override
     public String toString() {
-        final int nRows = getRowDimension();
-        final int nCols = getColumnDimension();
-        final StringBuffer res = new StringBuffer();
+        final StringBuilder res = new StringBuilder();
         String fullClassName = getClass().getName();
         String shortClassName = fullClassName.substring(fullClassName.lastIndexOf('.') + 1);
-        res.append(shortClassName).append("{");
-
-        for (int i = 0; i < nRows; ++i) {
-            if (i > 0) {
-                res.append(",");
-            }
-            res.append("{");
-            for (int j = 0; j < nCols; ++j) {
-                if (j > 0) {
-                    res.append(",");
-                }
-                res.append(getEntry(i, j));
-            }
-            res.append("}");
-        }
-
-        res.append("}");
+        res.append(shortClassName);
+        res.append(DEFAULT_FORMAT.format(this));
         return res.toString();
     }
 
