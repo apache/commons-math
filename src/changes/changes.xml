@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="add" issue="MATH-831">
+        Added a new "RealMatrixFormat" class for input/output of RealMatrix instances.
+        Default formatter instances for commons-math and octave have been added to
+        "MatrixUtils".
+      </action>
       <action dev="erans" type="add" issue="MATH-827">
         New "IterativeLegendreGaussIntegrator" that performs the same automatic
         subdivision of the integration interval as "LegendreGaussIntegrator",
@@ -60,7 +65,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         Deprecated "LegendreGaussIntegrator".
       </action>
       <action dev="tn" type="fix" issue="MATH-578">
-        Improve performance of quantile evaluation in Percentile class for cases
+        Improve performance of quantile evaluation in "Percentile" class for cases
         with lots of equal values.
       </action>
       <action dev="erans" type="add" issue="MATH-797">
@@ -77,7 +82,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         delegating to the methods in "RandomData".
       </action>
 	  <action dev="tn" type="add" issue="MATH-235">
-        Added support for real asymmetric matrices to EigenDecomposition.
+        Added support for real asymmetric matrices to "EigenDecomposition".
       </action>
       <action dev="erans" type="add" issue="MATH-768">
         Re-instated methods to find all complex roots of a polynomial (class
@@ -87,7 +92,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         Added accessors to the "Pair" class (package "o.a.c.m.util").
       </action>
 	  <action dev="tn" type="add" issue="MATH-822" due-to="Jared Becksfort">
-        Added new constructors in EigenDecomposition and deprecated two constructors
+        Added new constructors in "EigenDecomposition" and deprecated two constructors
         with unused parameters.
       </action>
       <action dev="erans" type="fix" issue="MATH-798">
@@ -119,7 +124,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         an acceptable compatibility break, as these fields are only meant for internal use.
       </action>
       <action dev="tn" type="fix" issue="MATH-644" due-to="marzieh">
-        Fix computation of upperCumulativeProbability in HypergeometricDistribution and
+        Fix computation of upperCumulativeProbability in "HypergeometricDistribution" and
         cleanup of duplicate probability mass function.
       </action>
       <action dev="celestin" type="fix" issue="MATH-791">
