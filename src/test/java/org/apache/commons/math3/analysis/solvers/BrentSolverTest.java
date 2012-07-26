@@ -20,6 +20,11 @@ import org.apache.commons.math3.analysis.MonitoredFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.function.Sqrt;
+import org.apache.commons.math3.analysis.function.Inverse;
+import org.apache.commons.math3.analysis.function.Constant;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NoBracketingException;
@@ -236,5 +241,32 @@ public final class BrentSolverTest {
         Assert.assertEquals(result, 1.0, solver.getAbsoluteAccuracy());
         Assert.assertEquals(1, solver.getEvaluations());
         Assert.assertEquals(1, f.getCallsCount());
+    }
+
+    @Test
+    public void testMath832() {
+        final DifferentiableUnivariateFunction f = new DifferentiableUnivariateFunction() {
+                private final DifferentiableUnivariateFunction sqrt = new Sqrt();
+                private final DifferentiableUnivariateFunction inv = new Inverse();
+                private final DifferentiableUnivariateFunction func
+                    = FunctionUtils.add(FunctionUtils.multiply(new Constant(1e2), sqrt),
+                                        FunctionUtils.multiply(new Constant(1e6), inv),
+                                        FunctionUtils.multiply(new Constant(1e4),
+                                                               FunctionUtils.compose(inv, sqrt)));
+
+                public double value(double x) {
+                    return func.value(x);
+                }
+
+                public UnivariateFunction derivative() {
+                    return func.derivative();
+                }
+            };
+
+        BrentSolver solver = new BrentSolver();
+        final double result = solver.solve(99,
+                                           f.derivative(),
+                                           1, 1e30, 1 + 1e-10);
+        Assert.assertEquals(804.93558250, result, 1e-8);
     }
 }
