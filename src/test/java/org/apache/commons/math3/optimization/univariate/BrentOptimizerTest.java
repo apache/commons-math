@@ -26,6 +26,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -156,5 +157,28 @@ public final class BrentOptimizerTest {
 
         result = optimizer.optimize(50, f, GoalType.MINIMIZE, 4, 3 * Math.PI / 2).getPoint();
         Assert.assertEquals(3 * Math.PI / 2, result, 1e-6);
+    }
+
+    @Test
+    public void testMath832() {
+        final UnivariateFunction f = new UnivariateFunction() {
+                public double value(double x) {
+                    final double sqrtX = FastMath.sqrt(x);
+                    final double a = 1e2 * sqrtX;
+                    final double b = 1e6 / x;
+                    final double c = 1e4 / sqrtX;
+
+                    return a + b + c;
+                }
+            };
+
+        UnivariateOptimizer optimizer = new BrentOptimizer(1e-10, 1e-8);
+        final double result = optimizer.optimize(1483,
+                                                 f,
+                                                 GoalType.MINIMIZE,
+                                                 Double.MIN_VALUE,
+                                                 Double.MAX_VALUE).getPoint();
+
+        Assert.assertEquals(804.9355825, result, 1e-6);
     }
 }
