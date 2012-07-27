@@ -2127,9 +2127,10 @@ public class FastMath {
     }
 
     /**
-     *  Sine function.
-     *  @param x a number
-     *  @return sin(x)
+     * Sine function.
+     *
+     * @param x Argument.
+     * @return sin(x)
      */
     public static double sin(double x) {
         boolean negative = false;
@@ -2168,42 +2169,10 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            /* Inline the Cody/Waite reduction for performance */
-
-            // Estimate k
-            //k = (int)(xa / 1.5707963267948966);
-            int k = (int)(xa * 0.6366197723675814);
-
-            // Compute remainder
-            double remA;
-            double remB;
-            while (true) {
-                double a = -k * 1.570796251296997;
-                remA = xa + a;
-                remB = -(remA - xa - a);
-
-                a = -k * 7.549789948768648E-8;
-                double b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                a = -k * 6.123233995736766E-17;
-                b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                if (remA > 0.0) {
-                    break;
-                }
-
-                // Remainder is negative, so decrement k and try again.
-                // This should only happen if the input is very close
-                // to an even multiple of pi/2
-                k--;
-            }
-            quadrant = k & 3;
-            xa = remA;
-            xb = remB;
+            final CodyWaite cw = new CodyWaite(xa, xb);
+            quadrant = cw.getK() & 3;
+            xa = cw.getRemA();
+            xb = cw.getRemB();
         }
 
         if (negative) {
@@ -2225,9 +2194,10 @@ public class FastMath {
     }
 
     /**
-     *  Cosine function
-     *  @param x a number
-     *  @return cos(x)
+     * Cosine function.
+     *
+     * @param x Argument.
+     * @return cos(x)
      */
     public static double cos(double x) {
         int quadrant = 0;
@@ -2254,42 +2224,10 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            /* Inline the Cody/Waite reduction for performance */
-
-            // Estimate k
-            //k = (int)(xa / 1.5707963267948966);
-            int k = (int)(xa * 0.6366197723675814);
-
-            // Compute remainder
-            double remA;
-            double remB;
-            while (true) {
-                double a = -k * 1.570796251296997;
-                remA = xa + a;
-                remB = -(remA - xa - a);
-
-                a = -k * 7.549789948768648E-8;
-                double b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                a = -k * 6.123233995736766E-17;
-                b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                if (remA > 0.0) {
-                    break;
-                }
-
-                // Remainder is negative, so decrement k and try again.
-                // This should only happen if the input is very close
-                // to an even multiple of pi/2
-                k--;
-            }
-            quadrant = k & 3;
-            xa = remA;
-            xb = remB;
+            final CodyWaite cw = new CodyWaite(xa, xb);
+            quadrant = cw.getK() & 3;
+            xa = cw.getRemA();
+            xb = cw.getRemB();
         }
 
         //if (negative)
@@ -2310,9 +2248,10 @@ public class FastMath {
     }
 
     /**
-     *   Tangent function
-     *  @param x a number
-     *  @return tan(x)
+     * Tangent function.
+     *
+     * @param x Argument.
+     * @return tan(x)
      */
     public static double tan(double x) {
         boolean negative = false;
@@ -2350,46 +2289,14 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            /* Inline the Cody/Waite reduction for performance */
-
-            // Estimate k
-            //k = (int)(xa / 1.5707963267948966);
-            int k = (int)(xa * 0.6366197723675814);
-
-            // Compute remainder
-            double remA;
-            double remB;
-            while (true) {
-                double a = -k * 1.570796251296997;
-                remA = xa + a;
-                remB = -(remA - xa - a);
-
-                a = -k * 7.549789948768648E-8;
-                double b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                a = -k * 6.123233995736766E-17;
-                b = remA;
-                remA = a + b;
-                remB += -(remA - b - a);
-
-                if (remA > 0.0) {
-                    break;
-                }
-
-                // Remainder is negative, so decrement k and try again.
-                // This should only happen if the input is very close
-                // to an even multiple of pi/2
-                k--;
-            }
-            quadrant = k & 3;
-            xa = remA;
-            xb = remB;
+            final CodyWaite cw = new CodyWaite(xa, xb);
+            quadrant = cw.getK() & 3;
+            xa = cw.getRemA();
+            xb = cw.getRemB();
         }
 
         if (xa > 1.5) {
-            // Accurracy suffers between 1.5 and PI/2
+            // Accuracy suffers between 1.5 and PI/2
             final double pi2a = 1.5707963267948966;
             final double pi2b = 6.123233995736766E-17;
 
@@ -3793,6 +3700,78 @@ public class FastMath {
             } else {
                 LN_MANT = FastMathLiteralArrays.loadLnMant();
             }
+        }
+    }
+
+    /** Enclose the Cody/Waite reduction (used in "sin", "cos" and "tan"). */
+    private static class CodyWaite {
+        /** k */
+        private final int finalK;
+        /** remA */
+        private final double finalRemA;
+        /** remB */
+        private final double finalRemB;
+
+        /**
+         * @param xa Argument.
+         * @param xb Argument.
+         */
+        CodyWaite(double xa,
+                  double xb) {
+            // Estimate k.
+            //k = (int)(xa / 1.5707963267948966);
+            int k = (int)(xa * 0.6366197723675814);
+
+            // Compute remainder.
+            double remA;
+            double remB;
+            while (true) {
+                double a = -k * 1.570796251296997;
+                remA = xa + a;
+                remB = -(remA - xa - a);
+
+                a = -k * 7.549789948768648E-8;
+                double b = remA;
+                remA = a + b;
+                remB += -(remA - b - a);
+
+                a = -k * 6.123233995736766E-17;
+                b = remA;
+                remA = a + b;
+                remB += -(remA - b - a);
+
+                if (remA > 0) {
+                    break;
+                }
+
+                // Remainder is negative, so decrement k and try again.
+                // This should only happen if the input is very close
+                // to an even multiple of pi/2.
+                --k;
+            }
+
+            this.finalK = k;
+            this.finalRemA = remA;
+            this.finalRemB = remB;
+        }
+
+        /**
+         * @return k
+         */
+        int getK() {
+            return finalK;
+        }
+        /**
+         * @return remA
+         */
+        double getRemA() {
+            return finalRemA;
+        }
+        /**
+         * @return remB
+         */
+        double getRemB() {
+            return finalRemB;
         }
     }
 }
