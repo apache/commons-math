@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-762">
+        Removed duplicate code.
+      </action>
       <action dev="tn" type="add" issue="MATH-831">
         Added a new "RealMatrixFormat" class for input/output of RealMatrix instances.
         Default formatter instances for commons-math and octave have been added to
