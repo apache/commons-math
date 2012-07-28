@@ -71,7 +71,9 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         Integer minPos = null;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
             final double entry = tableau.getEntry(0, i);
-            if (Precision.compareTo(entry, minValue, maxUlps) < 0) {
+            // check if the entry is strictly smaller than the current minimum
+            // do not use a ulp/epsilon check
+            if (entry < minValue) {
                 minValue = entry;
                 minPos = i;
             }
@@ -95,7 +97,9 @@ public class SimplexSolver extends AbstractLinearOptimizer {
 
             if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
                 final double ratio = rhs / entry;
-                final int cmp = Precision.compareTo(ratio, minRatio, maxUlps);
+                // check if the entry is strictly equal to the current min ratio
+                // do not use a ulp/epsilon check
+                final int cmp = Double.compare(ratio, minRatio);
                 if (cmp == 0) {
                     minRatioPositions.add(i);
                 } else if (cmp < 0) {
@@ -107,20 +111,40 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         }
 
         if (minRatioPositions.size() == 0) {
-          return null;
+            return null;
         } else if (minRatioPositions.size() > 1) {
-          // there's a degeneracy as indicated by a tie in the minimum ratio test
-          // check if there's an artificial variable that can be forced out of the basis
-          for (Integer row : minRatioPositions) {
-            for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
-              int column = i + tableau.getArtificialVariableOffset();
-              final double entry = tableau.getEntry(row, column);
-              if (Precision.equals(entry, 1d, maxUlps) &&
-                  row.equals(tableau.getBasicRow(column))) {
-                return row;
-              }
+            // there's a degeneracy as indicated by a tie in the minimum ratio test
+
+            // 1. check if there's an artificial variable that can be forced out of the basis
+            for (Integer row : minRatioPositions) {
+                for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+                    int column = i + tableau.getArtificialVariableOffset();
+                    final double entry = tableau.getEntry(row, column);
+                    if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+                        return row;
+                    }
+                }
             }
-          }
+
+            // 2. apply Bland's rule to prevent cycling:
+            //    take the row for which the corresponding basic variable has the smallest index
+            //
+            // see http://www.stanford.edu/class/msande310/blandrule.pdf
+            // see http://en.wikipedia.org/wiki/Bland%27s_rule (not equivalent to the above paper)
+            Integer minRow = null;
+            int minIndex = tableau.getWidth();
+            for (Integer row : minRatioPositions) {
+                for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1 && minRow != row; i++) {
+                    if (row == tableau.getBasicRow(i)) {
+                        if (i < minIndex) {
+                            minIndex = i;
+                            minRow = row;
+                        }
+                    }
+                }
+            }
+
+            return minRow;
         }
         return minRatioPositions.get(0);
     }
@@ -149,7 +173,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
         // set the rest of the pivot column to 0
         for (int i = 0; i < tableau.getHeight(); i++) {
             if (i != pivotRow) {
-                double multiplier = tableau.getEntry(i, pivotCol);
+                final double multiplier = tableau.getEntry(i, pivotCol);
                 tableau.subtractRow(i, pivotRow, multiplier);
             }
         }

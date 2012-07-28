@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import odk.lang.FastMath;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -67,6 +69,9 @@ class SimplexTableau implements Serializable {
 
     /** Default amount of error to accept in floating point comparisons (as ulps). */
     private static final int DEFAULT_ULPS = 10;
+
+    /** The cut-off threshold to zero-out entries. */
+    private static final double CUTOFF_THRESHOLD = 1e-12;
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
@@ -453,8 +458,14 @@ class SimplexTableau implements Serializable {
      */
     protected void subtractRow(final int minuendRow, final int subtrahendRow,
                                final double multiple) {
-        tableau.setRowVector(minuendRow, tableau.getRowVector(minuendRow)
-            .subtract(tableau.getRowVector(subtrahendRow).mapMultiply(multiple)));
+        for (int i = 0; i < getWidth(); i++) {
+            double result = tableau.getEntry(minuendRow, i) - tableau.getEntry(subtrahendRow, i) * multiple;
+            // cut-off values smaller than the CUTOFF_THRESHOLD, otherwise may lead to numerical instabilities
+            if (FastMath.abs(result) < CUTOFF_THRESHOLD) {
+                result = 0.0;
+            }
+            tableau.setEntry(minuendRow, i, result);
+        }
     }
 
     /**

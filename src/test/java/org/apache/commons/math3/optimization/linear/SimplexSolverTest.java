@@ -21,6 +21,7 @@ import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
@@ -29,6 +30,27 @@ import org.junit.Test;
 
 public class SimplexSolverTest {
 
+    @Test
+    public void testMath828() {
+        LinearObjectiveFunction f = new LinearObjectiveFunction(
+                new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
+        
+        ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
+
+        constraints.add(new LinearConstraint(new double[] {0.0, 39.0, 23.0, 96.0, 15.0, 48.0, 9.0, 21.0, 48.0, 36.0, 76.0, 19.0, 88.0, 17.0, 16.0, 36.0,}, Relationship.GEQ, 15.0));
+        constraints.add(new LinearConstraint(new double[] {0.0, 59.0, 93.0, 12.0, 29.0, 78.0, 73.0, 87.0, 32.0, 70.0, 68.0, 24.0, 11.0, 26.0, 65.0, 25.0,}, Relationship.GEQ, 29.0));
+        constraints.add(new LinearConstraint(new double[] {0.0, 74.0, 5.0, 82.0, 6.0, 97.0, 55.0, 44.0, 52.0, 54.0, 5.0, 93.0, 91.0, 8.0, 20.0, 97.0,}, Relationship.GEQ, 6.0));
+        constraints.add(new LinearConstraint(new double[] {8.0, -3.0, -28.0, -72.0, -8.0, -31.0, -31.0, -74.0, -47.0, -59.0, -24.0, -57.0, -56.0, -16.0, -92.0, -59.0,}, Relationship.GEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] {25.0, -7.0, -99.0, -78.0, -25.0, -14.0, -16.0, -89.0, -39.0, -56.0, -53.0, -9.0, -18.0, -26.0, -11.0, -61.0,}, Relationship.GEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] {33.0, -95.0, -15.0, -4.0, -33.0, -3.0, -20.0, -96.0, -27.0, -13.0, -80.0, -24.0, -3.0, -13.0, -57.0, -76.0,}, Relationship.GEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] {7.0, -95.0, -39.0, -93.0, -7.0, -94.0, -94.0, -62.0, -76.0, -26.0, -53.0, -57.0, -31.0, -76.0, -53.0, -52.0,}, Relationship.GEQ, 0.0));
+        
+        double epsilon = 1e-6;
+        PointValuePair solution = new SimplexSolver().optimize(f, constraints, GoalType.MINIMIZE, true);
+        Assert.assertEquals(1.0d, solution.getValue(), epsilon);
+        Assert.assertTrue(validSolution(solution, constraints, epsilon));
+    }
+    
     @Test
     public void testMath781() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 2, 6, 7 }, 0);
@@ -558,6 +580,39 @@ public class SimplexSolverTest {
             lhs[index] = value;
         }
         return new LinearConstraint(lhs, relationship, rhs);
+    }
+
+    private static boolean validSolution(PointValuePair solution, List<LinearConstraint> constraints, double epsilon) {
+        double[] vals = solution.getPoint();
+        for (LinearConstraint c : constraints) {
+            double[] coeffs = c.getCoefficients().toArray();
+            double result = 0.0d;
+            for (int i = 0; i < vals.length; i++) {
+                result += vals[i] * coeffs[i];
+            }
+            
+            switch (c.getRelationship()) {
+            case EQ:
+                if (!Precision.equals(result, c.getValue(), epsilon)) {
+                    return false;
+                }
+                break;
+                
+            case GEQ:
+                if (Precision.compareTo(result, c.getValue(), epsilon) < 0) {
+                    return false;
+                }
+                break;
+                
+            case LEQ:
+                if (Precision.compareTo(result, c.getValue(), epsilon) > 0) {
+                    return false;
+                }
+                break;
+            }
+        }
+        
+        return true;
     }
 
 }
