@@ -64,22 +64,22 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        Vector3D c = new Vector3D(1.2323, 1.4343, 1.6333);
+        Vector3D c = new Vector3D(1.232323232323, 1.434343434343, 1.633333333333);
         String expected =
             "{1"    + getDecimalCharacter() +
-            "23; 1" + getDecimalCharacter() +
-            "43; 1" + getDecimalCharacter() +
-            "63}";
+            "2323232323; 1" + getDecimalCharacter() +
+            "4343434343; 1" + getDecimalCharacter() +
+            "6333333333}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testNegativeX() {
-        Vector3D c = new Vector3D(-1.2323, 1.4343, 1.6333);
+        Vector3D c = new Vector3D(-1.232323232323, 1.43, 1.63);
         String expected =
             "{-1"    + getDecimalCharacter() +
-            "23; 1" + getDecimalCharacter() +
+            "2323232323; 1" + getDecimalCharacter() +
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
@@ -88,11 +88,11 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNegativeY() {
-        Vector3D c = new Vector3D(1.2323, -1.4343, 1.6333);
+        Vector3D c = new Vector3D(1.23, -1.434343434343, 1.63);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; -1" + getDecimalCharacter() +
-            "43; 1" + getDecimalCharacter() +
+            "4343434343; 1" + getDecimalCharacter() +
             "63}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -100,12 +100,12 @@ public abstract class Vector3DFormatAbstractTest {
 
     @Test
     public void testNegativeZ() {
-        Vector3D c = new Vector3D(1.2323, 1.4343, -1.6333);
+        Vector3D c = new Vector3D(1.23, 1.43, -1.633333333333);
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
             "43; -1" + getDecimalCharacter() +
-            "63}";
+            "6333333333}";
         String actual = vector3DFormat.format(c);
         Assert.assertEquals(expected, actual);
     }
@@ -123,12 +123,12 @@ public abstract class Vector3DFormatAbstractTest {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        Vector3D c = new Vector3D(232.222, -342.33, 432.444);
+        Vector3D c = new Vector3D(232.22222222222, -342.3333333333, 432.44444444444);
         String expected =
             "{232"    + getDecimalCharacter() +
-            "22; -342" + getDecimalCharacter() +
-            "33; 432" + getDecimalCharacter() +
-            "44}";
+            "2222222222; -342" + getDecimalCharacter() +
+            "3333333333; 432" + getDecimalCharacter() +
+            "4444444444}";
         String actual = (new Vector3DFormat()).format(c);
         Assert.assertEquals(expected, actual);
 

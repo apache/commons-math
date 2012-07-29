@@ -68,64 +68,64 @@ public abstract class RealMatrixFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333},
-                                                                    {2.4666, 2.4666, 2.6666}});
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.232323232323, 1.43, 1.63},
+                                                                    {2.46, 2.46, 2.666666666666}});
         String expected =
                 "{{1"    + getDecimalCharacter() +
-                "23,1" + getDecimalCharacter() +
+                "2323232323,1" + getDecimalCharacter() +
                 "43,1" + getDecimalCharacter() +
                 "63},{2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "67}}";
+                "46,2" + getDecimalCharacter() +
+                "46,2" + getDecimalCharacter() +
+                "6666666667}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testNegativeComponent() {
-        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{-1.2323, 1.4343, 1.6333},
-                                                                    {2.4666, 2.4666, 2.6666}});
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{-1.232323232323, 1.43, 1.63},
+                                                                    {2.46, 2.46, 2.66}});
         String expected =
                 "{{-1"    + getDecimalCharacter() +
-                "23,1" + getDecimalCharacter() +
+                "2323232323,1" + getDecimalCharacter() +
                 "43,1" + getDecimalCharacter() +
                 "63},{2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "67}}";
+                "46,2" + getDecimalCharacter() +
+                "46,2" + getDecimalCharacter() +
+                "66}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testNegativeComponent2() {
-        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, -1.4343, 1.6333},
-                                                                    {2.4666, 2.4666, 2.6666}});
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.23, -1.434343434343, 1.63},
+                                                                    {2.46, 2.46, 2.66}});
         String expected =
                 "{{1"    + getDecimalCharacter() +
                 "23,-1" + getDecimalCharacter() +
-                "43,1" + getDecimalCharacter() +
+                "4343434343,1" + getDecimalCharacter() +
                 "63},{2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "67}}";
+                "46,2" + getDecimalCharacter() +
+                "46,2" + getDecimalCharacter() +
+                "66}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testNegativeSecondRow() {
-        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.2323, 1.4343, 1.6333},
-                                                                    {-2.4666, 2.4666, 2.6666}});
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{1.23, 1.43, 1.63},
+                                                                    {-2.66666666666, 2.46, 2.66}});
         String expected =
                 "{{1"    + getDecimalCharacter() +
                 "23,1" + getDecimalCharacter() +
                 "43,1" + getDecimalCharacter() +
                 "63},{-2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "47,2" + getDecimalCharacter() +
-                "67}}";
+                "6666666667,2" + getDecimalCharacter() +
+                "46,2" + getDecimalCharacter() +
+                "66}}";
         String actual = realMatrixFormat.format(m);
         Assert.assertEquals(expected, actual);
     }
@@ -143,12 +143,12 @@ public abstract class RealMatrixFormatAbstractTest {
         Locale defaultLocale = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{232.222, -342.33, 432.444}});
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {{232.2222222222, -342.33333333333, 432.44444444444}});
         String expected =
             "{{232"    + getDecimalCharacter() +
-            "22,-342" + getDecimalCharacter() +
-            "33,432" + getDecimalCharacter() +
-            "44}}";
+            "2222222222,-342" + getDecimalCharacter() +
+            "3333333333,432" + getDecimalCharacter() +
+            "4444444444}}";
         String actual = (new RealMatrixFormat()).format(m);
         Assert.assertEquals(expected, actual);
 

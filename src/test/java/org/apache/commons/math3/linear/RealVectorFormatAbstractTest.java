@@ -64,22 +64,22 @@ public abstract class RealVectorFormatAbstractTest {
 
     @Test
     public void testSimpleWithDecimalsTrunc() {
-        ArrayRealVector c = new ArrayRealVector(new double[] {1.2323, 1.4343, 1.6333});
+        ArrayRealVector c = new ArrayRealVector(new double[] {1.232323232323, 1.43434343434343, 1.633333333333});
         String expected =
             "{1"    + getDecimalCharacter() +
-            "23; 1" + getDecimalCharacter() +
-            "43; 1" + getDecimalCharacter() +
-            "63}";
+            "2323232323; 1" + getDecimalCharacter() +
+            "4343434343; 1" + getDecimalCharacter() +
+            "6333333333}";
         String actual = realVectorFormat.format(c);
         Assert.assertEquals(expected, actual);
     }
 
     @Test
     public void testNegativeX() {
-        ArrayRealVector c = new ArrayRealVector(new double[] {-1.2323, 1.4343, 1.6333});
+        ArrayRealVector c = new ArrayRealVector(new double[] {-1.232323232323, 1.43, 1.63});
         String expected =
             "{-1"    + getDecimalCharacter() +
-            "23; 1" + getDecimalCharacter() +
+            "2323232323; 1" + getDecimalCharacter() +
             "43; 1" + getDecimalCharacter() +
             "63}";
         String actual = realVectorFormat.format(c);
@@ -88,11 +88,11 @@ public abstract class RealVectorFormatAbstractTest {
 
     @Test
     public void testNegativeY() {
-        ArrayRealVector c = new ArrayRealVector(new double[] {1.2323, -1.4343, 1.6333});
+        ArrayRealVector c = new ArrayRealVector(new double[] {1.23, -1.434343434343, 1.63});
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; -1" + getDecimalCharacter() +
-            "43; 1" + getDecimalCharacter() +
+            "4343434343; 1" + getDecimalCharacter() +
             "63}";
         String actual = realVectorFormat.format(c);
         Assert.assertEquals(expected, actual);
@@ -100,12 +100,12 @@ public abstract class RealVectorFormatAbstractTest {
 
     @Test
     public void testNegativeZ() {
-        ArrayRealVector c = new ArrayRealVector(new double[] {1.2323, 1.4343, -1.6333});
+        ArrayRealVector c = new ArrayRealVector(new double[] {1.23, 1.43, -1.633333333333});
         String expected =
             "{1"    + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
             "43; -1" + getDecimalCharacter() +
-            "63}";
+            "6333333333}";
         String actual = realVectorFormat.format(c);
         Assert.assertEquals(expected, actual);
     }
@@ -123,12 +123,12 @@ public abstract class RealVectorFormatAbstractTest {
         Locale defaultLocal = Locale.getDefault();
         Locale.setDefault(getLocale());
 
-        ArrayRealVector c = new ArrayRealVector(new double[] {232.222, -342.33, 432.444});
+        ArrayRealVector c = new ArrayRealVector(new double[] {232.22222222222, -342.3333333333, 432.44444444444});
         String expected =
             "{232"    + getDecimalCharacter() +
-            "22; -342" + getDecimalCharacter() +
-            "33; 432" + getDecimalCharacter() +
-            "44}";
+            "2222222222; -342" + getDecimalCharacter() +
+            "3333333333; 432" + getDecimalCharacter() +
+            "4444444444}";
         String actual = (new RealVectorFormat()).format(c);
         Assert.assertEquals(expected, actual);
 
