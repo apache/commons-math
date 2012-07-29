@@ -89,8 +89,8 @@ public class LUDecomposition {
                                                matrix.getColumnDimension());
         }
 
+        final int m = matrix.getColumnDimension();
         lu = matrix.getData();
-        final int m = lu.length;
         pivot = new int[m];
         cachedL = null;
         cachedU = null;
@@ -105,20 +105,15 @@ public class LUDecomposition {
 
         // Loop over columns
         for (int col = 0; col < m; col++) {
-            final double[] luColumnCol = new double[m];
-            for (int i = 0; i < m; i++) {
-                luColumnCol[i] = lu[i][col];
-            }
 
             // upper
             for (int row = 0; row < col; row++) {
                 final double[] luRow = lu[row];
                 double sum = luRow[col];
                 for (int i = 0; i < row; i++) {
-                    sum -= luRow[i] * luColumnCol[i];
+                    sum -= luRow[i] * lu[i][col];
                 }
                 luRow[col] = sum;
-                luColumnCol[row] = sum;
             }
 
             // lower
@@ -128,10 +123,9 @@ public class LUDecomposition {
                 final double[] luRow = lu[row];
                 double sum = luRow[col];
                 for (int i = 0; i < col; i++) {
-                    sum -= luRow[i] * luColumnCol[i];
+                    sum -= luRow[i] * lu[i][col];
                 }
                 luRow[col] = sum;
-                luColumnCol[row] = sum;
 
                 // maintain best permutation choice
                 if (FastMath.abs(sum) > largest) {
@@ -141,21 +135,22 @@ public class LUDecomposition {
             }
 
             // Singularity check
-            if (FastMath.abs(luColumnCol[max]) < singularityThreshold) {
+            if (FastMath.abs(lu[max][col]) < singularityThreshold) {
                 singular = true;
                 return;
             }
 
             // Pivot if necessary
             if (max != col) {
+                double tmp = 0;
                 final double[] luMax = lu[max];
                 final double[] luCol = lu[col];
                 for (int i = 0; i < m; i++) {
-                    final double tmp = luMax[i];
+                    tmp = luMax[i];
                     luMax[i] = luCol[i];
                     luCol[i] = tmp;
                 }
-                final int temp = pivot[max];
+                int temp = pivot[max];
                 pivot[max] = pivot[col];
                 pivot[col] = temp;
                 even = !even;
