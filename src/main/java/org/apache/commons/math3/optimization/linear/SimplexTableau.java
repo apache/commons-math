@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.MatrixUtils;
@@ -333,7 +334,7 @@ class SimplexTableau implements Serializable {
             return;
         }
 
-        List<Integer> columnsToDrop = new ArrayList<Integer>();
+        Set<Integer> columnsToDrop = new TreeSet<Integer>();
         columnsToDrop.add(0);
 
         // positive cost non-artificial variables
@@ -346,24 +347,26 @@ class SimplexTableau implements Serializable {
 
         // non-basic artificial variables
         for (int i = 0; i < getNumArtificialVariables(); i++) {
-          int col = i + getArtificialVariableOffset();
-          if (getBasicRow(col) == null) {
-            columnsToDrop.add(col);
-          }
+            int col = i + getArtificialVariableOffset();
+            if (getBasicRow(col) == null) {
+                columnsToDrop.add(col);
+            }
         }
 
         double[][] matrix = new double[getHeight() - 1][getWidth() - columnsToDrop.size()];
         for (int i = 1; i < getHeight(); i++) {
-          int col = 0;
-          for (int j = 0; j < getWidth(); j++) {
-            if (!columnsToDrop.contains(j)) {
-              matrix[i - 1][col++] = tableau.getEntry(i, j);
+            int col = 0;
+            for (int j = 0; j < getWidth(); j++) {
+                if (!columnsToDrop.contains(j)) {
+                    matrix[i - 1][col++] = tableau.getEntry(i, j);
+                }
             }
-          }
         }
 
-        for (int i = columnsToDrop.size() - 1; i >= 0; i--) {
-          columnLabels.remove((int) columnsToDrop.get(i));
+        // remove the columns in reverse order so the indices are correct
+        Integer[] drop = columnsToDrop.toArray(new Integer[columnsToDrop.size()]);
+        for (int i = drop.length - 1; i >= 0; i--) {
+            columnLabels.remove((int) drop[i]);
         }
 
         this.tableau = new Array2DRowRealMatrix(matrix);
