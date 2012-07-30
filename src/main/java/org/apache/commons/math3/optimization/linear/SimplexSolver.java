@@ -116,12 +116,14 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             // there's a degeneracy as indicated by a tie in the minimum ratio test
 
             // 1. check if there's an artificial variable that can be forced out of the basis
-            for (Integer row : minRatioPositions) {
-                for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
-                    int column = i + tableau.getArtificialVariableOffset();
-                    final double entry = tableau.getEntry(row, column);
-                    if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
-                        return row;
+            if (tableau.getNumArtificialVariables() > 0) {
+                for (Integer row : minRatioPositions) {
+                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+                        int column = i + tableau.getArtificialVariableOffset();
+                        final double entry = tableau.getEntry(row, column);
+                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+                            return row;
+                        }
                     }
                 }
             }
@@ -131,20 +133,26 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             //
             // see http://www.stanford.edu/class/msande310/blandrule.pdf
             // see http://en.wikipedia.org/wiki/Bland%27s_rule (not equivalent to the above paper)
-            Integer minRow = null;
-            int minIndex = tableau.getWidth();
-            for (Integer row : minRatioPositions) {
-                for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1 && minRow != row; i++) {
-                    if (row == tableau.getBasicRow(i)) {
-                        if (i < minIndex) {
-                            minIndex = i;
-                            minRow = row;
+            //
+            // Additional heuristic: if we did not get a solution after half of maxIterations
+            //                       revert to the simple case of just returning the top-most row
+            // This heuristic is based on empirical data gathered while investigating MATH-828.
+            if (getIterations() < getMaxIterations() / 2) {
+                Integer minRow = null;
+                int minIndex = tableau.getWidth();
+                for (Integer row : minRatioPositions) {
+                    int i = tableau.getNumObjectiveFunctions();
+                    for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                        if (row == tableau.getBasicRow(i)) {
+                            if (i < minIndex) {
+                                minIndex = i;
+                                minRow = row;
+                            }
                         }
                     }
                 }
+                return minRow;
             }
-
-            return minRow;
         }
         return minRatioPositions.get(0);
     }
