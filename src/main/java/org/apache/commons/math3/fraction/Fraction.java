@@ -178,7 +178,7 @@ public class Fraction
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
         long a0 = (long)FastMath.floor(r0);
-        if (a0 > overflow) {
+        if (FastMath.abs(a0) > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 
@@ -206,7 +206,7 @@ public class Fraction
             long a1 = (long)FastMath.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
-            if ((p2 > overflow) || (q2 > overflow)) {
+            if ((FastMath.abs(p2) > overflow) || (FastMath.abs(q2) > overflow)) {
                 throw new FractionConversionException(value, p2, q2);
             }
 

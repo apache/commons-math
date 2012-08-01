@@ -60,6 +60,7 @@ public class FractionTest {
         } catch (MathArithmeticException ex) {
             // success
         }
+
         assertFraction(0, 1, new Fraction(0.00000000000001));
         assertFraction(2, 5, new Fraction(0.40000000000001));
         assertFraction(15, 1, new Fraction(15.0000000000001));
@@ -134,6 +135,8 @@ public class FractionTest {
     public void testIntegerOverflow() {
         checkIntegerOverflow(0.75000000001455192);
         checkIntegerOverflow(1.0e10);
+        checkIntegerOverflow(-1.0e10);
+        checkIntegerOverflow(-43979.60679604749);
     }
 
     private void checkIntegerOverflow(double a) {
