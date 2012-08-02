@@ -18,28 +18,26 @@
 package org.apache.commons.math3.optimization.general;
 
 import java.awt.geom.Point2D;
-import org.apache.commons.math3.random.RandomData;
-import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well44497b;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
 /**
  * Factory for generating a cloud of points that approximate a circle.
  */
 public class RandomCirclePointGenerator {
-    /** RNG. */
-    private final RandomData random;
+    /** RNG for the x-coordinate of the center. */
+    private final RealDistribution cX;
+    /** RNG for the y-coordinate of the center. */
+    private final RealDistribution cY;
+    /** RNG for the parametric position of the point. */
+    private final RealDistribution tP;
     /** Radius of the circle. */
     private final double radius;
-    /** x-coordinate of the circle center. */
-    private final double x;
-    /** y-coordinate of the circle center. */
-    private final double y;
-    /** Error on the x-coordinate of the center. */
-    private final double xSigma;
-    /** Error on the y-coordinate of the center. */
-    private final double ySigma;
 
     /**
      * @param x Abscissa of the circle center.
@@ -55,12 +53,14 @@ public class RandomCirclePointGenerator {
                                       double xSigma,
                                       double ySigma,
                                       long seed) {
-        random = new RandomDataImpl(new Well44497b((seed)));
+        final RandomGenerator rng = new Well44497b(seed);
         this.radius = radius;
-        this.x = x;
-        this.y = y;
-        this.xSigma = xSigma;
-        this.ySigma = ySigma;
+        cX = new NormalDistribution(rng, x, xSigma,
+                                    NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        cY = new NormalDistribution(rng, y, ySigma,
+                                    NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        tP = new UniformRealDistribution(rng, 0, MathUtils.TWO_PI,
+                                         UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -83,12 +83,9 @@ public class RandomCirclePointGenerator {
      * @return a point.
      */
     private Point2D.Double create() {
-        final double cX = random.nextGaussian(x, xSigma);
-        final double cY = random.nextGaussian(y, ySigma);
-        final double t = random.nextUniform(0, MathUtils.TWO_PI);
-
-        final double pX = cX + radius * FastMath.cos(t);
-        final double pY = cY + radius * FastMath.sin(t);
+        final double t = tP.sample();
+        final double pX = cX.sample() + radius * FastMath.cos(t);
+        final double pY = cY.sample() + radius * FastMath.sin(t);
 
         return new Point2D.Double(pX, pY);
     }

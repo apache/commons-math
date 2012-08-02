@@ -22,8 +22,10 @@ import java.util.Collection;
 
 
 import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.random.RandomData;
-import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
+import org.apache.commons.math3.distribution.IntegerDistribution;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -246,12 +248,10 @@ public class AggregateSummaryStatisticsTest {
      * @return array of random double values
      */
     private double[] generateSample() {
-        final RandomData randomData = new RandomDataImpl();
-        final int sampleSize = randomData.nextInt(10,100);
-        double[] out = new double[sampleSize];
-        for (int i = 0; i < out.length; i++) {
-            out[i] = randomData.nextUniform(-100, 100);
-        }
+        final IntegerDistribution size = new UniformIntegerDistribution(10, 100);
+        final RealDistribution randomData = new UniformRealDistribution(-100, 100);
+        final int sampleSize = size.sample();
+        final double[] out = randomData.sample(sampleSize);
         return out;
     }
 
@@ -265,7 +265,6 @@ public class AggregateSummaryStatisticsTest {
     private double[][] generatePartition(double[] sample) {
         final int length = sample.length;
         final double[][] out = new double[5][];
-        final RandomData randomData = new RandomDataImpl();
         int cur = 0;
         int offset = 0;
         int sampleCount = 0;
@@ -273,7 +272,8 @@ public class AggregateSummaryStatisticsTest {
             if (cur == length || offset == length) {
                 break;
             }
-            final int next = (i == 4 || cur == length - 1) ? length - 1 : randomData.nextInt(cur, length - 1);
+            final IntegerDistribution partitionPoint = new UniformIntegerDistribution(cur, length - 1);
+            final int next = (i == 4 || cur == length - 1) ? length - 1 : partitionPoint.sample();
             final int subLength = next - cur + 1;
             out[i] = new double[subLength];
             System.arraycopy(sample, offset, out[i], 0, subLength);

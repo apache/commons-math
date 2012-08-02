@@ -18,6 +18,8 @@ import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -80,7 +82,8 @@ public final class MathUtilsTest {
 
         // Generate 10 distinct random values
         for (int i = 0; i < 10; i++) {
-            original[i] = random.nextUniform(i + 0.5, i + 0.75);
+            final RealDistribution u = new UniformRealDistribution(i + 0.5, i + 0.75);
+            original[i] = u.sample();
         }
 
         // Generate a random permutation, making sure it is not the identity

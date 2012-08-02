@@ -21,8 +21,10 @@ import java.util.List;
 
 
 import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.random.RandomData;
-import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.distribution.IntegerDistribution;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -179,21 +181,22 @@ public abstract class UnivariateStatisticAbstractTest {
         final double sigma = 5;    // std dev of test data
         double[] values = new double[len];
         double[] weights = new double[len];
-        RandomData randomData = new RandomDataImpl();
 
         // Fill weights array with random int values between 1 and 5
         int[] intWeights = new int[len];
+        final IntegerDistribution weightDist = new UniformIntegerDistribution(1, 5);
         for (int i = 0; i < len; i++) {
-            intWeights[i] = randomData.nextInt(1, 5);
+            intWeights[i] = weightDist.sample();
             weights[i] = intWeights[i];
         }
 
         // Fill values array with random data from N(mu, sigma)
         // and fill valuesList with values from values array with
         // values[i] repeated weights[i] times, each i
+        final RealDistribution valueDist = new NormalDistribution(mu, sigma);
         List<Double> valuesList = new ArrayList<Double>();
         for (int i = 0; i < len; i++) {
-            double value = randomData.nextGaussian(mu, sigma);
+            double value = valueDist.sample();
             values[i] = value;
             for (int j = 0; j < intWeights[i]; j++) {
                 valuesList.add(new Double(value));

@@ -18,33 +18,31 @@
 package org.apache.commons.math3.optimization.general;
 
 import java.awt.geom.Point2D;
-import org.apache.commons.math3.random.RandomData;
-import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well44497b;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
 /**
  * Factory for generating a cloud of points that approximate a straight line.
  */
 public class RandomStraightLinePointGenerator {
-    /** RNG. */
-    private final RandomData random;
     /** Slope. */
     private final double slope;
     /** Intercept. */
     private final double intercept;
-    /** Error on the y-coordinate. */
-    private final double sigma;
-    /** Lowest value of the x-coordinate. */
-    private final double lo;
-    /** Highest value of the x-coordinate. */
-    private final double hi;
+    /** RNG for the x-coordinate. */
+    private final RealDistribution x;
+    /** RNG for the error on the y-coordinate. */
+    private final RealDistribution error;
 
     /**
      * The generator will create a cloud of points whose x-coordinates
      * will be randomly sampled between {@code xLo} and {@code xHi}, and
-     * the correspoding y-coordinates will be computed as
+     * the corresponding y-coordinates will be computed as
      * <pre><code>
      *  y = a x + b + N(0, error)
      * </code></pre>
@@ -53,23 +51,24 @@ public class RandomStraightLinePointGenerator {
      *
      * @param a Slope.
      * @param b Intercept.
-     * @param error Error on the y-coordinate of the point.
-     * @param xLo Lowest value of the x-coordinate.
-     * @param xHi Highest value of the x-coordinate.
+     * @param sigma Standard deviation on the y-coordinate of the point.
+     * @param lo Lowest value of the x-coordinate.
+     * @param hi Highest value of the x-coordinate.
      * @param seed RNG seed.
      */
     public RandomStraightLinePointGenerator(double a,
                                             double b,
-                                            double error,
-                                            double xLo,
-                                            double xHi,
+                                            double sigma,
+                                            double lo,
+                                            double hi,
                                             long seed) {
-        random = new RandomDataImpl(new Well44497b((seed)));
+        final RandomGenerator rng = new Well44497b(seed);
         slope = a;
         intercept = b;
-        sigma = error;
-        lo = xLo;
-        hi = xHi;
+        error = new NormalDistribution(rng, 0, sigma,
+                                       NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        x = new UniformRealDistribution(rng, lo, hi,
+                                        UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
     /**
@@ -92,10 +91,10 @@ public class RandomStraightLinePointGenerator {
      * @return a point.
      */
     private Point2D.Double create() {
-        final double x = random.nextUniform(lo, hi);
-        final double yModel = slope * x + intercept;
-        final double y = yModel + random.nextGaussian(0, sigma);
+        final double abscissa = x.sample();
+        final double yModel = slope * abscissa + intercept;
+        final double ordinate = yModel + error.sample();
 
-        return new Point2D.Double(x, y);
+        return new Point2D.Double(abscissa, ordinate);
     }
 }

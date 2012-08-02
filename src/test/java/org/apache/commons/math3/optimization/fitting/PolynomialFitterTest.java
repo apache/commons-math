@@ -27,7 +27,8 @@ import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
 import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.random.RandomDataImpl;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.TestUtils;
 
 import org.junit.Test;
@@ -40,8 +41,8 @@ import org.junit.Assert;
 public class PolynomialFitterTest {
     @Test
     public void testFit() {
-        final RandomDataImpl rng = new RandomDataImpl();
-        rng.reSeed(64925784252L);
+        final RealDistribution rng = new UniformRealDistribution(-100, 100);
+        rng.reseedRandomGenerator(64925784252L);
 
         final LevenbergMarquardtOptimizer optim = new LevenbergMarquardtOptimizer();
         final PolynomialFitter fitter = new PolynomialFitter(optim);
@@ -50,7 +51,7 @@ public class PolynomialFitterTest {
 
         // Collect data from a known polynomial.
         for (int i = 0; i < 100; i++) {
-            final double x = rng.nextUniform(-100, 100);
+            final double x = rng.sample();
             fitter.addObservedPoint(x, f.value(x));
         }
 

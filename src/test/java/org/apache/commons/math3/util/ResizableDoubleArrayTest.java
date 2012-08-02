@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 package org.apache.commons.math3.util;
-import org.apache.commons.math3.random.RandomDataImpl;
-import org.apache.commons.math3.random.RandomData;
+
+import org.apache.commons.math3.distribution.IntegerDistribution;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -313,8 +315,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray eDA2 = new ResizableDoubleArray(2);
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA2.getNumElements());
 
-        RandomData randomData = new RandomDataImpl();
-        int iterations = randomData.nextInt(100, 1000);
+        final IntegerDistribution randomData = new UniformIntegerDistribution(100, 1000);
+        final int iterations = randomData.sample();
 
         for( int i = 0; i < iterations; i++) {
             eDA2.addElement( i );
@@ -334,8 +336,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         ResizableDoubleArray eDA3 = new ResizableDoubleArray(3, 3.0f, 3.5f);
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
-        RandomData randomData = new RandomDataImpl();
-        int iterations = randomData.nextInt(100, 3000);
+        final IntegerDistribution randomData = new UniformIntegerDistribution(100, 3000);
+        final int iterations = randomData.sample();
 
         for( int i = 0; i < iterations; i++) {
             eDA3.addElement( i );
