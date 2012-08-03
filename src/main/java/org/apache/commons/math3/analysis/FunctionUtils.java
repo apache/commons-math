@@ -35,7 +35,7 @@ public class FunctionUtils {
     private FunctionUtils() {}
 
     /**
-     * Composew functions.
+     * Composes functions.
      * <br/>
      * The functions in the argument list are composed sequentially, in the
      * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
