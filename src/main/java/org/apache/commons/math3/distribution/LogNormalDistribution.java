@@ -158,17 +158,6 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
-     */
-    public double probability(double x) {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * For scale {@code m}, and shape {@code s} of this distribution, the PDF
      * is given by
      * <ul>

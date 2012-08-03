@@ -130,17 +130,6 @@ public class NormalDistribution extends AbstractRealDistribution {
         return standardDeviation;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return zero.
-     */
-    public double probability(double x) {
-        return 0;
-    }
-
     /** {@inheritDoc} */
     public double density(double x) {
         final double x0 = x - mean;

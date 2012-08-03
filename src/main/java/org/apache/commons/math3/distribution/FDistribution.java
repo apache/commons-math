@@ -123,17 +123,6 @@ public class FDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
-     */
-    public double probability(double x) {
-        return 0.0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * @since 2.1
      */
     public double density(double x) {

@@ -129,17 +129,6 @@ public class TriangularDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
-     */
-    public double probability(double x) {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * For lower limit {@code a}, upper limit {@code b} and mode {@code c}, the
      * PDF is given by
      * <ul>

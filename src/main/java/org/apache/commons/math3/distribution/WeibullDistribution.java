@@ -142,17 +142,6 @@ public class WeibullDistribution extends AbstractRealDistribution {
         return scale;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
-     */
-    public double probability(double x) {
-        return 0.0;
-    }
-
     /** {@inheritDoc} */
     public double density(double x) {
         if (x < 0) {

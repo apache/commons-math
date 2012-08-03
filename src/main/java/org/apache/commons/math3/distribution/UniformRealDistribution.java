@@ -104,17 +104,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return 0
-     */
-    public double probability(double x) {
-        return 0.0;
-    }
-
     /** {@inheritDoc} */
     public double density(double x) {
         if (x < lower || x > upper) {

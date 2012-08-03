@@ -244,5 +244,14 @@ implements RealDistribution, Serializable {
         }
         return out;
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return zero.
+     */
+    public double probability(double x) {
+        return 0d;
+    }
 }
 

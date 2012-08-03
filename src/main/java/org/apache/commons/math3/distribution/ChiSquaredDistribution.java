@@ -92,17 +92,6 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
         return gamma.getAlpha() * 2.0;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * For this distribution {@code P(X = x)} always evaluates to 0.
-     *
-     * @return zero.
-     */
-    public double probability(double x) {
-        return 0;
-    }
-
     /** {@inheritDoc} */
     public double density(double x) {
         return gamma.density(x);
