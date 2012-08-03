@@ -35,9 +35,10 @@ public class FunctionUtils {
     private FunctionUtils() {}
 
     /**
-     * Compose functions.  The functions in the argument list are composed
-     * sequentially, in the order given.  For example, compose(f1,f2,f3)
-     * acts like f1(f2(f3(x))).
+     * Composew functions.
+     * <br/>
+     * The functions in the argument list are composed sequentially, in the
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
      *
      * @param f List of functions.
      * @return the composite function.
@@ -56,9 +57,10 @@ public class FunctionUtils {
     }
 
     /**
-     * Compose functions.  The functions in the argument list are composed
-     * sequentially, in the order given.  For example, compose(f1,f2,f3)
-     * acts like f1(f2(f3(x))).
+     * Composes functions.
+     * <br/>
+     * The functions in the argument list are composed sequentially, in the
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
      *
      * @param f List of functions.
      * @return the composite function.
@@ -93,7 +95,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Add functions.
+     * Adds functions.
      *
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
@@ -112,7 +114,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Add functions.
+     * Adds functions.
      *
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
@@ -145,7 +147,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Multiply functions.
+     * Multiplies functions.
      *
      * @param f List of functions.
      * @return a function that computes the product of the functions.
@@ -164,7 +166,7 @@ public class FunctionUtils {
     }
 
     /**
-     * Multiply functions.
+     * Multiplies functions.
      *
      * @param f List of functions.
      * @return a function that computes the product of the functions.
@@ -212,8 +214,8 @@ public class FunctionUtils {
      * @return the composite function.
      */
     public static UnivariateFunction combine(final BivariateFunction combiner,
-                                                 final UnivariateFunction f,
-                                                 final UnivariateFunction g) {
+                                             final UnivariateFunction f,
+                                             final UnivariateFunction g) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
@@ -233,8 +235,8 @@ public class FunctionUtils {
      * @return a collector function.
      */
     public static MultivariateFunction collector(final BivariateFunction combiner,
-                                                     final UnivariateFunction f,
-                                                     final double initialValue) {
+                                                 final UnivariateFunction f,
+                                                 final double initialValue) {
         return new MultivariateFunction() {
             /** {@inheritDoc} */
             public double value(double[] point) {
@@ -257,19 +259,19 @@ public class FunctionUtils {
      * @return a collector function.
      */
     public static MultivariateFunction collector(final BivariateFunction combiner,
-                                                     final double initialValue) {
+                                                 final double initialValue) {
         return collector(combiner, new Identity(), initialValue);
     }
 
     /**
-     * Create a unary function by fixing the first argument of a binary function.
+     * Creates a unary function by fixing the first argument of a binary function.
      *
      * @param f Binary function.
      * @param fixed Value to which the first argument of {@code f} is set.
      * @return the unary function h(x) = f(fixed, x)
      */
     public static UnivariateFunction fix1stArgument(final BivariateFunction f,
-                                                        final double fixed) {
+                                                    final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
@@ -278,14 +280,14 @@ public class FunctionUtils {
         };
     }
     /**
-     * Create a unary function by fixing the second argument of a binary function.
+     * Creates a unary function by fixing the second argument of a binary function.
      *
      * @param f Binary function.
      * @param fixed Value to which the second argument of {@code f} is set.
      * @return the unary function h(x) = f(x, fixed)
      */
     public static UnivariateFunction fix2ndArgument(final BivariateFunction f,
-                                                        final double fixed) {
+                                                    final double fixed) {
         return new UnivariateFunction() {
             /** {@inheritDoc} */
             public double value(double x) {
@@ -295,24 +297,21 @@ public class FunctionUtils {
     }
 
     /**
-     * <p>
      * Samples the specified univariate real function on the specified interval.
-     * </p>
-     * <p>
+     * <br/>
      * The interval is divided equally into {@code n} sections and sample points
      * are taken from {@code min} to {@code max - (max - min) / n}; therefore
      * {@code f} is not sampled at the upper bound {@code max}.
-     * </p>
      *
-     * @param f the function to be sampled
-     * @param min the (inclusive) lower bound of the interval
-     * @param max the (exclusive) upper bound of the interval
-     * @param n the number of sample points
-     * @return the array of samples
+     * @param f Function to be sampled
+     * @param min Lower bound of the interval (included).
+     * @param max Upper bound of the interval (excluded).
+     * @param n Number of sample points.
+     * @return the array of samples.
      * @throws NumberIsTooLargeException if the lower bound {@code min} is
-     * greater than, or equal to the upper bound {@code max}
+     * greater than, or equal to the upper bound {@code max}.
      * @throws NotStrictlyPositiveException if the number of sample points
-     * {@code n} is negative
+     * {@code n} is negative.
      */
     public static double[] sample(UnivariateFunction f,
                                   double min, double max, int n) {
