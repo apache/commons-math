@@ -1145,7 +1145,7 @@ public class FastMath {
             /* Normalize the subnormal number. */
             bits <<= 1;
             while ( (bits & 0x0010000000000000L) == 0) {
-                exp--;
+                --exp;
                 bits <<= 1;
             }
         }
@@ -1165,8 +1165,9 @@ public class FastMath {
                 xa = aa;
                 xb = ab;
 
-                double ya = LN_QUICK_COEF[LN_QUICK_COEF.length-1][0];
-                double yb = LN_QUICK_COEF[LN_QUICK_COEF.length-1][1];
+                final double[] lnCoef_last = LN_QUICK_COEF[LN_QUICK_COEF.length - 1];
+                double ya = lnCoef_last[0];
+                double yb = lnCoef_last[1];
 
                 for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {
                     /* Multiply a = y * x */
@@ -1178,8 +1179,9 @@ public class FastMath {
                     yb = aa - ya + ab;
 
                     /* Add  a = y + lnQuickCoef */
-                    aa = ya + LN_QUICK_COEF[i][0];
-                    ab = yb + LN_QUICK_COEF[i][1];
+                    final double[] lnCoef_i = LN_QUICK_COEF[i];
+                    aa = ya + lnCoef_i[0];
+                    ab = yb + lnCoef_i[1];
                     /* Split y = a */
                     tmp = aa * HEX_40000000;
                     ya = aa + tmp - tmp;
@@ -1199,7 +1201,7 @@ public class FastMath {
         }
 
         // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)
-        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
+        final double[] lnm = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
 
         /*
     double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);
@@ -1210,7 +1212,7 @@ public class FastMath {
         // y is the most significant 10 bits of the mantissa
         //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);
         //double epsilon = (x - y) / y;
-        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
+        final double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
 
         double lnza = 0.0;
         double lnzb = 0.0;
@@ -1224,14 +1226,15 @@ public class FastMath {
             double xb = ab;
 
             /* Need a more accurate epsilon, so adjust the division. */
-            double numer = bits & 0x3ffffffffffL;
-            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
+            final double numer = bits & 0x3ffffffffffL;
+            final double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
             aa = numer - xa*denom - xb * denom;
             xb += aa / denom;
 
             /* Remez polynomial evaluation */
-            double ya = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][0];
-            double yb = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][1];
+            final double[] lnCoef_last = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1];
+            double ya = lnCoef_last[0];
+            double yb = lnCoef_last[1];
 
             for (int i = LN_HI_PREC_COEF.length - 2; i >= 0; i--) {
                 /* Multiply a = y * x */
@@ -1243,8 +1246,9 @@ public class FastMath {
                 yb = aa - ya + ab;
 
                 /* Add  a = y + lnHiPrecCoef */
-                aa = ya + LN_HI_PREC_COEF[i][0];
-                ab = yb + LN_HI_PREC_COEF[i][1];
+                final double[] lnCoef_i = LN_HI_PREC_COEF[i];
+                aa = ya + lnCoef_i[0];
+                ab = yb + lnCoef_i[1];
                 /* Split y = a */
                 tmp = aa * HEX_40000000;
                 ya = aa + tmp - tmp;
