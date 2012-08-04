@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-836" due-to="Baste Nesse Buanes">
+        Fixed overflow detection for negative values in constructor of class "Fraction".
+      </action>
       <action dev="erans" type="fix" issue="MATH-835" due-to="Baste Nesse Buanes">
         Fixed overflow in method "percentageValue" in class "Fraction".
       </action>
