@@ -152,9 +152,21 @@ public class NormalDistribution extends AbstractRealDistribution {
         return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated See {@link RealDistribution#cumulativeProbability(double,double)}
+     */
+    @Override@Deprecated
+    public double cumulativeProbability(double x0, double x1)
+        throws NumberIsTooLargeException {
+        return probability(x0, x1);
+    }
+
     /** {@inheritDoc} */
     @Override
-    public double cumulativeProbability(double x0, double x1)
+    public double probability(double x0,
+                              double x1)
         throws NumberIsTooLargeException {
         if (x0 > x1) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
