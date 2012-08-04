@@ -73,7 +73,11 @@ public interface RealDistribution {
      * takes a value between {@code x0} and {@code x1},
      * excluding the lower and including the upper endpoint
      * @throws NumberIsTooLargeException if {@code x0 > x1}
+     *
+     * @deprecate As of 3.1. In 4.0, this method will be renamed
+     * {@code probability(double x0, double x1)}.
      */
+    @Deprecated
     double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException;
 
     /**
