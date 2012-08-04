@@ -153,6 +153,7 @@ public abstract class RealDistributionAbstractTest {
                 getTolerance());
         }
         // verify cumulativeProbability(double, double)
+        // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             for (int j = 0; j < cumulativeTestPoints.length; j++) {
                 if (cumulativeTestPoints[i] <= cumulativeTestPoints[j]) {
@@ -233,6 +234,7 @@ public abstract class RealDistributionAbstractTest {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
 
             // check that cdf(x, x) = 0
+            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
             TestUtils.assertEquals(0d,
                distribution.cumulativeProbability
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
@@ -242,6 +244,7 @@ public abstract class RealDistributionAbstractTest {
             double lower = FastMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) -
                 distribution.cumulativeProbability(lower);
+            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
             double direct = distribution.cumulativeProbability(lower, upper);
             TestUtils.assertEquals("Inconsistent cumulative probabilities for ("
                     + lower + "," + upper + ")", diff, direct, tolerance);
@@ -254,6 +257,7 @@ public abstract class RealDistributionAbstractTest {
     @Test
     public void testIllegalArguments() {
         try {
+            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
             distribution.cumulativeProbability(1, 0);
             Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
         } catch (MathIllegalArgumentException ex) {
