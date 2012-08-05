@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="add" issue="MATH-777" due-to="Reid Hochstedler">
+        Added additional crossover policies: "CycleCrossover", "NPointCrossover",
+        "OrderedCrossover" and "UniformCrossover".
+      </action>
       <action dev="tn" type="fix" issue="MATH-828">
         Improved numerical stability of "SimplexSolver" by introducing Bland's rule
         to prevent cycling and a cutoff threshold to zero out very small values.
