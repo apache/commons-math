@@ -265,15 +265,19 @@ public class AggregateSummaryStatisticsTest {
     private double[][] generatePartition(double[] sample) {
         final int length = sample.length;
         final double[][] out = new double[5][];
-        int cur = 0;
-        int offset = 0;
-        int sampleCount = 0;
+        int cur = 0;          // beginning of current partition segment
+        int offset = 0;       // end of current partition segment
+        int sampleCount = 0;  // number of segments defined 
         for (int i = 0; i < 5; i++) {
             if (cur == length || offset == length) {
                 break;
             }
-            final IntegerDistribution partitionPoint = new UniformIntegerDistribution(cur, length - 1);
-            final int next = (i == 4 || cur == length - 1) ? length - 1 : partitionPoint.sample();
+            final int next;
+            if (i == 4 || cur == length - 1) {
+                next = length - 1;
+            } else {
+                next = (new UniformIntegerDistribution(cur, length - 1)).sample();
+            }
             final int subLength = next - cur + 1;
             out[i] = new double[subLength];
             System.arraycopy(sample, offset, out[i], 0, subLength);
