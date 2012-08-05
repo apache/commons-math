@@ -43,6 +43,9 @@ import org.apache.commons.math3.util.Precision;
  * @since 3.1
  */
 class SchurTransformer {
+    /** Maximum allowed iterations for convergence of the transformation. */
+    private static final int MAX_ITERATIONS = 100;
+
     /** P matrix. */
     private final double matrixP[][];
     /** T matrix. */
@@ -53,9 +56,6 @@ class SchurTransformer {
     private RealMatrix cachedT;
     /** Cached value of PT. */
     private RealMatrix cachedPt;
-
-    /** Maximum allowed iterations for convergence of the transformation. */
-    private final int maxIterations = 100;
 
     /** Epsilon criteria taken from JAMA code (originally was 2^-52). */
     private final double epsilon = Precision.EPSILON;
@@ -205,9 +205,9 @@ class SchurTransformer {
                 computeShift(l, idx, iteration, shift);
 
                 // stop transformation after too many iterations
-                if (++iteration > maxIterations) {
+                if (++iteration > MAX_ITERATIONS) {
                     throw new MaxCountExceededException(LocalizedFormats.CONVERGENCE_FAILED,
-                                                        maxIterations);
+                                                        MAX_ITERATIONS);
                 }
 
                 // Look for two consecutive small sub-diagonal elements
@@ -370,7 +370,7 @@ class SchurTransformer {
                 break;
             }
             double s = FastMath.sqrt(p * p + q * q + r * r);
-            if (Precision.compareTo(p, 0.0, epsilon) < 0) {
+            if (p < 0.0) {
                 s = -s;
             }
             if (!Precision.equals(s, 0.0, epsilon)) {
