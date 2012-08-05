@@ -209,19 +209,19 @@ public class FastMathTestPerformance {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += StrictMath.asin(i / 10000000.0);
+            x += StrictMath.asin(i / (double) RUNS);
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += FastMath.asin(i / 10000000.0);
+            x += FastMath.asin(i / (double) RUNS);
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += Math.asin(i / 10000000.0);
+            x += Math.asin(i / (double) RUNS);
         long mathTime = System.nanoTime() - time;
 
         report("asin",strictTime,fastTime,mathTime);
@@ -257,19 +257,19 @@ public class FastMathTestPerformance {
         double x = 0;
         long time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += StrictMath.acos(i / 10000000.0);
+            x += StrictMath.acos(i / (double) RUNS);
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += FastMath.acos(i / 10000000.0);
+            x += FastMath.acos(i / (double) RUNS);
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
         for (int i = 0; i < RUNS; i++)
-            x += Math.acos(i / 10000000.0);
+            x += Math.acos(i / (double) RUNS);
         long mathTime = System.nanoTime() - time;
         report("acos",strictTime,fastTime,mathTime);
         Assert.assertTrue(!Double.isNaN(x));
