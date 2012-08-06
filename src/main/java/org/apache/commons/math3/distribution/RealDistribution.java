@@ -74,7 +74,7 @@ public interface RealDistribution {
      * excluding the lower and including the upper endpoint
      * @throws NumberIsTooLargeException if {@code x0 > x1}
      *
-     * @deprecate As of 3.1. In 4.0, this method will be renamed
+     * @deprecated As of 3.1. In 4.0, this method will be renamed
      * {@code probability(double x0, double x1)}.
      */
     @Deprecated
