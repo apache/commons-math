@@ -40,7 +40,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * This policy works only on {@link AbstractListChromosome}, and therefore it
  * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
- * @see <a href="http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/CycleCrossoverOperator.aspx"
+ * @see <a href="http://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/CycleCrossoverOperator.aspx">
  * Cycle Crossover Operator</a>
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
