@@ -445,6 +445,8 @@ public class NaturalRanking implements RankingAlgorithm {
             return Double.compare(value, other.value);
         }
 
+        // N.B. equals() and hashCode() are not implemented; see MATH-610 for discussion.
+
         /**
          * Returns the value of the pair.
          * @return value
