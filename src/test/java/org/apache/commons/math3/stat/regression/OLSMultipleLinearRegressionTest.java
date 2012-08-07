@@ -371,7 +371,6 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     /**
      * Test hat matrix computation
      *
-     * @throws Exception
      */
     @Test
     public void testHat() {

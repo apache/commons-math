@@ -130,7 +130,6 @@ public class AggregateSummaryStatisticsTest {
      * of per-partition SummaryStatistics with a single SummaryStatistics computed
      * over the full sample.
      *
-     * @throws Exception
      */
     @Test
     public void testAggregate() {

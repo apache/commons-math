@@ -126,7 +126,6 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 
     /**
      * Test the degenerate cases of a 0.0 and 1.0 inverse cumulative probability.
-     * @throws Exception
      */
     @Test
     public void testDegenerateInverseCumulativeProbability() {
