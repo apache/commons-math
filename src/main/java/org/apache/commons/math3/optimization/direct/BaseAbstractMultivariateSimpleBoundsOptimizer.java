@@ -81,6 +81,7 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
     }
 
     /** {@inheritDoc} */
+    @Override
     public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                        double[] startPoint) {
         return optimize(maxEval, f, goalType, startPoint, null, null);
