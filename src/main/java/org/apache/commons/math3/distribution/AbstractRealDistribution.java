@@ -47,6 +47,7 @@ implements RealDistribution, Serializable {
       * @deprecated As of 3.1, to be removed in 4.0. Please use the
       * {@link #random} instance variable instead.
       */
+    @Deprecated
     protected final RandomDataImpl randomData = new RandomDataImpl();
     /** RNG instance used to generate samples from the distribution. */
     protected final RandomGenerator random;

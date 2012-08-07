@@ -34,12 +34,14 @@ public abstract class AbstractConvergenceChecker<PAIR>
      * @deprecated in 3.1 (to be removed in 4.0) because this value is too small
      * to be useful as a default (cf. MATH-798).
      */
+    @Deprecated
     private static final double DEFAULT_RELATIVE_THRESHOLD = 100 * Precision.EPSILON;
     /**
      * Default absolute threshold.
      * @deprecated in 3.1 (to be removed in 4.0) because this value is too small
      * to be useful as a default (cf. MATH-798).
      */
+    @Deprecated
     private static final double DEFAULT_ABSOLUTE_THRESHOLD = 100 * Precision.SAFE_MIN;
     /**
      * Relative tolerance threshold.

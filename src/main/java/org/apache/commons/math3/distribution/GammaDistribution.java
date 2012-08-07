@@ -156,6 +156,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @deprecated as of version 3.1, {@link #getShape()} should be preferred.
      * This method will be removed in version 4.0.
      */
+    @Deprecated
     public double getAlpha() {
         return shape;
     }
@@ -176,6 +177,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @deprecated as of version 3.1, {@link #getScale()} should be preferred.
      * This method will be removed in version 4.0.
      */
+    @Deprecated
     public double getBeta() {
         return scale;
     }
