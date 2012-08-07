@@ -98,6 +98,7 @@ public class AbstractRealDistributionTest {
                 return true;
             }
 
+            @Override
             public double probability(final double x) {
                 throw new UnsupportedOperationException();
             }
@@ -196,6 +197,7 @@ public class AbstractRealDistributionTest {
                 return true;
             }
 
+            @Override
             public double probability(final double x) {
                 throw new UnsupportedOperationException();
             }

@@ -82,6 +82,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
      */
     public double[] fit(double[] initialGuess) {
         final Gaussian.Parametric f = new Gaussian.Parametric() {
+                @Override
                 public double value(double x, double ... p) {
                     double v = Double.POSITIVE_INFINITY;
                     try {
@@ -92,6 +93,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                     return v;
                 }
 
+                @Override
                 public double[] gradient(double x, double ... p) {
                     double[] v = { Double.POSITIVE_INFINITY,
                                    Double.POSITIVE_INFINITY,
