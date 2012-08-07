@@ -30,8 +30,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  */
 public class Precision {
     /**
-     * Smallest positive number such that {@code 1 - EPSILON} is not
-     * numerically equal to 1.
+     * Largest double-precision floating-point number such that
+     * {@code 1 + EPSILON} is numerically equal to 1.
      * <br/>
      * In IEEE 754 arithmetic, this is 2<sup>-53</sup>.
      */

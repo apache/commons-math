@@ -488,4 +488,16 @@ public class PrecisionTest {
 
         Assert.assertTrue(nonRepresentableCount / (double) numTrials > 0.9);
     }
+
+    @Test
+    public void testMath843() {
+        final double afterEpsilon = FastMath.nextAfter(Precision.EPSILON,
+                                                       Double.POSITIVE_INFINITY);
+
+        // a) 1 + EPSILON is equal to 1.
+        Assert.assertTrue(1 + Precision.EPSILON == 1);
+
+        // b) 1 + "the number after EPSILON" is not equal to 1.
+        Assert.assertFalse(1 + afterEpsilon == 1);
+    }
 }
