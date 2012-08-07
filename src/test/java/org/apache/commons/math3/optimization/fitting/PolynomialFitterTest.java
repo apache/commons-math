@@ -20,6 +20,7 @@ package org.apache.commons.math3.optimization.fitting;
 import java.util.Random;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
@@ -154,7 +155,7 @@ public class PolynomialFitterTest {
     private double[] doMath798(DifferentiableMultivariateVectorOptimizer optimizer,
                                int maxEval,
                                double[] init) {
-        final CurveFitter fitter = new CurveFitter(optimizer);
+        final CurveFitter<Parametric> fitter = new CurveFitter<Parametric>(optimizer);
 
         fitter.addObservedPoint(-0.2, -7.12442E-13);
         fitter.addObservedPoint(-0.199, -4.33397E-13);

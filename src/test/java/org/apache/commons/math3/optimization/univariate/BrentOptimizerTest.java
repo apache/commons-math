@@ -56,7 +56,7 @@ public final class BrentOptimizerTest {
     @Test
     public void testSinMinWithValueChecker() {
         final UnivariateFunction f = new SinFunction();
-        final ConvergenceChecker checker = new SimpleUnivariateValueChecker(1e-5, 1e-14);
+        final ConvergenceChecker<UnivariatePointValuePair> checker = new SimpleUnivariateValueChecker(1e-5, 1e-14);
         // The default stopping criterion of Brent's algorithm should not
         // pass, but the search will stop at the given relative tolerance
         // for the function value.

@@ -29,7 +29,7 @@ public class CurveFitterTest {
     public void testMath303() {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        CurveFitter fitter = new CurveFitter(optimizer);
+        CurveFitter<ParametricUnivariateFunction> fitter = new CurveFitter<ParametricUnivariateFunction>(optimizer);
         fitter.addObservedPoint(2.805d, 0.6934785852953367d);
         fitter.addObservedPoint(2.74333333333333d, 0.6306772025518496d);
         fitter.addObservedPoint(1.655d, 0.9474675497289684);
@@ -52,7 +52,7 @@ public class CurveFitterTest {
     public void testMath304() {
 
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        CurveFitter fitter = new CurveFitter(optimizer);
+        CurveFitter<ParametricUnivariateFunction> fitter = new CurveFitter<ParametricUnivariateFunction>(optimizer);
         fitter.addObservedPoint(2.805d, 0.6934785852953367d);
         fitter.addObservedPoint(2.74333333333333d, 0.6306772025518496d);
         fitter.addObservedPoint(1.655d, 0.9474675497289684);
@@ -73,7 +73,7 @@ public class CurveFitterTest {
     @Test
     public void testMath372() {
         LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer();
-        CurveFitter curveFitter = new CurveFitter(optimizer);
+        CurveFitter<ParametricUnivariateFunction> curveFitter = new CurveFitter<ParametricUnivariateFunction>(optimizer);
 
         curveFitter.addObservedPoint( 15,  4443);
         curveFitter.addObservedPoint( 31,  8493);
