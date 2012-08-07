@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;

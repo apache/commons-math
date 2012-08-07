@@ -18,13 +18,8 @@
 package org.apache.commons.math3.optimization.fitting;
 
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

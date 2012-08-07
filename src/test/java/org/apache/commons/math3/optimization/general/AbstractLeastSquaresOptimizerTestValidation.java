@@ -13,7 +13,6 @@
  */
 package org.apache.commons.math3.optimization.general;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
-import org.junit.Ignore;
 
 /**
  * This class demonstrates the main functionality of the
