@@ -131,6 +131,7 @@ public class EigenDecomposition {
      * @throws MaxCountExceededException if the algorithm fails to converge.
      * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
      */
+    @Deprecated
     public EigenDecomposition(final RealMatrix matrix,
                               final double splitTolerance)  {
         this(matrix);
@@ -167,6 +168,7 @@ public class EigenDecomposition {
      * @throws MaxCountExceededException if the algorithm fails to converge.
      * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
      */
+    @Deprecated
     public EigenDecomposition(final double[] main, final double[] secondary,
                               final double splitTolerance) {
         this(main, secondary);

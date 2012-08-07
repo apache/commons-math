@@ -255,6 +255,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * instead. It should be emphasized that {@link #guessParametersErrors()} and
      * {@link #getSigma()} are <em>not</em> strictly equivalent.
      */
+    @Deprecated
     public double[] guessParametersErrors() {
         if (rows <= cols) {
             throw new NumberIsTooSmallException(LocalizedFormats.NO_DEGREES_OF_FREEDOM,
