@@ -341,7 +341,7 @@ public class Gamma {
      *
      * @param x the argument
      * @return the Lanczos approximation
-     * @see <a href="http://mathworld.wolfram.com/LanczosApproximation.html">Lanczos Approximation</a>,
+     * @see <a href="http://mathworld.wolfram.com/LanczosApproximation.html">Lanczos Approximation</a>
      * equations (1) through (5), and Paul Godfrey's
      * <a href="http://my.fit.edu/~gabdo/gamma.txt">Note on the computation
      * of the convergent Lanczos complex Gamma approximation</a>
