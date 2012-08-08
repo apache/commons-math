@@ -18,6 +18,9 @@ package org.apache.commons.math3.util;
 
 import java.io.PrintStream;
 
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
 /**
  * Faster, more accurate, portable alternative to {@link Math} and
  * {@link StrictMath} for large scale computation.
@@ -1145,7 +1148,7 @@ public class FastMath {
             /* Normalize the subnormal number. */
             bits <<= 1;
             while ( (bits & 0x0010000000000000L) == 0) {
-                --exp;
+                exp--;
                 bits <<= 1;
             }
         }
@@ -1165,9 +1168,8 @@ public class FastMath {
                 xa = aa;
                 xb = ab;
 
-                final double[] lnCoef_last = LN_QUICK_COEF[LN_QUICK_COEF.length - 1];
-                double ya = lnCoef_last[0];
-                double yb = lnCoef_last[1];
+                double ya = LN_QUICK_COEF[LN_QUICK_COEF.length-1][0];
+                double yb = LN_QUICK_COEF[LN_QUICK_COEF.length-1][1];
 
                 for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {
                     /* Multiply a = y * x */
@@ -1179,9 +1181,8 @@ public class FastMath {
                     yb = aa - ya + ab;
 
                     /* Add  a = y + lnQuickCoef */
-                    final double[] lnCoef_i = LN_QUICK_COEF[i];
-                    aa = ya + lnCoef_i[0];
-                    ab = yb + lnCoef_i[1];
+                    aa = ya + LN_QUICK_COEF[i][0];
+                    ab = yb + LN_QUICK_COEF[i][1];
                     /* Split y = a */
                     tmp = aa * HEX_40000000;
                     ya = aa + tmp - tmp;
@@ -1201,7 +1202,7 @@ public class FastMath {
         }
 
         // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)
-        final double[] lnm = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
+        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];
 
         /*
     double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);
@@ -1212,7 +1213,7 @@ public class FastMath {
         // y is the most significant 10 bits of the mantissa
         //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);
         //double epsilon = (x - y) / y;
-        final double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
+        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));
 
         double lnza = 0.0;
         double lnzb = 0.0;
@@ -1226,15 +1227,14 @@ public class FastMath {
             double xb = ab;
 
             /* Need a more accurate epsilon, so adjust the division. */
-            final double numer = bits & 0x3ffffffffffL;
-            final double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
+            double numer = bits & 0x3ffffffffffL;
+            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);
             aa = numer - xa*denom - xb * denom;
             xb += aa / denom;
 
             /* Remez polynomial evaluation */
-            final double[] lnCoef_last = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1];
-            double ya = lnCoef_last[0];
-            double yb = lnCoef_last[1];
+            double ya = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][0];
+            double yb = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][1];
 
             for (int i = LN_HI_PREC_COEF.length - 2; i >= 0; i--) {
                 /* Multiply a = y * x */
@@ -1246,9 +1246,8 @@ public class FastMath {
                 yb = aa - ya + ab;
 
                 /* Add  a = y + lnHiPrecCoef */
-                final double[] lnCoef_i = LN_HI_PREC_COEF[i];
-                aa = ya + lnCoef_i[0];
-                ab = yb + lnCoef_i[1];
+                aa = ya + LN_HI_PREC_COEF[i][0];
+                ab = yb + LN_HI_PREC_COEF[i][1];
                 /* Split y = a */
                 tmp = aa * HEX_40000000;
                 ya = aa + tmp - tmp;
@@ -1580,6 +1579,34 @@ public class FastMath {
         return result;
     }
 
+
+    /**
+     * Raise a double to an int power.
+     *
+     * @param d Number to raise.
+     * @param e Exponent.
+     * @return d<sup>e</sup>
+     */
+    public static double pow(double d, int e) {
+        if (e == 0) {
+            return 1.0;
+        } else if (e < 0) {
+            e = -e;
+            d = 1.0 / d;
+        }
+
+        double result = 1;
+        double d2p    = d;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= d2p;
+            }
+            d2p *= d2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
 
     /**
      *  Computes sin(x) - x, where |x| < 1/16.
