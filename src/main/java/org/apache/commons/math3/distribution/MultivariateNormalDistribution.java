@@ -1,7 +1,6 @@
 package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException;
@@ -9,7 +8,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.stat.correlation.Covariance;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -143,7 +141,7 @@ public class MultivariateNormalDistribution
     public RealMatrix getCovariances() {
         return covarianceMatrix.copy();
     }
-
+    
     /** {@inheritDoc} */
     public double density(final double[] vals) throws DimensionMismatchException {
         final int dim = getDimensions();
@@ -151,11 +149,9 @@ public class MultivariateNormalDistribution
             throw new DimensionMismatchException(vals.length, dim);
         }
 
-        final double kernel = getKernel(vals);
-
         return FastMath.pow(2 * FastMath.PI, -dim / 2) *
             FastMath.pow(covarianceMatrixDeterminant, -0.5) *
-            FastMath.exp(kernel);
+            getExponentTerm(vals);
     }
 
     /**
@@ -193,19 +189,21 @@ public class MultivariateNormalDistribution
     }
 
     /**
-     * Precomputes some of the multiplications used for determining densities.
+     * Computes the term used in the exponent (see definition of the distribution).
      * 
      * @param values Values at which to compute density.
      * @return the multiplication factor of density calculations.
      */
-    private double getKernel(final double[] values) {
-        double k = 0;
-        for (int col = 0; col < values.length; col++) {
-            for (int v = 0; v < values.length; v++) {
-                k += covarianceMatrixInverse.getEntry(v, col)
-                    * FastMath.pow(values[v] - means[v], 2);
-            }
+    private double getExponentTerm(final double[] values) {
+        final double[] centered = new double[values.length];
+        for (int i = 0; i < centered.length; i++) {
+            centered[i] = values[i] - getMeans()[i];
         }
-        return -0.5 * k;
+        final double[] preMultiplied = covarianceMatrixInverse.preMultiply(centered);
+        double sum = 0;
+        for (int i = 0; i < preMultiplied.length; i++) {
+            sum += preMultiplied[i] * centered[i];
+        }
+        return FastMath.exp(-0.5 * sum);
     }
 }
