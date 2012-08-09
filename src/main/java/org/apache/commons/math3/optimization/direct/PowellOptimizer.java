@@ -211,7 +211,6 @@ public class PowellOptimizer
     /**
      * Compute a new point (in the original space) and a new direction
      * vector, resulting from the line search.
-     * The parameters {@code p} and {@code d} will be changed in-place.
      *
      * @param p Point used in the line search.
      * @param d Direction used in the line search.
@@ -223,13 +222,17 @@ public class PowellOptimizer
                                             double[] d,
                                             double optimum) {
         final int n = p.length;
-        final double[][] result = new double[2][n];
-        final double[] nP = result[0];
-        final double[] nD = result[1];
+        final double[] nP = new double[n];
+        final double[] nD = new double[n];
         for (int i = 0; i < n; i++) {
             nD[i] = d[i] * optimum;
             nP[i] = p[i] + nD[i];
         }
+
+        final double[][] result = new double[2][];
+        result[0] = nP;
+        result[1] = nD;
+
         return result;
     }
 
