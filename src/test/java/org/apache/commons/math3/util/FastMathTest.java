@@ -1105,4 +1105,18 @@ public class FastMathTest {
         Assert.assertEquals(1.0F, FastMath.copySign(1d, 0.0F), delta);
         Assert.assertEquals(-1.0F, FastMath.copySign(1d, -2.0F), delta);
     }
+
+    @Test
+    public void testIntPow() {
+        final double base = 1.23456789;
+        final int maxExp = 300;
+
+        for (int i = 0; i < maxExp; i++) {
+            final double expected = FastMath.pow(base, (double) i);
+            Assert.assertEquals("exp=" + i,
+                                expected,
+                                FastMath.pow(base, i),
+                                60 * Math.ulp(expected));
+        }
+    }
 }
