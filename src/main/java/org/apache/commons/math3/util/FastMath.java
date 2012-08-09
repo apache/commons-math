@@ -1582,6 +1582,34 @@ public class FastMath {
 
 
     /**
+     * Raise a double to an int power.
+     *
+     * @param d Number to raise.
+     * @param e Exponent.
+     * @return d<sup>e</sup>
+     */
+    public static double pow(double d, int e) {
+        if (e == 0) {
+            return 1.0;
+        } else if (e < 0) {
+            e = -e;
+            d = 1.0 / d;
+        }
+
+        double result = 1;
+        double d2p    = d;
+        while (e != 0) {
+            if ((e & 0x1) != 0) {
+                result *= d2p;
+            }
+            d2p *= d2p;
+            e = e >> 1;
+        }
+
+        return result;
+    }
+
+    /**
      *  Computes sin(x) - x, where |x| < 1/16.
      *  Use a Remez polynomial approximation.
      *  @param x a number smaller than 1/16
