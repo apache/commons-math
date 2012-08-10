@@ -382,6 +382,28 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testPowReciprocalPow() {
+        double[] epsilon = new double[] { 2.0e-15, 2.0e-14, 3.0e-13, 8.0e-12, 3.0e-10 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.01) {
+                DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
+                for (double y = 0.1; y < 1.2; y += 0.01) {
+                    DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
+                    DerivativeStructure rebuiltX = dsX.pow(dsY).pow(dsY.reciprocal());
+                    DerivativeStructure zero = rebuiltX.subtract(dsX);
+                    for (int n = 0; n <= maxOrder; ++n) {
+                        for (int m = 0; m <= maxOrder; ++m) {
+                            if (n + m <= maxOrder) {
+                                Assert.assertEquals(0.0, zero.getPartialDerivative(n, m), epsilon[n + m]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     public void testExp() {
         double[] epsilon = new double[] { 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {

@@ -899,6 +899,26 @@ public class DSCompiler {
 
     }
 
+    /** Compute power of a derivative structure.
+     * @param x array holding the base
+     * @param xOffset offset of the base in its array
+     * @param y array holding the exponent
+     * @param yOffset offset of the exponent in its array
+     * @param result array where result must be stored (for
+     * power the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void pow(final double[] x, final int xOffset,
+                    final double[] y, final int yOffset,
+                    final double[] result, final int resultOffset) {
+        final double[] logX = new double[getSize()];
+        log(x, xOffset, logX, 0);
+        final double[] yLogX = new double[getSize()];
+        multiply(logX, 0, y, yOffset, yLogX, 0);
+        exp(yLogX, 0, result, resultOffset);
+    }
+
     /** Compute n<sup>th</sup> root of a derivative structure.
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array

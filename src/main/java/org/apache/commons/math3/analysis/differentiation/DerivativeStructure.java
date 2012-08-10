@@ -428,6 +428,19 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return result;
     }
 
+    /** Power operation.
+     * @param e exponent
+     * @return this<sup>e</sup>
+     * @exception DimensionMismatchException if number of free parameters or orders are inconsistent
+     */
+    public DerivativeStructure pow(final DerivativeStructure e)
+        throws DimensionMismatchException {
+        compiler.checkCompatibility(e.compiler);
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.pow(data, 0, e.data, 0, result.data, 0);
+        return result;
+    }
+
     /** Exponential.
      * @return exponential of the instance
      */
