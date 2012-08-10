@@ -174,7 +174,7 @@ public class DerivativeStructureTest {
     }
 
     @Test
-    public void testPower() {
+    public void testPow() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             for (int n = 0; n < 10; ++n) {
 
@@ -420,6 +420,40 @@ public class DerivativeStructureTest {
                 DerivativeStructure zero = rebuiltX.subtract(dsX);
                 for (int n = 0; n <= maxOrder; ++n) {
                     Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSinCos() {
+        double epsilon = 5.0e-16;
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure sin = dsX.sin();
+                DerivativeStructure cos = dsX.cos();
+                double s = FastMath.sin(x);
+                double c = FastMath.cos(x);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    switch (n % 4) {
+                    case 0 :
+                        Assert.assertEquals( s, sin.getPartialDerivative(n), epsilon);
+                        Assert.assertEquals( c, cos.getPartialDerivative(n), epsilon);
+                        break;
+                    case 1 :
+                        Assert.assertEquals( c, sin.getPartialDerivative(n), epsilon);
+                        Assert.assertEquals(-s, cos.getPartialDerivative(n), epsilon);
+                        break;
+                    case 2 :
+                        Assert.assertEquals(-s, sin.getPartialDerivative(n), epsilon);
+                        Assert.assertEquals(-c, cos.getPartialDerivative(n), epsilon);
+                        break;
+                    default :
+                        Assert.assertEquals(-c, sin.getPartialDerivative(n), epsilon);
+                        Assert.assertEquals( s, cos.getPartialDerivative(n), epsilon);
+                        break;
+                    }
                 }
             }
         }
