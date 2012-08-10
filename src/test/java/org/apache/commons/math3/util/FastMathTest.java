@@ -20,12 +20,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.dfp.DfpMath;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -1108,15 +1108,16 @@ public class FastMathTest {
 
     @Test
     public void testIntPow() {
-        final double base = 1.23456789;
         final int maxExp = 300;
-
+        DfpField field = new DfpField(40);
+        final double base = 1.23456789;
+        Dfp baseDfp = field.newDfp(base);
+        Dfp dfpPower = field.getOne();
         for (int i = 0; i < maxExp; i++) {
-            final double expected = FastMath.pow(base, (double) i);
-            Assert.assertEquals("exp=" + i,
-                                expected,
-                                FastMath.pow(base, i),
-                                60 * Math.ulp(expected));
+            Assert.assertEquals("exp=" + i, dfpPower.toDouble(), FastMath.pow(base, i),
+                                0.6 * FastMath.ulp(dfpPower.toDouble()));
+            dfpPower = dfpPower.multiply(baseDfp);
         }
     }
+
 }
