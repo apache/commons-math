@@ -53,6 +53,9 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="3.1" date="TBD" description="
 ">
       <action dev="luc" type="add" >
+        Added a utility method to compute Stirling numbers of the second kind.
+      </action>
+      <action dev="luc" type="add" >
         Added a new package dealing with differentials, for one or more free
         parameters and derivation order 1 or higher.
       </action>
