@@ -21,6 +21,7 @@ import java.util.concurrent.Callable;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
  * Simple benchmarking utilities.
@@ -126,7 +127,7 @@ public class PerfTestUtils {
             }
         } catch (Exception e) {
             // Abort benchmarking if codes throw exceptions.
-            throw new MathIllegalStateException();
+            throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, e.getMessage());
         }
 
         final double normFactor = 1d / repeatChunk;
