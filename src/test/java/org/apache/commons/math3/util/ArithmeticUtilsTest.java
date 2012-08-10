@@ -25,6 +25,8 @@ import java.math.BigInteger;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.random.RandomDataImpl;
 import org.junit.Assert;
 import org.junit.Test;
@@ -691,6 +693,63 @@ public class ArithmeticUtilsTest {
             final boolean actual = ArithmeticUtils.isPowerOfTwo(i);
             Assert.assertTrue(Integer.toString(i), actual == expected[i]);
         }
+    }
+
+    @Test
+    public void testStirlingS2() {
+
+        Assert.assertEquals(1, ArithmeticUtils.stirlingS2(0, 0));
+
+        for (int n = 1; n < 30; ++n) {
+            Assert.assertEquals(0, ArithmeticUtils.stirlingS2(n, 0));
+            Assert.assertEquals(1, ArithmeticUtils.stirlingS2(n, 1));
+            if (n > 2) {
+                Assert.assertEquals((1l << (n - 1)) - 1l, ArithmeticUtils.stirlingS2(n, 2));
+                Assert.assertEquals(ArithmeticUtils.binomialCoefficient(n, 2),
+                                    ArithmeticUtils.stirlingS2(n, n - 1));
+            }
+            Assert.assertEquals(1, ArithmeticUtils.stirlingS2(n, n));
+        }
+        Assert.assertEquals(536870911l, ArithmeticUtils.stirlingS2(30, 2));
+        Assert.assertEquals(576460752303423487l, ArithmeticUtils.stirlingS2(60, 2));
+
+        Assert.assertEquals(   25, ArithmeticUtils.stirlingS2( 5, 3));
+        Assert.assertEquals(   90, ArithmeticUtils.stirlingS2( 6, 3));
+        Assert.assertEquals(   65, ArithmeticUtils.stirlingS2( 6, 4));
+        Assert.assertEquals(  301, ArithmeticUtils.stirlingS2( 7, 3));
+        Assert.assertEquals(  350, ArithmeticUtils.stirlingS2( 7, 4));
+        Assert.assertEquals(  140, ArithmeticUtils.stirlingS2( 7, 5));
+        Assert.assertEquals(  966, ArithmeticUtils.stirlingS2( 8, 3));
+        Assert.assertEquals( 1701, ArithmeticUtils.stirlingS2( 8, 4));
+        Assert.assertEquals( 1050, ArithmeticUtils.stirlingS2( 8, 5));
+        Assert.assertEquals(  266, ArithmeticUtils.stirlingS2( 8, 6));
+        Assert.assertEquals( 3025, ArithmeticUtils.stirlingS2( 9, 3));
+        Assert.assertEquals( 7770, ArithmeticUtils.stirlingS2( 9, 4));
+        Assert.assertEquals( 6951, ArithmeticUtils.stirlingS2( 9, 5));
+        Assert.assertEquals( 2646, ArithmeticUtils.stirlingS2( 9, 6));
+        Assert.assertEquals(  462, ArithmeticUtils.stirlingS2( 9, 7));
+        Assert.assertEquals( 9330, ArithmeticUtils.stirlingS2(10, 3));
+        Assert.assertEquals(34105, ArithmeticUtils.stirlingS2(10, 4));
+        Assert.assertEquals(42525, ArithmeticUtils.stirlingS2(10, 5));
+        Assert.assertEquals(22827, ArithmeticUtils.stirlingS2(10, 6));
+        Assert.assertEquals( 5880, ArithmeticUtils.stirlingS2(10, 7));
+        Assert.assertEquals(  750, ArithmeticUtils.stirlingS2(10, 8));
+
+    }
+
+    @Test(expected=NotPositiveException.class)
+    public void testStirlingS2NegativeN() {
+        ArithmeticUtils.stirlingS2(3, -1);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testStirlingS2LargeK() {
+        ArithmeticUtils.stirlingS2(3, 4);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testStirlingS2Overflow() {
+        ArithmeticUtils.stirlingS2(26, 9);
     }
 
     /**

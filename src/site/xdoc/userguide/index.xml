@@ -89,7 +89,7 @@
                 <li><a href="utilities.html#a6.2_Double_array_utilities">6.2 Double array utilities</a></li>
                 <li><a href="utilities.html#a6.3_intdouble_hash_map">6.3 int/double hash map</a></li>
                 <li><a href="utilities.html#a6.4_Continued_Fractions">6.4 Continued Fractions</a></li>
-                <li><a href="utilities.html#a6.5_binomial_coefficients_factorials_and_other_common_math_functions">6.5 Binomial coefficients, factorials and other common math functions</a></li>
+                <li><a href="utilities.html#a6.5_binomial_coefficients_factorials_Stirling_numbers_and_other_common_math_functions">6.5 Binomial coefficients, factorials, Stirling numbers and other common math functions</a></li>
                 <li><a href="utilities.html#a6.6_fast_math">6.6 Fast mathematical functions</a></li>
                 <li><a href="utilities.html#a6.7_miscellaneous">6.7 Miscellaneous</a></li>
                 </ul></li>                                 

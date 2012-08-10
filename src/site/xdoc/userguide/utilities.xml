@@ -146,11 +146,11 @@
   </p>
 </subsection>
 
-<subsection name="6.5 Binomial coefficients, factorials and other common math functions" href="binomial_coefficients_factorials_and_other_common_math_functions">
+<subsection name="6.5 Binomial coefficients, factorials, Stirling numbers and other common math functions" href="binomial_coefficients_factorials_and_other_common_math_functions">
     <p>
     A collection of reusable math functions is provided in the
-    <a href="../apidocs/org/apache/commons/math3/util/MathUtils.html">MathUtils</a>
-    utility class.  MathUtils currently includes methods to compute the following: <ul>
+    <a href="../apidocs/org/apache/commons/math3/util/ArithmeticUtils.html">ArithmeticUtils</a>
+    utility class.  ArithmeticUtils currently includes methods to compute the following: <ul>
     <li>
     Binomial coefficients -- "n choose k" available as an (exact) long value,  
     <code>binomialCoefficient(int, int)</code> for small n, k; as a double,
@@ -158,23 +158,12 @@
     a "super-sized" version, <code>binomialCoefficientLog(int, int)</code> 
     that returns the natural logarithm of the value.</li>
     <li>
+    Stirling numbers of the second kind -- S(n,k) as an exact long value
+    <code>stirlingS2(int, int)</code> for small n, k.</li>
+    <li>
     Factorials -- like binomial coefficients, these are available as exact long
     values, <code>factorial(int)</code>;  doubles, 
     <code>factorialDouble(int)</code>; or logs, <code>factorialLog(int)</code>. </li>
-    <li>
-    Hyperbolic sine and cosine functions -- 
-    <code>cosh(double), sinh(double)</code></li>
-    <li>
-    sign (+1 if argument &gt; 0, 0 if x = 0, and -1 if x &lt; 0) and 
-    indicator (+1.0 if argument  &gt;= 0 and -1.0 if argument &lt; 0) functions
-    for variables of all primitive numeric types.</li>
-    <li>
-    a hash function, <code>hash(double),</code> returning a long-valued
-    hash code for a double value.
-    </li>
-    <li>
-    Convience methods to round floating-point number to arbitrary precision.
-    </li>
     <li>
     Least common multiple and greatest common denominator functions.
     </li>
@@ -226,6 +215,7 @@
             <li>asinh(double)</li>
             <li>acosh(double)</li>
             <li>atanh(double)</li>
+            <li>pow(double,int)</li>
         </ul>
         The following methods are found in Math/StrictMath since 1.6 only, they are
         provided by FastMath even in 1.5 Java virtual machines
