@@ -460,6 +460,51 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testSinAsin() {
+        double[] epsilon = new double[] { 3.0e-16, 5.0e-16, 3.0e-15, 2.0e-14, 4.0e-13 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.sin().asin();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testCosAcos() {
+        double[] epsilon = new double[] { 6.0e-16, 6.0e-15, 2.0e-13, 4.0e-12, 2.0e-10 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.cos().acos();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testTanAtan() {
+        double[] epsilon = new double[] { 6.0e-17, 2.0e-16, 2.0e-15, 4.0e-14, 2.0e-12 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.tan().atan();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testTangentDefinition() {
         double[] epsilon = new double[] { 5.0e-16, 2.0e-15, 3.0e-14, 5.0e-13, 2.0e-11 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
