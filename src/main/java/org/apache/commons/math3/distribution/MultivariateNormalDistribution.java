@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -13,11 +29,14 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Implementation of the multivariate normal (Gaussian) distribution.
- * 
+ *
  * @see <a href="http://en.wikipedia.org/wiki/Multivariate_normal_distribution">
  * Multivariate normal distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/MultivariateNormalDistribution.html">
  * Multivariate normal distribution (MathWorld)</a>
+ *
+ * @version $Id$
+ * @since 3.1
  */
 public class MultivariateNormalDistribution
     extends AbstractMultivariateRealDistribution {
@@ -39,9 +58,15 @@ public class MultivariateNormalDistribution
      * The number of dimensions is equal to the length of the mean vector
      * and to the number of rows and columns of the covariance matrix.
      * It is frequently written as "p" in formulae.
-     * 
+     *
      * @param means Vector of means.
      * @param covariances Covariance matrix.
+     * @throws DimensionMismatchException if the arrays length are
+     * inconsistent.
+     * @throws SingularMatrixException if the eigenvalue decomposition cannot
+     * be performed on the provided covariance matrix.
+     * @throws NonPositiveDefiniteMatrixException if any of the eigenvalues is
+     * negative.
      */
     public MultivariateNormalDistribution(final double[] means,
                                           final double[][] covariances)
@@ -58,10 +83,16 @@ public class MultivariateNormalDistribution
      * The number of dimensions is equal to the length of the mean vector
      * and to the number of rows and columns of the covariance matrix.
      * It is frequently written as "p" in formulae.
-     * 
+     *
      * @param rng Random Number Generator.
      * @param means Vector of means.
      * @param covariances Covariance matrix.
+     * @throws DimensionMismatchException if the arrays length are
+     * inconsistent.
+     * @throws SingularMatrixException if the eigenvalue decomposition cannot
+     * be performed on the provided covariance matrix.
+     * @throws NonPositiveDefiniteMatrixException if any of the eigenvalues is
+     * negative.
      */
     public MultivariateNormalDistribution(RandomGenerator rng,
                                           final double[] means,
@@ -126,7 +157,7 @@ public class MultivariateNormalDistribution
 
     /**
      * Gets the mean vector.
-     * 
+     *
      * @return the mean vector.
      */
     public double[] getMeans() {
@@ -135,13 +166,13 @@ public class MultivariateNormalDistribution
 
     /**
      * Gets the covariance matrix.
-     * 
+     *
      * @return the covariance matrix.
      */
     public RealMatrix getCovariances() {
         return covarianceMatrix.copy();
     }
-    
+
     /** {@inheritDoc} */
     public double density(final double[] vals) throws DimensionMismatchException {
         final int dim = getDimensions();
@@ -157,7 +188,7 @@ public class MultivariateNormalDistribution
     /**
      * Gets the square root of each element on the diagonal of the covariance
      * matrix.
-     * 
+     *
      * @return the standard deviations.
      */
     public double[] getStandardDeviations() {
@@ -190,7 +221,7 @@ public class MultivariateNormalDistribution
 
     /**
      * Computes the term used in the exponent (see definition of the distribution).
-     * 
+     *
      * @param values Values at which to compute density.
      * @return the multiplication factor of density calculations.
      */

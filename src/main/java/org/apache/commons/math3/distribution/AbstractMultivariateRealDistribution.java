@@ -21,17 +21,17 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 
 /**
- * Base class for probability distributions on the multivariate reals.
- * Default implementations are provided for some of the methods that do
- * not vary from distribution to distribution.
- * 
+ * Base class for multivariate probability distributions.
+ *
+ * @version $Id$
+ * @since 3.1
  */
 public abstract class AbstractMultivariateRealDistribution
     implements MultivariateRealDistribution {
-    /** The number of dimensions or columns in the multivariate distribution. */
-    private final int numDimensions;
     /** RNG instance used to generate samples from the distribution. */
     protected final RandomGenerator random;
+    /** The number of dimensions or columns in the multivariate distribution. */
+    private final int numDimensions;
 
     /**
      * @param rng Random number generator.
@@ -49,8 +49,10 @@ public abstract class AbstractMultivariateRealDistribution
     }
 
     /**
-     * 
-     * @return the number of dimensions in the multivariate distribution .
+     * Gets the number of dimensions (i.e. the number of random variables) of
+     * the distribution.
+     *
+     * @return the number of dimensions.
      */
     public int getDimensions() {
         return numDimensions;
