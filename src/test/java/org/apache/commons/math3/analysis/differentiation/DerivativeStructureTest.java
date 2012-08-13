@@ -543,6 +543,32 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testAtan2() {
+        double[] epsilon = new double[] { 5.0e-16, 3.0e-15, 2.0e-14, 1.0e-12, 8.0e-11 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = -1.7; x < 2; x += 0.2) {
+                DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
+                for (double y = -1.7; y < 2; y += 0.2) {
+                    DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
+                    DerivativeStructure atan2 = DerivativeStructure.atan2(dsY, dsX);
+                    DerivativeStructure ref = dsY.divide(dsX).atan();
+                    if (x < 0) {
+                        ref = (y < 0) ? ref.subtract(FastMath.PI) : ref.add(FastMath.PI);
+                    }
+                    DerivativeStructure zero = atan2.subtract(ref);
+                    for (int n = 0; n <= maxOrder; ++n) {
+                        for (int m = 0; m <= maxOrder; ++m) {
+                            if (n + m <= maxOrder) {
+                                Assert.assertEquals(0, zero.getPartialDerivative(n, m), epsilon[n + m]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     public void testCompositionOneVariableY() {
         double epsilon = 1.0e-13;
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
