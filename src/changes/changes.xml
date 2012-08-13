@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-815" due-to="Jared Becksfort">
+        New interface for multivariate distributions.
+        Added multivariate normal distribution.
+      </action>
       <action dev="luc" type="add" >
         Added a utility method to compute Stirling numbers of the second kind.
       </action>

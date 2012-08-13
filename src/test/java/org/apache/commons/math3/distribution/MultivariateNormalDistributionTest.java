@@ -75,7 +75,7 @@ public class MultivariateNormalDistributionTest {
         final MultivariateNormalDistribution d = new MultivariateNormalDistribution(mu, sigma);
         d.reseedRandomGenerator(50);
 
-        final int n = 30;
+        final int n = 500000;
 
         final double[][] samples = d.sample(n);
         final int dim = d.getDimensions();
@@ -87,17 +87,16 @@ public class MultivariateNormalDistributionTest {
             }
         }
 
-        final double sampledMeanTolerance = 1e-1;
+        final double sampledValueTolerance = 1e-2;
         for (int j = 0; j < dim; j++) {
             sampleMeans[j] /= samples.length;
-            Assert.assertEquals(mu[j], sampleMeans[j], sampledMeanTolerance);
+            Assert.assertEquals(mu[j], sampleMeans[j], sampledValueTolerance);
         }
 
-        final double sampledCovarianceTolerance = 2;
         final double[][] sampleSigma = new Covariance(samples).getCovarianceMatrix().getData();
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
-                Assert.assertEquals(sigma[i][j], sampleSigma[i][j], sampledCovarianceTolerance);
+                Assert.assertEquals(sigma[i][j], sampleSigma[i][j], sampledValueTolerance);
             }
         }
     }
