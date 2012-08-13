@@ -1347,15 +1347,25 @@ public class DSCompiler {
         }
     }
 
-    /** Evaluate Taylor expansion a derivative structure.
+    /** Evaluate Taylor expansion of a derivative structure.
      * @param ds array holding the derivative structure 
      * @param dsOffset offset of the derivative structure in its array
-     * @param offsets parameters offsets (dx, dy, ...)
-     * @return value of the Taylor expansion at x+dx, y.dy, ...
+     * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
+     * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
      */
-    public double taylor(final double[] ds, final int dsOffset, final double ... offsets) {
-        // TODO
-        return Double.NaN;
+    public double taylor(final double[] ds, final int dsOffset, final double ... delta) {
+        double value = 0;
+        for (int i = getSize() - 1; i >= 0; --i) {
+            final int[] orders = getPartialDerivativeOrders(i);
+            double term = ds[dsOffset + i];
+            for (int k = 0; k < orders.length; ++k) {
+                if (orders[k] > 0) {
+                    term *= FastMath.pow(delta[k], orders[k]) / ArithmeticUtils.factorial(orders[k]);
+                }
+            }
+            value += term;
+        }
+        return value;
     }
 
     /** Check rules set compatibility.

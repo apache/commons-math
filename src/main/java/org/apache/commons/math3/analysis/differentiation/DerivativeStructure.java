@@ -528,11 +528,11 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
     }
 
     /** Evaluate Taylor expansion a derivative structure.
-     * @param offsets parameters offsets (dx, dy, ...)
-     * @return value of the Taylor expansion at x+dx, y.dy, ...
+     * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
+     * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
      */
-    public double taylor(final double ... offsets) {
-        return compiler.taylor(data, 0, offsets);
+    public double taylor(final double ... delta) {
+        return compiler.taylor(data, 0, delta);
     }
 
     /**

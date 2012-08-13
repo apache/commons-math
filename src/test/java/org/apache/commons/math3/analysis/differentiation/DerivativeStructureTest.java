@@ -597,6 +597,48 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testTaylorPolynomial() {
+        for (double x = 0; x < 1.2; x += 0.1) {
+            DerivativeStructure dsX = new DerivativeStructure(3, 4, 0, x);
+            for (double y = 0; y < 1.2; y += 0.2) {
+                DerivativeStructure dsY = new DerivativeStructure(3, 4, 1, y);
+                for (double z = 0; z < 1.2; z += 0.2) {
+                    DerivativeStructure dsZ = new DerivativeStructure(3, 4, 2, z);
+                    DerivativeStructure f = dsX.multiply(dsY).add(dsZ).multiply(dsX).multiply(dsY);
+                    for (double dx = -0.2; dx < 0.2; dx += 0.2) {
+                        for (double dy = -0.2; dy < 0.2; dy += 0.1) {
+                            for (double dz = -0.2; dz < 0.2; dz += 0.1) {
+                                double ref = (x + dx) * (y + dy) * ((x + dx) * (y + dy) + (z + dz));
+                                Assert.assertEquals(ref, f.taylor(dx, dy, dz), 2.0e-15);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testTaylorAtan2() {
+        double[] expected = new double[] { 0.214, 0.0241, 0.00422, 6.48e-4, 8.04e-5 };
+        double x0 =  0.1;
+        double y0 = -0.3;
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            DerivativeStructure dsX   = new DerivativeStructure(2, maxOrder, 0, x0);
+            DerivativeStructure dsY   = new DerivativeStructure(2, maxOrder, 1, y0);
+            DerivativeStructure atan2 = DerivativeStructure.atan2(dsY, dsX);
+            double maxError = 0;
+            for (double dx = -0.05; dx < 0.05; dx += 0.001) {
+                for (double dy = -0.05; dy < 0.05; dy += 0.001) {
+                    double ref = FastMath.atan2(y0 + dy, x0 + dx);
+                    maxError = FastMath.max(maxError, FastMath.abs(ref - atan2.taylor(dx, dy)));
+                }
+            }
+            Assert.assertEquals(0.0, expected[maxOrder] - maxError, 0.01 * expected[maxOrder]);
+        }
+    }
+
+    @Test
     public void testField() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             DerivativeStructure x = new DerivativeStructure(3, maxOrder, 0, 1.0);
