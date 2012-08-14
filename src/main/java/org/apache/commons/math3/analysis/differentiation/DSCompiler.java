@@ -1328,6 +1328,284 @@ public class DSCompiler {
 
     }
 
+    /** Compute hyperbolic cosine of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * hyperbolic cosine the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void cosh(final double[] operand, final int operandOffset,
+                     final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        function[0] = FastMath.cosh(operand[operandOffset]);
+        if (order > 0) {
+            function[1] = FastMath.sinh(operand[operandOffset]);
+            for (int i = 2; i <= order; ++i) {
+                function[i] = function[i - 2];
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Compute hyperbolic sine of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * hyperbolic sine the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void sinh(final double[] operand, final int operandOffset,
+                     final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        function[0] = FastMath.sinh(operand[operandOffset]);
+        if (order > 0) {
+            function[1] = FastMath.cosh(operand[operandOffset]);
+            for (int i = 2; i <= order; ++i) {
+                function[i] = function[i - 2];
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Compute hyperbolic tangent of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * hyperbolic tangent the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void tanh(final double[] operand, final int operandOffset,
+                     final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        final double[] function = new double[1 + order];
+        final double t = FastMath.tanh(operand[operandOffset]);
+        function[0] = t;
+
+        if (order > 0) {
+
+            // the nth order derivative of tanh has the form:
+            // dn(tanh(x)/dxn = P_n(tanh(x))
+            // where P_n(t) is a degree n+1 polynomial with same parity as n+1
+            // P_0(t) = t, P_1(t) = 1 - t^2, P_2(x) = -2 t (1 - t^2) ...
+            // the general recurrence relation for P_n is:
+            // P_n(x) = (1-t^2) P_(n-1)'(t)
+            // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
+            final double[] p = new double[order + 2];
+            p[1] = 1;
+            final double t2 = t * t;
+            for (int n = 1; n <= order; ++n) {
+
+                // update and evaluate polynomial P_n(t)
+                double v = 0;
+                p[n + 1] = -n * p[n];
+                for (int k = n + 1; k >= 0; k -= 2) {
+                    v = v * t2 + p[k];
+                    if (k > 2) {
+                        p[k - 2] = (k - 1) * p[k - 1] - (k - 3) * p[k - 3];
+                    } else if (k == 2) {
+                        p[0] = p[1];
+                    }
+                }
+                if ((n & 0x1) == 0) {
+                    v *= t;
+                }
+
+                function[n] = v;
+
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Compute inverse hyperbolic cosine of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * inverse hyperbolic cosine the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void acosh(final double[] operand, final int operandOffset,
+                     final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        final double x = operand[operandOffset];
+        function[0] = FastMath.acosh(x);
+        if (order > 0) {
+            // the nth order derivative of acosh has the form:
+            // dn(acosh(x)/dxn = P_n(x) / [x^2 - 1]^((2n-1)/2)
+            // where P_n(x) is a degree n-1 polynomial with same parity as n-1
+            // P_1(x) = 1, P_2(x) = -x, P_3(x) = 2x^2 + 1 ...
+            // the general recurrence relation for P_n is:
+            // P_n(x) = (x^2-1) P_(n-1)'(x) - (2n-3) x P_(n-1)(x)
+            // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
+            final double[] p = new double[order];
+            p[0] = 1;
+            final double x2  = x * x;
+            final double f   = 1.0 / (x2 - 1);
+            double coeff = FastMath.sqrt(f);
+            function[1] = coeff * p[0];
+            for (int n = 2; n <= order; ++n) {
+
+                // update and evaluate polynomial P_n(x)
+                double v = 0;
+                p[n - 1] = (1 - n) * p[n - 2];
+                for (int k = n - 1; k >= 0; k -= 2) {
+                    v = v * x2 + p[k];
+                    if (k > 2) {
+                        p[k - 2] = (1 - k) * p[k - 1] + (k - 2 * n) * p[k - 3];
+                    } else if (k == 2) {
+                        p[0] = -p[1];
+                    }
+                }
+                if ((n & 0x1) == 0) {
+                    v *= x;
+                }
+
+                coeff *= f;
+                function[n] = coeff * v;
+
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Compute inverse hyperbolic sine of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * inverse hyperbolic sine the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void asinh(final double[] operand, final int operandOffset,
+                     final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        final double x = operand[operandOffset];
+        function[0] = FastMath.asinh(x);
+        if (order > 0) {
+            // the nth order derivative of asinh has the form:
+            // dn(asinh(x)/dxn = P_n(x) / [x^2 + 1]^((2n-1)/2)
+            // where P_n(x) is a degree n-1 polynomial with same parity as n-1
+            // P_1(x) = 1, P_2(x) = -x, P_3(x) = 2x^2 - 1 ...
+            // the general recurrence relation for P_n is:
+            // P_n(x) = (x^2+1) P_(n-1)'(x) - (2n-3) x P_(n-1)(x)
+            // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
+            final double[] p = new double[order];
+            p[0] = 1;
+            final double x2    = x * x;
+            final double f     = 1.0 / (1 + x2);
+            double coeff = FastMath.sqrt(f);
+            function[1] = coeff * p[0];
+            for (int n = 2; n <= order; ++n) {
+
+                // update and evaluate polynomial P_n(x)
+                double v = 0;
+                p[n - 1] = (1 - n) * p[n - 2];
+                for (int k = n - 1; k >= 0; k -= 2) {
+                    v = v * x2 + p[k];
+                    if (k > 2) {
+                        p[k - 2] = (k - 1) * p[k - 1] + (k - 2 * n) * p[k - 3];
+                    } else if (k == 2) {
+                        p[0] = p[1];
+                    }
+                }
+                if ((n & 0x1) == 0) {
+                    v *= x;
+                }
+
+                coeff *= f;
+                function[n] = coeff * v;
+
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Compute inverse hyperbolic tangent of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * inverse hyperbolic tangent the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void atanh(final double[] operand, final int operandOffset,
+                      final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        final double x = operand[operandOffset];
+        function[0] = FastMath.atanh(x);
+        if (order > 0) {
+            // the nth order derivative of atanh has the form:
+            // dn(atanh(x)/dxn = Q_n(x) / (1 - x^2)^n
+            // where Q_n(x) is a degree n-1 polynomial with same parity as n-1
+            // Q_1(x) = 1, Q_2(x) = 2x, Q_3(x) = 6x^2 + 2 ...
+            // the general recurrence relation for Q_n is:
+            // Q_n(x) = (1-x^2) Q_(n-1)'(x) + 2(n-1) x Q_(n-1)(x)
+            // as per polynomial parity, we can store coefficients of both Q_(n-1) and Q_n in the same array
+            final double[] q = new double[order];
+            q[0] = 1;
+            final double x2 = x * x;
+            final double f  = 1.0 / (1 - x2);
+            double coeff = f;
+            function[1] = coeff * q[0];
+            for (int n = 2; n <= order; ++n) {
+
+                // update and evaluate polynomial Q_n(x)
+                double v = 0;
+                q[n - 1] = n * q[n - 2];
+                for (int k = n - 1; k >= 0; k -= 2) {
+                    v = v * x2 + q[k];
+                    if (k > 2) {
+                        q[k - 2] = (k - 1) * q[k - 1] + (2 * n - k + 1) * q[k - 3];
+                    } else if (k == 2) {
+                        q[0] = q[1];
+                    }
+                }
+                if ((n & 0x1) == 0) {
+                    v *= x;
+                }
+
+                coeff *= f;
+                function[n] = coeff * v;
+
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
     /** Compute composition of a derivative structure by a function.
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array

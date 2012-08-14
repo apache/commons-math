@@ -505,7 +505,7 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
     }
 
     /** Arc tangent operation.
-     * @return tan(this)
+     * @return atan(this)
      */
     public DerivativeStructure atan() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
@@ -524,6 +524,60 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         y.compiler.checkCompatibility(x.compiler);
         final DerivativeStructure result = new DerivativeStructure(y.compiler);
         y.compiler.atan2(y.data, 0, x.data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Hyperbolic cosine operation.
+     * @return cosh(this)
+     */
+    public DerivativeStructure cosh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.cosh(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Hyperbolic sine operation.
+     * @return sinh(this)
+     */
+    public DerivativeStructure sinh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.sinh(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Hyperbolic tangent operation.
+     * @return tanh(this)
+     */
+    public DerivativeStructure tanh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.tanh(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Inverse hyperbolic cosine operation.
+     * @return acosh(this)
+     */
+    public DerivativeStructure acosh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.acosh(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Inverse hyperbolic sine operation.
+     * @return asin(this)
+     */
+    public DerivativeStructure asinh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.asinh(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Inverse hyperbolic  tangent operation.
+     * @return atanh(this)
+     */
+    public DerivativeStructure atanh() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.atanh(data, 0, result.data, 0);
         return result;
     }
 

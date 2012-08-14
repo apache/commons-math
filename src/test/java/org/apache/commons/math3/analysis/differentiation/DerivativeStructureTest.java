@@ -569,6 +569,99 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testSinhDefinition() {
+        double[] epsilon = new double[] { 3.0e-16, 3.0e-16, 5.0e-16, 2.0e-15, 6.0e-15 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure sinh1 = dsX.exp().subtract(dsX.exp().reciprocal()).multiply(0.5);
+                DerivativeStructure sinh2 = dsX.sinh();
+                DerivativeStructure zero = sinh1.subtract(sinh2);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testCoshDefinition() {
+        double[] epsilon = new double[] { 3.0e-16, 3.0e-16, 5.0e-16, 2.0e-15, 6.0e-15 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure cosh1 = dsX.exp().add(dsX.exp().reciprocal()).multiply(0.5);
+                DerivativeStructure cosh2 = dsX.cosh();
+                DerivativeStructure zero = cosh1.subtract(cosh2);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testTanhDefinition() {
+        double[] epsilon = new double[] { 3.0e-16, 5.0e-16, 7.0e-16, 3.0e-15, 2.0e-14 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure tanh1 = dsX.exp().subtract(dsX.exp().reciprocal()).divide(dsX.exp().add(dsX.exp().reciprocal()));
+                DerivativeStructure tanh2 = dsX.tanh();
+                DerivativeStructure zero = tanh1.subtract(tanh2);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSinhAsinh() {
+        double[] epsilon = new double[] { 3.0e-16, 3.0e-16, 4.0e-16, 7.0e-16, 3.0e-15, 8.0e-15 };
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.sinh().asinh();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testCoshAcosh() {
+        double[] epsilon = new double[] { 2.0e-15, 1.0e-14, 2.0e-13, 6.0e-12, 3.0e-10, 2.0e-8 };
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.cosh().acosh();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testTanhAtanh() {
+        double[] epsilon = new double[] { 3.0e-16, 2.0e-16, 7.0e-16, 4.0e-15, 3.0e-14, 4.0e-13 };
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.tanh().atanh();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testCompositionOneVariableY() {
         double epsilon = 1.0e-13;
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
