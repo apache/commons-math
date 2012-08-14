@@ -1066,33 +1066,41 @@ public class DSCompiler {
                     final double[] result, final int resultOffset) {
 
         // create the function value and derivatives
-        double[] function = new double[1 + order];
-        final double z = operand[operandOffset];
-        final double t = FastMath.tan(z);
+        final double[] function = new double[1 + order];
+        final double t = FastMath.tan(operand[operandOffset]);
         function[0] = t;
+
         if (order > 0) {
-            final double secant2 = 1 + t * t;
-            function[1] = secant2;
-            for (int n = 2; n <= order; ++n) {
-                final int signN4 = ((n & 0x02) == 0) ? 1 : -1;
-                double outerSum = 0;
-                int sign = 1;
-                double secant2Kp2 = secant2;
-                for (int k = 0; k < n; ++k) {
-                    double innerSum = 0;
-                    for (int j = 0; j < k; ++j) {
-                        final double alpha = 2 * (k - j) * z;
-                        final double sc  = ((n & 0x01) == 0) ? FastMath.sin(alpha) : FastMath.cos(alpha);
-                         innerSum += sc * signN4 * ArithmeticUtils.pow(k - j, n - 1) *
-                                    ArithmeticUtils.binomialCoefficient(2 * k, j);
+
+            // the nth order derivative of tan has the form:
+            // dn(tan(x)/dxn = P_n(tan(x))
+            // where P_n(t) is a degree n+1 polynomial with same parity as n+1
+            // P_0(t) = t, P_1(t) = 1 + t^2, P_2(x) = 2 t (1 + t^2) ...
+            // the general recurrence relation for P_n is:
+            // P_n(x) = (1+t^2) P_(n-1)'(t)
+            // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
+            final double[] p = new double[order + 2];
+            p[1] = 1;
+            final double t2 = t * t;
+            for (int n = 1; n <= order; ++n) {
+
+                // update and evaluate polynomial P_n(t)
+                double v = 0;
+                p[n + 1] = n * p[n];
+                for (int k = n + 1; k >= 0; k -= 2) {
+                    v = v * t2 + p[k];
+                    if (k > 2) {
+                        p[k - 2] = (k - 1) * p[k - 1] + (k - 3) * p[k - 3];
+                    } else if (k == 2) {
+                        p[0] = p[1];
                     }
-                    double twoNm2K = (n >= 2 * k) ? (1 << (n - 2 * k)) : (1.0 / (1 << (2 * k - n)));
-                    outerSum  += sign * innerSum * ArithmeticUtils.binomialCoefficient(n - 1, k) *
-                                 twoNm2K * secant2Kp2 / (k + 1);
-                    sign       = -sign;
-                    secant2Kp2 *= secant2;
                 }
-                function[n] = n * outerSum;
+                if ((n & 0x1) == 0) {
+                    v *= t;
+                }
+
+                function[n] = v;
+
             }
         }
 
