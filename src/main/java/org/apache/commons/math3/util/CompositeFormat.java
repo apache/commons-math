@@ -36,7 +36,7 @@ public class CompositeFormat {
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance()} with the only customizing that the
-     * maximum number of fraction digits is set to 2.
+     * maximum number of fraction digits is set to 10.
      * @return the default number format.
      */
     public static NumberFormat getDefaultNumberFormat() {
@@ -46,7 +46,7 @@ public class CompositeFormat {
     /**
      * Create a default number format.  The default number format is based on
      * {@link NumberFormat#getInstance(java.util.Locale)} with the only
-     * customizing that the maximum number of fraction digits is set to 2.
+     * customizing that the maximum number of fraction digits is set to 10.
      * @param locale the specific locale used by the format.
      * @return the default number format specific to the given locale.
      */
@@ -60,7 +60,7 @@ public class CompositeFormat {
      * Parses <code>source</code> until a non-whitespace character is found.
      *
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.  On output, <code>pos</code>
+     * @param pos input/output parsing parameter.  On output, <code>pos</code>
      *        holds the index of the next non-whitespace character.
      */
     public static void parseAndIgnoreWhitespace(final String source,
@@ -73,7 +73,7 @@ public class CompositeFormat {
      * Parses <code>source</code> until a non-whitespace character is found.
      *
      * @param source the string to parse
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the first non-whitespace character.
      */
     public static char parseNextCharacter(final String source,
@@ -103,7 +103,7 @@ public class CompositeFormat {
      *
      * @param source the string to parse
      * @param value the special value to parse.
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the special number.
      */
     private static Number parseNumber(final String source, final double value,
@@ -135,7 +135,7 @@ public class CompositeFormat {
      *
      * @param source the string to parse
      * @param format the number format used to parse normal, numeric values.
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return the parsed number.
      */
     public static Number parseNumber(final String source, final NumberFormat format,
@@ -165,7 +165,7 @@ public class CompositeFormat {
      * Parse <code>source</code> for an expected fixed string.
      * @param source the string to parse
      * @param expected expected string
-     * @param pos input/ouput parsing parameter.
+     * @param pos input/output parsing parameter.
      * @return true if the expected string was there
      */
     public static boolean parseFixedstring(final String source,
