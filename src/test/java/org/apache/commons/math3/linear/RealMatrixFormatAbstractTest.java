@@ -341,7 +341,7 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testForgottenPrefix() {
         ParsePosition pos = new ParsePosition(0);
         final String source = "1; 1; 1]";
-        Assert.assertNull("Should not parse <"+source+">", new RealMatrixFormat().parse(source, pos));
+        Assert.assertNull("Should not parse <"+source+">", realMatrixFormat.parse(source, pos));
         Assert.assertEquals(0, pos.getErrorIndex());
     }
 
@@ -349,7 +349,7 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testForgottenSeparator() {
         ParsePosition pos = new ParsePosition(0);
         final String source = "{{1, 1 1}}";
-        Assert.assertNull("Should not parse <"+source+">", new RealMatrixFormat().parse(source, pos));
+        Assert.assertNull("Should not parse <"+source+">", realMatrixFormat.parse(source, pos));
         Assert.assertEquals(7, pos.getErrorIndex());
     }
 
@@ -357,7 +357,7 @@ public abstract class RealMatrixFormatAbstractTest {
     public void testForgottenSuffix() {
         ParsePosition pos = new ParsePosition(0);
         final String source = "{{1, 1, 1 ";
-        Assert.assertNull("Should not parse <"+source+">", new RealMatrixFormat().parse(source, pos));
+        Assert.assertNull("Should not parse <"+source+">", realMatrixFormat.parse(source, pos));
         Assert.assertEquals(9, pos.getErrorIndex());
     }
 }
