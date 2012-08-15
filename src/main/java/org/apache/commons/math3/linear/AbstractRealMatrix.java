@@ -18,6 +18,7 @@
 package org.apache.commons.math3.linear;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -30,7 +31,7 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Basic implementation of RealMatrix methods regardless of the underlying storage.
  * <p>All the methods implemented here use {@link #getEntry(int, int)} to access
- * matrix elements. Derived class can provide faster implementations. </p>
+ * matrix elements. Derived class can provide faster implementations.</p>
  *
  * @version $Id$
  * @since 2.0
@@ -40,7 +41,7 @@ public abstract class AbstractRealMatrix
     implements RealMatrix {
 
     /** Default format. */
-    private static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance();
+    private static final RealMatrixFormat DEFAULT_FORMAT = RealMatrixFormat.getInstance(Locale.US);
     static {
         // set the minimum fraction digits to 1 to keep compatibility
         DEFAULT_FORMAT.getFormat().setMinimumFractionDigits(1);
