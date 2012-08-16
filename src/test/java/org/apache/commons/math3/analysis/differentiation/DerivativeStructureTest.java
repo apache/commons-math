@@ -753,6 +753,19 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testCeilFloor() {
+
+        DerivativeStructure x = new DerivativeStructure(1, 1, 0, -1.5);
+        Assert.assertEquals(-1.5, x.getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, x.getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-1.0, x.ceil().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+0.0, x.ceil().getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-2.0, x.floor().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+0.0, x.floor().getPartialDerivative(1), 1.0e-15);
+
+    }
+
+    @Test
     public void testField() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             DerivativeStructure x = new DerivativeStructure(3, maxOrder, 0, 1.0);

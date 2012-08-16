@@ -22,6 +22,7 @@ import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.util.FastMath;
 
 /** Class representing both the value and the differentials of a function.
  * <p>This class is the workhorse of the differentiation package.</p>
@@ -365,6 +366,24 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         } else {
             return this;
         }
+    }
+
+    /** Get the smallest whole number larger than instance.
+     * @return ceil(this)
+     */
+    public DerivativeStructure ceil() {
+        return new DerivativeStructure(compiler.getFreeParameters(),
+                                       compiler.getOrder(),
+                                       FastMath.ceil(data[0]));
+    }
+
+    /** Get the largest whole number smaller than instance.
+     * @return floor(this)
+     */
+    public DerivativeStructure floor() {
+        return new DerivativeStructure(compiler.getFreeParameters(),
+                                       compiler.getOrder(),
+                                       FastMath.floor(data[0]));
     }
 
     /** {@inheritDoc} */
