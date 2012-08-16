@@ -129,7 +129,7 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
             weights[idx] = w;
         }
         // If "numberOfPoints" is odd, 0 is a root.
-        if (numberOfPoints % 2 == 1) {
+        if (numberOfPoints % 2 != 0) {
             double pmc = 1;
             for (int j = 1; j < numberOfPoints; j += 2) {
                 pmc = -j * pmc / (j + 1);

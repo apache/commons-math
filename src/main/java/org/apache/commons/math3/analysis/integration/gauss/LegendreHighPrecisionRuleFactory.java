@@ -193,7 +193,7 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
             weights[idx] = tmp2;
         }
         // If "numberOfPoints" is odd, 0 is a root.
-        if (numberOfPoints % 2 == 1) {
+        if (numberOfPoints % 2 != 0) {
             BigDecimal pmc = BigDecimal.ONE;
             for (int j = 1; j < numberOfPoints; j += 2) {
                 final BigDecimal b_j = new BigDecimal(j, mContext);
