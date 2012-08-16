@@ -386,6 +386,22 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
                                        FastMath.floor(data[0]));
     }
 
+    /**
+     * Returns the instance with the sign of the argument.
+     * A NaN {@code sign} argument is treated as positive.
+     *
+     * @param sign the sign for the returned value
+     * @return the instance with the same sign as the {@code sign} argument
+     */
+    public DerivativeStructure copySign(final double sign){
+        long m = Double.doubleToLongBits(data[0]);
+        long s = Double.doubleToLongBits(sign);
+        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+            return this;
+        }
+        return negate(); // flip sign
+    }
+
     /** {@inheritDoc} */
     public DerivativeStructure reciprocal() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
