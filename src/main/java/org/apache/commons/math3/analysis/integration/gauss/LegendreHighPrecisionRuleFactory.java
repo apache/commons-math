@@ -62,6 +62,8 @@ public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal
 
     /**
      * {@inheritDoc}
+     *
+     * @throws NotStrictlyPositiveException if {@code numberOfPoints < 1}.
      */
     @Override
     protected Pair<BigDecimal[], BigDecimal[]> computeRule(int numberOfPoints) {
