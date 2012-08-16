@@ -838,7 +838,7 @@ public class DerivativeStructureTest {
     }
 
     @Test
-    public void testCeilFloor() {
+    public void testCeilFloorRintLong() {
 
         DerivativeStructure x = new DerivativeStructure(1, 1, 0, -1.5);
         Assert.assertEquals(-1.5, x.getPartialDerivative(0), 1.0e-15);
@@ -847,6 +847,10 @@ public class DerivativeStructureTest {
         Assert.assertEquals(+0.0, x.ceil().getPartialDerivative(1), 1.0e-15);
         Assert.assertEquals(-2.0, x.floor().getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(+0.0, x.floor().getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-2.0, x.rint().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+0.0, x.rint().getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-2.0, x.subtract(x.getField().getOne()).rint().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(-1l, x.round());
 
     }
 

@@ -386,6 +386,22 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
                                        FastMath.floor(data[0]));
     }
 
+    /** Get the whole number that is the nearest to the instance, or the even one if x is exactly half way between two integers.
+     * @return a double number r such that r is an integer r - 0.5 <= this <= r + 0.5
+     */
+    public DerivativeStructure rint() {
+        return new DerivativeStructure(compiler.getFreeParameters(),
+                                       compiler.getOrder(),
+                                       FastMath.rint(data[0]));
+    }
+
+    /** Get the closest long to instance value.
+     * @return closest long to {@link #getValue()}
+     */
+    public long round() {
+        return FastMath.round(data[0]);
+    }
+
     /**
      * Returns the instance with the sign of the argument.
      * A NaN {@code sign} argument is treated as positive.
