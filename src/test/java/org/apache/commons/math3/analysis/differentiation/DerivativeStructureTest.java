@@ -893,6 +893,57 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testToDegreesDefinition() {
+        double epsilon = 3.0e-16;
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                Assert.assertEquals(FastMath.toDegrees(x), dsX.toDegrees().getValue(), epsilon);
+                for (int n = 1; n <= maxOrder; ++n) {
+                    if (n == 1) {
+                        Assert.assertEquals(180 / FastMath.PI, dsX.toDegrees().getPartialDerivative(1), epsilon);
+                    } else {
+                        Assert.assertEquals(0.0, dsX.toDegrees().getPartialDerivative(n), epsilon);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testToRadiansDefinition() {
+        double epsilon = 3.0e-16;
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                Assert.assertEquals(FastMath.toRadians(x), dsX.toRadians().getValue(), epsilon);
+                for (int n = 1; n <= maxOrder; ++n) {
+                    if (n == 1) {
+                        Assert.assertEquals(FastMath.PI / 180, dsX.toRadians().getPartialDerivative(1), epsilon);
+                    } else {
+                        Assert.assertEquals(0.0, dsX.toRadians().getPartialDerivative(n), epsilon);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testDegRad() {
+        double epsilon = 3.0e-16;
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = dsX.toDegrees().toRadians();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testField() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             DerivativeStructure x = new DerivativeStructure(3, maxOrder, 0, 1.0);

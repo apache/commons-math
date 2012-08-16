@@ -757,6 +757,28 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return result;
     }
 
+    /** Convert radians to degrees, with error of less than 0.5 ULP
+     *  @return instance converted into degrees
+     */
+    public DerivativeStructure toDegrees() {
+        final DerivativeStructure ds = new DerivativeStructure(compiler);
+        for (int i = 0; i < ds.data.length; ++i) {
+            ds.data[i] = FastMath.toDegrees(data[i]);
+        }
+        return ds;
+    }
+
+    /** Convert degrees to radians, with error of less than 0.5 ULP
+     *  @return instance converted into radians
+     */
+    public DerivativeStructure toRadians() {
+        final DerivativeStructure ds = new DerivativeStructure(compiler);
+        for (int i = 0; i < ds.data.length; ++i) {
+            ds.data[i] = FastMath.toRadians(data[i]);
+        }
+        return ds;
+    }
+
     /** Evaluate Taylor expansion a derivative structure.
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
