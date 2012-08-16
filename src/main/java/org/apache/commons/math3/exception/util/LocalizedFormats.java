@@ -344,7 +344,7 @@ public enum LocalizedFormats implements Localizable {
     WRONG_BLOCK_LENGTH("wrong array shape (block length = {0}, expected {1})"),
     WRONG_NUMBER_OF_POINTS("{0} points are required, got only {1}"),
     NUMBER_OF_POINTS("number of points ({0})"), /* keep */
-    ZERO_DENOMINATOR("denominator must be different from 0"),
+    ZERO_DENOMINATOR("denominator must be different from 0"), /* keep */
     ZERO_DENOMINATOR_IN_FRACTION("zero denominator in fraction {0}/{1}"),
     ZERO_FRACTION_TO_DIVIDE_BY("the fraction to divide by must not be zero: {0}/{1}"),
     ZERO_NORM("zero norm"),
