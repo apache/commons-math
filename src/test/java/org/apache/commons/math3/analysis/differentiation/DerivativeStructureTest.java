@@ -838,6 +838,29 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testSignum() {
+
+        DerivativeStructure minusOne = new DerivativeStructure(1, 1, 0, -1.0);
+        Assert.assertEquals(-1.0, minusOne.signum().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals( 0.0, minusOne.signum().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure plusOne = new DerivativeStructure(1, 1, 0, +1.0);
+        Assert.assertEquals(+1.0, plusOne.signum().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals( 0.0, plusOne.signum().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure minusZero = new DerivativeStructure(1, 1, 0, -0.0);
+        Assert.assertEquals(-0.0, minusZero.signum().getPartialDerivative(0), 1.0e-15);
+        Assert.assertTrue(Double.doubleToLongBits(minusZero.signum().getValue()) < 0);
+        Assert.assertEquals( 0.0, minusZero.signum().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure plusZero = new DerivativeStructure(1, 1, 0, +0.0);
+        Assert.assertEquals(+0.0, plusZero.signum().getPartialDerivative(0), 1.0e-15);
+        Assert.assertTrue(Double.doubleToLongBits(plusZero.signum().getValue()) == 0);
+        Assert.assertEquals( 0.0, plusZero.signum().getPartialDerivative(1), 1.0e-15);
+
+    }
+
+    @Test
     public void testCeilFloorRintLong() {
 
         DerivativeStructure x = new DerivativeStructure(1, 1, 0, -1.5);

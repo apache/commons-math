@@ -402,6 +402,17 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return FastMath.round(data[0]);
     }
 
+    /** Compute the signum of the instance.
+     * The signum is -1 for negative numbers, +1 for positive numbers and 0 otherwise
+     * @param a number on which evaluation is done
+     * @return -1.0, -0.0, +0.0, +1.0 or NaN depending on sign of a
+     */
+    public DerivativeStructure signum() {
+        return new DerivativeStructure(compiler.getFreeParameters(),
+                                       compiler.getOrder(),
+                                       FastMath.signum(data[0]));
+    }
+
     /**
      * Returns the instance with the sign of the argument.
      * A NaN {@code sign} argument is treated as positive.
