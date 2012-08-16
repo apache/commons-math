@@ -355,6 +355,18 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return ds;
     }
 
+    /** absolute value.
+     * @return abs(this)
+     */
+    public DerivativeStructure abs() {
+        if (Double.doubleToLongBits(data[0]) < 0) {
+            // we use the bits representation to also handle -0.0
+            return negate();
+        } else {
+            return this;
+        }
+    }
+
     /** {@inheritDoc} */
     public DerivativeStructure reciprocal() {
         final DerivativeStructure result = new DerivativeStructure(compiler);

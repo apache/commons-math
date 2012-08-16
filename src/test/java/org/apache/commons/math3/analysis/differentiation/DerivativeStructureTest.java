@@ -732,6 +732,27 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testAbs() {
+
+        DerivativeStructure minusOne = new DerivativeStructure(1, 1, 0, -1.0);
+        Assert.assertEquals(+1.0, minusOne.abs().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(-1.0, minusOne.abs().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure plusOne = new DerivativeStructure(1, 1, 0, +1.0);
+        Assert.assertEquals(+1.0, plusOne.abs().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.abs().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure minusZero = new DerivativeStructure(1, 1, 0, -0.0);
+        Assert.assertEquals(+0.0, minusZero.abs().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(-1.0, minusZero.abs().getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure plusZero = new DerivativeStructure(1, 1, 0, +0.0);
+        Assert.assertEquals(+0.0, plusZero.abs().getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, plusZero.abs().getPartialDerivative(1), 1.0e-15);
+
+    }
+
+    @Test
     public void testField() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             DerivativeStructure x = new DerivativeStructure(3, maxOrder, 0, 1.0);
