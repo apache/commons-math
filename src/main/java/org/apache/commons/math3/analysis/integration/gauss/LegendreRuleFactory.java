@@ -17,6 +17,8 @@
 package org.apache.commons.math3.analysis.integration.gauss;
 
 import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Legendre polynomials.
@@ -35,6 +37,11 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
      */
     @Override
     protected Pair<Double[], Double[]> computeRule(int numberOfPoints) {
+        if (numberOfPoints <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS,
+                                                   numberOfPoints);
+        }
+
         if (numberOfPoints == 1) {
             // Break recursion.
             return new Pair<Double[], Double[]>(new Double[] { 0d },
