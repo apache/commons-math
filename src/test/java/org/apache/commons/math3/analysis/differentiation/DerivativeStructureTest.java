@@ -404,6 +404,44 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testHypotDefinition() {
+        double epsilon = 1.0e-20;
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = -1.7; x < 2; x += 0.2) {
+                DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
+                for (double y = -1.7; y < 2; y += 0.2) {
+                    DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
+                    DerivativeStructure hypot = DerivativeStructure.hypot(dsY, dsX);
+                    DerivativeStructure ref = dsX.multiply(dsX).add(dsY.multiply(dsY)).sqrt();
+                    DerivativeStructure zero = hypot.subtract(ref);
+                    for (int n = 0; n <= maxOrder; ++n) {
+                        for (int m = 0; m <= maxOrder; ++m) {
+                            if (n + m <= maxOrder) {
+                                Assert.assertEquals(0, zero.getPartialDerivative(n, m), epsilon);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testHypotNoOverflow() {
+
+        DerivativeStructure dsX = new DerivativeStructure(2, 5, 0, +3.0e250);
+        DerivativeStructure dsY = new DerivativeStructure(2, 5, 1, -4.0e250);
+        DerivativeStructure hypot = DerivativeStructure.hypot(dsX, dsY);
+        Assert.assertEquals(5.0e250, hypot.getValue(), 1.0e235);
+        Assert.assertEquals(dsX.getValue() / hypot.getValue(), hypot.getPartialDerivative(1, 0), 1.0e-10);
+        Assert.assertEquals(dsY.getValue() / hypot.getValue(), hypot.getPartialDerivative(0, 1), 1.0e-10);
+
+        DerivativeStructure sqrt  = dsX.multiply(dsX).add(dsY.multiply(dsY)).sqrt();
+        Assert.assertTrue(Double.isInfinite(sqrt.getValue()));
+
+    }
+
+    @Test
     public void testExp() {
         double[] epsilon = new double[] { 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {

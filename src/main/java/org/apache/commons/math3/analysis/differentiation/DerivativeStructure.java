@@ -402,6 +402,90 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return negate(); // flip sign
     }
 
+    /**
+     * Return the exponent of the instance value, removing the bias.
+     * <p>
+     * For double numbers of the form 2<sup>x</sup>, the unbiased
+     * exponent is exactly x.
+     * </p>
+     * @return exponent for instance in IEEE754 representation, without bias
+     */
+    public int getExponent() {
+        return FastMath.getExponent(data[0]);
+    }
+
+    /**
+     * Multiply the instance by a power of 2.
+     * @param n power of 2
+     * @return this &times; 2<sup>n</sup>
+     */
+    public DerivativeStructure scalb(final int n) {
+        final DerivativeStructure ds = new DerivativeStructure(compiler);
+        for (int i = 0; i < ds.data.length; ++i) {
+            ds.data[i] = FastMath.scalb(data[i], n);
+        }
+        return ds;
+    }
+
+    /**
+     * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * avoiding intermediate overflow or underflow.
+     *
+     * <ul>
+     * <li> If either argument is infinite, then the result is positive infinity.</li>
+     * <li> else, if either argument is NaN then the result is NaN.</li>
+     * </ul>
+     *
+     * @param x a value
+     * @param y a value
+     * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
+     * @exception DimensionMismatchException if number of free parameters or orders are inconsistent
+     */
+    public static DerivativeStructure hypot(final DerivativeStructure x, final DerivativeStructure y)
+        throws DimensionMismatchException {
+
+        x.compiler.checkCompatibility(y.compiler);
+
+        if (Double.isInfinite(x.data[0]) || Double.isInfinite(y.data[0])) {
+            return new DerivativeStructure(x.compiler.getFreeParameters(),
+                                           x.compiler.getFreeParameters(),
+                                           Double.POSITIVE_INFINITY);
+        } else if (Double.isNaN(x.data[0]) || Double.isNaN(y.data[0])) {
+            return new DerivativeStructure(x.compiler.getFreeParameters(),
+                                           x.compiler.getFreeParameters(),
+                                           Double.NaN);
+        } else {
+
+            final int expX = x.getExponent();
+            final int expY = y.getExponent();
+            if (expX > expY + 27) {
+                // y is neglectible with respect to x
+                return x.abs();
+            } else if (expY > expX + 27) {
+                // x is neglectible with respect to y
+                return y.abs();
+            } else {
+
+                // find an intermediate scale to avoid both overflow and underflow
+                final int middleExp = (expX + expY) / 2;
+
+                // scale parameters without losing precision
+                final DerivativeStructure scaledX = x.scalb(-middleExp);
+                final DerivativeStructure scaledY = y.scalb(-middleExp);
+
+                // compute scaled hypotenuse
+                final DerivativeStructure scaledH =
+                        scaledX.multiply(scaledX).add(scaledY.multiply(scaledY)).sqrt();
+
+                // remove scaling
+                return scaledH.scalb(middleExp);
+
+            }
+
+        }
+    }
+
     /** {@inheritDoc} */
     public DerivativeStructure reciprocal() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
