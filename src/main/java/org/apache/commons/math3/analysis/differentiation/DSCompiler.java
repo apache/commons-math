@@ -974,6 +974,27 @@ public class DSCompiler {
 
     }
 
+    /** Compute exp(x) - 1 of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * exponential the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     */
+    public void expm1(final double[] operand, final int operandOffset,
+                      final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        function[0] = FastMath.expm1(operand[operandOffset]);
+        Arrays.fill(function, 1, 1 + order, FastMath.exp(operand[operandOffset]));
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
     /** Compute natural logarithm of a derivative structure.
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array
@@ -990,6 +1011,34 @@ public class DSCompiler {
         function[0] = FastMath.log(operand[operandOffset]);
         if (order > 0) {
             double inv = 1.0 / operand[operandOffset];
+            double xk  = inv;
+            for (int i = 1; i <= order; ++i) {
+                function[i] = xk;
+                xk *= -i * inv;
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Computes of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * logarithm the result array <em>cannot</em> be the input
+     * array)
+     */
+    public void log1p(final double[] operand, final int operandOffset,
+                      final double[] result, final int resultOffset) {
+        
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        function[0] = FastMath.log1p(operand[operandOffset]);
+        if (order > 0) {
+            double inv = 1.0 / (1.0 + operand[operandOffset]);
             double xk  = inv;
             for (int i = 1; i <= order; ++i) {
                 function[i] = xk;

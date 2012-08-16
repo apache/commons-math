@@ -497,12 +497,30 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         return result;
     }
 
+    /** Exponential minus 1.
+     * @return exponential minus one of the instance
+     */
+    public DerivativeStructure expm1() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.expm1(data, 0, result.data, 0);
+        return result;
+    }
+
     /** Natural logarithm.
      * @return logarithm of the instance
      */
     public DerivativeStructure log() {
         final DerivativeStructure result = new DerivativeStructure(compiler);
         compiler.log(data, 0, result.data, 0);
+        return result;
+    }
+
+    /** Shifted natural logarithm.
+     * @return logarithm of one plus the instance
+     */
+    public DerivativeStructure log1p() {
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.log1p(data, 0, result.data, 0);
         return result;
     }
 
