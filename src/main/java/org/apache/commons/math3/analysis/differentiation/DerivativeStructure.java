@@ -70,21 +70,22 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
     }
 
     /** Build an instance with all values and derivatives set to 0.
-     * @param variables number of variables
+     * @param parameters number of free parameters
      * @param order derivation order
      */
-    public DerivativeStructure(final int variables, final int order) {
-        this(DSCompiler.getCompiler(variables, order));
+    public DerivativeStructure(final int parameters, final int order) {
+        this(DSCompiler.getCompiler(parameters, order));
     }
 
     /** Build an instance representing a constant value.
-     * @param variables number of variables
+     * @param parameters number of free parameters
+     * @param parameters number of variables
      * @param order derivation order
      * @param value value of the constant
      * @see #DerivativeStructure(int, int, int, double)
      */
-    public DerivativeStructure(final int variables, final int order, final double value) {
-        this(variables, order);
+    public DerivativeStructure(final int parameters, final int order, final double value) {
+        this(parameters, order);
         this.data[0] = value;
     }
 
@@ -93,20 +94,20 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
      * to be the free variables with respect to which differentials
      * are computed. As such, their differential with respect to
      * themselves is +1.</p>
-     * @param variables number of variables
+     * @param parameters number of free parameters
      * @param order derivation order
      * @param index index of the variable (from 0 to {@code variables - 1})
      * @param value value of the variable
      * @exception NumberIsTooLargeException if index is equal to variables or larger
      * @see #DerivativeStructure(int, int, double)
      */
-    public DerivativeStructure(final int variables, final int order,
+    public DerivativeStructure(final int parameters, final int order,
                                final int index, final double value)
         throws NumberIsTooLargeException {
-        this(variables, order, value);
+        this(parameters, order, value);
 
-        if (index >= variables) {
-            throw new NumberIsTooLargeException(index, variables, false);
+        if (index >= parameters) {
+            throw new NumberIsTooLargeException(index, parameters, false);
         }
 
         if (order > 0) {
