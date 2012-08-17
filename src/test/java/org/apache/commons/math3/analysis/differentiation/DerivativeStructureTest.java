@@ -503,6 +503,22 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testLog10Definition() {
+        double[] epsilon = new double[] { 3.0e-16, 3.0e-16, 8.0e-15, 3.0e-13, 8.0e-12 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure log101 = dsX.log10();
+                DerivativeStructure log102 = dsX.log().divide(FastMath.log(10.0));
+                DerivativeStructure zero = log101.subtract(log102);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testLogExp() {
         double[] epsilon = new double[] { 2.0e-16, 2.0e-16, 3.0e-16, 2.0e-15, 6.0e-15 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
@@ -527,6 +543,21 @@ public class DerivativeStructureTest {
                 DerivativeStructure zero = rebuiltX.subtract(dsX);
                 for (int n = 0; n <= maxOrder; ++n) {
                     Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testLog10Power() {
+        double[] epsilon = new double[] { 3.0e-16, 3.0e-16, 9.0e-16, 6.0e-15, 6.0e-14 };
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure rebuiltX = new DerivativeStructure(1, maxOrder, 10.0).pow(dsX).log10();
+                DerivativeStructure zero = rebuiltX.subtract(dsX);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0, zero.getPartialDerivative(n), epsilon[n]);
                 }
             }
         }

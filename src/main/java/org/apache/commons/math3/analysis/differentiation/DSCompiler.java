@@ -1023,11 +1023,11 @@ public class DSCompiler {
 
     }
 
-    /** Computes of a derivative structure.
+    /** Computes shifted logarithm of a derivative structure.
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array
      * @param result array where result must be stored (for
-     * logarithm the result array <em>cannot</em> be the input
+     * shifted logarithm the result array <em>cannot</em> be the input
      * array)
      */
     public void log1p(final double[] operand, final int operandOffset,
@@ -1040,6 +1040,34 @@ public class DSCompiler {
         if (order > 0) {
             double inv = 1.0 / (1.0 + operand[operandOffset]);
             double xk  = inv;
+            for (int i = 1; i <= order; ++i) {
+                function[i] = xk;
+                xk *= -i * inv;
+            }
+        }
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
+    /** Computes base 10 logarithm of a derivative structure.
+     * @param operand array holding the operand
+     * @param operandOffset offset of the operand in its array
+     * @param result array where result must be stored (for
+     * base 10 logarithm the result array <em>cannot</em> be the input
+     * array)
+     */
+    public void log10(final double[] operand, final int operandOffset,
+                      final double[] result, final int resultOffset) {
+        
+
+        // create the function value and derivatives
+        double[] function = new double[1 + order];
+        function[0] = FastMath.log10(operand[operandOffset]);
+        if (order > 0) {
+            double inv = 1.0 / operand[operandOffset];
+            double xk  = inv / FastMath.log(10.0);
             for (int i = 1; i <= order; ++i) {
                 function[i] = xk;
                 xk *= -i * inv;
