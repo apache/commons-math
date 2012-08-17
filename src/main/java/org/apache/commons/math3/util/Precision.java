@@ -30,10 +30,17 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  */
 public class Precision {
     /**
+     * <p>
      * Largest double-precision floating-point number such that
-     * {@code 1 + EPSILON} is numerically equal to 1.
-     * <br/>
+     * {@code 1 + EPSILON} is numerically equal to 1. This value is an upper
+     * bound on the relative error due to rounding real numbers to double
+     * precision floating-point numbers.
+     * </p>
+     * <p>
      * In IEEE 754 arithmetic, this is 2<sup>-53</sup>.
+     * </p>
+     *
+     * @see <a href="http://en.wikipedia.org/wiki/Machine_epsilon">Machine epsilon</a>
      */
     public static final double EPSILON;
 
