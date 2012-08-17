@@ -191,14 +191,12 @@ public class HarmonicFitterTest {
             points[i] = new WeightedObservedPoint(1, i, y[i]);
         }
 
-        final HarmonicFitter.ParameterGuesser guesser
-            = new HarmonicFitter.ParameterGuesser(points);
-
         // The guesser fails because the function is far from an harmonic
         // function: It is a triangular periodic function with amplitude 3
         // and period 12, and all sample points are taken at integer abscissae
         // so function values all belong to the integer subset {-3, -2, -1, 0,
         // 1, 2, 3}.
-        guesser.guess();
+        final HarmonicFitter.ParameterGuesser guesser
+            = new HarmonicFitter.ParameterGuesser(points);
     }
 }
