@@ -25,6 +25,8 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -36,7 +38,7 @@ import org.apache.commons.math3.util.MathUtils;
  *
  * @version $Id$
  */
-public class PolynomialFunction implements DifferentiableUnivariateFunction, Serializable {
+public class PolynomialFunction implements UnivariateDifferentiable, DifferentiableUnivariateFunction, Serializable {
     /**
      * Serialization identifier
      */
@@ -133,6 +135,27 @@ public class PolynomialFunction implements DifferentiableUnivariateFunction, Ser
         double result = coefficients[n - 1];
         for (int j = n - 2; j >= 0; j--) {
             result = argument * result + coefficients[j];
+        }
+        return result;
+    }
+
+
+    /** {@inheritDoc}
+     * @since 3.1
+     * @throws NoDataException if {@code coefficients} is empty.
+     * @throws NullArgumentException if {@code coefficients} is {@code null}.
+     */
+    public DerivativeStructure value(final DerivativeStructure t)
+        throws NullArgumentException, NoDataException {
+        MathUtils.checkNotNull(coefficients);
+        int n = coefficients.length;
+        if (n == 0) {
+            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);
+        }
+        DerivativeStructure result =
+                new DerivativeStructure(t.getFreeParameters(), t.getOrder(), coefficients[n - 1]);
+        for (int j = n - 2; j >= 0; j--) {
+            result = result.multiply(t).add(coefficients[j]);
         }
         return result;
     }

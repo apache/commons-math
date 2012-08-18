@@ -21,6 +21,8 @@ import java.util.Arrays;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -61,7 +63,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  *
  * @version $Id$
  */
-public class PolynomialSplineFunction implements DifferentiableUnivariateFunction {
+public class PolynomialSplineFunction implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
     /**
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.
@@ -166,6 +168,28 @@ public class PolynomialSplineFunction implements DifferentiableUnivariateFunctio
             derivativePolynomials[i] = polynomials[i].polynomialDerivative();
         }
         return new PolynomialSplineFunction(knots, derivativePolynomials);
+    }
+
+
+    /** {@inheritDoc}
+     * @since 3.1
+     */
+    public DerivativeStructure value(final DerivativeStructure t) {
+        final double t0 = t.getValue();
+        if (t0 < knots[0] || t0 > knots[n]) {
+            throw new OutOfRangeException(t0, knots[0], knots[n]);
+        }
+        int i = Arrays.binarySearch(knots, t0);
+        if (i < 0) {
+            i = -i - 2;
+        }
+        // This will handle the case where t is the last knot value
+        // There are only n-1 polynomials, so if t is the last knot
+        // then we will use the last polynomial to calculate the value.
+        if ( i >= polynomials.length ) {
+            i--;
+        }
+        return polynomials[i].value(t.subtract(knots[i]));
     }
 
     /**
