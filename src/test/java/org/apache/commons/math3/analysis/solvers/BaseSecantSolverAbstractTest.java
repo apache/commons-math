@@ -17,11 +17,11 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.XMinus5Function;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public abstract class BaseSecantSolverAbstractTest {
         // The sinus function is behaved well around the root at pi. The second
         // order derivative is zero, which means linear approximating methods
         // still converge quadratically.
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         double result;
         UnivariateSolver solver = getSolver();
 
@@ -136,7 +136,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testBadEndpoints() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = getSolver();
         try {  // bad interval
             solver.solve(100, f, 1, -1);
@@ -160,7 +160,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionLeftSide() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -179,7 +179,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionRightSide() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -197,7 +197,7 @@ public abstract class BaseSecantSolverAbstractTest {
     }
     @Test
     public void testSolutionBelowSide() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;
@@ -216,7 +216,7 @@ public abstract class BaseSecantSolverAbstractTest {
 
     @Test
     public void testSolutionAboveSide() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = getSolver();
         double left = -1.5;
         double right = 0.05;

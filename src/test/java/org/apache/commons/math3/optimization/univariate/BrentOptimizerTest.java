@@ -17,14 +17,14 @@
 package org.apache.commons.math3.optimization.univariate;
 
 
+import org.apache.commons.math3.analysis.QuinticFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -37,7 +37,7 @@ public final class BrentOptimizerTest {
 
     @Test
     public void testSinMin() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateOptimizer optimizer = new BrentOptimizer(1e-10, 1e-14);
         Assert.assertEquals(3 * Math.PI / 2, optimizer.optimize(200, f, GoalType.MINIMIZE, 4, 5).getPoint(),1e-8);
         Assert.assertTrue(optimizer.getEvaluations() <= 50);
@@ -55,7 +55,7 @@ public final class BrentOptimizerTest {
 
     @Test
     public void testSinMinWithValueChecker() {
-        final UnivariateFunction f = new SinFunction();
+        final UnivariateFunction f = new Sin();
         final ConvergenceChecker<UnivariatePointValuePair> checker = new SimpleUnivariateValueChecker(1e-5, 1e-14);
         // The default stopping criterion of Brent's algorithm should not
         // pass, but the search will stop at the given relative tolerance
@@ -148,7 +148,7 @@ public final class BrentOptimizerTest {
 
     @Test
     public void testMinEndpoints() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateOptimizer optimizer = new BrentOptimizer(1e-8, 1e-14);
 
         // endpoint is minimum

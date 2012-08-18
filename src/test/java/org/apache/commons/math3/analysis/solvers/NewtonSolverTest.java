@@ -18,7 +18,10 @@ package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +36,7 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testSinZero() {
-        DifferentiableUnivariateFunction f = new SinFunction();
+        DifferentiableUnivariateFunction f = new Sin();
         double result;
 
         NewtonSolver solver = new NewtonSolver();
@@ -51,7 +54,22 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testQuinticZero() {
-        DifferentiableUnivariateFunction f = new QuinticFunction();
+        final UnivariateDifferentiable q = new QuinticFunction();
+        DifferentiableUnivariateFunction f = new DifferentiableUnivariateFunction() {
+
+            public double value(double x) {
+                return q.value(x);
+            }
+
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
+                    public double value(double x) {
+                        return q.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
+                    }
+                };
+            }
+
+        };
         double result;
 
         NewtonSolver solver = new NewtonSolver();

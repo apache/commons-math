@@ -16,19 +16,19 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.MonitoredFunction;
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.function.Sqrt;
-import org.apache.commons.math3.analysis.function.Inverse;
+import org.apache.commons.math3.analysis.MonitoredFunction;
+import org.apache.commons.math3.analysis.QuinticFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Constant;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.analysis.function.Inverse;
+import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.analysis.function.Sqrt;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,7 +49,7 @@ public final class BrentSolverTest {
         // The sinus function is behaved well around the root at pi. The second
         // order derivative is zero, which means linar approximating methods will
         // still converge quadratically.
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         double result;
         UnivariateSolver solver = new BrentSolver();
         // Somewhat benign interval. The function is monotone.
@@ -162,7 +162,7 @@ public final class BrentSolverTest {
 
     @Test
     public void testRootEndpoints() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         BrentSolver solver = new BrentSolver();
 
         // endpoint is root
@@ -181,7 +181,7 @@ public final class BrentSolverTest {
 
     @Test
     public void testBadEndpoints() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         BrentSolver solver = new BrentSolver();
         try {  // bad interval
             solver.solve(100, f, 1, -1);

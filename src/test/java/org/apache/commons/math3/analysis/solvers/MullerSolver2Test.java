@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.Expm1Function;
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.analysis.function.Expm1;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public final class MullerSolver2Test {
      */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = new MullerSolver2();
         double min, max, expected, result, tolerance;
 
@@ -97,7 +97,7 @@ public final class MullerSolver2Test {
      */
     @Test
     public void testExpm1Function() {
-        UnivariateFunction f = new Expm1Function();
+        UnivariateFunction f = new Expm1();
         UnivariateSolver solver = new MullerSolver2();
         double min, max, expected, result, tolerance;
 
@@ -125,7 +125,7 @@ public final class MullerSolver2Test {
      */
     @Test
     public void testParameters() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateSolver solver = new MullerSolver2();
 
         try {

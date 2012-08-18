@@ -18,20 +18,19 @@
 package org.apache.commons.math3.optimization.univariate;
 
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.util.FastMath;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class UnivariateMultiStartOptimizerTest {
 
     @Test
     public void testSinMin() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateOptimizer underlying = new BrentOptimizer(1e-10, 1e-14);
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(44428400075l);

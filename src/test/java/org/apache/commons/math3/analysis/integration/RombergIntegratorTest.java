@@ -17,8 +17,8 @@
 package org.apache.commons.math3.analysis.integration;
 
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.FastMath;
@@ -42,7 +42,7 @@ public final class RombergIntegratorTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateIntegrator integrator = new RombergIntegrator();
         double min, max, expected, result, tolerance;
 
@@ -97,7 +97,7 @@ public final class RombergIntegratorTest {
      */
     @Test
     public void testParameters() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
 
         try {
             // bad interval

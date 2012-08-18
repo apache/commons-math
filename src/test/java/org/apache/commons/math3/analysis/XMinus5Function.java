@@ -16,12 +16,15 @@
  */
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+
 /**
  * Auxiliary class for testing solvers.
  *
  * @version $Id$
  */
-public class XMinus5Function implements DifferentiableUnivariateFunction {
+public class XMinus5Function implements UnivariateDifferentiable {
 
     /* Evaluate x - 5 fuction.
      * @see org.apache.commons.math3.UnivariateFunction#value(double)
@@ -30,13 +33,8 @@ public class XMinus5Function implements DifferentiableUnivariateFunction {
         return x - 5;
     }
 
-    /* First derivative of x - 5 function
-     */
-    public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            public double value(double x) {
-                return 1.0;
-            }
-        };
+    public DerivativeStructure value(DerivativeStructure t) {
+        return t.subtract(5);
     }
+
 }

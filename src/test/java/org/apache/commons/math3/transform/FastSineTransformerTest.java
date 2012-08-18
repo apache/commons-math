@@ -19,8 +19,8 @@ package org.apache.commons.math3.transform;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.analysis.function.Sinc;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
@@ -247,7 +247,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         FastSineTransformer transformer;
         transformer = new FastSineTransformer(DstNormalization.STANDARD_DST_I);
         double min, max, result[], tolerance = 1E-12; int N = 1 << 8;
@@ -272,7 +272,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
      */
     @Test
     public void testParameters() throws Exception {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         FastSineTransformer transformer;
         transformer = new FastSineTransformer(DstNormalization.STANDARD_DST_I);
 

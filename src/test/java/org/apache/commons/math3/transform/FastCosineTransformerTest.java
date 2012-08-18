@@ -19,8 +19,8 @@ package org.apache.commons.math3.transform;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.analysis.function.Sinc;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.util.FastMath;
@@ -218,7 +218,7 @@ public final class FastCosineTransformerTest
     @Test
     public void testParameters()
         throws Exception {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         FastCosineTransformer transformer;
         transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
 
@@ -250,7 +250,7 @@ public final class FastCosineTransformerTest
     /** Test of transformer for the sine function. */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         FastCosineTransformer transformer;
         transformer = new FastCosineTransformer(DctNormalization.STANDARD_DCT_I);
         double min, max, result[], tolerance = 1E-12;

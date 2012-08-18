@@ -20,9 +20,10 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -106,39 +107,39 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         // 80 digits and checked with emacs (only the first 20 digits are reproduced here)
         compare(new TestFunction(0.0, -2, 2) {
             @Override
-            public double value(double x)      { return FastMath.sin(x) - 0.5 * x; }
-            @Override
-            public double derivative(double x) { return FastMath.cos(x) - 0.5; }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.sin().subtract(x.multiply(0.5));
+            }
         });
         compare(new TestFunction(6.3087771299726890947, -5, 10) {
             @Override
-            public double value(double x)      { return FastMath.pow(x, 5) + x - 10000; }
-            @Override
-            public double derivative(double x) { return 5 * FastMath.pow(x, 4) + 1; }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.pow(5).add(x).subtract(10000);
+            }
         });
         compare(new TestFunction(9.6335955628326951924, 0.001, 10) {
             @Override
-            public double value(double x)      { return FastMath.sqrt(x) - 1 / x - 3; }
-            @Override
-            public double derivative(double x) { return 0.5 / FastMath.sqrt(x) + 1 / (x * x); }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.sqrt().subtract(x.reciprocal()).subtract(3);
+            }
         });
         compare(new TestFunction(2.8424389537844470678, -5, 5) {
             @Override
-            public double value(double x)      { return FastMath.exp(x) + x - 20; }
-            @Override
-            public double derivative(double x) { return FastMath.exp(x) + 1; }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.exp().add(x).subtract(20);
+            }
         });
         compare(new TestFunction(8.3094326942315717953, 0.001, 10) {
             @Override
-            public double value(double x)      { return FastMath.log(x) + FastMath.sqrt(x) - 5; }
-            @Override
-            public double derivative(double x) { return 1 / x + 0.5 / FastMath.sqrt(x); }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.log().add(x.sqrt()).subtract(5);
+            }
         });
         compare(new TestFunction(1.4655712318767680266, -0.5, 1.5) {
             @Override
-            public double value(double x)      { return (x - 1) * x * x - 1; }
-            @Override
-            public double derivative(double x) { return (3 * x - 2) * x; }
+            public DerivativeStructure value(DerivativeStructure x) {
+                return x.subtract(1).multiply(x).multiply(x).subtract(1);
+            }
         });
 
     }
@@ -147,20 +148,33 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         compare(f, f.getRoot(), f.getMin(), f.getMax());
     }
 
-    private void compare(DifferentiableUnivariateFunction f,
+    private void compare(final UnivariateDifferentiable f,
                          double root, double min, double max) {
+        DifferentiableUnivariateFunction df = new DifferentiableUnivariateFunction() {
+            public double value(double x) {
+                return f.value(x);
+            }
+            
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
+                    public double value(double x) {
+                        return f.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
+                    }
+                };
+            }
+        };
         NewtonSolver newton = new NewtonSolver(1.0e-12);
         BracketingNthOrderBrentSolver bracketing =
                 new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-12, 1.0e-18, 5);
         double resultN;
         try {
-            resultN = newton.solve(100, f, min, max);
+            resultN = newton.solve(100, df, min, max);
         } catch (TooManyEvaluationsException tmee) {
             resultN = Double.NaN;
         }
         double resultB;
         try {
-            resultB = bracketing.solve(100, f, min, max);
+            resultB = bracketing.solve(100, df, min, max);
         } catch (TooManyEvaluationsException tmee) {
             resultB = Double.NaN;
         }
@@ -169,7 +183,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         Assert.assertTrue(bracketing.getEvaluations() < newton.getEvaluations());
     }
 
-    private static abstract class TestFunction implements DifferentiableUnivariateFunction {
+    private static abstract class TestFunction implements UnivariateDifferentiable {
 
         private final double root;
         private final double min;
@@ -193,17 +207,11 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
             return max;
         }
 
-        public abstract double value(double x);
-
-        public abstract double derivative(double x);
-
-        public UnivariateFunction derivative() {
-            return new UnivariateFunction() {
-                public double value(double x) {
-                     return derivative(x);
-                }
-            };
+        public double value(final double x) {
+            return value(new DerivativeStructure(0, 0, x)).getValue();
         }
+
+        public abstract DerivativeStructure value(final DerivativeStructure t);
 
     }
 

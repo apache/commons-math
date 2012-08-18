@@ -18,7 +18,6 @@ package org.apache.commons.math3.transform;
 
 import java.util.Random;
 
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.analysis.function.Sinc;
@@ -453,7 +452,7 @@ public final class FastFourierTransformerTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         FastFourierTransformer transformer;
         transformer = new FastFourierTransformer(DftNormalization.STANDARD);
         Complex result[]; int N = 1 << 8;

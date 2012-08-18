@@ -19,8 +19,8 @@ package org.apache.commons.math3.analysis.integration;
 import java.util.Random;
 
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
@@ -32,7 +32,7 @@ public class IterativeLegendreGaussIntegratorTest {
 
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         BaseAbstractUnivariateIntegrator integrator
             = new IterativeLegendreGaussIntegrator(5, 1.0e-14, 1.0e-10, 2, 15);
         double min, max, expected, result, tolerance;

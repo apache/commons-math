@@ -16,12 +16,15 @@
  */
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+
 /**
  * Auxiliary class for testing solvers.
  *
  * @version $Id$
  */
-public class QuinticFunction implements DifferentiableUnivariateFunction {
+public class QuinticFunction implements UnivariateDifferentiable {
 
     /* Evaluate quintic.
      * @see org.apache.commons.math3.UnivariateFunction#value(double)
@@ -30,11 +33,8 @@ public class QuinticFunction implements DifferentiableUnivariateFunction {
         return (x-1)*(x-0.5)*x*(x+0.5)*(x+1);
     }
 
-    public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            public double value(double x) {
-                return (5*x*x-3.75)*x*x+0.25;
-            }
-        };
+    public DerivativeStructure value(DerivativeStructure t) {
+        return t.subtract(1).multiply(t.subtract(0.5)).multiply(t).multiply(t.add(0.5)).multiply(t.add(1));
     }
+
 }

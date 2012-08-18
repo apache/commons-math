@@ -16,13 +16,15 @@
  */
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.function.Sinc;
+
 /**
  * Auxiliary class for testing optimizers.
  *
  * @version $Id$
  */
 public class SumSincFunction implements DifferentiableMultivariateFunction {
-    private static final DifferentiableUnivariateFunction sinc = new SincFunction();
+    private static final DifferentiableUnivariateFunction sinc = new Sinc();
     private static final UnivariateFunction sincDeriv = sinc.derivative();
 
     /**

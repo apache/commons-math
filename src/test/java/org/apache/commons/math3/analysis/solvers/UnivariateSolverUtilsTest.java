@@ -17,10 +17,10 @@
 
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class UnivariateSolverUtilsTest {
 
-    protected UnivariateFunction sin = new SinFunction();
+    protected UnivariateFunction sin = new Sin();
 
     @Test(expected=MathIllegalArgumentException.class)
     public void testSolveNull() {

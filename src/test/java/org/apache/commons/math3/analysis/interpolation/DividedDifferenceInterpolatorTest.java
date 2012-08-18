@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math3.analysis.interpolation;
 
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.analysis.Expm1Function;
-import org.apache.commons.math3.analysis.SinFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.function.Expm1;
+import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,7 +48,7 @@ public final class DividedDifferenceInterpolatorTest {
      */
     @Test
     public void testSinFunction() {
-        UnivariateFunction f = new SinFunction();
+        UnivariateFunction f = new Sin();
         UnivariateInterpolator interpolator = new DividedDifferenceInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
@@ -80,7 +80,7 @@ public final class DividedDifferenceInterpolatorTest {
      */
     @Test
     public void testExpm1Function() {
-        UnivariateFunction f = new Expm1Function();
+        UnivariateFunction f = new Expm1();
         UnivariateInterpolator interpolator = new DividedDifferenceInterpolator();
         double x[], y[], z, expected, result, tolerance;
 
