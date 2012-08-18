@@ -27,35 +27,14 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  * @since 3.1
  * @version $Id$
  */
-public interface UnivariateDifferential {
-
-    /** Get the primitive function associated with this differential.
-     * <p>Each {@link UnivariateDifferential} instance is tightly bound
-     * to an {@link UnivariateDifferentiable} instance. If the state of
-     * the primitive instance changes in any way that affects the
-     * differential computation, this binding allows this change to
-     * be immediately seen by the derivative instance, there is no need
-     * to differentiate the primitive again. The existing instance is aware
-     * of the primitive changes.</p>
-     * <p>In other words in the following code snippet, the three values
-     * f1, f2 and f3 should be equal (at least at machine tolerance level)</p>
-     * <pre>
-     *    UnivariateDifferential derivative = differentiator.differentiate(derivable);
-     *    derivable.someFunctionThatMutatesHeavilyTheInstance();
-     *    double f1 = derivable.f(t);
-     *    double f2 = derivative.getPrimitive().f(t);
-     *    double f3 = derivative.f(new DerivativeStructure(variables, order, index, t)).getValue();
-     * </pre>
-     * @return primitive function bound to this derivative
-     */
-    UnivariateFunction getPrimitive();
+public interface UnivariateDifferentiable extends UnivariateFunction {
 
     /** Simple mathematical function.
-     * <p>{@link UnivariateDifferential} classes compute both the
+     * <p>{@link UnivariateDifferentiable} classes compute both the
      * value and the first derivative of the function.</p>
      * @param t function input value
      * @return function result
      */
-    DerivativeStructure f(DerivativeStructure t);
+    DerivativeStructure value(DerivativeStructure t);
 
 }

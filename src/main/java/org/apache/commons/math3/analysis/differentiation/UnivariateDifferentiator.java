@@ -29,6 +29,6 @@ public interface UnivariateDifferentiator {
      * @param function function to differentiate
      * @return differential function
      */
-    UnivariateDifferential differentiate(UnivariateFunction function);
+    UnivariateDifferentiable differentiate(UnivariateFunction function);
 
 }
