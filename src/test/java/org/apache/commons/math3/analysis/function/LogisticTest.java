@@ -18,6 +18,7 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -87,16 +88,18 @@ public class LogisticTest {
         final Logistic f = new Logistic(k, 0, 1, 1, a, 1);
         final Sigmoid g = new Sigmoid(a, k);
         
-        final UnivariateFunction dfdx = f.derivative();
-        final UnivariateFunction dgdx = g.derivative();
-
         final double min = -10;
         final double max = 10;
         final double n = 20;
         final double delta = (max - min) / n;
         for (int i = 0; i < n; i++) {
-            final double x = min + i * delta;
-            Assert.assertEquals("x=" + x, dgdx.value(x), dfdx.value(x), EPS);
+            final DerivativeStructure x = new DerivativeStructure(1, 5, 0, min + i * delta);
+            for (int order = 0; order <= x.getOrder(); ++order) {
+                Assert.assertEquals("x=" + x.getValue(),
+                                    g.value(x).getPartialDerivative(order),
+                                    f.value(x).getPartialDerivative(order),
+                                    3.0e-15);
+            }
         }
     }
 

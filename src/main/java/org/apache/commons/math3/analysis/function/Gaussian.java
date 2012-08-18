@@ -17,13 +17,19 @@
 
 package org.apache.commons.math3.analysis.function;
 
+import java.util.Arrays;
+
+import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Gaussian_function">
@@ -32,9 +38,11 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Gaussian implements DifferentiableUnivariateFunction {
+public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
     /** Mean. */
     private final double mean;
+    /** Inverse of the standard deviation. */
+    private final double is;
     /** Inverse of twice the square of the standard deviation. */
     private final double i2s2;
     /** Normalization factor. */
@@ -57,7 +65,8 @@ public class Gaussian implements DifferentiableUnivariateFunction {
 
         this.norm = norm;
         this.mean = mean;
-        this.i2s2 = 1 / (2 * sigma * sigma);
+        this.is   = 1 / sigma;
+        this.i2s2 = 0.5 * is * is;
     }
 
     /**
@@ -84,22 +93,12 @@ public class Gaussian implements DifferentiableUnivariateFunction {
         return value(x - mean, norm, i2s2);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
+     */
+    @Deprecated
     public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            public double value(double x) {
-                final double diff = x - mean;
-                final double g = Gaussian.value(diff, norm, i2s2);
-
-                if (g == 0) {
-                    // Avoid returning NaN in case of overflow.
-                    return 0;
-                } else {
-                    return -2 * diff * i2s2 * g;
-                }
-            }
-        };
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /**
@@ -195,4 +194,55 @@ public class Gaussian implements DifferentiableUnivariateFunction {
                                 double i2s2) {
         return norm * FastMath.exp(-xMinusMean * xMinusMean * i2s2);
     }
+
+    /** {@inheritDoc}
+     * @since 3.1
+     */
+    public DerivativeStructure value(final DerivativeStructure t) {
+
+        final double u = is * (t.getValue() - mean);
+        double[] f = new double[t.getOrder() + 1];
+
+        // the nth order derivative of the Gaussian has the form:
+        // dn(g(x)/dxn = (norm / s^n) P_n(u) exp(-u^2/2) with u=(x-m)/s
+        // where P_n(u) is a degree n polynomial with same parity as n
+        // P_0(u) = 1, P_1(u) = -u, P_2(u) = u^2 - 1, P_3(u) = -u^3 + 3 u...
+        // the general recurrence relation for P_n is:
+        // P_n(u) = P_(n-1)'(u) - u P_(n-1)(u)
+        // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
+        final double[] p = new double[f.length];
+        p[0] = 1;
+        final double u2 = u * u;
+        double coeff = norm * FastMath.exp(-0.5 * u2);
+        if (coeff <= Precision.SAFE_MIN) {
+            Arrays.fill(f, 0.0);
+        } else {
+            f[0] = coeff;
+            for (int n = 1; n < f.length; ++n) {
+
+                // update and evaluate polynomial P_n(x)
+                double v = 0;
+                p[n] = -p[n - 1];
+                for (int k = n; k >= 0; k -= 2) {
+                    v = v * u2 + p[k];
+                    if (k > 2) {
+                        p[k - 2] = (k - 1) * p[k - 1] - p[k - 3];
+                    } else if (k == 2) {
+                        p[0] = p[1];
+                    }
+                }
+                if ((n & 0x1) == 1) {
+                    v *= u;
+                }
+
+                coeff *= is;
+                f[n] = coeff * v;
+
+            }
+        }
+
+        return t.compose(f);
+
+    }
+
 }

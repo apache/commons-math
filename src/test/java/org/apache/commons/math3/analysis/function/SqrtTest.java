@@ -17,6 +17,9 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.util.FastMath;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -40,7 +43,7 @@ public class SqrtTest {
 
    @Test
    public void testDerivativeComparison() {
-       final UnivariateFunction sPrime = (new Sqrt()).derivative();
+       final UnivariateDifferentiable sPrime = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return 1 / (2 * Math.sqrt(x));
@@ -49,8 +52,20 @@ public class SqrtTest {
 
        for (double x = 1e-30; x < 1e10; x *= 2) {
            final double fX = f.value(x);
-           final double sX = sPrime.value(x);
-           Assert.assertEquals("x=" + x, fX, sX, 0);
+           final double sX = sPrime.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
+           Assert.assertEquals("x=" + x, fX, sX, FastMath.ulp(fX));
        }
    }
+
+   @Test
+   public void testDerivativesHighOrder() {
+       DerivativeStructure s = new Sqrt().value(new DerivativeStructure(1, 5, 0, 1.2));
+       Assert.assertEquals(1.0954451150103322269, s.getPartialDerivative(0), 1.0e-16);
+       Assert.assertEquals(0.45643546458763842789, s.getPartialDerivative(1), 1.0e-16);
+       Assert.assertEquals(-0.1901814435781826783,  s.getPartialDerivative(2), 1.0e-16);
+       Assert.assertEquals(0.23772680447272834785,  s.getPartialDerivative(3), 1.0e-16);
+       Assert.assertEquals(-0.49526417598485072465,   s.getPartialDerivative(4), 1.0e-16);
+       Assert.assertEquals(1.4445205132891479465,  s.getPartialDerivative(5), 3.0e-16);
+   }
+
 }

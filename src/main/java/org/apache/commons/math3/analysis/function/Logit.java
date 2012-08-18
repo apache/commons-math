@@ -17,11 +17,14 @@
 
 package org.apache.commons.math3.analysis.function;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
 
@@ -33,7 +36,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Logit implements DifferentiableUnivariateFunction {
+public class Logit implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
     /** Lower bound. */
     private final double lo;
     /** Higher bound. */
@@ -64,14 +67,12 @@ public class Logit implements DifferentiableUnivariateFunction {
         return value(x, lo, hi);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
+     */
+    @Deprecated
     public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            public double value(double x) {
-                return (hi - lo) / ((x - lo) * (hi - x));
-            }
-        };
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /**
@@ -154,4 +155,52 @@ public class Logit implements DifferentiableUnivariateFunction {
         }
         return FastMath.log((x - lo) / (hi - x));
     }
+
+    /** {@inheritDoc}
+     * @since 3.1
+     * @exception OutOfRangeException if parameter is outside of function domain
+     */
+    public DerivativeStructure value(final DerivativeStructure t)
+        throws OutOfRangeException {
+        final double x = t.getValue();
+        if (x < lo || x > hi) {
+            throw new OutOfRangeException(x, lo, hi);
+        }
+        double[] f = new double[t.getOrder() + 1];
+
+        // function value
+        f[0] = FastMath.log((x - lo) / (hi - x));
+
+        if (Double.isInfinite(f[0])) {
+
+            if (f.length > 1) {
+                f[1] = Double.POSITIVE_INFINITY;
+            }
+            // fill the array with infinities
+            // (for x close to lo the signs will flip between -inf and +inf,
+            //  for x close to hi the signs will always be +inf)
+            // this is probably overkill, since the call to compose at the end
+            // of the method will transform most infinities into NaN ...
+            for (int i = 2; i < f.length; ++i) {
+                f[i] = f[i - 2];
+            }
+
+        } else {
+
+            // function derivatives
+            final double invL = 1.0 / (x - lo);
+            double xL = invL;
+            final double invH = 1.0 / (hi - x);
+            double xH = invH;
+            for (int i = 1; i < f.length; ++i) {
+                f[i] = xL + xH;
+                xL  *= -i * invL;
+                xH  *=  i * invH;
+            }
+        }
+        
+        return t.compose(f);
+
+    }
+
 }

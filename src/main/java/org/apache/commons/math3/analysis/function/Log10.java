@@ -17,8 +17,11 @@
 
 package org.apache.commons.math3.analysis.function;
 
+import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -27,22 +30,26 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Log10 implements DifferentiableUnivariateFunction {
-    /** ln(10) = {@value}.*/
-    private static final double LN_10 = FastMath.log(10);
+public class Log10 implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
 
     /** {@inheritDoc} */
     public double value(double x) {
         return FastMath.log10(x);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
+     */
+    @Deprecated
     public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            public double value(double x) {
-                return 1 / (x * LN_10);
-            }
-        };
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
+
+    /** {@inheritDoc}
+     * @since 3.1
+     */
+    public DerivativeStructure value(final DerivativeStructure t) {
+        return t.log10();
+    }
+
 }

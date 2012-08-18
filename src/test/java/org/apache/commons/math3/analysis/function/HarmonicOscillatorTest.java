@@ -18,10 +18,11 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.FastMath;
-
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,12 +52,33 @@ public class HarmonicOscillatorTest {
         final double w = 0.34;
         final double p = 5.6;
         final HarmonicOscillator f = new HarmonicOscillator(a, w, p);
-        final UnivariateFunction dfdx = f.derivative();
 
-        final double d = 0.12345;
-        for (int i = 0; i < 10; i++) {
-            final double v = i * d;
-            Assert.assertEquals(-a * w * FastMath.sin(w * v + p), dfdx.value(v), 0);
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            final double d = 0.12345;
+            for (int i = 0; i < 10; i++) {
+                final double v = i * d;
+                final DerivativeStructure h = f.value(new DerivativeStructure(1, maxOrder, 0, v));
+                for (int k = 0; k <= maxOrder; ++k) {
+                    final double trigo;
+                    switch (k % 4) {
+                        case 0:
+                            trigo = +FastMath.cos(w * v + p);
+                            break;
+                        case 1:
+                            trigo = -FastMath.sin(w * v + p);
+                            break;
+                        case 2:
+                            trigo = -FastMath.cos(w * v + p);
+                            break;
+                        default:
+                            trigo = +FastMath.sin(w * v + p);
+                            break;
+                    }
+                    Assert.assertEquals(a * FastMath.pow(w, k) * trigo,
+                                        h.getPartialDerivative(k),
+                                        Precision.EPSILON);
+                }
+            }
         }
     }
 

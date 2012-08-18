@@ -17,9 +17,12 @@
 
 package org.apache.commons.math3.analysis.function;
 
+import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -32,7 +35,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Logistic implements DifferentiableUnivariateFunction {
+public class Logistic implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
     /** Lower asymptote. */
     private final double a;
     /** Upper asymptote. */
@@ -82,20 +85,12 @@ public class Logistic implements DifferentiableUnivariateFunction {
         return value(m - x, k, b, q, a, oneOverN);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
+     */
+    @Deprecated
     public UnivariateFunction derivative() {
-        return new UnivariateFunction() {
-            /** {@inheritDoc} */
-            public double value(double x) {
-                final double exp = q * FastMath.exp(b * (m - x));
-                if (Double.isInfinite(exp)) {
-                    // Avoid returning NaN in case of overflow.
-                    return 0;
-                }
-                final double exp1 = exp + 1;
-                return b * oneOverN * exp / FastMath.pow(exp1, oneOverN + 1);
-            }
-        };
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
     /**
@@ -205,4 +200,12 @@ public class Logistic implements DifferentiableUnivariateFunction {
                                 double oneOverN) {
         return a + (k - a) / FastMath.pow(1 + q * FastMath.exp(b * mMinusX), oneOverN);
     }
+
+    /** {@inheritDoc}
+     * @since 3.1
+     */
+    public DerivativeStructure value(final DerivativeStructure t) {
+        return t.negate().add(m).multiply(b).exp().multiply(q).add(1).pow(oneOverN).reciprocal().multiply(k - a).add(a);
+    }
+
 }

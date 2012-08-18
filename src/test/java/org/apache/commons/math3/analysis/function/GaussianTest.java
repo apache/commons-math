@@ -18,11 +18,12 @@
 package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,34 +58,38 @@ public class GaussianTest {
     }
 
     @Test
-    public void testDerivative() {
-        final Gaussian f = new Gaussian();
-        final UnivariateFunction dfdx = f.derivative();
-
-        Assert.assertEquals(0, dfdx.value(0), 0);
+    public void testDerivatives() {
+        final UnivariateDifferentiable gaussian = new Gaussian(2.0, 0.9, 3.0);
+        final DerivativeStructure dsX = new DerivativeStructure(1, 4, 0, 1.1);
+        final DerivativeStructure dsY = gaussian.value(dsX);
+        Assert.assertEquals( 1.9955604901712128349,   dsY.getValue(),              EPS);
+        Assert.assertEquals(-0.044345788670471396332, dsY.getPartialDerivative(1), EPS);
+        Assert.assertEquals(-0.22074348138190206174,  dsY.getPartialDerivative(2), EPS);
+        Assert.assertEquals( 0.014760030401924800557, dsY.getPartialDerivative(3), EPS);
+        Assert.assertEquals( 0.073253159785035691678, dsY.getPartialDerivative(4), EPS);
     }
 
     @Test
     public void testDerivativeLargeArguments() {
         final Gaussian f = new Gaussian(0, 1e-50);
-        final UnivariateFunction dfdx = f.derivative();
 
-        Assert.assertEquals(0, dfdx.value(Double.NEGATIVE_INFINITY), 0);
-        Assert.assertEquals(0, dfdx.value(-Double.MAX_VALUE), 0);
-        Assert.assertEquals(0, dfdx.value(-1e50), 0);
-        Assert.assertEquals(0, dfdx.value(-1e2), 0);
-        Assert.assertEquals(0, dfdx.value(1e2), 0);
-        Assert.assertEquals(0, dfdx.value(1e50), 0);
-        Assert.assertEquals(0, dfdx.value(Double.MAX_VALUE), 0);
-        Assert.assertEquals(0, dfdx.value(Double.POSITIVE_INFINITY), 0);        
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, Double.NEGATIVE_INFINITY)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, -Double.MAX_VALUE)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, -1e50)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, -1e2)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, 1e2)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, 1e50)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, Double.MAX_VALUE)).getPartialDerivative(1), 0);
+        Assert.assertEquals(0, f.value(new DerivativeStructure(1, 1, 0, Double.POSITIVE_INFINITY)).getPartialDerivative(1), 0);        
     }
 
     @Test
-    public void testDerivativeNaN() {
+    public void testDerivativesNaN() {
         final Gaussian f = new Gaussian(0, 1e-50);
-        final UnivariateFunction dfdx = f.derivative();
-
-        Assert.assertTrue(Double.isNaN(dfdx.value(Double.NaN)));
+        final DerivativeStructure fx = f.value(new DerivativeStructure(1, 5, 0, Double.NaN));
+        for (int i = 0; i <= fx.getOrder(); ++i) {
+            Assert.assertTrue(Double.isNaN(fx.getPartialDerivative(i)));
+        }
     }
 
     @Test(expected=NullArgumentException.class)
