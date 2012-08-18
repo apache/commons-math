@@ -1152,7 +1152,7 @@ public class DSCompiler {
             // the nth order derivative of tan has the form:
             // dn(tan(x)/dxn = P_n(tan(x))
             // where P_n(t) is a degree n+1 polynomial with same parity as n+1
-            // P_0(t) = t, P_1(t) = 1 + t^2, P_2(x) = 2 t (1 + t^2) ...
+            // P_0(t) = t, P_1(t) = 1 + t^2, P_2(t) = 2 t (1 + t^2) ...
             // the general recurrence relation for P_n is:
             // P_n(x) = (1+t^2) P_(n-1)'(t)
             // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
@@ -1478,7 +1478,7 @@ public class DSCompiler {
             // the nth order derivative of tanh has the form:
             // dn(tanh(x)/dxn = P_n(tanh(x))
             // where P_n(t) is a degree n+1 polynomial with same parity as n+1
-            // P_0(t) = t, P_1(t) = 1 - t^2, P_2(x) = -2 t (1 - t^2) ...
+            // P_0(t) = t, P_1(t) = 1 - t^2, P_2(t) = -2 t (1 - t^2) ...
             // the general recurrence relation for P_n is:
             // P_n(x) = (1-t^2) P_(n-1)'(t)
             // as per polynomial parity, we can store coefficients of both P_(n-1) and P_n in the same array
