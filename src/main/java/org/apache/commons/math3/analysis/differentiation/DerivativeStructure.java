@@ -514,6 +514,23 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         }
     }
 
+    /** Compute composition of the instance by a univariate function.
+     * @param f array of value and derivatives of the function at
+     * the current point (i.e. [f({@link #getValue()}),
+     * f'({@link #getValue()}), f''({@link #getValue()})...]).
+     * @return f(this)
+     * @exception DimensionMismatchException if the number of derivatives
+     * in the array is not equal to {@link #getOrder() order} + 1
+     */
+    public DerivativeStructure compose(final double[] f) {
+        if (f.length != getOrder() + 1) {
+            throw new DimensionMismatchException(f.length, getOrder() + 1);
+        }
+        final DerivativeStructure result = new DerivativeStructure(compiler);
+        compiler.compose(data, 0, f, result.data, 0);
+        return result;
+    }
+
     /** {@inheritDoc} */
     public DerivativeStructure reciprocal() {
         final DerivativeStructure result = new DerivativeStructure(compiler);

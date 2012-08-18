@@ -20,6 +20,7 @@ package org.apache.commons.math3.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.ArithmeticUtils;
@@ -969,6 +970,41 @@ public class DerivativeStructureTest {
                 DerivativeStructure zero = rebuiltX.subtract(dsX);
                 for (int n = 0; n <= maxOrder; ++n) {
                     Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon);
+                }
+            }
+        }
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testComposeMismatchedDimensions() {
+        new DerivativeStructure(1, 3, 0, 1.2).compose(new double[3]);
+    }
+
+    @Test
+    public void testCompose() {
+        double[] epsilon = new double[] { 1.0e-20, 5.0e-14, 2.0e-13, 3.0e-13, 2.0e-13, 1.0e-20 };
+        PolynomialFunction poly =
+                new PolynomialFunction(new double[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 });
+        for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
+            PolynomialFunction[] p = new PolynomialFunction[maxOrder + 1];
+            p[0] = poly;
+            for (int i = 1; i <= maxOrder; ++i) {
+                p[i] = p[i - 1].polynomialDerivative();
+            }
+            for (double x = 0.1; x < 1.2; x += 0.001) {
+                DerivativeStructure dsX = new DerivativeStructure(1, maxOrder, 0, x);
+                DerivativeStructure dsY1 = dsX.getField().getZero();
+                for (int i = poly.degree(); i >= 0; --i) {
+                    dsY1 = dsY1.multiply(dsX).add(poly.getCoefficients()[i]);
+                }
+                double[] f = new double[maxOrder + 1];
+                for (int i = 0; i < f.length; ++i) {
+                    f[i] = p[i].value(x);
+                }
+                DerivativeStructure dsY2 = dsX.compose(f);
+                DerivativeStructure zero = dsY1.subtract(dsY2);
+                for (int n = 0; n <= maxOrder; ++n) {
+                    Assert.assertEquals(0.0, zero.getPartialDerivative(n), epsilon[n]);
                 }
             }
         }
