@@ -209,9 +209,9 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
         }
 
         /**
-         * Estimate a first guess of the coefficients.
+         * Gets an estimation of the parameters.
          *
-         * @return the guessed coefficients, in the following order:
+         * @return the guessed parameters, in the following order:
          * <ul>
          *  <li>Amplitude</li>
          *  <li>Angular frequency</li>
