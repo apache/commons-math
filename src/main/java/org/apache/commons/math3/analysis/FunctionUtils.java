@@ -17,7 +17,10 @@
 
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.analysis.function.Identity;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -53,6 +56,40 @@ public class FunctionUtils {
                 }
                 return r;
             }
+        };
+    }
+
+    /**
+     * Composes functions.
+     * <br/>
+     * The functions in the argument list are composed sequentially, in the
+     * given order.  For example, compose(f1,f2,f3) acts like f1(f2(f3(x))).
+     *
+     * @param f List of functions.
+     * @return the composite function.
+     * @since 3.1
+     */
+    public static UnivariateDifferentiable compose(final UnivariateDifferentiable ... f) {
+        return new UnivariateDifferentiable() {
+
+            /** {@inheritDoc} */
+            public double value(final double t) {
+                double r = t;
+                for (int i = f.length - 1; i >= 0; i--) {
+                    r = f[i].value(r);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public DerivativeStructure value(final DerivativeStructure t) {
+                DerivativeStructure r = t;
+                for (int i = f.length - 1; i >= 0; i--) {
+                    r = f[i].value(r);
+                }
+                return r;
+            }
+
         };
     }
 
@@ -118,6 +155,37 @@ public class FunctionUtils {
      *
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
+     * @since 3.1
+     */
+    public static UnivariateDifferentiable add(final UnivariateDifferentiable ... f) {
+        return new UnivariateDifferentiable() {
+
+            /** {@inheritDoc} */
+            public double value(final double t) {
+                double r = f[0].value(t);
+                for (int i = 1; i < f.length; i++) {
+                    r += f[i].value(t);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public DerivativeStructure value(final DerivativeStructure t) {
+                DerivativeStructure r = f[0].value(t);
+                for (int i = 1; i < f.length; i++) {
+                    r = r.add(f[i].value(t));
+                }
+                return r;
+            }
+
+        };
+    }
+
+    /**
+     * Adds functions.
+     *
+     * @param f List of functions.
+     * @return a function that computes the sum of the functions.
      */
     public static DifferentiableUnivariateFunction add(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
@@ -162,6 +230,37 @@ public class FunctionUtils {
                 }
                 return r;
             }
+        };
+    }
+
+    /**
+     * Multiplies functions.
+     *
+     * @param f List of functions.
+     * @return a function that computes the product of the functions.
+     * @since 3.1
+     */
+    public static UnivariateDifferentiable multiply(final UnivariateDifferentiable ... f) {
+        return new UnivariateDifferentiable() {
+
+            /** {@inheritDoc} */
+            public double value(final double t) {
+                double r = f[0].value(t);
+                for (int i = 1; i < f.length; i++) {
+                    r  *= f[i].value(t);
+                }
+                return r;
+            }
+
+            /** {@inheritDoc} */
+            public DerivativeStructure value(final DerivativeStructure t) {
+                DerivativeStructure r = f[0].value(t);
+                for (int i = 1; i < f.length; i++) {
+                    r = r.multiply(f[i].value(t));
+                }
+                return r;
+            }
+
         };
     }
 
@@ -332,4 +431,74 @@ public class FunctionUtils {
         }
         return s;
     }
+
+    /** Convert a {@link UnivariateDifferentiable} into a {@link DifferentiableUnivariateFunction}.
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableUnivariateFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static DifferentiableUnivariateFunction toDifferentiableUnivariateFunction(final UnivariateDifferentiable f) {
+        return new DifferentiableUnivariateFunction() {
+
+            /** {@inheritDoc} */
+            public double value(final double x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc} */
+            public UnivariateFunction derivative() {
+                return new UnivariateFunction() {
+                    /** {@inheritDoc} */
+                    public double value(final double x) {
+                        return f.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
+                    }
+                };
+            }
+
+        };
+    }
+
+    /** Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiable}.
+     * <p>
+     * Note that the converted function is able to handle {@link DerivativeStructure} with
+     * <em>only</em> one parameter and up to order one. If the function is called with
+     * more parameters or higher order, a {@link DimensionMismatchException} will be thrown.
+     * </p>
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableUnivariateFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static UnivariateDifferentiable toUnivariateDifferential(final DifferentiableUnivariateFunction f) {
+        return new UnivariateDifferentiable() {
+
+            /** {@inheritDoc} */
+            public double value(final double x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc}
+             * @exception DimensionMismatchException if number of parameters or derivation
+             * order are higher than 1
+             */
+            public DerivativeStructure value(final DerivativeStructure t)
+                throws DimensionMismatchException {
+                if (t.getFreeParameters() != 1) {
+                    throw new DimensionMismatchException(t.getFreeParameters(), 1);
+                }
+                if (t.getOrder() > 1) {
+                    throw new DimensionMismatchException(t.getOrder(), 1);
+                }
+                return t.compose(new double[] {
+                    f.value(t.getValue()),
+                    f.derivative().value(t.getValue())
+                });
+            }
+
+        };
+    }
+
 }
