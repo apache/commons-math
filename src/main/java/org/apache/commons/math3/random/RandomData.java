@@ -20,6 +20,7 @@ import java.util.Collection;
 
 /**
  * Random data generation utilities.
+ * @deprecated to be removed in 4.0.  Use {@link RandomDataGenerator} directly
  * @version $Id$
  */
 public interface RandomData {

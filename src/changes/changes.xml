@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="psteitz" type="update" issue="MATH-850">
+        Added RandomDataGenerator to replace RandomDataImpl and deprecated
+        RandomData interface and RandomDataImpl class. Deprecated
+        nextInversionDeviate methods from RandomDataImpl class. Ensured that
+        all nextXxx methods in RandomDataImpl/RandomDataGenerator use the
+        configured RandomGenerator.
+      </action>
       <action dev="erans" type="fix" issue="MATH-844">
         Generate an exception for rare ill-conditioned cases in "HarmonicFitter"
         guessing procedure (package "o.a.c.m.optimization.fitting").
