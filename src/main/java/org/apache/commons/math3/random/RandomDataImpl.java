@@ -86,7 +86,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * </li>
  * </ul>
  * </p>
- *
+ * @deprecated to be removed in 4.0.  Use {@link RandomDataGenerator} instead
  * @version $Id$
  */
 public class RandomDataImpl implements RandomData, Serializable {
