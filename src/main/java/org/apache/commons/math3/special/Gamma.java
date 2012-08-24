@@ -95,9 +95,8 @@ public class Gamma {
         if (Double.isNaN(x) || (x <= 0.0)) {
             ret = Double.NaN;
         } else {
-            double g = 607.0 / 128.0;
             double sum = lanczos(x);
-            double tmp = x + g + .5;
+            double tmp = x + LANCZOS_G + .5;
             ret = ((x + .5) * FastMath.log(tmp)) - tmp +
                 HALF_LOG_2_PI + FastMath.log(sum / x);
         }
