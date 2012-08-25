@@ -17,7 +17,7 @@
 package org.apache.commons.math3.analysis.polynomials;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.LegendreGaussIntegrator;
+import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -375,7 +375,7 @@ public class PolynomialsUtilsTest {
             }
         };
         double dotProduct =
-                new LegendreGaussIntegrator(5, 1.0e-9, 1.0e-8, 2, 15).integrate(1000000, f, a, b);
+                new IterativeLegendreGaussIntegrator(5, 1.0e-9, 1.0e-8, 2, 15).integrate(1000000, f, a, b);
         if (p1.degree() == p2.degree()) {
             // integral should be non-zero
             Assert.assertTrue("I(" + p1.degree() + ", " + p2.degree() + ") = "+ dotProduct,
