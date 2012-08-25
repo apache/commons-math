@@ -94,11 +94,11 @@
       <subsection name="4.3 Root-finding" href="rootfinding">
         <p>
           <a href="../apidocs/org/apache/commons/math3/analysis/solvers/UnivariateSolver.html">
-          UnivariateSolver</a>, <a href="../apidocs/org/apache/commons/math3/analysis/solvers/DifferentiableUnivariateSolver.html">
-          DifferentiableUnivariateSolver</a> and <a href="../apidocs/org/apache/commons/math3/analysis/solvers/PolynomialSolver.html">
+          UnivariateSolver</a>, <a href="../apidocs/org/apache/commons/math3/analysis/solvers/UnivariateDifferentiableSolver.html">
+          UnivariateDifferentiableSolver</a> and <a href="../apidocs/org/apache/commons/math3/analysis/solvers/PolynomialSolver.html">
           PolynomialSolver</a> provide means to find roots of
           <a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a>,
-          <a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableUnivariateFunction.html">differentiable univariate real-valued functions</a>,
+          <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiable.html">differentiable univariate real-valued functions</a>,
           and <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
           A root is the value where the function takes the value 0.  Commons-Math
           includes implementations of the several root-finding algorithms:
@@ -155,8 +155,8 @@
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonSolver.html">Newton's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/DifferentiableUnivariateFunction.html">differentiable univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiable.html">differentiable univariate real-valued functions</a></td>
               <td>quadratic, non-guaranteed</td>
               <td>no</td>
               <td>no</td>

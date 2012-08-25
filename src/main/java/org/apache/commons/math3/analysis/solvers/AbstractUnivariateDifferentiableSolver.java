@@ -17,30 +17,29 @@
 
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
  *
- * @since 3.0
+ * @since 3.1
  * @version $Id$
- * @deprecated as of 3.1, replaced by {@link AbstractUnivariateDifferentiableSolver}
  */
-@Deprecated
-public abstract class AbstractDifferentiableUnivariateSolver
-    extends BaseAbstractUnivariateSolver<DifferentiableUnivariateFunction>
-    implements DifferentiableUnivariateSolver {
-    /** Derivative of the function to solve. */
-    private UnivariateFunction functionDerivative;
+public abstract class AbstractUnivariateDifferentiableSolver
+    extends BaseAbstractUnivariateSolver<UnivariateDifferentiable>
+    implements UnivariateDifferentiableSolver {
+
+    /** Function to solve. */
+    private UnivariateDifferentiable function;
 
     /**
      * Construct a solver with given absolute accuracy.
      *
      * @param absoluteAccuracy Maximum absolute error.
      */
-    protected AbstractDifferentiableUnivariateSolver(final double absoluteAccuracy) {
+    protected AbstractUnivariateDifferentiableSolver(final double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
 
@@ -51,9 +50,9 @@ public abstract class AbstractDifferentiableUnivariateSolver
      * @param absoluteAccuracy Maximum absolute error.
      * @param functionValueAccuracy Maximum function value error.
      */
-    protected AbstractDifferentiableUnivariateSolver(final double relativeAccuracy,
-                                                         final double absoluteAccuracy,
-                                                         final double functionValueAccuracy) {
+    protected AbstractUnivariateDifferentiableSolver(final double relativeAccuracy,
+                                                     final double absoluteAccuracy,
+                                                     final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
@@ -61,22 +60,22 @@ public abstract class AbstractDifferentiableUnivariateSolver
      * Compute the objective function value.
      *
      * @param point Point at which the objective function must be evaluated.
-     * @return the objective function value at specified point.
+     * @return the objective function value and derivative at specified point.
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    protected double computeDerivativeObjectiveValue(double point) {
+    protected DerivativeStructure computeObjectiveValueAndDerivative(double point) {
         incrementEvaluationCount();
-        return functionDerivative.value(point);
+        return function.value(new DerivativeStructure(1, 1, 0, point));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void setup(int maxEval, DifferentiableUnivariateFunction f,
+    protected void setup(int maxEval, UnivariateDifferentiable f,
                          double min, double max, double startValue) {
         super.setup(maxEval, f, min, max, startValue);
-        functionDerivative = f.derivative();
+        function = f;
     }
 }

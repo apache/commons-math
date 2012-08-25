@@ -287,7 +287,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * Method {@link #computeObjectiveValue(double)} calls this method internally.
      * It is provided for subclasses that do not exclusively use
      * {@code computeObjectiveValue} to solve the function.
-     * See e.g. {@link AbstractDifferentiableUnivariateSolver}.
+     * See e.g. {@link AbstractUnivariateDifferentiableSolver}.
      */
     protected void incrementEvaluationCount() {
         try {

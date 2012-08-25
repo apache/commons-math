@@ -17,27 +17,26 @@
 
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
- * Newton's Method</a> for finding zeros of real univariate functions.
- * <p>
- * The function should be continuous but not necessarily smooth.</p>
+ * Newton's Method</a> for finding zeros of real univariate differentiable
+ * functions.
  *
- * @deprecated as of 3.1, replaced by {@link NewtonRaphsonSolverTest}
+ * @since 3.1
  * @version $Id$
  */
-@Deprecated
-public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
+public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver {
     /** Default absolute accuracy. */
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
      * Construct a solver.
      */
-    public NewtonSolver() {
+    public NewtonRaphsonSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
     }
     /**
@@ -45,7 +44,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
      *
      * @param absoluteAccuracy Absolute accuracy.
      */
-    public NewtonSolver(double absoluteAccuracy) {
+    public NewtonRaphsonSolver(double absoluteAccuracy) {
         super(absoluteAccuracy);
     }
 
@@ -63,7 +62,7 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
      * if {@code min >= max}.
      */
     @Override
-    public double solve(int maxEval, final DifferentiableUnivariateFunction f,
+    public double solve(int maxEval, final UnivariateDifferentiable f,
                         final double min, final double max) {
         return super.solve(maxEval, f, UnivariateSolverUtils.midpoint(min, max));
     }
@@ -79,7 +78,8 @@ public class NewtonSolver extends AbstractDifferentiableUnivariateSolver {
         double x0 = startValue;
         double x1;
         while (true) {
-            x1 = x0 - (computeObjectiveValue(x0) / computeDerivativeObjectiveValue(x0));
+            final DerivativeStructure y0 = computeObjectiveValueAndDerivative(x0);
+            x1 = x0 - (y0.getValue() / y0.getPartialDerivative(1));
             if (FastMath.abs(x1 - x0) <= absoluteAccuracy) {
                 return x1;
             }

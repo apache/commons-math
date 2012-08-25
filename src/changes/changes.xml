@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="add" >
+        Added a NewtonRaphsonSolver taht use the new differentiation package
+        to define the function to solve. This class is intended to replace the
+        former NewtonSolver which is deprecated.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-850">
         Added RandomDataGenerator to replace RandomDataImpl and deprecated
         RandomData interface and RandomDataImpl class. Deprecated

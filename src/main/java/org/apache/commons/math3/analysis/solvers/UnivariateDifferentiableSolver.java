@@ -16,15 +16,15 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 
 
 /**
  * Interface for (univariate real) rootfinding algorithms.
  * Implementations will search for only one zero in the given interval.
  *
+ * @since 3.1
  * @version $Id$
- * @deprecated as of 3.1, replaced by {@link UnivariateDifferentiableSolver}
  */
-public interface DifferentiableUnivariateSolver
-    extends BaseUnivariateSolver<DifferentiableUnivariateFunction> {}
+public interface UnivariateDifferentiableSolver
+    extends BaseUnivariateSolver<UnivariateDifferentiable> {}

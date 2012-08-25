@@ -16,10 +16,7 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.util.FastMath;
@@ -29,19 +26,17 @@ import org.junit.Test;
 
 /**
  * @version $Id$
- * @deprecated
  */
-@Deprecated
-public final class NewtonSolverTest {
+public final class NewtonRaphsonSolverTest {
     /**
      *
      */
     @Test
     public void testSinZero() {
-        DifferentiableUnivariateFunction f = new Sin();
+        UnivariateDifferentiable f = new Sin();
         double result;
 
-        NewtonSolver solver = new NewtonSolver();
+        NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
         result = solver.solve(100, f, 3, 4);
         Assert.assertEquals(result, FastMath.PI, solver.getAbsoluteAccuracy());
 
@@ -56,25 +51,10 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testQuinticZero() {
-        final UnivariateDifferentiable q = new QuinticFunction();
-        DifferentiableUnivariateFunction f = new DifferentiableUnivariateFunction() {
-
-            public double value(double x) {
-                return q.value(x);
-            }
-
-            public UnivariateFunction derivative() {
-                return new UnivariateFunction() {
-                    public double value(double x) {
-                        return q.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
-                    }
-                };
-            }
-
-        };
+        final UnivariateDifferentiable f = new QuinticFunction();
         double result;
 
-        NewtonSolver solver = new NewtonSolver();
+        NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
         result = solver.solve(100, f, -0.2, 0.2);
         Assert.assertEquals(result, 0, solver.getAbsoluteAccuracy());
 

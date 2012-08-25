@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
@@ -150,37 +149,32 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
 
     private void compare(final UnivariateDifferentiable f,
                          double root, double min, double max) {
-        DifferentiableUnivariateFunction df = new DifferentiableUnivariateFunction() {
-            public double value(double x) {
-                return f.value(x);
-            }
-            
-            public UnivariateFunction derivative() {
-                return new UnivariateFunction() {
-                    public double value(double x) {
-                        return f.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
-                    }
-                };
-            }
-        };
-        NewtonSolver newton = new NewtonSolver(1.0e-12);
+        NewtonRaphsonSolver newton = new NewtonRaphsonSolver(1.0e-12);
         BracketingNthOrderBrentSolver bracketing =
                 new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-12, 1.0e-18, 5);
         double resultN;
         try {
-            resultN = newton.solve(100, df, min, max);
+            resultN = newton.solve(100, f, min, max);
         } catch (TooManyEvaluationsException tmee) {
             resultN = Double.NaN;
         }
         double resultB;
         try {
-            resultB = bracketing.solve(100, df, min, max);
+            resultB = bracketing.solve(100, f, min, max);
         } catch (TooManyEvaluationsException tmee) {
             resultB = Double.NaN;
         }
         Assert.assertEquals(root, resultN, newton.getAbsoluteAccuracy());
         Assert.assertEquals(root, resultB, bracketing.getAbsoluteAccuracy());
-        Assert.assertTrue(bracketing.getEvaluations() < newton.getEvaluations());
+
+        // bracketing solver evaluates only function value, we set the weight to 1
+        final int weightedBracketingEvaluations = bracketing.getEvaluations();
+
+        // Newton-Raphson solver evaluates both function value and derivative, we set the weight to 2
+        final int weightedNewtonEvaluations = 2 * newton.getEvaluations();
+
+        Assert.assertTrue(weightedBracketingEvaluations < weightedNewtonEvaluations);
+
     }
 
     private static abstract class TestFunction implements UnivariateDifferentiable {
