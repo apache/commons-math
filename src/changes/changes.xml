@@ -53,7 +53,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="3.1" date="TBD" description="
 ">
       <action dev="luc" type="add" >
-        Added a NewtonRaphsonSolver taht use the new differentiation package
+        Added a NewtonRaphsonSolver that uses the new differentiation package
         to define the function to solve. This class is intended to replace the
         former NewtonSolver which is deprecated.
       </action>
@@ -128,7 +128,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         All "sample()" methods have been modified to use this RNG instead of
         delegating to the methods in "RandomData".
       </action>
-	  <action dev="tn" type="add" issue="MATH-235">
+      <action dev="tn" type="add" issue="MATH-235">
         Added support for real asymmetric matrices to "EigenDecomposition".
       </action>
       <action dev="erans" type="add" issue="MATH-768">
@@ -138,7 +138,7 @@ If the output is not quite correct, check for invisible trailing spaces!
       <action dev="erans" type="add" issue="MATH-810">
         Added accessors to the "Pair" class (package "o.a.c.m.util").
       </action>
-	  <action dev="tn" type="add" issue="MATH-822" due-to="Jared Becksfort">
+      <action dev="tn" type="add" issue="MATH-822" due-to="Jared Becksfort">
         Added new constructors in "EigenDecomposition" and deprecated two constructors
         with unused parameters.
       </action>
