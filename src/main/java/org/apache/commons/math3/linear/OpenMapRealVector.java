@@ -304,6 +304,26 @@ public class OpenMapRealVector extends SparseRealVector
         return new OpenMapRealVector(this);
     }
 
+    /**
+     * Computes the dot product.
+     * Note that the computation is now performed in the parent class: no
+     * performance improvement is to be expected from this overloaded
+     * method.
+     * The previous implementation was buggy and cannot be easily fixed
+     * (see MATH-795).
+     *
+     * @param v Vector.
+     * @return the dot product of this vector with {@code v}.
+     *
+     * @deprecated as of 3.1 (to be removed in 4.0). The computation is
+     * performed by the parent class. The method must be kept to maintain
+     * backwards compatibility.
+     */
+    @Deprecated
+    public double dotProduct(OpenMapRealVector v) {
+        return dotProduct((RealVector) v);
+    }
+
     /** {@inheritDoc} */
     @Override
     public OpenMapRealVector ebeDivide(RealVector v) {
