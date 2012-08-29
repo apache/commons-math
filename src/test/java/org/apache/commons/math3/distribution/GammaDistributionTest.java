@@ -176,18 +176,40 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
         Assert.assertEquals(dist.getNumericalVariance(), 1.1d * 4.2d * 4.2d, tol);
     }
 
+    private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
+
+    public static double logGamma(double x) {
+        /*
+         * This is a copy of
+         * double Gamma.logGamma(double)
+         * prior to MATH-849
+         */
+        double ret;
+
+        if (Double.isNaN(x) || (x <= 0.0)) {
+            ret = Double.NaN;
+        } else {
+            double sum = Gamma.lanczos(x);
+            double tmp = x + Gamma.LANCZOS_G + .5;
+            ret = ((x + .5) * FastMath.log(tmp)) - tmp +
+                HALF_LOG_2_PI + FastMath.log(sum / x);
+        }
+
+        return ret;
+    }
+
     public static double density(final double x, final double shape,
                                  final double scale) {
         /*
          * This is a copy of
          * double GammaDistribution.density(double)
-         * prior to r1338548.
+         * prior to MATH-753.
          */
         if (x < 0) {
             return 0;
         }
         return FastMath.pow(x / scale, shape - 1) / scale *
-               FastMath.exp(-x / scale) / FastMath.exp(Gamma.logGamma(shape));
+               FastMath.exp(-x / scale) / FastMath.exp(logGamma(shape));
     }
 
     /*
