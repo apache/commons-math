@@ -262,7 +262,7 @@ public class GammaTest {
 
     @Test
     public void testLogGamma() {
-        final int ulps = 130;
+        final int ulps = 3;
         for (int i = 0; i < LOG_GAMMA_REF.length; i++) {
             final double[] data = LOG_GAMMA_REF[i];
             final double x = data[0];
