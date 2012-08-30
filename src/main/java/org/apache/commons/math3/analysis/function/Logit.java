@@ -63,7 +63,8 @@ public class Logit implements UnivariateDifferentiable, DifferentiableUnivariate
     }
 
     /** {@inheritDoc} */
-    public double value(double x) {
+    public double value(double x)
+        throws OutOfRangeException {
         return value(x, lo, hi);
     }
 
@@ -94,7 +95,9 @@ public class Logit implements UnivariateDifferentiable, DifferentiableUnivariate
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double value(double x, double ... param) {
+        public double value(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
             return Logit.value(x, param[0], param[1]);
         }
@@ -112,7 +115,9 @@ public class Logit implements UnivariateDifferentiable, DifferentiableUnivariate
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double[] gradient(double x, double ... param) {
+        public double[] gradient(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
 
             final double lo = param[0];
@@ -131,7 +136,9 @@ public class Logit implements UnivariateDifferentiable, DifferentiableUnivariate
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        private void validateParameters(double[] param) {
+        private void validateParameters(double[] param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             if (param == null) {
                 throw new NullArgumentException();
             }
@@ -149,7 +156,8 @@ public class Logit implements UnivariateDifferentiable, DifferentiableUnivariate
      */
     private static double value(double x,
                                 double lo,
-                                double hi) {
+                                double hi)
+        throws OutOfRangeException {
         if (x < lo || x > hi) {
             throw new OutOfRangeException(x, lo, hi);
         }

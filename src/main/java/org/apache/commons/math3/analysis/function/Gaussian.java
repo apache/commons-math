@@ -58,7 +58,8 @@ public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivari
      */
     public Gaussian(double norm,
                     double mean,
-                    double sigma) {
+                    double sigma)
+        throws NotStrictlyPositiveException {
         if (sigma <= 0) {
             throw new NotStrictlyPositiveException(sigma);
         }
@@ -77,7 +78,8 @@ public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivari
      * @throws NotStrictlyPositiveException if {@code sigma <= 0}.
      */
     public Gaussian(double mean,
-                    double sigma) {
+                    double sigma)
+        throws NotStrictlyPositiveException {
         this(1 / (sigma * FastMath.sqrt(2 * Math.PI)), mean, sigma);
     }
 
@@ -122,7 +124,10 @@ public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivari
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
-        public double value(double x, double ... param) {
+        public double value(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             validateParameters(param);
 
             final double diff = x - param[1];
@@ -144,7 +149,10 @@ public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivari
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
-        public double[] gradient(double x, double ... param) {
+        public double[] gradient(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             validateParameters(param);
 
             final double norm = param[0];
@@ -170,7 +178,10 @@ public class Gaussian implements UnivariateDifferentiable, DifferentiableUnivari
          * not 3.
          * @throws NotStrictlyPositiveException if {@code param[2]} is negative.
          */
-        private void validateParameters(double[] param) {
+        private void validateParameters(double[] param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             if (param == null) {
                 throw new NullArgumentException();
             }

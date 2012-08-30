@@ -67,7 +67,8 @@ public class Logistic implements UnivariateDifferentiable, DifferentiableUnivari
                     double b,
                     double q,
                     double a,
-                    double n) {
+                    double n)
+        throws NotStrictlyPositiveException {
         if (n <= 0) {
             throw new NotStrictlyPositiveException(n);
         }
@@ -113,7 +114,10 @@ public class Logistic implements UnivariateDifferentiable, DifferentiableUnivari
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
          */
-        public double value(double x, double ... param) {
+        public double value(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             validateParameters(param);
             return Logistic.value(param[1] - x, param[0],
                                   param[2], param[3],
@@ -134,7 +138,10 @@ public class Logistic implements UnivariateDifferentiable, DifferentiableUnivari
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
          */
-        public double[] gradient(double x, double ... param) {
+        public double[] gradient(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             validateParameters(param);
 
             final double b = param[2];
@@ -165,12 +172,15 @@ public class Logistic implements UnivariateDifferentiable, DifferentiableUnivari
          * methods.
          *
          * @param param Values for {@code k}, {@code m}, {@code b}, {@code q},
-         * {@code a} and  {@code n}.
+         * {@code a} and {@code n}.
          * @throws NullArgumentException if {@code param} is {@code null}.
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
          */
-        private void validateParameters(double[] param) {
+        private void validateParameters(double[] param)
+            throws NullArgumentException,
+                   DimensionMismatchException,
+                   NotStrictlyPositiveException {
             if (param == null) {
                 throw new NullArgumentException();
             }

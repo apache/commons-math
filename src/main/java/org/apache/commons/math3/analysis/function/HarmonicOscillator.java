@@ -90,7 +90,9 @@ public class HarmonicOscillator implements UnivariateDifferentiable, Differentia
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
-        public double value(double x, double ... param) {
+        public double value(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
             return HarmonicOscillator.value(x * param[1] + param[2], param[0]);
         }
@@ -108,7 +110,9 @@ public class HarmonicOscillator implements UnivariateDifferentiable, Differentia
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
-        public double[] gradient(double x, double ... param) {
+        public double[] gradient(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
 
             final double amplitude = param[0];
@@ -133,7 +137,9 @@ public class HarmonicOscillator implements UnivariateDifferentiable, Differentia
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 3.
          */
-        private void validateParameters(double[] param) {
+        private void validateParameters(double[] param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             if (param == null) {
                 throw new NullArgumentException();
             }

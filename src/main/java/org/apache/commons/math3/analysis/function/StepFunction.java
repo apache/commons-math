@@ -58,7 +58,10 @@ public class StepFunction implements UnivariateFunction {
      * have the same length.
      */
     public StepFunction(double[] x,
-                        double[] y) {
+                        double[] y)
+        throws NullArgumentException,
+               NoDataException,
+               DimensionMismatchException {
         if (x == null ||
             y == null) {
             throw new NullArgumentException();

@@ -96,7 +96,9 @@ public class Sigmoid implements UnivariateDifferentiable, DifferentiableUnivaria
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double value(double x, double ... param) {
+        public double value(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
             return Sigmoid.value(x, param[0], param[1]);
         }
@@ -114,7 +116,9 @@ public class Sigmoid implements UnivariateDifferentiable, DifferentiableUnivaria
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        public double[] gradient(double x, double ... param) {
+        public double[] gradient(double x, double ... param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             validateParameters(param);
 
             final double invExp1 = 1 / (1 + FastMath.exp(-x));
@@ -132,7 +136,9 @@ public class Sigmoid implements UnivariateDifferentiable, DifferentiableUnivaria
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 2.
          */
-        private void validateParameters(double[] param) {
+        private void validateParameters(double[] param)
+            throws NullArgumentException,
+                   DimensionMismatchException {
             if (param == null) {
                 throw new NullArgumentException();
             }
