@@ -19,6 +19,7 @@ package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -52,8 +53,8 @@ public abstract class AbstractDifferentiableUnivariateSolver
      * @param functionValueAccuracy Maximum function value error.
      */
     protected AbstractDifferentiableUnivariateSolver(final double relativeAccuracy,
-                                                         final double absoluteAccuracy,
-                                                         final double functionValueAccuracy) {
+                                                     final double absoluteAccuracy,
+                                                     final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 
@@ -65,7 +66,8 @@ public abstract class AbstractDifferentiableUnivariateSolver
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
-    protected double computeDerivativeObjectiveValue(double point) {
+    protected double computeDerivativeObjectiveValue(double point)
+        throws TooManyEvaluationsException {
         incrementEvaluationCount();
         return functionDerivative.value(point);
     }

@@ -22,6 +22,8 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 
@@ -87,7 +89,10 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * {@inheritDoc}
      */
     @Override
-    public double doSolve() {
+    public double doSolve()
+        throws TooManyEvaluationsException,
+               NumberIsTooLargeException,
+               NoBracketingException {
         final double min = getMin();
         final double max = getMax();
         final double initial = getStartValue();
@@ -185,7 +190,10 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @throws NoDataException if the {@code coefficients} array is empty.
      */
     public Complex[] solveAllComplex(double[] coefficients,
-                                     double initial) {
+                                     double initial)
+        throws NullArgumentException,
+               NoDataException,
+               TooManyEvaluationsException {
         setup(Integer.MAX_VALUE,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
@@ -211,7 +219,10 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @throws NoDataException if the {@code coefficients} array is empty.
      */
     public Complex solveComplex(double[] coefficients,
-                                double initial) {
+                                double initial)
+        throws NullArgumentException,
+               NoDataException,
+               TooManyEvaluationsException {
         setup(Integer.MAX_VALUE,
               new PolynomialFunction(coefficients),
               Double.NEGATIVE_INFINITY,
@@ -256,7 +267,10 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex[] solveAll(Complex coefficients[], Complex initial) {
+        public Complex[] solveAll(Complex coefficients[], Complex initial)
+            throws NullArgumentException,
+                   NoDataException,
+                   TooManyEvaluationsException {
             if (coefficients == null) {
                 throw new NullArgumentException();
             }
@@ -302,7 +316,10 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * {@code null}.
          * @throws NoDataException if the {@code coefficients} array is empty.
          */
-        public Complex solve(Complex coefficients[], Complex initial) {
+        public Complex solve(Complex coefficients[], Complex initial)
+            throws NullArgumentException,
+                   NoDataException,
+                   TooManyEvaluationsException {
             if (coefficients == null) {
                 throw new NullArgumentException();
             }

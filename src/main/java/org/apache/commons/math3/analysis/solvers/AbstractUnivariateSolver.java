@@ -43,7 +43,7 @@ public abstract class AbstractUnivariateSolver
      * @param absoluteAccuracy Maximum absolute error.
      */
     protected AbstractUnivariateSolver(final double relativeAccuracy,
-                                           final double absoluteAccuracy) {
+                                       final double absoluteAccuracy) {
         super(relativeAccuracy, absoluteAccuracy);
     }
     /**
@@ -54,8 +54,8 @@ public abstract class AbstractUnivariateSolver
      * @param functionValueAccuracy Maximum function value error.
      */
     protected AbstractUnivariateSolver(final double relativeAccuracy,
-                                           final double absoluteAccuracy,
-                                           final double functionValueAccuracy) {
+                                       final double absoluteAccuracy,
+                                       final double functionValueAccuracy) {
         super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);
     }
 }

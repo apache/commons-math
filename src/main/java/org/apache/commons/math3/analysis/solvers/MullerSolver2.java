@@ -17,6 +17,8 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -79,7 +81,10 @@ public class MullerSolver2 extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() {
+    protected double doSolve()
+        throws TooManyEvaluationsException,
+               NumberIsTooLargeException,
+               NoBracketingException {
         final double min = getMin();
         final double max = getMax();
 

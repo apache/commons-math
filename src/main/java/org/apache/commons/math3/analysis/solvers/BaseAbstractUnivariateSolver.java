@@ -21,6 +21,8 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -182,7 +184,9 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, FUNC f, double min, double max, double startValue) {
+    public double solve(int maxEval, FUNC f, double min, double max, double startValue)
+        throws TooManyEvaluationsException,
+               NoBracketingException {
         // Initialization.
         setup(maxEval, f, min, max, startValue);
 
@@ -196,7 +200,9 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
     }
 
     /** {@inheritDoc} */
-    public double solve(int maxEval, FUNC f, double startValue) {
+    public double solve(int maxEval, FUNC f, double startValue)
+        throws TooManyEvaluationsException,
+               NoBracketingException {
         return solve(maxEval, f, Double.NaN, Double.NaN, startValue);
     }
 
@@ -245,11 +251,11 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
-     * if {@code lower >= upper}.
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     protected void verifyInterval(final double lower,
-                                  final double upper) {
+                                  final double upper)
+        throws NumberIsTooLargeException {
         UnivariateSolverUtils.verifyInterval(lower, upper);
     }
 
@@ -259,12 +265,13 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param lower Lower endpoint.
      * @param initial Initial value.
      * @param upper Upper endpoint.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
-     * if {@code lower >= initial} or {@code initial >= upper}.
+     * @throws NumberIsTooLargeException if {@code lower >= initial} or
+     * {@code initial >= upper}.
      */
     protected void verifySequence(final double lower,
                                   final double initial,
-                                  final double upper) {
+                                  final double upper)
+        throws NumberIsTooLargeException {
         UnivariateSolverUtils.verifySequence(lower, initial, upper);
     }
 
@@ -274,11 +281,14 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      *
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws org.apache.commons.math3.exception.NoBracketingException if
-     * the function has the same sign at the endpoints.
+     * @throws NullArgumentException if the function has not been set.
+     * @throws NoBracketingException if the function has the same sign at
+     * the endpoints.
      */
     protected void verifyBracketing(final double lower,
-                                    final double upper) {
+                                    final double upper)
+        throws NullArgumentException,
+               NoBracketingException {
         UnivariateSolverUtils.verifyBracketing(function, lower, upper);
     }
 
@@ -289,7 +299,8 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * {@code computeObjectiveValue} to solve the function.
      * See e.g. {@link AbstractUnivariateDifferentiableSolver}.
      */
-    protected void incrementEvaluationCount() {
+    protected void incrementEvaluationCount()
+        throws TooManyEvaluationsException {
         try {
             evaluations.incrementCount();
         } catch (MaxCountExceededException e) {

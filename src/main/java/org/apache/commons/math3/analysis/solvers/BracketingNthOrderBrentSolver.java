@@ -21,6 +21,8 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -140,8 +142,10 @@ public class BracketingNthOrderBrentSolver
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() {
-
+    protected double doSolve()
+        throws TooManyEvaluationsException,
+               NumberIsTooLargeException,
+               NoBracketingException {
         // prepare arrays with the first points
         final double[] x = new double[maximalOrder + 1];
         final double[] y = new double[maximalOrder + 1];
@@ -224,7 +228,7 @@ public class BracketingNthOrderBrentSolver
                     return (yA <  0) ? xB : xA;
                 default :
                     // this should never happen
-                    throw new MathInternalError(null);
+                    throw new MathInternalError();
                 }
             }
 
@@ -387,7 +391,10 @@ public class BracketingNthOrderBrentSolver
 
     /** {@inheritDoc} */
     public double solve(int maxEval, UnivariateFunction f, double min,
-                        double max, AllowedSolution allowedSolution) {
+                        double max, AllowedSolution allowedSolution)
+        throws TooManyEvaluationsException,
+               NumberIsTooLargeException,
+               NoBracketingException {
         this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max);
     }
@@ -395,7 +402,10 @@ public class BracketingNthOrderBrentSolver
     /** {@inheritDoc} */
     public double solve(int maxEval, UnivariateFunction f, double min,
                         double max, double startValue,
-                        AllowedSolution allowedSolution) {
+                        AllowedSolution allowedSolution)
+        throws TooManyEvaluationsException,
+               NumberIsTooLargeException,
+               NoBracketingException {
         this.allowed = allowedSolution;
         return super.solve(maxEval, f, min, max, startValue);
     }

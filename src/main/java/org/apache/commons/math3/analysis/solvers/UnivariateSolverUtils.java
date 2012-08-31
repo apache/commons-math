@@ -46,7 +46,8 @@ public class UnivariateSolverUtils {
      * @throws IllegalArgumentException if f is null or the endpoints do not
      * specify a valid interval.
      */
-    public static double solve(UnivariateFunction function, double x0, double x1) {
+    public static double solve(UnivariateFunction function, double x0, double x1)
+        throws NullArgumentException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -69,7 +70,8 @@ public class UnivariateSolverUtils {
      */
     public static double solve(UnivariateFunction function,
                                double x0, double x1,
-                               double absoluteAccuracy) {
+                               double absoluteAccuracy)
+        throws NullArgumentException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -94,7 +96,8 @@ public class UnivariateSolverUtils {
     public static double forceSide(final int maxEval, final UnivariateFunction f,
                                    final BracketedUnivariateSolver<UnivariateFunction> bracketing,
                                    final double baseRoot, final double min, final double max,
-                                   final AllowedSolution allowedSolution) {
+                                   final AllowedSolution allowedSolution)
+        throws NoBracketingException {
 
         if (allowedSolution == AllowedSolution.ANY_SIDE) {
             // no further bracketing required
@@ -203,7 +206,10 @@ public class UnivariateSolverUtils {
      */
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
-                                   double lowerBound, double upperBound) {
+                                   double lowerBound, double upperBound)
+        throws NullArgumentException,
+               NotStrictlyPositiveException,
+               NoBracketingException {
         return bracket(function, initial, lowerBound, upperBound, Integer.MAX_VALUE);
     }
 
@@ -242,7 +248,10 @@ public class UnivariateSolverUtils {
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
                                    double lowerBound, double upperBound,
-                                   int maximumIterations)  {
+                                   int maximumIterations) 
+        throws NullArgumentException,
+               NotStrictlyPositiveException,
+               NoBracketingException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -301,7 +310,8 @@ public class UnivariateSolverUtils {
      */
     public static boolean isBracketing(UnivariateFunction function,
                                        final double lower,
-                                       final double upper) {
+                                       final double upper)
+        throws NullArgumentException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -332,7 +342,8 @@ public class UnivariateSolverUtils {
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      */
     public static void verifyInterval(final double lower,
-                                      final double upper) {
+                                      final double upper)
+        throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
                                                 lower, upper, false);
@@ -350,7 +361,8 @@ public class UnivariateSolverUtils {
      */
     public static void verifySequence(final double lower,
                                       final double initial,
-                                      final double upper) {
+                                      final double upper)
+        throws NumberIsTooLargeException {
         verifyInterval(lower, initial);
         verifyInterval(initial, upper);
     }
@@ -367,7 +379,9 @@ public class UnivariateSolverUtils {
      */
     public static void verifyBracketing(UnivariateFunction function,
                                         final double lower,
-                                        final double upper) {
+                                        final double upper)
+        throws NullArgumentException,
+               NoBracketingException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }

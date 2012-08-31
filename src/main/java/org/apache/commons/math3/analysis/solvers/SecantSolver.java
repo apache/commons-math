@@ -18,6 +18,8 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**
  * Implements the <em>Secant</em> method for root-finding (approximating a
@@ -70,7 +72,9 @@ public class SecantSolver extends AbstractUnivariateSolver {
 
     /** {@inheritDoc} */
     @Override
-    protected final double doSolve() {
+    protected final double doSolve()
+        throws TooManyEvaluationsException,
+               NoBracketingException {
         // Get initial solution
         double x0 = getMin();
         double x1 = getMax();

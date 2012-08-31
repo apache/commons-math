@@ -125,9 +125,16 @@ public abstract class BaseSecantSolver
         return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws ConvergenceException if the algorithm failed due to finite
+     * precision.
+     */
     @Override
-    protected final double doSolve() {
+    protected final double doSolve()
+        throws ConvergenceException,
+               MathInternalError {
         // Get initial solution
         double x0 = getMin();
         double x1 = getMax();

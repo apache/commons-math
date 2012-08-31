@@ -17,6 +17,7 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/Bisection.html">
@@ -59,7 +60,8 @@ public class BisectionSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() {
+    protected double doSolve() 
+        throws TooManyEvaluationsException {
         double min = getMin();
         double max = getMax();
         verifyInterval(min, max);

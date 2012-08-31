@@ -20,6 +20,7 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**
  * Implements <a href="http://mathworld.wolfram.com/NewtonsMethod.html">
@@ -63,7 +64,8 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
      */
     @Override
     public double solve(int maxEval, final UnivariateDifferentiable f,
-                        final double min, final double max) {
+                        final double min, final double max)
+        throws TooManyEvaluationsException {
         return super.solve(maxEval, f, UnivariateSolverUtils.midpoint(min, max));
     }
 
@@ -71,7 +73,8 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() {
+    protected double doSolve()
+        throws TooManyEvaluationsException {
         final double startValue = getStartValue();
         final double absoluteAccuracy = getAbsoluteAccuracy();
 

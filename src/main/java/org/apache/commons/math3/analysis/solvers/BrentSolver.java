@@ -18,6 +18,8 @@ package org.apache.commons.math3.analysis.solvers;
 
 
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -79,7 +81,10 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() {
+    protected double doSolve()
+        throws NoBracketingException,
+               TooManyEvaluationsException,
+               NumberIsTooLargeException {
         double min = getMin();
         double max = getMax();
         final double initial = getStartValue();
