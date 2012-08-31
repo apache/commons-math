@@ -343,7 +343,6 @@ public class GammaTest {
      *                                         "},");
      * </pre>
      */
-    // @formatter:off
     private static final double[][] INV_GAMMA1P_M1_REF = {
         { -0.5 , -.4358104164522437 },
         { -0.375 , -.3029021533379859 },
@@ -363,7 +362,6 @@ public class GammaTest {
         { 1.375 , -.1818408982517061 },
         { 1.5 , -0.247747221936325 },
     };
-    // @formatter:on
 
     @Test
     public void testInvGamma1pm1() {
