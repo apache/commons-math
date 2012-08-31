@@ -334,7 +334,7 @@ public class GammaTest {
 
     /**
      * <p>
-     * Reference values for the {@link GammaNSWC#invGamma1pm1(double)} method.
+     * Reference values for the {@link Gamma#invGamma1pm1(double)} method.
      * These values were generated with the following <a
      * href="http://maxima.sourceforge.net/">Maxima</a> script
      * </p>
@@ -446,7 +446,7 @@ public class GammaTest {
     }
 
     /**
-     * Reference data for the {@link GammaNSWC#gamma(double)} function. This
+     * Reference data for the {@link Gamma#gamma(double)} function. This
      * data was generated with the following <a
      * href="http://maxima.sourceforge.net/">Maxima</a> script.
      *

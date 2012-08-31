@@ -66,6 +66,7 @@ public class Gamma {
 
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-15;
+
     /** Lanczos coefficients */
     private static final double[] LANCZOS = {
         0.99999999999999709182,
@@ -84,6 +85,7 @@ public class Gamma {
         -.26190838401581408670e-4,
         .36899182659531622704e-5,
     };
+
     /** Avoid repeated computation of log of 2 PI in logGamma */
     private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
 
@@ -93,6 +95,7 @@ public class Gamma {
     // limits for switching algorithm in digamma
     /** C limit. */
     private static final double C_LIMIT = 49;
+
     /** S limit. */
     private static final double S_LIMIT = 1e-5;
 
