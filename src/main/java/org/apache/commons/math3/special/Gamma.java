@@ -86,6 +86,10 @@ public class Gamma {
     };
     /** Avoid repeated computation of log of 2 PI in logGamma */
     private static final double HALF_LOG_2_PI = 0.5 * FastMath.log(2.0 * FastMath.PI);
+
+    /** The constant value of &radic;(2&pi;). */
+    private static final double SQRT_TWO_PI = 2.506628274631000502;
+
     // limits for switching algorithm in digamma
     /** C limit. */
     private static final double C_LIMIT = 49;
@@ -622,5 +626,76 @@ public class Gamma {
         }
 
         return -FastMath.log1p(invGamma1pm1(x));
+    }
+
+
+    /**
+     * Returns the value of &Gamma;(x). The present implementation is based on
+     * the double precision implementation in the
+     * <em>NSWC Library of Mathematics Subroutines</em>, {@code DGAMMA}.
+     *
+     * @param x the argument
+     * @return the value of {@code Gamma(x)}
+     */
+    public static double gamma(final double x) {
+
+        // TODO Check whether x is a negative integer
+
+        final double ret;
+        final double absX = FastMath.abs(x);
+        if (absX <= 20.0) {
+            if (x >= 1.0) {
+                /*
+                 * From the recurrence relation
+                 * Gamma(x) = (x - 1) * ... * (x - n) * Gamma(x - n),
+                 * then
+                 * Gamma(t) = 1 / [1 + invGamma1pm1(t - 1)],
+                 * where t = x - n. This means that t must satisfy
+                 * -0.5 <= t - 1 <= 1.5.
+                 */
+                double prod = 1.0;
+                double t = x;
+                while (t > 2.5) {
+                    t = t - 1.0;
+                    prod *= t;
+                }
+                ret = prod / (1.0 + invGamma1pm1(t - 1.0));
+            } else {
+                /*
+                 * From the recurrence relation
+                 * Gamma(x) = Gamma(x + n + 1) / [x * (x + 1) * ... * (x + n)]
+                 * then
+                 * Gamma(x + n + 1) = 1 / [1 + invGamma1pm1(x + n)],
+                 * which requires -0.5 <= x + n <= 1.5.
+                 */
+                double prod = x;
+                double t = x;
+                while (t < -0.5) {
+                    t = t + 1.0;
+                    prod *= t;
+                }
+                ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
+            }
+        } else {
+            final double y = absX + LANCZOS_G + 0.5;
+            final double gammaAbs = SQRT_TWO_PI / x *
+                                    FastMath.pow(y, absX + 0.5) *
+                                    FastMath.exp(-y) * lanczos(absX);
+            if (x > 0.0) {
+                ret = gammaAbs;
+            } else {
+                /*
+                 * From the reflection formula
+                 * Gamma(x) * Gamma(1 - x) * sin(pi * x) = pi,
+                 * and the recurrence relation
+                 * Gamma(1 - x) = -x * Gamma(-x),
+                 * it is found
+                 * Gamma(x) = -pi / [x * sin(pi * x) * Gamma(-x)].
+                 */
+                ret = -FastMath.PI /
+                      (x * FastMath.sin(FastMath.PI * x) * gammaAbs);
+            }
+        }
+        return ret;
     }
 }
