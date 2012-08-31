@@ -229,7 +229,7 @@ public class Gamma {
      *     approximation</a></li>
      * </ul>
      *
-     * @param x argument.
+     * @param x Argument.
      * @return the value of {@code log(Gamma(x))}, {@code Double.NaN} if
      * {@code x <= 0.0}.
      */
@@ -493,8 +493,8 @@ public class Gamma {
      * where {@code g} is a constant, returned by {@link #getLanczosG()}.
      * </p>
      *
-     * @param x the argument
-     * @return the Lanczos approximation
+     * @param x Argument.
+     * @return The Lanczos approximation.
      * @see <a href="http://mathworld.wolfram.com/LanczosApproximation.html">Lanczos Approximation</a>
      * equations (1) through (5), and Paul Godfrey's
      * <a href="http://my.fit.edu/~gabdo/gamma.txt">Note on the computation
@@ -514,8 +514,8 @@ public class Gamma {
      * implementation in the <em>NSWC Library of Mathematics Subroutines</em>,
      * {@code DGAM1}.
      *
-     * @param x the argument
-     * @return the value of {@code 1.0 / Gamma(1.0 + x) - 1.0}
+     * @param x Argument.
+     * @return The value of {@code 1.0 / Gamma(1.0 + x) - 1.0}.
      * @throws NumberIsTooSmallException if {@code x < -0.5}
      * @throws NumberIsTooLargeException if {@code x > 1.5}
      */
@@ -606,12 +606,13 @@ public class Gamma {
      * This implementation is based on the double precision implementation in
      * the <em>NSWC Library of Mathematics Subroutines</em>, {@code DGMLN1}.
      *
-     * @param x the argument
-     * @return the value of {@code log(Gamma(1 + x))}
-     * @throws NumberIsTooSmallException if {@code x < -0.5}
-     * @throws NumberIsTooLargeException if {@code x > 1.5}
+     * @param x Argument.
+     * @return The value of {@code log(Gamma(1 + x))}.
+     * @throws NumberIsTooSmallException if {@code x < -0.5}.
+     * @throws NumberIsTooLargeException if {@code x > 1.5}.
      */
-    public static double logGamma1p(final double x) {
+    public static double logGamma1p(final double x)
+        throws NumberIsTooSmallException, NumberIsTooLargeException {
 
         if (x < -0.5) {
             throw new NumberIsTooSmallException(x, -0.5, true);
