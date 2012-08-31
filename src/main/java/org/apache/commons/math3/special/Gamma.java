@@ -222,9 +222,9 @@ public class Gamma {
      * Returns the value of log&nbsp;&Gamma;(x) for x&nbsp;&gt;&nbsp;0.
      * </p>
      * <p>
-     * For x &lt; 8, the implementation is based on the double precision
+     * For x &le; 8, the implementation is based on the double precision
      * implementation in the <em>NSWC Library of Mathematics Subroutines</em>,
-     * {@code DGAMLN}. For x &ge; 8, the implementation is based on
+     * {@code DGAMLN}. For x &gt; 8, the implementation is based on
      * </p>
      * <ul>
      * <li><a href="http://mathworld.wolfram.com/GammaFunction.html">Gamma
@@ -249,7 +249,7 @@ public class Gamma {
             return logGamma1p(x) - FastMath.log(x);
         } else if (x <= 2.5) {
             return logGamma1p((x - 0.5) - 0.5);
-        } else if (x < 8.0) {
+        } else if (x <= 8.0) {
             final int n = (int) FastMath.floor(x - 1.5);
             double prod = 1.0;
             for (int i = 1; i <= n; i++) {
