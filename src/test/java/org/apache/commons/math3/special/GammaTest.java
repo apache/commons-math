@@ -322,6 +322,16 @@ public class GammaTest {
         }
     }
 
+    @Test
+    public void testLogGammaPrecondition1() {
+        Assert.assertTrue(Double.isNaN(Gamma.logGamma(0.0)));
+    }
+
+    @Test
+    public void testLogGammaPrecondition2() {
+        Assert.assertTrue(Double.isNaN(Gamma.logGamma(-1.0)));
+    }
+
     /**
      * <p>
      * Reference values for the {@link GammaNSWC#invGamma1pm1(double)} method.
