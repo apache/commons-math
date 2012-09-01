@@ -70,7 +70,9 @@ public class SmoothingPolynomialBicubicSplineInterpolator
     @Override
     public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
                                                           final double[] yval,
-                                                          final double[][] fval) {
+                                                          final double[][] fval)
+        throws NoDataException,
+               DimensionMismatchException {
         if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
             throw new NoDataException();
         }

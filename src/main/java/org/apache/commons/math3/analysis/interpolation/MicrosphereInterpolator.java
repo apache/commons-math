@@ -19,6 +19,9 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 
 /**
@@ -68,7 +71,9 @@ public class MicrosphereInterpolator
      * @throws NotStrictlyPositiveException if {@code elements <= 0}.
      */
     public MicrosphereInterpolator(final int elements,
-                                   final int exponent) {
+                                   final int exponent)
+        throws NotPositiveException,
+               NotStrictlyPositiveException {
         if (exponent < 0) {
             throw new NotPositiveException(exponent);
         }
@@ -84,7 +89,10 @@ public class MicrosphereInterpolator
      * {@inheritDoc}
      */
     public MultivariateFunction interpolate(final double[][] xval,
-                                                final double[] yval) {
+                                            final double[] yval)
+        throws DimensionMismatchException,
+               NoDataException,
+               NullArgumentException {
         final UnitSphereRandomVectorGenerator rand
             = new UnitSphereRandomVectorGenerator(xval[0].length);
         return new MicrosphereInterpolatingFunction(xval, yval,

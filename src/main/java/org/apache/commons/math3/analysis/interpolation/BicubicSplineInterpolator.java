@@ -20,6 +20,8 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -35,7 +37,10 @@ public class BicubicSplineInterpolator
      */
     public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
                                                           final double[] yval,
-                                                          final double[][] fval) {
+                                                          final double[][] fval)
+        throws NoDataException,
+               DimensionMismatchException,
+               NonMonotonicSequenceException {
         if (xval.length == 0 || yval.length == 0 || fval.length == 0) {
             throw new NoDataException();
         }
@@ -118,23 +123,24 @@ public class BicubicSplineInterpolator
     }
 
     /**
-     * Compute the next index of an array, clipping if necessary.
-     * It is assumed (but not checked) that {@code i} is larger than or equal to 0}.
+     * Computes the next index of an array, clipping if necessary.
+     * It is assumed (but not checked) that {@code i >= 0}.
      *
-     * @param i Index
-     * @param max Upper limit of the array
-     * @return the next index
+     * @param i Index.
+     * @param max Upper limit of the array.
+     * @return the next index.
      */
     private int nextIndex(int i, int max) {
         final int index = i + 1;
         return index < max ? index : index - 1;
     }
     /**
-     * Compute the previous index of an array, clipping if necessary.
-     * It is assumed (but not checked) that {@code i} is smaller than the size of the array.
+     * Computes the previous index of an array, clipping if necessary.
+     * It is assumed (but not checked) that {@code i} is smaller than the size
+     * of the array.
      *
-     * @param i Index
-     * @return the previous index
+     * @param i Index.
+     * @return the previous index.
      */
     private int previousIndex(int i) {
         final int index = i - 1;

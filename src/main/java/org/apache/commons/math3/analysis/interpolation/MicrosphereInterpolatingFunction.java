@@ -125,13 +125,13 @@ public class MicrosphereInterpolatingFunction
     }
 
     /**
-     * @param xval the arguments for the interpolation points.
+     * @param xval Arguments for the interpolation points.
      * {@code xval[i][0]} is the first component of interpolation point
      * {@code i}, {@code xval[i][1]} is the second component, and so on
      * until {@code xval[i][d-1]}, the last component of that interpolation
      * point (where {@code dimension} is thus the dimension of the sampled
      * space).
-     * @param yval the values for the interpolation points
+     * @param yval Values for the interpolation points.
      * @param brightnessExponent Brightness dimming factor.
      * @param microsphereElements Number of surface elements of the
      * microsphere.
@@ -147,7 +147,10 @@ public class MicrosphereInterpolatingFunction
                                             double[] yval,
                                             int brightnessExponent,
                                             int microsphereElements,
-                                            UnitSphereRandomVectorGenerator rand) {
+                                            UnitSphereRandomVectorGenerator rand)
+        throws DimensionMismatchException,
+               NoDataException,
+               NullArgumentException {
         if (xval == null ||
             yval == null) {
             throw new NullArgumentException();

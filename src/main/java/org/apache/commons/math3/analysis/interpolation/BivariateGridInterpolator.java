@@ -17,6 +17,8 @@
 package org.apache.commons.math3.analysis.interpolation;
 
 import org.apache.commons.math3.analysis.BivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
 
 /**
  * Interface representing a bivariate real interpolating function where the
@@ -35,11 +37,11 @@ public interface BivariateGridInterpolator {
      * @param fval The values of the interpolation points on all the grid knots:
      * {@code fval[i][j] = f(xval[i], yval[j])}.
      * @return a function which interpolates the dataset.
-     * @throws org.apache.commons.math3.exception.NoDataException if any of
-     * the arrays has zero length.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the array lengths are inconsistent.
+     * @throws NoDataException if any of the arrays has zero length.
+     * @throws DimensionMismatchException if the array lengths are inconsistent.
      */
     BivariateFunction interpolate(double[] xval, double[] yval,
-                                      double[][] fval);
+                                  double[][] fval)
+        throws NoDataException,
+               DimensionMismatchException;
 }

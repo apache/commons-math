@@ -20,6 +20,7 @@ import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -84,8 +85,8 @@ public class BicubicSplineInterpolatingFunction
      * every grid point.
      * @throws DimensionMismatchException if the various arrays do not contain
      * the expected number of elements.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code x} or {@code y} are not strictly increasing.
+     * @throws NonMonotonicSequenceException if {@code x} or {@code y} are
+     * not strictly increasing.
      * @throws NoDataException if any of the arrays has zero length.
      */
     public BicubicSplineInterpolatingFunction(double[] x,
@@ -94,7 +95,9 @@ public class BicubicSplineInterpolatingFunction
                                               double[][] dFdX,
                                               double[][] dFdY,
                                               double[][] d2FdXdY)
-        throws DimensionMismatchException {
+        throws DimensionMismatchException,
+               NoDataException,
+               NonMonotonicSequenceException {
         final int xLen = x.length;
         final int yLen = y.length;
 
@@ -155,7 +158,8 @@ public class BicubicSplineInterpolatingFunction
     /**
      * {@inheritDoc}
      */
-    public double value(double x, double y) {
+    public double value(double x, double y)
+        throws OutOfRangeException {
         final int i = searchIndex(x, xval);
         if (i == -1) {
             throw new OutOfRangeException(x, xval[0], xval[xval.length - 1]);
@@ -176,8 +180,12 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the first partial derivative with
      * respect to x.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    public double partialDerivativeX(double x, double y) {
+    public double partialDerivativeX(double x, double y)
+        throws OutOfRangeException {
         return partialDerivative(0, x, y);
     }
     /**
@@ -185,8 +193,12 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the first partial derivative with
      * respect to y.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    public double partialDerivativeY(double x, double y) {
+    public double partialDerivativeY(double x, double y)
+        throws OutOfRangeException {
         return partialDerivative(1, x, y);
     }
     /**
@@ -194,8 +206,12 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial derivative with
      * respect to x.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    public double partialDerivativeXX(double x, double y) {
+    public double partialDerivativeXX(double x, double y)
+        throws OutOfRangeException {
         return partialDerivative(2, x, y);
     }
     /**
@@ -203,16 +219,24 @@ public class BicubicSplineInterpolatingFunction
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial derivative with
      * respect to y.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    public double partialDerivativeYY(double x, double y) {
+    public double partialDerivativeYY(double x, double y)
+        throws OutOfRangeException {
         return partialDerivative(3, x, y);
     }
     /**
      * @param x x-coordinate.
      * @param y y-coordinate.
      * @return the value at point (x, y) of the second partial cross-derivative.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    public double partialDerivativeXY(double x, double y) {
+    public double partialDerivativeXY(double x, double y)
+        throws OutOfRangeException {
         return partialDerivative(4, x, y);
     }
 
@@ -221,8 +245,12 @@ public class BicubicSplineInterpolatingFunction
      * @param x x-coordinate.
      * @param y y-coordinate.
      * @return the value at point (x, y) of the selected partial derivative.
+     * @throws OutOfRangeException if {@code x} (resp. {@code y}) is outside
+     * the range defined by the boundary values of {@code xval} (resp.
+     * {@code yval}).
      */
-    private double partialDerivative(int which, double x, double y) {
+    private double partialDerivative(int which, double x, double y)
+        throws OutOfRangeException {
         if (partialDerivatives == null) {
             computePartialDerivatives();
         }
@@ -267,7 +295,7 @@ public class BicubicSplineInterpolatingFunction
      * @param val Coordinate samples.
      * @return the index in {@code val} corresponding to the interval
      * containing {@code c}, or {@code -1} if {@code c} is out of the
-     * range defined by the end values of {@code val}.
+     * range defined by the boundary values of {@code val}.
      */
     private int searchIndex(double c, double[] val) {
         if (c < val[0]) {

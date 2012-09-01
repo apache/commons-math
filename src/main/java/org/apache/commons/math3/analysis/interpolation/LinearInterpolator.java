@@ -16,12 +16,13 @@
  */
 package org.apache.commons.math3.analysis.interpolation;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
  * Implements a linear function for interpolation of real univariate functions.
@@ -31,17 +32,21 @@ import org.apache.commons.math3.util.MathArrays;
 public class LinearInterpolator implements UnivariateInterpolator {
     /**
      * Computes a linear interpolating function for the data set.
+     *
      * @param x the arguments for the interpolation points
      * @param y the values for the interpolation points
      * @return a function which interpolates the data set
      * @throws DimensionMismatchException if {@code x} and {@code y}
      * have different sizes.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code x} is not sorted in strict increasing order.
+     * @throws NonMonotonicSequenceException if {@code x} is not sorted in
+     * strict increasing order.
      * @throws NumberIsTooSmallException if the size of {@code x} is smaller
      * than 2.
      */
-    public PolynomialSplineFunction interpolate(double x[], double y[]) {
+    public PolynomialSplineFunction interpolate(double x[], double y[])
+        throws DimensionMismatchException,
+               NumberIsTooSmallException,
+               NonMonotonicSequenceException {
         if (x.length != y.length) {
             throw new DimensionMismatchException(x.length, y.length);
         }
@@ -62,7 +67,7 @@ public class LinearInterpolator implements UnivariateInterpolator {
             m[i] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
         }
 
-        PolynomialFunction polynomials[] = new PolynomialFunction[n];
+        final PolynomialFunction polynomials[] = new PolynomialFunction[n];
         final double coefficients[] = new double[2];
         for (int i = 0; i < n; i++) {
             coefficients[0] = y[i];

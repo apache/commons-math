@@ -17,6 +17,8 @@
 package org.apache.commons.math3.analysis.interpolation;
 
 import org.apache.commons.math3.analysis.TrivariateFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
 
 /**
  * Interface representing a trivariate real interpolating function where the
@@ -38,11 +40,11 @@ public interface TrivariateGridInterpolator {
      * @param fval the values of the interpolation points on all the grid knots:
      * {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
      * @return a function that interpolates the data set.
-     * @throws org.apache.commons.math3.exception.NoDataException if any of
-     * the arrays has zero length.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the array lengths are inconsistent.
+     * @throws NoDataException if any of the arrays has zero length.
+     * @throws DimensionMismatchException if the array lengths are inconsistent.
      */
     TrivariateFunction interpolate(double[] xval, double[] yval, double[] zval,
-                                       double[][][] fval);
+                                   double[][][] fval)
+        throws NoDataException,
+               DimensionMismatchException;
 }

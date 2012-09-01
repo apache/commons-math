@@ -19,6 +19,9 @@ package org.apache.commons.math3.analysis.interpolation;
 import java.io.Serializable;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">
@@ -41,17 +44,18 @@ public class NevilleInterpolator implements UnivariateInterpolator,
     /**
      * Computes an interpolating function for the data set.
      *
-     * @param x the interpolating points array
-     * @param y the interpolating values array
+     * @param x Interpolating points.
+     * @param y Interpolating values.
      * @return a function which interpolates the data set
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException if
-     * the array lengths are different.
-     * @throws org.apache.commons.math3.exception.NumberIsTooSmallException if
-     * the number of points is less than 2.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if two abscissae have the same value.
+     * @throws DimensionMismatchException if the array lengths are different.
+     * @throws NumberIsTooSmallException if the number of points is less than 2.
+     * @throws NonMonotonicSequenceException if two abscissae have the same
+     * value.
      */
-    public PolynomialFunctionLagrangeForm interpolate(double x[], double y[]) {
+    public PolynomialFunctionLagrangeForm interpolate(double x[], double y[])
+        throws DimensionMismatchException,
+               NumberIsTooSmallException,
+               NonMonotonicSequenceException {
         return new PolynomialFunctionLagrangeForm(x, y);
     }
 }

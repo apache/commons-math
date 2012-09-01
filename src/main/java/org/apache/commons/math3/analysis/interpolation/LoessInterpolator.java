@@ -25,6 +25,8 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -47,7 +49,7 @@ import org.apache.commons.math3.util.MathArrays;
  * @since 2.0
  */
 public class LoessInterpolator
-        implements UnivariateInterpolator, Serializable {
+    implements UnivariateInterpolator, Serializable {
     /** Default value of the bandwidth parameter. */
     public static final double DEFAULT_BANDWIDTH = 0.3;
     /** Default value of the number of robustness iterations. */
@@ -143,7 +145,9 @@ public class LoessInterpolator
      * @see #LoessInterpolator(double, int)
      * @since 2.1
      */
-    public LoessInterpolator(double bandwidth, int robustnessIters, double accuracy) {
+    public LoessInterpolator(double bandwidth, int robustnessIters, double accuracy)
+        throws OutOfRangeException,
+               NotPositiveException {
         if (bandwidth < 0 ||
             bandwidth > 1) {
             throw new OutOfRangeException(LocalizedFormats.BANDWIDTH, bandwidth, 0, 1);
@@ -166,18 +170,24 @@ public class LoessInterpolator
      * @param xval the arguments for the interpolation points
      * @param yval the values for the interpolation points
      * @return A cubic spline built upon a loess fit to the data at the original abscissae
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code xval} not sorted in strictly increasing order.
+     * @throws NonMonotonicSequenceException if {@code xval} not sorted in
+     * strictly increasing order.
      * @throws DimensionMismatchException if {@code xval} and {@code yval} have
      * different sizes.
      * @throws NoDataException if {@code xval} or {@code yval} has zero size.
-     * @throws org.apache.commons.math3.exception.NotFiniteNumberException if
-     * any of the arguments and values are not finite real numbers.
+     * @throws NotFiniteNumberException if any of the arguments and values are
+     * not finite real numbers.
      * @throws NumberIsTooSmallException if the bandwidth is too small to
      * accomodate the size of the input data (i.e. the bandwidth must be
      * larger than 2/n).
      */
-    public final PolynomialSplineFunction interpolate(final double[] xval, final double[] yval) {
+    public final PolynomialSplineFunction interpolate(final double[] xval,
+                                                      final double[] yval)
+        throws NonMonotonicSequenceException,
+               DimensionMismatchException,
+               NoDataException,
+               NotFiniteNumberException,
+               NumberIsTooSmallException {
         return new SplineInterpolator().interpolate(xval, smooth(xval, yval));
     }
 
@@ -189,20 +199,25 @@ public class LoessInterpolator
      * @param weights point weights: coefficients by which the robustness weight
      * of a point is multiplied.
      * @return the values of the loess fit at corresponding original abscissae.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code xval} not sorted in strictly increasing order.
+     * @throws NonMonotonicSequenceException if {@code xval} not sorted in
+     * strictly increasing order.
      * @throws DimensionMismatchException if {@code xval} and {@code yval} have
      * different sizes.
      * @throws NoDataException if {@code xval} or {@code yval} has zero size.
-     * @throws org.apache.commons.math3.exception.NotFiniteNumberException if
-     * any of the arguments and values are not finite real numbers.
+     * @throws NotFiniteNumberException if any of the arguments and values are
+     not finite real numbers.
      * @throws NumberIsTooSmallException if the bandwidth is too small to
      * accomodate the size of the input data (i.e. the bandwidth must be
      * larger than 2/n).
      * @since 2.1
      */
     public final double[] smooth(final double[] xval, final double[] yval,
-                                 final double[] weights)  {
+                                 final double[] weights)
+        throws NonMonotonicSequenceException,
+               DimensionMismatchException,
+               NoDataException,
+               NotFiniteNumberException,
+               NumberIsTooSmallException {
         if (xval.length != yval.length) {
             throw new DimensionMismatchException(xval.length, yval.length);
         }
@@ -353,18 +368,23 @@ public class LoessInterpolator
      * @param xval the arguments for the interpolation points
      * @param yval the values for the interpolation points
      * @return values of the loess fit at corresponding original abscissae
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code xval} not sorted in strictly increasing order.
+     * @throws NonMonotonicSequenceException if {@code xval} not sorted in
+     * strictly increasing order.
      * @throws DimensionMismatchException if {@code xval} and {@code yval} have
      * different sizes.
      * @throws NoDataException if {@code xval} or {@code yval} has zero size.
-     * @throws org.apache.commons.math3.exception.NotFiniteNumberException if
-     * any of the arguments and values are not finite real numbers.
+     * @throws NotFiniteNumberException if any of the arguments and values are
+     * not finite real numbers.
      * @throws NumberIsTooSmallException if the bandwidth is too small to
      * accomodate the size of the input data (i.e. the bandwidth must be
      * larger than 2/n).
      */
-    public final double[] smooth(final double[] xval, final double[] yval) {
+    public final double[] smooth(final double[] xval, final double[] yval)
+        throws NonMonotonicSequenceException,
+               DimensionMismatchException,
+               NoDataException,
+               NotFiniteNumberException,
+               NumberIsTooSmallException {
         if (xval.length != yval.length) {
             throw new DimensionMismatchException(xval.length, yval.length);
         }

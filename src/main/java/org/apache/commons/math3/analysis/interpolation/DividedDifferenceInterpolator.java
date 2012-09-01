@@ -19,6 +19,10 @@ package org.apache.commons.math3.analysis.interpolation;
 import java.io.Serializable;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionNewtonForm;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
 /**
  * Implements the <a href="
@@ -44,14 +48,15 @@ public class DividedDifferenceInterpolator
      * @param x Interpolating points array.
      * @param y Interpolating values array.
      * @return a function which interpolates the dataset.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the array lengths are different.
-     * @throws org.apache.commons.math3.exception.NumberIsTooSmallException
-     * if the number of points is less than 2.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code x} is not sorted in strictly increasing order.
+     * @throws DimensionMismatchException if the array lengths are different.
+     * @throws NumberIsTooSmallException if the number of points is less than 2.
+     * @throws NonMonotonicSequenceException if {@code x} is not sorted in
+     * strictly increasing order.
      */
-    public PolynomialFunctionNewtonForm interpolate(double x[], double y[]) {
+    public PolynomialFunctionNewtonForm interpolate(double x[], double y[])
+        throws DimensionMismatchException,
+               NumberIsTooSmallException,
+               NonMonotonicSequenceException {
         /**
          * a[] and c[] are defined in the general formula of Newton form:
          * p(x) = a[0] + a[1](x-c[0]) + a[2](x-c[0])(x-c[1]) + ... +
@@ -87,14 +92,15 @@ public class DividedDifferenceInterpolator
      * @param x Interpolating points array.
      * @param y Interpolating values array.
      * @return a fresh copy of the divided difference array.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the array lengths are different.
-     * @throws org.apache.commons.math3.exception.NumberIsTooSmallException
-     * if the number of points is less than 2.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
+     * @throws DimensionMismatchException if the array lengths are different.
+     * @throws NumberIsTooSmallException if the number of points is less than 2.
+     * @throws NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      */
-    protected static double[] computeDividedDifference(final double x[], final double y[]) {
+    protected static double[] computeDividedDifference(final double x[], final double y[])
+        throws DimensionMismatchException,
+               NumberIsTooSmallException,
+               NonMonotonicSequenceException {
         PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y, true);
 
         final double[] divdiff = y.clone(); // initialization

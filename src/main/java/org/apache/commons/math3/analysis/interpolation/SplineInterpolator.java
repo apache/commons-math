@@ -19,6 +19,7 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import org.apache.commons.math3.util.MathArrays;
@@ -58,12 +59,15 @@ public class SplineInterpolator implements UnivariateInterpolator {
      * @return a function which interpolates the data set
      * @throws DimensionMismatchException if {@code x} and {@code y}
      * have different sizes.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if {@code x} is not sorted in strict increasing order.
+     * @throws NonMonotonicSequenceException if {@code x} is not sorted in
+     * strict increasing order.
      * @throws NumberIsTooSmallException if the size of {@code x} is smaller
      * than 3.
      */
-    public PolynomialSplineFunction interpolate(double x[], double y[]) {
+    public PolynomialSplineFunction interpolate(double x[], double y[])
+        throws DimensionMismatchException,
+               NumberIsTooSmallException,
+               NonMonotonicSequenceException {
         if (x.length != y.length) {
             throw new DimensionMismatchException(x.length, y.length);
         }
@@ -122,5 +126,4 @@ public class SplineInterpolator implements UnivariateInterpolator {
 
         return new PolynomialSplineFunction(x, polynomials);
     }
-
 }

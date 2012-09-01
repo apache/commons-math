@@ -20,6 +20,7 @@ import org.apache.commons.math3.analysis.TrivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -139,7 +140,7 @@ public class TricubicSplineInterpolatingFunction
      * @throws NoDataException if any of the arrays has zero length.
      * @throws DimensionMismatchException if the various arrays do not contain
      * the expected number of elements.
-     * @throws IllegalArgumentException if {@code x}, {@code y} or {@code z}
+     * @throws Exception if {@code x}, {@code y} or {@code z}
      * are not strictly increasing.
      */
     public TricubicSplineInterpolatingFunction(double[] x,
@@ -152,7 +153,10 @@ public class TricubicSplineInterpolatingFunction
                                                double[][][] d2FdXdY,
                                                double[][][] d2FdXdZ,
                                                double[][][] d2FdYdZ,
-                                               double[][][] d3FdXdYdZ) {
+                                               double[][][] d3FdXdYdZ)
+        throws NoDataException,
+               DimensionMismatchException,
+               NonMonotonicSequenceException {
         final int xLen = x.length;
         final int yLen = y.length;
         final int zLen = z.length;
@@ -305,8 +309,12 @@ public class TricubicSplineInterpolatingFunction
 
     /**
      * {@inheritDoc}
+     *
+     * @throws OutOfRangeException if any of the variables is outside its
+     * interpolation range.
      */
-    public double value(double x, double y, double z) {
+    public double value(double x, double y, double z)
+        throws OutOfRangeException {
         final int i = searchIndex(x, xval);
         if (i == -1) {
             throw new OutOfRangeException(x, xval[0], xval[xval.length - 1]);
@@ -445,8 +453,11 @@ class TricubicSplineFunction
      * @param y y-coordinate of the interpolation point.
      * @param z z-coordinate of the interpolation point.
      * @return the interpolated value.
+     * @throws OutOfRangeException if {@code x}, {@code y} or
+     * {@code z} are not in the interval {@code [0, 1]}.
      */
-    public double value(double x, double y, double z) {
+    public double value(double x, double y, double z)
+        throws OutOfRangeException {
         if (x < 0 || x > 1) {
             throw new OutOfRangeException(x, 0, 1);
         }

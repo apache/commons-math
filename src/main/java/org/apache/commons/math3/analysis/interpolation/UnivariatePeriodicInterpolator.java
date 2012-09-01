@@ -54,8 +54,8 @@ public class UnivariatePeriodicInterpolator
      * on each side of the interpolated point.
      */
     public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
-                                              double period,
-                                              int extend) {
+                                          double period,
+                                          int extend) {
         this.interpolator = interpolator;
         this.period = period;
         this.extend = extend;
@@ -70,7 +70,7 @@ public class UnivariatePeriodicInterpolator
      * @param period Period.
      */
     public UnivariatePeriodicInterpolator(UnivariateInterpolator interpolator,
-                                              double period) {
+                                          double period) {
         this(interpolator, period, DEFAULT_EXTEND);
     }
 
@@ -81,7 +81,8 @@ public class UnivariatePeriodicInterpolator
      * iss larger then the size of {@code xval}.
      */
     public UnivariateFunction interpolate(double[] xval,
-                                              double[] yval) {
+                                          double[] yval)
+        throws NumberIsTooSmallException {
         if (xval.length < extend) {
             throw new NumberIsTooSmallException(xval.length, extend, true);
         }
