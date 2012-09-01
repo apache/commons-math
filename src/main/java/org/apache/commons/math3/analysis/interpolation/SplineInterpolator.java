@@ -51,7 +51,6 @@ import org.apache.commons.math3.util.MathArrays;
  * @version $Id$
  */
 public class SplineInterpolator implements UnivariateInterpolator {
-
     /**
      * Computes an interpolating function for the data set.
      * @param x the arguments for the interpolation points
@@ -78,18 +77,18 @@ public class SplineInterpolator implements UnivariateInterpolator {
         }
 
         // Number of intervals.  The number of data points is n + 1.
-        int n = x.length - 1;
+        final int n = x.length - 1;
 
         MathArrays.checkOrder(x);
 
         // Differences between knot points
-        double h[] = new double[n];
+        final double h[] = new double[n];
         for (int i = 0; i < n; i++) {
             h[i] = x[i + 1] - x[i];
         }
 
-        double mu[] = new double[n];
-        double z[] = new double[n + 1];
+        final double mu[] = new double[n];
+        final double z[] = new double[n + 1];
         mu[0] = 0d;
         z[0] = 0d;
         double g = 0;
@@ -101,9 +100,9 @@ public class SplineInterpolator implements UnivariateInterpolator {
         }
 
         // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
-        double b[] = new double[n];
-        double c[] = new double[n + 1];
-        double d[] = new double[n];
+        final double b[] = new double[n];
+        final double c[] = new double[n + 1];
+        final double d[] = new double[n];
 
         z[n] = 0d;
         c[n] = 0d;
@@ -114,8 +113,8 @@ public class SplineInterpolator implements UnivariateInterpolator {
             d[j] = (c[j + 1] - c[j]) / (3d * h[j]);
         }
 
-        PolynomialFunction polynomials[] = new PolynomialFunction[n];
-        double coefficients[] = new double[4];
+        final PolynomialFunction polynomials[] = new PolynomialFunction[n];
+        final double coefficients[] = new double[4];
         for (int i = 0; i < n; i++) {
             coefficients[0] = y[i];
             coefficients[1] = b[i];
