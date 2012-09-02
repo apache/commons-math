@@ -109,7 +109,7 @@ public class Vector1DFormat extends VectorFormat<Euclidean1D> {
 
     /** {@inheritDoc} */
     @Override
-    public Vector1D parse(final String source) {
+    public Vector1D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector1D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {

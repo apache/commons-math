@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.geometry.euclidean.twod;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
@@ -98,7 +99,7 @@ public class LineTest {
     }
 
     @Test
-    public void testTransform() {
+    public void testTransform() throws MathIllegalArgumentException {
 
         Line l1 = new Line(new Vector2D(1.0 ,1.0), new Vector2D(4.0 ,1.0));
         Transform<Euclidean2D, Euclidean1D> t1 =

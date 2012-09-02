@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Plane;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
@@ -26,7 +28,7 @@ import org.junit.Test;
 public class PlaneTest {
 
     @Test
-    public void testContains() {
+    public void testContains() throws MathArithmeticException {
         Plane p = new Plane(new Vector3D(0, 0, 1), new Vector3D(0, 0, 1));
         Assert.assertTrue(p.contains(new Vector3D(0, 0, 1)));
         Assert.assertTrue(p.contains(new Vector3D(17, -32, 1)));
@@ -34,7 +36,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testOffset() {
+    public void testOffset() throws MathArithmeticException {
         Vector3D p1 = new Vector3D(1, 1, 1);
         Plane p = new Plane(p1, new Vector3D(0.2, 0, 0));
         Assert.assertEquals(-5.0, p.getOffset(new Vector3D(-4, 0, 0)), 1.0e-10);
@@ -48,13 +50,13 @@ public class PlaneTest {
     }
 
     @Test
-    public void testPoint() {
+    public void testPoint() throws MathArithmeticException {
         Plane p = new Plane(new Vector3D(2, -3, 1), new Vector3D(1, 4, 9));
         Assert.assertTrue(p.contains(p.getOrigin()));
     }
 
     @Test
-    public void testThreePoints() {
+    public void testThreePoints() throws MathArithmeticException {
         Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
         Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
         Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
@@ -65,7 +67,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testRotate() {
+    public void testRotate() throws MathArithmeticException, MathIllegalArgumentException {
         Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
         Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
         Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
@@ -90,7 +92,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testTranslate() {
+    public void testTranslate() throws MathArithmeticException {
         Vector3D p1 = new Vector3D(1.2, 3.4, -5.8);
         Vector3D p2 = new Vector3D(3.4, -5.8, 1.2);
         Vector3D p3 = new Vector3D(-2.0, 4.3, 0.7);
@@ -114,7 +116,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testIntersection() {
+    public void testIntersection() throws MathArithmeticException, MathIllegalArgumentException {
         Plane p = new Plane(new Vector3D(1, 2, 3), new Vector3D(-4, 1, -5));
         Line  l = new Line(new Vector3D(0.2, -3.5, 0.7), new Vector3D(1.2, -2.5, -0.3));
         Vector3D point = p.intersection(l);
@@ -125,7 +127,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testIntersection2() {
+    public void testIntersection2() throws MathArithmeticException {
         Vector3D p1  = new Vector3D (1.2, 3.4, -5.8);
         Vector3D p2  = new Vector3D (3.4, -5.8, 1.2);
         Plane    pA  = new Plane(p1, p2, new Vector3D (-2.0, 4.3, 0.7));
@@ -137,7 +139,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testIntersection3() {
+    public void testIntersection3() throws MathArithmeticException {
         Vector3D reference = new Vector3D (1.2, 3.4, -5.8);
         Plane p1 = new Plane(reference, new Vector3D(1, 3, 3));
         Plane p2 = new Plane(reference, new Vector3D(-2, 4, 0));
@@ -149,7 +151,7 @@ public class PlaneTest {
     }
 
     @Test
-    public void testSimilar() {
+    public void testSimilar() throws MathArithmeticException {
         Vector3D p1  = new Vector3D (1.2, 3.4, -5.8);
         Vector3D p2  = new Vector3D (3.4, -5.8, 1.2);
         Vector3D p3  = new Vector3D (-2.0, 4.3, 0.7);

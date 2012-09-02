@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class Vector3DTest {
     @Test
-    public void testConstructors() {
+    public void testConstructors() throws DimensionMismatchException {
         double r = FastMath.sqrt(2) /2;
         checkVector(new Vector3D(2, new Vector3D(FastMath.PI / 3, -FastMath.PI / 4)),
                     r, r * FastMath.sqrt(3), -2 * r);
@@ -47,7 +47,7 @@ public class Vector3DTest {
     }
 
     @Test(expected=DimensionMismatchException.class)
-    public void testWrongDimension() {
+    public void testWrongDimension() throws DimensionMismatchException {
         new Vector3D(new double[] { 2,  5 });
     }
 
@@ -191,7 +191,7 @@ public class Vector3DTest {
     }
 
     @Test
-    public void testAngularSeparation() {
+    public void testAngularSeparation() throws MathArithmeticException {
         Vector3D v1 = new Vector3D(2, -1, 4);
 
         Vector3D  k = v1.normalize();
@@ -202,7 +202,7 @@ public class Vector3DTest {
   }
 
     @Test
-    public void testNormalize() {
+    public void testNormalize() throws MathArithmeticException {
         Assert.assertEquals(1.0, new Vector3D(5, -4, 2).normalize().getNorm(), 1.0e-12);
         try {
             Vector3D.ZERO.normalize();
@@ -213,7 +213,7 @@ public class Vector3DTest {
     }
 
     @Test
-    public void testOrthogonal() {
+    public void testOrthogonal() throws MathArithmeticException {
         Vector3D v1 = new Vector3D(0.1, 2.5, 1.3);
         Assert.assertEquals(0.0, Vector3D.dotProduct(v1, v1.orthogonal()), 1.0e-12);
         Vector3D v2 = new Vector3D(2.3, -0.003, 7.6);
@@ -229,7 +229,7 @@ public class Vector3DTest {
     }
 
     @Test
-    public void testAngle() {
+    public void testAngle() throws MathArithmeticException {
         Assert.assertEquals(0.22572612855273393616,
                             Vector3D.angle(new Vector3D(1, 2, 3), new Vector3D(4, 5, 6)),
                             1.0e-12);

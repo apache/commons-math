@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.threed.Line;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.util.FastMath;
@@ -25,7 +27,7 @@ import org.junit.Test;
 public class LineTest {
 
     @Test
-    public void testContains() {
+    public void testContains() throws MathIllegalArgumentException, MathArithmeticException {
         Vector3D p1 = new Vector3D(0, 0, 1);
         Line l = new Line(p1, new Vector3D(0, 0, 2));
         Assert.assertTrue(l.contains(p1));
@@ -39,7 +41,7 @@ public class LineTest {
     }
 
     @Test
-    public void testSimilar() {
+    public void testSimilar() throws MathIllegalArgumentException, MathArithmeticException {
         Vector3D p1  = new Vector3D (1.2, 3.4, -5.8);
         Vector3D p2  = new Vector3D (3.4, -5.8, 1.2);
         Line     lA  = new Line(p1, p2);
@@ -49,14 +51,14 @@ public class LineTest {
     }
 
     @Test
-    public void testPointDistance() {
+    public void testPointDistance() throws MathIllegalArgumentException {
         Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 2, 2));
         Assert.assertEquals(FastMath.sqrt(3.0 / 2.0), l.distance(new Vector3D(1, 0, 1)), 1.0e-10);
         Assert.assertEquals(0, l.distance(new Vector3D(0, -4, -4)), 1.0e-10);
     }
 
     @Test
-    public void testLineDistance() {
+    public void testLineDistance() throws MathIllegalArgumentException {
         Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 2, 2));
         Assert.assertEquals(1.0,
                             l.distance(new Line(new Vector3D(1, 0, 1), new Vector3D(1, 0, 2))),
@@ -82,7 +84,7 @@ public class LineTest {
     }
 
     @Test
-    public void testClosest() {
+    public void testClosest() throws MathIllegalArgumentException {
         Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 2, 2));
         Assert.assertEquals(0.0,
                             l.closestPoint(new Line(new Vector3D(1, 0, 1), new Vector3D(1, 0, 2))).distance(new Vector3D(0, 0, 0)),
@@ -108,7 +110,7 @@ public class LineTest {
     }
 
     @Test
-    public void testIntersection() {
+    public void testIntersection() throws MathIllegalArgumentException {
         Line l = new Line(new Vector3D(0, 1, 1), new Vector3D(0, 2, 2));
         Assert.assertNull(l.intersection(new Line(new Vector3D(1, 0, 1), new Vector3D(1, 0, 2))));
         Assert.assertNull(l.intersection(new Line(new Vector3D(-0.5, 0, 0), new Vector3D(-0.5, -1, -1))));

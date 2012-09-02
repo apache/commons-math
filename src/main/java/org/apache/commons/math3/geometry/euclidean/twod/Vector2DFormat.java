@@ -112,7 +112,7 @@ public class Vector2DFormat extends VectorFormat<Euclidean2D> {
 
     /** {@inheritDoc} */
     @Override
-    public Vector2D parse(final String source) {
+    public Vector2D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector2D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {

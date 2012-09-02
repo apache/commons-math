@@ -221,7 +221,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc} */
-    public Vector2D normalize() {
+    public Vector2D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);

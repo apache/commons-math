@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import org.apache.commons.math3.exception.MathParseException;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3DFormat;
 import org.junit.Test;
@@ -160,7 +161,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseSimpleNoDecimals() {
+    public void testParseSimpleNoDecimals() throws MathParseException {
         String source = "{1; 1; 1}";
         Vector3D expected = new Vector3D(1, 1, 1);
         Vector3D actual = vector3DFormat.parse(source);
@@ -181,7 +182,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseSimpleWithDecimals() {
+    public void testParseSimpleWithDecimals() throws MathParseException {
         String source =
             "{1" + getDecimalCharacter() +
             "23; 1" + getDecimalCharacter() +
@@ -193,7 +194,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseSimpleWithDecimalsTrunc() {
+    public void testParseSimpleWithDecimalsTrunc() throws MathParseException {
         String source =
             "{1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
@@ -205,7 +206,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNegativeX() {
+    public void testParseNegativeX() throws MathParseException {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
@@ -217,7 +218,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNegativeY() {
+    public void testParseNegativeY() throws MathParseException {
         String source =
             "{1" + getDecimalCharacter() +
             "2323; -1" + getDecimalCharacter() +
@@ -229,7 +230,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNegativeZ() {
+    public void testParseNegativeZ() throws MathParseException {
         String source =
             "{1" + getDecimalCharacter() +
             "2323; 1" + getDecimalCharacter() +
@@ -241,7 +242,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNegativeAll() {
+    public void testParseNegativeAll() throws MathParseException {
         String source =
             "{-1" + getDecimalCharacter() +
             "2323; -1" + getDecimalCharacter() +
@@ -253,7 +254,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseZeroX() {
+    public void testParseZeroX() throws MathParseException {
         String source =
             "{0" + getDecimalCharacter() +
             "0; -1" + getDecimalCharacter() +
@@ -265,7 +266,7 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNonDefaultSetting() {
+    public void testParseNonDefaultSetting() throws MathParseException {
         String source =
             "[1" + getDecimalCharacter() +
             "2323 : 1" + getDecimalCharacter() +
@@ -277,21 +278,21 @@ public abstract class Vector3DFormatAbstractTest {
     }
 
     @Test
-    public void testParseNan() {
+    public void testParseNan() throws MathParseException {
         String source = "{(NaN); (NaN); (NaN)}";
         Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Vector3D.NaN, actual);
     }
 
     @Test
-    public void testParsePositiveInfinity() {
+    public void testParsePositiveInfinity() throws MathParseException {
         String source = "{(Infinity); (Infinity); (Infinity)}";
         Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Vector3D.POSITIVE_INFINITY, actual);
     }
 
     @Test
-    public void testParseNegativeInfinity() {
+    public void testParseNegativeInfinity() throws MathParseException {
         String source = "{(-Infinity); (-Infinity); (-Infinity)}";
         Vector3D actual = vector3DFormat.parse(source);
         Assert.assertEquals(Vector3D.NEGATIVE_INFINITY, actual);

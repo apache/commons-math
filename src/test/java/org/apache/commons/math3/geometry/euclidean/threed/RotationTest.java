@@ -51,7 +51,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testAxisAngle() {
+  public void testAxisAngle() throws MathIllegalArgumentException {
 
     Rotation r = new Rotation(new Vector3D(10, 10, 10), 2 * FastMath.PI / 3);
     checkVector(r.applyTo(Vector3D.PLUS_I), Vector3D.PLUS_J);
@@ -90,7 +90,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testVectorOnePair() {
+  public void testVectorOnePair() throws MathArithmeticException {
 
     Vector3D u = new Vector3D(3, 2, 1);
     Vector3D v = new Vector3D(-4, 2, 2);
@@ -102,14 +102,14 @@ public class RotationTest {
     try {
         new Rotation(u, Vector3D.ZERO);
         Assert.fail("an exception should have been thrown");
-    } catch (IllegalArgumentException e) {
+    } catch (MathArithmeticException e) {
         // expected behavior
     }
 
   }
 
   @Test
-  public void testVectorTwoPairs() {
+  public void testVectorTwoPairs() throws MathArithmeticException {
 
     Vector3D u1 = new Vector3D(3, 0, 0);
     Vector3D u2 = new Vector3D(0, 5, 0);
@@ -382,7 +382,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testQuaternion() {
+  public void testQuaternion() throws MathIllegalArgumentException {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
     double n = 23.5;
@@ -404,7 +404,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testCompose() {
+  public void testCompose() throws MathIllegalArgumentException {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
     Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3);
@@ -422,7 +422,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testComposeInverse() {
+  public void testComposeInverse() throws MathIllegalArgumentException {
 
     Rotation r1 = new Rotation(new Vector3D(2, -3, 5), 1.7);
     Rotation r2 = new Rotation(new Vector3D(-1, 3, 2), 0.3);
@@ -440,7 +440,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testArray() {
+  public void testArray() throws MathIllegalArgumentException {
 
       Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
 
@@ -465,7 +465,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testApplyInverseTo() {
+  public void testApplyInverseTo() throws MathIllegalArgumentException {
 
     Rotation r = new Rotation(new Vector3D(2, -3, 5), 1.7);
     for (double lambda = 0; lambda < 6.2; lambda += 0.2) {
@@ -504,7 +504,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testIssue639(){
+  public void testIssue639() throws MathArithmeticException{
       Vector3D u1 = new Vector3D(-1321008684645961.0 /  268435456.0,
                                  -5774608829631843.0 /  268435456.0,
                                  -3822921525525679.0 / 4294967296.0);
@@ -519,7 +519,7 @@ public class RotationTest {
   }
 
   @Test
-  public void testIssue801() {
+  public void testIssue801() throws MathArithmeticException {
       Vector3D u1 = new Vector3D(0.9999988431610581, -0.0015210774290851095, 0.0);
       Vector3D u2 = new Vector3D(0.0, 0.0, 1.0);
 

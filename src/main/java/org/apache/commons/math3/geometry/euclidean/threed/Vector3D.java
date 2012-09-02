@@ -293,7 +293,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
     }
 
     /** {@inheritDoc} */
-    public Vector3D normalize() {
+    public Vector3D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);
@@ -316,7 +316,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
      */
-    public Vector3D orthogonal() {
+    public Vector3D orthogonal() throws MathArithmeticException {
 
         double threshold = 0.6 * getNorm();
         if (threshold == 0) {
@@ -346,7 +346,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static double angle(Vector3D v1, Vector3D v2) {
+    public static double angle(Vector3D v1, Vector3D v2) throws MathArithmeticException {
 
         double normProduct = v1.getNorm() * v2.getNorm();
         if (normProduct == 0) {

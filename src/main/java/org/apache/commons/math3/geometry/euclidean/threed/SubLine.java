@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
@@ -48,15 +49,18 @@ public class SubLine {
     /** Create a sub-line from two endpoints.
      * @param start start point
      * @param end end point
+     * @exception MathIllegalArgumentException if the points are equal
      */
-    public SubLine(final Vector3D start, final Vector3D end) {
+    public SubLine(final Vector3D start, final Vector3D end)
+        throws MathIllegalArgumentException {
         this(new Line(start, end), buildIntervalSet(start, end));
     }
 
     /** Create a sub-line from a segment.
      * @param segment single segment forming the sub-line
+     * @exception MathIllegalArgumentException if the segment endpoints are equal
      */
-    public SubLine(final Segment segment) {
+    public SubLine(final Segment segment) throws MathIllegalArgumentException {
         this(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd()));
     }
 
@@ -126,8 +130,10 @@ public class SubLine {
      * @param start start point
      * @param end end point
      * @return an interval set
+     * @exception MathIllegalArgumentException if the points are equal
      */
-    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end) {
+    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end)
+        throws MathIllegalArgumentException {
         final Line line = new Line(start, end);
         return new IntervalsSet(line.toSubSpace(start).getX(),
                                 line.toSubSpace(end).getX());

@@ -16,7 +16,9 @@
  */
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
@@ -51,7 +53,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @param p2 second point belonging to the line (this can be any point, different from p1)
      * @exception MathIllegalArgumentException if the points are equal
      */
-    public Line(final Vector3D p1, final Vector3D p2) {
+    public Line(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
         reset(p1, p2);
     }
 
@@ -70,7 +72,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @param p2 second point belonging to the line (this can be any point, different from p1)
      * @exception MathIllegalArgumentException if the points are equal
      */
-    public void reset(final Vector3D p1, final Vector3D p2) {
+    public void reset(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
         final Vector3D delta = p2.subtract(p1);
         final double norm2 = delta.getNormSq();
         if (norm2 == 0.0) {
@@ -84,7 +86,12 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @return a new instance, with reversed direction
      */
     public Line revert() {
-        return new Line(zero, zero.subtract(direction));
+        try {
+            return new Line(zero, zero.subtract(direction));
+        } catch (MathIllegalArgumentException miae) {
+            // this should never happen has the instance was already built without error
+            throw new MathInternalError(miae);
+        }
     }
 
     /** Get the normalized direction vector.
@@ -142,8 +149,13 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @return true if the lines are similar
      */
     public boolean isSimilarTo(final Line line) {
-        final double angle = Vector3D.angle(direction, line.direction);
-        return ((angle < 1.0e-10) || (angle > (FastMath.PI - 1.0e-10))) && contains(line.zero);
+        try {
+            final double angle = Vector3D.angle(direction, line.direction);
+            return ((angle < 1.0e-10) || (angle > (FastMath.PI - 1.0e-10))) && contains(line.zero);
+        } catch (MathArithmeticException mae) {
+            // this should never happen as directions are non-zero vectors
+            throw new MathInternalError(mae);
+        }
     }
 
     /** Check if the instance contains a point.

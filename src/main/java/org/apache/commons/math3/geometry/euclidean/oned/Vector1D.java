@@ -183,7 +183,7 @@ public class Vector1D implements Vector<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
-    public Vector1D normalize() {
+    public Vector1D normalize() throws MathArithmeticException {
         double s = getNorm();
         if (s == 0) {
             throw new MathArithmeticException(LocalizedFormats.CANNOT_NORMALIZE_A_ZERO_NORM_VECTOR);

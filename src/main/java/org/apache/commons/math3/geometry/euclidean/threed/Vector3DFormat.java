@@ -124,7 +124,7 @@ public class Vector3DFormat extends VectorFormat<Euclidean3D> {
      * cannot be parsed.
      */
     @Override
-    public Vector3D parse(final String source) {
+    public Vector3D parse(final String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Vector3D result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {

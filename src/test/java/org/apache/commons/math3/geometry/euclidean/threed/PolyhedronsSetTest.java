@@ -18,6 +18,8 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
 import org.apache.commons.math3.geometry.euclidean.twod.SubLine;
@@ -74,7 +76,7 @@ public class PolyhedronsSetTest {
     }
 
     @Test
-    public void testTetrahedron() {
+    public void testTetrahedron() throws MathArithmeticException {
         Vector3D vertex1 = new Vector3D(1, 2, 3);
         Vector3D vertex2 = new Vector3D(2, 2, 4);
         Vector3D vertex3 = new Vector3D(2, 3, 3);
@@ -109,7 +111,7 @@ public class PolyhedronsSetTest {
     }
 
     @Test
-    public void testIsometry() {
+    public void testIsometry() throws MathArithmeticException, MathIllegalArgumentException {
         Vector3D vertex1 = new Vector3D(1.1, 2.2, 3.3);
         Vector3D vertex2 = new Vector3D(2.0, 2.4, 4.2);
         Vector3D vertex3 = new Vector3D(2.8, 3.3, 3.7);
@@ -234,7 +236,7 @@ public class PolyhedronsSetTest {
     }
 
     @Test
-    public void testIssue780() {
+    public void testIssue780() throws MathArithmeticException {
         float[] coords = {
             1.000000f, -1.000000f, -1.000000f, 
             1.000000f, -1.000000f, 1.000000f, 
