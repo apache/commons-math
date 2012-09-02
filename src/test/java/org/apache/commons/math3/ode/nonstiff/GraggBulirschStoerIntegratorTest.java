@@ -18,6 +18,8 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
@@ -38,7 +40,9 @@ import org.junit.Test;
 public class GraggBulirschStoerIntegratorTest {
 
   @Test(expected=DimensionMismatchException.class)
-  public void testDimensionCheck() {
+  public void testDimensionCheck()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblem1 pb = new TestProblem1();
       AdaptiveStepsizeIntegrator integrator =
         new GraggBulirschStoerIntegrator(0.0, 1.0, 1.0e-10, 1.0e-10);
@@ -48,7 +52,9 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test(expected=NumberIsTooSmallException.class)
-  public void testNullIntervalCheck() {
+  public void testNullIntervalCheck()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblem1 pb = new TestProblem1();
       GraggBulirschStoerIntegrator integrator =
         new GraggBulirschStoerIntegrator(0.0, 1.0, 1.0e-10, 1.0e-10);
@@ -58,7 +64,9 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test(expected=NumberIsTooSmallException.class)
-  public void testMinStep() {
+  public void testMinStep()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb  = new TestProblem5();
       double minStep   = 0.1 * FastMath.abs(pb.getFinalTime() - pb.getInitialTime());
@@ -79,7 +87,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testBackward()
-      {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -103,7 +112,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testIncreasingTolerance()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -4; ++i) {
@@ -141,7 +151,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testIntegratorControls()
-  {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem3 pb = new TestProblem3(0.999);
     GraggBulirschStoerIntegrator integ =
@@ -170,7 +181,8 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   private double getMaxError(FirstOrderIntegrator integrator, TestProblemAbstract pb)
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblemHandler handler = new TestProblemHandler(pb, integrator);
       integrator.addStepHandler(handler);
       integrator.integrate(pb,
@@ -181,7 +193,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testEvents()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -214,7 +227,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testKepler()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb = new TestProblem3(0.9);
     double minStep        = 0;
@@ -237,7 +251,8 @@ public class GraggBulirschStoerIntegratorTest {
 
   @Test
   public void testVariableSteps()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb = new TestProblem3(0.9);
     double minStep        = 0;
@@ -256,7 +271,9 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test
-  public void testTooLargeFirstStep() {
+  public void testTooLargeFirstStep()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       AdaptiveStepsizeIntegrator integ =
               new GraggBulirschStoerIntegrator(0, Double.POSITIVE_INFINITY, Double.NaN, Double.NaN);
@@ -282,7 +299,9 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test
-  public void testUnstableDerivative() {
+  public void testUnstableDerivative()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     final StepProblem stepProblem = new StepProblem(0.0, 1.0, 2.0);
     FirstOrderIntegrator integ =
       new GraggBulirschStoerIntegrator(0.1, 10, 1.0e-12, 0.0);
@@ -293,14 +312,17 @@ public class GraggBulirschStoerIntegratorTest {
   }
 
   @Test
-  public void testIssue596() {
+  public void testIssue596()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(1e-10, 100.0, 1e-7, 1e-7);
       integ.addStepHandler(new StepHandler() {
 
           public void init(double t0, double[] y0, double t) {
           }
 
-          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+          public void handleStep(StepInterpolator interpolator, boolean isLast)
+              throws MaxCountExceededException {
               double t = interpolator.getCurrentTime();
               interpolator.setInterpolatedTime(t);
               double[] y = interpolator.getInterpolatedState();
@@ -332,7 +354,8 @@ public class GraggBulirschStoerIntegratorTest {
       nbSteps = 0;
       maxError = 0;
     }
-    public void handleStep(StepInterpolator interpolator, boolean isLast) {
+    public void handleStep(StepInterpolator interpolator, boolean isLast)
+        throws MaxCountExceededException {
 
       ++nbSteps;
       for (int a = 1; a < 100; ++a) {

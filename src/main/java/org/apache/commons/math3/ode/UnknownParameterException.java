@@ -16,28 +16,38 @@
  */
 package org.apache.commons.math3.ode;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 
-/** Interface to compute by finite difference Jacobian matrix for some parameter
- *  when computing {@link JacobianMatrices partial derivatives equations}.
+/**
+ * Exception to be thrown when a parameter is unknown.
  *
+ * @since 3.1
  * @version $Id$
- * @since 3.0
  */
+public class UnknownParameterException extends MathIllegalArgumentException {
 
-public interface ParameterizedODE extends Parameterizable {
+    /** Serializable version Id. */
+    private static final long serialVersionUID = 20120902L;
 
-    /** Get parameter value from its name.
-     * @param name parameter name
-     * @return parameter value
-     * @exception UnknownParameterException if parameter is not supported
+    /** Parameter name. */
+    private final String name;
+
+    /**
+     * Construct an exception from the unknown parameter.
+     *
+     * @param name parameter name.
      */
-    double getParameter(String name) throws UnknownParameterException;
+    public UnknownParameterException(final String name) {
+        super(LocalizedFormats.UNKNOWN_PARAMETER);
+        this.name = name;
+    }
 
-    /** Set the value for a given parameter.
-     * @param name parameter name
-     * @param value parameter value
-     * @exception UnknownParameterException if parameter is not supported
+    /**
+     * @return the name of the unknown parameter.
      */
-    void setParameter(String name, double value) throws UnknownParameterException;
+    public String getName() {
+        return name;
+    }
 
 }

@@ -19,6 +19,11 @@ package org.apache.commons.math3.ode;
 
 import java.util.Random;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math3.ode.sampling.DummyStepInterpolator;
@@ -37,7 +42,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testBoundaries() {
+  public void testBoundaries() throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
     integ.addStepHandler(new ContinuousOutputModel());
     integ.integrate(pb,
                     pb.getInitialTime(), pb.getInitialState(),
@@ -49,7 +54,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testRandomAccess() {
+  public void testRandomAccess() throws DimensionMismatchException, NumberIsTooSmallException, MaxCountExceededException, NoBracketingException {
 
     ContinuousOutputModel cm = new ContinuousOutputModel();
     integ.addStepHandler(cm);
@@ -78,7 +83,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testModelsMerging() {
+  public void testModelsMerging() throws MaxCountExceededException, MathIllegalArgumentException {
 
       // theoretical solution: y[0] = cos(t), y[1] = sin(t)
       FirstOrderDifferentialEquations problem =
@@ -128,7 +133,7 @@ public class ContinuousOutputModelTest {
   }
 
   @Test
-  public void testErrorConditions() {
+  public void testErrorConditions() throws MaxCountExceededException, MathIllegalArgumentException {
 
       ContinuousOutputModel cm = new ContinuousOutputModel();
       cm.handleStep(buildInterpolator(0, new double[] { 0.0, 1.0, -2.0 }, 1), true);
@@ -148,7 +153,8 @@ public class ContinuousOutputModelTest {
   }
 
   private boolean checkAppendError(ContinuousOutputModel cm,
-                                   double t0, double[] y0, double t1) {
+                                   double t0, double[] y0, double t1)
+      throws MaxCountExceededException, MathIllegalArgumentException {
       try {
           ContinuousOutputModel otherCm = new ContinuousOutputModel();
           otherCm.handleStep(buildInterpolator(t0, y0, t1), true);

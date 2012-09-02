@@ -18,6 +18,8 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblem1;
@@ -37,7 +39,9 @@ import org.junit.Test;
 public class DormandPrince54IntegratorTest {
 
   @Test(expected=DimensionMismatchException.class)
-  public void testDimensionCheck() {
+  public void testDimensionCheck()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblem1 pb = new TestProblem1();
       DormandPrince54Integrator integrator = new DormandPrince54Integrator(0.0, 1.0,
                                                                            1.0e-10, 1.0e-10);
@@ -47,7 +51,9 @@ public class DormandPrince54IntegratorTest {
   }
 
   @Test(expected=NumberIsTooSmallException.class)
-  public void testMinStep() {
+  public void testMinStep()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem1 pb = new TestProblem1();
       double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
@@ -69,7 +75,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testSmallLastStep()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblemAbstract pb = new TestProblem5();
     double minStep = 1.25;
@@ -95,7 +102,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testBackward()
-      {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -146,7 +154,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testIncreasingTolerance()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -188,7 +197,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testEvents()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -222,7 +232,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testKepler()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -245,7 +256,8 @@ public class DormandPrince54IntegratorTest {
 
   @Test
   public void testVariableSteps()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;
@@ -270,7 +282,8 @@ public class DormandPrince54IntegratorTest {
       nbSteps = 0;
       maxError = 0;
     }
-    public void handleStep(StepInterpolator interpolator, boolean isLast) {
+    public void handleStep(StepInterpolator interpolator, boolean isLast)
+        throws MaxCountExceededException {
 
       ++nbSteps;
       for (int a = 1; a < 10; ++a) {

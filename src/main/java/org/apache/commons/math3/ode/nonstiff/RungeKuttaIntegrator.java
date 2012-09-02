@@ -18,8 +18,10 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.util.FastMath;
@@ -91,7 +93,8 @@ public abstract class RungeKuttaIntegrator extends AbstractIntegrator {
   /** {@inheritDoc} */
   @Override
   public void integrate(final ExpandableStatefulODE equations, final double t)
-      throws MathIllegalStateException, MathIllegalArgumentException {
+      throws NumberIsTooSmallException, DimensionMismatchException,
+             MaxCountExceededException, NoBracketingException {
 
     sanityChecks(equations, t);
     setEquations(equations);

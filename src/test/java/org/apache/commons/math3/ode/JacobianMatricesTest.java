@@ -17,6 +17,11 @@
 
 package org.apache.commons.math3.ode;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.ode.JacobianMatrices.MismatchedEquations;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.util.FastMath;
@@ -26,8 +31,10 @@ import org.junit.Test;
 public class JacobianMatricesTest {
 
     @Test
-    public void testLowAccuracyExternalDifferentiation() {
-        // this test does not really test FirstOrderIntegratorWithJacobians,
+    public void testLowAccuracyExternalDifferentiation()
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException {
+        // this test does not really test JacobianMatrices,
         // it only shows that WITHOUT this class, attempting to recover
         // the jacobians from external differentiation on simple integration
         // results with low accuracy gives very poor results. In fact,
@@ -57,7 +64,9 @@ public class JacobianMatricesTest {
     }
 
     @Test
-    public void testHighAccuracyExternalDifferentiation() {
+    public void testHighAccuracyExternalDifferentiation()
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException, UnknownParameterException {
         FirstOrderIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double hP = 1.0e-12;
@@ -84,7 +93,10 @@ public class JacobianMatricesTest {
     }
 
     @Test
-    public void testInternalDifferentiation() {
+    public void testInternalDifferentiation()
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException,
+               UnknownParameterException, MismatchedEquations {
         AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         double hP = 1.0e-12;
@@ -126,7 +138,10 @@ public class JacobianMatricesTest {
     }
 
     @Test
-    public void testAnalyticalDifferentiation() {
+    public void testAnalyticalDifferentiation()
+        throws MaxCountExceededException, DimensionMismatchException,
+               NumberIsTooSmallException, NoBracketingException,
+               UnknownParameterException, MismatchedEquations {
         AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-4, 1.0e-4 }, new double[] { 1.0e-4, 1.0e-4 });
         SummaryStatistics residualsP0 = new SummaryStatistics();
@@ -163,7 +178,10 @@ public class JacobianMatricesTest {
     }
 
     @Test
-    public void testFinalResult() {
+    public void testFinalResult()
+        throws MaxCountExceededException, DimensionMismatchException,
+               NumberIsTooSmallException, NoBracketingException,
+               UnknownParameterException, MismatchedEquations {
 
         AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
@@ -216,28 +234,30 @@ public class JacobianMatricesTest {
     }
 
     @Test
-    public void testParameterizable() {
+    public void testParameterizable()
+        throws MaxCountExceededException, DimensionMismatchException,
+               NumberIsTooSmallException, NoBracketingException,
+               UnknownParameterException, MismatchedEquations {
 
         AbstractIntegrator integ =
             new DormandPrince54Integrator(1.0e-8, 100.0, new double[] { 1.0e-10, 1.0e-10 }, new double[] { 1.0e-10, 1.0e-10 });
         double[] y = new double[] { 0.0, 1.0 };
         ParameterizedCircle pcircle = new ParameterizedCircle(y, 1.0, 1.0, 0.1);
-//        pcircle.setParameter(ParameterizedCircle.CX, 1.0);
-//        pcircle.setParameter(ParameterizedCircle.CY, 1.0);
-//        pcircle.setParameter(ParameterizedCircle.OMEGA, 0.1);
 
         double hP = 1.0e-12;
         double hY = 1.0e-12;
 
         JacobianMatrices jacob = new JacobianMatrices(pcircle, new double[] { hY, hY },
-                                                      Circle.CX, Circle.OMEGA);
-        jacob.addParameterJacobianProvider(pcircle);
+                                                      ParameterizedCircle.CX, ParameterizedCircle.CY,
+                                                      ParameterizedCircle.OMEGA);
         jacob.setParameterizedODE(pcircle);
-        jacob.setParameterStep(Circle.OMEGA, hP);
+        jacob.setParameterStep(ParameterizedCircle.CX,    hP);
+        jacob.setParameterStep(ParameterizedCircle.CY,    hP);
+        jacob.setParameterStep(ParameterizedCircle.OMEGA, hP);
         jacob.setInitialMainStateJacobian(pcircle.exactDyDy0(0));
-        jacob.setInitialParameterJacobian(Circle.CX, pcircle.exactDyDcx(0));
-//        jacob.setInitialParameterJacobian(Circle.CY, circle.exactDyDcy(0));
-        jacob.setInitialParameterJacobian(Circle.OMEGA, pcircle.exactDyDom(0));
+        jacob.setInitialParameterJacobian(ParameterizedCircle.CX, pcircle.exactDyDcx(0));
+        jacob.setInitialParameterJacobian(ParameterizedCircle.CY, pcircle.exactDyDcy(0));
+        jacob.setInitialParameterJacobian(ParameterizedCircle.OMEGA, pcircle.exactDyDom(0));
 
         ExpandableStatefulODE efode = new ExpandableStatefulODE(pcircle);
         efode.setTime(0);
@@ -262,13 +282,13 @@ public class JacobianMatricesTest {
         }
 
         double[] dydp0 = new double[2];
-        jacob.getCurrentParameterJacobian(Circle.CX, dydp0);
+        jacob.getCurrentParameterJacobian(ParameterizedCircle.CX, dydp0);
         for (int i = 0; i < dydp0.length; ++i) {
             Assert.assertEquals(pcircle.exactDyDcx(t)[i], dydp0[i], 5.0e-4);
         }
 
         double[] dydp1 = new double[2];
-        jacob.getCurrentParameterJacobian(Circle.OMEGA, dydp1);
+        jacob.getCurrentParameterJacobian(ParameterizedCircle.OMEGA, dydp1);
         for (int i = 0; i < dydp1.length; ++i) {
             Assert.assertEquals(pcircle.exactDyDom(t)[i], dydp1[i], 1.0e-2);
         }
@@ -308,9 +328,13 @@ public class JacobianMatricesTest {
 
         public void computeParameterJacobian(double t, double[] y, double[] yDot,
                                              String paramName, double[] dFdP) {
-            complainIfNotSupported(paramName);
-            dFdP[0] = -y[0];
-            dFdP[1] = y[0];
+            if (isSupported(paramName)) {
+                dFdP[0] = -y[0];
+                dFdP[1] = y[0];
+            } else {
+                dFdP[0] = 0;
+                dFdP[1] = 0;
+            }
         }
 
         public double dYdP0() {
@@ -341,14 +365,14 @@ public class JacobianMatricesTest {
 
         /** {@inheritDoc} */
         public double getParameter(final String name)
-            throws IllegalArgumentException {
+            throws UnknownParameterException {
             complainIfNotSupported(name);
             return b;
         }
 
         /** {@inheritDoc} */
         public void setParameter(final String name, final double value)
-            throws IllegalArgumentException {
+            throws UnknownParameterException {
             complainIfNotSupported(name);
             b = value;
         }
@@ -408,7 +432,8 @@ public class JacobianMatricesTest {
         }
 
         public void computeParameterJacobian(double t, double[] y, double[] yDot,
-                                             String paramName, double[] dFdP) {
+                                             String paramName, double[] dFdP)
+            throws UnknownParameterException {
             complainIfNotSupported(paramName);
             if (paramName.equals(CX)) {
                 dFdP[0] = 0;
@@ -462,55 +487,11 @@ public class JacobianMatricesTest {
             return new double[] { -t * (sin * dx0 + cos * dy0) , t * (cos * dx0 - sin * dy0) };
         }
 
-        public double[][] exactDyDp(double t) {
-            double cos = FastMath.cos(omega * t);
-            double sin = FastMath.sin(omega * t);
-            double dx0 = y0[0] - cx;
-            double dy0 = y0[1] - cy;
-            return new double[][] {
-                { 1 - cos, sin,    -t * (sin * dx0 + cos * dy0) },
-                { -sin,    1 - cos, t * (cos * dx0 - sin * dy0) }
-            };
-        }
-
-        public double[] exactYDot(double t) {
-            double oCos = omega * FastMath.cos(omega * t);
-            double oSin = omega * FastMath.sin(omega * t);
-            double dx0 = y0[0] - cx;
-            double dy0 = y0[1] - cy;
-            return new double[] {
-                -oSin * dx0 - oCos * dy0,
-                 oCos * dx0 - oSin * dy0
-            };
-        }
-
-        public double[][] exactDyDy0Dot(double t) {
-            double oCos = omega * FastMath.cos(omega * t);
-            double oSin = omega * FastMath.sin(omega * t);
-            return new double[][] {
-                { -oSin, -oCos },
-                {  oCos, -oSin }
-            };
-        }
-
-        public double[][] exactDyDpDot(double t) {
-            double cos  = FastMath.cos(omega * t);
-            double sin  = FastMath.sin(omega * t);
-            double oCos = omega * cos;
-            double oSin = omega * sin;
-            double dx0  = y0[0] - cx;
-            double dy0  = y0[1] - cy;
-            return new double[][] {
-                {  oSin, oCos, -sin * dx0 - cos * dy0 - t * ( oCos * dx0 - oSin * dy0) },
-                { -oCos, oSin,  cos * dx0 - sin * dy0 + t * (-oSin * dx0 - oCos * dy0) }
-            };
-        }
-
     }
 
     /** ODE representing a point moving on a circle with provided center and angular rate. */
     private static class ParameterizedCircle extends AbstractParameterizable
-        implements FirstOrderDifferentialEquations, ParameterJacobianProvider, ParameterizedODE {
+        implements FirstOrderDifferentialEquations, ParameterizedODE {
 
         public static final String CX = "cx";
         public static final String CY = "cy";
@@ -538,36 +519,29 @@ public class JacobianMatricesTest {
             yDot[1] = omega * (y[0] - cx);
         }
 
-        public void computeParameterJacobian(double t, double[] y, double[] yDot,
-                                             String paramName, double[] dFdP)
-            throws IllegalArgumentException {
-            if (paramName.equals(CX)) {
-                dFdP[0] = 0;
-                dFdP[1] = -omega;
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-
         public double getParameter(final String name)
-            throws IllegalArgumentException {
-            if (name.equals(CY)) {
-                return cy;
+            throws UnknownParameterException {
+            if (name.equals(CX)) {
+                return cx;
+            } else if (name.equals(CY)) {
+                    return cy;
             } else if (name.equals(OMEGA)) {
                 return omega;
             } else {
-                throw new IllegalArgumentException();
+                throw new UnknownParameterException(name);
             }
         }
 
         public void setParameter(final String name, final double value)
-            throws IllegalArgumentException {
-            if (name.equals(CY)) {
+            throws UnknownParameterException {
+            if (name.equals(CX)) {
+                cx = value;
+            } else if (name.equals(CY)) {
                 cy = value;
             } else if (name.equals(OMEGA)) {
                 omega = value;
             } else {
-                throw new IllegalArgumentException();
+                throw new UnknownParameterException(name);
             }
         }
 

@@ -19,10 +19,10 @@ package org.apache.commons.math3.ode.nonstiff;
 
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalNumberException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblem1;
@@ -38,14 +38,16 @@ import org.junit.Test;
 public class HighamHall54IntegratorTest {
 
   @Test
-  public void testWrongDerivative() {
+  public void testWrongDerivative()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       HighamHall54Integrator integrator =
           new HighamHall54Integrator(0.0, 1.0, 1.0e-10, 1.0e-10);
       FirstOrderDifferentialEquations equations =
           new FirstOrderDifferentialEquations() {
             public void computeDerivatives(double t, double[] y, double[] dot) {
             if (t < -0.5) {
-                throw new LocalException(t);
+                throw new LocalException();
             } else {
                 throw new RuntimeException("oops");
            }
@@ -72,7 +74,9 @@ public class HighamHall54IntegratorTest {
   }
 
   @Test(expected=NumberIsTooSmallException.class)
-  public void testMinStep() {
+  public void testMinStep()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem1 pb = new TestProblem1();
       double minStep = 0.1 * (pb.getFinalTime() - pb.getInitialTime());
@@ -94,7 +98,8 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testIncreasingTolerance()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     int previousCalls = Integer.MAX_VALUE;
     for (int i = -12; i < -2; ++i) {
@@ -130,7 +135,8 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testBackward()
-      {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb = new TestProblem5();
       double minStep = 0;
@@ -154,7 +160,8 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testEvents()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem4 pb = new TestProblem4();
     double minStep = 0;
@@ -187,7 +194,9 @@ public class HighamHall54IntegratorTest {
   }
 
   @Test(expected=LocalException.class)
-  public void testEventsErrors() {
+  public void testEventsErrors()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       final TestProblem1 pb = new TestProblem1();
       double minStep = 0;
@@ -211,7 +220,7 @@ public class HighamHall54IntegratorTest {
           double middle = (pb.getInitialTime() + pb.getFinalTime()) / 2;
           double offset = t - middle;
           if (offset > 0) {
-            throw new LocalException(t);
+            throw new LocalException();
           }
           return offset;
         }
@@ -225,15 +234,14 @@ public class HighamHall54IntegratorTest {
 
   }
 
-  private static class LocalException extends MathIllegalNumberException {
+  private static class LocalException extends RuntimeException {
     private static final long serialVersionUID = 3041292643919807960L;
-    protected LocalException(Number wrong) {
-        super(LocalizedFormats.SIMPLE_MESSAGE, wrong);
-    }
   }
 
   @Test
-  public void testEventsNoConvergence() {
+  public void testEventsNoConvergence()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem1 pb = new TestProblem1();
     double minStep = 0;
@@ -274,7 +282,9 @@ public class HighamHall54IntegratorTest {
 }
 
   @Test
-  public void testSanityChecks() {
+  public void testSanityChecks()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       final TestProblem3 pb  = new TestProblem3(0.9);
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -333,7 +343,8 @@ public class HighamHall54IntegratorTest {
 
   @Test
   public void testKepler()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double minStep = 0;

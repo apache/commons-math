@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.ode;
 
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.apache.commons.math3.util.FastMath;
@@ -68,7 +69,7 @@ public class TestProblemHandler
     expectedStepStart = Double.NaN;
   }
 
-  public void handleStep(StepInterpolator interpolator, boolean isLast) {
+  public void handleStep(StepInterpolator interpolator, boolean isLast) throws MaxCountExceededException {
 
     double start = integrator.getCurrentStepStart();
     if (FastMath.abs((start - problem.getInitialTime()) / integrator.getCurrentSignedStepsize()) > 0.001) {

@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.ode.sampling;
 
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
@@ -196,8 +197,11 @@ public class StepNormalizer implements StepHandler {
      * should build a local copy using the clone method and store this
      * copy.
      * @param isLast true if the step is the last one
+     * @exception MaxCountExceededException if the interpolator throws one because
+     * the number of functions evaluations is exceeded
      */
-    public void handleStep(final StepInterpolator interpolator, final boolean isLast) {
+    public void handleStep(final StepInterpolator interpolator, final boolean isLast)
+        throws MaxCountExceededException {
         // The first time, update the last state with the start information.
         if (lastState == null) {
             firstTime = interpolator.getPreviousTime();
@@ -282,8 +286,11 @@ public class StepNormalizer implements StepHandler {
      * @param interpolator interpolator for the last accepted step, to use to
      * get the interpolated information
      * @param t the time for which to store the interpolated information
+     * @exception MaxCountExceededException if the interpolator throws one because
+     * the number of functions evaluations is exceeded
      */
-    private void storeStep(StepInterpolator interpolator, double t) {
+    private void storeStep(StepInterpolator interpolator, double t)
+        throws MaxCountExceededException {
         lastTime = t;
         interpolator.setInterpolatedTime(lastTime);
         System.arraycopy(interpolator.getInterpolatedState(), 0,

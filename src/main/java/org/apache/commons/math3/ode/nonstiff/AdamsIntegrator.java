@@ -17,8 +17,10 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.MultistepIntegrator;
@@ -47,13 +49,13 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
      * be smaller than this
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
-     * @exception IllegalArgumentException if order is 1 or less
+     * @exception NumberIsTooSmallException if order is 1 or less
      */
     public AdamsIntegrator(final String name, final int nSteps, final int order,
                            final double minStep, final double maxStep,
                            final double scalAbsoluteTolerance,
                            final double scalRelativeTolerance)
-        throws IllegalArgumentException {
+        throws NumberIsTooSmallException {
         super(name, nSteps, order, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
         transformer = AdamsNordsieckTransformer.getInstance(nSteps);
@@ -87,7 +89,8 @@ public abstract class AdamsIntegrator extends MultistepIntegrator {
     /** {@inheritDoc} */
     @Override
     public abstract void integrate(final ExpandableStatefulODE equations, final double t)
-        throws MathIllegalStateException, MathIllegalArgumentException;
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException;
 
     /** {@inheritDoc} */
     @Override

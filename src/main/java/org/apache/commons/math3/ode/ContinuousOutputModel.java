@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
@@ -123,9 +124,11 @@ public class ContinuousOutputModel
    * @exception MathIllegalArgumentException if the model to append is not
    * compatible with the instance (dimension of the state vector,
    * propagation direction, hole between the dates)
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * during step finalization
    */
   public void append(final ContinuousOutputModel model)
-    throws MathIllegalArgumentException {
+    throws MathIllegalArgumentException, MaxCountExceededException {
 
     if (model.steps.size() == 0) {
       return;
@@ -180,8 +183,11 @@ public class ContinuousOutputModel
    * the instance for later use.
    * @param interpolator interpolator for the last accepted step.
    * @param isLast true if the step is the last one
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * during step finalization
    */
-  public void handleStep(final StepInterpolator interpolator, final boolean isLast) {
+  public void handleStep(final StepInterpolator interpolator, final boolean isLast)
+      throws MaxCountExceededException {
 
     if (steps.size() == 0) {
       initialTime = interpolator.getPreviousTime();
@@ -326,8 +332,9 @@ public class ContinuousOutputModel
   /**
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
-  public double[] getInterpolatedState() {
+  public double[] getInterpolatedState() throws MaxCountExceededException {
     return steps.get(index).getInterpolatedState();
   }
 

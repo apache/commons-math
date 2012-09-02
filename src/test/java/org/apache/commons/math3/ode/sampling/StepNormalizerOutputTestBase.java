@@ -22,6 +22,10 @@ import static org.junit.Assert.assertArrayEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.GraggBulirschStoerIntegrator;
@@ -96,97 +100,129 @@ public abstract class StepNormalizerOutputTestBase
     }
 
     @Test
-    public void testIncNeither() {
+    public void testIncNeither()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpInc(), getO()[0][0], getO()[0][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.NEITHER, exp, false);
     }
 
     @Test
-    public void testIncNeitherRev() {
+    public void testIncNeitherRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpIncRev(), getO()[1][0], getO()[1][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.NEITHER, exp, true);
     }
 
     @Test
-    public void testIncFirst() {
+    public void testIncFirst()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpInc(), getO()[2][0], getO()[2][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.FIRST, exp, false);
     }
 
     @Test
-    public void testIncFirstRev() {
+    public void testIncFirstRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpIncRev(), getO()[3][0], getO()[3][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.FIRST, exp, true);
     }
 
     @Test
-    public void testIncLast() {
+    public void testIncLast()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpInc(), getO()[4][0], getO()[4][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.LAST, exp, false);
     }
 
     @Test
-    public void testIncLastRev() {
+    public void testIncLastRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpIncRev(), getO()[5][0], getO()[5][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.LAST, exp, true);
     }
 
     @Test
-    public void testIncBoth() {
+    public void testIncBoth()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpInc(), getO()[6][0], getO()[6][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.BOTH, exp, false);
     }
 
     @Test
-    public void testIncBothRev() {
+    public void testIncBothRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpIncRev(), getO()[7][0], getO()[7][1]);
         doTest(StepNormalizerMode.INCREMENT, StepNormalizerBounds.BOTH, exp, true);
     }
 
     @Test
-    public void testMulNeither() {
+    public void testMulNeither()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMul(), getO()[8][0], getO()[8][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.NEITHER, exp, false);
     }
 
     @Test
-    public void testMulNeitherRev() {
+    public void testMulNeitherRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMulRev(), getO()[9][0], getO()[9][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.NEITHER, exp, true);
     }
 
     @Test
-    public void testMulFirst() {
+    public void testMulFirst()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMul(), getO()[10][0], getO()[10][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.FIRST, exp, false);
     }
 
     @Test
-    public void testMulFirstRev() {
+    public void testMulFirstRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMulRev(), getO()[11][0], getO()[11][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.FIRST, exp, true);
     }
 
     @Test
-    public void testMulLast() {
+    public void testMulLast()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMul(), getO()[12][0], getO()[12][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.LAST, exp, false);
     }
 
     @Test
-    public void testMulLastRev() {
+    public void testMulLastRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMulRev(), getO()[13][0], getO()[13][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.LAST, exp, true);
     }
 
     @Test
-    public void testMulBoth() {
+    public void testMulBoth()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMul(), getO()[14][0], getO()[14][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.BOTH, exp, false);
     }
 
     @Test
-    public void testMulBothRev() {
+    public void testMulBothRev()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double[] exp = getArray(getExpMulRev(), getO()[15][0], getO()[15][1]);
         doTest(StepNormalizerMode.MULTIPLES, StepNormalizerBounds.BOTH, exp, true);
     }
@@ -199,9 +235,15 @@ public abstract class StepNormalizerOutputTestBase
      * @param bounds the step normalizer bounds setting to use
      * @param expected the expected output (normalized time points)
      * @param reverse whether to reverse the integration direction
+     * @throws NoBracketingException 
+     * @throws MaxCountExceededException 
+     * @throws NumberIsTooSmallException 
+     * @throws DimensionMismatchException 
      */
     private void doTest(StepNormalizerMode mode, StepNormalizerBounds bounds,
-                        double[] expected, boolean reverse) {
+                        double[] expected, boolean reverse)
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         // Forward test.
         FirstOrderIntegrator integ = new GraggBulirschStoerIntegrator(
                                                         1e-8, 1.0, 1e-5, 1e-5);

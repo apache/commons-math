@@ -25,6 +25,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ContinuousOutputModel;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.TestProblem1;
@@ -38,7 +42,7 @@ import org.junit.Test;
 public class EulerStepInterpolatorTest {
 
   @Test
-  public void noReset() {
+  public void noReset() throws MaxCountExceededException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -58,7 +62,7 @@ public class EulerStepInterpolatorTest {
   }
 
   @Test
-  public void interpolationAtBounds() {
+  public void interpolationAtBounds() throws MaxCountExceededException {
 
     double   t0 = 0;
     double[] y0 = {0.0, 1.0, -2.0};
@@ -96,7 +100,7 @@ public class EulerStepInterpolatorTest {
   }
 
   @Test
-  public void interpolationInside() {
+  public void interpolationInside() throws MaxCountExceededException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     double[][] yDot = { { 1.0, 2.0, -2.0 } };
@@ -127,7 +131,8 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     EulerIntegrator integ = new EulerIntegrator(step);
@@ -136,7 +141,9 @@ public class EulerStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException,
+           DimensionMismatchException, NumberIsTooSmallException,
+           MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;

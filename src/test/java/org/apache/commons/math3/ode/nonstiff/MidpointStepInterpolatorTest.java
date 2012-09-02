@@ -25,6 +25,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ContinuousOutputModel;
 import org.apache.commons.math3.ode.TestProblem1;
 import org.apache.commons.math3.ode.TestProblem3;
@@ -37,7 +41,8 @@ public class MidpointStepInterpolatorTest {
 
   @Test
   public void testDerivativesConsistency()
-  {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     MidpointIntegrator integ = new MidpointIntegrator(step);
@@ -46,7 +51,9 @@ public class MidpointStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException,
+           DimensionMismatchException, NumberIsTooSmallException,
+           MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;

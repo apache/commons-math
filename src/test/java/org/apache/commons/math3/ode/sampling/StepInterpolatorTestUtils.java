@@ -17,6 +17,10 @@
 package org.apache.commons.math3.ode.sampling;
 
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblemAbstract;
 import org.apache.commons.math3.util.FastMath;
@@ -26,10 +30,13 @@ public class StepInterpolatorTestUtils {
 
     public static void checkDerivativesConsistency(final FirstOrderIntegrator integrator,
                                                    final TestProblemAbstract problem,
-                                                   final double threshold) {
+                                                   final double threshold)
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         integrator.addStepHandler(new StepHandler() {
 
-            public void handleStep(StepInterpolator interpolator, boolean isLast) {
+            public void handleStep(StepInterpolator interpolator, boolean isLast)
+                throws MaxCountExceededException {
 
                 final double h = 0.001 * (interpolator.getCurrentTime() - interpolator.getPreviousTime());
                 final double t = interpolator.getCurrentTime() - 300 * h;

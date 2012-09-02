@@ -23,8 +23,8 @@ import org.apache.commons.math3.analysis.solvers.BracketedUnivariateSolver;
 import org.apache.commons.math3.analysis.solvers.PegasusSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.ode.events.EventHandler;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.apache.commons.math3.util.FastMath;
 
@@ -148,8 +148,11 @@ public class EventState {
 
     /** Reinitialize the beginning of the step.
      * @param interpolator valid for the current step
+     * @exception MaxCountExceededException if the interpolator throws one because
+     * the number of functions evaluations is exceeded
      */
-    public void reinitializeBegin(final StepInterpolator interpolator) {
+    public void reinitializeBegin(final StepInterpolator interpolator)
+        throws MaxCountExceededException {
 
         t0 = interpolator.getPreviousTime();
         interpolator.setInterpolatedTime(t0);
@@ -182,11 +185,14 @@ public class EventState {
      * @param interpolator step interpolator for the proposed step
      * @return true if the event handler triggers an event before
      * the end of the proposed step
-     * @exception ConvergenceException if an event cannot be located
+     * @exception MaxCountExceededException if the interpolator throws one because
+     * the number of functions evaluations is exceeded
+     * @exception NoBracketingException if the event cannot be bracketed
      */
     public boolean evaluateStep(final StepInterpolator interpolator)
-        throws ConvergenceException {
+        throws MaxCountExceededException, NoBracketingException {
 
+        try {
             forward = interpolator.isForward();
             final double t1 = interpolator.getCurrentTime();
             final double dt = t1 - t0;
@@ -198,9 +204,13 @@ public class EventState {
             final double h = dt / n;
 
             final UnivariateFunction f = new UnivariateFunction() {
-                public double value(final double t) {
-                    interpolator.setInterpolatedTime(t);
-                    return handler.g(t, interpolator.getInterpolatedState());
+                public double value(final double t) throws LocalMaxCountExceededException {
+                    try {
+                        interpolator.setInterpolatedTime(t);
+                        return handler.g(t, interpolator.getInterpolatedState());
+                    } catch (MaxCountExceededException mcee) {
+                        throw new LocalMaxCountExceededException(mcee);
+                    }
                 }
             };
 
@@ -275,6 +285,10 @@ public class EventState {
             pendingEventTime = Double.NaN;
             return false;
 
+        } catch (LocalMaxCountExceededException lmcee) {
+            throw lmcee.getException();
+        }
+
     }
 
     /** Get the occurrence time of the event triggered in the current step.
@@ -338,6 +352,31 @@ public class EventState {
 
         return (nextAction == EventHandler.Action.RESET_STATE) ||
                (nextAction == EventHandler.Action.RESET_DERIVATIVES);
+
+    }
+
+    /** Local wrapper to propagate exceptions. */
+    private static class LocalMaxCountExceededException extends RuntimeException {
+
+        /** Serializable UID. */
+        private static final long serialVersionUID = 20120901L;
+
+        /** Wrapped exception. */
+        private final MaxCountExceededException wrapped;
+
+        /** Simple constructor.
+         * @param exception exception to wrap
+         */
+        public LocalMaxCountExceededException(final MaxCountExceededException exception) {
+            wrapped = exception;
+        }
+
+        /** Get the wrapped exception.
+         * @return wrapped exception
+         */
+        public MaxCountExceededException getException() {
+            return wrapped;
+        }
 
     }
 

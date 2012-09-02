@@ -19,6 +19,9 @@ package org.apache.commons.math3.ode.nonstiff;
 
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblem1;
@@ -37,7 +40,9 @@ import org.junit.Test;
 public class ThreeEighthesIntegratorTest {
 
   @Test(expected=DimensionMismatchException.class)
-  public void testDimensionCheck() {
+  public void testDimensionCheck()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblem1 pb = new TestProblem1();
       new ThreeEighthesIntegrator(0.01).integrate(pb,
                                                   0.0, new double[pb.getDimension()+10],
@@ -47,7 +52,8 @@ public class ThreeEighthesIntegratorTest {
 
   @Test
   public void testDecreasingSteps()
-     {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -93,7 +99,8 @@ public class ThreeEighthesIntegratorTest {
 
  @Test
  public void testSmallStep()
-    {
+     throws DimensionMismatchException, NumberIsTooSmallException,
+            MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -113,7 +120,8 @@ public class ThreeEighthesIntegratorTest {
 
   @Test
   public void testBigStep()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -132,7 +140,8 @@ public class ThreeEighthesIntegratorTest {
 
   @Test
   public void testBackward()
-      {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
       TestProblem5 pb = new TestProblem5();
       double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -151,7 +160,8 @@ public class ThreeEighthesIntegratorTest {
 
   @Test
   public void testKepler()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
@@ -174,7 +184,8 @@ public class ThreeEighthesIntegratorTest {
       maxError = 0;
     }
 
-    public void handleStep(StepInterpolator interpolator, boolean isLast) {
+    public void handleStep(StepInterpolator interpolator, boolean isLast)
+        throws MaxCountExceededException {
 
       double[] interpolatedY = interpolator.getInterpolatedState();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
@@ -199,7 +210,8 @@ public class ThreeEighthesIntegratorTest {
 
   @Test
   public void testStepSize()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ThreeEighthesIntegrator(step);
       integ.addStepHandler(new StepHandler() {

@@ -19,9 +19,6 @@ package org.apache.commons.math3.ode;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-
 /** This abstract class provides boilerplate parameters list.
  *
  * @version $Id$
@@ -68,13 +65,13 @@ public abstract class AbstractParameterizable implements Parameterizable {
 
     /** Check if a parameter is supported and throw an IllegalArgumentException if not.
      * @param name name of the parameter to check
-     * @exception MathIllegalArgumentException if the parameter is not supported
+     * @exception UnknownParameterException if the parameter is not supported
      * @see #isSupported(String)
      */
     public void complainIfNotSupported(final String name)
-        throws MathIllegalArgumentException {
+        throws UnknownParameterException {
         if (!isSupported(name)) {
-            throw new MathIllegalArgumentException(LocalizedFormats.UNKNOWN_PARAMETER, name);
+            throw new UnknownParameterException(name);
         }
     }
 

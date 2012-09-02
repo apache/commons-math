@@ -17,6 +17,10 @@
 
 package org.apache.commons.math3.ode.sampling;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.TestProblem3;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
@@ -36,7 +40,8 @@ public class StepNormalizerTest {
 
   @Test
   public void testBoundaries()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.0,
@@ -66,7 +71,8 @@ public class StepNormalizerTest {
 
   @Test
   public void testBeforeEnd()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     final double range = pb.getFinalTime() - pb.getInitialTime();
     setLastSeen(false);
     integ.addStepHandler(new StepNormalizer(range / 10.5,

@@ -24,8 +24,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +32,7 @@ import org.junit.Test;
 public class DummyStepInterpolatorTest {
 
   @Test
-  public void testNoReset() {
+  public void testNoReset() throws MaxCountExceededException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -49,7 +48,7 @@ public class DummyStepInterpolatorTest {
   }
 
   @Test
-  public void testFixedState() {
+  public void testFixedState() throws MaxCountExceededException {
 
     double[]   y    =   { 1.0, 3.0, -4.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -73,7 +72,7 @@ public class DummyStepInterpolatorTest {
 
   @Test
   public void testSerialization()
-  throws IOException, ClassNotFoundException {
+  throws IOException, ClassNotFoundException, MaxCountExceededException {
 
     double[]   y    =   { 0.0, 1.0, -2.0 };
     DummyStepInterpolator interpolator = new DummyStepInterpolator(y, new double[y.length], true);
@@ -115,9 +114,8 @@ public class DummyStepInterpolatorTest {
     try {
         oos.writeObject(interpolator);
         Assert.fail("an exception should have been thrown");
-    } catch (MathIllegalStateException mise) {
+    } catch (LocalException le) {
         // expected behavior
-        Assert.assertEquals(0, mise.getMessage().length());
     }
   }
 
@@ -130,7 +128,12 @@ public class DummyStepInterpolatorTest {
       }
       @Override
       protected void doFinalize() {
-          throw new MathIllegalStateException(LocalizedFormats.SIMPLE_MESSAGE, "");
+          throw new LocalException();
       }
   }
+
+  private static class LocalException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+  }
+
 }

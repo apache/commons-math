@@ -17,8 +17,10 @@
 
 package org.apache.commons.math3.ode;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /** This interface represents a first order integrator for
  * differential equations.
@@ -52,12 +54,14 @@ public interface FirstOrderIntegrator extends ODEIntegrator {
    * @return stop time, will be the same as target time if integration reached its
    * target, but may be different if some {@link
    * org.apache.commons.math3.ode.events.EventHandler} stops it at some point.
-   * @throws MathIllegalStateException if the integrator cannot perform integration
-   * @throws MathIllegalArgumentException if integration parameters are wrong (typically
-   * too small integration span)
+   * @exception DimensionMismatchException if arrays dimension do not match equations settings
+   * @exception NumberIsTooSmallException if integration step is too small
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * @exception NoBracketingException if the location of an event cannot be bracketed
    */
   double integrate (FirstOrderDifferentialEquations equations,
                     double t0, double[] y0, double t, double[] y)
-      throws MathIllegalStateException, MathIllegalArgumentException;
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException;
 
 }

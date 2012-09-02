@@ -19,8 +19,10 @@ package org.apache.commons.math3.ode.nonstiff;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrixPreservingVisitor;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
@@ -169,13 +171,13 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
      * be smaller than this
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
-     * @exception IllegalArgumentException if order is 1 or less
+     * @exception NumberIsTooSmallException if order is 1 or less
      */
     public AdamsMoultonIntegrator(final int nSteps,
                                   final double minStep, final double maxStep,
                                   final double scalAbsoluteTolerance,
                                   final double scalRelativeTolerance)
-        throws IllegalArgumentException {
+        throws NumberIsTooSmallException {
         super(METHOD_NAME, nSteps, nSteps + 1, minStep, maxStep,
               scalAbsoluteTolerance, scalRelativeTolerance);
     }
@@ -206,7 +208,8 @@ public class AdamsMoultonIntegrator extends AdamsIntegrator {
     /** {@inheritDoc} */
     @Override
     public void integrate(final ExpandableStatefulODE equations,final double t)
-        throws MathIllegalStateException, MathIllegalArgumentException {
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException {
 
         sanityChecks(equations, t);
         setEquations(equations);

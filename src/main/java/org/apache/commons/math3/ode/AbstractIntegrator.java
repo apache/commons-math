@@ -29,9 +29,9 @@ import java.util.TreeSet;
 import org.apache.commons.math3.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.ode.events.EventHandler;
@@ -125,9 +125,14 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount) {
-        addEventHandler(handler, maxCheckInterval, convergence,
-                        maxIterationCount,
-                        new BracketingNthOrderBrentSolver(convergence, 5));
+        try {
+            addEventHandler(handler, maxCheckInterval, convergence,
+                            maxIterationCount,
+                            new BracketingNthOrderBrentSolver(convergence, 5));
+        } catch (NumberIsTooSmallException ntse) {
+            // this should never happen
+            throw new MathInternalError();
+        }
     }
 
     /** {@inheritDoc} */
@@ -210,7 +215,8 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
     /** {@inheritDoc} */
     public double integrate(final FirstOrderDifferentialEquations equations,
                             final double t0, final double[] y0, final double t, final double[] y)
-        throws MathIllegalStateException, MathIllegalArgumentException {
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
 
         if (y0.length != equations.getDimension()) {
             throw new DimensionMismatchException(y0.length, equations.getDimension());
@@ -246,21 +252,25 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param equations complete set of differential equations to integrate
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
-     * @throws MathIllegalStateException if the integrator cannot perform integration
-     * @throws MathIllegalArgumentException if integration parameters are wrong (typically
-     * too small integration span)
+     * @exception NumberIsTooSmallException if integration step is too small
+     * @throws DimensionMismatchException if the dimension of the complete state does not
+     * match the complete equations sets dimension
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception NoBracketingException if the location of an event cannot be bracketed
      */
     public abstract void integrate(ExpandableStatefulODE equations, double t)
-        throws MathIllegalStateException, MathIllegalArgumentException;
+        throws NumberIsTooSmallException, DimensionMismatchException,
+               MaxCountExceededException, NoBracketingException;
 
     /** Compute the derivatives and check the number of evaluations.
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
      */
     public void computeDerivatives(final double t, final double[] y, final double[] yDot)
-        throws MaxCountExceededException {
+        throws MaxCountExceededException, DimensionMismatchException {
         evaluations.incrementCount();
         expandable.computeDerivatives(t, y, yDot);
     }
@@ -283,12 +293,15 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param yDot placeholder array where to put the time derivative of the state vector
      * @param tEnd final integration time
      * @return time at end of step
-     * @exception MathIllegalStateException if the value of one event state cannot be evaluated
+     * @exception MaxCountExceededException if the interpolator throws one because
+     * the number of functions evaluations is exceeded
+     * @exception NoBracketingException if the location of an event cannot be bracketed
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
      * @since 2.2
      */
     protected double acceptStep(final AbstractStepInterpolator interpolator,
                                 final double[] y, final double[] yDot, final double tEnd)
-        throws MathIllegalStateException {
+        throws MaxCountExceededException, DimensionMismatchException, NoBracketingException {
 
             double previousT = interpolator.getGlobalPreviousTime();
             final double currentT = interpolator.getGlobalCurrentTime();
@@ -397,9 +410,11 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
      * @param equations set of differential equations
      * @param t target time for the integration
      * @exception NumberIsTooSmallException if integration span is too small
+     * @exception DimensionMismatchException if adaptive step size integrators
+     * tolerance arrays dimensions are not compatible with equations settings
      */
     protected void sanityChecks(final ExpandableStatefulODE equations, final double t)
-        throws NumberIsTooSmallException {
+        throws NumberIsTooSmallException, DimensionMismatchException {
 
         final double threshold = 1000 * FastMath.ulp(FastMath.max(FastMath.abs(equations.getTime()),
                                                                   FastMath.abs(t)));

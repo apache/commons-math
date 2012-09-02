@@ -25,6 +25,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ContinuousOutputModel;
 import org.apache.commons.math3.ode.TestProblem3;
 import org.apache.commons.math3.ode.sampling.StepHandler;
@@ -36,7 +40,8 @@ public class ClassicalRungeKuttaStepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     TestProblem3 pb = new TestProblem3();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
     ClassicalRungeKuttaIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
@@ -45,7 +50,9 @@ public class ClassicalRungeKuttaStepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException,
+           DimensionMismatchException, NumberIsTooSmallException,
+           MaxCountExceededException, NoBracketingException  {
 
     TestProblem3 pb = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;

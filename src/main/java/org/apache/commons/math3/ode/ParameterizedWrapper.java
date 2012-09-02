@@ -19,8 +19,8 @@ package org.apache.commons.math3.ode;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
 
 /** Wrapper class enabling {@link FirstOrderDifferentialEquations basic simple}
  *  ODE instances to be used when processing {@link JacobianMatrices}.
@@ -51,8 +51,11 @@ class ParameterizedWrapper implements ParameterizedODE {
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
      */
-    public void computeDerivatives(double t, double[] y, double[] yDot) {
+    public void computeDerivatives(double t, double[] y, double[] yDot)
+        throws MaxCountExceededException, DimensionMismatchException {
         fode.computeDerivatives(t, y, yDot);
     }
 
@@ -68,9 +71,9 @@ class ParameterizedWrapper implements ParameterizedODE {
 
     /** {@inheritDoc} */
     public double getParameter(String name)
-        throws MathIllegalArgumentException {
+        throws UnknownParameterException {
         if (!isSupported(name)) {
-            throw new MathIllegalArgumentException(LocalizedFormats.UNKNOWN_PARAMETER, name);
+            throw new UnknownParameterException(name);
         }
         return Double.NaN;
     }

@@ -19,6 +19,8 @@ package org.apache.commons.math3.ode.nonstiff;
 
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
@@ -38,7 +40,9 @@ import org.junit.Test;
 public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
-  public void testMissedEndEvent() {
+  public void testMissedEndEvent()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       final double   t0     = 1878250320.0000029;
       final double   tEvent = 1878250379.9999986;
       final double[] k      = { 1.0e-4, 1.0e-5, 1.0e-6 };
@@ -95,7 +99,9 @@ public class ClassicalRungeKuttaIntegratorTest {
   }
 
   @Test
-  public void testSanityChecks() {
+  public void testSanityChecks()
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     try  {
       TestProblem1 pb = new TestProblem1();
       new ClassicalRungeKuttaIntegrator(0.01).integrate(pb,
@@ -124,7 +130,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testDecreasingSteps()
-     {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblemAbstract[] problems = TestProblemFactory.getProblems();
     for (int k = 0; k < problems.length; ++k) {
@@ -173,7 +180,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testSmallStep()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -192,7 +200,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testBigStep()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem1 pb = new TestProblem1();
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.2;
@@ -211,7 +220,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testBackward()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     TestProblem5 pb = new TestProblem5();
     double step = FastMath.abs(pb.getFinalTime() - pb.getInitialTime()) * 0.001;
@@ -230,7 +240,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testKepler()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
 
     final TestProblem3 pb  = new TestProblem3(0.9);
     double step = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
@@ -250,7 +261,8 @@ public class ClassicalRungeKuttaIntegratorTest {
     public void init(double t0, double[] y0, double t) {
       maxError = 0;
     }
-    public void handleStep(StepInterpolator interpolator, boolean isLast) {
+    public void handleStep(StepInterpolator interpolator, boolean isLast)
+        throws MaxCountExceededException {
 
       double[] interpolatedY = interpolator.getInterpolatedState ();
       double[] theoreticalY  = pb.computeTheoreticalState(interpolator.getCurrentTime());
@@ -273,7 +285,8 @@ public class ClassicalRungeKuttaIntegratorTest {
 
   @Test
   public void testStepSize()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       final double step = 1.23456;
       FirstOrderIntegrator integ = new ClassicalRungeKuttaIntegrator(step);
       integ.addStepHandler(new StepHandler() {

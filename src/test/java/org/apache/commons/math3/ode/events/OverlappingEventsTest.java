@@ -21,6 +21,10 @@ import java.util.List;
 
 import org.apache.commons.math3.analysis.solvers.BaseSecantSolver;
 import org.apache.commons.math3.analysis.solvers.PegasusSolver;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
@@ -48,7 +52,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * EventHandler.g(double, double[])}.
      */
     @Test
-    public void testOverlappingEvents0() {
+    public void testOverlappingEvents0()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         test(0);
     }
 
@@ -58,7 +64,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * EventHandler.g(double, double[])}.
      */
     @Test
-    public void testOverlappingEvents1() {
+    public void testOverlappingEvents1()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         test(1);
     }
 
@@ -68,7 +76,9 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
      * {@link org.apache.commons.math3.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
      */
-    public void test(int eventType) {
+    public void test(int eventType)
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double e = 1e-15;
         FirstOrderIntegrator integrator = new DormandPrince853Integrator(e, 100.0, 1e-7, 1e-7);
         BaseSecantSolver rootSolver = new PegasusSolver(e, e);

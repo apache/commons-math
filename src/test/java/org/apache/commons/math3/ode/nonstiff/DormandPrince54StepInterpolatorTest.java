@@ -25,6 +25,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ContinuousOutputModel;
 import org.apache.commons.math3.ode.TestProblem3;
 import org.apache.commons.math3.ode.sampling.StepHandler;
@@ -38,7 +42,8 @@ public class DormandPrince54StepInterpolatorTest {
 
   @Test
   public void derivativesConsistency()
-  {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
     TestProblem3 pb = new TestProblem3(0.1);
     double minStep = 0;
     double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -52,7 +57,9 @@ public class DormandPrince54StepInterpolatorTest {
 
   @Test
   public void serialization()
-    throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException,
+           DimensionMismatchException, NumberIsTooSmallException,
+           MaxCountExceededException, NoBracketingException  {
 
     TestProblem3 pb = new TestProblem3(0.9);
     double minStep = 0;
@@ -102,7 +109,8 @@ public class DormandPrince54StepInterpolatorTest {
 
   @Test
   public void checkClone()
-    {
+      throws DimensionMismatchException, NumberIsTooSmallException,
+             MaxCountExceededException, NoBracketingException {
       TestProblem3 pb = new TestProblem3(0.9);
       double minStep = 0;
       double maxStep = pb.getFinalTime() - pb.getInitialTime();
@@ -112,7 +120,8 @@ public class DormandPrince54StepInterpolatorTest {
                                                                       scalAbsoluteTolerance,
                                                                       scalRelativeTolerance);
       integ.addStepHandler(new StepHandler() {
-          public void handleStep(StepInterpolator interpolator, boolean isLast) {
+          public void handleStep(StepInterpolator interpolator, boolean isLast)
+              throws MaxCountExceededException {
               StepInterpolator cloned = interpolator.copy();
               double tA = cloned.getPreviousTime();
               double tB = cloned.getCurrentTime();

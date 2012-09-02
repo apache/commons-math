@@ -18,8 +18,10 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
@@ -450,11 +452,14 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
    * @param yTmp placeholder for one state vector
    * @return true if computation was done properly,
    *         false if stability check failed before end of computation
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * @exception DimensionMismatchException if arrays dimensions do not match equations settings
    */
   private boolean tryStep(final double t0, final double[] y0, final double step, final int k,
                           final double[] scale, final double[][] f,
                           final double[] yMiddle, final double[] yEnd,
-                          final double[] yTmp) {
+                          final double[] yTmp)
+      throws MaxCountExceededException, DimensionMismatchException {
 
     final int    n        = sequence[k];
     final double subStep  = step / n;
@@ -542,7 +547,8 @@ public class GraggBulirschStoerIntegrator extends AdaptiveStepsizeIntegrator {
   /** {@inheritDoc} */
   @Override
   public void integrate(final ExpandableStatefulODE equations, final double t)
-      throws MathIllegalStateException, MathIllegalArgumentException {
+      throws NumberIsTooSmallException, DimensionMismatchException,
+             MaxCountExceededException, NoBracketingException {
 
     sanityChecks(equations, t);
     setEquations(equations);

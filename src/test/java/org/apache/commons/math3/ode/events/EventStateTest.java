@@ -19,6 +19,10 @@ package org.apache.commons.math3.ode.events;
 
 
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
@@ -30,7 +34,7 @@ public class EventStateTest {
 
     // JIRA: MATH-322
     @Test
-    public void closeEvents() {
+    public void closeEvents() throws MaxCountExceededException, NoBracketingException {
 
         final double r1  = 90.0;
         final double r2  = 135.0;
@@ -79,7 +83,9 @@ public class EventStateTest {
 
     // Jira: MATH-695
     @Test
-    public void testIssue695() {
+    public void testIssue695()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
 
         FirstOrderDifferentialEquations equation = new FirstOrderDifferentialEquations() {
             

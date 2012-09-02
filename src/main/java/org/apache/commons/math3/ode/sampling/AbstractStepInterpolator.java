@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.EquationsMapper;
 
 /** This abstract class represents an interpolator over the last step
@@ -262,7 +265,7 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
-   public StepInterpolator copy() {
+   public StepInterpolator copy() throws MaxCountExceededException {
 
      // finalize the step before performing copy
      finalizeStep();
@@ -391,13 +394,17 @@ public abstract class AbstractStepInterpolator
    * (theta is zero at the previous time step and one at the current time step)
    * @param oneMinusThetaH time gap between the interpolated time and
    * the current time
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
   protected abstract void computeInterpolatedStateAndDerivatives(double theta,
-                                                                 double oneMinusThetaH);
+                                                                 double oneMinusThetaH)
+      throws MaxCountExceededException;
 
   /** Lazy evaluation of complete interpolated state.
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
-  private void evaluateCompleteInterpolatedState() {
+  private void evaluateCompleteInterpolatedState()
+      throws MaxCountExceededException {
       // lazy evaluation of the state
       if (dirtyState) {
           final double oneMinusThetaH = globalCurrentTime - interpolatedTime;
@@ -408,34 +415,54 @@ public abstract class AbstractStepInterpolator
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedState() {
+  public double[] getInterpolatedState() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      primaryMapper.extractEquationData(interpolatedState,
-                                        interpolatedPrimaryState);
+      try {
+          primaryMapper.extractEquationData(interpolatedState,
+                                            interpolatedPrimaryState);
+      } catch (DimensionMismatchException dme) {
+          // this should never happen
+          throw new MathInternalError(dme);
+      }
       return interpolatedPrimaryState;
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedDerivatives() {
+  public double[] getInterpolatedDerivatives() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      primaryMapper.extractEquationData(interpolatedDerivatives,
-                                        interpolatedPrimaryDerivatives);
+      try {
+          primaryMapper.extractEquationData(interpolatedDerivatives,
+                                            interpolatedPrimaryDerivatives);
+      } catch (DimensionMismatchException dme) {
+          // this should never happen
+          throw new MathInternalError(dme);
+      }
       return interpolatedPrimaryDerivatives;
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedSecondaryState(final int index) {
+  public double[] getInterpolatedSecondaryState(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      secondaryMappers[index].extractEquationData(interpolatedState,
-                                                  interpolatedSecondaryState[index]);
+      try {
+          secondaryMappers[index].extractEquationData(interpolatedState,
+                                                      interpolatedSecondaryState[index]);
+      } catch (DimensionMismatchException dme) {
+          // this should never happen
+          throw new MathInternalError(dme);
+      }
       return interpolatedSecondaryState[index];
   }
 
   /** {@inheritDoc} */
-  public double[] getInterpolatedSecondaryDerivatives(final int index) {
+  public double[] getInterpolatedSecondaryDerivatives(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      secondaryMappers[index].extractEquationData(interpolatedDerivatives,
-                                                  interpolatedSecondaryDerivatives[index]);
+      try {
+          secondaryMappers[index].extractEquationData(interpolatedDerivatives,
+                                                      interpolatedSecondaryDerivatives[index]);
+      } catch (DimensionMismatchException dme) {
+          // this should never happen
+          throw new MathInternalError(dme);
+      }
       return interpolatedSecondaryDerivatives[index];
   }
 
@@ -477,8 +504,10 @@ public abstract class AbstractStepInterpolator
    * Therefore, subclasses are not allowed not reimplement it, they
    * should rather reimplement <code>doFinalize</code>.</p>
 
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+
    */
-  public final void finalizeStep() {
+  public final void finalizeStep() throws MaxCountExceededException {
     if (! finalized) {
       doFinalize();
       finalized = true;
@@ -488,8 +517,9 @@ public abstract class AbstractStepInterpolator
   /**
    * Really finalize the step.
    * The default implementation of this method does nothing.
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
-  protected void doFinalize() {
+  protected void doFinalize() throws MaxCountExceededException {
   }
 
   /** {@inheritDoc} */
@@ -537,8 +567,14 @@ public abstract class AbstractStepInterpolator
     // we do not store the interpolated state,
     // it will be recomputed as needed after reading
 
-    // finalize the step (and don't bother saving the now true flag)
-    finalizeStep();
+    try {
+        // finalize the step (and don't bother saving the now true flag)
+        finalizeStep();
+    } catch (MaxCountExceededException mcee) {
+        final IOException ioe = new IOException(mcee.getLocalizedMessage());
+        ioe.initCause(mcee);
+        throw ioe;
+    }
 
   }
 

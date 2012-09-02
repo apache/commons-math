@@ -22,6 +22,7 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
+import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.util.FastMath;
@@ -175,8 +176,9 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
      * to be preserved across several calls.</p>
      * @return state vector at time {@link #getInterpolatedTime}
      * @see #getInterpolatedDerivatives()
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
      */
-    public double[] getInterpolatedStateVariation() {
+    public double[] getInterpolatedStateVariation() throws MaxCountExceededException {
         // compute and ignore interpolated state
         // to make sure state variation is computed as a side effect
         getInterpolatedState();

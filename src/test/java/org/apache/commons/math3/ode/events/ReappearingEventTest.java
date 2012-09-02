@@ -21,6 +21,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 
 import org.apache.commons.math3.analysis.solvers.PegasusSolver;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.ode.FirstOrderIntegrator;
 import org.apache.commons.math3.ode.events.EventHandler;
@@ -30,18 +34,24 @@ import org.junit.Test;
 
 public class ReappearingEventTest {
     @Test
-    public void testDormandPrince() {
+    public void testDormandPrince()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double tEnd = test(1);
         assertEquals(10.0, tEnd, 1e-7);
     }
 
     @Test
-    public void testGragg() {
+    public void testGragg()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double tEnd = test(2);
         assertEquals(10.0, tEnd, 1e-7);
     }
 
-    public double test(int integratorType) {
+    public double test(int integratorType)
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
         double e = 1e-15;
         FirstOrderIntegrator integrator;
         integrator = (integratorType == 1)

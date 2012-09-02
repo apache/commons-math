@@ -17,8 +17,10 @@
 
 package org.apache.commons.math3.ode;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator;
@@ -104,19 +106,21 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * integration)
      * @param scalAbsoluteTolerance allowed absolute error
      * @param scalRelativeTolerance allowed relative error
+     * @exception NumberIsTooSmallException if number of steps is smaller than 2
      */
     protected MultistepIntegrator(final String name, final int nSteps,
                                   final int order,
                                   final double minStep, final double maxStep,
                                   final double scalAbsoluteTolerance,
-                                  final double scalRelativeTolerance) {
+                                  final double scalRelativeTolerance)
+        throws NumberIsTooSmallException {
 
         super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
 
-        if (nSteps <= 1) {
-            throw new MathIllegalArgumentException(
+        if (nSteps < 2) {
+            throw new NumberIsTooSmallException(
                   LocalizedFormats.INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS,
-                  name);
+                  nSteps, 2, true);
         }
 
         starter = new DormandPrince853Integrator(minStep, maxStep,
@@ -204,10 +208,14 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
      * @param y0 initial value of the state vector at t0
      * @param t target time for the integration
      * (can be set to a value smaller than <code>t0</code> for backward integration)
-     * @throws MathIllegalStateException if the integrator cannot perform integration
+     * @exception DimensionMismatchException if arrays dimension do not match equations settings
+     * @exception NumberIsTooSmallException if integration step is too small
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception NoBracketingException if the location of an event cannot be bracketed
      */
     protected void start(final double t0, final double[] y0, final double t)
-        throws MathIllegalStateException {
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
 
         // make sure NO user event nor user step handler is triggered,
         // this is the task of the top level integrator, not the task
@@ -335,7 +343,8 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         /** {@inheritDoc} */
-        public void handleStep(StepInterpolator interpolator, boolean isLast) {
+        public void handleStep(StepInterpolator interpolator, boolean isLast)
+            throws MaxCountExceededException {
 
             final double prev = interpolator.getPreviousTime();
             final double curr = interpolator.getCurrentTime();
@@ -416,7 +425,8 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         }
 
         /** {@inheritDoc} */
-        public void computeDerivatives(double t, double[] y, double[] dot) {
+        public void computeDerivatives(double t, double[] y, double[] dot)
+            throws MaxCountExceededException, DimensionMismatchException {
             MultistepIntegrator.this.computeDerivatives(t, y, dot);
         }
 

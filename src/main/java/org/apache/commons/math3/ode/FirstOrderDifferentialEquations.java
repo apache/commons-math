@@ -17,6 +17,9 @@
 
 package org.apache.commons.math3.ode;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+
 
 
 /** This interface represents a first order differential equations set.
@@ -57,7 +60,10 @@ public interface FirstOrderDifferentialEquations {
      * @param t current value of the independent <I>time</I> variable
      * @param y array containing the current value of the state vector
      * @param yDot placeholder array where to put the time derivative of the state vector
+     * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+     * @exception DimensionMismatchException if arrays dimensions do not match equations settings
      */
-    void computeDerivatives(double t, double[] y, double[] yDot);
+    void computeDerivatives(double t, double[] y, double[] yDot)
+        throws MaxCountExceededException, DimensionMismatchException;
 
 }
