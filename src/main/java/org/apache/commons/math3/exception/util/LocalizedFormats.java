@@ -133,7 +133,7 @@ public enum LocalizedFormats implements Localizable {
     DIMENSION("dimension ({0})"), /* keep */
     INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE("sample contains {0} observed points, at least {1} are required"),
     INSUFFICIENT_ROWS_AND_COLUMNS("insufficient data: only {0} rows and {1} columns."),
-    INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS("{0} method needs at least two previous points"),
+    INTEGRATION_METHOD_NEEDS_AT_LEAST_TWO_PREVIOUS_POINTS("multistep method needs at least {0} previous steps, got {1}"),
     INTERNAL_ERROR("internal error, please fill a bug report at {0}"),
     INVALID_BINARY_DIGIT("invalid binary digit: {0}"),
     INVALID_BINARY_CHROMOSOME("binary mutation works on BinaryChromosome only"),
