@@ -118,9 +118,11 @@ public class ConjugateGradient
      * @param delta the &delta; parameter for the default stopping criterion
      * @param check {@code true} if positive definiteness of both matrix and
      * preconditioner should be checked
+     * @throws NullArgumentException if {@code manager} is {@code null}
      */
     public ConjugateGradient(final IterationManager manager,
-                             final double delta, final boolean check) {
+                             final double delta, final boolean check)
+        throws NullArgumentException {
         super(manager);
         this.delta = delta;
         this.check = check;
@@ -136,12 +138,20 @@ public class ConjugateGradient
         return check;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NonPositiveDefiniteOperatorException if {@code a} or {@code m} is
+     * not positive definite
+     */
     @Override
     public RealVector solveInPlace(final RealLinearOperator a,
-        final RealLinearOperator m, final RealVector b, final RealVector x0)
-        throws NullArgumentException, NonSquareOperatorException,
-        DimensionMismatchException, MaxCountExceededException {
+                                   final RealLinearOperator m,
+                                   final RealVector b,
+                                   final RealVector x0)
+        throws NullArgumentException, NonPositiveDefiniteOperatorException,
+        NonSquareOperatorException, DimensionMismatchException,
+        MaxCountExceededException, NonPositiveDefiniteOperatorException {
         checkParameters(a, m, b, x0);
         final IterationManager manager = getIterationManager();
         // Initialization of default stopping criterion

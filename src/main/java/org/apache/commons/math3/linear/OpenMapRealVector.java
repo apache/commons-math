@@ -640,7 +640,7 @@ public class OpenMapRealVector extends SparseRealVector
 
     /** {@inheritDoc} */
     @Override
-    public OpenMapRealVector unitVector() {
+    public OpenMapRealVector unitVector() throws MathArithmeticException {
         OpenMapRealVector res = copy();
         res.unitize();
         return res;
@@ -648,7 +648,7 @@ public class OpenMapRealVector extends SparseRealVector
 
     /** {@inheritDoc} */
     @Override
-    public void unitize() {
+    public void unitize() throws MathArithmeticException {
         double norm = getNorm();
         if (isDefaultValue(norm)) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);

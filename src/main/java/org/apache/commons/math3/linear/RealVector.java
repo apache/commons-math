@@ -321,7 +321,7 @@ public abstract class RealVector {
      * @throws DimensionMismatchException if the dimensions of {@code this} and
      * {@code v} do not match
      */
-    public double cosine(RealVector v) {
+    public double cosine(RealVector v) throws MathArithmeticException {
         final double norm = getNorm();
         final double vNorm = v.getNorm();
 
@@ -664,11 +664,11 @@ public abstract class RealVector {
      * @param v vector onto which instance must be projected.
      * @return projection of the instance onto {@code v}.
      * @throws MathArithmeticException if {@code this} or {@code v} is the null
-     * vector
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if {@code v} is not the same size as this vector.
+     *         vector
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     *         this vector.
      */
-    public RealVector projection(final RealVector v) {
+    public RealVector projection(final RealVector v) throws MathArithmeticException {
         final double norm2 = v.dotProduct(v);
         if (norm2 == 0.0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
@@ -710,9 +710,9 @@ public abstract class RealVector {
      * The instance is not changed by this method.
      *
      * @return a unit vector pointing in direction of this vector.
-     * @throws ArithmeticException if the norm is {@code null}.
+     * @throws MathArithmeticException if the norm is zero.
      */
-    public RealVector unitVector() {
+    public RealVector unitVector() throws MathArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
@@ -724,10 +724,9 @@ public abstract class RealVector {
      * Converts this vector into a unit vector.
      * The instance itself is changed by this method.
      *
-     * @throws org.apache.commons.math3.exception.MathArithmeticException
-     * if the norm is zero.
+     * @throws MathArithmeticException if the norm is zero.
      */
-    public void unitize() {
+    public void unitize() throws MathArithmeticException {
         final double norm = getNorm();
         if (norm == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
@@ -1351,7 +1350,7 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public double cosine(RealVector w) {
+            public double cosine(RealVector w) throws MathArithmeticException {
                 return v.cosine(w);
             }
 
@@ -1393,7 +1392,7 @@ public abstract class RealVector {
 
             /** {@inheritDoc} */
             @Override
-            public RealVector unitVector() {
+            public RealVector unitVector() throws MathArithmeticException {
                 return v.unitVector();
             }
 

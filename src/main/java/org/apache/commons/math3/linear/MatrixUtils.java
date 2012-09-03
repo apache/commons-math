@@ -26,7 +26,6 @@ import java.util.Arrays;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
@@ -122,9 +121,12 @@ public class MatrixUtils {
      * @throws NoDataException if a row or column is empty.
      * @throws NullArgumentException if either {@code data} or {@code data[0]}
      * is {@code null}.
+     * @throws DimensionMismatchException if {@code data} is not rectangular.
      * @see #createRealMatrix(int, int)
      */
-    public static RealMatrix createRealMatrix(double[][] data) {
+    public static RealMatrix createRealMatrix(double[][] data)
+        throws NullArgumentException, DimensionMismatchException,
+        NoDataException {
         if (data == null ||
             data[0] == null) {
             throw new NullArgumentException();
@@ -152,7 +154,8 @@ public class MatrixUtils {
      * @see #createFieldMatrix(Field, int, int)
      * @since 2.0
      */
-    public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data) {
+    public static <T extends FieldElement<T>> FieldMatrix<T> createFieldMatrix(T[][] data)
+        throws DimensionMismatchException, NoDataException, NullArgumentException {
         if (data == null ||
             data[0] == null) {
             throw new NullArgumentException();
@@ -244,7 +247,8 @@ public class MatrixUtils {
      * @throws NoDataException if {@code data} is empty.
      * @throws NullArgumentException if {@code data} is {@code null}.
      */
-    public static RealVector createRealVector(double[] data) {
+    public static RealVector createRealVector(double[] data)
+        throws NoDataException, NullArgumentException {
         if (data == null) {
             throw new NullArgumentException();
         }
@@ -261,7 +265,8 @@ public class MatrixUtils {
      * @throws NullArgumentException if {@code data} is {@code null}.
      * @throws ZeroException if {@code data} has 0 elements
      */
-    public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data) {
+    public static <T extends FieldElement<T>> FieldVector<T> createFieldVector(final T[] data)
+        throws NoDataException, NullArgumentException, ZeroException {
         if (data == null) {
             throw new NullArgumentException();
         }
@@ -280,7 +285,8 @@ public class MatrixUtils {
      * @throws NoDataException if {@code rowData} is empty.
      * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
-    public static RealMatrix createRowRealMatrix(double[] rowData) {
+    public static RealMatrix createRowRealMatrix(double[] rowData)
+        throws NoDataException, NullArgumentException {
         if (rowData == null) {
             throw new NullArgumentException();
         }
@@ -303,7 +309,8 @@ public class MatrixUtils {
      * @throws NullArgumentException if {@code rowData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
-        createRowFieldMatrix(final T[] rowData) {
+        createRowFieldMatrix(final T[] rowData)
+        throws NoDataException, NullArgumentException {
         if (rowData == null) {
             throw new NullArgumentException();
         }
@@ -327,7 +334,8 @@ public class MatrixUtils {
      * @throws NoDataException if {@code columnData} is empty.
      * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
-    public static RealMatrix createColumnRealMatrix(double[] columnData) {
+    public static RealMatrix createColumnRealMatrix(double[] columnData)
+        throws NoDataException, NullArgumentException {
         if (columnData == null) {
             throw new NullArgumentException();
         }
@@ -350,7 +358,8 @@ public class MatrixUtils {
      * @throws NullArgumentException if {@code columnData} is {@code null}.
      */
     public static <T extends FieldElement<T>> FieldMatrix<T>
-        createColumnFieldMatrix(final T[] columnData) {
+        createColumnFieldMatrix(final T[] columnData)
+        throws NoDataException, NullArgumentException {
         if (columnData == null) {
             throw new NullArgumentException();
         }
@@ -375,7 +384,8 @@ public class MatrixUtils {
      * a valid index.
      */
     public static void checkMatrixIndex(final AnyMatrix m,
-                                        final int row, final int column) {
+                                        final int row, final int column)
+        throws OutOfRangeException {
         checkRowIndex(m, row);
         checkColumnIndex(m, column);
     }
@@ -387,7 +397,8 @@ public class MatrixUtils {
      * @param row Row index to check.
      * @throws OutOfRangeException if {@code row} is not a valid index.
      */
-    public static void checkRowIndex(final AnyMatrix m, final int row) {
+    public static void checkRowIndex(final AnyMatrix m, final int row)
+        throws OutOfRangeException {
         if (row < 0 ||
             row >= m.getRowDimension()) {
             throw new OutOfRangeException(LocalizedFormats.ROW_INDEX,
@@ -402,7 +413,8 @@ public class MatrixUtils {
      * @param column Column index to check.
      * @throws OutOfRangeException if {@code column} is not a valid index.
      */
-    public static void checkColumnIndex(final AnyMatrix m, final int column) {
+    public static void checkColumnIndex(final AnyMatrix m, final int column)
+        throws OutOfRangeException {
         if (column < 0 || column >= m.getColumnDimension()) {
             throw new OutOfRangeException(LocalizedFormats.COLUMN_INDEX,
                                            column, 0, m.getColumnDimension() - 1);
@@ -424,7 +436,8 @@ public class MatrixUtils {
      */
     public static void checkSubMatrixIndex(final AnyMatrix m,
                                            final int startRow, final int endRow,
-                                           final int startColumn, final int endColumn) {
+                                           final int startColumn, final int endColumn)
+        throws NumberIsTooSmallException, OutOfRangeException {
         checkRowIndex(m, startRow);
         checkRowIndex(m, endRow);
         if (endRow < startRow) {
@@ -457,7 +470,8 @@ public class MatrixUtils {
      */
     public static void checkSubMatrixIndex(final AnyMatrix m,
                                            final int[] selectedRows,
-                                           final int[] selectedColumns) {
+                                           final int[] selectedColumns)
+        throws NoDataException, NullArgumentException, OutOfRangeException {
         if (selectedRows == null) {
             throw new NullArgumentException();
         }
@@ -484,9 +498,11 @@ public class MatrixUtils {
      *
      * @param left Left hand side matrix.
      * @param right Right hand side matrix.
-     * @throws MatrixDimensionMismatchException if the matrices are not addition compatible.
+     * @throws MatrixDimensionMismatchException if the matrices are not addition
+     * compatible.
      */
-    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right) {
+    public static void checkAdditionCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws MatrixDimensionMismatchException {
         if ((left.getRowDimension()    != right.getRowDimension()) ||
             (left.getColumnDimension() != right.getColumnDimension())) {
             throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
@@ -499,9 +515,11 @@ public class MatrixUtils {
      *
      * @param left Left hand side matrix.
      * @param right Right hand side matrix.
-     * @throws MatrixDimensionMismatchException if the matrices are not addition compatible.
+     * @throws MatrixDimensionMismatchException if the matrices are not addition
+     * compatible.
      */
-    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right) {
+    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws MatrixDimensionMismatchException {
         if ((left.getRowDimension()    != right.getRowDimension()) ||
             (left.getColumnDimension() != right.getColumnDimension())) {
             throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),
@@ -514,9 +532,12 @@ public class MatrixUtils {
      *
      * @param left Left hand side matrix.
      * @param right Right hand side matrix.
-     * @throws DimensionMismatchException if matrices are not multiplication compatible.
+     * @throws DimensionMismatchException if matrices are not multiplication
+     * compatible.
      */
-    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right) {
+    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right)
+        throws DimensionMismatchException {
+
         if (left.getColumnDimension() != right.getRowDimension()) {
             throw new DimensionMismatchException(left.getColumnDimension(),
                                                  right.getRowDimension());
@@ -832,19 +853,23 @@ public class MatrixUtils {
      * </p>
      * @param rm RealMatrix which is lower triangular
      * @param b  RealVector this is overwritten
-     * @exception IllegalArgumentException if the matrix and vector are not conformable
-     * @exception ArithmeticException there is a zero or near zero on the diagonal of rm
+     * @throws DimensionMismatchException if the matrix and vector are not
+     * conformable
+     * @throws NonSquareMatrixException if the matrix {@code rm} is not square
+     * @throws MathArithmeticException if the absolute value of one of the diagonal
+     * coefficient of {@code rm} is lower than {@link Precision#SAFE_MIN}
      */
-    public static void solveLowerTriangularSystem( RealMatrix rm, RealVector b){
+    public static void solveLowerTriangularSystem(RealMatrix rm, RealVector b)
+        throws DimensionMismatchException, MathArithmeticException,
+        NonSquareMatrixException {
         if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
-            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+            throw new DimensionMismatchException(
                     (rm == null) ? 0 : rm.getRowDimension(),
                     (b == null) ? 0 : b.getDimension());
         }
         if( rm.getColumnDimension() != rm.getRowDimension() ){
-            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    rm.getRowDimension(),rm.getRowDimension(),
-                    rm.getRowDimension(),rm.getColumnDimension());
+            throw new NonSquareMatrixException(rm.getRowDimension(),
+                                               rm.getColumnDimension());
         }
         int rows = rm.getRowDimension();
         for( int i = 0 ; i < rows ; i++ ){
@@ -872,19 +897,24 @@ public class MatrixUtils {
      * </p>
      * @param rm RealMatrix which is upper triangular
      * @param b  RealVector this is overwritten
-     * @exception IllegalArgumentException if the matrix and vector are not conformable
-     * @exception ArithmeticException there is a zero or near zero on the diagonal of rm
+     * @throws DimensionMismatchException if the matrix and vector are not
+     * conformable
+     * @throws NonSquareMatrixException if the matrix {@code rm} is not
+     * square
+     * @throws MathArithmeticException if the absolute value of one of the diagonal
+     * coefficient of {@code rm} is lower than {@link Precision#SAFE_MIN}
      */
-    public static void solveUpperTriangularSystem( RealMatrix rm, RealVector b){
+    public static void solveUpperTriangularSystem(RealMatrix rm, RealVector b)
+        throws DimensionMismatchException, MathArithmeticException,
+        NonSquareMatrixException {
         if ((rm == null) || (b == null) || ( rm.getRowDimension() != b.getDimension())) {
-            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
+            throw new DimensionMismatchException(
                     (rm == null) ? 0 : rm.getRowDimension(),
                     (b == null) ? 0 : b.getDimension());
         }
         if( rm.getColumnDimension() != rm.getRowDimension() ){
-            throw new MathIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_2x2,
-                    rm.getRowDimension(),rm.getRowDimension(),
-                    rm.getRowDimension(),rm.getColumnDimension());
+            throw new NonSquareMatrixException(rm.getRowDimension(),
+                                               rm.getColumnDimension());
         }
         int rows = rm.getRowDimension();
         for( int i = rows-1 ; i >-1 ; i-- ){

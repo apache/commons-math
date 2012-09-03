@@ -111,7 +111,8 @@ public class EigenDecomposition {
      * @throws MathArithmeticException if the decomposition of a general matrix
      * results in a matrix with zero norm
      */
-    public EigenDecomposition(final RealMatrix matrix)  {
+    public EigenDecomposition(final RealMatrix matrix)
+        throws MathArithmeticException {
         if (isSymmetric(matrix, false)) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
@@ -127,12 +128,15 @@ public class EigenDecomposition {
      * @param matrix Matrix to decompose.
      * @param splitTolerance Dummy parameter (present for backward
      * compatibility only).
+     * @throws MathArithmeticException  if the decomposition of a general matrix
+     * results in a matrix with zero norm
      * @throws MaxCountExceededException if the algorithm fails to converge.
      * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
      */
     @Deprecated
     public EigenDecomposition(final RealMatrix matrix,
-                              final double splitTolerance)  {
+                              final double splitTolerance)
+        throws MathArithmeticException {
         this(matrix);
     }
 
@@ -761,7 +765,8 @@ public class EigenDecomposition {
      * @param schur the schur transformation of the matrix
      * @throws MathArithmeticException if the Schur form has a norm of zero
      */
-    private void findEigenVectorsFromSchur(final SchurTransformer schur) {
+    private void findEigenVectorsFromSchur(final SchurTransformer schur)
+        throws MathArithmeticException {
         final double[][] matrixT = schur.getT().getData();
         final double[][] matrixP = schur.getP().getData();
 
