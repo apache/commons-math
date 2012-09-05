@@ -102,8 +102,7 @@ public class KalmanFilter {
     private RealMatrix errorCovariance;
 
     /**
-     * Creates a new Kalman filter with the given process and measurement
-     * models.
+     * Creates a new Kalman filter with the given process and measurement models.
      *
      * @param process
      *            the model defining the underlying process dynamics

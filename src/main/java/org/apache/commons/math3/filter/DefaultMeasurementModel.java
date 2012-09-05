@@ -46,10 +46,8 @@ public class DefaultMeasurementModel implements MeasurementModel {
      * @param measMatrix the measurement matrix
      * @param measNoise the measurement noise matrix
      */
-    public DefaultMeasurementModel(final double[][] measMatrix,
-            final double[][] measNoise) {
-        this(new Array2DRowRealMatrix(measMatrix),
-                new Array2DRowRealMatrix(measNoise));
+    public DefaultMeasurementModel(final double[][] measMatrix, final double[][] measNoise) {
+        this(new Array2DRowRealMatrix(measMatrix), new Array2DRowRealMatrix(measNoise));
     }
 
     /**
@@ -59,8 +57,7 @@ public class DefaultMeasurementModel implements MeasurementModel {
      * @param measMatrix the measurement matrix
      * @param measNoise the measurement noise matrix
      */
-    public DefaultMeasurementModel(final RealMatrix measMatrix,
-            final RealMatrix measNoise) {
+    public DefaultMeasurementModel(final RealMatrix measMatrix, final RealMatrix measNoise) {
         this.measurementMatrix = measMatrix;
         this.measurementNoise = measNoise;
     }
