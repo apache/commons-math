@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NullArgumentException;
+
 
 /**
  * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
@@ -29,14 +32,16 @@ public interface FieldElement<T> {
     /** Compute this + a.
      * @param a element to add
      * @return a new element representing this + a
+     * @throws NullArgumentException if {@code addend} is {@code null}.
      */
-    T add(T a);
+    T add(T a) throws NullArgumentException;
 
     /** Compute this - a.
      * @param a element to subtract
      * @return a new element representing this - a
+     * @throws NullArgumentException if {@code a} is {@code null}.
      */
-    T subtract(T a);
+    T subtract(T a) throws NullArgumentException;
 
     /**
      * Returns the additive inverse of {@code this} element.
@@ -57,20 +62,24 @@ public interface FieldElement<T> {
     /** Compute this &times; a.
      * @param a element to multiply
      * @return a new element representing this &times; a
+     * @throws NullArgumentException if {@code a} is {@code null}.
      */
-    T multiply(T a);
+    T multiply(T a) throws NullArgumentException;
 
     /** Compute this &divide; a.
      * @param a element to add
      * @return a new element representing this &divide; a
+     * @throws NullArgumentException if {@code a} is {@code null}.
+     * @throws MathArithmeticException if {@code a} is zero
      */
-    T divide(T a);
+    T divide(T a) throws NullArgumentException, MathArithmeticException;
 
     /**
      * Returns the multiplicative inverse of {@code this} element.
      * @return the inverse of {@code this}.
+     * @throws MathArithmeticException if {@code this} is zero
      */
-    T reciprocal();
+    T reciprocal() throws MathArithmeticException;
 
     /** Get the {@link Field} to which the instance belongs.
      * @return {@link Field} to which the instance belongs
