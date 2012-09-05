@@ -209,7 +209,12 @@ public class MathArrays {
     public static boolean isMonotonic(double[] val,
                                       OrderDirection dir,
                                       boolean strict) {
-        return checkOrder(val, dir, strict, false);
+        try {
+            return checkOrder(val, dir, strict, false);
+        } catch (NonMonotonicSequenceException e) {
+            // this should never happen as abort is set to false
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -224,7 +229,8 @@ public class MathArrays {
      * and {@code abort} is {@code true}.
      */
     public static boolean checkOrder(double[] val, OrderDirection dir,
-                                     boolean strict, boolean abort) {
+                                     boolean strict, boolean abort)
+        throws NonMonotonicSequenceException {
         double previous = val[0];
         final int max = val.length;
 
@@ -285,7 +291,7 @@ public class MathArrays {
      * @since 2.2
      */
     public static void checkOrder(double[] val, OrderDirection dir,
-                                  boolean strict) {
+                                  boolean strict) throws NonMonotonicSequenceException {
         checkOrder(val, dir, strict, true);
     }
 
@@ -296,7 +302,7 @@ public class MathArrays {
      * @throws NonMonotonicSequenceException if the array is not sorted.
      * @since 2.2
      */
-    public static void checkOrder(double[] val) {
+    public static void checkOrder(double[] val) throws NonMonotonicSequenceException {
         checkOrder(val, OrderDirection.INCREASING, true);
     }
 
@@ -431,8 +437,8 @@ public class MathArrays {
      * @throws NullArgumentException if {@code x} or any {@code y} is null.
      * @since 3.0
      */
-    public static void sortInPlace(double[] x,
-                                   double[] ... yList) {
+    public static void sortInPlace(double[] x, double[] ... yList)
+        throws DimensionMismatchException, NullArgumentException {
         sortInPlace(x, OrderDirection.INCREASING, yList);
     }
 
@@ -455,7 +461,8 @@ public class MathArrays {
      */
     public static void sortInPlace(double[] x,
                                    final OrderDirection dir,
-                                   double[] ... yList) {
+                                   double[] ... yList)
+        throws NullArgumentException, DimensionMismatchException {
         if (x == null) {
             throw new NullArgumentException();
         }
@@ -577,8 +584,10 @@ public class MathArrays {
      * @param a Factors.
      * @param b Factors.
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
+     * @throws DimensionMismatchException if arrays dimensions don't match
      */
-    public static double linearCombination(final double[] a, final double[] b) {
+    public static double linearCombination(final double[] a, final double[] b)
+        throws DimensionMismatchException {
         final int len = a.length;
         if (len != b.length) {
             throw new DimensionMismatchException(len, b.length);
@@ -1052,7 +1061,8 @@ public class MathArrays {
       * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}.
       * @since 2.1
       */
-     public static double[] normalizeArray(double[] values, double normalizedSum) {
+     public static double[] normalizeArray(double[] values, double normalizedSum)
+         throws MathIllegalArgumentException, MathArithmeticException {
          if (Double.isInfinite(normalizedSum)) {
              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
          }

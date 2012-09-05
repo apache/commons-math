@@ -248,7 +248,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      *
      * @throws MathArithmeticException if {@code a} is zero
      */
-    public BigReal divide(BigReal a) {
+    public BigReal divide(BigReal a) throws MathArithmeticException {
         try {
             return new BigReal(d.divide(a.d, scale, roundingMode));
         } catch (ArithmeticException e) {
@@ -262,7 +262,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
      *
      * @throws MathArithmeticException if {@code this} is zero
      */
-    public BigReal reciprocal() {
+    public BigReal reciprocal() throws MathArithmeticException {
         try {
             return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
         } catch (ArithmeticException e) {

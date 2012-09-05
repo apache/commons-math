@@ -124,7 +124,8 @@ public final class MathUtils {
      * @throws MathArithmeticException if {@code magnitude == Byte.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static byte copySign(byte magnitude, byte sign) {
+    public static byte copySign(byte magnitude, byte sign)
+        throws MathArithmeticException {
         if ((magnitude >= 0 && sign >= 0) ||
             (magnitude < 0 && sign < 0)) { // Sign is OK.
             return magnitude;
@@ -146,7 +147,8 @@ public final class MathUtils {
      * @throws MathArithmeticException if {@code magnitude == Short.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static short copySign(short magnitude, short sign) {
+    public static short copySign(short magnitude, short sign)
+            throws MathArithmeticException {
         if ((magnitude >= 0 && sign >= 0) ||
             (magnitude < 0 && sign < 0)) { // Sign is OK.
             return magnitude;
@@ -168,7 +170,8 @@ public final class MathUtils {
      * @throws MathArithmeticException if {@code magnitude == Integer.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static int copySign(int magnitude, int sign) {
+    public static int copySign(int magnitude, int sign)
+            throws MathArithmeticException {
         if ((magnitude >= 0 && sign >= 0) ||
             (magnitude < 0 && sign < 0)) { // Sign is OK.
             return magnitude;
@@ -190,7 +193,8 @@ public final class MathUtils {
      * @throws MathArithmeticException if {@code magnitude == Long.MIN_VALUE}
      * and {@code sign >= 0}.
      */
-    public static long copySign(long magnitude, long sign) {
+    public static long copySign(long magnitude, long sign)
+        throws MathArithmeticException {
         if ((magnitude >= 0 && sign >= 0) ||
             (magnitude < 0 && sign < 0)) { // Sign is OK.
             return magnitude;
@@ -208,7 +212,8 @@ public final class MathUtils {
      * @throws NotFiniteNumberException if {@code x} is not a
      * finite real number.
      */
-    public static void checkFinite(final double x) {
+    public static void checkFinite(final double x)
+        throws NotFiniteNumberException {
         if (Double.isInfinite(x) || Double.isNaN(x)) {
             throw new NotFiniteNumberException(x);
         }
@@ -221,7 +226,8 @@ public final class MathUtils {
      * @throws NotFiniteNumberException if any values of the array is not a
      * finite real number.
      */
-    public static void checkFinite(final double[] val) {
+    public static void checkFinite(final double[] val)
+        throws NotFiniteNumberException {
         for (int i = 0; i < val.length; i++) {
             final double x = val[i];
             if (Double.isInfinite(x) || Double.isNaN(x)) {
@@ -240,7 +246,8 @@ public final class MathUtils {
      */
     public static void checkNotNull(Object o,
                                     Localizable pattern,
-                                    Object ... args) {
+                                    Object ... args)
+        throws NullArgumentException {
         if (o == null) {
             throw new NullArgumentException(pattern, args);
         }

@@ -20,6 +20,7 @@ package org.apache.commons.math3.util;
 import java.math.BigDecimal;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -391,7 +392,15 @@ public class Precision {
      * @since 1.1 (previously in {@code MathUtils}, moved as of version 3.0)
      */
     public static float round(float x, int scale) {
+        try {
         return round(x, scale, BigDecimal.ROUND_HALF_UP);
+        } catch (MathArithmeticException e) {
+            // should never happen as we don't use BigDecimal.ROUND_UNNECESSARY
+            throw new MathInternalError(e);
+        } catch (MathIllegalArgumentException e) {
+            // should never happen as we use a valid rounding
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -404,8 +413,11 @@ public class Precision {
      * @param roundingMethod Rounding method as defined in {@link BigDecimal}.
      * @return the rounded value.
      * @since 1.1 (previously in {@code MathUtils}, moved as of version 3.0)
+     * @throws MathArithmeticException if an exact operation is required but result is not exact
+     * @throws MathIllegalArgumentException if {@code roundingMethod} is not a valid rounding method.
      */
-    public static float round(float x, int scale, int roundingMethod) {
+    public static float round(float x, int scale, int roundingMethod)
+        throws MathArithmeticException, MathIllegalArgumentException {
         final float sign = FastMath.copySign(1f, x);
         final float factor = (float) FastMath.pow(10.0f, scale) * sign;
         return (float) roundUnscaled(x * factor, sign, roundingMethod) / factor;
@@ -420,12 +432,14 @@ public class Precision {
      * @param sign Sign of the original, scaled value.
      * @param roundingMethod Rounding method, as defined in {@link BigDecimal}.
      * @return the rounded value.
+     * @throws MathArithmeticException if an exact operation is required but result is not exact
      * @throws MathIllegalArgumentException if {@code roundingMethod} is not a valid rounding method.
      * @since 1.1 (previously in {@code MathUtils}, moved as of version 3.0)
      */
     private static double roundUnscaled(double unscaled,
                                         double sign,
-                                        int roundingMethod) {
+                                        int roundingMethod)
+        throws MathArithmeticException, MathIllegalArgumentException {
         switch (roundingMethod) {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {

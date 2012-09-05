@@ -17,6 +17,7 @@
 package org.apache.commons.math3.util;
 
 import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -69,8 +70,13 @@ public abstract class ContinuedFraction {
      * @return the value of the continued fraction evaluated at x.
      * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x) {
-        return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
+    public double evaluate(double x) throws ConvergenceException {
+        try {
+            return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
+        } catch (MaxCountExceededException e) {
+            // this should never happen as integers never exceed MAX_VALUE
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -80,8 +86,13 @@ public abstract class ContinuedFraction {
      * @return the value of the continued fraction evaluated at x.
      * @throws ConvergenceException if the algorithm fails to converge.
      */
-    public double evaluate(double x, double epsilon) {
-        return evaluate(x, epsilon, Integer.MAX_VALUE);
+    public double evaluate(double x, double epsilon) throws ConvergenceException {
+        try {
+            return evaluate(x, epsilon, Integer.MAX_VALUE);
+        } catch (MaxCountExceededException e) {
+            // this should never happen as integers never exceed MAX_VALUE
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -90,8 +101,10 @@ public abstract class ContinuedFraction {
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x.
      * @throws ConvergenceException if the algorithm fails to converge.
+     * @throws MaxCountExceededException if maximal number of iterations is reached
      */
-    public double evaluate(double x, int maxIterations) {
+    public double evaluate(double x, int maxIterations)
+        throws ConvergenceException, MaxCountExceededException {
         return evaluate(x, DEFAULT_EPSILON, maxIterations);
     }
 
@@ -119,8 +132,10 @@ public abstract class ContinuedFraction {
      * @param maxIterations maximum number of convergents
      * @return the value of the continued fraction evaluated at x.
      * @throws ConvergenceException if the algorithm fails to converge.
+     * @throws MaxCountExceededException if maximal number of iterations is reached
      */
-    public double evaluate(double x, double epsilon, int maxIterations) {
+    public double evaluate(double x, double epsilon, int maxIterations)
+        throws ConvergenceException, MaxCountExceededException {
         final double small = 1e-50;
         double hPrev = getA(0, x);
 

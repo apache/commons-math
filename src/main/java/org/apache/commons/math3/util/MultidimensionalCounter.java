@@ -18,6 +18,7 @@
 package org.apache.commons.math3.util;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
@@ -162,7 +163,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * @throws NotStrictlyPositiveException if one of the sizes is
      * negative or zero.
      */
-    public MultidimensionalCounter(int ... size) {
+    public MultidimensionalCounter(int ... size) throws NotStrictlyPositiveException {
         dimension = size.length;
         this.size = MathArrays.copyOf(size);
 
@@ -213,7 +214,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * @throws OutOfRangeException if {@code index} is not between
      * {@code 0} and the value returned by {@link #getSize()} (excluded).
      */
-    public int[] getCounts(int index) {
+    public int[] getCounts(int index) throws OutOfRangeException {
         if (index < 0 ||
             index >= totalSize) {
             throw new OutOfRangeException(index, 0, totalSize);
@@ -250,7 +251,8 @@ public class MultidimensionalCounter implements Iterable<Integer> {
      * the range of the corresponding dimension, as defined in the
      * {@link MultidimensionalCounter#MultidimensionalCounter(int...) constructor}.
      */
-    public int getCount(int ... c) throws OutOfRangeException {
+    public int getCount(int ... c)
+        throws OutOfRangeException, DimensionMismatchException {
         if (c.length != dimension) {
             throw new DimensionMismatchException(c.length, dimension);
         }
@@ -290,7 +292,15 @@ public class MultidimensionalCounter implements Iterable<Integer> {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < dimension; i++) {
-            sb.append("[").append(getCount(i)).append("]");
+            try {
+                sb.append("[").append(getCount(i)).append("]");
+            } catch (OutOfRangeException e) {
+                // this should never happen
+                throw new MathInternalError(e);
+            } catch (DimensionMismatchException e) {
+                // this should never happen
+                throw new MathInternalError(e);
+            }
         }
         return sb.toString();
     }

@@ -61,7 +61,8 @@ public final class ArithmeticUtils {
      * as an {@code int}.
      * @since 1.1
      */
-    public static int addAndCheck(int x, int y) {
+    public static int addAndCheck(int x, int y)
+            throws MathArithmeticException {
         long s = (long)x + (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, x, y);
@@ -79,7 +80,7 @@ public final class ArithmeticUtils {
      *         long
      * @since 1.2
      */
-    public static long addAndCheck(long a, long b) {
+    public static long addAndCheck(long a, long b) throws MathArithmeticException {
         return ArithmeticUtils.addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
     }
 
@@ -109,7 +110,8 @@ public final class ArithmeticUtils {
      * @throws MathArithmeticException if the result is too large to be
      * represented by a long integer.
      */
-    public static long binomialCoefficient(final int n, final int k) {
+    public static long binomialCoefficient(final int n, final int k)
+        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1;
@@ -186,8 +188,11 @@ public final class ArithmeticUtils {
      * @return {@code n choose k}
      * @throws NotPositiveException if {@code n < 0}.
      * @throws NumberIsTooLargeException if {@code k > n}.
+     * @throws MathArithmeticException if the result is too large to be
+     * represented by a long integer.
      */
-    public static double binomialCoefficientDouble(final int n, final int k) {
+    public static double binomialCoefficientDouble(final int n, final int k)
+        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 1d;
@@ -228,8 +233,11 @@ public final class ArithmeticUtils {
      * @return {@code n choose k}
      * @throws NotPositiveException if {@code n < 0}.
      * @throws NumberIsTooLargeException if {@code k > n}.
+     * @throws MathArithmeticException if the result is too large to be
+     * represented by a long integer.
      */
-    public static double binomialCoefficientLog(final int n, final int k) {
+    public static double binomialCoefficientLog(final int n, final int k)
+        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         ArithmeticUtils.checkBinomial(n, k);
         if ((n == k) || (k == 0)) {
             return 0;
@@ -300,7 +308,7 @@ public final class ArithmeticUtils {
      * @throws MathArithmeticException if {@code n > 20}: The factorial value is too
      * large to fit in a {@code long}.
      */
-    public static long factorial(final int n) {
+    public static long factorial(final int n) throws NotPositiveException, MathArithmeticException {
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                                            n);
@@ -324,13 +332,13 @@ public final class ArithmeticUtils {
      * @return {@code n!}
      * @throws NotPositiveException if {@code n < 0}.
      */
-    public static double factorialDouble(final int n) {
+    public static double factorialDouble(final int n) throws NotPositiveException, MathArithmeticException {
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                                            n);
         }
         if (n < 21) {
-            return factorial(n);
+            return FACTORIALS[n];
         }
         return FastMath.floor(FastMath.exp(ArithmeticUtils.factorialLog(n)) + 0.5);
     }
@@ -342,13 +350,13 @@ public final class ArithmeticUtils {
      * @return {@code n!}
      * @throws NotPositiveException if {@code n < 0}.
      */
-    public static double factorialLog(final int n) {
+    public static double factorialLog(final int n) throws NotPositiveException {
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                                            n);
         }
         if (n < 21) {
-            return FastMath.log(factorial(n));
+            return FastMath.log(FACTORIALS[n]);
         }
         double logSum = 0;
         for (int i = 2; i <= n; i++) {
@@ -529,7 +537,7 @@ public final class ArithmeticUtils {
      * a non-negative {@code long} value.
      * @since 2.1
      */
-    public static long gcd(final long p, final long q) {
+    public static long gcd(final long p, final long q) throws MathArithmeticException {
         long u = p;
         long v = q;
         if ((u == 0) || (v == 0)) {
@@ -609,7 +617,7 @@ public final class ArithmeticUtils {
      * a non-negative {@code int} value.
      * @since 1.1
      */
-    public static int lcm(int a, int b) {
+    public static int lcm(int a, int b) throws MathArithmeticException {
         if (a == 0 || b == 0){
             return 0;
         }
@@ -643,7 +651,7 @@ public final class ArithmeticUtils {
      * as a non-negative {@code long} value.
      * @since 2.1
      */
-    public static long lcm(long a, long b) {
+    public static long lcm(long a, long b) throws MathArithmeticException {
         if (a == 0 || b == 0){
             return 0;
         }
@@ -665,7 +673,7 @@ public final class ArithmeticUtils {
      * represented as an {@code int}.
      * @since 1.1
      */
-    public static int mulAndCheck(int x, int y) {
+    public static int mulAndCheck(int x, int y) throws MathArithmeticException {
         long m = ((long)x) * ((long)y);
         if (m < Integer.MIN_VALUE || m > Integer.MAX_VALUE) {
             throw new MathArithmeticException();
@@ -683,7 +691,7 @@ public final class ArithmeticUtils {
      * as a {@code long}.
      * @since 1.2
      */
-    public static long mulAndCheck(long a, long b) {
+    public static long mulAndCheck(long a, long b) throws MathArithmeticException {
         long ret;
         if (a > b) {
             // use symmetry to reduce boundary cases
@@ -737,7 +745,7 @@ public final class ArithmeticUtils {
      * as an {@code int}.
      * @since 1.1
      */
-    public static int subAndCheck(int x, int y) {
+    public static int subAndCheck(int x, int y) throws MathArithmeticException {
         long s = (long)x - (long)y;
         if (s < Integer.MIN_VALUE || s > Integer.MAX_VALUE) {
             throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, x, y);
@@ -755,7 +763,7 @@ public final class ArithmeticUtils {
      * {@code long}.
      * @since 1.2
      */
-    public static long subAndCheck(long a, long b) {
+    public static long subAndCheck(long a, long b) throws MathArithmeticException {
         long ret;
         if (b == Long.MIN_VALUE) {
             if (a < 0) {
@@ -778,7 +786,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static int pow(final int k, int e) {
+    public static int pow(final int k, int e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -804,7 +812,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static int pow(final int k, long e) {
+    public static int pow(final int k, long e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -830,7 +838,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static long pow(final long k, int e) {
+    public static long pow(final long k, int e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -856,7 +864,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static long pow(final long k, long e) {
+    public static long pow(final long k, long e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -882,7 +890,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, int e) {
+    public static BigInteger pow(final BigInteger k, int e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -898,7 +906,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, long e) {
+    public static BigInteger pow(final BigInteger k, long e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -925,7 +933,7 @@ public final class ArithmeticUtils {
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
      */
-    public static BigInteger pow(final BigInteger k, BigInteger e) {
+    public static BigInteger pow(final BigInteger k, BigInteger e) throws NotPositiveException {
         if (e.compareTo(BigInteger.ZERO) < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
@@ -1039,7 +1047,7 @@ public final class ArithmeticUtils {
      * as a {@code long}.
      * @since 1.2
      */
-     private static long addAndCheck(long a, long b, Localizable pattern) {
+     private static long addAndCheck(long a, long b, Localizable pattern) throws MathArithmeticException {
         long ret;
         if (a > b) {
             // use symmetry to reduce boundary cases
@@ -1082,7 +1090,7 @@ public final class ArithmeticUtils {
      * @throws NotPositiveException if {@code n < 0}.
      * @throws NumberIsTooLargeException if {@code k > n}.
      */
-    private static void checkBinomial(final int n, final int k) {
+    private static void checkBinomial(final int n, final int k) throws NumberIsTooLargeException, NotPositiveException {
         if (n < k) {
             throw new NumberIsTooLargeException(LocalizedFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
                                                 k, n, true);
