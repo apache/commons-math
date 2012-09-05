@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -566,12 +567,17 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex acos() {
-        if (isNaN) {
-            return NaN;
-        }
+        try {
+            if (isNaN) {
+                return NaN;
+            }
 
-        return this.add(this.sqrt1z().multiply(I)).log()
-            .multiply(I.negate());
+            return this.add(this.sqrt1z().multiply(I)).log()
+                    .multiply(I.negate());
+        } catch (NullArgumentException e) {
+            // this should never happen as intermediat results are not null
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -591,12 +597,17 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex asin() {
-        if (isNaN) {
-            return NaN;
-        }
+        try {
+            if (isNaN) {
+                return NaN;
+            }
 
-        return sqrt1z().add(this.multiply(I)).log()
-            .multiply(I.negate());
+            return sqrt1z().add(this.multiply(I)).log()
+                    .multiply(I.negate());
+        } catch (NullArgumentException e) {
+            // this should never happen as intermediat results are not null
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -616,12 +627,17 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex atan() {
-        if (isNaN) {
-            return NaN;
-        }
+        try {
+            if (isNaN) {
+                return NaN;
+            }
 
-        return this.add(I).divide(I.subtract(this)).log()
-            .multiply(I.divide(createComplex(2.0, 0.0)));
+            return this.add(I).divide(I.subtract(this)).log()
+                    .multiply(I.divide(createComplex(2.0, 0.0)));
+        } catch (NullArgumentException e) {
+            // this should never happen as intermediat results are not null
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -979,7 +995,12 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex sqrt1z() {
-        return createComplex(1.0, 0.0).subtract(this.multiply(this)).sqrt();
+        try {
+            return createComplex(1.0, 0.0).subtract(this.multiply(this)).sqrt();
+        } catch (NullArgumentException e) {
+            // this should never happen as intermediat results are not null
+            throw new MathInternalError(e);
+        }
     }
 
     /**
@@ -1128,7 +1149,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @throws NotPositiveException if {@code n <= 0}.
      * @since 2.0
      */
-    public List<Complex> nthRoot(int n) {
+    public List<Complex> nthRoot(int n) throws NotPositiveException {
 
         if (n <= 0) {
             throw new NotPositiveException(LocalizedFormats.CANNOT_COMPUTE_NTH_ROOT_FOR_NEGATIVE_N,

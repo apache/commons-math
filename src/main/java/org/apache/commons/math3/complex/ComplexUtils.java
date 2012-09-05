@@ -59,7 +59,7 @@ public class ComplexUtils {
      * @throws MathIllegalArgumentException if {@code r} is negative.
      * @since 1.1
      */
-    public static Complex polar2Complex(double r, double theta) {
+    public static Complex polar2Complex(double r, double theta) throws MathIllegalArgumentException {
         if (r < 0) {
             throw new MathIllegalArgumentException(
                   LocalizedFormats.NEGATIVE_COMPLEX_MODULE, r);

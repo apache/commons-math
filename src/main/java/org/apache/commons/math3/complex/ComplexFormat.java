@@ -22,13 +22,13 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math3.util.CompositeFormat;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.MathParseException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.MathParseException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.CompositeFormat;
 
 /**
  * Formats a Complex number in cartesian format "Re(c) + Im(c)i".  'i' can
@@ -53,16 +53,24 @@ public class ComplexFormat {
      * default number format for both real and imaginary parts.
      */
     public ComplexFormat() {
-        this(DEFAULT_IMAGINARY_CHARACTER, CompositeFormat.getDefaultNumberFormat());
+        this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
+        this.imaginaryFormat = CompositeFormat.getDefaultNumberFormat();
+        this.realFormat = imaginaryFormat;
     }
 
     /**
      * Create an instance with a custom number format for both real and
      * imaginary parts.
      * @param format the custom format for both real and imaginary parts.
+     * @throws NullArgumentException if {@code realFormat} is {@code null}.
      */
-    public ComplexFormat(NumberFormat format) {
-        this(DEFAULT_IMAGINARY_CHARACTER, format);
+    public ComplexFormat(NumberFormat format) throws NullArgumentException {
+        if (format == null) {
+            throw new NullArgumentException(LocalizedFormats.IMAGINARY_FORMAT);
+        }
+        this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
+        this.imaginaryFormat = format;
+        this.realFormat = format;
     }
 
     /**
@@ -70,17 +78,34 @@ public class ComplexFormat {
      * custom number format for the imaginary part.
      * @param realFormat the custom format for the real part.
      * @param imaginaryFormat the custom format for the imaginary part.
-     */
-    public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat) {
-        this(DEFAULT_IMAGINARY_CHARACTER, realFormat, imaginaryFormat);
+     * @throws NullArgumentException if {@code imaginaryFormat} is {@code null}.
+     * @throws NullArgumentException if {@code realFormat} is {@code null}.
+      */
+    public ComplexFormat(NumberFormat realFormat, NumberFormat imaginaryFormat)
+        throws NullArgumentException {
+        if (imaginaryFormat == null) {
+            throw new NullArgumentException(LocalizedFormats.IMAGINARY_FORMAT);
+        }
+        if (realFormat == null) {
+            throw new NullArgumentException(LocalizedFormats.REAL_FORMAT);
+        }
+
+        this.imaginaryCharacter = DEFAULT_IMAGINARY_CHARACTER;
+        this.imaginaryFormat = imaginaryFormat;
+        this.realFormat = realFormat;
     }
 
     /**
      * Create an instance with a custom imaginary character, and the default
      * number format for both real and imaginary parts.
      * @param imaginaryCharacter The custom imaginary character.
+     * @throws NullArgumentException if {@code imaginaryCharacter} is
+     * {@code null}.
+     * @throws NoDataException if {@code imaginaryCharacter} is an
+     * empty string.
      */
-    public ComplexFormat(String imaginaryCharacter) {
+    public ComplexFormat(String imaginaryCharacter)
+        throws NullArgumentException, NoDataException {
         this(imaginaryCharacter, CompositeFormat.getDefaultNumberFormat());
     }
 
@@ -89,8 +114,14 @@ public class ComplexFormat {
      * format for both real and imaginary parts.
      * @param imaginaryCharacter The custom imaginary character.
      * @param format the custom format for both real and imaginary parts.
+     * @throws NullArgumentException if {@code imaginaryCharacter} is
+     * {@code null}.
+     * @throws NoDataException if {@code imaginaryCharacter} is an
+     * empty string.
+     * @throws NullArgumentException if {@code format} is {@code null}.
      */
-    public ComplexFormat(String imaginaryCharacter, NumberFormat format) {
+    public ComplexFormat(String imaginaryCharacter, NumberFormat format)
+        throws NullArgumentException, NoDataException {
         this(imaginaryCharacter, format, format);
     }
 
@@ -111,7 +142,8 @@ public class ComplexFormat {
      */
     public ComplexFormat(String imaginaryCharacter,
                          NumberFormat realFormat,
-                         NumberFormat imaginaryFormat) {
+                         NumberFormat imaginaryFormat)
+        throws NullArgumentException, NoDataException {
         if (imaginaryCharacter == null) {
             throw new NullArgumentException();
         }
@@ -235,10 +267,11 @@ public class ComplexFormat {
      *            offsets of the alignment field
      * @return the value passed in as toAppendTo.
      * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer, java.text.FieldPosition)
-     * @throws IllegalArgumentException is {@code obj} is not a valid type.
+     * @throws MathIllegalArgumentException is {@code obj} is not a valid type.
      */
     public StringBuffer format(Object obj, StringBuffer toAppendTo,
-                               FieldPosition pos) {
+                               FieldPosition pos)
+        throws MathIllegalArgumentException {
 
         StringBuffer ret = null;
 
@@ -285,8 +318,13 @@ public class ComplexFormat {
      * @return the complex format specific to the given locale.
      */
     public static ComplexFormat getInstance(Locale locale) {
-        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
-        return new ComplexFormat(f);
+        try {
+            NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
+            return new ComplexFormat(f);
+        } catch (NullArgumentException nae) {
+            // this should never happen
+            throw new MathInternalError(nae);
+        }
     }
 
     /**
@@ -294,9 +332,13 @@ public class ComplexFormat {
      * @param locale the specific locale used by the format.
      * @param imaginaryCharacter Imaginary character.
      * @return the complex format specific to the given locale.
+     * @throws NullArgumentException if {@code imaginaryCharacter} is
+     * {@code null}.
+     * @throws NoDataException if {@code imaginaryCharacter} is an
+     * empty string.
      */
-    public static ComplexFormat getInstance(String imaginaryCharacter,
-                                            Locale locale) {
+    public static ComplexFormat getInstance(String imaginaryCharacter, Locale locale)
+        throws NullArgumentException, NoDataException {
         NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
         return new ComplexFormat(imaginaryCharacter, f);
     }
@@ -317,7 +359,7 @@ public class ComplexFormat {
      * @throws MathParseException if the beginning of the specified string
      * cannot be parsed.
      */
-    public Complex parse(String source) {
+    public Complex parse(String source) throws MathParseException {
         ParsePosition parsePosition = new ParsePosition(0);
         Complex result = parse(source, parsePosition);
         if (parsePosition.getIndex() == 0) {
