@@ -367,8 +367,7 @@ public final class ArithmeticUtils {
 
     /**
      * Computes the greatest common divisor of the absolute value of two
-     * numbers, using the "binary gcd" method which avoids division and
-     * modulo operations.
+     * numbers, using a modified version of the "binary gcd" method.
      * See Knuth 4.5.2 algorithm B.
      * The algorithm is due to Josef Stein (1961).
      * <br/>
@@ -389,7 +388,7 @@ public final class ArithmeticUtils {
      *
      * @param p Number.
      * @param q Number.
-     * @return the greatest common divisor, never negative.
+     * @return the greatest common divisor (never negative).
      * @throws MathArithmeticException if the result cannot be represented as
      * a non-negative {@code int} value.
      * @since 1.1
