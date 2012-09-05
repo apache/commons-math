@@ -80,12 +80,13 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
         if (abs <= 0) {
             throw new NotStrictlyPositiveException(abs);
         }
+
         relativeThreshold = rel;
         absoluteThreshold = abs;
     }
 
     /**
-     * The arguments are used implement the original stopping criterion
+     * The arguments are used for implementing the original stopping criterion
      * of Brent's algorithm.
      * {@code abs} and {@code rel} define a tolerance
      * {@code tol = rel |x| + abs}. {@code rel} should be no smaller than
@@ -226,7 +227,7 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
 
                 if (checker != null) {
                     if (checker.converged(iter, previous, current)) {
-                        return current;
+                        return best(current, previous, isMinim);
                     }
                 }
 
@@ -263,9 +264,36 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                     }
                 }
             } else { // Default termination (Brent's criterion).
-                return current;
+                return best(current, previous, isMinim);
             }
             ++iter;
+        }
+    }
+
+    /**
+     * Selects the best of two points.
+     *
+     * @param a Point and value.
+     * @param b Point and value.
+     * @param isMinim {@code true} if the selected point must be the one with
+     * the lowest value.
+     * @return the best point, or {@code null} if {@code a} and {@code b} are
+     * both {@code null}.
+     */
+    private UnivariatePointValuePair best(UnivariatePointValuePair a,
+                                          UnivariatePointValuePair b,
+                                          boolean isMinim) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+
+        if (isMinim) {
+            return a.getValue() < b.getValue() ? a : b;
+        } else {
+            return a.getValue() > b.getValue() ? a : b;
         }
     }
 }
