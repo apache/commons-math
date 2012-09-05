@@ -20,6 +20,7 @@ package org.apache.commons.math3.dfp;
 import org.apache.commons.math3.analysis.solvers.AllowedSolution;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.util.MathUtils;
@@ -148,13 +149,12 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
-     * @throws org.apache.commons.math3.exception.MathIllegalArgumentException
-     * if the arguments do not satisfy the requirements specified by the solver.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
-     * the allowed number of evaluations is exceeded.
+     * @exception NullArgumentException if f is null.
+     * @exception NoBracketingException if root cannot be bracketed
      */
     public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
-                     final Dfp min, final Dfp max, final AllowedSolution allowedSolution) {
+                     final Dfp min, final Dfp max, final AllowedSolution allowedSolution)
+        throws NullArgumentException, NoBracketingException {
         return solve(maxEval, f, min, max, min.add(max).divide(2), allowedSolution);
     }
 
@@ -172,14 +172,13 @@ public class BracketingNthOrderBrentSolverDFP {
      * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a value where the function is zero.
-     * @throws org.apache.commons.math3.exception.MathIllegalArgumentException
-     * if the arguments do not satisfy the requirements specified by the solver.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
-     * the allowed number of evaluations is exceeded.
+     * @exception NullArgumentException if f is null.
+     * @exception NoBracketingException if root cannot be bracketed
      */
     public Dfp solve(final int maxEval, final UnivariateDfpFunction f,
                      final Dfp min, final Dfp max, final Dfp startValue,
-                     final AllowedSolution allowedSolution) {
+                     final AllowedSolution allowedSolution)
+        throws NullArgumentException, NoBracketingException {
 
         // Checks.
         MathUtils.checkNotNull(f);
