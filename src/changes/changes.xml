@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="update" issue="MATH-841" due-to="Sebastien Riou">
+        Performance improvement in computation of the greatest common divisor
+        (in class "o.a.c.m.util.ArithmeticUtils").
+      </action>
+      <action dev="erans" type="fix" issue="MATH-855">
+        Added a check so that the returned point will always be the best one.
+      </action>
       <action dev="luc" type="add" >
         Added a NewtonRaphsonSolver that uses the new differentiation package
         to define the function to solve. This class is intended to replace the
