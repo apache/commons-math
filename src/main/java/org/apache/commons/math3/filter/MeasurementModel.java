@@ -33,10 +33,9 @@ public interface MeasurementModel {
     RealMatrix getMeasurementMatrix();
 
     /**
-     * Returns the measurement noise matrix. This method is called by the
-     * {@link KalmanFilter} every correct step, so implementations of this
-     * interface may return a modified measurement noise depending on current
-     * iteration step.
+     * Returns the measurement noise matrix. This method is called by the {@link KalmanFilter} every
+     * correction step, so implementations of this interface may return a modified measurement noise
+     * depending on the current iteration step.
      *
      * @return the measurement noise matrix
      * @see KalmanFilter#correct(double[])

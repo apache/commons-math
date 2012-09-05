@@ -16,28 +16,28 @@
  */
 package org.apache.commons.math3.filter;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 /**
- * Default implementation of a {@link ProcessModel} for the use with a
- * {@link KalmanFilter}.
+ * Default implementation of a {@link ProcessModel} for the use with a {@link KalmanFilter}.
  *
  * @since 3.0
  * @version $Id$
  */
 public class DefaultProcessModel implements ProcessModel {
     /**
-     * The state transition matrix, used to advance the internal state
-     * estimation each time-step.
+     * The state transition matrix, used to advance the internal state estimation each time-step.
      */
     private RealMatrix stateTransitionMatrix;
 
     /**
-     * The control matrix, used to integrate a control input into the state
-     * estimation.
+     * The control matrix, used to integrate a control input into the state estimation.
      */
     private RealMatrix controlMatrix;
 
@@ -51,20 +51,32 @@ public class DefaultProcessModel implements ProcessModel {
     private RealMatrix initialErrorCovMatrix;
 
     /**
-     * Create a new {@link ProcessModel}, taking double arrays as input
-     * parameters.
+     * Create a new {@link ProcessModel}, taking double arrays as input parameters.
      *
-     * @param stateTransition the state transition matrix
-     * @param control the control matrix
-     * @param processNoise the process noise matrix
-     * @param initialStateEstimate the initial state estimate vector
-     * @param initialErrorCovariance the initial error covariance matrix
+     * @param stateTransition
+     *            the state transition matrix
+     * @param control
+     *            the control matrix
+     * @param processNoise
+     *            the process noise matrix
+     * @param initialStateEstimate
+     *            the initial state estimate vector
+     * @param initialErrorCovariance
+     *            the initial error covariance matrix
+     * @throws NullArgumentException
+     *             if any of the input arrays is {@code null}
+     * @throws NoDataException
+     *             if any row / column dimension of the input matrices is zero
+     * @throws DimensionMismatchException
+     *             if any of the input matrices is non-rectangular
      */
     public DefaultProcessModel(final double[][] stateTransition,
                                final double[][] control,
                                final double[][] processNoise,
                                final double[] initialStateEstimate,
-                               final double[][] initialErrorCovariance) {
+                               final double[][] initialErrorCovariance)
+            throws NullArgumentException, NoDataException, DimensionMismatchException {
+
         this(new Array2DRowRealMatrix(stateTransition),
                 new Array2DRowRealMatrix(control),
                 new Array2DRowRealMatrix(processNoise),
@@ -73,31 +85,47 @@ public class DefaultProcessModel implements ProcessModel {
     }
 
     /**
-     * Create a new {@link ProcessModel}, taking double arrays as input
-     * parameters. The initial state estimate and error covariance are omitted
-     * and will be initialized by the {@link KalmanFilter} to default values.
+     * Create a new {@link ProcessModel}, taking double arrays as input parameters.
+     * <p>
+     * The initial state estimate and error covariance are omitted and will be initialized by the
+     * {@link KalmanFilter} to default values.
      *
-     * @param stateTransition the state transition matrix
-     * @param control the control matrix
-     * @param processNoise the process noise matrix
+     * @param stateTransition
+     *            the state transition matrix
+     * @param control
+     *            the control matrix
+     * @param processNoise
+     *            the process noise matrix
+     * @throws NullArgumentException
+     *             if any of the input arrays is {@code null}
+     * @throws NoDataException
+     *             if any row / column dimension of the input matrices is zero
+     * @throws DimensionMismatchException
+     *             if any of the input matrices is non-rectangular
      */
     public DefaultProcessModel(final double[][] stateTransition,
                                final double[][] control,
-                               final double[][] processNoise) {
+                               final double[][] processNoise)
+            throws NullArgumentException, NoDataException, DimensionMismatchException {
+
         this(new Array2DRowRealMatrix(stateTransition),
                 new Array2DRowRealMatrix(control),
                 new Array2DRowRealMatrix(processNoise), null, null);
     }
 
     /**
-     * Create a new {@link ProcessModel}, taking double arrays as input
-     * parameters.
+     * Create a new {@link ProcessModel}, taking double arrays as input parameters.
      *
-     * @param stateTransition the state transition matrix
-     * @param control the control matrix
-     * @param processNoise the process noise matrix
-     * @param initialStateEstimate the initial state estimate vector
-     * @param initialErrorCovariance the initial error covariance matrix
+     * @param stateTransition
+     *            the state transition matrix
+     * @param control
+     *            the control matrix
+     * @param processNoise
+     *            the process noise matrix
+     * @param initialStateEstimate
+     *            the initial state estimate vector
+     * @param initialErrorCovariance
+     *            the initial error covariance matrix
      */
     public DefaultProcessModel(final RealMatrix stateTransition,
                                final RealMatrix control,
