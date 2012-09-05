@@ -17,8 +17,14 @@
 package org.apache.commons.math3.distribution;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
+import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.junit.After;
@@ -292,6 +298,45 @@ public abstract class RealDistributionAbstractTest {
             TestUtils.updateCounts(sample[i], counts, quartiles);
         }
         TestUtils.assertChiSquareAccept(expected, counts, 0.001);
+    }
+    
+    /**
+     * Verify that density integrals match the distribution.
+     * The (filtered, sorted) cumulativeTestPoints array is used to source
+     * integration limits. The integral of the density (estimated using a
+     * Legendre-Gauss integrator) is compared with the cdf over the same
+     * interval. Test points outside of the domain of the density function
+     * are discarded.
+     */
+    @Test
+    public void testDensityIntegrals() {
+        final double tol = 1.0e-9;
+        final BaseAbstractUnivariateIntegrator integrator =
+            new IterativeLegendreGaussIntegrator(5, 1.0e-12, 1.0e-10);
+        final UnivariateFunction d = new UnivariateFunction() {
+            public double value(double x) {
+                return distribution.density(x);
+            }
+        };
+        final ArrayList<Double> integrationTestPoints = new ArrayList<Double>();
+        for (int i = 0; i < cumulativeTestPoints.length; i++) {
+            if (Double.isNaN(cumulativeTestValues[i]) ||
+                    cumulativeTestValues[i] < 1.0e-5 ||
+                    cumulativeTestValues[i] > 1 - 1.0e-5) {
+                continue; // exclude integrals outside domain.
+            }
+            integrationTestPoints.add(cumulativeTestPoints[i]);
+        }
+        Collections.sort(integrationTestPoints);
+        for (int i = 1; i < integrationTestPoints.size(); i++) {
+            Assert.assertEquals(
+                    distribution.cumulativeProbability(  // FIXME @4.0 when rename happens
+                            integrationTestPoints.get(0), integrationTestPoints.get(i)),
+                            integrator.integrate(
+                                    1000000, // Triangle integrals are very slow to converge
+                                    d, integrationTestPoints.get(0),
+                                    integrationTestPoints.get(i)), tol);
+        }
     }
 
     //------------------ Getters / Setters for test instance data -----------
