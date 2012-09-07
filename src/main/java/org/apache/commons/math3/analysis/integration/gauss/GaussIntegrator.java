@@ -18,6 +18,7 @@ package org.apache.commons.math3.analysis.integration.gauss;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.Pair;
 
@@ -42,11 +43,12 @@ public class GaussIntegrator {
      *
      * @param points Integration points.
      * @param weights Weights of the corresponding integration nodes.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if the {@code points} are not sorted in increasing order.
+     * @throws NonMonotonicSequenceException if the {@code points} are not
+     * sorted in increasing order.
      */
     public GaussIntegrator(double[] points,
-                           double[] weights) {
+                           double[] weights)
+        throws NonMonotonicSequenceException {
         if (points.length != weights.length) {
             throw new DimensionMismatchException(points.length,
                                                  weights.length);
@@ -63,12 +65,13 @@ public class GaussIntegrator {
      * the pair) and weights (second element of the pair.
      *
      * @param pointsAndWeights Integration points and corresponding weights.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if the {@code points} are not sorted in increasing order.
+     * @throws NonMonotonicSequenceException if the {@code points} are not
+     * sorted in increasing order.
      *
      * @see #GaussIntegrator(double[], double[])
      */
-    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights) {
+    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights)
+        throws NonMonotonicSequenceException {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 

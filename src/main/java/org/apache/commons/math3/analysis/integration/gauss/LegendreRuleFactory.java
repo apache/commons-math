@@ -34,11 +34,10 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 public class LegendreRuleFactory extends BaseRuleFactory<Double> {
     /**
      * {@inheritDoc}
-     *
-     * @throws NotStrictlyPositiveException if {@code numberOfPoints < 1}.
      */
     @Override
-    protected Pair<Double[], Double[]> computeRule(int numberOfPoints) {
+    protected Pair<Double[], Double[]> computeRule(int numberOfPoints)
+        throws NotStrictlyPositiveException {
         if (numberOfPoints <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS,
                                                    numberOfPoints);
