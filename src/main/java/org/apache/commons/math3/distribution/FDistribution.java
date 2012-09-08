@@ -272,7 +272,7 @@ public class FDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public boolean isSupportLowerBoundInclusive() {
-        return true;
+        return false;
     }
 
     /** {@inheritDoc} */

@@ -181,7 +181,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public boolean isSupportUpperBoundInclusive() {
-        return false;
+        return true;
     }
 
     /**
