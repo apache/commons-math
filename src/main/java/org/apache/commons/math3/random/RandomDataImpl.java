@@ -24,8 +24,6 @@ import java.util.Collection;
 
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * Generates random deviates and other random data using a {@link RandomGenerator}
