@@ -371,8 +371,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link HypergeometricDistribution Hypergeometric Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
-     * to generate random values.
      *
      * @param populationSize the population size of the Hypergeometric distribution
      * @param numberOfSuccesses number of successes in the population of the Hypergeometric distribution
@@ -386,8 +384,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link PascalDistribution Pascal Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
-     * to generate random values.
      *
      * @param r the number of successes of the Pascal distribution
      * @param p the probability of success of the Pascal distribution
@@ -399,8 +395,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link TDistribution T Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param df the degrees of freedom of the T distribution
      * @return random value from the T(df) distribution
@@ -412,8 +406,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link WeibullDistribution Weibull Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param shape the shape parameter of the Weibull distribution
      * @param scale the scale parameter of the Weibull distribution
@@ -426,8 +418,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link ZipfDistribution Zipf Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
-     * to generate random values.
      *
      * @param numberOfElements the number of elements of the ZipfDistribution
      * @param exponent the exponent of the ZipfDistribution
@@ -439,8 +429,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link BetaDistribution Beta Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param alpha first distribution shape parameter
      * @param beta second distribution shape parameter
@@ -453,8 +441,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link BinomialDistribution Binomial Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param numberOfTrials number of trials of the Binomial distribution
      * @param probabilityOfSuccess probability of success of the Binomial distribution
@@ -466,8 +452,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link CauchyDistribution Cauchy Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param median the median of the Cauchy distribution
      * @param scale the scale parameter of the Cauchy distribution
@@ -480,8 +464,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link ChiSquaredDistribution ChiSquare Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param df the degrees of freedom of the ChiSquare distribution
      * @return random value sampled from the ChiSquare(df) distribution
@@ -493,8 +475,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * Generates a random value from the {@link FDistribution F Distribution}.
-     * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
-     * to generate random values.
      *
      * @param numeratorDf the numerator degrees of freedom of the F distribution
      * @param denominatorDf the denominator degrees of freedom of the F distribution
