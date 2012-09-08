@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.stat.descriptive;
 
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -48,8 +49,10 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * A copy constructor. Creates a deep-copy of the {@code original}.
      *
      * @param original the {@code SynchronizedSummaryStatistics} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SynchronizedSummaryStatistics(SynchronizedSummaryStatistics original) {
+    public SynchronizedSummaryStatistics(SynchronizedSummaryStatistics original)
+    throws NullArgumentException {
         copy(original, this);
     }
 
@@ -193,7 +196,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setSumImpl(StorelessUnivariateStatistic sumImpl) {
+    public synchronized void setSumImpl(StorelessUnivariateStatistic sumImpl)
+    throws MathIllegalStateException {
         super.setSumImpl(sumImpl);
     }
 
@@ -209,7 +213,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl) {
+    public synchronized void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl)
+    throws MathIllegalStateException {
         super.setSumsqImpl(sumsqImpl);
     }
 
@@ -225,7 +230,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setMinImpl(StorelessUnivariateStatistic minImpl) {
+    public synchronized void setMinImpl(StorelessUnivariateStatistic minImpl)
+    throws MathIllegalStateException {
         super.setMinImpl(minImpl);
     }
 
@@ -241,7 +247,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setMaxImpl(StorelessUnivariateStatistic maxImpl) {
+    public synchronized void setMaxImpl(StorelessUnivariateStatistic maxImpl)
+    throws MathIllegalStateException {
         super.setMaxImpl(maxImpl);
     }
 
@@ -257,7 +264,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl) {
+    public synchronized void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
+    throws MathIllegalStateException {
         super.setSumLogImpl(sumLogImpl);
     }
 
@@ -273,7 +281,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl) {
+    public synchronized void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl)
+    throws MathIllegalStateException {
         super.setGeoMeanImpl(geoMeanImpl);
     }
 
@@ -289,7 +298,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setMeanImpl(StorelessUnivariateStatistic meanImpl) {
+    public synchronized void setMeanImpl(StorelessUnivariateStatistic meanImpl)
+    throws MathIllegalStateException {
         super.setMeanImpl(meanImpl);
     }
 
@@ -305,7 +315,8 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setVarianceImpl(StorelessUnivariateStatistic varianceImpl) {
+    public synchronized void setVarianceImpl(StorelessUnivariateStatistic varianceImpl)
+    throws MathIllegalStateException {
         super.setVarianceImpl(varianceImpl);
     }
 
@@ -319,6 +330,7 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
     public synchronized SynchronizedSummaryStatistics copy() {
         SynchronizedSummaryStatistics result =
             new SynchronizedSummaryStatistics();
+        // No try-catch or advertised exception because arguments are guaranteed non-null
         copy(this, result);
         return result;
     }

@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.FastMath;
@@ -142,16 +143,16 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
      * @param values the input array
      * @return the standard deviation of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
     @Override
-    public double evaluate(final double[] values)  {
+    public double evaluate(final double[] values) throws MathIllegalArgumentException  {
         return FastMath.sqrt(variance.evaluate(values));
     }
 
@@ -162,7 +163,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample. </p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
@@ -170,11 +171,12 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the standard deviation of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length)  {
+    public double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException  {
        return FastMath.sqrt(variance.evaluate(values, begin, length));
     }
 
@@ -199,11 +201,11 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the standard deviation of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     public double evaluate(final double[] values, final double mean,
-            final int begin, final int length)  {
+            final int begin, final int length) throws MathIllegalArgumentException  {
         return FastMath.sqrt(variance.evaluate(values, mean, begin, length));
     }
 
@@ -219,16 +221,17 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * is supplied only to save computation when the mean has already been
      * computed.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
      * @param values the input array
      * @param mean the precomputed mean value
      * @return the standard deviation of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public double evaluate(final double[] values, final double mean)  {
+    public double evaluate(final double[] values, final double mean)
+    throws MathIllegalArgumentException  {
         return FastMath.sqrt(variance.evaluate(values, mean));
     }
 
@@ -252,6 +255,7 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
     @Override
     public StandardDeviation copy() {
         StandardDeviation result = new StandardDeviation();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

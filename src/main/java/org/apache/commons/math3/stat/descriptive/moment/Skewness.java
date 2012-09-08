@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.FastMath;
@@ -78,13 +79,17 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * to the {@code original}
      *
      * @param original the {@code Skewness} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Skewness(Skewness original) {
+    public Skewness(Skewness original) throws NullArgumentException {
         copy(original, this);
     }
 
     /**
      * {@inheritDoc}
+     * <p>Note that when {@link #Skewness(ThirdMoment)} is used to
+     * create a Skewness, this method does nothing. In that case, the
+     * ThirdMoment should be incremented directly.</p>
      */
     @Override
     public void increment(final double d) {
@@ -146,12 +151,12 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
      * @param length the number of elements to include
      * @return the skewness of the values or Double.NaN if length is less than
      * 3
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
     public double evaluate(final double[] values,final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
 
         // Initialize the skewness
         double skew = Double.NaN;
@@ -195,6 +200,7 @@ public class Skewness extends AbstractStorelessUnivariateStatistic implements Se
     @Override
     public Skewness copy() {
         Skewness result = new Skewness();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

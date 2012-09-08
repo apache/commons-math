@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.stat.descriptive;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+
 /**
  * Weighted evaluation for statistics.
  *
@@ -31,8 +33,11 @@ public interface WeightedEvaluation {
      * @param values input array
      * @param weights array of weights
      * @return the value of the weighted statistic applied to the input array
+     * @throws MathIllegalArgumentException if either array is null, lengths
+     * do not match, weights contain NaN, negative or infinite values, or
+     * weights does not include at least on positive value
      */
-    double evaluate(double[] values, double[] weights);
+    double evaluate(double[] values, double[] weights) throws MathIllegalArgumentException;
 
     /**
      * Returns the result of evaluating the statistic over the specified entries
@@ -43,7 +48,11 @@ public interface WeightedEvaluation {
      * @param begin the index of the first element to include
      * @param length the number of elements to include
      * @return the value of the weighted statistic applied to the included array entries
+     * @throws MathIllegalArgumentException if either array is null, lengths
+     * do not match, indices are invalid, weights contain NaN, negative or
+     * infinite values, or weights does not include at least on positive value
      */
-    double evaluate(double[] values, double[] weights, int begin, int length);
+    double evaluate(double[] values, double[] weights, int begin, int length)
+    throws MathIllegalArgumentException;
 
 }

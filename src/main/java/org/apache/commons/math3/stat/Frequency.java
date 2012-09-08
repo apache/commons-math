@@ -105,9 +105,9 @@ public class Frequency implements Serializable {
      * </p>
      *
      * @param v the value to add.
-     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
+     * @throws MathIllegalArgumentException if <code>v</code> is not comparable with previous entries
      */
-    public void addValue(Comparable<?> v){
+    public void addValue(Comparable<?> v) throws MathIllegalArgumentException {
         Comparable<?> obj = v;
         if (v instanceof Integer) {
            obj = Long.valueOf(((Integer) v).longValue());

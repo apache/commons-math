@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.stat.descriptive;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -41,14 +42,17 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * Construct an instance with infinite window
      */
     public SynchronizedDescriptiveStatistics() {
+        // no try-catch or advertized IAE because arg is valid
         this(INFINITE_WINDOW);
     }
 
     /**
      * Construct an instance with finite window
      * @param window the finite window size.
+     * @throws MathIllegalArgumentException if window size is less than 1 but
+     * not equal to {@link #INFINITE_WINDOW}
      */
-    public SynchronizedDescriptiveStatistics(int window) {
+    public SynchronizedDescriptiveStatistics(int window) throws MathIllegalArgumentException {
         super(window);
     }
 
@@ -56,8 +60,10 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * A copy constructor. Creates a deep-copy of the {@code original}.
      *
      * @param original the {@code SynchronizedDescriptiveStatistics} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SynchronizedDescriptiveStatistics(SynchronizedDescriptiveStatistics original) {
+    public SynchronizedDescriptiveStatistics(SynchronizedDescriptiveStatistics original)
+    throws NullArgumentException {
         copy(original, this);
     }
 
@@ -129,7 +135,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void setWindowSize(int windowSize) {
+    public synchronized void setWindowSize(int windowSize) throws MathIllegalArgumentException {
         super.setWindowSize(windowSize);
     }
 
@@ -151,6 +157,7 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
     public synchronized SynchronizedDescriptiveStatistics copy() {
         SynchronizedDescriptiveStatistics result =
             new SynchronizedDescriptiveStatistics();
+        // No try-catch or advertised exception because arguments are guaranteed non-null
         copy(this, result);
         return result;
     }

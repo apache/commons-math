@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.stat.descriptive.WeightedEvaluation;
@@ -96,13 +97,17 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * to the {@code original}
      *
      * @param original the {@code Mean} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Mean(Mean original) {
+    public Mean(Mean original) throws NullArgumentException {
         copy(original, this);
     }
 
     /**
      * {@inheritDoc}
+     * <p>Note that when {@link #Mean(FirstMoment)} is used to
+     * create a Mean, this method does nothing. In that case, the
+     * FirstMoment should be incremented directly.</p>
      */
     @Override
     public void increment(final double d) {
@@ -149,11 +154,12 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the mean of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length) {
+    public double evaluate(final double[] values,final int begin, final int length)
+    throws MathIllegalArgumentException {
         if (test(values, begin, length)) {
             Sum sum = new Sum();
             double sampleSize = length;
@@ -197,11 +203,11 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the mean of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) {
+                           final int begin, final int length) throws MathIllegalArgumentException {
         if (test(values, weights, begin, length)) {
             Sum sum = new Sum();
 
@@ -222,13 +228,13 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     /**
      * Returns the weighted arithmetic mean of the entries in the input array.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if either array is null.</p>
      * <p>
      * See {@link Mean} for details on the computing algorithm. The two-pass algorithm
      * described above is used here, with weights applied in computing both the original
      * estimate and the correction factor.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -240,10 +246,11 @@ public class Mean extends AbstractStorelessUnivariateStatistic
      * @param values the input array
      * @param weights the weights array
      * @return the mean of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights) {
+    public double evaluate(final double[] values, final double[] weights)
+    throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -253,6 +260,7 @@ public class Mean extends AbstractStorelessUnivariateStatistic
     @Override
     public Mean copy() {
         Mean result = new Mean();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

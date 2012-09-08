@@ -45,7 +45,7 @@ public abstract class AbstractUnivariateStatistic
     /**
      * Set the data array.
      * <p>
-     * The stored value is a copy of the parameter array, not the array itself
+     * The stored value is a copy of the parameter array, not the array itself.
      * </p>
      * @param values data array to store (may be null to remove stored data)
      * @see #evaluate()
@@ -71,13 +71,33 @@ public abstract class AbstractUnivariateStatistic
     }
 
     /**
-     * Set the data array.
+     * Set the data array.  The input array is copied, not referenced.
+     *
      * @param values data array to store
      * @param begin the index of the first element to include
      * @param length the number of elements to include
+     * @throws MathIllegalArgumentException if values is null or the indices
+     * are not valid
      * @see #evaluate()
      */
-    public void setData(final double[] values, final int begin, final int length) {
+    public void setData(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
+        if (values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+
+        if (begin < 0) {
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
+        }
+
+        if (length < 0) {
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
+        }
+
+        if (begin + length > values.length) {
+            throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
+                                                begin + length, values.length, true);
+        }
         storedData = new double[length];
         System.arraycopy(values, begin, storedData, 0, length);
     }
@@ -85,18 +105,19 @@ public abstract class AbstractUnivariateStatistic
     /**
      * Returns the result of evaluating the statistic over the stored data.
      * <p>
-     * The stored array is the one which was set by previous calls to
+     * The stored array is the one which was set by previous calls to {@link #setData(double[])}.
      * </p>
      * @return the value of the statistic applied to the stored data
+     * @throws MathIllegalArgumentException if the stored data array is null
      */
-    public double evaluate() {
+    public double evaluate() throws MathIllegalArgumentException {
         return evaluate(storedData);
     }
 
     /**
      * {@inheritDoc}
      */
-    public double evaluate(final double[] values) {
+    public double evaluate(final double[] values) throws MathIllegalArgumentException {
         test(values, 0, 0);
         return evaluate(values, 0, values.length);
     }
@@ -104,7 +125,8 @@ public abstract class AbstractUnivariateStatistic
     /**
      * {@inheritDoc}
      */
-    public abstract double evaluate(final double[] values, final int begin, final int length);
+    public abstract double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException;
 
     /**
      * {@inheritDoc}
@@ -118,7 +140,7 @@ public abstract class AbstractUnivariateStatistic
      * <ul>
      * <li>returns <code>true</code> iff the parameters designate a subarray of
      * positive length</li>
-     * <li>throws <code>IllegalArgumentException</code> if the array is null or
+     * <li>throws <code>MathIllegalArgumentException</code> if the array is null or
      * or the indices are invalid</li>
      * <li>returns <code>false</li> if the array is non-null, but
      * <code>length</code> is 0.
@@ -128,12 +150,12 @@ public abstract class AbstractUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
-     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      */
     protected boolean test(
         final double[] values,
         final int begin,
-        final int length) {
+        final int length) throws MathIllegalArgumentException {
         return test(values, begin, length, false);
     }
 
@@ -155,10 +177,11 @@ public abstract class AbstractUnivariateStatistic
      * @param length the number of elements to include
      * @param allowEmpty if <code>true</code> then zero length arrays are allowed
      * @return true if the parameters are valid
-     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.0
      */
-    protected boolean test(final double[] values, final int begin, final int length, final boolean allowEmpty){
+    protected boolean test(final double[] values, final int begin,
+            final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
@@ -211,14 +234,14 @@ public abstract class AbstractUnivariateStatistic
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
-     * @throws IllegalArgumentException if the indices are invalid or the array is null
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 2.1
      */
     protected boolean test(
         final double[] values,
         final double[] weights,
         final int begin,
-        final int length) {
+        final int length) throws MathIllegalArgumentException {
         return test(values, weights, begin, length, false);
     }
 
@@ -230,7 +253,7 @@ public abstract class AbstractUnivariateStatistic
      * <ul>
      * <li>returns <code>true</code> iff the parameters designate a subarray of
      * non-negative length and the weights array contains legitimate values.</li>
-     * <li>throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <li>throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -249,13 +272,16 @@ public abstract class AbstractUnivariateStatistic
      * @param length the number of elements to include.
      * @param allowEmpty if {@code true} than allow zero length arrays to pass.
      * @return {@code true} if the parameters are valid.
-     * @throws IllegalArgumentException if the indices are invalid or the array
-     * is {@code null}.
+     * @throws NullArgumentException if either of the arrays are null
+     * @throws MathIllegalArgumentException if the array indices are not valid,
+     * the weights array contains NaN, infinite or negative elements, or there
+     * are no positive weights.
      * @since 3.0
      */
-    protected boolean test(final double[] values, final double[] weights, final int begin, final int length, final boolean allowEmpty){
+    protected boolean test(final double[] values, final double[] weights,
+            final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
-        if (weights == null) {
+        if (weights == null || values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
 

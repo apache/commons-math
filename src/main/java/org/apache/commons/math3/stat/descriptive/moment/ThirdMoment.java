@@ -76,8 +76,9 @@ class ThirdMoment extends SecondMoment implements Serializable {
      * to the {@code original}
      *
      * @param original the {@code ThirdMoment} instance to copy
+     * @throws NullArgumentException if orginal is null
      */
-    public ThirdMoment(ThirdMoment original) {
+    public ThirdMoment(ThirdMoment original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -121,6 +122,7 @@ class ThirdMoment extends SecondMoment implements Serializable {
     @Override
     public ThirdMoment copy() {
         ThirdMoment result = new ThirdMoment();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

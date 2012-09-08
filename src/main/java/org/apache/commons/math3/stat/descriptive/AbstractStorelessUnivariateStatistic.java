@@ -17,6 +17,7 @@
 package org.apache.commons.math3.stat.descriptive;
 
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
@@ -49,13 +50,14 @@ public abstract class AbstractStorelessUnivariateStatistic
      * possibly more accurate implementation that works directly with the
      * input array.</p>
      * <p>
-     * If the array is null, an IllegalArgumentException is thrown.</p>
+     * If the array is null, a MathIllegalArgumentException is thrown.</p>
      * @param values input array
      * @return the value of the statistic applied to the input array
+     * @throws MathIllegalArgumentException if values is null
      * @see org.apache.commons.math3.stat.descriptive.UnivariateStatistic#evaluate(double[])
      */
     @Override
-    public double evaluate(final double[] values) {
+    public double evaluate(final double[] values) throws MathIllegalArgumentException {
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
@@ -76,15 +78,17 @@ public abstract class AbstractStorelessUnivariateStatistic
      * input array.</p>
      * <p>
      * If the array is null or the index parameters are not valid, an
-     * IllegalArgumentException is thrown.</p>
+     * MathIllegalArgumentException is thrown.</p>
      * @param values the input array
      * @param begin the index of the first element to include
      * @param length the number of elements to include
      * @return the value of the statistic applied to the included array entries
+     * @throws MathIllegalArgumentException if the array is null or the indices are not valid
      * @see org.apache.commons.math3.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length) {
+    public double evaluate(final double[] values, final int begin,
+            final int length) throws MathIllegalArgumentException {
         if (test(values, begin, length)) {
             clear();
             incrementAll(values, begin, length);
@@ -120,10 +124,10 @@ public abstract class AbstractStorelessUnivariateStatistic
      * Throws IllegalArgumentException if the input values array is null.</p>
      *
      * @param values values to add
-     * @throws IllegalArgumentException if values is null
+     * @throws MathIllegalArgumentException if values is null
      * @see org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
      */
-    public void incrementAll(double[] values) {
+    public void incrementAll(double[] values) throws MathIllegalArgumentException {
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
@@ -139,10 +143,10 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @param values  array holding values to add
      * @param begin   index of the first array element to add
      * @param length  number of array elements to add
-     * @throws IllegalArgumentException if values is null
+     * @throws MathIllegalArgumentException if values is null
      * @see org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[], int, int)
      */
-    public void incrementAll(double[] values, int begin, int length) {
+    public void incrementAll(double[] values, int begin, int length) throws MathIllegalArgumentException {
         if (test(values, begin, length)) {
             int k = begin + length;
             for (int i = begin; i < k; i++) {

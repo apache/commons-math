@@ -127,8 +127,9 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * A copy constructor. Creates a deep-copy of the {@code original}.
      *
      * @param original the {@code SummaryStatistics} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SummaryStatistics(SummaryStatistics original) {
+    public SummaryStatistics(SummaryStatistics original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -423,11 +424,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumImpl the StorelessUnivariateStatistic instance to use for
      *        computing the Sum
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n >0)
      * @since 1.2
      */
-    public void setSumImpl(StorelessUnivariateStatistic sumImpl) {
+    public void setSumImpl(StorelessUnivariateStatistic sumImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.sumImpl = sumImpl;
     }
@@ -452,11 +453,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumsqImpl the StorelessUnivariateStatistic instance to use for
      *        computing the sum of squares
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl) {
+    public void setSumsqImpl(StorelessUnivariateStatistic sumsqImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.sumsqImpl = sumsqImpl;
     }
@@ -481,11 +482,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param minImpl the StorelessUnivariateStatistic instance to use for
      *        computing the minimum
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setMinImpl(StorelessUnivariateStatistic minImpl) {
+    public void setMinImpl(StorelessUnivariateStatistic minImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.minImpl = minImpl;
     }
@@ -510,11 +511,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param maxImpl the StorelessUnivariateStatistic instance to use for
      *        computing the maximum
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setMaxImpl(StorelessUnivariateStatistic maxImpl) {
+    public void setMaxImpl(StorelessUnivariateStatistic maxImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.maxImpl = maxImpl;
     }
@@ -539,11 +540,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use for
      *        computing the log sum
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl) {
+    public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.sumLogImpl = sumLogImpl;
         geoMean.setSumLogImpl(sumLogImpl);
@@ -569,11 +570,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param geoMeanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the geometric mean
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl) {
+    public void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.geoMeanImpl = geoMeanImpl;
     }
@@ -598,11 +599,11 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param meanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the mean
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setMeanImpl(StorelessUnivariateStatistic meanImpl) {
+    public void setMeanImpl(StorelessUnivariateStatistic meanImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.meanImpl = meanImpl;
     }
@@ -627,19 +628,20 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * </p>
      * @param varianceImpl the StorelessUnivariateStatistic instance to use for
      *        computing the variance
-     * @throws IllegalStateException if data has already been added (i.e if n >
-     *         0)
+     * @throws MathIllegalStateException if data has already been added (i.e if n > 0)
      * @since 1.2
      */
-    public void setVarianceImpl(StorelessUnivariateStatistic varianceImpl) {
+    public void setVarianceImpl(StorelessUnivariateStatistic varianceImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.varianceImpl = varianceImpl;
     }
 
     /**
      * Throws IllegalStateException if n > 0.
+     * @throws MathIllegalStateException if data has been added
      */
-    private void checkEmpty() {
+    private void checkEmpty() throws MathIllegalStateException {
         if (n > 0) {
             throw new MathIllegalStateException(
                 LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC, n);
@@ -653,6 +655,7 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      */
     public SummaryStatistics copy() {
         SummaryStatistics result = new SummaryStatistics();
+        // No try-catch or advertised exception because arguments are guaranteed non-null
         copy(this, result);
         return result;
     }

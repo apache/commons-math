@@ -88,8 +88,9 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
      * to the {@code original}
      *
      * @param original the {@code FirstMoment} instance to copy
+     * @throws NullArgumentException if original is null
      */
-     public FirstMoment(FirstMoment original) {
+     public FirstMoment(FirstMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }
@@ -141,6 +142,7 @@ class FirstMoment extends AbstractStorelessUnivariateStatistic
     @Override
     public FirstMoment copy() {
         FirstMoment result = new FirstMoment();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

@@ -18,9 +18,8 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -85,20 +84,22 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * to the {@code original}
      *
      * @param original the {@code Kurtosis} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Kurtosis(Kurtosis original) {
+    public Kurtosis(Kurtosis original) throws NullArgumentException {
         copy(original, this);
     }
 
     /**
      * {@inheritDoc}
+     * <p>Note that when {@link #Kurtosis(FourthMoment)} is used to
+     * create a Variance, this method does nothing. In that case, the
+     * FourthMoment should be incremented directly.</p>
      */
     @Override
     public void increment(final double d) {
         if (incMoment) {
             moment.increment(d);
-        }  else  {
-            throw new MathIllegalStateException(LocalizedFormats.CANNOT_INCREMENT_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 
@@ -130,8 +131,6 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
     public void clear() {
         if (incMoment) {
             moment.clear();
-        } else  {
-            throw new MathIllegalStateException(LocalizedFormats.CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS);
         }
     }
 
@@ -155,13 +154,13 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
-     * @return the kurtosis of the values or Double.NaN if length is less than
-     * 4
-     * @throws IllegalArgumentException if the input array is null or the array
+     * @return the kurtosis of the values or Double.NaN if length is less than 4
+     * @throws MathIllegalArgumentException if the input array is null or the array
      * index parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length) {
+    public double evaluate(final double[] values,final int begin, final int length)
+    throws MathIllegalArgumentException {
         // Initialize the kurtosis
         double kurt = Double.NaN;
 
@@ -201,6 +200,7 @@ public class Kurtosis extends AbstractStorelessUnivariateStatistic  implements S
     @Override
     public Kurtosis copy() {
         Kurtosis result = new Kurtosis();
+        // No try-catch because args are guaranteed non-null
         copy(this, result);
         return result;
     }

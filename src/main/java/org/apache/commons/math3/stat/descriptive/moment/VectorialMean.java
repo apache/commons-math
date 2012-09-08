@@ -49,7 +49,7 @@ public class VectorialMean implements Serializable {
      * @param v vector to add
      * @throws DimensionMismatchException if the vector does not have the right dimension
      */
-    public void increment(double[] v) {
+    public void increment(double[] v) throws DimensionMismatchException {
         if (v.length != means.length) {
             throw new DimensionMismatchException(v.length, means.length);
         }

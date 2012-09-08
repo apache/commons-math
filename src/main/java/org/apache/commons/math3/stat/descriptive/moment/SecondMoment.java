@@ -66,8 +66,10 @@ public class SecondMoment extends FirstMoment implements Serializable {
      * to the {@code original}
      *
      * @param original the {@code SecondMoment} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SecondMoment(SecondMoment original) {
+    public SecondMoment(SecondMoment original)
+    throws NullArgumentException {
         super(original);
         this.m2 = original.m2;
     }
@@ -107,6 +109,7 @@ public class SecondMoment extends FirstMoment implements Serializable {
     @Override
     public SecondMoment copy() {
         SecondMoment result = new SecondMoment();
+        // no try-catch or advertised NAE because args are guaranteed non-null
         copy(this, result);
         return result;
     }

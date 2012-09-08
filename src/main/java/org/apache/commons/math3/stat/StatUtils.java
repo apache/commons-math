@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.stat;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
@@ -87,9 +88,10 @@ public final class StatUtils {
      * @param values  array of values to sum
      * @return the sum of the values or <code>Double.NaN</code> if the array
      * is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double sum(final double[] values) {
+    public static double sum(final double[] values)
+    throws MathIllegalArgumentException {
         return SUM.evaluate(values);
     }
 
@@ -104,11 +106,11 @@ public final class StatUtils {
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     public static double sum(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return SUM.evaluate(values, begin, length);
     }
 
@@ -121,9 +123,9 @@ public final class StatUtils {
      * @param values  input array
      * @return the sum of the squared values or <code>Double.NaN</code> if the
      * array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double sumSq(final double[] values) {
+    public static double sumSq(final double[] values) throws MathIllegalArgumentException {
         return SUM_OF_SQUARES.evaluate(values);
     }
 
@@ -138,11 +140,11 @@ public final class StatUtils {
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the squares of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
     public static double sumSq(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return SUM_OF_SQUARES.evaluate(values, begin, length);
     }
 
@@ -154,9 +156,10 @@ public final class StatUtils {
      *
      * @param values the input array
      * @return the product of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double product(final double[] values) {
+    public static double product(final double[] values)
+    throws MathIllegalArgumentException {
         return PRODUCT.evaluate(values);
     }
 
@@ -171,11 +174,11 @@ public final class StatUtils {
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the product of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
     public static double product(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return PRODUCT.evaluate(values, begin, length);
     }
 
@@ -191,9 +194,10 @@ public final class StatUtils {
      * @param values the input array
      * @return the sum of the natural logs of the values or Double.NaN if
      * the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double sumLog(final double[] values) {
+    public static double sumLog(final double[] values)
+    throws MathIllegalArgumentException {
         return SUM_OF_LOGS.evaluate(values);
     }
 
@@ -212,11 +216,11 @@ public final class StatUtils {
      * @param length the number of elements to include
      * @return the sum of the natural logs of the values or Double.NaN if
      * length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
     public static double sumLog(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return SUM_OF_LOGS.evaluate(values, begin, length);
     }
 
@@ -231,9 +235,10 @@ public final class StatUtils {
      *
      * @param values the input array
      * @return the mean of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double mean(final double[] values) {
+    public static double mean(final double[] values)
+    throws MathIllegalArgumentException {
         return MEAN.evaluate(values);
     }
 
@@ -251,11 +256,11 @@ public final class StatUtils {
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the mean of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
     public static double mean(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return MEAN.evaluate(values, begin, length);
     }
 
@@ -270,9 +275,10 @@ public final class StatUtils {
      *
      * @param values the input array
      * @return the geometric mean of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public static double geometricMean(final double[] values) {
+    public static double geometricMean(final double[] values)
+    throws MathIllegalArgumentException {
         return GEOMETRIC_MEAN.evaluate(values);
     }
 
@@ -290,11 +296,11 @@ public final class StatUtils {
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the geometric mean of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      * parameters are not valid
      */
     public static double geometricMean(final double[] values, final int begin,
-            final int length) {
+            final int length) throws MathIllegalArgumentException {
         return GEOMETRIC_MEAN.evaluate(values, begin, length);
     }
 

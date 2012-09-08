@@ -74,8 +74,9 @@ class FourthMoment extends ThirdMoment implements Serializable{
      * to the {@code original}
      *
      * @param original the {@code FourthMoment} instance to copy
+     * @throws NullArgumentException if original is null
      */
-     public FourthMoment(FourthMoment original) {
+     public FourthMoment(FourthMoment original) throws NullArgumentException {
          super();
          copy(original, this);
      }
@@ -126,6 +127,7 @@ class FourthMoment extends ThirdMoment implements Serializable{
     @Override
     public FourthMoment copy() {
         FourthMoment result = new FourthMoment();
+        // No try-catch or advertised exception because args are guaranteed non-null
         copy(this, result);
         return result;
     }

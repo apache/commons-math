@@ -121,8 +121,10 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * Construct a DescriptiveStatistics instance with the specified window
      *
      * @param window the window size.
+     * @throws MathIllegalArgumentException if window size is less than 1 but
+     * not equal to {@link #INFINITE_WINDOW}
      */
-    public DescriptiveStatistics(int window) {
+    public DescriptiveStatistics(int window) throws MathIllegalArgumentException {
         setWindowSize(window);
     }
 
@@ -145,8 +147,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * is a copy of original.
      *
      * @param original DescriptiveStatistics instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public DescriptiveStatistics(DescriptiveStatistics original) {
+    public DescriptiveStatistics(DescriptiveStatistics original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -329,15 +332,20 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
-     * WindowSize controls the number of values which contribute
-     * to the reported statistics.  For example, if
-     * windowSize is set to 3 and the values {1,2,3,4,5}
-     * have been added <strong> in that order</strong>
-     * then the <i>available values</i> are {3,4,5} and all
-     * reported statistics will be based on these values
+     * WindowSize controls the number of values that contribute to the
+     * reported statistics.  For example, if windowSize is set to 3 and the
+     * values {1,2,3,4,5} have been added <strong> in that order</strong> then
+     * the <i>available values</i> are {3,4,5} and all reported statistics will
+     * be based on these values. If {@code windowSize} is decreased as a result
+     * of this call and there are more than the new value of elements in the
+     * current dataset, values from the front of the array are discarded to
+     * reduce the dataset to {@code windowSize} elements.
+     *
      * @param windowSize sets the size of the window.
+     * @throws MathIllegalArgumentException if window size is less than 1 but
+     * not equal to {@link #INFINITE_WINDOW}
      */
-    public void setWindowSize(int windowSize) {
+    public void setWindowSize(int windowSize) throws MathIllegalArgumentException {
         if (windowSize < 1) {
             if (windowSize != INFINITE_WINDOW) {
                 throw new MathIllegalArgumentException(
@@ -406,10 +414,10 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      *
      * @param p the requested percentile (scaled from 0 - 100)
      * @return An estimate for the pth percentile of the stored data
-     * @throws IllegalStateException if percentile implementation has been
+     * @throws MathIllegalStateException if percentile implementation has been
      *  overridden and the supplied implementation does not support setQuantile
      */
-    public double getPercentile(double p) {
+    public double getPercentile(double p) throws MathIllegalStateException {
         if (percentileImpl instanceof Percentile) {
             ((Percentile) percentileImpl).setQuantile(p);
         } else {
@@ -450,7 +458,11 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         outBuffer.append("mean: ").append(getMean()).append(endl);
         outBuffer.append("std dev: ").append(getStandardDeviation())
             .append(endl);
-        outBuffer.append("median: ").append(getPercentile(50)).append(endl);
+        try {
+            outBuffer.append("median: ").append(getPercentile(50)).append(endl);
+        } catch (MathIllegalStateException ex) {
+            outBuffer.append("median: unavailable").append(endl);
+        }
         outBuffer.append("skewness: ").append(getSkewness()).append(endl);
         outBuffer.append("kurtosis: ").append(getKurtosis()).append(endl);
         return outBuffer.toString();
@@ -462,6 +474,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return the computed value of the statistic.
      */
     public double apply(UnivariateStatistic stat) {
+        // No try-catch or advertised exception here because arguments are guaranteed valid
         return stat.evaluate(eDA.getInternalValues(), eDA.start(), eDA.getNumElements());
     }
 
@@ -590,12 +603,12 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * <code>IllegalArgumentException</code> is thrown.
      *
      * @param percentileImpl the percentileImpl to set
-     * @throws IllegalArgumentException if the supplied implementation does not
+     * @throws MathIllegalArgumentException if the supplied implementation does not
      *  provide a <code>setQuantile</code> method
      * @since 1.2
      */
-    public synchronized void setPercentileImpl(
-            UnivariateStatistic percentileImpl) {
+    public synchronized void setPercentileImpl(UnivariateStatistic percentileImpl)
+    throws MathIllegalArgumentException {
         try {
             percentileImpl.getClass().getMethod(SET_QUANTILE_METHOD_NAME,
                     new Class[] {Double.TYPE}).invoke(percentileImpl,
@@ -707,6 +720,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public DescriptiveStatistics copy() {
         DescriptiveStatistics result = new DescriptiveStatistics();
+        // No try-catch or advertised exception because parms are guaranteed valid
         copy(this, result);
         return result;
     }

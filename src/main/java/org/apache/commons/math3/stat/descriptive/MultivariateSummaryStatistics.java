@@ -145,7 +145,7 @@ public class MultivariateSummaryStatistics
      * @throws DimensionMismatchException if the length of the array
      * does not match the one used at construction
      */
-    public void addValue(double[] value) {
+    public void addValue(double[] value) throws DimensionMismatchException {
         checkDimension(value.length);
         for (int i = 0; i < k; ++i) {
             double v = value[i];
@@ -412,11 +412,12 @@ public class MultivariateSummaryStatistics
      * @param oldImpl old implementations for statistics
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
-     *  (i.e if n > 0)
+     * @throws MathIllegalStateException if data has already been added
+     * (i.e. if n > 0)
      */
     private void setImpl(StorelessUnivariateStatistic[] newImpl,
-                         StorelessUnivariateStatistic[] oldImpl) {
+                         StorelessUnivariateStatistic[] oldImpl) throws MathIllegalStateException,
+                         DimensionMismatchException {
         checkEmpty();
         checkDimension(newImpl.length);
         System.arraycopy(newImpl, 0, oldImpl, 0, newImpl.length);
@@ -441,10 +442,11 @@ public class MultivariateSummaryStatistics
      * for computing the Sum
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumImpl(StorelessUnivariateStatistic[] sumImpl) {
+    public void setSumImpl(StorelessUnivariateStatistic[] sumImpl)
+    throws MathIllegalStateException, DimensionMismatchException {
         setImpl(sumImpl, this.sumImpl);
     }
 
@@ -467,10 +469,11 @@ public class MultivariateSummaryStatistics
      * for computing the sum of squares
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl) {
+    public void setSumsqImpl(StorelessUnivariateStatistic[] sumsqImpl)
+    throws MathIllegalStateException, DimensionMismatchException {
         setImpl(sumsqImpl, this.sumSqImpl);
     }
 
@@ -493,10 +496,11 @@ public class MultivariateSummaryStatistics
      * for computing the minimum
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMinImpl(StorelessUnivariateStatistic[] minImpl) {
+    public void setMinImpl(StorelessUnivariateStatistic[] minImpl)
+    throws MathIllegalStateException, DimensionMismatchException {
         setImpl(minImpl, this.minImpl);
     }
 
@@ -519,10 +523,11 @@ public class MultivariateSummaryStatistics
      * for computing the maximum
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMaxImpl(StorelessUnivariateStatistic[] maxImpl) {
+    public void setMaxImpl(StorelessUnivariateStatistic[] maxImpl)
+    throws MathIllegalStateException, DimensionMismatchException{
         setImpl(maxImpl, this.maxImpl);
     }
 
@@ -545,10 +550,11 @@ public class MultivariateSummaryStatistics
      * for computing the log sum
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl) {
+    public void setSumLogImpl(StorelessUnivariateStatistic[] sumLogImpl)
+    throws MathIllegalStateException, DimensionMismatchException{
         setImpl(sumLogImpl, this.sumLogImpl);
     }
 
@@ -571,10 +577,11 @@ public class MultivariateSummaryStatistics
      * for computing the geometric mean
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl) {
+    public void setGeoMeanImpl(StorelessUnivariateStatistic[] geoMeanImpl)
+    throws MathIllegalStateException, DimensionMismatchException {
         setImpl(geoMeanImpl, this.geoMeanImpl);
     }
 
@@ -597,10 +604,11 @@ public class MultivariateSummaryStatistics
      * for computing the mean
      * @throws DimensionMismatchException if the array dimension
      * does not match the one used at construction
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setMeanImpl(StorelessUnivariateStatistic[] meanImpl) {
+    public void setMeanImpl(StorelessUnivariateStatistic[] meanImpl)
+    throws MathIllegalStateException, DimensionMismatchException{
         setImpl(meanImpl, this.meanImpl);
     }
 
@@ -608,7 +616,7 @@ public class MultivariateSummaryStatistics
      * Throws MathIllegalStateException if the statistic is not empty.
      * @throws MathIllegalStateException if n > 0.
      */
-    private void checkEmpty() {
+    private void checkEmpty() throws MathIllegalStateException {
         if (n > 0) {
             throw new MathIllegalStateException(
                     LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC, n);
@@ -620,7 +628,7 @@ public class MultivariateSummaryStatistics
      * @param dimension dimension to check
      * @throws DimensionMismatchException if dimension != k
      */
-    private void checkDimension(int dimension) {
+    private void checkDimension(int dimension) throws DimensionMismatchException {
         if (dimension != k) {
             throw new DimensionMismatchException(dimension, k);
         }

@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.commons.math3.exception.NullArgumentException;
+
 /**
  * <p>
  * An aggregator for {@code SummaryStatistics} from several data sets or
@@ -73,6 +75,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *
      */
     public AggregateSummaryStatistics() {
+        // No try-catch or throws NAE because arg is guaranteed non-null
         this(new SummaryStatistics());
     }
 
@@ -90,9 +93,10 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
      *      If {@code null}, a new, default statistics object is used.  Any statistic
      *      values in the prototype are propagated to contributing statistics
      *      objects and (once) into these aggregate statistics.
+     * @throws NullArgumentException if prototypeStatistics is null
      * @see #createContributingStatistics()
      */
-    public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics) {
+    public AggregateSummaryStatistics(SummaryStatistics prototypeStatistics) throws NullArgumentException {
         this(prototypeStatistics,
              prototypeStatistics == null ? null : new SummaryStatistics(prototypeStatistics));
     }
@@ -281,6 +285,7 @@ public class AggregateSummaryStatistics implements StatisticalSummary,
         SummaryStatistics contributingStatistics
                 = new AggregatingSummaryStatistics(statistics);
 
+        // No try - catch or advertising NAE because neither argument will ever be null
         SummaryStatistics.copy(statisticsPrototype, contributingStatistics);
 
         return contributingStatistics;

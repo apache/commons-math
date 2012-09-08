@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -71,8 +72,9 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      * to the {@code original}
      *
      * @param original the {@code GeometricMean} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public GeometricMean(GeometricMean original) {
+    public GeometricMean(GeometricMean original) throws NullArgumentException {
         super();
         copy(original, this);
     }
@@ -91,6 +93,7 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
     @Override
     public GeometricMean copy() {
         GeometricMean result = new GeometricMean();
+        // no try-catch or advertised exception because args guaranteed non-null
         copy(this, result);
         return result;
     }
@@ -136,12 +139,13 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      * @param length the number of elements to include
      * @return the geometric mean or Double.NaN if length = 0 or
      * any of the values are &lt;= 0.
-     * @throws IllegalArgumentException if the input array is null or the array
+     * @throws MathIllegalArgumentException if the input array is null or the array
      * index parameters are not valid
      */
     @Override
     public double evaluate(
-        final double[] values, final int begin, final int length) {
+        final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
         return FastMath.exp(
             sumOfLogs.evaluate(values, begin, length) / length);
     }
@@ -161,11 +165,11 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
      *
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use
      * for computing the log sum
-     * @throws IllegalStateException if data has already been added
+     * @throws MathIllegalStateException if data has already been added
      *  (i.e if n > 0)
      */
-    public void setSumLogImpl(
-            StorelessUnivariateStatistic sumLogImpl) {
+    public void setSumLogImpl(StorelessUnivariateStatistic sumLogImpl)
+    throws MathIllegalStateException {
         checkEmpty();
         this.sumOfLogs = sumLogImpl;
     }
@@ -197,9 +201,10 @@ public class GeometricMean extends AbstractStorelessUnivariateStatistic implemen
 
 
     /**
-     * Throws IllegalStateException if n > 0.
+     * Throws MathIllegalStateException if n > 0.
+     * @throws MathIllegalStateException if data has been added to this statistic
      */
-    private void checkEmpty() {
+    private void checkEmpty() throws MathIllegalStateException {
         if (getN() > 0) {
             throw new MathIllegalStateException(
                     LocalizedFormats.VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC,

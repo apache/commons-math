@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.descriptive.WeightedEvaluation;
@@ -146,8 +147,9 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * to the {@code original}
      *
      * @param original the {@code Variance} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Variance(Variance original) {
+    public Variance(Variance original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -214,16 +216,16 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
      * @param values the input array
      * @return the variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
     @Override
-    public double evaluate(final double[] values) {
+    public double evaluate(final double[] values) throws MathIllegalArgumentException {
         if (values == null) {
             throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
         }
@@ -241,17 +243,18 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Does not change the internal state of the statistic.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length) {
+    public double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
 
         double var = Double.NaN;
 
@@ -300,18 +303,18 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Does not change the internal state of the statistic.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if either array is null.</p>
      *
      * @param values the input array
      * @param weights the weights array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the weighted variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) {
+                           final int begin, final int length) throws MathIllegalArgumentException {
 
         double var = Double.NaN;
 
@@ -347,7 +350,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -358,15 +361,16 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Does not change the internal state of the statistic.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if either array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if either array is null.</p>
      *
      * @param values the input array
      * @param weights the weights array
      * @return the weighted variance of the values
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights) {
+    public double evaluate(final double[] values, final double[] weights)
+    throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -384,7 +388,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
@@ -393,11 +397,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     public double evaluate(final double[] values, final double mean,
-            final int begin, final int length) {
+            final int begin, final int length) throws MathIllegalArgumentException {
 
         double var = Double.NaN;
 
@@ -440,16 +444,16 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * Does not change the internal state of the statistic.</p>
      *
      * @param values the input array
      * @param mean the precomputed mean value
      * @return the variance of the values or Double.NaN if the array is empty
-     * @throws IllegalArgumentException if the array is null
+     * @throws MathIllegalArgumentException if the array is null
      */
-    public double evaluate(final double[] values, final double mean) {
+    public double evaluate(final double[] values, final double mean) throws MathIllegalArgumentException {
         return evaluate(values, mean, 0, values.length);
     }
 
@@ -477,7 +481,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -495,11 +499,12 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-                           final double mean, final int begin, final int length) {
+    final double mean, final int begin, final int length)
+    throws MathIllegalArgumentException {
 
         double var = Double.NaN;
 
@@ -554,7 +559,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * <p>
      * Returns 0 for a single-value (i.e. length = 1) sample.</p>
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -569,10 +574,11 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
      * @param weights the weights array
      * @param mean the precomputed weighted mean value
      * @return the variance of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights, final double mean) {
+    public double evaluate(final double[] values, final double[] weights, final double mean)
+    throws MathIllegalArgumentException {
         return evaluate(values, weights, mean, 0, values.length);
     }
 
@@ -596,6 +602,7 @@ public class Variance extends AbstractStorelessUnivariateStatistic implements Se
     @Override
     public Variance copy() {
         Variance result = new Variance();
+        // No try-catch or advertised exception because parameters are guaranteed non-null
         copy(this, result);
         return result;
     }
