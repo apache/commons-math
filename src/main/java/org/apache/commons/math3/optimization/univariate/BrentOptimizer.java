@@ -233,8 +233,8 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                 previous = current;
                 current = new UnivariatePointValuePair(u, isMinim ? fu : -fu);
                 best = best(best,
-                            best(current,
-                                 previous,
+                            best(previous,
+                                 current,
                                  isMinim),
                             isMinim);
 
@@ -278,8 +278,8 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                 }
             } else { // Default termination (Brent's criterion).
                 return best(best,
-                            best(current,
-                                 previous,
+                            best(previous,
+                                 current,
                                  isMinim),
                             isMinim);
             }
