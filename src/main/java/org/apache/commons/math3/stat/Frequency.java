@@ -131,8 +131,10 @@ public class Frequency implements Serializable {
      * Adds 1 to the frequency count for v.
      *
      * @param v the value to add.
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Integer
      */
-    public void addValue(int v) {
+    public void addValue(int v) throws MathIllegalArgumentException {
         addValue(Long.valueOf(v));
     }
 
@@ -140,8 +142,10 @@ public class Frequency implements Serializable {
      * Adds 1 to the frequency count for v.
      *
      * @param v the value to add.
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Long
      */
-    public void addValue(long v) {
+    public void addValue(long v) throws MathIllegalArgumentException {
         addValue(Long.valueOf(v));
     }
 
@@ -149,8 +153,10 @@ public class Frequency implements Serializable {
      * Adds 1 to the frequency count for v.
      *
      * @param v the value to add.
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Char
      */
-    public void addValue(char v) {
+    public void addValue(char v) throws MathIllegalArgumentException {
         addValue(Character.valueOf(v));
     }
 
@@ -311,6 +317,7 @@ public class Frequency implements Serializable {
      * @param v the value to lookup.
      * @return the proportion of values equal to v
      */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public long getCumFreq(Comparable<?> v) {
         if (getSumFreq() == 0) {
             return 0;
@@ -318,7 +325,6 @@ public class Frequency implements Serializable {
         if (v instanceof Integer) {
             return getCumFreq(((Integer) v).longValue());
         }
-        @SuppressWarnings("unchecked") // OK, freqTable is Comparable<?>
         Comparator<Comparable<?>> c = (Comparator<Comparable<?>>) freqTable.comparator();
         if (c == null) {
             c = new NaturalComparator();
