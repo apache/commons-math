@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.rank;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.MathUtils;
@@ -63,8 +64,9 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * to the {@code original}
      *
      * @param original the {@code Min} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Min(Min original) {
+    public Min(Min original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -108,7 +110,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null or
+     * Throws <code>MathIllegalArgumentException</code> if the array is null or
      * the array index parameters are not valid.</p>
      * <p>
      * <ul>
@@ -122,11 +124,12 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the minimum of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length) {
+    public double evaluate(final double[] values,final int begin, final int length)
+    throws MathIllegalArgumentException {
         double min = Double.NaN;
         if (test(values, begin, length)) {
             min = values[begin];
@@ -145,6 +148,7 @@ public class Min extends AbstractStorelessUnivariateStatistic implements Seriali
     @Override
     public Min copy() {
         Min result = new Min();
+        // No try-catch or advertised exception - args are non-null
         copy(this, result);
         return result;
     }

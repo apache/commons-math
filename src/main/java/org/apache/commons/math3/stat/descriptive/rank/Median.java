@@ -18,6 +18,8 @@ package org.apache.commons.math3.stat.descriptive.rank;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.NullArgumentException;
+
 
 /**
  * Returns the median of the available values.  This is the same as the 50th percentile.
@@ -39,6 +41,7 @@ public class Median extends Percentile implements Serializable {
      * Default constructor.
      */
     public Median() {
+        // No try-catch or advertised exception - arg is valid
         super(50.0);
     }
 
@@ -47,8 +50,9 @@ public class Median extends Percentile implements Serializable {
      * to the {@code original}
      *
      * @param original the {@code Median} instance to copy
+     * @throws NullArgumentException if original is null 
      */
-    public Median(Median original) {
+    public Median(Median original) throws NullArgumentException {
         super(original);
     }
 
