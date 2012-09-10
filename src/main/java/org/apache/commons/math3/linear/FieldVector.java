@@ -18,6 +18,9 @@ package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
  * Interface defining a field-valued vector with basic algebraic operations.
@@ -58,27 +61,27 @@ public interface FieldVector<T extends FieldElement<T>>  {
     FieldVector<T> copy();
 
     /**
-     * Compute the sum of this and v.
+     * Compute the sum of {@code this} and {@code v}.
      * @param v vector to be added
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @return {@code this + v}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    FieldVector<T> add(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldVector<T> add(FieldVector<T> v) throws DimensionMismatchException;
 
     /**
-     * Compute this minus v.
+     * Compute {@code this} minus {@code v}.
      * @param v vector to be subtracted
-     * @return this + v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @return {@code this + v}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    FieldVector<T> subtract(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldVector<T> subtract(FieldVector<T> v) throws DimensionMismatchException;
 
     /**
      * Map an addition operation to each entry.
      * @param d value to be added to each entry
-     * @return this + d
+     * @return {@code this + d}
      */
     FieldVector<T> mapAdd(T d);
 
@@ -86,14 +89,14 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map an addition operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be added to each entry
-     * @return for convenience, return this
+     * @return for convenience, return {@code this}
      */
     FieldVector<T> mapAddToSelf(T d);
 
     /**
      * Map a subtraction operation to each entry.
      * @param d value to be subtracted to each entry
-     * @return this - d
+     * @return {@code this - d}
      */
     FieldVector<T> mapSubtract(T d);
 
@@ -101,14 +104,14 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map a subtraction operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be subtracted to each entry
-     * @return for convenience, return this
+     * @return for convenience, return {@code this}
      */
     FieldVector<T> mapSubtractToSelf(T d);
 
     /**
      * Map a multiplication operation to each entry.
      * @param d value to multiply all entries by
-     * @return this * d
+     * @return {@code this * d}
      */
     FieldVector<T> mapMultiply(T d);
 
@@ -116,14 +119,14 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map a multiplication operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to multiply all entries by
-     * @return for convenience, return this
+     * @return for convenience, return {@code this}
      */
     FieldVector<T> mapMultiplyToSelf(T d);
 
     /**
      * Map a division operation to each entry.
      * @param d value to divide all entries by
-     * @return this / d
+     * @return {@code this / d}
      */
     FieldVector<T> mapDivide(T d);
 
@@ -131,7 +134,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map a division operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to divide all entries by
-     * @return for convenience, return this
+     * @return for convenience, return {@code this}
      */
     FieldVector<T> mapDivideToSelf(T d);
 
@@ -144,25 +147,29 @@ public interface FieldVector<T extends FieldElement<T>>  {
     /**
      * Map the 1/x function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
-     * @return for convenience, return this
+     * @return for convenience, return {@code this}
      */
     FieldVector<T> mapInvToSelf();
 
     /**
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
-     * @return a vector containing this[i] * v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @return a vector containing {@code this[i] * v[i]} for all {@code i}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    FieldVector<T> ebeMultiply(FieldVector<T> v) throws IllegalArgumentException;
+    FieldVector<T> ebeMultiply(FieldVector<T> v)
+            throws DimensionMismatchException;
 
     /**
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
-     * @return a vector containing this[i] / v[i] for all i
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @return a vector containing {@code this[i] / v[i]} for all {@code i}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    FieldVector<T> ebeDivide(FieldVector<T> v) throws IllegalArgumentException;
+    FieldVector<T> ebeDivide(FieldVector<T> v)
+            throws DimensionMismatchException;
 
     /**
      * Returns vector entries as a T array.
@@ -173,19 +180,19 @@ public interface FieldVector<T extends FieldElement<T>>  {
     /**
      * Compute the dot product.
      * @param v vector with which dot product should be computed
-     * @return the scalar dot product between instance and v
-     * @exception IllegalArgumentException if v is not the same size as this
+     * @return the scalar dot product of {@code this} and {@code v}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    T dotProduct(FieldVector<T> v)
-        throws IllegalArgumentException;
+    T dotProduct(FieldVector<T> v) throws DimensionMismatchException;
 
     /** Find the orthogonal projection of this vector onto another vector.
-     * @param v vector onto which instance must be projected
-     * @return projection of the instance onto v
-     * @throws IllegalArgumentException if v is not the same size as this
+     * @param v vector onto which {@code this} must be projected
+     * @return projection of {@code this} onto {@code v}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}
      */
-    FieldVector<T> projection(FieldVector<T> v)
-        throws IllegalArgumentException;
+    FieldVector<T> projection(FieldVector<T> v) throws DimensionMismatchException;
 
     /**
      * Compute the outer product.
@@ -199,21 +206,19 @@ public interface FieldVector<T extends FieldElement<T>>  {
      *
      * @param index Index location of entry to be fetched.
      * @return the vector entry at {@code index}.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException if the
-     * index is not valid.
+     * @throws OutOfRangeException if the index is not valid.
      * @see #setEntry(int, FieldElement)
      */
-    T getEntry(int index);
+    T getEntry(int index) throws OutOfRangeException;
 
     /**
      * Set a single element.
      * @param index element index.
      * @param value new value for the element.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException
-     * if the index is inconsistent with vector size.
+     * @throws OutOfRangeException if the index is not valid.
      * @see #getEntry(int)
      */
-    void setEntry(int index, T value);
+    void setEntry(int index, T value) throws OutOfRangeException;
 
     /**
      * Returns the size of the vector.
@@ -240,19 +245,19 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @param index index of first element.
      * @param n number of elements to be retrieved.
      * @return a vector containing n elements.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException
-     * if the index is inconsistent with vector size.
+     * @throws OutOfRangeException if the index is not valid.
+     * @throws NotPositiveException if the number of elements if not positive.
      */
-    FieldVector<T> getSubVector(int index, int n);
+    FieldVector<T> getSubVector(int index, int n)
+            throws OutOfRangeException, NotPositiveException;
 
     /**
      * Set a set of consecutive elements.
      * @param index index of first element to be set.
      * @param v vector containing the values to set.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException
-     * if the index is inconsistent with vector size.
+     * @throws OutOfRangeException if the index is not valid.
      */
-    void setSubVector(int index, FieldVector<T> v);
+    void setSubVector(int index, FieldVector<T> v) throws OutOfRangeException;
 
     /**
      * Set all elements to a single value.
