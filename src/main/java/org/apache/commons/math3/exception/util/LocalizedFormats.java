@@ -126,6 +126,7 @@ public enum LocalizedFormats implements Localizable {
     INITIAL_CAPACITY_NOT_POSITIVE("initial capacity ({0}) is not positive"),
     INITIAL_COLUMN_AFTER_FINAL_COLUMN("initial column {1} after final column {0}"),
     INITIAL_ROW_AFTER_FINAL_ROW("initial row {1} after final row {0}"),
+    @Deprecated
     INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE("input data comes from unsupported datasource: {0}, supported sources: {1}, {2}"),
     INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES("instance of class {0} not comparable to existing values"),
     INSUFFICIENT_DATA_FOR_T_STATISTIC("insufficient data for t statistic, needs at least 2, got {0}"),

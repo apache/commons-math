@@ -24,6 +24,13 @@ import java.util.Collection;
 
 import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.exception.NotANumberException;
+import org.apache.commons.math3.exception.NotFiniteNumberException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
  * Generates random deviates and other random data using a {@link RandomGenerator}
@@ -135,17 +142,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @return the random string.
      * @throws NotStrictlyPositiveException if {@code len <= 0}.
      */
-    public String nextHexString(int len) {
+    public String nextHexString(int len) throws NotStrictlyPositiveException {
         return delegate.nextHexString(len);
     }
 
     /** {@inheritDoc} */
-    public int nextInt(int lower, int upper) {
+    public int nextInt(int lower, int upper) throws NumberIsTooLargeException {
        return delegate.nextInt(lower, upper);
     }
 
     /** {@inheritDoc} */
-    public long nextLong(long lower, long upper) {
+    public long nextLong(long lower, long upper) throws NumberIsTooLargeException {
         return delegate.nextLong(lower, upper);
     }
 
@@ -165,17 +172,17 @@ public class RandomDataImpl implements RandomData, Serializable {
      * </ol>
      * </p>
      */
-    public String nextSecureHexString(int len) {
+    public String nextSecureHexString(int len) throws NotStrictlyPositiveException {
         return delegate.nextSecureHexString(len);
     }
 
     /**  {@inheritDoc} */
-    public int nextSecureInt(int lower, int upper) {
+    public int nextSecureInt(int lower, int upper) throws NumberIsTooLargeException {
         return delegate.nextSecureInt(lower, upper);
     }
 
     /** {@inheritDoc} */
-    public long nextSecureLong(long lower, long upper) {
+    public long nextSecureLong(long lower, long upper) throws NumberIsTooLargeException {
         return delegate.nextSecureLong(lower,upper);
     }
 
@@ -192,12 +199,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
      * <strong>Computing</strong> vol. 26 pp. 197-207.</li></ul></p>
      */
-    public long nextPoisson(double mean) {
+    public long nextPoisson(double mean) throws NotStrictlyPositiveException {
         return delegate.nextPoisson(mean);
     }
 
     /** {@inheritDoc} */
-    public double nextGaussian(double mu, double sigma) {
+    public double nextGaussian(double mu, double sigma) throws NotStrictlyPositiveException {
         return delegate.nextGaussian(mu,sigma);
     }
 
@@ -212,7 +219,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * Communications of the ACM, 15, 873-882.
      * </p>
      */
-    public double nextExponential(double mean) {
+    public double nextExponential(double mean) throws NotStrictlyPositiveException {
         return delegate.nextExponential(mean);
     }
 
@@ -225,11 +232,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * random double if Random.nextDouble() returns 0). This is necessary to
      * provide a symmetric output interval (both endpoints excluded).
      * </p>
-     *
-     * @throws MathIllegalArgumentException if one of the bounds is infinite or
-     * {@code NaN} or either bound is infinite or NaN
      */
-    public double nextUniform(double lower, double upper) {
+    public double nextUniform(double lower, double upper)
+        throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
         return delegate.nextUniform(lower, upper);
     }
 
@@ -243,13 +248,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * This is necessary to provide a symmetric output interval (both
      * endpoints excluded).
      * </p>
-     *
-     * @throws MathIllegalArgumentException if one of the bounds is infinite or
-     * {@code NaN}
      * @since 3.0
      */
-    public double nextUniform(double lower, double upper,
-        boolean lowerInclusive) {
+    public double nextUniform(double lower, double upper, boolean lowerInclusive)
+        throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
         return delegate.nextUniform(lower, upper, lowerInclusive);
     }
 
@@ -316,9 +318,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param numeratorDf the numerator degrees of freedom of the F distribution
      * @param denominatorDf the denominator degrees of freedom of the F distribution
      * @return random value sampled from the F(numeratorDf, denominatorDf) distribution
+     * @throws NotStrictlyPositiveException if
+     * {@code numeratorDf <= 0} or {@code denominatorDf <= 0}.
      * @since 2.2
      */
-    public double nextF(double numeratorDf, double denominatorDf) {
+    public double nextF(double numeratorDf, double denominatorDf) throws NotStrictlyPositiveException {
         return delegate.nextF(numeratorDf, denominatorDf);
     }
 
@@ -341,9 +345,11 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param shape the median of the Gamma distribution
      * @param scale the scale parameter of the Gamma distribution
      * @return random value sampled from the Gamma(shape, scale) distribution
+     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
+     * {@code scale <= 0}.
      * @since 2.2
      */
-    public double nextGamma(double shape, double scale) {
+    public double nextGamma(double shape, double scale) throws NotStrictlyPositiveException {
         return delegate.nextGamma(shape, scale);
     }
 
@@ -356,9 +362,14 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param numberOfSuccesses number of successes in the population of the Hypergeometric distribution
      * @param sampleSize the sample size of the Hypergeometric distribution
      * @return random value sampled from the Hypergeometric(numberOfSuccesses, sampleSize) distribution
+     * @throws NumberIsTooLargeException  if {@code numberOfSuccesses > populationSize},
+     * or {@code sampleSize > populationSize}.
+     * @throws NotStrictlyPositiveException if {@code populationSize <= 0}.
+     * @throws NotPositiveException  if {@code numberOfSuccesses < 0}.
      * @since 2.2
      */
-    public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) {
+    public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize)
+        throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
         return delegate.nextHypergeometric(populationSize, numberOfSuccesses, sampleSize);
     }
 
@@ -371,8 +382,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param p the probability of success of the Pascal distribution
      * @return random value sampled from the Pascal(r, p) distribution
      * @since 2.2
+     * @throws NotStrictlyPositiveException if the number of successes is not positive
+     * @throws OutOfRangeException if the probability of success is not in the
+     * range {@code [0, 1]}.
      */
-    public int nextPascal(int r, double p) {
+    public int nextPascal(int r, double p)
+        throws NotStrictlyPositiveException, OutOfRangeException {
         return delegate.nextPascal(r, p);
     }
 
@@ -384,8 +399,9 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param df the degrees of freedom of the T distribution
      * @return random value from the T(df) distribution
      * @since 2.2
+     * @throws NotStrictlyPositiveException if {@code df <= 0}
      */
-    public double nextT(double df) {
+    public double nextT(double df) throws NotStrictlyPositiveException {
         return delegate.nextT(df);
     }
 
@@ -398,8 +414,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param scale the scale parameter of the Weibull distribution
      * @return random value sampled from the Weibull(shape, size) distribution
      * @since 2.2
+     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
+     * {@code scale <= 0}.
      */
-    public double nextWeibull(double shape, double scale) {
+    public double nextWeibull(double shape, double scale) throws NotStrictlyPositiveException {
         return delegate.nextWeibull(shape, scale);
     }
 
@@ -412,8 +430,10 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @param exponent the exponent of the ZipfDistribution
      * @return random value sampled from the Zipf(numberOfElements, exponent) distribution
      * @since 2.2
+     * @exception NotStrictlyPositiveException if {@code numberOfElements <= 0}
+     * or {@code exponent <= 0}.
      */
-    public int nextZipf(int numberOfElements, double exponent) {
+    public int nextZipf(int numberOfElements, double exponent) throws NotStrictlyPositiveException {
         return delegate.nextZipf(numberOfElements, exponent);
     }
 
@@ -497,7 +517,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      * here</a>.
      * </p>
      */
-    public int[] nextPermutation(int n, int k) {
+    public int[] nextPermutation(int n, int k)
+        throws NotStrictlyPositiveException, NumberIsTooLargeException {
         return delegate.nextPermutation(n, k);
     }
 
@@ -514,7 +535,8 @@ public class RandomDataImpl implements RandomData, Serializable {
      * here</a>
      * </p>
      */
-    public Object[] nextSample(Collection<?> c, int k) {
+    public Object[] nextSample(Collection<?> c, int k)
+        throws NotStrictlyPositiveException, NumberIsTooLargeException {
         return delegate.nextSample(c, k);
     }
 
@@ -524,10 +546,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param distribution Continuous distribution to generate a random value from
      * @return a random value sampled from the given distribution
+     * @throws MathIllegalArgumentException if the underlynig distribution throws one 
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
-    public double nextInversionDeviate(RealDistribution distribution) {
+    public double nextInversionDeviate(RealDistribution distribution)
+        throws MathIllegalArgumentException {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));
 
     }
@@ -538,10 +562,12 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param distribution Integer distribution to generate a random value from
      * @return a random value sampled from the given distribution
+     * @throws MathIllegalArgumentException if the underlynig distribution throws one 
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
-    public int nextInversionDeviate(IntegerDistribution distribution) {
+    public int nextInversionDeviate(IntegerDistribution distribution)
+        throws MathIllegalArgumentException {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));
     }
 

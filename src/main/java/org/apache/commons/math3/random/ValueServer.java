@@ -22,7 +22,10 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -111,8 +114,10 @@ public class ValueServer {
      *
      * @return generated value
      * @throws IOException in REPLAY_MODE if a file I/O error occurs
+     * @throws MathIllegalStateException if mode is not recognized
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    public double getNext() throws IOException {
+    public double getNext() throws IOException, MathIllegalStateException, MathIllegalArgumentException {
         switch (mode) {
             case DIGEST_MODE: return getNextDigest();
             case REPLAY_MODE: return getNextReplay();
@@ -134,8 +139,11 @@ public class ValueServer {
      *
      * @param values array to be filled
      * @throws IOException in REPLAY_MODE if a file I/O error occurs
+     * @throws MathIllegalStateException if mode is not recognized
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    public void fill(double[] values) throws IOException {
+    public void fill(double[] values)
+        throws IOException, MathIllegalStateException, MathIllegalArgumentException {
         for (int i = 0; i < values.length; i++) {
             values[i] = getNext();
         }
@@ -148,8 +156,11 @@ public class ValueServer {
      * @param length length of output array
      * @return array of generated values
      * @throws IOException in REPLAY_MODE if a file I/O error occurs
+     * @throws MathIllegalStateException if mode is not recognized
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    public double[] fill(int length) throws IOException {
+    public double[] fill(int length)
+        throws IOException, MathIllegalStateException, MathIllegalArgumentException {
         double[] out = new double[length];
         for (int i = 0; i < length; i++) {
             out[i] = getNext();
@@ -168,8 +179,10 @@ public class ValueServer {
      * with <code>mode = DIGEST_MODE</code></p>
      *
      * @throws IOException if an I/O error occurs reading the input file
+     * @throws NullArgumentException 
+      * @throws ZeroException if URL contains no data
      */
-    public void computeDistribution() throws IOException {
+    public void computeDistribution() throws IOException, ZeroException, NullArgumentException {
         computeDistribution(EmpiricalDistribution.DEFAULT_BIN_COUNT);
     }
 
@@ -185,10 +198,11 @@ public class ValueServer {
      *
      * @param binCount the number of bins used in computing the empirical
      * distribution
+     * @throws NullArgumentException 
      * @throws IOException if an error occurs reading the input file
+     * @throws ZeroException if URL contains no data
      */
-    public void computeDistribution(int binCount)
-            throws IOException {
+    public void computeDistribution(int binCount) throws NullArgumentException, IOException, ZeroException {
         empiricalDistribution = new EmpiricalDistribution(binCount, randomData);
         empiricalDistribution.load(valuesFileURL);
         mu = empiricalDistribution.getSampleStats().getMean();
@@ -348,8 +362,9 @@ public class ValueServer {
      * <code>IllegalStateException</code> will be thrown</li></ul></p>
      *
      * @return next random value from the empirical distribution digest
+     * @throws MathIllegalStateException if digest has not been initialized
      */
-    private double getNextDigest() {
+    private double getNextDigest() throws MathIllegalStateException {
         if ((empiricalDistribution == null) ||
             (empiricalDistribution.getBinStats().size() == 0)) {
             throw new MathIllegalStateException(LocalizedFormats.DIGEST_NOT_INITIALIZED);
@@ -372,10 +387,11 @@ public class ValueServer {
      *
      * @return next value from the replay file
      * @throws IOException if there is a problem reading from the file
+     * @throws MathIllegalStateException if URL contains no data
      * @throws NumberFormatException if an invalid numeric string is
      *   encountered in the file
      */
-    private double getNextReplay() throws IOException {
+    private double getNextReplay() throws IOException, MathIllegalStateException {
         String str = null;
         if (filePointer == null) {
             resetReplayFile();
@@ -396,8 +412,9 @@ public class ValueServer {
      * Gets a uniformly distributed random value with mean = mu.
      *
      * @return random uniform value
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    private double getNextUniform() {
+    private double getNextUniform() throws MathIllegalArgumentException {
         return randomData.nextUniform(0, 2 * mu);
     }
 
@@ -405,8 +422,9 @@ public class ValueServer {
      * Gets an exponentially distributed random value with mean = mu.
      *
      * @return random exponential value
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    private double getNextExponential() {
+    private double getNextExponential() throws MathIllegalArgumentException {
         return randomData.nextExponential(mu);
     }
 
@@ -415,8 +433,9 @@ public class ValueServer {
      * and standard deviation = sigma.
      *
      * @return random Gaussian value
+     * @throws MathIllegalArgumentException if the underlying random generator thwrows one
      */
-    private double getNextGaussian() {
+    private double getNextGaussian() throws MathIllegalArgumentException {
         return randomData.nextGaussian(mu, sigma);
     }
 

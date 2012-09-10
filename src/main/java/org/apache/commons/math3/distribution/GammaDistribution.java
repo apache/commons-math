@@ -86,8 +86,10 @@ public class GammaDistribution extends AbstractRealDistribution {
      *
      * @param shape the shape parameter
      * @param scale the scale parameter
+     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
+     * {@code scale <= 0}.
      */
-    public GammaDistribution(double shape, double scale) {
+    public GammaDistribution(double shape, double scale) throws NotStrictlyPositiveException {
         this(shape, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 
