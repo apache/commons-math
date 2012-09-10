@@ -21,7 +21,6 @@ import java.util.Arrays;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -865,14 +864,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.0
      */
     public synchronized ResizableDoubleArray copy() {
-        try {
-            ResizableDoubleArray result = new ResizableDoubleArray();
-            copy(this, result);
-            return result;
-        } catch (NullArgumentException e) {
-            // this should never happen
-            throw new MathInternalError(e);
-        }
+        ResizableDoubleArray result = new ResizableDoubleArray();
+        copy(this, result);
+        return result;
     }
 
     /**

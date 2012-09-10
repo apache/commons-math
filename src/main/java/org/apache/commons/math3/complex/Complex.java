@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.FieldElement;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
 
 /**
  * Representation of a Complex number, i.e. a number which has both a
@@ -567,17 +566,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex acos() {
-        try {
-            if (isNaN) {
-                return NaN;
-            }
-
-            return this.add(this.sqrt1z().multiply(I)).log()
-                    .multiply(I.negate());
-        } catch (NullArgumentException e) {
-            // this should never happen as intermediat results are not null
-            throw new MathInternalError(e);
+        if (isNaN) {
+            return NaN;
         }
+
+        return this.add(this.sqrt1z().multiply(I)).log().multiply(I.negate());
     }
 
     /**
@@ -597,17 +590,11 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex asin() {
-        try {
-            if (isNaN) {
-                return NaN;
-            }
-
-            return sqrt1z().add(this.multiply(I)).log()
-                    .multiply(I.negate());
-        } catch (NullArgumentException e) {
-            // this should never happen as intermediat results are not null
-            throw new MathInternalError(e);
+        if (isNaN) {
+            return NaN;
         }
+
+        return sqrt1z().add(this.multiply(I)).log().multiply(I.negate());
     }
 
     /**
@@ -627,17 +614,12 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex atan() {
-        try {
-            if (isNaN) {
-                return NaN;
-            }
-
-            return this.add(I).divide(I.subtract(this)).log()
-                    .multiply(I.divide(createComplex(2.0, 0.0)));
-        } catch (NullArgumentException e) {
-            // this should never happen as intermediat results are not null
-            throw new MathInternalError(e);
+        if (isNaN) {
+            return NaN;
         }
+
+        return this.add(I).divide(I.subtract(this)).log()
+                .multiply(I.divide(createComplex(2.0, 0.0)));
     }
 
     /**
@@ -995,12 +977,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * @since 1.2
      */
     public Complex sqrt1z() {
-        try {
-            return createComplex(1.0, 0.0).subtract(this.multiply(this)).sqrt();
-        } catch (NullArgumentException e) {
-            // this should never happen as intermediat results are not null
-            throw new MathInternalError(e);
-        }
+        return createComplex(1.0, 0.0).subtract(this.multiply(this)).sqrt();
     }
 
     /**

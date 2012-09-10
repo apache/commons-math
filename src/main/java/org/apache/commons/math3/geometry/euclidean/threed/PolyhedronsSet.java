@@ -19,14 +19,12 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.SubLine;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
@@ -35,7 +33,6 @@ import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.Transform;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a 3D region: a set of polyhedrons.
@@ -112,21 +109,16 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     private static BSPTree<Euclidean3D> buildBoundary(final double xMin, final double xMax,
                                                       final double yMin, final double yMax,
                                                       final double zMin, final double zMax) {
-        try {
-            final Plane pxMin = new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I);
-            final Plane pxMax = new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I);
-            final Plane pyMin = new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J);
-            final Plane pyMax = new Plane(new Vector3D(0,    yMax, 0),   Vector3D.PLUS_J);
-            final Plane pzMin = new Plane(new Vector3D(0,    0,   zMin), Vector3D.MINUS_K);
-            final Plane pzMax = new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K);
-            @SuppressWarnings("unchecked")
-            final Region<Euclidean3D> boundary =
-                    new RegionFactory<Euclidean3D>().buildConvex(pxMin, pxMax, pyMin, pyMax, pzMin, pzMax);
-            return boundary.getTree(false);
-        } catch (MathArithmeticException mae) {
-            // this should never happen as provided normals are all non-zero
-            throw new MathInternalError(mae);
-        }
+        final Plane pxMin = new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I);
+        final Plane pxMax = new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I);
+        final Plane pyMin = new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J);
+        final Plane pyMax = new Plane(new Vector3D(0,    yMax, 0),   Vector3D.PLUS_J);
+        final Plane pzMin = new Plane(new Vector3D(0,    0,   zMin), Vector3D.MINUS_K);
+        final Plane pzMax = new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K);
+        @SuppressWarnings("unchecked")
+        final Region<Euclidean3D> boundary =
+        new RegionFactory<Euclidean3D>().buildConvex(pxMin, pxMax, pyMin, pyMax, pzMin, pzMax);
+        return boundary.getTree(false);
     }
 
     /** {@inheritDoc} */
@@ -379,12 +371,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                                         tP00.getX(), tP00.getY());
 
                 cachedOriginal  = (Plane) original;
-                try {
-                    cachedTransform = org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
-                } catch (MathIllegalArgumentException miae) {
-                    // this should never happen as the transform built on p00, p10, p01 is invertible
-                    throw new MathInternalError(miae);
-                }
+                cachedTransform = org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
 
             }
             return ((SubLine) sub).applyTransform(cachedTransform);
@@ -444,13 +431,8 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                     AffineTransform.getTranslateInstance(shift.getX(), shift.getY());
 
                 cachedOriginal  = (Plane) original;
-                try {
-                    cachedTransform =
-                            org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
-                } catch (MathIllegalArgumentException miae) {
-                    // this should never happen as a translation is always invertible
-                    throw new MathInternalError(miae);
-                }
+                cachedTransform =
+                        org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
 
             }
 

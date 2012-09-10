@@ -23,7 +23,6 @@ import java.text.ParsePosition;
 import java.util.Locale;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MathParseException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -235,15 +234,10 @@ public class ComplexFormat {
      * @param pos On input: an alignment field, if desired. On output: the
      * offsets of the alignment field.
      * @return the value passed in as toAppendTo.
-     * @throws MathInternalError if {@code absIm} is not positive.
      */
     private StringBuffer formatImaginary(double absIm,
                                          StringBuffer toAppendTo,
                                          FieldPosition pos) {
-        if (absIm < 0) {
-            throw new MathInternalError();
-        }
-
         pos.setBeginIndex(0);
         pos.setEndIndex(0);
 
@@ -318,13 +312,8 @@ public class ComplexFormat {
      * @return the complex format specific to the given locale.
      */
     public static ComplexFormat getInstance(Locale locale) {
-        try {
-            NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
-            return new ComplexFormat(f);
-        } catch (NullArgumentException nae) {
-            // this should never happen
-            throw new MathInternalError(nae);
-        }
+        NumberFormat f = CompositeFormat.getDefaultNumberFormat(locale);
+        return new ComplexFormat(f);
     }
 
     /**

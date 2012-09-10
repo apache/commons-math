@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.EquationsMapper;
 
@@ -417,52 +415,32 @@ public abstract class AbstractStepInterpolator
   /** {@inheritDoc} */
   public double[] getInterpolatedState() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      try {
-          primaryMapper.extractEquationData(interpolatedState,
-                                            interpolatedPrimaryState);
-      } catch (DimensionMismatchException dme) {
-          // this should never happen
-          throw new MathInternalError(dme);
-      }
+      primaryMapper.extractEquationData(interpolatedState,
+                                        interpolatedPrimaryState);
       return interpolatedPrimaryState;
   }
 
   /** {@inheritDoc} */
   public double[] getInterpolatedDerivatives() throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      try {
-          primaryMapper.extractEquationData(interpolatedDerivatives,
-                                            interpolatedPrimaryDerivatives);
-      } catch (DimensionMismatchException dme) {
-          // this should never happen
-          throw new MathInternalError(dme);
-      }
+      primaryMapper.extractEquationData(interpolatedDerivatives,
+                                        interpolatedPrimaryDerivatives);
       return interpolatedPrimaryDerivatives;
   }
 
   /** {@inheritDoc} */
   public double[] getInterpolatedSecondaryState(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      try {
-          secondaryMappers[index].extractEquationData(interpolatedState,
-                                                      interpolatedSecondaryState[index]);
-      } catch (DimensionMismatchException dme) {
-          // this should never happen
-          throw new MathInternalError(dme);
-      }
+      secondaryMappers[index].extractEquationData(interpolatedState,
+                                                  interpolatedSecondaryState[index]);
       return interpolatedSecondaryState[index];
   }
 
   /** {@inheritDoc} */
   public double[] getInterpolatedSecondaryDerivatives(final int index) throws MaxCountExceededException {
       evaluateCompleteInterpolatedState();
-      try {
-          secondaryMappers[index].extractEquationData(interpolatedDerivatives,
-                                                      interpolatedSecondaryDerivatives[index]);
-      } catch (DimensionMismatchException dme) {
-          // this should never happen
-          throw new MathInternalError(dme);
-      }
+      secondaryMappers[index].extractEquationData(interpolatedDerivatives,
+                                                  interpolatedSecondaryDerivatives[index]);
       return interpolatedSecondaryDerivatives[index];
   }
 

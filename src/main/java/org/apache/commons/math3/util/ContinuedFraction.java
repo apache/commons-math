@@ -17,7 +17,6 @@
 package org.apache.commons.math3.util;
 
 import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -71,12 +70,7 @@ public abstract class ContinuedFraction {
      * @throws ConvergenceException if the algorithm fails to converge.
      */
     public double evaluate(double x) throws ConvergenceException {
-        try {
-            return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
-        } catch (MaxCountExceededException e) {
-            // this should never happen as integers never exceed MAX_VALUE
-            throw new MathInternalError(e);
-        }
+        return evaluate(x, DEFAULT_EPSILON, Integer.MAX_VALUE);
     }
 
     /**
@@ -87,12 +81,7 @@ public abstract class ContinuedFraction {
      * @throws ConvergenceException if the algorithm fails to converge.
      */
     public double evaluate(double x, double epsilon) throws ConvergenceException {
-        try {
-            return evaluate(x, epsilon, Integer.MAX_VALUE);
-        } catch (MaxCountExceededException e) {
-            // this should never happen as integers never exceed MAX_VALUE
-            throw new MathInternalError(e);
-        }
+        return evaluate(x, epsilon, Integer.MAX_VALUE);
     }
 
     /**

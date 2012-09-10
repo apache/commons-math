@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.EquationsMapper;
@@ -408,47 +406,43 @@ class DormandPrince853StepInterpolator
   @Override
   protected void doFinalize() throws MaxCountExceededException {
 
-      try {
-          if (currentState == null) {
-              // we are finalizing an uninitialized instance
-              return;
-          }
-
-          double s;
-          final double[] yTmp = new double[currentState.length];
-          final double pT = getGlobalPreviousTime();
-
-          // k14
-          for (int j = 0; j < currentState.length; ++j) {
-              s = K14_01 * yDotK[0][j]  + K14_06 * yDotK[5][j]  + K14_07 * yDotK[6][j] +
-                      K14_08 * yDotK[7][j]  + K14_09 * yDotK[8][j]  + K14_10 * yDotK[9][j] +
-                      K14_11 * yDotK[10][j] + K14_12 * yDotK[11][j] + K14_13 * yDotK[12][j];
-              yTmp[j] = currentState[j] + h * s;
-          }
-          integrator.computeDerivatives(pT + C14 * h, yTmp, yDotKLast[0]);
-
-          // k15
-          for (int j = 0; j < currentState.length; ++j) {
-              s = K15_01 * yDotK[0][j]  + K15_06 * yDotK[5][j]  + K15_07 * yDotK[6][j] +
-                      K15_08 * yDotK[7][j]  + K15_09 * yDotK[8][j]  + K15_10 * yDotK[9][j] +
-                      K15_11 * yDotK[10][j] + K15_12 * yDotK[11][j] + K15_13 * yDotK[12][j] +
-                      K15_14 * yDotKLast[0][j];
-              yTmp[j] = currentState[j] + h * s;
-          }
-          integrator.computeDerivatives(pT + C15 * h, yTmp, yDotKLast[1]);
-
-          // k16
-          for (int j = 0; j < currentState.length; ++j) {
-              s = K16_01 * yDotK[0][j]  + K16_06 * yDotK[5][j]  + K16_07 * yDotK[6][j] +
-                      K16_08 * yDotK[7][j]  + K16_09 * yDotK[8][j]  + K16_10 * yDotK[9][j] +
-                      K16_11 * yDotK[10][j] + K16_12 * yDotK[11][j] + K16_13 * yDotK[12][j] +
-                      K16_14 * yDotKLast[0][j] +  K16_15 * yDotKLast[1][j];
-              yTmp[j] = currentState[j] + h * s;
-          }
-          integrator.computeDerivatives(pT + C16 * h, yTmp, yDotKLast[2]);
-      } catch (DimensionMismatchException dme) {
-          throw new MathInternalError(dme);
+      if (currentState == null) {
+          // we are finalizing an uninitialized instance
+          return;
       }
+
+      double s;
+      final double[] yTmp = new double[currentState.length];
+      final double pT = getGlobalPreviousTime();
+
+      // k14
+      for (int j = 0; j < currentState.length; ++j) {
+          s = K14_01 * yDotK[0][j]  + K14_06 * yDotK[5][j]  + K14_07 * yDotK[6][j] +
+                  K14_08 * yDotK[7][j]  + K14_09 * yDotK[8][j]  + K14_10 * yDotK[9][j] +
+                  K14_11 * yDotK[10][j] + K14_12 * yDotK[11][j] + K14_13 * yDotK[12][j];
+          yTmp[j] = currentState[j] + h * s;
+      }
+      integrator.computeDerivatives(pT + C14 * h, yTmp, yDotKLast[0]);
+
+      // k15
+      for (int j = 0; j < currentState.length; ++j) {
+          s = K15_01 * yDotK[0][j]  + K15_06 * yDotK[5][j]  + K15_07 * yDotK[6][j] +
+                  K15_08 * yDotK[7][j]  + K15_09 * yDotK[8][j]  + K15_10 * yDotK[9][j] +
+                  K15_11 * yDotK[10][j] + K15_12 * yDotK[11][j] + K15_13 * yDotK[12][j] +
+                  K15_14 * yDotKLast[0][j];
+          yTmp[j] = currentState[j] + h * s;
+      }
+      integrator.computeDerivatives(pT + C15 * h, yTmp, yDotKLast[1]);
+
+      // k16
+      for (int j = 0; j < currentState.length; ++j) {
+          s = K16_01 * yDotK[0][j]  + K16_06 * yDotK[5][j]  + K16_07 * yDotK[6][j] +
+                  K16_08 * yDotK[7][j]  + K16_09 * yDotK[8][j]  + K16_10 * yDotK[9][j] +
+                  K16_11 * yDotK[10][j] + K16_12 * yDotK[11][j] + K16_13 * yDotK[12][j] +
+                  K16_14 * yDotKLast[0][j] +  K16_15 * yDotKLast[1][j];
+          yTmp[j] = currentState[j] + h * s;
+      }
+      integrator.computeDerivatives(pT + C16 * h, yTmp, yDotKLast[2]);
 
   }
 

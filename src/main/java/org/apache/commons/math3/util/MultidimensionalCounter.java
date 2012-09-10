@@ -18,9 +18,8 @@
 package org.apache.commons.math3.util;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
  * Converter between unidimensional storage structure and multidimensional
@@ -292,15 +291,7 @@ public class MultidimensionalCounter implements Iterable<Integer> {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < dimension; i++) {
-            try {
-                sb.append("[").append(getCount(i)).append("]");
-            } catch (OutOfRangeException e) {
-                // this should never happen
-                throw new MathInternalError(e);
-            } catch (DimensionMismatchException e) {
-                // this should never happen
-                throw new MathInternalError(e);
-            }
+            sb.append("[").append(getCount(i)).append("]");
         }
         return sb.toString();
     }

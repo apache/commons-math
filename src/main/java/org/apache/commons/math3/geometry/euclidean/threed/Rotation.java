@@ -21,7 +21,6 @@ import java.io.Serializable;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
@@ -377,20 +376,14 @@ public class Rotation implements Serializable {
    */
   public Rotation(RotationOrder order,
                   double alpha1, double alpha2, double alpha3) {
-      try {
-          Rotation r1 = new Rotation(order.getA1(), alpha1);
-          Rotation r2 = new Rotation(order.getA2(), alpha2);
-          Rotation r3 = new Rotation(order.getA3(), alpha3);
-          Rotation composed = r1.applyTo(r2.applyTo(r3));
-          q0 = composed.q0;
-          q1 = composed.q1;
-          q2 = composed.q2;
-          q3 = composed.q3;
-      } catch (MathIllegalArgumentException miae) {
-          // this should never happen as RotationOrder axes are all normalized,
-          // and hence never null
-          throw new MathInternalError(miae);
-      }
+      Rotation r1 = new Rotation(order.getA1(), alpha1);
+      Rotation r2 = new Rotation(order.getA2(), alpha2);
+      Rotation r3 = new Rotation(order.getA3(), alpha3);
+      Rotation composed = r1.applyTo(r2.applyTo(r3));
+      q0 = composed.q0;
+      q1 = composed.q1;
+      q2 = composed.q2;
+      q3 = composed.q3;
   }
 
   /** Convert an orthogonal rotation matrix to a quaternion.

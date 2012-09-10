@@ -17,8 +17,6 @@
 package org.apache.commons.math3.geometry.euclidean.threed;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
@@ -148,14 +146,9 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
     /** Reset the plane frame.
      */
     private void setFrame() {
-        try {
-            origin = new Vector3D(-originOffset, w);
-            u = w.orthogonal();
-            v = Vector3D.crossProduct(w, u);
-        } catch (MathArithmeticException mae) {
-            // this should never happen as w is built to be non-zero
-            throw new MathInternalError(mae);
-        }
+        origin = new Vector3D(-originOffset, w);
+        u = w.orthogonal();
+        v = Vector3D.crossProduct(w, u);
     }
 
     /** Get the origin point of the plane frame.
@@ -264,14 +257,9 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return true if the planes are similar
      */
     public boolean isSimilarTo(final Plane plane) {
-        try {
-            final double angle = Vector3D.angle(w, plane.w);
-            return ((angle < 1.0e-10) && (FastMath.abs(originOffset - plane.originOffset) < 1.0e-10)) ||
-                    ((angle > (FastMath.PI - 1.0e-10)) && (FastMath.abs(originOffset + plane.originOffset) < 1.0e-10));
-        } catch (MathArithmeticException mae) {
-            // this should never happen as w vectors are built to be non-zero
-            throw new MathInternalError(mae);
-        }
+        final double angle = Vector3D.angle(w, plane.w);
+        return ((angle < 1.0e-10) && (FastMath.abs(originOffset - plane.originOffset) < 1.0e-10)) ||
+               ((angle > (FastMath.PI - 1.0e-10)) && (FastMath.abs(originOffset + plane.originOffset) < 1.0e-10));
     }
 
     /** Rotate the plane around the specified point.
@@ -282,20 +270,15 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      */
     public Plane rotate(final Vector3D center, final Rotation rotation) {
 
-        try {
-            final Vector3D delta = origin.subtract(center);
-            final Plane plane = new Plane(center.add(rotation.applyTo(delta)),
-                                          rotation.applyTo(w));
+        final Vector3D delta = origin.subtract(center);
+        final Plane plane = new Plane(center.add(rotation.applyTo(delta)),
+                                      rotation.applyTo(w));
 
-            // make sure the frame is transformed as desired
-            plane.u = rotation.applyTo(u);
-            plane.v = rotation.applyTo(v);
+        // make sure the frame is transformed as desired
+        plane.u = rotation.applyTo(u);
+        plane.v = rotation.applyTo(v);
 
-            return plane;
-        } catch (MathArithmeticException mae) {
-            // this should never happen as w vector is built to be non-zero
-            throw new MathInternalError(mae);
-        }
+        return plane;
 
     }
 
@@ -306,18 +289,13 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      */
     public Plane translate(final Vector3D translation) {
 
-        try {
-            final Plane plane = new Plane(origin.add(translation), w);
+        final Plane plane = new Plane(origin.add(translation), w);
 
-            // make sure the frame is transformed as desired
-            plane.u = u;
-            plane.v = v;
+        // make sure the frame is transformed as desired
+        plane.u = u;
+        plane.v = v;
 
-            return plane;
-        } catch (MathArithmeticException mae) {
-            // this should never happen as w vector is built to be non-zero
-            throw new MathInternalError(mae);
-        }
+        return plane;
 
     }
 
@@ -343,20 +321,12 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * other plane (really a {@link Line Line} instance)
      */
     public Line intersection(final Plane other) {
-        try {
-            final Vector3D direction = Vector3D.crossProduct(w, other.w);
-            if (direction.getNorm() < 1.0e-10) {
-                return null;
-            }
-            final Vector3D point = intersection(this, other, new Plane(direction));
-            return new Line(point, point.add(direction));
-        } catch (MathIllegalArgumentException miae) {
-            // this should never happen as direction has been checked to have non-zero norm
-            throw new MathInternalError(miae);
-        } catch (MathArithmeticException mae) {
-            // this should never happen as direction has been checked to have non-zero norm
-            throw new MathInternalError(mae);
+        final Vector3D direction = Vector3D.crossProduct(w, other.w);
+        if (direction.getNorm() < 1.0e-10) {
+            return null;
         }
+        final Vector3D point = intersection(this, other, new Plane(direction));
+        return new Line(point, point.add(direction));
     }
 
     /** Get the intersection point of three planes.

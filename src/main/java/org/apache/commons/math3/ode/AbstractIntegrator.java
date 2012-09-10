@@ -29,7 +29,6 @@ import java.util.TreeSet;
 import org.apache.commons.math3.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
@@ -125,14 +124,9 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                                 final double maxCheckInterval,
                                 final double convergence,
                                 final int maxIterationCount) {
-        try {
-            addEventHandler(handler, maxCheckInterval, convergence,
-                            maxIterationCount,
-                            new BracketingNthOrderBrentSolver(convergence, 5));
-        } catch (NumberIsTooSmallException ntse) {
-            // this should never happen
-            throw new MathInternalError();
-        }
+        addEventHandler(handler, maxCheckInterval, convergence,
+                        maxIterationCount,
+                        new BracketingNthOrderBrentSolver(convergence, 5));
     }
 
     /** {@inheritDoc} */

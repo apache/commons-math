@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -391,13 +390,8 @@ public class JacobianMatrices {
                     for (int k = 0 ; (!found) && (k < jacobianProviders.size()); ++k) {
                         final ParameterJacobianProvider provider = jacobianProviders.get(k);
                         if (provider.isSupported(param.getParameterName())) {
-                            try {
-                                provider.computeParameterJacobian(t, y, yDot,
-                                                                  param.getParameterName(), dFdP);
-                            } catch (UnknownParameterException upe) {
-                                // this should never happen as we have check support beforehand
-                                throw new MathInternalError(upe);
-                            }
+                            provider.computeParameterJacobian(t, y, yDot,
+                                                              param.getParameterName(), dFdP);
                             for (int i = 0; i < stateDim; ++i) {
                                 final double[] dFdYi = dFdY[i];
                                 int zIndex = startIndex;

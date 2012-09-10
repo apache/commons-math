@@ -209,12 +209,7 @@ public class MathArrays {
     public static boolean isMonotonic(double[] val,
                                       OrderDirection dir,
                                       boolean strict) {
-        try {
-            return checkOrder(val, dir, strict, false);
-        } catch (NonMonotonicSequenceException e) {
-            // this should never happen as abort is set to false
-            throw new MathInternalError(e);
-        }
+        return checkOrder(val, dir, strict, false);
     }
 
     /**
