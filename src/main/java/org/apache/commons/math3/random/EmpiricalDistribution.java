@@ -27,7 +27,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
@@ -188,12 +187,14 @@ public class EmpiricalDistribution implements Serializable {
      *
      * @param in the input data array
      * @exception NullArgumentException if in is null
+     * @throws MathIllegalStateException if an IOException occurs
      */
-    public void load(double[] in) throws NullArgumentException {
+    public void load(double[] in) throws NullArgumentException, MathIllegalStateException {
         DataAdapter da = new ArrayDataAdapter(in);
         try {
             da.computeStats();
-            fillBinStats(in);
+            // new adapter for the second pass
+            fillBinStats(new ArrayDataAdapter(in));
         } catch (IOException e) {
             throw new MathIllegalStateException(e, LocalizedFormats.SIMPLE_MESSAGE, e.getLocalizedMessage());
         }
@@ -207,8 +208,9 @@ public class EmpiricalDistribution implements Serializable {
      *
      * @throws IOException if an IO error occurs
      * @throws NullArgumentException if url is null
+     * @throws ZeroException if URL contains no data
      */
-    public void load(URL url) throws IOException, NullArgumentException {
+    public void load(URL url) throws IOException, NullArgumentException, ZeroException {
         MathUtils.checkNotNull(url);
         BufferedReader in =
             new BufferedReader(new InputStreamReader(url.openStream()));
@@ -218,8 +220,9 @@ public class EmpiricalDistribution implements Serializable {
             if (sampleStats.getN() == 0) {
                 throw new ZeroException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
             }
+            // new adapter for the second pass
             in = new BufferedReader(new InputStreamReader(url.openStream()));
-            fillBinStats(in);
+            fillBinStats(new StreamDataAdapter(in));
             loaded = true;
         } finally {
            try {
@@ -243,8 +246,9 @@ public class EmpiricalDistribution implements Serializable {
         try {
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
+            // new adapter for second pass
             in = new BufferedReader(new FileReader(file));
-            fillBinStats(in);
+            fillBinStats(new StreamDataAdapter(in));
             loaded = true;
         } finally {
             try {
@@ -277,33 +281,6 @@ public class EmpiricalDistribution implements Serializable {
 
     }
 
-    /**
-     * Factory of <code>DataAdapter</code> objects. For every supported source
-     * of data (array of doubles, file, etc.) an instance of the proper object
-     * is returned.
-     */
-    private class DataAdapterFactory{
-        /**
-         * Creates a DataAdapter from a data object
-         *
-         * @param in object providing access to the data
-         * @return DataAdapter instance
-         */
-        public DataAdapter getAdapter(Object in) {
-            if (in instanceof BufferedReader) {
-                BufferedReader inputStream = (BufferedReader) in;
-                return new StreamDataAdapter(inputStream);
-            } else if (in instanceof double[]) {
-                double[] inputArray = (double[]) in;
-                return new ArrayDataAdapter(inputArray);
-            } else {
-                throw new MathIllegalArgumentException(
-                      LocalizedFormats.INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE,
-                      in.getClass().getName(),
-                      BufferedReader.class.getName(), double[].class.getName());
-            }
-        }
-    }
     /**
      * <code>DataAdapter</code> for data provided through some input stream
      */
@@ -398,7 +375,8 @@ public class EmpiricalDistribution implements Serializable {
      * @param in object providing access to the data
      * @throws IOException  if an IO error occurs
      */
-    private void fillBinStats(Object in) throws IOException {
+    private void fillBinStats(final DataAdapter da)
+        throws IOException {
         // Set up grid
         min = sampleStats.getMin();
         max = sampleStats.getMax();
@@ -414,8 +392,6 @@ public class EmpiricalDistribution implements Serializable {
         }
 
         // Filling data in binStats Array
-        DataAdapterFactory aFactory = new DataAdapterFactory();
-        DataAdapter da = aFactory.getAdapter(in);
         da.computeBinStats();
 
         // Assign upperBounds based on bin counts
@@ -455,7 +431,7 @@ public class EmpiricalDistribution implements Serializable {
         }
 
         // Start with a uniformly distributed random number in (0,1)
-        double x = randomData.nextUniform(0,1);
+        final double x = randomData.nextUniform(0,1);
 
         // Use this to select the bin and generate a Gaussian within the bin
         for (int i = 0; i < binCount; i++) {
@@ -463,8 +439,8 @@ public class EmpiricalDistribution implements Serializable {
                SummaryStatistics stats = binStats.get(i);
                if (stats.getN() > 0) {
                    if (stats.getStandardDeviation() > 0) {  // more than one obs
-                        return randomData.nextGaussian
-                            (stats.getMean(),stats.getStandardDeviation());
+                       return randomData.nextGaussian(stats.getMean(),
+                                                      stats.getStandardDeviation());
                    } else {
                        return stats.getMean(); // only one obs in bin
                    }
