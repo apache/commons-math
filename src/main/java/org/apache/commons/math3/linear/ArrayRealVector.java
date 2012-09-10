@@ -81,7 +81,6 @@ public class ArrayRealVector extends RealVector implements Serializable {
      * Construct a vector from an array, copying the input array.
      *
      * @param d Array.
-     * @throws NullArgumentException if {@code d} is {@code null}.
      */
     public ArrayRealVector(double[] d) {
         data = d.clone();
