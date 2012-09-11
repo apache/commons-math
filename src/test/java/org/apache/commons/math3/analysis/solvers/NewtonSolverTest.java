@@ -20,7 +20,7 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -56,7 +56,7 @@ public final class NewtonSolverTest {
      */
     @Test
     public void testQuinticZero() {
-        final UnivariateDifferentiable q = new QuinticFunction();
+        final UnivariateDifferentiableFunction q = new QuinticFunction();
         DifferentiableUnivariateFunction f = new DifferentiableUnivariateFunction() {
 
             public double value(double x) {

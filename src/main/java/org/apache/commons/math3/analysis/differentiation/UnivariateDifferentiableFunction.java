@@ -22,15 +22,15 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  * <p>This interface represents a simple function which computes
  * both the value and the first derivative of a mathematical function.
  * The derivative is computed with respect to the input variable.</p>
- * @see UnivariateDifferentiable
+ * @see UnivariateDifferentiableFunction
  * @see UnivariateDifferentiator
  * @since 3.1
  * @version $Id$
  */
-public interface UnivariateDifferentiable extends UnivariateFunction {
+public interface UnivariateDifferentiableFunction extends UnivariateFunction {
 
     /** Simple mathematical function.
-     * <p>{@link UnivariateDifferentiable} classes compute both the
+     * <p>{@link UnivariateDifferentiableFunction} classes compute both the
      * value and the first derivative of the function.</p>
      * @param t function input value
      * @return function result

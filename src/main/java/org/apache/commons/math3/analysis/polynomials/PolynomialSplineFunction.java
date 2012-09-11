@@ -22,7 +22,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -63,7 +63,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  *
  * @version $Id$
  */
-public class PolynomialSplineFunction implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class PolynomialSplineFunction implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /**
      * Spline segment interval delimiters (knots).
      * Size is n + 1 for n segments.

@@ -19,7 +19,7 @@ package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -59,7 +59,7 @@ public class GaussianTest {
 
     @Test
     public void testDerivatives() {
-        final UnivariateDifferentiable gaussian = new Gaussian(2.0, 0.9, 3.0);
+        final UnivariateDifferentiableFunction gaussian = new Gaussian(2.0, 0.9, 3.0);
         final DerivativeStructure dsX = new DerivativeStructure(1, 4, 0, 1.1);
         final DerivativeStructure dsY = gaussian.value(dsX);
         Assert.assertEquals( 1.9955604901712128349,   dsY.getValue(),              EPS);

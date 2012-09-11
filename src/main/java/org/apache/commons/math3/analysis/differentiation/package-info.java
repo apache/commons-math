@@ -22,7 +22,7 @@
  *   The core class is {@link DerivativeStructure} which holds the value and
  *   the differentials of a function. This class handles some arbitrary number
  *   of free parameters and arbitrary derivation order. It is used both as
- *   the input and the output type for the {@link UnivariateDifferentiable}
+ *   the input and the output type for the {@link UnivariateDifferentiableFunction}
  *   interface. Any differentiable function should implement this interface.
  * </p>
  * <p>

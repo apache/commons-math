@@ -21,7 +21,7 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Minus function.
@@ -29,7 +29,7 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
  * @since 3.0
  * @version $Id$
  */
-public class Minus implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class Minus implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */
     public double value(double x) {
         return -x;

@@ -26,7 +26,7 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
@@ -38,7 +38,7 @@ import org.apache.commons.math3.util.MathUtils;
  *
  * @version $Id$
  */
-public class PolynomialFunction implements UnivariateDifferentiable, DifferentiableUnivariateFunction, Serializable {
+public class PolynomialFunction implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction, Serializable {
     /**
      * Serialization identifier
      */

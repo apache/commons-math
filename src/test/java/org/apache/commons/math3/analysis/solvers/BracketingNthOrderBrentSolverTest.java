@@ -20,7 +20,7 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.junit.Assert;
@@ -147,7 +147,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
         compare(f, f.getRoot(), f.getMin(), f.getMax());
     }
 
-    private void compare(final UnivariateDifferentiable f,
+    private void compare(final UnivariateDifferentiableFunction f,
                          double root, double min, double max) {
         NewtonRaphsonSolver newton = new NewtonRaphsonSolver(1.0e-12);
         BracketingNthOrderBrentSolver bracketing =
@@ -177,7 +177,7 @@ public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbs
 
     }
 
-    private static abstract class TestFunction implements UnivariateDifferentiable {
+    private static abstract class TestFunction implements UnivariateDifferentiableFunction {
 
         private final double root;
         private final double min;

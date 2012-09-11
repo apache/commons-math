@@ -21,7 +21,7 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Constant function.
@@ -29,7 +29,7 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
  * @since 3.0
  * @version $Id$
  */
-public class Constant implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class Constant implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** Constant. */
     private final double c;
 

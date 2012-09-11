@@ -17,7 +17,7 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -33,7 +33,7 @@ public final class NewtonRaphsonSolverTest {
      */
     @Test
     public void testSinZero() {
-        UnivariateDifferentiable f = new Sin();
+        UnivariateDifferentiableFunction f = new Sin();
         double result;
 
         NewtonRaphsonSolver solver = new NewtonRaphsonSolver();
@@ -51,7 +51,7 @@ public final class NewtonRaphsonSolverTest {
      */
     @Test
     public void testQuinticZero() {
-        final UnivariateDifferentiable f = new QuinticFunction();
+        final UnivariateDifferentiableFunction f = new QuinticFunction();
         double result;
 
         NewtonRaphsonSolver solver = new NewtonRaphsonSolver();

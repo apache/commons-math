@@ -17,14 +17,14 @@
 package org.apache.commons.math3.analysis;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Auxiliary class for testing solvers.
  *
  * @version $Id$
  */
-public class XMinus5Function implements UnivariateDifferentiable {
+public class XMinus5Function implements UnivariateDifferentiableFunction {
 
     /* Evaluate x - 5 fuction.
      * @see org.apache.commons.math3.UnivariateFunction#value(double)

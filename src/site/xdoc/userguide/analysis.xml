@@ -156,7 +156,7 @@
             </tr>
             <tr>
               <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiable.html">differentiable univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">differentiable univariate real-valued functions</a></td>
               <td>quadratic, non-guaranteed</td>
               <td>no</td>
               <td>no</td>

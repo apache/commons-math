@@ -22,7 +22,7 @@ import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.FastMath;
@@ -34,7 +34,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class HarmonicOscillator implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class HarmonicOscillator implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** Amplitude. */
     private final double amplitude;
     /** Angular frequency. */

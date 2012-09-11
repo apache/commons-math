@@ -17,7 +17,7 @@
 package org.apache.commons.math3.analysis.polynomials;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -35,7 +35,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @version $Id$
  * @since 1.2
  */
-public class PolynomialFunctionNewtonForm implements UnivariateDifferentiable {
+public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFunction {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.

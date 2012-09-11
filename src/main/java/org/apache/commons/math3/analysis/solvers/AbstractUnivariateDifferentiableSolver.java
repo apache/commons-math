@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Provide a default implementation for several functions useful to generic
@@ -28,11 +28,11 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
  * @version $Id$
  */
 public abstract class AbstractUnivariateDifferentiableSolver
-    extends BaseAbstractUnivariateSolver<UnivariateDifferentiable>
+    extends BaseAbstractUnivariateSolver<UnivariateDifferentiableFunction>
     implements UnivariateDifferentiableSolver {
 
     /** Function to solve. */
-    private UnivariateDifferentiable function;
+    private UnivariateDifferentiableFunction function;
 
     /**
      * Construct a solver with given absolute accuracy.
@@ -73,7 +73,7 @@ public abstract class AbstractUnivariateDifferentiableSolver
      * {@inheritDoc}
      */
     @Override
-    protected void setup(int maxEval, UnivariateDifferentiable f,
+    protected void setup(int maxEval, UnivariateDifferentiableFunction f,
                          double min, double max, double startValue) {
         super.setup(maxEval, f, min, max, startValue);
         function = f;

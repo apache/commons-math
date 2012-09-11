@@ -25,10 +25,10 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 public interface UnivariateDifferentiator {
 
     /** Create an implementation of a differential for a
-     * {@link UnivariateDifferentiable differentiable function}.
+     * {@link UnivariateDifferentiableFunction differentiable function}.
      * @param function function to differentiate
      * @return differential function
      */
-    UnivariateDifferentiable differentiate(UnivariateFunction function);
+    UnivariateDifferentiableFunction differentiate(UnivariateFunction function);
 
 }

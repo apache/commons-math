@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Identity;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -69,8 +69,8 @@ public class FunctionUtils {
      * @return the composite function.
      * @since 3.1
      */
-    public static UnivariateDifferentiable compose(final UnivariateDifferentiable ... f) {
-        return new UnivariateDifferentiable() {
+    public static UnivariateDifferentiableFunction compose(final UnivariateDifferentiableFunction ... f) {
+        return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
             public double value(final double t) {
@@ -157,8 +157,8 @@ public class FunctionUtils {
      * @return a function that computes the sum of the functions.
      * @since 3.1
      */
-    public static UnivariateDifferentiable add(final UnivariateDifferentiable ... f) {
-        return new UnivariateDifferentiable() {
+    public static UnivariateDifferentiableFunction add(final UnivariateDifferentiableFunction ... f) {
+        return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
             public double value(final double t) {
@@ -240,8 +240,8 @@ public class FunctionUtils {
      * @return a function that computes the product of the functions.
      * @since 3.1
      */
-    public static UnivariateDifferentiable multiply(final UnivariateDifferentiable ... f) {
-        return new UnivariateDifferentiable() {
+    public static UnivariateDifferentiableFunction multiply(final UnivariateDifferentiableFunction ... f) {
+        return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
             public double value(final double t) {
@@ -432,14 +432,14 @@ public class FunctionUtils {
         return s;
     }
 
-    /** Convert a {@link UnivariateDifferentiable} into a {@link DifferentiableUnivariateFunction}.
+    /** Convert a {@link UnivariateDifferentiableFunction} into a {@link DifferentiableUnivariateFunction}.
      * @param f function to convert
      * @return converted function
      * @deprecated this conversion method is temporary in version 3.1, as the {@link
      * DifferentiableUnivariateFunction} interface itself is deprecated
      */
     @Deprecated
-    public static DifferentiableUnivariateFunction toDifferentiableUnivariateFunction(final UnivariateDifferentiable f) {
+    public static DifferentiableUnivariateFunction toDifferentiableUnivariateFunction(final UnivariateDifferentiableFunction f) {
         return new DifferentiableUnivariateFunction() {
 
             /** {@inheritDoc} */
@@ -460,7 +460,7 @@ public class FunctionUtils {
         };
     }
 
-    /** Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiable}.
+    /** Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiableFunction}.
      * <p>
      * Note that the converted function is able to handle {@link DerivativeStructure} with
      * <em>only</em> one parameter and up to order one. If the function is called with
@@ -472,8 +472,8 @@ public class FunctionUtils {
      * DifferentiableUnivariateFunction} interface itself is deprecated
      */
     @Deprecated
-    public static UnivariateDifferentiable toUnivariateDifferential(final DifferentiableUnivariateFunction f) {
-        return new UnivariateDifferentiable() {
+    public static UnivariateDifferentiableFunction toUnivariateDifferential(final DifferentiableUnivariateFunction f) {
+        return new UnivariateDifferentiableFunction() {
 
             /** {@inheritDoc} */
             public double value(final double x) {

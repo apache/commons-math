@@ -20,7 +20,7 @@ package org.apache.commons.math3.analysis.function;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -160,8 +160,8 @@ public class LogitTest {
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
         RandomGenerator random = new Well1024a(0x49914cdd9f0b8db5l);
-        final UnivariateDifferentiable id = FunctionUtils.compose((UnivariateDifferentiable) g,
-                                                                (UnivariateDifferentiable) f);
+        final UnivariateDifferentiableFunction id = FunctionUtils.compose((UnivariateDifferentiableFunction) g,
+                                                                (UnivariateDifferentiableFunction) f);
 
         for (int i = 0; i < 10; i++) {
             final double x = lo + random.nextDouble() * (hi - lo);
@@ -180,8 +180,8 @@ public class LogitTest {
         final Logit f = new Logit(lo, hi);
         final Sigmoid g = new Sigmoid(lo, hi);
         RandomGenerator random = new Well1024a(0x96885e9c1f81cea5l);
-        final UnivariateDifferentiable id =
-                FunctionUtils.compose((UnivariateDifferentiable) g, (UnivariateDifferentiable) f);
+        final UnivariateDifferentiableFunction id =
+                FunctionUtils.compose((UnivariateDifferentiableFunction) g, (UnivariateDifferentiableFunction) f);
         for (int maxOrder = 0; maxOrder < 6; ++maxOrder) {
             double max = 0;
             for (int i = 0; i < 10; i++) {

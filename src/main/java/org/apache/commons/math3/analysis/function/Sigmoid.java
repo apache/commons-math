@@ -24,7 +24,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
@@ -39,7 +39,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Sigmoid implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class Sigmoid implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** Lower asymptote. */
     private final double lo;
     /** Higher asymptote. */

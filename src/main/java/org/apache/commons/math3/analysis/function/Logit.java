@@ -22,7 +22,7 @@ import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -36,7 +36,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.0
  * @version $Id$
  */
-public class Logit implements UnivariateDifferentiable, DifferentiableUnivariateFunction {
+public class Logit implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** Lower bound. */
     private final double lo;
     /** Higher bound. */

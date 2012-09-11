@@ -17,14 +17,14 @@
 package org.apache.commons.math3.analysis;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Auxiliary class for testing solvers.
  *
  * @version $Id$
  */
-public class QuinticFunction implements UnivariateDifferentiable {
+public class QuinticFunction implements UnivariateDifferentiableFunction {
 
     /* Evaluate quintic.
      * @see org.apache.commons.math3.UnivariateFunction#value(double)

@@ -18,7 +18,7 @@ package org.apache.commons.math3.analysis.function;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.util.FastMath;
 
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class SqrtTest {
 
    @Test
    public void testDerivativeComparison() {
-       final UnivariateDifferentiable sPrime = new Sqrt();
+       final UnivariateDifferentiableFunction sPrime = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
                    return 1 / (2 * Math.sqrt(x));

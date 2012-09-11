@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
@@ -63,7 +63,7 @@ public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver 
      * if {@code min >= max}.
      */
     @Override
-    public double solve(int maxEval, final UnivariateDifferentiable f,
+    public double solve(int maxEval, final UnivariateDifferentiableFunction f,
                         final double min, final double max)
         throws TooManyEvaluationsException {
         return super.solve(maxEval, f, UnivariateSolverUtils.midpoint(min, max));

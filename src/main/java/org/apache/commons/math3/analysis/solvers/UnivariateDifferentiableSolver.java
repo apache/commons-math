@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 
 
 /**
@@ -27,4 +27,4 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
  * @version $Id$
  */
 public interface UnivariateDifferentiableSolver
-    extends BaseUnivariateSolver<UnivariateDifferentiable> {}
+    extends BaseUnivariateSolver<UnivariateDifferentiableFunction> {}
