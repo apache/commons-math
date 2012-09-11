@@ -26,6 +26,10 @@
  *   interface. Any differentiable function should implement this interface.
  * </p>
  * <p>
+ *   Similar interfaces also exist for multivariate functions and for vector or
+ *   matrix valued functions.
+ * </p>
+ * <p>
  *   The {@link UnivariateDifferentiator} interface defines a way to differentiation
  *   a simple {@link org.apache.commons.math3.analysis.UnivariateFunction
  *   univariate function} and get a {@link differential function}.
