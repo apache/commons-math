@@ -17,13 +17,15 @@
 package org.apache.commons.math3.analysis.interpolation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateVectorFunction;
-import org.apache.commons.math3.analysis.UnivariateVectorFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
 
@@ -31,7 +33,7 @@ import org.apache.commons.math3.util.ArithmeticUtils;
  * <p>
  * The interpolation polynomials match all sample points, including both values
  * and provided derivatives. There is one polynomial for each component of
- * the values vector. All polynomial have the same degree. The degree of the
+ * the values vector. All polynomials have the same degree. The degree of the
  * polynomials depends on the number of points and number of derivatives at each
  * point. For example the interpolation polynomials for n sample points without
  * any derivatives all have degree n-1. The interpolation polynomials for n
@@ -49,7 +51,7 @@ import org.apache.commons.math3.util.ArithmeticUtils;
  * @version $Id$
  * @since 3.1
  */
-public class HermiteInterpolator implements DifferentiableUnivariateVectorFunction {
+public class HermiteInterpolator implements UnivariateDifferentiableVectorFunction {
 
     /** Sample abscissae. */
     private final List<Double> abscissae;
@@ -82,11 +84,13 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
      * (if only one row is passed, it is the value, if two rows are
      * passed the first one is the value and the second the derivative
      * and so on)
-     * @exception MathIllegalArgumentException if the abscissa is equals to a previously
-     * added sample point
+     * @exception ZeroException if the abscissa difference between added point
+     * and a previous point is zero (i.e. the two points are at same abscissa)
+     * @exception MathArithmeticException if the number of derivatives is larger
+     * than 20, which prevents computation of a factorial
      */
     public void addSamplePoint(final double x, final double[] ... value)
-        throws MathIllegalArgumentException {
+        throws ZeroException, MathArithmeticException {
 
         for (int i = 0; i < value.length; ++i) {
 
@@ -106,8 +110,7 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
                 final double[] bottom1 = bottomDiagonal.get(n - (j + 1));
                 final double inv = 1.0 / (x - abscissae.get(n - (j + 1)));
                 if (Double.isInfinite(inv)) {
-                    throw new MathIllegalArgumentException(LocalizedFormats.DUPLICATED_ABSCISSA_DIVISION_BY_ZERO,
-                                                           x);
+                    throw new ZeroException(LocalizedFormats.DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, x);
                 }
                 for (int k = 0; k < y.length; ++k) {
                     bottom1[k] = inv * (bottom0[k] - bottom1[k]);
@@ -127,10 +130,10 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
 
     /** Compute the interpolation polynomials.
      * @return interpolation polynomials array
-     * @exception MathIllegalStateException if sample is empty
+     * @exception NoDataException if sample is empty
      */
     public PolynomialFunction[] getPolynomials()
-        throws MathIllegalStateException {
+        throws NoDataException {
 
         // safety check
         checkInterpolation();
@@ -165,10 +168,10 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
      * </p>
      * @param x interpolation abscissa
      * @return interpolated value
-     * @exception MathIllegalStateException if sample is empty
+     * @exception NoDataException if sample is empty
      */
     public double[] value(double x)
-        throws MathIllegalStateException {
+        throws NoDataException {
 
         // safety check
         checkInterpolation();
@@ -188,59 +191,46 @@ public class HermiteInterpolator implements DifferentiableUnivariateVectorFuncti
 
     }
 
-    /** Interpolate first derivative at a specified abscissa.
+    /** Interpolate value at a specified abscissa.
      * <p>
-     * Calling this method is equivalent to call the {@link PolynomialFunction#value(double)
-     * value} methods of the derivatives of all polynomials returned by {@link
-     * #getPolynomials() getPolynomials}, except it builds neither the intermediate
-     * polynomials nor their derivatives, so this method is faster and numerically more stable.
+     * Calling this method is equivalent to call the {@link
+     * PolynomialFunction#value(DerivativeStructure) value} methods of all polynomials
+     * returned by {@link #getPolynomials() getPolynomials}, except it does not build the
+     * intermediate polynomials, so this method is faster and numerically more stable.
      * </p>
      * @param x interpolation abscissa
-     * @return interpolated derivative
-     * @exception MathIllegalStateException if sample is empty
+     * @return interpolated value
+     * @exception NoDataException if sample is empty
      */
-    public double[] derivative(double x)
-        throws MathIllegalStateException {
+    public DerivativeStructure[] value(final DerivativeStructure x)
+        throws NoDataException {
 
         // safety check
         checkInterpolation();
 
-        final double[] derivative = new double[topDiagonal.get(0).length];
-        double valueCoeff      = 1;
-        double derivativeCoeff = 0;
+        final DerivativeStructure[] value = new DerivativeStructure[topDiagonal.get(0).length];
+        Arrays.fill(value, x.getField().getZero());
+        DerivativeStructure valueCoeff = x.getField().getOne();
         for (int i = 0; i < topDiagonal.size(); ++i) {
             double[] dividedDifference = topDiagonal.get(i);
-            for (int k = 0; k < derivative.length; ++k) {
-                derivative[k] += dividedDifference[k] * derivativeCoeff;
+            for (int k = 0; k < value.length; ++k) {
+                value[k] = value[k].add(valueCoeff.multiply(dividedDifference[k]));
             }
-            final double deltaX = x - abscissae.get(i);
-            derivativeCoeff = valueCoeff + derivativeCoeff * deltaX;
-            valueCoeff *= deltaX;
+            final DerivativeStructure deltaX = x.subtract(abscissae.get(i));
+            valueCoeff = valueCoeff.multiply(deltaX);
         }
 
-        return derivative;
+        return value;
 
-    }
-
-    /** {@inheritDoc}} */
-    public UnivariateVectorFunction derivative() {
-        return new UnivariateVectorFunction() {
-
-            /** {@inheritDoc}} */
-            public double[] value(double x) {
-                return derivative(x);
-            }
-
-        };
     }
 
     /** Check interpolation can be performed.
-     * @exception MathIllegalStateException if interpolation cannot be performed
+     * @exception NoDataException if interpolation cannot be performed
      * because sample is empty
      */
-    private void checkInterpolation() throws MathIllegalStateException {
+    private void checkInterpolation() throws NoDataException {
         if (abscissae.isEmpty()) {
-            throw new MathIllegalStateException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
+            throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }
     }
 
