@@ -16,9 +16,10 @@
  */
 package org.apache.commons.math3.analysis.polynomials;
 
-import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiable;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -34,7 +35,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @version $Id$
  * @since 1.2
  */
-public class PolynomialFunctionNewtonForm implements UnivariateFunction {
+public class PolynomialFunctionNewtonForm implements UnivariateDifferentiable {
 
     /**
      * The coefficients of the polynomial, ordered by degree -- i.e.
@@ -92,6 +93,20 @@ public class PolynomialFunctionNewtonForm implements UnivariateFunction {
      */
     public double value(double z) {
        return evaluate(a, c, z);
+    }
+
+    /** {@inheritDoc} */
+    public DerivativeStructure value(final DerivativeStructure t) {
+        verifyInputArray(a, c);
+
+        final int n = c.length;
+        DerivativeStructure value = new DerivativeStructure(t.getFreeParameters(), t.getOrder(), a[n]);
+        for (int i = n - 1; i >= 0; i--) {
+            value = t.subtract(c[i]).multiply(value).add(a[i]);
+        }
+
+        return value;
+
     }
 
     /**
@@ -221,4 +236,5 @@ public class PolynomialFunctionNewtonForm implements UnivariateFunction {
                                                  a.length, c.length);
         }
     }
+
 }
