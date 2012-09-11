@@ -1,0 +1,105 @@
+' Licensed to the Apache Software Foundation (ASF) under one or more
+' contributor license agreements.  See the NOTICE file distributed with
+' this work for additional information regarding copyright ownership.
+' The ASF licenses this file to You under the Apache License, Version 2.0
+' (the "License"); you may not use this file except in compliance with
+' the License.  You may obtain a copy of the License at
+'
+'      http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software
+' distributed under the License is distributed on an "AS IS" BASIS,
+' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' See the License for the specific language governing permissions and
+' limitations under the License.
+
+@startuml
+
+  skinparam svek                  true
+  skinparam ClassBackgroundColor  #F3EFEB
+  skinparam ClassArrowColor       #691616
+  skinparam ClassBorderColor      #691616
+  skinparam NoteBackgroundColor   #F3EFEB
+  skinparam NoteBorderColor       #691616
+  skinparam NoteFontColor         #691616
+  skinparam ClassFontSize         11
+
+  package org.apache.commons.math3 #ECEBD8
+
+    interface "FieldElement<T>" as FieldElement_T_ {
+      T add(T a)
+      T subtract(T a)
+      T negate()
+      T multiply(int n)
+      T multiply(T a)
+      T divide(T a)
+      T reciprocal()
+      Field<T> getField()
+    }
+
+    package analysis #DDEBD8
+      interface UnivariateFunction {
+        double value(double x)
+      }
+
+      package differentiation #DDDBD8
+
+        class DerivativeStructure {
+          -DerivativeStructure(DSCompiler compiler)
+          +DerivativeStructure(int parameters, int order, double value)
+          +DerivativeStructure(int parameters, int order, int index, double value)
+          +int getFreeParameters()
+          +int getOrder()
+          +double getValue()
+          +double getPartialDerivative(int[] orders)
+          +double taylor(double[] delta)
+          +int getExponent()
+          +DerivativeStructure compose(double[] f)
+          +DerivativeStructure cos()
+          +DerivativeStructure sin()
+          +DerivativeStructure exp()
+          +DerivativeStructure sqrt()
+        }
+        note bottom
+          lots of mathematical methods
+          and constructors ommitted for clarity
+        end note
+
+        class DSCompiler {
+          {static} +DSCompiler getCompiler(int parameters, int order)
+          +int getPartialDerivativeIndex(int[] orders)
+          +int[] getPartialDerivativeOrders(int index)
+          +int getFreeParameters()
+          +int getOrder()
+          +int getSize()
+          +void checkCompatibility(DSCompiler compiler)
+          +void compose(double[] operand, int operandOffset, double[] f, double[] result, int resultOffset)
+          +double taylor(double[] ds, int dsOffset, double[] delta)
+          +void add(double[] lhs, int lhsOffset, double[] rhs, int rhsOffset, double[] result, int resultOffset)
+          +void exp(double[] operand, int operandOffset, double[] result, int resultOffset)
+        }
+        note bottom
+          one compiler is built for each pair
+          (number of parameters, derivation order)
+          they are cached for efficiency
+        end note
+
+        interface UnivariateDifferentiable {
+          DerivativeStructure value(DerivativeStructure t)
+        }
+
+        interface UnivariateDifferentiator {
+          UnivariateDifferentiable differentiate(UnivariateFunction function)
+        }
+
+        FieldElement_T_     <..      DerivativeStructure
+        DerivativeStructure o--> "1" DSCompiler : delegates computation
+        UnivariateFunction  <|..     UnivariateDifferentiable
+        UnivariateDifferentiable <-- UnivariateDifferentiator : creates
+        UnivariateDifferentiable --> DerivativeStructure : uses
+
+      end package
+    end package
+  end package
+
+@enduml

@@ -1,0 +1,119 @@
+' Licensed to the Apache Software Foundation (ASF) under one or more
+' contributor license agreements.  See the NOTICE file distributed with
+' this work for additional information regarding copyright ownership.
+' The ASF licenses this file to You under the Apache License, Version 2.0
+' (the "License"); you may not use this file except in compliance with
+' the License.  You may obtain a copy of the License at
+'
+'      http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software
+' distributed under the License is distributed on an "AS IS" BASIS,
+' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' See the License for the specific language governing permissions and
+' limitations under the License.
+
+@startuml
+
+  skinparam svek                  true
+  skinparam ClassBackgroundColor  #F3EFEB
+  skinparam ClassArrowColor       #691616
+  skinparam ClassBorderColor      #691616
+  skinparam NoteBackgroundColor   #F3EFEB
+  skinparam NoteBorderColor       #691616
+  skinparam NoteFontColor         #691616
+  skinparam ClassFontSize         11
+
+  package org.apache.commons.math3.geometry #ECEBD8
+
+    package partitioning #DDEBD8
+
+      abstract "AbstractSubHyperplane<S extends Space, T extends Space>" as AbstractSubHyperplane_S_T_
+      note left
+        an abstract sub-hyperplane contains
+         - an hyperplane defined in space S
+         - a region defined in space T
+        T being a sub-space of S
+      end note
+
+      interface "Hyperplane<S extends Space>" as Hyperplane_S_ {
+        +double getOffset(Vector point)
+        +boolean sameOrientationAs(Hyperplane other)
+        +SubHyperplane wholeHyperplane()
+        +Region wholeSpace()
+      }
+
+      interface "SubHyperplane<S extends Space>" as SubHyperplane_S_ {
+        +Hyperplane getHyperplane()
+        +boolean isEmpty()
+        +double getSize()
+        +Side side(Hyperplane hyperplane)
+        +SplitSubHyperplane split(Hyperplane hyperplane)
+        +SubHyperplane reunite(SubHyperplane other)
+      }
+
+      class "BSPTree<S extends Space>" as BSPTree_S_ {
+        +boolean insertCut(Hyperplane hyperplane)
+        +void setAttribute(Object attribute)
+        +Object getAttribute()
+        +void visit(BSPTreeVisitor visitor)
+        +BSPTree getCell(Vector point)
+        +BSPTree split(SubHyperplane sub)
+      }
+
+      interface "BSPTreeVisitor<S extends Space>" as BSPTreeVisitor_S_ {
+        +Order visitOrder(BSPTree node)
+        +void visitInternalNode(BSPTree node)
+        +void visitLeafNode(BSPTree node)
+      }
+
+      interface "Region<S extends Space>" as Region_S_ {
+        +boolean isEmpty()
+        +boolean contains(Region region)
+        +Location checkPoint(Vector point)
+        +double getBoundarySize()
+        +double getSize()
+        +Vector getBarycenter()
+        +Side side(Hyperplane hyperplane)
+        +SubHyperplane intersection(SubHyperplane sub)
+      }
+      note top
+        a region is a part of the space
+        it may be empty,
+        it may cover the whole space,
+        it may have infinite non-closed boudaries,
+        it may be in several disconnected sub-parts,
+        it may contain holes
+      end note
+
+      enum Location {
+        +INSIDE
+        +OUTSIDE
+        +BOUNDARY
+      }
+
+      enum Side {
+        +PLUS
+        +MINUS
+        +BOTH
+        +HYPER
+      }
+
+      Hyperplane_S_ "1" <--* "1" SubHyperplane_S_
+      SubHyperplane_S_ "0..1" <--* BSPTree_S_ : cut
+      BSPTree_S_ <--o BSPTree_S_ : "parent      "
+      BSPTree_S_ o--> BSPTree_S_ : "children"
+      Region_S_ *-->  "1" BSPTree_S_
+      Hyperplane_S_  <-- Region_S_
+      AbstractSubHyperplane_S_T_ ..|> SubHyperplane_S_
+      AbstractSubHyperplane_S_T_ *--> "1" Hyperplane_S_ : hyperplane
+      AbstractSubHyperplane_S_T_ *--> "1" Region_S_ : region
+      Region_S_ --> Location
+      Region_S_ --> Side
+      BSPTree_S_ <-- BSPTreeVisitor_S_ : visits
+
+    end package
+
+  end package
+
+@enduml

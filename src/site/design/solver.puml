@@ -1,0 +1,102 @@
+' Licensed to the Apache Software Foundation (ASF) under one or more
+' contributor license agreements.  See the NOTICE file distributed with
+' this work for additional information regarding copyright ownership.
+' The ASF licenses this file to You under the Apache License, Version 2.0
+' (the "License"); you may not use this file except in compliance with
+' the License.  You may obtain a copy of the License at
+'
+'      http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software
+' distributed under the License is distributed on an "AS IS" BASIS,
+' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' See the License for the specific language governing permissions and
+' limitations under the License.
+
+@startuml
+
+  skinparam svek                  true
+  skinparam ClassBackgroundColor  #F3EFEB
+  skinparam ClassArrowColor       #691616
+  skinparam ClassBorderColor      #691616
+  skinparam NoteBackgroundColor   #F3EFEB
+  skinparam NoteBorderColor       #691616
+  skinparam NoteFontColor         #691616
+  skinparam ClassFontSize         11
+
+  package org.apache.commons.math3.differentiation.solvers #ECEBD8
+
+        enum AllowedSolution {
+          ANY_SIDE
+          LEFT_SIDE
+          RIGHT_SIDE
+          BELOW_SIDE
+          ABOVE_SIDE
+        }
+
+        interface "BaseUnivariateSolver<FUNC extends UnivariateFunction>" as BaseUnivariateSolver_FUNC_ {
+          +int getMaxEvaluations()
+          +int getEvaluations()
+          +double getAbsoluteAccuracy()
+          +double getRelativeAccuracy()
+          +double getFunctionValueAccuracy()
+          +double solve(int maxEval, FUNC f, double min, double max)
+          +double solve(int maxEval, FUNC f, double min, double max, double startValue)
+          +double solve(int maxEval, FUNC f, double startValue)
+        }
+
+        abstract class "BaseAbstractUnivariateSolver<FUNC extends UnivariateFunction>" as BaseAbstractUnivariateSolver_FUNC_ {
+          #{Abstract} double doSolve()
+        }
+
+        interface UnivariateSolver
+        abstract class AbstractUnivariateSolver
+
+        interface DifferentiableUnivariateSolver
+        abstract class AbstractDifferentiableUnivariateSolver
+
+        interface PolynomialSolver
+        abstract class AbstractPolynomialSolver
+
+        BaseUnivariateSolver_FUNC_         <|.. BaseAbstractUnivariateSolver_FUNC_
+
+        BaseUnivariateSolver_FUNC_         <|.. UnivariateSolver
+        UnivariateSolver                   <|.. AbstractUnivariateSolver
+        BaseAbstractUnivariateSolver_FUNC_ <|-- AbstractUnivariateSolver
+
+        BaseUnivariateSolver_FUNC_         <|.. DifferentiableUnivariateSolver
+        DifferentiableUnivariateSolver     <|.. AbstractDifferentiableUnivariateSolver
+        BaseAbstractUnivariateSolver_FUNC_ <|-- AbstractDifferentiableUnivariateSolver
+
+        BaseUnivariateSolver_FUNC_         <|.. PolynomialSolver
+        PolynomialSolver                   <|.. AbstractPolynomialSolver
+        BaseAbstractUnivariateSolver_FUNC_ <|-- AbstractPolynomialSolver
+
+
+interface "BracketedUnivariateSolver<FUNC extends UnivariateFunction>" as  BracketedUnivariateSolver_FUNC_
+AllowedSolution <-- BracketedUnivariateSolver_FUNC_ : solution side selector
+BaseUnivariateSolver_FUNC_ <|.. BracketedUnivariateSolver_FUNC_
+
+abstract class BaseSecantSolver
+
+ AbstractUnivariateSolver <|-- BaseSecantSolver
+ BracketedUnivariateSolver_FUNC_ <|.. BaseSecantSolver
+ BaseSecantSolver <|-- IllinoisSolver
+ BaseSecantSolver <|-- PegasusSolver
+ BaseSecantSolver <|-- RegulaFalsiSolver
+
+ AbstractUnivariateSolver <|-- BracketingNthOrderBrentSolver
+ BracketedUnivariateSolver_FUNC_ <|.. BracketingNthOrderBrentSolver
+
+ AbstractUnivariateSolver <|-- BrentSolver
+ AbstractUnivariateSolver <|-- SecantSolver
+ AbstractUnivariateSolver <|-- RiddersSolver
+ AbstractUnivariateSolver <|-- MullerSolver
+ AbstractUnivariateSolver <|-- MullerSolver2
+ AbstractDifferentiableUnivariateSolver <|-- NewtonSolver
+AbstractPolynomialSolver <|-- LaguerreSolver
+
+AbstractUnivariateSolver <|-- BisectionSolver
+  end package
+
+@enduml

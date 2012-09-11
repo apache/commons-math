@@ -1,0 +1,81 @@
+' Licensed to the Apache Software Foundation (ASF) under one or more
+' contributor license agreements.  See the NOTICE file distributed with
+' this work for additional information regarding copyright ownership.
+' The ASF licenses this file to You under the Apache License, Version 2.0
+' (the "License"); you may not use this file except in compliance with
+' the License.  You may obtain a copy of the License at
+'
+'      http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software
+' distributed under the License is distributed on an "AS IS" BASIS,
+' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+' See the License for the specific language governing permissions and
+' limitations under the License.
+
+@startuml
+
+  skinparam svek                  true
+  skinparam ClassBackgroundColor  #F3EFEB
+  skinparam ClassArrowColor       #691616
+  skinparam ClassBorderColor      #691616
+  skinparam NoteBackgroundColor   #F3EFEB
+  skinparam NoteBorderColor       #691616
+  skinparam NoteFontColor         #691616
+  skinparam ClassFontSize         11
+
+  package org.apache.commons.math3.geometry #ECEBD8
+
+    interface Space {
+      +int getDimension()
+      +Space getSubSpace()
+    }
+    note top
+      Space is mainly used as a parameter
+      for generics and to link d-dimensional
+      space with (d-1)-dimensional space
+    end note
+
+    interface "Vector<S extends Space>" as Vector_S_ {
+      +Space getSpace()
+      +Vector getZero()
+      +double getNorm()
+      +Vector add()
+      +Vector subtract()
+      +Vector negate()
+      +Vector normalize()
+      +Vector scalarMultiply()
+      +boolean isNaN()
+      +boolean isInfinite()
+      +double distance()
+      +double dotProduct()
+    }
+
+    Space <-- Vector_S_
+
+    package partitioning #DDEBD8
+      interface "Region<S extends Space>" as Region_S_
+      interface "Hyperplane<S extends Space>" as Hyperplane_S_
+      interface "SubHyperplane<S extends Space>" as SubHyperplane_S_
+    end package
+
+    package euclidean #DDEBD8
+
+      package oned #DDDBD8
+
+        class Euclidean1D
+        class OrientedPoint
+        class Interval
+        class IntervalSet
+
+        Space       <|.. Euclidean1D
+        Vector_S_   <|.. OrientedPoint
+        Region_S_   <|.. IntervalSet
+
+      end package
+
+    end package
+
+  end package
+
+@enduml
