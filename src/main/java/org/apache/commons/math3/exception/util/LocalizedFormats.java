@@ -97,7 +97,6 @@ public enum LocalizedFormats implements Localizable {
     EMPTY_SELECTED_ROW_INDEX_ARRAY("empty selected row index array"),
     EMPTY_STRING_FOR_IMAGINARY_CHARACTER("empty string for imaginary character"),
     ENDPOINTS_NOT_AN_INTERVAL("endpoints do not specify an interval: [{0}, {1}]"),
-    ENTRY("entry {0}"),
     EQUAL_VERTICES_IN_SIMPLEX("equal vertices {0} and {1} in simplex configuration"),
     EULER_ANGLES_SINGULARITY("Euler angles singularity"),
     EVALUATION("evaluation"), /* keep */

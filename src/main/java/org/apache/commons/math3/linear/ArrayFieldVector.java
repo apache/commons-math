@@ -560,7 +560,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             try {
                 out[i] = one.divide(data[i]);
             } catch (final MathArithmeticException e) {
-                throw new MathArithmeticException(LocalizedFormats.ENTRY, i);
+                throw new MathArithmeticException(LocalizedFormats.INDEX, i);
             }
         }
         return new ArrayFieldVector<T>(field, out, false);
@@ -573,7 +573,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             try {
                 data[i] = one.divide(data[i]);
             } catch (final MathArithmeticException e) {
-                throw new MathArithmeticException(LocalizedFormats.ENTRY, i);
+                throw new MathArithmeticException(LocalizedFormats.INDEX, i);
             }
         }
         return this;
@@ -623,7 +623,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
                 try {
                     out[i] = data[i].divide(v.getEntry(i));
                 } catch (final MathArithmeticException e) {
-                    throw new MathArithmeticException(LocalizedFormats.ENTRY, i);
+                    throw new MathArithmeticException(LocalizedFormats.INDEX, i);
                 }
             }
             return new ArrayFieldVector<T>(field, out, false);
@@ -646,7 +646,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             try {
                 out[i] = data[i].divide(v.data[i]);
             } catch (final MathArithmeticException e) {
-                throw new MathArithmeticException(LocalizedFormats.ENTRY, i);
+                throw new MathArithmeticException(LocalizedFormats.INDEX, i);
             }
         }
         return new ArrayFieldVector<T>(field, out, false);
