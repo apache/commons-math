@@ -17,6 +17,8 @@
 
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Add;
 import org.apache.commons.math3.analysis.function.Constant;
 import org.apache.commons.math3.analysis.function.Cos;
@@ -67,27 +69,27 @@ public class FunctionUtilsTest {
 
     @Test
     public void testComposeDifferentiable() {
-        DifferentiableUnivariateFunction id = new Identity();
-        Assert.assertEquals(1, FunctionUtils.compose(id, id, id).derivative().value(3), EPS);
+        UnivariateDifferentiableFunction id = new Identity();
+        Assert.assertEquals(1, FunctionUtils.compose(id, id, id).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction c = new Constant(4);
-        Assert.assertEquals(0, FunctionUtils.compose(id, c).derivative().value(3), EPS);
-        Assert.assertEquals(0, FunctionUtils.compose(c, id).derivative().value(3), EPS);
+        UnivariateDifferentiableFunction c = new Constant(4);
+        Assert.assertEquals(0, FunctionUtils.compose(id, c).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(0, FunctionUtils.compose(c, id).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction m = new Minus();
-        Assert.assertEquals(-1, FunctionUtils.compose(m).derivative().value(3), EPS);
-        Assert.assertEquals(1, FunctionUtils.compose(m, m).derivative().value(3), EPS);
+        UnivariateDifferentiableFunction m = new Minus();
+        Assert.assertEquals(-1, FunctionUtils.compose(m).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
+        Assert.assertEquals(1, FunctionUtils.compose(m, m).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction inv = new Inverse();
-        Assert.assertEquals(0.25, FunctionUtils.compose(inv, m, id).derivative().value(2), EPS);
+        UnivariateDifferentiableFunction inv = new Inverse();
+        Assert.assertEquals(0.25, FunctionUtils.compose(inv, m, id).value(new DerivativeStructure(1, 1, 0, 2)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction pow = new Power(2);
-        Assert.assertEquals(108, FunctionUtils.compose(pow, pow).derivative().value(3), EPS);
+        UnivariateDifferentiableFunction pow = new Power(2);
+        Assert.assertEquals(108, FunctionUtils.compose(pow, pow).value(new DerivativeStructure(1, 1, 0, 3)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction log = new Log();
+        UnivariateDifferentiableFunction log = new Log();
         double a = 9876.54321;
-        Assert.assertEquals(pow.derivative().value(a) / pow.value(a),
-                            FunctionUtils.compose(log, pow).derivative().value(a), EPS);
+        Assert.assertEquals(pow.value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1) / pow.value(a),
+                            FunctionUtils.compose(log, pow).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), EPS);
     }
 
     @Test
@@ -104,14 +106,14 @@ public class FunctionUtilsTest {
 
     @Test
     public void testAddDifferentiable() {
-        DifferentiableUnivariateFunction sin = new Sin();
-        DifferentiableUnivariateFunction c = new Constant(4);
-        DifferentiableUnivariateFunction m = new Minus();
-        DifferentiableUnivariateFunction inv = new Inverse();
+        UnivariateDifferentiableFunction sin = new Sin();
+        UnivariateDifferentiableFunction c = new Constant(4);
+        UnivariateDifferentiableFunction m = new Minus();
+        UnivariateDifferentiableFunction inv = new Inverse();
 
         final double a = 123.456;
         Assert.assertEquals(- 1 / (a * a) -1 + Math.cos(a),
-                            FunctionUtils.add(inv, m, c, sin).derivative().value(a),
+                            FunctionUtils.add(inv, m, c, sin).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1),
                             EPS);
     }
 
@@ -127,20 +129,20 @@ public class FunctionUtilsTest {
 
     @Test
     public void testMultiplyDifferentiable() {
-        DifferentiableUnivariateFunction c = new Constant(4);
-        DifferentiableUnivariateFunction id = new Identity();
+        UnivariateDifferentiableFunction c = new Constant(4);
+        UnivariateDifferentiableFunction id = new Identity();
         final double a = 1.2345678;
-        Assert.assertEquals(8 * a, FunctionUtils.multiply(c, id, id).derivative().value(a), EPS);
+        Assert.assertEquals(8 * a, FunctionUtils.multiply(c, id, id).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction inv = new Inverse();
-        DifferentiableUnivariateFunction pow = new Power(2.5);
-        DifferentiableUnivariateFunction cos = new Cos();
+        UnivariateDifferentiableFunction inv = new Inverse();
+        UnivariateDifferentiableFunction pow = new Power(2.5);
+        UnivariateDifferentiableFunction cos = new Cos();
         Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cos(a) - Math.pow(a, 1.5) * Math.sin(a),
-                            FunctionUtils.multiply(inv, pow, cos).derivative().value(a), EPS);
+                            FunctionUtils.multiply(inv, pow, cos).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), EPS);
 
-        DifferentiableUnivariateFunction cosh = new Cosh();
+        UnivariateDifferentiableFunction cosh = new Cosh();
         Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cosh(a) + Math.pow(a, 1.5) * Math.sinh(a),
-                            FunctionUtils.multiply(inv, pow, cosh).derivative().value(a), 8 * EPS);
+                            FunctionUtils.multiply(inv, pow, cosh).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), 8 * EPS);
     }
 
     @Test

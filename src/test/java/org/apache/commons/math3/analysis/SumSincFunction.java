@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.analysis;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Sinc;
 
 /**
@@ -24,8 +26,7 @@ import org.apache.commons.math3.analysis.function.Sinc;
  * @version $Id$
  */
 public class SumSincFunction implements DifferentiableMultivariateFunction {
-    private static final DifferentiableUnivariateFunction sinc = new Sinc();
-    private static final UnivariateFunction sincDeriv = sinc.derivative();
+    private static final UnivariateDifferentiableFunction sinc = new Sinc();
 
     /**
      * Factor that will multiply each term of the sum.
@@ -59,7 +60,7 @@ public class SumSincFunction implements DifferentiableMultivariateFunction {
     public MultivariateFunction partialDerivative(final int k) {
         return new MultivariateFunction() {
             public double value(double[] point) {
-                return sincDeriv.value(point[k]);
+                return sinc.value(new DerivativeStructure(1, 1, 0, point[k])).getPartialDerivative(1);
             }
         };
     }
@@ -74,7 +75,7 @@ public class SumSincFunction implements DifferentiableMultivariateFunction {
                 final double[] r = new double[n];
                 for (int i = 0; i < n; i++) {
                     final double x = point[i];
-                    r[i] = factor * sincDeriv.value(x);
+                    r[i] = factor * sinc.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
                 }
                 return r;
             }

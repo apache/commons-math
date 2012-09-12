@@ -101,6 +101,7 @@ public class FunctionUtils {
      *
      * @param f List of functions.
      * @return the composite function.
+     * @deprecated as of 3.1 replaced by {@link #compose(UnivariateDifferentiableFunction...)}
      */
     public static DifferentiableUnivariateFunction compose(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
@@ -186,7 +187,9 @@ public class FunctionUtils {
      *
      * @param f List of functions.
      * @return a function that computes the sum of the functions.
+     * @deprecated as of 3.1 replaced by {@link #add(UnivariateDifferentiableFunction...)}
      */
+    @Deprecated
     public static DifferentiableUnivariateFunction add(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
@@ -269,6 +272,7 @@ public class FunctionUtils {
      *
      * @param f List of functions.
      * @return a function that computes the product of the functions.
+     * @deprecated as of 3.1 replaced by {@link #multiply(UnivariateDifferentiableFunction...)}
      */
     public static DifferentiableUnivariateFunction multiply(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {

@@ -16,11 +16,12 @@
  */
 package org.apache.commons.math3.analysis.solvers;
 
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.MonitoredFunction;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Constant;
 import org.apache.commons.math3.analysis.function.Inverse;
 import org.apache.commons.math3.analysis.function.Sin;
@@ -245,28 +246,23 @@ public final class BrentSolverTest {
 
     @Test
     public void testMath832() {
-        final DifferentiableUnivariateFunction f = new DifferentiableUnivariateFunction() {
-                private final DifferentiableUnivariateFunction sqrt = new Sqrt();
-                private final DifferentiableUnivariateFunction inv = new Inverse();
-                private final DifferentiableUnivariateFunction func
+        final UnivariateFunction f = new UnivariateFunction() {
+                private final UnivariateDifferentiableFunction sqrt = new Sqrt();
+                private final UnivariateDifferentiableFunction inv = new Inverse();
+                private final UnivariateDifferentiableFunction func
                     = FunctionUtils.add(FunctionUtils.multiply(new Constant(1e2), sqrt),
                                         FunctionUtils.multiply(new Constant(1e6), inv),
                                         FunctionUtils.multiply(new Constant(1e4),
                                                                FunctionUtils.compose(inv, sqrt)));
 
                 public double value(double x) {
-                    return func.value(x);
+                    return func.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
                 }
 
-                public UnivariateFunction derivative() {
-                    return func.derivative();
-                }
             };
 
         BrentSolver solver = new BrentSolver();
-        final double result = solver.solve(99,
-                                           f.derivative(),
-                                           1, 1e30, 1 + 1e-10);
+        final double result = solver.solve(99, f, 1, 1e30, 1 + 1e-10);
         Assert.assertEquals(804.93558250, result, 1e-8);
     }
 }
