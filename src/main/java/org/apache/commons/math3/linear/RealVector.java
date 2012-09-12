@@ -796,8 +796,12 @@ public abstract class RealVector {
                 }
             }
 
-            /** {@inheritDoc} */
-            public void remove() {
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all circumstances.
+             */
+            public void remove() throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
         };
@@ -1092,25 +1096,32 @@ public abstract class RealVector {
      * </p>
      * <p>
      * This method <em>must</em> be overriden by concrete subclasses of
-     * {@link RealVector}.
+     * {@link RealVector} (the current implementation throws an exception).
      * </p>
      *
      * @param other Object to test for equality.
      * @return {@code true} if two vector objects are equal, {@code false} if
      * {@code other} is null, not an instance of {@code RealVector}, or
      * not equal to this {@code RealVector} instance.
+     * @throws MathUnsupportedOperationException if this method is not
+     * overridden.
      */
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other)
+        throws MathUnsupportedOperationException {
         throw new MathUnsupportedOperationException();
     }
 
     /**
      * {@inheritDoc}. This method <em>must</em> be overriden by concrete
-     * subclasses of {@link RealVector}.
+     * subclasses of {@link RealVector} (current implementation throws an
+     * exception).
+     *
+     * @throws MathUnsupportedOperationException if this method is not
+     * overridden.
      */
     @Override
-    public int hashCode() {
+    public int hashCode() throws MathUnsupportedOperationException {
         throw new MathUnsupportedOperationException();
     }
 
@@ -1178,8 +1189,12 @@ public abstract class RealVector {
             return current;
         }
 
-        /** {@inheritDoc} */
-        public void remove() {
+        /**
+         * {@inheritDoc}
+         *
+         * @throws MathUnsupportedOperationException in all circumstances.
+         */
+        public void remove() throws MathUnsupportedOperationException {
             throw new MathUnsupportedOperationException();
         }
     }
@@ -1213,9 +1228,14 @@ public abstract class RealVector {
          * that {@link UnmodifiableVector} is <em>not</em> immutable.
          */
         return new RealVector() {
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all circumstances.
+             */
             @Override
-            public RealVector mapToSelf(UnivariateFunction function) {
+            public RealVector mapToSelf(UnivariateFunction function)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1244,8 +1264,13 @@ public abstract class RealVector {
                         return e;
                     }
 
-                    /** {@inheritDoc} */
-                    public void remove() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @throws MathUnsupportedOperationException in all
+                     * circumstances.
+                     */
+                    public void remove() throws MathUnsupportedOperationException {
                         throw new MathUnsupportedOperationException();
                     }
                 };
@@ -1271,8 +1296,14 @@ public abstract class RealVector {
                         return e;
                     }
 
-                    /** {@inheritDoc} */
-                    public void remove() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @throws MathUnsupportedOperationException in all
+                     * circumstances.
+                     */
+                    public void remove()
+                        throws MathUnsupportedOperationException {
                         throw new MathUnsupportedOperationException();
                     }
                 };
@@ -1304,9 +1335,15 @@ public abstract class RealVector {
                 return v.mapAdd(d);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public RealVector mapAddToSelf(double d) {
+            public RealVector mapAddToSelf(double d)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1316,9 +1353,15 @@ public abstract class RealVector {
                 return v.mapSubtract(d);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public RealVector mapSubtractToSelf(double d) {
+            public RealVector mapSubtractToSelf(double d)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1328,9 +1371,15 @@ public abstract class RealVector {
                 return v.mapMultiply(d);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public RealVector mapMultiplyToSelf(double d) {
+            public RealVector mapMultiplyToSelf(double d)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1340,9 +1389,15 @@ public abstract class RealVector {
                 return v.mapDivide(d);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public RealVector mapDivideToSelf(double d) {
+            public RealVector mapDivideToSelf(double d)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1419,9 +1474,14 @@ public abstract class RealVector {
                 return v.unitVector();
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public void unitize() {
+            public void unitize() throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1437,15 +1497,27 @@ public abstract class RealVector {
                 return v.getEntry(index);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public void setEntry(int index, double value) {
+            public void setEntry(int index, double value)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public void addToEntry(int index, double value) {
+            public void addToEntry(int index, double value)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1474,15 +1546,27 @@ public abstract class RealVector {
                 return v.getSubVector(index, n);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public void setSubVector(int index, RealVector w) {
+            public void setSubVector(int index, RealVector w)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public void set(double value) {
+            public void set(double value)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1511,9 +1595,15 @@ public abstract class RealVector {
                 return v.combine(a, b, y);
             }
 
-            /** {@inheritDoc} */
+            /**
+             * {@inheritDoc}
+             *
+             * @throws MathUnsupportedOperationException in all
+             * circumstances.
+             */
             @Override
-            public RealVector combineToSelf(double a, double b, RealVector y) {
+            public RealVector combineToSelf(double a, double b, RealVector y)
+                throws MathUnsupportedOperationException {
                 throw new MathUnsupportedOperationException();
             }
 
@@ -1525,9 +1615,15 @@ public abstract class RealVector {
                     return v.getEntry(getIndex());
                 }
 
-                /** {@inheritDoc} */
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @throws MathUnsupportedOperationException in all
+                 * circumstances.
+                 */
                 @Override
-                public void setValue(double value) {
+                public void setValue(double value)
+                    throws MathUnsupportedOperationException {
                     throw new MathUnsupportedOperationException();
                 }
             }
