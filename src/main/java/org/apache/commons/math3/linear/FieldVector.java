@@ -19,7 +19,9 @@ package org.apache.commons.math3.linear;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
@@ -127,29 +129,38 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map a division operation to each entry.
      * @param d value to divide all entries by
      * @return {@code this / d}
+     * @throws NullArgumentException if {@code d} is {@code null}.
+     * @throws MathArithmeticException if {@code d} is zero.
      */
-    FieldVector<T> mapDivide(T d);
+    FieldVector<T> mapDivide(T d)
+        throws NullArgumentException, MathArithmeticException;
 
     /**
      * Map a division operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to divide all entries by
      * @return for convenience, return {@code this}
+     * @throws NullArgumentException if {@code d} is {@code null}.
+     * @throws MathArithmeticException if {@code d} is zero.
      */
-    FieldVector<T> mapDivideToSelf(T d);
+    FieldVector<T> mapDivideToSelf(T d)
+        throws NullArgumentException, MathArithmeticException;
 
     /**
      * Map the 1/x function to each entry.
-     * @return a vector containing the result of applying the function to each entry
+     * @return a vector containing the result of applying the function to each
+     * entry.
+     * @throws MathArithmeticException if one of the entries is zero.
      */
-    FieldVector<T> mapInv();
+    FieldVector<T> mapInv() throws MathArithmeticException;
 
     /**
      * Map the 1/x function to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @return for convenience, return {@code this}
+     * @throws MathArithmeticException if one of the entries is zero.
      */
-    FieldVector<T> mapInvToSelf();
+    FieldVector<T> mapInvToSelf() throws MathArithmeticException;
 
     /**
      * Element-by-element multiplication.
@@ -159,7 +170,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * {@code this}
      */
     FieldVector<T> ebeMultiply(FieldVector<T> v)
-            throws DimensionMismatchException;
+        throws DimensionMismatchException;
 
     /**
      * Element-by-element division.
@@ -167,9 +178,10 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return a vector containing {@code this[i] / v[i]} for all {@code i}
      * @throws DimensionMismatchException if {@code v} is not the same size as
      * {@code this}
+     * @throws MathArithmeticException if one entry of {@code v} is zero.
      */
     FieldVector<T> ebeDivide(FieldVector<T> v)
-            throws DimensionMismatchException;
+        throws DimensionMismatchException, MathArithmeticException;
 
     /**
      * Returns vector entries as a T array.
@@ -191,8 +203,10 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @return projection of {@code this} onto {@code v}
      * @throws DimensionMismatchException if {@code v} is not the same size as
      * {@code this}
+     * @throws MathArithmeticException if {@code v} is the null vector.
      */
-    FieldVector<T> projection(FieldVector<T> v) throws DimensionMismatchException;
+    FieldVector<T> projection(FieldVector<T> v)
+        throws DimensionMismatchException, MathArithmeticException;
 
     /**
      * Compute the outer product.
@@ -249,7 +263,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * @throws NotPositiveException if the number of elements if not positive.
      */
     FieldVector<T> getSubVector(int index, int n)
-            throws OutOfRangeException, NotPositiveException;
+        throws OutOfRangeException, NotPositiveException;
 
     /**
      * Set a set of consecutive elements.
