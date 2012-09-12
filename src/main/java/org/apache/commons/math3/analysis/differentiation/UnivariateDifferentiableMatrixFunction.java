@@ -24,7 +24,7 @@ import org.apache.commons.math3.analysis.UnivariateMatrixFunction;
  * @version $Id$
  * @since 3.1
  */
-public interface UnivariateDiferentiableMatrixFunction
+public interface UnivariateDifferentiableMatrixFunction
     extends UnivariateMatrixFunction {
 
     /**
