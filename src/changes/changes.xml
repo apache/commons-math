@@ -52,11 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
-      <action dev="lus" type="fix" issue="MATH-789">
-          Fixed an error in rectangular Cholesky decomposition.
+      <action dev="luc" type="fix" issue="MATH-789">
+        Fixed an error in rectangular Cholesky decomposition.
       </action>
       <action dev="psteitz" type="update" issue="MATH-859">
-          Clarified definition of isSupportXxxBoundInclusive in RealDistribution
+        Clarified definition of isSupportXxxBoundInclusive in RealDistribution
         interface, made code consistent with the definition, and deprecated
         these methods, marking for removal in 4.0.
       </action>
