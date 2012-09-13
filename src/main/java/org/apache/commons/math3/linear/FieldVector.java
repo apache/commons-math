@@ -78,45 +78,63 @@ public interface FieldVector<T extends FieldElement<T>>  {
     FieldVector<T> subtract(FieldVector<T> v);
 
     /**
-     * Map an addition operation to each entry.
+     * Map an addition operation to each entry. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to be added to each entry
      * @return {@code this + d}
      */
     FieldVector<T> mapAdd(T d);
 
     /**
-     * Map an addition operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
+     * Map an addition operation to each entry. The instance <strong>is</strong>
+     * changed by this method. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to be added to each entry
      * @return for convenience, return {@code this}
      */
     FieldVector<T> mapAddToSelf(T d);
 
     /**
-     * Map a subtraction operation to each entry.
+     * Map a subtraction operation to each entry. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to be subtracted to each entry
      * @return {@code this - d}
      */
     FieldVector<T> mapSubtract(T d);
 
     /**
-     * Map a subtraction operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
+     * Map a subtraction operation to each entry. The instance
+     * <strong>is</strong> changed by this method. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to be subtracted to each entry
      * @return for convenience, return {@code this}
      */
     FieldVector<T> mapSubtractToSelf(T d);
 
     /**
-     * Map a multiplication operation to each entry.
+     * Map a multiplication operation to each entry. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to multiply all entries by
      * @return {@code this * d}
      */
     FieldVector<T> mapMultiply(T d);
 
     /**
-     * Map a multiplication operation to each entry.
-     * <p>The instance <strong>is</strong> changed by this method.</p>
+     * Map a multiplication operation to each entry. The instance
+     * <strong>is</strong> changed by this method. Implementations should throw
+     * {@link org.apache.commons.math3.exception.NullArgumentException} if
+     * {@code d} is {@code null}.
+     *
      * @param d value to multiply all entries by
      * @return for convenience, return {@code this}
      */
