@@ -97,7 +97,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(Field, FieldElement[])
      */
     public ArrayFieldVector(T[] d)
-        throws NullArgumentException, ZeroException {
+            throws NullArgumentException, ZeroException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -118,7 +118,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(FieldElement[])
      */
     public ArrayFieldVector(Field<T> field, T[] d)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -148,7 +148,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(Field, FieldElement[], boolean)
      */
     public ArrayFieldVector(T[] d, boolean copyArray)
-        throws NullArgumentException, ZeroException {
+            throws NullArgumentException, ZeroException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -175,7 +175,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(FieldElement[], boolean)
      */
     public ArrayFieldVector(Field<T> field, T[] d, boolean copyArray)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -194,7 +194,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * than {@code pos + size}.
      */
     public ArrayFieldVector(T[] d, int pos, int size)
-        throws NullArgumentException, NumberIsTooLargeException {
+            throws NullArgumentException, NumberIsTooLargeException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -218,7 +218,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * than {@code pos + size}.
      */
     public ArrayFieldVector(Field<T> field, T[] d, int pos, int size)
-        throws NullArgumentException, NumberIsTooLargeException {
+            throws NullArgumentException, NumberIsTooLargeException {
         if (d == null) {
             throw new NullArgumentException();
         }
@@ -237,7 +237,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
     public ArrayFieldVector(FieldVector<T> v)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v == null) {
             throw new NullArgumentException();
         }
@@ -255,7 +255,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
     public ArrayFieldVector(ArrayFieldVector<T> v)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v == null) {
             throw new NullArgumentException();
         }
@@ -272,7 +272,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @throws NullArgumentException if {@code v} is {@code null}.
      */
     public ArrayFieldVector(ArrayFieldVector<T> v, boolean deep)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v == null) {
             throw new NullArgumentException();
         }
@@ -289,7 +289,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * {@code null}.
      */
     public ArrayFieldVector(ArrayFieldVector<T> v1, ArrayFieldVector<T> v2)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v1 == null || v2 == null) {
             throw new NullArgumentException();
         }
@@ -308,7 +308,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * {@code null}.
      */
     public ArrayFieldVector(ArrayFieldVector<T> v1, T[] v2)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v1 == null || v2 == null) {
             throw new NullArgumentException();
         }
@@ -327,7 +327,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * {@code null}.
      */
     public ArrayFieldVector(T[] v1, ArrayFieldVector<T> v2)
-        throws NullArgumentException {
+            throws NullArgumentException {
         if (v1 == null || v2 == null) {
             throw new NullArgumentException();
         }
@@ -353,7 +353,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(Field, FieldElement[], FieldElement[])
      */
     public ArrayFieldVector(T[] v1, T[] v2)
-        throws NullArgumentException, ZeroException {
+            throws NullArgumentException, ZeroException {
         if (v1 == null || v2 == null) {
             throw new NullArgumentException();
         }
@@ -378,7 +378,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @see #ArrayFieldVector(FieldElement[], FieldElement[])
      */
     public ArrayFieldVector(Field<T> field, T[] v1, T[] v2)
-        throws NullArgumentException, ZeroException {
+            throws NullArgumentException, ZeroException {
         if (v1 == null || v2 == null) {
             throw new NullArgumentException();
         }
@@ -412,12 +412,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(this, true);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> add(FieldVector<T> v)
         throws DimensionMismatchException {
         try {
@@ -449,12 +444,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> subtract(FieldVector<T> v)
         throws DimensionMismatchException {
         try {
@@ -486,12 +476,8 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapAdd(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAdd(T d) {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].add(d);
@@ -499,24 +485,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAddToSelf(T d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].add(d);
         }
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtract(T d) {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].subtract(d);
@@ -524,24 +502,16 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtractToSelf(T d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].subtract(d);
         }
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiply(T d) {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].multiply(d);
@@ -549,24 +519,15 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     */
-    public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiplyToSelf(T d) {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].multiply(d);
         }
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     * @throws MathArithmeticException if {@code d} is zero.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> mapDivide(T d)
         throws NullArgumentException, MathArithmeticException {
         if (d == null) {
@@ -579,12 +540,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullArgumentException if {@code d} is {@code null}.
-     * @throws MathArithmeticException if {@code d} is zero.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> mapDivideToSelf(T d)
         throws NullArgumentException, MathArithmeticException {
         if (d == null) {
@@ -596,11 +552,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws MathArithmeticException if {@code d} is zero.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> mapInv() throws MathArithmeticException {
         T[] out = buildArray(data.length);
         final T one = field.getOne();
@@ -614,11 +566,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws MathArithmeticException if {@code d} is zero.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
         final T one = field.getOne();
         for (int i = 0; i < data.length; i++) {
@@ -631,12 +579,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return this;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> ebeMultiply(FieldVector<T> v)
         throws DimensionMismatchException {
         try {
@@ -668,13 +611,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     * @throws MathArithmeticException if one entry of {@code v} is zero.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> ebeDivide(FieldVector<T> v)
         throws DimensionMismatchException, MathArithmeticException {
         try {
@@ -729,13 +666,9 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return data;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     */
-    public T dotProduct(FieldVector<T> v) throws DimensionMismatchException {
+    /** {@inheritDoc} */
+    public T dotProduct(FieldVector<T> v)
+        throws DimensionMismatchException {
         try {
             return dotProduct((ArrayFieldVector<T>) v);
         } catch (ClassCastException cce) {
@@ -765,13 +698,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return dot;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}.
-     * @throws MathArithmeticException if {@code v} is the null vector.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> projection(FieldVector<T> v)
         throws DimensionMismatchException, MathArithmeticException {
         return v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
@@ -859,12 +786,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         return new ArrayFieldVector<T>(field, out, false);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws OutOfRangeException if the index is not valid.
-     * @throws NotPositiveException if the number of elements is not positive.
-     */
+    /** {@inheritDoc} */
     public FieldVector<T> getSubVector(int index, int n)
         throws OutOfRangeException, NotPositiveException {
         if (n < 0) {
@@ -889,11 +811,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws OutOfRangeException if the index is not valid.
-     */
+    /** {@inheritDoc} */
     public void setSubVector(int index, FieldVector<T> v) throws OutOfRangeException {
         try {
             try {
