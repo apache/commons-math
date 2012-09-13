@@ -137,7 +137,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         double precision, and high precision (using "BigDecimal").
       </action>
       <action dev="erans" type="add" issue="MATH-764,MATH-823">
-        For all distibution classes (in package "o.a.c.m.distribution"), a new
+        For all distribution classes (in package "o.a.c.m.distribution"), a new
         constructor takes a "RandomGenerator" parameter.
         The "RandomDataImpl" instance has been superseded by this RNG.
         All "sample()" methods have been modified to use this RNG instead of
@@ -211,7 +211,8 @@ If the output is not quite correct, check for invisible trailing spaces!
         Avoid superfluous null check when using iterators in RealVector and ArrayRealVector.
       </action>
       <action dev="tn" type="fix" issue="MATH-781" due-to="Scheiber Ernő">
-        Use epsilon instead of ulp in floating-point comparison when dropping columns after phase 1 in SimplexSolver.
+        Use epsilon instead of ulp in floating-point comparison when dropping columns after
+        phase 1 in SimplexSolver.
       </action>
       <action dev="luc" type="fix" issue="MATH-721">
         Added a workaround for an OpenJDK issue on sparc solaris with too small constants.
@@ -232,7 +233,8 @@ If the output is not quite correct, check for invisible trailing spaces!
         Added class FixedElapsedTime (new StoppingCondition for evolution of generations) to genetics package.
       </action>
       <action dev="celestin" type="add" issue="MATH-756">
-        Added classes Decimal64 and Decimal64Field, which are wrapper classes around primitive doubles. These classes implement FieldElement and Field, respectively.
+        Added classes Decimal64 and Decimal64Field, which are wrapper classes around primitive doubles.
+        These classes implement FieldElement and Field, respectively.
       </action>
     </release>
     <release version="3.0" date="2012-03-07" description="
