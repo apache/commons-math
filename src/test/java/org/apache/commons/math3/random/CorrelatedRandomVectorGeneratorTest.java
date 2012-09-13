@@ -17,8 +17,13 @@
 
 package org.apache.commons.math3.random;
 
+import java.util.Arrays;
+
+import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.correlation.StorelessCovariance;
 import org.apache.commons.math3.stat.descriptive.moment.VectorialCovariance;
 import org.apache.commons.math3.stat.descriptive.moment.VectorialMean;
 import org.apache.commons.math3.util.FastMath;
@@ -82,9 +87,19 @@ public class CorrelatedRandomVectorGeneratorTest {
         CorrelatedRandomVectorGenerator sg =
             new CorrelatedRandomVectorGenerator(mean, covRM, 0.00001, rg);
 
+        double[] min = new double[mean.length];
+        Arrays.fill(min, Double.POSITIVE_INFINITY);
+        double[] max = new double[mean.length];
+        Arrays.fill(max, Double.NEGATIVE_INFINITY);
         for (int i = 0; i < 10; i++) {
             double[] generated = sg.nextVector();
-            Assert.assertTrue(FastMath.abs(generated[0] - 1) > 0.1);
+            for (int j = 0; j < generated.length; ++j) {
+                min[j] = FastMath.min(min[j], generated[j]);
+                max[j] = FastMath.max(max[j], generated[j]);
+            }
+        }
+        for (int j = 0; j < min.length; ++j) {
+            Assert.assertTrue(max[j] - min[j] > 2.0);
         }
 
     }
@@ -123,4 +138,61 @@ public class CorrelatedRandomVectorGeneratorTest {
         }
 
     }
+
+    @Test
+    public void testSampleWithZeroCovariance() {
+        final double[][] covMatrix1 = new double[][]{
+                {0.013445532, 0.010394690, 0.009881156, 0.010499559},
+                {0.010394690, 0.023006616, 0.008196856, 0.010732709},
+                {0.009881156, 0.008196856, 0.019023866, 0.009210099},
+                {0.010499559, 0.010732709, 0.009210099, 0.019107243}
+        };
+        
+        final double[][] covMatrix2 = new double[][]{
+                {0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.0, 0.013445532, 0.010394690, 0.009881156, 0.010499559},
+                {0.0, 0.010394690, 0.023006616, 0.008196856, 0.010732709},
+                {0.0, 0.009881156, 0.008196856, 0.019023866, 0.009210099},
+                {0.0, 0.010499559, 0.010732709, 0.009210099, 0.019107243}
+        };
+        
+        final double[][] covMatrix3 = new double[][]{
+                {0.013445532, 0.010394690, 0.0, 0.009881156, 0.010499559},
+                {0.010394690, 0.023006616, 0.0, 0.008196856, 0.010732709},
+                {0.0, 0.0, 0.0, 0.0, 0.0},
+                {0.009881156, 0.008196856, 0.0, 0.019023866, 0.009210099},
+                {0.010499559, 0.010732709, 0.0, 0.009210099, 0.019107243}
+        };
+        
+        testSampler(covMatrix1, 10000, 0.001);
+        testSampler(covMatrix2, 10000, 0.001);
+        testSampler(covMatrix3, 10000, 0.001);
+
+    }
+
+    private CorrelatedRandomVectorGenerator createSampler(double[][] cov) {
+        RealMatrix matrix = new Array2DRowRealMatrix(cov);
+        double small = 10e-12 * matrix.getNorm();
+        return new CorrelatedRandomVectorGenerator(
+                new double[cov.length],
+                matrix,
+                small,
+                new GaussianRandomGenerator(new JDKRandomGenerator()));
+    }
+
+    private void testSampler(final double[][] covMatrix, int samples, double epsilon) {
+        CorrelatedRandomVectorGenerator sampler = createSampler(covMatrix);
+        
+        StorelessCovariance cov = new StorelessCovariance(covMatrix.length);
+        for (int i = 0; i < samples; ++i) {
+            cov.increment(sampler.nextVector());
+        }
+
+        double[][] sampleCov = cov.getData();
+        for (int r = 0; r < covMatrix.length; ++r) {
+            TestUtils.assertEquals(covMatrix[r], sampleCov[r], epsilon);
+        }
+
+    }
+
 }

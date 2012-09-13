@@ -62,11 +62,10 @@ public class RectangularCholeskyDecomposition {
     public RectangularCholeskyDecomposition(RealMatrix matrix, double small)
         throws NonPositiveDefiniteMatrixException {
 
-        int order = matrix.getRowDimension();
-        double[][] c = matrix.getData();
-        double[][] b = new double[order][order];
+        final int order = matrix.getRowDimension();
+        final double[][] c = matrix.getData();
+        final double[][] b = new double[order][order];
 
-        int[] swap  = new int[order];
         int[] index = new int[order];
         for (int i = 0; i < order; ++i) {
             index[i] = i;
@@ -76,21 +75,24 @@ public class RectangularCholeskyDecomposition {
         for (boolean loop = true; loop;) {
 
             // find maximal diagonal element
-            swap[r] = r;
+            int swapR = r;
             for (int i = r + 1; i < order; ++i) {
                 int ii  = index[i];
-                int isi = index[swap[i]];
-                if (c[ii][ii] > c[isi][isi]) {
-                    swap[r] = i;
+                int isr = index[swapR];
+                if (c[ii][ii] > c[isr][isr]) {
+                    swapR = i;
                 }
             }
 
 
             // swap elements
-            if (swap[r] != r) {
-                int tmp = index[r];
-                index[r] = index[swap[r]];
-                index[swap[r]] = tmp;
+            if (swapR != r) {
+                final int tmpIndex    = index[r];
+                index[r]              = index[swapR];
+                index[swapR]          = tmpIndex;
+                final double[] tmpRow = b[r];
+                b[r]                  = b[swapR];
+                b[swapR]              = tmpRow;
             }
 
             // check diagonal element
@@ -118,17 +120,18 @@ public class RectangularCholeskyDecomposition {
             } else {
 
                 // transform the matrix
-                double sqrt = FastMath.sqrt(c[ir][ir]);
+                final double sqrt = FastMath.sqrt(c[ir][ir]);
                 b[r][r] = sqrt;
-                double inverse = 1 / sqrt;
+                final double inverse  = 1 / sqrt;
+                final double inverse2 = 1 / c[ir][ir];
                 for (int i = r + 1; i < order; ++i) {
-                    int ii = index[i];
-                    double e = inverse * c[ii][ir];
+                    final int ii = index[i];
+                    final double e = inverse * c[ii][ir];
                     b[i][r] = e;
-                    c[ii][ii] -= e * e;
+                    c[ii][ii] -= c[ii][ir] * c[ii][ir] * inverse2;
                     for (int j = r + 1; j < i; ++j) {
-                        int ij = index[j];
-                        double f = c[ii][ij] - e * b[j][r];
+                        final int ij = index[j];
+                        final double f = c[ii][ij] - e * b[j][r];
                         c[ii][ij] = f;
                         c[ij][ii] = f;
                     }
