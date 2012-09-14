@@ -18,8 +18,8 @@
 package org.apache.commons.math3.optimization;
 
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -93,21 +93,47 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
-public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
+public class MultivariateDifferentiableVectorMultiStartOptimizerTest {
 
     @Test
     public void testTrivial() {
         LinearProblem problem =
             new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
-        DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
-            new GaussNewtonOptimizer(true,
-                                     new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
+        // TODO: the wrapper around GaussNewtonOptimizer is a temporary hack for
+        // version 3.1 of the library. It should be removed when GaussNewtonOptimizer
+        // will officialy be declared as implementing MultivariateDifferentiableVectorOptimizer
+        MultivariateDifferentiableVectorOptimizer underlyingOptimizer =
+                new MultivariateDifferentiableVectorOptimizer() {
+            private GaussNewtonOptimizer gn =
+                    new GaussNewtonOptimizer(true,
+                                             new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
+
+            public PointVectorValuePair optimize(int maxEval,
+                                                 MultivariateDifferentiableVectorFunction f,
+                                                 double[] target,
+                                                 double[] weight,
+                                                 double[] startPoint) {
+                return gn.optimize(maxEval, f, target, weight, startPoint);
+            }
+
+            public int getMaxEvaluations() {
+                return gn.getMaxEvaluations();
+            }
+
+            public int getEvaluations() {
+                return gn.getEvaluations();
+            }
+
+            public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
+                return gn.getConvergenceChecker();
+            }
+        };
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(16069223052l);
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(1, new GaussianRandomGenerator(g));
-        DifferentiableMultivariateVectorMultiStartOptimizer optimizer =
-            new DifferentiableMultivariateVectorMultiStartOptimizer(underlyingOptimizer,
+        MultivariateDifferentiableVectorMultiStartOptimizer optimizer =
+            new MultivariateDifferentiableVectorMultiStartOptimizer(underlyingOptimizer,
                                                                        10, generator);
 
         // no optima before first optimization attempt
@@ -134,23 +160,50 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
 
     @Test(expected=TestException.class)
     public void testNoOptimum() {
-        DifferentiableMultivariateVectorOptimizer underlyingOptimizer =
-            new GaussNewtonOptimizer(true,
-                                     new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
+
+        // TODO: the wrapper around GaussNewtonOptimizer is a temporary hack for
+        // version 3.1 of the library. It should be removed when GaussNewtonOptimizer
+        // will officialy be declared as implementing MultivariateDifferentiableVectorOptimizer
+        MultivariateDifferentiableVectorOptimizer underlyingOptimizer =
+                new MultivariateDifferentiableVectorOptimizer() {
+            private GaussNewtonOptimizer gn =
+                    new GaussNewtonOptimizer(true,
+                                             new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
+
+            public PointVectorValuePair optimize(int maxEval,
+                                                 MultivariateDifferentiableVectorFunction f,
+                                                 double[] target,
+                                                 double[] weight,
+                                                 double[] startPoint) {
+                return gn.optimize(maxEval, f, target, weight, startPoint);
+            }
+
+            public int getMaxEvaluations() {
+                return gn.getMaxEvaluations();
+            }
+
+            public int getEvaluations() {
+                return gn.getEvaluations();
+            }
+
+            public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
+                return gn.getConvergenceChecker();
+            }
+        };
         JDKRandomGenerator g = new JDKRandomGenerator();
         g.setSeed(12373523445l);
         RandomVectorGenerator generator =
             new UncorrelatedRandomVectorGenerator(1, new GaussianRandomGenerator(g));
-        DifferentiableMultivariateVectorMultiStartOptimizer optimizer =
-            new DifferentiableMultivariateVectorMultiStartOptimizer(underlyingOptimizer,
+        MultivariateDifferentiableVectorMultiStartOptimizer optimizer =
+            new MultivariateDifferentiableVectorMultiStartOptimizer(underlyingOptimizer,
                                                                        10, generator);
-        optimizer.optimize(100, new DifferentiableMultivariateVectorFunction() {
-                public MultivariateMatrixFunction jacobian() {
-                    return null;
-                }
-                public double[] value(double[] point) {
-                    throw new TestException();
-                }
+        optimizer.optimize(100, new MultivariateDifferentiableVectorFunction() {
+            public double[] value(double[] point) {
+                throw new TestException();
+            }
+            public DerivativeStructure[] value(DerivativeStructure[] point) {
+                return point;
+            }
             }, new double[] { 2 }, new double[] { 1 }, new double[] { 0 });
     }
 
@@ -158,7 +211,7 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
         private static final long serialVersionUID = -7809988995389067683L;
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateVectorFunction {
+    private static class LinearProblem implements MultivariateDifferentiableVectorFunction {
 
         final RealMatrix factors;
         final double[] target;
@@ -171,12 +224,15 @@ public class DifferentiableMultivariateVectorMultiStartOptimizerTest {
             return factors.operate(variables);
         }
 
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                public double[][] value(double[] point) {
-                    return factors.getData();
+        public DerivativeStructure[] value(DerivativeStructure[] variables) {
+            DerivativeStructure[] y = new DerivativeStructure[factors.getRowDimension()];
+            for (int i = 0; i < y.length; ++i) {
+                y[i] = variables[0].getField().getZero();
+                for (int j = 0; j < factors.getColumnDimension(); ++j) {
+                    y[i] = y[i].add(variables[j].multiply(factors.getEntry(i, j)));
                 }
-            };
+            }
+            return y;
         }
 
     }

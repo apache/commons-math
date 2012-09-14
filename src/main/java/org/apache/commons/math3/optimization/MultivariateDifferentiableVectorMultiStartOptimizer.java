@@ -17,11 +17,11 @@
 
 package org.apache.commons.math3.optimization;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.random.RandomVectorGenerator;
 
 /**
- * Special implementation of the {@link DifferentiableMultivariateOptimizer}
+ * Special implementation of the {@link MultivariateDifferentiableVectorOptimizer}
  * interface adding multi-start features to an existing optimizer.
  *
  * This class wraps a classical optimizer to use it several times in
@@ -29,12 +29,11 @@ import org.apache.commons.math3.random.RandomVectorGenerator;
  * into a local extremum when looking for a global one.
  *
  * @version $Id$
- * @since 2.0
- * @deprecated as of 3.1 replaced by {@link MultivariateDifferentiableMultiStartOptimizer}
+ * @since 3.1
  */
-public class DifferentiableMultivariateMultiStartOptimizer
-    extends BaseMultivariateMultiStartOptimizer<DifferentiableMultivariateFunction>
-    implements DifferentiableMultivariateOptimizer {
+public class MultivariateDifferentiableVectorMultiStartOptimizer
+    extends BaseMultivariateVectorMultiStartOptimizer<MultivariateDifferentiableVectorFunction>
+    implements MultivariateDifferentiableVectorOptimizer {
     /**
      * Create a multi-start optimizer from a single-start optimizer.
      *
@@ -44,9 +43,10 @@ public class DifferentiableMultivariateMultiStartOptimizer
      * equal to 1.
      * @param generator Random vector generator to use for restarts.
      */
-    public DifferentiableMultivariateMultiStartOptimizer(final DifferentiableMultivariateOptimizer optimizer,
-                                                         final int starts,
-                                                         final RandomVectorGenerator generator) {
+    public MultivariateDifferentiableVectorMultiStartOptimizer(
+                final MultivariateDifferentiableVectorOptimizer optimizer,
+                final int starts,
+                final RandomVectorGenerator generator) {
         super(optimizer, starts, generator);
     }
 }

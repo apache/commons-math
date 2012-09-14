@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import java.awt.geom.Point2D;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well44497b;
 import org.apache.commons.math3.util.MathUtils;
@@ -25,6 +24,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * Factory for generating a cloud of points that approximate a circle.
@@ -69,8 +69,8 @@ public class RandomCirclePointGenerator {
      * @param n Number of points to create.
      * @return the cloud of {@code n} points.
      */
-    public Point2D.Double[] generate(int n) {
-        final Point2D.Double[] cloud = new Point2D.Double[n];
+    public Vector2D[] generate(int n) {
+        final Vector2D[] cloud = new Vector2D[n];
         for (int i = 0; i < n; i++) {
             cloud[i] = create();
         }
@@ -82,11 +82,11 @@ public class RandomCirclePointGenerator {
      *
      * @return a point.
      */
-    private Point2D.Double create() {
+    private Vector2D create() {
         final double t = tP.sample();
         final double pX = cX.sample() + radius * FastMath.cos(t);
         final double pY = cY.sample() + radius * FastMath.sin(t);
 
-        return new Point2D.Double(pX, pY);
+        return new Vector2D(pX, pY);
     }
 }

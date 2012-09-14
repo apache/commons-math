@@ -17,12 +17,17 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import java.awt.geom.Point2D;
 import java.io.Serializable;
+
 import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optimization.GoalType;
@@ -337,13 +342,13 @@ public class NonLinearConjugateGradientOptimizerTest {
                                                     new BrentSolver(1e-15, 1e-13));
         PointValuePair optimum =
             optimizer.optimize(100, circle, GoalType.MINIMIZE, new double[] { 98.680, 47.345 });
-        Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
+        Vector2D center = new Vector2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertEquals(69.960161753, circle.getRadius(center), 1.0e-8);
-        Assert.assertEquals(96.075902096, center.x, 1.0e-8);
-        Assert.assertEquals(48.135167894, center.y, 1.0e-8);
+        Assert.assertEquals(96.075902096, center.getX(), 1.0e-8);
+        Assert.assertEquals(48.135167894, center.getY(), 1.0e-8);
     }
 
-    private static class LinearProblem implements DifferentiableMultivariateFunction, Serializable {
+    private static class LinearProblem implements MultivariateDifferentiableFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -351,18 +356,6 @@ public class NonLinearConjugateGradientOptimizerTest {
         public LinearProblem(double[][] factors, double[] target) {
             this.factors = new BlockRealMatrix(factors);
             this.target  = target;
-        }
-
-        private double[] gradient(double[] point) {
-            double[] r = factors.operate(point);
-            for (int i = 0; i < r.length; ++i) {
-                r[i] -= target[i];
-            }
-            double[] p = factors.transpose().operate(r);
-            for (int i = 0; i < p.length; ++i) {
-                p[i] *= 2;
-            }
-            return p;
         }
 
         public double value(double[] variables) {
@@ -375,20 +368,22 @@ public class NonLinearConjugateGradientOptimizerTest {
             return sum;
         }
 
-        public MultivariateVectorFunction gradient() {
-            return new MultivariateVectorFunction() {
-                public double[] value(double[] point) {
-                    return gradient(point);
+        public DerivativeStructure value(DerivativeStructure[] variables) {
+            DerivativeStructure[] y = new DerivativeStructure[factors.getRowDimension()];
+            for (int i = 0; i < y.length; ++i) {
+                y[i] = variables[0].getField().getZero();
+                for (int j = 0; j < factors.getColumnDimension(); ++j) {
+                    y[i] = y[i].add(variables[j].multiply(factors.getEntry(i, j)));
                 }
-            };
+            }
+
+            DerivativeStructure sum = variables[0].getField().getZero();
+            for (int i = 0; i < y.length; ++i) {
+                DerivativeStructure ri = y[i].subtract(target[i]);
+                sum = sum.add(ri.multiply(ri));
+            }
+            return sum;
         }
 
-        public MultivariateFunction partialDerivative(final int k) {
-            return new MultivariateFunction() {
-                public double value(double[] point) {
-                    return gradient(point)[k];
-                }
-            };
-        }
     }
 }

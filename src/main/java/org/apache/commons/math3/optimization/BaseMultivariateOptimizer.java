@@ -25,7 +25,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * the following interfaces:
  * <ul>
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.

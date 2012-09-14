@@ -23,8 +23,8 @@ package org.apache.commons.math3.optimization;
  * the following interfaces:
  * <ul>
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer}</li>
  *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer}</li>
  * </ul>
  *

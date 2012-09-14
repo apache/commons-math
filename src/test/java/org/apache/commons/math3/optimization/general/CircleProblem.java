@@ -18,9 +18,10 @@
 package org.apache.commons.math3.optimization.general;
 
 import java.util.ArrayList;
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.util.MathUtils;
+
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -37,31 +38,13 @@ import org.apache.commons.math3.util.FastMath;
  *   corresponding circle.</li>
  * </ul>
  */
-class CircleProblem implements DifferentiableMultivariateVectorFunction {
+class CircleProblem implements MultivariateDifferentiableVectorFunction {
     /** Cloud of points assumed to be fitted by a circle. */
-    private final ArrayList<double[]> points;
+    private final ArrayList<Vector2D> points;
     /** Error on the x-coordinate of the points. */
     private final double xSigma;
     /** Error on the y-coordinate of the points. */
     private final double ySigma;
-    /** Number of points on the circumference (when searching which
-        model point is closest to a given "observation". */
-    private final int resolution;
-
-    /**
-     * @param xError Assumed error for the x-coordinate of the circle points.
-     * @param yError Assumed error for the y-coordinate of the circle points.
-     * @param searchResolution Number of points to try when searching the one
-     * that is closest to a given "observed" point.
-     */
-    public CircleProblem(double xError,
-                         double yError,
-                         int searchResolution) {
-        points = new ArrayList<double[]>();
-        xSigma = xError;
-        ySigma = yError;
-        resolution = searchResolution;
-    }
 
     /**
      * @param xError Assumed error for the x-coordinate of the circle points.
@@ -69,20 +52,22 @@ class CircleProblem implements DifferentiableMultivariateVectorFunction {
      */
     public CircleProblem(double xError,
                          double yError) {
-        this(xError, yError, 500);
+        points = new ArrayList<Vector2D>();
+        xSigma = xError;
+        ySigma = yError;
     }
 
-    public void addPoint(double px, double py) {
-        points.add(new double[] { px, py });
+    public void addPoint(Vector2D p) {
+        points.add(p);
     }
 
     public double[] target() {
         final double[] t = new double[points.size() * 2];
         for (int i = 0; i < points.size(); i++) {
-            final double[] p = points.get(i);
+            final Vector2D p = points.get(i);
             final int index = i * 2;
-            t[index] = p[0];
-            t[index + 1] = p[1];
+            t[index]     = p.getX();
+            t[index + 1] = p.getY();
         }
 
         return t;
@@ -108,65 +93,46 @@ class CircleProblem implements DifferentiableMultivariateVectorFunction {
 
         final double[] model = new double[points.size() * 2];
 
-        final double deltaTheta = MathUtils.TWO_PI / resolution;
         for (int i = 0; i < points.size(); i++) {
-            final double[] p = points.get(i);
-            final double px = p[0];
-            final double py = p[1];
+            final Vector2D p = points.get(i);
 
-            double bestX = 0;
-            double bestY = 0;
-            double dMin = Double.POSITIVE_INFINITY;
+            // Find the circle point closest to the observed point
+            // (observed points are points add through the addPoint method above)
+            final double dX = cx - p.getX();
+            final double dY = cy - p.getY();
+            final double scaling = r / FastMath.hypot(dX, dY);
+            final int index  = i * 2;
+            model[index]     = cx - scaling * dX;
+            model[index + 1] = cy - scaling * dY;
 
-            // Find the angle for which the circle passes closest to the
-            // current point (using a resolution of 100 points along the
-            // circumference).
-            for (double theta = 0; theta <= MathUtils.TWO_PI; theta += deltaTheta) {
-                final double currentX = cx + r * FastMath.cos(theta);
-                final double currentY = cy + r * FastMath.sin(theta);
-                final double dX = currentX - px;
-                final double dY = currentY - py;
-                final double d = dX * dX + dY * dY;
-                if (d < dMin) {
-                    dMin = d;
-                    bestX = currentX;
-                    bestY = currentY;
-                }
-            }
-
-            final int index = i * 2;
-            model[index] = bestX;
-            model[index + 1] = bestY;
         }
 
         return model;
     }
 
-    public MultivariateMatrixFunction jacobian() {
-        return new MultivariateMatrixFunction() {
-            public double[][] value(double[] point) {
-                return jacobian(point);
-            }
-        };
-    }
+    public DerivativeStructure[] value(DerivativeStructure[] params) {
+        final DerivativeStructure cx = params[0];
+        final DerivativeStructure cy = params[1];
+        final DerivativeStructure r = params[2];
 
-    private double[][] jacobian(double[] params) {
-        final double[][] jacobian = new double[points.size() * 2][3];
+        final DerivativeStructure[] model = new DerivativeStructure[points.size() * 2];
 
         for (int i = 0; i < points.size(); i++) {
-            final int index = i * 2;
-            // Partial derivative wrt x-coordinate of center. 
-            jacobian[index][0] = 1;
-            jacobian[index + 1][0] = 0;
-            // Partial derivative wrt y-coordinate of center.
-            jacobian[index][1] = 0;
-            jacobian[index + 1][1] = 1;
-            // Partial derivative wrt radius.
-            final double[] p = points.get(i);
-            jacobian[index][2] = (p[0] - params[0]) / params[2];
-            jacobian[index + 1][2] = (p[1] - params[1]) / params[2];
+            final Vector2D p = points.get(i);
+
+            // Find the circle point closest to the observed point
+            // (observed points are points add through the addPoint method above)
+            final DerivativeStructure dX = cx.subtract(p.getX());
+            final DerivativeStructure dY = cy.subtract(p.getY());
+            final DerivativeStructure scaling = r.divide(dX.multiply(dX).add(dY.multiply(dY)).sqrt());
+            final int index  = i * 2;
+            model[index]     = cx.subtract(scaling.multiply(dX));
+            model[index + 1] = cy.subtract(scaling.multiply(dY));
+
         }
 
-        return jacobian;
+        return model;
+
     }
+
 }

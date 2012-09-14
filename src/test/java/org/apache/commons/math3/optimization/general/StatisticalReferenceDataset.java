@@ -20,8 +20,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -67,7 +67,7 @@ public abstract class StatisticalReferenceDataset {
     private double residualSumOfSquares;
 
     /** The least-squares problem. */
-    private final DifferentiableMultivariateVectorFunction problem;
+    private final MultivariateDifferentiableVectorFunction problem;
 
     /**
      * Creates a new instance of this class from the specified data file. The
@@ -150,29 +150,30 @@ public abstract class StatisticalReferenceDataset {
         }
         this.name = dummyString;
 
-        this.problem = new DifferentiableMultivariateVectorFunction() {
+        this.problem = new MultivariateDifferentiableVectorFunction() {
+
             public double[] value(final double[] a) {
+                DerivativeStructure[] dsA = new DerivativeStructure[a.length];
+                for (int i = 0; i < a.length; ++i) {
+                    dsA[i] = new DerivativeStructure(a.length, 0, a[i]);
+                }
                 final int n = getNumObservations();
                 final double[] yhat = new double[n];
+                for (int i = 0; i < n; i++) {
+                    yhat[i] = getModelValue(getX(i), dsA).getValue();
+                }
+                return yhat;
+            }
+
+            public DerivativeStructure[] value(final DerivativeStructure[] a) {
+                final int n = getNumObservations();
+                final DerivativeStructure[] yhat = new DerivativeStructure[n];
                 for (int i = 0; i < n; i++) {
                     yhat[i] = getModelValue(getX(i), a);
                 }
                 return yhat;
             }
 
-            public MultivariateMatrixFunction jacobian() {
-                return new MultivariateMatrixFunction() {
-                    public double[][] value(final double[] a)
-                        throws IllegalArgumentException {
-                        final int n = getNumObservations();
-                        final double[][] j = new double[n][];
-                        for (int i = 0; i < n; i++) {
-                            j[i] = getModelDerivatives(getX(i), a);
-                        }
-                        return j;
-                    }
-                };
-            }
         };
     }
 
@@ -309,7 +310,7 @@ public abstract class StatisticalReferenceDataset {
      *
      * @return the least-squares problem
      */
-    public DifferentiableMultivariateVectorFunction getLeastSquaresProblem() {
+    public MultivariateDifferentiableVectorFunction getLeastSquaresProblem() {
         return problem;
     }
 
@@ -321,18 +322,7 @@ public abstract class StatisticalReferenceDataset {
      * @param a the parameters
      * @return the value of the model
      */
-    public abstract double getModelValue(final double x, final double[] a);
-
-    /**
-     * Returns the values of the partial derivatives of the model with respect
-     * to the parameters.
-     *
-     * @param x the predictor variable
-     * @param a the parameters
-     * @return the partial derivatives
-     */
-    public abstract double[] getModelDerivatives(final double x,
-                                                 final double[] a);
+    public abstract DerivativeStructure getModelValue(final double x, final DerivativeStructure[] a);
 
     /**
      * <p>

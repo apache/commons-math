@@ -21,6 +21,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.JacobianFunction;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -36,11 +38,10 @@ import org.apache.commons.math3.util.FastMath;
  * It handles the boilerplate methods associated to thresholds settings,
  * jacobian and error estimation.
  * <br/>
- * This class uses the {@link DifferentiableMultivariateVectorFunction#jacobian()}
- * of the function argument in method
- * {@link #optimize(int,DifferentiableMultivariateVectorFunction,double[],double[],double[])
+ * This class uses the {@link JacobianFunction Jacobian} of the function argument in method
+ * {@link #optimize(int, MultivariateDifferentiableVectorFunction, double[], double[], double[])
  * optimize} and assumes that, in the matrix returned by the
- * {@link MultivariateMatrixFunction#value(double[]) value} method, the rows
+ * {@link JacobianFunction#value(double[]) value} method, the rows
  * iterate on the model functions while the columns iterate on the parameters; thus,
  * the numbers of rows is equal to the length of the {@code target} array while the
  * number of columns is equal to the length of the {@code startPoint} array.
@@ -292,8 +293,12 @@ public abstract class AbstractLeastSquaresOptimizer
         return sig;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.1 replaced by {@link #optimize(int,
+     * MultivariateDifferentiableVectorFunction, double[], double[], double[])}
+     */
     @Override
+    @Deprecated
     public PointVectorValuePair optimize(int maxEval,
                                          final DifferentiableMultivariateVectorFunction f,
                                          final double[] target, final double[] weights,
@@ -314,6 +319,51 @@ public abstract class AbstractLeastSquaresOptimizer
 
         cost = Double.POSITIVE_INFINITY;
 
-        return super.optimize(maxEval, f, target, weights, startPoint);
+        return optimizeInternal(maxEval, f, target, weights, startPoint);
     }
+
+    /**
+     * Optimize an objective function.
+     * Optimization is considered to be a weighted least-squares minimization.
+     * The cost function to be minimized is
+     * <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>
+     *
+     * @param f Objective function.
+     * @param target Target value for the objective functions at optimum.
+     * @param weight Weights for the least squares cost computation.
+     * @param startPoint Start point for optimization.
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     * @param maxEval Maximum number of function evaluations.
+     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * any argument is {@code null}.
+     */
+    public PointVectorValuePair optimize(final int maxEval,
+                                         final MultivariateDifferentiableVectorFunction f,
+                                         final double[] target, final double[] weights,
+                                         final double[] startPoint) {
+
+        // Reset counter.
+        jacobianEvaluations = 0;
+
+        // Store least squares problem characteristics.
+        jF = new JacobianFunction(f);
+
+        // Arrays shared with the other private methods.
+        point = startPoint.clone();
+        rows = target.length;
+        cols = point.length;
+
+        weightedResidualJacobian = new double[rows][cols];
+        this.weightedResiduals = new double[rows];
+
+        cost = Double.POSITIVE_INFINITY;
+
+        return optimizeInternal(maxEval, f, target, weights, startPoint);
+    }
+
 }

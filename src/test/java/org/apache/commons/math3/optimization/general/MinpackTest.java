@@ -22,8 +22,8 @@ import java.util.Arrays;
 
 
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -522,7 +522,7 @@ public class MinpackTest {
   }
 
   private static abstract class MinpackFunction
-      implements DifferentiableMultivariateVectorFunction, Serializable {
+      implements MultivariateDifferentiableVectorFunction, Serializable {
 
       private static final long serialVersionUID = -6209760235478794233L;
       protected int      n;
@@ -590,17 +590,20 @@ public class MinpackTest {
           }
       }
 
-      public MultivariateMatrixFunction jacobian() {
-          return new MultivariateMatrixFunction() {
-            public double[][] value(double[] point) {
-                  return jacobian(point);
-              }
-          };
+      public double[] value(double[] variables) {
+          DerivativeStructure[] dsV = new DerivativeStructure[variables.length];
+          for (int i = 0; i < variables.length; ++i) {
+              dsV[i] = new DerivativeStructure(0, 0, variables[i]);
+          }
+          DerivativeStructure[] dsY = value(dsV);
+          double[] y = new double[dsY.length];
+          for (int i = 0; i < dsY.length; ++i) {
+              y[i] = dsY[i].getValue();
+          }
+          return y;
       }
 
-      public abstract double[][] jacobian(double[] variables);
-
-      public abstract double[] value(double[] variables);
+      public abstract DerivativeStructure[] value(DerivativeStructure[] variables);
 
   }
 
@@ -616,30 +619,17 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double t = 2.0 / m;
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        jacobian[i] = new double[n];
-        for (int j = 0; j < n; ++j) {
-          jacobian[i][j] = (i == j) ? (1 - t) : -t;
-        }
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double sum = 0;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+      DerivativeStructure sum = variables[0].getField().getZero();
       for (int i = 0; i < n; ++i) {
-        sum += variables[i];
+        sum = sum.add(variables[i]);
       }
-      double t  = 1 + 2 * sum / m;
-      double[] f = new double[m];
+      DerivativeStructure t  = sum.multiply(2.0 / m).add(1);
+      DerivativeStructure[] f = new DerivativeStructure[m];
       for (int i = 0; i < n; ++i) {
-        f[i] = variables[i] - t;
+        f[i] = variables[i].subtract(t);
       }
-      Arrays.fill(f, n, m, -t);
+      Arrays.fill(f, n, m, t.negate());
       return f;
     }
 
@@ -656,28 +646,16 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        jacobian[i] = new double[n];
-        for (int j = 0; j < n; ++j) {
-          jacobian[i][j] = (i + 1) * (j + 1);
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        DerivativeStructure sum = variables[0].getField().getZero();
+        for (int i = 0; i < n; ++i) {
+            sum = sum.add(variables[i].multiply(i + 1));
         }
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double[] f = new double[m];
-      double sum = 0;
-      for (int i = 0; i < n; ++i) {
-        sum += (i + 1) * variables[i];
-      }
-      for (int i = 0; i < m; ++i) {
-        f[i] = (i + 1) * sum - 1;
-      }
-      return f;
+        for (int i = 0; i < m; ++i) {
+            f[i] = sum.multiply(i + 1).subtract(1);
+        }
+        return f;
     }
 
   }
@@ -693,36 +671,16 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        jacobian[i] = new double[n];
-        jacobian[i][0] = 0;
-        for (int j = 1; j < (n - 1); ++j) {
-          if (i == 0) {
-            jacobian[i][j] = 0;
-          } else if (i != (m - 1)) {
-            jacobian[i][j] = i * (j + 1);
-          } else {
-            jacobian[i][j] = 0;
-          }
-        }
-        jacobian[i][n - 1] = 0;
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double[] f = new double[m];
-      double sum = 0;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        DerivativeStructure sum = variables[0].getField().getZero();
       for (int i = 1; i < (n - 1); ++i) {
-        sum += (i + 1) * variables[i];
+          sum = sum.add(variables[i].multiply(i + 1));
       }
       for (int i = 0; i < (m - 1); ++i) {
-        f[i] = i * sum - 1;
+        f[i] = sum.multiply(i).subtract(1);
       }
-      f[m - 1] = -1;
+      f[m - 1] = variables[0].getField().getOne().negate();
       return f;
     }
 
@@ -737,16 +695,13 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double x1 = variables[0];
-      return new double[][] { { -20 * x1, 10 }, { -1, 0 } };
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      return new double[] { 10 * (x2 - x1 * x1), 1 - x1 };
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        return new DerivativeStructure[] {
+            x2.subtract(x1.multiply(x1)).multiply(10),
+            x1.negate().add(1)
+        };
     }
 
   }
@@ -761,39 +716,25 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double tmpSquare = x1 * x1 + x2 * x2;
-      double tmp1 = twoPi * tmpSquare;
-      double tmp2 = FastMath.sqrt(tmpSquare);
-      return new double[][] {
-        {  100 * x2 / tmp1, -100 * x1 / tmp1, 10 },
-        { 10 * x1 / tmp2, 10 * x2 / tmp2, 0 },
-        { 0, 0, 1 }
-      };
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double tmp1;
-      if (x1 == 0) {
-        tmp1 = (x2 >= 0) ? 0.25 : -0.25;
-      } else {
-        tmp1 = FastMath.atan(x2 / x1) / twoPi;
-        if (x1 < 0) {
-          tmp1 += 0.5;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure tmp1 = variables[0].getField().getZero();
+        if (x1.getValue() == 0) {
+            tmp1 = tmp1.add((x2.getValue() >= 0) ? 0.25 : -0.25);
+        } else {
+            tmp1 = x2.divide(x1).atan().divide(twoPi);
+            if (x1.getValue() < 0) {
+                tmp1 = tmp1.add(0.5);
+            }
         }
-      }
-      double tmp2 = FastMath.sqrt(x1 * x1 + x2 * x2);
-      return new double[] {
-        10.0 * (x3 - 10 * tmp1),
-        10.0 * (tmp2 - 1),
-        x3
-      };
+        DerivativeStructure tmp2 = x1.multiply(x1).add(x2.multiply(x2)).sqrt();
+        return new DerivativeStructure[] {
+            x3.subtract(tmp1.multiply(10)).multiply(10),
+            tmp2.subtract(1).multiply(10),
+            x3
+        };
     }
 
     private static final double twoPi = 2.0 * FastMath.PI;
@@ -810,30 +751,16 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double x4 = variables[3];
-      return new double[][] {
-        { 1, 10, 0, 0 },
-        { 0, 0, sqrt5, -sqrt5 },
-        { 0, 2 * (x2 - 2 * x3), -4 * (x2 - 2 * x3), 0 },
-        { 2 * sqrt10 * (x1 - x4), 0, 0, -2 * sqrt10 * (x1 - x4) }
-      };
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double x4 = variables[3];
-      return new double[] {
-        x1 + 10 * x2,
-        sqrt5 * (x3 - x4),
-        (x2 - 2 * x3) * (x2 - 2 * x3),
-        sqrt10 * (x1 - x4) * (x1 - x4)
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure x4 = variables[3];
+      return new DerivativeStructure[] {
+        x1.add(x2.multiply(10)),
+        x3.subtract(x4).multiply(sqrt5),
+        x2.subtract(x3.multiply(2)).multiply(x2.subtract(x3.multiply(2))),
+        x1.subtract(x4).multiply(x1.subtract(x4)).multiply(sqrt10)
       };
     }
 
@@ -855,22 +782,13 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double x2 = variables[1];
-      return new double[][] {
-        { 1, x2 * (10 - 3 * x2) -  2 },
-        { 1, x2 * ( 2 + 3 * x2) - 14, }
-      };
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      return new double[] {
-       -13.0 + x1 + ((5.0 - x2) * x2 -  2.0) * x2,
-       -29.0 + x1 + ((1.0 + x2) * x2 - 14.0) * x2
-      };
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        return new DerivativeStructure[] {
+            x1.subtract(13.0).add(x2.negate().add(5.0).multiply(x2).subtract(2).multiply(x2)),
+            x1.subtract(29.0).add(x2.add(1).multiply(x2).subtract(14).multiply(x2))
+        };
     }
 
   }
@@ -888,32 +806,16 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        double tmp1 = i  + 1;
-        double tmp2 = 15 - i;
-        double tmp3 = (i <= 7) ? tmp1 : tmp2;
-        double tmp4 = x2 * tmp2 + x3 * tmp3;
-        tmp4 *= tmp4;
-        jacobian[i] = new double[] { -1, tmp1 * tmp2 / tmp4, tmp1 * tmp3 / tmp4 };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double[] f = new double[m];
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure   x1 = variables[0];
+        DerivativeStructure   x2 = variables[1];
+        DerivativeStructure   x3 = variables[2];
+        DerivativeStructure[] f = new DerivativeStructure[m];
       for (int i = 0; i < m; ++i) {
         double tmp1 = i + 1;
         double tmp2 = 15 - i;
         double tmp3 = (i <= 7) ? tmp1 : tmp2;
-        f[i] = y[i] - (x1 + tmp1 / (x2 * tmp2 + x3 * tmp3));
+        f[i] = x1.add(x2.multiply(tmp2).add(x3.multiply(tmp3)).reciprocal().multiply(tmp1)).negate().add(y[i]);
       }
       return f;
     }
@@ -943,34 +845,16 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double   x4 = variables[3];
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        double tmp = v[i] * (v[i] + x3) + x4;
-        double j1  = -v[i] * (v[i] + x2) / tmp;
-        double j2  = -v[i] * x1 / tmp;
-        double j3  = j1 * j2;
-        double j4  = j3 / v[i];
-        jacobian[i] = new double[] { j1, j2, j3, j4 };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double x4 = variables[3];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        f[i] = y[i] - x1 * (v[i] * (v[i] + x2)) / (v[i] * (v[i] + x3) + x4);
-      }
-      return f;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure x4 = variables[3];
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        for (int i = 0; i < m; ++i) {
+            f[i] = x1.multiply(x2.add(v[i]).multiply(v[i])).divide(x4.add(x3.add(v[i]).multiply(v[i]))).negate().add(y[i]);
+        }
+        return f;
     }
 
     private static final double[] v = {
@@ -1001,29 +885,13 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double[][] jacobian = new double[m][];
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure[] f = new DerivativeStructure[m];
       for (int i = 0; i < m; ++i) {
-        double temp = 5.0 * (i + 1) + 45.0 + x3;
-        double tmp1 = x2 / temp;
-        double tmp2 = FastMath.exp(tmp1);
-        double tmp3 = x1 * tmp2 / temp;
-        jacobian[i] = new double[] { tmp2, tmp3, -tmp1 * tmp3 };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        f[i] = x1 * FastMath.exp(x2 / (5.0 * (i + 1) + 45.0 + x3)) - y[i];
+        f[i] = x1.multiply(x2.divide(x3.add(5.0 * (i + 1) + 45.0)).exp()).subtract(y[i]);
       }
      return f;
     }
@@ -1050,64 +918,31 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-
-      double[][] jacobian = new double[m][];
-
-      for (int i = 0; i < (m - 2); ++i) {
-        double div = (i + 1) / 29.0;
-        double s2  = 0.0;
-        double dx  = 1.0;
-        for (int j = 0; j < n; ++j) {
-          s2 += dx * variables[j];
-          dx *= div;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        for (int i = 0; i < (m - 2); ++i) {
+            double div = (i + 1) / 29.0;
+            DerivativeStructure s1 = variables[0].getField().getZero();
+            DerivativeStructure dx = variables[0].getField().getOne();
+            for (int j = 1; j < n; ++j) {
+                s1 = s1.add(dx.multiply(j).multiply(variables[j]));
+                dx = dx.multiply(div);
+            }
+            DerivativeStructure s2 = variables[0].getField().getZero();
+            dx = variables[0].getField().getOne();
+            for (int j = 0; j < n; ++j) {
+                s2 = s2.add(dx.multiply(variables[j]));
+                dx = dx.multiply(div);
+            }
+            f[i] = s1.subtract(s2.multiply(s2)).subtract(1);
         }
-        double temp= 2 * div * s2;
-        dx = 1.0 / div;
-        jacobian[i] = new double[n];
-        for (int j = 0; j < n; ++j) {
-          jacobian[i][j] = dx * (j - temp);
-          dx *= div;
-        }
-      }
 
-      jacobian[m - 2]    = new double[n];
-      jacobian[m - 2][0] = 1;
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        f[m - 2] = x1;
+        f[m - 1] = x2.subtract(x1.multiply(x1)).subtract(1);
 
-      jacobian[m - 1]   = new double[n];
-      jacobian[m - 1][0]= -2 * variables[0];
-      jacobian[m - 1][1]= 1;
-
-      return jacobian;
-
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-     double[] f = new double[m];
-     for (int i = 0; i < (m - 2); ++i) {
-       double div = (i + 1) / 29.0;
-       double s1 = 0;
-       double dx = 1;
-       for (int j = 1; j < n; ++j) {
-         s1 += j * dx * variables[j];
-         dx *= div;
-       }
-       double s2 =0;
-       dx =1;
-       for (int j = 0; j < n; ++j) {
-         s2 += dx * variables[j];
-         dx *= div;
-       }
-       f[i] = s1 - s2 * s2 - 1;
-     }
-
-     double x1 = variables[0];
-     double x2 = variables[1];
-     f[m - 2] = x1;
-     f[m - 1] = x2 - x1 * x1 - 1;
-
-     return f;
+        return f;
 
     }
 
@@ -1124,31 +959,15 @@ public class MinpackTest {
    }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double[][] jacobian = new double[m][];
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure[] f = new DerivativeStructure[m];
       for (int i = 0; i < m; ++i) {
         double tmp = (i + 1) / 10.0;
-        jacobian[i] = new double[] {
-          -tmp * FastMath.exp(-tmp * x1),
-           tmp * FastMath.exp(-tmp * x2),
-          FastMath.exp(-i - 1) - FastMath.exp(-tmp)
-        };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        double tmp = (i + 1) / 10.0;
-        f[i] = FastMath.exp(-tmp * x1) - FastMath.exp(-tmp * x2)
-             + (FastMath.exp(-i - 1) - FastMath.exp(-tmp)) * x3;
+        f[i] = x1.multiply(-tmp).exp().subtract(x2.multiply(-tmp).exp()).add(
+                  x3.multiply(FastMath.exp(-i - 1) - FastMath.exp(-tmp)));
       }
       return f;
     }
@@ -1168,27 +987,15 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        double t = i + 1;
-        jacobian[i] = new double[] { -t * FastMath.exp(t * x1), -t * FastMath.exp(t * x2) };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        double temp = i + 1;
-        f[i] = 2 + 2 * temp - FastMath.exp(temp * x1) - FastMath.exp(temp * x2);
-      }
-      return f;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        for (int i = 0; i < m; ++i) {
+            double temp = i + 1;
+            f[i] = x1.multiply(temp).exp().add(x2.multiply(temp).exp()).subtract(2 + 2 * temp).negate();
+        }
+        return f;
     }
 
   }
@@ -1207,38 +1014,19 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x1 = variables[0];
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double   x4 = variables[3];
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        double temp = (i + 1) / 5.0;
-        double ti   = FastMath.sin(temp);
-        double tmp1 = x1 + temp * x2 - FastMath.exp(temp);
-        double tmp2 = x3 + ti   * x4 - FastMath.cos(temp);
-        jacobian[i] = new double[] {
-          2 * tmp1, 2 * temp * tmp1, 2 * tmp2, 2 * ti * tmp2
-        };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double x4 = variables[3];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        double temp = (i + 1) / 5.0;
-        double tmp1 = x1 + temp * x2 - FastMath.exp(temp);
-        double tmp2 = x3 + FastMath.sin(temp) * x4 - FastMath.cos(temp);
-        f[i] = tmp1 * tmp1 + tmp2 * tmp2;
-      }
-      return f;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure x4 = variables[3];
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        for (int i = 0; i < m; ++i) {
+            double temp = (i + 1) / 5.0;
+            DerivativeStructure tmp1 = x1.add(x2.multiply(temp)).subtract(FastMath.exp(temp));
+            DerivativeStructure tmp2 = x3.add(x4.multiply(FastMath.sin(temp))).subtract(FastMath.cos(temp));
+            f[i] = tmp1.multiply(tmp1).add(tmp2.multiply(tmp2));
+        }
+        return f;
     }
 
   }
@@ -1265,63 +1053,34 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
 
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        jacobian[i] = new double[n];
-      }
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        Arrays.fill(f, variables[0].getField().getZero());
 
-      double dx = 1.0 / n;
-      for (int j = 0; j < n; ++j) {
-        double tmp1 = 1;
-        double tmp2 = 2 * variables[j] - 1;
-        double temp = 2 * tmp2;
-        double tmp3 = 0;
-        double tmp4 = 2;
+        for (int j = 0; j < n; ++j) {
+            DerivativeStructure tmp1 = variables[0].getField().getOne();
+            DerivativeStructure tmp2 = variables[j].multiply(2).subtract(1);
+            DerivativeStructure temp = tmp2.multiply(2);
+            for (int i = 0; i < m; ++i) {
+                f[i] = f[i].add(tmp2);
+                DerivativeStructure ti = temp.multiply(tmp2).subtract(tmp1);
+                tmp1 = tmp2;
+                tmp2 = ti;
+            }
+        }
+
+        double dx = 1.0 / n;
+        boolean iev = false;
         for (int i = 0; i < m; ++i) {
-          jacobian[i][j] = dx * tmp4;
-          double ti = 4 * tmp2 + temp * tmp4 - tmp3;
-          tmp3 = tmp4;
-          tmp4 = ti;
-          ti   = temp * tmp2 - tmp1;
-          tmp1 = tmp2;
-          tmp2 = ti;
+            f[i] = f[i].multiply(dx);
+            if (iev) {
+                f[i] = f[i].add(1.0 / (i * (i + 2)));
+            }
+            iev = ! iev;
         }
-      }
 
-      return jacobian;
-
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-
-      double[] f = new double[m];
-
-      for (int j = 0; j < n; ++j) {
-        double tmp1 = 1;
-        double tmp2 = 2 * variables[j] - 1;
-        double temp = 2 * tmp2;
-        for (int i = 0; i < m; ++i) {
-          f[i] += tmp2;
-          double ti = temp * tmp2 - tmp1;
-          tmp1 = tmp2;
-          tmp2 = ti;
-        }
-      }
-
-      double dx = 1.0 / n;
-      boolean iev = false;
-      for (int i = 0; i < m; ++i) {
-        f[i] *= dx;
-        if (iev) {
-          f[i] += 1.0 / (i * (i + 2));
-        }
-        iev = ! iev;
-      }
-
-      return f;
+        return f;
 
     }
 
@@ -1340,52 +1099,18 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        jacobian[i] = new double[n];
-      }
-
-      double prod = 1;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        DerivativeStructure sum  = variables[0].getField().getZero().subtract(n + 1);
+        DerivativeStructure prod = variables[0].getField().getOne();
       for (int j = 0; j < n; ++j) {
-        prod *= variables[j];
-        for (int i = 0; i < n; ++i) {
-          jacobian[i][j] = 1;
-        }
-        jacobian[j][j] = 2;
-      }
-
-      for (int j = 0; j < n; ++j) {
-        double temp = variables[j];
-        if (temp == 0) {
-          temp = 1;
-          prod = 1;
-          for (int k = 0; k < n; ++k) {
-            if (k != j) {
-              prod *= variables[k];
-            }
-          }
-        }
-        jacobian[n - 1][j] = prod / temp;
-      }
-
-      return jacobian;
-
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double[] f = new double[m];
-      double sum  = -(n + 1);
-      double prod = 1;
-      for (int j = 0; j < n; ++j) {
-        sum  += variables[j];
-        prod *= variables[j];
+        sum  = sum.add(variables[j]);
+        prod = prod.multiply(variables[j]);
       }
       for (int i = 0; i < n; ++i) {
-        f[i] = variables[i] + sum;
+        f[i] = variables[i].add(sum);
       }
-      f[n - 1] = prod - 1;
+      f[n - 1] = prod.subtract(1);
       return f;
     }
 
@@ -1404,36 +1129,18 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x2 = variables[1];
-      double   x3 = variables[2];
-      double   x4 = variables[3];
-      double   x5 = variables[4];
-      double[][] jacobian = new double[m][];
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x1 = variables[0];
+        DerivativeStructure x2 = variables[1];
+        DerivativeStructure x3 = variables[2];
+        DerivativeStructure x4 = variables[3];
+        DerivativeStructure x5 = variables[4];
+        DerivativeStructure[] f = new DerivativeStructure[m];
       for (int i = 0; i < m; ++i) {
         double temp = 10.0 * i;
-        double tmp1 = FastMath.exp(-temp * x4);
-        double tmp2 = FastMath.exp(-temp * x5);
-        jacobian[i] = new double[] {
-          -1, -tmp1, -tmp2, temp * x2 * tmp1, temp * x3 * tmp2
-        };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x1 = variables[0];
-      double x2 = variables[1];
-      double x3 = variables[2];
-      double x4 = variables[3];
-      double x5 = variables[4];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        double temp = 10.0 * i;
-        double tmp1 = FastMath.exp(-temp * x4);
-        double tmp2 = FastMath.exp(-temp * x5);
-        f[i] = y[i] - (x1 + x2 * tmp1 + x3 * tmp2);
+        DerivativeStructure tmp1 = x4.multiply(-temp).exp();
+        DerivativeStructure tmp2 = x5.multiply(-temp).exp();
+        f[i] = x1.add(x2.multiply(tmp1)).add(x3.multiply(tmp2)).negate().add(y[i]);
       }
       return f;
     }
@@ -1459,65 +1166,28 @@ public class MinpackTest {
     }
 
     @Override
-    public double[][] jacobian(double[] variables) {
-      double   x01 = variables[0];
-      double   x02 = variables[1];
-      double   x03 = variables[2];
-      double   x04 = variables[3];
-      double   x05 = variables[4];
-      double   x06 = variables[5];
-      double   x07 = variables[6];
-      double   x08 = variables[7];
-      double   x09 = variables[8];
-      double   x10 = variables[9];
-      double   x11 = variables[10];
-      double[][] jacobian = new double[m][];
-      for (int i = 0; i < m; ++i) {
-        double temp = i / 10.0;
-        double tmp1 = FastMath.exp(-x05 * temp);
-        double tmp2 = FastMath.exp(-x06 * (temp - x09) * (temp - x09));
-        double tmp3 = FastMath.exp(-x07 * (temp - x10) * (temp - x10));
-        double tmp4 = FastMath.exp(-x08 * (temp - x11) * (temp - x11));
-        jacobian[i] = new double[] {
-          -tmp1,
-          -tmp2,
-          -tmp3,
-          -tmp4,
-          temp * x01 * tmp1,
-          x02 * (temp - x09) * (temp - x09) * tmp2,
-          x03 * (temp - x10) * (temp - x10) * tmp3,
-          x04 * (temp - x11) * (temp - x11) * tmp4,
-          -2 * x02 * x06 * (temp - x09) * tmp2,
-          -2 * x03 * x07 * (temp - x10) * tmp3,
-          -2 * x04 * x08 * (temp - x11) * tmp4
-        };
-      }
-      return jacobian;
-    }
-
-    @Override
-    public double[] value(double[] variables) {
-      double x01 = variables[0];
-      double x02 = variables[1];
-      double x03 = variables[2];
-      double x04 = variables[3];
-      double x05 = variables[4];
-      double x06 = variables[5];
-      double x07 = variables[6];
-      double x08 = variables[7];
-      double x09 = variables[8];
-      double x10 = variables[9];
-      double x11 = variables[10];
-      double[] f = new double[m];
-      for (int i = 0; i < m; ++i) {
-        double temp = i / 10.0;
-        double tmp1 = FastMath.exp(-x05 * temp);
-        double tmp2 = FastMath.exp(-x06 * (temp - x09) * (temp - x09));
-        double tmp3 = FastMath.exp(-x07 * (temp - x10) * (temp - x10));
-        double tmp4 = FastMath.exp(-x08 * (temp - x11) * (temp - x11));
-        f[i] = y[i] - (x01 * tmp1 + x02 * tmp2 + x03 * tmp3 + x04 * tmp4);
-      }
-      return f;
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure x01 = variables[0];
+        DerivativeStructure x02 = variables[1];
+        DerivativeStructure x03 = variables[2];
+        DerivativeStructure x04 = variables[3];
+        DerivativeStructure x05 = variables[4];
+        DerivativeStructure x06 = variables[5];
+        DerivativeStructure x07 = variables[6];
+        DerivativeStructure x08 = variables[7];
+        DerivativeStructure x09 = variables[8];
+        DerivativeStructure x10 = variables[9];
+        DerivativeStructure x11 = variables[10];
+        DerivativeStructure[] f = new DerivativeStructure[m];
+        for (int i = 0; i < m; ++i) {
+            double temp = i / 10.0;
+            DerivativeStructure tmp1 = x05.multiply(-temp).exp();
+            DerivativeStructure tmp2 = x06.negate().multiply(x09.subtract(temp).multiply(x09.subtract(temp))).exp();
+            DerivativeStructure tmp3 = x07.negate().multiply(x10.subtract(temp).multiply(x10.subtract(temp))).exp();
+            DerivativeStructure tmp4 = x08.negate().multiply(x11.subtract(temp).multiply(x11.subtract(temp))).exp();
+            f[i] = x01.multiply(tmp1).add(x02.multiply(tmp2)).add(x03.multiply(tmp3)).add(x04.multiply(tmp4)).negate().add(y[i]);
+        }
+        return f;
     }
 
     private static final double[] y = {

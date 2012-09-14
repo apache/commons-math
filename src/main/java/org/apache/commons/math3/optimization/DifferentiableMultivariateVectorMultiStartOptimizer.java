@@ -30,7 +30,9 @@ import org.apache.commons.math3.random.RandomVectorGenerator;
  *
  * @version $Id$
  * @since 2.0
+ * @deprecated as of 3.1 replaced by {@link MultivariateDifferentiableVectorMultiStartOptimizer}
  */
+@Deprecated
 public class DifferentiableMultivariateVectorMultiStartOptimizer
     extends BaseMultivariateVectorMultiStartOptimizer<DifferentiableMultivariateVectorFunction>
     implements DifferentiableMultivariateVectorOptimizer {

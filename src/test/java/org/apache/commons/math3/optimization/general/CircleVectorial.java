@@ -17,66 +17,55 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * Class used in the tests.
  */
-class CircleVectorial implements DifferentiableMultivariateVectorFunction {
-    private ArrayList<Point2D.Double> points;
+class CircleVectorial implements MultivariateDifferentiableVectorFunction {
+    private ArrayList<Vector2D> points;
 
     public CircleVectorial() {
-        points  = new ArrayList<Point2D.Double>();
+        points  = new ArrayList<Vector2D>();
     }
 
     public void addPoint(double px, double py) {
-        points.add(new Point2D.Double(px, py));
+        points.add(new Vector2D(px, py));
     }
 
     public int getN() {
         return points.size();
     }
 
-    public double getRadius(Point2D.Double center) {
+    public double getRadius(Vector2D center) {
         double r = 0;
-        for (Point2D.Double point : points) {
+        for (Vector2D point : points) {
             r += point.distance(center);
         }
         return r / points.size();
     }
 
-    private double[][] jacobian(double[] point) {
-        int n = points.size();
-        Point2D.Double center = new Point2D.Double(point[0], point[1]);
+    private DerivativeStructure distance(Vector2D point,
+                                         DerivativeStructure cx, DerivativeStructure cy) {
+        DerivativeStructure dx = cx.subtract(point.getX());
+        DerivativeStructure dy = cy.subtract(point.getY());
+        return dx.multiply(dx).add(dy.multiply(dy)).sqrt();
+    }
 
-        // gradient of the optimal radius
-        double dRdX = 0;
-        double dRdY = 0;
-        for (Point2D.Double pk : points) {
-            double dk = pk.distance(center);
-            dRdX += (center.x - pk.x) / dk;
-            dRdY += (center.y - pk.y) / dk;
+    public DerivativeStructure getRadius(DerivativeStructure cx, DerivativeStructure cy) {
+        DerivativeStructure r = cx.getField().getZero();
+        for (Vector2D point : points) {
+            r = r.add(distance(point, cx, cy));
         }
-        dRdX /= n;
-        dRdY /= n;
-
-        // jacobian of the radius residuals
-        double[][] jacobian = new double[n][2];
-        for (int i = 0; i < n; ++i) {
-            Point2D.Double pi = points.get(i);
-            double di   = pi.distance(center);
-            jacobian[i][0] = (center.x - pi.x) / di - dRdX;
-            jacobian[i][1] = (center.y - pi.y) / di - dRdY;
-        }
-
-        return jacobian;
+        return r.divide(points.size());
     }
 
     public double[] value(double[] variables) {
-        Point2D.Double center = new Point2D.Double(variables[0], variables[1]);
+        Vector2D center = new Vector2D(variables[0], variables[1]);
         double radius = getRadius(center);
 
         double[] residuals = new double[points.size()];
@@ -87,11 +76,15 @@ class CircleVectorial implements DifferentiableMultivariateVectorFunction {
         return residuals;
     }
 
-    public MultivariateMatrixFunction jacobian() {
-        return new MultivariateMatrixFunction() {
-            public double[][] value(double[] point) {
-                return jacobian(point);
-            }
-        };
+    public DerivativeStructure[] value(DerivativeStructure[] variables) {
+        DerivativeStructure radius = getRadius(variables[0], variables[1]);
+
+        DerivativeStructure[] residuals = new DerivativeStructure[points.size()];
+        for (int i = 0; i < residuals.length; ++i) {
+            residuals[i] = distance(points.get(i), variables[0], variables[1]).subtract(radius);
+        }
+
+        return residuals;
     }
+
 }

@@ -18,9 +18,10 @@
 package org.apache.commons.math3.optimization.general;
 
 import java.util.ArrayList;
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
+
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
 
 /**
@@ -35,7 +36,7 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
  *  <li>for each pair (a, b), the y-coordinate of the line.</li>
  * </ul>
  */
-class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
+class StraightLineProblem implements MultivariateDifferentiableVectorFunction {
     /** Cloud of points assumed to be fitted by a straight line. */
     private final ArrayList<double[]> points;
     /** Error (on the y-coordinate of the points). */
@@ -94,7 +95,8 @@ class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
     }
 
     public double[] value(double[] params) {
-        final Model line = new Model(params[0], params[1]);
+        final Model line = new Model(new DerivativeStructure(0, 0, params[0]),
+                                     new DerivativeStructure(0, 0, params[1]));
 
         final double[] model = new double[points.size()];
         for (int i = 0; i < points.size(); i++) {
@@ -105,12 +107,16 @@ class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
         return model;
     }
 
-    public MultivariateMatrixFunction jacobian() {
-        return new MultivariateMatrixFunction() {
-            public double[][] value(double[] point) {
-                return jacobian(point);
-            }
-        };
+    public DerivativeStructure[] value(DerivativeStructure[] params) {
+        final Model line = new Model(params[0], params[1]);
+
+        final DerivativeStructure[] model = new DerivativeStructure[points.size()];
+        for (int i = 0; i < points.size(); i++) {
+            final DerivativeStructure p0 = params[0].getField().getZero().add(points.get(i)[0]);
+            model[i] = line.value(p0);
+        }
+
+        return model;
     }
 
     /**
@@ -127,35 +133,26 @@ class StraightLineProblem implements DifferentiableMultivariateVectorFunction {
         return result;
     }
 
-    private double[][] jacobian(double[] params) {
-        final double[][] jacobian = new double[points.size()][2];
-
-        for (int i = 0; i < points.size(); i++) {
-            final double[] p = points.get(i);
-            // Partial derivative wrt "a".
-            jacobian[i][0] = p[0];
-            // Partial derivative wrt "b".
-            jacobian[i][1] = 1;
-        }
-
-        return jacobian;
-    }
-
     /**
      * Linear function.
      */
-    public static class Model implements UnivariateFunction {
-        final double a;
-        final double b;
+    public static class Model implements UnivariateDifferentiableFunction {
+        final DerivativeStructure a;
+        final DerivativeStructure b;
 
-        public Model(double a,
-                     double b) {
+        public Model(DerivativeStructure a,
+                     DerivativeStructure b) {
             this.a = a;
             this.b = b;
         }
 
         public double value(double x) {
-            return a * x + b;
+            return a.getValue() * x + b.getValue();
         }
+
+        public DerivativeStructure value(DerivativeStructure x) {
+            return x.multiply(a).add(b);
+        }
+
     }
 }

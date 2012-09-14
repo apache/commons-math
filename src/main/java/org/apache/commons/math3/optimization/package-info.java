@@ -38,13 +38,13 @@
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer
  *      MultivariateOptimizer} for {@link org.apache.commons.math3.analysis.MultivariateFunction
  *      multivariate real functions}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer
- *      DifferentiableMultivariateOptimizer} for {@link
- *      org.apache.commons.math3.analysis.DifferentiableMultivariateFunction
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer
+ *      MultivariateDifferentiableOptimizer} for {@link
+ *      org.apache.commons.math3.analysis.MultivariateDifferentiableFunction
  *      differentiable multivariate real functions}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer
- *      DifferentiableMultivariateVectorOptimizer} for {@link
- *      org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer
+ *      MultivariateDifferentiableVectorOptimizer} for {@link
+ *      org.apache.commons.math3.analysis.MultivariateDifferentiableVectorFunction
  *      differentiable multivariate vectorial functions}</li>
  * </ul>
  * </p>

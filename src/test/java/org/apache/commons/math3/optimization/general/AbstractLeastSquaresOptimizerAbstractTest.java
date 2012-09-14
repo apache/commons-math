@@ -16,16 +16,16 @@
  */
 package org.apache.commons.math3.optimization.general;
 
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
@@ -360,10 +360,10 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertTrue(optimizer.getJacobianEvaluations() < 10);
         double rms = optimizer.getRMS();
         Assert.assertEquals(1.768262623567235,  FastMath.sqrt(circle.getN()) * rms,  1.0e-10);
-        Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
+        Vector2D center = new Vector2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1.0e-6);
-        Assert.assertEquals(96.07590211815305, center.x,      1.0e-6);
-        Assert.assertEquals(48.13516790438953, center.y,      1.0e-6);
+        Assert.assertEquals(96.07590211815305, center.getX(),            1.0e-6);
+        Assert.assertEquals(48.13516790438953, center.getY(),            1.0e-6);
         double[][] cov = optimizer.getCovariances();
         Assert.assertEquals(1.839, cov[0][0], 0.001);
         Assert.assertEquals(0.731, cov[0][1], 0.001);
@@ -376,7 +376,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         // add perfect measurements and check errors are reduced
         double  r = circle.getRadius(center);
         for (double d= 0; d < 2 * FastMath.PI; d += 0.01) {
-            circle.addPoint(center.x + r * FastMath.cos(d), center.y + r * FastMath.sin(d));
+            circle.addPoint(center.getX() + r * FastMath.cos(d), center.getY() + r * FastMath.sin(d));
         }
         double[] target = new double[circle.getN()];
         Arrays.fill(target, 0.0);
@@ -407,13 +407,13 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         AbstractLeastSquaresOptimizer optimizer = createOptimizer();
         PointVectorValuePair optimum =
             optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
-        Point2D.Double center = new Point2D.Double(optimum.getPointRef()[0], optimum.getPointRef()[1]);
+        Vector2D center = new Vector2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertTrue(optimizer.getEvaluations() < 25);
         Assert.assertTrue(optimizer.getJacobianEvaluations() < 20);
         Assert.assertEquals( 0.043, optimizer.getRMS(), 1.0e-3);
         Assert.assertEquals( 0.292235,  circle.getRadius(center), 1.0e-6);
-        Assert.assertEquals(-0.151738,  center.x,      1.0e-6);
-        Assert.assertEquals( 0.2075001, center.y,      1.0e-6);
+        Assert.assertEquals(-0.151738,  center.getX(),            1.0e-6);
+        Assert.assertEquals( 0.2075001, center.getY(),            1.0e-6);
     }
 
     @Test
@@ -475,7 +475,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         final double[][] data = dataset.getData();
         final double[] initial = dataset.getStartingPoint(0);
-        final DifferentiableMultivariateVectorFunction problem;
+        final MultivariateDifferentiableVectorFunction problem;
         problem = dataset.getLeastSquaresProblem();
         final PointVectorValuePair optimum;
         optimum = optimizer.optimize(100, problem, data[1], w, initial);
@@ -504,7 +504,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         doTestStRD(StatisticalReferenceDatasetFactory.createHahn1(), 1E-7, 1E-4);
     }
 
-    static class LinearProblem implements DifferentiableMultivariateVectorFunction, Serializable {
+    static class LinearProblem implements MultivariateDifferentiableVectorFunction, Serializable {
 
         private static final long serialVersionUID = 703247177355019415L;
         final RealMatrix factors;
@@ -518,12 +518,17 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
             return factors.operate(variables);
         }
 
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                public double[][] value(double[] point) {
-                    return factors.getData();
+        public DerivativeStructure[] value(DerivativeStructure[] variables) {
+            DerivativeStructure[] value = new DerivativeStructure[factors.getRowDimension()];
+            for (int i = 0; i < value.length; ++i) {
+                value[i] = variables[0].getField().getZero();
+                for (int j = 0; j < factors.getColumnDimension(); ++j) {
+                    value[i] = value[i].add(variables[j].multiply(factors.getEntry(i, j)));
                 }
-            };
+                
+            }
+            return value;
         }
+
     }
 }

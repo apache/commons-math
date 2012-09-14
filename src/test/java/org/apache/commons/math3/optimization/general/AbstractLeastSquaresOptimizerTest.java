@@ -92,7 +92,7 @@ public class AbstractLeastSquaresOptimizerTest {
         for (int i = 0; i < sig.length; i++) {
             final double actual = FastMath.sqrt(optimizer.getChiSquare()/dof)*sig[i];
             Assert.assertEquals(dataset.getName() + ", parameter #" + i,
-                                actual, expected[i], 1E-8 * expected[i]);
+                                expected[i], actual, 1.3e-8 * expected[i]);
         }
     }
 }

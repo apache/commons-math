@@ -19,6 +19,8 @@ package org.apache.commons.math3.optimization.general;
 
 import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.differentiation.GradientFunction;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
@@ -32,7 +34,9 @@ import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOpti
  *
  * @version $Id$
  * @since 2.0
+ * @deprecated as of 3.1 replaced by {@link AbstractDifferentiableOptimizer}
  */
+@Deprecated
 public abstract class AbstractScalarDifferentiableOptimizer
     extends BaseAbstractMultivariateOptimizer<DifferentiableMultivariateFunction>
     implements DifferentiableMultivariateOptimizer {
@@ -79,6 +83,33 @@ public abstract class AbstractScalarDifferentiableOptimizer
         // Store optimization problem characteristics.
         gradient = f.gradient();
 
-        return super.optimize(maxEval, f, goalType, startPoint);
+        return optimizeInternal(maxEval, f, goalType, startPoint);
+    }
+
+    /**
+     * Optimize an objective function.
+     *
+     * @param f Objective function.
+     * @param goalType Type of optimization goal: either
+     * {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}.
+     * @param startPoint Start point for optimization.
+     * @param maxEval Maximum number of function evaluations.
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * any argument is {@code null}.
+     */
+    public PointValuePair optimize(final int maxEval,
+                                   final MultivariateDifferentiableFunction f,
+                                   final GoalType goalType,
+                                   final double[] startPoint) {
+        // Store optimization problem characteristics.
+        gradient = new GradientFunction(f);
+
+        return optimizeInternal(maxEval, f, goalType, startPoint);
     }
 }

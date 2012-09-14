@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 
 /**
  * A factory to create instances of {@link StatisticalReferenceDataset} from
@@ -59,25 +59,12 @@ public class StatisticalReferenceDatasetFactory {
             dataset = new StatisticalReferenceDataset(in) {
 
                 @Override
-                public double getModelValue(final double x, final double[] a) {
-                    final double p = a[0] + x * (a[1] + x * a[2]);
-                    final double q = 1.0 + x * (a[3] + x * a[4]);
-                    return p / q;
+                public DerivativeStructure getModelValue(final double x, final DerivativeStructure[] a) {
+                    final DerivativeStructure p = a[0].add(a[1].add(a[2].multiply(x)).multiply(x));
+                    final DerivativeStructure q = a[3].add(a[4].multiply(x)).multiply(x).add(1.0);
+                    return p.divide(q);
                 }
 
-                @Override
-                public double[] getModelDerivatives(final double x,
-                                                    final double[] a) {
-                    final double[] dy = new double[5];
-                    final double p = a[0] + x * (a[1] + x * a[2]);
-                    final double q = 1.0 + x * (a[3] + x * a[4]);
-                    dy[0] = 1.0 / q;
-                    dy[1] = x / q;
-                    dy[2] = x * dy[1];
-                    dy[3] = -x * p / (q * q);
-                    dy[4] = x * dy[3];
-                    return dy;
-                }
             };
         } finally {
             in.close();
@@ -93,27 +80,12 @@ public class StatisticalReferenceDatasetFactory {
             dataset = new StatisticalReferenceDataset(in) {
 
                 @Override
-                public double getModelValue(final double x, final double[] a) {
-                    final double p = a[0] + x * (a[1] + x * (a[2] + x * a[3]));
-                    final double q = 1.0 + x * (a[4] + x * (a[5] + x * a[6]));
-                    return p / q;
+                public DerivativeStructure getModelValue(final double x, final DerivativeStructure[] a) {
+                    final DerivativeStructure p = a[0].add(a[1].add(a[2].add(a[3].multiply(x)).multiply(x)).multiply(x));
+                    final DerivativeStructure q = a[4].add(a[5].add(a[6].multiply(x)).multiply(x)).multiply(x).add(1.0);
+                    return p.divide(q);
                 }
 
-                @Override
-                public double[] getModelDerivatives(final double x,
-                                                    final double[] a) {
-                    final double[] dy = new double[7];
-                    final double p = a[0] + x * (a[1] + x * (a[2] + x * a[3]));
-                    final double q = 1.0 + x * (a[4] + x * (a[5] + x * a[6]));
-                    dy[0] = 1.0 / q;
-                    dy[1] = x * dy[0];
-                    dy[2] = x * dy[1];
-                    dy[3] = x * dy[2];
-                    dy[4] = -x * p / (q * q);
-                    dy[5] = x * dy[4];
-                    dy[6] = x * dy[5];
-                    return dy;
-                }
             };
         } finally {
             in.close();
@@ -129,22 +101,10 @@ public class StatisticalReferenceDatasetFactory {
             dataset = new StatisticalReferenceDataset(in) {
 
                 @Override
-                public double getModelValue(final double x, final double[] a) {
-                    return a[0] + a[1] * FastMath.exp(-a[3] * x) + a[2] *
-                           FastMath.exp(-a[4] * x);
+                public DerivativeStructure getModelValue(final double x, final DerivativeStructure[] a) {
+                    return a[0].add(a[1].multiply(a[3].multiply(-x).exp())).add(a[2].multiply(a[4].multiply(-x).exp()));
                 }
 
-                @Override
-                public double[] getModelDerivatives(final double x,
-                                                    final double[] a) {
-                    final double[] dy = new double[5];
-                    dy[0] = 1.0;
-                    dy[1] = FastMath.exp(-x * a[3]);
-                    dy[2] = FastMath.exp(-x * a[4]);
-                    dy[3] = -x * a[1] * dy[1];
-                    dy[4] = -x * a[2] * dy[2];
-                    return dy;
-                }
             };
         } finally {
             in.close();
@@ -161,25 +121,12 @@ public class StatisticalReferenceDatasetFactory {
             dataset = new StatisticalReferenceDataset(in) {
 
                 @Override
-                public double getModelValue(final double x, final double[] a) {
-                    System.out.println(a[0]+", "+a[1]+", "+a[2]+", "+a[3]+", "+a[4]+", "+a[5]);
-                    return a[0] * FastMath.exp(-a[3] * x) +
-                           a[1] * FastMath.exp(-a[4] * x) +
-                           a[2] * FastMath.exp(-a[5] * x);
+                public DerivativeStructure getModelValue(final double x, final DerivativeStructure[] a) {
+                    return a[0].multiply(a[3].multiply(-x).exp()).add(
+                                a[1].multiply(a[4].multiply(-x).exp())).add(
+                                     a[2].multiply(a[5].multiply(-x).exp()));
                 }
 
-                @Override
-                public double[] getModelDerivatives(final double x,
-                    final double[] a) {
-                    final double[] dy = new double[6];
-                    dy[0] = FastMath.exp(-x * a[3]);
-                    dy[1] = FastMath.exp(-x * a[4]);
-                    dy[2] = FastMath.exp(-x * a[5]);
-                    dy[3] = -x * a[0] * dy[0];
-                    dy[4] = -x * a[1] * dy[1];
-                    dy[5] = -x * a[2] * dy[2];
-                    return dy;
-                }
             };
         } finally {
             in.close();

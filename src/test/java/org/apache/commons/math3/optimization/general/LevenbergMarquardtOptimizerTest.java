@@ -17,16 +17,16 @@
 
 package org.apache.commons.math3.optimization.general;
 
-import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;
@@ -120,7 +120,7 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
 
-        double[][] cov = optimizer.getCovariances(1.5e-14);
+        optimizer.getCovariances(1.5e-14);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         checkEstimate(circle, 0.1, 20, 1.0e-18, 1.0e-16, 1.0e-10, true);
     }
 
-    private void checkEstimate(DifferentiableMultivariateVectorFunction problem,
+    private void checkEstimate(MultivariateDifferentiableVectorFunction problem,
                                double initialStepBoundFactor, int maxCostEval,
                                double costRelativeTolerance, double parRelativeTolerance,
                                double orthoTolerance, boolean shouldFail) {
@@ -225,7 +225,6 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             optimizer.optimize(100, problem, dataPoints[1], weights,
                                new double[] { 10, 900, 80, 27, 225 });
 
-        final double chi2 = optimizer.getChiSquare();
         final double[] solution = optimum.getPoint();
         final double[] expectedSolution = { 10.4, 958.3, 131.4, 33.9, 205.0 };
 
@@ -274,8 +273,8 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         final CircleProblem circle = new CircleProblem(xSigma, ySigma);
 
         final int numPoints = 10;
-        for (Point2D.Double p : factory.generate(numPoints)) {
-            circle.addPoint(p.x, p.y);
+        for (Vector2D p : factory.generate(numPoints)) {
+            circle.addPoint(p);
             // System.out.println(p.x + " " + p.y);
         }
 
@@ -309,7 +308,7 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
     }
 
-    private static class QuadraticProblem implements DifferentiableMultivariateVectorFunction, Serializable {
+    private static class QuadraticProblem implements MultivariateDifferentiableVectorFunction, Serializable {
 
         private static final long serialVersionUID = 7072187082052755854L;
         private List<Double> x;
@@ -325,16 +324,6 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             this.y.add(y);
         }
 
-        private double[][] jacobian(double[] variables) {
-            double[][] jacobian = new double[x.size()][3];
-            for (int i = 0; i < jacobian.length; ++i) {
-                jacobian[i][0] = x.get(i) * x.get(i);
-                jacobian[i][1] = x.get(i);
-                jacobian[i][2] = 1.0;
-            }
-            return jacobian;
-        }
-
         public double[] value(double[] variables) {
             double[] values = new double[x.size()];
             for (int i = 0; i < values.length; ++i) {
@@ -343,17 +332,18 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             return values;
         }
 
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                public double[][] value(double[] point) {
-                    return jacobian(point);
-                }
-            };
+        public DerivativeStructure[] value(DerivativeStructure[] variables) {
+            DerivativeStructure[] values = new DerivativeStructure[x.size()];
+            for (int i = 0; i < values.length; ++i) {
+                values[i] = (variables[0].multiply(x.get(i)).add(variables[1])).multiply(x.get(i)).add(variables[2]);
+            }
+            return values;
         }
+
     }
 
     private static class BevingtonProblem
-        implements DifferentiableMultivariateVectorFunction {
+        implements MultivariateDifferentiableVectorFunction {
         private List<Double> time;
         private List<Double> count;
 
@@ -367,25 +357,6 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             count.add(c);
         }
 
-        private double[][] jacobian(double[] params) {
-            double[][] jacobian = new double[time.size()][5];
-
-            for (int i = 0; i < jacobian.length; ++i) {
-                final double t = time.get(i);
-                jacobian[i][0] = 1;
-
-                final double p3 =  params[3];
-                final double p4 =  params[4];
-                final double tOp3 = t / p3;
-                final double tOp4 = t / p4;
-                jacobian[i][1] = Math.exp(-tOp3);
-                jacobian[i][2] = Math.exp(-tOp4);
-                jacobian[i][3] = params[1] * Math.exp(-tOp3) * tOp3 / p3;
-                jacobian[i][4] = params[2] * Math.exp(-tOp4) * tOp4 / p4;
-            }
-            return jacobian;
-        }
-
         public double[] value(double[] params) {
             double[] values = new double[time.size()];
             for (int i = 0; i < values.length; ++i) {
@@ -397,12 +368,16 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             return values;
         }
 
-        public MultivariateMatrixFunction jacobian() {
-            return new MultivariateMatrixFunction() {
-                public double[][] value(double[] point) {
-                    return jacobian(point);
-                }
-            };
+        public DerivativeStructure[] value(DerivativeStructure[] params) {
+            DerivativeStructure[] values = new DerivativeStructure[time.size()];
+            for (int i = 0; i < values.length; ++i) {
+                final double t = time.get(i);
+                values[i] = params[0].add(
+                    params[1].multiply(params[3].reciprocal().multiply(-t).exp())).add(
+                    params[2].multiply(params[4].reciprocal().multiply(-t).exp()));
+            }
+            return values;
         }
+
     }
 }

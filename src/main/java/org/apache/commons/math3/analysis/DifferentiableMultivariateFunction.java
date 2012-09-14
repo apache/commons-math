@@ -22,6 +22,7 @@ package org.apache.commons.math3.analysis;
  * multivariate real function.
  * @version $Id$
  * @since 2.0
+ * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction}
  */
 public interface DifferentiableMultivariateFunction extends MultivariateFunction {
 

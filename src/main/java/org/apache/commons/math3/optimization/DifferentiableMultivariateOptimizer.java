@@ -31,6 +31,8 @@ import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
  *
  * @version $Id$
  * @since 2.0
+ * @deprecated as of 3.1 replaced by {@link MultivariateDifferentiableOptimizer}
  */
+@Deprecated
 public interface DifferentiableMultivariateOptimizer
     extends BaseMultivariateOptimizer<DifferentiableMultivariateFunction> {}

@@ -103,7 +103,33 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
 
     /** {@inheritDoc} */
     public PointVectorValuePair optimize(int maxEval, FUNC f, double[] t, double[] w,
-                                            double[] startPoint) {
+                                         double[] startPoint) {
+        return optimizeInternal(maxEval, f, t, w, startPoint);
+    }
+
+    /**
+     * Optimize an objective function.
+     * Optimization is considered to be a weighted least-squares minimization.
+     * The cost function to be minimized is
+     * <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>
+     *
+     * @param f Objective function.
+     * @param target Target value for the objective functions at optimum.
+     * @param weight Weights for the least squares cost computation.
+     * @param startPoint Start point for optimization.
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     * @param maxEval Maximum number of function evaluations.
+     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * if the start point dimension is wrong.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * if the maximal number of evaluations is exceeded.
+     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * any argument is {@code null}.
+     */
+    protected PointVectorValuePair optimizeInternal(final int maxEval, final MultivariateVectorFunction f,
+                                                    final double[] t, final double[] w,
+                                                    final double[] startPoint) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -133,6 +159,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
 
         // Perform computation.
         return doOptimize();
+
     }
 
     /**

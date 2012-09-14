@@ -21,9 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
@@ -44,17 +47,37 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  * @since 2.0
  */
 public class CurveFitter<T extends ParametricUnivariateFunction> {
+
+    /** Optimizer to use for the fitting.
+     * @deprecated as of 3.1 replaced by {@link #optimizer}
+     */
+    @Deprecated
+    private final DifferentiableMultivariateVectorOptimizer oldOptimizer;
+
     /** Optimizer to use for the fitting. */
-    private final DifferentiableMultivariateVectorOptimizer optimizer;
+    private final MultivariateDifferentiableVectorOptimizer optimizer;
+
     /** Observed points. */
     private final List<WeightedObservedPoint> observations;
 
     /** Simple constructor.
      * @param optimizer optimizer to use for the fitting
+     * @deprecated as of 3.1 replaced by {@link #CurveFitter(MultivariateDifferentiableVectorOptimizer)}
      */
     public CurveFitter(final DifferentiableMultivariateVectorOptimizer optimizer) {
-        this.optimizer = optimizer;
-        observations = new ArrayList<WeightedObservedPoint>();
+        this.oldOptimizer = optimizer;
+        this.optimizer    = null;
+        observations      = new ArrayList<WeightedObservedPoint>();
+    }
+
+    /** Simple constructor.
+     * @param optimizer optimizer to use for the fitting
+     * @since 3.1
+     */
+    public CurveFitter(final MultivariateDifferentiableVectorOptimizer optimizer) {
+        this.oldOptimizer = null;
+        this.optimizer    = optimizer;
+        observations      = new ArrayList<WeightedObservedPoint>();
     }
 
     /** Add an observed (x,y) point to the sample with unit weight.
@@ -158,16 +181,23 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         }
 
         // perform the fit
-        PointVectorValuePair optimum =
-            optimizer.optimize(maxEval, new TheoreticalValuesFunction(f),
-                               target, weights, initialGuess);
+        final PointVectorValuePair optimum;
+        if (optimizer == null) {
+            // to be removed in 4.0
+            optimum = oldOptimizer.optimize(maxEval, new OldTheoreticalValuesFunction(f),
+                                            target, weights, initialGuess);
+        } else {
+            optimum = optimizer.optimize(maxEval, new TheoreticalValuesFunction(f),
+                                         target, weights, initialGuess);
+        }
 
         // extract the coefficients
         return optimum.getPointRef();
     }
 
     /** Vectorial function computing function theoretical values. */
-    private class TheoreticalValuesFunction
+    @Deprecated
+    private class OldTheoreticalValuesFunction
         implements DifferentiableMultivariateVectorFunction {
         /** Function to fit. */
         private final ParametricUnivariateFunction f;
@@ -175,7 +205,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
         /** Simple constructor.
          * @param f function to fit.
          */
-        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+        public OldTheoreticalValuesFunction(final ParametricUnivariateFunction f) {
             this.f = f;
         }
 
@@ -207,4 +237,60 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
             return values;
         }
     }
+
+    /** Vectorial function computing function theoretical values. */
+    private class TheoreticalValuesFunction implements MultivariateDifferentiableVectorFunction {
+
+        /** Function to fit. */
+        private final ParametricUnivariateFunction f;
+
+        /** Simple constructor.
+         * @param f function to fit.
+         */
+        public TheoreticalValuesFunction(final ParametricUnivariateFunction f) {
+            this.f = f;
+        }
+
+        /** {@inheritDoc} */
+        public double[] value(double[] point) {
+            // compute the residuals
+            final double[] values = new double[observations.size()];
+            int i = 0;
+            for (WeightedObservedPoint observed : observations) {
+                values[i++] = f.value(observed.getX(), point);
+            }
+
+            return values;
+        }
+
+        /** {@inheritDoc} */
+        public DerivativeStructure[] value(DerivativeStructure[] point) {
+
+            // extract parameters
+            final double[] parameters = new double[point.length];
+            for (int k = 0; k < point.length; ++k) {
+                parameters[k] = point[k].getValue();
+            }
+
+            // compute the residuals
+            final DerivativeStructure[] values = new DerivativeStructure[observations.size()];
+            int i = 0;
+            for (WeightedObservedPoint observed : observations) {
+
+                // build the DerivativeStructure by adding first the value as a constant
+                // and then adding derivatives
+                DerivativeStructure vi = new DerivativeStructure(point.length, 1, f.value(observed.getX(), parameters));
+                for (int k = 0; k < point.length; ++k) {
+                    vi = vi.add(new DerivativeStructure(point.length, 1, k, 0.0));
+                }
+
+                values[i++] = vi;
+
+            }
+
+            return values;
+        }
+
+    }
+
 }

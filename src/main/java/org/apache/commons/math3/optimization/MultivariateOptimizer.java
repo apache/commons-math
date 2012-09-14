@@ -25,8 +25,8 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * <p>Optimization algorithms find the input point set that either {@link GoalType
  * maximize or minimize} an objective function.</p>
  *
- * @see DifferentiableMultivariateOptimizer
- * @see DifferentiableMultivariateVectorOptimizer
+ * @see MultivariateDifferentiableOptimizer
+ * @see MultivariateDifferentiableVectorOptimizer
  * @version $Id$
  * @since 2.0
  */
