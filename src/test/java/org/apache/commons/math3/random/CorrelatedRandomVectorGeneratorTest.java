@@ -68,7 +68,7 @@ public class CorrelatedRandomVectorGeneratorTest {
 
     @Test
     public void testRank() {
-        Assert.assertEquals(3, generator.getRank());
+        Assert.assertEquals(2, generator.getRank());
     }
 
     @Test

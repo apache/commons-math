@@ -52,9 +52,28 @@ public class RectangularCholeskyDecomposition {
 
     /**
      * Decompose a symmetric positive semidefinite matrix.
+     * <p>
+     * <b>Note:</b> this constructor follows the linpack method to detect dependent
+     * columns by proceeding with the Cholesky algorithm until a nonpositive diagonal
+     * element is encountered.
+     *
+     * @see <a href="http://eprints.ma.man.ac.uk/1193/01/covered/MIMS_ep2008_56.pdf">
+     * Analysis of the Cholesky Decomposition of a Semi-definite Matrix</a>
      *
      * @param matrix Symmetric positive semidefinite matrix.
-     * @param small Diagonal elements threshold under which  column are
+     * @exception NonPositiveDefiniteMatrixException if the matrix is not
+     * positive semidefinite.
+     */
+    public RectangularCholeskyDecomposition(RealMatrix matrix)
+        throws NonPositiveDefiniteMatrixException {
+        this(matrix, 0);
+    }
+
+    /**
+     * Decompose a symmetric positive semidefinite matrix.
+     *
+     * @param matrix Symmetric positive semidefinite matrix.
+     * @param small Diagonal elements threshold under which columns are
      * considered to be dependent on previous ones and are discarded.
      * @exception NonPositiveDefiniteMatrixException if the matrix is not
      * positive semidefinite.
@@ -97,7 +116,7 @@ public class RectangularCholeskyDecomposition {
 
             // check diagonal element
             int ir = index[r];
-            if (c[ir][ir] < small) {
+            if (c[ir][ir] <= small) {
 
                 if (r == 0) {
                     throw new NonPositiveDefiniteMatrixException(c[ir][ir], ir, small);
@@ -114,7 +133,6 @@ public class RectangularCholeskyDecomposition {
 
                 // all remaining diagonal elements are close to zero, we consider we have
                 // found the rank of the symmetric positive semidefinite matrix
-                ++r;
                 loop = false;
 
             } else {
