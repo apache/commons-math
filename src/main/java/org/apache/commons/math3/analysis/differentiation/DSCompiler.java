@@ -159,8 +159,10 @@ public class DSCompiler {
         // get the cached compilers
         final DSCompiler[][] cache = compilers.get();
         if (cache != null && cache.length > parameters && cache[parameters].length > order) {
-            // the compiler has already been created
-            return cache[parameters][order];
+            if (cache[parameters][order] != null) {
+                // the compiler has already been created
+                return cache[parameters][order];
+            }
         }
 
         // we need to create more compilers
@@ -176,8 +178,8 @@ public class DSCompiler {
         }
 
         // create the array in increasing diagonal order
-        for (int diag = 0; diag <= maxParameters + maxOrder; ++diag) {
-            for (int o = FastMath.max(0, diag - maxParameters); o <= FastMath.min(maxOrder, diag); ++o) {
+        for (int diag = 0; diag <= parameters + order; ++diag) {
+            for (int o = FastMath.max(0, diag - parameters); o <= FastMath.min(order, diag); ++o) {
                 final int p = diag - o;
                 if (newCache[p][o] == null) {
                     final DSCompiler valueCompiler      = (p == 0) ? null : newCache[p - 1][o];
