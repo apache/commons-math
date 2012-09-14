@@ -21,8 +21,12 @@ import java.lang.reflect.Array;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.OpenIntToFieldHashMap;
 
 /**
@@ -135,11 +139,12 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * Optimized method to add sparse vectors.
      *
      * @param v Vector to add.
-     * @return the sum of {@code this} and {@code v}.
-     * @throws DimensionMismatchException
-     * if the dimensions do not match.
+     * @return {@code this + v}.
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}.
      */
-    public FieldVector<T> add(SparseFieldVector<T> v) {
+    public FieldVector<T> add(SparseFieldVector<T> v)
+        throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = (SparseFieldVector<T>)copy();
         OpenIntToFieldHashMap<T>.Iterator iter = v.getEntries().iterator();
@@ -200,7 +205,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
    }
 
     /** {@inheritDoc} */
-    public T dotProduct(FieldVector<T> v) {
+    public T dotProduct(FieldVector<T> v) throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
         T res = field.getZero();
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
@@ -212,7 +217,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> ebeDivide(FieldVector<T> v) {
+    public FieldVector<T> ebeDivide(FieldVector<T> v)
+        throws DimensionMismatchException, MathArithmeticException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = new SparseFieldVector<T>(this);
         OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
@@ -224,7 +230,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> ebeMultiply(FieldVector<T> v) {
+    public FieldVector<T> ebeMultiply(FieldVector<T> v)
+        throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = new SparseFieldVector<T>(this);
         OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
@@ -252,7 +259,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
      /** {@inheritDoc} */
-     public T getEntry(int index) {
+     public T getEntry(int index) throws OutOfRangeException {
         checkIndex(index);
         return entries.get(index);
    }
@@ -263,7 +270,11 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> getSubVector(int index, int n) {
+    public FieldVector<T> getSubVector(int index, int n)
+        throws OutOfRangeException, NotPositiveException {
+        if (n < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, n);
+        }
         checkIndex(index);
         checkIndex(index + n - 1);
         SparseFieldVector<T> res = new SparseFieldVector<T>(field,n);
@@ -280,12 +291,12 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapAdd(T d) {
+     public FieldVector<T> mapAdd(T d) throws NullArgumentException {
         return copy().mapAddToSelf(d);
    }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapAddToSelf(T d) {
+     public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, getEntry(i).add(d));
         }
@@ -293,12 +304,14 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapDivide(T d) {
+    public FieldVector<T> mapDivide(T d)
+        throws NullArgumentException, MathArithmeticException {
         return copy().mapDivideToSelf(d);
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapDivideToSelf(T d) {
+    public FieldVector<T> mapDivideToSelf(T d)
+        throws NullArgumentException, MathArithmeticException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -308,12 +321,12 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
    }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapInv() {
+     public FieldVector<T> mapInv() throws MathArithmeticException {
         return copy().mapInvToSelf();
    }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapInvToSelf() {
+     public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, field.getOne().divide(getEntry(i)));
         }
@@ -321,12 +334,12 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
    }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapMultiply(T d) {
+     public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
         return copy().mapMultiplyToSelf(d);
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapMultiplyToSelf(T d) {
+     public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -336,21 +349,19 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
    }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapSubtract(T d) {
+     public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
         return copy().mapSubtractToSelf(d);
     }
 
      /** {@inheritDoc} */
-     public FieldVector<T> mapSubtractToSelf(T d) {
+     public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
         return mapAddToSelf(field.getZero().subtract(d));
     }
 
     /**
      * Optimized method to compute outer product when both vectors are sparse.
      * @param v vector with which outer product should be computed
-     * @return the square matrix outer product between instance and v
-     * @throws DimensionMismatchException
-     * if the dimensions do not match.
+     * @return the matrix outer product between instance and v
      */
     public FieldMatrix<T> outerProduct(SparseFieldVector<T> v) {
         final int n = v.getDimension();
@@ -388,7 +399,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> projection(FieldVector<T> v) {
+    public FieldVector<T> projection(FieldVector<T> v)
+        throws DimensionMismatchException, MathArithmeticException {
         checkVectorDimensions(v.getDimension());
         return v.mapMultiply(dotProduct(v).divide(v.dotProduct(v)));
     }
@@ -401,13 +413,14 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
-    public void setEntry(int index, T value) {
+    public void setEntry(int index, T value) throws OutOfRangeException {
         checkIndex(index);
         entries.put(index, value);
    }
 
     /** {@inheritDoc} */
-    public void setSubVector(int index, FieldVector<T> v) {
+    public void setSubVector(int index, FieldVector<T> v)
+        throws OutOfRangeException {
         checkIndex(index);
         checkIndex(index + v.getDimension() - 1);
         final int n = v.getDimension();
@@ -417,14 +430,14 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /**
-     * Optimized method to subtract SparseRealVectors.
-     *
-     * @param v Vector to subtract.
-     * @return the difference between {@code this} and {@code v}.
-     * @throws DimensionMismatchException
-     * if the dimensions do not match.
+     * Optimized method to compute {@code this} minus {@code v}.
+     * @param v vector to be subtracted
+     * @return {@code this - v}
+     * @throws DimensionMismatchException if {@code v} is not the same size as
+     * {@code this}.
      */
-    public SparseFieldVector<T> subtract(SparseFieldVector<T> v){
+    public SparseFieldVector<T> subtract(SparseFieldVector<T> v)
+        throws DimensionMismatchException {
         checkVectorDimensions(v.getDimension());
         SparseFieldVector<T> res = (SparseFieldVector<T>)copy();
         OpenIntToFieldHashMap<T>.Iterator iter = v.getEntries().iterator();
@@ -441,7 +454,8 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> subtract(FieldVector<T> v) {
+    public FieldVector<T> subtract(FieldVector<T> v)
+        throws DimensionMismatchException {
         if (v instanceof SparseFieldVector<?>) {
             return subtract((SparseFieldVector<T>)v);
         } else {
@@ -468,9 +482,9 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * Check whether an index is valid.
      *
      * @param index Index to check.
-     * @throws OutOfRangeException if the dimensions do not match.
+     * @throws OutOfRangeException if the index is not valid.
      */
-    private void checkIndex(final int index) {
+    private void checkIndex(final int index) throws OutOfRangeException {
         if (index < 0 || index >= getDimension()) {
             throw new OutOfRangeException(index, 0, getDimension() - 1);
         }
@@ -482,14 +496,15 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
      * @param n Expected dimension.
      * @throws DimensionMismatchException if the dimensions do not match.
      */
-    protected void checkVectorDimensions(int n) {
+    protected void checkVectorDimensions(int n)
+        throws DimensionMismatchException {
         if (getDimension() != n) {
             throw new DimensionMismatchException(getDimension(), n);
         }
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> add(FieldVector<T> v) {
+    public FieldVector<T> add(FieldVector<T> v) throws DimensionMismatchException {
         if (v instanceof SparseFieldVector<?>) {
             return add((SparseFieldVector<T>) v);
         } else {

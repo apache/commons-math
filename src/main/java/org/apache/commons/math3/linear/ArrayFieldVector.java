@@ -477,7 +477,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapAdd(T d) {
+    public FieldVector<T> mapAdd(T d) throws NullArgumentException {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].add(d);
@@ -486,7 +486,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapAddToSelf(T d) {
+    public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].add(d);
         }
@@ -494,7 +494,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapSubtract(T d) {
+    public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].subtract(d);
@@ -503,7 +503,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapSubtractToSelf(T d) {
+    public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].subtract(d);
         }
@@ -511,7 +511,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapMultiply(T d) {
+    public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
         T[] out = buildArray(data.length);
         for (int i = 0; i < data.length; i++) {
             out[i] = data[i].multiply(d);
@@ -520,7 +520,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     }
 
     /** {@inheritDoc} */
-    public FieldVector<T> mapMultiplyToSelf(T d) {
+    public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < data.length; i++) {
             data[i] = data[i].multiply(d);
         }

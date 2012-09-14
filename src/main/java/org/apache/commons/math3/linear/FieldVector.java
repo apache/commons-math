@@ -74,7 +74,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
     /**
      * Compute {@code this} minus {@code v}.
      * @param v vector to be subtracted
-     * @return {@code this + v}
+     * @return {@code this - v}
      * @throws DimensionMismatchException if {@code v} is not the same size as
      * {@code this}
      */
@@ -84,46 +84,52 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Map an addition operation to each entry.
      * @param d value to be added to each entry
      * @return {@code this + d}
+     * @throws NullArgumentException if {@code d} is {@code null}.
      */
-    FieldVector<T> mapAdd(T d);
+    FieldVector<T> mapAdd(T d) throws NullArgumentException;
 
     /**
      * Map an addition operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be added to each entry
      * @return for convenience, return {@code this}
+     * @throws NullArgumentException if {@code d} is {@code null}.
      */
-    FieldVector<T> mapAddToSelf(T d);
+    FieldVector<T> mapAddToSelf(T d) throws NullArgumentException;
 
     /**
      * Map a subtraction operation to each entry.
      * @param d value to be subtracted to each entry
      * @return {@code this - d}
+     * @throws NullArgumentException if {@code d} is {@code null}
      */
-    FieldVector<T> mapSubtract(T d);
+    FieldVector<T> mapSubtract(T d) throws NullArgumentException;
 
     /**
      * Map a subtraction operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to be subtracted to each entry
      * @return for convenience, return {@code this}
+     * @throws NullArgumentException if {@code d} is {@code null}
      */
-    FieldVector<T> mapSubtractToSelf(T d);
+    FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException;
 
     /**
      * Map a multiplication operation to each entry.
      * @param d value to multiply all entries by
      * @return {@code this * d}
+     * @throws NullArgumentException if {@code d} is {@code null}.
      */
-    FieldVector<T> mapMultiply(T d);
+    FieldVector<T> mapMultiply(T d) throws NullArgumentException;
 
     /**
      * Map a multiplication operation to each entry.
      * <p>The instance <strong>is</strong> changed by this method.</p>
      * @param d value to multiply all entries by
      * @return for convenience, return {@code this}
+     * @throws NullArgumentException if {@code d} is {@code null}.
      */
-    FieldVector<T> mapMultiplyToSelf(T d);
+    FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException;
 
     /**
      * Map a division operation to each entry.
