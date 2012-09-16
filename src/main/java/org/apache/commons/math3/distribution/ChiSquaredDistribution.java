@@ -89,7 +89,7 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
      * @return the degrees of freedom.
      */
     public double getDegreesOfFreedom() {
-        return gamma.getAlpha() * 2.0;
+        return gamma.getShape() * 2.0;
     }
 
     /** {@inheritDoc} */
