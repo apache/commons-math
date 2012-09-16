@@ -114,8 +114,8 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>
      *
      * @param f Objective function.
-     * @param target Target value for the objective functions at optimum.
-     * @param weight Weights for the least squares cost computation.
+     * @param t Target value for the objective functions at optimum.
+     * @param w Weights for the least squares cost computation.
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.

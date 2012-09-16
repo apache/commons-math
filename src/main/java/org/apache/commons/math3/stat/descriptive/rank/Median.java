@@ -50,7 +50,7 @@ public class Median extends Percentile implements Serializable {
      * to the {@code original}
      *
      * @param original the {@code Median} instance to copy
-     * @throws NullArgumentException if original is null 
+     * @throws NullArgumentException if original is null
      */
     public Median(Median original) throws NullArgumentException {
         super(original);
