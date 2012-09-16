@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-666">
+        Deprecated "FieldVector#getData()" in favor of "toArray()".
+      </action>
       <action dev="luc" type="fix" issue="MATH-789">
         Fixed an error in rectangular Cholesky decomposition.
       </action>
