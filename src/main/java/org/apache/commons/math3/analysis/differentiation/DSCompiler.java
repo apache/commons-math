@@ -1034,7 +1034,6 @@ public class DSCompiler {
      */
     public void log1p(final double[] operand, final int operandOffset,
                       final double[] result, final int resultOffset) {
-        
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
@@ -1062,7 +1061,6 @@ public class DSCompiler {
      */
     public void log10(final double[] operand, final int operandOffset,
                       final double[] result, final int resultOffset) {
-        
 
         // create the function value and derivatives
         double[] function = new double[1 + order];
@@ -1713,7 +1711,7 @@ public class DSCompiler {
     }
 
     /** Evaluate Taylor expansion of a derivative structure.
-     * @param ds array holding the derivative structure 
+     * @param ds array holding the derivative structure
      * @param dsOffset offset of the derivative structure in its array
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
