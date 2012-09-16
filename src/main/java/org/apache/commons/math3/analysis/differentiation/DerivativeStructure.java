@@ -79,7 +79,6 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
 
     /** Build an instance representing a constant value.
      * @param parameters number of free parameters
-     * @param parameters number of variables
      * @param order derivation order
      * @param value value of the constant
      * @see #DerivativeStructure(int, int, int, double)
@@ -180,7 +179,7 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
     }
 
     /** Copy constructor.
-     * @param instance to copy
+     * @param ds instance to copy
      */
     private DerivativeStructure(final DerivativeStructure ds) {
         this.compiler = ds.compiler;
