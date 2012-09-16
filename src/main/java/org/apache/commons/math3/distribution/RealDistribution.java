@@ -142,7 +142,7 @@ public interface RealDistribution {
      * {@code density(getSupportLowerBound())} returns a non-NaN, non-infinite
      * value.
      *
-     * @return true if the lower bound of support is finite and the density 
+     * @return true if the lower bound of support is finite and the density
      * function returns a non-NaN, non-infinite value there
      * @deprecated to be removed in 4.0
      */
@@ -154,7 +154,7 @@ public interface RealDistribution {
      * {@code density(getSupportUpperBound())} returns a non-NaN, non-infinite
      * value.
      *
-     * @return true if the upper bound of support is finite and the density 
+     * @return true if the upper bound of support is finite and the density
      * function returns a non-NaN, non-infinite value there
      * @deprecated to be removed in 4.0
      */
