@@ -202,7 +202,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     /** {@inheritDoc} */
     public FieldVector<T> copy() {
         return new SparseFieldVector<T>(this);
-   }
+    }
 
     /** {@inheritDoc} */
     public T dotProduct(FieldVector<T> v) throws DimensionMismatchException {
@@ -242,34 +242,33 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         return res;
     }
 
-     /** {@inheritDoc} */
-     public T[] getData() {
-        T[] res = buildArray(virtualSize);
-        OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
-        while (iter.hasNext()) {
-            iter.advance();
-            res[iter.key()] = iter.value();
-        }
-        return res;
-     }
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated as of 3.1, to be removed in 4.0. Please use the {@link #toArray()} method instead.
+     */
+    @Deprecated
+    public T[] getData() {
+        return toArray();
+    }
 
-     /** {@inheritDoc} */
-     public int getDimension() {
+    /** {@inheritDoc} */
+    public int getDimension() {
         return virtualSize;
     }
 
-     /** {@inheritDoc} */
-     public T getEntry(int index) throws OutOfRangeException {
+    /** {@inheritDoc} */
+    public T getEntry(int index) throws OutOfRangeException {
         checkIndex(index);
         return entries.get(index);
    }
 
-     /** {@inheritDoc} */
-     public Field<T> getField() {
+    /** {@inheritDoc} */
+    public Field<T> getField() {
         return field;
     }
 
-     /** {@inheritDoc} */
+    /** {@inheritDoc} */
     public FieldVector<T> getSubVector(int index, int n)
         throws OutOfRangeException, NotPositiveException {
         if (n < 0) {
@@ -290,26 +289,26 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         return res;
     }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapAdd(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAdd(T d) throws NullArgumentException {
         return copy().mapAddToSelf(d);
-   }
+    }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapAddToSelf(T d) throws NullArgumentException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, getEntry(i).add(d));
         }
         return this;
     }
 
-     /** {@inheritDoc} */
+    /** {@inheritDoc} */
     public FieldVector<T> mapDivide(T d)
         throws NullArgumentException, MathArithmeticException {
         return copy().mapDivideToSelf(d);
     }
 
-     /** {@inheritDoc} */
+    /** {@inheritDoc} */
     public FieldVector<T> mapDivideToSelf(T d)
         throws NullArgumentException, MathArithmeticException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
@@ -318,43 +317,43 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             entries.put(iter.key(), iter.value().divide(d));
         }
         return this;
-   }
+    }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapInv() throws MathArithmeticException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapInv() throws MathArithmeticException {
         return copy().mapInvToSelf();
-   }
+    }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
         for (int i = 0; i < virtualSize; i++) {
             setEntry(i, field.getOne().divide(getEntry(i)));
         }
         return this;
-   }
+    }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiply(T d) throws NullArgumentException {
         return copy().mapMultiplyToSelf(d);
     }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapMultiplyToSelf(T d) throws NullArgumentException {
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
             entries.put(iter.key(), iter.value().multiply(d));
         }
         return this;
-   }
+    }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtract(T d) throws NullArgumentException {
         return copy().mapSubtractToSelf(d);
     }
 
-     /** {@inheritDoc} */
-     public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
+    /** {@inheritDoc} */
+    public FieldVector<T> mapSubtractToSelf(T d) throws NullArgumentException {
         return mapAddToSelf(field.getZero().subtract(d));
     }
 
@@ -416,7 +415,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     public void setEntry(int index, T value) throws OutOfRangeException {
         checkIndex(index);
         entries.put(index, value);
-   }
+    }
 
     /** {@inheritDoc} */
     public void setSubVector(int index, FieldVector<T> v)
@@ -475,7 +474,13 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public T[] toArray() {
-        return getData();
+        T[] res = buildArray(virtualSize);
+        OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res[iter.key()] = iter.value();
+        }
+        return res;
     }
 
     /**

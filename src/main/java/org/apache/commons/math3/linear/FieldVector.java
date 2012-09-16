@@ -66,8 +66,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Compute the sum of {@code this} and {@code v}.
      * @param v vector to be added
      * @return {@code this + v}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      */
     FieldVector<T> add(FieldVector<T> v) throws DimensionMismatchException;
 
@@ -75,8 +74,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Compute {@code this} minus {@code v}.
      * @param v vector to be subtracted
      * @return {@code this - v}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      */
     FieldVector<T> subtract(FieldVector<T> v) throws DimensionMismatchException;
 
@@ -154,8 +152,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
 
     /**
      * Map the 1/x function to each entry.
-     * @return a vector containing the result of applying the function to each
-     * entry.
+     * @return a vector containing the result of applying the function to each entry.
      * @throws MathArithmeticException if one of the entries is zero.
      */
     FieldVector<T> mapInv() throws MathArithmeticException;
@@ -172,8 +169,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Element-by-element multiplication.
      * @param v vector by which instance elements must be multiplied
      * @return a vector containing {@code this[i] * v[i]} for all {@code i}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      */
     FieldVector<T> ebeMultiply(FieldVector<T> v)
         throws DimensionMismatchException;
@@ -182,8 +178,7 @@ public interface FieldVector<T extends FieldElement<T>>  {
      * Element-by-element division.
      * @param v vector by which instance elements must be divided
      * @return a vector containing {@code this[i] / v[i]} for all {@code i}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      * @throws MathArithmeticException if one entry of {@code v} is zero.
      */
     FieldVector<T> ebeDivide(FieldVector<T> v)
@@ -192,23 +187,24 @@ public interface FieldVector<T extends FieldElement<T>>  {
     /**
      * Returns vector entries as a T array.
      * @return T array of entries
+     * @deprecated as of 3.1, to be removed in 4.0. Please use the {@link #toArray()} method instead.
      */
-     T[] getData();
+    @Deprecated
+    T[] getData();
 
     /**
      * Compute the dot product.
      * @param v vector with which dot product should be computed
      * @return the scalar dot product of {@code this} and {@code v}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      */
     T dotProduct(FieldVector<T> v) throws DimensionMismatchException;
 
-    /** Find the orthogonal projection of this vector onto another vector.
+    /**
+     * Find the orthogonal projection of this vector onto another vector.
      * @param v vector onto which {@code this} must be projected
      * @return projection of {@code this} onto {@code v}
-     * @throws DimensionMismatchException if {@code v} is not the same size as
-     * {@code this}
+     * @throws DimensionMismatchException if {@code v} is not the same size as {@code this}
      * @throws MathArithmeticException if {@code v} is the null vector.
      */
     FieldVector<T> projection(FieldVector<T> v)
