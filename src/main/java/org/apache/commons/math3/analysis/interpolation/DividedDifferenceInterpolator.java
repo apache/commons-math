@@ -20,7 +20,6 @@ import java.io.Serializable;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionNewtonForm;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 
