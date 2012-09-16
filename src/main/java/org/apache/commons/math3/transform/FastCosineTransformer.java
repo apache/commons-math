@@ -27,16 +27,13 @@ import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * <p>
  * Implements the Fast Cosine Transform for transformation of one-dimensional
  * real data sets. For reference, see James S. Walker, <em>Fast Fourier
  * Transforms</em>, chapter 3 (ISBN 0849371635).
- * </p>
  * <p>
  * There are several variants of the discrete cosine transform. The present
  * implementation corresponds to DCT-I, with various normalization conventions,
  * which are specified by the parameter {@link DctNormalization}.
- * </p>
  * <p>
  * DCT-I is equivalent to DFT of an <em>even extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -48,7 +45,6 @@ import org.apache.commons.math3.util.FastMath;
  * <li>x<sub>k</sub><sup>&#35;</sup> = x<sub>2N-2-k</sub>
  * if N &le; k &lt; 2N - 2.</li>
  * </ul>
- * </p>
  * <p>
  * Then, the standard DCT-I y<sub>0</sub>, &hellip;, y<sub>N-1</sub> of the real
  * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to <em>half</em>
@@ -58,13 +54,11 @@ import org.apache.commons.math3.util.FastMath;
  * y<sub>n</sub> = (1 / 2) &sum;<sub>k=0</sub><sup>2N-3</sup>
  * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N - 2)]
  * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.
- * </p>
  * <p>
  * The present implementation of the discrete cosine transform as a fast cosine
  * transform requires the length of the data set to be a power of two plus one
  * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
  * that the sampled function is even.
- * </p>
  *
  * @version $Id$
  * @since 1.2

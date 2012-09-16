@@ -27,7 +27,6 @@ package org.apache.commons.math3.transform;
  */
 public enum DftNormalization {
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastFourierTransformer}
      * to use the <em>standard</em> normalization convention. This normalization
      * convention is defined as follows
@@ -38,12 +37,10 @@ public enum DftNormalization {
      * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
      * </ul>
      * where N is the size of the data sample.
-     * </p>
      */
     STANDARD,
 
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastFourierTransformer}
      * to use the <em>unitary</em> normalization convention. This normalization
      * convention is defined as follows
@@ -55,7 +52,6 @@ public enum DftNormalization {
      * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> exp(2&pi;i n k / N),</li>
      * </ul>
      * which makes the transform unitary. N is the size of the data sample.
-     * </p>
      */
     UNITARY;
 }

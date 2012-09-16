@@ -27,7 +27,6 @@ package org.apache.commons.math3.transform;
  */
 public enum DctNormalization {
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastCosineTransformer}
      * to use the <em>standard</em> normalization convention.  The standard
      * DCT-I normalization convention is defined as follows
@@ -43,12 +42,10 @@ public enum DctNormalization {
      * y<sub>n</sub> cos[&pi; nk / (N - 1)],</li>
      * </ul>
      * where N is the size of the data sample.
-     * </p>
      */
     STANDARD_DCT_I,
 
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastCosineTransformer}
      * to use the <em>orthogonal</em> normalization convention. The orthogonal
      * DCT-I normalization convention is defined as follows

@@ -22,14 +22,14 @@ import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**
- * <p>Interface for one-dimensional data sets transformations producing real
- * results.</p>
- * <p>Such transforms include {@link FastSineTransformer sine transform},
+ * Interface for one-dimensional data sets transformations producing real results.
+ * <p>
+ * Such transforms include {@link FastSineTransformer sine transform},
  * {@link FastCosineTransformer cosine transform} or {@link
  * FastHadamardTransformer Hadamard transform}. {@link FastFourierTransformer
  * Fourier transform} is of a different kind and does not implement this
  * interface since it produces {@link org.apache.commons.math3.complex.Complex}
- * results instead of real ones.</p>
+ * results instead of real ones.
  *
  * @version $Id$
  * @since 2.0
@@ -43,8 +43,8 @@ public interface RealTransformer  {
      * @param type the type of transform (forward, inverse) to be performed
      * @return the real transformed array (spectrum)
      * @throws MathIllegalArgumentException if the array cannot be transformed
-     * with the given type (this may be for example due to array size, which is
-     * constrained in some transforms)
+     *   with the given type (this may be for example due to array size, which is
+     *   constrained in some transforms)
      */
     double[] transform(double[] f, TransformType type) throws MathIllegalArgumentException;
 
@@ -58,12 +58,11 @@ public interface RealTransformer  {
      * @param n the number of sample points
      * @param type the type of transform (forward, inverse) to be performed
      * @return the real transformed array
-     * @throws NonMonotonicSequenceException if the lower bound is greater than,
-     * or equal to the upper bound
+     * @throws NonMonotonicSequenceException if the lower bound is greater than, or equal to the upper bound
      * @throws NotStrictlyPositiveException if the number of sample points is negative
      * @throws MathIllegalArgumentException if the sample cannot be transformed
-     * with the given type (this may be for example due to sample size, which is
-     * constrained in some transforms)
+     *   with the given type (this may be for example due to sample size, which is
+     *   constrained in some transforms)
      */
     double[] transform(UnivariateFunction f, double min, double max, int n,
                        TransformType type)

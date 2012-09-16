@@ -31,16 +31,13 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * <p>
  * Implements the Fast Fourier Transform for transformation of one-dimensional
  * real or complex data sets. For reference, see <em>Applied Numerical Linear
  * Algebra</em>, ISBN 0898713897, chapter 6.
- * </p>
  * <p>
  * There are several variants of the discrete Fourier transform, with various
  * normalization conventions, which are specified by the parameter
  * {@link DftNormalization}.
- * </p>
  * <p>
  * The current implementation of the discrete Fourier transform as a fast
  * Fourier transform requires the length of the data set to be a power of 2.
@@ -49,7 +46,6 @@ import org.apache.commons.math3.util.MathArrays;
  * reference, see S. Winograd,
  * <i>On computing the discrete Fourier transform</i>, Mathematics of
  * Computation, 32 (1978), 175 - 199.
- * </p>
  *
  * @see DftNormalization
  * @version $Id$
@@ -162,8 +158,7 @@ public class FastFourierTransformer implements Serializable {
      *
      * @param dataRI the unscaled transformed data
      * @param normalization the normalization to be applied
-     * @param type the type of transform (forward, inverse) which resulted in the
-     * specified data
+     * @param type the type of transform (forward, inverse) which resulted in the specified data
      */
     private static void normalizeTransformedData(final double[][] dataRI,
         final DftNormalization normalization, final TransformType type) {
@@ -205,21 +200,17 @@ public class FastFourierTransformer implements Serializable {
      * Computes the standard transform of the specified complex data. The
      * computation is done in place. The input data is laid out as follows
      * <ul>
-     * <li>{@code dataRI[0][i]} is the real part of the {@code i}-th data point,
-     * </li>
-     * <li>{@code dataRI[1][i]} is the imaginary part of the {@code i}-th data
-     * point.</li>
+     *   <li>{@code dataRI[0][i]} is the real part of the {@code i}-th data point,</li>
+     *   <li>{@code dataRI[1][i]} is the imaginary part of the {@code i}-th data point.</li>
      * </ul>
      *
-     * @param dataRI the two dimensional array of real and imaginary parts of
-     * the data
-     * @param normalization the normalization to be applied to the transformed
-     * data
+     * @param dataRI the two dimensional array of real and imaginary parts of the data
+     * @param normalization the normalization to be applied to the transformed data
      * @param type the type of transform (forward, inverse) to be performed
      * @throws DimensionMismatchException if the number of rows of the specified
-     * array is not two, or the array is not rectangular
+     *   array is not two, or the array is not rectangular
      * @throws MathIllegalArgumentException if the number of data points is not
-     * a power of two
+     *   a power of two
      */
     public static void transformInPlace(final double[][] dataRI,
         final DftNormalization normalization, final TransformType type) {
@@ -374,8 +365,7 @@ public class FastFourierTransformer implements Serializable {
      * @param f the real data array to be transformed
      * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     public Complex[] transform(final double[] f, final TransformType type) {
         final double[][] dataRI = new double[][] {
@@ -398,29 +388,27 @@ public class FastFourierTransformer implements Serializable {
      * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
      * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
-     * if the lower bound is greater than, or equal to the upper bound
+     *   if the lower bound is greater than, or equal to the upper bound
      * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
-     * if the number of sample points {@code n} is negative
+     *   if the number of sample points {@code n} is negative
      * @throws MathIllegalArgumentException if the number of sample points
-     * {@code n} is not a power of two
+     *   {@code n} is not a power of two
      */
     public Complex[] transform(final UnivariateFunction f,
-            final double min, final double max, final int n,
-            final TransformType type) {
+                               final double min, final double max, final int n,
+                               final TransformType type) {
 
         final double[] data = FunctionUtils.sample(f, min, max, n);
         return transform(data, type);
     }
 
     /**
-     * Returns the (forward, inverse) transform of the specified complex data
-     * set.
+     * Returns the (forward, inverse) transform of the specified complex data set.
      *
      * @param f the complex data array to be transformed
      * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     public Complex[] transform(final Complex[] f, final TransformType type) {
         final double[][] dataRI = TransformUtils.createRealImaginaryArray(f);
@@ -439,11 +427,9 @@ public class FastFourierTransformer implements Serializable {
      * &times; n<sub>d</sub>, where n<sub>k</sub> is the number of elements in
      * dimension k, and d is the total number of dimensions.
      *
-     * @param mdca Multi-Dimensional Complex Array id est
-     * {@code Complex[][][][]}
+     * @param mdca Multi-Dimensional Complex Array, i.e. {@code Complex[][][][]}
      * @param type the type of transform (forward, inverse) to be performed
-     * @return transform of {@code mdca} as a Multi-Dimensional Complex Array
-     * id est {@code Complex[][][][]}
+     * @return transform of {@code mdca} as a Multi-Dimensional Complex Array, i.e. {@code Complex[][][][]}
      * @throws IllegalArgumentException if any dimension is not a power of two
      * @deprecated see MATH-736
      */

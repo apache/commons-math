@@ -27,18 +27,15 @@ import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * <p>
  * Implements the Fast Sine Transform for transformation of one-dimensional real
  * data sets. For reference, see James S. Walker, <em>Fast Fourier
  * Transforms</em>, chapter 3 (ISBN 0849371635).
- * </p>
  * <p>
  * There are several variants of the discrete sine transform. The present
  * implementation corresponds to DST-I, with various normalization conventions,
  * which are specified by the parameter {@link DstNormalization}.
  * <strong>It should be noted that regardless to the convention, the first
  * element of the dataset to be transformed must be zero.</strong>
- * </p>
  * <p>
  * DST-I is equivalent to DFT of an <em>odd extension</em> of the data series.
  * More precisely, if x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is the data set
@@ -51,7 +48,6 @@ import org.apache.commons.math3.util.FastMath;
  * <li>x<sub>k</sub><sup>&#35;</sup> = -x<sub>2N-k</sub> if N + 1 &le; k &lt;
  * 2N.</li>
  * </ul>
- * </p>
  * <p>
  * Then, the standard DST-I y<sub>0</sub>, &hellip;, y<sub>N-1</sub> of the real
  * data set x<sub>0</sub>, &hellip;, x<sub>N-1</sub> is equal to <em>half</em>
@@ -61,7 +57,6 @@ import org.apache.commons.math3.util.FastMath;
  * y<sub>n</sub> = (i / 2) &sum;<sub>k=0</sub><sup>2N-1</sup>
  * x<sub>k</sub><sup>&#35;</sup> exp[-2&pi;i nk / (2N)]
  * &nbsp;&nbsp;&nbsp;&nbsp;k = 0, &hellip;, N-1.
- * </p>
  * <p>
  * The present implementation of the discrete sine transform as a fast sine
  * transform requires the length of the data to be a power of two. Besides,
@@ -69,7 +64,6 @@ import org.apache.commons.math3.util.FastMath;
  * first element of the data set must be 0, which is enforced in
  * {@link #transform(UnivariateFunction, double, double, int, TransformType)},
  * after sampling.
- * </p>
  *
  * @version $Id$
  * @since 1.2
@@ -83,11 +77,9 @@ public class FastSineTransformer implements RealTransformer, Serializable {
     private final DstNormalization normalization;
 
     /**
-     * Creates a new instance of this class, with various normalization
-     * conventions.
+     * Creates a new instance of this class, with various normalization conventions.
      *
-     * @param normalization the type of normalization to be applied to the
-     * transformed data
+     * @param normalization the type of normalization to be applied to the transformed data
      */
     public FastSineTransformer(final DstNormalization normalization) {
         this.normalization = normalization;
@@ -99,7 +91,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * The first element of the specified data set is required to be {@code 0}.
      *
      * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two, or the first element of the data array is not zero
+     *   not a power of two, or the first element of the data array is not zero
      */
     public double[] transform(final double[] f, final TransformType type) {
         if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
@@ -119,11 +111,10 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * This implementation enforces {@code f(x) = 0.0} at {@code x = 0.0}.
      *
      * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if the lower bound is greater than, or equal to the upper bound
+     *   if the lower bound is greater than, or equal to the upper bound
      * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
-     * if the number of sample points is negative
-     * @throws MathIllegalArgumentException if the number of sample points is
-     * not a power of two
+     *   if the number of sample points is negative
+     * @throws MathIllegalArgumentException if the number of sample points is not a power of two
      */
     public double[] transform(final UnivariateFunction f,
         final double min, final double max, final int n,
@@ -141,7 +132,7 @@ public class FastSineTransformer implements RealTransformer, Serializable {
      * @param f the real data array to be transformed
      * @return the real transformed array
      * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two, or the first element of the data array is not zero
+     *   not a power of two, or the first element of the data array is not zero
      */
     protected double[] fst(double[] f) throws MathIllegalArgumentException {
 

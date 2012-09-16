@@ -27,7 +27,6 @@ package org.apache.commons.math3.transform;
  */
 public enum DstNormalization {
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastSineTransformer} to
      * use the <em>standard</em> normalization convention. The standard DST-I
      * normalization convention is defined as follows
@@ -38,12 +37,10 @@ public enum DstNormalization {
      * &sum;<sub>n=0</sub><sup>N-1</sup> y<sub>n</sub> sin(&pi; nk / N),</li>
      * </ul>
      * where N is the size of the data sample, and x<sub>0</sub> = 0.
-     * </p>
      */
     STANDARD_DST_I,
 
     /**
-     * <p>
      * Should be passed to the constructor of {@link FastSineTransformer} to
      * use the <em>orthogonal</em> normalization convention. The orthogonal
      * DCT-I normalization convention is defined as follows
@@ -55,7 +52,6 @@ public enum DstNormalization {
      * </ul>
      * which makes the transform orthogonal. N is the size of the data sample,
      * and x<sub>0</sub> = 0.
-     * </p>
      */
     ORTHOGONAL_DST_I
 }

@@ -27,11 +27,13 @@ import org.apache.commons.math3.util.ArithmeticUtils;
 /**
  * Implements the <a href="http://www.archive.chipcenter.com/dsp/DSP000517F1.html">Fast Hadamard Transform</a> (FHT).
  * Transformation of an input vector x to the output vector y.
- * <p>In addition to transformation of real vectors, the Hadamard transform can
+ * <p>
+ * In addition to transformation of real vectors, the Hadamard transform can
  * transform integer vectors into integer vectors. However, this integer transform
  * cannot be inverted directly. Due to a scaling factor it may lead to rational results.
  * As an example, the inverse transform of integer vector (0, 1, 0, 1) is rational
- * vector (1/2, -1/2, 0, 0).</p>
+ * vector (1/2, -1/2, 0, 0).
+ *
  * @version $Id$
  * @since 2.0
  */
@@ -57,11 +59,10 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      * {@inheritDoc}
      *
      * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
-     * if the lower bound is greater than, or equal to the upper bound
+     *   if the lower bound is greater than, or equal to the upper bound
      * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
-     * if the number of sample points is negative
-     * @throws MathIllegalArgumentException if the number of sample points is
-     * not a power of two
+     *   if the number of sample points is negative
+     * @throws MathIllegalArgumentException if the number of sample points is not a power of two
      */
     public double[] transform(final UnivariateFunction f,
         final double min, final double max, final int n,
@@ -77,8 +78,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *
      * @param f the integer data array to be transformed (signal)
      * @return the integer transformed array (spectrum)
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     public int[] transform(final int[] f) {
         return fht(f);
@@ -224,8 +224,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *
      * @param x the real data array to be transformed
      * @return the real transformed array, {@code y}
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     protected double[] fht(double[] x) throws MathIllegalArgumentException {
 
@@ -276,8 +275,7 @@ public class FastHadamardTransformer implements RealTransformer, Serializable {
      *
      * @param x the integer data array to be transformed
      * @return the integer transformed array, {@code y}
-     * @throws MathIllegalArgumentException if the length of the data array is
-     * not a power of two
+     * @throws MathIllegalArgumentException if the length of the data array is not a power of two
      */
     protected int[] fht(int[] x) throws MathIllegalArgumentException {
 
