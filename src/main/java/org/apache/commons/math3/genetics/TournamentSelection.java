@@ -60,14 +60,12 @@ public class TournamentSelection implements SelectionPolicy {
     }
 
     /**
-     * Helper for {@link #select(Population)}. Draw {@link #arity} random
-     * chromosomes without replacement from the population, and then select the
-     * fittest chromosome among them.
+     * Helper for {@link #select(Population)}. Draw {@link #arity} random chromosomes without replacement from the
+     * population, and then select the fittest chromosome among them.
      *
      * @param population the population from which the chromosomes are choosen.
      * @return the selected chromosome.
-     * @throws MathIllegalArgumentException if the tournament arity is bigger than the
-     * population size
+     * @throws MathIllegalArgumentException if the tournament arity is bigger than the population size
      */
     private Chromosome tournament(final ListPopulation population) {
         if (population.getPopulationSize() < this.arity) {

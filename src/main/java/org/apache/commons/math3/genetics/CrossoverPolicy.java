@@ -24,6 +24,7 @@ package org.apache.commons.math3.genetics;
  * @version $Id$
  */
 public interface CrossoverPolicy {
+
     /**
      * Perform a crossover operation on the given chromosomes.
      *

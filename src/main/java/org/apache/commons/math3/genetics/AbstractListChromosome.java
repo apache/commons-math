@@ -36,8 +36,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     /**
      * Constructor.
      * @param representation inner representation of the chromosome
-     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
-     *         a valid chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
     public AbstractListChromosome(final List<T> representation) {
         checkValidity(representation);
@@ -53,11 +52,10 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     }
 
     /**
-     *
      * Asserts that <code>representation</code> can represent a valid chromosome.
+     *
      * @param chromosomeRepresentation representation of the chromosome
-     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
-     *         a valid chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
     protected abstract void checkValidity(List<T> chromosomeRepresentation) throws InvalidRepresentationException;
 
@@ -78,23 +76,17 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     }
 
     /**
-     * Creates a new instance of the same class as <code>this</code> is, with a
-     * given <code>arrayRepresentation</code>. This is needed in crossover and
-     * mutation operators, where we need a new instance of the same class, but
-     * with different array representation.
-     *
+     * Creates a new instance of the same class as <code>this</code> is, with a given <code>arrayRepresentation</code>.
+     * This is needed in crossover and mutation operators, where we need a new instance of the same class, but with
+     * different array representation.
+     * <p>
      * Usually, this method just calls a constructor of the class.
      *
-     * @param chromosomeRepresentation
-     *            the inner array representation of the new chromosome.
-     * @return new instance extended from FixedLengthChromosome with the given
-     *         arrayRepresentation
+     * @param chromosomeRepresentation the inner array representation of the new chromosome.
+     * @return new instance extended from FixedLengthChromosome with the given arrayRepresentation
      */
     public abstract AbstractListChromosome<T> newFixedLengthChromosome(final List<T> chromosomeRepresentation);
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format("(f=%s %s)", getFitness(), getRepresentation());

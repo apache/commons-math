@@ -22,13 +22,10 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
  * Stops after a fixed amount of time has elapsed.
- *
  * <p>
- * The first time {@link #isSatisfied(Population)} is invoked, the end time of
- * the evolution is determined based on the provided <code>maxTime</code> value.
- * Once the elapsed time reaches the configured <code>maxTime</code> value,
+ * The first time {@link #isSatisfied(Population)} is invoked, the end time of the evolution is determined based on the
+ * provided <code>maxTime</code> value. Once the elapsed time reaches the configured <code>maxTime</code> value,
  * {@link #isSatisfied(Population)} returns true.
- * </p>
  *
  * @version $Id$
  * @since 3.1

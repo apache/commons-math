@@ -32,10 +32,10 @@ public class BinaryMutation implements MutationPolicy {
 
     /**
      * Mutate the given chromosome. Randomly changes one gene.
+     *
      * @param original the original chromosome.
      * @return the mutated chromosome.
-     * @throws MathIllegalArgumentException if <code>original</code> is not an instance
-     *         of {@link BinaryChromosome}.
+     * @throws MathIllegalArgumentException if <code>original</code> is not an instance of {@link BinaryChromosome}.
      */
     public Chromosome mutate(Chromosome original) {
         if (!(original instanceof BinaryChromosome)) {

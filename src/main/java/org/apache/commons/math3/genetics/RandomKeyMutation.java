@@ -34,8 +34,7 @@ public class RandomKeyMutation implements MutationPolicy {
     /**
      * {@inheritDoc}
      *
-     * @throws MathIllegalArgumentException if <code>original</code> is not a
-     * {@link RandomKey} instance
+     * @throws MathIllegalArgumentException if <code>original</code> is not a {@link RandomKey} instance
      */
     public Chromosome mutate(final Chromosome original) {
         if (!(original instanceof RandomKey<?>)) {

@@ -54,7 +54,9 @@ public abstract class ListPopulation implements Population {
 
     /**
      * Creates a new ListPopulation instance.
-     * <p>Note: the chromosomes of the specified list are added to the population.</p>
+     * <p>
+     * Note: the chromosomes of the specified list are added to the population.
+     *
      * @param chromosomes list of chromosomes to be added to the population
      * @param populationLimit maximal size of the population
      * @throws NullArgumentException if the list of chromosomes is {@code null}
@@ -79,8 +81,10 @@ public abstract class ListPopulation implements Population {
 
     /**
      * Sets the list of chromosomes.
-     * <p>Note: this method removed all existing chromosomes in the population and adds all chromosomes
-     * of the specified list to the population.</p>
+     * <p>
+     * Note: this method removed all existing chromosomes in the population and adds all chromosomes
+     * of the specified list to the population.
+     *
      * @param chromosomes the list of chromosomes
      * @throws NullArgumentException if the list of chromosomes is {@code null}
      * @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit
@@ -131,9 +135,10 @@ public abstract class ListPopulation implements Population {
 
     /**
      * Add the given chromosome to the population.
+     *
      * @param chromosome the chromosome to add.
      * @throws NumberIsTooLargeException if the population would exceed the {@code populationLimit} after
-     * adding this chromosome
+     *   adding this chromosome
      */
     public void addChromosome(final Chromosome chromosome) {
         if (chromosomes.size() >= populationLimit) {
@@ -172,7 +177,7 @@ public abstract class ListPopulation implements Population {
      * @param populationLimit maximal population size.
      * @throws NotPositiveException if the population limit is not a positive number (&lt; 1)
      * @throws NumberIsTooSmallException if the new population size is smaller than the current number
-     * of chromosomes in the population
+     *   of chromosomes in the population
      */
     public void setPopulationLimit(final int populationLimit) {
         if (populationLimit <= 0) {

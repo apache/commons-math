@@ -27,41 +27,30 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
- * <p>
  * Random Key chromosome is used for permutation representation. It is a vector
  * of a fixed length of real numbers in [0,1] interval. The index of the i-th
  * smallest value in the vector represents an i-th member of the permutation.
- * </p>
- *
  * <p>
  * For example, the random key [0.2, 0.3, 0.8, 0.1] corresponds to the
  * permutation of indices (3,0,1,2). If the original (unpermuted) sequence would
  * be (a,b,c,d), this would mean the sequence (d,a,b,c).
- * </p>
- *
  * <p>
  * With this representation, common operators like n-point crossover can be
  * used, because any such chromosome represents a valid permutation.
- * </p>
- *
  * <p>
  * Since the chromosome (and thus its arrayRepresentation) is immutable, the
  * array representation is sorted only once in the constructor.
- * </p>
- *
  * <p>
  * For details, see:
  * <ul>
- * <li>Bean, J.C.: Genetic algorithms and random keys for sequencing and
- * optimization. ORSA Journal on Computing 6 (1994) 154-160</li>
- * <li>Rothlauf, F.: Representations for Genetic and Evolutionary Algorithms.
- * Volume 104 of Studies in Fuzziness and Soft Computing. Physica-Verlag,
- * Heidelberg (2002)</li>
+ *   <li>Bean, J.C.: Genetic algorithms and random keys for sequencing and
+ *       optimization. ORSA Journal on Computing 6 (1994) 154-160</li>
+ *   <li>Rothlauf, F.: Representations for Genetic and Evolutionary Algorithms.
+ *       Volume 104 of Studies in Fuzziness and Soft Computing. Physica-Verlag,
+ *       Heidelberg (2002)</li>
  * </ul>
- * </p>
  *
- * @param <T>
- *            type of the permuted objects
+ * @param <T> type of the permuted objects
  * @since 2.0
  * @version $Id$
  */
@@ -80,7 +69,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      *
      * @param representation list of [0,1] values representing the permutation
      * @throws InvalidRepresentationException iff the <code>representation</code> can not represent
-     *         a valid chromosome
+     *   a valid chromosome
      */
     public RandomKey(final List<Double> representation) {
         super(representation);
@@ -120,7 +109,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @param sortedRepr sorted <code>representation</code>
      * @return list with the sequence values permuted according to the representation
      * @throws DimensionMismatchException iff the length of the <code>sequence</code>,
-     * <code>representation</code> or <code>sortedRepr</code> lists are not equal
+     *   <code>representation</code> or <code>sortedRepr</code> lists are not equal
      */
     private static <S> List<S> decodeGeneric(final List<S> sequence, List<Double> representation,
                                              final List<Double> sortedRepr) {
@@ -258,11 +247,11 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
      * @param originalData the original, unpermuted data
      * @param permutedData the data, somehow permuted
      * @return representation of a permutation corresponding to the permutation
-     * <code>originalData -> permutedData</code>
+     *   <code>originalData -> permutedData</code>
      * @throws DimensionMismatchException iff the length of <code>originalData</code>
-     * and <code>permutedData</code> lists are not equal
+     *   and <code>permutedData</code> lists are not equal
      * @throws MathIllegalArgumentException iff the <code>permutedData</code> and
-     * <code>originalData</code> lists contain different data
+     *   <code>originalData</code> lists contain different data
      */
     public static <S> List<Double> inducedPermutation(final List<S> originalData,
                                                       final List<S> permutedData) {
@@ -286,9 +275,6 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
         return Arrays.asList(res);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format("(f=%s pi=(%s))", getFitness(), baseSeqPermutation);

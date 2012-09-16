@@ -40,8 +40,7 @@ public class ElitisticListPopulation extends ListPopulation {
      *
      * @param chromosomes list of chromosomes in the population
      * @param populationLimit maximal size of the population
-     * @param elitismRate how many best chromosomes will be directly transferred to the
-     *                    next generation [in %]
+     * @param elitismRate how many best chromosomes will be directly transferred to the next generation [in %]
      * @throws OutOfRangeException if the elitism rate is outside the [0, 1] range
      */
     public ElitisticListPopulation(final List<Chromosome> chromosomes,
@@ -52,12 +51,10 @@ public class ElitisticListPopulation extends ListPopulation {
     }
 
     /**
-     * Creates a new {@link ElitisticListPopulation} instance and initializes its inner
-     * chromosome list.
+     * Creates a new {@link ElitisticListPopulation} instance and initializes its inner chromosome list.
      *
      * @param populationLimit maximal size of the population
-     * @param elitismRate how many best chromosomes will be directly transferred to the
-     *                    next generation [in %]
+     * @param elitismRate how many best chromosomes will be directly transferred to the next generation [in %]
      * @throws OutOfRangeException if the elitism rate is outside the [0, 1] range
      */
     public ElitisticListPopulation(final int populationLimit, final double elitismRate) {
@@ -88,11 +85,9 @@ public class ElitisticListPopulation extends ListPopulation {
     }
 
     /**
-     * Sets the elitism rate, i.e. how many best chromosomes will be directly
-     * transferred to the next generation [in %].
+     * Sets the elitism rate, i.e. how many best chromosomes will be directly transferred to the next generation [in %].
      *
-     * @param elitismRate how many best chromosomes will be directly transferred to the
-     *                    next generation [in %]
+     * @param elitismRate how many best chromosomes will be directly transferred to the next generation [in %]
      * @throws OutOfRangeException if the elitism rate is outside the [0, 1] range
      */
     public void setElitismRate(final double elitismRate) {

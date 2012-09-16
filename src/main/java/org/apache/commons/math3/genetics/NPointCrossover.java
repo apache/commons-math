@@ -57,14 +57,12 @@ public class NPointCrossover<T> implements CrossoverPolicy {
 
     /**
      * Creates a new {@link NPointCrossover} policy using the given number of points.
-     *
-     * <p><b>Note</b>: the number of crossover points must be &lt; <code>chromosome length - 1</code>.
+     * <p>
+     * <b>Note</b>: the number of crossover points must be &lt; <code>chromosome length - 1</code>.
      * This condition can only be checked at runtime, as the chromosome length is not known in advance.
-     * </p>
      *
      * @param crossoverPoints the number of crossover points
-     * @throws NotStrictlyPositiveException if the number of {@code crossoverPoints} is not
-     * strictly positive
+     * @throws NotStrictlyPositiveException if the number of {@code crossoverPoints} is not strictly positive
      */
     public NPointCrossover(final int crossoverPoints) {
         if (crossoverPoints <= 0) {
@@ -103,7 +101,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
      * @param second second parent (p2)
      * @return pair of two children (c1,c2)
      * @throws MathIllegalArgumentException iff one of the chromosomes is
-     *         not an instance of {@link AbstractListChromosome}
+     *   not an instance of {@link AbstractListChromosome}
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
     @SuppressWarnings("unchecked") // OK because of instanceof checks
@@ -121,8 +119,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
      * @param second the second chromosome
      * @return the pair of new chromosomes that resulted from the crossover
      * @throws DimensionMismatchException if the length of the two chromosomes is different
-     * @throws NumberIsTooLargeException if the number of crossoverPoints is too large for the
-     * actual chromosomes
+     * @throws NumberIsTooLargeException if the number of crossoverPoints is too large for the actual chromosomes
      */
     private ChromosomePair mate(final AbstractListChromosome<T> first,
                                 final AbstractListChromosome<T> second) {

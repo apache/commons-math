@@ -18,7 +18,7 @@ package org.apache.commons.math3.genetics;
 
 /**
  * Individual in a population. Chromosomes are compared based on their fitness.
- *
+ * <p>
  * The chromosomes are IMMUTABLE, and so their fitness is also immutable and
  * therefore it can be cached.
  *
@@ -33,13 +33,11 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     private double fitness = NO_FITNESS;
 
     /**
-     * Access the fitness of this chromosome. The bigger the fitness, the better
-     * the chromosome.
+     * Access the fitness of this chromosome. The bigger the fitness, the better the chromosome.
+     * <p>
+     * Computation of fitness is usually very time-consuming task, therefore the fitness is cached.
      *
-     * Computation of fitness is usually very time-consuming task, therefore the
-     * fitness is cached.
-     *
-     * @return the fitness.
+     * @return the fitness
      */
     public double getFitness() {
         if (this.fitness == NO_FITNESS) {
@@ -50,15 +48,14 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     }
 
     /**
-     * Compares two chromosomes based on their fitness. The bigger the fitness,
-     * the better the chromosome.
+     * Compares two chromosomes based on their fitness. The bigger the fitness, the better the chromosome.
      *
      * @param another another chromosome to compare
      * @return
      * <ul>
-     *     <li>-1 if <code>another</code> is better than <code>this</code></li>
-     *     <li>1 if <code>another</code> is worse than <code>this</code></li>
-     *     <li>0 if the two chromosomes have the same fitness</li>
+     *   <li>-1 if <code>another</code> is better than <code>this</code></li>
+     *   <li>1 if <code>another</code> is worse than <code>this</code></li>
+     *   <li>0 if the two chromosomes have the same fitness</li>
      * </ul>
      */
     public int compareTo(final Chromosome another) {
@@ -66,9 +63,9 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     }
 
     /**
-     * Returns <code>true</code> iff <code>another</code> has the same
-     * representation and therefore the same fitness. By default, it returns
-     * false -- override it in your implementation if you need it.
+     * Returns <code>true</code> iff <code>another</code> has the same representation and therefore the same fitness. By
+     * default, it returns false -- override it in your implementation if you need it.
+     *
      * @param another chromosome to compare
      * @return true if <code>another</code> is equivalent to this chromosome
      */
@@ -77,13 +74,11 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     }
 
     /**
-     * Searches the <code>population</code> for another chromosome with the same
-     * representation. If such chromosome is found, it is returned, if no such
-     * chromosome exists, returns <code>null</code>.
+     * Searches the <code>population</code> for another chromosome with the same representation. If such chromosome is
+     * found, it is returned, if no such chromosome exists, returns <code>null</code>.
      *
      * @param population Population to search
-     * @return Chromosome with the same representation, or <code>null</code> if
-     *         no such chromosome exists.
+     * @return Chromosome with the same representation, or <code>null</code> if no such chromosome exists.
      */
     protected Chromosome findSameChromosome(final Population population) {
         for (Chromosome anotherChr : population) {
@@ -95,8 +90,8 @@ public abstract class Chromosome implements Comparable<Chromosome>,Fitness {
     }
 
     /**
-     * Searches the population for a chromosome representing the same solution,
-     * and if it finds one, updates the fitness to its value.
+     * Searches the population for a chromosome representing the same solution, and if it finds one,
+     * updates the fitness to its value.
      *
      * @param population Population to search
      */

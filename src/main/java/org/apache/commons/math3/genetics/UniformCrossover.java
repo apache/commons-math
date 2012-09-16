@@ -32,16 +32,15 @@ import org.apache.commons.math3.random.RandomGenerator;
  * parent. This is typically a poor method of crossover, but empirical evidence
  * suggests that it is more exploratory and results in a larger part of the
  * problem space being searched.
- *
- * <p>This crossover policy evaluates each gene of the parent chromosomes by chosing a
+ * <p>
+ * This crossover policy evaluates each gene of the parent chromosomes by chosing a
  * uniform random number {@code p} in the range [0, 1]. If {@code p} &lt; {@code ratio},
  * the parent genes are swapped. This means with a ratio of 0.7, 30% of the genes from the
  * first parent and 70% from the second parent will be selected for the first offspring (and
- * vice versa for the second offspring).</p>
- *
- * <p>This policy works only on {@link AbstractListChromosome}, and therefore it
+ * vice versa for the second offspring).
+ * <p>
+ * This policy works only on {@link AbstractListChromosome}, and therefore it
  * is parameterized by T. Moreover, the chromosomes must have same lengths.
- * </p>
  *
  * @see <a href="http://en.wikipedia.org/wiki/Crossover_%28genetic_algorithm%29">Crossover techniques (Wikipedia)</a>
  * @see <a href="http://www.obitko.com/tutorials/genetic-algorithms/crossover-mutation.php">Crossover (Obitko.com)</a>
