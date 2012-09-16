@@ -123,25 +123,16 @@ public class TricubicSplineInterpolatingFunction
      * @param y Sample values of the y-coordinate, in increasing order.
      * @param z Sample values of the y-coordinate, in increasing order.
      * @param f Values of the function on every grid point.
-     * @param dFdX Values of the partial derivative of function with respect
-     * to x on every grid point.
-     * @param dFdY Values of the partial derivative of function with respect
-     * to y on every grid point.
-     * @param dFdZ Values of the partial derivative of function with respect
-     * to z on every grid point.
-     * @param d2FdXdY Values of the cross partial derivative of function on
-     * every grid point.
-     * @param d2FdXdZ Values of the cross partial derivative of function on
-     * every grid point.
-     * @param d2FdYdZ Values of the cross partial derivative of function on
-     * every grid point.
-     * @param d3FdXdYdZ Values of the cross partial derivative of function on
-     * every grid point.
+     * @param dFdX Values of the partial derivative of function with respect to x on every grid point.
+     * @param dFdY Values of the partial derivative of function with respect to y on every grid point.
+     * @param dFdZ Values of the partial derivative of function with respect to z on every grid point.
+     * @param d2FdXdY Values of the cross partial derivative of function on every grid point.
+     * @param d2FdXdZ Values of the cross partial derivative of function on every grid point.
+     * @param d2FdYdZ Values of the cross partial derivative of function on every grid point.
+     * @param d3FdXdYdZ Values of the cross partial derivative of function on every grid point.
      * @throws NoDataException if any of the arrays has zero length.
-     * @throws DimensionMismatchException if the various arrays do not contain
-     * the expected number of elements.
-     * @throws Exception if {@code x}, {@code y} or {@code z}
-     * are not strictly increasing.
+     * @throws DimensionMismatchException if the various arrays do not contain the expected number of elements.
+     * @throws NonMonotonicSequenceException if {@code x}, {@code y} or {@code z} are not strictly increasing.
      */
     public TricubicSplineInterpolatingFunction(double[] x,
                                                double[] y,
@@ -310,8 +301,7 @@ public class TricubicSplineInterpolatingFunction
     /**
      * {@inheritDoc}
      *
-     * @throws OutOfRangeException if any of the variables is outside its
-     * interpolation range.
+     * @throws OutOfRangeException if any of the variables is outside its interpolation range.
      */
     public double value(double x, double y, double z)
         throws OutOfRangeException {
@@ -338,9 +328,8 @@ public class TricubicSplineInterpolatingFunction
     /**
      * @param c Coordinate.
      * @param val Coordinate samples.
-     * @return the index in {@code val} corresponding to the interval
-     * containing {@code c}, or {@code -1} if {@code c} is out of the
-     * range defined by the end values of {@code val}.
+     * @return the index in {@code val} corresponding to the interval containing {@code c}, or {@code -1}
+     *   if {@code c} is out of the range defined by the end values of {@code val}.
      */
     private int searchIndex(double c, double[] val) {
         if (c < val[0]) {
@@ -402,8 +391,7 @@ public class TricubicSplineInterpolatingFunction
      * where the subscripts indicate the partial derivative with respect to
      * the corresponding variable(s).
      *
-     * @param beta List of function values and function partial derivatives
-     * values.
+     * @param beta List of function values and function partial derivatives values.
      * @return the spline coefficients.
      */
     private double[] computeSplineCoefficients(double[] beta) {
