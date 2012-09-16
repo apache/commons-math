@@ -27,11 +27,12 @@ import org.apache.commons.math3.optimization.PointValuePair;
 
 /**
  * Base class for implementing linear optimizers.
- * <p>This base class handles the boilerplate methods associated to thresholds
- * settings and iterations counters.</p>
+ * <p>
+ * This base class handles the boilerplate methods associated to thresholds
+ * settings and iterations counters.
+ *
  * @version $Id$
  * @since 2.0
- *
  */
 public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
@@ -68,7 +69,8 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
     /** Number of iterations already performed. */
     private int iterations;
 
-    /** Simple constructor with default settings.
+    /**
+     * Simple constructor with default settings.
      * <p>The maximal number of evaluation is set to its default value.</p>
      */
     protected AbstractLinearOptimizer() {
@@ -118,9 +120,9 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
         return iterations;
     }
 
-    /** Increment the iterations counter by 1.
-     * @exception MaxCountExceededException if the maximal number
-     * of iterations is exceeded
+    /**
+     * Increment the iterations counter by 1.
+     * @exception MaxCountExceededException if the maximal number of iterations is exceeded
      */
     protected void incrementIterationsCounter()
         throws MaxCountExceededException {
@@ -131,9 +133,9 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
     /** {@inheritDoc} */
     public PointValuePair optimize(final LinearObjectiveFunction f,
-                                       final Collection<LinearConstraint> constraints,
-                                       final GoalType goalType, final boolean restrictToNonNegative)
-         throws MathIllegalStateException {
+                                   final Collection<LinearConstraint> constraints,
+                                   final GoalType goalType, final boolean restrictToNonNegative)
+        throws MathIllegalStateException {
 
         // store linear problem characteristics
         this.function          = f;
@@ -148,12 +150,12 @@ public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
     }
 
-    /** Perform the bulk of optimization algorithm.
+    /**
+     * Perform the bulk of optimization algorithm.
      * @return the point/value pair giving the optimal value for objective function
      * @exception MathIllegalStateException if no solution fulfilling the constraints
      * can be found in the allowed number of iterations
      */
-    protected abstract PointValuePair doOptimize()
-        throws MathIllegalStateException;
+    protected abstract PointValuePair doOptimize() throws MathIllegalStateException;
 
 }

@@ -110,8 +110,7 @@ class SimplexTableau implements Serializable {
      * Build a tableau for a linear problem.
      * @param f linear objective function
      * @param constraints linear constraints
-     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
-     * or {@link GoalType#MINIMIZE}
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @param epsilon amount of error to accept when checking for optimality
      */
@@ -126,8 +125,7 @@ class SimplexTableau implements Serializable {
      * Build a tableau for a linear problem.
      * @param f linear objective function
      * @param constraints linear constraints
-     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
-     * or {@link GoalType#MINIMIZE}
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @param epsilon amount of error to accept when checking for optimality
      * @param maxUlps amount of error to accept in floating point comparisons
@@ -397,7 +395,6 @@ class SimplexTableau implements Serializable {
 
     /**
      * Get the current solution.
-     *
      * @return current solution
      */
     protected PointValuePair getSolution() {
@@ -437,8 +434,8 @@ class SimplexTableau implements Serializable {
      * Subtracts a multiple of one row from another.
      * <p>
      * After application of this operation, the following will hold:
-     *   minuendRow = minuendRow - multiple * subtrahendRow
-     * </p>
+     * <pre>minuendRow = minuendRow - multiple * subtrahendRow</pre>
+     *
      * @param dividendRow index of the row
      * @param divisor value of the divisor
      */
@@ -452,8 +449,8 @@ class SimplexTableau implements Serializable {
      * Subtracts a multiple of one row from another.
      * <p>
      * After application of this operation, the following will hold:
-     *   minuendRow = minuendRow - multiple * subtrahendRow
-     * </p>
+     * <pre>minuendRow = minuendRow - multiple * subtrahendRow</pre>
+     *
      * @param minuendRow row index
      * @param subtrahendRow row index
      * @param multiple multiplication factor
@@ -486,7 +483,8 @@ class SimplexTableau implements Serializable {
         return tableau.getRowDimension();
     }
 
-    /** Get an entry of the tableau.
+    /**
+     * Get an entry of the tableau.
      * @param row row index
      * @param column column index
      * @return entry at (row, column)
@@ -495,7 +493,8 @@ class SimplexTableau implements Serializable {
         return tableau.getEntry(row, column);
     }
 
-    /** Set an entry of the tableau.
+    /**
+     * Set an entry of the tableau.
      * @param row row index
      * @param column column index
      * @param value for the entry
@@ -532,10 +531,9 @@ class SimplexTableau implements Serializable {
     /**
      * Get the number of decision variables.
      * <p>
-     * If variables are not restricted to positive values, this will include 1
-     * extra decision variable to represent the absolute value of the most
-     * negative variable.
-     * </p>
+     * If variables are not restricted to positive values, this will include 1 extra decision variable to represent
+     * the absolute value of the most negative variable.
+     *
      * @return number of decision variables
      * @see #getOriginalNumDecisionVariables()
      */
@@ -576,7 +574,6 @@ class SimplexTableau implements Serializable {
         return tableau.getData();
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -599,7 +596,6 @@ class SimplexTableau implements Serializable {
       return false;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Boolean.valueOf(restrictToNonNegative).hashCode() ^
@@ -613,7 +609,8 @@ class SimplexTableau implements Serializable {
                tableau.hashCode();
     }
 
-    /** Serialize the instance.
+    /**
+     * Serialize the instance.
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
@@ -623,7 +620,8 @@ class SimplexTableau implements Serializable {
         MatrixUtils.serializeRealMatrix(tableau, oos);
     }
 
-    /** Deserialize the instance.
+    /**
+     * Deserialize the instance.
      * @param ois stream from which the object should be read
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream

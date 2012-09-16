@@ -21,8 +21,8 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
- * This class represents exceptions thrown by optimizers when no solution
- * fulfills the constraints.
+ * This class represents exceptions thrown by optimizers when no solution fulfills the constraints.
+ *
  * @version $Id$
  * @since 2.0
  */

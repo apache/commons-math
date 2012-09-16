@@ -101,7 +101,6 @@ public class LinearObjectiveFunction implements Serializable {
         return coefficients.dotProduct(point) + constantTerm;
     }
 
-    /** {@inheritDoc} */
     @Override
     public boolean equals(Object other) {
 
@@ -117,13 +116,13 @@ public class LinearObjectiveFunction implements Serializable {
       return false;
     }
 
-    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return Double.valueOf(constantTerm).hashCode() ^ coefficients.hashCode();
     }
 
-    /** Serialize the instance.
+    /**
+     * Serialize the instance.
      * @param oos stream where object should be written
      * @throws IOException if object cannot be written to stream
      */
@@ -133,7 +132,8 @@ public class LinearObjectiveFunction implements Serializable {
         MatrixUtils.serializeRealVector(coefficients, oos);
     }
 
-    /** Deserialize the instance.
+    /**
+     * Deserialize the instance.
      * @param ois stream from which the object should be read
      * @throws ClassNotFoundException if a class in the stream cannot be found
      * @throws IOException if object cannot be read from the stream

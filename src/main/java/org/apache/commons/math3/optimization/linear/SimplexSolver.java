@@ -27,6 +27,7 @@ import org.apache.commons.math3.util.Precision;
 
 /**
  * Solves a linear problem using the Two-Phase Simplex Method.
+ *
  * @version $Id$
  * @since 2.0
  */

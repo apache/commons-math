@@ -52,17 +52,20 @@ import org.apache.commons.math3.optimization.PointValuePair;
  */
 public interface LinearOptimizer {
 
-    /** Set the maximal number of iterations of the algorithm.
+    /**
+     * Set the maximal number of iterations of the algorithm.
      * @param maxIterations maximal number of function calls
      */
     void setMaxIterations(int maxIterations);
 
-    /** Get the maximal number of iterations of the algorithm.
+    /**
+     * Get the maximal number of iterations of the algorithm.
      * @return maximal number of iterations
      */
     int getMaxIterations();
 
-    /** Get the number of iterations realized by the algorithm.
+    /**
+     * Get the number of iterations realized by the algorithm.
      * <p>
      * The number of evaluations corresponds to the last call to the
      * {@link #optimize(LinearObjectiveFunction, Collection, GoalType, boolean) optimize}
@@ -72,18 +75,17 @@ public interface LinearOptimizer {
      */
     int getIterations();
 
-    /** Optimizes an objective function.
+    /**
+     * Optimizes an objective function.
      * @param f linear objective function
      * @param constraints linear constraints
-     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE}
-     * or {@link GoalType#MINIMIZE}
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}
      * @param restrictToNonNegative whether to restrict the variables to non-negative values
      * @return point/value pair giving the optimal value for objective function
      * @exception MathIllegalStateException if no solution fulfilling the constraints
-     * can be found in the allowed number of iterations
+     *   can be found in the allowed number of iterations
      */
    PointValuePair optimize(LinearObjectiveFunction f, Collection<LinearConstraint> constraints,
-                               GoalType goalType, boolean restrictToNonNegative)
-        throws MathIllegalStateException;
+                               GoalType goalType, boolean restrictToNonNegative) throws MathIllegalStateException;
 
 }
