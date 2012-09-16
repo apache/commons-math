@@ -60,7 +60,7 @@ public class UniformCrossover<T> implements CrossoverPolicy {
      * @param ratio the mixing ratio
      * @throws OutOfRangeException if the mixing ratio is outside the [0, 1] range
      */
-    public UniformCrossover(final double ratio) {
+    public UniformCrossover(final double ratio) throws OutOfRangeException {
         if (ratio < 0.0d || ratio > 1.0d) {
             throw new OutOfRangeException(LocalizedFormats.CROSSOVER_RATE, ratio, 0.0d, 1.0d);
         }
@@ -78,9 +78,15 @@ public class UniformCrossover<T> implements CrossoverPolicy {
 
     /**
      * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException iff one of the chromosomes is
+     *   not an instance of {@link AbstractListChromosome}
+     * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
     @SuppressWarnings("unchecked")
-    public ChromosomePair crossover(final Chromosome first, final Chromosome second) {
+    public ChromosomePair crossover(final Chromosome first, final Chromosome second)
+        throws DimensionMismatchException, MathIllegalArgumentException {
+
         if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
@@ -96,7 +102,7 @@ public class UniformCrossover<T> implements CrossoverPolicy {
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
     private ChromosomePair mate(final AbstractListChromosome<T> first,
-                                final AbstractListChromosome<T> second) {
+                                final AbstractListChromosome<T> second) throws DimensionMismatchException {
         final int length = first.getLength();
         if (length != second.getLength()) {
             throw new DimensionMismatchException(second.getLength(), length);

@@ -43,7 +43,7 @@ public class FixedElapsedTime implements StoppingCondition {
      * @param maxTime maximum number of seconds generations are allowed to evolve
      * @throws NumberIsTooSmallException if the provided time is &lt; 0
      */
-    public FixedElapsedTime(final long maxTime) {
+    public FixedElapsedTime(final long maxTime) throws NumberIsTooSmallException {
         this(maxTime, TimeUnit.SECONDS);
     }
 
@@ -54,7 +54,7 @@ public class FixedElapsedTime implements StoppingCondition {
      * @param unit {@link TimeUnit} of the maxTime argument
      * @throws NumberIsTooSmallException if the provided time is &lt; 0
      */
-    public FixedElapsedTime(final long maxTime, final TimeUnit unit) {
+    public FixedElapsedTime(final long maxTime, final TimeUnit unit) throws NumberIsTooSmallException {
         if (maxTime < 0) {
             throw new NumberIsTooSmallException(maxTime, 0, true);
         }

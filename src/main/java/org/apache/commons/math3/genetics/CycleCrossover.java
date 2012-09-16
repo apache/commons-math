@@ -95,9 +95,14 @@ public class CycleCrossover<T> implements CrossoverPolicy {
 
     /**
      * {@inheritDoc}
+     *
+     * @throws MathIllegalArgumentException if the chromosomes are not an instance of {@link AbstractListChromosome}
+     * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
     @SuppressWarnings("unchecked")
-    public ChromosomePair crossover(final Chromosome first, final Chromosome second) {
+    public ChromosomePair crossover(final Chromosome first, final Chromosome second)
+        throws DimensionMismatchException, MathIllegalArgumentException {
+
         if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
@@ -112,7 +117,9 @@ public class CycleCrossover<T> implements CrossoverPolicy {
      * @return the pair of new chromosomes that resulted from the crossover
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
-    protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second) {
+    protected ChromosomePair mate(final AbstractListChromosome<T> first, final AbstractListChromosome<T> second)
+        throws DimensionMismatchException {
+
         final int length = first.getLength();
         if (length != second.getLength()) {
             throw new DimensionMismatchException(second.getLength(), length);

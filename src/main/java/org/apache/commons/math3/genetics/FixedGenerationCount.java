@@ -39,7 +39,7 @@ public class FixedGenerationCount implements StoppingCondition {
      * @param maxGenerations number of generations to evolve
      * @throws NumberIsTooSmallException if the number of generations is &lt; 1
      */
-    public FixedGenerationCount(final int maxGenerations) {
+    public FixedGenerationCount(final int maxGenerations) throws NumberIsTooSmallException {
         if (maxGenerations <= 0) {
             throw new NumberIsTooSmallException(maxGenerations, 1, true);
         }

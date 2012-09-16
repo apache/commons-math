@@ -69,7 +69,7 @@ public class GeneticAlgorithm {
                             final double crossoverRate,
                             final MutationPolicy mutationPolicy,
                             final double mutationRate,
-                            final SelectionPolicy selectionPolicy) {
+                            final SelectionPolicy selectionPolicy) throws OutOfRangeException {
 
         if (crossoverRate < 0 || crossoverRate > 1) {
             throw new OutOfRangeException(LocalizedFormats.CROSSOVER_RATE,

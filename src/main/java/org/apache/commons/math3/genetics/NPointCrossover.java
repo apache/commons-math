@@ -64,7 +64,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
      * @param crossoverPoints the number of crossover points
      * @throws NotStrictlyPositiveException if the number of {@code crossoverPoints} is not strictly positive
      */
-    public NPointCrossover(final int crossoverPoints) {
+    public NPointCrossover(final int crossoverPoints) throws NotStrictlyPositiveException {
         if (crossoverPoints <= 0) {
             throw new NotStrictlyPositiveException(crossoverPoints);
         }
@@ -105,7 +105,9 @@ public class NPointCrossover<T> implements CrossoverPolicy {
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
     @SuppressWarnings("unchecked") // OK because of instanceof checks
-    public ChromosomePair crossover(final Chromosome first, final Chromosome second) {
+    public ChromosomePair crossover(final Chromosome first, final Chromosome second)
+        throws DimensionMismatchException, MathIllegalArgumentException {
+
         if (!(first instanceof AbstractListChromosome<?> && second instanceof AbstractListChromosome<?>)) {
             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_FIXED_LENGTH_CHROMOSOME);
         }
@@ -122,7 +124,9 @@ public class NPointCrossover<T> implements CrossoverPolicy {
      * @throws NumberIsTooLargeException if the number of crossoverPoints is too large for the actual chromosomes
      */
     private ChromosomePair mate(final AbstractListChromosome<T> first,
-                                final AbstractListChromosome<T> second) {
+                                final AbstractListChromosome<T> second)
+        throws DimensionMismatchException, NumberIsTooLargeException {
+
         final int length = first.getLength();
         if (length != second.getLength()) {
             throw new DimensionMismatchException(second.getLength(), length);

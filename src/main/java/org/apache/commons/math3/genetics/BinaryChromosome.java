@@ -34,7 +34,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      * @param representation list of {0,1} values representing the chromosome
      * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
-    public BinaryChromosome(List<Integer> representation) {
+    public BinaryChromosome(List<Integer> representation) throws InvalidRepresentationException {
         super(representation);
     }
 
@@ -43,7 +43,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      * @param representation array of {0,1} values representing the chromosome
      * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
-    public BinaryChromosome(Integer[] representation) {
+    public BinaryChromosome(Integer[] representation) throws InvalidRepresentationException {
         super(representation);
     }
 
@@ -51,8 +51,7 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
      * {@inheritDoc}
      */
     @Override
-    protected void checkValidity(List<Integer> chromosomeRepresentation)
-        throws InvalidRepresentationException {
+    protected void checkValidity(List<Integer> chromosomeRepresentation) throws InvalidRepresentationException {
         for (int i : chromosomeRepresentation) {
             if (i < 0 || i >1) {
                 throw new InvalidRepresentationException(LocalizedFormats.INVALID_BINARY_DIGIT,
@@ -75,9 +74,6 @@ public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {
         return rList;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected boolean isSame(Chromosome another) {
         // type check

@@ -53,8 +53,9 @@ public class TournamentSelection implements SelectionPolicy {
      *
      * @param population the population from which the chromosomes are chosen.
      * @return the selected chromosomes.
+     * @throws MathIllegalArgumentException if the tournament arity is bigger than the population size
      */
-    public ChromosomePair select(final Population population) {
+    public ChromosomePair select(final Population population) throws MathIllegalArgumentException {
         return new ChromosomePair(tournament((ListPopulation) population),
                                   tournament((ListPopulation) population));
     }
@@ -67,7 +68,7 @@ public class TournamentSelection implements SelectionPolicy {
      * @return the selected chromosome.
      * @throws MathIllegalArgumentException if the tournament arity is bigger than the population size
      */
-    private Chromosome tournament(final ListPopulation population) {
+    private Chromosome tournament(final ListPopulation population) throws MathIllegalArgumentException {
         if (population.getPopulationSize() < this.arity) {
             throw new MathIllegalArgumentException(LocalizedFormats.TOO_LARGE_TOURNAMENT_ARITY,
                                                    arity, population.getPopulationSize());

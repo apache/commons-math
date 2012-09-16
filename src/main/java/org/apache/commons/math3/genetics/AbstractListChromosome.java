@@ -38,7 +38,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      * @param representation inner representation of the chromosome
      * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
-    public AbstractListChromosome(final List<T> representation) {
+    public AbstractListChromosome(final List<T> representation) throws InvalidRepresentationException {
         checkValidity(representation);
         this.representation = Collections.unmodifiableList(new ArrayList<T> (representation));
     }
@@ -46,8 +46,9 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
     /**
      * Constructor.
      * @param representation inner representation of the chromosome
+     * @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome
      */
-    public AbstractListChromosome(final T[] representation) {
+    public AbstractListChromosome(final T[] representation) throws InvalidRepresentationException {
         this(Arrays.asList(representation));
     }
 
