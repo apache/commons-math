@@ -175,9 +175,15 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
 
     /**
      * Removes the most recent value from the dataset.
+     *
+     * @throws MathIllegalStateException if there are no elements stored
      */
-    public void removeMostRecentValue() {
-        eDA.discardMostRecentElements(1);
+    public void removeMostRecentValue() throws MathIllegalStateException {
+        try {
+            eDA.discardMostRecentElements(1);
+        } catch (MathIllegalArgumentException ex) {
+            throw new MathIllegalStateException(LocalizedFormats.NO_DATA);
+        }
     }
 
     /**
@@ -186,8 +192,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      *
      * @param v the value to replace the most recent stored value
      * @return replaced value
+     * @throws MathIllegalStateException if there are no elements stored
      */
-    public double replaceMostRecentValue(double v) {
+    public double replaceMostRecentValue(double v) throws MathIllegalStateException {
         return eDA.substituteMostRecentElement(v);
     }
 
@@ -407,7 +414,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * </p><p>
      * <strong>Preconditions</strong>:<ul>
      * <li><code>0 &lt; p &le; 100</code> (otherwise an
-     * <code>IllegalArgumentException</code> is thrown)</li>
+     * <code>MathIllegalArgumentException</code> is thrown)</li>
      * <li>at least one value must be stored (returns <code>Double.NaN
      *     </code> otherwise)</li>
      * </ul></p>
@@ -416,8 +423,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * @return An estimate for the pth percentile of the stored data
      * @throws MathIllegalStateException if percentile implementation has been
      *  overridden and the supplied implementation does not support setQuantile
+     * @throws MathIllegalArgumentException if p is not a valid quantile
      */
-    public double getPercentile(double p) throws MathIllegalStateException {
+    public double getPercentile(double p) throws MathIllegalStateException, MathIllegalArgumentException {
         if (percentileImpl instanceof Percentile) {
             ((Percentile) percentileImpl).setQuantile(p);
         } else {
@@ -459,6 +467,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         outBuffer.append("std dev: ").append(getStandardDeviation())
             .append(endl);
         try {
+            // No catch for MIAE because actual parameter is valid below
             outBuffer.append("median: ").append(getPercentile(50)).append(endl);
         } catch (MathIllegalStateException ex) {
             outBuffer.append("median: unavailable").append(endl);

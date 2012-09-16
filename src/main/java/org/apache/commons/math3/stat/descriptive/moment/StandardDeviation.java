@@ -72,8 +72,9 @@ public class StandardDeviation extends AbstractStorelessUnivariateStatistic
      * to the {@code original}
      *
      * @param original the {@code StandardDeviation} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public StandardDeviation(StandardDeviation original) {
+    public StandardDeviation(StandardDeviation original) throws NullArgumentException {
         copy(original, this);
     }
 

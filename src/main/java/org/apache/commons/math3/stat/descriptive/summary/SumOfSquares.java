@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.MathUtils;
@@ -62,8 +63,9 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * to the {@code original}
      *
      * @param original the {@code SumOfSquares} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SumOfSquares(SumOfSquares original) {
+    public SumOfSquares(SumOfSquares original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -105,17 +107,18 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the squares of the values or 0 if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values,final int begin, final int length) {
+    public double evaluate(final double[] values,final int begin, final int length)
+    throws MathIllegalArgumentException {
         double sumSq = Double.NaN;
         if (test(values, begin, length, true)) {
             sumSq = 0.0;
@@ -132,6 +135,7 @@ public class SumOfSquares extends AbstractStorelessUnivariateStatistic implement
     @Override
     public SumOfSquares copy() {
         SumOfSquares result = new SumOfSquares();
+        // no try-catch or advertised exception here because args are valid
         copy(this, result);
         return result;
     }

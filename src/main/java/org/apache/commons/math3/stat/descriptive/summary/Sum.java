@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.MathUtils;
@@ -63,8 +64,9 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * to the {@code original}
      *
      * @param original the {@code Sum} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public Sum(Sum original) {
+    public Sum(Sum original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -106,17 +108,18 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * the input array, or 0 if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the values or 0 if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length) {
+    public double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
         double sum = Double.NaN;
         if (test(values, begin, length, true)) {
             sum = 0.0;
@@ -132,7 +135,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * the input array, or 0 if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -151,11 +154,11 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the sum of the values or 0 if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) {
+        final int begin, final int length) throws MathIllegalArgumentException {
         double sum = Double.NaN;
         if (test(values, weights, begin, length, true)) {
             sum = 0.0;
@@ -169,7 +172,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     /**
      * The weighted sum of the entries in the the input array.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -185,10 +188,11 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
      * @param values the input array
      * @param weights the weights array
      * @return the sum of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights) {
+    public double evaluate(final double[] values, final double[] weights)
+    throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -198,6 +202,7 @@ public class Sum extends AbstractStorelessUnivariateStatistic implements Seriali
     @Override
     public Sum copy() {
         Sum result = new Sum();
+        // No try-catch or advertised exception because args are valid
         copy(this, result);
         return result;
     }

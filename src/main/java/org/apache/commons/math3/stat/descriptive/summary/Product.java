@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.stat.descriptive.WeightedEvaluation;
@@ -64,8 +65,9 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * to the {@code original}
      *
      * @param original the {@code Product} instance to copy
+     * @throws NullArgumentException  if original is null
      */
-    public Product(Product original) {
+    public Product(Product original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -107,17 +109,18 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the product of the values or 1 if length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length) {
+    public double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
         double product = Double.NaN;
         if (test(values, begin, length, true)) {
             product = 1.0;
@@ -133,7 +136,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.</p>
      *
-     * <p>Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <p>Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -153,11 +156,11 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @param begin index of the first array element to include
      * @param length the number of elements to include
      * @return the product of the values or 1 if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
     public double evaluate(final double[] values, final double[] weights,
-                           final int begin, final int length) {
+        final int begin, final int length) throws MathIllegalArgumentException {
         double product = Double.NaN;
         if (test(values, weights, begin, length, true)) {
             product = 1.0;
@@ -171,7 +174,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     /**
      * <p>Returns the weighted product of the entries in the input array.</p>
      *
-     * <p>Throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <p>Throws <code>MathIllegalArgumentException</code> if any of the following are true:
      * <ul><li>the values array is null</li>
      *     <li>the weights array is null</li>
      *     <li>the weights array does not have the same length as the values array</li>
@@ -188,10 +191,11 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
      * @param values the input array
      * @param weights the weights array
      * @return the product of the values or Double.NaN if length = 0
-     * @throws IllegalArgumentException if the parameters are not valid
+     * @throws MathIllegalArgumentException if the parameters are not valid
      * @since 2.1
      */
-    public double evaluate(final double[] values, final double[] weights) {
+    public double evaluate(final double[] values, final double[] weights)
+    throws MathIllegalArgumentException {
         return evaluate(values, weights, 0, values.length);
     }
 
@@ -202,6 +206,7 @@ public class Product extends AbstractStorelessUnivariateStatistic implements Ser
     @Override
     public Product copy() {
         Product result = new Product();
+        // No try-catch or advertised exception because args are valid
         copy(this, result);
         return result;
     }

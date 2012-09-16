@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.descriptive.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
 import org.apache.commons.math3.util.FastMath;
@@ -71,8 +72,9 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * to the {@code original}
      *
      * @param original the {@code SumOfLogs} instance to copy
+     * @throws NullArgumentException if original is null
      */
-    public SumOfLogs(SumOfLogs original) {
+    public SumOfLogs(SumOfLogs original) throws NullArgumentException {
         copy(original, this);
     }
 
@@ -114,7 +116,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * the input array, or <code>Double.NaN</code> if the designated subarray
      * is empty.
      * <p>
-     * Throws <code>IllegalArgumentException</code> if the array is null.</p>
+     * Throws <code>MathIllegalArgumentException</code> if the array is null.</p>
      * <p>
      * See {@link SumOfLogs}.</p>
      *
@@ -123,11 +125,12 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
      * @param length the number of elements to include
      * @return the sum of the natural logs of the values or 0 if
      * length = 0
-     * @throws IllegalArgumentException if the array is null or the array index
+     * @throws MathIllegalArgumentException if the array is null or the array index
      *  parameters are not valid
      */
     @Override
-    public double evaluate(final double[] values, final int begin, final int length) {
+    public double evaluate(final double[] values, final int begin, final int length)
+    throws MathIllegalArgumentException {
         double sumLog = Double.NaN;
         if (test(values, begin, length, true)) {
             sumLog = 0.0;
@@ -144,6 +147,7 @@ public class SumOfLogs extends AbstractStorelessUnivariateStatistic implements S
     @Override
     public SumOfLogs copy() {
         SumOfLogs result = new SumOfLogs();
+        // No try-catch or advertised exception here because args are valid
         copy(this, result);
         return result;
     }

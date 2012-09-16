@@ -213,14 +213,15 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
        * instance properties variancDirection and biasCorrection.</p>
        *
        * <p>Returns <code>NaN</code> if the array is empty and throws
-       * <code>IllegalArgumentException</code> if the array is null.</p>
+       * <code>MathIllegalArgumentException</code> if the array is null.</p>
        *
        * @param values the input array
        * @param cutoff the reference point
        * @return the SemiVariance
-       * @throws IllegalArgumentException if values is null
+       * @throws MathIllegalArgumentException if values is null
        */
-      public double evaluate(final double[] values, final double cutoff) {
+      public double evaluate(final double[] values, final double cutoff)
+      throws MathIllegalArgumentException {
           return evaluate(values, cutoff, varianceDirection, biasCorrected, 0, values.length);
       }
 
@@ -229,15 +230,16 @@ public class SemiVariance extends AbstractUnivariateStatistic implements Seriali
        * given direction, using the current value of the biasCorrection instance property.</p>
        *
        * <p>Returns <code>NaN</code> if the array is empty and throws
-       * <code>IllegalArgumentException</code> if the array is null.</p>
+       * <code>MathIllegalArgumentException</code> if the array is null.</p>
        *
        * @param values the input array
        * @param cutoff the reference point
        * @param direction the {@link Direction} of the semivariance
        * @return the SemiVariance
-       * @throws IllegalArgumentException if values is null
+       * @throws MathIllegalArgumentException if values is null
        */
-      public double evaluate(final double[] values, final double cutoff, final Direction direction) {
+      public double evaluate(final double[] values, final double cutoff, final Direction direction)
+      throws MathIllegalArgumentException {
           return evaluate(values, cutoff, direction, biasCorrected, 0, values.length);
       }
 
