@@ -24,7 +24,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * both the value and the first derivative of a mathematical function.
  * The derivative is computed with respect to the input variable.</p>
  * @see UnivariateDifferentiableFunction
- * @see UnivariateDifferentiator
+ * @see UnivariateFunctionDifferentiator
  * @since 3.1
  * @version $Id$
  */

@@ -32,19 +32,24 @@ import org.apache.commons.math3.util.FastMath;
  * Recursive Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75,
  * no. 3, June 2002.</p>. Rall's numbers are an extension to the real numbers used
  * throughout mathematical expressions; they hold the derivative together with the
- * value of a function. Dan Kalman's derivative structures holds all partial derivatives
- * up to any specified order, with respect to any number of free variables. Rall's
- * number therefore can be seen as derivative structures for order one derivative and
- * one free variable, and real numbers can be seen as derivative structures with zero
- * order derivative and no free variables.</p>
+ * value of a function. Dan Kalman's derivative structures hold all partial derivatives
+ * up to any specified order, with respect to any number of free parameters. Rall's
+ * numbers therefore can be seen as derivative structures for order one derivative and
+ * one free parameter, and real numbers can be seen as derivative structures with zero
+ * order derivative and no free parameters.</p>
  * <p>{@link DerivativeStructure} instances can be used directly thanks to
  * the arithmetic operators to the mathematical functions provided as static
  * methods by this class (+, -, *, /, %, sin, cos ...).</p>
  * <p>Implementing complex expressions by hand using these classes is
- * however a complex and error-prone task, so the classical use is
- * simply to develop computation code using standard primitive double
- * values and to use {@link UnivariateDifferentiator differentiators} to create
- * the {@link DerivativeStructure}-based instances.</p>
+ * a tedious and error-prone task but has the advantage of having no limitation
+ * on the derivation order despite no requiring users to compute the derivatives by
+ * themselves. Implementing complex expression can also be done by developing computation
+ * code using standard primitive double values and to use {@link
+ * UnivariateFunctionDifferentiator differentiators} to create the {@link
+ * DerivativeStructure}-based instances. This method is simpler but may be limited in
+ * the accuracy and derivation orders and may be computationally intensive (this is
+ * typically the case for {@link FiniteDifferencesDifferentiator finite differences
+ * differentiator).</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @see DSCompiler
  * @version $Id$
