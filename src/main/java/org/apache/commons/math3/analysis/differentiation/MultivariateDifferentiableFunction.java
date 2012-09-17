@@ -18,7 +18,6 @@
 package org.apache.commons.math3.analysis.differentiation;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
@@ -34,16 +33,11 @@ public interface MultivariateDifferentiableFunction extends MultivariateFunction
      *
      * @param point Point at which the function must be evaluated.
      * @return the function value for the given point.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the parameter's dimension is wrong for the function being evaluated.
-     * @throws  org.apache.commons.math3.exception.MathIllegalArgumentException
-     * when the activated method itself can ascertain that preconditions,
-     * specified in the API expressed at the level of the activated method,
-     * have been violated.  In the vast majority of cases where Commons Math
-     * throws this exception, it is the result of argument checking of actual
-     * parameters immediately passed to a method.
+     * @exception MathIllegalArgumentException if {@code point} does not
+     * fulfill functions constraints (wrong dimension, argument out of bound,
+     * or unsupported derivative order for example)
      */
     DerivativeStructure value(DerivativeStructure[] point)
-        throws DimensionMismatchException, MathIllegalArgumentException;
+        throws MathIllegalArgumentException;
 
 }

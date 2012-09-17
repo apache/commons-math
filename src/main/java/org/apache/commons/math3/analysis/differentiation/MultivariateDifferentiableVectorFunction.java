@@ -18,7 +18,7 @@
 package org.apache.commons.math3.analysis.differentiation;
 
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 
 /**
@@ -34,9 +34,11 @@ public interface MultivariateDifferentiableVectorFunction
      * Compute the value for the function at the given point.
      * @param point point at which the function must be evaluated
      * @return function value for the given point
-     * @exception DimensionMismatchException if points dimension is wrong
+     * @exception MathIllegalArgumentException if {@code point} does not
+     * fulfill functions constraints (wrong dimension, argument out of bound,
+     * or unsupported derivative order for example)
      */
     DerivativeStructure[] value(DerivativeStructure[] point)
-        throws DimensionMismatchException;
+        throws MathIllegalArgumentException;
 
 }

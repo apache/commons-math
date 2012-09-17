@@ -17,6 +17,7 @@
 package org.apache.commons.math3.analysis.differentiation;
 
 import org.apache.commons.math3.analysis.UnivariateVectorFunction;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * Extension of {@link UnivariateVectorFunction} representing a univariate differentiable vectorial function.
@@ -31,7 +32,10 @@ public interface UnivariateDifferentiableVectorFunction
      * Compute the value for the function.
      * @param x the point for which the function value should be computed
      * @return the value
+     * @exception MathIllegalArgumentException if {@code x} does not
+     * fulfill functions constraints (argument out of bound, or unsupported
+     * derivative order for example)
      */
-    DerivativeStructure[] value(DerivativeStructure x);
+    DerivativeStructure[] value(DerivativeStructure x) throws MathIllegalArgumentException;
 
 }
