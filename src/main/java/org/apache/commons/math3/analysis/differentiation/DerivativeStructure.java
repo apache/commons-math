@@ -183,6 +183,24 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
                                    data, 0);
     }
 
+    /** Build an instance from all its derivatives.
+     * @param parameters number of free parameters
+     * @param order derivation order
+     * @param derivatives derivatives sorted according to
+     * {@link DSCompiler#getPartialDerivativeIndex(int...)}
+     * @exception DimensionMismatchException if derivatives array does not match the
+     * {@link DSCompiler#getSize() size} expected by the compiler
+     * @see #getAllDerivatives()
+     */
+    public DerivativeStructure(final int parameters, final int order, final double ... derivatives)
+        throws DimensionMismatchException {
+        this(parameters, order);
+        if (derivatives.length != data.length) {
+            throw new DimensionMismatchException(derivatives.length, data.length);
+        }
+        System.arraycopy(derivatives, 0, data, 0, data.length);
+    }
+
     /** Copy constructor.
      * @param ds instance to copy
      */
@@ -226,6 +244,14 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
     public double getPartialDerivative(final int ... orders)
         throws DimensionMismatchException, NumberIsTooLargeException {
         return data[compiler.getPartialDerivativeIndex(orders)];
+    }
+
+    /** Get all partial derivatives.
+     * @return a fresh copy of partial derivatives, in an array sorted according to
+     * {@link DSCompiler#getPartialDerivativeIndex(int...)}
+     */
+    public double[] getAllDerivatives() {
+        return data.clone();
     }
 
     /** '+' operator.

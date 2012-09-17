@@ -20,6 +20,7 @@ package org.apache.commons.math3.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
@@ -1020,6 +1021,48 @@ public class DerivativeStructureTest {
             Assert.assertEquals(3, x.getField().getZero().getFreeParameters());
             Assert.assertEquals(DerivativeStructure.class, x.getField().getRuntimeClass());
         }
+    }
+
+    @Test
+    public void testOneParameterConstructor() {
+        double x = 1.2;
+        double cos = FastMath.cos(x);
+        double sin = FastMath.sin(x);
+        DerivativeStructure yRef = new DerivativeStructure(1, 4, 0, x).cos();
+        try {
+            new DerivativeStructure(1, 4, 0.0, 0.0);
+            Assert.fail("an exception should have been thrown");
+        } catch (DimensionMismatchException dme) {
+            // expected
+        } catch (Exception e) {
+            Assert.fail("wrong exceptionc caught " + e.getClass().getName());
+        }
+        double[] derivatives = new double[] { cos, -sin, -cos, sin, cos };
+        DerivativeStructure y = new DerivativeStructure(1,  4, derivatives);
+        checkEquals(yRef, y, 1.0e-15);
+        TestUtils.assertEquals(derivatives, y.getAllDerivatives(), 1.0e-15);
+    }
+
+    @Test
+    public void testOneOrderConstructor() {
+        double x =  1.2;
+        double y =  2.4;
+        double z = 12.5;
+        DerivativeStructure xRef = new DerivativeStructure(3, 1, 0, x);
+        DerivativeStructure yRef = new DerivativeStructure(3, 1, 1, y);
+        DerivativeStructure zRef = new DerivativeStructure(3, 1, 2, z);
+        try {
+            new DerivativeStructure(3, 1, x + y - z, 1.0, 1.0);
+            Assert.fail("an exception should have been thrown");
+        } catch (DimensionMismatchException dme) {
+            // expected
+        } catch (Exception e) {
+            Assert.fail("wrong exceptionc caught " + e.getClass().getName());
+        }
+        double[] derivatives = new double[] { x + y - z, 1.0, 1.0, -1.0 };
+        DerivativeStructure t = new DerivativeStructure(3, 1, derivatives);
+        checkEquals(xRef.add(yRef.subtract(zRef)), t, 1.0e-15);
+        TestUtils.assertEquals(derivatives, xRef.add(yRef.subtract(zRef)).getAllDerivatives(), 1.0e-15);
     }
 
     private void checkF0F1(DerivativeStructure ds, double value, double...derivatives) {

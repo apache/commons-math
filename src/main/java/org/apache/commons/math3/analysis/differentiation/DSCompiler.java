@@ -507,10 +507,24 @@ public class DSCompiler {
     /** Get the index of a partial derivative in the array.
      * <p>
      * If all orders are set to 0, then the 0<sup>th</sup> order derivative
-     * is returned, which is the value of the function. The index for this
-     * 0<sup>th</sup> order derivative is always 0. the indices of higher
-     * order derivatives is between 1 and {@link #getSize() - 1)}.
+     * is returned, which is the value of the function.
      * </p>
+     * <p>The indices of derivatives are between 0 and {@link #getSize() getSize()} - 1.
+     * Their specific order is fixed for a given compiler, but otherwise not
+     * publicly specified. There are however some simple cases which have guaranteed
+     * indices:
+     * </p>
+     * <ul>
+     *   <li>the index of 0<sup>th</sup> order derivative is always 0</li>
+     *   <li>if there is only 1 {@link #getFreeParameters() free parameter}, then the
+     *   derivatives are sorted in increasing derivation order (i.e. f at index 0, df/dp
+     *   at index 1, d<sup>2</sup>f/dp<sup>2</sup> at index 2 ...
+     *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li> 
+     *   <li>if the {@link #getOrder() derivation order} is 1, then the derivatives
+     *   are sorted in incresing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
+     *   at index 1, df/dx<sub>2</sub> at index 2 ... df/dx<sub>k</sub> at index k),</li>
+     *   <li>all other cases are not publicly specified</li>
+     * </ul>
      * <p>
      * This method is the inverse of method {@link #getPartialDerivativeOrders(int)}
      * </p>
