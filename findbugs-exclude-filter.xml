@@ -217,6 +217,11 @@
     <Method name="getDataRef" params="" returns="org.apache.commons.math3.FieldElement[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
+  <!-- The equals method for RealVector intentionally throws an exception -->
+  <Match>
+    <Class name="org.apache.commons.math3.linear.RealVector"/>
+    <Bug pattern="EQ_UNUSUAL" />
+  </Match>
   <Match>
     <Class name="org.apache.commons.math3.stat.clustering.EuclideanIntegerPoint"/>
     <Method name="&lt;init>" params="int[]" returns="void" />
