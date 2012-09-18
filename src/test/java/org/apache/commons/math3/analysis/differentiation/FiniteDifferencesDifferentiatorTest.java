@@ -24,7 +24,9 @@ import org.apache.commons.math3.analysis.UnivariateMatrixFunction;
 import org.apache.commons.math3.analysis.UnivariateVectorFunction;
 import org.apache.commons.math3.analysis.function.Gaussian;
 import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -158,6 +160,45 @@ public class FiniteDifferencesDifferentiatorTest {
             Assert.assertEquals(expectedBad[i],  maxErrorBad[i],  0.01 * expectedBad[i]);
         }
 
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testWrongOrder() {
+        UnivariateDifferentiableFunction f =
+                new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateFunction() {
+                    public double value(double x) {
+                        // this exception should not be thrown because wrong order
+                        // should be detected before function call
+                        throw new MathInternalError();
+                    }
+                });
+        f.value(new DerivativeStructure(1, 3, 0, 1.0));
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testWrongOrderVector() {
+        UnivariateDifferentiableVectorFunction f =
+                new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateVectorFunction() {
+                    public double[] value(double x) {
+                        // this exception should not be thrown because wrong order
+                        // should be detected before function call
+                        throw new MathInternalError();
+                    }
+                });
+        f.value(new DerivativeStructure(1, 3, 0, 1.0));
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testWrongOrderMatrix() {
+        UnivariateDifferentiableMatrixFunction f =
+                new FiniteDifferencesDifferentiator(3, 0.01).differentiate(new UnivariateMatrixFunction() {
+                    public double[][] value(double x) {
+                        // this exception should not be thrown because wrong order
+                        // should be detected before function call
+                        throw new MathInternalError();
+                    }
+                });
+        f.value(new DerivativeStructure(1, 3, 0, 1.0));
     }
 
     @Test

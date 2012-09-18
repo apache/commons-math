@@ -28,7 +28,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /** Univariate functions differentiator using finite differences.
  * <p>
- * This class creates some wrapper objetcs around regular
+ * This class creates some wrapper objects around regular
  * {@link UnivariateFunction univariate functions} (or {@link
  * UnivariateVectorFunction univariate vector functions} or {@link
  * UnivariateMatrixFunction univariate matrix functions}). These
@@ -136,12 +136,6 @@ public class FiniteDifferencesDifferentiator
     private DerivativeStructure evaluate(final DerivativeStructure t, final double[] y)
         throws NumberIsTooLargeException {
 
-        // check we can achieve the requested derivation order with the sample
-        final int order = t.getOrder();
-        if (order >= nbPoints) {
-            throw new NumberIsTooLargeException(order, nbPoints, false);
-        }
-
         // create divided differences diagonal arrays
         final double[] top    = new double[nbPoints];
         final double[] bottom = new double[nbPoints];
@@ -160,6 +154,7 @@ public class FiniteDifferencesDifferentiator
         }
 
         // evaluate interpolation polynomial (represented by top diagonal) at t
+        final int order      = t.getOrder();
         final int parameters = t.getFreeParameters();
         final double[] derivatives = t.getAllDerivatives();
         DerivativeStructure interpolation = new DerivativeStructure(parameters, order, 0.0);
@@ -192,6 +187,11 @@ public class FiniteDifferencesDifferentiator
             /** {@inheritDoc} */
             public DerivativeStructure value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
+
+                // check we can achieve the requested derivation order with the sample
+                if (t.getOrder() >= nbPoints) {
+                    throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
+                }
 
                 // get sample points centered around t value
                 final double t0 = t.getValue();
@@ -226,6 +226,11 @@ public class FiniteDifferencesDifferentiator
             /** {@inheritDoc} */
             public DerivativeStructure[] value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
+
+                // check we can achieve the requested derivation order with the sample
+                if (t.getOrder() >= nbPoints) {
+                    throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
+                }
 
                 // get sample points centered around t value
                 final double t0 = t.getValue();
@@ -271,6 +276,11 @@ public class FiniteDifferencesDifferentiator
             /** {@inheritDoc} */
             public DerivativeStructure[][]  value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
+
+                // check we can achieve the requested derivation order with the sample
+                if (t.getOrder() >= nbPoints) {
+                    throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
+                }
 
                 // get sample points centered around t value
                 final double t0 = t.getValue();
