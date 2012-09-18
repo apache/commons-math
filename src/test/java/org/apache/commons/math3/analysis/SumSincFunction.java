@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math3.analysis;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Sinc;
 
 /**
@@ -25,8 +23,8 @@ import org.apache.commons.math3.analysis.function.Sinc;
  *
  * @version $Id$
  */
-public class SumSincFunction implements DifferentiableMultivariateFunction {
-    private static final UnivariateDifferentiableFunction sinc = new Sinc();
+public class SumSincFunction implements MultivariateFunction {
+    private static final UnivariateFunction sinc = new Sinc();
 
     /**
      * Factor that will multiply each term of the sum.
@@ -54,31 +52,4 @@ public class SumSincFunction implements DifferentiableMultivariateFunction {
         return factor * sum;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public MultivariateFunction partialDerivative(final int k) {
-        return new MultivariateFunction() {
-            public double value(double[] point) {
-                return sinc.value(new DerivativeStructure(1, 1, 0, point[k])).getPartialDerivative(1);
-            }
-        };
-    }
-
-    /**                                                                            
-     * {@inheritDoc}
-     */
-    public MultivariateVectorFunction gradient() {
-        return new MultivariateVectorFunction() {
-            public double[] value(double[] point) {
-                final int n = point.length;
-                final double[] r = new double[n];
-                for (int i = 0; i < n; i++) {
-                    final double x = point[i];
-                    r[i] = factor * sinc.value(new DerivativeStructure(1, 1, 0, x)).getPartialDerivative(1);
-                }
-                return r;
-            }
-        };
-    }
 }
