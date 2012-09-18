@@ -70,10 +70,11 @@ public abstract class RealLinearOperator {
      *
      * @param x the vector to operate on
      * @return the product of {@code this} instance with {@code x}
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
-     * if the column dimension does not match the size of {@code x}
+     * @throws DimensionMismatchException if the column dimension does not match
+     * the size of {@code x}
      */
-    public abstract RealVector operate(final RealVector x);
+    public abstract RealVector operate(final RealVector x)
+        throws DimensionMismatchException;
 
     /**
      * Returns the result of multiplying the transpose of {@code this} operator
