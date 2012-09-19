@@ -37,7 +37,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * </p>
  * <p>
  * The wrapper objects work by calling the underlying function on
- * a sampling grid around the current point and perform polynomial
+ * a sampling grid around the current point and performing polynomial
  * interpolation. A finite differences scheme with n points is
  * theoretically able to compute derivatives up to order n-1, but
  * it is generally better to have a slight margin. The step size must
