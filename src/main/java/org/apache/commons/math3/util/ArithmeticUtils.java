@@ -332,7 +332,7 @@ public final class ArithmeticUtils {
      * @return {@code n!}
      * @throws NotPositiveException if {@code n < 0}.
      */
-    public static double factorialDouble(final int n) throws NotPositiveException, MathArithmeticException {
+    public static double factorialDouble(final int n) throws NotPositiveException {
         if (n < 0) {
             throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
                                            n);
