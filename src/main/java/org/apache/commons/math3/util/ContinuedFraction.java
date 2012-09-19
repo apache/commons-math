@@ -98,22 +98,19 @@ public abstract class ContinuedFraction {
     }
 
     /**
-     * <p>
      * Evaluates the continued fraction at the value x.
-     * </p>
-     *
      * <p>
      * The implementation of this method is based on the modified Lentz algorithm as described
      * on page 18 ff. in:
      * <ul>
-     * <li>
+     *   <li>
      *   I. J. Thompson,  A. R. Barnett. "Coulomb and Bessel Functions of Complex Arguments and Order."
      *   <a target="_blank" href="http://www.fresco.org.uk/papers/Thompson-JCP64p490.pdf">
      *   http://www.fresco.org.uk/papers/Thompson-JCP64p490.pdf</a>
-     * </li>
+     *   </li>
      * </ul>
-     * Note: the implementation uses the terms a<sub>i</sub> and b<sub>i</sub> as defined in
-     * <a href="http://mathworld.wolfram.com/ContinuedFraction.html">Continued Fraction / MathWorld</a>.
+     * <b>Note:</b> the implementation uses the terms a<sub>i</sub> and b<sub>i</sub> as defined in
+     * <a href="http://mathworld.wolfram.com/ContinuedFraction.html">Continued Fraction @ MathWorld</a>.
      * </p>
      *
      * @param x the evaluation point.
