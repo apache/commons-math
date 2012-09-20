@@ -69,7 +69,7 @@ public interface RealMatrix extends AnyMatrix {
         throws MatrixDimensionMismatchException;
 
     /**
-     * Computes {@code this} minus {@code m}.
+     * Returns {@code this} minus {@code m}.
      *
      * @param m matrix to be subtracted
      * @return {@code this - m}

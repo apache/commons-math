@@ -74,9 +74,6 @@ public abstract class AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    public abstract RealMatrix createMatrix(final int rowDimension, final int columnDimension);
-
-    /** {@inheritDoc} */
     public abstract RealMatrix copy();
 
     /** {@inheritDoc} */
@@ -584,12 +581,6 @@ public abstract class AbstractRealMatrix
             setEntry(i, column, array[i]);
         }
     }
-
-    /** {@inheritDoc} */
-    public abstract double getEntry(int row, int column);
-
-    /** {@inheritDoc} */
-    public abstract void setEntry(int row, int column, double value);
 
     /** {@inheritDoc} */
     public void addToEntry(int row, int column, double increment)
