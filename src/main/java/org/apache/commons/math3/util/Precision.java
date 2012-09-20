@@ -273,6 +273,28 @@ public class Precision {
     }
 
     /**
+     * Returns {@code true} if there is no double value strictly between the
+     * arguments or the reltaive difference between them is smaller or equal
+     * to the given tolerance.
+     *
+     * @param x First value.
+     * @param y Second value.
+     * @param eps Amount of allowed relative error.
+     * @return {@code true} if the values are two adjacent floating point
+     * numbers or they are within range of each other.
+     */
+    public static boolean equalsWithRelativeTolerance(double x, double y, double eps) {
+        if (equals(x, y, 1)) {
+            return true;
+        }
+
+        final double absoluteMax = FastMath.max(FastMath.abs(x), FastMath.abs(y));
+        final double relativeDifference = FastMath.abs((x - y) / absoluteMax);
+
+        return relativeDifference <= eps;
+    }
+
+    /**
      * Returns true if both arguments are NaN or are equal or within the range
      * of allowed error (inclusive).
      *
