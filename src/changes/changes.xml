@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-863" due-to="Julien Anxionnat">
+        New "Quaternion" class (package "o.a.c.m.complex").
+      </action>
       <action dev="erans" type="add" issue="MATH-866" due-to="Yannick Tanguy">
         Added method to test for floating-point numbers equality with a
         relative tolerance (class "o.a.c.m.util.Precision").

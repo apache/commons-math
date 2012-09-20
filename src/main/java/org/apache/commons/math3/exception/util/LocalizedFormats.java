@@ -182,6 +182,7 @@ public enum LocalizedFormats implements Localizable {
     NON_REAL_FINITE_ORDINATE("all ordinatae must be finite real numbers, but {0}-th is {1}"),
     NON_REAL_FINITE_WEIGHT("all weights must be finite real numbers, but {0}-th is {1}"),
     NON_SQUARE_MATRIX("non square ({0}x{1}) matrix"),
+    NORM("Norm ({0})"), /* keep */
     NORMALIZE_INFINITE("Cannot normalize to an infinite value"),
     NORMALIZE_NAN("Cannot normalize to NaN"),
     NOT_ADDITION_COMPATIBLE_MATRICES("{0}x{1} and {2}x{3} matrices are not addition compatible"),
