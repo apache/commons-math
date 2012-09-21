@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-860">
+        Added matrix "block inversion" (in "o.a.c.m.linear.MatrixUtils").
+      </action>
       <action dev="erans" type="fix" issue="MATH-865">
         "CMAESOptimizer": Raise an exception when the variables normalization
         would fail due to overflow.

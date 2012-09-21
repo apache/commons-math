@@ -325,5 +325,42 @@ public final class MatrixUtilsTest {
         MatrixUtils.solveUpperTriangularSystem(rm, b);
         TestUtils.assertEquals( new double[]{-1,3,1}  , b.toArray() , 1.0e-12);
     }
-}
 
+    /**
+     * This test should probably be replaced by one that could show
+     * whether this algorithm can sometimes perform better (precision- or
+     * performance-wise) than the direct inversion of the whole matrix.
+     */
+    @Test
+    public void testBlockInverse() {
+        final double[][] data = {
+            { -1, 0, 123, 4 },
+            { -56, 78.9, -0.1, -23.4 },
+            { 5.67, 8, -9, 1011 },
+            { 12, 345, -67.8, 9 },
+        };
+
+        final RealMatrix m = new Array2DRowRealMatrix(data);
+        final int len = data.length;
+        final double tol = 1e-14;
+
+        for (int splitIndex = 0; splitIndex < 3; splitIndex++) {
+            final RealMatrix mInv = MatrixUtils.blockInverse(m, splitIndex);
+            final RealMatrix id = m.multiply(mInv);
+
+            // Check that we recovered the identity matrix.
+            for (int i = 0; i < len; i++) {
+                for (int j = 0; j < len; j++) {
+                    final double entry = id.getEntry(i, j);
+                    if (i == j) {
+                        Assert.assertEquals("[" + i + "][" + j + "]",
+                                            1, entry, tol);
+                    } else {
+                        Assert.assertEquals("[" + i + "][" + j + "]",
+                                            0, entry, tol);
+                    }
+                }
+            }
+        }
+    }
+}
