@@ -24,8 +24,8 @@ import java.util.List;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -77,6 +77,12 @@ import org.apache.commons.math3.util.MathArrays;
  *  <li><a href="http://www.lri.fr/~hansen/cmaesintro.html">Introduction to CMA-ES</a></li>
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
+ *
+ * When simple constraints (boundaries) are used, care must be taken that the
+ * difference between the upper and lower bounds does not overflow; should it
+ * be the case, a {@link NumberIsTooLargeException} will be thrown by the
+ * {@link BaseAbstractMultivariateSimpleBoundsOptimizer#optimize(int,
+ * MultivariateFunction,GoalType,double[],double[],double[]) optimize} method.
  *
  * @version $Id$
  * @since 3.0
@@ -529,6 +535,21 @@ public class CMAESOptimizer
                 boundaries = new double[2][];
                 boundaries[0] = lB;
                 boundaries[1] = uB;
+
+                // Abort early if the normalization will overflow (cf. "encode" method).
+                for (int i = 0; i < lB.length; i++) {
+                    if (Double.isInfinite(boundaries[1][i] - boundaries[0][i])) {
+                        final double max = Double.MAX_VALUE + boundaries[0][i];
+                        final NumberIsTooLargeException e
+                            = new NumberIsTooLargeException(boundaries[1][i],
+                                                            max,
+                                                            true);
+                        e.getContext().addMessage(LocalizedFormats.OVERFLOW);
+                        e.getContext().addMessage(LocalizedFormats.INDEX, i);
+
+                        throw e;
+                    }
+                }
             }
         } else {
             // Convert API to internal handling of boundaries.
