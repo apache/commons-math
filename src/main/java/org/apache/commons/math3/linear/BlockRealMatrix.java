@@ -271,7 +271,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
-    @Override
     public BlockRealMatrix copy() {
         // create an empty matrix
         BlockRealMatrix copied = new BlockRealMatrix(rows, columns);

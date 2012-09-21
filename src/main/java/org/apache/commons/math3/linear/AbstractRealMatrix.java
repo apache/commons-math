@@ -74,9 +74,6 @@ public abstract class AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    public abstract RealMatrix copy();
-
-    /** {@inheritDoc} */
     public RealMatrix add(RealMatrix m)
         throws MatrixDimensionMismatchException {
         MatrixUtils.checkAdditionCompatible(this, m);

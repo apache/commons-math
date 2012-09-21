@@ -69,7 +69,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    @Override
     public OpenMapRealMatrix copy() {
         return new OpenMapRealMatrix(this);
     }

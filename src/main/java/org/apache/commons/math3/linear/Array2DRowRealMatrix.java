@@ -145,7 +145,6 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     }
 
     /** {@inheritDoc} */
-    @Override
     public RealMatrix copy() {
         return new Array2DRowRealMatrix(copyOut(), false);
     }
