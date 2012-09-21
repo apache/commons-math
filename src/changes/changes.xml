@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-865">
+        "CMAESOptimizer": Raise an exception when the variables normalization
+        would fail due to overflow.
+      </action>
       <action dev="erans" type="fix" issue="MATH-864" due-to="Frank Hess">
         "CMAESOptimizer": Solution was not constrained to lie within the
         provided boundaries.
