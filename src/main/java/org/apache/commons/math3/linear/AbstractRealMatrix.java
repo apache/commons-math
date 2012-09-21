@@ -616,8 +616,6 @@ public abstract class AbstractRealMatrix
         return getColumnDimension() == getRowDimension();
     }
 
-    /** {@inheritDoc} */
-
     /**
      * Returns the number of rows of this matrix.
      *
