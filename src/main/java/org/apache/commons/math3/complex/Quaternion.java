@@ -98,7 +98,7 @@ public final class Quaternion implements Serializable {
 
     /**
      * Builds a pure quaternion from a vector (assuming that the scalar
-     * part is zero.
+     * part is zero).
      *
      * @param v Components of the vector part of the pure quaternion.
      */
@@ -122,7 +122,7 @@ public final class Quaternion implements Serializable {
      * @param q2 Second quaternion.
      * @return the product {@code q1} and {@code q2}, in that order.
      */
-    public static Quaternion product(final Quaternion q1, final Quaternion q2) {
+    public static Quaternion multiply(final Quaternion q1, final Quaternion q2) {
         // Components of the first quaternion.
         final double q1a = q1.getQ0();
         final double q1b = q1.getQ1();
@@ -151,7 +151,7 @@ public final class Quaternion implements Serializable {
      * @return the product of this instance with {@code q}, in that order.
      */
     public Quaternion multiply(final Quaternion q) {
-        return product(this, q);
+        return multiply(this, q);
     }
 
     /**
@@ -220,13 +220,13 @@ public final class Quaternion implements Serializable {
     }
 
     /**
-     * Compute the dot-product of the instance by a quaternion.
+     * Computes the dot-product of the instance by a quaternion.
      *
      * @param q Quaternion.
      * @return the dot product of this instance and {@code q}.
      */
     public double dotProduct(final Quaternion q) {
-        return dotProduct(q);
+        return dotProduct(this, q);
     }
 
     /**

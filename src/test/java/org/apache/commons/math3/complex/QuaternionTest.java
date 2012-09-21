@@ -6,7 +6,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
@@ -76,7 +75,7 @@ public class QuaternionTest {
 
         final Quaternion qA = new Quaternion(1, 0.5, -3, 4);
         final Quaternion qB = new Quaternion(6, 2, 1, -9);
-        final Quaternion qResult = Quaternion.product(qA, qB);
+        final Quaternion qResult = Quaternion.multiply(qA, qB);
 
         Assert.assertEquals(44, qResult.getQ0(), EPS);
         Assert.assertEquals(28, qResult.getQ1(), EPS);
@@ -104,8 +103,8 @@ public class QuaternionTest {
         // Conjugate of the product of two quaternions and product of their conjugates :
         // Conj(qA * qB) = Conj(qB) * Conj(qA)
 
-        final Quaternion conjugateOfProduct = Quaternion.product(qB.getConjugate(), qA.getConjugate());
-        final Quaternion productOfConjugate = (Quaternion.product(qA, qB)).getConjugate();
+        final Quaternion conjugateOfProduct = qB.getConjugate().multiply(qA.getConjugate());
+        final Quaternion productOfConjugate = (qA.multiply(qB)).getConjugate();
 
         Assert.assertEquals(conjugateOfProduct.getQ0(), productOfConjugate.getQ0(), EPS);
         Assert.assertEquals(conjugateOfProduct.getQ1(), productOfConjugate.getQ1(), EPS);
@@ -120,7 +119,7 @@ public class QuaternionTest {
 
         final Quaternion quaternion = new Quaternion(4, 7, -1, 2);
         final double[] vector = {2.0, 1.0, 3.0};
-        final Quaternion qResultQxV = Quaternion.product(quaternion, new Quaternion(vector));
+        final Quaternion qResultQxV = Quaternion.multiply(quaternion, new Quaternion(vector));
 
         Assert.assertEquals(-19, qResultQxV.getQ0(), EPS);
         Assert.assertEquals(3, qResultQxV.getQ1(), EPS);
@@ -143,7 +142,7 @@ public class QuaternionTest {
 
         // Case : Product between a vector and a quaternion : VxQ
 
-        final Quaternion qResultVxQ = Quaternion.product(new Quaternion(vector), quaternion);
+        final Quaternion qResultVxQ = Quaternion.multiply(new Quaternion(vector), quaternion);
 
         Assert.assertEquals(-19, qResultVxQ.getQ0(), EPS);
         Assert.assertEquals(13, qResultVxQ.getQ1(), EPS);
@@ -172,9 +171,11 @@ public class QuaternionTest {
         final Quaternion q1 = new Quaternion(1, 2, 2, 1);
         final Quaternion q2 = new Quaternion(3, -2, -1, -3);
 
-        final double actual = Quaternion.dotProduct(q1, q2);
+        final double actual1 = Quaternion.dotProduct(q1, q2);
+        final double actual2 = q1.dotProduct(q2);
 
-        Assert.assertEquals(expected, actual, EPS);
+        Assert.assertEquals(expected, actual1, EPS);
+        Assert.assertEquals(expected, actual2, EPS);
     }
 
     @Test
@@ -207,12 +208,18 @@ public class QuaternionTest {
         final Quaternion q1 = new Quaternion(1., 2., -2., -1.);
         final Quaternion q2 = new Quaternion(3., -3., 4., -3.);
 
-        final Quaternion q = Quaternion.add(q1, q2);
+        final Quaternion qa = Quaternion.add(q1, q2);
+        final Quaternion qb = q1.add(q2);
 
-        Assert.assertEquals(w, q.getQ0(), EPS);
-        Assert.assertEquals(x, q.getQ1(), EPS);
-        Assert.assertEquals(y, q.getQ2(), EPS);
-        Assert.assertEquals(z, q.getQ3(), EPS);
+        Assert.assertEquals(w, qa.getQ0(), EPS);
+        Assert.assertEquals(x, qa.getQ1(), EPS);
+        Assert.assertEquals(y, qa.getQ2(), EPS);
+        Assert.assertEquals(z, qa.getQ3(), EPS);
+
+        Assert.assertEquals(w, qb.getQ0(), EPS);
+        Assert.assertEquals(x, qb.getQ1(), EPS);
+        Assert.assertEquals(y, qb.getQ2(), EPS);
+        Assert.assertEquals(z, qb.getQ3(), EPS);
     }
 
     @Test
@@ -226,13 +233,19 @@ public class QuaternionTest {
         final Quaternion q1 = new Quaternion(1., 2., -2., -1.);
         final Quaternion q2 = new Quaternion(3., -3., 4., -3.);
 
-        final Quaternion q = Quaternion.subtract(q1, q2);
+        final Quaternion qa = Quaternion.subtract(q1, q2);
+        final Quaternion qb = q1.subtract(q2);
 
-        Assert.assertEquals(w, q.getQ0(), EPS);
-        Assert.assertEquals(x, q.getQ1(), EPS);
-        Assert.assertEquals(y, q.getQ2(), EPS);
-        Assert.assertEquals(z, q.getQ3(), EPS);
-    }
+        Assert.assertEquals(w, qa.getQ0(), EPS);
+        Assert.assertEquals(x, qa.getQ1(), EPS);
+        Assert.assertEquals(y, qa.getQ2(), EPS);
+        Assert.assertEquals(z, qa.getQ3(), EPS);
+
+        Assert.assertEquals(w, qb.getQ0(), EPS);
+        Assert.assertEquals(x, qb.getQ1(), EPS);
+        Assert.assertEquals(y, qb.getQ2(), EPS);
+        Assert.assertEquals(z, qb.getQ3(), EPS);
+}
 
     @Test
     public final void testNorm() {
@@ -247,7 +260,7 @@ public class QuaternionTest {
 
         Assert.assertEquals(Math.sqrt(30), norm, 0);
 
-        final double normSquareRef = Quaternion.product(q, q.getConjugate()).getScalarPart();
+        final double normSquareRef = Quaternion.multiply(q, q.getConjugate()).getScalarPart();
         Assert.assertEquals(Math.sqrt(normSquareRef), norm, 0);
     }
 
@@ -382,7 +395,7 @@ public class QuaternionTest {
         Assert.assertEquals(-2.0 / 28.5, inverseQ.getQ2(), 0);
         Assert.assertEquals(2.5 / 28.5, inverseQ.getQ3(), 0);
 
-        final Quaternion product = Quaternion.product(inverseQ, q);
+        final Quaternion product = Quaternion.multiply(inverseQ, q);
         Assert.assertEquals(1, product.getQ0(), EPS);
         Assert.assertEquals(0, product.getQ1(), EPS);
         Assert.assertEquals(0, product.getQ2(), EPS);
