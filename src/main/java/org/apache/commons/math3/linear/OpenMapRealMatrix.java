@@ -75,7 +75,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    @Override
     public OpenMapRealMatrix createMatrix(int rowDimension, int columnDimension) {
         return new OpenMapRealMatrix(rowDimension, columnDimension);
     }
@@ -211,7 +210,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    @Override
     public double getEntry(int row, int column) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);
@@ -225,7 +223,6 @@ public class OpenMapRealMatrix extends AbstractRealMatrix
     }
 
     /** {@inheritDoc} */
-    @Override
     public void setEntry(int row, int column, double value) {
         MatrixUtils.checkRowIndex(this, row);
         MatrixUtils.checkColumnIndex(this, column);

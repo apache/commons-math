@@ -266,7 +266,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
-    @Override
     public BlockRealMatrix createMatrix(final int rowDimension, final int columnDimension) {
         return new BlockRealMatrix(rowDimension, columnDimension);
     }
@@ -1128,7 +1127,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
-    @Override
     public double getEntry(final int row, final int column) {
         MatrixUtils.checkMatrixIndex(this, row, column);
         final int iBlock = row / BLOCK_SIZE;
@@ -1139,7 +1137,6 @@ public class BlockRealMatrix extends AbstractRealMatrix implements Serializable 
     }
 
     /** {@inheritDoc} */
-    @Override
     public void setEntry(final int row, final int column, final double value) {
         MatrixUtils.checkMatrixIndex(this, row, column);
         final int iBlock = row / BLOCK_SIZE;
