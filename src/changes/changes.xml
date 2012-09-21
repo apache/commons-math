@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-864" due-to="Frank Hess">
+        "CMAESOptimizer": Solution was not constrained to lie within the
+        provided boundaries.
+      </action>
       <action dev="erans" type="add" issue="MATH-863" due-to="Julien Anxionnat">
         New "Quaternion" class (package "o.a.c.m.complex").
       </action>

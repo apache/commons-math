@@ -24,9 +24,11 @@ import java.util.List;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
@@ -414,7 +416,7 @@ public class CMAESOptimizer
                     bestValue = bestFitness;
                     lastResult = optimum;
                     optimum = new PointValuePair(
-                            fitfun.decode(bestArx.getColumn(0)),
+                            fitfun.repairAndDecode(bestArx.getColumn(0)),
                             isMinimize ? bestFitness : -bestFitness);
                     if (getConvergenceChecker() != null && lastResult != null) {
                         if (getConvergenceChecker().converged(iterations, optimum, lastResult)) {
@@ -909,6 +911,16 @@ public class CMAESOptimizer
                 res[i] = (x[i] - boundaries[0][i]) / diff;
             }
             return res;
+        }
+
+        /**
+         * @param x Normalized objective variables.
+         * @return the original objective variables, possibly repaired.
+         */
+        public double[] repairAndDecode(final double[] x) {
+            return boundaries != null && isRepairMode ?
+                decode(repair(x)) :
+                decode(x);
         }
 
         /**
