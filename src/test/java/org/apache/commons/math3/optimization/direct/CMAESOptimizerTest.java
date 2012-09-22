@@ -413,8 +413,8 @@ public class CMAESOptimizerTest {
 
         final double[] start = { 0 };
 
-        // The difference between upper and lower bounds is used to used
-        // normalize the variables: In case of overflow, NaN is produced.
+        // The difference between upper and lower bounds is used to normalize
+        // the variables: In case of overflow, NaN is produced.
         final double max = Double.MAX_VALUE / 2;
         final double tooLarge = FastMath.nextUp(max);
         final double[] lower = { -tooLarge };
