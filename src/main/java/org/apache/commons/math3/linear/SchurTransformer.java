@@ -140,69 +140,66 @@ class SchurTransformer {
 
         // Outer loop over eigenvalue index
         int iteration = 0;
-        int idx = n - 1;
-        while (idx >= 0) {
+        int iu = n - 1;
+        while (iu >= 0) {
 
             // Look for single small sub-diagonal element
-            final int l = findSmallSubDiagonalElement(idx, norm);
+            final int il = findSmallSubDiagonalElement(iu, norm);
 
             // Check for convergence
-            if (l == idx) {
+            if (il == iu) {
                 // One root found
-                matrixT[idx][idx] = matrixT[idx][idx] + shift.exShift;
-                idx--;
+                matrixT[iu][iu] = matrixT[iu][iu] + shift.exShift;
+                iu--;
                 iteration = 0;
-            } else if (l == idx - 1) {
+            } else if (il == iu - 1) {
                 // Two roots found
-                shift.w = matrixT[idx][idx - 1] * matrixT[idx - 1][idx];
-                double p = (matrixT[idx - 1][idx - 1] - matrixT[idx][idx]) / 2.0;
-                double q = p * p + shift.w;
-                double z = FastMath.sqrt(FastMath.abs(q));
-                matrixT[idx][idx] = matrixT[idx][idx] + shift.exShift;
-                matrixT[idx - 1][idx - 1] = matrixT[idx - 1][idx - 1] + shift.exShift;
-                shift.x = matrixT[idx][idx];
+                double p = (matrixT[iu - 1][iu - 1] - matrixT[iu][iu]) / 2.0;
+                double q = p * p + matrixT[iu][iu - 1] * matrixT[iu - 1][iu];
+                matrixT[iu][iu] += shift.exShift;
+                matrixT[iu - 1][iu - 1] += shift.exShift;
 
                 if (q >= 0) {
+                    double z = FastMath.sqrt(FastMath.abs(q));
                     if (p >= 0) {
                         z = p + z;
                     } else {
                         z = p - z;
                     }
-                    shift.x = matrixT[idx][idx - 1];
-                    double s = FastMath.abs(shift.x) + FastMath.abs(z);
-                    p = shift.x / s;
+                    final double x = matrixT[iu][iu - 1];
+                    final double s = FastMath.abs(x) + FastMath.abs(z);
+                    p = x / s;
                     q = z / s;
-                    double r = FastMath.sqrt(p * p + q * q);
+                    final double r = FastMath.sqrt(p * p + q * q);
                     p = p / r;
                     q = q / r;
 
                     // Row modification
-                    for (int j = idx - 1; j < n; j++) {
-                        z = matrixT[idx - 1][j];
-                        matrixT[idx - 1][j] = q * z + p * matrixT[idx][j];
-                        matrixT[idx][j] = q * matrixT[idx][j] - p * z;
+                    for (int j = iu - 1; j < n; j++) {
+                        z = matrixT[iu - 1][j];
+                        matrixT[iu - 1][j] = q * z + p * matrixT[iu][j];
+                        matrixT[iu][j] = q * matrixT[iu][j] - p * z;
                     }
 
                     // Column modification
-                    for (int i = 0; i <= idx; i++) {
-                        z = matrixT[i][idx - 1];
-                        matrixT[i][idx - 1] = q * z + p * matrixT[i][idx];
-                        matrixT[i][idx] = q * matrixT[i][idx] - p * z;
+                    for (int i = 0; i <= iu; i++) {
+                        z = matrixT[i][iu - 1];
+                        matrixT[i][iu - 1] = q * z + p * matrixT[i][iu];
+                        matrixT[i][iu] = q * matrixT[i][iu] - p * z;
                     }
 
                     // Accumulate transformations
                     for (int i = 0; i <= n - 1; i++) {
-                        z = matrixP[i][idx - 1];
-                        matrixP[i][idx - 1] = q * z + p * matrixP[i][idx];
-                        matrixP[i][idx] = q * matrixP[i][idx] - p * z;
+                        z = matrixP[i][iu - 1];
+                        matrixP[i][iu - 1] = q * z + p * matrixP[i][iu];
+                        matrixP[i][iu] = q * matrixP[i][iu] - p * z;
                     }
                 }
-                idx -= 2;
+                iu -= 2;
                 iteration = 0;
             } else {
                 // No convergence yet
-
-                computeShift(l, idx, iteration, shift);
+                computeShift(il, iu, iteration, shift);
 
                 // stop transformation after too many iterations
                 if (++iteration > MAX_ITERATIONS) {
@@ -210,43 +207,11 @@ class SchurTransformer {
                                                         MAX_ITERATIONS);
                 }
 
-                // Look for two consecutive small sub-diagonal elements
-                int m = idx - 2;
-
                 // the initial houseHolder vector for the QR step
                 final double[] hVec = new double[3];
 
-                while (m >= l) {
-                    double z = matrixT[m][m];
-                    hVec[2] = shift.x - z;
-                    double s = shift.y - z;
-                    hVec[0] = (hVec[2] * s - shift.w) / matrixT[m + 1][m] + matrixT[m][m + 1];
-                    hVec[1] = matrixT[m + 1][m + 1] - z - hVec[2] - s;
-                    hVec[2] = matrixT[m + 2][m + 1];
-                    s = FastMath.abs(hVec[0]) + FastMath.abs(hVec[1]) + FastMath.abs(hVec[2]);
-
-                    if (m == l) {
-                        break;
-                    }
-
-                    for (int i = 0; i < hVec.length; i++) {
-                        hVec[i] /= s;
-                    }
-
-                    final double lhs = FastMath.abs(matrixT[m][m - 1]) *
-                            (FastMath.abs(hVec[1]) + FastMath.abs(hVec[2]));
-
-                    final double rhs = FastMath.abs(hVec[0]) *
-                            (FastMath.abs(matrixT[m - 1][m - 1]) + FastMath.abs(z) +
-                             FastMath.abs(matrixT[m + 1][m + 1]));
-
-                    if (lhs < epsilon * rhs) {
-                        break;
-                    }
-                    m--;
-                }
-
-                performDoubleQRStep(l, m, idx, shift, hVec);
+                final int im = initQRStep(il, iu, shift, hVec);
+                performDoubleQRStep(il, im, iu, shift, hVec);
             }
         }
     }
@@ -278,7 +243,7 @@ class SchurTransformer {
         int l = startIdx;
         while (l > 0) {
             double s = FastMath.abs(matrixT[l - 1][l - 1]) + FastMath.abs(matrixT[l][l]);
-            if (Precision.equals(s, 0.0, epsilon)) {
+            if (s == 0.0) {
                 s = norm;
             }
             if (FastMath.abs(matrixT[l][l - 1]) < epsilon * s) {
@@ -312,8 +277,9 @@ class SchurTransformer {
             for (int i = 0; i <= idx; i++) {
                 matrixT[i][i] -= shift.x;
             }
-            double s = FastMath.abs(matrixT[idx][idx - 1]) + FastMath.abs(matrixT[idx - 1][idx - 2]);
-            shift.x = shift.y = 0.75 * s;
+            final double s = FastMath.abs(matrixT[idx][idx - 1]) + FastMath.abs(matrixT[idx - 1][idx - 2]);
+            shift.x = 0.75 * s;
+            shift.y = 0.75 * s;
             shift.w = -0.4375 * s * s;
         }
 
@@ -321,7 +287,7 @@ class SchurTransformer {
         if (iteration == 30) {
             double s = (shift.y - shift.x) / 2.0;
             s = s * s + shift.w;
-            if (Precision.compareTo(s, 0.0d, epsilon) > 0) {
+            if (s > 0.0) {
                 s = FastMath.sqrt(s);
                 if (shift.y < shift.x) {
                     s = -s;
@@ -337,15 +303,53 @@ class SchurTransformer {
     }
 
     /**
+     * Initialize the householder vectors for the QR step.
+     *
+     * @param il the index of the small sub-diagonal element
+     * @param iu the current eigenvalue index
+     * @param shift shift information holder
+     * @param hVec the initial houseHolder vector
+     * @return the start index for the QR step
+     */
+    private int initQRStep(int il, final int iu, final ShiftInfo shift, double[] hVec) {
+        // Look for two consecutive small sub-diagonal elements
+        int im = iu - 2;
+        while (im >= il) {
+            final double z = matrixT[im][im];
+            final double r = shift.x - z;
+            double s = shift.y - z;
+            hVec[0] = (r * s - shift.w) / matrixT[im + 1][im] + matrixT[im][im + 1];
+            hVec[1] = matrixT[im + 1][im + 1] - z - r - s;
+            hVec[2] = matrixT[im + 2][im + 1];
+
+            if (im == il) {
+                break;
+            }
+
+            final double lhs = FastMath.abs(matrixT[im][im - 1]) * (FastMath.abs(hVec[1]) + FastMath.abs(hVec[2]));
+            final double rhs = FastMath.abs(hVec[0]) * (FastMath.abs(matrixT[im - 1][im - 1]) +
+                                                        FastMath.abs(z) +
+                                                        FastMath.abs(matrixT[im + 1][im + 1]));
+
+            if (lhs < epsilon * rhs) {
+                break;
+            }
+            im--;
+        }
+
+        return im;
+    }
+
+    /**
      * Perform a double QR step involving rows l:idx and columns m:n
      *
-     * @param l the index of the small sub-diagonal element
-     * @param m the start index for the QR step
-     * @param idx the current eigenvalue index
+     * @param il the index of the small sub-diagonal element
+     * @param im the start index for the QR step
+     * @param iu the current eigenvalue index
      * @param shift shift information holder
      * @param hVec the initial houseHolder vector
      */
-    private void performDoubleQRStep(final int l, final int m, final int idx,
+    private void performDoubleQRStep(final int il, final int im, final int iu,
                                      final ShiftInfo shift, final double[] hVec) {
 
         final int n = matrixT.length;
@@ -353,9 +357,9 @@ class SchurTransformer {
         double q = hVec[1];
         double r = hVec[2];
 
-        for (int k = m; k <= idx - 1; k++) {
-            boolean notlast = k != idx - 1;
-            if (k != m) {
+        for (int k = im; k <= iu - 1; k++) {
+            boolean notlast = k != (iu - 1);
+            if (k != im) {
                 p = matrixT[k][k - 1];
                 q = matrixT[k + 1][k - 1];
                 r = notlast ? matrixT[k + 2][k - 1] : 0.0;
@@ -366,17 +370,17 @@ class SchurTransformer {
                     r = r / shift.x;
                 }
             }
-            if (Precision.equals(shift.x, 0.0, epsilon)) {
+            if (shift.x == 0.0) {
                 break;
             }
             double s = FastMath.sqrt(p * p + q * q + r * r);
             if (p < 0.0) {
                 s = -s;
             }
-            if (!Precision.equals(s, 0.0, epsilon)) {
-                if (k != m) {
+            if (s != 0.0) {
+                if (k != im) {
                     matrixT[k][k - 1] = -s * shift.x;
-                } else if (l != m) {
+                } else if (il != im) {
                     matrixT[k][k - 1] = -matrixT[k][k - 1];
                 }
                 p = p + s;
@@ -398,7 +402,7 @@ class SchurTransformer {
                 }
 
                 // Column modification
-                for (int i = 0; i <= FastMath.min(idx, k + 3); i++) {
+                for (int i = 0; i <= FastMath.min(iu, k + 3); i++) {
                     p = shift.x * matrixT[i][k] + shift.y * matrixT[i][k + 1];
                     if (notlast) {
                         p = p + z * matrixT[i][k + 2];
@@ -423,9 +427,9 @@ class SchurTransformer {
         }  // k loop
 
         // clean up pollution due to round-off errors
-        for (int i = m+2; i <= idx; i++) {
+        for (int i = im + 2; i <= iu; i++) {
             matrixT[i][i-2] = 0.0;
-            if (i > m+2) {
+            if (i > im + 2) {
                 matrixT[i][i-3] = 0.0;
             }
         }
