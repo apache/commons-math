@@ -19,6 +19,7 @@ package org.apache.commons.math3.stat.regression;
 import java.util.Random;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -154,6 +155,90 @@ public final class SimpleRegressionTest {
         Assert.assertEquals("SSR", regressionIntOnly.getRegressionSumSquares(), onlyInt.getRegressionSumSquares() ,1.0E-8);
         Assert.assertEquals("MSE", regressionIntOnly.getMeanSquareError(), onlyInt.getMeanSquareError() ,1.0E-8);
 
+    }
+    
+    /**
+     * Verify that regress generates exceptions as advertised for bad model specifications.
+     */
+    @Test
+    public void testRegressExceptions() {
+        // No intercept
+        final SimpleRegression noIntRegression = new SimpleRegression(false);
+        noIntRegression.addData(noint2[0][1], noint2[0][0]);
+        noIntRegression.addData(noint2[1][1], noint2[1][0]);
+        noIntRegression.addData(noint2[2][1], noint2[2][0]);
+        try { // null array
+            noIntRegression.regress(null);
+            Assert.fail("Expecting MathIllegalArgumentException for null array");
+        } catch (MathIllegalArgumentException ex) {
+            // Expected
+        }
+        try { // empty array
+            noIntRegression.regress(new int[] {});
+            Assert.fail("Expecting MathIllegalArgumentException for empty array");
+        } catch (MathIllegalArgumentException ex) {
+            // Expected
+        }
+        try { // more than 1 regressor
+            noIntRegression.regress(new int[] {0, 1});
+            Assert.fail("Expecting ModelSpecificationException - too many regressors");
+        } catch (ModelSpecificationException ex) {
+            // Expected
+        }
+        try { // invalid regressor
+            noIntRegression.regress(new int[] {1});
+            Assert.fail("Expecting OutOfRangeException - invalid regression");
+        } catch (OutOfRangeException ex) {
+            // Expected
+        }
+        
+        // With intercept
+        final SimpleRegression regression = new SimpleRegression(true);
+        regression.addData(noint2[0][1], noint2[0][0]);
+        regression.addData(noint2[1][1], noint2[1][0]);
+        regression.addData(noint2[2][1], noint2[2][0]);
+        try { // null array
+            regression.regress(null);
+            Assert.fail("Expecting MathIllegalArgumentException for null array");
+        } catch (MathIllegalArgumentException ex) {
+            // Expected
+        }
+        try { // empty array
+            regression.regress(new int[] {});
+            Assert.fail("Expecting MathIllegalArgumentException for empty array");
+        } catch (MathIllegalArgumentException ex) {
+            // Expected
+        }
+        try { // more than 2 regressors
+            regression.regress(new int[] {0, 1, 2});
+            Assert.fail("Expecting ModelSpecificationException - too many regressors");
+        } catch (ModelSpecificationException ex) {
+            // Expected
+        }
+        try { // wrong order
+            regression.regress(new int[] {1,0});
+            Assert.fail("Expecting ModelSpecificationException - invalid regression");
+        } catch (ModelSpecificationException ex) {
+            // Expected
+        }
+        try { // out of range
+            regression.regress(new int[] {3,4});
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // Expected
+        }
+        try { // out of range
+            regression.regress(new int[] {0,2});
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // Expected
+        }
+        try { // out of range
+            regression.regress(new int[] {2});
+            Assert.fail("Expecting OutOfRangeException");
+        } catch (OutOfRangeException ex) {
+            // Expected
+        }
     }
 
     @Test
