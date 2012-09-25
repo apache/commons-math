@@ -21,7 +21,7 @@ import java.util.Arrays;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class implements an ordering operation for T-uples.
-
+ *
  * <p>Ordering is done by encoding all components of the T-uple into a
  * single scalar value and using this value as the sorting
  * key. Encoding is performed using the method invented by Georg
@@ -38,14 +38,14 @@ import org.apache.commons.math3.util.FastMath;
  * 2<sup>p</sup> offset is added to the components in order to avoid
  * negative numbers (this offset is adjusted as needed during the
  * comparison operations).</p>
-
+ *
  * <p>The more interesting property of the encoding method for our
  * purpose is that it allows to select all the points that are in a
  * given range. This is depicted in dimension 2 by the following
- * picure:</p>
-
+ * picture:</p>
+ *
  * <img src="doc-files/OrderedTuple.png" />
-
+ *
  * <p>This picture shows a set of 100000 random 2-D pairs having their
  * first component between -50 and +150 and their second component
  * between -350 and +50. We wanted to extract all pairs having their
@@ -62,16 +62,16 @@ import org.apache.commons.math3.util.FastMath;
  * the points having their first component between +30 and +31 and
  * their second component between -91 and -90, we get a subset of 11
  * points, 2 of which really belonging to the desired rectangle.</p>
-
+ *
  * <p>the previous selection technique can be applied in all
  * dimensions, still using two points to define the interval. The
  * first point will have all its components set to their lower bounds
  * while the second point will have all its components set to their
  * upper bounds.</p>
-
+ *
  * <p>T-uples with negative infinite or positive infinite components
  * are sorted logically.</p>
-
+ *
  * <p>Since the specification of the {@code Comparator} interface
  * allows only {@code ClassCastException} errors, some arbitrary
  * choices have been made to handle specific cases. The rationale for
@@ -87,7 +87,7 @@ import org.apache.commons.math3.util.FastMath;
  * are considered as if they had {@code Double.NaN}
  * components</li>
  * </ul>
-
+ *
  * @version $Id$
  * @since 3.0
  */
