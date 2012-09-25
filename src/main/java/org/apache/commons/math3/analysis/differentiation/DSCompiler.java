@@ -70,7 +70,7 @@ import org.apache.commons.math3.util.MathArrays;
  * structures. User can for example store a vector of n variables depending on three x, y
  * and z free parameters in one array as follows:
  * <pre>
- *   // parameter 0 is x, parameter 1 is y, parameter 3 is z
+ *   // parameter 0 is x, parameter 1 is y, parameter 2 is z
  *   int parameters = 3;
  *   DSCompiler compiler = DSCompiler.getCompiler(parameters, order);
  *   int size = compiler.getSize();
