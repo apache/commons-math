@@ -138,6 +138,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix createMatrix(final int rowDimension,
                                    final int columnDimension)
         throws NotStrictlyPositiveException {
@@ -145,6 +146,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix copy() {
         return new Array2DRowRealMatrix(copyOut(), false);
     }
@@ -298,6 +300,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public double getEntry(final int row, final int column)
         throws OutOfRangeException {
         MatrixUtils.checkMatrixIndex(this, row, column);
@@ -305,6 +308,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
     }
 
     /** {@inheritDoc} */
+    @Override
     public void setEntry(final int row, final int column, final double value)
         throws OutOfRangeException {
         MatrixUtils.checkMatrixIndex(this, row, column);

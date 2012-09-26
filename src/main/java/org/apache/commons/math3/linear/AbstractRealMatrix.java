@@ -957,4 +957,24 @@ public abstract class AbstractRealMatrix
         }
         return ret;
     }
+
+
+    /*
+     * Empty implementations of these methods are provided in order to allow for
+     * the use of the @Override tag with Java 1.5.
+     */
+
+    /** {@inheritDoc} */
+    public abstract RealMatrix createMatrix(int rowDimension, int columnDimension)
+        throws NotStrictlyPositiveException;
+
+    /** {@inheritDoc} */
+    public abstract RealMatrix copy();
+
+    /** {@inheritDoc} */
+    public abstract double getEntry(int row, int column)
+        throws OutOfRangeException;
+
+    /** {@inheritDoc} */
+    public abstract void setEntry(int row, int column, double value);
 }
