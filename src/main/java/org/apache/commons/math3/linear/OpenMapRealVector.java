@@ -32,7 +32,11 @@ import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
  * {@link OpenIntToDoubleHashMap} backing store.
  * @version $Id$
  * @since 2.0
-*/
+ * @deprecated As of version 3.1, this class is deprecated, for reasons exposed
+ * in this JIRA
+ * <a href="https://issues.apache.org/jira/browse/MATH-870">ticket</a>.
+ */
+@Deprecated
 public class OpenMapRealVector extends SparseRealVector
     implements Serializable {
     /** Default Tolerance for having a value considered zero. */

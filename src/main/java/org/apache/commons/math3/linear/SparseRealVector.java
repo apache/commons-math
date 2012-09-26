@@ -20,6 +20,10 @@ package org.apache.commons.math3.linear;
  * Marker class for RealVectors that require sparse backing storage
  * @version $Id$
  * @since 2.0
+ * @deprecated As of version 3.1, this class is deprecated, for reasons exposed
+ * in this JIRA
+ * <a href="https://issues.apache.org/jira/browse/MATH-870">ticket</a>.
  *
  */
+@Deprecated
 public abstract class SparseRealVector extends RealVector {}
