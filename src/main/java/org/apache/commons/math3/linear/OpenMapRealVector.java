@@ -34,7 +34,8 @@ import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
  * @since 2.0
  * @deprecated As of version 3.1, this class is deprecated, for reasons exposed
  * in this JIRA
- * <a href="https://issues.apache.org/jira/browse/MATH-870">ticket</a>.
+ * <a href="https://issues.apache.org/jira/browse/MATH-870">ticket</a>. This
+ * class will be removed in version 4.0.
  */
 @Deprecated
 public class OpenMapRealVector extends SparseRealVector
