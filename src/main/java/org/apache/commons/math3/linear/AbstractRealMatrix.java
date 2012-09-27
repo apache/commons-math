@@ -976,5 +976,6 @@ public abstract class AbstractRealMatrix
         throws OutOfRangeException;
 
     /** {@inheritDoc} */
-    public abstract void setEntry(int row, int column, double value);
+    public abstract void setEntry(int row, int column, double value)
+        throws OutOfRangeException;
 }
