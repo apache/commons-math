@@ -26,7 +26,13 @@ import org.apache.commons.math3.util.OpenIntToFieldHashMap;
  * @param <T> the type of the field elements
  * @version $Id$
  * @since 2.0
+ * @deprecated As of version 3.1, this class is deprecated, for reasons exposed
+ * in this JIRA
+ * <a href="https://issues.apache.org/jira/browse/MATH-870">ticket</a>. This
+ * class will be removed in version 4.0.
+ *
  */
+@Deprecated
 public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
 
     /** Storage for (sparse) matrix elements. */
