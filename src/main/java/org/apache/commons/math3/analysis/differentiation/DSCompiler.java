@@ -952,15 +952,18 @@ public class DSCompiler {
         double[] function = new double[1 + order];
         double xk;
         if (n == 2) {
-            xk = FastMath.sqrt(operand[operandOffset]);
+            function[0] = FastMath.sqrt(operand[operandOffset]);
+            xk          = 0.5 / function[0];
         } else if (n == 3) {
-            xk = FastMath.cbrt(operand[operandOffset]);
+            function[0] = FastMath.cbrt(operand[operandOffset]);
+            xk          = 1.0 / (3.0 * function[0] * function[0]);
         } else {
-            xk = FastMath.pow(operand[operandOffset], 1.0 / n);
+            function[0] = FastMath.pow(operand[operandOffset], 1.0 / n);
+            xk          = 1.0 / (n * FastMath.pow(function[0], n - 1));
         }
         final double nReciprocal = 1.0 / n;
         final double xReciprocal = 1.0 / operand[operandOffset];
-        for (int i = 0; i <= order; ++i) {
+        for (int i = 1; i <= order; ++i) {
             function[i] = xk;
             xk *= xReciprocal * (nReciprocal - i);
         }

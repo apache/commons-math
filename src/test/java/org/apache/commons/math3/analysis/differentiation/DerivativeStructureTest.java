@@ -338,6 +338,69 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testRootNSingularity() {
+        for (int n = 2; n < 10; ++n) {
+            for (int maxOrder = 0; maxOrder < 12; ++maxOrder) {
+                DerivativeStructure dsZero = new DerivativeStructure(1, maxOrder, 0, 0.0);
+                DerivativeStructure rootN  = dsZero.rootN(n);
+                Assert.assertEquals(0.0, rootN.getValue(), 1.0e-20);
+                if (maxOrder > 0) {
+                    Assert.assertTrue(Double.isInfinite(rootN.getPartialDerivative(1)));
+                    Assert.assertTrue(rootN.getPartialDerivative(1) > 0);
+                    for (int order = 2; order <= maxOrder; ++order) {
+                        // the following checks shows a LIMITATION of the current implementation
+                        // we have no way to tell dsZero is a pure linear variable x = 0
+                        // we only say: "dsZero is a structure with value = 0.0,
+                        // first derivative = 1.0, second and higher derivatives = 0.0".
+                        // Function composition rule for second derivatives is:
+                        // d2[f(g(x))]/dx2 = f''(g(x)) * [g'(x)]^2 + f'(g(x)) * g''(x)
+                        // when function f is the nth root and x = 0 we have:
+                        // f(0) = 0, f'(0) = +infinity, f''(0) = -infinity (and higher
+                        // derivatives keep switching between +infinity and -infinity)
+                        // so given that in our case dsZero represents g, we have g(x) = 0,
+                        // g'(x) = 1 and g''(x) = 0
+                        // applying the composition rules gives:
+                        // d2[f(g(x))]/dx2 = f''(g(x)) * [g'(x)]^2 + f'(g(x)) * g''(x)
+                        //                 = -infinity * 1^2 + +infinity * 0
+                        //                 = -infinity + NaN
+                        //                 = NaN
+                        // if we knew dsZero is really the x variable and not the identity
+                        // function applied to x, we would not have computed f'(g(x)) * g''(x)
+                        // and we would have found that the result was -infinity and not NaN
+                        Assert.assertTrue(Double.isNaN(rootN.getPartialDerivative(order)));
+                    }
+                }
+
+                // the following shows that the limitation explained above is NOT a bug...
+                // if we set up the higher order derivatives for g appropriately, we do
+                // compute the higher order derivatives of the composition correctly
+                double[] gDerivatives = new double[ 1 + maxOrder];
+                gDerivatives[0] = 0.0;
+                for (int k = 1; k <= maxOrder; ++k) {
+                    gDerivatives[k] = FastMath.pow(-1.0, k + 1);
+                }
+                DerivativeStructure correctRoot = new DerivativeStructure(1, maxOrder, gDerivatives).rootN(n);
+                Assert.assertEquals(0.0, correctRoot.getValue(), 1.0e-20);
+                if (maxOrder > 0) {
+                    Assert.assertTrue(Double.isInfinite(correctRoot.getPartialDerivative(1)));
+                    Assert.assertTrue(correctRoot.getPartialDerivative(1) > 0);
+                    for (int order = 2; order <= maxOrder; ++order) {
+                        Assert.assertTrue(Double.isInfinite(correctRoot.getPartialDerivative(order)));
+                        if ((order % 2) == 0) {
+                            Assert.assertTrue(correctRoot.getPartialDerivative(order) < 0);
+                        } else {
+                            Assert.assertTrue(correctRoot.getPartialDerivative(order) > 0);
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    @Test
     public void testSqrtPow2() {
         double[] epsilon = new double[] { 1.0e-16, 3.0e-16, 2.0e-15, 6.0e-14, 6.0e-12 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
@@ -662,7 +725,7 @@ public class DerivativeStructureTest {
 
     @Test
     public void testAtan2() {
-        double[] epsilon = new double[] { 5.0e-16, 3.0e-15, 2.0e-14, 1.0e-12, 8.0e-11 };
+        double[] epsilon = new double[] { 5.0e-16, 3.0e-15, 2.2e-14, 1.0e-12, 8.0e-11 };
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
             for (double x = -1.7; x < 2; x += 0.2) {
                 DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
