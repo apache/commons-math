@@ -35,6 +35,7 @@ import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 /**
@@ -349,9 +350,9 @@ public class CMAESOptimizerTest {
 
     @Test
     public void testConstrainedRosen() {
-        double[] startPoint = point(DIM,0.1);
-        double[] insigma = point(DIM,0.1);
-        double[][] boundaries = boundaries(DIM,-1,2);
+        double[] startPoint = point(DIM, 0.1);
+        double[] insigma = point(DIM, 1);
+        double[][] boundaries = boundaries(DIM, -1, 2);
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
         doTest(new Rosen(), startPoint, insigma, boundaries,
@@ -387,7 +388,7 @@ public class CMAESOptimizerTest {
 
         final double[] start = { 0 };
         final double[] lower = { -1e6 };
-        final double[] upper = { 0.5 };
+        final double[] upper = { 1.5 };
         final double[] result = optimizer.optimize(10000, fitnessFunction, GoalType.MINIMIZE,
                                                    start, lower, upper).getPoint();
         Assert.assertTrue("Out of bounds (" + result[0] + " > " + upper[0] + ")",
@@ -424,6 +425,51 @@ public class CMAESOptimizerTest {
     }
 
     /**
+     * Cf. MATH-867
+     */
+    @Ignore@Test
+    public void testFitAccuracyDependsOnBoundary() {
+        final CMAESOptimizer optimizer = new CMAESOptimizer();
+        final MultivariateFunction fitnessFunction = new MultivariateFunction() {
+                public double value(double[] parameters) {
+                    final double target = 11.1;
+                    final double error = target - parameters[0];
+                    return error * error;
+                }
+            };
+
+        final double[] start = { 1 };
+
+        // No bounds.
+        PointValuePair result = optimizer.optimize(100000, fitnessFunction, GoalType.MINIMIZE,
+                                                   start);
+        final double resNoBound = result.getPoint()[0];
+
+        // Optimum is near the lower bound.
+        final double[] lower = { -20 };
+        final double[] upper = { 5e16 };
+        result = optimizer.optimize(100000, fitnessFunction, GoalType.MINIMIZE,
+                                    start, lower, upper);
+        final double resNearLo = result.getPoint()[0];
+
+        // Optimum is near the upper bound.
+        lower[0] = -5e16;
+        upper[0] = 20;
+        result = optimizer.optimize(100000, fitnessFunction, GoalType.MINIMIZE,
+                                    start, lower, upper);
+        final double resNearHi = result.getPoint()[0];
+
+        // System.out.println("resNoBound=" + resNoBound +
+        //                    " resNearLo=" + resNearLo +
+        //                    " resNearHi=" + resNearHi);
+
+        // The two values currently differ by a substantial amount, indicating that
+        // the bounds definition can prevent reaching the optimum.
+        Assert.assertEquals(resNoBound, resNearLo, 1e-3);
+        Assert.assertEquals(resNoBound, resNearHi, 1e-3);
+    }
+ 
+    /**
      * @param func Function to optimize.
      * @param startPoint Starting point.
      * @param inSigma Individual input sigma.
@@ -453,17 +499,16 @@ public class CMAESOptimizerTest {
             PointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
-        CMAESOptimizer optim = new CMAESOptimizer( lambda, inSigma, 30000,
-                                                   stopValue, isActive, diagonalOnly,
-                                                   0, new MersenneTwister(), false);
+        CMAESOptimizer optim = new CMAESOptimizer(lambda, inSigma, 30000,
+                                                  stopValue, isActive, diagonalOnly,
+                                                  0, new MersenneTwister(), false);
         final double[] lB = boundaries == null ? null : boundaries[0];
         final double[] uB = boundaries == null ? null : boundaries[1];
         PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
-        Assert.assertEquals(expected.getValue(),
-                result.getValue(), fTol);
+        // System.out.println("sol=" + Arrays.toString(result.getPoint()));
+        Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {
-            Assert.assertEquals(expected.getPoint()[i],
-                    result.getPoint()[i], pointTol);
+            Assert.assertEquals(expected.getPoint()[i], result.getPoint()[i], pointTol);
         }
     }
 
