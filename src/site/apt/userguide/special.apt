@@ -1,0 +1,67 @@
+~~
+~~ Licensed to the Apache Software Foundation (ASF) under one or more
+~~ contributor license agreements.  See the NOTICE file distributed with
+~~ this work for additional information regarding copyright ownership.
+~~ The ASF licenses this file to You under the Apache License, Version 2.0
+~~ (the "License"); you may not use this file except in compliance with
+~~ the License.  You may obtain a copy of the License at
+~~
+~~      http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+~~
+
+  -----------------------------------------------
+  The Commons Math User Guide - Special Functions
+  -----------------------------------------------
+
+5 Special Functions
+
+* 5.1 Overview
+
+  The special functions portion of Commons-Math contains several useful
+  functions not provided by <<<java.lang.Math>>>.  These functions mostly serve
+  as building blocks for other portions of Commons-Math but, as others may find
+  them useful as stand-alone methods, these special functions were included as
+  part of the Commons-Math public API.
+
+* 5.2 Erf functions
+
+  {{{../apidocs/org/apache/commons/math3/special/Erf.html}Erf}} contains
+  several useful functions involving the Error Function, Erf.
+
+*----------------+---------+-------------------------------------------------------------------+
+|| Function      || Method || Reference                                                        |
+*----------------+---------+-------------------------------------------------------------------+
+| Error Function |erf      | See {{{http://mathworld.wolfram.com/Erf.html}Erf}} from MathWorld |
+*----------------+---------+-------------------------------------------------------------------+
+
+* 5.3 Gamma functions
+
+  {{{../apidocs/org/apache/commons/math3/special/Gamma.html}Gamma}} contains
+  several useful functions involving the Gamma Function.
+
+*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
+|| Function         || Method           || Reference                                                                                                    |
+*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
+| Log Gamma         | logGamma          | See {{{http://mathworld.wolfram.com/GammaFunction.html}Gamma Function}} from MathWorld                        |
+*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
+| Regularized Gamma | regularizedGammaP | See {{{http://mathworld.wolfram.com/RegularizedGammaFunction.html}Regularized Gamma Function}} from MathWorld |
+*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
+
+* 5.4 Beta funtions
+
+  {{{../apidocs/org/apache/commons/math3/special/Beta.html}Beta}} contains
+  several useful functions involving the Beta Function.
+
+*------------------+-----------------+-------------------------------------------------------------------------------------------------------------+
+|| Function        || Method         || Reference                                                                                                  |
+*------------------+-----------------+-------------------------------------------------------------------------------------------------------------+
+| Log Beta         | logBeta         | See {{{http://mathworld.wolfram.com/BetaFunction.html}Beta Function}} from MathWorld                        |
+*------------------+-----------------+-------------------------------------------------------------------------------------------------------------+
+| Regularized Beta | regularizedBeta | See {{{http://mathworld.wolfram.com/RegularizedBetaFunction.html}Regularized Beta Function}} from MathWorld |
+*------------------+-----------------+-------------------------------------------------------------------------------------------------------------+
