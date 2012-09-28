@@ -23,11 +23,8 @@
 
 * 5.1 Overview
 
-  The special functions portion of Commons-Math contains several useful
-  functions not provided by <<<java.lang.Math>>>.  These functions mostly serve
-  as building blocks for other portions of Commons-Math but, as others may find
-  them useful as stand-alone methods, these special functions were included as
-  part of the Commons-Math public API.
+  The <<<special>>> package of Commons-Math gathers several useful special
+  functions not provided by <<<java.lang.Math>>>.
 
 * 5.2 Erf functions
 
