@@ -82,34 +82,6 @@ public class CMAESOptimizerTest {
                 1e-13, 1e-6, 100000, expected);
     }
 
-    @Test(expected = MathUnsupportedOperationException.class)
-    public void testUnsupportedBoundaries1() {
-        double[] startPoint = point(DIM,0.5);
-        double[] insigma = null;
-        double[][] boundaries = boundaries(DIM,-1, Double.POSITIVE_INFINITY);
-        PointValuePair expected =
-            new PointValuePair(point(DIM,1.0),0.0);
-        doTest(new Rosen(), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
-                1e-13, 1e-6, 100000, expected);
-    }
-
-    @Test(expected = MathUnsupportedOperationException.class)
-    public void testUnsupportedBoundaries2() {
-        double[] startPoint = point(DIM, 0.5);
-        double[] insigma = null;
-        final double[] lB = new double[] { -1, -1, -1, -1, -1, Double.NEGATIVE_INFINITY, -1, -1, -1, -1, -1, -1, -1 };
-        final double[] uB = new double[] { 2, 2, 2, Double.POSITIVE_INFINITY, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-        double[][] boundaries = new double[2][];
-        boundaries[0] = lB;
-        boundaries[1] = uB;
-        PointValuePair expected =
-            new PointValuePair(point(DIM,1.0),0.0);
-        doTest(new Rosen(), startPoint, insigma, boundaries,
-                GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
-                1e-13, 1e-6, 100000, expected);
-    }
-
     @Test(expected = NotPositiveException.class)
     public void testInputSigmaNegative() {
         double[] startPoint = point(DIM,0.5);
@@ -218,6 +190,21 @@ public class CMAESOptimizerTest {
         double[] startPoint = point(DIM,1.0);
         double[] insigma = point(DIM,0.1);
         double[][] boundaries = null;
+        PointValuePair expected =
+            new PointValuePair(point(DIM,0.0),0.0);
+        doTest(new Cigar(), startPoint, insigma, boundaries,
+                GoalType.MINIMIZE, LAMBDA, true, 0, 1e-13,
+                1e-13, 1e-6, 200000, expected);
+        doTest(new Cigar(), startPoint, insigma, boundaries,
+                GoalType.MINIMIZE, LAMBDA, false, 0, 1e-13,
+                1e-13, 1e-6, 100000, expected);
+    }
+
+    @Test
+    public void testCigarWithBoundaries() {
+        double[] startPoint = point(DIM,1.0);
+        double[] insigma = point(DIM,0.1);
+        double[][] boundaries = boundaries(DIM, -1e100, Double.POSITIVE_INFINITY);
         PointValuePair expected =
             new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Cigar(), startPoint, insigma, boundaries,
@@ -350,7 +337,7 @@ public class CMAESOptimizerTest {
 
     @Test
     public void testConstrainedRosen() {
-        double[] startPoint = point(DIM, 0.7);
+        double[] startPoint = point(DIM, 0.1);
         double[] insigma = point(DIM, 0.1);
         double[][] boundaries = boundaries(DIM, -1, 2);
         PointValuePair expected =
@@ -393,35 +380,6 @@ public class CMAESOptimizerTest {
                                                    start, lower, upper).getPoint();
         Assert.assertTrue("Out of bounds (" + result[0] + " > " + upper[0] + ")",
                           result[0] <= upper[0]);
-    }
-
-    /**
-     * Cf. MATH-865
-     */
-    @Test(expected=NumberIsTooLargeException.class)
-    public void testBoundaryRangeTooLarge() {
-        final CMAESOptimizer optimizer = new CMAESOptimizer();
-        final MultivariateFunction fitnessFunction = new MultivariateFunction() {
-                public double value(double[] parameters) {
-                    if (Double.isNaN(parameters[0])) {
-                        throw new MathIllegalStateException();
-                    }
-                    final double target = 1;
-                    final double error = target - parameters[0];
-                    return error * error;
-                }
-            };
-
-        final double[] start = { 0 };
-
-        // The difference between upper and lower bounds is used to normalize
-        // the variables: In case of overflow, NaN is produced.
-        final double max = Double.MAX_VALUE / 2;
-        final double tooLarge = FastMath.nextUp(max);
-        final double[] lower = { -tooLarge };
-        final double[] upper = { tooLarge };
-        final double[] result = optimizer.optimize(10000, fitnessFunction, GoalType.MINIMIZE,
-                                                   start, lower, upper).getPoint();
     }
 
     /**

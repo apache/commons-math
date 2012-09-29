@@ -123,13 +123,11 @@ public class CMAESOptimizer
     private boolean isActiveCMA;
     /**
      * Determines how often a new random offspring is generated in case it is
-     * not feasible / beyond the defined limits, default is 0. Only relevant if
-     * boundaries != null.
+     * not feasible / beyond the defined limits, default is 0.
      */
     private int checkFeasableCount;
     /**
-     * Lower and upper boundaries of the objective variables. boundaries == null
-     * means no boundaries.
+     * Lower and upper boundaries of the objective variables.
      */
     private double[][] boundaries;
     /**
@@ -357,7 +355,7 @@ public class CMAESOptimizer
          // -------------------- Initialization --------------------------------
         isMinimize = getGoalType().equals(GoalType.MINIMIZE);
         final FitnessFunction fitfun = new FitnessFunction();
-        final double[] guess = fitfun.encode(getStartPoint());
+        final double[] guess = getStartPoint();
         // number of objective variables/problem dimension
         dimension = guess.length;
         initializeCMA(guess);
@@ -422,7 +420,7 @@ public class CMAESOptimizer
                     bestValue = bestFitness;
                     lastResult = optimum;
                     optimum = new PointValuePair(
-                            fitfun.repairAndDecode(bestArx.getColumn(0)),
+                            fitfun.repair(bestArx.getColumn(0)),
                             isMinimize ? bestFitness : -bestFitness);
                     if (getConvergenceChecker() != null && lastResult != null) {
                         if (getConvergenceChecker().converged(iterations, optimum, lastResult)) {
@@ -506,55 +504,10 @@ public class CMAESOptimizer
         final double[] lB = getLowerBound();
         final double[] uB = getUpperBound();
 
-        // Checks whether there is at least one finite bound value.
-        boolean hasFiniteBounds = false;
-        for (int i = 0; i < lB.length; i++) {
-            if (!Double.isInfinite(lB[i]) ||
-                !Double.isInfinite(uB[i])) {
-                hasFiniteBounds = true;
-                break;
-            }
-        }
-        // Checks whether there is at least one infinite bound value.
-        boolean hasInfiniteBounds = false;
-        if (hasFiniteBounds) {
-            for (int i = 0; i < lB.length; i++) {
-                if (Double.isInfinite(lB[i]) ||
-                    Double.isInfinite(uB[i])) {
-                    hasInfiniteBounds = true;
-                    break;
-                }
-            }
-
-            if (hasInfiniteBounds) {
-                // If there is at least one finite bound, none can be infinite,
-                // because mixed cases are not supported by the current code.
-                throw new MathUnsupportedOperationException();
-            } else {
-                // Convert API to internal handling of boundaries.
-                boundaries = new double[2][];
-                boundaries[0] = lB;
-                boundaries[1] = uB;
-
-                // Abort early if the normalization will overflow (cf. "encode" method).
-                for (int i = 0; i < lB.length; i++) {
-                    if (Double.isInfinite(boundaries[1][i] - boundaries[0][i])) {
-                        final double max = Double.MAX_VALUE + boundaries[0][i];
-                        final NumberIsTooLargeException e
-                            = new NumberIsTooLargeException(boundaries[1][i],
-                                                            max,
-                                                            true);
-                        e.getContext().addMessage(LocalizedFormats.OVERFLOW);
-                        e.getContext().addMessage(LocalizedFormats.INDEX, i);
-
-                        throw e;
-                    }
-                }
-            }
-        } else {
-            // Convert API to internal handling of boundaries.
-            boundaries = null;
-        }
+        // Convert API to internal handling of boundaries.
+        boundaries = new double[2][];
+        boundaries[0] = lB;
+        boundaries[1] = uB;
 
         if (inputSigma != null) {
             if (inputSigma.length != init.length) {
@@ -564,10 +517,8 @@ public class CMAESOptimizer
                 if (inputSigma[i] < 0) {
                     throw new NotPositiveException(inputSigma[i]);
                 }
-                if (boundaries != null) {
-                    if (inputSigma[i] > boundaries[1][i] - boundaries[0][i]) {
-                        throw new OutOfRangeException(inputSigma[i], 0, boundaries[1][i] - boundaries[0][i]);
-                    }
+                if (inputSigma[i] > boundaries[1][i] - boundaries[0][i]) {
+                    throw new OutOfRangeException(inputSigma[i], 0, boundaries[1][i] - boundaries[0][i]);
                 }
             }
         }
@@ -585,8 +536,7 @@ public class CMAESOptimizer
         // initialize sigma
         double[][] sigmaArray = new double[guess.length][1];
         for (int i = 0; i < guess.length; i++) {
-            final double range = (boundaries == null) ? 1.0 : boundaries[1][i] - boundaries[0][i];
-            sigmaArray[i][0] = ((inputSigma == null) ? 0.3 : inputSigma[i]) / range;
+            sigmaArray[i][0] = inputSigma == null ? 0.3 : inputSigma[i];
         }
         RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);
         sigma = max(insigma); // overall standard deviation
@@ -919,61 +869,19 @@ public class CMAESOptimizer
         }
 
         /**
-         * @param x Original objective variables.
-         * @return the normalized objective variables.
-         */
-        public double[] encode(final double[] x) {
-            if (boundaries == null) {
-                return x;
-            }
-            double[] res = new double[x.length];
-            for (int i = 0; i < x.length; i++) {
-                double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = x[i] / diff;
-            }
-            return res;
-        }
-
-        /**
-         * @param x Normalized objective variables.
-         * @return the original objective variables, possibly repaired.
-         */
-        public double[] repairAndDecode(final double[] x) {
-            return boundaries != null && isRepairMode ?
-                decode(repair(x)) :
-                decode(x);
-        }
-
-        /**
-         * @param x Normalized objective variables.
-         * @return the original objective variables.
-         */
-        public double[] decode(final double[] x) {
-            if (boundaries == null) {
-                return x;
-            }
-            double[] res = new double[x.length];
-            for (int i = 0; i < x.length; i++) {
-                double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = diff * x[i];
-            }
-            return res;
-        }
-
-        /**
          * @param point Normalized objective variables.
          * @return the objective value + penalty for violated bounds.
          */
         public double value(final double[] point) {
             double value;
-            if (boundaries != null && isRepairMode) {
+            if (isRepairMode) {
                 double[] repaired = repair(point);
                 value = CMAESOptimizer.this
-                        .computeObjectiveValue(decode(repaired)) +
+                        .computeObjectiveValue(repaired) +
                         penalty(point, repaired);
             } else {
                 value = CMAESOptimizer.this
-                        .computeObjectiveValue(decode(point));
+                        .computeObjectiveValue(point);
             }
             return isMinimize ? value : -value;
         }
@@ -983,18 +891,11 @@ public class CMAESOptimizer
          * @return {@code true} if in bounds.
          */
         public boolean isFeasible(final double[] x) {
-            if (boundaries == null) {
-                return true;
-            }
-
-            final double[] bLoEnc = encode(boundaries[0]);
-            final double[] bHiEnc = encode(boundaries[1]);
-
             for (int i = 0; i < x.length; i++) {
-                if (x[i] < bLoEnc[i]) {
+                if (x[i] < boundaries[0][i]) {
                     return false;
                 }
-                if (x[i] > bHiEnc[i]) {
+                if (x[i] > boundaries[1][i]) {
                     return false;
                 }
             }
@@ -1013,12 +914,12 @@ public class CMAESOptimizer
          * @return the repaired objective variables - all in bounds.
          */
         private double[] repair(final double[] x) {
-            double[] repaired = new double[x.length];
+            final double[] repaired = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                if (x[i] < 0) {
-                    repaired[i] = 0;
-                } else if (x[i] > 1.0) {
-                    repaired[i] = 1.0;
+                if (x[i] < boundaries[0][i]) {
+                    repaired[i] = boundaries[0][i];
+                } else if (x[i] > boundaries[1][i]) {
+                    repaired[i] = boundaries[1][i];
                 } else {
                     repaired[i] = x[i];
                 }
