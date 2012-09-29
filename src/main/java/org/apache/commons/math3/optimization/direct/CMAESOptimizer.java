@@ -585,8 +585,8 @@ public class CMAESOptimizer
         // initialize sigma
         double[][] sigmaArray = new double[guess.length][1];
         for (int i = 0; i < guess.length; i++) {
-            final double range =  (boundaries == null) ? 1.0 : boundaries[1][i] - boundaries[0][i];
-            sigmaArray[i][0]   = ((inputSigma == null) ? 0.3 : inputSigma[i]) / range;
+            final double range = (boundaries == null) ? 1.0 : boundaries[1][i] - boundaries[0][i];
+            sigmaArray[i][0] = ((inputSigma == null) ? 0.3 : inputSigma[i]) / range;
         }
         RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);
         sigma = max(insigma); // overall standard deviation
@@ -929,7 +929,7 @@ public class CMAESOptimizer
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
                 double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = (x[i] - boundaries[0][i]) / diff;
+                res[i] = x[i] / diff;
             }
             return res;
         }
@@ -955,7 +955,7 @@ public class CMAESOptimizer
             double[] res = new double[x.length];
             for (int i = 0; i < x.length; i++) {
                 double diff = boundaries[1][i] - boundaries[0][i];
-                res[i] = diff * x[i] + boundaries[0][i];
+                res[i] = diff * x[i];
             }
             return res;
         }
@@ -986,11 +986,15 @@ public class CMAESOptimizer
             if (boundaries == null) {
                 return true;
             }
+
+            final double[] bLoEnc = encode(boundaries[0]);
+            final double[] bHiEnc = encode(boundaries[1]);
+
             for (int i = 0; i < x.length; i++) {
-                if (x[i] < 0) {
+                if (x[i] < bLoEnc[i]) {
                     return false;
                 }
-                if (x[i] > 1.0) {
+                if (x[i] > bHiEnc[i]) {
                     return false;
                 }
             }

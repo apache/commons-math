@@ -350,8 +350,8 @@ public class CMAESOptimizerTest {
 
     @Test
     public void testConstrainedRosen() {
-        double[] startPoint = point(DIM, 0.1);
-        double[] insigma = point(DIM, 1);
+        double[] startPoint = point(DIM, 0.7);
+        double[] insigma = point(DIM, 0.1);
         double[][] boundaries = boundaries(DIM, -1, 2);
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
@@ -427,7 +427,7 @@ public class CMAESOptimizerTest {
     /**
      * Cf. MATH-867
      */
-    @Ignore@Test
+    @Test
     public void testFitAccuracyDependsOnBoundary() {
         final CMAESOptimizer optimizer = new CMAESOptimizer();
         final MultivariateFunction fitnessFunction = new MultivariateFunction() {
@@ -439,7 +439,7 @@ public class CMAESOptimizerTest {
             };
 
         final double[] start = { 1 };
-
+ 
         // No bounds.
         PointValuePair result = optimizer.optimize(100000, fitnessFunction, GoalType.MINIMIZE,
                                                    start);
