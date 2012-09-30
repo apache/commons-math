@@ -52,6 +52,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-783">
+        "PowellOptimizer" (package "o.a.c.m.optimization.direct") uses
+        "BrentOptimizer" as its internal line search optimizer. The fix
+        forces the convergence criterion of "BrentOptimizer" to use
+        function values (instead of domain values).
+      </action>
       <action dev="erans" type="fix" issue="MATH-865,MATH-867,MATH-868" due-to="Nikolaus Hansen, Frank Hess">
         Numerical accuracy problems arose in "CMAESOptimizer" (in package
         "o.a.c.m.optimization.direct") when large finite boundaries were
