@@ -56,7 +56,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         Added distance to point to 2D Line and Segment.
       </action>
       <action dev="erans" type="fix" issue="MATH-783">
-          "PowellOptimizer" (package "o.a.c.m.optimization.direct") uses
+        "PowellOptimizer" (package "o.a.c.m.optimization.direct") uses
         "BrentOptimizer" as its internal line search optimizer. The fix
         forces the convergence criterion of "BrentOptimizer" to use
         function values (instead of domain values).
