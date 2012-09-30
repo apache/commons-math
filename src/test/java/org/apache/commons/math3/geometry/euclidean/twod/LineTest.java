@@ -64,6 +64,13 @@ public class LineTest {
     }
 
     @Test
+    public void testDistance() {
+        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
+        Assert.assertEquals(+5.0, l.distance(new Vector2D(5, -3)), 1.0e-10);
+        Assert.assertEquals(+5.0, l.distance(new Vector2D(-5, 2)), 1.0e-10);
+    }
+
+    @Test
     public void testPointAt() {
         Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
         for (double a = -2.0; a < 2.0; a += 0.2) {

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.geometry.euclidean.twod;
 
+import org.apache.commons.math3.util.FastMath;
 
 /** Simple container for a two-points segment.
  * @version $Id$
@@ -64,4 +65,43 @@ public class Segment {
         return line;
     }
 
+    /**
+     * Calculates the shortest distance from a point to this line segment.  
+     * <p>
+     * If the perpendicular extension from the point to the line does not 
+     * cross in the bounds of the line segment, the shortest distance to 
+     * the two end points will be returned.
+     * </p>
+     * 
+     * Algorithm adapted from: http://www.codeguru.com/forum/printthread.php?s=cc8cf0596231f9a7dba4da6e77c29db3&t=194400&pp=15&page=1 
+     */
+    public double distance(final Vector2D p) {
+        final double deltaX = end.getX() - start.getX();
+        final double deltaY = end.getY() - start.getY();
+
+        final double r = ((p.getX() - start.getX()) * deltaX + (p.getY() - start.getY()) * deltaY) /
+                         (deltaX * deltaX + deltaY * deltaY);
+
+        // r == 0 => P = startPt
+        // r == 1 => P = endPt
+        // r < 0 => P is on the backward extension of the segment
+        // r > 1 => P is on the forward extension of the segment
+        // 0 < r < 1 => P is on the segment
+
+        // if point isn't on the line segment, just return the shortest distance to the end points
+        if (r < 0 || r > 1) {
+            final double dist1 = getStart().distance(p);
+            final double dist2 = getEnd().distance(p);
+
+            return FastMath.min(dist1, dist2);
+        }
+        else {
+            // find point on line and see if it is in the line segment
+            final double px = start.getX() + r * deltaX;
+            final double py = start.getY() + r * deltaY;
+
+            final Vector2D interPt = new Vector2D(px, py);
+            return interPt.distance(p);
+        }
+    }
 }
