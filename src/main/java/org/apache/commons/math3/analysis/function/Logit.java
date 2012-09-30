@@ -153,6 +153,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
      * @param lo Lower bound.
      * @param hi Higher bound.
      * @return the value of the logit function at {@code x}.
+     * @throws OutOfRangeException if {@code x < lo} or {@code x > hi}.
      */
     private static double value(double x,
                                 double lo,
@@ -206,9 +207,7 @@ public class Logit implements UnivariateDifferentiableFunction, DifferentiableUn
                 xH  *=  i * invH;
             }
         }
-        
+
         return t.compose(f);
-
     }
-
 }

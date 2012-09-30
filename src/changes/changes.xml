@@ -52,6 +52,13 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-865,MATH-867,MATH-868" due-to="Nikolaus Hansen, Frank Hess">
+        Numerical accuracy problems arose in "CMAESOptimizer" (in package
+        "o.a.c.m.optimization.direct") when large finite boundaries were
+        specified, because the interval of allowed values was mapped to
+        [0, 1]. This mapping was not necessary and its removal allows
+        finite and infinite boundaries to be used together.
+      </action>
       <action dev="luc" type="fix" >
         Fixed some issues in nth root derivatives at 0.
       </action>
@@ -60,10 +67,6 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="erans" type="add" issue="MATH-860">
         Added matrix "block inversion" (in "o.a.c.m.linear.MatrixUtils").
-      </action>
-      <action dev="erans" type="fix" issue="MATH-865">
-        "CMAESOptimizer": Raise an exception when the variables normalization
-        would fail due to overflow.
       </action>
       <action dev="erans" type="fix" issue="MATH-864" due-to="Frank Hess">
         "CMAESOptimizer": Solution was not constrained to lie within the

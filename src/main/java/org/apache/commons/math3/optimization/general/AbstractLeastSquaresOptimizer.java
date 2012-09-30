@@ -330,7 +330,7 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @param f Objective function.
      * @param target Target value for the objective functions at optimum.
-     * @param weight Weights for the least squares cost computation.
+     * @param weights Weights for the least squares cost computation.
      * @param startPoint Start point for optimization.
      * @return the point/value pair giving the optimal value for objective
      * function.

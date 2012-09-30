@@ -248,7 +248,7 @@ public class UnivariateSolverUtils {
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
                                    double lowerBound, double upperBound,
-                                   int maximumIterations) 
+                                   int maximumIterations)
         throws NullArgumentException,
                NotStrictlyPositiveException,
                NoBracketingException {

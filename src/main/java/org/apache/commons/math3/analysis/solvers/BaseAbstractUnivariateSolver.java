@@ -298,6 +298,9 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * It is provided for subclasses that do not exclusively use
      * {@code computeObjectiveValue} to solve the function.
      * See e.g. {@link AbstractUnivariateDifferentiableSolver}.
+     *
+     * @throws TooManyEvaluationsException when the allowed number of function
+     * evaluations has been exhausted.
      */
     protected void incrementEvaluationCount()
         throws TooManyEvaluationsException {

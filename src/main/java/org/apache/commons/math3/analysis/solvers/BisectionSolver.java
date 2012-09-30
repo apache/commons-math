@@ -60,7 +60,7 @@ public class BisectionSolver extends AbstractUnivariateSolver {
      * {@inheritDoc}
      */
     @Override
-    protected double doSolve() 
+    protected double doSolve()
         throws TooManyEvaluationsException {
         double min = getMin();
         double max = getMax();

@@ -113,6 +113,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
          * @throws NullArgumentException if {@code param} is {@code null}.
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
+         * @throws NotStrictlyPositiveException if {@code param[5] <= 0}.
          */
         public double value(double x, double ... param)
             throws NullArgumentException,
@@ -137,6 +138,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
          * @throws NullArgumentException if {@code param} is {@code null}.
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
+         * @throws NotStrictlyPositiveException if {@code param[5] <= 0}.
          */
         public double[] gradient(double x, double ... param)
             throws NullArgumentException,
@@ -176,6 +178,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
          * @throws NullArgumentException if {@code param} is {@code null}.
          * @throws DimensionMismatchException if the size of {@code param} is
          * not 6.
+         * @throws NotStrictlyPositiveException if {@code param[5] <= 0}.
          */
         private void validateParameters(double[] param)
             throws NullArgumentException,

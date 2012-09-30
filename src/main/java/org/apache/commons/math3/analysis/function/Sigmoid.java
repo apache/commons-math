@@ -73,6 +73,7 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
         return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
     }
 
+    /** {@inheritDoc} */
     public double value(double x) {
         return value(x, lo, hi);
     }

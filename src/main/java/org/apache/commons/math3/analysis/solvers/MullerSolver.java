@@ -124,6 +124,8 @@ public class MullerSolver extends AbstractUnivariateSolver {
      * @param fMin function value at the lower bound.
      * @param fMax function value at the upper bound.
      * @return the point at which the function value is zero.
+     * @throws TooManyEvaluationsException if the allowed number of calls to
+     * the function to be solved has been exhausted.
      */
     private double solve(double min, double max,
                          double fMin, double fMax)
