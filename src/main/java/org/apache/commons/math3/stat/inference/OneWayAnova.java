@@ -125,6 +125,7 @@ public class OneWayAnova {
         ConvergenceException, MaxCountExceededException {
 
         AnovaStats a = anovaStats(categoryData);
+        // No try-catch or advertised exception because args are valid
         FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
 
@@ -253,7 +254,7 @@ public class OneWayAnova {
     }
 
     /**
-        Convenience class to pass dfbg,dfwg,F values around within AnovaImpl.
+        Convenience class to pass dfbg,dfwg,F values around within OneWayAnova.
         No get/set methods provided.
     */
     private static class AnovaStats {

@@ -95,8 +95,10 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @param numberOfVariables number of regressors to expect, not including constant
      * @param includeConstant include a constant automatically
      * @param errorTolerance  zero tolerance, how machine zero is determined
+     * @throws ModelSpecificationException if {@code numberOfVariables is less than 1}
      */
-    public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant, double errorTolerance) {
+    public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant, double errorTolerance)
+    throws ModelSpecificationException {
         if (numberOfVariables < 1) {
             throw new ModelSpecificationException(LocalizedFormats.NO_REGRESSORS);
         }
@@ -132,8 +134,10 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      *
      * @param numberOfVariables maximum number of potential regressors
      * @param includeConstant include a constant automatically
+     * @throws ModelSpecificationException if {@code numberOfVariables is less than 1}
      */
-    public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant) {
+    public MillerUpdatingRegression(int numberOfVariables, boolean includeConstant)
+    throws ModelSpecificationException {
         this(numberOfVariables, includeConstant, Precision.EPSILON);
     }
 
@@ -160,7 +164,8 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @exception ModelSpecificationException if the length of {@code x} does not equal
      * the number of independent variables in the model
      */
-    public void addObservation(final double[] x, final double y) {
+    public void addObservation(final double[] x, final double y)
+    throws ModelSpecificationException {
 
         if ((!this.hasIntercept && x.length != nvars) ||
                (this.hasIntercept && x.length + 1 != nvars)) {
@@ -186,7 +191,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
      * the length of {@code y} or does not contain sufficient data to estimate the model
      */
-    public void addObservations(double[][] x, double[] y) {
+    public void addObservations(double[][] x, double[] y) throws ModelSpecificationException {
         if ((x == null) || (y == null) || (x.length != y.length)) {
             throw new ModelSpecificationException(
                   LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
@@ -360,8 +365,10 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
      * @param nreq how many of the regressors to include (either in canonical
      * order, or in the current reordered state)
      * @return an array with the estimated slope coefficients
+     * @throws ModelSpecificationException if {@code nreq} is less than 1
+     * or greater than the number of independent variables
      */
-    private double[] regcf(int nreq) {
+    private double[] regcf(int nreq) throws ModelSpecificationException {
         int nextr;
         if (nreq < 1) {
             throw new ModelSpecificationException(LocalizedFormats.NO_REGRESSORS);

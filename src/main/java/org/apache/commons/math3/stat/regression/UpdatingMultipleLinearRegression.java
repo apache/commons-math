@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3.stat.regression;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NoDataException;
+
 /**
  * An interface for regression models allowing for dynamic updating of the data.
  * That is, the entire data set need not be loaded into memory. As observations
@@ -74,8 +77,10 @@ public interface UpdatingMultipleLinearRegression {
      * Performs a regression on data present in buffers and outputs a RegressionResults object
      * @return RegressionResults acts as a container of regression output
      * @throws ModelSpecificationException if the model is not correctly specified
+     * @throws NoDataException if there is not sufficient data in the model to
+     * estimate the regression parameters
      */
-    RegressionResults regress() throws ModelSpecificationException;
+    RegressionResults regress() throws ModelSpecificationException, NoDataException;
 
     /**
      * Performs a regression on data present in buffers including only regressors
@@ -83,6 +88,7 @@ public interface UpdatingMultipleLinearRegression {
      * @param variablesToInclude an array of indices of regressors to include
      * @return RegressionResults acts as a container of regression output
      * @throws ModelSpecificationException if the model is not correctly specified
+     * @throws MathIllegalArgumentException if the variablesToInclude array is null or zero length
      */
-    RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException;
+    RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException, MathIllegalArgumentException;
 }

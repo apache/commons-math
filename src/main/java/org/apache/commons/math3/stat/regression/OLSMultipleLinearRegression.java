@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.stat.regression;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.QRDecomposition;
@@ -62,10 +63,10 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * Computes and caches QR decomposition of the X matrix.
      * @param y the [n,1] array representing the y sample
      * @param x the [n,k] array representing the x sample
-     * @throws IllegalArgumentException if the x and y array data are not
+     * @throws MathIllegalArgumentException if the x and y array data are not
      *             compatible for the regression
      */
-    public void newSampleData(double[] y, double[][] x) {
+    public void newSampleData(double[] y, double[][] x) throws MathIllegalArgumentException {
         validateSampleData(x, y);
         newYSampleData(y);
         newXSampleData(x);
@@ -93,6 +94,10 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * formula is from "The Hat Matrix in Regression and ANOVA",
      * David C. Hoaglin and Roy E. Welsch,
      * <i>The American Statistician</i>, Vol. 32, No. 1 (Feb., 1978), pp. 17-22.
+     * </p>
+     * <p>Data for the model must have been successfully loaded using one of
+     * the {@code newSampleData} methods before invoking this method; otherwise
+     * a {@code NullPointerException} will be thrown.</p>
      *
      * @return the hat matrix
      */
@@ -101,6 +106,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         RealMatrix Q = qr.getQ();
         final int p = qr.getR().getColumnDimension();
         final int n = Q.getColumnDimension();
+        // No try-catch or advertised NotStrictlyPositiveException - NPE above if n < 3
         Array2DRowRealMatrix augI = new Array2DRowRealMatrix(n, n);
         double[][] augIData = augI.getDataRef();
         for (int i = 0; i < n; i++) {
@@ -114,6 +120,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
         }
 
         // Compute and return Hat matrix
+        // No DME advertised - args valid if we get here
         return Q.multiply(augI).multiply(Q.transpose());
     }
 
@@ -127,10 +134,12 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * the {@link #calculateRSquared() R-squared} computation.</p>
      *
      * @return SSTO - the total sum of squares
+     * @throws MathIllegalArgumentException if the sample has not been set or does
+     * not contain at least 3 observations
      * @see #isNoIntercept()
      * @since 2.2
      */
-    public double calculateTotalSumOfSquares() {
+    public double calculateTotalSumOfSquares() throws MathIllegalArgumentException {
         if (isNoIntercept()) {
             return StatUtils.sumSq(getY().toArray());
         } else {
@@ -146,6 +155,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      */
     public double calculateResidualSumOfSquares() {
         final RealVector residuals = calculateResiduals();
+        // No advertised DME, args are valid
         return residuals.dotProduct(residuals);
     }
 
@@ -157,9 +167,11 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * and SSTO is the {@link #calculateTotalSumOfSquares() total sum of squares}
      *
      * @return R-square statistic
+     * @throws MathIllegalArgumentException if the sample has not been set or does
+     * not contain at least 3 observations
      * @since 2.2
      */
-    public double calculateRSquared() {
+    public double calculateRSquared() throws MathIllegalArgumentException {
         return 1 - calculateResidualSumOfSquares() / calculateTotalSumOfSquares();
     }
 
@@ -176,10 +188,12 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * </pre></p>
      *
      * @return adjusted R-Squared statistic
+     * @throws MathIllegalArgumentException if the sample has not been set or does
+     * not contain at least 3 observations
      * @see #isNoIntercept()
      * @since 2.2
      */
-    public double calculateAdjustedRSquared() {
+    public double calculateAdjustedRSquared() throws MathIllegalArgumentException {
         final double n = getX().getRowDimension();
         if (isNoIntercept()) {
             return 1 - (1 - calculateRSquared()) * (n / (n - getX().getColumnDimension()));
@@ -203,6 +217,10 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /**
      * Calculates the regression coefficients using OLS.
      *
+     * <p>Data for the model must have been successfully loaded using one of
+     * the {@code newSampleData} methods before invoking this method; otherwise
+     * a {@code NullPointerException} will be thrown.</p>
+     *
      * @return beta
      */
     @Override
@@ -218,6 +236,10 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
      * <p>Uses QR decomposition to reduce (X<sup>T</sup>X)<sup>-1</sup>
      * to (R<sup>T</sup>R)<sup>-1</sup>, with only the top p rows of
      * R included, where p = the length of the beta vector.</p>
+     *
+     * <p>Data for the model must have been successfully loaded using one of
+     * the {@code newSampleData} methods before invoking this method; otherwise
+     * a {@code NullPointerException} will be thrown.</p>
      *
      * @return The beta variance-covariance matrix
      */

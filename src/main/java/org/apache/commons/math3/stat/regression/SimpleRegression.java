@@ -214,7 +214,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws ModelSpecificationException if the length of {@code data[i]} is not
      * greater than or equal to 2
      */
-    public void addData(final double[][] data) {
+    public void addData(final double[][] data) throws ModelSpecificationException {
         for (int i = 0; i < data.length; i++) {
             if( data[i].length < 2 ){
                throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,
@@ -232,7 +232,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws ModelSpecificationException if the length of {@code x} does not equal
      * the number of independent variables in the model
      */
-    public void addObservation(final double[] x,final double y) throws ModelSpecificationException{
+    public void addObservation(final double[] x,final double y)
+    throws ModelSpecificationException {
         if( x == null || x.length == 0 ){
             throw new ModelSpecificationException(LocalizedFormats.INVALID_REGRESSION_OBSERVATION,x!=null?x.length:0, 1);
         }
@@ -249,7 +250,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @throws ModelSpecificationException if {@code x} is not rectangular, does not match
      * the length of {@code y} or does not contain sufficient data to estimate the model
      */
-    public void addObservations(final double[][] x,final double[] y) {
+    public void addObservations(final double[][] x,final double[] y) throws ModelSpecificationException {
         if ((x == null) || (y == null) || (x.length != y.length)) {
             throw new ModelSpecificationException(
                   LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE,
@@ -605,7 +606,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return half-width of 95% confidence interval for the slope estimate
      * @throws OutOfRangeException if the confidence interval can not be computed.
      */
-    public double getSlopeConfidenceInterval() {
+    public double getSlopeConfidenceInterval() throws OutOfRangeException {
         return getSlopeConfidenceInterval(0.05d);
     }
 
@@ -640,11 +641,16 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * @return half-width of 95% confidence interval for the slope estimate
      * @throws OutOfRangeException if the confidence interval can not be computed.
      */
-    public double getSlopeConfidenceInterval(final double alpha) {
+    public double getSlopeConfidenceInterval(final double alpha)
+    throws OutOfRangeException {
+        if (n < 3) {
+            return Double.NaN;
+        }
         if (alpha >= 1 || alpha <= 0) {
             throw new OutOfRangeException(LocalizedFormats.SIGNIFICANCE_LEVEL,
                                           alpha, 0, 1);
         }
+        // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = new TDistribution(n - 2);
         return getSlopeStdErr() *
             distribution.inverseCumulativeProbability(1d - alpha / 2d);
@@ -673,6 +679,10 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * if the significance level can not be computed.
      */
     public double getSignificance() {
+        if (n < 3) {
+            return Double.NaN;
+        }
+        // No advertised NotStrictlyPositiveException here - will return NaN above
         TDistribution distribution = new TDistribution(n - 2);
         return 2d * (1.0 - distribution.cumulativeProbability(
                     FastMath.abs(getSlope()) / getSlopeStdErr()));
@@ -706,14 +716,21 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
     }
 
     /**
-     * Performs a regression on data present in buffers and outputs a RegressionResults object
+     * Performs a regression on data present in buffers and outputs a RegressionResults object.
+     *
+     * <p>If there are fewer than 3 observations in the model and {@code hasIntercept} is true
+     * a {@code NoDataException} is thrown.  If there is no intercept term, the model must
+     * contain at least 2 observations.</p>
+     *
      * @return RegressionResults acts as a container of regression output
      * @throws ModelSpecificationException if the model is not correctly specified
+     * @throws NoDataException if there is not sufficient data in the model to
+     * estimate the regression parameters
      */
-    public RegressionResults regress() throws ModelSpecificationException{
-        if( hasIntercept ){
+    public RegressionResults regress() throws ModelSpecificationException, NoDataException {
+        if (hasIntercept) {
           if( n < 3 ){
-              throw new NoDataException( LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION );
+              throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
           }
           if( FastMath.abs( sumXX ) > Precision.SAFE_MIN ){
               final double[] params = new double[]{ getIntercept(), getSlope() };
@@ -738,8 +755,8 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
                       sumY, sumYY, getSumSquaredErrors(),true,false);
           }
         }else{
-          if( n < 2 ){
-              throw new NoDataException( LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION );
+          if (n < 2) {
+              throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
           }
           if( !Double.isNaN(sumXX) ){
           final double[] vcv = new double[]{ getMeanSquareError() / sumXX };
@@ -762,11 +779,10 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * indexed in variablesToInclude and outputs a RegressionResults object
      * @param variablesToInclude an array of indices of regressors to include
      * @return RegressionResults acts as a container of regression output
-     * @throws ModelSpecificationException if the model is not correctly specified
      * @throws MathIllegalArgumentException if the variablesToInclude array is null or zero length
      * @throws OutOfRangeException if a requested variable is not present in model
      */
-    public RegressionResults regress(int[] variablesToInclude) throws ModelSpecificationException{
+    public RegressionResults regress(int[] variablesToInclude) throws MathIllegalArgumentException{
         if( variablesToInclude == null || variablesToInclude.length == 0){
           throw new MathIllegalArgumentException(LocalizedFormats.ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED);
         }

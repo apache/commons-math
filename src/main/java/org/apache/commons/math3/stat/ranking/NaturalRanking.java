@@ -345,6 +345,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 Iterator<Integer> iterator = tiesTrace.iterator();
                 long f = FastMath.round(c);
                 while (iterator.hasNext()) {
+                    // No advertised exception because args are guaranteed valid
                     ranks[iterator.next()] =
                         randomData.nextLong(f, f + length - 1);
                 }

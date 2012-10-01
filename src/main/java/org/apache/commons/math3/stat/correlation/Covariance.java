@@ -75,10 +75,11 @@ public class Covariance {
      *
      * @param data rectangular array with columns representing covariates
      * @param biasCorrected true means covariances are bias-corrected
-     * @throws IllegalArgumentException if the input data array is not
+     * @throws MathIllegalArgumentException if the input data array is not
      * rectangular with at least two rows and two columns.
      */
-    public Covariance(double[][] data, boolean biasCorrected) {
+    public Covariance(double[][] data, boolean biasCorrected)
+    throws MathIllegalArgumentException {
         this(new BlockRealMatrix(data), biasCorrected);
     }
 
@@ -90,10 +91,10 @@ public class Covariance {
      * and two rows</p>
      *
      * @param data rectangular array with columns representing covariates
-     * @throws IllegalArgumentException if the input data array is not
+     * @throws MathIllegalArgumentException if the input data array is not
      * rectangular with at least two rows and two columns.
      */
-    public Covariance(double[][] data) {
+    public Covariance(double[][] data) throws MathIllegalArgumentException {
         this(data, true);
     }
 
@@ -108,10 +109,11 @@ public class Covariance {
      *
      * @param matrix matrix with columns representing covariates
      * @param biasCorrected true means covariances are bias-corrected
-     * @throws IllegalArgumentException if the input matrix does not have
+     * @throws MathIllegalArgumentException if the input matrix does not have
      * at least two rows and two columns
      */
-    public Covariance(RealMatrix matrix, boolean biasCorrected) {
+    public Covariance(RealMatrix matrix, boolean biasCorrected)
+    throws MathIllegalArgumentException {
        checkSufficientData(matrix);
        n = matrix.getRowDimension();
        covarianceMatrix = computeCovarianceMatrix(matrix, biasCorrected);
@@ -124,10 +126,10 @@ public class Covariance {
      * <p>The matrix must have at least two columns and two rows</p>
      *
      * @param matrix matrix with columns representing covariates
-     * @throws IllegalArgumentException if the input matrix does not have
+     * @throws MathIllegalArgumentException if the input matrix does not have
      * at least two rows and two columns
      */
-    public Covariance(RealMatrix matrix) {
+    public Covariance(RealMatrix matrix) throws MathIllegalArgumentException {
         this(matrix, true);
     }
 
@@ -155,8 +157,10 @@ public class Covariance {
      * @param matrix input matrix (must have at least two columns and two rows)
      * @param biasCorrected determines whether or not covariance estimates are bias-corrected
      * @return covariance matrix
+     * @throws MathIllegalArgumentException if the matrix does not contain sufficient data
      */
-    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix, boolean biasCorrected) {
+    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix, boolean biasCorrected)
+    throws MathIllegalArgumentException {
         int dimension = matrix.getColumnDimension();
         Variance variance = new Variance(biasCorrected);
         RealMatrix outMatrix = new BlockRealMatrix(dimension, dimension);
@@ -176,9 +180,11 @@ public class Covariance {
      * covariates. Covariances are computed using the bias-corrected formula.
      * @param matrix input matrix (must have at least two columns and two rows)
      * @return covariance matrix
+     * @throws MathIllegalArgumentException if matrix does not contain sufficient data
      * @see #Covariance
      */
-    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix) {
+    protected RealMatrix computeCovarianceMatrix(RealMatrix matrix)
+    throws MathIllegalArgumentException {
         return computeCovarianceMatrix(matrix, true);
     }
 
@@ -188,8 +194,11 @@ public class Covariance {
      * @param data input array (must have at least two columns and two rows)
      * @param biasCorrected determines whether or not covariance estimates are bias-corrected
      * @return covariance matrix
+     * @throws MathIllegalArgumentException if the data array does not contain sufficient
+     * data
      */
-    protected RealMatrix computeCovarianceMatrix(double[][] data, boolean biasCorrected) {
+    protected RealMatrix computeCovarianceMatrix(double[][] data, boolean biasCorrected)
+    throws MathIllegalArgumentException {
         return computeCovarianceMatrix(new BlockRealMatrix(data), biasCorrected);
     }
 
@@ -198,9 +207,10 @@ public class Covariance {
      * covariates. Covariances are computed using the bias-corrected formula.
      * @param data input array (must have at least two columns and two rows)
      * @return covariance matrix
+     * @throws MathIllegalArgumentException if the data array does not contain sufficient data
      * @see #Covariance
      */
-    protected RealMatrix computeCovarianceMatrix(double[][] data) {
+    protected RealMatrix computeCovarianceMatrix(double[][] data) throws MathIllegalArgumentException {
         return computeCovarianceMatrix(data, true);
     }
 
@@ -213,11 +223,11 @@ public class Covariance {
      * @param yArray second data array
      * @param biasCorrected if true, returned value will be bias-corrected
      * @return returns the covariance for the two arrays
-     * @throws  IllegalArgumentException if the arrays lengths do not match or
+     * @throws  MathIllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
     public double covariance(final double[] xArray, final double[] yArray, boolean biasCorrected)
-        throws IllegalArgumentException {
+        throws MathIllegalArgumentException {
         Mean mean = new Mean();
         double result = 0d;
         int length = xArray.length;
@@ -248,20 +258,22 @@ public class Covariance {
      * @param xArray first data array
      * @param yArray second data array
      * @return returns the covariance for the two arrays
-     * @throws  IllegalArgumentException if the arrays lengths do not match or
+     * @throws  MathIllegalArgumentException if the arrays lengths do not match or
      * there is insufficient data
      */
     public double covariance(final double[] xArray, final double[] yArray)
-        throws IllegalArgumentException {
+        throws MathIllegalArgumentException {
         return covariance(xArray, yArray, true);
     }
 
     /**
-     * Throws IllegalArgumentException of the matrix does not have at least
-     * two columns and two rows
+     * Throws MathIllegalArgumentException if the matrix does not have at least
+     * two columns and two rows.
      * @param matrix matrix to check
+     * @throws MathIllegalArgumentException if the matrix does not contain sufficient data
+     * to compute covariance
      */
-    private void checkSufficientData(final RealMatrix matrix) {
+    private void checkSufficientData(final RealMatrix matrix) throws MathIllegalArgumentException {
         int nRows = matrix.getRowDimension();
         int nCols = matrix.getColumnDimension();
         if (nRows < 2 || nCols < 2) {

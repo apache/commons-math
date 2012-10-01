@@ -147,7 +147,7 @@ public class RegressionResults implements Serializable {
      * @throws OutOfRangeException if {@code index} is not in the interval
      * {@code [0, number of parameters)}.
      */
-    public double getParameterEstimate(int index) {
+    public double getParameterEstimate(int index) throws OutOfRangeException {
         if (parameters == null) {
             return Double.NaN;
         }
@@ -184,7 +184,7 @@ public class RegressionResults implements Serializable {
      * @throws OutOfRangeException if {@code index} is not in the interval
      * {@code [0, number of parameters)}.
      */
-    public double getStdErrorOfEstimate(int index) {
+    public double getStdErrorOfEstimate(int index) throws OutOfRangeException {
         if (parameters == null) {
             return Double.NaN;
         }
@@ -237,7 +237,7 @@ public class RegressionResults implements Serializable {
      * @throws OutOfRangeException if {@code i} or {@code j} is not in the
      * interval {@code [0, number of parameters)}.
      */
-    public double getCovarianceOfParameters(int i, int j) {
+    public double getCovarianceOfParameters(int i, int j) throws OutOfRangeException {
         if (parameters == null) {
             return Double.NaN;
         }

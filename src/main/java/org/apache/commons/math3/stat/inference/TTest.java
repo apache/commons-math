@@ -18,8 +18,10 @@ package org.apache.commons.math3.stat.inference;
 
 import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
@@ -202,6 +204,7 @@ public class TTest {
         throws NullArgumentException, NumberIsTooSmallException {
 
         checkSampleData(observed);
+        // No try-catch or advertised exception because args have just been checked
         return t(StatUtils.mean(observed), mu, StatUtils.variance(observed),
                 observed.length);
 
@@ -272,6 +275,7 @@ public class TTest {
 
         checkSampleData(sample1);
         checkSampleData(sample2);
+        // No try-catch or advertised exception because args have just been checked
         return homoscedasticT(StatUtils.mean(sample1), StatUtils.mean(sample2),
                               StatUtils.variance(sample1), StatUtils.variance(sample2),
                               sample1.length, sample2.length);
@@ -312,6 +316,7 @@ public class TTest {
 
         checkSampleData(sample1);
         checkSampleData(sample2);
+        // No try-catch or advertised exception because args have just been checked
         return t(StatUtils.mean(sample1), StatUtils.mean(sample2),
                  StatUtils.variance(sample1), StatUtils.variance(sample2),
                  sample1.length, sample2.length);
@@ -442,6 +447,7 @@ public class TTest {
         MaxCountExceededException {
 
         checkSampleData(sample);
+        // No try-catch or advertised exception because args have just been checked
         return tTest(StatUtils.mean(sample), mu, StatUtils.variance(sample),
                      sample.length);
 
@@ -623,6 +629,7 @@ public class TTest {
 
         checkSampleData(sample1);
         checkSampleData(sample2);
+        // No try-catch or advertised exception because args have just been checked
         return tTest(StatUtils.mean(sample1), StatUtils.mean(sample2),
                      StatUtils.variance(sample1), StatUtils.variance(sample2),
                      sample1.length, sample2.length);
@@ -669,6 +676,7 @@ public class TTest {
 
         checkSampleData(sample1);
         checkSampleData(sample2);
+        // No try-catch or advertised exception because args have just been checked
         return homoscedasticTTest(StatUtils.mean(sample1),
                                   StatUtils.mean(sample2),
                                   StatUtils.variance(sample1),
@@ -1043,10 +1051,11 @@ public class TTest {
      * @param n sample n
      * @return p-value
      * @throws MaxCountExceededException if an error occurs computing the p-value
+     * @throws MathIllegalArgumentException if n is not greater than 1
      */
     protected double tTest(final double m, final double mu,
                            final double v, final double n)
-        throws MaxCountExceededException {
+        throws MaxCountExceededException, MathIllegalArgumentException {
 
         double t = FastMath.abs(t(m, mu, v, n));
         TDistribution distribution = new TDistribution(n - 1);
@@ -1068,11 +1077,13 @@ public class TTest {
      * @param n2 second sample n
      * @return p-value
      * @throws MaxCountExceededException if an error occurs computing the p-value
+     * @throws NotStrictlyPositiveException if the estimated degrees of freedom is not
+     * strictly positive
      */
     protected double tTest(final double m1, final double m2,
                            final double v1, final double v2,
                            final double n1, final double n2)
-        throws MaxCountExceededException {
+        throws MaxCountExceededException, NotStrictlyPositiveException {
 
         final double t = FastMath.abs(t(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = df(v1, v2, n1, n2);
@@ -1095,11 +1106,13 @@ public class TTest {
      * @param n2 second sample n
      * @return p-value
      * @throws MaxCountExceededException if an error occurs computing the p-value
+     * @throws NotStrictlyPositiveException if the estimated degrees of freedom is not
+     * strictly positive
      */
     protected double homoscedasticTTest(double m1, double m2,
                                         double v1, double v2,
                                         double n1, double n2)
-        throws MaxCountExceededException {
+        throws MaxCountExceededException, NotStrictlyPositiveException {
 
         final double t = FastMath.abs(homoscedasticT(m1, m2, v1, v2, n1, n2));
         final double degreesOfFreedom = n1 + n2 - 2;

@@ -253,6 +253,7 @@ public class WilcoxonSignedRankTest {
         // - 0.5 is a continuity correction
         final double z = (Wmin - ES - 0.5) / FastMath.sqrt(VarS);
 
+        // No try-catch or advertised exception because args are valid
         final NormalDistribution standardNormal = new NormalDistribution(0, 1);
 
         return 2*standardNormal.cumulativeProbability(z);

@@ -222,7 +222,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws MathIllegalArgumentException if the number of rows of {@code x}
      * is not larger than the number of columns + 1
      */
-    protected void validateSampleData(double[][] x, double[] y) {
+    protected void validateSampleData(double[][] x, double[] y) throws MathIllegalArgumentException {
         if ((x == null) || (y == null)) {
             throw new NullArgumentException();
         }
