@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
 
 /**
  * Interface defining field-valued matrix with basic algebraic operations.
@@ -219,41 +218,44 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
   throws MatrixDimensionMismatchException, NoDataException, NullArgumentException,
   OutOfRangeException;
 
-   /**
-    * Replace the submatrix starting at {@code (row, column)} using data in
-    * the input {@code subMatrix} array. Indexes are 0-based.
-    * <p>
-    * Example:<br>
-    * Starting with <pre>
-    * 1  2  3  4
-    * 5  6  7  8
-    * 9  0  1  2
-    * </pre>
-    * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking
-    * <code>setSubMatrix(subMatrix,1,1))</code> will result in <pre>
-    * 1  2  3  4
-    * 5  3  4  8
-    * 9  5  6  2
-    * </pre></p>
-    *
-    * @param subMatrix Array containing the submatrix replacement data.
-    * @param row Row coordinate of the top-left element to be replaced.
-    * @param column Column coordinate of the top-left element to be replaced.
-    * @throws MatrixDimensionMismatchException
-    * if {@code subMatrix} does not fit into this matrix from element in
-    * {@code (row, column)}.
-    * @throws org.apache.commons.math3.exception.ZeroException if a row or column
-    * of {@code subMatrix} is empty.
-    * @throws org.apache.commons.math3.exception.DimensionMismatchException
-    * if {@code subMatrix} is not rectangular (not all rows have the same
-    * length).
-    * @throws org.apache.commons.math3.exception.NullArgumentException
-    * if {@code subMatrix} is {@code null}.
-    * @since 2.0
-    */
+    /**
+     * Replace the submatrix starting at {@code (row, column)} using data in the
+     * input {@code subMatrix} array. Indexes are 0-based.
+     * <p>
+     * Example:<br>
+     * Starting with
+     *
+     * <pre>
+     * 1  2  3  4
+     * 5  6  7  8
+     * 9  0  1  2
+     * </pre>
+     *
+     * and <code>subMatrix = {{3, 4} {5,6}}</code>, invoking
+     * <code>setSubMatrix(subMatrix,1,1))</code> will result in
+     *
+     * <pre>
+     * 1  2  3  4
+     * 5  3  4  8
+     * 9  5  6  2
+     * </pre>
+     *
+     * </p>
+     *
+     * @param subMatrix Array containing the submatrix replacement data.
+     * @param row Row coordinate of the top-left element to be replaced.
+     * @param column Column coordinate of the top-left element to be replaced.
+     * @throws OutOfRangeException if {@code subMatrix} does not fit into this
+     * matrix from element in {@code (row, column)}.
+     * @throws NoDataException if a row or column of {@code subMatrix} is empty.
+     * @throws DimensionMismatchException if {@code subMatrix} is not
+     * rectangular (not all rows have the same length).
+     * @throws NullArgumentException if {@code subMatrix} is {@code null}.
+     * @since 2.0
+     */
     void setSubMatrix(T[][] subMatrix, int row, int column)
-    throws DimensionMismatchException, MatrixDimensionMismatchException,
-           NullArgumentException, ZeroException;
+        throws DimensionMismatchException, OutOfRangeException,
+        NullArgumentException, NoDataException;
 
    /**
     * Get the entries in row number {@code row}
@@ -554,6 +556,8 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param startColumn Initial column index
      * @param endColumn Final column index
      * @throws OutOfRangeException if the indices are not valid.
+     * @throws NumberIsTooSmallException if {@code endRow < startRow} or
+     * {@code endColumn < startColumn}.
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor, int, int, int, int)
@@ -570,7 +574,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInRowOrder(FieldMatrixChangingVisitor<T> visitor,
                      int startRow, int endRow, int startColumn, int endColumn)
-    throws OutOfRangeException;
+    throws OutOfRangeException, NumberIsTooSmallException;
 
     /**
      * Visit (but don't change) some matrix entries in row order.
@@ -583,6 +587,8 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @param startColumn Initial column index
      * @param endColumn Final column index
      * @throws OutOfRangeException if the indices are not valid.
+     * @throws NumberIsTooSmallException if {@code endRow < startRow} or
+     * {@code endColumn < startColumn}.
      * @see #walkInRowOrder(FieldMatrixChangingVisitor)
      * @see #walkInRowOrder(FieldMatrixPreservingVisitor)
      * @see #walkInRowOrder(FieldMatrixChangingVisitor, int, int, int, int)
@@ -599,7 +605,7 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      */
     T walkInRowOrder(FieldMatrixPreservingVisitor<T> visitor,
                      int startRow, int endRow, int startColumn, int endColumn)
-    throws OutOfRangeException;
+    throws OutOfRangeException, NumberIsTooSmallException;
 
     /**
      * Visit (and possibly change) all matrix entries in column order.
