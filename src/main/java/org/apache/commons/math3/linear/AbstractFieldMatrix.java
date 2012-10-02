@@ -175,7 +175,9 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    public abstract FieldMatrix<T> createMatrix(final int rowDimension, final int columnDimension);
+    public abstract FieldMatrix<T> createMatrix(final int rowDimension,
+                                                final int columnDimension)
+        throws NotStrictlyPositiveException;
 
     /** {@inheritDoc} */
     public abstract FieldMatrix<T> copy();
@@ -656,16 +658,16 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     }
 
     /** {@inheritDoc} */
-    public abstract T getEntry(int row, int column);
+    public abstract T getEntry(int row, int column) throws OutOfRangeException;
 
     /** {@inheritDoc} */
-    public abstract void setEntry(int row, int column, T value);
+    public abstract void setEntry(int row, int column, T value) throws OutOfRangeException;
 
     /** {@inheritDoc} */
-    public abstract void addToEntry(int row, int column, T increment);
+    public abstract void addToEntry(int row, int column, T increment) throws OutOfRangeException;
 
     /** {@inheritDoc} */
-    public abstract void multiplyEntry(int row, int column, T factor);
+    public abstract void multiplyEntry(int row, int column, T factor) throws OutOfRangeException;
 
     /** {@inheritDoc} */
     public FieldMatrix<T> transpose() {
