@@ -39,16 +39,35 @@
 
 * 5.3 Gamma functions
 
-  {{{../apidocs/org/apache/commons/math3/special/Gamma.html}Gamma}} contains
-  several useful functions involving the Gamma Function.
+  Class {{{../apidocs/org/apache/commons/math3/special/Gamma.html}<<<Gamma>>>}}
+  contains several useful functions involving the Gamma Function.
 
-*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
-|| Function         || Method           || Reference                                                                                                    |
-*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
-| Log Gamma         | logGamma          | See {{{http://mathworld.wolfram.com/GammaFunction.html}Gamma Function}} from MathWorld                        |
-*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
-| Regularized Gamma | regularizedGammaP | See {{{http://mathworld.wolfram.com/RegularizedGammaFunction.html}Regularized Gamma Function}} from MathWorld |
-*-------------------+-------------------+---------------------------------------------------------------------------------------------------------------+
+** 5.3.1 Log Gamma
+
+  <<<Gamma.logGamma(x)>>> computes the natural logarithm of the Gamma function,
+  log \u0393(x), for x > 0
+  (see {{{http://mathworld.wolfram.com/LogGammaFunction.html}MathWorld}},
+  {{{http://dlmf.nist.gov/5}DLMF}}). The accuracy of the Commons-Math
+  implementation is assessed by comparaison with high precision values computed
+  with the {{{http://maxima.sourceforge.net/}Maxima}} Computer Algebra System.
+
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+|| Interval                                   || Values tested                        || Average error  || Maximum error |
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+| (0.0, 8.0]                                  | <<<k / 1024, k = 1, ..., 8192>>>      | 0.32 ulps       | 4.0 ulps       |
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+| (8.0, 1024.0]                               | <<<k / 8, k = 65, ..., 8192>>>        | 0.43 ulps       | 3.0 ulps       |
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+| (1024.0, 8192.0]                            | <<<k, k = 1025, 8192>>>               | 0.53 ulps       | 3.0 ulps       |
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+| [8933.439345993791, 1.75555970201398e+305]  | <<<2**(k / 8), k = 105, ..., 8112>>>  | 0.35 ulps       | 2.0 ulps       |
+*---------------------------------------------+---------------------------------------+-----------------+----------------+
+
+** 5.3.2 Regularized Gamma
+
+  <<<Gamma.regularizedGammaP(a, x)>>> computes the value of the regularized
+  Gamma function, P(a, x)
+  (see {{{http://mathworld.wolfram.com/RegularizedGammaFunction.html}MathWorld}}).
 
 * 5.4 Beta funtions
 
