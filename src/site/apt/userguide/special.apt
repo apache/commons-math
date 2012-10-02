@@ -42,7 +42,33 @@
   Class {{{../apidocs/org/apache/commons/math3/special/Gamma.html}<<<Gamma>>>}}
   contains several useful functions involving the Gamma Function.
 
-** 5.3.1 Log Gamma
+** Gamma
+
+  <<<Gamma.gamma(x)>>> computes the Gamma function, \u0393(x),
+  (see {{{http://mathworld.wolfram.com/GammaFunction.html}MathWorld}},
+  {{{http://dlmf.nist.gov/5}DLMF}}). The accuracy of the Commons-Math
+  implementation is assessed by comparaison with high precision values computed
+  with the {{{http://maxima.sourceforge.net/}Maxima}} Computer Algebra System.
+
+*---------------+----------------------------------------+-----------------+----------------+
+|| Interval     || Values tested                         || Average error  || Maximum error |
+*---------------+----------------------------------------+-----------------+----------------+
+| (-5.0, -4.0)  | <<<k / 1024, k = -5119, ..., -4097>>>  | 0.49 ulps       | 3.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (-4.0, -3.0)  | <<<k / 1024, k = -4095, ..., -3073>>>  | 0.36 ulps       | 2.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (-3.0, -2.0)  | <<<k / 1024, k = -3071, ..., -2049>>>  | 0.41 ulps       | 2.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (-2.0, -1.0)  | <<<k / 1024, k = -2047, ..., -1025>>>  | 0.37 ulps       | 2.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (-1.0, 0.0)   | <<<k / 1024, k = -1023, ..., -1>>>     | 0.46 ulps       | 2.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (0.0, 8.0]    | <<<k / 1024, k = 1, ..., 8192>>>       | 0.33 ulps       | 2.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+| (8.0, 141.0]  | <<<k / 64, k = 513, ..., 9024>>>       | 1.32 ulps       | 7.0 ulps       |
+*---------------+----------------------------------------+-----------------+----------------+
+
+** Log Gamma
 
   <<<Gamma.logGamma(x)>>> computes the natural logarithm of the Gamma function,
   log \u0393(x), for x > 0
@@ -63,7 +89,7 @@
 | [8933.439345993791, 1.75555970201398e+305]  | <<<2**(k / 8), k = 105, ..., 8112>>>  | 0.35 ulps       | 2.0 ulps       |
 *---------------------------------------------+---------------------------------------+-----------------+----------------+
 
-** 5.3.2 Regularized Gamma
+** Regularized Gamma
 
   <<<Gamma.regularizedGammaP(a, x)>>> computes the value of the regularized
   Gamma function, P(a, x)
