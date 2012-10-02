@@ -65,15 +65,19 @@ public class Segment {
         return line;
     }
 
-    /**
-     * Calculates the shortest distance from a point to this line segment.  
+    /** Calculates the shortest distance from a point to this line segment.
      * <p>
-     * If the perpendicular extension from the point to the line does not 
-     * cross in the bounds of the line segment, the shortest distance to 
+     * If the perpendicular extension from the point to the line does not
+     * cross in the bounds of the line segment, the shortest distance to
      * the two end points will be returned.
      * </p>
-     * 
-     * Algorithm adapted from: http://www.codeguru.com/forum/printthread.php?s=cc8cf0596231f9a7dba4da6e77c29db3&t=194400&pp=15&page=1 
+     *
+     * Algorithm adapted from:
+     * <a href="http://www.codeguru.com/forum/printthread.php?s=cc8cf0596231f9a7dba4da6e77c29db3&t=194400&pp=15&page=1">
+     * Thread @ Codeguru</a>
+     *
+     * @param p to check
+     * @return distance between the instance and the point
      */
     public double distance(final Vector2D p) {
         final double deltaX = end.getX() - start.getX();

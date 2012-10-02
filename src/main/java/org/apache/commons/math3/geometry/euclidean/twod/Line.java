@@ -264,10 +264,10 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** Compute the distance between the instance and a point.
-     *  This is a shortcut for invoking FastMath.abs(getOffset(p)), 
-     *  and provides consistency with what is in the 
-     *  org.apache.commons.math3.geometry.euclidean.threed.Line class.
-     *  
+     * <p>This is a shortcut for invoking FastMath.abs(getOffset(p)),
+     * and provides consistency with what is in the
+     * org.apache.commons.math3.geometry.euclidean.threed.Line class.</p>
+     *
      * @param p to check
      * @return distance between the instance and the point
      */
