@@ -128,9 +128,15 @@ public class CMAESOptimizer
      */
     private double[][] boundaries;
     /**
-     * Individual sigma values - initial search volume. inputSigma determines
-     * the initial coordinate wise standard deviations for the search. Setting
-     * SIGMA one third of the initial search region is appropriate.
+     * Values in "inputSigma" define the initial coordinate-wise
+     * standard deviations for sampling new search points around the
+     * initial guess.
+     * It is appropriate to set "inputSigma" to the estimated distance
+     * from the initial to the desired optimum.
+     * Small values for "inputSigma" induce the search to be more local
+     * (and very small values are more likely to find a local optimum 
+     * close to the initial guess).
+     * Too small values might however lead to early termination.
      */
     private double[] inputSigma;
     /** Number of objective variables/problem dimension */
@@ -252,7 +258,8 @@ public class CMAESOptimizer
 
     /**
      * @param lambda Population size.
-     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param inputSigma Initial standard deviations to sample new points
+     * around the initial guess.
      */
     public CMAESOptimizer(int lambda, double[] inputSigma) {
         this(lambda, inputSigma, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
@@ -262,7 +269,8 @@ public class CMAESOptimizer
 
     /**
      * @param lambda Population size.
-     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param inputSigma Initial standard deviations to sample new points
+     * around the initial guess.
      * @param maxIterations Maximal number of iterations.
      * @param stopFitness Whether to stop if objective function value is smaller than
      * {@code stopFitness}.
@@ -287,7 +295,8 @@ public class CMAESOptimizer
 
     /**
      * @param lambda Population size.
-     * @param inputSigma Initial search volume; sigma of offspring objective variables.
+     * @param inputSigma Initial standard deviations to sample new points
+     * around the initial guess.
      * @param maxIterations Maximal number of iterations.
      * @param stopFitness Whether to stop if objective function value is smaller than
      * {@code stopFitness}.
