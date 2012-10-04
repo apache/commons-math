@@ -124,10 +124,6 @@ public class CMAESOptimizer
      */
     private int checkFeasableCount;
     /**
-     * Lower and upper boundaries of the objective variables.
-     */
-    private double[][] boundaries;
-    /**
      * Values in "inputSigma" define the initial coordinate-wise
      * standard deviations for sampling new search points around the
      * initial guess.
@@ -510,11 +506,6 @@ public class CMAESOptimizer
         final double[] lB = getLowerBound();
         final double[] uB = getUpperBound();
 
-        // Convert API to internal handling of boundaries.
-        boundaries = new double[2][];
-        boundaries[0] = lB;
-        boundaries[1] = uB;
-
         if (inputSigma != null) {
             if (inputSigma.length != init.length) {
                 throw new DimensionMismatchException(inputSigma.length, init.length);
@@ -523,8 +514,8 @@ public class CMAESOptimizer
                 if (inputSigma[i] < 0) {
                     throw new NotPositiveException(inputSigma[i]);
                 }
-                if (inputSigma[i] > boundaries[1][i] - boundaries[0][i]) {
-                    throw new OutOfRangeException(inputSigma[i], 0, boundaries[1][i] - boundaries[0][i]);
+                if (inputSigma[i] > uB[i] - lB[i]) {
+                    throw new OutOfRangeException(inputSigma[i], 0, uB[i] - lB[i]);
                 }
             }
         }
@@ -897,11 +888,14 @@ public class CMAESOptimizer
          * @return {@code true} if in bounds.
          */
         public boolean isFeasible(final double[] x) {
+            final double[] lB = CMAESOptimizer.this.getLowerBound();
+            final double[] uB = CMAESOptimizer.this.getUpperBound();
+
             for (int i = 0; i < x.length; i++) {
-                if (x[i] < boundaries[0][i]) {
+                if (x[i] < lB[i]) {
                     return false;
                 }
-                if (x[i] > boundaries[1][i]) {
+                if (x[i] > uB[i]) {
                     return false;
                 }
             }
@@ -920,12 +914,15 @@ public class CMAESOptimizer
          * @return the repaired objective variables - all in bounds.
          */
         private double[] repair(final double[] x) {
+            final double[] lB = CMAESOptimizer.this.getLowerBound();
+            final double[] uB = CMAESOptimizer.this.getUpperBound();
+
             final double[] repaired = new double[x.length];
             for (int i = 0; i < x.length; i++) {
-                if (x[i] < boundaries[0][i]) {
-                    repaired[i] = boundaries[0][i];
-                } else if (x[i] > boundaries[1][i]) {
-                    repaired[i] = boundaries[1][i];
+                if (x[i] < lB[i]) {
+                    repaired[i] = lB[i];
+                } else if (x[i] > uB[i]) {
+                    repaired[i] = uB[i];
                 } else {
                     repaired[i] = x[i];
                 }
