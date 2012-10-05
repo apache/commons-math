@@ -179,7 +179,7 @@ public class ValueServer {
      * with <code>mode = DIGEST_MODE</code></p>
      *
      * @throws IOException if an I/O error occurs reading the input file
-     * @throws NullArgumentException 
+     * @throws NullArgumentException
       * @throws ZeroException if URL contains no data
      */
     public void computeDistribution() throws IOException, ZeroException, NullArgumentException {
@@ -198,7 +198,7 @@ public class ValueServer {
      *
      * @param binCount the number of bins used in computing the empirical
      * distribution
-     * @throws NullArgumentException 
+     * @throws NullArgumentException
      * @throws IOException if an error occurs reading the input file
      * @throws ZeroException if URL contains no data
      */

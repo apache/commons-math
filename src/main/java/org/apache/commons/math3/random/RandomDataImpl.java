@@ -546,7 +546,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param distribution Continuous distribution to generate a random value from
      * @return a random value sampled from the given distribution
-     * @throws MathIllegalArgumentException if the underlynig distribution throws one 
+     * @throws MathIllegalArgumentException if the underlynig distribution throws one
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
@@ -562,7 +562,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      *
      * @param distribution Integer distribution to generate a random value from
      * @return a random value sampled from the given distribution
-     * @throws MathIllegalArgumentException if the underlynig distribution throws one 
+     * @throws MathIllegalArgumentException if the underlynig distribution throws one
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
