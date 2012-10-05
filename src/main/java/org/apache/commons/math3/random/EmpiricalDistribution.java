@@ -372,7 +372,7 @@ public class EmpiricalDistribution implements Serializable {
     /**
      * Fills binStats array (second pass through data file).
      *
-     * @param in object providing access to the data
+     * @param da object providing access to the data
      * @throws IOException  if an IO error occurs
      */
     private void fillBinStats(final DataAdapter da)
