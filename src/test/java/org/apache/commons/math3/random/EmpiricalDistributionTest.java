@@ -72,11 +72,21 @@ public final class EmpiricalDistributionTest {
     /**
      * Test EmpiricalDistrbution.load() using sample data file.<br>
      * Check that the sampleCount, mu and sigma match data in
-     * the sample data file.
+     * the sample data file. Also verify that load is idempotent.
      */
     @Test
     public void testLoad() throws Exception {
+        // Load from a URL
         empiricalDistribution.load(url);
+        checkDistribution();
+        
+        // Load again from a file (also verifies idempotency of load)
+        File file = new File(url.getFile());
+        empiricalDistribution.load(file);
+        checkDistribution();
+    }
+    
+    private void checkDistribution() {
         // testData File has 10000 values, with mean ~ 5.0, std dev ~ 1
         // Make sure that loaded distribution matches this
         Assert.assertEquals(empiricalDistribution.getSampleStats().getN(),1000,10E-7);

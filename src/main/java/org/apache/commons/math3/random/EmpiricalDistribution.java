@@ -19,11 +19,13 @@ package org.apache.commons.math3.random;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +86,9 @@ public class EmpiricalDistribution implements Serializable {
 
     /** Default bin count */
     public static final int DEFAULT_BIN_COUNT = 1000;
+
+    /** Character set for file input */
+    private static final String FILE_CHARSET = "US-ASCII";
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 5729073523949762654L;
@@ -204,6 +209,10 @@ public class EmpiricalDistribution implements Serializable {
 
     /**
      * Computes the empirical distribution using data read from a URL.
+
+     * <p>The input file <i>must</i> be an ASCII text file containing one
+     * valid numeric entry per line.</p>
+     *
      * @param url  url of the input file
      *
      * @throws IOException if an IO error occurs
@@ -212,8 +221,9 @@ public class EmpiricalDistribution implements Serializable {
      */
     public void load(URL url) throws IOException, NullArgumentException, ZeroException {
         MathUtils.checkNotNull(url);
+        Charset charset = Charset.forName(FILE_CHARSET);
         BufferedReader in =
-            new BufferedReader(new InputStreamReader(url.openStream()));
+            new BufferedReader(new InputStreamReader(url.openStream(), charset));
         try {
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
@@ -221,7 +231,7 @@ public class EmpiricalDistribution implements Serializable {
                 throw new ZeroException(LocalizedFormats.URL_CONTAINS_NO_DATA, url);
             }
             // new adapter for the second pass
-            in = new BufferedReader(new InputStreamReader(url.openStream()));
+            in = new BufferedReader(new InputStreamReader(url.openStream(), charset));
             fillBinStats(new StreamDataAdapter(in));
             loaded = true;
         } finally {
@@ -236,18 +246,24 @@ public class EmpiricalDistribution implements Serializable {
     /**
      * Computes the empirical distribution from the input file.
      *
+     * <p>The input file <i>must</i> be an ASCII text file containing one
+     * valid numeric entry per line.</p>
+     *
      * @param file the input file
      * @throws IOException if an IO error occurs
      * @throws NullArgumentException if file is null
      */
     public void load(File file) throws IOException, NullArgumentException {
         MathUtils.checkNotNull(file);
-        BufferedReader in = new BufferedReader(new FileReader(file));
+        Charset charset = Charset.forName(FILE_CHARSET);
+        InputStream is = new FileInputStream(file);
+        BufferedReader in = new BufferedReader(new InputStreamReader(is, charset));
         try {
             DataAdapter da = new StreamDataAdapter(in);
             da.computeStats();
             // new adapter for second pass
-            in = new BufferedReader(new FileReader(file));
+            is = new FileInputStream(file);
+            in = new BufferedReader(new InputStreamReader(is, charset));
             fillBinStats(new StreamDataAdapter(in));
             loaded = true;
         } finally {
