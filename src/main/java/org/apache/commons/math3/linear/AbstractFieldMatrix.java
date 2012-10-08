@@ -461,13 +461,11 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     */
-    public void setSubMatrix(final T[][] subMatrix, final int row, final int column)
-        throws DimensionMismatchException, NoDataException, NullArgumentException,
-        OutOfRangeException {
+    /** {@inheritDoc} */
+    public void setSubMatrix(final T[][] subMatrix, final int row,
+                             final int column)
+        throws DimensionMismatchException, OutOfRangeException,
+        NoDataException, NullArgumentException, NumberIsTooSmallException {
         if (subMatrix == null) {
             throw new NullArgumentException();
         }
