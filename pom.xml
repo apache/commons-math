@@ -285,7 +285,7 @@
   </dependencies>
 
   <properties>
-    <commons.componentid>math</commons.componentid>
+    <commons.componentid>math3</commons.componentid>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>3.0</commons.release.version>
     <commons.release.desc>(requires Java 1.5+; not compatible with 2.2)</commons.release.desc>
