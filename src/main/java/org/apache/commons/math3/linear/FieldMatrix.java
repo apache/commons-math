@@ -250,14 +250,12 @@ public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
      * @throws NoDataException if a row or column of {@code subMatrix} is empty.
      * @throws DimensionMismatchException if {@code subMatrix} is not
      * rectangular (not all rows have the same length).
-     * @throws NumberIsTooSmallException if {@code endRow < startRow} or
-     * {@code endColumn < startColumn}.
      * @throws NullArgumentException if {@code subMatrix} is {@code null}.
      * @since 2.0
      */
     void setSubMatrix(T[][] subMatrix, int row, int column)
         throws DimensionMismatchException, OutOfRangeException,
-        NoDataException, NullArgumentException, NumberIsTooSmallException;
+        NoDataException, NullArgumentException;
 
    /**
     * Get the entries in row number {@code row}
