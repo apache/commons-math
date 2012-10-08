@@ -306,7 +306,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
-            Iterator<Entry> it = v.sparseIterator();
+            Iterator<Entry> it = v.iterator();
             while (it.hasNext()) {
                 final Entry e = it.next();
                 out[e.getIndex()] += e.getValue();
@@ -332,7 +332,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
         } else {
             checkVectorDimensions(v);
             double[] out = data.clone();
-            Iterator<Entry> it = v.sparseIterator();
+            Iterator<Entry> it = v.iterator();
             while (it.hasNext()) {
                 final Entry e = it.next();
                 out[e.getIndex()] -= e.getValue();

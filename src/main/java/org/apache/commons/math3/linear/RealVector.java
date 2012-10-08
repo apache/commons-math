@@ -232,7 +232,7 @@ public abstract class RealVector {
     public RealVector add(RealVector v) throws DimensionMismatchException {
         checkVectorDimensions(v);
         RealVector result = v.copy();
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             final int index = e.getIndex();
@@ -253,7 +253,7 @@ public abstract class RealVector {
     public RealVector subtract(RealVector v) throws DimensionMismatchException {
         checkVectorDimensions(v);
         RealVector result = v.mapMultiply(-1d);
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             final int index = e.getIndex();
@@ -415,7 +415,7 @@ public abstract class RealVector {
      */
     public double getNorm() {
         double sum = 0;
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             final double value = e.getValue();
@@ -436,7 +436,7 @@ public abstract class RealVector {
      */
     public double getL1Norm() {
         double norm = 0;
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             norm += FastMath.abs(e.getValue());
@@ -456,7 +456,7 @@ public abstract class RealVector {
      */
     public double getLInfNorm() {
         double norm = 0;
-        Iterator<Entry> it = sparseIterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             norm = FastMath.max(norm, FastMath.abs(e.getValue()));
@@ -756,7 +756,12 @@ public abstract class RealVector {
      * returns {@code true}.</p>
      *
      * @return a sparse iterator.
+     * @deprecated As of 3.1, this method is deprecated, because its interface
+     * is too confusing (see
+     * <a href="https://issues.apache.org/jira/browse/MATH-875">JIRA MATH-875</a>).
+     * This method will be completely removed in 4.0.
      */
+    @Deprecated
     public Iterator<Entry> sparseIterator() {
         return new SparseEntryIterator();
     }
@@ -835,7 +840,7 @@ public abstract class RealVector {
      * @return a reference to this vector.
      */
     public RealVector mapToSelf(UnivariateFunction function) {
-        Iterator<Entry> it = (function.value(0) == 0) ? sparseIterator() : iterator();
+        Iterator<Entry> it = iterator();
         while (it.hasNext()) {
             final Entry e = it.next();
             e.setValue(function.value(e.getValue()));
@@ -1137,7 +1142,13 @@ public abstract class RealVector {
      * operations which preserve the default value are to be done on the entries,
      * and the fraction of non-default values is small (i.e. someone took a
      * SparseVector, and passed it into the copy-constructor of ArrayRealVector)
+     *
+     * @deprecated As of 3.1, this class is deprecated, see
+     * <a href="https://issues.apache.org/jira/browse/MATH-875">JIRA MATH-875</a>.
+     * This class will be completely removed in 4.0.
+
      */
+    @Deprecated
     protected class SparseEntryIterator implements Iterator<Entry> {
         /** Dimension of the vector. */
         private final int dim;
