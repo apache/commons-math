@@ -497,7 +497,7 @@ public class Gamma {
      * {@code gamma(x) = sqrt(2 * pi) / x * (x + g + 0.5) ^ (x + 0.5)
      *                   * exp(-x - g - 0.5) * lanczos(x)},
      * </center>
-     * where {@code g} is a constant, returned by {@link #getLanczosG()}.
+     * where {@code g} is the Lanczos constant.
      * </p>
      *
      * @param x Argument.

@@ -77,7 +77,8 @@ import org.apache.commons.math3.util.MathArrays;
  *
  * When simple constraints (boundaries) are used, care must be taken that the
  * difference between the upper and lower bounds does not overflow; should it
- * be the case, a {@link NumberIsTooLargeException} will be thrown by the
+ * be the case, a {@link org.apache.commons.math3.exception.NumberIsTooLargeException
+ * NumberIsTooLargeException} will be thrown by the
  * {@link BaseAbstractMultivariateSimpleBoundsOptimizer#optimize(int,
  * MultivariateFunction,GoalType,double[],double[],double[]) optimize} method.
  *

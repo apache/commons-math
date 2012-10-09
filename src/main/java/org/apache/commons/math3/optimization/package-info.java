@@ -40,12 +40,12 @@
  *      multivariate real functions}</li>
  *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer
  *      MultivariateDifferentiableOptimizer} for {@link
- *      org.apache.commons.math3.analysis.MultivariateDifferentiableFunction
- *      differentiable multivariate real functions}</li>
- *  <li>{@link org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer
+ *      org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction
+ *      multivariate differentiable real functions}</li>
+ *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer
  *      MultivariateDifferentiableVectorOptimizer} for {@link
- *      org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction
- *      differentiable multivariate vectorial functions}</li>
+ *      org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction
+ *      multivariate differentiable vectorial functions}</li>
  * </ul>
  * </p>
  *
@@ -70,3 +70,5 @@
  *
  */
 package org.apache.commons.math3.optimization;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+

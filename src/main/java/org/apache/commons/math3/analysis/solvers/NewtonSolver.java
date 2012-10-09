@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @deprecated as of 3.1, replaced by {@link NewtonRaphsonSolverTest}
+ * @deprecated as of 3.1, replaced by {@link NewtonRaphsonSolver}
  * @version $Id$
  */
 @Deprecated

@@ -49,7 +49,7 @@ import org.apache.commons.math3.util.FastMath;
  * DerivativeStructure}-based instances. This method is simpler but may be limited in
  * the accuracy and derivation orders and may be computationally intensive (this is
  * typically the case for {@link FiniteDifferencesDifferentiator finite differences
- * differentiator).</p>
+ * differentiator}.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @see DSCompiler
  * @version $Id$
@@ -435,7 +435,6 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
 
     /** Compute the signum of the instance.
      * The signum is -1 for negative numbers, +1 for positive numbers and 0 otherwise
-     * @param a number on which evaluation is done
      * @return -1.0, -0.0, +0.0, +1.0 or NaN depending on sign of a
      */
     public DerivativeStructure signum() {
