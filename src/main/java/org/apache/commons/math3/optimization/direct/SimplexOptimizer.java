@@ -162,7 +162,8 @@ public class SimplexOptimizer
                 boolean converged = true;
                 for (int i = 0; i < simplex.getSize(); i++) {
                     PointValuePair prev = previous[i];
-                    converged &= checker.converged(iteration, prev, simplex.getPoint(i));
+                    converged = converged &&
+                        checker.converged(iteration, prev, simplex.getPoint(i));
                 }
                 if (converged) {
                     // We have found an optimum.
