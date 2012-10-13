@@ -26,6 +26,7 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
+import org.apache.commons.math3.optimization.OptimizationData;
 
 /**
  * This class implements simplex-based direct search optimization.
@@ -118,9 +119,59 @@ public class SimplexOptimizer
      * Set the simplex algorithm.
      *
      * @param simplex Simplex.
+     * @deprecated As of 3.1. The initial simplex can now be passed as an
+     * argument of the {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])}
+     * method.
      */
+    @Deprecated
     public void setSimplex(AbstractSimplex simplex) {
-        this.simplex = simplex;
+        parseOptimizationData(simplex);
+    }
+
+    /**
+     * Optimize an objective function.
+     *
+     * @param maxEval Allowed number of evaluations of the objective function.
+     * @param f Objective function.
+     * @param goalType Optimization type.
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}</li>
+     *  <li>{@link AbstractSimplex}</li>
+     * </ul>
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     */
+    @Override
+    protected PointValuePair optimizeInternal(int maxEval, MultivariateFunction f,
+                                              GoalType goalType,
+                                              OptimizationData... optData) {
+        // Scan "optData" for the input specific to this optimizer.
+        parseOptimizationData(optData);
+
+        // The parent's method will retrieve the common parameters from
+        // "optData" and call "doOptimize".
+        return super.optimizeInternal(maxEval, f, goalType, optData);
+    }
+
+    /**
+     * Scans the list of (required and optional) optimization data that
+     * characterize the problem.
+     *
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link AbstractSimplex}</li>
+     * </ul>
+     */
+    private void parseOptimizationData(OptimizationData... optData) {
+        // The existing values (as set by the previous call) are reused if
+        // not provided in the argument list.
+        for (OptimizationData data : optData) {
+            if (data instanceof AbstractSimplex) {
+                simplex = (AbstractSimplex) data;
+                continue;
+            }
+        }
     }
 
     /** {@inheritDoc} */

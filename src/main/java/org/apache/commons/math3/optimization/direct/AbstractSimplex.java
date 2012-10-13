@@ -29,6 +29,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.OptimizationData;
 
 /**
  * This class implements the simplex concept.
@@ -47,7 +48,7 @@ import org.apache.commons.math3.optimization.PointValuePair;
  * @version $Id$
  * @since 3.0
  */
-public abstract class AbstractSimplex {
+public abstract class AbstractSimplex implements OptimizationData {
     /** Simplex. */
     private PointValuePair[] simplex;
     /** Start simplex configuration. */
