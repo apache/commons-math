@@ -20,10 +20,11 @@ package org.apache.commons.math3.optimization.direct;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.optimization.BaseMultivariateOptimizer;
+import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.InitialGuess;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
@@ -99,10 +100,36 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
         return function.value(point);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated As of 3.1. Please use
+     * {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])}
+     * instead.
+     */
     public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
-                                       double[] startPoint) {
+                                   double[] startPoint) {
         return optimizeInternal(maxEval, f, goalType, startPoint);
+    }
+
+    /**
+     * Optimize an objective function.
+     *
+     * @param maxEval Allowed number of evaluations of the objective function.
+     * @param f Objective function.
+     * @param goalType Optimization type.
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link InitialGuess}</li>
+     * </ul>
+     * @return the point/value pair giving the optimal value of the objective
+     * function.
+     */
+    public PointValuePair optimize(int maxEval,
+                                   FUNC f,
+                                   GoalType goalType,
+                                   OptimizationData... optData) {
+        return optimizeInternal(maxEval, f, goalType, optData);
     }
 
     /**
@@ -121,31 +148,64 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math3.exception.NullArgumentException if
      * any argument is {@code null}.
+     * @deprecated As of 3.1. Please use
+     * {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])}
+     * instead.
      */
+    @Deprecated
     protected PointValuePair optimizeInternal(int maxEval, MultivariateFunction f, GoalType goalType,
                                               double[] startPoint) {
-        // Checks.
-        if (f == null) {
-            throw new NullArgumentException();
-        }
-        if (goalType == null) {
-            throw new NullArgumentException();
-        }
-        if (startPoint == null) {
-            throw new NullArgumentException();
-        }
+        return optimizeInternal(maxEval, f, goalType, new InitialGuess(startPoint));
+    }
 
-        // Reset.
+    /**
+     * Optimize an objective function.
+     *
+     * @param maxEval Allowed number of evaluations of the objective function.
+     * @param f Objective function.
+     * @param goalType Optimization type.
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link InitialGuess}</li>
+     * </ul>
+     * @return the point/value pair giving the optimal value of the objective
+     * function.
+     * @throws TooManyEvaluationsException if the maximal number of
+     * evaluations is exceeded.
+     */
+    protected PointValuePair optimizeInternal(int maxEval,
+                                              MultivariateFunction f,
+                                              GoalType goalType,
+                                              OptimizationData... optData)
+        throws TooManyEvaluationsException {
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
-
-        // Store optimization problem characteristics.
         function = f;
         goal = goalType;
-        start = startPoint.clone();
+        parseOptimizationData(optData);
 
         // Perform computation.
         return doOptimize();
+    }
+
+    /**
+     * Scans the list of (required and optional) optimization data that
+     * characterize the problem.
+     *
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link InitialGuess}</li>
+     * </ul>
+     */
+    private void parseOptimizationData(OptimizationData... optData) {
+        // The existing values (as set by the previous call) are reused if
+        // not provided in the argument list.
+        for (OptimizationData data : optData) {
+            if (data instanceof InitialGuess) {
+                start = ((InitialGuess) data).getInitialGuess();
+                continue;
+            }
+        }
     }
 
     /**
@@ -165,7 +225,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     /**
      * Perform the bulk of the optimization algorithm.
      *
-     * @return the point/value pair giving the optimal value for the
+     * @return the point/value pair giving the optimal value of the
      * objective function.
      */
     protected abstract PointValuePair doOptimize();
