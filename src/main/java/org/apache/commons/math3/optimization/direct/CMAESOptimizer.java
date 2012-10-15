@@ -457,130 +457,132 @@ public class CMAESOptimizer
         // -------------------- Generation Loop --------------------------------
 
         generationLoop:
-            for (iterations = 1; iterations <= maxIterations; iterations++) {
-                // Generate and evaluate lambda offspring
-                RealMatrix arz = randn1(dimension, lambda);
-                RealMatrix arx = zeros(dimension, lambda);
-                double[] fitness = new double[lambda];
-                // generate random offspring
-                for (int k = 0; k < lambda; k++) {
-                    RealMatrix arxk = null;
-                    for (int i = 0; i < checkFeasableCount+1; i++) {
-                        if (diagonalOnly <= 0) {
-                            arxk = xmean.add(BD.multiply(arz.getColumnMatrix(k))
-                                    .scalarMultiply(sigma)); // m + sig * Normal(0,C)
-                        } else {
-                            arxk = xmean.add(times(diagD,arz.getColumnMatrix(k))
-                                    .scalarMultiply(sigma));
-                        }
-                        if (i >= checkFeasableCount || fitfun.isFeasible(arxk.getColumn(0))) {
-                            break;
-                        }
-                        // regenerate random arguments for row
-                        arz.setColumn(k, randn(dimension));
+        for (iterations = 1; iterations <= maxIterations; iterations++) {
+            // Generate and evaluate lambda offspring
+            final RealMatrix arz = randn1(dimension, lambda);
+            final RealMatrix arx = zeros(dimension, lambda);
+            final double[] fitness = new double[lambda];
+            // generate random offspring
+            for (int k = 0; k < lambda; k++) {
+                RealMatrix arxk = null;
+                for (int i = 0; i < checkFeasableCount + 1; i++) {
+                    if (diagonalOnly <= 0) {
+                        arxk = xmean.add(BD.multiply(arz.getColumnMatrix(k))
+                                         .scalarMultiply(sigma)); // m + sig * Normal(0,C)
+                    } else {
+                        arxk = xmean.add(times(diagD,arz.getColumnMatrix(k))
+                                         .scalarMultiply(sigma));
                     }
-                    copyColumn(arxk, 0, arx, k);
-                    try {
-                        fitness[k] = fitfun.value(arx.getColumn(k)); // compute fitness
-                    } catch (TooManyEvaluationsException e) {
-                        break generationLoop;
-                    }
-                }
-                // Sort by fitness and compute weighted mean into xmean
-                int[] arindex = sortedIndices(fitness);
-                // Calculate new xmean, this is selection and recombination
-                RealMatrix xold = xmean; // for speed up of Eq. (2) and (3)
-                RealMatrix bestArx = selectColumns(arx, MathArrays.copyOf(arindex, mu));
-                xmean = bestArx.multiply(weights);
-                RealMatrix bestArz = selectColumns(arz, MathArrays.copyOf(arindex, mu));
-                RealMatrix zmean = bestArz.multiply(weights);
-                boolean hsig = updateEvolutionPaths(zmean, xold);
-                if (diagonalOnly <= 0) {
-                    updateCovariance(hsig, bestArx, arz, arindex, xold);
-                } else {
-                    updateCovarianceDiagonalOnly(hsig, bestArz, xold);
-                }
-                // Adapt step size sigma - Eq. (5)
-                sigma *= Math.exp(Math.min(1, (normps/chiN - 1) * cs / damps));
-                double bestFitness = fitness[arindex[0]];
-                double worstFitness = fitness[arindex[arindex.length - 1]];
-                if (bestValue > bestFitness) {
-                    bestValue = bestFitness;
-                    lastResult = optimum;
-                    optimum = new PointValuePair(
-                            fitfun.repair(bestArx.getColumn(0)),
-                            isMinimize ? bestFitness : -bestFitness);
-                    if (getConvergenceChecker() != null && lastResult != null) {
-                        if (getConvergenceChecker().converged(iterations, optimum, lastResult)) {
-                            break generationLoop;
-                        }
-                    }
-                }
-                // handle termination criteria
-                // Break, if fitness is good enough
-                if (stopFitness != 0) { // only if stopFitness is defined
-                    if (bestFitness < (isMinimize ? stopFitness : -stopFitness)) {
-                        break generationLoop;
-                    }
-                }
-                double[] sqrtDiagC = sqrt(diagC).getColumn(0);
-                double[] pcCol = pc.getColumn(0);
-                for (int i = 0; i < dimension; i++) {
-                    if (sigma*(Math.max(Math.abs(pcCol[i]), sqrtDiagC[i])) > stopTolX) {
+                    if (i >= checkFeasableCount ||
+                        fitfun.isFeasible(arxk.getColumn(0))) {
                         break;
                     }
-                    if (i >= dimension-1) {
-                        break generationLoop;
-                    }
+                    // regenerate random arguments for row
+                    arz.setColumn(k, randn(dimension));
                 }
-                for (int i = 0; i < dimension; i++) {
-                    if (sigma*sqrtDiagC[i] > stopTolUpX) {
-                        break generationLoop;
-                    }
-                }
-                double historyBest = min(fitnessHistory);
-                double historyWorst = max(fitnessHistory);
-                if (iterations > 2 && Math.max(historyWorst, worstFitness) -
-                        Math.min(historyBest, bestFitness) < stopTolFun) {
+                copyColumn(arxk, 0, arx, k);
+                try {
+                    fitness[k] = fitfun.value(arx.getColumn(k)); // compute fitness
+                } catch (TooManyEvaluationsException e) {
                     break generationLoop;
-                }
-                if (iterations > fitnessHistory.length &&
-                        historyWorst-historyBest < stopTolHistFun) {
-                    break generationLoop;
-                }
-                // condition number of the covariance matrix exceeds 1e14
-                if (max(diagD)/min(diagD) > 1e7) {
-                    break generationLoop;
-                }
-                // user defined termination
-                if (getConvergenceChecker() != null) {
-                    PointValuePair current =
-                        new PointValuePair(bestArx.getColumn(0),
-                                isMinimize ? bestFitness : -bestFitness);
-                    if (lastResult != null &&
-                        getConvergenceChecker().converged(iterations, current, lastResult)) {
-                        break generationLoop;
-                    }
-                    lastResult = current;
-                }
-                // Adjust step size in case of equal function values (flat fitness)
-                if (bestValue == fitness[arindex[(int)(0.1+lambda/4.)]]) {
-                    sigma = sigma * Math.exp(0.2 + cs / damps);
-                }
-                if (iterations > 2 && Math.max(historyWorst, bestFitness) -
-                        Math.min(historyBest, bestFitness) == 0) {
-                    sigma = sigma * Math.exp(0.2 + cs / damps);
-                }
-                // store best in history
-                push(fitnessHistory,bestFitness);
-                fitfun.setValueRange(worstFitness-bestFitness);
-                if (generateStatistics) {
-                    statisticsSigmaHistory.add(sigma);
-                    statisticsFitnessHistory.add(bestFitness);
-                    statisticsMeanHistory.add(xmean.transpose());
-                    statisticsDHistory.add(diagD.transpose().scalarMultiply(1E5));
                 }
             }
+            // Sort by fitness and compute weighted mean into xmean
+            final int[] arindex = sortedIndices(fitness);
+            // Calculate new xmean, this is selection and recombination
+            final RealMatrix xold = xmean; // for speed up of Eq. (2) and (3)
+            final RealMatrix bestArx = selectColumns(arx, MathArrays.copyOf(arindex, mu));
+            xmean = bestArx.multiply(weights);
+            final RealMatrix bestArz = selectColumns(arz, MathArrays.copyOf(arindex, mu));
+            final RealMatrix zmean = bestArz.multiply(weights);
+            final boolean hsig = updateEvolutionPaths(zmean, xold);
+            if (diagonalOnly <= 0) {
+                updateCovariance(hsig, bestArx, arz, arindex, xold);
+            } else {
+                updateCovarianceDiagonalOnly(hsig, bestArz, xold);
+            }
+            // Adapt step size sigma - Eq. (5)
+            sigma *= Math.exp(Math.min(1, (normps/chiN - 1) * cs / damps));
+            final double bestFitness = fitness[arindex[0]];
+            final double worstFitness = fitness[arindex[arindex.length - 1]];
+            if (bestValue > bestFitness) {
+                bestValue = bestFitness;
+                lastResult = optimum;
+                optimum = new PointValuePair(fitfun.repair(bestArx.getColumn(0)),
+                                             isMinimize ? bestFitness : -bestFitness);
+                if (getConvergenceChecker() != null &&
+                    lastResult != null) {
+                    if (getConvergenceChecker().converged(iterations, optimum, lastResult)) {
+                        break generationLoop;
+                    }
+                }
+            }
+            // handle termination criteria
+            // Break, if fitness is good enough
+            if (stopFitness != 0) { // only if stopFitness is defined
+                if (bestFitness < (isMinimize ? stopFitness : -stopFitness)) {
+                    break generationLoop;
+                }
+            }
+            final double[] sqrtDiagC = sqrt(diagC).getColumn(0);
+            final double[] pcCol = pc.getColumn(0);
+            for (int i = 0; i < dimension; i++) {
+                if (sigma * Math.max(Math.abs(pcCol[i]), sqrtDiagC[i]) > stopTolX) {
+                    break;
+                }
+                if (i >= dimension - 1) {
+                    break generationLoop;
+                }
+            }
+            for (int i = 0; i < dimension; i++) {
+                if (sigma * sqrtDiagC[i] > stopTolUpX) {
+                    break generationLoop;
+                }
+            }
+            final double historyBest = min(fitnessHistory);
+            final double historyWorst = max(fitnessHistory);
+            if (iterations > 2 &&
+                Math.max(historyWorst, worstFitness) -
+                Math.min(historyBest, bestFitness) < stopTolFun) {
+                break generationLoop;
+            }
+            if (iterations > fitnessHistory.length &&
+                historyWorst-historyBest < stopTolHistFun) {
+                break generationLoop;
+            }
+            // condition number of the covariance matrix exceeds 1e14
+            if (max(diagD)/min(diagD) > 1e7) {
+                break generationLoop;
+            }
+            // user defined termination
+            if (getConvergenceChecker() != null) {
+                final PointValuePair current
+                    = new PointValuePair(bestArx.getColumn(0),
+                                         isMinimize ? bestFitness : -bestFitness);
+                if (lastResult != null &&
+                    getConvergenceChecker().converged(iterations, current, lastResult)) {
+                    break generationLoop;
+                    }
+                lastResult = current;
+            }
+            // Adjust step size in case of equal function values (flat fitness)
+            if (bestValue == fitness[arindex[(int)(0.1+lambda/4.)]]) {
+                sigma = sigma * Math.exp(0.2 + cs / damps);
+            }
+            if (iterations > 2 && Math.max(historyWorst, bestFitness) -
+                Math.min(historyBest, bestFitness) == 0) {
+                sigma = sigma * Math.exp(0.2 + cs / damps);
+            }
+            // store best in history
+            push(fitnessHistory,bestFitness);
+            fitfun.setValueRange(worstFitness-bestFitness);
+            if (generateStatistics) {
+                statisticsSigmaHistory.add(sigma);
+                statisticsFitnessHistory.add(bestFitness);
+                statisticsMeanHistory.add(xmean.transpose());
+                statisticsDHistory.add(diagD.transpose().scalarMultiply(1E5));
+            }
+        }
         return optimum;
     }
 
@@ -637,11 +639,11 @@ public class CMAESOptimizer
             lambda = 4 + (int) (3 * Math.log(dimension));
         }
         // initialize sigma
-        double[][] sigmaArray = new double[guess.length][1];
+        final double[][] sigmaArray = new double[guess.length][1];
         for (int i = 0; i < guess.length; i++) {
             sigmaArray[i][0] = inputSigma == null ? 0.3 : inputSigma[i];
         }
-        RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);
+        final RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);
         sigma = max(insigma); // overall standard deviation
 
         // initialize termination criteria
@@ -711,7 +713,7 @@ public class CMAESOptimizer
                 B.multiply(zmean).scalarMultiply(
                         Math.sqrt(cs * (2 - cs) * mueff)));
         normps = ps.getFrobeniusNorm();
-        boolean hsig = normps /
+        final boolean hsig = normps /
             Math.sqrt(1 - Math.pow(1 - cs, 2 * iterations)) /
             chiN < 1.4 + 2 / ((double) dimension + 1);
         pc = pc.scalarMultiply(1 - cc);
@@ -766,10 +768,10 @@ public class CMAESOptimizer
                                   final RealMatrix xold) {
         double negccov = 0;
         if (ccov1 + ccovmu > 0) {
-            RealMatrix arpos = bestArx.subtract(repmat(xold, 1, mu))
-                    .scalarMultiply(1 / sigma); // mu difference vectors
-            RealMatrix roneu = pc.multiply(pc.transpose())
-                    .scalarMultiply(ccov1); // rank one update
+            final RealMatrix arpos = bestArx.subtract(repmat(xold, 1, mu))
+                .scalarMultiply(1 / sigma); // mu difference vectors
+            final RealMatrix roneu = pc.multiply(pc.transpose())
+                .scalarMultiply(ccov1); // rank one update
             // minor correction if hsig==false
             double oldFac = hsig ? 0 : ccov1 * cc * (2 - cc);
             oldFac += 1 - ccov1 - ccovmu;
@@ -777,31 +779,31 @@ public class CMAESOptimizer
                 // Adapt covariance matrix C active CMA
                 negccov = (1 - ccovmu) * 0.25 * mueff /
                     (Math.pow(dimension + 2, 1.5) + 2 * mueff);
-                double negminresidualvariance = 0.66;
                 // keep at least 0.66 in all directions, small popsize are most
                 // critical
-                double negalphaold = 0.5; // where to make up for the variance
-                                          // loss,
+                final double negminresidualvariance = 0.66;
+                // where to make up for the variance loss
+                final double negalphaold = 0.5;
                 // prepare vectors, compute negative updating matrix Cneg
-                int[] arReverseIndex = reverse(arindex);
+                final int[] arReverseIndex = reverse(arindex);
                 RealMatrix arzneg = selectColumns(arz, MathArrays.copyOf(arReverseIndex, mu));
                 RealMatrix arnorms = sqrt(sumRows(square(arzneg)));
-                int[] idxnorms = sortedIndices(arnorms.getRow(0));
-                RealMatrix arnormsSorted = selectColumns(arnorms, idxnorms);
-                int[] idxReverse = reverse(idxnorms);
-                RealMatrix arnormsReverse = selectColumns(arnorms, idxReverse);
+                final int[] idxnorms = sortedIndices(arnorms.getRow(0));
+                final RealMatrix arnormsSorted = selectColumns(arnorms, idxnorms);
+                final int[] idxReverse = reverse(idxnorms);
+                final RealMatrix arnormsReverse = selectColumns(arnorms, idxReverse);
                 arnorms = divide(arnormsReverse, arnormsSorted);
-                int[] idxInv = inverse(idxnorms);
-                RealMatrix arnormsInv = selectColumns(arnorms, idxInv);
+                final int[] idxInv = inverse(idxnorms);
+                final RealMatrix arnormsInv = selectColumns(arnorms, idxInv);
                 // check and set learning rate negccov
-                double negcovMax = (1 - negminresidualvariance) /
+                final double negcovMax = (1 - negminresidualvariance) /
                     square(arnormsInv).multiply(weights).getEntry(0, 0);
                 if (negccov > negcovMax) {
                     negccov = negcovMax;
                 }
                 arzneg = times(arzneg, repmat(arnormsInv, dimension, 1));
-                RealMatrix artmp = BD.multiply(arzneg);
-                RealMatrix Cneg = artmp.multiply(diag(weights)).multiply(artmp.transpose());
+                final RealMatrix artmp = BD.multiply(arzneg);
+                final RealMatrix Cneg = artmp.multiply(diag(weights)).multiply(artmp.transpose());
                 oldFac += negalphaold * negccov;
                 C = C.scalarMultiply(oldFac)
                     .add(roneu) // regard old matrix
@@ -833,7 +835,7 @@ public class CMAESOptimizer
             // to achieve O(N^2)
             C = triu(C, 0).add(triu(C, 1).transpose());
             // enforce symmetry to prevent complex numbers
-            EigenDecomposition eig = new EigenDecomposition(C);
+            final EigenDecomposition eig = new EigenDecomposition(C);
             B = eig.getV(); // eigen decomposition, B==normalized eigenvectors
             D = eig.getD();
             diagD = diag(D);
@@ -843,12 +845,12 @@ public class CMAESOptimizer
                         diagD.setEntry(i, 0, 0);
                     }
                 }
-                double tfac = max(diagD) / 1e14;
+                final double tfac = max(diagD) / 1e14;
                 C = C.add(eye(dimension, dimension).scalarMultiply(tfac));
                 diagD = diagD.add(ones(dimension, 1).scalarMultiply(tfac));
             }
             if (max(diagD) > 1e14 * min(diagD)) {
-                double tfac = max(diagD) / 1e14 - min(diagD);
+                final double tfac = max(diagD) / 1e14 - min(diagD);
                 C = C.add(eye(dimension, dimension).scalarMultiply(tfac));
                 diagD = diagD.add(ones(dimension, 1).scalarMultiply(tfac));
             }
@@ -878,12 +880,12 @@ public class CMAESOptimizer
      * @return a sorted array of indices pointing into doubles.
      */
     private int[] sortedIndices(final double[] doubles) {
-        DoubleIndex[] dis = new DoubleIndex[doubles.length];
+        final DoubleIndex[] dis = new DoubleIndex[doubles.length];
         for (int i = 0; i < doubles.length; i++) {
             dis[i] = new DoubleIndex(doubles[i], i);
         }
         Arrays.sort(dis);
-        int[] indices = new int[doubles.length];
+        final int[] indices = new int[doubles.length];
         for (int i = 0; i < doubles.length; i++) {
             indices[i] = dis[i].index;
         }
@@ -896,9 +898,9 @@ public class CMAESOptimizer
      */
     private static class DoubleIndex implements Comparable<DoubleIndex> {
         /** Value to compare. */
-        private double value;
+        private final double value;
         /** Index into sorted array. */
-        private int index;
+        private final int index;
 
         /**
          * @param value Value to compare.
@@ -949,7 +951,7 @@ public class CMAESOptimizer
          * Flag indicating whether the objective variables are forced into their
          * bounds if defined
          */
-        private boolean isRepairMode;
+        private final boolean isRepairMode;
 
         /** Simple constructor.
          */
@@ -966,12 +968,10 @@ public class CMAESOptimizer
             double value;
             if (isRepairMode) {
                 double[] repaired = repair(point);
-                value = CMAESOptimizer.this
-                        .computeObjectiveValue(repaired) +
-                        penalty(point, repaired);
+                value = CMAESOptimizer.this.computeObjectiveValue(repaired) +
+                    penalty(point, repaired);
             } else {
-                value = CMAESOptimizer.this
-                        .computeObjectiveValue(point);
+                value = CMAESOptimizer.this.computeObjectiveValue(point);
             }
             return isMinimize ? value : -value;
         }
@@ -1045,7 +1045,7 @@ public class CMAESOptimizer
      * @return Matrix representing the element-wise logarithm of m.
      */
     private static RealMatrix log(final RealMatrix m) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 d[r][c] = Math.log(m.getEntry(r, c));
@@ -1059,7 +1059,7 @@ public class CMAESOptimizer
      * @return Matrix representing the element-wise square root of m.
      */
     private static RealMatrix sqrt(final RealMatrix m) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 d[r][c] = Math.sqrt(m.getEntry(r, c));
@@ -1073,7 +1073,7 @@ public class CMAESOptimizer
      * @return Matrix representing the element-wise square of m.
      */
     private static RealMatrix square(final RealMatrix m) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 double e = m.getEntry(r, c);
@@ -1089,7 +1089,7 @@ public class CMAESOptimizer
      * @return the matrix where the elements of m and n are element-wise multiplied.
      */
     private static RealMatrix times(final RealMatrix m, final RealMatrix n) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 d[r][c] = m.getEntry(r, c) * n.getEntry(r, c);
@@ -1104,7 +1104,7 @@ public class CMAESOptimizer
      * @return Matrix where the elements of m and n are element-wise divided.
      */
     private static RealMatrix divide(final RealMatrix m, final RealMatrix n) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 d[r][c] = m.getEntry(r, c) / n.getEntry(r, c);
@@ -1119,7 +1119,7 @@ public class CMAESOptimizer
      * @return Matrix representing the selected columns.
      */
     private static RealMatrix selectColumns(final RealMatrix m, final int[] cols) {
-        double[][] d = new double[m.getRowDimension()][cols.length];
+        final double[][] d = new double[m.getRowDimension()][cols.length];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < cols.length; c++) {
                 d[r][c] = m.getEntry(r, cols[c]);
@@ -1134,7 +1134,7 @@ public class CMAESOptimizer
      * @return Upper triangular part of matrix.
      */
     private static RealMatrix triu(final RealMatrix m, int k) {
-        double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
+        final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
                 d[r][c] = r <= c - k ? m.getEntry(r, c) : 0;
@@ -1148,7 +1148,7 @@ public class CMAESOptimizer
      * @return Row matrix representing the sums of the rows.
      */
     private static RealMatrix sumRows(final RealMatrix m) {
-        double[][] d = new double[1][m.getColumnDimension()];
+        final double[][] d = new double[1][m.getColumnDimension()];
         for (int c = 0; c < m.getColumnDimension(); c++) {
             double sum = 0;
             for (int r = 0; r < m.getRowDimension(); r++) {
@@ -1166,13 +1166,13 @@ public class CMAESOptimizer
      */
     private static RealMatrix diag(final RealMatrix m) {
         if (m.getColumnDimension() == 1) {
-            double[][] d = new double[m.getRowDimension()][m.getRowDimension()];
+            final double[][] d = new double[m.getRowDimension()][m.getRowDimension()];
             for (int i = 0; i < m.getRowDimension(); i++) {
                 d[i][i] = m.getEntry(i, 0);
             }
             return new Array2DRowRealMatrix(d, false);
         } else {
-            double[][] d = new double[m.getRowDimension()][1];
+            final double[][] d = new double[m.getRowDimension()][1];
             for (int i = 0; i < m.getColumnDimension(); i++) {
                 d[i][0] = m.getEntry(i, i);
             }
@@ -1188,7 +1188,8 @@ public class CMAESOptimizer
      * @param m2 Target matrix.
      * @param col2 Target column.
      */
-    private static void copyColumn(final RealMatrix m1, int col1, RealMatrix m2, int col2) {
+    private static void copyColumn(final RealMatrix m1, int col1,
+                                   RealMatrix m2, int col2) {
         for (int i = 0; i < m1.getRowDimension(); i++) {
             m2.setEntry(i, col2, m1.getEntry(i, col1));
         }
@@ -1200,7 +1201,7 @@ public class CMAESOptimizer
      * @return n-by-m matrix filled with 1.
      */
     private static RealMatrix ones(int n, int m) {
-        double[][] d = new double[n][m];
+        final double[][] d = new double[n][m];
         for (int r = 0; r < n; r++) {
             Arrays.fill(d[r], 1);
         }
@@ -1214,7 +1215,7 @@ public class CMAESOptimizer
      * the diagonal.
      */
     private static RealMatrix eye(int n, int m) {
-        double[][] d = new double[n][m];
+        final double[][] d = new double[n][m];
         for (int r = 0; r < n; r++) {
             if (r < m) {
                 d[r][r] = 1;
@@ -1239,9 +1240,9 @@ public class CMAESOptimizer
      * @return a matrix which replicates the input matrix in both directions.
      */
     private static RealMatrix repmat(final RealMatrix mat, int n, int m) {
-        int rd = mat.getRowDimension();
-        int cd = mat.getColumnDimension();
-        double[][] d = new double[n * rd][m * cd];
+        final int rd = mat.getRowDimension();
+        final int cd = mat.getColumnDimension();
+        final double[][] d = new double[n * rd][m * cd];
         for (int r = 0; r < n * rd; r++) {
             for (int c = 0; c < m * cd; c++) {
                 d[r][c] = mat.getEntry(r % rd, c % cd);
@@ -1257,8 +1258,8 @@ public class CMAESOptimizer
      * @return a sequence as column matrix.
      */
     private static RealMatrix sequence(double start, double end, double step) {
-        int size = (int) ((end - start) / step + 1);
-        double[][] d = new double[size][1];
+        final int size = (int) ((end - start) / step + 1);
+        final double[][] d = new double[size][1];
         double value = start;
         for (int r = 0; r < size; r++) {
             d[r][0] = value;
@@ -1334,7 +1335,7 @@ public class CMAESOptimizer
      * @return the inverse of the mapping defined by indices.
      */
     private static int[] inverse(final int[] indices) {
-        int[] inverse = new int[indices.length];
+        final int[] inverse = new int[indices.length];
         for (int i = 0; i < indices.length; i++) {
             inverse[indices[i]] = i;
         }
@@ -1346,7 +1347,7 @@ public class CMAESOptimizer
      * @return the indices in inverse order (last is first).
      */
     private static int[] reverse(final int[] indices) {
-        int[] reverse = new int[indices.length];
+        final int[] reverse = new int[indices.length];
         for (int i = 0; i < indices.length; i++) {
             reverse[i] = indices[indices.length - i - 1];
         }
@@ -1358,7 +1359,7 @@ public class CMAESOptimizer
      * @return an array of Gaussian random numbers.
      */
     private double[] randn(int size) {
-        double[] randn = new double[size];
+        final double[] randn = new double[size];
         for (int i = 0; i < size; i++) {
             randn[i] = random.nextGaussian();
         }
@@ -1371,7 +1372,7 @@ public class CMAESOptimizer
      * @return a 2-dimensional matrix of Gaussian random numbers.
      */
     private RealMatrix randn1(int size, int popSize) {
-        double[][] d = new double[size][popSize];
+        final double[][] d = new double[size][popSize];
         for (int r = 0; r < size; r++) {
             for (int c = 0; c < popSize; c++) {
                 d[r][c] = random.nextGaussian();
