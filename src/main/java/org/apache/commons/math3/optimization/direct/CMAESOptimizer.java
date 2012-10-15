@@ -670,9 +670,8 @@ public class CMAESOptimizer
         cs = (mueff + 2.) / (dimension + mueff + 3.);
         damps = (1. + 2. * Math.max(0, Math.sqrt((mueff - 1.) /
                 (dimension + 1.)) - 1.)) *
-                Math.max(0.3, 1. - dimension /
-                        (1e-6 + Math.min(maxIterations, getMaxEvaluations() /
-                                lambda))) + cs; // minor increment
+                Math.max(0.3,
+                         1. - dimension / (1e-6 + maxIterations)) + cs; // minor increment
         ccov1 = 2. / ((dimension + 1.3) * (dimension + 1.3) + mueff);
         ccovmu = Math.min(1 - ccov1, 2. * (mueff - 2. + 1. / mueff) /
                 ((dimension + 2.) * (dimension + 2.) + mueff));
