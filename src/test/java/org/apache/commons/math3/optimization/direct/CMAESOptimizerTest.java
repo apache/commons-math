@@ -31,6 +31,8 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.SimpleBounds;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -462,7 +464,12 @@ public class CMAESOptimizerTest {
                                                   0, new MersenneTwister(), false);
         final double[] lB = boundaries == null ? null : boundaries[0];
         final double[] uB = boundaries == null ? null : boundaries[1];
-        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
+        PointValuePair result = boundaries == null ?
+            optim.optimize(maxEvaluations, func, goal,
+                           new InitialGuess(startPoint)) :
+            optim.optimize(maxEvaluations, func, goal,
+                           new InitialGuess(startPoint),
+                           new SimpleBounds(lB, uB));
         // System.out.println("sol=" + Arrays.toString(result.getPoint()));
         Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {

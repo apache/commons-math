@@ -25,14 +25,18 @@ import org.apache.commons.math3.optimization.BaseMultivariateOptimizer;
 import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.SimpleBounds;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.SimpleValueChecker;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
- * This base class handles the boiler-plate methods associated to thresholds
- * settings, iterations and evaluations counting.
+ * This base class handles the boiler-plate methods associated to thresholds,
+ * evaluations counting, initial guess and simple bounds settings.
  *
  * @param <FUNC> Type of the objective function to be optimized.
  *
@@ -49,6 +53,10 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     private GoalType goal;
     /** Initial guess. */
     private double[] start;
+    /** Lower bounds. */
+    private double[] lowerBound;
+    /** Upper bounds. */
+    private double[] upperBound;
     /** Objective function. */
     private MultivariateFunction function;
 
@@ -121,6 +129,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link InitialGuess}</li>
+     *  <li>{@link SimpleBounds}</li>
      * </ul>
      * @return the point/value pair giving the optimal value of the objective
      * function.
@@ -167,6 +176,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link InitialGuess}</li>
+     *  <li>{@link SimpleBounds}</li>
      * </ul>
      * @return the point/value pair giving the optimal value of the objective
      * function.
@@ -178,12 +188,15 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
                                               GoalType goalType,
                                               OptimizationData... optData)
         throws TooManyEvaluationsException {
+        // Set internal state.
         evaluations.setMaximalCount(maxEval);
         evaluations.resetCount();
         function = f;
         goal = goalType;
+        // Retrieve other settings.
         parseOptimizationData(optData);
-
+        // Check input consistency.
+        checkParameters();
         // Perform computation.
         return doOptimize();
     }
@@ -195,6 +208,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link InitialGuess}</li>
+     *  <li>{@link SimpleBounds}</li>
      * </ul>
      */
     private void parseOptimizationData(OptimizationData... optData) {
@@ -203,6 +217,12 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
         for (OptimizationData data : optData) {
             if (data instanceof InitialGuess) {
                 start = ((InitialGuess) data).getInitialGuess();
+                continue;
+            }
+            if (data instanceof SimpleBounds) {
+                final SimpleBounds bounds = (SimpleBounds) data;
+                lowerBound = bounds.getLower();
+                upperBound = bounds.getUpper();
                 continue;
             }
         }
@@ -219,7 +239,19 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @return the initial guess.
      */
     public double[] getStartPoint() {
-        return start.clone();
+        return start == null ? null : start.clone();
+    }
+    /**
+     * @return the lower bounds.
+     */
+    public double[] getLowerBound() {
+        return lowerBound == null ? null : lowerBound.clone();
+    }
+    /**
+     * @return the upper bounds.
+     */
+    public double[] getUpperBound() {
+        return upperBound == null ? null : upperBound.clone();
     }
 
     /**
@@ -229,4 +261,52 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * objective function.
      */
     protected abstract PointValuePair doOptimize();
+
+    /**
+     * Check parameters consistency.
+     */
+    private void checkParameters() {
+        if (start != null) {
+            final int dim = start.length;
+            if (lowerBound != null) {
+                if (lowerBound.length != dim) {
+                    throw new DimensionMismatchException(lowerBound.length, dim);
+                }
+                for (int i = 0; i < dim; i++) {
+                    final double v = start[i];
+                    final double lo = lowerBound[i];
+                    if (v < lo) {
+                        throw new NumberIsTooSmallException(v, lo, true);
+                    }
+                }
+            }
+            if (upperBound != null) {
+                if (upperBound.length != dim) {
+                    throw new DimensionMismatchException(upperBound.length, dim);
+                }
+                for (int i = 0; i < dim; i++) {
+                    final double v = start[i];
+                    final double hi = upperBound[i];
+                    if (v > hi) {
+                        throw new NumberIsTooLargeException(v, hi, true);
+                    }
+                }
+            }
+
+            // If the bounds were not specified, the allowed interval is
+            // assumed to be [-inf, +inf].
+            if (lowerBound == null) {
+                lowerBound = new double[dim];
+                for (int i = 0; i < dim; i++) {
+                    lowerBound[i] = Double.NEGATIVE_INFINITY;
+                }
+            }
+            if (upperBound == null) {
+                upperBound = new double[dim];
+                for (int i = 0; i < dim; i++) {
+                    upperBound[i] = Double.POSITIVE_INFINITY;
+                }
+            }
+        }
+    }
 }

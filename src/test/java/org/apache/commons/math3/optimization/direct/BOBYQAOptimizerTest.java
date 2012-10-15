@@ -26,6 +26,8 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.SimpleBounds;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -318,7 +320,12 @@ public class BOBYQAOptimizerTest {
         final double[] uB = boundaries == null ? null : boundaries[1];
         final int numIterpolationPoints = 2 * dim + 1 + additionalInterpolationPoints;
         BOBYQAOptimizer optim = new BOBYQAOptimizer(numIterpolationPoints);
-        PointValuePair result = optim.optimize(maxEvaluations, func, goal, startPoint, lB, uB);
+        PointValuePair result = boundaries == null ?
+            optim.optimize(maxEvaluations, func, goal,
+                           new InitialGuess(startPoint)) :
+            optim.optimize(maxEvaluations, func, goal,
+                           new InitialGuess(startPoint),
+                           new SimpleBounds(lB, uB));
 //        System.out.println(func.getClass().getName() + " = " 
 //              + optim.getEvaluations() + " f(");
 //        for (double x: result.getPoint())  System.out.print(x + " ");
