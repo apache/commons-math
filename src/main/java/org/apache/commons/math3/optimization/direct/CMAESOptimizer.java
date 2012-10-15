@@ -31,6 +31,7 @@ import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.MultivariateOptimizer;
 import org.apache.commons.math3.optimization.PointValuePair;
@@ -118,15 +119,7 @@ public class CMAESOptimizer
      */
     private int checkFeasableCount;
     /**
-     * Values in "inputSigma" define the initial coordinate-wise
-     * standard deviations for sampling new search points around the
-     * initial guess.
-     * It is appropriate to set "inputSigma" to the estimated distance
-     * from the initial to the desired optimum.
-     * Small values for "inputSigma" induce the search to be more local
-     * (and very small values are more likely to find a local optimum 
-     * close to the initial guess).
-     * Too small values might however lead to early termination.
+     * @see Sigma
      */
     private double[] inputSigma;
     /** Number of objective variables/problem dimension */
@@ -241,16 +234,21 @@ public class CMAESOptimizer
      * @param lambda Population size.
      */
     public CMAESOptimizer(int lambda) {
-        this(lambda, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
+        this(lambda, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
-             DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR, false);
+             DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR,
+             false, null);
     }
 
     /**
      * @param lambda Population size.
      * @param inputSigma Initial standard deviations to sample new points
      * around the initial guess.
+     * @deprecated As of version 3.1: Parameter {@code inputSigma} must be
+     * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
+     * optimize}.
      */
+    @Deprecated
     public CMAESOptimizer(int lambda, double[] inputSigma) {
         this(lambda, inputSigma, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
@@ -298,7 +296,11 @@ public class CMAESOptimizer
      * @param random Random generator.
      * @param generateStatistics Whether statistic data is collected.
      * @param checker Convergence checker.
+     * @deprecated As of version 3.1: Parameter {@code inputSigma} must be
+     * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
+     * optimize}.
      */
+    @Deprecated
     public CMAESOptimizer(int lambda, double[] inputSigma,
                           int maxIterations, double stopFitness,
                           boolean isActiveCMA, int diagonalOnly, int checkFeasableCount,
@@ -307,6 +309,40 @@ public class CMAESOptimizer
         super(checker);
         this.lambda = lambda;
         this.inputSigma = inputSigma == null ? null : (double[]) inputSigma.clone();
+        this.maxIterations = maxIterations;
+        this.stopFitness = stopFitness;
+        this.isActiveCMA = isActiveCMA;
+        this.diagonalOnly = diagonalOnly;
+        this.checkFeasableCount = checkFeasableCount;
+        this.random = random;
+        this.generateStatistics = generateStatistics;
+    }
+
+    /**
+     * @param lambda Population size.
+     * @param maxIterations Maximal number of iterations.
+     * @param stopFitness Whether to stop if objective function value is smaller than
+     * {@code stopFitness}.
+     * @param isActiveCMA Chooses the covariance matrix update method.
+     * @param diagonalOnly Number of initial iterations, where the covariance matrix
+     * remains diagonal.
+     * @param checkFeasableCount Determines how often new random objective variables are
+     * generated in case they are out of bounds.
+     * @param random Random generator.
+     * @param generateStatistics Whether statistic data is collected.
+     * @param checker Convergence checker.
+     */
+    public CMAESOptimizer(int lambda,
+                          int maxIterations,
+                          double stopFitness,
+                          boolean isActiveCMA,
+                          int diagonalOnly,
+                          int checkFeasableCount,
+                          RandomGenerator random,
+                          boolean generateStatistics,
+                          ConvergenceChecker<PointValuePair> checker) {
+        super(checker);
+        this.lambda = lambda;
         this.maxIterations = maxIterations;
         this.stopFitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
@@ -342,6 +378,62 @@ public class CMAESOptimizer
      */
     public List<RealMatrix> getStatisticsDHistory() {
         return statisticsDHistory;
+    }
+
+    /**
+     * Input sigma values.
+     * They define the initial coordinate-wise standard deviations for
+     * sampling new search points around the initial guess.
+     * It is suggested to set them to the estimated distance from the
+     * initial to the desired optimum.
+     * Small values induce the search to be more local (and very small
+     * values are more likely to find a local optimum close to the initial
+     * guess).
+     * Too small values might however lead to early termination.
+     */
+    public class Sigma implements OptimizationData {
+        /** Sigma values. */
+        private final double[] sigma;
+
+        /**
+         * @param s Sigma values.
+         */
+        public Sigma(double[] s) {
+            sigma = s.clone();
+        }
+
+        /**
+         * @return the sigma values.
+         */
+        public double[] getSigma() {
+            return sigma.clone();
+        }
+    }
+
+    /**
+     * Optimize an objective function.
+     *
+     * @param maxEval Allowed number of evaluations of the objective function.
+     * @param f Objective function.
+     * @param goalType Optimization type.
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}</li>
+     *  <li>{@link Sigma}</li>
+     * </ul>
+     * @return the point/value pair giving the optimal value for objective
+     * function.
+     */
+    @Override
+    protected PointValuePair optimizeInternal(int maxEval, MultivariateFunction f,
+                                              GoalType goalType,
+                                              OptimizationData... optData) {
+        // Scan "optData" for the input specific to this optimizer.
+        parseOptimizationData(optData);
+
+        // The parent's method will retrieve the common parameters from
+        // "optData" and call "doOptimize".
+        return super.optimizeInternal(maxEval, f, goalType, optData);
     }
 
     /** {@inheritDoc} */
@@ -490,6 +582,26 @@ public class CMAESOptimizer
                 }
             }
         return optimum;
+    }
+
+    /**
+     * Scans the list of (required and optional) optimization data that
+     * characterize the problem.
+     *
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link Sigma}</li>
+     * </ul>
+     */
+    private void parseOptimizationData(OptimizationData... optData) {
+        // The existing values (as set by the previous call) are reused if
+        // not provided in the argument list.
+        for (OptimizationData data : optData) {
+            if (data instanceof Sigma) {
+                inputSigma = ((Sigma) data).getSigma();
+                continue;
+            }
+        }
     }
 
     /**
