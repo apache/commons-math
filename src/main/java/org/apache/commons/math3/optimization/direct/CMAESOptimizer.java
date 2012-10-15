@@ -501,9 +501,9 @@ public class CMAESOptimizer
                     updateCovarianceDiagonalOnly(hsig, bestArz, xold);
                 }
                 // Adapt step size sigma - Eq. (5)
-                sigma *= Math.exp(Math.min(1.0,(normps/chiN - 1.)*cs/damps));
+                sigma *= Math.exp(Math.min(1, (normps/chiN - 1) * cs / damps));
                 double bestFitness = fitness[arindex[0]];
-                double worstFitness = fitness[arindex[arindex.length-1]];
+                double worstFitness = fitness[arindex[arindex.length - 1]];
                 if (bestValue > bestFitness) {
                     bestValue = bestFitness;
                     lastResult = optimum;
@@ -565,11 +565,11 @@ public class CMAESOptimizer
                 }
                 // Adjust step size in case of equal function values (flat fitness)
                 if (bestValue == fitness[arindex[(int)(0.1+lambda/4.)]]) {
-                    sigma = sigma * Math.exp(0.2+cs/damps);
+                    sigma = sigma * Math.exp(0.2 + cs / damps);
                 }
                 if (iterations > 2 && Math.max(historyWorst, bestFitness) -
                         Math.min(historyBest, bestFitness) == 0) {
-                    sigma = sigma * Math.exp(0.2+cs/damps);
+                    sigma = sigma * Math.exp(0.2 + cs / damps);
                 }
                 // store best in history
                 push(fitnessHistory,bestFitness);
@@ -634,7 +634,7 @@ public class CMAESOptimizer
      */
     private void initializeCMA(double[] guess) {
         if (lambda <= 0) {
-            lambda = 4 + (int) (3. * Math.log(dimension));
+            lambda = 4 + (int) (3 * Math.log(dimension));
         }
         // initialize sigma
         double[][] sigmaArray = new double[guess.length][1];
@@ -653,7 +653,7 @@ public class CMAESOptimizer
         // initialize selection strategy parameters
         mu = lambda / 2; // number of parents/points for recombination
         logMu2 = Math.log(mu + 0.5);
-        weights = log(sequence(1, mu, 1)).scalarMultiply(-1.).scalarAdd(logMu2);
+        weights = log(sequence(1, mu, 1)).scalarMultiply(-1).scalarAdd(logMu2);
         double sumw = 0;
         double sumwq = 0;
         for (int i = 0; i < mu; i++) {
@@ -661,28 +661,27 @@ public class CMAESOptimizer
             sumw += w;
             sumwq += w * w;
         }
-        weights = weights.scalarMultiply(1. / sumw);
+        weights = weights.scalarMultiply(1 / sumw);
         mueff = sumw * sumw / sumwq; // variance-effectiveness of sum w_i x_i
 
         // initialize dynamic strategy parameters and constants
-        cc = (4. + mueff / dimension) /
-                (dimension + 4. + 2. * mueff / dimension);
-        cs = (mueff + 2.) / (dimension + mueff + 3.);
-        damps = (1. + 2. * Math.max(0, Math.sqrt((mueff - 1.) /
-                (dimension + 1.)) - 1.)) *
-                Math.max(0.3,
-                         1. - dimension / (1e-6 + maxIterations)) + cs; // minor increment
-        ccov1 = 2. / ((dimension + 1.3) * (dimension + 1.3) + mueff);
-        ccovmu = Math.min(1 - ccov1, 2. * (mueff - 2. + 1. / mueff) /
-                ((dimension + 2.) * (dimension + 2.) + mueff));
-        ccov1Sep = Math.min(1, ccov1 * (dimension + 1.5) / 3.);
-        ccovmuSep = Math.min(1 - ccov1, ccovmu * (dimension + 1.5) / 3.);
+        cc = (4 + mueff / dimension) /
+                (dimension + 4 + 2 * mueff / dimension);
+        cs = (mueff + 2) / (dimension + mueff + 3.);
+        damps = (1 + 2 * Math.max(0, Math.sqrt((mueff - 1) /
+                                               (dimension + 1)) - 1)) *
+            Math.max(0.3,
+                     1 - dimension / (1e-6 + maxIterations)) + cs; // minor increment
+        ccov1 = 2 / ((dimension + 1.3) * (dimension + 1.3) + mueff);
+        ccovmu = Math.min(1 - ccov1, 2 * (mueff - 2 + 1 / mueff) /
+                          ((dimension + 2) * (dimension + 2) + mueff));
+        ccov1Sep = Math.min(1, ccov1 * (dimension + 1.5) / 3);
+        ccovmuSep = Math.min(1 - ccov1, ccovmu * (dimension + 1.5) / 3);
         chiN = Math.sqrt(dimension) *
-                (1. - 1. / (4. * dimension) + 1 / (21. * dimension * dimension));
+            (1 - 1 / ((double) 4 * dimension) + 1 / ((double) 21 * dimension * dimension));
         // intialize CMA internal values - updated each generation
-        xmean = MatrixUtils.createColumnRealMatrix(guess); // objective
-                                                           // variables
-        diagD = insigma.scalarMultiply(1. / sigma);
+        xmean = MatrixUtils.createColumnRealMatrix(guess); // objective variables
+        diagD = insigma.scalarMultiply(1 / sigma);
         diagC = square(diagD);
         pc = zeros(dimension, 1); // evolution paths for C and sigma
         ps = zeros(dimension, 1); // B defines the coordinate system
@@ -692,7 +691,7 @@ public class CMAESOptimizer
         D = ones(dimension, 1); // diagonal D defines the scaling
         BD = times(B, repmat(diagD.transpose(), dimension, 1));
         C = B.multiply(diag(square(D)).multiply(B.transpose())); // covariance
-        historySize = 10 + (int) (3. * 10. * dimension / lambda);
+        historySize = 10 + (int) (3 * 10 * dimension / (double) lambda);
         fitnessHistory = new double[historySize]; // history of fitness values
         for (int i = 0; i < historySize; i++) {
             fitnessHistory[i] = Double.MAX_VALUE;
@@ -708,17 +707,16 @@ public class CMAESOptimizer
      * @return hsig flag indicating a small correction.
      */
     private boolean updateEvolutionPaths(RealMatrix zmean, RealMatrix xold) {
-        ps = ps.scalarMultiply(1. - cs).add(
+        ps = ps.scalarMultiply(1 - cs).add(
                 B.multiply(zmean).scalarMultiply(
-                        Math.sqrt(cs * (2. - cs) * mueff)));
+                        Math.sqrt(cs * (2 - cs) * mueff)));
         normps = ps.getFrobeniusNorm();
         boolean hsig = normps /
-            Math.sqrt(1. - Math.pow(1. - cs, 2. * iterations)) /
-                chiN < 1.4 + 2. / (dimension + 1.);
-        pc = pc.scalarMultiply(1. - cc);
+            Math.sqrt(1 - Math.pow(1 - cs, 2 * iterations)) /
+            chiN < 1.4 + 2 / ((double) dimension + 1);
+        pc = pc.scalarMultiply(1 - cc);
         if (hsig) {
-            pc = pc.add(xmean.subtract(xold).scalarMultiply(
-                    Math.sqrt(cc * (2. - cc) * mueff) / sigma));
+            pc = pc.add(xmean.subtract(xold).scalarMultiply(Math.sqrt(cc * (2 - cc) * mueff) / sigma));
         }
         return hsig;
     }
@@ -735,16 +733,15 @@ public class CMAESOptimizer
                                               final RealMatrix bestArz,
                                               final RealMatrix xold) {
         // minor correction if hsig==false
-        double oldFac = hsig ? 0 : ccov1Sep * cc * (2. - cc);
-        oldFac += 1. - ccov1Sep - ccovmuSep;
+        double oldFac = hsig ? 0 : ccov1Sep * cc * (2 - cc);
+        oldFac += 1 - ccov1Sep - ccovmuSep;
         diagC = diagC.scalarMultiply(oldFac) // regard old matrix
-                // plus rank one update
-                .add(square(pc).scalarMultiply(ccov1Sep))
-                // plus rank mu update
-                .add((times(diagC, square(bestArz).multiply(weights)))
-                        .scalarMultiply(ccovmuSep));
+            .add(square(pc).scalarMultiply(ccov1Sep)) // plus rank one update
+            .add((times(diagC, square(bestArz).multiply(weights))) // plus rank mu update
+                 .scalarMultiply(ccovmuSep));
         diagD = sqrt(diagC); // replaces eig(C)
-        if (diagonalOnly > 1 && iterations > diagonalOnly) {
+        if (diagonalOnly > 1 &&
+            iterations > diagonalOnly) {
             // full covariance matrix from now on
             diagonalOnly = 0;
             B = eye(dimension, dimension);
@@ -765,20 +762,21 @@ public class CMAESOptimizer
      * @param xold xmean matrix of the previous generation.
      */
     private void updateCovariance(boolean hsig, final RealMatrix bestArx,
-            final RealMatrix arz, final int[] arindex, final RealMatrix xold) {
+                                  final RealMatrix arz, final int[] arindex,
+                                  final RealMatrix xold) {
         double negccov = 0;
         if (ccov1 + ccovmu > 0) {
             RealMatrix arpos = bestArx.subtract(repmat(xold, 1, mu))
-                    .scalarMultiply(1. / sigma); // mu difference vectors
+                    .scalarMultiply(1 / sigma); // mu difference vectors
             RealMatrix roneu = pc.multiply(pc.transpose())
                     .scalarMultiply(ccov1); // rank one update
             // minor correction if hsig==false
-            double oldFac = hsig ? 0 : ccov1 * cc * (2. - cc);
-            oldFac += 1. - ccov1 - ccovmu;
+            double oldFac = hsig ? 0 : ccov1 * cc * (2 - cc);
+            oldFac += 1 - ccov1 - ccovmu;
             if (isActiveCMA) {
                 // Adapt covariance matrix C active CMA
-                negccov = (1. - ccovmu) * 0.25 * mueff /
-                (Math.pow(dimension + 2., 1.5) + 2. * mueff);
+                negccov = (1 - ccovmu) * 0.25 * mueff /
+                    (Math.pow(dimension + 2, 1.5) + 2 * mueff);
                 double negminresidualvariance = 0.66;
                 // keep at least 0.66 in all directions, small popsize are most
                 // critical
@@ -786,8 +784,7 @@ public class CMAESOptimizer
                                           // loss,
                 // prepare vectors, compute negative updating matrix Cneg
                 int[] arReverseIndex = reverse(arindex);
-                RealMatrix arzneg
-                    = selectColumns(arz, MathArrays.copyOf(arReverseIndex, mu));
+                RealMatrix arzneg = selectColumns(arz, MathArrays.copyOf(arReverseIndex, mu));
                 RealMatrix arnorms = sqrt(sumRows(square(arzneg)));
                 int[] idxnorms = sortedIndices(arnorms.getRow(0));
                 RealMatrix arnormsSorted = selectColumns(arnorms, idxnorms);
@@ -797,36 +794,29 @@ public class CMAESOptimizer
                 int[] idxInv = inverse(idxnorms);
                 RealMatrix arnormsInv = selectColumns(arnorms, idxInv);
                 // check and set learning rate negccov
-                double negcovMax = (1. - negminresidualvariance) /
-                        square(arnormsInv).multiply(weights).getEntry(0, 0);
+                double negcovMax = (1 - negminresidualvariance) /
+                    square(arnormsInv).multiply(weights).getEntry(0, 0);
                 if (negccov > negcovMax) {
                     negccov = negcovMax;
                 }
                 arzneg = times(arzneg, repmat(arnormsInv, dimension, 1));
                 RealMatrix artmp = BD.multiply(arzneg);
-                RealMatrix Cneg = artmp.multiply(diag(weights)).multiply(
-                        artmp.transpose());
+                RealMatrix Cneg = artmp.multiply(diag(weights)).multiply(artmp.transpose());
                 oldFac += negalphaold * negccov;
                 C = C.scalarMultiply(oldFac)
-                        // regard old matrix
-                        .add(roneu)
-                        // plus rank one update
-                        .add(arpos.scalarMultiply(
-                                // plus rank mu update
-                                ccovmu + (1. - negalphaold) * negccov)
-                                .multiply(
-                                        times(repmat(weights, 1, dimension),
-                                                arpos.transpose())))
-                        .subtract(Cneg.scalarMultiply(negccov));
+                    .add(roneu) // regard old matrix
+                    .add(arpos.scalarMultiply( // plus rank one update
+                                              ccovmu + (1 - negalphaold) * negccov) // plus rank mu update
+                         .multiply(times(repmat(weights, 1, dimension),
+                                         arpos.transpose())))
+                    .subtract(Cneg.scalarMultiply(negccov));
             } else {
                 // Adapt covariance matrix C - nonactive
                 C = C.scalarMultiply(oldFac) // regard old matrix
-                        .add(roneu)
-                        // plus rank one update
-                        .add(arpos.scalarMultiply(ccovmu) // plus rank mu update
-                                .multiply(
-                                        times(repmat(weights, 1, dimension),
-                                                arpos.transpose())));
+                    .add(roneu) // plus rank one update
+                    .add(arpos.scalarMultiply(ccovmu) // plus rank mu update
+                         .multiply(times(repmat(weights, 1, dimension),
+                                         arpos.transpose())));
             }
         }
         updateBD(negccov);
@@ -839,7 +829,7 @@ public class CMAESOptimizer
      */
     private void updateBD(double negccov) {
         if (ccov1 + ccovmu + negccov > 0 &&
-                (iterations % 1. / (ccov1 + ccovmu + negccov) / dimension / 10.) < 1.) {
+            (iterations % 1. / (ccov1 + ccovmu + negccov) / dimension / 10.) < 1) {
             // to achieve O(N^2)
             C = triu(C, 0).add(triu(C, 1).transpose());
             // enforce symmetry to prevent complex numbers
@@ -850,7 +840,7 @@ public class CMAESOptimizer
             if (min(diagD) <= 0) {
                 for (int i = 0; i < dimension; i++) {
                     if (diagD.getEntry(i, 0) < 0) {
-                        diagD.setEntry(i, 0, 0.);
+                        diagD.setEntry(i, 0, 0);
                     }
                 }
                 double tfac = max(diagD) / 1e14;
@@ -937,7 +927,6 @@ public class CMAESOptimizer
             }
 
             return false;
-
         }
 
         /** {@inheritDoc} */
@@ -946,7 +935,6 @@ public class CMAESOptimizer
             long bits = Double.doubleToLongBits(value);
             return (int) ((1438542 ^ (bits >>> 32) ^ bits) & 0xffffffff);
         }
-
     }
 
     /**
@@ -966,7 +954,7 @@ public class CMAESOptimizer
         /** Simple constructor.
          */
         public FitnessFunction() {
-            valueRange = 1.0;
+            valueRange = 1;
             isRepairMode = true;
         }
 
@@ -1016,7 +1004,7 @@ public class CMAESOptimizer
 
         /**
          * @param x Normalized objective variables.
-         * @return the repaired objective variables - all in bounds.
+         * @return the repaired (i.e. all in bounds) objective variables.
          */
         private double[] repair(final double[] x) {
             final double[] lB = CMAESOptimizer.this.getLowerBound();
@@ -1067,8 +1055,7 @@ public class CMAESOptimizer
     }
 
     /**
-     * @param m
-     *            Input matrix
+     * @param m Input matrix.
      * @return Matrix representing the element-wise square root of m.
      */
     private static RealMatrix sqrt(final RealMatrix m) {
@@ -1082,8 +1069,8 @@ public class CMAESOptimizer
     }
 
     /**
-     * @param m Input matrix
-     * @return Matrix representing the element-wise square (^2) of m.
+     * @param m Input matrix.
+     * @return Matrix representing the element-wise square of m.
      */
     private static RealMatrix square(final RealMatrix m) {
         double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
@@ -1196,7 +1183,7 @@ public class CMAESOptimizer
     /**
      * Copies a column from m1 to m2.
      *
-     * @param m1 Source matrix 1.
+     * @param m1 Source matrix.
      * @param col1 Source column.
      * @param m2 Target matrix.
      * @param col2 Target column.
@@ -1215,7 +1202,7 @@ public class CMAESOptimizer
     private static RealMatrix ones(int n, int m) {
         double[][] d = new double[n][m];
         for (int r = 0; r < n; r++) {
-            Arrays.fill(d[r], 1.0);
+            Arrays.fill(d[r], 1);
         }
         return new Array2DRowRealMatrix(d, false);
     }
@@ -1223,7 +1210,8 @@ public class CMAESOptimizer
     /**
      * @param n Number of rows.
      * @param m Number of columns.
-     * @return n-by-m matrix of 0.0-values, diagonal has values 1.0.
+     * @return n-by-m matrix of 0 values out of diagonal, and 1 values on
+     * the diagonal.
      */
     private static RealMatrix eye(int n, int m) {
         double[][] d = new double[n][m];
@@ -1238,7 +1226,7 @@ public class CMAESOptimizer
     /**
      * @param n Number of rows.
      * @param m Number of columns.
-     * @return n-by-m matrix of 0.0-values.
+     * @return n-by-m matrix of zero values.
      */
     private static RealMatrix zeros(int n, int m) {
         return new Array2DRowRealMatrix(n, m);
