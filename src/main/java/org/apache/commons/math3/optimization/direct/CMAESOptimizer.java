@@ -391,7 +391,7 @@ public class CMAESOptimizer
      * guess).
      * Too small values might however lead to early termination.
      */
-    public class Sigma implements OptimizationData {
+    public static class Sigma implements OptimizationData {
         /** Sigma values. */
         private final double[] sigma;
 
