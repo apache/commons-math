@@ -54,57 +54,6 @@ public interface MultivariateRealDistribution {
     double density(double[] x);
 
     /**
-     * Access the lower bound of the support.
-     * This method must return the same value as {@code inverseCumulativeProbability(0)}.
-     * In other words, this method must return
-     * <p>
-     * <code>inf {x in R | P(X <= x) > 0}</code>.
-     * </p>
-     *
-     * @return the lower bound of the support (might be
-     * {@code Double.NEGATIVE_INFINITY}).
-     */
-    double getSupportLowerBound();
-
-    /**
-     * Access the upper bound of the support.
-     * This method must return the same value as {@code inverseCumulativeProbability(1)}.
-     * In other words, this method must return
-     * <p>
-     * <code>inf {x in R | P(X <= x) = 1}</code>.
-     * </p>
-     *
-     * @return the upper bound of the support (might be
-     * {@code Double.POSITIVE_INFINITY}).
-     */
-    double getSupportUpperBound();
-
-    /**
-     * Gets information about whether the lower bound of the support is
-     * inclusive or not.
-     *
-     * @return whether the lower bound of the support is inclusive or not.
-     */
-    boolean isSupportLowerBoundInclusive();
-
-    /**
-     * gets information about whether the upper bound of the support is
-     * inclusive or not.
-     *
-     * @return whether the upper bound of the support is inclusive or not.
-     */
-    boolean isSupportUpperBoundInclusive();
-
-    /**
-     * Gets information about whether the support is connected (i.e. all
-     * values between the lower and upper bound of the support are included
-     * in the support).
-     *
-     * @return whether the support is connected or not.
-     */
-    boolean isSupportConnected();
-
-    /**
      * Reseeds the random generator used to generate samples.
      *
      * @param seed Seed with which to initialize the random number generator.

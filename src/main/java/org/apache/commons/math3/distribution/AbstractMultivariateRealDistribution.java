@@ -78,29 +78,4 @@ public abstract class AbstractMultivariateRealDistribution
     public double probability(double[] x) {
         return 0;
     }
-
-    /** {@inheritDoc} */
-    public double getSupportLowerBound() {
-        return Double.NEGATIVE_INFINITY;
-    }
-
-    /** {@inheritDoc} */
-    public double getSupportUpperBound() {
-        return Double.POSITIVE_INFINITY;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportConnected() {
-        return false;
-    }
 }
