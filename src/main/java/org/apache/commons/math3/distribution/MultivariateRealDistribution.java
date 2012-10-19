@@ -30,17 +30,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  */
 public interface MultivariateRealDistribution {
     /**
-     * For a random variable {@code X} whose values are distributed according to
-     * this distribution, this method returns {@code P(X = x)}. In other words,
-     * this method represents the probability mass function (PMF) for the
-     * distribution.
-     *
-     * @param x Point at which the PMF is evaluated.
-     * @return the value of the probability mass function at point {@code x}.
-     */
-    double probability(double[] x);
-
-    /**
      * Returns the probability density function (PDF) of this distribution
      * evaluated at the specified point {@code x}. In general, the PDF is the
      * derivative of the cumulative distribution function. If the derivative

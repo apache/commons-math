@@ -73,9 +73,4 @@ public abstract class AbstractMultivariateRealDistribution
         }
         return out;
     }
-
-    /** {@inheritDoc} */
-    public double probability(double[] x) {
-        return 0;
-    }
 }
