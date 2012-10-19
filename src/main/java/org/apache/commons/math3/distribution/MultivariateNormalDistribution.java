@@ -175,7 +175,7 @@ public class MultivariateNormalDistribution
 
     /** {@inheritDoc} */
     public double density(final double[] vals) throws DimensionMismatchException {
-        final int dim = getDimensions();
+        final int dim = getDimension();
         if (vals.length != dim) {
             throw new DimensionMismatchException(vals.length, dim);
         }
@@ -192,7 +192,7 @@ public class MultivariateNormalDistribution
      * @return the standard deviations.
      */
     public double[] getStandardDeviations() {
-        final int dim = getDimensions();
+        final int dim = getDimension();
         final double[] std = new double[dim];
         final double[][] s = covarianceMatrix.getData();
         for (int i = 0; i < dim; i++) {
@@ -203,7 +203,7 @@ public class MultivariateNormalDistribution
 
     /** {@inheritDoc} */
     public double[] sample() {
-        final int dim = getDimensions();
+        final int dim = getDimension();
         final double[] normalVals = new double[dim];
 
         for (int i = 0; i < dim; i++) {

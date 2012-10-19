@@ -50,6 +50,15 @@ public interface MultivariateRealDistribution {
     void reseedRandomGenerator(long seed);
 
     /**
+     * Gets the number of random variables of the distribution.
+     * It is the size of the array returned by the {@link #sample() sample}
+     * method.
+     *
+     * @return the number of variables.
+     */
+    int getDimension();
+
+    /**
      * Generates a random value vector sampled from this distribution.
      *
      * @return a random value vector.
@@ -63,6 +72,8 @@ public interface MultivariateRealDistribution {
      * @return an array representing the random samples.
      * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
      * if {@code sampleSize} is not positive.
+     *
+     * @see #sample()
      */
     double[][] sample(int sampleSize) throws NotStrictlyPositiveException;
 }

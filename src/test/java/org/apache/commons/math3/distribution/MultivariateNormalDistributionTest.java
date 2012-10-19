@@ -56,7 +56,7 @@ public class MultivariateNormalDistributionTest {
         final MultivariateNormalDistribution d = new MultivariateNormalDistribution(mu, sigma);
 
         final RealMatrix s = d.getCovariances();
-        final int dim = d.getDimensions();
+        final int dim = d.getDimension();
         for (int i = 0; i < dim; i++) {
             for (int j = 0; j < dim; j++) {
                 Assert.assertEquals(sigma[i][j], s.getEntry(i, j), 0);
@@ -78,7 +78,7 @@ public class MultivariateNormalDistributionTest {
         final int n = 500000;
 
         final double[][] samples = d.sample(n);
-        final int dim = d.getDimensions();
+        final int dim = d.getDimension();
         final double[] sampleMeans = new double[dim];
 
         for (int i = 0; i < samples.length; i++) {
