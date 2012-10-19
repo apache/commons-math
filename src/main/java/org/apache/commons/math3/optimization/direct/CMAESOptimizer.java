@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -225,6 +226,10 @@ public class CMAESOptimizer
 
     /**
      * Default constructor, uses default parameters
+     *
+     * @deprecated As of version 3.1: Parameter {@code lambda} must be
+     * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
+     * optimize} (whereas in the current code it is set to an undocumented value).
      */
     public CMAESOptimizer() {
         this(0);
@@ -232,9 +237,12 @@ public class CMAESOptimizer
 
     /**
      * @param lambda Population size.
+     * @deprecated As of version 3.1: Parameter {@code lambda} must be
+     * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
+     * optimize} (whereas in the current code it is set to an undocumented value)..
      */
     public CMAESOptimizer(int lambda) {
-        this(lambda, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
+        this(lambda, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
              DEFAULT_CHECKFEASABLECOUNT, DEFAULT_RANDOMGENERATOR,
              false, null);
@@ -244,7 +252,7 @@ public class CMAESOptimizer
      * @param lambda Population size.
      * @param inputSigma Initial standard deviations to sample new points
      * around the initial guess.
-     * @deprecated As of version 3.1: Parameter {@code inputSigma} must be
+     * @deprecated As of version 3.1: Parameters {@code lambda} and {@code inputSigma} must be
      * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
      * optimize}.
      */
@@ -296,7 +304,7 @@ public class CMAESOptimizer
      * @param random Random generator.
      * @param generateStatistics Whether statistic data is collected.
      * @param checker Convergence checker.
-     * @deprecated As of version 3.1: Parameter {@code inputSigma} must be
+     * @deprecated As of version 3.1: Parameters {@code lambda} and {@code inputSigma} must be
      * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
      * optimize}.
      */
@@ -319,7 +327,6 @@ public class CMAESOptimizer
     }
 
     /**
-     * @param lambda Population size.
      * @param maxIterations Maximal number of iterations.
      * @param stopFitness Whether to stop if objective function value is smaller than
      * {@code stopFitness}.
@@ -331,9 +338,10 @@ public class CMAESOptimizer
      * @param random Random generator.
      * @param generateStatistics Whether statistic data is collected.
      * @param checker Convergence checker.
+     *
+     * @since 3.1
      */
-    public CMAESOptimizer(int lambda,
-                          int maxIterations,
+    public CMAESOptimizer(int maxIterations,
                           double stopFitness,
                           boolean isActiveCMA,
                           int diagonalOnly,
@@ -342,7 +350,6 @@ public class CMAESOptimizer
                           boolean generateStatistics,
                           ConvergenceChecker<PointValuePair> checker) {
         super(checker);
-        this.lambda = lambda;
         this.maxIterations = maxIterations;
         this.stopFitness = stopFitness;
         this.isActiveCMA = isActiveCMA;
@@ -397,8 +404,17 @@ public class CMAESOptimizer
 
         /**
          * @param s Sigma values.
+         * @throws NotPositiveException if any of the array entries is smaller
+         * than zero.
          */
-        public Sigma(double[] s) {
+        public Sigma(double[] s)
+            throws NotPositiveException {
+            for (int i = 0; i < s.length; i++) {
+                if (s[i] < 0) {
+                    throw new NotPositiveException(s[i]);
+                }
+            }
+
             sigma = s.clone();
         }
 
@@ -407,6 +423,40 @@ public class CMAESOptimizer
          */
         public double[] getSigma() {
             return sigma.clone();
+        }
+    }
+
+    /**
+     * Population size.
+     * The number of offspring is the primary strategy parameter.
+     * In the absence of better clues, a good default could be an
+     * integer close to {@code 4 + 3 ln(n)}, where {@code n} is the
+     * number of optimized parameters.
+     * Increasing the population size improves global search properties
+     * at the expense of speed (which in general decreases at most
+     * linearly with increasing population size).
+     */
+    public static class PopulationSize implements OptimizationData {
+        /** Population size. */
+        private final int lambda;
+
+        /**
+         * @param size Population size.
+         * @throws NotStrictlyPositiveException if {@code size <= 0}.
+         */
+        public PopulationSize(int size)
+            throws NotStrictlyPositiveException {
+            if (size <= 0) {
+                throw new NotStrictlyPositiveException(size);
+            }
+            lambda = size;
+        }
+
+        /**
+         * @return the population size.
+         */
+        public int getPopulationSize() {
+            return lambda;
         }
     }
 
@@ -420,6 +470,7 @@ public class CMAESOptimizer
      * <ul>
      *  <li>{@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}</li>
      *  <li>{@link Sigma}</li>
+     *  <li>{@link PopulationSize}</li>
      * </ul>
      * @return the point/value pair giving the optimal value for objective
      * function.
@@ -593,6 +644,7 @@ public class CMAESOptimizer
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link Sigma}</li>
+     *  <li>{@link PopulationSize}</li>
      * </ul>
      */
     private void parseOptimizationData(OptimizationData... optData) {
@@ -601,6 +653,10 @@ public class CMAESOptimizer
         for (OptimizationData data : optData) {
             if (data instanceof Sigma) {
                 inputSigma = ((Sigma) data).getSigma();
+                continue;
+            }
+            if (data instanceof PopulationSize) {
+                lambda = ((PopulationSize) data).getPopulationSize();
                 continue;
             }
         }
@@ -620,6 +676,7 @@ public class CMAESOptimizer
             }
             for (int i = 0; i < init.length; i++) {
                 if (inputSigma[i] < 0) {
+                    // XXX Remove this block in 4.0 (check performed in "Sigma" class).
                     throw new NotPositiveException(inputSigma[i]);
                 }
                 if (inputSigma[i] > uB[i] - lB[i]) {
@@ -636,11 +693,15 @@ public class CMAESOptimizer
      */
     private void initializeCMA(double[] guess) {
         if (lambda <= 0) {
+            // XXX Line below to replace the current one in 4.0 (MATH-879).
+            // throw new NotStrictlyPositiveException(lambda);
             lambda = 4 + (int) (3 * Math.log(dimension));
         }
         // initialize sigma
         final double[][] sigmaArray = new double[guess.length][1];
         for (int i = 0; i < guess.length; i++) {
+            // XXX Line below to replace the current one in 4.0 (MATH-868).
+            // sigmaArray[i][0] = inputSigma[i];
             sigmaArray[i][0] = inputSigma == null ? 0.3 : inputSigma[i];
         }
         final RealMatrix insigma = new Array2DRowRealMatrix(sigmaArray, false);

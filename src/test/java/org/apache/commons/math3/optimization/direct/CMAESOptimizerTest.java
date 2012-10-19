@@ -52,7 +52,7 @@ public class CMAESOptimizerTest {
     @Test(expected = NumberIsTooLargeException.class)
     public void testInitOutofbounds1() {
         double[] startPoint = point(DIM,3);
-        double[] insigma = null;
+        double[] insigma = point(DIM, 0.3);
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
@@ -63,7 +63,7 @@ public class CMAESOptimizerTest {
     @Test(expected = NumberIsTooSmallException.class)
     public void testInitOutofbounds2() {
         double[] startPoint = point(DIM, -2);
-        double[] insigma = null;
+        double[] insigma = point(DIM, 0.3);
         double[][] boundaries = boundaries(DIM,-1,2);
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
@@ -75,7 +75,7 @@ public class CMAESOptimizerTest {
     @Test(expected = DimensionMismatchException.class)
     public void testBoundariesDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
-        double[] insigma = null;
+        double[] insigma = point(DIM, 0.3);
         double[][] boundaries = boundaries(DIM+1,-1,2);
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
@@ -111,7 +111,7 @@ public class CMAESOptimizerTest {
     @Test(expected = DimensionMismatchException.class)
     public void testInputSigmaDimensionMismatch() {
         double[] startPoint = point(DIM,0.5);
-        double[] insigma = point(DIM+1,-0.5);
+        double[] insigma = point(DIM + 1, 0.5);
         double[][] boundaries = null;
         PointValuePair expected =
             new PointValuePair(point(DIM,1.0),0.0);
@@ -459,17 +459,20 @@ public class CMAESOptimizerTest {
             PointValuePair expected) {
         int dim = startPoint.length;
         // test diagonalOnly = 0 - slow but normally fewer feval#
-        CMAESOptimizer optim = new CMAESOptimizer(lambda, inSigma, 30000,
-                                                  stopValue, isActive, diagonalOnly,
-                                                  0, new MersenneTwister(), false);
+        CMAESOptimizer optim = new CMAESOptimizer(30000, stopValue, isActive, diagonalOnly,
+                                                  0, new MersenneTwister(), false, null);
         final double[] lB = boundaries == null ? null : boundaries[0];
         final double[] uB = boundaries == null ? null : boundaries[1];
         PointValuePair result = boundaries == null ?
             optim.optimize(maxEvaluations, func, goal,
-                           new InitialGuess(startPoint)) :
+                           new InitialGuess(startPoint),
+                           new CMAESOptimizer.Sigma(inSigma),
+                           new CMAESOptimizer.PopulationSize(lambda)) :
             optim.optimize(maxEvaluations, func, goal,
                            new InitialGuess(startPoint),
-                           new SimpleBounds(lB, uB));
+                           new SimpleBounds(lB, uB),
+                           new CMAESOptimizer.Sigma(inSigma),
+                           new CMAESOptimizer.PopulationSize(lambda));
         // System.out.println("sol=" + Arrays.toString(result.getPoint()));
         Assert.assertEquals(expected.getValue(), result.getValue(), fTol);
         for (int i = 0; i < dim; i++) {
