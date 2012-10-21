@@ -149,6 +149,34 @@ public class DSCompiler {
     /** Indirection arrays for function composition. */
     private final int[][][] compIndirection;
 
+    /** Private constructor, reserved for the factory method {@link #getCompiler(int, int)}.
+     * @param parameters number of free parameters
+     * @param order derivation order
+     * @param valueCompiler compiler for the value part
+     * @param derivativeCompiler compiler for the derivative part
+     */
+    private DSCompiler(final int parameters, final int order,
+                       final DSCompiler valueCompiler, final DSCompiler derivativeCompiler) {
+
+        this.parameters = parameters;
+        this.order      = order;
+        this.sizes      = compileSizes(parameters, order, valueCompiler, derivativeCompiler);
+        this.derivativesIndirection =
+                compileDerivativesIndirection(parameters, order,
+                                              valueCompiler, derivativeCompiler);
+        this.lowerIndirection =
+                compileLowerIndirection(parameters, order,
+                                        valueCompiler, derivativeCompiler);
+        this.multIndirection =
+                compileMultiplicationIndirection(parameters, order,
+                                                 valueCompiler, derivativeCompiler, lowerIndirection);
+        this.compIndirection =
+                compileCompositionIndirection(parameters, order,
+                                              valueCompiler, derivativeCompiler,
+                                              sizes, derivativesIndirection, lowerIndirection);
+
+    }
+
     /** Get the compiler for number of free parameters and order.
      * @param parameters number of free parameters
      * @param order derivation order
@@ -193,35 +221,6 @@ public class DSCompiler {
         compilers.compareAndSet(cache, newCache);
 
         return newCache[parameters][order];
-
-    }
-
-    /** Private constructor, reserved for the factory method {@link #getCompiler(int, int)}.
-     * @param parameters number of free parameters
-     * @param order derivation order
-     * @param valueCompiler compiler for the value part
-     * @param derivativeCompiler compiler for the derivative part
-     */
-    private DSCompiler(final int parameters, final int order,
-                       final DSCompiler valueCompiler, final DSCompiler derivativeCompiler) {
-
-        this.parameters = parameters;
-        this.order      = order;
-        this.sizes      = compileSizes(parameters, order, valueCompiler, derivativeCompiler);
-        this.derivativesIndirection =
-                compileDerivativesIndirection(parameters, order,
-                                              valueCompiler, derivativeCompiler);
-        this.lowerIndirection =
-                compileLowerIndirection(parameters, order,
-                                        valueCompiler, derivativeCompiler);
-        this.multIndirection =
-                compileMultiplicationIndirection(parameters, order,
-                                                 valueCompiler, derivativeCompiler, lowerIndirection);
-        this.compIndirection =
-                compileCompositionIndirection(parameters, order,
-                                              valueCompiler, derivativeCompiler,
-                                              sizes, derivativesIndirection, lowerIndirection);
-
 
     }
 
@@ -519,7 +518,7 @@ public class DSCompiler {
      *   <li>if there is only 1 {@link #getFreeParameters() free parameter}, then the
      *   derivatives are sorted in increasing derivation order (i.e. f at index 0, df/dp
      *   at index 1, d<sup>2</sup>f/dp<sup>2</sup> at index 2 ...
-     *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li> 
+     *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li>
      *   <li>if the {@link #getOrder() derivation order} is 1, then the derivatives
      *   are sorted in incresing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
      *   at index 1, df/dx<sub>2</sub> at index 2 ... df/dx<sub>k</sub> at index k),</li>
@@ -1046,8 +1045,8 @@ public class DSCompiler {
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array
      * @param result array where result must be stored (for
-     * shifted logarithm the result array <em>cannot</em> be the input
-     * array)
+     * shifted logarithm the result array <em>cannot</em> be the input array)
+     * @param resultOffset offset of the result in its array
      */
     public void log1p(final double[] operand, final int operandOffset,
                       final double[] result, final int resultOffset) {
@@ -1073,8 +1072,8 @@ public class DSCompiler {
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array
      * @param result array where result must be stored (for
-     * base 10 logarithm the result array <em>cannot</em> be the input
-     * array)
+     * base 10 logarithm the result array <em>cannot</em> be the input array)
+     * @param resultOffset offset of the result in its array
      */
     public void log10(final double[] operand, final int operandOffset,
                       final double[] result, final int resultOffset) {

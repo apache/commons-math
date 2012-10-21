@@ -183,7 +183,7 @@ public class FiniteDifferencesDifferentiator
             public double value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
-            
+
             /** {@inheritDoc} */
             public DerivativeStructure value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
@@ -222,7 +222,7 @@ public class FiniteDifferencesDifferentiator
             public double[]value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
-            
+
             /** {@inheritDoc} */
             public DerivativeStructure[] value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
@@ -272,7 +272,7 @@ public class FiniteDifferencesDifferentiator
             public double[][]  value(final double x) throws MathIllegalArgumentException {
                 return function.value(x);
             }
-            
+
             /** {@inheritDoc} */
             public DerivativeStructure[][]  value(final DerivativeStructure t)
                 throws MathIllegalArgumentException {
