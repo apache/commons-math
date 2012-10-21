@@ -535,8 +535,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * endpoints excluded).
      * </p>
      *
-     * @throws N if one of the bounds is infinite or
-     * {@code NaN}
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
      * @throws NotANumberException if one of the bounds is not a number
