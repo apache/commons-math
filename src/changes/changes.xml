@@ -53,8 +53,8 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="3.1" date="TBD" description="
 ">
       <action dev="tn" type="add" issue="MATH-474" due-to="Dan Checkoway">
-        Added new methods "merge(Frequency)", "merge(Collection<Frequency>)",
-        "incrementValue(Comparable<?>, long)" and "entrySetIterator()" to the "Frequency" class.
+        Added new methods "merge(Frequency)", "merge(Collection&lt;Frequency&gt;)",
+        "incrementValue(Comparable&lt;?&gt;, long)" and "entrySetIterator()" to the "Frequency" class.
       </action>
       <action dev="tn" type="fix" issue="MATH-778" due-to="Sébastien Brisard">
         Allow unlimited input values for "Dfp#multiply(int)".
