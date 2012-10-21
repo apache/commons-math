@@ -52,13 +52,15 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="fix" issue="MATH-880">
+        Improved construction of polygons with an additional constructor, more robust numerically.
+      </action>
       <action dev="tn" type="add" issue="MATH-474" due-to="Dan Checkoway">
         Added new methods "merge(Frequency)", "merge(Collection&lt;Frequency&gt;)",
         "incrementValue(Comparable&lt;?&gt;, long)" and "entrySetIterator()" to the "Frequency" class.
       </action>
       <action dev="tn" type="fix" issue="MATH-778" due-to="Sébastien Brisard">
         Allow unlimited input values for "Dfp#multiply(int)".
-      </action>
       <action dev="luc" type="fix" issue="MATH-641" due-to="Curtis Jensen">
         Added distance to point to 2D Line and Segment.
       </action>

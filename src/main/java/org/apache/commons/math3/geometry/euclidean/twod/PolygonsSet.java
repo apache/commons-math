@@ -25,12 +25,13 @@ import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
+import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.utilities.AVLTree;
 import org.apache.commons.math3.geometry.partitioning.utilities.OrderedTuple;
 import org.apache.commons.math3.util.FastMath;
@@ -98,6 +99,26 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         super(boxBoundary(xMin, xMax, yMin, yMax));
     }
 
+    /** Build a polygon from a simple list of vertices.
+     * <p>The boundary is provided as a list of points considering to
+     * represent the vertices of a simple loop. The interior part of the
+     * region is on the left side of this path and the exterior is on its
+     * right side.</p>
+     * <p>This constructor does not handle polygons with a boundary
+     * forming several disconnected paths (such as polygons with holes).</p>
+     * <p>For cases where this simple constructor applies, it is expected to
+     * be numerically more robust than the {@link #PolygonsSet(Collection) general
+     * constructor} using {@link SubHyperplane subhyperplanes}.</p>
+     * <p>If the list is empty, the region will represent the whole
+     * space.</p>
+     * @param hyperplaneThickness tolerance below which points are considered to
+     * belong to the hyperplane (which is therefore more a slab)
+     * @param vertices vertices of the simple loop boundary
+     */
+    public PolygonsSet(final double hyperplaneThickness, final Vector2D ... vertices) {
+        super(verticesToTree(hyperplaneThickness, vertices));
+    }
+
     /** Create a list of hyperplanes representing the boundary of a box.
      * @param xMin low bound along the x direction
      * @param xMax high bound along the x direction
@@ -117,6 +138,249 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             new Line(maxMax, minMax),
             new Line(minMax, minMin)
         };
+    }
+
+    /** Build the BSP tree of a polygons set from a simple list of vertices.
+     * <p>The boundary is provided as a list of points considering to
+     * represent the vertices of a simple loop. The interior part of the
+     * region is on the left side of this path and the exterior is on its
+     * right side.</p>
+     * <p>This constructor does not handle polygons with a boundary
+     * forming several disconnected paths (such as polygons with holes).</p>
+     * <p>For cases where this simple constructor applies, it is expected to
+     * be numerically more robust than the {@link #PolygonsSet(Collection) general
+     * constructor} using {@link SubHyperplane subhyperplanes}.</p>
+     * @param hyperplaneThickness tolerance below which points are consider to
+     * belong to the hyperplane (which is therefore more a slab)
+     * @param vertices vertices of the simple loop boundary
+     */
+    private static BSPTree<Euclidean2D> verticesToTree(final double hyperplaneThickness,
+                                                       final Vector2D ... vertices) {
+
+        if (vertices.length == 0) {
+            // the tree represents the whole space
+            return new BSPTree<Euclidean2D>(Boolean.TRUE);
+        }
+
+        // at start, none of the edges have been processed
+        final BSPTree<Euclidean2D> tree = new BSPTree<Euclidean2D>();
+        List<Vertex> list = new ArrayList<PolygonsSet.Vertex>(vertices.length);
+        for (final Vector2D vertex : vertices) {
+            list.add(new Vertex(vertex));
+        }
+
+        // build the tree top-down
+        insertVertices(hyperplaneThickness, tree, list);
+
+        return tree;
+
+    }
+
+    /** Recursively build a tree by inserting cut sub-hyperplanes.
+     * @param hyperplaneThickness tolerance below which points are consider to
+     * belong to the hyperplane (which is therefore more a slab)
+     * @param node current tree node (it is a leaf node at the beginning
+     * of the call)
+     * @param vertices list of vertices belonging to the boundary of the
+     * cell defined by the node
+     */
+    private static void insertVertices(final double hyperplaneThickness,
+                                       final BSPTree<Euclidean2D> node,
+                                       final List<Vertex> vertices) {
+
+        Vertex current = vertices.get(vertices.size() - 1);
+        int index = 0;
+        Line inserted = null;
+        while (inserted == null && index < vertices.size()) {
+            final Vertex previous = current;
+            current = vertices.get(index++);
+            if (previous.outgoingNeedsProcessing() && current.incomingNeedsProcessing()) {
+
+                if (previous.shareNodeWith(current)) {
+                    // both vertices are already handled by an existing node,
+                    // closer to the tree root, they were probably created
+                    // when split points were introduced
+                    inserted = null;
+                } else {
+
+                    inserted = new Line(previous.getLocation(), current.getLocation());
+
+                    if (node.insertCut(inserted)) {
+                        previous.addNode(node);
+                        previous.outgoingProcessed();
+                        current.addNode(node);
+                        current.incomingProcessed();
+                    } else {
+                        inserted = null;
+                    }
+
+                }
+
+            }
+        }
+
+        if (node.getCut() == null) {
+            final BSPTree<Euclidean2D> parent = node.getParent();
+            if (parent == null || node == parent.getMinus()) {
+                node.setAttribute(Boolean.TRUE);
+            } else {
+                node.setAttribute(Boolean.FALSE);
+            }
+            return;
+        }
+
+        // distribute the remaining vertices in the two sub-trees
+        Side currentSide = Side.HYPER;
+        final List<Vertex> plusList  = new ArrayList<Vertex>();
+        plusList.add(current);
+        int plusCount = 0;
+        final List<Vertex> minusList = new ArrayList<Vertex>();
+        minusList.add(current);
+        int minusCount = 0;
+        while (index < vertices.size()) {
+            final Vertex previous = current;
+            final Side previousSide = currentSide;
+            current = vertices.get(index++);
+            final double currentOffset = inserted.getOffset(current.getLocation());
+            currentSide = (FastMath.abs(currentOffset) <= hyperplaneThickness) ?
+                           Side.HYPER :
+                           ((currentOffset < 0) ? Side.MINUS : Side.PLUS);
+            switch (currentSide) {
+            case PLUS:
+                if (previousSide == Side.MINUS) {
+                    // we need to insert a split point on the hyperplane
+                    final Line line = new Line(previous.getLocation(), current.getLocation());
+                    final Vertex splitPoint = new Vertex(inserted.intersection(line));
+                    splitPoint.addNode(node);
+                    minusList.add(splitPoint);
+                    plusList.add(splitPoint);
+                }
+                plusList.add(current);
+                if (current.incomingNeedsProcessing() || current.outgoingNeedsProcessing()) {
+                    ++plusCount;
+                }
+                break;
+            case MINUS:
+                if (previousSide == Side.PLUS) {
+                    // we need to insert a split point on the hyperplane
+                    final Line line = new Line(previous.getLocation(), current.getLocation());
+                    final Vertex splitPoint = new Vertex(inserted.intersection(line));
+                    splitPoint.addNode(node);
+                    minusList.add(splitPoint);
+                    plusList.add(splitPoint);
+                }
+                minusList.add(current);
+                if (current.incomingNeedsProcessing() || current.outgoingNeedsProcessing()) {
+                    ++minusCount;
+                }
+                break;
+            default:
+                current.addNode(node);
+                plusList.add(current);
+                minusList.add(current);
+                break;
+            }
+        }
+
+        // recurse through lower levels
+        if (plusCount > 0) {
+            insertVertices(hyperplaneThickness, node.getPlus(),  plusList);
+        } else {
+            node.getPlus().setAttribute(Boolean.FALSE);
+        }
+        if (minusCount > 0) {
+            insertVertices(hyperplaneThickness, node.getMinus(), minusList);
+        } else {
+            node.getMinus().setAttribute(Boolean.TRUE);
+        }
+
+    }
+
+    /** Internal class for holding vertices while they are processed to build a BSP tree. */
+    private static class Vertex {
+
+        /** Vertex location. */
+        private final Vector2D location;
+
+        /** Nodes associated with the hyperplane containing this vertex. */
+        private final List<BSPTree<Euclidean2D>> nodes;
+
+        /** Indicator for incoming edges that still need processing. */
+        private boolean incomingNeedsProcessing;
+
+        /** Indicator for outgoing edges that still need processing. */
+        private boolean outgoingNeedsProcessing;
+
+        /** Build a non-processed vertex not owned by any node yet.
+         * @param location vertex location
+         */
+        public Vertex(final Vector2D location) {
+            this.location                = location;
+            this.nodes                   = new ArrayList<BSPTree<Euclidean2D>>();
+            this.incomingNeedsProcessing = true;
+            this.outgoingNeedsProcessing = true;
+        }
+
+        /** Get Vertex location.
+         * @return vertex location
+         */
+        public Vector2D getLocation() {
+            return location;
+        }
+
+        /** Check if the instance and another vertex share a node.
+         * <p>
+         * When two vertices share a node, this means they are already handled
+         * by the hyperplane of this node, so there is no need to create a cut
+         * hyperplane for them.
+         * </p>
+         * @param vertex other vertex to check instance against
+         * @return true if the instance and another vertex share a node
+         */
+        public boolean shareNodeWith(final Vertex vertex) {
+            for (final BSPTree<Euclidean2D> node1 : nodes) {
+                for (final BSPTree<Euclidean2D> node2 : vertex.nodes) {
+                    if (node1 == node2) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /** Add a node whose hyperplane contains this vertex.
+         * @param node node whose hyperplane contains this vertex
+         */
+        public void addNode(final BSPTree<Euclidean2D> node) {
+            nodes.add(node);
+        }
+
+        /** Check incoming edge processed indicator.
+         * @return true if incoming edge needs processing
+         */
+        public boolean incomingNeedsProcessing() {
+            return incomingNeedsProcessing;
+        }
+
+        /** Check outgoing edge processed indicator.
+         * @return true if outgoing edge needs processing
+         */
+        public boolean outgoingNeedsProcessing() {
+            return outgoingNeedsProcessing;
+        }
+
+        /** Mark the incoming edge as processed.
+         */
+        public void incomingProcessed() {
+            incomingNeedsProcessing = false;
+        }
+
+        /** Mark the outgoing edge as processed.
+         */
+        public void outgoingProcessed() {
+            outgoingNeedsProcessing = false;
+        }
+
     }
 
     /** {@inheritDoc} */

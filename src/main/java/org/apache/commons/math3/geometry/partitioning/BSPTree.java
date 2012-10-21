@@ -153,7 +153,7 @@ public class BSPTree<S extends Space> {
         }
 
         final SubHyperplane<S> chopped = fitToCell(hyperplane.wholeHyperplane());
-        if (chopped.isEmpty()) {
+        if (chopped == null || chopped.isEmpty()) {
             cut          = null;
             plus         = null;
             minus        = null;
@@ -285,7 +285,7 @@ public class BSPTree<S extends Space> {
      * sub-hyperplane that lie outside of the cell using the
      * cut-hyperplanes of the parent nodes of the instance.</p>
      * @param sub sub-hyperplane to fit
-     * @return a new sub-hyperplane, gueranteed to have no part outside
+     * @return a new sub-hyperplane, guaranteed to have no part outside
      * of the instance cell
      */
     private SubHyperplane<S> fitToCell(final SubHyperplane<S> sub) {
