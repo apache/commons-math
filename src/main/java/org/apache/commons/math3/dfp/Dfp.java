@@ -1595,12 +1595,24 @@ public class Dfp implements FieldElement<Dfp> {
 
     }
 
-    /** Multiply this by a single digit 0&lt;=x&lt;radix.
-     * There are speed advantages in this special case
+    /** Multiply this by a single digit x.
      * @param x multiplicand
      * @return product of this and x
      */
     public Dfp multiply(final int x) {
+        if (x >= 0 && x < RADIX) {
+            return multiplyFast(x);
+        } else {
+            return multiply(newInstance(x));
+        }
+    }
+
+    /** Multiply this by a single digit 0&lt;=x&lt;radix.
+     * There are speed advantages in this special case.
+     * @param x multiplicand
+     * @return product of this and x
+     */
+    private Dfp multiplyFast(final int x) {
         Dfp result = newInstance(this);
 
         /* handle special cases */

@@ -906,13 +906,17 @@ public class DfpTest {
              nan,
              0, "Multiply #36");
 
-        test(field.newDfp("1").multiply(10000),  // out of range
-             nan,
-             DfpField.FLAG_INVALID, "Multiply #37");
+        test(field.newDfp("1").multiply(10000),
+             field.newDfp("10000"),
+             0, "Multiply #37");
 
-        test(field.newDfp("1").multiply(-1),  // out of range
-             nan,
-             DfpField.FLAG_INVALID, "Multiply #38");
+        test(field.newDfp("2").multiply(1000000),
+             field.newDfp("2000000"),
+             0, "Multiply #38");
+
+        test(field.newDfp("1").multiply(-1),
+             field.newDfp("-1"),
+             0, "Multiply #39");
     }
 
     @Test
