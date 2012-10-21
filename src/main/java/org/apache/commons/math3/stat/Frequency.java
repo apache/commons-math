@@ -18,8 +18,10 @@ package org.apache.commons.math3.stat;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -108,16 +110,31 @@ public class Frequency implements Serializable {
      * @throws MathIllegalArgumentException if <code>v</code> is not comparable with previous entries
      */
     public void addValue(Comparable<?> v) throws MathIllegalArgumentException {
+        incrementValue(v, 1);
+    }
+
+    /**
+     * Increments the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     *
+     * @param v the value to add.
+     * @param increment the amount by which the value should be incremented
+     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
+     */
+    public void incrementValue(Comparable<?> v, long increment){
         Comparable<?> obj = v;
         if (v instanceof Integer) {
-           obj = Long.valueOf(((Integer) v).longValue());
+            obj = Long.valueOf(((Integer) v).longValue());
         }
         try {
             Long count = freqTable.get(obj);
             if (count == null) {
-                freqTable.put(obj, Long.valueOf(1));
+                freqTable.put(obj, Long.valueOf(increment));
             } else {
-                freqTable.put(obj, Long.valueOf(count.longValue() + 1));
+                freqTable.put(obj, Long.valueOf(count.longValue() + increment));
             }
         } catch (ClassCastException ex) {
             //TreeMap will throw ClassCastException if v is not comparable
@@ -176,6 +193,22 @@ public class Frequency implements Serializable {
      */
     public Iterator<Comparable<?>> valuesIterator() {
         return freqTable.keySet().iterator();
+    }
+
+    /**
+     * Return an Iterator over the set of keys and values that have been added.
+     * Using the entry set to iterate is more efficient in the case where you
+     * need to access respective counts as well as values, since it doesn't
+     * require a "get" for every key...the value is provided in the Map.Entry.
+     * <p>
+     * If added values are integral (i.e., integers, longs, Integers, or Longs),
+     * they are converted to Longs when they are added, so the values of the
+     * map entries returned by the Iterator will in this case be Longs.</p>
+     *
+     * @return entry set Iterator
+     */
+    public Iterator<Map.Entry<Comparable<?>, Long>> entrySetIterator() {
+        return freqTable.entrySet().iterator();
     }
 
     //-------------------------------------------------------------------------
@@ -455,6 +488,37 @@ public class Frequency implements Serializable {
     public double getCumPct(char v) {
         return getCumPct(Character.valueOf(v));
     }
+
+    //----------------------------------------------------------------------------------------------
+
+    /**
+     * Merge another Frequency object's counts into this instance.
+     * This Frequency's counts will be incremented (or set when not already set)
+     * by the counts represented by other.
+     *
+     * @param other the other {@link Frequency} object to be merged
+     */
+    public void merge(Frequency other) {
+        for (Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator(); iter.hasNext();) {
+            Map.Entry<Comparable<?>, Long> entry = iter.next();
+            incrementValue(entry.getKey(), entry.getValue());
+        }
+    }
+
+    /**
+     * Merge a {@link Collection} of {@link Frequency} objects into this instance.
+     * This Frequency's counts will be incremented (or set when not already set)
+     * by the counts represented by each of the others.
+     *
+     * @param others the other {@link Frequency} objects to be merged
+     */
+    public void merge(Collection<Frequency> others) {
+        for (Iterator<Frequency> iter = others.iterator(); iter.hasNext();) {
+            merge(iter.next());
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
 
     /**
      * A Comparator that compares comparable objects using the

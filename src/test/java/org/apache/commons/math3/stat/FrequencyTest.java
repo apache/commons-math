@@ -18,7 +18,9 @@ package org.apache.commons.math3.stat;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 import org.apache.commons.math3.TestUtils;
@@ -261,6 +263,74 @@ public final class FrequencyTest {
         Assert.assertEquals(1, f.getUniqueCount());
         f.addValue(twoI);
         Assert.assertEquals(2, f.getUniqueCount());
+    }
+    
+    @Test
+    public void testIncrement() {
+        Assert.assertEquals(0, f.getUniqueCount());
+        f.incrementValue(oneL, 1);
+        Assert.assertEquals(1, f.getCount(oneL));
+
+        f.incrementValue(oneL, 4);
+        Assert.assertEquals(5, f.getCount(oneL));
+        
+        f.incrementValue(oneL, -5);
+        Assert.assertEquals(0, f.getCount(oneL));
+    }
+    
+    @Test
+    public void testMerge() {
+        Assert.assertEquals(0, f.getUniqueCount());
+        f.addValue(oneL);
+        f.addValue(twoL);
+        f.addValue(oneI);
+        f.addValue(twoI);
+        
+        Assert.assertEquals(2, f.getUniqueCount());
+        Assert.assertEquals(2, f.getCount(oneI));
+        Assert.assertEquals(2, f.getCount(twoI));
+
+        Frequency g = new Frequency();
+        g.addValue(oneL);
+        g.addValue(threeL);
+        g.addValue(threeI);
+
+        Assert.assertEquals(2, g.getUniqueCount());
+        Assert.assertEquals(1, g.getCount(oneI));
+        Assert.assertEquals(2, g.getCount(threeI));
+
+        f.merge(g);
+        
+        Assert.assertEquals(3, f.getUniqueCount());
+        Assert.assertEquals(3, f.getCount(oneI));
+        Assert.assertEquals(2, f.getCount(twoI));
+        Assert.assertEquals(2, f.getCount(threeI));        
+    }
+    
+    @Test
+    public void testMergeCollection() {
+        Assert.assertEquals(0, f.getUniqueCount());
+        f.addValue(oneL);
+        
+        Assert.assertEquals(1, f.getUniqueCount());
+        Assert.assertEquals(1, f.getCount(oneI));
+        Assert.assertEquals(0, f.getCount(twoI));
+
+        Frequency g = new Frequency();
+        g.addValue(twoL);
+
+        Frequency h = new Frequency();
+        h.addValue(threeL);
+        
+        List<Frequency> coll = new ArrayList<Frequency>();
+        coll.add(g);
+        coll.add(h);
+        f.merge(coll);
+        
+        Assert.assertEquals(3, f.getUniqueCount());
+        Assert.assertEquals(1, f.getCount(oneI));
+        Assert.assertEquals(1, f.getCount(twoI));
+        Assert.assertEquals(1, f.getCount(threeI));        
     }
 }
 
