@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math3.geometry.euclidean.twod;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -829,7 +828,7 @@ public class PolygonsSetTest {
     }
 
     @Test
-    public void testIssue880Complete() throws IOException {
+    public void testIssue880Complete() {
         Vector2D[] vertices1 = new Vector2D[] {
                 new Vector2D( 90.08714908223715,  38.370299337260235),
                 new Vector2D( 90.08709517675004,  38.3702895991413),
