@@ -43,11 +43,13 @@ public class UnivariateSolverUtils {
      * @param x0 Lower bound for the interval.
      * @param x1 Upper bound for the interval.
      * @return a value where the function is zero.
-     * @throws IllegalArgumentException if f is null or the endpoints do not
-     * specify a valid interval.
+     * @throws NoBracketingException if the function has the same sign at the
+     * endpoints.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static double solve(UnivariateFunction function, double x0, double x1)
-        throws NullArgumentException {
+        throws NullArgumentException,
+               NoBracketingException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -64,14 +66,15 @@ public class UnivariateSolverUtils {
      * @param x1 Upper bound for the interval.
      * @param absoluteAccuracy Accuracy to be used by the solver.
      * @return a value where the function is zero.
-     * @throws IllegalArgumentException if {@code function} is {@code null},
-     * the endpoints do not specify a valid interval, or the absolute accuracy
-     * is not valid for the default solver.
+     * @throws NoBracketingException if the function has the same sign at the
+     * endpoints.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static double solve(UnivariateFunction function,
                                double x0, double x1,
                                double absoluteAccuracy)
-        throws NullArgumentException {
+        throws NullArgumentException,
+               NoBracketingException {
         if (function == null) {
             throw new NullArgumentException(LocalizedFormats.FUNCTION);
         }
@@ -92,6 +95,8 @@ public class UnivariateSolverUtils {
      * @param allowedSolution the kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return a root approximation, on the specified side of the exact root
+     * @throws NoBracketingException if the function has the same sign at the
+     * endpoints.
      */
     public static double forceSide(final int maxEval, final UnivariateFunction f,
                                    final BracketedUnivariateSolver<UnivariateFunction> bracketing,
@@ -201,8 +206,8 @@ public class UnivariateSolverUtils {
      * value).
      * @return a two-element array holding a and b.
      * @throws NoBracketingException if a root cannot be bracketted.
-     * @throws IllegalArgumentException if function is null, maximumIterations
-     * is not positive, or initial is not between lowerBound and upperBound.
+     * @throws NotStrictlyPositiveException if {@code maximumIterations <= 0}.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
@@ -242,8 +247,8 @@ public class UnivariateSolverUtils {
      * @return a two element array holding a and b.
      * @throws NoBracketingException if the algorithm fails to find a and b
      * satisfying the desired conditions.
-     * @throws IllegalArgumentException if function is null, maximumIterations
-     * is not positive, or initial is not between lowerBound and upperBound.
+     * @throws NotStrictlyPositiveException if {@code maximumIterations <= 0}.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static double[] bracket(UnivariateFunction function,
                                    double initial,
@@ -307,6 +312,7 @@ public class UnivariateSolverUtils {
      * @param upper Upper endpoint.
      * @return {@code true} if the function values have opposite signs at the
      * given points.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static boolean isBracketing(UnivariateFunction function,
                                        final double lower,
@@ -374,8 +380,9 @@ public class UnivariateSolverUtils {
      * @param function Function.
      * @param lower Lower endpoint.
      * @param upper Upper endpoint.
-     * @throws NoBracketingException if function has the same sign at the
+     * @throws NoBracketingException if the function has the same sign at the
      * endpoints.
+     * @throws NullArgumentException if {@code function} is {@code null}.
      */
     public static void verifyBracketing(UnivariateFunction function,
                                         final double lower,
