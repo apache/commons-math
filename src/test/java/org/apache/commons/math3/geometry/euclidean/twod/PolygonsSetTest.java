@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.geometry.euclidean.twod;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -802,6 +802,14 @@ public class PolygonsSetTest {
     }
 
     @Test
+    public void testSqueezedHexa() {
+        PolygonsSet set = new PolygonsSet(1.0e-10,
+                                          new Vector2D(-6, -4), new Vector2D(-8, -8), new Vector2D(  8, -8),
+                                          new Vector2D( 6, -4), new Vector2D(10,  4), new Vector2D(-10,  4));
+        Assert.assertEquals(Location.OUTSIDE, set.checkPoint(new Vector2D(0, 6)));
+    }
+
+    @Test
     public void testIssue880Simplified() {
 
         Vector2D[] vertices1 = new Vector2D[] {
@@ -821,7 +829,7 @@ public class PolygonsSetTest {
     }
 
     @Test
-    public void testIssue880Complete() throws FileNotFoundException {
+    public void testIssue880Complete() throws IOException {
         Vector2D[] vertices1 = new Vector2D[] {
                 new Vector2D( 90.08714908223715,  38.370299337260235),
                 new Vector2D( 90.08709517675004,  38.3702895991413),
@@ -894,12 +902,13 @@ public class PolygonsSetTest {
                 new Vector2D( 90.09081227075944,  38.37526295920463),
                 new Vector2D( 90.09081378927135,  38.375193883266434)
         };
-        PolygonsSet set1 = new PolygonsSet(1.0e-10, vertices1);
-        Assert.assertEquals(Location.OUTSIDE, set1.checkPoint(new Vector2D(90.0905, 38.3755)));
+        PolygonsSet set1 = new PolygonsSet(1.0e-8, vertices1);
+        Assert.assertEquals(Location.OUTSIDE, set1.checkPoint(new Vector2D(90.0905,  38.3755)));
         Assert.assertEquals(Location.INSIDE,  set1.checkPoint(new Vector2D(90.09084, 38.3755)));
-        // TODO: the following assertion fails and should not
-        // this is due to a small spurious triangle being included in the polygon
-        // Assert.assertEquals(Location.OUTSIDE, set1.checkPoint(new Vector2D(90.0913, 38.3755)));
+        Assert.assertEquals(Location.OUTSIDE, set1.checkPoint(new Vector2D(90.0913,  38.3755)));
+        Assert.assertEquals(Location.INSIDE,  set1.checkPoint(new Vector2D(90.1042,  38.3739)));
+        Assert.assertEquals(Location.INSIDE,  set1.checkPoint(new Vector2D(90.1111,  38.3673)));
+        Assert.assertEquals(Location.OUTSIDE, set1.checkPoint(new Vector2D(90.0959,  38.3457)));
 
         Vector2D[] vertices2 = new Vector2D[] {
                 new Vector2D( 90.13067558880044,  38.36977255037573),
@@ -965,17 +974,14 @@ public class PolygonsSetTest {
                 new Vector2D( 90.16746107640665,  38.40902614307544),
                 new Vector2D( 90.16122795307462,  38.39773101873203)
         };
-        PolygonsSet set2 = new PolygonsSet(1.0e-10, vertices2);
+        PolygonsSet set2 = new PolygonsSet(1.0e-8, vertices2);
         PolygonsSet set  = (PolygonsSet) new
                 RegionFactory<Euclidean2D>().difference(set1.copySelf(),
                                                         set2.copySelf());
 
-        Vector2D[][] vertices = set.getVertices();
-        Assert.assertTrue(vertices[0][0] != null);
-        // TODO: the resulting polygon has two boundaries but should have only one
-        // this is because for an unknown reason the boundary has two infinitely close
-        // parallel paths near the top left of the polygon
-        Assert.assertEquals(2, vertices.length);
+        Vector2D[][] verticies = set.getVertices();
+        Assert.assertTrue(verticies[0][0] != null);
+        Assert.assertEquals(1, verticies.length);
     }
 
     private PolygonsSet buildSet(Vector2D[][] vertices) {
