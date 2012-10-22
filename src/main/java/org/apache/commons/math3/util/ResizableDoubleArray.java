@@ -668,7 +668,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Sets the contraction criteria for this ExpandContractDoubleArray.
+     * Sets the contraction criteria.
      *
      * @param contractionCriteria contraction criteria
      * @throws MathIllegalArgumentException if the contractionCriteria is less than
