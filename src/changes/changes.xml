@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="fix" issue="MATH-759" due-to="sebb">
+        Use getter/setter methods of super class for access to field "windowSize" in
+        "ListUnivariateImpl".
+      </action>
       <action dev="luc" type="fix" issue="MATH-880">
         Improved construction of polygons with an additional constructor, more robust numerically.
       </action>
