@@ -381,7 +381,7 @@ public abstract class RealVector {
      * Distance between two vectors.
      * <p>This method computes the distance consistent with the
      * L<sub>2</sub> norm, i.e. the square root of the sum of
-     * element differences, or Euclidian distance.</p>
+     * element differences, or Euclidean distance.</p>
      *
      * @param v Vector to which distance is requested.
      * @return the distance between two vectors.
