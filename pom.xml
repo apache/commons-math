@@ -434,18 +434,5 @@
       </plugin>
     </plugins>
   </reporting>
-  <profiles>
-    <profile>
-      <id>fast</id>
-      <properties>
-        <skipTests>true</skipTests>
-<!--        <maven.javadoc.skip>true</maven.javadoc.skip>-->
-        <maven.clover.skip>true</maven.clover.skip>
-        <cobertura.skip>true</cobertura.skip>
-        <findbugs.skip>true</findbugs.skip>
-        <pmd.skip>true</pmd.skip>
-      </properties>
-    </profile>
-  </profiles>
 </project>
 
