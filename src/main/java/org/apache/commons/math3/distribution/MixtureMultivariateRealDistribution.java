@@ -140,9 +140,8 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
 
         for (int i = 0; i < distribution.size(); i++) {
             // Make each component's seed different in order to avoid
-            // using the same sequence of random numbers. XXX
-            // components.get(i).reseedRandomGenerator(i + 1 + seed);
-            distribution.get(i).reseedRandomGenerator(seed); // XXX original code.
+            // using the same sequence of random numbers.
+            distribution.get(i).reseedRandomGenerator(i + 1 + seed);
         }
     }
 
