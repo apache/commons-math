@@ -18,6 +18,8 @@
 package org.apache.commons.math3.analysis;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Identity;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -466,9 +468,8 @@ public class FunctionUtils {
 
     /** Convert a {@link DifferentiableUnivariateFunction} into a {@link UnivariateDifferentiableFunction}.
      * <p>
-     * Note that the converted function is able to handle {@link DerivativeStructure} with
-     * <em>only</em> one parameter and up to order one. If the function is called with
-     * more parameters or higher order, a {@link DimensionMismatchException} will be thrown.
+     * Note that the converted function is able to handle {@link DerivativeStructure} up to order one.
+     * If the function is called with higher order, a {@link NumberIsTooLargeException} will be thrown.
      * </p>
      * @param f function to convert
      * @return converted function
@@ -485,21 +486,303 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc}
+             * @exception NumberIsTooLargeException if derivation order is greater than 1
+             */
+            public DerivativeStructure value(final DerivativeStructure t)
+                throws NumberIsTooLargeException {
+                switch (t.getOrder()) {
+                    case 0 :
+                        return new DerivativeStructure(t.getFreeParameters(), 0, f.value(t.getValue()));
+                    case 1 : {
+                        final int parameters = t.getFreeParameters();
+                        final double[] derivatives = new double[parameters + 1];
+                        derivatives[0] = f.value(t.getValue());
+                        final double fPrime = f.derivative().value(t.getValue());
+                        int[] orders = new int[parameters];
+                        for (int i = 0; i < parameters; ++i) {
+                            orders[i] = 1;
+                            derivatives[i + 1] = fPrime * t.getPartialDerivative(orders);
+                            orders[i] = 0;
+                        }
+                        return new DerivativeStructure(parameters, 1, derivatives);
+                    }
+                    default :
+                        throw new NumberIsTooLargeException(t.getOrder(), 1, true);
+                }
+            }
+
+        };
+    }
+
+    /** Convert a {@link MultivariateDifferentiableFunction} into a {@link DifferentiableMultivariateFunction}.
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableMultivariateFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static DifferentiableMultivariateFunction toDifferentiableMultivariateFunction(final MultivariateDifferentiableFunction f) {
+        return new DifferentiableMultivariateFunction() {
+
+            /** {@inheritDoc} */
+            public double value(final double[] x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc} */
+            public MultivariateFunction partialDerivative(final int k) {
+                return new MultivariateFunction() {
+                    /** {@inheritDoc} */
+                    public double value(final double[] x) {
+
+                        final int n = x.length;
+
+                        // delegate computation to underlying function
+                        final DerivativeStructure[] dsX = new DerivativeStructure[n];
+                        for (int i = 0; i < n; ++i) {
+                            if (i == k) {
+                                dsX[i] = new DerivativeStructure(1, 1, 0, x[i]);
+                            } else {
+                                dsX[i] = new DerivativeStructure(1, 1, x[i]);
+                            }
+                        }
+                        final DerivativeStructure y = f.value(dsX);
+
+                        // extract partial derivative
+                        return y.getPartialDerivative(1);
+
+                    }
+                };
+            }
+
+            public MultivariateVectorFunction gradient() {
+                return new MultivariateVectorFunction() {
+                    /** {@inheritDoc} */
+                    public double[] value(final double[] x) {
+
+                        final int n = x.length;
+
+                        // delegate computation to underlying function
+                        final DerivativeStructure[] dsX = new DerivativeStructure[n];
+                        for (int i = 0; i < n; ++i) {
+                            dsX[i] = new DerivativeStructure(n, 1, i, x[i]);
+                        }
+                        final DerivativeStructure y = f.value(dsX);
+
+                        // extract gradient
+                        final double[] gradient = new double[n];
+                        final int[] orders = new int[n];
+                        for (int i = 0; i < n; ++i) {
+                            orders[i]   = 1;
+                            gradient[i] = y.getPartialDerivative(orders);
+                            orders[i]   = 0;
+                        }
+
+                        return gradient;
+
+                    }
+                };
+            }
+
+        };
+    }
+
+    /** Convert a {@link DifferentiableMultivariateFunction} into a {@link MultivariateDifferentiableFunction}.
+     * <p>
+     * Note that the converted function is able to handle {@link DerivativeStructure} elements
+     * that all have the same number of free parameters and order, and with order at most 1.
+     * If the function is called with inconsistent numbers of free parameters or higher order, a
+     * {@link DimensionMismatchException} or a {@link NumberIsTooLargeException} will be thrown.
+     * </p>
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableMultivariateFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static MultivariateDifferentiableFunction toMultivariateDifferentiableFunction(final DifferentiableMultivariateFunction f) {
+        return new MultivariateDifferentiableFunction() {
+
+            /** {@inheritDoc} */
+            public double value(final double[] x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc}
              * @exception DimensionMismatchException if number of parameters or derivation
              * order are higher than 1
              */
-            public DerivativeStructure value(final DerivativeStructure t)
-                throws DimensionMismatchException {
-                if (t.getFreeParameters() != 1) {
-                    throw new DimensionMismatchException(t.getFreeParameters(), 1);
+            public DerivativeStructure value(final DerivativeStructure[] t)
+                throws DimensionMismatchException, NumberIsTooLargeException {
+
+                // check parameters and orders limits
+                final int parameters = t[0].getFreeParameters();
+                final int order      = t[0].getOrder();
+                final int n          = t.length;
+                if (order > 1) {
+                    throw new NumberIsTooLargeException(order, 1, true);
                 }
-                if (t.getOrder() > 1) {
-                    throw new DimensionMismatchException(t.getOrder(), 1);
+
+                // check all elements in the array are consistent
+                for (int i = 0; i < n; ++i) {
+                    if (t[i].getFreeParameters() != parameters) {
+                        throw new DimensionMismatchException(t[i].getFreeParameters(), parameters);
+                    }
+
+                    if (t[i].getOrder() != order) {
+                        throw new DimensionMismatchException(t[i].getOrder(), order);
+                    }
                 }
-                return t.compose(new double[] {
-                    f.value(t.getValue()),
-                    f.derivative().value(t.getValue())
-                });
+
+                // delegate computation to underlying function
+                final double[] point = new double[n];
+                for (int i = 0; i < n; ++i) {
+                    point[i] = t[i].getValue();
+                }
+                final double value      = f.value(point);
+                final double[] gradient = f.gradient().value(point);
+
+                // merge value and gradient into one DerivativeStructure
+                final double[] derivatives = new double[parameters + 1];
+                derivatives[0] = value;
+                final int[] orders = new int[parameters];
+                for (int i = 0; i < parameters; ++i) {
+                    orders[i] = 1;
+                    for (int j = 0; j < n; ++j) {
+                        derivatives[i + 1] += gradient[j] * t[j].getPartialDerivative(orders);
+                    }
+                    orders[i] = 0;
+                }
+
+                return new DerivativeStructure(parameters, order, derivatives);
+
+            }
+
+        };
+    }
+
+    /** Convert a {@link MultivariateDifferentiableVectorFunction} into a {@link DifferentiableMultivariateVectorFunction}.
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableMultivariateVectorFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static DifferentiableMultivariateVectorFunction toDifferentiableMultivariateVectorFunction(final MultivariateDifferentiableVectorFunction f) {
+        return new DifferentiableMultivariateVectorFunction() {
+
+            /** {@inheritDoc} */
+            public double[] value(final double[] x) {
+                return f.value(x);
+            }
+
+            public MultivariateMatrixFunction jacobian() {
+                return new MultivariateMatrixFunction() {
+                    /** {@inheritDoc} */
+                    public double[][] value(final double[] x) {
+
+                        final int n = x.length;
+
+                        // delegate computation to underlying function
+                        final DerivativeStructure[] dsX = new DerivativeStructure[n];
+                        for (int i = 0; i < n; ++i) {
+                            dsX[i] = new DerivativeStructure(n, 1, i, x[i]);
+                        }
+                        final DerivativeStructure[] y = f.value(dsX);
+
+                        // extract Jacobian
+                        final double[][] jacobian = new double[y.length][n];
+                        final int[] orders = new int[n];
+                        for (int i = 0; i < y.length; ++i) {
+                            for (int j = 0; j < n; ++j) {
+                                orders[j]      = 1;
+                                jacobian[i][j] = y[i].getPartialDerivative(orders);
+                                orders[j]      = 0;
+                            }
+                        }
+
+                        return jacobian;
+
+                    }
+                };
+            }
+
+        };
+    }
+
+    /** Convert a {@link DifferentiableMultivariateVectorFunction} into a {@link MultivariateDifferentiableVectorFunction}.
+     * <p>
+     * Note that the converted function is able to handle {@link DerivativeStructure} elements
+     * that all have the same number of free parameters and order, and with order at most 1.
+     * If the function is called with inconsistent numbers of free parameters or higher order, a
+     * {@link DimensionMismatchException} or a {@link NumberIsTooLargeException} will be thrown.
+     * </p>
+     * @param f function to convert
+     * @return converted function
+     * @deprecated this conversion method is temporary in version 3.1, as the {@link
+     * DifferentiableMultivariateFunction} interface itself is deprecated
+     */
+    @Deprecated
+    public static MultivariateDifferentiableVectorFunction toMultivariateDifferentiableVectorFunction(final DifferentiableMultivariateVectorFunction f) {
+        return new MultivariateDifferentiableVectorFunction() {
+
+            /** {@inheritDoc} */
+            public double[] value(final double[] x) {
+                return f.value(x);
+            }
+
+            /** {@inheritDoc}
+             * @exception DimensionMismatchException if number of parameters or derivation
+             * order are higher than 1
+             */
+            public DerivativeStructure[] value(final DerivativeStructure[] t)
+                throws DimensionMismatchException, NumberIsTooLargeException {
+
+                // check parameters and orders limits
+                final int parameters = t[0].getFreeParameters();
+                final int order      = t[0].getOrder();
+                final int n          = t.length;
+                if (order > 1) {
+                    throw new NumberIsTooLargeException(order, 1, true);
+                }
+
+                // check all elements in the array are consistent
+                for (int i = 0; i < n; ++i) {
+                    if (t[i].getFreeParameters() != parameters) {
+                        throw new DimensionMismatchException(t[i].getFreeParameters(), parameters);
+                    }
+
+                    if (t[i].getOrder() != order) {
+                        throw new DimensionMismatchException(t[i].getOrder(), order);
+                    }
+                }
+
+                // delegate computation to underlying function
+                final double[] point = new double[n];
+                for (int i = 0; i < n; ++i) {
+                    point[i] = t[i].getValue();
+                }
+                final double[] value      = f.value(point);
+                final double[][] jacobian = f.jacobian().value(point);
+
+                // merge value and Jacobian into a DerivativeStructure array
+                final DerivativeStructure[] merged = new DerivativeStructure[value.length];
+                for (int k = 0; k < merged.length; ++k) {
+                    final double[] derivatives = new double[parameters + 1];
+                    derivatives[0] = value[k];
+                    final int[] orders = new int[parameters];
+                    for (int i = 0; i < parameters; ++i) {
+                        orders[i] = 1;
+                        for (int j = 0; j < n; ++j) {
+                            derivatives[i + 1] += jacobian[k][j] * t[j].getPartialDerivative(orders);
+                        }
+                        orders[i] = 0;
+                    }
+                    merged[k] = new DerivativeStructure(parameters, order, derivatives);
+                }
+
+                return merged;
+
             }
 
         };

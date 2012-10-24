@@ -551,7 +551,7 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
      * @exception DimensionMismatchException if the number of derivatives
      * in the array is not equal to {@link #getOrder() order} + 1
      */
-    public DerivativeStructure compose(final double[] f) {
+    public DerivativeStructure compose(final double ... f) {
         if (f.length != getOrder() + 1) {
             throw new DimensionMismatchException(f.length, getOrder() + 1);
         }

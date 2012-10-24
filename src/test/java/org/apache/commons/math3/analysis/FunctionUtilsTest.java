@@ -18,6 +18,7 @@
 package org.apache.commons.math3.analysis;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.analysis.function.Add;
 import org.apache.commons.math3.analysis.function.Constant;
@@ -232,4 +233,117 @@ public class FunctionUtilsTest {
             Assert.assertEquals("x = " + x, FastMath.sin(x), actual[i], 0.0);
         }
     }
+
+    @Test
+    @Deprecated
+    public void testToDifferentiableUnivariateFunction() {
+
+        // Sin implements both UnivariateDifferentiableFunction and DifferentiableUnivariateFunction
+        Sin sin = new Sin();
+        DifferentiableUnivariateFunction converted = FunctionUtils.toDifferentiableUnivariateFunction(sin);
+        for (double x = 0.1; x < 0.5; x += 0.01) {
+            Assert.assertEquals(sin.value(x), converted.value(x), 1.0e-10);
+            Assert.assertEquals(sin.derivative().value(x), converted.derivative().value(x), 1.0e-10);
+        }
+
+    }
+
+    @Test
+    @Deprecated
+    public void testToUnivariateDifferential() {
+
+        // Sin implements both UnivariateDifferentiableFunction and DifferentiableUnivariateFunction
+        Sin sin = new Sin();
+        UnivariateDifferentiableFunction converted = FunctionUtils.toUnivariateDifferential(sin);
+        for (double x = 0.1; x < 0.5; x += 0.01) {
+            DerivativeStructure t = new DerivativeStructure(2, 1, x, 1.0, 2.0);
+            Assert.assertEquals(sin.value(t).getValue(), converted.value(t).getValue(), 1.0e-10);
+            Assert.assertEquals(sin.value(t).getPartialDerivative(1, 0),
+                                converted.value(t).getPartialDerivative(1, 0),
+                                1.0e-10);
+            Assert.assertEquals(sin.value(t).getPartialDerivative(0, 1),
+                                converted.value(t).getPartialDerivative(0, 1),
+                                1.0e-10);
+        }
+
+    }
+
+    @Test
+    @Deprecated
+    public void testToDifferentiableMultivariateFunction() {
+
+        MultivariateDifferentiableFunction hypot = new MultivariateDifferentiableFunction() {
+            
+            public double value(double[] point) {
+                return FastMath.hypot(point[0], point[1]);
+            }
+            
+            public DerivativeStructure value(DerivativeStructure[] point) {
+                return DerivativeStructure.hypot(point[0], point[1]);
+            }
+        };
+
+        DifferentiableMultivariateFunction converted = FunctionUtils.toDifferentiableMultivariateFunction(hypot);
+        for (double x = 0.1; x < 0.5; x += 0.01) {
+            for (double y = 0.1; y < 0.5; y += 0.01) {
+                double[] point = new double[] { x, y };
+                Assert.assertEquals(hypot.value(point), converted.value(point), 1.0e-10);
+                Assert.assertEquals(x / hypot.value(point), converted.gradient().value(point)[0], 1.0e-10);
+                Assert.assertEquals(y / hypot.value(point), converted.gradient().value(point)[1], 1.0e-10);
+            }
+        }
+
+    }
+
+    @Test
+    @Deprecated
+    public void testToMultivariateDifferentiableFunction() {
+
+        DifferentiableMultivariateFunction hypot = new DifferentiableMultivariateFunction() {
+            
+            public double value(double[] point) {
+                return FastMath.hypot(point[0], point[1]);
+            }
+
+            public MultivariateFunction partialDerivative(final int k) {
+                return new MultivariateFunction() {
+                    public double value(double[] point) {
+                        return point[k] / FastMath.hypot(point[0], point[1]);
+                    }
+                };
+            }
+
+            public MultivariateVectorFunction gradient() {
+                return new MultivariateVectorFunction() {
+                    public double[] value(double[] point) {
+                        final double h = FastMath.hypot(point[0], point[1]);
+                        return new double[] { point[0] / h, point[1] / h };
+                    }
+                };
+            }
+            
+        };
+
+        MultivariateDifferentiableFunction converted = FunctionUtils.toMultivariateDifferentiableFunction(hypot);
+        for (double x = 0.1; x < 0.5; x += 0.01) {
+            for (double y = 0.1; y < 0.5; y += 0.01) {
+                DerivativeStructure[] t = new DerivativeStructure[] {
+                    new DerivativeStructure(3, 1, x, 1.0, 2.0, 3.0 ),
+                    new DerivativeStructure(3, 1, y, 4.0, 5.0, 6.0 )
+                };
+                DerivativeStructure h = DerivativeStructure.hypot(t[0], t[1]);
+                Assert.assertEquals(h.getValue(), converted.value(t).getValue(), 1.0e-10);
+                Assert.assertEquals(h.getPartialDerivative(1, 0, 0),
+                                    converted.value(t).getPartialDerivative(1, 0, 0),
+                                    1.0e-10);
+                Assert.assertEquals(h.getPartialDerivative(0, 1, 0),
+                                    converted.value(t).getPartialDerivative(0, 1, 0),
+                                    1.0e-10);
+                Assert.assertEquals(h.getPartialDerivative(0, 0, 1),
+                                    converted.value(t).getPartialDerivative(0, 0, 1),
+                                    1.0e-10);
+            }
+        }
+    }
+
 }
