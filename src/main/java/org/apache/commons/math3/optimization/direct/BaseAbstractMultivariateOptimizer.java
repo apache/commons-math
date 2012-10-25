@@ -162,7 +162,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * instead.
      */
     @Deprecated
-    protected PointValuePair optimizeInternal(int maxEval, MultivariateFunction f, GoalType goalType,
+    protected PointValuePair optimizeInternal(int maxEval, FUNC f, GoalType goalType,
                                               double[] startPoint) {
         return optimizeInternal(maxEval, f, goalType, new InitialGuess(startPoint));
     }
@@ -184,7 +184,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * evaluations is exceeded.
      */
     protected PointValuePair optimizeInternal(int maxEval,
-                                              MultivariateFunction f,
+                                              FUNC f,
                                               GoalType goalType,
                                               OptimizationData... optData)
         throws TooManyEvaluationsException {

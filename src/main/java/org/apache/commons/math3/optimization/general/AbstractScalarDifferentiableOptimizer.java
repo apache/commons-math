@@ -19,7 +19,7 @@ package org.apache.commons.math3.optimization.general;
 
 import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.differentiation.GradientFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer;
 import org.apache.commons.math3.optimization.GoalType;
@@ -76,14 +76,14 @@ public abstract class AbstractScalarDifferentiableOptimizer
 
     /** {@inheritDoc} */
     @Override
-    public PointValuePair optimize(int maxEval,
-                                       final DifferentiableMultivariateFunction f,
-                                       final GoalType goalType,
-                                       final double[] startPoint) {
+    protected PointValuePair optimizeInternal(int maxEval,
+                                              final DifferentiableMultivariateFunction f,
+                                              final GoalType goalType,
+                                              final double[] startPoint) {
         // Store optimization problem characteristics.
         gradient = f.gradient();
 
-        return optimizeInternal(maxEval, f, goalType, startPoint);
+        return super.optimizeInternal(maxEval, f, goalType, startPoint);
     }
 
     /**
@@ -107,9 +107,9 @@ public abstract class AbstractScalarDifferentiableOptimizer
                                    final MultivariateDifferentiableFunction f,
                                    final GoalType goalType,
                                    final double[] startPoint) {
-        // Store optimization problem characteristics.
-        gradient = new GradientFunction(f);
-
-        return optimizeInternal(maxEval, f, goalType, startPoint);
+        return optimizeInternal(maxEval,
+                                FunctionUtils.toDifferentiableMultivariateFunction(f),
+                                goalType,
+                                startPoint);
     }
 }

@@ -22,6 +22,8 @@ import org.apache.commons.math3.analysis.differentiation.GradientFunction;
 import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math3.optimization.InitialGuess;
 import org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer;
@@ -35,9 +37,7 @@ import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOpti
  * @since 3.1
  */
 public abstract class AbstractDifferentiableOptimizer
-    extends BaseAbstractMultivariateOptimizer<MultivariateDifferentiableFunction>
-    implements MultivariateDifferentiableOptimizer {
-
+    extends BaseAbstractMultivariateOptimizer<MultivariateDifferentiableFunction> {
     /**
      * Objective function gradient.
      */
@@ -60,17 +60,31 @@ public abstract class AbstractDifferentiableOptimizer
         return gradient.value(evaluationPoint);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public PointValuePair optimize(final int maxEval, final MultivariateDifferentiableFunction f,
-                                   final GoalType goalType, final double[] startPoint) {
-
-        // store optimization problem characteristics
-        gradient = new GradientFunction(f);
-
-        // perform optimization
-        return super.optimize(maxEval, f, goalType, startPoint);
-
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated In 3.1. Please use
+     * {@link #optimizeInternal(int,MultivariateDifferentiableFunction,GoalType,OptimizationData[])}
+     * instead.
+     */
+    @Override@Deprecated
+    protected PointValuePair optimizeInternal(final int maxEval,
+                                              final MultivariateDifferentiableFunction f,
+                                              final GoalType goalType,
+                                              final double[] startPoint) {
+        return optimizeInternal(maxEval, f, goalType, new InitialGuess(startPoint));
     }
 
+    /** {@inheritDoc} */
+    @Override
+    protected PointValuePair optimizeInternal(final int maxEval,
+                                              final MultivariateDifferentiableFunction f,
+                                              final GoalType goalType,
+                                              final OptimizationData... optData) {
+        // Store optimization problem characteristics.
+        gradient = new GradientFunction(f);
+
+        // Perform optimization.
+        return super.optimizeInternal(maxEval, f, goalType, optData);
+    }
 }
