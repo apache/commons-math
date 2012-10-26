@@ -28,6 +28,10 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.Target;
+import org.apache.commons.math3.optimization.Weight;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
@@ -308,8 +312,10 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /** {@inheritDoc}
-     * @deprecated as of 3.1 replaced by {@link #optimize(int,
-     * MultivariateDifferentiableVectorFunction, double[], double[], double[])}
+     * @deprecated As of 3.1. Please use
+     * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,MultivariateVectorFunction,OptimizationData[])
+     * optimize(int,MultivariateDifferentiableVectorFunction,OptimizationData...)}
+     * instead.
      */
     @Override
     @Deprecated
@@ -317,8 +323,11 @@ public abstract class AbstractLeastSquaresOptimizer
                                          final DifferentiableMultivariateVectorFunction f,
                                          final double[] target, final double[] weights,
                                          final double[] startPoint) {
-        return optimize(maxEval, FunctionUtils.toMultivariateDifferentiableVectorFunction(f),
-                        target, weights, startPoint);
+        return optimizeInternal(maxEval,
+                                FunctionUtils.toMultivariateDifferentiableVectorFunction(f),
+                                new Target(target),
+                                new Weight(weights),
+                                new InitialGuess(startPoint));
     }
 
     /**
@@ -340,29 +349,78 @@ public abstract class AbstractLeastSquaresOptimizer
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math3.exception.NullArgumentException if
      * any argument is {@code null}.
+     * @deprecated As of 3.1. Please use
+     * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,MultivariateVectorFunction,OptimizationData[])
+     * optimize(int,MultivariateDifferentiableVectorFunction,OptimizationData...)}
+     * instead.
      */
+    @Deprecated
     public PointVectorValuePair optimize(final int maxEval,
                                          final MultivariateDifferentiableVectorFunction f,
                                          final double[] target, final double[] weights,
                                          final double[] startPoint) {
+        return optimizeInternal(maxEval, f,
+                                new Target(target),
+                                new Weight(weights),
+                                new InitialGuess(startPoint));
+    }
+
+    /**
+     * Optimize an objective function.
+     * Optimization is considered to be a weighted least-squares minimization.
+     * The cost function to be minimized is
+     * <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>
+     *
+     * @param maxEval Allowed number of evaluations of the objective function.
+     * @param f Objective function.
+     * @param optData Optimization data. The following data will be looked for:
+     * <ul>
+     *  <li>{@link Target}</li>
+     *  <li>{@link Weight}</li>
+     *  <li>{@link InitialGuess}</li>
+     * </ul>
+     * @return the point/value pair giving the optimal value of the objective
+     * function.
+     * @throws TooManyEvaluationsException if the maximal number of
+     * evaluations is exceeded.
+     * @throws DimensionMismatchException if the target, and weight arguments
+     * have inconsistent dimensions.
+     * @see BaseAbstractMultivariateVectorOptimizer#optimizeInternal(int,MultivariateVectorFunction,OptimizationData[])
+     *
+     * @since 3.1
+     */
+    protected PointVectorValuePair optimizeInternal(final int maxEval,
+                                                    final MultivariateDifferentiableVectorFunction f,
+                                                    OptimizationData... optData) {
+        // XXX Conversion will be removed when the generic argument of the
+        // base class becomes "MultivariateDifferentiableVectorFunction".
+        return super.optimizeInternal(maxEval, FunctionUtils.toDifferentiableMultivariateVectorFunction(f), optData);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected void setUp() {
+        super.setUp();
 
         // Reset counter.
         jacobianEvaluations = 0;
 
         // Store least squares problem characteristics.
-        jF = f;
+        // XXX The conversion won't be necessary when the generic argument of
+        // the base class becomes "MultivariateDifferentiableVectorFunction".
+        // XXX "jF" is not strictly necessary anymore but is currently more
+        // efficient than converting the value returned from "getObjectiveFunction()"
+        // every time it is used.
+        jF = FunctionUtils.toMultivariateDifferentiableVectorFunction((DifferentiableMultivariateVectorFunction) getObjectiveFunction());
 
         // Arrays shared with the other private methods.
-        point = startPoint.clone();
-        rows = target.length;
+        point = getStartPoint();
+        rows = getTarget().length;
         cols = point.length;
 
         weightedResidualJacobian = new double[rows][cols];
         this.weightedResiduals = new double[rows];
 
         cost = Double.POSITIVE_INFINITY;
-
-        return optimizeInternal(maxEval, f, target, weights, startPoint);
     }
-
 }
