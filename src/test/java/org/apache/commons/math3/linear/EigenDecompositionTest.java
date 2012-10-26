@@ -488,7 +488,7 @@ public class EigenDecompositionTest {
     @Test
     public void testDiagonal() {
         double[] diagonal = new double[] { -3.0, -2.0, 2.0, 5.0 };
-        RealMatrix m = createDiagonalMatrix(diagonal, diagonal.length, diagonal.length);
+        RealMatrix m = MatrixUtils.createRealDiagonalMatrix(diagonal);
         EigenDecomposition ed;
         ed = new EigenDecomposition(m);
         Assert.assertEquals(diagonal[0], ed.getRealEigenvalue(3), 2.0e-15);
@@ -640,7 +640,7 @@ public class EigenDecompositionTest {
     static RealMatrix createTestMatrix(final Random r, final double[] eigenValues) {
         final int n = eigenValues.length;
         final RealMatrix v = createOrthogonalMatrix(r, n);
-        final RealMatrix d = createDiagonalMatrix(eigenValues, n, n);
+        final RealMatrix d = MatrixUtils.createRealDiagonalMatrix(eigenValues);
         return v.multiply(d).multiply(v.transpose());
     }
 
@@ -686,14 +686,4 @@ public class EigenDecompositionTest {
         return MatrixUtils.createRealMatrix(data);
 
     }
-
-    public static RealMatrix createDiagonalMatrix(final double[] diagonal,
-                                                  final int rows, final int columns) {
-        final double[][] dData = new double[rows][columns];
-        for (int i = 0; i < FastMath.min(rows, columns); ++i) {
-            dData[i][i] = diagonal[i];
-        }
-        return MatrixUtils.createRealMatrix(dData);
-    }
-
 }
