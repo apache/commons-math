@@ -167,6 +167,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @param hyperplaneThickness tolerance below which points are consider to
      * belong to the hyperplane (which is therefore more a slab)
      * @param vertices vertices of the simple loop boundary
+     * @return the BSP tree of the input vertices
      */
     private static BSPTree<Euclidean2D> verticesToTree(final double hyperplaneThickness,
                                                        final Vector2D ... vertices) {
@@ -402,7 +403,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
          * The line supporting the outgoing edge is automatically bound
          * with the instance.
          * </p>
-         * @param incoming outgoing edge
+         * @param outgoing outgoing edge
          */
         public void setOutgoing(final Edge outgoing) {
             this.outgoing = outgoing;
