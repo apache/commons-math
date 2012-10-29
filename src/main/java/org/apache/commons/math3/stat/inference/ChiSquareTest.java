@@ -26,7 +26,7 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Implements Chi-Square test statistics.
@@ -86,8 +86,8 @@ public class ChiSquareTest {
         if (expected.length != observed.length) {
             throw new DimensionMismatchException(expected.length, observed.length);
         }
-        checkPositive(expected);
-        checkNonNegative(observed);
+        MathArrays.checkPositive(expected);
+        MathArrays.checkNonNegative(observed);
 
         double sumExpected = 0d;
         double sumObserved = 0d;
@@ -158,7 +158,6 @@ public class ChiSquareTest {
         ChiSquaredDistribution distribution =
             new ChiSquaredDistribution(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(chiSquare(expected, observed));
-
     }
 
     /**
@@ -420,8 +419,8 @@ public class ChiSquareTest {
         }
 
         // Ensure non-negative counts
-        checkNonNegative(observed1);
-        checkNonNegative(observed2);
+        MathArrays.checkNonNegative(observed1);
+        MathArrays.checkNonNegative(observed2);
 
         // Compute and compare count sums
         long countSum1 = 0;
@@ -594,84 +593,8 @@ public class ChiSquareTest {
             throw new DimensionMismatchException(in[0].length, 2);
         }
 
-        checkRectangular(in);
-        checkNonNegative(in);
-
-    }
-
-    //---------------------  Private array methods -- should find a utility home for these
-
-    /**
-     * Throws DimensionMismatchException if the input array is not rectangular.
-     *
-     * @param in array to be tested
-     * @throws NullArgumentException if input array is null
-     * @throws DimensionMismatchException if input array is not rectangular
-     */
-    private void checkRectangular(final long[][] in)
-        throws NullArgumentException, DimensionMismatchException {
-
-        MathUtils.checkNotNull(in);
-        for (int i = 1; i < in.length; i++) {
-            if (in[i].length != in[0].length) {
-                throw new DimensionMismatchException(
-                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
-                        in[i].length, in[0].length);
-            }
-        }
-
-    }
-
-    /**
-     * Check all entries of the input array are strictly positive.
-     *
-     * @param in Array to be tested.
-     * @throws NotStrictlyPositiveException if one entry is not strictly positive.
-     */
-    private void checkPositive(final double[] in)
-        throws NotStrictlyPositiveException {
-
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] <= 0) {
-                throw new NotStrictlyPositiveException(in[i]);
-            }
-        }
-
-    }
-
-    /**
-     * Check all entries of the input array are >= 0.
-     *
-     * @param in Array to be tested.
-     * @throws NotPositiveException if one entry is negative.
-     */
-    private void checkNonNegative(final long[] in)
-        throws NotPositiveException {
-
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] < 0) {
-                throw new NotPositiveException(in[i]);
-            }
-        }
-
-    }
-
-    /**
-     * Check all entries of the input array are >= 0.
-     *
-     * @param in Array to be tested.
-     * @throws NotPositiveException if one entry is negative.
-     */
-    private void checkNonNegative(final long[][] in)
-        throws NotPositiveException {
-
-        for (int i = 0; i < in.length; i ++) {
-            for (int j = 0; j < in[i].length; j++) {
-                if (in[i][j] < 0) {
-                    throw new NotPositiveException(in[i][j]);
-                }
-            }
-        }
+        MathArrays.checkRectangular(in);
+        MathArrays.checkNonNegative(in);
 
     }
 

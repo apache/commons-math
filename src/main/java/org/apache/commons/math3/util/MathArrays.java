@@ -25,6 +25,8 @@ import java.util.Collections;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -299,6 +301,73 @@ public class MathArrays {
      */
     public static void checkOrder(double[] val) throws NonMonotonicSequenceException {
         checkOrder(val, OrderDirection.INCREASING, true);
+    }
+
+    /**
+     * Throws DimensionMismatchException if the input array is not rectangular.
+     *
+     * @param in array to be tested
+     * @throws NullArgumentException if input array is null
+     * @throws DimensionMismatchException if input array is not rectangular
+     */
+    public static void checkRectangular(final long[][] in)
+        throws NullArgumentException, DimensionMismatchException {
+        MathUtils.checkNotNull(in);
+        for (int i = 1; i < in.length; i++) {
+            if (in[i].length != in[0].length) {
+                throw new DimensionMismatchException(
+                        LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
+                        in[i].length, in[0].length);
+            }
+        }
+    }
+
+    /**
+     * Check that all entries of the input array are strictly positive.
+     *
+     * @param in Array to be tested
+     * @throws NotStrictlyPositiveException if any entries of the array are not
+     * strictly positive.
+     */
+    public static void checkPositive(final double[] in)
+        throws NotStrictlyPositiveException {
+        for (int i = 0; i < in.length; i++) {
+            if (in[i] <= 0) {
+                throw new NotStrictlyPositiveException(in[i]);
+            }
+        }
+    }
+
+    /**
+     * Check that all entries of the input array are >= 0.
+     *
+     * @param in Array to be tested
+     * @throws NotPositiveException if any array entries are less than 0.
+     */
+    public static void checkNonNegative(final long[] in)
+        throws NotPositiveException {
+        for (int i = 0; i < in.length; i++) {
+            if (in[i] < 0) {
+                throw new NotPositiveException(in[i]);
+            }
+        }
+    }
+
+    /**
+     * Check all entries of the input array are >= 0.
+     *
+     * @param in Array to be tested
+     * @throws NotPositiveException if any array entries are less than 0.
+     */
+    public static void checkNonNegative(final long[][] in)
+        throws NotPositiveException {
+        for (int i = 0; i < in.length; i ++) {
+            for (int j = 0; j < in[i].length; j++) {
+                if (in[i][j] < 0) {
+                    throw new NotPositiveException(in[i][j]);
+                }
+            }
+        }
     }
 
     /**

@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="psteitz" type="update" issue="MATH-885">
+        Moved private array argument validation methods from ChiSquareTest to MathArrays.
+      </action>
       <action dev="erans" type="add" issue="MATH-816" due-to="Jared Becksfort">
         New class for generic multivariate mixture model distributions.
       </action>

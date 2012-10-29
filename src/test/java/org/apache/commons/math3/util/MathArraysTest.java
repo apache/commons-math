@@ -16,6 +16,8 @@ package org.apache.commons.math3.util;
 import java.util.Arrays;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -195,6 +197,94 @@ public class MathArraysTest {
                                                                 new Double(-11),
                                                                 new Double(-27.5) },
                 MathArrays.OrderDirection.DECREASING, false));
+    }
+    
+    @Test
+    public void testCheckRectangular() {
+        final long[][] rect = new long[][] {{0, 1}, {2, 3}};
+        final long[][] ragged = new long[][] {{0, 1}, {2}};
+        final long[][] nullArray = null;
+        final long[][] empty = new long[][] {};
+        MathArrays.checkRectangular(rect);
+        MathArrays.checkRectangular(empty);
+        try {
+            MathArrays.checkRectangular(ragged);
+            Assert.fail("Expecting DimensionMismatchException");
+        } catch (DimensionMismatchException ex) {
+            // Expected
+        }
+        try {
+            MathArrays.checkRectangular(nullArray);
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
+            // Expected
+        } 
+    }
+    
+    @Test
+    public void testCheckPositive() {
+        final double[] positive = new double[] {1, 2, 3};
+        final double[] nonNegative = new double[] {0, 1, 2};
+        final double[] nullArray = null;
+        final double[] empty = new double[] {};
+        MathArrays.checkPositive(positive);
+        MathArrays.checkPositive(empty);
+        try {
+            MathArrays.checkPositive(nullArray);
+            Assert.fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // Expected
+        }
+        try {
+            MathArrays.checkPositive(nonNegative);
+            Assert.fail("Expecting NotStrictlyPositiveException");
+        } catch (NotStrictlyPositiveException ex) {
+            // Expected
+        }
+    }
+    
+    @Test
+    public void testCheckNonNegative() {
+        final long[] nonNegative = new long[] {0, 1};
+        final long[] hasNegative = new long[] {-1};
+        final long[] nullArray = null;
+        final long[] empty = new long[] {};
+        MathArrays.checkNonNegative(nonNegative);
+        MathArrays.checkNonNegative(empty);
+        try {
+            MathArrays.checkNonNegative(nullArray);
+            Assert.fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // Expected
+        }
+        try {
+            MathArrays.checkNonNegative(hasNegative);
+            Assert.fail("Expecting NotPositiveException");
+        } catch (NotPositiveException ex) {
+            // Expected
+        }
+    }
+    
+    @Test
+    public void testCheckNonNegative2D() {
+        final long[][] nonNegative = new long[][] {{0, 1}, {1, 0}};
+        final long[][] hasNegative = new long[][] {{-1}, {0}};
+        final long[][] nullArray = null;
+        final long[][] empty = new long[][] {};
+        MathArrays.checkNonNegative(nonNegative);
+        MathArrays.checkNonNegative(empty);
+        try {
+            MathArrays.checkNonNegative(nullArray);
+            Assert.fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // Expected
+        }
+        try {
+            MathArrays.checkNonNegative(hasNegative);
+            Assert.fail("Expecting NotPositiveException");
+        } catch (NotPositiveException ex) {
+            // Expected
+        }
     }
 
     @Test
