@@ -887,9 +887,7 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
          * @return replacement {@link DerivativeStructure}
          */
         private Object readResolve() {
-            final DerivativeStructure ds = new DerivativeStructure(variables, order);
-            System.arraycopy(data, 0, ds.data, 0, ds.data.length);
-            return ds;
+            return new DerivativeStructure(variables, order, data);
         }
 
     }

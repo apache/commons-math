@@ -1128,6 +1128,15 @@ public class DerivativeStructureTest {
         TestUtils.assertEquals(derivatives, xRef.add(yRef.subtract(zRef)).getAllDerivatives(), 1.0e-15);
     }
 
+    @Test
+    public void testSerialization() {
+        DerivativeStructure a = new DerivativeStructure(3, 2, 0, 1.3);
+        DerivativeStructure b = (DerivativeStructure) TestUtils.serializeAndRecover(a);
+        Assert.assertEquals(a.getFreeParameters(), b.getFreeParameters());
+        Assert.assertEquals(a.getOrder(), b.getOrder());
+        checkEquals(a, b, 1.0e-15);
+    }
+
     private void checkF0F1(DerivativeStructure ds, double value, double...derivatives) {
 
         // check dimension
