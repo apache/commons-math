@@ -363,4 +363,74 @@ public final class MatrixUtilsTest {
             }
         }
     }
+
+    @Test
+    public void testIsSymmetric() {
+        final double eps = Math.ulp(1d);
+
+        final double[][] dataSym = {
+            { 1, 2, 3 },
+            { 2, 2, 5 },
+            { 3, 5, 6 },
+        };
+        Assert.assertTrue(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataSym), eps));
+
+        final double[][] dataNonSym = {
+            { 1, 2, -3 },
+            { 2, 2, 5 },
+            { 3, 5, 6 },
+        };
+        Assert.assertFalse(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataNonSym), eps));
+    }
+
+    @Test
+    public void testIsSymmetricTolerance() {
+        final double eps = 1e-4;
+
+        final double[][] dataSym1 = {
+            { 1,   1, 1.00009 },
+            { 1,   1, 1       },
+            { 1.0, 1, 1       },
+        };
+        Assert.assertTrue(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataSym1), eps));
+        final double[][] dataSym2 = {
+            { 1,   1, 0.99990 },
+            { 1,   1, 1       },
+            { 1.0, 1, 1       },
+        };
+        Assert.assertTrue(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataSym2), eps));
+
+        final double[][] dataNonSym1 = {
+            { 1,   1, 1.00011 },
+            { 1,   1, 1       },
+            { 1.0, 1, 1       },
+        };
+        Assert.assertFalse(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataNonSym1), eps));
+        final double[][] dataNonSym2 = {
+            { 1,   1, 0.99989 },
+            { 1,   1, 1       },
+            { 1.0, 1, 1       },
+        };
+        Assert.assertFalse(MatrixUtils.isSymmetric(MatrixUtils.createRealMatrix(dataNonSym2), eps));
+    }
+
+    @Test
+    public void testCheckSymmetric1() {
+        final double[][] dataSym = {
+            { 1, 2, 3 },
+            { 2, 2, 5 },
+            { 3, 5, 6 },
+        };
+        MatrixUtils.checkSymmetric(MatrixUtils.createRealMatrix(dataSym), Math.ulp(1d));
+    }
+    
+    @Test(expected=NonSymmetricMatrixException.class)
+    public void testCheckSymmetric2() {
+        final double[][] dataNonSym = {
+            { 1, 2, -3 },
+            { 2, 2, 5 },
+            { 3, 5, 6 },
+        };
+        MatrixUtils.checkSymmetric(MatrixUtils.createRealMatrix(dataNonSym), Math.ulp(1d));
+    }
 }

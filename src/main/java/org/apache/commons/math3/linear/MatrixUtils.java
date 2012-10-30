@@ -375,6 +375,70 @@ public class MatrixUtils {
     }
 
     /**
+     * Checks whether a matrix is symmetric, within a given relative tolerance.
+     *
+     * @param matrix Matrix to check.
+     * @param relativeTolerance Tolerance of the symmetry check.
+     * @param raiseException If {@code true}, an exception will be raised if
+     * the matrix is not symmetric.
+     * @return {@code true} if {@code matrix} is symmetric.
+     * @throws NonSquareMatrixException if the matrix is not square.
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     */
+    private static boolean isSymmetricInternal(RealMatrix matrix,
+                                               double relativeTolerance,
+                                               boolean raiseException) {
+        final int rows = matrix.getRowDimension();
+        if (rows != matrix.getColumnDimension()) {
+            if (raiseException) {
+                throw new NonSquareMatrixException(rows, matrix.getColumnDimension());
+            } else {
+                return false;
+            }
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int j = i + 1; j < rows; j++) {
+                final double mij = matrix.getEntry(i, j);
+                final double mji = matrix.getEntry(j, i);
+                if (FastMath.abs(mij - mji) >
+                    FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * relativeTolerance) {
+                    if (raiseException) {
+                        throw new NonSymmetricMatrixException(i, j, relativeTolerance);
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks whether a matrix is symmetric.
+     *
+     * @param matrix Matrix to check.
+     * @param eps Relative tolerance.
+     * @throws NonSquareMatrixException if the matrix is not square.
+     * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     */
+    public static void checkSymmetric(RealMatrix matrix,
+                                      double eps) {
+        isSymmetricInternal(matrix, eps, true);
+    }
+
+    /**
+     * Checks whether a matrix is symmetric.
+     *
+     * @param matrix Matrix to check.
+     * @param eps Relative tolerance.
+     * @return {@code true} if {@code matrix} is symmetric.
+     */
+    public static boolean isSymmetric(RealMatrix matrix,
+                                      double eps) {
+        return isSymmetricInternal(matrix, eps, false);
+    }
+
+    /**
      * Check if matrix indices are valid.
      *
      * @param m Matrix.
