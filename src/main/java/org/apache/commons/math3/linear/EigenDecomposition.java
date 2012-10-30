@@ -100,6 +100,8 @@ public class EigenDecomposition {
     private RealMatrix cachedD;
     /** Cached value of Vt. */
     private RealMatrix cachedVt;
+    /** Whether the matrix is symmetric. */
+    private final boolean isSymmetric;
 
     /**
      * Calculates the eigen decomposition of the given real matrix.
@@ -113,7 +115,8 @@ public class EigenDecomposition {
      */
     public EigenDecomposition(final RealMatrix matrix)
         throws MathArithmeticException {
-        if (isSymmetric(matrix, false)) {
+        isSymmetric = isSymmetric(matrix, false);
+        if (isSymmetric) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
         } else {
@@ -149,6 +152,7 @@ public class EigenDecomposition {
      * @throws MaxCountExceededException if the algorithm fails to converge.
      */
     public EigenDecomposition(final double[] main, final double[] secondary) {
+        isSymmetric = true;
         this.main      = main.clone();
         this.secondary = secondary.clone();
         transformer    = null;
@@ -383,6 +387,35 @@ public class EigenDecomposition {
             determinant *= lambda;
         }
         return determinant;
+    }
+
+    /**
+     * Computes the square-root of the matrix.
+     * This implementation assumes that the matrix is symmetric and postive
+     * definite.
+     *
+     * @return the square-root of the matrix.
+     * @throws MathUnsupportedOperationException if the matrix is not
+     * symmetric or not positive definite.
+     */
+    public RealMatrix getSquareRoot() {
+        if (!isSymmetric) {
+            throw new MathUnsupportedOperationException();
+        }
+
+        final double[] sqrtEigenValues = new double[realEigenvalues.length];
+        for (int i = 0; i < realEigenvalues.length; i++) {
+            final double eigen = realEigenvalues[i];
+            if (eigen <= 0) {
+                throw new MathUnsupportedOperationException();
+            }
+            sqrtEigenValues[i] = FastMath.sqrt(eigen);
+        }
+        final RealMatrix sqrtEigen = MatrixUtils.createRealDiagonalMatrix(sqrtEigenValues);
+        final RealMatrix v = getV();
+        final RealMatrix vT = getVT();
+
+        return v.multiply(sqrtEigen).multiply(vT);
     }
 
     /**

@@ -24,6 +24,7 @@ import java.util.Random;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -334,6 +335,53 @@ public class EigenDecompositionTest {
 
         double norm = v.multiply(d).multiply(vT).subtract(symmetric).getNorm();
         Assert.assertEquals(0, norm, 6.0e-13);
+    }
+
+    @Test
+    public void testSquareRoot() {
+        final double[][] data = {
+            { 33, 24,  7 },
+            { 24, 57, 11 },
+            {  7, 11,  9 }
+        };
+
+        final EigenDecomposition dec = new EigenDecomposition(MatrixUtils.createRealMatrix(data));
+        final RealMatrix sqrtM = dec.getSquareRoot();
+
+        // Reconstruct initial matrix.
+        final RealMatrix m = sqrtM.multiply(sqrtM);
+
+        final int dim = data.length;
+        for (int r = 0; r < dim; r++) {
+            for (int c = 0; c < dim; c++) {
+                Assert.assertEquals("m[" + r + "][" + c + "]",
+                                    data[r][c], m.getEntry(r, c), 1e-13);
+            }
+        }
+    }
+
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testSquareRootNonSymmetric() {
+        final double[][] data = {
+            { 1,  2, 4 },
+            { 2,  3, 5 },
+            { 11, 5, 9 }
+        };
+
+        final EigenDecomposition dec = new EigenDecomposition(MatrixUtils.createRealMatrix(data));
+        final RealMatrix sqrtM = dec.getSquareRoot();
+    }
+
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testSquareRootNonPositiveDefinite() {
+        final double[][] data = {
+            { 1, 2,  4 },
+            { 2, 3,  5 },
+            { 4, 5, -9 }
+        };
+
+        final EigenDecomposition dec = new EigenDecomposition(MatrixUtils.createRealMatrix(data));
+        final RealMatrix sqrtM = dec.getSquareRoot();
     }
 
     @Test

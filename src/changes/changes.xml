@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-883">
+        New "getSquareRoot" method in class "EigenDecomposition" (package
+        "o.a.c.m.linear").
+      </action>
       <action dev="erans" type="update" issue="MATH-884">
         Added "isSymmetric" and "checkSymmetric" in "MatrixUtils" (package
         "o.a.c.m.linear").
