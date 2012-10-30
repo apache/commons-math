@@ -115,7 +115,8 @@ public class EigenDecomposition {
      */
     public EigenDecomposition(final RealMatrix matrix)
         throws MathArithmeticException {
-        isSymmetric = isSymmetric(matrix, false);
+        final double symTol = 10 * matrix.getRowDimension() * matrix.getColumnDimension() * Precision.EPSILON;
+        isSymmetric = MatrixUtils.isSymmetric(matrix, symTol);
         if (isSymmetric) {
             transformToTridiagonal(matrix);
             findEigenVectors(transformer.getQ().getData());
@@ -179,37 +180,6 @@ public class EigenDecomposition {
     public EigenDecomposition(final double[] main, final double[] secondary,
                               final double splitTolerance) {
         this(main, secondary);
-    }
-
-    /**
-     * Check if a matrix is symmetric.
-     *
-     * @param matrix Matrix to check.
-     * @param raiseException If {@code true}, the method will throw an
-     * exception if {@code matrix} is not symmetric.
-     * @return {@code true} if {@code matrix} is symmetric.
-     * @throws NonSymmetricMatrixException if the matrix is not symmetric and
-     * {@code raiseException} is {@code true}.
-     */
-    private boolean isSymmetric(final RealMatrix matrix,
-                                boolean raiseException) {
-        final int rows = matrix.getRowDimension();
-        final int columns = matrix.getColumnDimension();
-        final double eps = 10 * rows * columns * Precision.EPSILON;
-        for (int i = 0; i < rows; ++i) {
-            for (int j = i + 1; j < columns; ++j) {
-                final double mij = matrix.getEntry(i, j);
-                final double mji = matrix.getEntry(j, i);
-                if (FastMath.abs(mij - mji) >
-                    (FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * eps)) {
-                    if (raiseException) {
-                        throw new NonSymmetricMatrixException(i, j, eps);
-                    }
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
