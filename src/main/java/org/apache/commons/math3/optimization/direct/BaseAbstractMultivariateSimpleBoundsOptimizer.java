@@ -37,7 +37,7 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
  *
  * @version $Id$
  * @since 3.0
- * @deprecated As of 3.1 since the {@link BaseAbstractMultivariateSimpleBoundsOptimizer
+ * @deprecated As of 3.1 since the {@link BaseAbstractMultivariateOptimizer
  * base class} contains similar functionality.
  */
 @Deprecated
