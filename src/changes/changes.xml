@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="psteitz" type="add" issue="MATH-878" due-to="Radoslav Tsvetkov">
+        Added G-test statistics.
+      </action>
       <action dev="erans" type="add" issue="MATH-883">
         New "getSquareRoot" method in class "EigenDecomposition" (package
         "o.a.c.m.linear").
