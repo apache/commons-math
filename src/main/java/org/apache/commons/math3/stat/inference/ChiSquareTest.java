@@ -30,9 +30,12 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Implements Chi-Square test statistics.
- * <p>This implementation handles both, known and unknown distributions.</p>
- * <p>Two samples tests are used when the distribution is unknown <i>a priori</i>
- * but provided by one sample. We compare the second sample against the first.</p>
+ *
+ * <p>This implementation handles both known and unknown distributions.</p>
+ *
+ * <p>Two samples tests can be used when the distribution is unknown <i>a priori</i>
+ * but provided by one sample, or when the hypothesis under test is that the two
+ * samples come from the same underlying distribution.</p>
  *
  * @version $Id$
  */

@@ -47,6 +47,9 @@ public class TestUtils  {
     /** Singleton OneWayAnova instance. */
     private static final OneWayAnova ONE_WAY_ANANOVA = new OneWayAnova();
 
+    /** Singleton G-Test instance. */
+    private static final GTest G_TEST = new GTest();
+
     /**
      * Prevent instantiation.
      */
@@ -360,6 +363,83 @@ public class TestUtils  {
         throws NullArgumentException, DimensionMismatchException,
         OutOfRangeException, ConvergenceException, MaxCountExceededException {
         return ONE_WAY_ANANOVA.anovaTest(categoryData, alpha);
+    }
+
+     /**
+     * @see org.apache.commons.math3.stat.inference.GTest#gValueGoodnessOfFit(double[], long[])
+     */
+    public static double gValue(final double[] expected, final long[] observed)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException {
+        return G_TEST.gValueGoodnessOfFit(expected, observed);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.GTest#gTestGoodnessOfFitPValue( double[],  long[] )
+     */
+    public static double gTest_pValue(final double[] expected, final long[] observed)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException, MaxCountExceededException {
+        return G_TEST.gTestGoodnessOfFitPValue(expected, observed);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.GTest#gTestGoodnessOfFitIntrinsicPValue(double[], long[] )
+     */
+    public static double gTestIntrinsic_pValue(final double[] expected, final long[] observed)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException, MaxCountExceededException {
+        return G_TEST.gTestGoodnessOfFitIntrinsicPValue(expected, observed);
+    }
+
+     /**
+     * @see org.apache.commons.math3.stat.inference.GTest#gTestGoodnessOfFit( double[],long[],double)
+     */
+    public static boolean gTest(final double[] expected, final long[] observed,
+                                final double alpha)
+        throws NotPositiveException, NotStrictlyPositiveException,
+        DimensionMismatchException, OutOfRangeException, MaxCountExceededException {
+        return G_TEST.gTestGoodnessOfFit(expected, observed, alpha);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.GTest#gValueDataSetsComparison(long[], long[])
+     */
+    public static double gValueDataSetsComparison(final long[] observed1,
+                                                  final long[] observed2)
+        throws DimensionMismatchException, NotPositiveException, ZeroException {
+        return G_TEST.gValueDataSetsComparison(observed1, observed2);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.GTest#rootLogLikelihoodRatio(long, long, long, long)
+     */
+    public static double rootLogLikelihoodRatio(final long k11, final long k12, final long k21, final long k22)
+        throws DimensionMismatchException, NotPositiveException, ZeroException {
+        return G_TEST.rootLogLikelihoodRatio(k11, k12, k21, k22);
+    }
+
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#gTestDataSetsComparisonPValue(long[], long[])
+     *
+     */
+    public static double gTestDataSetsComparison_pValue(final long[] observed1,
+                                                        final long[] observed2)
+        throws DimensionMismatchException, NotPositiveException, ZeroException,
+        MaxCountExceededException {
+        return G_TEST.gTestDataSetsComparisonPValue(observed1, observed2);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#gTestDataSetsComparison(double[],long[],double)
+     */
+    public static boolean gTestDataSetsComparison(final long[] observed1,
+                                                  final long[] observed2,
+                                                  final double alpha)
+        throws DimensionMismatchException, NotPositiveException,
+        ZeroException, OutOfRangeException, MaxCountExceededException {
+        return G_TEST.gTestDataSetsComparison(observed1, observed2, alpha);
     }
 
     // CHECKSTYLE: resume JavadocMethodCheck
