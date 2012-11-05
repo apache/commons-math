@@ -269,37 +269,6 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     }
 
     /**
-     * Computes the residuals.
-     * The residual is the difference between the observed (target)
-     * values and the model (objective function) value, for the given
-     * parameters.
-     * There is one residual for each element of the vector-valued
-     * function.
-     *
-     * @param point Parameters of the model.
-     * @return the residuals.
-     * @throws DimensionMismatchException if {@code point} has a wrong
-     * length.
-     * @since 3.1
-     */
-    protected double[] computeResidual(double[] point) {
-        if (point.length != start.length) {
-            throw new DimensionMismatchException(point.length,
-                                                 start.length);
-        }
-
-        final double[] objective = computeObjectiveValue(point);
-
-        final double[] residuals = new double[target.length];
-        for (int i = 0; i < target.length; i++) {
-            residuals[i] = target[i] - objective[i];
-        }
-
-        return residuals;
-    }
-
-
-    /**
      * Gets the objective vector function.
      * Note that this access bypasses the evaluation counter.
      *
@@ -340,7 +309,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * state depend on the {@link OptimizationData input} parsed by this base
      * class.
      * It will be called after the parsing step performed in the
-     * {@link #optimize(int,MultivariateVectorFunction,OptimizationData[]) 
+     * {@link #optimize(int,MultivariateVectorFunction,OptimizationData[])
      * optimize} method and just before {@link #doOptimize()}.
      *
      * @since 3.1

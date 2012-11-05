@@ -20,14 +20,17 @@ package org.apache.commons.math3.optimization.general;
 import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.JacobianFunction;
 import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
+import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.InitialGuess;
 import org.apache.commons.math3.optimization.Target;
@@ -41,15 +44,16 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Base class for implementing least squares optimizers.
  * It handles the boilerplate methods associated to thresholds settings,
- * jacobian and error estimation.
+ * Jacobian and error estimation.
  * <br/>
- * This class uses the {@link JacobianFunction Jacobian} of the function argument in method
- * {@link #optimize(int, MultivariateDifferentiableVectorFunction, double[], double[], double[])
- * optimize} and assumes that, in the matrix returned by the
- * {@link JacobianFunction#value(double[]) value} method, the rows
- * iterate on the model functions while the columns iterate on the parameters; thus,
- * the numbers of rows is equal to the length of the {@code target} array while the
- * number of columns is equal to the length of the {@code startPoint} array.
+ * This class constructs the Jacobian matrix of the function argument in method
+ * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,MultivariateVectorFunction,OptimizationData[])
+ * optimize} and assumes that the rows of that matrix iterate on the model
+ * functions while the columns iterate on the parameters; thus, the numbers
+ * of rows is equal to the dimension of the
+ * {@link org.apache.commons.math3.optimization.Target Target} while
+ * the number of columns is equal to the dimension of the
+ * {@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}.
  *
  * @version $Id$
  * @since 1.2
@@ -83,6 +87,8 @@ public abstract class AbstractLeastSquaresOptimizer
     private MultivariateDifferentiableVectorFunction jF;
     /** Number of evaluations of the Jacobian. */
     private int jacobianEvaluations;
+    /** Square-root of the weight matrix. */
+    private RealMatrix weightMatrixSqrt;
 
     /**
      * Simple constructor with default settings.
@@ -124,25 +130,20 @@ public abstract class AbstractLeastSquaresOptimizer
         if (dsValue.length != rows) {
             throw new DimensionMismatchException(dsValue.length, rows);
         }
-        for (int i = 0; i < rows; ++i) {
+        final int nR = getTarget().length;
+        final int nC = point.length;
+        final double[][] jacobianData = new double[nR][nC];
+        for (int i = 0; i < nR; ++i) {
             int[] orders = new int[point.length];
-            for (int j = 0; j < point.length; ++j) {
+            for (int j = 0; j < nC; ++j) {
                 orders[j] = 1;
-                weightedResidualJacobian[i][j] = dsValue[i].getPartialDerivative(orders);
+                jacobianData[i][j] = dsValue[i].getPartialDerivative(orders);
                 orders[j] = 0;
             }
         }
 
-        final double[] residualsWeights = getWeightRef();
-
-        for (int i = 0; i < rows; i++) {
-            final double[] ji = weightedResidualJacobian[i];
-            double wi = FastMath.sqrt(residualsWeights[i]);
-            for (int j = 0; j < cols; ++j) {
-                //ji[j] *=  -1.0;
-                weightedResidualJacobian[i][j] = -ji[j]*wi;
-            }
-        }
+        weightedResidualJacobian
+            = weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobianData)).scalarMultiply(-1).getData();
     }
 
     /**
@@ -153,21 +154,14 @@ public abstract class AbstractLeastSquaresOptimizer
      * if the maximal number of evaluations is exceeded.
      */
     protected void updateResidualsAndCost() {
-        objective = computeObjectiveValue(point);
-        if (objective.length != rows) {
-            throw new DimensionMismatchException(objective.length, rows);
-        }
+        final double[] res = computeResidual(point);
+        final ArrayRealVector residuals = new ArrayRealVector(res);
+        final RealMatrix weight = getWeight();
 
-        final double[] targetValues = getTargetRef();
-        final double[] residualsWeights = getWeightRef();
-
-        cost = 0;
-        for (int i = 0; i < rows; i++) {
-            final double residual = targetValues[i] - objective[i];
-            weightedResiduals[i]= residual*FastMath.sqrt(residualsWeights[i]);
-            cost += residualsWeights[i] * residual * residual;
-        }
-        cost = FastMath.sqrt(cost);
+        // Compute cost.
+        cost = FastMath.sqrt(residuals.dotProduct(weight.operate(residuals)));
+        // Compute weighted residuals.
+        weightedResiduals = weightMatrixSqrt.operate(residuals).toArray();
     }
 
     /**
@@ -226,22 +220,13 @@ public abstract class AbstractLeastSquaresOptimizer
         // Set up the jacobian.
         updateJacobian();
 
-        // Compute transpose(J)J, without building intermediate matrices.
-        double[][] jTj = new double[cols][cols];
-        for (int i = 0; i < cols; ++i) {
-            for (int j = i; j < cols; ++j) {
-                double sum = 0;
-                for (int k = 0; k < rows; ++k) {
-                    sum += weightedResidualJacobian[k][i] * weightedResidualJacobian[k][j];
-                }
-                jTj[i][j] = sum;
-                jTj[j][i] = sum;
-            }
-        }
+        // Compute transpose(J)J.
+        final RealMatrix wrj = new Array2DRowRealMatrix(weightedResidualJacobian);
+        final RealMatrix jTj = wrj.transpose().multiply(wrj);
 
         // Compute the covariances matrix.
         final DecompositionSolver solver
-            = new QRDecomposition(MatrixUtils.createRealMatrix(jTj), threshold).getSolver();
+            = new QRDecomposition(jTj, threshold).getSolver();
         return solver.getInverse().getData();
     }
 
@@ -381,14 +366,16 @@ public abstract class AbstractLeastSquaresOptimizer
      * </ul>
      * @return the point/value pair giving the optimal value of the objective
      * function.
-     * @throws TooManyEvaluationsException if the maximal number of
-     * evaluations is exceeded.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * the maximal number of evaluations is exceeded.
      * @throws DimensionMismatchException if the target, and weight arguments
      * have inconsistent dimensions.
      * @see BaseAbstractMultivariateVectorOptimizer#optimizeInternal(int,MultivariateVectorFunction,OptimizationData[])
-     *
      * @since 3.1
+     * @deprecated As of 3.1. Override is necessary only until this class's generic
+     * argument is changed to {@code MultivariateDifferentiableVectorFunction}.
      */
+    @Deprecated
     protected PointVectorValuePair optimizeInternal(final int maxEval,
                                                     final MultivariateDifferentiableVectorFunction f,
                                                     OptimizationData... optData) {
@@ -405,6 +392,9 @@ public abstract class AbstractLeastSquaresOptimizer
         // Reset counter.
         jacobianEvaluations = 0;
 
+        // Square-root of the weight matrix.
+        weightMatrixSqrt = squareRoot(getWeight());
+
         // Store least squares problem characteristics.
         // XXX The conversion won't be necessary when the generic argument of
         // the base class becomes "MultivariateDifferentiableVectorFunction".
@@ -413,14 +403,50 @@ public abstract class AbstractLeastSquaresOptimizer
         // every time it is used.
         jF = FunctionUtils.toMultivariateDifferentiableVectorFunction((DifferentiableMultivariateVectorFunction) getObjectiveFunction());
 
-        // Arrays shared with the other private methods.
+        // Arrays shared with "private" and "protected" methods.
         point = getStartPoint();
         rows = getTarget().length;
         cols = point.length;
+    }
 
-        weightedResidualJacobian = new double[rows][cols];
-        this.weightedResiduals = new double[rows];
+    /**
+     * Computes the square-root of the weight matrix.
+     *
+     * @param m Symmetric, positive-definite (weight) matrix.
+     * @return the square-root of the weight matrix.
+     */
+    private RealMatrix squareRoot(RealMatrix m) {
+        final EigenDecomposition dec = new EigenDecomposition(m);
+        return dec.getSquareRoot();
+    }
 
-        cost = Double.POSITIVE_INFINITY;
+    /**
+     * Computes the residuals.
+     * The residual is the difference between the observed (target)
+     * values and the model (objective function) value, for the given
+     * parameters.
+     * There is one residual for each element of the vector-valued
+     * function.
+     *
+     * @param params Parameters of the model.
+     * @return the residuals.
+     * @throws DimensionMismatchException if {@code params} has a wrong
+     * length.
+     */
+    private double[] computeResidual(double[] params) {
+        if (params.length != getStartPoint().length) {
+            throw new DimensionMismatchException(params.length,
+                                                 getStartPoint().length);
+        }
+
+        objective = computeObjectiveValue(params);
+        final double[] target = getTarget();
+
+        final double[] residuals = new double[target.length];
+        for (int i = 0; i < target.length; i++) {
+            residuals[i] = target[i] - objective[i];
+        }
+
+        return residuals;
     }
 }
