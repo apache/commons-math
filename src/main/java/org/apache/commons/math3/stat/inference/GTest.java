@@ -306,7 +306,7 @@ public class GTest {
     /**
      * <p>Computes a G (Log-Likelihood Ratio) two sample test statistic for
      * independence comparing frequency counts in
-     * {@code observed1} and {@codeobserved2}. The sums of frequency
+     * {@code observed1} and {@code observed2}. The sums of frequency
      * counts in the two samples are not required to be the same. The formula
      * used to compute the test statistic is </p>
      *
@@ -449,7 +449,7 @@ public class GTest {
      * <ul> <li>Observed counts must be non-negative. </li>
      * <li>Observed counts for a specific bin must not both be zero. </li>
      * <li>Observed counts for a specific sample must not all be 0. </li>
-     * <li>The arrays {@code observed1} and {@ode observed2} must
+     * <li>The arrays {@code observed1} and {@code observed2} must
      * have the same length and their common length must be at least 2. </li>
      * </ul><p>
      * <p> If any of the preconditions are not met, a
