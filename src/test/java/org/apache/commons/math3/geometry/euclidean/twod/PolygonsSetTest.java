@@ -231,17 +231,17 @@ public class PolygonsSetTest {
         List<Interval> i1 = ((IntervalsSet) s1.getRemainingRegion()).asList();
         Assert.assertEquals(2, i1.size());
         Interval v10 = i1.get(0);
-        Vector2D p10Lower = l1.toSpace(new Vector1D(v10.getLower()));
+        Vector2D p10Lower = l1.toSpace(new Vector1D(v10.getInf()));
         Assert.assertEquals(0.0, p10Lower.getX(), 1.0e-10);
         Assert.assertEquals(1.5, p10Lower.getY(), 1.0e-10);
-        Vector2D p10Upper = l1.toSpace(new Vector1D(v10.getUpper()));
+        Vector2D p10Upper = l1.toSpace(new Vector1D(v10.getSup()));
         Assert.assertEquals(0.5, p10Upper.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p10Upper.getY(), 1.0e-10);
         Interval v11 = i1.get(1);
-        Vector2D p11Lower = l1.toSpace(new Vector1D(v11.getLower()));
+        Vector2D p11Lower = l1.toSpace(new Vector1D(v11.getInf()));
         Assert.assertEquals(1.0, p11Lower.getX(), 1.0e-10);
         Assert.assertEquals(2.5, p11Lower.getY(), 1.0e-10);
-        Vector2D p11Upper = l1.toSpace(new Vector1D(v11.getUpper()));
+        Vector2D p11Upper = l1.toSpace(new Vector1D(v11.getSup()));
         Assert.assertEquals(1.5, p11Upper.getX(), 1.0e-10);
         Assert.assertEquals(3.0, p11Upper.getY(), 1.0e-10);
 
@@ -250,10 +250,10 @@ public class PolygonsSetTest {
         List<Interval> i2 = ((IntervalsSet) s2.getRemainingRegion()).asList();
         Assert.assertEquals(1, i2.size());
         Interval v20 = i2.get(0);
-        Vector2D p20Lower = l2.toSpace(new Vector1D(v20.getLower()));
+        Vector2D p20Lower = l2.toSpace(new Vector1D(v20.getInf()));
         Assert.assertEquals(1.0, p20Lower.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p20Lower.getY(), 1.0e-10);
-        Vector2D p20Upper = l2.toSpace(new Vector1D(v20.getUpper()));
+        Vector2D p20Upper = l2.toSpace(new Vector1D(v20.getSup()));
         Assert.assertEquals(3.0, p20Upper.getX(), 1.0e-10);
         Assert.assertEquals(2.0, p20Upper.getY(), 1.0e-10);
 

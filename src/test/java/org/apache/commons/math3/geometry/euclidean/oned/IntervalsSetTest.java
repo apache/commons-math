@@ -87,12 +87,12 @@ public class IntervalsSetTest {
 
         List<Interval> list = set.asList();
         Assert.assertEquals(3, list.size());
-        Assert.assertEquals( 1.0, list.get(0).getLower(), 1.0e-10);
-        Assert.assertEquals( 3.0, list.get(0).getUpper(), 1.0e-10);
-        Assert.assertEquals( 5.0, list.get(1).getLower(), 1.0e-10);
-        Assert.assertEquals( 6.0, list.get(1).getUpper(), 1.0e-10);
-        Assert.assertEquals( 9.0, list.get(2).getLower(), 1.0e-10);
-        Assert.assertEquals(11.0, list.get(2).getUpper(), 1.0e-10);
+        Assert.assertEquals( 1.0, list.get(0).getInf(), 1.0e-10);
+        Assert.assertEquals( 3.0, list.get(0).getSup(), 1.0e-10);
+        Assert.assertEquals( 5.0, list.get(1).getInf(), 1.0e-10);
+        Assert.assertEquals( 6.0, list.get(1).getSup(), 1.0e-10);
+        Assert.assertEquals( 9.0, list.get(2).getInf(), 1.0e-10);
+        Assert.assertEquals(11.0, list.get(2).getSup(), 1.0e-10);
 
     }
 

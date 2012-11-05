@@ -27,15 +27,15 @@ public class IntervalTest {
     @Test
     public void testInterval() {
         Interval interval = new Interval(2.3, 5.7);
-        Assert.assertEquals(3.4, interval.getLength(), 1.0e-10);
-        Assert.assertEquals(4.0, interval.getMidPoint(), 1.0e-10);
+        Assert.assertEquals(3.4, interval.getSize(), 1.0e-10);
+        Assert.assertEquals(4.0, interval.getBarycenter(), 1.0e-10);
         Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(2.3, 1.0e-10));
         Assert.assertEquals(Region.Location.BOUNDARY, interval.checkPoint(5.7, 1.0e-10));
         Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(1.2, 1.0e-10));
         Assert.assertEquals(Region.Location.OUTSIDE,  interval.checkPoint(8.7, 1.0e-10));
         Assert.assertEquals(Region.Location.INSIDE,   interval.checkPoint(3.0, 1.0e-10));
-        Assert.assertEquals(2.3, interval.getLower(), 1.0e-10);
-        Assert.assertEquals(5.7, interval.getUpper(), 1.0e-10);
+        Assert.assertEquals(2.3, interval.getInf(), 1.0e-10);
+        Assert.assertEquals(5.7, interval.getSup(), 1.0e-10);
     }
 
     @Test
@@ -58,17 +58,17 @@ public class IntervalTest {
             Assert.assertEquals(Region.Location.INSIDE,
                                 interval.checkPoint(FastMath.pow(10.0, e), 1.0e-10));
         }
-        Assert.assertTrue(Double.isInfinite(interval.getLength()));
-        Assert.assertEquals(9.0, interval.getLower(), 1.0e-10);
-        Assert.assertTrue(Double.isInfinite(interval.getUpper()));
+        Assert.assertTrue(Double.isInfinite(interval.getSize()));
+        Assert.assertEquals(9.0, interval.getInf(), 1.0e-10);
+        Assert.assertTrue(Double.isInfinite(interval.getSup()));
 
     }
 
     @Test
     public void testSinglePoint() {
         Interval interval = new Interval(1.0, 1.0);
-        Assert.assertEquals(0.0, interval.getLength(), Precision.SAFE_MIN);
-        Assert.assertEquals(1.0, interval.getMidPoint(), Precision.EPSILON);
+        Assert.assertEquals(0.0, interval.getSize(), Precision.SAFE_MIN);
+        Assert.assertEquals(1.0, interval.getBarycenter(), Precision.EPSILON);
     }
 
 }

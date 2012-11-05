@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="fix" issue="MATH-890">
+        Fixed naming inconsistencies between Interval and IntervalsSet classes.
+      </action>
       <action dev="luc" type="add" issue="MATH-889">
         Added a method to check points in the Interval class, with a tolerance for boundary.
       </action>

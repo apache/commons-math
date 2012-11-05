@@ -143,8 +143,8 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
             double size = 0.0;
             double sum = 0.0;
             for (final Interval interval : asList()) {
-                size += interval.getLength();
-                sum  += interval.getLength() * interval.getMidPoint();
+                size += interval.getSize();
+                sum  += interval.getSize() * interval.getBarycenter();
             }
             setSize(size);
             if (Double.isInfinite(size)) {
@@ -241,7 +241,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
             if ((checkPoint(low,  loc) == Location.INSIDE) &&
                 (checkPoint(high, loc) == Location.INSIDE)) {
                 // merge the last interval added and the first one of the high sub-tree
-                x = list.remove(list.size() - 1).getLower();
+                x = list.remove(list.size() - 1).getInf();
             }
             recurseList(high, list, x, upper);
 

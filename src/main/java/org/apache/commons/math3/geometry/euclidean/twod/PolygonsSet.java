@@ -840,10 +840,10 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             final Line line      = (Line) sub.getHyperplane();
             final List<Interval> intervals = ((IntervalsSet) absSub.getRemainingRegion()).asList();
             for (final Interval i : intervals) {
-                final Vector2D start = Double.isInfinite(i.getLower()) ?
-                                      null : (Vector2D) line.toSpace(new Vector1D(i.getLower()));
-                final Vector2D end   = Double.isInfinite(i.getUpper()) ?
-                                      null : (Vector2D) line.toSpace(new Vector1D(i.getUpper()));
+                final Vector2D start = Double.isInfinite(i.getInf()) ?
+                                      null : (Vector2D) line.toSpace(new Vector1D(i.getInf()));
+                final Vector2D end   = Double.isInfinite(i.getSup()) ?
+                                      null : (Vector2D) line.toSpace(new Vector1D(i.getSup()));
                 if (reversed) {
                     sorted.insert(new ComparableSegment(end, start, line.getReverse()));
                 } else {

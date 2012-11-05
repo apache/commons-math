@@ -84,8 +84,8 @@ public class SubLine {
         final List<Segment> segments = new ArrayList<Segment>();
 
         for (final Interval interval : list) {
-            final Vector3D start = line.toSpace(new Vector1D(interval.getLower()));
-            final Vector3D end   = line.toSpace(new Vector1D(interval.getUpper()));
+            final Vector3D start = line.toSpace(new Vector1D(interval.getInf()));
+            final Vector3D end   = line.toSpace(new Vector1D(interval.getSup()));
             segments.add(new Segment(start, end, line));
         }
 
