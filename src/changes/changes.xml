@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="luc" type="add" issue="MATH-889">
+        Added a method to check points in the Interval class, with a tolerance for boundary.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-878" due-to="Radoslav Tsvetkov">
         Added G-test statistics.
       </action>

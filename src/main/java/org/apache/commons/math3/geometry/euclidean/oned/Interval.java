@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.geometry.euclidean.oned;
 
+import org.apache.commons.math3.geometry.partitioning.Region.Location;
+
 
 /** This class represents a 1D interval.
  * @see IntervalsSet
@@ -65,6 +67,23 @@ public class Interval {
      */
     public double getMidPoint() {
         return 0.5 * (lower + upper);
+    }
+
+    /** Check a point with respect to the interval.
+     * @param point point to check
+     * @param tolerance tolerance below which points are considered to
+     * belong to the boundary
+     * @return a code representing the point status: either {@link
+     * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
+     */
+    public Location checkPoint(final double point, final double tolerance) {
+        if (point < lower - tolerance || point > upper + tolerance) {
+            return Location.OUTSIDE;
+        } else if (point > lower + tolerance && point < upper - tolerance) {
+            return Location.INSIDE;
+        } else {
+            return Location.BOUNDARY;
+        }
     }
 
 }
