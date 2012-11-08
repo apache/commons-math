@@ -115,9 +115,9 @@ public class AbstractLeastSquaresOptimizerTestValidation {
 
             // Estimation of the standard deviation (diagonal elements of the
             // covariance matrix).
-            optim.optimize(Integer.MAX_VALUE,
+            final PointVectorValuePair optimum = optim.optimize(Integer.MAX_VALUE,
                            problem, problem.target(), problem.weight(), init);
-            final double[] sigma = optim.getSigma();
+            final double[] sigma = optim.computeSigma(optimum.getPoint(), 1e-14);
 
             // Accumulate statistics.
             for (int i = 0; i < numParams; i++) {
@@ -220,7 +220,7 @@ public class AbstractLeastSquaresOptimizerTestValidation {
         // Get chi-square of the best parameters set for the given set of
         // observations.
         final double bestChi2N = getChi2N(optim, problem, regress);
-        final double[] sigma = optim.getSigma();
+        final double[] sigma = optim.computeSigma(regress, 1e-14);
 
         // Monte-Carlo (generates a grid of parameters).
         final int mcRepeat = MONTE_CARLO_RUNS;
@@ -312,10 +312,9 @@ class DummyOptimizer extends AbstractLeastSquaresOptimizer {
      */
     @Override
     public PointVectorValuePair doOptimize() {
-        // In order to be able to access the chi-square.
-        updateResidualsAndCost();
-
-        // Dummy value.
-        return null;
+        final double[] params = getStartPoint();
+        final double[] res = computeResiduals(computeObjectiveValue(params));
+        setCost(computeCost(res));
+        return new PointVectorValuePair(params, null);
     }
 }

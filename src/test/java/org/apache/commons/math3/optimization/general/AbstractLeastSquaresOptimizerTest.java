@@ -29,9 +29,10 @@ public class AbstractLeastSquaresOptimizerTest {
 
             @Override
             protected PointVectorValuePair doOptimize() {
-                updateResidualsAndCost();
-                updateJacobian();
-                return null;
+                final double[] params = getStartPoint();
+                final double[] res = computeResiduals(computeObjectiveValue(params));
+                setCost(computeCost(res));
+                return new PointVectorValuePair(params, null);
             }
         };
     }
@@ -75,7 +76,7 @@ public class AbstractLeastSquaresOptimizerTest {
     }
 
     @Test
-    public void testGetSigma() throws IOException {
+    public void testComputeSigma() throws IOException {
         final StatisticalReferenceDataset dataset;
         dataset = StatisticalReferenceDatasetFactory.createKirby2();
         final AbstractLeastSquaresOptimizer optimizer;
@@ -85,14 +86,14 @@ public class AbstractLeastSquaresOptimizerTest {
         final double[] w = new double[y.length];
         Arrays.fill(w, 1.0);
 
-        final int dof = y.length-a.length;
-        optimizer.optimize(1, dataset.getLeastSquaresProblem(), y, w, a);
-        final double[] sig = optimizer.getSigma();
+        final int dof = y.length - a.length;
+        final PointVectorValuePair optimum = optimizer.optimize(1, dataset.getLeastSquaresProblem(), y, w, a);
+        final double[] sig = optimizer.computeSigma(optimum.getPoint(), 1e-14);
         final double[] expected = dataset.getParametersStandardDeviations();
         for (int i = 0; i < sig.length; i++) {
-            final double actual = FastMath.sqrt(optimizer.getChiSquare()/dof)*sig[i];
+            final double actual = FastMath.sqrt(optimizer.getChiSquare() / dof) * sig[i];
             Assert.assertEquals(dataset.getName() + ", parameter #" + i,
-                                expected[i], actual, 1.3e-8 * expected[i]);
+                                expected[i], actual, 1e-7 * expected[i]);
         }
     }
 }

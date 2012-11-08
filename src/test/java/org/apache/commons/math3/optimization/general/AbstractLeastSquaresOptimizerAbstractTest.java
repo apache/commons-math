@@ -364,14 +364,11 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(69.96016176931406, circle.getRadius(center), 1.0e-6);
         Assert.assertEquals(96.07590211815305, center.getX(),            1.0e-6);
         Assert.assertEquals(48.13516790438953, center.getY(),            1.0e-6);
-        double[][] cov = optimizer.getCovariances();
+        double[][] cov = optimizer.computeCovariances(optimum.getPoint(), 1e-14);
         Assert.assertEquals(1.839, cov[0][0], 0.001);
         Assert.assertEquals(0.731, cov[0][1], 0.001);
         Assert.assertEquals(cov[0][1], cov[1][0], 1.0e-14);
         Assert.assertEquals(0.786, cov[1][1], 0.001);
-        double[] errors = optimizer.guessParametersErrors();
-        Assert.assertEquals(1.384, errors[0], 0.001);
-        Assert.assertEquals(0.905, errors[1], 0.001);
 
         // add perfect measurements and check errors are reduced
         double  r = circle.getRadius(center);
@@ -382,15 +379,12 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Arrays.fill(target, 0.0);
         double[] weights = new double[circle.getN()];
         Arrays.fill(weights, 2.0);
-        optimizer.optimize(100, circle, target, weights, new double[] { 98.680, 47.345 });
-        cov = optimizer.getCovariances();
+        optimum = optimizer.optimize(100, circle, target, weights, new double[] { 98.680, 47.345 });
+        cov = optimizer.computeCovariances(optimum.getPoint(), 1e-14);
         Assert.assertEquals(0.0016, cov[0][0], 0.001);
         Assert.assertEquals(3.2e-7, cov[0][1], 1.0e-9);
         Assert.assertEquals(cov[0][1], cov[1][0], 1.0e-14);
         Assert.assertEquals(0.0016, cov[1][1], 0.001);
-        errors = optimizer.guessParametersErrors();
-        Assert.assertEquals(0.004, errors[0], 0.001);
-        Assert.assertEquals(0.004, errors[1], 0.001);
     }
 
     @Test
@@ -481,16 +475,11 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         optimum = optimizer.optimize(100, problem, data[1], w, initial);
 
         final double[] actual = optimum.getPoint();
-        final double[] actualSig = optimizer.guessParametersErrors();
         for (int i = 0; i < actual.length; i++) {
             double expected = dataset.getParameter(i);
             double delta = FastMath.abs(errParams * expected);
             Assert.assertEquals(dataset.getName() + ", param #" + i,
                                 expected, actual[i], delta);
-            expected = dataset.getParameterStandardDeviation(i);
-            delta = FastMath.abs(errParamsSd * expected);
-            Assert.assertEquals(dataset.getName() + ", sd of param #" + i,
-                                expected, actualSig[i], delta);
         }
     }
 

@@ -26,7 +26,6 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
@@ -61,7 +60,11 @@ import org.apache.commons.math3.util.FastMath;
 public abstract class AbstractLeastSquaresOptimizer
     extends BaseAbstractMultivariateVectorOptimizer<DifferentiableMultivariateVectorFunction>
     implements DifferentiableMultivariateVectorOptimizer {
-    /** Singularity threshold (cf. {@link #getCovariances(double)}). */
+    /**
+     * Singularity threshold (cf. {@link #getCovariances(double)}).
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     private static final double DEFAULT_SINGULARITY_THRESHOLD = 1e-14;
     /**
      * Jacobian matrix of the weighted residuals.
@@ -69,19 +72,41 @@ public abstract class AbstractLeastSquaresOptimizer
      * {@link #updateJacobian()}, but may be modified by the solver
      * in the derived class (the {@link LevenbergMarquardtOptimizer
      * Levenberg-Marquardt optimizer} does this).
+     * @deprecated As of 3.1. To be removed in 4.0. Please use
+     * {@link #computeJacobian(double[])} instead.
      */
+    @Deprecated
     protected double[][] weightedResidualJacobian;
-    /** Number of columns of the jacobian matrix. */
+    /** Number of columns of the jacobian matrix.
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     protected int cols;
-    /** Number of rows of the jacobian matrix. */
+    /** Number of rows of the jacobian matrix.
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     protected int rows;
-    /** Current point. */
+    /** Current point.
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     protected double[] point;
-    /** Current objective function value. */
+    /** Current objective function value.
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     protected double[] objective;
-    /** Weighted residuals */
+    /** Weighted residuals
+     * @deprecated As of 3.1.
+     */
+    @Deprecated
     protected double[] weightedResiduals;
-    /** Cost value (square root of the sum of the residuals). */
+    /** Cost value (square root of the sum of the residuals).
+     * @deprecated As of 3.1. Field to become "private" in 4.0.
+     * Please use {@link #setCost(double)}.
+     */
+    @Deprecated
     protected double cost;
     /** Objective function derivatives. */
     private MultivariateDifferentiableVectorFunction jF;
@@ -118,23 +143,39 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
+     * @deprecated As of 3.1. Please use {@link #computeJacobian(double[])}
+     * instead.
      */
+    @Deprecated
     protected void updateJacobian() {
+        computeJacobian(point);
+    }
+
+    /**
+     * Computes the Jacobian matrix.
+     *
+     * @param params Model parameters at which to compute the Jacobian.
+     * @return the weighted Jacobian: -(W<sup>1/2</sup> J).
+     * @throws DimensionMismatchException if the Jacobian dimension does not
+     * match problem dimension.
+     * @since 3.1
+     */
+    protected RealMatrix computeJacobian(double[] params) {
         ++jacobianEvaluations;
 
-        DerivativeStructure[] dsPoint = new DerivativeStructure[point.length];
-        for (int i = 0; i < point.length; ++i) {
-            dsPoint[i] = new DerivativeStructure(point.length, 1, i, point[i]);
+        final DerivativeStructure[] dsPoint = new DerivativeStructure[params.length];
+        final int nC = params.length;
+        for (int i = 0; i < nC; ++i) {
+            dsPoint[i] = new DerivativeStructure(nC, 1, i, params[i]);
         }
-        DerivativeStructure[] dsValue = jF.value(dsPoint);
-        if (dsValue.length != rows) {
-            throw new DimensionMismatchException(dsValue.length, rows);
-        }
+        final DerivativeStructure[] dsValue = jF.value(dsPoint);
         final int nR = getTarget().length;
-        final int nC = point.length;
+        if (dsValue.length != nR) {
+            throw new DimensionMismatchException(dsValue.length, nR);
+        }
         final double[][] jacobianData = new double[nR][nC];
         for (int i = 0; i < nR; ++i) {
-            int[] orders = new int[point.length];
+            int[] orders = new int[nC];
             for (int j = 0; j < nC; ++j) {
                 orders[j] = 1;
                 jacobianData[i][j] = dsValue[i].getPartialDerivative(orders);
@@ -142,8 +183,15 @@ public abstract class AbstractLeastSquaresOptimizer
             }
         }
 
-        weightedResidualJacobian
-            = weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobianData)).scalarMultiply(-1).getData();
+        // XXX What is the purpose of the multiplication by -1?
+        final RealMatrix weightedJacobian
+            = weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobianData)).scalarMultiply(-1);
+
+        // XXX For backwards-compatibility (field "weightedResidualJacobian"
+        // must be removed in 4.0).
+        weightedResidualJacobian = weightedJacobian.getData();
+
+        return weightedJacobian;
     }
 
     /**
@@ -152,16 +200,34 @@ public abstract class AbstractLeastSquaresOptimizer
      * problem dimension.
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
+     * @deprecated As of 3.1. Please use {@link #computeResiduals(double[])},
+     * {@link #computeObjectiveValue(double[])} and {@link #computeCost(double[])}
+     * instead.
      */
+    @Deprecated
     protected void updateResidualsAndCost() {
-        final double[] res = computeResidual(point);
-        final ArrayRealVector residuals = new ArrayRealVector(res);
-        final RealMatrix weight = getWeight();
+        objective = computeObjectiveValue(point);
+        final double[] res = computeResiduals(objective);
 
         // Compute cost.
-        cost = FastMath.sqrt(residuals.dotProduct(weight.operate(residuals)));
-        // Compute weighted residuals.
+        cost = computeCost(res);
+
+        // Compute weighted residuals. XXX To be moved to "LevenbergMarquardtOptimizer".
+        final ArrayRealVector residuals = new ArrayRealVector(res);
         weightedResiduals = weightMatrixSqrt.operate(residuals).toArray();
+    }
+
+    /**
+     * Computes the cost.
+     *
+     * @param residuals Residuals.
+     * @return the cost.
+     * @see #computeResiduals(double[])
+     * @since 3.1
+     */
+    protected double computeCost(double[] residuals) {
+        final ArrayRealVector r = new ArrayRealVector(residuals);
+        return FastMath.sqrt(r.dotProduct(getWeight().operate(r)));
     }
 
     /**
@@ -189,14 +255,26 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
+     * Sets the cost.
+     *
+     * @param cost Cost value.
+     * @since 3.1
+     */
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    /**
      * Get the covariance matrix of the optimized parameters.
      *
      * @return the covariance matrix.
      * @throws org.apache.commons.math3.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
-     *
      * @see #getCovariances(double)
+     * @deprecated As of 3.1. Please use {@link #computeCovariances(double[],double)}
+     * instead.
      */
+    @Deprecated
     public double[][] getCovariances() {
         return getCovariances(DEFAULT_SINGULARITY_THRESHOLD);
     }
@@ -215,14 +293,37 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the covariance matrix.
      * @throws org.apache.commons.math3.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
+     * @deprecated As of 3.1. Please use {@link #computeCovariances(double[],double)}
+     * instead.
      */
+    @Deprecated
     public double[][] getCovariances(double threshold) {
-        // Set up the jacobian.
-        updateJacobian();
+        return computeCovariances(point, threshold);
+    }
+
+    /**
+     * Get the covariance matrix of the optimized parameters.
+     * <br/>
+     * Note that this operation involves the inversion of the
+     * <code>J<sup>T</sup>J</code> matrix, where {@code J} is the
+     * Jacobian matrix.
+     * The {@code threshold} parameter is a way for the caller to specify
+     * that the result of this computation should be considered meaningless,
+     * and thus trigger an exception.
+     *
+     * @param params Model parameters.
+     * @param threshold Singularity threshold.
+     * @return the covariance matrix.
+     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * if the covariance matrix cannot be computed (singular problem).
+     */
+    public double[][] computeCovariances(double[] params,
+                                         double threshold) {
+        // Set up the Jacobian.
+        final RealMatrix j = computeJacobian(params);
 
         // Compute transpose(J)J.
-        final RealMatrix wrj = new Array2DRowRealMatrix(weightedResidualJacobian);
-        final RealMatrix jTj = wrj.transpose().multiply(wrj);
+        final RealMatrix jTj = j.transpose().multiply(j);
 
         // Compute the covariances matrix.
         final DecompositionSolver solver
@@ -255,9 +356,9 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
      * parameters.
-     * @deprecated as of version 3.1, {@link #getSigma()} should be used
-     * instead. It should be emphasized that {@link #guessParametersErrors()} and
-     * {@link #getSigma()} are <em>not</em> strictly equivalent.
+     * @deprecated as of version 3.1, {@link #computeSigma(double[],double)} should be used
+     * instead. It should be emphasized that {@code guessParametersErrors} and
+     * {@code computeSigma} are <em>not</em> strictly equivalent.
      */
     @Deprecated
     public double[] guessParametersErrors() {
@@ -267,7 +368,7 @@ public abstract class AbstractLeastSquaresOptimizer
         }
         double[] errors = new double[cols];
         final double c = FastMath.sqrt(getChiSquare() / (rows - cols));
-        double[][] covar = getCovariances();
+        double[][] covar = computeCovariances(point, 1e-14);
         for (int i = 0; i < errors.length; ++i) {
             errors[i] = FastMath.sqrt(covar[i][i]) * c;
         }
@@ -275,22 +376,25 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
-     * <p>
-     * Returns an estimate of the standard deviation of the parameters. The
+     * Computes an estimate of the standard deviation of the parameters. The
      * returned values are the square root of the diagonal coefficients of the
      * covariance matrix, {@code sd(a[i]) ~= sqrt(C[i][i])}, where {@code a[i]}
      * is the optimized value of the {@code i}-th parameter, and {@code C} is
      * the covariance matrix.
-     * </p>
      *
+     * @param params Model parameters.
+     * @param covarianceSingularityThreshold Singularity threshold (see
+     * {@link #computeCovariances(double[],double) computeCovariances}).
      * @return an estimate of the standard deviation of the optimized parameters
      * @throws org.apache.commons.math3.linear.SingularMatrixException
      * if the covariance matrix cannot be computed.
      */
-    public double[] getSigma() {
-        final double[] sig = new double[cols];
-        final double[][] cov = getCovariances();
-        for (int i = 0; i < sig.length; ++i) {
+    public double[] computeSigma(double[] params,
+                                 double covarianceSingularityThreshold) {
+        final int nC = params.length;
+        final double[] sig = new double[nC];
+        final double[][] cov = computeCovariances(params, covarianceSingularityThreshold);
+        for (int i = 0; i < nC; ++i) {
             sig[i] = FastMath.sqrt(cov[i][i]);
         }
         return sig;
@@ -410,6 +514,36 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
+     * Computes the residuals.
+     * The residual is the difference between the observed (target)
+     * values and the model (objective function) value.
+     * There is one residual for each element of the vector-valued
+     * function.
+     *
+     * @param objectiveValue Value of the the objective function. This is
+     * the value returned from a call to
+     * {@link #computeObjectiveValue(double[]) computeObjectiveValue}
+     * (whose array argument contains the model parameters).
+     * @return the residuals.
+     * @throws DimensionMismatchException if {@code params} has a wrong
+     * length.
+     */
+    protected double[] computeResiduals(double[] objectiveValue) {
+        final double[] target = getTarget();
+        if (objectiveValue.length != target.length) {
+            throw new DimensionMismatchException(target.length,
+                                                 objectiveValue.length);
+        }
+
+        final double[] residuals = new double[target.length];
+        for (int i = 0; i < target.length; i++) {
+            residuals[i] = target[i] - objectiveValue[i];
+        }
+
+        return residuals;
+    }
+
+    /**
      * Computes the square-root of the weight matrix.
      *
      * @param m Symmetric, positive-definite (weight) matrix.
@@ -418,35 +552,5 @@ public abstract class AbstractLeastSquaresOptimizer
     private RealMatrix squareRoot(RealMatrix m) {
         final EigenDecomposition dec = new EigenDecomposition(m);
         return dec.getSquareRoot();
-    }
-
-    /**
-     * Computes the residuals.
-     * The residual is the difference between the observed (target)
-     * values and the model (objective function) value, for the given
-     * parameters.
-     * There is one residual for each element of the vector-valued
-     * function.
-     *
-     * @param params Parameters of the model.
-     * @return the residuals.
-     * @throws DimensionMismatchException if {@code params} has a wrong
-     * length.
-     */
-    private double[] computeResidual(double[] params) {
-        if (params.length != getStartPoint().length) {
-            throw new DimensionMismatchException(params.length,
-                                                 getStartPoint().length);
-        }
-
-        objective = computeObjectiveValue(params);
-        final double[] target = getTarget();
-
-        final double[] residuals = new double[target.length];
-        for (int i = 0; i < target.length; i++) {
-            residuals[i] = target[i] - objective[i];
-        }
-
-        return residuals;
     }
 }
