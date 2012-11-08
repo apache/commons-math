@@ -119,7 +119,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             residualsWeights[i] = weightMatrix.getEntry(i, i);
         }
 
-        double[] currentPoint = getStartPoint();
+        final double[] currentPoint = getStartPoint();
 
         // iterate until convergence is reached
         PointVectorValuePair current = null;
