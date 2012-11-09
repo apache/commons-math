@@ -298,14 +298,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param value to be added to end of array
      */
     public synchronized void addElement(double value) {
-        numElements++;
-        if ((startIndex + numElements) > internalArray.length) {
+        if (internalArray.length <= startIndex + numElements) {
             expand();
         }
-        internalArray[startIndex + (numElements - 1)] = value;
-        if (shouldContract()) {
-            contract();
-        }
+        internalArray[startIndex + numElements++] = value;
     }
 
     /**

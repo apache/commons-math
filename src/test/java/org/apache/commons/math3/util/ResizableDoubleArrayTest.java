@@ -157,16 +157,16 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         da.addElement(2.0);
         da.addElement(4.0);
         da.addElement(6.0);
-        Assert.assertEquals(4, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
         Assert.assertEquals(3, da.getNumElements());
         da.setElement(3, 7.0);
-        Assert.assertEquals(4, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
         Assert.assertEquals(4, da.getNumElements());
         da.setElement(10, 10.0);
-        Assert.assertEquals(11, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
         Assert.assertEquals(11, da.getNumElements());
         da.setElement(9, 10.0);
-        Assert.assertEquals(11, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
         Assert.assertEquals(11, da.getNumElements());
 
         try {
