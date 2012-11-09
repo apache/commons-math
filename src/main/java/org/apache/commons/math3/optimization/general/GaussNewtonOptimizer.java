@@ -120,6 +120,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
         }
 
         final double[] currentPoint = getStartPoint();
+        final int nC = currentPoint.length;
 
         // iterate until convergence is reached
         PointVectorValuePair current = null;
@@ -136,9 +137,9 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             current = new PointVectorValuePair(currentPoint, currentObjective);
 
             // build the linear problem
-            final double[]   b = new double[cols];
-            final double[][] a = new double[cols][cols];
-            for (int i = 0; i < rows; ++i) {
+            final double[]   b = new double[nC];
+            final double[][] a = new double[nC][nC];
+            for (int i = 0; i < nR; ++i) {
 
                 final double[] grad   = weightedJacobian.getRow(i);
                 final double weight   = residualsWeights[i];
@@ -148,15 +149,15 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
                 // compute the normal equation
                 final double wr = weight * residual;
-                for (int j = 0; j < cols; ++j) {
+                for (int j = 0; j < nC; ++j) {
                     b[j] += wr * grad[j];
                 }
 
                 // build the contribution matrix for measurement i
-                for (int k = 0; k < cols; ++k) {
+                for (int k = 0; k < nC; ++k) {
                     double[] ak = a[k];
                     double wgk = weight * grad[k];
-                    for (int l = 0; l < cols; ++l) {
+                    for (int l = 0; l < nC; ++l) {
                         ak[l] += wgk * grad[l];
                     }
                 }
@@ -170,7 +171,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                         new QRDecomposition(mA).getSolver();
                 final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
                 // update the estimated parameters
-                for (int i = 0; i < cols; ++i) {
+                for (int i = 0; i < nC; ++i) {
                     currentPoint[i] += dX[i];
                 }
             } catch (SingularMatrixException e) {
