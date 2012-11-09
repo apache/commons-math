@@ -73,7 +73,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * in the derived class (the {@link LevenbergMarquardtOptimizer
      * Levenberg-Marquardt optimizer} does this).
      * @deprecated As of 3.1. To be removed in 4.0. Please use
-     * {@link #computeJacobian(double[])} instead.
+     * {@link #computeWeightedJacobian(double[])} instead.
      */
     @Deprecated
     protected double[][] weightedResidualJacobian;
@@ -143,12 +143,12 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
-     * @deprecated As of 3.1. Please use {@link #computeJacobian(double[])}
+     * @deprecated As of 3.1. Please use {@link #computeWeightedJacobian(double[])}
      * instead.
      */
     @Deprecated
     protected void updateJacobian() {
-        computeJacobian(point);
+        computeWeightedJacobian(point);
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * match problem dimension.
      * @since 3.1
      */
-    protected RealMatrix computeJacobian(double[] params) {
+    protected RealMatrix computeWeightedJacobian(double[] params) {
         ++jacobianEvaluations;
 
         final DerivativeStructure[] dsPoint = new DerivativeStructure[params.length];
@@ -269,7 +269,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @param cost Cost value.
      * @since 3.1
      */
-    public void setCost(double cost) {
+    protected void setCost(double cost) {
         this.cost = cost;
     }
 
@@ -329,7 +329,7 @@ public abstract class AbstractLeastSquaresOptimizer
     public double[][] computeCovariances(double[] params,
                                          double threshold) {
         // Set up the Jacobian.
-        final RealMatrix j = computeJacobian(params);
+        final RealMatrix j = computeWeightedJacobian(params);
 
         // Compute transpose(J)J.
         final RealMatrix jTj = j.transpose().multiply(j);

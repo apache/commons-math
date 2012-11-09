@@ -318,7 +318,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             final PointVectorValuePair previous = current;
 
             // QR decomposition of the jacobian matrix
-            qrDecomposition(computeJacobian(currentPoint));
+            qrDecomposition(computeWeightedJacobian(currentPoint));
 
             weightedResidual = weightMatrixSqrt.operate(currentResiduals);
             for (int i = 0; i < nR; i++) {

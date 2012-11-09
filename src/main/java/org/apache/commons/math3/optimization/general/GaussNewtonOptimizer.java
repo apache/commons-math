@@ -132,7 +132,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
             // Value of the objective function at "currentPoint".
             final double[] currentObjective = computeObjectiveValue(currentPoint);
             final double[] currentResiduals = computeResiduals(currentObjective);
-            final RealMatrix weightedJacobian = computeJacobian(currentPoint);
+            final RealMatrix weightedJacobian = computeWeightedJacobian(currentPoint);
             current = new PointVectorValuePair(currentPoint, currentObjective);
 
             // build the linear problem
