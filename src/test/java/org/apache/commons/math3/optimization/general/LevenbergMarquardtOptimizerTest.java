@@ -118,10 +118,10 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         }, new double[] { 1, 1, 1 });
 
         AbstractLeastSquaresOptimizer optimizer = createOptimizer();
-        optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
+        PointVectorValuePair optimum = optimizer.optimize(100, problem, problem.target, new double[] { 1, 1, 1 }, new double[] { 0, 0, 0 });
         Assert.assertTrue(FastMath.sqrt(problem.target.length) * optimizer.getRMS() > 0.6);
 
-        optimizer.getCovariances(1.5e-14);
+        optimizer.computeCovariances(optimum.getPoint(), 1.5e-14);
     }
 
     @Test
@@ -223,14 +223,14 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         final LevenbergMarquardtOptimizer optimizer
             = new LevenbergMarquardtOptimizer();
 
-        final PointVectorValuePair optimum =
-            optimizer.optimize(100, problem, dataPoints[1], weights,
+        final PointVectorValuePair optimum
+            = optimizer.optimize(100, problem, dataPoints[1], weights,
                                new double[] { 10, 900, 80, 27, 225 });
 
         final double[] solution = optimum.getPoint();
         final double[] expectedSolution = { 10.4, 958.3, 131.4, 33.9, 205.0 };
 
-        final double[][] covarMatrix = optimizer.getCovariances();
+        final double[][] covarMatrix = optimizer.computeCovariances(solution, 1e-14);
         final double[][] expectedCovarMatrix = {
             { 3.38, -3.69, 27.98, -2.34, -49.24 },
             { -3.69, 2492.26, 81.89, -69.21, -8.9 },
@@ -292,7 +292,7 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
         final double[] paramFound = optimum.getPoint();
 
         // Retrieve errors estimation.
-        final double[][] covMatrix = optimizer.getCovariances();
+        final double[][] covMatrix = optimizer.computeCovariances(paramFound, 1e-14);
         final double[] asymptoticStandardErrorFound = optimizer.guessParametersErrors();
         final double[] sigmaFound = new double[covMatrix.length];
         for (int i = 0; i < covMatrix.length; i++) {

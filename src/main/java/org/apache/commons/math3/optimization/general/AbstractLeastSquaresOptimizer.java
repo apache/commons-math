@@ -255,6 +255,15 @@ public abstract class AbstractLeastSquaresOptimizer
     }
 
     /**
+     * Gets the square-root of the weight matrix.
+     *
+     * @return the square-root of the weight matrix.
+     */
+    public RealMatrix getWeightSquareRoot() {
+        return weightMatrixSqrt.copy();
+    }
+
+    /**
      * Sets the cost.
      *
      * @param cost Cost value.

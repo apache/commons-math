@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.util.FastMath;
 
@@ -132,6 +133,10 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     private final double orthoTolerance;
     /** Threshold for QR ranking. */
     private final double qrRankingThreshold;
+    /** Weighted residuals. */
+    private double[] weightedResidual;
+    /** Weighted Jacobian. */
+    private double[][] weightedJacobian;
 
     /**
      * Build an optimizer for least squares problems with default values
@@ -271,66 +276,75 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     protected PointVectorValuePair doOptimize() {
+        final int nR = getTarget().length; // Number of observed data.
+        final double[] currentPoint = getStartPoint();
+        final int nC = currentPoint.length; // Number of parameters.
+
         // arrays shared with the other private methods
-        solvedCols  = FastMath.min(rows, cols);
-        diagR       = new double[cols];
-        jacNorm     = new double[cols];
-        beta        = new double[cols];
-        permutation = new int[cols];
-        lmDir       = new double[cols];
+        solvedCols  = FastMath.min(nR, nC);
+        diagR       = new double[nC];
+        jacNorm     = new double[nC];
+        beta        = new double[nC];
+        permutation = new int[nC];
+        lmDir       = new double[nC];
 
         // local point
         double   delta   = 0;
         double   xNorm   = 0;
-        double[] diag    = new double[cols];
-        double[] oldX    = new double[cols];
-        double[] oldRes  = new double[rows];
-        double[] oldObj  = new double[rows];
-        double[] qtf     = new double[rows];
-        double[] work1   = new double[cols];
-        double[] work2   = new double[cols];
-        double[] work3   = new double[cols];
+        double[] diag    = new double[nC];
+        double[] oldX    = new double[nC];
+        double[] oldRes  = new double[nR];
+        double[] oldObj  = new double[nR];
+        double[] qtf     = new double[nR];
+        double[] work1   = new double[nC];
+        double[] work2   = new double[nC];
+        double[] work3   = new double[nC];
 
-        // evaluate the function at the starting point and calculate its norm
-        updateResidualsAndCost();
+        final RealMatrix weightMatrixSqrt = getWeightSquareRoot();
 
-        // outer loop
+        // Evaluate the function at the starting point and calculate its norm.
+        double[] currentObjective = computeObjectiveValue(currentPoint);
+        double[] currentResiduals = computeResiduals(currentObjective);
+        PointVectorValuePair current = new PointVectorValuePair(currentPoint, currentObjective);
+        double currentCost = computeCost(currentResiduals);
+
+        // Outer loop.
         lmPar = 0;
         boolean firstIteration = true;
-        PointVectorValuePair current = new PointVectorValuePair(point, objective);
         int iter = 0;
         final ConvergenceChecker<PointVectorValuePair> checker = getConvergenceChecker();
         while (true) {
             ++iter;
+            final PointVectorValuePair previous = current;
 
-            for (int i=0;i<rows;i++) {
-                qtf[i]=weightedResiduals[i];
+            // QR decomposition of the jacobian matrix
+            qrDecomposition(computeJacobian(currentPoint));
+
+            weightedResidual = weightMatrixSqrt.operate(currentResiduals);
+            for (int i = 0; i < nR; i++) {
+                qtf[i] = weightedResidual[i];
             }
-
-            // compute the Q.R. decomposition of the jacobian matrix
-            PointVectorValuePair previous = current;
-            updateJacobian();
-            qrDecomposition();
 
             // compute Qt.res
             qTy(qtf);
+
             // now we don't need Q anymore,
             // so let jacobian contain the R matrix with its diagonal elements
             for (int k = 0; k < solvedCols; ++k) {
                 int pk = permutation[k];
-                weightedResidualJacobian[k][pk] = diagR[pk];
+                weightedJacobian[k][pk] = diagR[pk];
             }
 
             if (firstIteration) {
                 // scale the point according to the norms of the columns
                 // of the initial jacobian
                 xNorm = 0;
-                for (int k = 0; k < cols; ++k) {
+                for (int k = 0; k < nC; ++k) {
                     double dk = jacNorm[k];
                     if (dk == 0) {
                         dk = 1.0;
                     }
-                    double xk = dk * point[k];
+                    double xk = dk * currentPoint[k];
                     xNorm  += xk * xk;
                     diag[k] = dk;
                 }
@@ -342,45 +356,44 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
             // check orthogonality between function vector and jacobian columns
             double maxCosine = 0;
-            if (cost != 0) {
+            if (currentCost != 0) {
                 for (int j = 0; j < solvedCols; ++j) {
                     int    pj = permutation[j];
                     double s  = jacNorm[pj];
                     if (s != 0) {
                         double sum = 0;
                         for (int i = 0; i <= j; ++i) {
-                            sum += weightedResidualJacobian[i][pj] * qtf[i];
+                            sum += weightedJacobian[i][pj] * qtf[i];
                         }
-                        maxCosine = FastMath.max(maxCosine, FastMath.abs(sum) / (s * cost));
+                        maxCosine = FastMath.max(maxCosine, FastMath.abs(sum) / (s * currentCost));
                     }
                 }
             }
             if (maxCosine <= orthoTolerance) {
-                // convergence has been reached
-                updateResidualsAndCost();
-                current = new PointVectorValuePair(point, objective);
+                // Convergence has been reached.
+                setCost(currentCost);
                 return current;
             }
 
             // rescale if necessary
-            for (int j = 0; j < cols; ++j) {
+            for (int j = 0; j < nC; ++j) {
                 diag[j] = FastMath.max(diag[j], jacNorm[j]);
             }
 
-            // inner loop
+            // Inner loop.
             for (double ratio = 0; ratio < 1.0e-4;) {
 
                 // save the state
                 for (int j = 0; j < solvedCols; ++j) {
                     int pj = permutation[j];
-                    oldX[pj] = point[pj];
+                    oldX[pj] = currentPoint[pj];
                 }
-                double previousCost = cost;
-                double[] tmpVec = weightedResiduals;
-                weightedResiduals = oldRes;
+                final double previousCost = currentCost;
+                double[] tmpVec = weightedResidual;
+                weightedResidual = oldRes;
                 oldRes    = tmpVec;
-                tmpVec    = objective;
-                objective = oldObj;
+                tmpVec    = currentObjective;
+                currentObjective = oldObj;
                 oldObj    = tmpVec;
 
                 // determine the Levenberg-Marquardt parameter
@@ -391,7 +404,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 for (int j = 0; j < solvedCols; ++j) {
                     int pj = permutation[j];
                     lmDir[pj] = -lmDir[pj];
-                    point[pj] = oldX[pj] + lmDir[pj];
+                    currentPoint[pj] = oldX[pj] + lmDir[pj];
                     double s = diag[pj] * lmDir[pj];
                     lmNorm  += s * s;
                 }
@@ -401,13 +414,16 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     delta = FastMath.min(delta, lmNorm);
                 }
 
-                // evaluate the function at x + p and calculate its norm
-                updateResidualsAndCost();
+                // Evaluate the function at x + p and calculate its norm.
+                currentObjective = computeObjectiveValue(currentPoint);
+                currentResiduals = computeResiduals(currentObjective);
+                current = new PointVectorValuePair(currentPoint, currentObjective);
+                currentCost = computeCost(currentResiduals);
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;
-                if (0.1 * cost < previousCost) {
-                    double r = cost / previousCost;
+                if (0.1 * currentCost < previousCost) {
+                    double r = currentCost / previousCost;
                     actRed = 1.0 - r * r;
                 }
 
@@ -418,7 +434,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     double dirJ = lmDir[pj];
                     work1[j] = 0;
                     for (int i = 0; i <= j; ++i) {
-                        work1[i] += weightedResidualJacobian[i][pj] * dirJ;
+                        work1[i] += weightedJacobian[i][pj] * dirJ;
                     }
                 }
                 double coeff1 = 0;
@@ -438,7 +454,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 if (ratio <= 0.25) {
                     double tmp =
                         (actRed < 0) ? (0.5 * dirDer / (dirDer + 0.5 * actRed)) : 0.5;
-                        if ((0.1 * cost >= previousCost) || (tmp < 0.1)) {
+                        if ((0.1 * currentCost >= previousCost) || (tmp < 0.1)) {
                             tmp = 0.1;
                         }
                         delta = tmp * FastMath.min(delta, 10.0 * lmNorm);
@@ -453,33 +469,35 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     // successful iteration, update the norm
                     firstIteration = false;
                     xNorm = 0;
-                    for (int k = 0; k < cols; ++k) {
-                        double xK = diag[k] * point[k];
+                    for (int k = 0; k < nC; ++k) {
+                        double xK = diag[k] * currentPoint[k];
                         xNorm += xK * xK;
                     }
                     xNorm = FastMath.sqrt(xNorm);
-                    current = new PointVectorValuePair(point, objective);
 
                     // tests for convergence.
                     if (checker != null) {
                         // we use the vectorial convergence checker
                         if (checker.converged(iter, previous, current)) {
+                            setCost(currentCost);
                             return current;
                         }
                     }
                 } else {
                     // failed iteration, reset the previous values
-                    cost = previousCost;
+                    currentCost = previousCost;
                     for (int j = 0; j < solvedCols; ++j) {
                         int pj = permutation[j];
-                        point[pj] = oldX[pj];
+                        currentPoint[pj] = oldX[pj];
                     }
-                    tmpVec    = weightedResiduals;
-                    weightedResiduals = oldRes;
+                    tmpVec    = weightedResidual;
+                    weightedResidual = oldRes;
                     oldRes    = tmpVec;
-                    tmpVec    = objective;
-                    objective = oldObj;
+                    tmpVec    = currentObjective;
+                    currentObjective = oldObj;
                     oldObj    = tmpVec;
+                    // Reset "current" to previous values.
+                    current = new PointVectorValuePair(currentPoint, currentObjective);
                 }
 
                 // Default convergence criteria.
@@ -487,6 +505,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                      preRed <= costRelativeTolerance &&
                      ratio <= 2.0) ||
                     delta <= parRelativeTolerance * xNorm) {
+                    setCost(currentCost);
                     return current;
                 }
 
@@ -494,13 +513,13 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 // (2.2204e-16 is the machine epsilon for IEEE754)
                 if ((FastMath.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {
                     throw new ConvergenceException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,
-                            costRelativeTolerance);
+                                                   costRelativeTolerance);
                 } else if (delta <= 2.2204e-16 * xNorm) {
                     throw new ConvergenceException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,
-                            parRelativeTolerance);
+                                                   parRelativeTolerance);
                 } else if (maxCosine <= 2.2204e-16)  {
                     throw new ConvergenceException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,
-                            orthoTolerance);
+                                                   orthoTolerance);
                 }
             }
         }
@@ -529,21 +548,22 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * @param work3 work array
      */
     private void determineLMParameter(double[] qy, double delta, double[] diag,
-            double[] work1, double[] work2, double[] work3) {
+                                      double[] work1, double[] work2, double[] work3) {
+        final int nC = weightedJacobian[0].length;
 
         // compute and store in x the gauss-newton direction, if the
         // jacobian is rank-deficient, obtain a least squares solution
         for (int j = 0; j < rank; ++j) {
             lmDir[permutation[j]] = qy[j];
         }
-        for (int j = rank; j < cols; ++j) {
+        for (int j = rank; j < nC; ++j) {
             lmDir[permutation[j]] = 0;
         }
         for (int k = rank - 1; k >= 0; --k) {
             int pk = permutation[k];
             double ypk = lmDir[pk] / diagR[pk];
             for (int i = 0; i < k; ++i) {
-                lmDir[permutation[i]] -= ypk * weightedResidualJacobian[i][pk];
+                lmDir[permutation[i]] -= ypk * weightedJacobian[i][pk];
             }
             lmDir[pk] = ypk;
         }
@@ -579,7 +599,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 int pj = permutation[j];
                 double sum = 0;
                 for (int i = 0; i < j; ++i) {
-                    sum += weightedResidualJacobian[i][pj] * work1[permutation[i]];
+                    sum += weightedJacobian[i][pj] * work1[permutation[i]];
                 }
                 double s = (work1[pj] - sum) / diagR[pj];
                 work1[pj] = s;
@@ -594,7 +614,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             int pj = permutation[j];
             double sum = 0;
             for (int i = 0; i <= j; ++i) {
-                sum += weightedResidualJacobian[i][pj] * qy[i];
+                sum += weightedJacobian[i][pj] * qy[i];
             }
             sum /= diag[pj];
             sum2 += sum * sum;
@@ -654,7 +674,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 work1[pj] /= work2[j];
                 double tmp = work1[pj];
                 for (int i = j + 1; i < solvedCols; ++i) {
-                    work1[permutation[i]] -= weightedResidualJacobian[i][pj] * tmp;
+                    work1[permutation[i]] -= weightedJacobian[i][pj] * tmp;
                 }
             }
             sum2 = 0;
@@ -698,14 +718,14 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * @param work work array
      */
     private void determineLMDirection(double[] qy, double[] diag,
-            double[] lmDiag, double[] work) {
+                                      double[] lmDiag, double[] work) {
 
         // copy R and Qty to preserve input and initialize s
         //  in particular, save the diagonal elements of R in lmDir
         for (int j = 0; j < solvedCols; ++j) {
             int pj = permutation[j];
             for (int i = j + 1; i < solvedCols; ++i) {
-                weightedResidualJacobian[i][pj] = weightedResidualJacobian[j][permutation[i]];
+                weightedJacobian[i][pj] = weightedJacobian[j][permutation[i]];
             }
             lmDir[j] = diagR[pj];
             work[j]  = qy[j];
@@ -736,7 +756,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
                     final double sin;
                     final double cos;
-                    double rkk = weightedResidualJacobian[k][pk];
+                    double rkk = weightedJacobian[k][pk];
                     if (FastMath.abs(rkk) < FastMath.abs(lmDiag[k])) {
                         final double cotan = rkk / lmDiag[k];
                         sin   = 1.0 / FastMath.sqrt(1.0 + cotan * cotan);
@@ -749,25 +769,25 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
 
                     // compute the modified diagonal element of R and
                     // the modified element of (Qty,0)
-                    weightedResidualJacobian[k][pk] = cos * rkk + sin * lmDiag[k];
+                    weightedJacobian[k][pk] = cos * rkk + sin * lmDiag[k];
                     final double temp = cos * work[k] + sin * qtbpj;
                     qtbpj = -sin * work[k] + cos * qtbpj;
                     work[k] = temp;
 
                     // accumulate the tranformation in the row of s
                     for (int i = k + 1; i < solvedCols; ++i) {
-                        double rik = weightedResidualJacobian[i][pk];
+                        double rik = weightedJacobian[i][pk];
                         final double temp2 = cos * rik + sin * lmDiag[i];
                         lmDiag[i] = -sin * rik + cos * lmDiag[i];
-                        weightedResidualJacobian[i][pk] = temp2;
+                        weightedJacobian[i][pk] = temp2;
                     }
                 }
             }
 
             // store the diagonal element of s and restore
             // the corresponding diagonal element of R
-            lmDiag[j] = weightedResidualJacobian[j][permutation[j]];
-            weightedResidualJacobian[j][permutation[j]] = lmDir[j];
+            lmDiag[j] = weightedJacobian[j][permutation[j]];
+            weightedJacobian[j][permutation[j]] = lmDir[j];
         }
 
         // solve the triangular system for z, if the system is
@@ -786,7 +806,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                 int pj = permutation[j];
                 double sum = 0;
                 for (int i = j + 1; i < nSing; ++i) {
-                    sum += weightedResidualJacobian[i][pj] * work[i];
+                    sum += weightedJacobian[i][pj] * work[i];
                 }
                 work[j] = (work[j] - sum) / lmDiag[j];
             }
@@ -818,36 +838,41 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * are performed in non-increasing columns norms order thanks to columns
      * pivoting. The diagonal elements of the R matrix are therefore also in
      * non-increasing absolute values order.</p>
+     *
+     * @param jacobian Weighte Jacobian matrix at the current point.
      * @exception ConvergenceException if the decomposition cannot be performed
      */
-    private void qrDecomposition() throws ConvergenceException {
+    private void qrDecomposition(RealMatrix jacobian) throws ConvergenceException {
+        weightedJacobian = jacobian.getData();
+        final int nR = weightedJacobian.length;
+        final int nC = weightedJacobian[0].length;
 
         // initializations
-        for (int k = 0; k < cols; ++k) {
+        for (int k = 0; k < nC; ++k) {
             permutation[k] = k;
             double norm2 = 0;
-            for (int i = 0; i < weightedResidualJacobian.length; ++i) {
-                double akk = weightedResidualJacobian[i][k];
+            for (int i = 0; i < nR; ++i) {
+                double akk = weightedJacobian[i][k];
                 norm2 += akk * akk;
             }
             jacNorm[k] = FastMath.sqrt(norm2);
         }
 
         // transform the matrix column after column
-        for (int k = 0; k < cols; ++k) {
+        for (int k = 0; k < nC; ++k) {
 
             // select the column with the greatest norm on active components
             int nextColumn = -1;
             double ak2 = Double.NEGATIVE_INFINITY;
-            for (int i = k; i < cols; ++i) {
+            for (int i = k; i < nC; ++i) {
                 double norm2 = 0;
-                for (int j = k; j < weightedResidualJacobian.length; ++j) {
-                    double aki = weightedResidualJacobian[j][permutation[i]];
+                for (int j = k; j < nR; ++j) {
+                    double aki = weightedJacobian[j][permutation[i]];
                     norm2 += aki * aki;
                 }
                 if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {
                     throw new ConvergenceException(LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,
-                            rows, cols);
+                                                   nR, nC);
                 }
                 if (norm2 > ak2) {
                     nextColumn = i;
@@ -863,24 +888,24 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             permutation[k]          = pk;
 
             // choose alpha such that Hk.u = alpha ek
-            double akk   = weightedResidualJacobian[k][pk];
+            double akk   = weightedJacobian[k][pk];
             double alpha = (akk > 0) ? -FastMath.sqrt(ak2) : FastMath.sqrt(ak2);
             double betak = 1.0 / (ak2 - akk * alpha);
             beta[pk]     = betak;
 
             // transform the current column
             diagR[pk]        = alpha;
-            weightedResidualJacobian[k][pk] -= alpha;
+            weightedJacobian[k][pk] -= alpha;
 
             // transform the remaining columns
-            for (int dk = cols - 1 - k; dk > 0; --dk) {
+            for (int dk = nC - 1 - k; dk > 0; --dk) {
                 double gamma = 0;
-                for (int j = k; j < weightedResidualJacobian.length; ++j) {
-                    gamma += weightedResidualJacobian[j][pk] * weightedResidualJacobian[j][permutation[k + dk]];
+                for (int j = k; j < nR; ++j) {
+                    gamma += weightedJacobian[j][pk] * weightedJacobian[j][permutation[k + dk]];
                 }
                 gamma *= betak;
-                for (int j = k; j < weightedResidualJacobian.length; ++j) {
-                    weightedResidualJacobian[j][permutation[k + dk]] -= gamma * weightedResidualJacobian[j][pk];
+                for (int j = k; j < nR; ++j) {
+                    weightedJacobian[j][permutation[k + dk]] -= gamma * weightedJacobian[j][pk];
                 }
             }
         }
@@ -893,15 +918,18 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * @param y vector to multiply (will be overwritten with the result)
      */
     private void qTy(double[] y) {
-        for (int k = 0; k < cols; ++k) {
+        final int nR = weightedJacobian.length;
+        final int nC = weightedJacobian[0].length;
+
+        for (int k = 0; k < nC; ++k) {
             int pk = permutation[k];
             double gamma = 0;
-            for (int i = k; i < rows; ++i) {
-                gamma += weightedResidualJacobian[i][pk] * y[i];
+            for (int i = k; i < nR; ++i) {
+                gamma += weightedJacobian[i][pk] * y[i];
             }
             gamma *= beta[pk];
-            for (int i = k; i < rows; ++i) {
-                y[i] -= gamma * weightedResidualJacobian[i][pk];
+            for (int i = k; i < nR; ++i) {
+                y[i] -= gamma * weightedJacobian[i][pk];
             }
         }
     }

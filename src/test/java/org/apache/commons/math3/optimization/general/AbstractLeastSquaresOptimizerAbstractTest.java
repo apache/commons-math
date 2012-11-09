@@ -353,9 +353,9 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
         AbstractLeastSquaresOptimizer optimizer = createOptimizer();
-        PointVectorValuePair optimum =
-            optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
-                               new double[] { 98.680, 47.345 });
+        PointVectorValuePair optimum
+            = optimizer.optimize(100, circle, new double[] { 0, 0, 0, 0, 0 }, new double[] { 1, 1, 1, 1, 1 },
+                                 new double[] { 98.680, 47.345 });
         Assert.assertTrue(optimizer.getEvaluations() < 10);
         Assert.assertTrue(optimizer.getJacobianEvaluations() < 10);
         double rms = optimizer.getRMS();
@@ -399,8 +399,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
             circle.addPoint(points[i][0], points[i][1]);
         }
         AbstractLeastSquaresOptimizer optimizer = createOptimizer();
-        PointVectorValuePair optimum =
-            optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
+        PointVectorValuePair optimum
+            = optimizer.optimize(100, circle, target, weights, new double[] { -12, -12 });
         Vector2D center = new Vector2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertTrue(optimizer.getEvaluations() < 25);
         Assert.assertTrue(optimizer.getJacobianEvaluations() < 20);
