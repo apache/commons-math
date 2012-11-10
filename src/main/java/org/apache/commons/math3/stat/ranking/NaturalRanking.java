@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.random.RandomData;
 import org.apache.commons.math3.random.RandomDataImpl;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -186,6 +187,8 @@ public class NaturalRanking implements RankingAlgorithm {
      *
      * @param data array to be ranked
      * @return array of ranks
+     * @throws NotANumberException if the selected {@link NaNStrategy} is {@code FAILED}
+     * and a {@link Double#NaN} is encountered in the input data
      */
     public double[] rank(double[] data) {
 
@@ -209,6 +212,12 @@ public class NaturalRanking implements RankingAlgorithm {
                 break;
             case FIXED:   // Record positions of NaNs
                 nanPositions = getNanPositions(ranks);
+                break;
+            case FAILED:
+                nanPositions = getNanPositions(ranks);
+                if (nanPositions.size() > 0) {
+                    throw new NotANumberException();
+                }
                 break;
             default: // this should not happen unless NaNStrategy enum is changed
                 throw new MathInternalError();

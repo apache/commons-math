@@ -17,6 +17,7 @@
 package org.apache.commons.math3.stat.ranking;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.junit.Test;
@@ -194,4 +195,20 @@ public class NaturalRankingTest {
         correctRanks = new double[] { 3, 4, 1.5, 1.5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
+    
+    @Test(expected=NotANumberException.class)
+    public void testNaNsFailed() {
+        double[] data = { 0, Double.POSITIVE_INFINITY, Double.NaN, Double.NEGATIVE_INFINITY };
+        NaturalRanking ranking = new NaturalRanking(NaNStrategy.FAILED);
+        ranking.rank(data);
+    }
+    
+    @Test
+    public void testNoNaNsFailed() {
+        double[] data = { 1, 2, 3, 4 };
+        NaturalRanking ranking = new NaturalRanking(NaNStrategy.FAILED);
+        double[] ranks = ranking.rank(data);
+        TestUtils.assertEquals(data, ranks, 0d);
+    }
+    
 }

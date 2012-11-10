@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="add" issue="MATH-893" due-to="Patrick Meyer">
+        Add new "NaNStrategy": FAILED, used in "RankingAlgorithm" implementations.
+        Any encountered input value that succeeds a "Double#isNaN" check, results in a
+        "NotANumberException".
+      </action>
       <action dev="tn" type="add" issue="MATH-892">
         Add new constructor to "SpearmansCorrelation" class which allows to specify the
         "RankingAlgorithm" to be used.
