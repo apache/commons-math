@@ -50,18 +50,21 @@ public class SpearmansCorrelation {
     private final PearsonsCorrelation rankCorrelation;
 
     /**
-     * Create a SpearmansCorrelation with the given input data matrix
-     * and ranking algorithm.
+     * Create a SpearmansCorrelation without data.
+     */
+    public SpearmansCorrelation() {
+        this(new NaturalRanking());
+    }
+
+    /**
+     * Create a SpearmansCorrelation with the given ranking algorithm.
      *
-     * @param dataMatrix matrix of data with columns representing
-     * variables to correlate
      * @param rankingAlgorithm ranking algorithm
      */
-    public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm) {
-        this.data = dataMatrix.copy();
+    public SpearmansCorrelation(final RankingAlgorithm rankingAlgorithm) {
+        data = null;
         this.rankingAlgorithm = rankingAlgorithm;
-        rankTransform(data);
-        rankCorrelation = new PearsonsCorrelation(data);
+        rankCorrelation = null;
     }
 
     /**
@@ -75,12 +78,18 @@ public class SpearmansCorrelation {
     }
 
     /**
-     * Create a SpearmansCorrelation without data.
+     * Create a SpearmansCorrelation with the given input data matrix
+     * and ranking algorithm.
+     *
+     * @param dataMatrix matrix of data with columns representing
+     * variables to correlate
+     * @param rankingAlgorithm ranking algorithm
      */
-    public SpearmansCorrelation() {
-        data = null;
-        this.rankingAlgorithm = new NaturalRanking();
-        rankCorrelation = null;
+    public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm) {
+        this.data = dataMatrix.copy();
+        this.rankingAlgorithm = rankingAlgorithm;
+        rankTransform(data);
+        rankCorrelation = new PearsonsCorrelation(data);
     }
 
     /**

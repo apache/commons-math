@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="add" issue="MATH-892">
+        Add new constructor to "SpearmansCorrelation" class which allows to specify the
+        "RankingAlgorithm" to be used.
+      </action>
       <action dev="luc" type="fix" issue="MATH-890">
         Fixed naming inconsistencies between Interval and IntervalsSet classes.
       </action>
