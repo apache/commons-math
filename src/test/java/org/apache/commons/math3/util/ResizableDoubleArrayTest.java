@@ -52,7 +52,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         ResizableDoubleArray testDa = new ResizableDoubleArray(2);
         Assert.assertEquals(0, testDa.getNumElements());
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
         Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriteria(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
@@ -72,7 +72,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         testDa = new ResizableDoubleArray(2, 2.0f);
         Assert.assertEquals(0, testDa.getNumElements());
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
         Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriteria(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
@@ -90,7 +90,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         testDa = new ResizableDoubleArray(2, 2.0f, 3.0f);
         Assert.assertEquals(0, testDa.getNumElements());
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
         Assert.assertEquals(3.0f, testDa.getContractionCriteria(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
@@ -105,7 +105,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         testDa = new ResizableDoubleArray(2, 2.0f, 3.0f,
                 ResizableDoubleArray.ADDITIVE_MODE);
         Assert.assertEquals(0, testDa.getNumElements());
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
         Assert.assertEquals(3.0f, testDa.getContractionCriteria(), 0);
         Assert.assertEquals(ResizableDoubleArray.ADDITIVE_MODE,
@@ -157,16 +157,16 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         da.addElement(2.0);
         da.addElement(4.0);
         da.addElement(6.0);
-        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getCapacity());
         Assert.assertEquals(3, da.getNumElements());
         da.setElement(3, 7.0);
-        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getCapacity());
         Assert.assertEquals(4, da.getNumElements());
         da.setElement(10, 10.0);
-        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getCapacity());
         Assert.assertEquals(11, da.getNumElements());
         da.setElement(9, 10.0);
-        Assert.assertEquals(16, ((ResizableDoubleArray) da).getInternalLength());
+        Assert.assertEquals(16, ((ResizableDoubleArray) da).getCapacity());
         Assert.assertEquals(11, da.getNumElements());
 
         try {
@@ -180,12 +180,12 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0f, 3.0f,
                 ResizableDoubleArray.ADDITIVE_MODE);
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElement(1d);
         testDa.addElement(1d);
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElement(1d);
-        Assert.assertEquals(4, testDa.getInternalLength());
+        Assert.assertEquals(4, testDa.getCapacity());
     }
 
     @Override
@@ -194,7 +194,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         super.testAdd1000();
         Assert.assertEquals("Internal Storage length should be 1024 if we started out with initial capacity of " +
                 "16 and an expansion factor of 2.0",
-                1024, ((ResizableDoubleArray) da).getInternalLength());
+                1024, ((ResizableDoubleArray) da).getCapacity());
     }
     
     @Test
@@ -214,14 +214,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
         testDa = new ResizableDoubleArray(2, 2.0f, 2.5f,
                 ResizableDoubleArray.ADDITIVE_MODE);        
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElements(new double[] { 1d }); // x,0
         testDa.addElements(new double[] { 2d }); // x,x
         testDa.addElements(new double[] { 3d }); // x,x,x,0 -- expanded
         Assert.assertEquals(1d, testDa.getElement(0), 0);
         Assert.assertEquals(2d, testDa.getElement(1), 0);
         Assert.assertEquals(3d, testDa.getElement(2), 0);
-        Assert.assertEquals(4, testDa.getInternalLength());  // x,x,x,0
+        Assert.assertEquals(4, testDa.getCapacity());  // x,x,x,0
         Assert.assertEquals(3, testDa.getNumElements());
     }
 
@@ -249,26 +249,26 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
         ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0f, 2.5f,
                 ResizableDoubleArray.ADDITIVE_MODE);
-        Assert.assertEquals(2, testDa.getInternalLength());
+        Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElement(1d); // x,0
         testDa.addElement(2d); // x,x
         testDa.addElement(3d); // x,x,x,0 -- expanded
         Assert.assertEquals(1d, testDa.getElement(0), 0);
         Assert.assertEquals(2d, testDa.getElement(1), 0);
         Assert.assertEquals(3d, testDa.getElement(2), 0);
-        Assert.assertEquals(4, testDa.getInternalLength());  // x,x,x,0
+        Assert.assertEquals(4, testDa.getCapacity());  // x,x,x,0
         Assert.assertEquals(3, testDa.getNumElements());
         testDa.addElementRolling(4d);
         Assert.assertEquals(2d, testDa.getElement(0), 0);
         Assert.assertEquals(3d, testDa.getElement(1), 0);
         Assert.assertEquals(4d, testDa.getElement(2), 0);
-        Assert.assertEquals(4, testDa.getInternalLength());  // 0,x,x,x
+        Assert.assertEquals(4, testDa.getCapacity());  // 0,x,x,x
         Assert.assertEquals(3, testDa.getNumElements());
         testDa.addElementRolling(5d);   // 0,0,x,x,x,0 -- time to contract
         Assert.assertEquals(3d, testDa.getElement(0), 0);
         Assert.assertEquals(4d, testDa.getElement(1), 0);
         Assert.assertEquals(5d, testDa.getElement(2), 0);
-        Assert.assertEquals(4, testDa.getInternalLength());  // contracted -- x,x,x,0
+        Assert.assertEquals(4, testDa.getCapacity());  // contracted -- x,x,x,0
         Assert.assertEquals(3, testDa.getNumElements());
         try {
             testDa.getElement(4);

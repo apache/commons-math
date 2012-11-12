@@ -632,8 +632,22 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * of the public interface of this class.
      *
      * @return the length of the internal storage array.
+     * @deprecated As of 3.1. Please use {@link #getCapacity()} instead.
      */
+    @Deprecated
     synchronized int getInternalLength() {
+        return internalArray.length;
+    }
+
+    /**
+     * Gets the currently allocated size of the internal data structure used
+     * for storing elements.
+     * This is not to be confused with {@link #getNumElements() the number of
+     * elements actually stored}.
+     *
+     * @return the length of the internal array.
+     */
+    public int getCapacity() {
         return internalArray.length;
     }
 
