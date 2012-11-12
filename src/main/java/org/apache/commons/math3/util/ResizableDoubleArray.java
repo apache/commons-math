@@ -75,14 +75,11 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @version $Id$
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
-
-    /** additive expansion mode */
+    /** Additive expansion mode. */
     public static final int ADDITIVE_MODE = 1;
-
-    /** multiplicative expansion mode */
+    /** Multiplicative expansion mode. */
     public static final int MULTIPLICATIVE_MODE = 0;
-
-    /** Serializable version identifier */
+    /** Serializable version identifier. */
     private static final long serialVersionUID = -3485529955529426875L;
 
     /**
@@ -295,7 +292,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Adds an element to the end of this expandable array.
      *
-     * @param value to be added to end of array
+     * @param value Value to be added to end of array.
      */
     public synchronized void addElement(double value) {
         if (internalArray.length <= startIndex + numElements) {
@@ -307,7 +304,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Adds several element to the end of this expandable array.
      *
-     * @param values to be added to end of array
+     * @param values Values to be added to end of array.
      * @since 2.2
      */
     public synchronized void addElements(double[] values) {
@@ -331,9 +328,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * the entries 2, 3, 4, 5 and the value returned is 1.
      * </p>
      *
-     * @param value the value to be added to the array
+     * @param value Value to be added to the array.
      * @return the value which has been discarded or "pushed" out of the array
-     *         by this rolling insert
+     * by this rolling insert.
      */
     public synchronized double addElementRolling(double value) {
         double discarded = internalArray[startIndex];
@@ -359,12 +356,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Returns the value that has been replaced. If the array is empty (i.e.
      * if {@link #numElements} is zero), an IllegalStateException is thrown.
      *
-     * @param value new value to substitute for the most recently added value
-     * @return value that has been replaced in the array
+     * @param value New value to substitute for the most recently added value
+     * @return the value that has been replaced in the array.
      * @throws MathIllegalStateException if the array is empty
      * @since 2.0
      */
-    public synchronized double substituteMostRecentElement(double value) throws MathIllegalStateException {
+    public synchronized double substituteMostRecentElement(double value)
+        throws MathIllegalStateException {
         if (numElements < 1) {
             throw new MathIllegalStateException(
                     LocalizedFormats.CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY);
@@ -386,9 +384,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param expansion factor to be checked
      * @param contraction criteria to be checked
      * @throws MathIllegalArgumentException if the contractionCriteria is less than
-     *         the expansionCriteria.
+     * the expansionCriteria.
      */
-    protected void checkContractExpand(float contraction, float expansion) throws MathIllegalArgumentException {
+    protected void checkContractExpand(float contraction, float expansion)
+        throws MathIllegalArgumentException {
 
         if (contraction < expansion) {
             throw new MathIllegalArgumentException(
@@ -425,7 +424,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * zero.
      */
     public synchronized void contract() {
-        double[] tempArray = new double[numElements + 1];
+        final double[] tempArray = new double[numElements + 1];
 
         // Copy and swap - copy only the element array from the src array.
         System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);
@@ -446,10 +445,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws MathIllegalArgumentException if i is greater than numElements.
      * @since 2.0
      */
-    public synchronized void discardFrontElements(int i) throws MathIllegalArgumentException {
-
+    public synchronized void discardFrontElements(int i)
+        throws MathIllegalArgumentException {
         discardExtremeElements(i,true);
-
     }
 
     /**
@@ -463,10 +461,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws MathIllegalArgumentException if i is greater than numElements.
      * @since 2.0
      */
-    public synchronized void discardMostRecentElements(int i) throws MathIllegalArgumentException {
-
+    public synchronized void discardMostRecentElements(int i)
+        throws MathIllegalArgumentException {
         discardExtremeElements(i,false);
-
     }
 
     /**
@@ -488,7 +485,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws MathIllegalArgumentException if i is greater than numElements.
      * @since 2.0
      */
-    private synchronized void discardExtremeElements(int i,boolean front) throws MathIllegalArgumentException {
+    private synchronized void discardExtremeElements(int i,
+                                                     boolean front)
+        throws MathIllegalArgumentException {
         if (i > numElements) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY,
@@ -519,7 +518,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * </p>
      */
     protected synchronized void expand() {
-
         // notice the use of FastMath.ceil(), this guarantees that we will always
         // have an array of at least currentSize + 1.   Assume that the
         // current initial capacity is 1 and the expansion factor
@@ -531,7 +529,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         } else {
             newSize = internalArray.length + FastMath.round(expansionFactor);
         }
-        double[] tempArray = new double[newSize];
+        final double[] tempArray = new double[newSize];
 
         // Copy and swap
         System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);
@@ -541,10 +539,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Expands the internal storage array to the specified size.
      *
-     * @param size Size of the new internal storage array
+     * @param size Size of the new internal storage array.
      */
     private synchronized void expandTo(int size) {
-        double[] tempArray = new double[size];
+        final double[] tempArray = new double[size];
         // Copy and swap
         System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);
         internalArray = tempArray;
@@ -572,7 +570,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param index index to fetch a value from
      * @return value stored at the specified index
      * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
-     *         zero or is greater than <code>getNumElements() - 1</code>.
+     * zero or is greater than <code>getNumElements() - 1</code>.
      */
     public synchronized double getElement(int index) {
         if (index >= numElements) {
@@ -592,9 +590,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the double array.
      */
     public synchronized double[] getElements() {
-        double[] elementArray = new double[numElements];
-        System.arraycopy( internalArray, startIndex, elementArray, 0,
-                numElements);
+        final double[] elementArray = new double[numElements];
+        System.arraycopy(internalArray, startIndex, elementArray, 0, numElements);
         return elementArray;
     }
 
@@ -655,7 +652,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Returns the number of elements currently in the array.  Please note
      * that this is different from the length of the internal storage array.
      *
-     * @return number of elements
+     * @return the number of elements.
      */
     public synchronized int getNumElements() {
         return numElements;
@@ -684,7 +681,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws MathIllegalArgumentException if the contractionCriteria is less than
      *         the expansionCriteria.
      */
-    public void setContractionCriteria(float contractionCriteria) throws MathIllegalArgumentException {
+    public void setContractionCriteria(float contractionCriteria)
+        throws MathIllegalArgumentException {
         checkContractExpand(contractionCriteria, getExpansionFactor());
         synchronized(this) {
             this.contractionCriteria = contractionCriteria;
@@ -701,8 +699,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @param index index to store a value in
      * @param value value to store at the specified index
-     * @throws ArrayIndexOutOfBoundsException if <code>index</code> is less than
-     *         zero.
+     * @throws ArrayIndexOutOfBoundsException if {@code index < 0}.
      */
     public synchronized void setElement(int index, double value) {
         if (index < 0) {
@@ -741,15 +738,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * ADDITIVE_MODE, MULTIPLICATIVE_MODE.
      *
      * @param expansionMode The expansionMode to set.
-     * @throws MathIllegalArgumentException if the specified mode value is not valid
+     * @throws MathIllegalArgumentException if the specified mode value is not valid.
      */
-    public void setExpansionMode(int expansionMode) throws MathIllegalArgumentException {
+    public void setExpansionMode(int expansionMode)
+        throws MathIllegalArgumentException {
         if (expansionMode != MULTIPLICATIVE_MODE &&
-                expansionMode != ADDITIVE_MODE) {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.UNSUPPORTED_EXPANSION_MODE,
-                    expansionMode, MULTIPLICATIVE_MODE, "MULTIPLICATIVE_MODE",
-                    ADDITIVE_MODE, "ADDITIVE_MODE");
+            expansionMode != ADDITIVE_MODE) {
+            throw new MathIllegalArgumentException(LocalizedFormats.UNSUPPORTED_EXPANSION_MODE, expansionMode,
+                                                   MULTIPLICATIVE_MODE, "MULTIPLICATIVE_MODE",
+                                                   ADDITIVE_MODE, "ADDITIVE_MODE");
         }
         synchronized(this) {
             this.expansionMode = expansionMode;
@@ -761,17 +758,17 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @param initialCapacity of the array
      * @throws MathIllegalArgumentException if <code>initialCapacity</code> is not
-     *         positive.
+     * positive.
      */
-    protected void setInitialCapacity(int initialCapacity) throws MathIllegalArgumentException {
+    protected void setInitialCapacity(int initialCapacity)
+        throws MathIllegalArgumentException {
         if (initialCapacity > 0) {
             synchronized(this) {
                 this.initialCapacity = initialCapacity;
             }
         } else {
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
-                    initialCapacity);
+            throw new MathIllegalArgumentException(LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
+                                                   initialCapacity);
         }
     }
 
@@ -783,9 +780,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param i a new number of elements
      * @throws MathIllegalArgumentException if <code>i</code> is negative.
      */
-    public synchronized void setNumElements(int i) throws MathIllegalArgumentException {
-
-        // If index is negative thrown an error
+    public synchronized void setNumElements(int i)
+        throws MathIllegalArgumentException {
+        // If index is negative thrown an error.
         if (i < 0) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.INDEX_NOT_POSITIVE,
@@ -793,12 +790,12 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         }
 
         // Test the new num elements, check to see if the array needs to be
-        // expanded to accommodate this new number of elements
+        // expanded to accommodate this new number of elements.
         if ((startIndex + i) > internalArray.length) {
             expandTo(startIndex + i);
         }
 
-        // Set the new number of elements to new value
+        // Set the new number of elements to new value.
         numElements = i;
     }
 
@@ -823,7 +820,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * internalArray[startIndex],...,internalArray[startIndex + numElements -1]
      * </code>
      *
-     * @return starting index
+     * @return the starting index.
      */
     public synchronized int start() {
         return startIndex;
@@ -846,7 +843,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.0
      *
      */
-    public static void copy(ResizableDoubleArray source, ResizableDoubleArray dest)
+    public static void copy(ResizableDoubleArray source,
+                            ResizableDoubleArray dest)
         throws NullArgumentException {
         MathUtils.checkNotNull(source);
         MathUtils.checkNotNull(dest);
@@ -874,7 +872,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @since 2.0
      */
     public synchronized ResizableDoubleArray copy() {
-        ResizableDoubleArray result = new ResizableDoubleArray();
+        final ResizableDoubleArray result = new ResizableDoubleArray();
         copy(this, result);
         return result;
     }
@@ -893,44 +891,44 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         if (object == this ) {
             return true;
         }
-       if (object instanceof ResizableDoubleArray == false) {
+        if (object instanceof ResizableDoubleArray == false) {
             return false;
         }
-       synchronized(this) {
-           synchronized(object) {
-               boolean result = true;
-               ResizableDoubleArray other = (ResizableDoubleArray) object;
-               result = result && (other.initialCapacity == initialCapacity);
-               result = result && (other.contractionCriteria == contractionCriteria);
-               result = result && (other.expansionFactor == expansionFactor);
-               result = result && (other.expansionMode == expansionMode);
-               result = result && (other.numElements == numElements);
-               result = result && (other.startIndex == startIndex);
-               if (!result) {
-                   return false;
-               } else {
-                   return Arrays.equals(internalArray, other.internalArray);
-               }
-           }
-       }
+        synchronized(this) {
+            synchronized(object) {
+                boolean result = true;
+                final ResizableDoubleArray other = (ResizableDoubleArray) object;
+                result = result && (other.initialCapacity == initialCapacity);
+                result = result && (other.contractionCriteria == contractionCriteria);
+                result = result && (other.expansionFactor == expansionFactor);
+                result = result && (other.expansionMode == expansionMode);
+                result = result && (other.numElements == numElements);
+                result = result && (other.startIndex == startIndex);
+                if (!result) {
+                    return false;
+                } else {
+                    return Arrays.equals(internalArray, other.internalArray);
+                }
+            }
+        }
     }
 
     /**
      * Returns a hash code consistent with equals.
      *
-     * @return hash code representing this ResizableDoubleArray
+     * @return the hash code representing this {@code ResizableDoubleArray}.
      * @since 2.0
      */
     @Override
     public synchronized int hashCode() {
-        int[] hashData = new int[7];
+        final int[] hashData = new int[7];
         hashData[0] = new Float(expansionFactor).hashCode();
         hashData[1] = new Float(contractionCriteria).hashCode();
         hashData[2] = expansionMode;
-            hashData[3] = Arrays.hashCode(internalArray);
-            hashData[4] = initialCapacity;
-            hashData[5] = numElements;
-            hashData[6] = startIndex;
+        hashData[3] = Arrays.hashCode(internalArray);
+        hashData[4] = initialCapacity;
+        hashData[5] = numElements;
+        hashData[6] = startIndex;
         return Arrays.hashCode(hashData);
     }
 
