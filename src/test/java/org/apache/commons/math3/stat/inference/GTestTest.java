@@ -47,11 +47,11 @@ public class GTestTest {
         };
 
         Assert.assertEquals("G test statistic",
-                0.348721, testStatistic.gValueGoodnessOfFit(exp, obs), 1E-6);
-        final double p_gtgf = testStatistic.gTestGoodnessOfFitPValue(exp, obs);
+                0.348721, testStatistic.g(exp, obs), 1E-6);
+        final double p_gtgf = testStatistic.gTest(exp, obs);
         Assert.assertEquals("g-Test p-value", 0.55483, p_gtgf, 1E-5);
 
-        Assert.assertFalse(testStatistic.gTestGoodnessOfFit(exp, obs, 0.05));
+        Assert.assertFalse(testStatistic.gTest(exp, obs, 0.05));
     }
 
     @Test
@@ -64,11 +64,11 @@ public class GTestTest {
             70, 79, 3, 4
         };
         Assert.assertEquals("G test statistic",
-                13.144799, testStatistic.gValueGoodnessOfFit(exp, obs), 1E-6);
-        final double p_gtgf = testStatistic.gTestGoodnessOfFitPValue(exp, obs);
+                13.144799, testStatistic.g(exp, obs), 1E-6);
+        final double p_gtgf = testStatistic.gTest(exp, obs);
         Assert.assertEquals("g-Test p-value", 0.004333, p_gtgf, 1E-5);
 
-        Assert.assertTrue(testStatistic.gTestGoodnessOfFit(exp, obs, 0.05));
+        Assert.assertTrue(testStatistic.gTest(exp, obs, 0.05));
     }
 
     @Test
@@ -82,12 +82,12 @@ public class GTestTest {
         };
 
         Assert.assertEquals("G test statistic",
-                4.5554, testStatistic.gValueGoodnessOfFit(exp, obs), 1E-4);
+                4.5554, testStatistic.g(exp, obs), 1E-4);
         // Intrinisic (Hardy-Weinberg proportions) P-Value should be 0.033
-        final double p_gtgf = testStatistic.gTestGoodnessOfFitIntrinsicPValue(exp, obs);
+        final double p_gtgf = testStatistic.gTestIntrinsic(exp, obs);
         Assert.assertEquals("g-Test p-value", 0.0328, p_gtgf, 1E-4);
 
-        Assert.assertFalse(testStatistic.gTestGoodnessOfFit(exp, obs, 0.05));
+        Assert.assertFalse(testStatistic.gTest(exp, obs, 0.05));
     }
 
     @Test
@@ -100,11 +100,11 @@ public class GTestTest {
             807, 759, 184
         };
 
-        final double g = testStatistic.gValueDataSetsComparison(obs1, obs2);
+        final double g = testStatistic.gDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("G test statistic",
                 7.3008170, g, 1E-6);
-        final double p_gti = testStatistic.gTestDataSetsComparisonPValue(obs1, obs2);
+        final double p_gti = testStatistic.gTestDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("g-Test p-value", 0.0259805, p_gti, 1E-6);
         Assert.assertTrue(testStatistic.gTestDataSetsComparison(obs1, obs2, 0.05));
@@ -120,11 +120,11 @@ public class GTestTest {
             116, 67, 161
         };
 
-        final double g = testStatistic.gValueDataSetsComparison(obs1, obs2);
+        final double g = testStatistic.gDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("G test statistic",
                 6.227288, g, 1E-6);
-        final double p_gti = testStatistic.gTestDataSetsComparisonPValue(obs1, obs2);
+        final double p_gti = testStatistic.gTestDataSetsComparison(obs1, obs2);
 
         Assert.assertEquals("g-Test p-value", 0.04443, p_gti, 1E-5);
         Assert.assertTrue(testStatistic.gTestDataSetsComparison(obs1, obs2, 0.05));
@@ -140,10 +140,10 @@ public class GTestTest {
             42, 49
         };
 
-        final double g = testStatistic.gValueDataSetsComparison(obs1, obs2);
+        final double g = testStatistic.gDataSetsComparison(obs1, obs2);
         Assert.assertEquals("G test statistic",
                 2.8187, g, 1E-4);
-        final double p_gti = testStatistic.gTestDataSetsComparisonPValue(obs1, obs2);
+        final double p_gti = testStatistic.gTestDataSetsComparison(obs1, obs2);
         Assert.assertEquals("g-Test p-value", 0.09317325, p_gti, 1E-6);
 
         Assert.assertFalse(testStatistic.gTestDataSetsComparison(obs1, obs2, 0.05));
@@ -154,7 +154,7 @@ public class GTestTest {
         long[] observed1 = {10, -1, 12, 10, 15};
         long[] observed2 = {15, 10, 10, 15, 5};
         try {
-            testStatistic.gTestDataSetsComparisonPValue(
+            testStatistic.gTestDataSetsComparison(
                     observed1, observed2);
             Assert.fail("Expecting NotPositiveException - negative count");
         } catch (NotPositiveException ex) {
@@ -163,7 +163,7 @@ public class GTestTest {
         long[] observed3 = {10, 0, 12, 10, 15};
         long[] observed4 = {15, 0, 10, 15, 5};
         try {
-            testStatistic.gTestDataSetsComparisonPValue(
+            testStatistic.gTestDataSetsComparison(
                     observed3, observed4);
             Assert.fail("Expecting ZeroException - double 0's");
         } catch (ZeroException ex) {
@@ -172,7 +172,7 @@ public class GTestTest {
         long[] observed5 = {10, 10, 12, 10, 15};
         long[] observed6 = {0, 0, 0, 0, 0};
         try {
-            testStatistic.gTestDataSetsComparisonPValue(
+            testStatistic.gTestDataSetsComparison(
                     observed5, observed6);
             Assert.fail("Expecting ZeroException - vanishing counts");
         } catch (ZeroException ex) {
@@ -186,13 +186,13 @@ public class GTestTest {
         final double[] expected = { 1, 1, 2 };
         final long[] observed2 = {3, 4};
         try {
-            testStatistic.gTestGoodnessOfFitPValue(expected, observed);
+            testStatistic.gTest(expected, observed);
             Assert.fail("arrays have different lengths, DimensionMismatchException expected");
         } catch (DimensionMismatchException ex) {
             // expected
         }
         try {
-            testStatistic.gTestDataSetsComparisonPValue(observed, observed2);
+            testStatistic.gTestDataSetsComparison(observed, observed2);
             Assert.fail("arrays have different lengths, DimensionMismatchException expected");
         } catch (DimensionMismatchException ex) {
             // expected
@@ -205,13 +205,13 @@ public class GTestTest {
         final double[] expected = { 1, 1, 2, 3};
         final long[] observed2 = {3, 4, 5, 0};
         try {
-            testStatistic.gTestGoodnessOfFitPValue(expected, observed);
+            testStatistic.gTest(expected, observed);
             Assert.fail("negative observed count, NotPositiveException expected");
         } catch (NotPositiveException ex) {
             // expected
         }
         try {
-            testStatistic.gTestDataSetsComparisonPValue(observed, observed2);
+            testStatistic.gTestDataSetsComparison(observed, observed2);
             Assert.fail("negative observed count, NotPositiveException expected");
         } catch (NotPositiveException ex) {
             // expected
@@ -223,7 +223,7 @@ public class GTestTest {
         final long[] observed = { 0, 1, 2, -3 };
         final double[] expected = { 1, 0, 2, 3};
         try {
-            testStatistic.gTestGoodnessOfFitPValue(expected, observed);
+            testStatistic.gTest(expected, observed);
             Assert.fail("zero expected count, NotStrictlyPositiveException expected");
         } catch (NotStrictlyPositiveException ex) {
             // expected
@@ -236,7 +236,7 @@ public class GTestTest {
         final double[] expected = { 1, 2, 2, 3};
         final long[] observed2 = { 0, 2, 2, 3 };
         try {
-            testStatistic.gTestGoodnessOfFit(expected, observed, 0.8);
+            testStatistic.gTest(expected, observed, 0.8);
             Assert.fail("zero expected count, NotStrictlyPositiveException expected");
         } catch (OutOfRangeException ex) {
             // expected
@@ -257,12 +257,12 @@ public class GTestTest {
       final double[] expected3 = {1, 1, 1, 1, 1};
       final double tol = 1E-15;
       Assert.assertEquals(
-              testStatistic.gTestGoodnessOfFitPValue(expected1, observed),
-              testStatistic.gTestGoodnessOfFitPValue(expected2, observed),
+              testStatistic.gTest(expected1, observed),
+              testStatistic.gTest(expected2, observed),
               tol);
       Assert.assertEquals(
-              testStatistic.gTestGoodnessOfFitPValue(expected1, observed),
-              testStatistic.gTestGoodnessOfFitPValue(expected3, observed),
+              testStatistic.gTest(expected1, observed),
+              testStatistic.gTest(expected3, observed),
               tol);
     }
 

@@ -74,7 +74,7 @@ public class GTest {
      * @throws DimensionMismatchException if the array lengths do not match or
      * are less than 2.
      */
-    public double gValueGoodnessOfFit(final double[] expected, final long[] observed)
+    public double g(final double[] expected, final long[] observed)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException {
 
@@ -120,7 +120,7 @@ public class GTest {
      * frequency distribution described by the expected counts.</p>
      *
      * <p>The probability returned is the tail probability beyond
-     * {@link #gValueGoodnessOfFit(double[], long[]) gValueGoodnessOfFit(expected, observed)}
+     * {@link #g(double[], long[]) gValueGoodnessOfFit(expected, observed)}
      * in the ChiSquare distribution with degrees of freedom one less than the
      * common length of {@code expected} and {@code observed}.</p>
      *
@@ -149,14 +149,14 @@ public class GTest {
      * @throws MaxCountExceededException if an error occurs computing the
      * p-value.
      */
-    public double gTestGoodnessOfFitPValue(final double[] expected, final long[] observed)
+    public double gTest(final double[] expected, final long[] observed)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException, MaxCountExceededException {
 
         final ChiSquaredDistribution distribution =
                 new ChiSquaredDistribution(expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(
-                gValueGoodnessOfFit(expected, observed));
+                g(expected, observed));
     }
 
     /**
@@ -165,7 +165,7 @@ public class GTest {
      * (2nd ed.). Sparky House Publishing, Baltimore, Maryland.
      *
      * <p> The probability returned is the tail probability beyond
-     * {@link #gValueGoodnessOfFit(double[], long[]) gValueGoodnessOfFit(expected, observed)}
+     * {@link #g(double[], long[]) gValueGoodnessOfFit(expected, observed)}
      * in the ChiSquare distribution with degrees of freedom two less than the
      * common length of {@code expected} and {@code observed}.</p>
      *
@@ -180,14 +180,14 @@ public class GTest {
      * @throws MaxCountExceededException if an error occurs computing the
      * p-value.
      */
-    public double gTestGoodnessOfFitIntrinsicPValue(final double[] expected, final long[] observed)
+    public double gTestIntrinsic(final double[] expected, final long[] observed)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException, MaxCountExceededException {
 
         final ChiSquaredDistribution distribution =
                 new ChiSquaredDistribution(expected.length - 2.0);
         return 1.0 - distribution.cumulativeProbability(
-                gValueGoodnessOfFit(expected, observed));
+                g(expected, observed));
     }
 
     /**
@@ -202,7 +202,7 @@ public class GTest {
      * use </p><p>
      * {@code gTest(expected, observed, 0.01)}</p>
      *
-     * <p>Returns true iff {@link #gTestGoodnessOfFitPValue(double[], long[])
+     * <p>Returns true iff {@link #gTest(double[], long[])
      *  gTestGoodnessOfFitPValue(expected, observed)} < alpha</p>
      *
      * <p><strong>Preconditions</strong>: <ul>
@@ -234,7 +234,7 @@ public class GTest {
      * @throws OutOfRangeException if alpha is not strictly greater than zero
      * and less than or equal to 0.5
      */
-    public boolean gTestGoodnessOfFit(final double[] expected, final long[] observed,
+    public boolean gTest(final double[] expected, final long[] observed,
             final double alpha)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException, OutOfRangeException, MaxCountExceededException {
@@ -243,7 +243,7 @@ public class GTest {
             throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL,
                     alpha, 0, 0.5);
         }
-        return gTestGoodnessOfFitPValue(expected, observed) < alpha;
+        return gTest(expected, observed) < alpha;
     }
 
     /**
@@ -345,7 +345,7 @@ public class GTest {
      * {@code observed1} or {@code observed2} are zero, or if the count
      * at the same index is zero for both arrays.
      */
-    public double gValueDataSetsComparison(final long[] observed1, final long[] observed2)
+    public double gDataSetsComparison(final long[] observed1, final long[] observed2)
             throws DimensionMismatchException, NotPositiveException, ZeroException {
 
         // Make sure lengths are same
@@ -390,7 +390,7 @@ public class GTest {
 
     /**
      * Calculates the root log-likelihood ratio for 2 state Datasets. See
-     * {@link #gValueDataSetsComparison(long[], long[] )}.
+     * {@link #gDataSetsComparison(long[], long[] )}.
      *
      * <p>Given two events A and B, let k11 be the number of times both events
      * occur, k12 the incidence of B without A, k21 the count of A without B,
@@ -420,7 +420,7 @@ public class GTest {
      */
     public double rootLogLikelihoodRatio(final long k11, long k12,
             final long k21, final long k22) {
-        final double llr = gValueDataSetsComparison(
+        final double llr = gDataSetsComparison(
                 new long[]{k11, k12}, new long[]{k21, k22});
         double sqrt = FastMath.sqrt(llr);
         if ((double) k11 / (k11 + k12) < (double) k21 / (k21 + k22)) {
@@ -440,7 +440,7 @@ public class GTest {
      * can reject the null hypothesis that the observed counts conform to the
      * same distribution. </p>
      *
-     * <p>See {@link #gTestGoodnessOfFitPValue(double[], long[])} for details
+     * <p>See {@link #gTest(double[], long[])} for details
      * on how the p-value is computed.  The degrees of of freedom used to
      * perform the test is one less than the common length of the input observed
      * count arrays.</p>
@@ -469,14 +469,14 @@ public class GTest {
      * @throws MaxCountExceededException if an error occurs computing the
      * p-value.
      */
-    public double gTestDataSetsComparisonPValue(final long[] observed1,
+    public double gTestDataSetsComparison(final long[] observed1,
             final long[] observed2)
             throws DimensionMismatchException, NotPositiveException, ZeroException,
             MaxCountExceededException {
         final ChiSquaredDistribution distribution = new ChiSquaredDistribution(
                 (double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
-                gValueDataSetsComparison(observed1, observed2));
+                gDataSetsComparison(observed1, observed2));
     }
 
     /**
@@ -486,9 +486,9 @@ public class GTest {
      * significance level {@code alpha}. Returns true iff the null
      * hypothesis can be rejected  with 100 * (1 - alpha) percent confidence.
      * </p>
-     * <p>See {@link #gValueDataSetsComparison(long[], long[])} for details
+     * <p>See {@link #gDataSetsComparison(long[], long[])} for details
      * on the formula used to compute the G (LLR) statistic used in the test and
-     * {@link #gTestGoodnessOfFitPValue(double[], long[])} for information on how
+     * {@link #gTest(double[], long[])} for information on how
      * the observed significance level is computed. The degrees of of freedom used
      * to perform the test is one less than the common length of the input observed
      * count arrays. </p>
@@ -532,6 +532,6 @@ public class GTest {
             throw new OutOfRangeException(
                     LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, alpha, 0, 0.5);
         }
-        return gTestDataSetsComparisonPValue(observed1, observed2) < alpha;
+        return gTestDataSetsComparison(observed1, observed2) < alpha;
     }
 }
