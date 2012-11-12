@@ -120,7 +120,7 @@ public class GTest {
      * frequency distribution described by the expected counts.</p>
      *
      * <p>The probability returned is the tail probability beyond
-     * {@link #g(double[], long[]) gValueGoodnessOfFit(expected, observed)}
+     * {@link #g(double[], long[]) g(expected, observed)}
      * in the ChiSquare distribution with degrees of freedom one less than the
      * common length of {@code expected} and {@code observed}.</p>
      *
@@ -165,7 +165,7 @@ public class GTest {
      * (2nd ed.). Sparky House Publishing, Baltimore, Maryland.
      *
      * <p> The probability returned is the tail probability beyond
-     * {@link #g(double[], long[]) gValueGoodnessOfFit(expected, observed)}
+     * {@link #g(double[], long[]) g(expected, observed)}
      * in the ChiSquare distribution with degrees of freedom two less than the
      * common length of {@code expected} and {@code observed}.</p>
      *
