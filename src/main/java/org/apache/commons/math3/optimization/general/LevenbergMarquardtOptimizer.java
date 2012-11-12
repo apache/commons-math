@@ -839,11 +839,14 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
      * pivoting. The diagonal elements of the R matrix are therefore also in
      * non-increasing absolute values order.</p>
      *
-     * @param jacobian Weighte Jacobian matrix at the current point.
+     * @param jacobian Weighted Jacobian matrix at the current point.
      * @exception ConvergenceException if the decomposition cannot be performed
      */
     private void qrDecomposition(RealMatrix jacobian) throws ConvergenceException {
-        weightedJacobian = jacobian.getData();
+        // Code in this class assumes that the weighted Jacobian is -(W^(1/2) J),
+        // hence the multiplication by -1.
+        weightedJacobian = jacobian.scalarMultiply(-1).getData();
+
         final int nR = weightedJacobian.length;
         final int nC = weightedJacobian[0].length;
 

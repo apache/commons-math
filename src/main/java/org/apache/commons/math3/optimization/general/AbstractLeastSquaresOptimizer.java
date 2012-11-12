@@ -148,7 +148,8 @@ public abstract class AbstractLeastSquaresOptimizer
      */
     @Deprecated
     protected void updateJacobian() {
-        computeWeightedJacobian(point);
+        final RealMatrix weightedJacobian = computeWeightedJacobian(point);
+        weightedResidualJacobian = weightedJacobian.scalarMultiply(-1).getData();
     }
 
     /**
@@ -183,15 +184,7 @@ public abstract class AbstractLeastSquaresOptimizer
             }
         }
 
-        // XXX What is the purpose of the multiplication by -1?
-        final RealMatrix weightedJacobian
-            = weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobianData)).scalarMultiply(-1);
-
-        // XXX For backwards-compatibility (field "weightedResidualJacobian"
-        // must be removed in 4.0).
-        weightedResidualJacobian = weightedJacobian.getData();
-
-        return weightedJacobian;
+        return weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobianData));
     }
 
     /**
@@ -201,8 +194,8 @@ public abstract class AbstractLeastSquaresOptimizer
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      * @deprecated As of 3.1. Please use {@link #computeResiduals(double[])},
-     * {@link #computeObjectiveValue(double[])} and {@link #computeCost(double[])}
-     * instead.
+     * {@link #computeObjectiveValue(double[])}, {@link #computeCost(double[])}
+     * and {@link #setCost(double)} instead.
      */
     @Deprecated
     protected void updateResidualsAndCost() {
@@ -212,7 +205,7 @@ public abstract class AbstractLeastSquaresOptimizer
         // Compute cost.
         cost = computeCost(res);
 
-        // Compute weighted residuals. XXX To be moved to "LevenbergMarquardtOptimizer".
+        // Compute weighted residuals.
         final ArrayRealVector residuals = new ArrayRealVector(res);
         weightedResiduals = weightMatrixSqrt.operate(residuals).toArray();
     }

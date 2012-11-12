@@ -143,9 +143,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
 
                 final double[] grad   = weightedJacobian.getRow(i);
                 final double weight   = residualsWeights[i];
-                // XXX Minus sign could be left out if "weightedJacobian"
-                // would be defined differently.
-                final double residual = -currentResiduals[i];
+                final double residual = currentResiduals[i];
 
                 // compute the normal equation
                 final double wr = weight * residual;
