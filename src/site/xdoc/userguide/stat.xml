@@ -810,6 +810,7 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
           Chi-Square</a>, 
+          <a href="http://en.wikipedia.org/wiki/G-test">G Test</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc43.htm">
           One-Way ANOVA</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc35.htm">
@@ -818,12 +819,14 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           Wilcoxon signed rank</a> test statistics as well as
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code>,
-          <code>Chi-Square</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
+          <code>Chi-Square</code>, <code>G</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
           and <code>Wilcoxon signed rank</code> tests. The respective test classes are
           <a href="../apidocs/org/apache/commons/math3/stat/inference/TTest.html">
           TTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/ChiSquareTest.html">
           ChiSquareTest</a>,
+          <a href="../apidocs/org/apache/commons/math3/stat/inference/GTest.html">
+          GTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/OneWayAnova.html">
           OneWayAnova</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/MannWhitneyUTest.html">
@@ -864,14 +867,19 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           <li>p-values returned by t-, chi-square and Anova tests are exact, based
            on numerical approximations to the t-, chi-square and F distributions in the
            <code>distributions</code> package. </li>
-           <li>p-values returned by t-tests are for two-sided tests and the boolean-valued
+          <li>The G test implementation provides two p-values:
+           <code>gTest(expected, observed)</code>, which is the tail probability beyond
+           <code>g(expected, observed)</code> in the ChiSquare distribution with degrees
+           of freedom one less than the common length of input arrays and 
+           <code>gTestIntrinsic(expected, observed)</code> which is the same tail
+           probability computed using a ChiSquare distribution with one less degeree
+           of freedom. </li>
+          <li>p-values returned by t-tests are for two-sided tests and the boolean-valued
            methods supporting fixed significance level tests assume that the hypotheses
            are two-sided.  One sided tests can be performed by dividing returned p-values
            (resp. critical values) by 2.</li>
-           <li>Degrees of freedom for chi-square tests are integral values, based on the
-           number of observed or expected counts (number of observed counts - 1)
-           for the goodness-of-fit tests and (number of columns -1) * (number of rows - 1)
-           for independence tests.</li>
+           <li>Degrees of freedom for g- and chi-square tests are integral values, based on the
+           number of observed or expected counts (number of observed counts - 1).</li>
           </ul>
           </p>
           <p>
@@ -1059,11 +1067,70 @@ TestUtils.chiSquareTest(counts, alpha);
           hypothesis can be rejected with confidence <code>1 - alpha</code>.
           </dd>
           <br></br>
+          <dt><strong>g tests</strong></dt>
+          <br></br>
+          <dd>g tests are an alternative to chi-square tests that are recommended
+          when observed counts are small and / or incidence probabillities for 
+          some cells are small. See Ted Dunning's paper,
+          <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.5962">
+          Accurate Methods for the Statistics of Surprise and Coincidence</a> for
+          background and an empirical analysis showing now chi-square
+          statistics can be misldeading in the presence of low incidence probabilities.
+          This paper also derives the formulas used in computing g statistics and the
+          root log likelihood ratio provided by the <code>GTest</code> class.</dd>
+          <dd>
+          <dd>To compute a g-test statistic measuring the agreement between a
+          <code>long[]</code> array of observed counts and a <code>double[]</code>
+          array of expected counts, use:
+          <source>
+double[] expected = new double[]{0.54d, 0.40d, 0.05d, 0.01d};
+long[] observed = new long[]{70, 79, 3, 4};
+System.out.println(TestUtils.g(expected, observed));
+          </source>
+          the value displayed will be
+          <code>2 * sum(observed[i]) * log(observed[i]/expected[i])</code>
+          </dd>
+          <dd> To get the p-value associated with the null hypothesis that
+          <code>observed</code> conforms to <code>expected</code> use:
+          <source>
+TestUtils.gTest(expected, observed);
+          </source>
+          </dd>
+          <dd> To test the null hypothesis that <code>observed</code> conforms to
+          <code>expected</code> with <code>alpha</code> siginficance level
+          (equiv. <code>100 * (1-alpha)%</code> confidence) where <code>
+          0 &lt; alpha &lt; 1 </code> use:
+          <source>
+TestUtils.gTest(expected, observed, alpha);
+          </source>
+          The boolean value returned will be <code>true</code> iff the null hypothesis
+          can be rejected with confidence <code>1 - alpha</code>.
+          </dd>
+          <dd>To evaluate the hypothesis that two sets of counts come from the
+          same underlying distribution, use long[] arrays for the counts and
+          <code>gDataSetsComparison</code> for the test statistic
+          <source>
+long[] obs1 = new long[]{268, 199, 42};
+long[] obs2 = new long[]{807, 759, 184};
+System.out.println(TestUtils.gDataSetsComparison(obs1, obs2)); // g statistic
+System.out.println(TestUtils.gTestDataSetsComparison(obs1, obs2)); // p-value
+          </source>
+          </dd>
+          <dd>For 2 x 2 designs, the <code>rootLogLikelihoodRaio</code> method
+          computes the
+          <a href="http://tdunning.blogspot.com/2008/03/surprise-and-coincidence.html">
+          signed root log likelihood ratio.</a>  For example, suppose that for two events
+          A and B, the observed count of AB (both occurring) is 5, not A and B (B without A)
+          is 1995, A not B is 0; and neither A nor B is 10000.  Then
+          <source>
+new GTest().rootLogLikelihoodRatio(5, 1995, 0, 100000);
+          </source>
+          returns the root log likelihood associated with the null hypothesis that A 
+          and B are independent.
+          </dd>
+          <br></br>
           <dt><strong>One-Way Anova tests</strong></dt>
           <br></br>
-          <dd>To conduct a One-Way Analysis of Variance (ANOVA) to evaluate the
-          null hypothesis that the means of a collection of univariate datasets
-          are the same, start by loading the datasets into a collection, e.g.
           <source>
 double[] classA =
    {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0 };
