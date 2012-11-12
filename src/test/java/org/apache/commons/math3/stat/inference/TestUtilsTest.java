@@ -469,4 +469,62 @@ public class TestUtilsTest {
         Assert.assertEquals(oneWayAnova.anovaTest(classes, 0.01),
                 TestUtils.oneWayAnovaTest(classes, 0.01));
     }
+    @Test
+    public void testGTestGoodnesOfFit() throws Exception {
+        double[] exp = new double[]{
+            0.54d, 0.40d, 0.05d, 0.01d
+        };
+
+        long[] obs = new long[]{
+            70, 79, 3, 4
+        };
+        Assert.assertEquals("G test statistic",
+                13.144799, TestUtils.g(exp, obs), 1E-5);
+        double p_gtgf = TestUtils.gTest(exp, obs);
+        Assert.assertEquals("g-Test p-value", 0.004333, p_gtgf, 1E-5);
+
+        Assert.assertTrue(TestUtils.gTest(exp, obs, 0.05));
+}
+
+    @Test
+    public void testGTestIndependance() throws Exception {
+        long[] obs1 = new long[]{
+            268, 199, 42
+        };
+
+        long[] obs2 = new long[]{
+            807, 759, 184
+        };
+
+        double g = TestUtils.gDataSetsComparison(obs1, obs2);
+
+        Assert.assertEquals("G test statistic",
+                7.3008170, g, 1E-4);
+        double p_gti = TestUtils.gTestDataSetsComparison(obs1, obs2);
+
+        Assert.assertEquals("g-Test p-value", 0.0259805, p_gti, 1E-4);
+        Assert.assertTrue(TestUtils.gTestDataSetsComparison(obs1, obs2, 0.05));
+    }
+
+    @Test
+    public void testRootLogLikelihood() {
+        // positive where k11 is bigger than expected.
+        Assert.assertTrue(TestUtils.rootLogLikelihoodRatio(904, 21060, 1144, 283012) > 0.0);
+
+        // negative because k11 is lower than expected
+        Assert.assertTrue(TestUtils.rootLogLikelihoodRatio(36, 21928, 60280, 623876) < 0.0);
+
+        Assert.assertEquals(Math.sqrt(2.772589), TestUtils.rootLogLikelihoodRatio(1, 0, 0, 1), 0.000001);
+        Assert.assertEquals(-Math.sqrt(2.772589), TestUtils.rootLogLikelihoodRatio(0, 1, 1, 0), 0.000001);
+        Assert.assertEquals(Math.sqrt(27.72589), TestUtils.rootLogLikelihoodRatio(10, 0, 0, 10), 0.00001);
+
+        Assert.assertEquals(Math.sqrt(39.33052), TestUtils.rootLogLikelihoodRatio(5, 1995, 0, 100000), 0.00001);
+        Assert.assertEquals(-Math.sqrt(39.33052), TestUtils.rootLogLikelihoodRatio(0, 100000, 5, 1995), 0.00001);
+
+        Assert.assertEquals(Math.sqrt(4730.737), TestUtils.rootLogLikelihoodRatio(1000, 1995, 1000, 100000), 0.001);
+        Assert.assertEquals(-Math.sqrt(4730.737), TestUtils.rootLogLikelihoodRatio(1000, 100000, 1000, 1995), 0.001);
+
+        Assert.assertEquals(Math.sqrt(5734.343), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
+        Assert.assertEquals(Math.sqrt(5714.932), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
+    }
 }
