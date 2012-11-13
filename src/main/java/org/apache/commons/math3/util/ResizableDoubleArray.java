@@ -487,8 +487,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Clear the array, reset the size to the initialCapacity and the number
-     * of elements to zero.
+     * Clear the array contents, resetting the number of elements to zero.
      */
     public synchronized void clear() {
         numElements = 0;
