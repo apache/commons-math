@@ -130,7 +130,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
 
     @Test
-    public void testSetElementArbitraryExpansion() {
+    public void testSetElementArbitraryExpansion1() {
 
         // MULTIPLICATIVE_MODE
         da.addElement(2.0);
@@ -151,9 +151,11 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
                 Double.MIN_VALUE );
         Assert.assertEquals( "The 0th index should be 2.0, it isn't", 2.0, da.getElement(0),
                 Double.MIN_VALUE);
+    }
 
+    @Test
+    public void testSetElementArbitraryExpansion2() {
         // Make sure numElements and expansion work correctly for expansion boundary cases
-        da.clear();
         da.addElement(2.0);
         da.addElement(4.0);
         da.addElement(6.0);
