@@ -669,7 +669,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @return the internal storage array used by this object
      * @since 2.0
+     * @deprecated As of 3.1.
      */
+    @Deprecated
     public synchronized double[] getInternalValues() {
         return internalArray;
     }
@@ -821,7 +823,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * </code>
      *
      * @return the starting index.
+     * @deprecated As of 3.1.
      */
+    @Deprecated
     public synchronized int start() {
         return startIndex;
     }
