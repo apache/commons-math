@@ -432,9 +432,10 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                     LocalizedFormats.CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY);
         }
 
-        double discarded = internalArray[startIndex + (numElements - 1)];
+        final int substIndex = startIndex + (numElements - 1);
+        final double discarded = internalArray[substIndex];
 
-        internalArray[startIndex + (numElements - 1)] = value;
+        internalArray[substIndex] = value;
 
         return discarded;
     }
@@ -879,8 +880,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
         // Test the new num elements, check to see if the array needs to be
         // expanded to accommodate this new number of elements.
-        if ((startIndex + i) > internalArray.length) {
-            expandTo(startIndex + i);
+        final int newSize = startIndex + i;
+        if (newSize > internalArray.length) {
+            expandTo(newSize);
         }
 
         // Set the new number of elements to new value.
