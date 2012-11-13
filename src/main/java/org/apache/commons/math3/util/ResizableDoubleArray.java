@@ -23,6 +23,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -89,6 +90,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3485529955529426875L;
 
+    /** Default value for initial capacity. */
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
+    /** Default value for initial capacity. */
+    private static final float DEFAULT_EXPANSION_FACTOR = 2.0f;
+
     /**
      * The contraction criteria determines when the internal array will be
      * contracted to fit the number of elements contained in the element
@@ -148,116 +154,118 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Create a ResizableArray with default properties.
+     * Creates an instance with default properties.
      * <ul>
-     * <li><code>initialCapacity = 16</code></li>
-     * <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li>
-     * <li><code>expansionFactor = 2.5</code></li>
-     * <li><code>contractionFactor = 2.0</code></li>
+     *  <li>{@code initialCapacity = 16}</li>
+     *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
+     *  <li>{@code expansionFactor = 2.0}</li>
+     *  <li>{@code contractionFactor = 2.5}</li>
      * </ul>
      */
-    public ResizableDoubleArray() {
-        internalArray = new double[initialCapacity];
+    public ResizableDoubleArray()
+        throws MathIllegalArgumentException {
+        this(DEFAULT_INITIAL_CAPACITY);
     }
 
     /**
-     * Create a ResizableArray with the specified initial capacity.  Other
-     * properties take default values:
-      * <ul>
-     * <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li>
-     * <li><code>expansionFactor = 2.5</code></li>
-     * <li><code>contractionFactor = 2.0</code></li>
+     * Creates an instance with the specified initial capacity.
+     * Other properties take default values:
+     * <ul>
+     *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
+     *  <li>{@code expansionFactor = 2.0}</li>
+     *  <li>{@code contractionFactor = 2.5}</li>
      * </ul>
-     * @param initialCapacity The initial size of the internal storage array
-     * @throws MathIllegalArgumentException if initialCapacity is not > 0
+     * @param initialCapacity Initial size of the internal storage array.
+     * @throws MathIllegalArgumentException if {@code initialCapacity <= 0}.
      */
-    public ResizableDoubleArray(int initialCapacity) throws MathIllegalArgumentException {
-        setInitialCapacity(initialCapacity);
-        internalArray = new double[this.initialCapacity];
+    public ResizableDoubleArray(int initialCapacity)
+        throws MathIllegalArgumentException {
+        this(initialCapacity, DEFAULT_EXPANSION_FACTOR);
     }
 
     /**
-     * Create a ResizableArray from an existing double[] with the
+     * Creates an instance from an existing {@code double[]} with the
      * initial capacity and numElements corresponding to the size of
-     * the supplied double[] array. If the supplied array is null, a
-     * new empty array with the default initial capacity will be created.
+     * the supplied {@code double[]} array.
+     * If the supplied array is null, a new empty array with the default
+     * initial capacity will be created.
      * The input array is copied, not referenced.
      * Other properties take default values:
      * <ul>
-     * <li><code>initialCapacity = 16</code></li>
-     * <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li>
-     * <li><code>expansionFactor = 2.5</code></li>
-     * <li><code>contractionFactor = 2.0</code></li>
+     *  <li>{@code initialCapacity = 16}</li>
+     *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
+     *  <li>{@code expansionFactor = 2.0}</li>
+     *  <li>{@code contractionFactor = 2.5}</li>
      * </ul>
      *
      * @param initialArray initial array
      * @since 2.2
      */
     public ResizableDoubleArray(double[] initialArray) {
-        if (initialArray == null) {
-            this.internalArray = new double[initialCapacity];
-        } else {
-            this.internalArray = new double[initialArray.length];
-            System.arraycopy(initialArray, 0, this.internalArray, 0, initialArray.length);
-            initialCapacity = initialArray.length;
-            numElements = initialArray.length;
-        }
+        this(DEFAULT_INITIAL_CAPACITY,
+             DEFAULT_EXPANSION_FACTOR,
+             0.5f + DEFAULT_EXPANSION_FACTOR,
+             ExpansionMode.MULTIPLICATIVE,
+             initialArray);
     }
 
     /**
-     * <p>
-     * Create a ResizableArray with the specified initial capacity
-     * and expansion factor.  The remaining properties take default
-     * values:
+     * Creates an instance with the specified initial capacity
+     * and expansion factor.
+     * The remaining properties take default values:
      * <ul>
-     * <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li>
-     * <li><code>contractionFactor = 0.5 + expansionFactor</code></li>
-     * </ul></p>
-     * <p>
+     *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
+     *  <li>{@code contractionFactor = 0.5 + expansionFactor}</li>
+     * </ul>
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
-     * <li><code>initialCapacity > 0</code></li>
-     * <li><code>expansionFactor > 1</code></li>
-     * </ul></p>
+     *  <li>{@code initialCapacity > 0}</li>
+     *  <li>{@code expansionFactor > 1}</li>
+     * </ul>
      *
-     * @param initialCapacity The initial size of the internal storage array
-     * @param expansionFactor the array will be expanded based on this
-     *                        parameter
-     * @throws MathIllegalArgumentException if parameters are not valid
+     * @param initialCapacity Initial size of the internal storage array.
+     * @param expansionFactor The array will be expanded based on this
+     * parameter.
+     * @throws MathIllegalArgumentException if parameters are not valid.
      */
-    public ResizableDoubleArray(int initialCapacity, float expansionFactor) throws MathIllegalArgumentException {
-        this.expansionFactor = expansionFactor;
-        setInitialCapacity(initialCapacity);
-        internalArray = new double[initialCapacity];
-        setContractionCriteria(expansionFactor +0.5f);
+    public ResizableDoubleArray(int initialCapacity,
+                                float expansionFactor)
+        throws MathIllegalArgumentException {
+        this(initialCapacity,
+             expansionFactor,
+             0.5f + expansionFactor);
     }
 
     /**
-     * <p>
-     * Create a ResizableArray with the specified initialCapacity,
-     * expansionFactor, and contractionCriteria. The <code>expansionMode</code>
-     * will default to <code>MULTIPLICATIVE_MODE.</code></p>
-     * <p>
+     * Creates an instance with the specified initialCapacity,
+     * expansionFactor, and contractionCriteria.
+     * The expansion mode will default to {@code MULTIPLICATIVE}.
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
-     * <li><code>initialCapacity > 0</code></li>
-     * <li><code>expansionFactor > 1</code></li>
-     * <li><code>contractionFactor >= expansionFactor</code></li>
-     * </ul></p>
-     * @param initialCapacity The initial size of the internal storage array
-     * @param expansionFactor the array will be expanded based on this
-     *                        parameter
-     * @param contractionCriteria The contraction Criteria.
-     * @throws MathIllegalArgumentException if parameters are not valid
+     *  <li>{@code initialCapacity > 0}</li>
+     *  <li>{@code expansionFactor > 1}</li>
+     *  <li>{@code contractionFactor >= expansionFactor}</li>
+     * </ul>
+     *
+     * @param initialCapacity Initial size of the internal storage array..
+     * @param expansionFactor The array will be expanded based on this
+     * parameter.
+     * @param contractionCriteria Contraction criteria.
+     * @throws MathIllegalArgumentException if parameters are not valid.
      */
-    public ResizableDoubleArray(int initialCapacity, float expansionFactor,
-        float contractionCriteria) throws MathIllegalArgumentException {
-        this.expansionFactor = expansionFactor;
-        setContractionCriteria(contractionCriteria);
-        setInitialCapacity(initialCapacity);
-        internalArray = new double[initialCapacity];
+    public ResizableDoubleArray(int initialCapacity,
+                                float expansionFactor,
+                                float contractionCriteria)
+        throws MathIllegalArgumentException {
+        this(initialCapacity,
+             expansionFactor,
+             contractionCriteria,
+             ExpansionMode.MULTIPLICATIVE,
+             null);
     }
 
     /**
@@ -299,7 +307,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Create a ResizableArray with the specified properties.
+     * Creates an instance with the specified properties.
      * <br/>
      * Throws MathIllegalArgumentException if the following conditions are
      * not met:
@@ -315,7 +323,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param contractionCriteria Contraction criteria.
      * @param expansionMode Expansion mode.
      * @param data Initial contents of the array.
-     * @throws MathIllegalArgumentException if parameters are not valid.
+     * @throws MathIllegalArgumentException if the parameters are not valid.
      */
     public ResizableDoubleArray(int initialCapacity,
                                 float expansionFactor,
@@ -323,11 +331,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                                 ExpansionMode expansionMode,
                                 double ... data)
         throws MathIllegalArgumentException {
+        if (initialCapacity <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
+                                                   initialCapacity);
+        }
+        checkContractExpand(contractionCriteria, expansionFactor);
 
-        setExpansionFactor(expansionFactor);
-        setContractionCriteria(contractionCriteria);
-        setExpansionMode(expansionMode);
-        setInitialCapacity(initialCapacity);
+        this.expansionFactor = expansionFactor;
+        this.contractionCriteria = contractionCriteria;
+        this.expansionMode = expansionMode;
+        this.initialCapacity = initialCapacity;
         internalArray = new double[initialCapacity];
         numElements = 0;
         startIndex = 0;
