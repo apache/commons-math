@@ -21,6 +21,7 @@ import java.util.Arrays;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -59,10 +60,10 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * <code>numElements + 1.</code>  The determination of when the internal
  * storage array is "too large" depends on the <code>expansionMode</code> and
  * <code>contractionFactor</code> properties.  If  the <code>expansionMode</code>
- * is <code>MULTIPLICATIVE_MODE</code>, contraction is triggered when the
+ * is <code>MULTIPLICATIVE</code>, contraction is triggered when the
  * ratio between storage array length and <code>numElements</code> exceeds
  * <code>contractionFactor.</code>  If the <code>expansionMode</code>
- * is <code>ADDITIVE_MODE,</code> the number of excess storage locations
+ * is <code>ADDITIVE</code>, the number of excess storage locations
  * is compared to <code>contractionFactor.</code>
  * </p>
  * <p>
@@ -75,9 +76,15 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @version $Id$
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
-    /** Additive expansion mode. */
+    /** Additive expansion mode.
+     * @deprecated As of 3.1. Please use {@link ExpansionMode#ADDITIVE} instead.
+     */
+    @Deprecated
     public static final int ADDITIVE_MODE = 1;
-    /** Multiplicative expansion mode. */
+    /** Multiplicative expansion mode.
+     * @deprecated As of 3.1. Please use {@link ExpansionMode#MULTIPLICATIVE} instead.
+     */
+    @Deprecated
     public static final int MULTIPLICATIVE_MODE = 0;
     /** Serializable version identifier. */
     private static final long serialVersionUID = -3485529955529426875L;
@@ -103,7 +110,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Determines whether array expansion by <code>expansionFactor</code>
      * is additive or multiplicative.
      */
-    private int expansionMode = MULTIPLICATIVE_MODE;
+    private ExpansionMode expansionMode = ExpansionMode.MULTIPLICATIVE;
 
     /**
      * The initial capacity of the array.  Initial capacity is not exposed as a
@@ -129,6 +136,16 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * </code>
      */
     private int startIndex = 0;
+
+    /**
+     * Specification of expansion algorithm.
+     */
+    public static enum ExpansionMode {
+        /** Multiplicative expansion mode. */
+        MULTIPLICATIVE,
+        /** Additive expansion mode. */
+        ADDITIVE
+    }
 
     /**
      * Create a ResizableArray with default properties.
@@ -246,7 +263,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * <p>
      * Create a ResizableArray with the specified properties.</p>
-    * <p>
+     * <p>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
@@ -263,14 +280,61 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param contractionCriteria the contraction Criteria
      * @param expansionMode  the expansion mode
      * @throws MathIllegalArgumentException if parameters are not valid
+     * @deprecated As of 3.1. Please use
+     * {@link #ResizableDoubleArray(int,float,float,ExpansionMode,double[])}
+     * instead.
      */
     public ResizableDoubleArray(int initialCapacity, float expansionFactor,
             float contractionCriteria, int expansionMode) throws MathIllegalArgumentException {
-        this.expansionFactor = expansionFactor;
-        setContractionCriteria(contractionCriteria);
-        setInitialCapacity(initialCapacity);
+        this(initialCapacity,
+             expansionFactor,
+             contractionCriteria,
+             expansionMode == ADDITIVE_MODE ?
+             ExpansionMode.ADDITIVE :
+             ExpansionMode.MULTIPLICATIVE,
+             null);
+        // XXX Just ot retain the expected failure in a unit test.
+        // With the new "enum", that test will become obsolete.
         setExpansionMode(expansionMode);
+    }
+
+    /**
+     * Create a ResizableArray with the specified properties.
+     * <br/>
+     * Throws MathIllegalArgumentException if the following conditions are
+     * not met:
+     * <ul>
+     *  <li>{@code initialCapacity > 0}</li>
+     *  <li>{@code expansionFactor > 1}</li>
+     *  <li>{@code contractionFactor >= expansionFactor}</li>
+     * </ul>
+     *
+     * @param initialCapacity Initial size of the internal storage array.
+     * @param expansionFactor The array will be expanded based on this
+     * parameter.
+     * @param contractionCriteria Contraction criteria.
+     * @param expansionMode Expansion mode.
+     * @param data Initial contents of the array.
+     * @throws MathIllegalArgumentException if parameters are not valid.
+     */
+    public ResizableDoubleArray(int initialCapacity,
+                                float expansionFactor,
+                                float contractionCriteria,
+                                ExpansionMode expansionMode,
+                                double ... data)
+        throws MathIllegalArgumentException {
+
+        setExpansionFactor(expansionFactor);
+        setContractionCriteria(contractionCriteria);
+        setExpansionMode(expansionMode);
+        setInitialCapacity(initialCapacity);
         internalArray = new double[initialCapacity];
+        numElements = 0;
+        startIndex = 0;
+
+        if (data != null) {
+            addElements(data);
+        }
     }
 
     /**
@@ -523,7 +587,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         // is 1.000000000000000001.  The newly calculated size will be
         // rounded up to 2 after the multiplication is performed.
         int newSize = 0;
-        if (expansionMode == MULTIPLICATIVE_MODE) {
+        if (expansionMode == ExpansionMode.MULTIPLICATIVE) {
             newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);
         } else {
             newSize = internalArray.length + FastMath.round(expansionFactor);
@@ -611,14 +675,22 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * The <code>expansionMode</code> determines whether the internal storage
-     * array grows additively (ADDITIVE_MODE) or multiplicatively
-     * (MULTIPLICATIVE_MODE) when it is expanded.
+     * The expansion mode determines whether the internal storage
+     * array grows additively or multiplicatively when it is expanded.
      *
-     * @return Returns the expansionMode.
+     * @return the expansion mode.
+     * @deprecated As of 3.1. Return value to be changed to
+     * {@link ExpansionMode} in 4.0.
      */
     public int getExpansionMode() {
-        return expansionMode;
+        switch (expansionMode) {
+        case MULTIPLICATIVE:
+            return MULTIPLICATIVE_MODE;
+        case ADDITIVE:
+            return ADDITIVE_MODE;
+        default:
+            throw new MathInternalError(); // Should never happen.
+        }
     }
 
     /**
@@ -740,7 +812,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @param expansionMode The expansionMode to set.
      * @throws MathIllegalArgumentException if the specified mode value is not valid.
+     * @deprecated As of 3.1. Please use {@link #setExpansionMode(ExpansionMode)} instead.
      */
+    @Deprecated
     public void setExpansionMode(int expansionMode)
         throws MathIllegalArgumentException {
         if (expansionMode != MULTIPLICATIVE_MODE &&
@@ -750,8 +824,21 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
                                                    ADDITIVE_MODE, "ADDITIVE_MODE");
         }
         synchronized(this) {
-            this.expansionMode = expansionMode;
+            if (expansionMode == MULTIPLICATIVE_MODE) {
+                setExpansionMode(ExpansionMode.MULTIPLICATIVE);
+            } else if (expansionMode == ADDITIVE_MODE) {
+                setExpansionMode(ExpansionMode.ADDITIVE);
+            }
         }
+    }
+
+    /**
+     * Sets the {@link ExpansionMode expansion mode}.
+     *
+     * @param expansionMode Expansion mode to use for resizing the array.
+     */
+    public void setExpansionMode(ExpansionMode expansionMode) {
+        this.expansionMode = expansionMode;
     }
 
     /**
@@ -807,7 +894,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return true if array satisfies the contraction criteria
      */
     private synchronized boolean shouldContract() {
-        if (expansionMode == MULTIPLICATIVE_MODE) {
+        if (expansionMode == ExpansionMode.MULTIPLICATIVE) {
             return (internalArray.length / ((float) numElements)) > contractionCriteria;
         } else {
             return (internalArray.length - numElements) > contractionCriteria;
@@ -927,7 +1014,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         final int[] hashData = new int[7];
         hashData[0] = new Float(expansionFactor).hashCode();
         hashData[1] = new Float(contractionCriteria).hashCode();
-        hashData[2] = expansionMode;
+        hashData[2] = expansionMode.hashCode();
         hashData[3] = Arrays.hashCode(internalArray);
         hashData[4] = initialCapacity;
         hashData[5] = numElements;
