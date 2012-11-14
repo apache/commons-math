@@ -33,19 +33,20 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * are added and removed.
  * </p>
  * <p>
- *  The internal storage array starts with capacity determined by the
- * <code>initialCapacity</code> property, which can be set by the constructor.
+ * The internal storage array starts with capacity determined by the
+ * {@code initialCapacity} property, which can be set by the constructor.
  * The default initial capacity is 16.  Adding elements using
- * {@link #addElement(double)} appends elements to the end of the array.  When
- * there are no open entries at the end of the internal storage array, the
- * array is expanded.  The size of the expanded array depends on the
- * <code>expansionMode</code> and <code>expansionFactor</code> properties.
- * The <code>expansionMode</code> determines whether the size of the array is
- * multiplied by the <code>expansionFactor</code> (MULTIPLICATIVE_MODE) or if
- * the expansion is additive (ADDITIVE_MODE -- <code>expansionFactor</code>
- * storage locations added).  The default <code>expansionMode</code> is
- * MULTIPLICATIVE_MODE and the default <code>expansionFactor</code>
- * is 2.0.
+ * {@link #addElement(double)} appends elements to the end of the array.
+ * When there are no open entries at the end of the internal storage array,
+ * the array is expanded.  The size of the expanded array depends on the
+ * {@code expansionMode} and {@code expansionFactor} properties.
+ * The {@code expansionMode} determines whether the size of the array is
+ * multiplied by the {@code expansionFactor}
+ * ({@link ExpansionMode#MULTIPLICATIVE}) or if the expansion is additive
+ * ({@link ExpansionMode#ADDITIVE} -- {@code expansionFactor} storage
+ * locations added).
+ * The default {@code expansionMode} is {@code MULTIPLICATIVE} and the default
+ * {@code expansionFactor} is 2.
  * </p>
  * <p>
  * The {@link #addElementRolling(double)} method adds a new element to the end
@@ -56,23 +57,23 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * the storage locations at the beginning of the internal storage array.  To
  * reclaim this storage, each time one of these methods is activated, the size
  * of the internal storage array is compared to the number of addressable
- * elements (the <code>numElements</code> property) and if the difference
+ * elements (the {@code numElements} property) and if the difference
  * is too large, the internal array is contracted to size
- * <code>numElements + 1.</code>  The determination of when the internal
- * storage array is "too large" depends on the <code>expansionMode</code> and
- * <code>contractionFactor</code> properties.  If  the <code>expansionMode</code>
- * is <code>MULTIPLICATIVE</code>, contraction is triggered when the
- * ratio between storage array length and <code>numElements</code> exceeds
- * <code>contractionFactor.</code>  If the <code>expansionMode</code>
- * is <code>ADDITIVE</code>, the number of excess storage locations
- * is compared to <code>contractionFactor.</code>
+ * {@code numElements + 1}.  The determination of when the internal
+ * storage array is "too large" depends on the {@code expansionMode} and
+ * {@code contractionFactor} properties.  If  the {@code expansionMode}
+ * is {@code MULTIPLICATIVE}, contraction is triggered when the
+ * ratio between storage array length and {@code numElements} exceeds
+ * {@code contractionFactor.}  If the {@code expansionMode}
+ * is {@code ADDITIVE}, the number of excess storage locations
+ * is compared to {@code contractionFactor}.
  * </p>
  * <p>
  * To avoid cycles of expansions and contractions, the
- * <code>expansionFactor</code> must not exceed the
- * <code>contractionFactor.</code> Constructors and mutators for both of these
- * properties enforce this requirement, throwing IllegalArgumentException if it
- * is violated.
+ * {@code expansionFactor} must not exceed the {@code contractionFactor}.
+ * Constructors and mutators for both of these properties enforce this
+ * requirement, throwing a {@code MathIllegalArgumentException} if it is
+ * violated.
  * </p>
  * @version $Id$
  */
@@ -105,15 +106,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * The expansion factor of the array.  When the array needs to be expanded,
      * the new array size will be
-     * <code>internalArray.length * expansionFactor</code>
-     * if <code>expansionMode</code> is set to MULTIPLICATIVE_MODE, or
-     * <code>internalArray.length + expansionFactor</code> if
-     * <code>expansionMode</code> is set to ADDITIVE_MODE.
+     * {@code internalArray.length * expansionFactor}
+     * if {@code expansionMode} is set to MULTIPLICATIVE_MODE, or
+     * {@code internalArray.length + expansionFactor} if
+     * {@code expansionMode} is set to ADDITIVE_MODE.
      */
     private float expansionFactor = 2.0f;
 
     /**
-     * Determines whether array expansion by <code>expansionFactor</code>
+     * Determines whether array expansion by {@code expansionFactor}
      * is additive or multiplicative.
      */
     private ExpansionMode expansionMode = ExpansionMode.MULTIPLICATIVE;
@@ -137,9 +138,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
     /**
      * The position of the first addressable element in the internal storage
-     * array.  The addressable elements in the array are <code>
-     * internalArray[startIndex],...,internalArray[startIndex + numElements -1]
-     * </code>
+     * array.  The addressable elements in the array are
+     * {@code internalArray[startIndex],...,internalArray[startIndex + numElements - 1]}.
      */
     private int startIndex = 0;
 
@@ -162,8 +162,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *  <li>{@code contractionFactor = 2.5}</li>
      * </ul>
      */
-    public ResizableDoubleArray()
-        throws MathIllegalArgumentException {
+    public ResizableDoubleArray() {
         this(DEFAULT_INITIAL_CAPACITY);
     }
 
@@ -758,6 +757,44 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     @Deprecated
     public synchronized double[] getInternalValues() {
         return internalArray;
+    }
+
+    /**
+     * Provides <em>direct</em> access to the internal storage array.
+     * Please note that this method returns a reference to this object's
+     * storage array, not a copy.
+     * <br/>
+     * To correctly address elements of the array, the "start index" is
+     * required (available via the {@link #getStartIndex() getStartIndex}
+     * method.
+     * <br/>
+     * This method should only be used to avoid copying the internal array.
+     * The returned value <em>must</em> be used for reading only; other
+     * uses could lead to this object becoming inconsistent.
+     * <br/>
+     * The {@link #getElements} method has no such limitation since it
+     * returns a copy of this array's addressable elements.
+     *
+     * @return the internal storage array used by this object.
+     * @since 3.1
+     */
+    protected double[] getArrayRef() {
+        return internalArray;
+    }
+
+    /**
+     * Returns the "start index" of the internal array.
+     * This index is the position of the first addressable element in the
+     * internal storage array.
+     * The addressable elements in the array are at indices contained in
+     * the interval [{@link #getStartIndex()},
+     *               {@link #getStartIndex()} + {@link #getNumElements()} - 1].
+     *
+     * @return the start index.
+     * @since 3.1
+     */
+    protected int getStartIndex() {
+        return startIndex;
     }
 
     /**

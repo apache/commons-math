@@ -541,6 +541,23 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
     }
 
+    @Test
+    public void testGetArrayRef() {
+        final ResizableDoubleArray a = new ResizableDoubleArray();
+
+        // Modify "a" through the public API.
+        final int index = 20;
+        final double v1 = 1.2;
+        a.setElement(index, v1);
+
+        // Modify the internal storage through the protected API.
+        final double v2 = v1 + 3.4;
+        final double[] aInternalArray = a.getArrayRef();
+        aInternalArray[a.getStartIndex() + index] = v2;
+
+        Assert.assertEquals(v2, a.getElement(index), 0d);
+    }
+
     private void verifyEquality(ResizableDoubleArray a, ResizableDoubleArray b) {
         Assert.assertTrue(b.equals(a));
         Assert.assertTrue(a.equals(b));
