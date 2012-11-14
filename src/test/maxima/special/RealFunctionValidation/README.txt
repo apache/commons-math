@@ -46,7 +46,7 @@ following command should work
 
 Create a jar file
 
-  jar cfm RealFunctionValidation.jar Manifest.txt RealFunctionValidation*.class
+  jar cfm RealFunctionValidation.jar MANIFEST.txt RealFunctionValidation*.class
 
 Remove the unused *.class files
 
