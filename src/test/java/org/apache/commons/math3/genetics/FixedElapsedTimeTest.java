@@ -59,7 +59,7 @@ public class FixedElapsedTimeTest {
 
         while (!tec.isSatisfied(pop)) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 // ignore
             }
