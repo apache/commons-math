@@ -35,7 +35,6 @@ sample(x, y, name) := block(
   close(stream)
 );
 
-/*
 x : makelist(bfloat(i / 32), i, 1, 256);
 y : makelist(bfloat(j / 32), j, 1, 256);
 sample(x, y, "logBeta-01.dat");
@@ -43,8 +42,19 @@ sample(x, y, "logBeta-01.dat");
 x : makelist(bfloat(i / 32), i, 1, 256);
 y : makelist(bfloat(j / 32), j, 257, 512);
 sample(x, y, "logBeta-02.dat");
-*/
 
 x : makelist(bfloat(i / 32), i, 1, 256);
 y : makelist(bfloat(j), j, 17, 256);
 sample(x, y, "logBeta-03.dat");
+
+x : makelist(bfloat(i / 32), i, 257, 512);
+y : makelist(bfloat(j / 32), j, 257, 512);
+sample(x, y, "logBeta-04.dat");
+
+x : makelist(bfloat(i / 32), i, 257, 512);
+y : makelist(bfloat(j), j, 17, 256);
+sample(x, y, "logBeta-05.dat");
+
+x : makelist(bfloat(i), i, 17, 256);
+y : makelist(bfloat(j), j, 17, 256);
+sample(x, y, "logBeta-06.dat");
