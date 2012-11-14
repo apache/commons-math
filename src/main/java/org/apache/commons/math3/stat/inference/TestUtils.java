@@ -432,7 +432,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(double[],long[],double)
+     * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(long[],long[],double)
      */
     public static boolean gTestDataSetsComparison(final long[] observed1,
                                                   final long[] observed2,
