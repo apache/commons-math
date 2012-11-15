@@ -120,12 +120,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     private ExpansionMode expansionMode = ExpansionMode.MULTIPLICATIVE;
 
     /**
-     * The initial capacity of the array.  Initial capacity is not exposed as a
-     * property as it is only meaningful when passed to a constructor.
-     */
-    private int initialCapacity = 16;
-
-    /**
      * The internal storage array.
      */
     private double[] internalArray;
@@ -339,7 +333,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         this.expansionFactor = expansionFactor;
         this.contractionCriteria = contractionCriteria;
         this.expansionMode = expansionMode;
-        this.initialCapacity = initialCapacity;
         internalArray = new double[initialCapacity];
         numElements = 0;
         startIndex = 0;
@@ -897,17 +890,12 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param initialCapacity of the array
      * @throws MathIllegalArgumentException if <code>initialCapacity</code> is not
      * positive.
+     * @deprecated As of 3.1, this is a no-op.
      */
+    @Deprecated
     protected void setInitialCapacity(int initialCapacity)
         throws MathIllegalArgumentException {
-        if (initialCapacity > 0) {
-            synchronized(this) {
-                this.initialCapacity = initialCapacity;
-            }
-        } else {
-            throw new MathIllegalArgumentException(LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,
-                                                   initialCapacity);
-        }
+        // Body removed in 3.1.
     }
 
     /**
@@ -991,7 +979,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         MathUtils.checkNotNull(dest);
         synchronized(source) {
            synchronized(dest) {
-               dest.initialCapacity = source.initialCapacity;
                dest.contractionCriteria = source.contractionCriteria;
                dest.expansionFactor = source.expansionFactor;
                dest.expansionMode = source.expansionMode;
@@ -1039,7 +1026,6 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
             synchronized(object) {
                 boolean result = true;
                 final ResizableDoubleArray other = (ResizableDoubleArray) object;
-                result = result && (other.initialCapacity == initialCapacity);
                 result = result && (other.contractionCriteria == contractionCriteria);
                 result = result && (other.expansionFactor == expansionFactor);
                 result = result && (other.expansionMode == expansionMode);
@@ -1062,14 +1048,13 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      */
     @Override
     public synchronized int hashCode() {
-        final int[] hashData = new int[7];
+        final int[] hashData = new int[6];
         hashData[0] = new Float(expansionFactor).hashCode();
         hashData[1] = new Float(contractionCriteria).hashCode();
         hashData[2] = expansionMode.hashCode();
         hashData[3] = Arrays.hashCode(internalArray);
-        hashData[4] = initialCapacity;
-        hashData[5] = numElements;
-        hashData[6] = startIndex;
+        hashData[4] = numElements;
+        hashData[5] = startIndex;
         return Arrays.hashCode(hashData);
     }
 
