@@ -805,6 +805,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
         }
     }
 
+    /**
+     * Performs an operation on the addressable elements of the array.
+     *
+     * @param f Function to be applied on this array.
+     * @return the result.
+     */
+    public double compute(MathArrays.Function f) {
+        return f.evaluate(internalArray, startIndex, numElements);
+    }
 
     /**
      * Sets the element at the specified index.  If the specified index is greater than

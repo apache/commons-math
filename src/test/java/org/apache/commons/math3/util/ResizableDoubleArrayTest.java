@@ -558,6 +558,32 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals(v2, a.getElement(index), 0d);
     }
 
+    @Test
+    public void testCompute() {
+        final ResizableDoubleArray a = new ResizableDoubleArray();
+        final int max = 20;
+        for (int i = 1; i <= max; i++) {
+            a.setElement(i, i);
+        }
+
+        final MathArrays.Function add = new MathArrays.Function() {
+                public double evaluate(double[] a, int index, int num) {
+                    double sum = 0;
+                    final int max = index + num;
+                    for (int i = index; i < max; i++) {
+                        sum += a[i];
+                    }
+                    return sum;
+                }
+                public double evaluate(double[] a) {
+                    return evaluate(a, 0, a.length);
+                }
+            };
+
+        final double sum = a.compute(add);
+        Assert.assertEquals(0.5 * max * (max + 1), sum, 0);
+    }
+
     private void verifyEquality(ResizableDoubleArray a, ResizableDoubleArray b) {
         Assert.assertTrue(b.equals(a));
         Assert.assertTrue(a.equals(b));
