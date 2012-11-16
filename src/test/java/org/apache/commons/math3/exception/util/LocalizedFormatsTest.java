@@ -14,12 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * This file is an adapted version of OrekitMessagesTest test class
- * for the <a href="https://www.orekit.org/forge/projects/orekit">orekit</a> library.
- * The original file is distributed under the terms of the Apache 2 license and is:
- * Copyright 2010 CS Communication & Systèmes
- */
 package org.apache.commons.math3.exception.util;
 
 
