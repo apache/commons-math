@@ -17,6 +17,7 @@
 package org.apache.commons.math3.stat.descriptive;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.util.MathArrays;
 
 
 /**
@@ -24,8 +25,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  *
  * @version $Id$
  */
-public interface UnivariateStatistic {
-
+public interface UnivariateStatistic extends MathArrays.Function {
     /**
      * Returns the result of evaluating the statistic over the input array.
      *
@@ -53,5 +53,4 @@ public interface UnivariateStatistic {
      * @return a copy of the statistic
      */
     UnivariateStatistic copy();
-
 }

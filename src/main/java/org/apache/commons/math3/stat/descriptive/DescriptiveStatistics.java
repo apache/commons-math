@@ -79,7 +79,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     /**
      *  Stored data values
      */
-    private StatArray eDA = new StatArray();
+    private ResizableDoubleArray eDA = new ResizableDoubleArray();
 
     /** Mean statistic implementation - can be reset by setter. */
     private UnivariateStatistic meanImpl = new Mean();
@@ -138,7 +138,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      */
     public DescriptiveStatistics(double[] initialDoubleArray) {
         if (initialDoubleArray != null) {
-            eDA = new StatArray(initialDoubleArray);
+            eDA = new ResizableDoubleArray(initialDoubleArray);
         }
     }
 
@@ -761,56 +761,5 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
         dest.kurtosisImpl = source.kurtosisImpl;
         dest.skewnessImpl = source.skewnessImpl;
         dest.percentileImpl = source.percentileImpl;
-    }
-
-    /**
-     * Provides a method to compute a statistics on the contents of the
-     * array.
-     */
-    private static class StatArray extends ResizableDoubleArray {
-        /** Default constructor. */
-        public StatArray() {}
-
-        /**
-         * Builds an instance with the same contents as the given array.
-         *
-         * @param initialArray Data.
-         */
-        public StatArray(double[] initialArray) {
-            super(initialArray);
-        }
-
-        /**
-         * Builds a copy of the given instance.
-         *
-         * @param other Array.
-         * @throws NullArgumentException if the argument is {@code null}.
-         */
-        public StatArray(StatArray other)
-            throws NullArgumentException {
-            super(other);
-        }
-
-        /**
-         * Computes the given statistics from the contents of this array.
-         *
-         * @param stat Statistics.
-         * @return the result of evaluating the statistics on the current
-         * contents of this array.
-         */
-        public double compute(UnivariateStatistic stat) {
-            return stat.evaluate(getArrayRef(),
-                                 getStartIndex(),
-                                 getNumElements());
-        }
-
-        /**
-         * Creates a copy of this instance.
-         *
-         * @return a copy of this instance.
-         */
-        public StatArray copy() {
-            return new StatArray(this);
-        }
     }
 }
