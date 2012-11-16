@@ -377,7 +377,11 @@ org.apache.commons.math3.random:
 ===============================================================================
 
 The class "org.apache.commons.math3.exception.util.LocalizedFormatsTest" is
-an adapted version of OrekitMessagesTest test class for the orekit library:
- https://www.orekit.org/forge/projects/orekit
-The original file is distributed under the terms of the Apache 2 license and is:
-Copyright 2010 CS Communication & Systèmes
+an adapted version of "OrekitMessagesTest" test class for the Orekit library
+The "org.apache.commons.math3.analysis.interpolation.HermiteInterpolator"
+has been imported from the Orekit space flight dynamics library.
+
+Th Orekit library is described at:
+  https://www.orekit.org/forge/projects/orekit
+The original files are distributed under the terms of the Apache 2 license
+which is: Copyright 2010 CS Communication & Systèmes

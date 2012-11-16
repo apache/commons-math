@@ -42,11 +42,6 @@ import org.apache.commons.math3.util.ArithmeticUtils;
  * interpolation polynomial for n sample points with value, first and second
  * derivative for all points all have degree 3n-1.
  * </p>
- * <p>
- * This class has been imported from the Orekit space flight dynamics library
- * also distributed under the terms of the Apache License V2. Original copyright
- * is: Copyright 2002-2012 CS Systèmes d'Information.
- * </p>
  *
  * @version $Id$
  * @since 3.1
