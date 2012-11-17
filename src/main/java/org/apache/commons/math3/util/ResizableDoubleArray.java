@@ -906,7 +906,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param contractionCriteria contraction criteria
      * @throws MathIllegalArgumentException if the contractionCriteria is less than
      *         the expansionCriteria.
+     * @deprecated As of 3.1 (to be removed in 4.0 as field will become "final").
      */
+    @Deprecated
     public void setContractionCriteria(float contractionCriteria)
         throws MathIllegalArgumentException {
         checkContractExpand(contractionCriteria, getExpansionFactor());
@@ -959,7 +961,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param expansionFactor the new expansion factor value.
      * @throws MathIllegalArgumentException if expansionFactor is <= 1 or greater
      * than contractionFactor
+     * @deprecated As of 3.1 (to be removed in 4.0 as field will become "final").
      */
+    @Deprecated
     public void setExpansionFactor(float expansionFactor) throws MathIllegalArgumentException {
         checkContractExpand(getContractionCriterion(), expansionFactor);
         // The check above verifies that the expansion factor is > 1.0;
@@ -998,7 +1002,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Sets the {@link ExpansionMode expansion mode}.
      *
      * @param expansionMode Expansion mode to use for resizing the array.
+     * @deprecated As of 3.1 (to be removed in 4.0 as field will become "final").
      */
+    @Deprecated
     public void setExpansionMode(ExpansionMode expansionMode) {
         this.expansionMode = expansionMode;
     }
