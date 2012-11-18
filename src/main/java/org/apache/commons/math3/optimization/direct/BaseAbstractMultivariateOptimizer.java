@@ -115,9 +115,10 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])}
      * instead.
      */
+    @Deprecated
     public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
                                    double[] startPoint) {
-        return optimizeInternal(maxEval, f, goalType, startPoint);
+        return optimizeInternal(maxEval, f, goalType, new InitialGuess(startPoint));
     }
 
     /**
