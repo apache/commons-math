@@ -82,7 +82,7 @@ public class SynchronizedRandomGenerator implements RandomGenerator {
      * {@inheritDoc}
      */
     public synchronized int nextInt(int n) {
-        return wrapped.nextInt();
+        return wrapped.nextInt(n);
     }
 
     /**
