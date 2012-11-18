@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-899">
+        Added a new "SynchronizedRandomGenerator" that wraps another
+        "RandomGenerator" with all methods being synchronized, thus
+        rendering the code thread-safe (at some efficiency cost).
+      </action>
       <action dev="tn" type="add" issue="MATH-893" due-to="Patrick Meyer">
         Add new "NaNStrategy": FAILED, used in "RankingAlgorithm" implementations.
         Any encountered input value that succeeds a "Double#isNaN" check, results in a
