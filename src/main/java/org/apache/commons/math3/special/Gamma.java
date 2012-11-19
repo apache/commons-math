@@ -19,6 +19,7 @@ package org.apache.commons.math3.special;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.ContinuedFraction;
 import org.apache.commons.math3.util.FastMath;
 
@@ -700,5 +701,34 @@ public class Gamma {
             }
         }
         return ret;
+    }
+
+    /**
+     * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2.
+     *
+     * @param a First argument.
+     * @param b Second argument.
+     * @return the value of {@code log(Gamma(a + b))}.
+     * @throws OutOfRangeException if {@code a} or {@code b} is lower than
+     * {@code 1.0} or greater than {@code 2.0}.
+     */
+    public static double logGammaSum(final double a, final double b)
+        throws OutOfRangeException {
+
+        if ((a < 1.0) || (a > 2.0)) {
+            throw new OutOfRangeException(a, 1.0, 2.0);
+        }
+        if ((b < 1.0) || (b > 2.0)) {
+            throw new OutOfRangeException(b, 1.0, 2.0);
+        }
+
+        final double x = a + b - 2.0;
+        if (x <= 0.25) {
+            return Gamma.logGamma1p(1.0 + x);
+        } else if (x <= 1.25) {
+            return Gamma.logGamma1p(x) + FastMath.log1p(x);
+        } else {
+            return Gamma.logGamma1p(x - 1.0) + FastMath.log(x * (1.0 + x));
+        }
     }
 }
