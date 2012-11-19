@@ -29,8 +29,9 @@ import org.apache.commons.math3.util.FastMath;
  * &Gamma; (Gamma) family of functions.
  * </p>
  * <p>
- * Implementation of {@link #invGamma1pm1(double)} and
- * {@link #logGamma1p(double)} is based on the algorithms described in
+ * Implementation of {@link #invGamma1pm1(double)},
+ * {@link #logGamma1p(double)} and {@link #logGammaSum(double, double)} is
+ * based on the algorithms described in
  * <ul>
  * <li><a href="http://dx.doi.org/10.1145/22721.23109">Didonato and Morris
  * (1986)</a>, <em>Computation of the Incomplete Gamma Function Ratios and
