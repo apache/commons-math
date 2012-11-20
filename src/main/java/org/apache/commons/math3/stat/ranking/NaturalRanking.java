@@ -35,7 +35,7 @@ import org.apache.commons.math3.util.FastMath;
  * <p>NaNs are treated according to the configured {@link NaNStrategy} and ties
  * are handled using the selected {@link TiesStrategy}.
  * Configuration settings are supplied in optional constructor arguments.
- * Defaults are {@link NaNStrategy#MAXIMAL} and {@link TiesStrategy#AVERAGE},
+ * Defaults are {@link NaNStrategy#FAILED} and {@link TiesStrategy#AVERAGE},
  * respectively. When using {@link TiesStrategy#RANDOM}, a
  * {@link RandomGenerator} may be supplied as a constructor argument.</p>
  * <p>Examples:
@@ -72,7 +72,7 @@ import org.apache.commons.math3.util.FastMath;
 public class NaturalRanking implements RankingAlgorithm {
 
     /** default NaN strategy */
-    public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.MAXIMAL;
+    public static final NaNStrategy DEFAULT_NAN_STRATEGY = NaNStrategy.FAILED;
 
     /** default ties strategy */
     public static final TiesStrategy DEFAULT_TIES_STRATEGY = TiesStrategy.AVERAGE;

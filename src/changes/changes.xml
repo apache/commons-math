@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="tn" type="update" issue="MATH-906" due-to="Patrick Meyer">
+        Use "NaNStrategy#FAILED" as default strategy in "NaturalRanking".
+      </action>
       <action dev="erans" type="add" issue="MATH-899">
         Added a new "SynchronizedRandomGenerator" that wraps another
         "RandomGenerator" with all methods being synchronized, thus

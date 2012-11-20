@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.stat.ranking;
 
+import junit.framework.Assert;
+
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.random.JDKRandomGenerator;
@@ -40,20 +42,31 @@ public class NaturalRankingTest {
     private final double[] allSame = { 0, 0, 0, 0 };
 
     @Test
-    public void testDefault() { // Ties averaged, NaNs maximal
+    public void testDefault() { // Ties averaged, NaNs failed
         NaturalRanking ranking = new NaturalRanking();
-        double[] ranks = ranking.rank(exampleData);
-        double[] correctRanks = { 5, 3, 6, 7, 3, 8, 9, 1, 3 };
-        TestUtils.assertEquals(correctRanks, ranks, 0d);
+        double[] ranks;
+        
+        try {
+            ranks = ranking.rank(exampleData);
+            Assert.fail("expected NotANumberException due to NaNStrategy.FAILED");
+        } catch (NotANumberException e) {
+            // expected
+        }
+        
         ranks = ranking.rank(tiesFirst);
-        correctRanks = new double[] { 1.5, 1.5, 4, 3, 5 };
+        double[] correctRanks = new double[] { 1.5, 1.5, 4, 3, 5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(tiesLast);
         correctRanks = new double[] { 3.5, 3.5, 2, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
-        ranks = ranking.rank(multipleNaNs);
-        correctRanks = new double[] { 1, 2, 3.5, 3.5 };
-        TestUtils.assertEquals(correctRanks, ranks, 0d);
+        
+        try {
+            ranks = ranking.rank(multipleNaNs);
+            Assert.fail("expected NotANumberException due to NaNStrategy.FAILED");
+        } catch (NotANumberException e) {
+            // expected
+        }
+        
         ranks = ranking.rank(multipleTies);
         correctRanks = new double[] { 3, 2, 4.5, 4.5, 6.5, 6.5, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
@@ -64,7 +77,7 @@ public class NaturalRankingTest {
 
     @Test
     public void testNaNsMaximalTiesMinimum() {
-        NaturalRanking ranking = new NaturalRanking(TiesStrategy.MINIMUM);
+        NaturalRanking ranking = new NaturalRanking(NaNStrategy.MAXIMAL, TiesStrategy.MINIMUM);
         double[] ranks = ranking.rank(exampleData);
         double[] correctRanks = { 5, 2, 6, 7, 2, 8, 9, 1, 2 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
