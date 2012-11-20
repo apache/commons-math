@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optimization;
 
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using
@@ -27,6 +28,10 @@ import org.apache.commons.math3.util.FastMath;
  * difference between the objective function values is smaller than a
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold for all vectors elements.
+ * <br/>
+ * The {@link #converged(int,PointVectorValuePair,PointVectorValuePair) converged}
+ * method will also return {@code true} if the number of iterations has been set
+ * (see {@link #SimpleVectorValueChecker(double,double,int) this constructor}).
  *
  * @version $Id$
  * @since 3.0
@@ -34,11 +39,27 @@ import org.apache.commons.math3.util.FastMath;
 public class SimpleVectorValueChecker
     extends AbstractConvergenceChecker<PointVectorValuePair> {
     /**
+     * If {@link #maxIterationCount} is set to this value, the number of
+     * iterations will never cause
+     * {@link #converged(int,PointVectorValuePair,PointVectorValuePair)}
+     * to return {@code true}.
+     */
+    private static final int ITERATION_CHECK_DISABLED = -1;
+    /**
+     * Number of iterations after which the
+     * {@link #converged(int,PointVectorValuePair,PointVectorValuePair)} method
+     * will return true (unless the check is disabled).
+     */
+    private final int maxIterationCount;
+
+    /**
      * Build an instance with default thresholds.
      * @deprecated See {@link AbstractConvergenceChecker#AbstractConvergenceChecker()}
      */
     @Deprecated
-    public SimpleVectorValueChecker() {}
+    public SimpleVectorValueChecker() {
+        maxIterationCount = ITERATION_CHECK_DISABLED;
+    }
 
     /**
      * Build an instance with specified thresholds.
@@ -51,14 +72,42 @@ public class SimpleVectorValueChecker
      * @param absoluteThreshold absolute tolerance threshold
      */
     public SimpleVectorValueChecker(final double relativeThreshold,
-                                       final double absoluteThreshold) {
+                                    final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
+        maxIterationCount = ITERATION_CHECK_DISABLED;
+    }
+
+    /**
+     * Builds an instance with specified tolerance thresholds and
+     * iteration count.
+     *
+     * In order to perform only relative checks, the absolute tolerance
+     * must be set to a negative value. In order to perform only absolute
+     * checks, the relative tolerance must be set to a negative value.
+     *
+     * @param relativeThreshold Relative tolerance threshold.
+     * @param absoluteThreshold Absolute tolerance threshold.
+     * @param maxIter Maximum iteration count. Setting it to a negative
+     * value will disable this stopping criterion.
+     * @throws NotStrictlyPositiveException if {@code maxIter <= 0}.
+     *
+     * @since 3.1
+     */
+    public SimpleVectorValueChecker(final double relativeThreshold,
+                                    final double absoluteThreshold,
+                                    final int maxIter) {
+        super(relativeThreshold, absoluteThreshold);
+
+        if (maxIter <= 0) {
+            throw new NotStrictlyPositiveException(maxIter);
+        }
+        maxIterationCount = maxIter;
     }
 
     /**
      * Check if the optimization algorithm has converged considering the
      * last two points.
-     * This method may be called several time from the same algorithm
+     * This method may be called several times from the same algorithm
      * iteration with different points. This can be detected by checking the
      * iteration number at each call if needed. Each time this method is
      * called, the previous and current point correspond to points with the
@@ -69,12 +118,18 @@ public class SimpleVectorValueChecker
      * @param iteration Index of current iteration
      * @param previous Best point in the previous iteration.
      * @param current Best point in the current iteration.
-     * @return {@code true} if the algorithm has converged.
+     * @return {@code true} if the arguments satify the convergence criterion.
      */
     @Override
     public boolean converged(final int iteration,
                              final PointVectorValuePair previous,
                              final PointVectorValuePair current) {
+        if (maxIterationCount != ITERATION_CHECK_DISABLED) {
+            if (iteration >= maxIterationCount) {
+                return true;
+            }
+        }
+
         final double[] p = previous.getValueRef();
         final double[] c = current.getValueRef();
         for (int i = 0; i < p.length; ++i) {

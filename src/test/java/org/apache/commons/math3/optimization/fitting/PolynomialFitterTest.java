@@ -147,6 +147,28 @@ public class PolynomialFitterTest {
     }
 
     /**
+     * This test shows that the user can set the maximum number of iterations
+     * to avoid running for too long.
+     * Even if the real problem is that the tolerance is way too stringent, it
+     * is possible to get the best solution so far, i.e. a checker will return
+     * the point when the maximum iteration count has been reached.
+     */
+    @Test
+    public void testMath798WithToleranceTooLowButNoException() {
+        final double tol = 1e-100;
+        final double[] init = new double[] { 0, 0 };
+        final int maxEval = 10000; // Trying hard to fit.
+        final SimpleVectorValueChecker checker = new SimpleVectorValueChecker(tol, tol, maxEval);
+
+        final double[] lm = doMath798(new LevenbergMarquardtOptimizer(checker), maxEval, init);
+        final double[] gn = doMath798(new GaussNewtonOptimizer(checker), maxEval, init);
+
+        for (int i = 0; i <= 1; i++) {
+            Assert.assertEquals(lm[i], gn[i], 1e-15);
+        }
+    }
+
+    /**
      * @param optimizer Optimizer.
      * @param maxEval Maximum number of function evaluations.
      * @param init First guess.
