@@ -24,7 +24,6 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.optimization.OptimizationData;
 import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer;
 import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer;
 
