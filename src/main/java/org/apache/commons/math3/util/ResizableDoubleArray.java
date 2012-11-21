@@ -350,7 +350,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param expansionMode  the expansion mode
      * @throws MathIllegalArgumentException if parameters are not valid
      * @deprecated As of 3.1. Please use
-     * {@link #ResizableDoubleArray(int,float,float,ExpansionMode,double[])}
+     * {@link #ResizableDoubleArray(int,double,double,ExpansionMode,double[])}
      * instead.
      */
     public ResizableDoubleArray(int initialCapacity, float expansionFactor,
