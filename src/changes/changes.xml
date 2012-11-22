@@ -52,6 +52,14 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-902">
+        New constructor in the custom checker classes (package
+        "o.a.c.m.optimization") for passing the number of iterations
+        after which the "convergence test" will return true.
+        This allows an algorithm to return the best solution found (after
+        the user-defined number of iterations) even if it does not meet the
+        other convergence criteria.
+      </action>
       <action dev="tn" type="update" issue="MATH-906" due-to="Patrick Meyer">
         Use "NaNStrategy#FAILED" as default strategy in "NaturalRanking".
       </action>
