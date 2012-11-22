@@ -85,8 +85,7 @@ public class SimpleValueChecker
      *
      * @param relativeThreshold relative tolerance threshold
      * @param absoluteThreshold absolute tolerance threshold
-     * @param maxIter Maximum iteration count. Setting it to a negative
-     * value will disable this stopping criterion.
+     * @param maxIter Maximum iteration count.
      * @throws NotStrictlyPositiveException if {@code maxIter <= 0}.
      *
      * @since 3.1
