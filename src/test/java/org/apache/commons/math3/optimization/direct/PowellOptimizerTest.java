@@ -46,13 +46,16 @@ public class PowellOptimizerTest {
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i];
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-7);
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-9);
 
         // Initial is far from minimum.
         for (int i = 0; i < dim; i++) {
             init[i] = minPoint[i] + 3;
         }
-        doTest(func, minPoint, init,  GoalType.MINIMIZE, 1e-9, 1e-5);
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-5);
+        // More stringent line search tolerance enhances the precision
+        // of the result.
+        doTest(func, minPoint, init, GoalType.MINIMIZE, 1e-9, 1e-9, 1e-7);
     }
 
     @Test
@@ -192,6 +195,36 @@ public class PowellOptimizerTest {
                         double fTol,
                         double pointTol) {
         final MultivariateOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d));
+
+        final PointValuePair result = optim.optimize(1000, func, goal, init);
+        final double[] point = result.getPoint();
+
+        for (int i = 0, dim = optimum.length; i < dim; i++) {
+            Assert.assertEquals("found[" + i + "]=" + point[i] + " value=" + result.getValue(),
+                                optimum[i], point[i], pointTol);
+        }
+    }
+
+    /**
+     * @param func Function to optimize.
+     * @param optimum Expected optimum.
+     * @param init Starting point.
+     * @param goal Minimization or maximization.
+     * @param fTol Tolerance (relative error on the objective function) for
+     * "Powell" algorithm.
+     * @param fLineTol Tolerance (relative error on the objective function)
+     * for the internal line search algorithm.
+     * @param pointTol Tolerance for checking that the optimum is correct.
+     */
+    private void doTest(MultivariateFunction func,
+                        double[] optimum,
+                        double[] init,
+                        GoalType goal,
+                        double fTol,
+                        double fLineTol,
+                        double pointTol) {
+        final MultivariateOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d),
+                                                                fLineTol, Math.ulp(1d), null);
 
         final PointValuePair result = optim.optimize(1000, func, goal, init);
         final double[] point = result.getPoint();

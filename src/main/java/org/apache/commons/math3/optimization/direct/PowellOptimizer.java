@@ -69,7 +69,10 @@ public class PowellOptimizer
     /**
      * This constructor allows to specify a user-defined convergence checker,
      * in addition to the parameters that control the default convergence
-     * checking procedure and the line search tolerances.
+     * checking procedure.
+     * <br/>
+     * The internal line search tolerances are set to the square-root of their
+     * corresponding value in the multivariate optimizer.
      *
      * @param rel Relative threshold.
      * @param abs Absolute threshold.
@@ -79,6 +82,27 @@ public class PowellOptimizer
      */
     public PowellOptimizer(double rel,
                            double abs,
+                           ConvergenceChecker<PointValuePair> checker) {
+        this(rel, abs, FastMath.sqrt(rel), FastMath.sqrt(abs), checker);
+    }
+
+    /**
+     * This constructor allows to specify a user-defined convergence checker,
+     * in addition to the parameters that control the default convergence
+     * checking procedure and the line search tolerances.
+     *
+     * @param rel Relative threshold for this optimizer.
+     * @param abs Absolute threshold for this optimizer.
+     * @param lineRel Relative threshold for the internal line search optimizer.
+     * @param lineAbs Absolute threshold for the internal line search optimizer.
+     * @param checker Convergence checker.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
+     */
+    public PowellOptimizer(double rel,
+                           double abs,
+                           double lineRel,
+                           double lineAbs,
                            ConvergenceChecker<PointValuePair> checker) {
         super(checker);
 
@@ -91,15 +115,16 @@ public class PowellOptimizer
         relativeThreshold = rel;
         absoluteThreshold = abs;
 
-        // Line search tolerances can be much less stringent than the tolerances
-        // required for the optimizer itself.
-        line = new LineSearch(FastMath.sqrt(rel),
-                              FastMath.sqrt(abs));
+        // Create the line search optimizer.
+        line = new LineSearch(lineRel,
+                              lineAbs);
     }
 
     /**
-     * The parameters control the default convergence checking procedure, and
-     * the line search tolerances.
+     * The parameters control the default convergence checking procedure.
+     * <br/>
+     * The internal line search tolerances are set to the square-root of their
+     * corresponding value in the multivariate optimizer.
      *
      * @param rel Relative threshold.
      * @param abs Absolute threshold.
