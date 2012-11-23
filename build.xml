@@ -97,6 +97,9 @@
 
   <!-- Should Java compilations set the 'optimize' compiler option? -->
   <property name="compile.optimize"        value="true"/>
+	
+  <!-- File encoding -->
+  <property name="source.encoding"           value="UTF-8"/>
     
   <!-- JDK level -->
   <property name="compile.source"          value="1.5"/>
@@ -162,6 +165,7 @@
              debug="${compile.debug}"
        deprecation="${compile.deprecation}"
  includeantruntime="false"
+          encoding="${source.encoding}"
           optimize="${compile.optimize}">
       <classpath refid="compile.classpath"/>
     </javac>
@@ -176,6 +180,7 @@
              destdir="${build.home}/test-classes"
              debug="${compile.debug}"
              deprecation="${compile.deprecation}"
+             encoding="${source.encoding}"
              includeantruntime="false"
              optimize="${compile.optimize}">
           <classpath refid="test.classpath"/>
@@ -236,6 +241,9 @@
                  author="true"
                 private="true"
                 version="true"
+    	       encoding="${source.encoding}"
+    	        charset="${source.encoding}"
+    	    docencoding="${source.encoding}"
                doctitle="&lt;h1&gt;${component.title} ${component.version}&lt;/h1&gt;"
             windowtitle="${component.title} ${component.version}"
                  bottom="Copyright (c) 2003-${current.year}  Apache Software Foundation"
