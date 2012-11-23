@@ -18,6 +18,7 @@ package org.apache.commons.math3.stat.clustering;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Arrays;
 
 import org.apache.commons.math3.util.MathArrays;
 
@@ -70,16 +71,7 @@ public class EuclideanDoublePoint implements Clusterable<EuclideanDoublePoint>, 
         if (!(other instanceof EuclideanDoublePoint)) {
             return false;
         }
-        final double[] otherPoint = ((EuclideanDoublePoint) other).getPoint();
-        if (point.length != otherPoint.length) {
-            return false;
-        }
-        for (int i = 0; i < point.length; i++) {
-            if (point[i] != otherPoint[i]) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.equals(point, ((EuclideanDoublePoint) other).point);
     }
 
     /**
@@ -94,26 +86,13 @@ public class EuclideanDoublePoint implements Clusterable<EuclideanDoublePoint>, 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        int hashCode = 0;
-        for (final Double i : point) {
-            hashCode += i.hashCode() * 13 + 7;
-        }
-        return hashCode;
+        return Arrays.hashCode(point);
     }
 
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        final StringBuilder buff = new StringBuilder("(");
-        final double[] coordinates = getPoint();
-        for (int i = 0; i < coordinates.length; i++) {
-            buff.append(coordinates[i]);
-            if (i < coordinates.length - 1) {
-                buff.append(',');
-            }
-        }
-        buff.append(')');
-        return buff.toString();
+        return Arrays.toString(point);
     }
 
 }
