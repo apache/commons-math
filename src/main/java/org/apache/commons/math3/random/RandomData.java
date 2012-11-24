@@ -192,7 +192,7 @@ public interface RandomData {
      * (exclusive)
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
-     * @throws NotANumberException if one of the bounds is infinite
+     * @throws NotANumberException if one of the bounds is NaN
      */
     double nextUniform(double lower, double upper)
         throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException;
@@ -218,7 +218,7 @@ public interface RandomData {
      * {@code true}
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
-     * @throws NotANumberException if one of the bounds is infinite
+     * @throws NotANumberException if one of the bounds is NaN
      */
     double nextUniform(double lower, double upper, boolean lowerInclusive)
         throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException;

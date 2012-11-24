@@ -517,7 +517,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * </p>
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
-     * @throws NotANumberException if one of the bounds is not a number
+     * @throws NotANumberException if one of the bounds is NaN
      */
     public double nextUniform(double lower, double upper)
         throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
@@ -537,7 +537,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      *
      * @throws NumberIsTooLargeException if {@code lower >= upper}
      * @throws NotFiniteNumberException if one of the bounds is infinite
-     * @throws NotANumberException if one of the bounds is not a number
+     * @throws NotANumberException if one of the bounds is NaN
      */
     public double nextUniform(double lower, double upper, boolean lowerInclusive)
         throws NumberIsTooLargeException, NotFiniteNumberException, NotANumberException {
