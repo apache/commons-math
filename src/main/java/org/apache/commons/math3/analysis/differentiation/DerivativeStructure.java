@@ -858,17 +858,17 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         private static final long serialVersionUID = 20120730L;
 
         /** Number of variables.
-         * @Serial
+         * @serial
          */
         private final int variables;
 
         /** Derivation order.
-         * @Serial
+         * @serial
          */
         private final int order;
 
         /** Partial derivatives.
-         * @Serial
+         * @serial
          */
         private final double[] data;
 
