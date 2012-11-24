@@ -110,9 +110,9 @@ public abstract class BaseAbstractUnivariateOptimizer
 
     /** {@inheritDoc} */
     public UnivariatePointValuePair optimize(int maxEval, UnivariateFunction f,
-                                                 GoalType goalType,
-                                                 double min, double max,
-                                                 double startValue) {
+                                             GoalType goalType,
+                                             double min, double max,
+                                             double startValue) {
         // Checks.
         if (f == null) {
             throw new NullArgumentException();
@@ -136,9 +136,9 @@ public abstract class BaseAbstractUnivariateOptimizer
 
     /** {@inheritDoc} */
     public UnivariatePointValuePair optimize(int maxEval,
-                                                 UnivariateFunction f,
-                                                 GoalType goalType,
-                                                 double min, double max){
+                                             UnivariateFunction f,
+                                             GoalType goalType,
+                                             double min, double max){
         return optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));
     }
 
