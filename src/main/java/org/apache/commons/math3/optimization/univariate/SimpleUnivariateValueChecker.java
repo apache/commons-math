@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optimization.univariate;
 
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
 
 /**
@@ -29,6 +30,11 @@ import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
  * difference between the objective function values is smaller than a
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold.
+ * <br/>
+ * The {@link #converged(int,UnivariatePointValuePair,UnivariatePointValuePair)
+ * converged} method will also return {@code true} if the number of iterations
+ * has been set (see {@link #SimpleUnivariateValueChecker(double,double,int)
+ * this constructor}).
  *
  * @version $Id$
  * @since 3.1
@@ -36,11 +42,27 @@ import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
 public class SimpleUnivariateValueChecker
     extends AbstractConvergenceChecker<UnivariatePointValuePair> {
     /**
+     * If {@link #maxIterationCount} is set to this value, the number of
+     * iterations will never cause
+     * {@link #converged(int,UnivariatePointValuePair,UnivariatePointValuePair)}
+     * to return {@code true}.
+     */
+    private static final int ITERATION_CHECK_DISABLED = -1;
+    /**
+     * Number of iterations after which the
+     * {@link #converged(int,UnivariatePointValuePair,UnivariatePointValuePair)}
+     * method will return true (unless the check is disabled).
+     */
+    private final int maxIterationCount;
+
+    /**
      * Build an instance with default thresholds.
      * @deprecated See {@link AbstractConvergenceChecker#AbstractConvergenceChecker()}
      */
     @Deprecated
-    public SimpleUnivariateValueChecker() {}
+    public SimpleUnivariateValueChecker() {
+        maxIterationCount = ITERATION_CHECK_DISABLED;
+    }
 
     /** Build an instance with specified thresholds.
      *
@@ -54,6 +76,32 @@ public class SimpleUnivariateValueChecker
     public SimpleUnivariateValueChecker(final double relativeThreshold,
                                         final double absoluteThreshold) {
         super(relativeThreshold, absoluteThreshold);
+        maxIterationCount = ITERATION_CHECK_DISABLED;
+    }
+
+    /**
+     * Builds an instance with specified thresholds.
+     *
+     * In order to perform only relative checks, the absolute tolerance
+     * must be set to a negative value. In order to perform only absolute
+     * checks, the relative tolerance must be set to a negative value.
+     *
+     * @param relativeThreshold relative tolerance threshold
+     * @param absoluteThreshold absolute tolerance threshold
+     * @param maxIter Maximum iteration count.
+     * @throws NotStrictlyPositiveException if {@code maxIter <= 0}.
+     *
+     * @since 3.1
+     */
+    public SimpleUnivariateValueChecker(final double relativeThreshold,
+                                        final double absoluteThreshold,
+                                        final int maxIter) {
+        super(relativeThreshold, absoluteThreshold);
+
+        if (maxIter <= 0) {
+            throw new NotStrictlyPositiveException(maxIter);
+        }
+        maxIterationCount = maxIter;
     }
 
     /**
@@ -76,6 +124,12 @@ public class SimpleUnivariateValueChecker
     public boolean converged(final int iteration,
                              final UnivariatePointValuePair previous,
                              final UnivariatePointValuePair current) {
+        if (maxIterationCount != ITERATION_CHECK_DISABLED) {
+            if (iteration >= maxIterationCount) {
+                return true;
+            }
+        }
+
         final double p = previous.getValue();
         final double c = current.getValue();
         final double difference = FastMath.abs(p - c);
