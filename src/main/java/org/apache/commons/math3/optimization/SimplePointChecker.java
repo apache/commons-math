@@ -44,13 +44,13 @@ public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>
     extends AbstractConvergenceChecker<PAIR> {
     /**
      * If {@link #maxIterationCount} is set to this value, the number of
-     * iterations will never cause {@link #converged(int,Pair,Pair>)}
+     * iterations will never cause {@link #converged(int, Pair, Pair)}
      * to return {@code true}.
      */
     private static final int ITERATION_CHECK_DISABLED = -1;
     /**
      * Number of iterations after which the
-     * {@link #converged(int,PointVectorValuePair,PointVectorValuePair)} method
+     * {@link #converged(int, Pair, Pair)} method
      * will return true (unless the check is disabled).
      */
     private final int maxIterationCount;
