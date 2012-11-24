@@ -721,7 +721,7 @@ public class EigenDecomposition {
      * Transforms the matrix to Schur form and calculates the eigenvalues.
      *
      * @param matrix Matrix to transform.
-     * @return the {@link SchurTransform} for this matrix
+     * @return the {@link SchurTransformer Shur transform} for this matrix
      */
     private SchurTransformer transformToSchur(final RealMatrix matrix) {
         final SchurTransformer schurTransform = new SchurTransformer(matrix);
