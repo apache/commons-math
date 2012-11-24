@@ -52,6 +52,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="celestin" type="update" issue="MATH-849">
+        Accuracy improvements of Gamma.logGamma, and implementation of
+        Gamma.gamma. Both new implementations are based on the NSWC
+        Library of Mathematical Functions.
+      </action>
       <action dev="erans" type="add" issue="MATH-902">
         New constructor in the custom checker classes (package
         "o.a.c.m.optimization") for passing the number of iterations
