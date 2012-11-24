@@ -181,7 +181,7 @@ public class BOBYQAOptimizer
      * Alternative to {@link #newPoint}, chosen by
      * {@link #altmov(int,double) altmov}.
      * It may replace {@link #newPoint} in order to increase the denominator
-     * in the {@link #update() updating procedure}.
+     * in the {@link #update(double, double, int) updating procedure}.
      * XXX "xalt" in the original code.
      */
     private ArrayRealVector alternativeNewPoint;
