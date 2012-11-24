@@ -138,7 +138,7 @@ public class BracketFinder {
             double val = tmp2 - tmp1;
             double denom = Math.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
 
-            double w = xB - ((xB - xC) * tmp2 - (xB -xA) * tmp1) / denom;
+            double w = xB - ((xB - xC) * tmp2 - (xB - xA) * tmp1) / denom;
             double wLim = xB + growLimit * (xC - xB);
 
             double fW;
