@@ -99,7 +99,7 @@
   <property name="compile.optimize"        value="true"/>
 	
   <!-- File encoding -->
-  <property name="source.encoding"           value="UTF-8"/>
+  <property name="source.encoding"         value="UTF-8"/>
     
   <!-- JDK level -->
   <property name="compile.source"          value="1.5"/>
@@ -249,7 +249,6 @@
                  bottom="Copyright (c) 2003-${current.year}  Apache Software Foundation"
            classpathref="compile.classpath">
         <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>  
-        <link href="http://commons.apache.org/collections/api"/> 
     </javadoc>
   </target>
 
