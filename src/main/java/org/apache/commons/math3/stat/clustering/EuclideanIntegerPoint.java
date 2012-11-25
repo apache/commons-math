@@ -18,6 +18,7 @@
 package org.apache.commons.math3.stat.clustering;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.commons.math3.util.MathArrays;
@@ -77,26 +78,13 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
         if (!(other instanceof EuclideanIntegerPoint)) {
             return false;
         }
-        final int[] otherPoint = ((EuclideanIntegerPoint) other).getPoint();
-        if (point.length != otherPoint.length) {
-            return false;
-        }
-        for (int i = 0; i < point.length; i++) {
-            if (point[i] != otherPoint[i]) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.equals(point, ((EuclideanIntegerPoint) other).point);
     }
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        int hashCode = 0;
-        for (Integer i : point) {
-            hashCode += i.hashCode() * 13 + 7;
-        }
-        return hashCode;
+        return Arrays.hashCode(point);
     }
 
     /**
@@ -105,16 +93,7 @@ public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>
      */
     @Override
     public String toString() {
-        final StringBuilder buff = new StringBuilder("(");
-        final int[] coordinates = getPoint();
-        for (int i = 0; i < coordinates.length; i++) {
-            buff.append(coordinates[i]);
-            if (i < coordinates.length - 1) {
-                buff.append(",");
-            }
-        }
-        buff.append(")");
-        return buff.toString();
+        return Arrays.toString(point);
     }
 
 }
