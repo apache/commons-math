@@ -16,18 +16,85 @@
  */
 package org.apache.commons.math3.special;
 
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.ContinuedFraction;
 import org.apache.commons.math3.util.FastMath;
 
 /**
+ * <p>
  * This is a utility class that provides computation methods related to the
  * Beta family of functions.
+ * </p>
+ * <p>
+ * Implementation of {@link #bcorr(double, double)} is based on the algorithms
+ * described in
+ * </p>
+ * <ul>
+ * <li><a href="http://dx.doi.org/10.1145/22721.23109">Didonato and Morris
+ * (1986)</a>, <em>Computation of the Incomplete Gamma Function Ratios and
+ *     their Inverse</em>, TOMS 12(4), 377-393,</li>
+ * <li><a href="http://dx.doi.org/10.1145/131766.131776">Didonato and Morris
+ * (1992)</a>, <em>Algorithm 708: Significant Digit Computation of the
+ *     Incomplete Beta Function Ratios</em>, TOMS 18(3), 360-373,</li>
+ * </ul>
+ * <p>
+ * and implemented in the
+ * <a href="http://www.dtic.mil/docs/citations/ADA476840">NSWC Library of Mathematical Functions</a>,
+ * available
+ * <a href="http://www.ualberta.ca/CNS/RESEARCH/Software/NumericalNSWC/site.html">here</a>.
+ * This library is "approved for public release", and the
+ * <a href="http://www.dtic.mil/dtic/pdf/announcements/CopyrightGuidance.pdf">Copyright guidance</a>
+ * indicates that unless otherwise stated in the code, all FORTRAN functions in
+ * this library are license free. Since no such notice appears in the code these
+ * functions can safely be ported to Commons-Math.
+ * </p>
  *
  * @version $Id$
  */
 public class Beta {
     /** Maximum allowed numerical error. */
     private static final double DEFAULT_EPSILON = 10e-15;
+
+    /**
+     * <p>
+     * The coefficients of the series expansion of the Δ function. This
+     * function is defined as follows
+     * </p>
+     * <center>Δ(x) = log Γ(x) - (x - 0.5) log a + a - 0.5 log 2π,</center>
+     * <p>
+     * see equation (23) in Didonato and Morris (1992). The series expansion
+     * reads
+     * </p>
+     * <pre>
+     *                n
+     *               ====
+     *            1  \             i
+     *    Δ(x) = ---  >    DELTA  t
+     *            x  /          i
+     *               ====
+     *               i = 0
+     * </pre>
+     * <p>
+     * where {@code t = (10 / x)^2}. This series applies for {@code x >= 10.0}.
+     * </p>
+     */
+    private static final double[] DELTA = {
+        .833333333333333333333333333333E-01,
+        -.277777777777777777777777752282E-04,
+        .793650793650793650791732130419E-07,
+        -.595238095238095232389839236182E-09,
+        .841750841750832853294451671990E-11,
+        -.191752691751854612334149171243E-12,
+        .641025640510325475730918472625E-14,
+        -.295506514125338232839867823991E-15,
+        .179643716359402238723287696452E-16,
+        -.139228964661627791231203060395E-17,
+        .133802855014020915603275339093E-18,
+        -.154246009867966094273710216533E-19,
+        .197701992980957427278370133333E-20,
+        -.234065664793997056856992426667E-21,
+        .171348014966398575409015466667E-22
+    };
 
     /**
      * Default constructor.  Prohibit instantiation.
@@ -203,5 +270,60 @@ public class Beta {
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the value of Δ(p) + Δ(q) - Δ(p + q), with p, q ≥ 10. Based on
+     * the <em>NSWC Library of Mathematics Subroutines</em> implementation,
+     * {@code BCORR}.
+     *
+     * @param p First argument.
+     * @param q Second argument.
+     * @return the value of {@code Delta(p) + Delta(q) - Delta(p + q)}.
+     * @throws NumberIsTooSmallException if {@code p < 10.0} or {@code q < 10.0}.
+     */
+    public static final double bcorr(final double p, final double q) {
+
+        if (p < 10.0) {
+            throw new NumberIsTooSmallException(p, 10.0, true);
+        }
+        if (q < 10.0) {
+            throw new NumberIsTooSmallException(q, 10.0, true);
+        }
+
+        final double a = FastMath.min(p, q);
+        final double b = FastMath.max(p, q);
+        final double h = a / b;
+        final double c = h / (1.0 + h);
+        final double x = 1.0 / (1.0 + h);
+        final double x2 = x * x;
+        /*
+         * Compute s[i] = (1 - x**(2 * i + 1)) / (1 - x)
+         */
+        final double[] s = new double[DELTA.length];
+        s[0] = 1.0;
+        for (int i = 1; i < s.length; i++) {
+            s[i] = 1.0 + (x + x2 * s[i - 1]);
+        }
+        /*
+         * Set w = Delta(b) - Delta(a + b)
+         */
+        double tmp = 10.0 / b;
+        final double tb = tmp * tmp;
+        double w = DELTA[DELTA.length - 1] * s[s.length - 1];
+        for (int i = DELTA.length - 2; i >= 0; i--) {
+            w = tb * w + DELTA[i] * s[i];
+        }
+        w *= c / b;
+        /*
+         * Compute Delta(a) + w
+         */
+        tmp = 10.0 / a;
+        final double ta = tmp * tmp;
+        double z = DELTA[DELTA.length - 1];
+        for (int i = DELTA.length - 2; i >= 0; i--) {
+            z = ta * z + DELTA[i];
+        }
+        return z / a + w;
     }
 }
