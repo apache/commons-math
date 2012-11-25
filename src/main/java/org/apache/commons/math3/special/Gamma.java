@@ -233,7 +233,7 @@ public class Gamma {
      *            n = 0
      * <pre>
      * <p>
-     * see equationS (23) and (25) in Didonato and Morris (1992).
+     * see equations (23) and (25) in Didonato and Morris (1992).
      * </p>
      */
     private static final double D0 = .833333333333333E-01;
