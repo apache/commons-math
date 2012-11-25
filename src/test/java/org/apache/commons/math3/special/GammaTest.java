@@ -19,10 +19,10 @@ package org.apache.commons.math3.special;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
-
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @version $Id$
@@ -1073,6 +1073,30 @@ public class GammaTest {
             builder.append(a).append(", ").append(b);
             Assert.assertEquals(builder.toString(), expected, actual, tol);
         }
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testLogGammaSumPrecondition1() {
+
+        Gamma.logGammaSum(0.0, 1.0);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testLogGammaSumPrecondition2() {
+
+        Gamma.logGammaSum(3.0, 1.0);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testLogGammaSumPrecondition3() {
+
+        Gamma.logGammaSum(1.0, 0.0);
+    }
+
+    @Test(expected = OutOfRangeException.class)
+    public void testLogGammaSumPrecondition4() {
+
+        Gamma.logGammaSum(1.0, 3.0);
     }
 
     private static final double[][] LOG_GAMMA_MINUS_LOG_GAMMA_SUM_REF = {
