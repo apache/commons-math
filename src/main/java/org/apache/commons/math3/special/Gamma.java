@@ -705,7 +705,9 @@ public class Gamma {
     }
 
     /**
-     * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2.
+     * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2. The present
+     * implementation is based on the double precision implementation in the
+     * <em>NSWC Library of Mathematics Subroutines</em>, {@code GSUMLN}.
      *
      * @param a First argument.
      * @param b Second argument.
