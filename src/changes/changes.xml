@@ -52,6 +52,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="update" issue="MATH-902" due-to="Bruce A. Johnson">
+        Created a "maximum number of iterations" stopping criterion in the
+        convergence checkers (package "o.a.c.m.optimization") that allows the
+        optimizers to return the "current best point" even if the convergence
+        criteria are not met.
+      </action>
       <action dev="erans" type="fix" issue="MATH-905" due-to="Jeff Hain">
         Fixed overflow in "sinh" and "cosh" methods in class "FastMath".
       </action>
