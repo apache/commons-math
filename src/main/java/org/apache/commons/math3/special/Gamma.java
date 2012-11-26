@@ -779,7 +779,7 @@ public class Gamma {
      * @throws OutOfRangeException if {@code a} or {@code b} is lower than
      * {@code 1.0} or greater than {@code 2.0}.
      */
-    public static double logGammaSum(final double a, final double b)
+     static double logGammaSum(final double a, final double b)
         throws OutOfRangeException {
 
         if ((a < 1.0) || (a > 2.0)) {
@@ -809,8 +809,8 @@ public class Gamma {
      * @return the value of {@code log(Gamma(b) / Gamma(a + b))}.
      * @throws NumberIsTooSmallException if {@code a < 0.0} or {@code b < 8.0}.
      */
-    public static final double logGammaMinusLogGammaSum(final double a,
-                                                        final double b)
+    static final double logGammaMinusLogGammaSum(final double a,
+                                                 final double b)
         throws NumberIsTooSmallException {
 
         if (a < 0.0) {

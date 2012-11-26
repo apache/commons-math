@@ -282,7 +282,7 @@ public class Beta {
      * @return the value of {@code Delta(p) + Delta(q) - Delta(p + q)}.
      * @throws NumberIsTooSmallException if {@code p < 10.0} or {@code q < 10.0}.
      */
-    public static final double bcorr(final double p, final double q) {
+    static final double bcorr(final double p, final double q) {
 
         if (p < 10.0) {
             throw new NumberIsTooSmallException(p, 10.0, true);
