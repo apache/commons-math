@@ -53,7 +53,7 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class Beta {
     /** Maximum allowed numerical error. */
-    private static final double DEFAULT_EPSILON = 10e-15;
+    private static final double DEFAULT_EPSILON = 1E-14;
 
     /**
      * <p>
