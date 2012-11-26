@@ -158,6 +158,16 @@ public class FastMathTest {
     }
 
     @Test
+    public void testMath904() {
+        final double x = -1;
+        final double y = (5 + 1e-15) * 1e15;
+        Assert.assertEquals(Math.pow(x, y),
+                            FastMath.pow(x, y), 0);
+        Assert.assertEquals(Math.pow(x, -y),
+                            FastMath.pow(x, -y), 0);
+    }
+
+    @Test
     public void testMath905LargePositive() {
         final double start = StrictMath.log(Double.MAX_VALUE);
         final double endT = StrictMath.sqrt(2) * StrictMath.sqrt(Double.MAX_VALUE);

@@ -309,6 +309,8 @@ public class FastMath {
 
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
+    /** 2^53 - double numbers this large must be even. */
+    private static final double TWO_POWER_53 = 2 * TWO_POWER_52;
 
     /** Constant: {@value}. */
     private static final double F_1_3 = 1d / 3d;
@@ -1537,7 +1539,7 @@ public class FastMath {
         /* Handle special case x<0 */
         if (x < 0) {
             // y is an even integer in this case
-            if (y >= TWO_POWER_52 || y <= -TWO_POWER_52) {
+            if (y >= TWO_POWER_53 || y <= -TWO_POWER_53) {
                 return pow(-x, y);
             }
 
