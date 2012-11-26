@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="fix" issue="MATH-905" due-to="Jeff Hain">
+        Fixed overflow in "sinh" and "cosh" methods in class "FastMath".
+      </action>
       <action dev="celestin" type="update" issue="MATH-849">
         Accuracy improvements of Gamma.logGamma, and implementation of
         Gamma.gamma. Both new implementations are based on the NSWC
