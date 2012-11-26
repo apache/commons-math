@@ -42,6 +42,9 @@ import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChe
  * function value between two successive iterations. It is however possible
  * to define a custom convergence checker that might terminate the algorithm
  * earlier.
+ * <br/>
+ * The internal line search optimizer is a {@link BrentOptimizer} with a
+ * convergence checker set to {@link SimpleUnivariateValueChecker}.
  *
  * @version $Id$
  * @since 2.2
@@ -134,6 +137,23 @@ public class PowellOptimizer
     public PowellOptimizer(double rel,
                            double abs) {
         this(rel, abs, null);
+    }
+
+    /**
+     * Builds an instance with the default convergence checking procedure.
+     *
+     * @param rel Relative threshold.
+     * @param abs Absolute threshold.
+     * @param lineRel Relative threshold for the internal line search optimizer.
+     * @param lineAbs Absolute threshold for the internal line search optimizer.
+     * @throws NotStrictlyPositiveException if {@code abs <= 0}.
+     * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
+     */
+    public PowellOptimizer(double rel,
+                           double abs,
+                           double lineRel,
+                           double lineAbs) {
+        this(rel, abs, lineRel, lineAbs, null);
     }
 
     /** {@inheritDoc} */

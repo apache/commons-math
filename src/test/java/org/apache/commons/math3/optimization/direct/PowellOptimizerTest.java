@@ -224,7 +224,7 @@ public class PowellOptimizerTest {
                         double fLineTol,
                         double pointTol) {
         final MultivariateOptimizer optim = new PowellOptimizer(fTol, Math.ulp(1d),
-                                                                fLineTol, Math.ulp(1d), null);
+                                                                fLineTol, Math.ulp(1d));
 
         final PointValuePair result = optim.optimize(1000, func, goal, init);
         final double[] point = result.getPoint();
