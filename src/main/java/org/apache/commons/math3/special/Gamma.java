@@ -706,7 +706,9 @@ public class Gamma {
      */
     public static double gamma(final double x) {
 
-        // TODO Check whether x is a negative integer
+        if ((x == FastMath.rint(x)) && (x <= 0.0)) {
+            return Double.NaN;
+        }
 
         final double ret;
         final double absX = FastMath.abs(x);

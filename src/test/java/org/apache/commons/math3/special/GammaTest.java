@@ -954,6 +954,14 @@ public class GammaTest {
         }
     }
 
+    @Test
+    public void testGammaNegativeInteger() {
+
+        for (int i = -100; i <= 0; i++) {
+            Assert.assertTrue(Integer.toString(i), Double.isNaN(Gamma.gamma(i)));
+        }
+    }
+
     /**
      * Reference data for the {@link Gamma#logGammaSum(double, double)}
      * function. This data was generated with the following
