@@ -51,6 +51,31 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.1" date="TBD" description="
+This is a minor release: It combines bug fixes and new features.
+  Changes to existing features were made in a backwards-compatible
+  way such as to allow drop-in replacement of the v3.0 JAR file.
+  
+  Most notable among the new features are: Framework for automatic
+  differentiation, multivariate mixture model distribution, quaternions,
+  Gauss integration framework, Hermite polynomial interpolation,
+  eigenvalue decomposition of non-symmetric matrices.
+  Most notable among the changes are: Greatly improved precision in
+  the implementation of Gamma and Beta special functions, optimizers
+  API, deprecation of the sparse vector implementation.
+  
+  The minimal version of the Java platform required to compile and use
+  Commons Math is Java 5.
+  Users are encouraged to upgrade to this version as this release not
+  only includes bug fixes but also deprecates numerous classes and
+  methods that will be deleted from the next major release (4.0).
+  
+  Caveat:
+  1. The implementation of the BOBYQA optimization algorithm is in alpha
+  state (cf. MATH-621): Many code paths are untested, and we are looking
+  for volunteers to improve the code readability, robustness and performance
+  and to extend the unit tests suite.
+  2. A few methods in the FastMath class are in fact slower that their
+  counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
       <action dev="erans" type="add" issue="MATH-910">
         Added element-by-element addition, subtraction, multiplication and division
