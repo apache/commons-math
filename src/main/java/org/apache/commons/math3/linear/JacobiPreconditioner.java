@@ -17,6 +17,7 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.analysis.function.Sqrt;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * This class implements the standard Jacobi (diagonal) preconditioner. For a
@@ -95,7 +96,9 @@ public class JacobiPreconditioner extends RealLinearOperator {
     @Override
     public RealVector operate(final RealVector x) {
         // Dimension check is carried out by ebeDivide
-        return x.ebeDivide(diag);
+        return new ArrayRealVector(MathArrays.ebeDivide(x.toArray(),
+                                                        diag.toArray()),
+                                   false);
     }
 
     /**
@@ -105,13 +108,15 @@ public class JacobiPreconditioner extends RealLinearOperator {
      *
      * @return the square root of {@code this} preconditioner
      */
-    public RealLinearOperator sqrt(){
+    public RealLinearOperator sqrt() {
         final RealVector sqrtDiag = diag.map(new Sqrt());
         return new RealLinearOperator() {
             /** {@inheritDoc} */
             @Override
             public RealVector operate(final RealVector x) {
-                return x.ebeDivide(sqrtDiag);
+                return new ArrayRealVector(MathArrays.ebeDivide(x.toArray(),
+                                                                sqrtDiag.toArray()),
+                                           false);
             }
 
             /** {@inheritDoc} */
