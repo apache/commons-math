@@ -33,6 +33,64 @@ import org.junit.Test;
  * @version $Id$
  */
 public class MathArraysTest {
+    @Test(expected=DimensionMismatchException.class)
+    public void testEbeAddPrecondition() {
+        MathArrays.ebeAdd(new double[3], new double[4]);
+    }
+    @Test(expected=DimensionMismatchException.class)
+    public void testEbeSubtractPrecondition() {
+        MathArrays.ebeSubtract(new double[3], new double[4]);
+    }
+    @Test(expected=DimensionMismatchException.class)
+    public void testEbeMultiplyPrecondition() {
+        MathArrays.ebeMultiply(new double[3], new double[4]);
+    }
+    @Test(expected=DimensionMismatchException.class)
+    public void testEbeDividePrecondition() {
+        MathArrays.ebeDivide(new double[3], new double[4]);
+    }
+
+    @Test
+    public void testEbeAdd() {
+        final double[] a = { 0, 1, 2 };
+        final double[] b = { 3, 5, 7 };
+        final double[] r = MathArrays.ebeAdd(a, b);
+
+        for (int i = 0; i < a.length; i++) {
+            Assert.assertEquals(a[i] + b[i], r[i], 0);
+        }
+    }
+    @Test
+    public void testEbeSubtract() {
+        final double[] a = { 0, 1, 2 };
+        final double[] b = { 3, 5, 7 };
+        final double[] r = MathArrays.ebeSubtract(a, b);
+
+        for (int i = 0; i < a.length; i++) {
+            Assert.assertEquals(a[i] - b[i], r[i], 0);
+        }
+    }
+    @Test
+    public void testEbeMultiply() {
+        final double[] a = { 0, 1, 2 };
+        final double[] b = { 3, 5, 7 };
+        final double[] r = MathArrays.ebeMultiply(a, b);
+
+        for (int i = 0; i < a.length; i++) {
+            Assert.assertEquals(a[i] * b[i], r[i], 0);
+        }
+    }
+    @Test
+    public void testEbeDivide() {
+        final double[] a = { 0, 1, 2 };
+        final double[] b = { 3, 5, 7 };
+        final double[] r = MathArrays.ebeDivide(a, b);
+
+        for (int i = 0; i < a.length; i++) {
+            Assert.assertEquals(a[i] / b[i], r[i], 0);
+        }
+    }
+
     @Test
     public void testL1DistanceDouble() {
         double[] p1 = { 2.5,  0.0 };

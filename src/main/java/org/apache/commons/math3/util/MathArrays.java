@@ -70,6 +70,91 @@ public class MathArrays {
     }
 
     /**
+     * Creates an array whose contents will be the element-by-element
+     * addition of the arguments.
+     *
+     * @param a First term of the addition.
+     * @param b Second term of the addition.
+     * @return a new array {@code r} where {@code r[i] = a[i] + b[i]}.
+     * @throws DimensionMismatchException if the array lengths differ.
+     */
+    public static double[] ebeAdd(double[] a,
+                                  double[] b) {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+
+        final double[] result = a.clone();
+        for (int i = 0; i < a.length; i++) {
+            result[i] += b[i];
+        }
+        return result;
+    }
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * subtraction of the second argument from the first.
+     *
+     * @param a First term.
+     * @param b Element to be subtracted.
+     * @return a new array {@code r} where {@code r[i] = a[i] - b[i]}.
+     * @throws DimensionMismatchException if the array lengths differ.
+     */
+    public static double[] ebeSubtract(double[] a,
+                                       double[] b) {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+
+        final double[] result = a.clone();
+        for (int i = 0; i < a.length; i++) {
+            result[i] -= b[i];
+        }
+        return result;
+    }
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * multiplication of the arguments.
+     *
+     * @param a First factor of the multiplication.
+     * @param b Second factor of the multiplication.
+     * @return a new array {@code r} where {@code r[i] = a[i] * b[i]}.
+     * @throws DimensionMismatchException if the array lengths differ.
+     */
+    public static double[] ebeMultiply(double[] a,
+                                       double[] b) {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+
+        final double[] result = a.clone();
+        for (int i = 0; i < a.length; i++) {
+            result[i] *= b[i];
+        }
+        return result;
+    }
+    /**
+     * Creates an array whose contents will be the element-by-element
+     * division of the first argument by the second.
+     *
+     * @param a Numerator of the division.
+     * @param b Denominator of the division.
+     * @return a new array {@code r} where {@code r[i] = a[i] / b[i]}.
+     * @throws DimensionMismatchException if the array lengths differ.
+     */
+    public static double[] ebeDivide(double[] a,
+                                     double[] b) {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+
+        final double[] result = a.clone();
+        for (int i = 0; i < a.length; i++) {
+            result[i] /= b[i];
+        }
+        return result;
+    }
+
+    /**
      * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
      *
      * @param p1 the first point

@@ -52,6 +52,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.1" date="TBD" description="
 ">
+      <action dev="erans" type="add" issue="MATH-910">
+        Added element-by-element addition, subtraction, multiplication and division
+        (in class "o.a.c.m.util.MathArrays").
+      </action>
       <action dev="erans" type="fix" issue="MATH-904" due-to="Jeff Hain">
         Fixed "pow" method in class "FastMath".
       </action>
