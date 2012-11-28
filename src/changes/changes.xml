@@ -60,8 +60,8 @@ This is a minor release: It combines bug fixes and new features.
   Gauss integration framework, Hermite polynomial interpolation,
   eigenvalue decomposition of non-symmetric matrices.
   Most notable among the changes are: Greatly improved precision in
-  the implementation of Gamma and Beta special functions, optimizers
-  API, deprecation of the sparse vector implementation.
+  the implementation of the Gamma special function, optimizers API,
+  deprecation of the sparse vector implementation.
   
   The minimal version of the Java platform required to compile and use
   Commons Math is Java 5.
