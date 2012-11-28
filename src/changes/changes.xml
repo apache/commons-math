@@ -58,7 +58,7 @@ This is a minor release: It combines bug fixes and new features.
   Most notable among the new features are: Framework for automatic
   differentiation, multivariate mixture model distribution, quaternions,
   Gauss integration framework, Hermite polynomial interpolation,
-  eigenvalue decomposition of non-symmetric matrices.
+  eigenvalue decomposition of non-symmetric matrices, DBSCAN clustering.
   Most notable among the changes are: Greatly improved precision in
   the implementation of the Gamma special function, optimizers API,
   deprecation of the sparse vector implementation.
@@ -77,6 +77,9 @@ This is a minor release: It combines bug fixes and new features.
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="add" issue="MATH-897" due-to="Reid Hochstedler">
+        DBSCAN clustering algorithm (in package "o.a.c.m.stat.clustering").
+      </action>
       <action dev="erans" type="add" issue="MATH-910">
         Added element-by-element addition, subtraction, multiplication and division
         (in class "o.a.c.m.util.MathArrays").
