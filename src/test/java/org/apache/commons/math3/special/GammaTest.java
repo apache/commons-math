@@ -19,7 +19,6 @@ package org.apache.commons.math3.special;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -960,5 +959,11 @@ public class GammaTest {
         for (int i = -100; i <= 0; i++) {
             Assert.assertTrue(Integer.toString(i), Double.isNaN(Gamma.gamma(i)));
         }
+    }
+
+    private void checkRelativeError(String msg, double expected, double actual,
+                                    double tolerance) {
+
+        Assert.assertEquals(msg, expected, actual, FastMath.abs(tolerance * actual));
     }
 }
