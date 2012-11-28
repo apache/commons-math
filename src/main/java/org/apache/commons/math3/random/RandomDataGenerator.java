@@ -749,12 +749,13 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @param list list to be shuffled
      * @param end element past which shuffling begins
      */
-    private void shuffle(int[] list, int end) throws NumberIsTooLargeException {
+    private void shuffle(int[] list, int end) {
         int target = 0;
         for (int i = list.length - 1; i >= end; i--) {
             if (i == 0) {
                 target = 0;
             } else {
+                // NumberIsTooLargeException cannot occur
                 target = nextInt(0, i);
             }
             int temp = list[target];
