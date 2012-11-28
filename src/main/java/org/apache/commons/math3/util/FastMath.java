@@ -78,9 +78,6 @@ import java.io.PrintStream;
  * @since 2.2
  */
 public class FastMath {
-    /** StrictMath.log(Double.MAX_VALUE): {@value} */
-    private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
-
     /** Archimede's constant PI, ratio of circle circumference to diameter. */
     public static final double PI = 105414357.0 / 33554432.0 + 1.984187159361080883e-9;
 
@@ -95,6 +92,9 @@ public class FastMath {
     static final int LN_MANT_LEN = 1024;
     /** Exponential fractions table length. */
     static final int EXP_FRAC_TABLE_LEN = 1025; // 0, 1/1024, ... 1024/1024
+
+    /** StrictMath.log(Double.MAX_VALUE): {@value} */
+    private static final double LOG_MAX_VALUE = StrictMath.log(Double.MAX_VALUE);
 
     /** Indicator for tables initialization.
      * <p>
