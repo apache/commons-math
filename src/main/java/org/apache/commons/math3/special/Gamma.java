@@ -633,12 +633,12 @@ public class Gamma {
 
 
     /**
-     * Returns the value of &Gamma;(x). The present implementation is based on
-     * the double precision implementation in the
-     * <em>NSWC Library of Mathematics Subroutines</em>, {@code DGAMMA}.
+     * Returns the value of Γ(x). Based on the <em>NSWC Library of
+     * Mathematics Subroutines</em> double precision implementation,
+     * {@code DGAMMA}.
      *
-     * @param x the argument
-     * @return the value of {@code Gamma(x)}
+     * @param x Argument.
+     * @return the value of {@code Gamma(x)}.
      */
     public static double gamma(final double x) {
 
