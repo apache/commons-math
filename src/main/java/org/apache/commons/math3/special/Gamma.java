@@ -19,7 +19,6 @@ package org.apache.commons.math3.special;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.util.ContinuedFraction;
 import org.apache.commons.math3.util.FastMath;
 
@@ -29,9 +28,8 @@ import org.apache.commons.math3.util.FastMath;
  * &Gamma; (Gamma) family of functions.
  * </p>
  * <p>
- * Implementation of {@link #invGamma1pm1(double)},
- * {@link #logGamma1p(double)} and {@link #logGammaSum(double, double)} is
- * based on the algorithms described in
+ * Implementation of {@link #invGamma1pm1(double)} and
+ * {@link #logGamma1p(double)} is based on the algorithms described in
  * <ul>
  * <li><a href="http://dx.doi.org/10.1145/22721.23109">Didonato and Morris
  * (1986)</a>, <em>Computation of the Incomplete Gamma Function Ratios and
@@ -213,68 +211,6 @@ public class Gamma {
 
     /** The constant {@code C13} defined in {@code DGAM1}. */
     private static final double INV_GAMMA1P_M1_C13 = -.205633841697760710345015413002057E-06;
-
-    /**
-     * <p>
-     * The d<sub>0</sub> coefficient of the minimax approximation of the Δ
-     * function. This function is defined as follows
-     * </p>
-     * <center>Δ(x) = log Γ(x) - (x - 0.5) log a + a - 0.5 log 2π,</center>
-     * <p>
-     * The minimax approximation is defined by the following sum
-     * </p>
-     * <pre>
-     *             5
-     *            ====
-     *            \         - 2 n - 1
-     *     Δ(x) =  >    d  x
-     *            /      n
-     *            ====
-     *            n = 0
-     * <pre>
-     * <p>
-     * see equations (23) and (25) in Didonato and Morris (1992).
-     * </p>
-     */
-    private static final double D0 = .833333333333333E-01;
-
-    /**
-     * The d<sub>1</sub> coefficent of the minimax approximation of the Δ
-     * function (see {@link #D0}).
-     */
-    private static final double D1 = -.277777777760991E-02;
-
-    /**
-     * The d<sub>2</sub> coefficent of the minimax approximation of the Δ
-     * function (see {@link #D0}).
-     */
-    private static final double D2 = .793650666825390E-03;
-
-    /**
-     * The d<sub>3</sub> coefficent of the minimax approximation of the Δ
-     * function (see {@link #D0}).
-     */
-    private static final double D3 = -.595202931351870E-03;
-
-    /**
-     * The d<sub>4</sub> coefficent of the minimax approximation of the Δ
-     * function (see {@link #D0}).
-     */
-    private static final double D4 = .837308034031215E-03;
-
-    /**
-     * The d<sub>5</sub> coefficent of the minimax approximation of the Δ
-     * function (see {@link #D0}).
-     */
-    private static final double D5 = -.165322962780713E-02;
-    /*
-     * NOTA: the value of d0 published in Didonato and Morris (1992), eq. (25)
-     * and the value implemented in the NSWC library are NOT EQUAL
-     *   - in Didonato and Morris (1992) D5 = -.125322962780713E-02,
-     *   - while in the NSWC library     D5 = -.165322962780713E-02.
-     * Checking the value of algdiv(1.0, 8.0)}, it seems that the second value
-     * leads to the smallest error. This is the one which is implemented here.
-     */
 
     /**
      * Default constructor.  Prohibit instantiation.
@@ -766,102 +702,5 @@ public class Gamma {
             }
         }
         return ret;
-    }
-
-    /**
-     * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2. The present
-     * implementation is based on the double precision implementation in the
-     * <em>NSWC Library of Mathematics Subroutines</em>, {@code GSUMLN}.
-     *
-     * @param a First argument.
-     * @param b Second argument.
-     * @return the value of {@code log(Gamma(a + b))}.
-     * @throws OutOfRangeException if {@code a} or {@code b} is lower than
-     * {@code 1.0} or greater than {@code 2.0}.
-     */
-     static double logGammaSum(final double a, final double b)
-        throws OutOfRangeException {
-
-        if ((a < 1.0) || (a > 2.0)) {
-            throw new OutOfRangeException(a, 1.0, 2.0);
-        }
-        if ((b < 1.0) || (b > 2.0)) {
-            throw new OutOfRangeException(b, 1.0, 2.0);
-        }
-
-        final double x = a + b - 2.0;
-        if (x <= 0.25) {
-            return Gamma.logGamma1p(1.0 + x);
-        } else if (x <= 1.25) {
-            return Gamma.logGamma1p(x) + FastMath.log1p(x);
-        } else {
-            return Gamma.logGamma1p(x - 1.0) + FastMath.log(x * (1.0 + x));
-        }
-    }
-
-    /**
-     * Returns the value of log[Γ(b) / Γ(a + b)] for a ≥ 0 and b ≥ 8. The
-     * present implementation is based on the double precision implementation in
-     * the <em>NSWC Library of Mathematics Subroutines</em>, {@code ALGDIV}.
-     *
-     * @param a First argument.
-     * @param b Second argument.
-     * @return the value of {@code log(Gamma(b) / Gamma(a + b))}.
-     * @throws NumberIsTooSmallException if {@code a < 0.0} or {@code b < 8.0}.
-     */
-    static final double logGammaMinusLogGammaSum(final double a,
-                                                 final double b)
-        throws NumberIsTooSmallException {
-
-        if (a < 0.0) {
-            throw new NumberIsTooSmallException(a, 0.0, true);
-        }
-        if (b < 8.0) {
-            throw new NumberIsTooSmallException(b, 8.0, true);
-        }
-
-        /*
-         * p = a / (a + b), q = b / (a + b), d = a + b - 0.5
-         */
-        final double p;
-        final double q;
-        final double d;
-        if (a <= b) {
-            final double h = a / b;
-            p = h / (1.0 + h);
-            q = 1.0 / (1.0 + h);
-            d = b + (a - 0.5);
-        } else {
-            final double h = b / a;
-            p = 1.0 / (1.0 + h);
-            q = h / (1.0 + h);
-            d = a + (b - 0.5);
-        }
-        /*
-         * s_n = 1 + q + ... + q^(n - 1)
-         */
-        final double q2 = q * q;
-        final double s3 = 1.0 + (q + q2);
-        final double s5 = 1.0 + (q + q2 * s3);
-        final double s7 = 1.0 + (q + q2 * s5);
-        final double s9 = 1.0 + (q + q2 * s7);
-        final double s11 = 1.0 + (q + q2 * s9);
-        /*
-         * w = Δ(b) - Δ(a + b)
-         */
-        final double tmp = 1.0 / b;
-        final double t = tmp * tmp;
-        double w = D5 * s11;
-        w = D4 * s9 + t * w;
-        w = D3 * s7 + t * w;
-        w = D2 * s5 + t * w;
-        w = D1 * s3 + t * w;
-        w = D0 + t * w;
-        w *= p / b;
-
-        final double u = d * FastMath.log1p(a / b);
-        final double v = a * (FastMath.log(b) - 1.0);
-
-        return u <= v ? (w - u) - v : (w - v) - u;
     }
 }
