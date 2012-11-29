@@ -156,7 +156,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * Computes the Jacobian matrix.
      *
      * @param params Model parameters at which to compute the Jacobian.
-     * @return the weighted Jacobian: -(W<sup>1/2</sup> J).
+     * @return the weighted Jacobian: W<sup>1/2</sup> J.
      * @throws DimensionMismatchException if the Jacobian dimension does not
      * match problem dimension.
      * @since 3.1
