@@ -51,7 +51,12 @@ public interface BaseMultivariateOptimizer<FUNC extends MultivariateFunction>
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math3.exception.NullArgumentException if
      * any argument is {@code null}.
+     * @deprecated As of 3.1. In 4.0, it will be replaced by the declaration
+     * corresponding to this
+     * {@link BaseAbstractMultivariateOptimizer#optimize(int,MultivariateFunction,GoalType,OptimizationData[])
+     * method}.
      */
+    @Deprecated
     PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,
-                                double[] startPoint);
+                            double[] startPoint);
 }
