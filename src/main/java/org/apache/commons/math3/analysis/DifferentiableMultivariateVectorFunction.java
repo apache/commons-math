@@ -24,6 +24,7 @@ package org.apache.commons.math3.analysis;
  * @since 2.0
  * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction}
  */
+@Deprecated
 public interface DifferentiableMultivariateVectorFunction
     extends MultivariateVectorFunction {
 
