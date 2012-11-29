@@ -100,9 +100,9 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
      * themselves is +1.</p>
      * @param parameters number of free parameters
      * @param order derivation order
-     * @param index index of the variable (from 0 to {@code variables - 1})
+     * @param index index of the variable (from 0 to {@code parameters - 1})
      * @param value value of the variable
-     * @exception NumberIsTooLargeException if index is equal to variables or larger
+     * @exception NumberIsTooLargeException if {@code index >= parameters}.
      * @see #DerivativeStructure(int, int, double)
      */
     public DerivativeStructure(final int parameters, final int order,
@@ -115,7 +115,7 @@ public class DerivativeStructure implements FieldElement<DerivativeStructure>, S
         }
 
         if (order > 0) {
-            // the derivative of the variable with respect to itself is 1.0
+            // the derivative of the variable with respect to itself is 1.
             data[DSCompiler.getCompiler(index, order).getSize()] = 1.0;
         }
 
