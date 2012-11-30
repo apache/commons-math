@@ -53,7 +53,10 @@ public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVector
      * if the maximal number of evaluations is exceeded.
      * @throws org.apache.commons.math3.exception.NullArgumentException if
      * any argument is {@code null}.
+     * @deprecated As of 3.1. In 4.0, this will be replaced by the declaration
+     * corresponding to this {@link org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer#optimize(int,MultivariateVectorFunction,OptimizationData[]) method}.
      */
+    @Deprecated
     PointVectorValuePair optimize(int maxEval, FUNC f, double[] target,
                                      double[] weight, double[] startPoint);
 }
