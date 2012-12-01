@@ -241,7 +241,8 @@ public class Beta {
      * @param maxIterations This parameter is ignored.
      * @return log(B(a, b)).
      * @deprecated as of version 3.1, this method is deprecated as the
-     * computation of the beta function is no longer iterative. This method
+     * computation of the beta function is no longer iterative; it will be
+     * removed in version 4.0. Current implementation of this method
      * internally calls {@link #logBeta(double, double)}.
      */
     @Deprecated
