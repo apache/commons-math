@@ -87,9 +87,9 @@ public class FiniteDifferencesDifferentiatorTest {
                 });
         for (double x = -10; x < 10; x += 0.1) {
             DerivativeStructure y = f.value(new DerivativeStructure(1, 2, 0, x));
-            Assert.assertEquals(2 - 3 * x, y.getValue(), 1.0e-20);
+            Assert.assertEquals("" + (2 - 3 * x - y.getValue()), 2 - 3 * x, y.getValue(), 2.0e-15);
             Assert.assertEquals(-3.0, y.getPartialDerivative(1), 4.0e-13);
-            Assert.assertEquals( 0.0, y.getPartialDerivative(2), 5.0e-11);
+            Assert.assertEquals( 0.0, y.getPartialDerivative(2), 9.0e-11);
         }
     }
 
@@ -101,7 +101,7 @@ public class FiniteDifferencesDifferentiatorTest {
         UnivariateDifferentiableFunction f =
                 differentiator.differentiate(gaussian);
         double[] expectedError = new double[] {
-            2.776e-17, 1.742e-15, 2.385e-13, 1.329e-11, 2.668e-9, 8.873e-8
+            6.939e-18, 1.284e-15, 2.477e-13, 1.168e-11, 2.840e-9, 7.971e-8
         };
        double[] maxError = new double[expectedError.length];
         for (double x = -10; x < 10; x += 0.1) {
@@ -152,7 +152,7 @@ public class FiniteDifferencesDifferentiatorTest {
         // the 1.0e-6 step size is far too small for finite differences in the quintic on this abscissa range for 7 points
         // the errors are huge!
         final double[] expectedBad = new double[] {
-            1.792e-22, 6.926e-5, 56.25, 1.783e8, 2.468e14, 3.056e20, 5.857e26            
+            2.910e-11, 2.087e-5, 147.7, 3.820e7, 6.354e14, 6.548e19, 1.543e27            
         };
 
         for (int i = 0; i < maxErrorGood.length; ++i) {
@@ -201,6 +201,87 @@ public class FiniteDifferencesDifferentiatorTest {
         f.value(new DerivativeStructure(1, 3, 0, 1.0));
     }
 
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testTooLargeStep() {
+        new FiniteDifferencesDifferentiator(3, 2.5, 0.0, 1.0);
+    }
+
+    @Test
+    public void testBounds() {
+
+        final double slope = 2.5;
+        UnivariateFunction f = new UnivariateFunction() {
+            public double value(double x) {
+                if (x < 0) {
+                    throw new NumberIsTooSmallException(x, 0, true);
+                } else if (x > 1) {
+                    throw new NumberIsTooLargeException(x, 1, true);
+                } else {
+                    return slope * x;
+                }
+            }
+        };
+
+        UnivariateDifferentiableFunction missingBounds =
+                new FiniteDifferencesDifferentiator(3, 0.1).differentiate(f);
+        UnivariateDifferentiableFunction properlyBounded =
+                new FiniteDifferencesDifferentiator(3, 0.1, 0.0, 1.0).differentiate(f);
+        DerivativeStructure tLow  = new DerivativeStructure(1, 1, 0, 0.05);
+        DerivativeStructure tHigh = new DerivativeStructure(1, 1, 0, 0.95);
+
+        try {
+            // here, we did not set the bounds, so the differences are evaluated out of domain
+            // using f(-0.05), f(0.05), f(0.15)
+            missingBounds.value(tLow);
+            Assert.fail("an exception should have been thrown");
+        } catch (NumberIsTooSmallException nse) {
+            Assert.assertEquals(-0.05, nse.getArgument().doubleValue(), 1.0e-10);
+        } catch (Exception e) {
+            Assert.fail("wrong exception caught: " + e.getClass().getName());
+        }
+
+        try {
+            // here, we did not set the bounds, so the differences are evaluated out of domain
+            // using f(0.85), f(0.95), f(1.05)
+            missingBounds.value(tHigh);
+            Assert.fail("an exception should have been thrown");
+        } catch (NumberIsTooLargeException nle) {
+            Assert.assertEquals(1.05, nle.getArgument().doubleValue(), 1.0e-10);
+        } catch (Exception e) {
+            Assert.fail("wrong exception caught: " + e.getClass().getName());
+        }
+
+        // here, we did set the bounds, so evaluations are done within domain
+        // using f(0.0), f(0.1), f(0.2)
+        Assert.assertEquals(slope, properlyBounded.value(tLow).getPartialDerivative(1), 1.0e-10);
+        
+        // here, we did set the bounds, so evaluations are done within domain
+        // using f(0.8), f(0.9), f(1.0)
+        Assert.assertEquals(slope, properlyBounded.value(tHigh).getPartialDerivative(1), 1.0e-10);
+        
+    }
+
+    @Test
+    public void testBoundedSqrt() {
+
+        UnivariateFunctionDifferentiator differentiator =
+                new FiniteDifferencesDifferentiator(9, 1.0 / 32, 0.0, Double.POSITIVE_INFINITY);
+        UnivariateDifferentiableFunction sqrt = differentiator.differentiate(new UnivariateFunction() {
+            public double value(double x) {
+                return FastMath.sqrt(x);
+            }
+        });
+
+        // we are able to compute derivative near 0, but the accuracy is much poorer there
+        DerivativeStructure t001 = new DerivativeStructure(1, 1, 0, 0.01);
+        Assert.assertEquals(0.5 / FastMath.sqrt(t001.getValue()), sqrt.value(t001).getPartialDerivative(1), 1.6);
+        DerivativeStructure t01 = new DerivativeStructure(1, 1, 0, 0.1);
+        Assert.assertEquals(0.5 / FastMath.sqrt(t01.getValue()), sqrt.value(t01).getPartialDerivative(1), 7.0e-3);
+        DerivativeStructure t03 = new DerivativeStructure(1, 1, 0, 0.3);
+        Assert.assertEquals(0.5 / FastMath.sqrt(t03.getValue()), sqrt.value(t03).getPartialDerivative(1), 2.1e-7);
+
+    }
+
     @Test
     public void testVectorFunction() {
 
@@ -219,12 +300,12 @@ public class FiniteDifferencesDifferentiatorTest {
             DerivativeStructure[] y = f.value(new DerivativeStructure(1, 2, 0, x));
             double cos = FastMath.cos(x);
             double sin = FastMath.sin(x);
-            Assert.assertEquals(cos, y[0].getValue(), 2.0e-16);
-            Assert.assertEquals(sin, y[1].getValue(), 2.0e-16);
-            Assert.assertEquals(-sin, y[0].getPartialDerivative(1), 5.0e-14);
-            Assert.assertEquals( cos, y[1].getPartialDerivative(1), 5.0e-14);
-            Assert.assertEquals(-cos, y[0].getPartialDerivative(2), 6.0e-12);
-            Assert.assertEquals(-sin, y[1].getPartialDerivative(2), 6.0e-12);
+            Assert.assertEquals( cos, y[0].getValue(), 7.0e-16);
+            Assert.assertEquals( sin, y[1].getValue(), 7.0e-16);
+            Assert.assertEquals(-sin, y[0].getPartialDerivative(1), 6.0e-14);
+            Assert.assertEquals( cos, y[1].getPartialDerivative(1), 6.0e-14);
+            Assert.assertEquals(-cos, y[0].getPartialDerivative(2), 2.0e-11);
+            Assert.assertEquals(-sin, y[1].getPartialDerivative(2), 2.0e-11);
         }
 
     }
@@ -253,7 +334,7 @@ public class FiniteDifferencesDifferentiatorTest {
             double cosh = FastMath.cosh(x);
             double sinh = FastMath.sinh(x);
             Assert.assertEquals(cos,   y[0][0].getValue(), 7.0e-18);
-            Assert.assertEquals(sin,   y[0][1].getValue(), 7.0e-18);
+            Assert.assertEquals(sin,   y[0][1].getValue(), 6.0e-17);
             Assert.assertEquals(cosh,  y[1][0].getValue(), 3.0e-16);
             Assert.assertEquals(sinh,  y[1][1].getValue(), 3.0e-16);
             Assert.assertEquals(-sin,  y[0][0].getPartialDerivative(1), 2.0e-14);
@@ -276,7 +357,7 @@ public class FiniteDifferencesDifferentiatorTest {
         UnivariateDifferentiableFunction f =
                 differentiator.differentiate(sine);
         double[] expectedError = new double[] {
-            1.110e-16, 2.66e-12, 4.803e-9, 5.486e-5
+            6.696e-16, 1.371e-12, 2.007e-8, 1.754e-5
         };
         double[] maxError = new double[expectedError.length];
        for (double x = -2; x < 2; x += 0.1) {

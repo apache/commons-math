@@ -25,6 +25,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.util.FastMath;
 
 /** Univariate functions differentiator using finite differences.
  * <p>
@@ -58,8 +59,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * <ul>
  *   <li>step size = 0.25, second order derivative error about 9.97e-10</li>
  *   <li>step size = 0.25, fourth order derivative error about 5.43e-8</li>
- *   <li>step size = 1.0e-6, second order derivative error about 56.25</li>
- *   <li>step size = 1.0e-6, fourth order derivative error about 2.47e+14</li>
+ *   <li>step size = 1.0e-6, second order derivative error about 148</li>
+ *   <li>step size = 1.0e-6, fourth order derivative error about 6.35e+14</li>
  * </ul>
  * This example shows that the small step size is really bad, even simply
  * for second order derivative!
@@ -78,10 +79,19 @@ public class FiniteDifferencesDifferentiator
     private final int nbPoints;
 
     /** Step size. */
-    private double stepSize;
+    private final double stepSize;
+
+    /** Half sample span. */
+    private final double halfSampleSpan;
+
+    /** Lower bound for independent variable. */
+    private final double tMin;
+
+    /** Upper bound for independent variable. */
+    private final double tMax;
 
     /**
-     * Build a differentiator with number of points and step size.
+     * Build a differentiator with number of points and step size when independent variable is unbounded.
      * <p>
      * Beware that wrong settings for the finite differences differentiator
      * can lead to highly unstable and inaccurate results, especially for
@@ -96,6 +106,41 @@ public class FiniteDifferencesDifferentiator
      */
     public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize)
         throws NotPositiveException, NumberIsTooSmallException {
+        this(nbPoints, stepSize, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Build a differentiator with number of points and step size when independent variable is bounded.
+     * <p>
+     * When the independent variable is bounded (tLower &lt; t &lt; tUpper), the sampling
+     * points used for differentiation will be adapted to ensure the constraint holds
+     * even near the boundaries. This means the sample will not be centered anymore in
+     * these cases. At an extreme case, computing derivatives exactly at the lower bound
+     * will lead the sample to be entirely on the right side of the derivation point.
+     * </p>
+     * <p>
+     * Note that the boundaries are considered to be excluded for function evaluation.
+     * </p>
+     * <p>
+     * Beware that wrong settings for the finite differences differentiator
+     * can lead to highly unstable and inaccurate results, especially for
+     * high derivation orders. Using very small step sizes is often a
+     * <em>bad</em> idea.
+     * </p>
+     * @param nbPoints number of points to use
+     * @param stepSize step size (gap between each point)
+     * @param tLower lower bound for independent variable (may be {@code Double.NEGATIVE_INFINITY}
+     * if there are no lower bounds)
+     * @param tUpper upper bound for independent variable (may be {@code Double.POSITIVE_INFINITY}
+     * if there are no upper bounds)
+     * @exception NotPositiveException if {@code stepsize <= 0} (note that
+     * {@link NotPositiveException} extends {@link NumberIsTooSmallException})
+     * @exception NumberIsTooSmallException {@code nbPoint <= 1}
+     * @exception NumberIsTooLargeException {@code stepSize * (nbPoints - 1) >= tUpper - tLower}
+     */
+    public FiniteDifferencesDifferentiator(final int nbPoints, final double stepSize,
+                                           final double tLower, final double tUpper)
+            throws NotPositiveException, NumberIsTooSmallException, NumberIsTooLargeException {
 
         if (nbPoints <= 1) {
             throw new NumberIsTooSmallException(stepSize, 1, false);
@@ -106,6 +151,14 @@ public class FiniteDifferencesDifferentiator
             throw new NotPositiveException(stepSize);
         }
         this.stepSize = stepSize;
+
+        halfSampleSpan = 0.5 * stepSize * (nbPoints - 1);
+        if (2 * halfSampleSpan >= tUpper - tLower) {
+            throw new NumberIsTooLargeException(2 * halfSampleSpan, tUpper - tLower, false);
+        }
+        final double safety = FastMath.ulp(halfSampleSpan);
+        this.tMin = tLower + halfSampleSpan + safety;
+        this.tMax = tUpper - halfSampleSpan - safety;
 
     }
 
@@ -126,14 +179,19 @@ public class FiniteDifferencesDifferentiator
     }
 
     /**
-     * Evaluate derivatives from a centered sample.
-     * @param t central value and derivatives
-     * @param y function values at {@code t + stepSize * (i - 0.5 * (nbPoints - 1))}
+     * Evaluate derivatives from a sample.
+     * <p>
+     * Evaluation is done using divided differences.
+     * </p>
+     * @param te evaluation abscissa value and derivatives
+     * @param t0 first sample point abscissa
+     * @param y function values sample {@code y[i] = f(t[i]) = f(t0 + i * stepSize)}
      * @return value and derivatives at {@code t}
      * @exception NumberIsTooLargeException if the requested derivation order
      * is larger or equal to the number of points
      */
-    private DerivativeStructure evaluate(final DerivativeStructure t, final double[] y)
+    private DerivativeStructure evaluate(final DerivativeStructure t, final double t0,
+                                         final double[] y)
         throws NumberIsTooLargeException {
 
         // create divided differences diagonal arrays
@@ -154,16 +212,23 @@ public class FiniteDifferencesDifferentiator
         }
 
         // evaluate interpolation polynomial (represented by top diagonal) at t
-        final int order      = t.getOrder();
-        final int parameters = t.getFreeParameters();
+        final int order            = t.getOrder();
+        final int parameters       = t.getFreeParameters();
         final double[] derivatives = t.getAllDerivatives();
+        final double dt0           = t.getValue() - t0;
         DerivativeStructure interpolation = new DerivativeStructure(parameters, order, 0.0);
-        DerivativeStructure monomial      = new DerivativeStructure(parameters, order, 1.0);
+        DerivativeStructure monomial = null;
         for (int i = 0; i < nbPoints; ++i) {
+            if (i == 0) {
+                // start with monomial(t) = 1
+                monomial = new DerivativeStructure(parameters, order, 1.0);
+            } else {
+                // monomial(t) = (t - t0) * (t - t1) * ... * (t - t(i-1))
+                derivatives[0] = dt0 - (i - 1) * stepSize;
+                final DerivativeStructure deltaX = new DerivativeStructure(parameters, order, derivatives);
+                monomial = monomial.multiply(deltaX);
+            }
             interpolation = interpolation.add(monomial.multiply(top[i]));
-            derivatives[0] = stepSize * (0.5 * (nbPoints - 1) - i);
-            final DerivativeStructure deltaX = new DerivativeStructure(parameters, order, derivatives);
-            monomial = monomial.multiply(deltaX);
         }
 
         return interpolation;
@@ -193,16 +258,17 @@ public class FiniteDifferencesDifferentiator
                     throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
                 }
 
-                // get sample points centered around t value
-                final double t0 = t.getValue();
+                // compute sample position, trying to be centered if possible
+                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+
+                // compute sample points
                 final double[] y = new double[nbPoints];
                 for (int i = 0; i < nbPoints; ++i) {
-                    final double xi = t0 + stepSize * (i - 0.5 * (nbPoints - 1));
-                    y[i] = function.value(xi);
+                    y[i] = function.value(t0 + i * stepSize);
                 }
 
                 // evaluate derivatives
-                return evaluate(t, y);
+                return evaluate(t, t0, y);
 
             }
 
@@ -232,12 +298,13 @@ public class FiniteDifferencesDifferentiator
                     throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
                 }
 
-                // get sample points centered around t value
-                final double t0 = t.getValue();
+                // compute sample position, trying to be centered if possible
+                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+
+                // compute sample points
                 double[][] y = null;
                 for (int i = 0; i < nbPoints; ++i) {
-                    final double xi = t0 + stepSize * (i - 0.5 * (nbPoints - 1));
-                    final double[] v = function.value(xi);
+                    final double[] v = function.value(t0 + i * stepSize);
                     if (i == 0) {
                         y = new double[v.length][nbPoints];
                     }
@@ -249,7 +316,7 @@ public class FiniteDifferencesDifferentiator
                 // evaluate derivatives
                 final DerivativeStructure[] value = new DerivativeStructure[y.length];
                 for (int j = 0; j < value.length; ++j) {
-                    value[j] = evaluate(t, y[j]);
+                    value[j] = evaluate(t, t0, y[j]);
                 }
 
                 return value;
@@ -282,12 +349,13 @@ public class FiniteDifferencesDifferentiator
                     throw new NumberIsTooLargeException(t.getOrder(), nbPoints, false);
                 }
 
-                // get sample points centered around t value
-                final double t0 = t.getValue();
+                // compute sample position, trying to be centered if possible
+                final double t0 = FastMath.max(FastMath.min(t.getValue(), tMax), tMin) - halfSampleSpan;
+
+                // compute sample points
                 double[][][] y = null;
                 for (int i = 0; i < nbPoints; ++i) {
-                    final double xi = t0 + stepSize * (i - 0.5 * (nbPoints - 1));
-                    final double[][] v = function.value(xi);
+                    final double[][] v = function.value(t0 + i * stepSize);
                     if (i == 0) {
                         y = new double[v.length][v[0].length][nbPoints];
                     }
@@ -302,7 +370,7 @@ public class FiniteDifferencesDifferentiator
                 final DerivativeStructure[][] value = new DerivativeStructure[y.length][y[0].length];
                 for (int j = 0; j < value.length; ++j) {
                     for (int k = 0; k < y[j].length; ++k) {
-                        value[j][k] = evaluate(t, y[j][k]);
+                        value[j][k] = evaluate(t, t0, y[j][k]);
                     }
                 }
 
