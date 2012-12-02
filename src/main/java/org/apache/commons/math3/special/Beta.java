@@ -307,10 +307,8 @@ public class Beta {
         }
 
         /*
-         * p = a / (a + b), q = b / (a + b), d = a + b - 0.5
+         * d = a + b - 0.5
          */
-        final double p;
-        final double q;
         final double d;
         final double w;
         if (a <= b) {
