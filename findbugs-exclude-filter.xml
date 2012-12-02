@@ -232,6 +232,16 @@
     <Method name="getPoint" params="" returns="int[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.stat.clustering.EuclideanDoublePoint"/>
+    <Method name="&lt;init>" params="double[]" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.stat.clustering.EuclideanDoublePoint"/>
+    <Method name="getPoint" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
 
   <!-- The following cases are intentional unit tests for null parameters -->
   <Match>
