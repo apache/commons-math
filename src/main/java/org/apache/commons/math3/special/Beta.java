@@ -257,7 +257,8 @@ public class Beta {
     /**
      * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2. Based on the
      * <em>NSWC Library of Mathematics Subroutines</em> double precision
-     * implementation, {@code DGSMLN}.
+     * implementation, {@code DGSMLN}. In {@link BetaTest#testLogGammaSum()},
+     * this private method is accessed through reflection.
      *
      * @param a First argument.
      * @param b Second argument.
@@ -288,7 +289,9 @@ public class Beta {
     /**
      * Returns the value of log[Γ(b) / Γ(a + b)] for a ≥ 0 and b ≥ 10. Based on
      * the <em>NSWC Library of Mathematics Subroutines</em> double precision
-     * implementation, {@code DLGDIV}.
+     * implementation, {@code DLGDIV}. In
+     * {@link BetaTest#testLogGammaMinusLogGammaSum()}, this private method is
+     * accessed through reflection.
      *
      * @param a First argument.
      * @param b Second argument.
@@ -373,7 +376,9 @@ public class Beta {
     /**
      * Returns the value of Δ(p) + Δ(q) - Δ(p + q), with p, q ≥ 10. Based on
      * the <em>NSWC Library of Mathematics Subroutines</em> double precision
-     * implementation, {@code DBCORR}.
+     * implementation, {@code DBCORR}. In
+     * {@link BetaTest#testSumDeltaMinusDeltaSum()}, this private method is
+     * accessed through reflection.
      *
      * @param p First argument.
      * @param q Second argument.
