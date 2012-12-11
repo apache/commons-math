@@ -77,6 +77,10 @@ This is a minor release: It combines bug fixes and new features.
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="psteitz" type="update" issue="MATH-672">
+        Added methods to EmpiricalDistribution to implement the RealDistribution
+        interface.
+      </action>
       <action dev="tn" type="add" issue="MATH-897" due-to="Reid Hochstedler">
         DBSCAN clustering algorithm (in package "o.a.c.m.stat.clustering").
       </action>

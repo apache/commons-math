@@ -24,6 +24,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
+import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
+import org.apache.commons.math3.distribution.RealDistributionAbstractTest;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
@@ -36,30 +42,35 @@ import org.junit.Test;
  * @version $Id$
  */
 
-public final class EmpiricalDistributionTest {
+public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {
 
     protected EmpiricalDistribution empiricalDistribution = null;
     protected EmpiricalDistribution empiricalDistribution2 = null;
     protected File file = null;
     protected URL url = null;
     protected double[] dataArray = null;
+    protected final int n = 10000;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
+        super.setUp();
         empiricalDistribution = new EmpiricalDistribution(100);
         url = getClass().getResource("testData.txt");
-
-        empiricalDistribution2 = new EmpiricalDistribution(100);
-        BufferedReader in =
+        final ArrayList<Double> list = new ArrayList<Double>();
+        try {
+            empiricalDistribution2 = new EmpiricalDistribution(100);
+            BufferedReader in =
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));
-        String str = null;
-        ArrayList<Double> list = new ArrayList<Double>();
-        while ((str = in.readLine()) != null) {
-            list.add(Double.valueOf(str));
+            String str = null;
+            while ((str = in.readLine()) != null) {
+                list.add(Double.valueOf(str));
+            }
+            in.close();
+            in = null;
+        } catch (IOException ex) {
+            Assert.fail("IOException " + ex);
         }
-        in.close();
-        in = null;
 
         dataArray = new double[list.size()];
         int i = 0;
@@ -285,5 +296,134 @@ public final class EmpiricalDistributionTest {
         }
         Assert.assertEquals("mean", 5.069831575018909, stats.getMean(), tolerance);
         Assert.assertEquals("std dev", 1.0173699343977738, stats.getStandardDeviation(), tolerance);
+    }
+   
+    //  Setup for distribution tests
+    
+    @Override
+    public RealDistribution makeDistribution() {
+        // Create a uniform distribution on [0, 10,000]
+        final double[] sourceData = new double[n + 1];
+        for (int i = 0; i < n + 1; i++) {
+            sourceData[i] = i;
+        }
+        EmpiricalDistribution dist = new EmpiricalDistribution();
+        dist.load(sourceData);
+        return dist;
+    }
+    
+    /** Uniform bin mass = 10/10001 == mass of all but the first bin */
+    private final double binMass = 10d / (double) (n + 1);
+    
+    /** Mass of first bin = 11/10001 */
+    private final double firstBinMass = 11d / (double) (n + 1);
+
+    @Override
+    public double[] makeCumulativeTestPoints() {
+       final double[] testPoints = new double[] {9, 10, 15, 1000, 5004, 9999};
+       return testPoints;
+    }
+    
+
+    @Override
+    public double[] makeCumulativeTestValues() {
+        /* 
+         * Bins should be [0, 10], (10, 20], ..., (9990, 10000]
+         * Kernels should be N(4.5, 3.02765), N(14.5, 3.02765)...
+         * Each bin should have mass 10/10000 = .001
+         */
+        final double[] testPoints = getCumulativeTestPoints();
+        final double[] cumValues = new double[testPoints.length];
+        final EmpiricalDistribution empiricalDistribution = (EmpiricalDistribution) makeDistribution();
+        final double[] binBounds = empiricalDistribution.getUpperBounds();
+        for (int i = 0; i < testPoints.length; i++) {
+            final int bin = findBin(testPoints[i]);
+            final double lower = bin == 0 ? empiricalDistribution.getSupportLowerBound() :
+                binBounds[bin - 1];
+            final double upper = binBounds[bin];
+            // Compute bMinus = sum or mass of bins below the bin containing the point
+            // First bin has mass 11 / 10000, the rest have mass 10 / 10000.
+            final double bMinus = bin == 0 ? 0 : (bin - 1) * binMass + firstBinMass;
+            final RealDistribution kernel = findKernel(lower, upper);
+            final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
+            final double kernelCum = kernel.cumulativeProbability(lower, testPoints[i]);
+            cumValues[i] = bMinus + (bin == 0 ? firstBinMass : binMass) * kernelCum/withinBinKernelMass;
+        }
+        return cumValues;
+    }
+
+    @Override
+    public double[] makeDensityTestValues() {
+        final double[] testPoints = getCumulativeTestPoints();
+        final double[] densityValues = new double[testPoints.length];
+        final EmpiricalDistribution empiricalDistribution = (EmpiricalDistribution) makeDistribution();
+        final double[] binBounds = empiricalDistribution.getUpperBounds();
+        for (int i = 0; i < testPoints.length; i++) {
+            final int bin = findBin(testPoints[i]);
+            final double lower = bin == 0 ? empiricalDistribution.getSupportLowerBound() :
+                binBounds[bin - 1];
+            final double upper = binBounds[bin];
+            final RealDistribution kernel = findKernel(lower, upper);
+            final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
+            final double density = kernel.density(testPoints[i]);
+            densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;   
+        }
+        return densityValues;
+    }
+    
+    /** 
+     * Modify test integration bounds from the default. Because the distribution
+     * has discontinuities at bin boundaries, integrals spanning multiple bins
+     * will face convergence problems.  Only test within-bin integrals and spans
+     * across no more than 3 bin boundaries.
+     */
+    @Override
+    @Test
+    public void testDensityIntegrals() {
+        final RealDistribution distribution = makeDistribution();
+        final double tol = 1.0e-9;
+        final BaseAbstractUnivariateIntegrator integrator =
+            new IterativeLegendreGaussIntegrator(5, 1.0e-12, 1.0e-10);
+        final UnivariateFunction d = new UnivariateFunction() {
+            public double value(double x) {
+                return distribution.density(x);
+            }
+        };
+        final double[] lower = {0, 5, 1000, 5001, 9995};
+        final double[] upper = {5, 12, 1030, 5010, 10000};
+        for (int i = 1; i < 5; i++) {
+            Assert.assertEquals(
+                    distribution.cumulativeProbability( 
+                            lower[i], upper[i]),
+                            integrator.integrate(
+                                    1000000, // Triangle integrals are very slow to converge
+                                    d, lower[i], upper[i]), tol);
+        }
+    }
+    
+    /**
+     * Find the bin that x belongs (relative to {@link #makeDistribution()}).
+     */
+    private int findBin(double x) {
+        // Number of bins below x should be trunc(x/10)
+        final double nMinus = Math.floor(x / 10);
+        final int bin =  (int) Math.round(nMinus);
+        // If x falls on a bin boundary, it is in the lower bin
+        return Math.floor(x / 10) == x / 10 ? bin - 1 : bin;
+    }
+    
+    /**
+     * Find the within-bin kernel for the bin with lower bound lower
+     * and upper bound upper. All bins other than the first contain 10 points
+     * exclusive of the lower bound and are centered at (lower + upper + 1) / 2.
+     * The first bin includes its lower bound, 0, so has different mean and
+     * standard deviation.
+     */
+    private RealDistribution findKernel(double lower, double upper) {
+        if (lower < 1) {
+            return new NormalDistribution(5d, 3.3166247903554);
+        } else {
+            return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917); 
+        }
     }
 }
