@@ -84,7 +84,7 @@ import org.apache.commons.math3.util.MathUtils;
  * be the bin containing x and let K be the within-bin kernel for B.  Let P(B-)
  * be the sum of the probabilities of the bins below B and let K(B) be the
  * mass of B under K (i.e., the integral of the kernel density over B).  Then
- * set P(X < x) = P(B-) + K(x) / K(B) where K(x) is the kernel distribution
+ * set P(X < x) = P(B-) + P(B) * K(x) / K(B) where K(x) is the kernel distribution
  * evaluated at x. This results in a cdf that matches the grouped frequency
  * distribution at the bin endpoints and interpolates within bins using
  * within-bin kernels.</p>
@@ -135,13 +135,13 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     private double[] upperBounds = null;
 
     /** RandomDataImpl instance to use in repeated calls to getNext() */
-    private final RandomDataImpl randomData;
+    private final RandomDataGenerator randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistribution() {
-        this(DEFAULT_BIN_COUNT, new RandomDataImpl());
+        this(DEFAULT_BIN_COUNT, new RandomDataGenerator());
     }
 
     /**
@@ -150,7 +150,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param binCount number of bins
      */
     public EmpiricalDistribution(int binCount) {
-        this(binCount, new RandomDataImpl());
+        this(binCount, new RandomDataGenerator());
     }
 
     /**
@@ -162,9 +162,10 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.0
      */
     public EmpiricalDistribution(int binCount, RandomGenerator generator) {
+        super(generator);
         this.binCount = binCount;
-        randomData = new RandomDataImpl(generator);
-        binStats = new ArrayList<SummaryStatistics>();
+        this.randomData = new RandomDataGenerator(generator);
+        this.binStats = new ArrayList<SummaryStatistics>();
     }
 
     /**
@@ -186,7 +187,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param randomData random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
      */
-    public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
+    @SuppressWarnings("deprecation")  // Superclass argumentless constructor is deprecated
+    public EmpiricalDistribution(int binCount, RandomDataGenerator randomData) {
         this.binCount = binCount;
         this.randomData = randomData;
         binStats = new ArrayList<SummaryStatistics>();
@@ -199,7 +201,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param randomData random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
      */
-    public EmpiricalDistribution(RandomDataImpl randomData) {
+    public EmpiricalDistribution(RandomDataGenerator randomData) {
         this(DEFAULT_BIN_COUNT, randomData);
     }
 
