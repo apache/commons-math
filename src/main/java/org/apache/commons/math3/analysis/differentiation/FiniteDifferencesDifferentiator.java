@@ -183,7 +183,7 @@ public class FiniteDifferencesDifferentiator
      * <p>
      * Evaluation is done using divided differences.
      * </p>
-     * @param te evaluation abscissa value and derivatives
+     * @param t evaluation abscissa value and derivatives
      * @param t0 first sample point abscissa
      * @param y function values sample {@code y[i] = f(t[i]) = f(t0 + i * stepSize)}
      * @return value and derivatives at {@code t}
