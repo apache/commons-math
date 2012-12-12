@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim;
 
 /**
  * <p>
  *  Generally, optimizers are algorithms that will either
- *  {@link GoalType#MINIMIZE minimize} or {@link GoalType#MAXIMIZE maximize}
- *  a scalar function, called the {@link ObjectiveFunction <em>objective
+ *  {@link org.apache.commons.math3.optim.GoalType#MINIMIZE minimize} or
+ *  {@link org.apache.commons.math3.optim.GoalType#MAXIMIZE maximize}
+ *  a scalar function, called the
+ *  {@link org.apache.commons.math3.optim.ObjectiveFunction <em>objective
  *  function</em>}.
  *  <br/>
  *  For some scalar objective functions the gradient can be computed (analytically
@@ -57,10 +58,12 @@ package org.apache.commons.math3.optim;
  *
  * <p>
  *  This package provides common functionality for the optimization algorithms.
- *  Abstract classes ({@link BaseOptimizer} and {@link BaseMultivariateOptimizer})
- *  define boiler-plate code for storing {@link MaxEval evaluations} and
- *  {@link MaxIter iterations} counters and a user-defined
- *  {@link ConvergenceChecker convergence checker}.
+ *  Abstract classes ({@link org.apache.commons.math3.optim.BaseOptimizer} and
+ *  {@link org.apache.commons.math3.optim.BaseMultivariateOptimizer}) contain
+ *  boiler-plate code for storing {@link org.apache.commons.math3.optim.MaxEval
+ *  evaluations} and {@link org.apache.commons.math3.optim.MaxIter iterations}
+ *  counters and a user-defined
+ *  {@link org.apache.commons.math3.optim.ConvergenceChecker convergence checker}.
  * </p>
  *
  * <p>
@@ -71,3 +74,4 @@ package org.apache.commons.math3.optim;
  *  This could be useful to avoid being trapped in a local extremum.
  * </p>
  */
+package org.apache.commons.math3.optim;

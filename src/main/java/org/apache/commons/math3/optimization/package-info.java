@@ -15,6 +15,12 @@
  * limitations under the License.
  */
 /**
+ * <h2>All classes and sub-packages of this package are deprecated.</h2>
+ * <h3>Please use their replacements, to be found under
+ *  <ul>
+ *   <li>{@link org.apache.commons.math3.optim}</li>
+ *   <li>{@link org.apache.commons.math3.fitting}</li>
+ * </h3>
  *
  * <p>
  * This package provides common interfaces for the optimization algorithms
