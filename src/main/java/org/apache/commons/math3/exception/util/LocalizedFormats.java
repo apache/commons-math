@@ -148,6 +148,7 @@ public enum LocalizedFormats implements Localizable {
     INVALID_REGRESSION_OBSERVATION("length of regressor array = {0} does not match the number of variables = {1} in the model"),
     INVALID_ROUNDING_METHOD("invalid rounding method {0}, valid methods: {1} ({2}), {3} ({4}), {5} ({6}), {7} ({8}), {9} ({10}), {11} ({12}), {13} ({14}), {15} ({16})"),
     ITERATOR_EXHAUSTED("iterator exhausted"),
+    ITERATIONS("iterations"), /* keep */
     LCM_OVERFLOW_32_BITS("overflow: lcm({0}, {1}) is 2^31"),
     LCM_OVERFLOW_64_BITS("overflow: lcm({0}, {1}) is 2^63"),
     LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE("list of chromosomes bigger than maxPopulationSize"),
