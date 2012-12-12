@@ -416,8 +416,7 @@ public class Beta {
      * @return the value of {@code log(Beta(p, q))}, {@code NaN} if
      * {@code p <= 0} or {@code q <= 0}.
      */
-    public static final double logBeta(final double p, final double q) {
-
+    public static double logBeta(final double p, final double q) {
         if (Double.isNaN(p) || Double.isNaN(q) || (p <= 0.0) || (q <= 0.0)) {
             return Double.NaN;
         }
