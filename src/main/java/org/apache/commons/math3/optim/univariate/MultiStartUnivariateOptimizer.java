@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.optim.MaxEval;
@@ -72,8 +71,6 @@ public class MultiStartUnivariateOptimizer
      * the {@code optimize} methods will return the same solution as
      * {@code optimizer} would.
      * @param generator Random generator to use for restarts.
-     * @throws NullArgumentException if {@code optimizer} or {@code generator}
-     * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     public MultiStartUnivariateOptimizer(final UnivariateOptimizer optimizer,
@@ -81,10 +78,6 @@ public class MultiStartUnivariateOptimizer
                                          final RandomGenerator generator) {
         super(optimizer.getConvergenceChecker());
 
-        if (optimizer == null ||
-            generator == null) {
-            throw new NullArgumentException();
-        }
         if (starts < 1) {
             throw new NotStrictlyPositiveException(starts);
         }

@@ -18,7 +18,6 @@ package org.apache.commons.math3.optim;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.random.RandomVectorGenerator;
 
 /**
@@ -66,8 +65,6 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
      * the {@link #optimize(OptimizationData[]) optimize} will return the
      * same solution as the given {@code optimizer} would return.
      * @param generator Random vector generator to use for restarts.
-     * @throws NullArgumentException if {@code optimizer} or {@code generator}
-     * is {@code null}.
      * @throws NotStrictlyPositiveException if {@code starts < 1}.
      */
     public BaseMultiStartMultivariateOptimizer(final BaseMultivariateOptimizer<PAIR> optimizer,
@@ -75,10 +72,6 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
                                                final RandomVectorGenerator generator) {
         super(optimizer.getConvergenceChecker());
 
-        if (optimizer == null ||
-            generator == null) {
-            throw new NullArgumentException();
-        }
         if (starts < 1) {
             throw new NotStrictlyPositiveException(starts);
         }
