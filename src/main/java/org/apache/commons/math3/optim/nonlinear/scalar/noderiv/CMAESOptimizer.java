@@ -31,7 +31,7 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -347,7 +347,7 @@ public class CMAESOptimizer
      *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
      *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
      *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.ObjectiveFunction}</li>
+     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction}</li>
      *  <li>{@link Sigma}</li>
      *  <li>{@link PopulationSize}</li>
      * </ul>

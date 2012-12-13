@@ -18,10 +18,8 @@ package org.apache.commons.math3.optim.nonlinear.scalar;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.GoalType;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.ObjectiveFunction;
 import org.apache.commons.math3.optim.SimplePointChecker;
 import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
 import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.AbstractSimplex;

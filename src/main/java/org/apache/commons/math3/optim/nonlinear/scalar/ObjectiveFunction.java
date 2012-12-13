@@ -14,18 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim;
+package org.apache.commons.math3.optim.nonlinear.scalar;
+
+import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.optim.OptimizationData;
 
 /**
- * Goal type for an optimization problem (minimization or maximization of
- * a scalar function.
+ * Scalar function to be optimized.
  *
- * @version $Id: GoalType.java 1364392 2012-07-22 18:27:12Z tn $
- * @since 2.0
+ * @version $Id$
+ * @since 3.1
  */
-public enum GoalType implements OptimizationData {
-    /** Maximization. */
-    MAXIMIZE,
-    /** Minimization. */
-    MINIMIZE
+public class ObjectiveFunction implements OptimizationData {
+    /** Function to be optimized. */
+    private final MultivariateFunction function;
+
+    /**
+     * @param f Function to be optimized.
+     */
+    public ObjectiveFunction(MultivariateFunction f) {
+        function = f;
+    }
+
+    /**
+     * Gets the function to be optimized.
+     *
+     * @return the objective function.
+     */
+    public MultivariateFunction getObjectiveFunction() {
+        return function;
+    }
 }

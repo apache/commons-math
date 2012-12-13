@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.random.RandomVectorGenerator;
 import org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.GoalType;
 
 /**
  * Multi-start optimizer.

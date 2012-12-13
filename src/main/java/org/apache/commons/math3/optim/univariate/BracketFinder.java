@@ -21,7 +21,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optim.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
 /**
  * Provide an interval that brackets a local optimum of a function.

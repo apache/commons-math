@@ -63,8 +63,8 @@ public abstract class GradientMultivariateOptimizer
      *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
      *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
      *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.GoalType}</li>
-     *  <li>{@link org.apache.commons.math3.optim.ObjectiveFunction}</li>
+     *  <li>{@link ObjectiveFunction}</li>
+     *  <li>{@link GoalType}</li>
      *  <li>{@link ObjectiveFunctionGradient}</li>
      * </ul>
      * @return {@inheritDoc}
@@ -87,7 +87,7 @@ public abstract class GradientMultivariateOptimizer
      * @param optData Optimization data.
      * The following data will be looked for:
      * <ul>
-     *  <li>{@link ObjectiveFunction}</li>
+     *  <li>{@link ObjectiveFunctionGradient}</li>
      * </ul>
      */
     private void parseOptimizationData(OptimizationData... optData) {

@@ -19,7 +19,7 @@ package org.apache.commons.math3.optim.linear;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.optim.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.junit.Assert;
 import org.junit.Test;
 

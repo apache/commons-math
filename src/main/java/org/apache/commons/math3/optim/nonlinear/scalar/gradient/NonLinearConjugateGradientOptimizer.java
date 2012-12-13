@@ -25,7 +25,7 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.nonlinear.scalar.GradientMultivariateOptimizer;
@@ -172,8 +172,8 @@ public class NonLinearConjugateGradientOptimizer
      *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
      *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
      *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.GoalType}</li>
-     *  <li>{@link org.apache.commons.math3.optim.ObjectiveFunction}</li>
+     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType}</li>
+     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction}</li>
      *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunctionGradient}</li>
      *  <li>{@link BracketingStep}</li>
      * </ul>

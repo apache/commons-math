@@ -19,10 +19,8 @@ package org.apache.commons.math3.optim.nonlinear.scalar;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.optim.BaseMultivariateOptimizer;
 import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.GoalType;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.ObjectiveFunction;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**
