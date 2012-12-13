@@ -550,7 +550,7 @@ public class CMAESOptimizer
             if (diagonalOnly <= 0) {
                 updateCovariance(hsig, bestArx, arz, arindex, xold);
             } else {
-                updateCovarianceDiagonalOnly(hsig, bestArz, xold);
+                updateCovarianceDiagonalOnly(hsig, bestArz);
             }
             // Adapt step size sigma - Eq. (5)
             sigma *= Math.exp(Math.min(1, (normps/chiN - 1) * cs / damps));
@@ -790,11 +790,9 @@ public class CMAESOptimizer
      * @param hsig Flag indicating a small correction.
      * @param bestArz Fitness-sorted matrix of the gaussian random values of the
      * current offspring.
-     * @param xold xmean matrix of the previous generation.
      */
     private void updateCovarianceDiagonalOnly(boolean hsig,
-                                              final RealMatrix bestArz,
-                                              final RealMatrix xold) {
+                                              final RealMatrix bestArz) {
         // minor correction if hsig==false
         double oldFac = hsig ? 0 : ccov1Sep * cc * (2 - cc);
         oldFac += 1 - ccov1Sep - ccovmuSep;
