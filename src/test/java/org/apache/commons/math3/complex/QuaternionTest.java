@@ -47,6 +47,23 @@ public class QuaternionTest {
         Assert.assertEquals(q3, vP[2], 0);
     }
 
+    @Test
+    public final void testAccessors3() {
+        final double q0 = 2;
+        final double q1 = 5.4;
+        final double q2 = 17;
+        final double q3 = 0.0005;
+        final Quaternion q = new Quaternion(q0, new double[] { q1, q2, q3 });
+
+        final double sP = q.getScalarPart();
+        final double[] vP = q.getVectorPart();
+
+        Assert.assertEquals(q0, sP, 0);
+        Assert.assertEquals(q1, vP[0], 0);
+        Assert.assertEquals(q2, vP[1], 0);
+        Assert.assertEquals(q3, vP[2], 0);
+    }
+
     @Test(expected=DimensionMismatchException.class)
     public void testWrongDimension() {
         new Quaternion(new double[] { 1, 2 });

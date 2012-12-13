@@ -90,7 +90,7 @@ public final class Quaternion implements Serializable {
         if (v.length != 3) {
             throw new DimensionMismatchException(v.length, 3);
         }
-        this.q0 = 0;
+        this.q0 = scalar;
         this.q1 = v[0];
         this.q2 = v[1];
         this.q3 = v[2];
