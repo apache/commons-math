@@ -17,8 +17,6 @@
 package org.apache.commons.math3.optim;
 
 import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.TooManyIterationsException;
 

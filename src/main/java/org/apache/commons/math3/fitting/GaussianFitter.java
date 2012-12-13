@@ -84,7 +84,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                     double v = Double.POSITIVE_INFINITY;
                     try {
                         v = super.value(x, p);
-                    } catch (NotStrictlyPositiveException e) {
+                    } catch (NotStrictlyPositiveException e) { // NOPMD
                         // Do nothing.
                     }
                     return v;
@@ -97,7 +97,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                                    Double.POSITIVE_INFINITY };
                     try {
                         v = super.gradient(x, p);
-                    } catch (NotStrictlyPositiveException e) {
+                    } catch (NotStrictlyPositiveException e) { // NOPMD
                         // Do nothing.
                     }
                     return v;

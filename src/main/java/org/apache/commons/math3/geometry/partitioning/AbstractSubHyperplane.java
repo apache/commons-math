@@ -17,7 +17,6 @@
 package org.apache.commons.math3.geometry.partitioning;
 
 import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 
 /** This class implements the dimension-independent parts of {@link SubHyperplane}.
 

@@ -386,7 +386,7 @@ public enum LocalizedFormats implements Localizable {
                 return bundle.getString(toString());
             }
 
-        } catch (MissingResourceException mre) {
+        } catch (MissingResourceException mre) { // NOPMD
             // do nothing here
         }
 

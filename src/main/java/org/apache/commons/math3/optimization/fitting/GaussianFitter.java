@@ -28,8 +28,6 @@ import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.fitting.CurveFitter;
-import org.apache.commons.math3.optimization.fitting.WeightedObservedPoint;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -88,7 +86,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                     double v = Double.POSITIVE_INFINITY;
                     try {
                         v = super.value(x, p);
-                    } catch (NotStrictlyPositiveException e) {
+                    } catch (NotStrictlyPositiveException e) { // NOPMD
                         // Do nothing.
                     }
                     return v;
@@ -101,7 +99,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
                                    Double.POSITIVE_INFINITY };
                     try {
                         v = super.gradient(x, p);
-                    } catch (NotStrictlyPositiveException e) {
+                    } catch (NotStrictlyPositiveException e) { // NOPMD
                         // Do nothing.
                     }
                     return v;

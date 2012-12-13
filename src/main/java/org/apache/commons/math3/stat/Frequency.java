@@ -244,7 +244,7 @@ public class Frequency implements Serializable {
             if (count != null) {
                 result = count.longValue();
             }
-        } catch (ClassCastException ex) {
+        } catch (ClassCastException ex) { // NOPMD
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
         }
         return result;

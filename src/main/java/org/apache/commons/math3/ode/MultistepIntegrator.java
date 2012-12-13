@@ -230,7 +230,7 @@ public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {
         try {
             starter.integrate(new CountingDifferentialEquations(y0.length),
                               t0, y0, t, new double[y0.length]);
-        } catch (InitializationCompletedMarkerException icme) {
+        } catch (InitializationCompletedMarkerException icme) { // NOPMD
             // this is the expected nominal interruption of the start integrator
         }
 

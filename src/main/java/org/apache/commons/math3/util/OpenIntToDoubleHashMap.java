@@ -501,7 +501,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
             next = -1;
             try {
                 advance();
-            } catch (NoSuchElementException nsee) {
+            } catch (NoSuchElementException nsee) { // NOPMD
                 // ignored
             }
 
@@ -566,7 +566,7 @@ public class OpenIntToDoubleHashMap implements Serializable {
 
             // prepare next step
             try {
-                while (states[++next] != FULL) {
+                while (states[++next] != FULL) { // NOPMD
                     // nothing to do
                 }
             } catch (ArrayIndexOutOfBoundsException e) {

@@ -514,7 +514,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
             next = -1;
             try {
                 advance();
-            } catch (NoSuchElementException nsee) {
+            } catch (NoSuchElementException nsee) { // NOPMD
                 // ignored
             }
 
@@ -579,7 +579,7 @@ public class OpenIntToFieldHashMap<T extends FieldElement<T>> implements Seriali
 
             // prepare next step
             try {
-                while (states[++next] != FULL) {
+                while (states[++next] != FULL) { // NOPMD
                     // nothing to do
                 }
             } catch (ArrayIndexOutOfBoundsException e) {
