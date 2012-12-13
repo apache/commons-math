@@ -16,10 +16,6 @@
  */
 package org.apache.commons.math3.optim;
 
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.SimpleBounds;
-import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;

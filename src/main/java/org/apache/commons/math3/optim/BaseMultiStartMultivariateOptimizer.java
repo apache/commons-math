@@ -20,7 +20,6 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.random.RandomVectorGenerator;
-import org.apache.commons.math3.optim.InitialGuess;
 
 /**
  * Base class multi-start optimizer for a multivariate function.
