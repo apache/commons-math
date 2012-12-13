@@ -164,8 +164,8 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
         clear();
 
         final int maxEval = getMaxEvaluations();
-        final double[] min = getLowerBound();
-        final double[] max = getUpperBound();
+        final double[] min = getLowerBound(); // XXX Should be used to enforce bounds (see below).
+        final double[] max = getUpperBound(); // XXX Should be used to enforce bounds (see below).
         final double[] startPoint = getStartPoint();
 
         // Multi-start loop.
