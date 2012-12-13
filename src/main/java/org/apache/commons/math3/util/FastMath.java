@@ -2258,7 +2258,7 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            final CodyWaite cw = new CodyWaite(xa, xb);
+            final CodyWaite cw = new CodyWaite(xa);
             quadrant = cw.getK() & 3;
             xa = cw.getRemA();
             xb = cw.getRemB();
@@ -2313,7 +2313,7 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            final CodyWaite cw = new CodyWaite(xa, xb);
+            final CodyWaite cw = new CodyWaite(xa);
             quadrant = cw.getK() & 3;
             xa = cw.getRemA();
             xb = cw.getRemB();
@@ -2378,7 +2378,7 @@ public class FastMath {
             xa = reduceResults[1];
             xb = reduceResults[2];
         } else if (xa > 1.5707963267948966) {
-            final CodyWaite cw = new CodyWaite(xa, xb);
+            final CodyWaite cw = new CodyWaite(xa);
             quadrant = cw.getK() & 3;
             xa = cw.getRemA();
             xb = cw.getRemB();
@@ -3803,10 +3803,8 @@ public class FastMath {
 
         /**
          * @param xa Argument.
-         * @param xb Argument.
          */
-        CodyWaite(double xa,
-                  double xb) {
+        CodyWaite(double xa) {
             // Estimate k.
             //k = (int)(xa / 1.5707963267948966);
             int k = (int)(xa * 0.6366197723675814);
