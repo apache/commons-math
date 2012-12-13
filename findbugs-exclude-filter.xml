@@ -83,6 +83,11 @@
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.optim.linear.LinearConstraint" />
+    <Method name="equals" params="java.lang.Object" returns="boolean" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
 
   <!-- The following equality test is intentional and needed for rounding purposes -->
   <Match>
