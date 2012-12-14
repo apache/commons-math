@@ -94,13 +94,14 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * @deprecated to be removed in 4.0.  Use {@link RandomDataGenerator} instead
  * @version $Id$
  */
+@Deprecated
 public class RandomDataImpl implements RandomData, Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -626730818244969716L;
 
     /** RandomDataGenerator delegate */
-    private RandomDataGenerator delegate;
+    private final RandomDataGenerator delegate;
 
     /**
      * Construct a RandomDataImpl, using a default random generator as the source
@@ -124,6 +125,15 @@ public class RandomDataImpl implements RandomData, Serializable {
      */
     public RandomDataImpl(RandomGenerator rand) {
         delegate = new RandomDataGenerator(rand);
+    }
+
+    /**
+     * @param rand the source of (non-secure) random data
+     * @deprecated To be removed in 4.0.
+     */
+    @Deprecated
+    RandomDataGenerator getDelegate() {
+        return delegate;
     }
 
     /**

@@ -98,14 +98,25 @@ public class ValueServer {
     }
 
     /**
-     * Construct a ValueServer instance using a RandomDataImpl as its source
+     * Construct a ValueServer instance using a RandomDataGenerator as its source
      * of random data.
      *
-     * @param randomData the RandomDataImpl instance used to source random data
+     * @param randomData random data source
      * @since 3.0
      */
     public ValueServer(RandomDataGenerator randomData) {
         this.randomData = randomData;
+    }
+    /**
+     * Construct a ValueServer instance using a RandomDataImpl as its source
+     * of random data.
+     *
+     * @param randomData random data source
+     * @deprecated As of 3.1. Use {@link #ValueServer(RandomDataGenerator)} instead.
+     */
+    @Deprecated
+    public ValueServer(RandomDataImpl randomData) {
+        this(randomData.getDelegate());
     }
 
     /**
