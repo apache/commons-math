@@ -55,10 +55,12 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     public void setUp() {
         super.setUp();
         empiricalDistribution = new EmpiricalDistribution(100);
+//         empiricalDistribution = new EmpiricalDistribution(100, new RandomDataImpl()); // XXX Deprecated API
         url = getClass().getResource("testData.txt");
         final ArrayList<Double> list = new ArrayList<Double>();
         try {
             empiricalDistribution2 = new EmpiricalDistribution(100);
+//             empiricalDistribution2 = new EmpiricalDistribution(100, new RandomDataImpl()); // XXX Deprecated API
             BufferedReader in =
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));

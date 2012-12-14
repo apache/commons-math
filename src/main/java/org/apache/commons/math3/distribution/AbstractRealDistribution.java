@@ -48,7 +48,7 @@ implements RealDistribution, Serializable {
       * {@link #random} instance variable instead.
       */
     @Deprecated
-    protected final RandomDataImpl randomData = new RandomDataImpl();
+    protected RandomDataImpl randomData = new RandomDataImpl();
     /** RNG instance used to generate samples from the distribution. */
     protected final RandomGenerator random;
     /** Solver absolute accuracy for inverse cumulative computation */
