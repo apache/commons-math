@@ -185,7 +185,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param binCount number of bins
      * @param randomData random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
+     * @deprecated As of 3.1. Please use {@link #EmpiricalDistribution(int,RandomGenerator)} instead.
      */
+    @Deprecated
     public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
         this.binCount = binCount;
         this.randomData = randomData;
@@ -198,7 +200,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      *
      * @param randomData random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
+     * @deprecated As of 3.1. Please use {@link #EmpiricalDistribution(RandomGenerator)} instead.
      */
+    @Deprecated
     public EmpiricalDistribution(RandomDataImpl randomData) {
         this(DEFAULT_BIN_COUNT, randomData);
     }
