@@ -88,35 +88,36 @@ public class ValueServer {
     private BufferedReader filePointer = null;
 
     /** RandomDataImpl to use for random data generation. */
-    private final RandomDataGenerator randomData;
+    private final RandomDataImpl randomData;
 
     // Data generation modes ======================================
 
     /** Creates new ValueServer */
     public ValueServer() {
-        randomData = new RandomDataGenerator();
+        randomData = new RandomDataImpl();
     }
 
-    /**
-     * Construct a ValueServer instance using a RandomDataGenerator as its source
-     * of random data.
-     *
-     * @param randomData random data source
-     * @since 3.0
-     */
-    public ValueServer(RandomDataGenerator randomData) {
-        this.randomData = randomData;
-    }
     /**
      * Construct a ValueServer instance using a RandomDataImpl as its source
      * of random data.
      *
-     * @param randomData random data source
-     * @deprecated As of 3.1. Use {@link #ValueServer(RandomDataGenerator)} instead.
+     * @param randomData the RandomDataImpl instance used to source random data
+     * @since 3.0
+     * @deprecated use {@link #ValueServer(RandomGenerator)}
      */
-    @Deprecated
     public ValueServer(RandomDataImpl randomData) {
-        this(randomData.getDelegate());
+        this.randomData = randomData;
+    }
+
+    /**
+     * Construct a ValueServer instance using a RandomGenerator as its source
+     * of random data.
+     *
+     * @since 3.1
+     * @param generator source of random data
+     */
+    public ValueServer(RandomGenerator generator) {
+        this.randomData = new RandomDataImpl(generator);
     }
 
     /**
@@ -288,7 +289,7 @@ public class ValueServer {
             try {
                 filePointer.close();
                 filePointer = null;
-            } catch (IOException ex) { // NOPMD
+            } catch (IOException ex) {
                 // ignore
             }
         }

@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
-import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -134,18 +134,14 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
 
-    /** Data generator. */
-    private final RandomDataGenerator randomDataGen;
-    /**
-     * XXX Enable backward-compatibility (to be removed in 4.0).
-     */
-    private final boolean useRandomDataImpl;
+    /** RandomDataImpl instance to use in repeated calls to getNext() */
+    private final RandomDataImpl randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistribution() {
-        this(DEFAULT_BIN_COUNT);
+        this(DEFAULT_BIN_COUNT, new RandomDataImpl());
     }
 
     /**
@@ -154,7 +150,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param binCount number of bins
      */
     public EmpiricalDistribution(int binCount) {
-        this(binCount, (RandomGenerator) null);
+        this(binCount, new RandomDataImpl());
     }
 
     /**
@@ -162,75 +158,20 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * provided {@link RandomGenerator} as the source of random data.
      *
      * @param binCount number of bins
-     * @param randomData random data generator (may be null, resulting in a default generator)
-     * @deprecated As of 3.1. To be removed in 4.0. Please use
-     * {@link #EmpiricalDistribution(int,RandomDataGenerator)} instead.
-     */
-    @Deprecated
-    public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
-        this.binCount = binCount;
-        this.randomData = randomData == null ?
-            new RandomDataImpl() :
-            randomData;
-        binStats = new ArrayList<SummaryStatistics>();
-        useRandomDataImpl = true;
-        randomDataGen = null;
-    }
-    /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param randomData random data generator (may be null, resulting in a default generator)
-     * @deprecated As of 3.1. To be removed in 4.0. Please use
-     * {@link #EmpiricalDistribution(RandomDataGenerator)} instead.
-     */
-    @Deprecated
-    public EmpiricalDistribution(RandomDataImpl randomData) {
-        this(DEFAULT_BIN_COUNT, randomData);
-    }
-
-    /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param binCount number of bins
-     * @param randomData random data generator (may be null, resulting in a default generator)
-     */
-    public EmpiricalDistribution(int binCount, RandomDataGenerator randomData) {
-        this.binCount = binCount;
-        this.randomDataGen = randomData == null ?
-            new RandomDataGenerator() :
-            randomData;
-        binStats = new ArrayList<SummaryStatistics>();
-        useRandomDataImpl = false; // XXX Remove in 4.0
-    }
-    /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param randomData random data generator (may be null, resulting in a default generator)
-     */
-    public EmpiricalDistribution(RandomDataGenerator randomData) {
-        this(DEFAULT_BIN_COUNT, randomData);
-    }
-
-    /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomGenerator} as the source of random data.
-     *
-     * @param binCount number of bins
-     * @param generator random data generator (may be null, resulting in a default generator)
+     * @param generator random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
      */
     public EmpiricalDistribution(int binCount, RandomGenerator generator) {
-        this(binCount, new RandomDataGenerator(generator));
+        this.binCount = binCount;
+        randomData = new RandomDataImpl(generator);
+        binStats = new ArrayList<SummaryStatistics>();
     }
 
     /**
      * Creates a new EmpiricalDistribution with default bin count using the
      * provided {@link RandomGenerator} as the source of random data.
      *
-     * @param generator random data generator (may be null, resulting in default generator)
+     * @param generator random data generator (may be null, resulting in default JDK generator)
      * @since 3.0
      */
     public EmpiricalDistribution(RandomGenerator generator) {
@@ -238,6 +179,31 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     }
 
     /**
+     * Creates a new EmpiricalDistribution with the specified bin count using the
+     * provided {@link RandomDataImpl} instance as the source of random data.
+     *
+     * @param binCount number of bins
+     * @param randomData random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
+        this.binCount = binCount;
+        this.randomData = randomData;
+        binStats = new ArrayList<SummaryStatistics>();
+    }
+
+    /**
+     * Creates a new EmpiricalDistribution with default bin count using the
+     * provided {@link RandomDataImpl} as the source of random data.
+     *
+     * @param randomData random data generator (may be null, resulting in default JDK generator)
+     * @since 3.0
+     */
+    public EmpiricalDistribution(RandomDataImpl randomData) {
+        this(DEFAULT_BIN_COUNT, randomData);
+    }
+
+     /**
      * Computes the empirical distribution from the provided
      * array of numbers.
      *
@@ -288,7 +254,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         } finally {
            try {
                in.close();
-           } catch (IOException ex) { // NOPMD
+           } catch (IOException ex) {
                // ignore
            }
         }
@@ -320,7 +286,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         } finally {
             try {
                 in.close();
-            } catch (IOException ex) { // NOPMD
+            } catch (IOException ex) {
                 // ignore
             }
         }
@@ -497,41 +463,22 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
 
-        if (useRandomDataImpl) {
-            // XXX backward compatibility.
-            // Start with a uniformly distributed random number in (0, 1)
-            final double x = randomData.nextUniform(0,1);
-            // Use this to select the bin and generate a Gaussian within the bin
-            for (int i = 0; i < binCount; i++) {
-                if (x <= upperBounds[i]) {
-                    SummaryStatistics stats = binStats.get(i);
-                    if (stats.getN() > 0) {
-                        if (stats.getStandardDeviation() > 0) {  // more than one obs
-                            return randomData.nextGaussian(stats.getMean(),
-                                                           stats.getStandardDeviation());
-                        } else {
-                            return stats.getMean(); // only one obs in bin
-                        }
-                    }
-                }
-            }
-        } else {
-            // Start with a uniformly distributed random number in (0, 1)
-            final double x = randomDataGen.nextUniform(0, 1);
-            // Use this to select the bin and generate a Gaussian within the bin
-            for (int i = 0; i < binCount; i++) {
-                if (x <= upperBounds[i]) {
-                    SummaryStatistics stats = binStats.get(i);
-                    if (stats.getN() > 0) {
-                        if (stats.getStandardDeviation() > 0) {  // more than one obs
-                            return randomDataGen.nextGaussian(stats.getMean(),
-                                                              stats.getStandardDeviation());
-                        } else {
-                            return stats.getMean(); // only one obs in bin
-                        }
-                    }
-                }
-            }
+        // Start with a uniformly distributed random number in (0,1)
+        final double x = randomData.nextUniform(0,1);
+
+        // Use this to select the bin and generate a Gaussian within the bin
+        for (int i = 0; i < binCount; i++) {
+           if (x <= upperBounds[i]) {
+               SummaryStatistics stats = binStats.get(i);
+               if (stats.getN() > 0) {
+                   if (stats.getStandardDeviation() > 0) {  // more than one obs
+                       return randomData.nextGaussian(stats.getMean(),
+                                                      stats.getStandardDeviation());
+                   } else {
+                       return stats.getMean(); // only one obs in bin
+                   }
+               }
+           }
         }
         throw new MathIllegalStateException(LocalizedFormats.NO_BIN_SELECTED);
     }
@@ -624,12 +571,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.0
      */
     public void reSeed(long seed) {
-        if (useRandomDataImpl) {
-            // XXX backward compatibility.
-            randomData.reSeed(seed);
-        } else {
-            randomDataGen.reSeed(seed);
-        }
+        randomData.reSeed(seed);
     }
 
     // Distribution methods ---------------------------
@@ -819,7 +761,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      */
     @Override
     public void reseedRandomGenerator(long seed) {
-        reSeed(seed);
+        randomData.reSeed(seed);
     }
 
     /**
