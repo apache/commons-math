@@ -1,383 +1,205 @@
 
-              Apache Commons Math 3.0 RELEASE NOTES
+              Apache Commons Math 3.1 RELEASE NOTES
 
-The Commons Math team is pleased to announce the release of commons-math3-3.0
+The Commons Math team is pleased to announce the release of commons-math3-3.1
 
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
-This is a major release: It combines bug fixes, new features and changes to existing features.
-Most notable among the new features are: Iterative solvers, Kalman filter, ISAAC RNG, Illinois and Pegasus root finders, enhanced ODE framework, refactored geometry package, Binary Space Partition trees.
-Most notable among the changes are: Exclusive use of unchecked exceptions, removal of interfaces for which a single implementation is assumed to exist, improved coding and API consistency across packages, performance (matrix product, FFT) and robustness (SVD).
-Because of the base package name change, this release can be used together with earlier versions of Commons Math. The minimal version of the Java platform required to compile and use Commons Math is Java 5. Users are encouraged to upgrade to this version as, in addition to new features, this release includes numerous bug fixes. Users of Commons Math 2.0-2 should recompile their code against the 3.0 JAR file and must adjust the import statements to use the appropriate org.apache.commons.math3 base package. Most of the compilation errors users will encounter after the switch will be due to moved or deleted classes/interfaces resulting from package reorganization.
-Caveat: 1. The implementation of the BOBYQA optimization algorithm is in alpha state (cf. MATH-621): Many code paths are untested, and we are looking for volunteers to improve the code readability, robustness and performance and to extend the unit tests suite. 2. A few methods in the FastMath class are in fact slower that their counterpart in either Math or StrictMath (cf. MATH-740).
+This is a minor release: It combines bug fixes and new features.
+ Changes to existing features were made in a backwards-compatible
+ way such as to allow drop-in replacement of the v3.0 JAR file.
+
+
+Most notable among the new features are: Framework for automatic
+ differentiation, multivariate mixture model distribution, quaternions,
+ Gauss integration framework, Hermite polynomial interpolation,
+ eigenvalue decomposition of non-symmetric matrices, DBSCAN clustering.
+ Most notable among the changes are: Greatly improved precision in
+ the implementation of the Gamma and Beta special functions, optimizers
+ API, deprecation of the sparse vector implementation.
+
+
+The minimal version of the Java platform required to compile and use
+ Commons Math is Java 5.
+ Users are encouraged to upgrade to this version as this release not
+ only includes bug fixes but also deprecates numerous classes and
+ methods that will be deleted from the next major release (4.0).
+
+
+Caveat:
+ 1. The implementation of the BOBYQA optimization algorithm is in alpha
+ state (cf. MATH-621): Many code paths are untested, and we are looking
+ for volunteers to improve the code readability, robustness and performance
+ and to extend the unit tests suite.
+ 2. A few methods in the FastMath class are in fact slower that their
+ counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 
 Changes in this version include:
 
 New features:
-o MATH-710:  The fast cryptographically secure pseudorandom number generator ISAAC has been added. Thanks to Eldar Agalarov. 
-o MATH-714:  The reset method in StepHandler interface has been renamed init and is provided
-        more information on the integration by the calling integrator. A similar init method
-        has been added to the EventHandler interface. 
-o           Added array constructor and getter for Vector2D and Vector3D. Thanks to Jan Kotek. 
-o           Added applyTo and applyInverseTo methods in the Rotation class that
-        handle directly arrays instead of Vector3D instances. Thanks to Jan Kotek. 
-o MATH-462:  Added stable random generator based on Chambers-Mallows-Stuck method. Thanks to Pavel Ryzhof. 
-o MATH-685:  Method "addToEntry" in "RealVector". 
-o MATH-687:  Added Jacobi polynomials. Thanks to Romain di Costanzo. 
-o MATH-683:  Added "shift" method to compute the coefficients of a new polynomial
-         whose values are the same as those of another polynomial but computed
-         at a shifted point. Thanks to Romain di Costanzo. 
-o           Added a getter to allow retrieving the exception related to an exception context
-        provider. 
-o MATH-646:  Unmodifiable view of a "RealVector". Thanks to Sébastien Brisard. 
-o MATH-593:  Added a 3D SubLine class. 
-o MATH-602:  In "SingularValueDecompositionImpl", added accessor for the inverse of the condition number. Thanks to Greg Serijevski. 
-o           Added a few linearCombination utility methods in MathUtils to compute accurately
-        linear combinations a1.b1 + a2.b2 + ... + an.bn taking great care to compensate
-        for cancellation effects. This both improves and simplify several methods in
-        euclidean geometry classes, including linear constructors, dot product and cross
-        product. 
-o MATH-637:  Simple benchmark utility (new class "PerfTestUtils" added to test sources in src/test). 
-o MATH-636:  Added a solver for Dfp-based (i.e. high accuracy) functions. 
-o MATH-635:  Added a Brent-like solver that has higher (user specified) order and does
-        bracket selection on the result: BracketingNthOrderBrentSolver. 
-o           Added a few shortcut methods and predicates to Dfp (abs, isZero,
-        negativeOrNull, strictlyNegative, positiveOrNull, strictlyPositive). 
-o MATH-633:  "AbstractRealMatrix" inherits from "RealLinearOperator". Thanks to Sébastien Brisard. 
-o MATH-613:  Linear combination of vectors: "RealVector" interface updated, implemented
-        in "AbstractRealVector" and "ArrayRealVector". Thanks to Sébastien Brisard. 
-o MATH-577:  Overloaded methods (add, subtract, multiply, divide) to take a "double" parameter
-        (as a complex number with zero imaginary part).
-        Code and Javadoc cleanup.
-        Added "valueOf" methods. Thanks to Arne Plöse. 
-o MATH-581:  Framework for iterative linear solvers. Thanks to Sébastien Brisard. 
-o MATH-599:  Modified "SecantSolver" to comply with the original algorithm. Added several
-        secant-based solvers. Added a way to select the side of the root with bracketing
-        solvers. Thanks to Dennis Hendriks. 
-o MATH-548:  K-means++ clustering can now run multiple trials 
-o MATH-591:  Added a way to compute sub-lines intersections, considering sub-lines either
-        as open sets or closed sets 
-o MATH-592:  Added a way to build a sub-line from its endpoints, and to retrieve the endpoints
-        from a sub-line 
-o MATH-485:  New "filter" package. Initial implementation of Kalman filter. Thanks to Thomas Neidhart. 
-o           Added a consistent classes hierarchy for Euclidean spaces in dimension 1, 2 and 3. 
-o MATH-576:  A complete generic implementation of Binary Space Partitioning Trees (BSP trees)
-        has been added. A few specializations of this implementation are also provided
-        for 1D, 2D and 3D Euclidean geometry. This allows support for arbitrary
-        intervals sets (1D), polygons sets (2D) and polyhedrons sets (3D) with all
-        sets operations (union, intersection, symmetric difference, difference, complement),
-        with predicates (point inside/outside/on boundary, emptiness, other region contained),
-        with geometrical computation (barycenter, size, boundary size) and with conversions
-        from and to boundary representation. 
-o MATH-566:  Created an "ExceptionContext" class: It provides the customization feature of
-        "MathRuntimeException" without imposing a singly rooted hierarchy of the Comons
-        Math exceptions.
-        Thus, those exceptions now inherit from their Java standard counterparts (e.g.
-        "MathIllegalArgumentException" inherits from "IllegalArgumentException"). 
-o MATH-567:  Fixed conversion problems to/from 0 in Decimal Floating Point (Dfp) class. Thanks to Michel. 
-o MATH-564:  Added solve methods using double[][] to linear algebra decomposition solvers. 
-o MATH-562:  Added an interpolator adapter for data with known period. 
-o MATH-541:  Added a "rectangular" Cholesky decomposition for positive semidefinite matrices. 
-o MATH-563:  Added setters allowing to change the step size control parameters of adaptive
-        step size ODE integrators. 
-o MATH-557:  Added a compareTo method to MathUtils that uses a number of ulps as a
-        tolerance error, and works well on all numbers, including normals, subnormals,
-        signed zeroes, infinities and NaNs. 
-o MATH-436:  Added a consistency check for number of points with respect to the number
-        of clusters in Kmeans++ clustering Thanks to Thomas Neidhart. 
-o MATH-437:  Added two sided Kolmogorov-Smirnov distribution using modified
-        Marsaglia et al. (2003) implementation and quick decisions for certain
-        parameter areas according to Simard et al. (2011). 
-o MATH-435:  Added "power" method in "RealMatrix" and "FieldMatrix<T>"
-        interfaces and their default implementations in "AbstractRealMatrix"
-        and "AbstractFieldMatrix". 
+o MATH-874:  All contents of package "o.a.c.m.optimization" refactored into
+        new packages "o.a.c.m.optimization" and "o.a.c.m.fitting". 
+o MATH-897:  DBSCAN clustering algorithm (in package "o.a.c.m.stat.clustering"). Thanks to Reid Hochstedler. 
+o MATH-910:  Added element-by-element addition, subtraction, multiplication and division
+        (in class "o.a.c.m.util.MathArrays"). 
+o MATH-902:  New constructor in the custom checker classes (package
+        "o.a.c.m.optimization") for passing the number of iterations
+        after which the "convergence test" will return true.
+        This allows an algorithm to return the best solution found (after
+        the user-defined number of iterations) even if it does not meet the
+        other convergence criteria. 
+o MATH-899:  Added a new "SynchronizedRandomGenerator" that wraps another
+        "RandomGenerator" with all methods being synchronized, thus
+        rendering the code thread-safe (at some efficiency cost). 
+o MATH-893:  Add new "NaNStrategy": FAILED, used in "RankingAlgorithm" implementations.
+        Any encountered input value that succeeds a "Double#isNaN" check, results in a
+        "NotANumberException". Thanks to Patrick Meyer. 
+o MATH-892:  Add new constructor to "SpearmansCorrelation" class which allows to specify the
+        "RankingAlgorithm" to be used. 
+o MATH-889:  Added a method to check points in the Interval class, with a tolerance for boundary. 
+o MATH-878:  Added G-test statistics. Thanks to Radoslav Tsvetkov. 
+o MATH-883:  New "getSquareRoot" method in class "EigenDecomposition" (package
+        "o.a.c.m.linear"). 
+o MATH-816:  New class for generic multivariate mixture model distributions. Thanks to Jared Becksfort. 
+o MATH-474:  Added new methods "merge(Frequency)", "merge(Collection<Frequency>)",
+        "incrementValue(Comparable<?>, long)" and "entrySetIterator()" to the "Frequency" class. Thanks to Dan Checkoway. 
+o MATH-860:  Added matrix "block inversion" (in "o.a.c.m.linear.MatrixUtils"). 
+o MATH-863:  New "Quaternion" class (package "o.a.c.m.complex"). Thanks to Julien Anxionnat. 
+o MATH-866:  Added method to test for floating-point numbers equality with a
+        relative tolerance (class "o.a.c.m.util.Precision"). Thanks to Yannick Tanguy. 
+o           Added a NewtonRaphsonSolver that uses the new differentiation package
+        to define the function to solve. This class is intended to replace the
+        former NewtonSolver which is deprecated. 
+o MATH-815:  New interface for multivariate distributions.
+        Added multivariate normal distribution. Thanks to Jared Becksfort. 
+o           Added a utility method to compute Stirling numbers of the second kind. 
+o           Added a new package dealing with differentials, for one or more free
+        parameters and derivation order 1 or higher. 
+o MATH-777:  Added additional crossover policies: "CycleCrossover", "NPointCrossover",
+        "OrderedCrossover" and "UniformCrossover". Thanks to Reid Hochstedler. 
+o MATH-831:  Added a new "RealMatrixFormat" class for input/output of RealMatrix instances.
+        Default formatter instances for commons-math and octave have been added to
+        "MatrixUtils". 
+o MATH-827:  New "IterativeLegendreGaussIntegrator" that performs the same automatic
+        subdivision of the integration interval as "LegendreGaussIntegrator",
+        but uses the classes from package "o.a.c.m.analysis.integration.gauss"
+        to perform the Gauss integration on the sub-interval.
+        Deprecated "LegendreGaussIntegrator". 
+o MATH-797:  New framework for Gauss integration schemes (in package
+        "o.a.c.m.analysis.integration.gauss").
+        Gauss-Legendre quadrature rules (of unlimited order) implemented in
+        double precision, and high precision (using "BigDecimal"). 
+o MATH-764,MATH-823:  For all distribution classes (in package "o.a.c.m.distribution"), a new
+        constructor takes a "RandomGenerator" parameter.
+        The "RandomDataImpl" instance has been superseded by this RNG.
+        All "sample()" methods have been modified to use this RNG instead of
+        delegating to the methods in "RandomData". 
+o MATH-235:  Added support for real asymmetric matrices to "EigenDecomposition". 
+o MATH-768:  Re-instated methods to find all complex roots of a polynomial (class
+        "LaguerreSolver" in package "o.a.c.m.analysis.solvers"). 
+o MATH-810:  Added accessors to the "Pair" class (package "o.a.c.m.util"). 
+o MATH-822:  Added new constructors in "EigenDecomposition" and deprecated two constructors
+        with unused parameters. Thanks to Jared Becksfort. 
+o MATH-807:  Added a new constructor to o.a.c.m.utils.IterationManager, allowing
+        for the specification of a callback function in case the maximum
+        number of iteration is reached. 
+o           A new HermiteInterpolator class allows interpolation of vector-valued
+        functions using both values and derivatives of the function at sample
+        points. 
+o MATH-773:  Added class FixedElapsedTime (new StoppingCondition for evolution of generations) to genetics package. Thanks to Reid Hochstedler. 
+o MATH-756:  Added classes Decimal64 and Decimal64Field, which are wrapper classes around primitive doubles.
+        These classes implement FieldElement and Field, respectively. 
 
 Fixed Bugs:
-o MATH-650:  Added pre-computed arrays to speed up initial loading time for FastMath. 
-o MATH-744:  Fixed "doubleValue" and "floatValue" method in "BigFraction" when
-        numerator and denominator are larger than the range of the
-        corresponding primitive type. Thanks to Thundre. 
-o MATH-739:  Merged interface and implementation of statistical tests in
-      	o.a.c.m.stat.inference package. 
-o MATH-588:  Relaxed test for equality in UnivariateStatisticAbstractTest. 
-o MATH-652:  Fixed a faulty test for zero in TridiagonalTransformer. Thanks to Greg Sterijevski. 
-o MATH-664:  Changed algorithm in computation of the covariance matrix in
-        "AbstractLeastSquares" (package "optimization.general"), from
-        "LUDecomposition" to "QRDecomposition". 
-o MATH-724:  Fixed rounding error in RandomDataImpl nextInt, nextLong methods causing lower
-        endpoints to be excluded when negative. Also improved robustness of nextUniform
-        for extreme values and changed its contract to throw IAE when provided bounds
-        are infinite or NaN. Thanks to Dennis Hendriks. 
-o MATH-728:  Fixed "offset by one" bug in "BOBYQAOptimizer". Thanks to Bruce A. Johnson. 
-o MATH-727:  Check first step size in embedded Runge-Kutta integrators, and truncate it if needed. 
-o MATH-723:  Modified setSeed methods in Bitstream generators (MersenneTwister and Well
-        generators) to clear the cache of normal deviates used by nextGaussian. 
-o MATH-716:  Fixed bracketing interval balancing in BracketingNthOrderBrentSolver. 
-o MATH-690:  Removed unused or duplicate utility methods from "MathUtils".
-        Math functions with "double" arguments were moved to class "FastMath". 
-o MATH-689:  Broke up bloated "MathUtils" class into "MathArrays", "Precision",
-        "ArithmeticUtils" classes. 
-o MATH-704:  Fixed array indexing error in Variance evaluate method for
-        computing the weighted variance of an array segment. Thanks to Thomas Niedhart. 
-o MATH-713:  Fixed case of unconstrained variables that still occur in the objective function
-        in simplex solver. Thanks to Thomas Neidhart. 
-o MATH-705:  Improved accuracy of Runge-Kutta based step interpolators near step start. 
-o MATH-691:  Fixed errors in SummaryStatistics addValue causing variance, mean, or
-        geometric mean statistics not to be updated if they have been overridden
-        using instances of commons-math supplied implementations. 
-o MATH-709:  Fixed BigFraction percentage method which did not work at all. 
-o           Fixed a bad interaction between step handlers and event handlers in
-        ODE integrators. Thanks to MATH-706. 
-o MATH-196:  Added adapters for simple bound constraints optimization that can be
-        used for all direct optimization methods, including the ones that do not
-        support constraints by themselves. 
-o MATH-702:  CMA-ES optimizer input sigma is now consistent with boundaries range units. 
-o MATH-695:  Fixed an event resetting issue in ODE. 
-o MATH-679:  Fixed an integer overflow in OpenMapRealMatrix. Thanks to Christopher Berner. 
-o MATH-688:  "FastMath": Use constant fields instead of recomputing them at method
-        call. 
-o MATH-676:  Faster "multiply" method in "Array2DRowRealMatrix". Code inspired
-         from the Jama project. 
-o MATH-445:  Replaced package.html with package-info.java for package documentation. 
-o MATH-284:  Added a getRuntimeClass method to the Field interface allowing to use a
-        complete hierarchy of fields sharing a common interface. Thanks to Klaus Hartlage. 
-o MATH-457:  The last remaining uses of OptimizationException have been replaced by unchecked
-        exceptions (UnboundSolutionException, NoFeasibleSolutionException,
-        MaxCountExceededException ...) 
-o MATH-487:  The checked ConvergenceException has been replaced by an unchecked ConvergenceException. 
-o MATH-381:  ODE step interpolation with Jacobians is now fully merged with
-        classical step interpolation. Thanks to Pascal Parraud. 
-o MATH-380:  Completely revamped the computation of Jacobians in ODE. This computation is now
-        included in the mainstream class hierarchy, not in a separate package anymore,
-        and it allows adding other types of equations to a main ODE, not only variational
-        equations for Jacobians computation. Thanks to Pascal Parraud. 
-o MATH-664:  In class "AbstractLeastSquaresOptimizer": Allow to specify a singularity
-        threshold in call to "getCovariances" method. 
-o MATH-658:  Dead code in FastMath.pow(double, double) and some improvement in test coverage. Thanks to Yannick TANGUY. 
-o MATH-663:  Removed "getData()" method from "RealVector" as it was redundant with
-        "toArray()". 
-o MATH-654:  Enabled reseeding of the random generators used by EmpiricalDistributionImpl
-        and ValueServer.  Modified ValueServer to pass its RandomData instance to
-        the EmpiricalDistributionImpl that it creates when used in DIGEST_MODE, so
-        reseeding ValueServer works as expected. 
-o MATH-653:  Renamed "AbstractRealVector" to "RealVector". The interface was removed
-         in favour of its unique (abstract) implementation.  Also removed several
-         methods with double[] arguments from AbstractRealVector. 
-o MATH-501:  Refactored integration API for consistency with solvers API. Now the main convergence
-          parameters are set in the constructor and remain fixed. 
-o MATH-464:  Added a maximal number of function evaluations to the integration method, similar
-          to what is done in the solvers API. 
-o MATH-645:  Fixed exceptions generated by "ebeMultiply" and "ebeDivide" in "OpenMapRealVector". 
-o MATH-601:  Made pseudo-inverse consistent with rank computation in SingularValueDecompositionImpl. Thanks to Chris Nix and Greg Serijevski. 
-o MATH-639:  Fixed a wrong detection of rotation axis versus vectors plane in Rotation constructor
-        using two vectors pairs. 
-o MATH-640:  Fixed bugs in AbstractRandomGenerator nextInt() and nextLong() default
-        implementations.  Prior to the fix for this issue, these methods
-        generated only positive values. 
-o MATH-585:  Implemented faster generation of random gamma distributed values with
-        algorithm from Ahrens and Dieter (1972) for shape < 1 and
-        Marsaglia and Tsang (2001) otherwise. 
-o MATH-605:  Allow discrete events to be detected by ODE solvers also at step start. Thanks to Dennis Hendriks. 
-o MATH-327,MATH-383,MATH-465,MATH-583,MATH-611:  Rewritten SVD decomposition based on JAMA code. Thanks to Christopher Nix. 
-o MATH-618:  Complex add javadoc says that if either addend has NaN parts, the result
-        should be Complex.NaN.  Prior to the fix for this issue, NaNs were propagated
-        only in real and imaginary parts individually. Thanks to Arne Plose. 
-o MATH-603:  Prevent step normalizer to output twice the last point in MULTIPLES mode. Thanks to Dennis Hendriks. 
-o MATH-596,MATH-604:  Removed the requiresDenseOutput method from the StepHandler interface. Now integrators always
-        consider dense output is required and set up the appropriate state interpolators, so step
-        handlers can rely on them. 
-o MATH-600:  Fixed javadoc for ODEIntegrator interface 
-o MATH-595:  Extended StepNormalizer with normalization mode and bounds settings. Thanks to Dennis Hendriks. 
-o MATH-597:  Implemented faster generation of random exponential distributed values with
-        algorithm from Ahrens and Dieter (1972): Computer methods for sampling
-        from the exponential and normal distributions. 
-o MATH-594:  Javadoc fixes in ODE. Thanks to Dennis Hendriks. 
-o MATH-586:  Added a way to specify a custom root solver to find events in ODE integration. Thanks to Dennis Hendriks. 
-o MATH-540:  Fixed error in javadoc describing Integer distribution inverse cumulative
-        probability API. 
-o MATH-582:  Fixed error in javadoc describing the behavior of the Percentile algorithm for
-        small percentiles in small datasets. Thanks to Christopher Nix. 
-o MATH-584:  Improved k-means++ clustering performances and initial cluster center choice. Thanks to Randall Scarberry. 
-o MATH-504:  Fixed tricube function implementation in Loess interpolator. Thanks to X. B.. 
-o MATH-568:  Fixed documentation of statistics examples. Thanks to Christoph M. Friedrich. 
-o MATH-507:  Improved documentation of general optimization with a thorough example. Thanks to Ole Ersoy. 
-o MATH-403:  Replaced NullPointerException by NullArgumentException. 
-o MATH-579:  Improved javadoc for FastMath explaining the overhead at class loading and
-        the targeted use cases. 
-o MATH-574:  Allow outer product of vectors of different sizes. 
-o MATH-573:  Avoid some array copying in add and subtract ArrayFieldVector. 
-o MATH-572:  Fixed an unused constructor parameter in ArrayFieldVector. 
-o           Fixed initialization of multistep ODE integrators. Relying on the interpolation model
-        of the starter integrator inside only one step was wrong. The model may have a too
-        low order to compute high degrees derivatives in the Nordsieck vector. Now we use several
-        steps and use only grid points instead of interpolated points. 
-o MATH-434:  Fixed two errors in simplex solver when entries are close together or
-        when variables are not restricted to non-negative. Thanks to Thomas Neidhart. 
-o MATH-547:  Improved robustness of k-means++ algorithm, by tracking changes in points assignments
-        to clusters. Thanks to Thomas Neidhart. 
-o MATH-554:  Reduced cancellation errors in Vector3D.crossProduct 
-o MATH-552:  Fixed bug in "MultidimensionalCounter". Thanks to James Bence. 
-o MATH-423:  All unit tests have been converted to Junit 4. They need at least Junit 4.5 to run
-        (the ant and maven build systems are currently set to use Junit 4.8.2) Thanks to Gilles Sadowski. 
-o MATH-500:  Removed the ConvergingAlgorithm interface and ConvergingAlgorithmImpl class Thanks to Gilles Sadowski. 
-o MATH-546:  Fixed bug in "KMeansPlusPlusClusterer". Thanks to Nate Paymer. 
-o MATH-518:  Removed "HarmonicFunction" (in package "optimization.fitting");
-        superseded by class "HarmonicOscillator" (in package "analysis.function"). 
-o MATH-516:  Removed "GaussianFunction" and "GaussianDerivativeFunction" (in package
-        "optimization.fitting"); functionality moved to class "Gaussian" (in
-        package "analysis.function"). 
-o MATH-514:  Removed "ParametricGaussianFunction" (in package "optimization.fitting");
-        functionality moved to class "Gaussian" (in package "analysis.function"). 
-o MATH-442:  Implementation of the CMA-ES optimization algorithm. Thanks to Dietmar Wolz. 
-o MATH-513:  The interface "ParametricRealFunction" (in package "optimization.fitting") has
-        been renamed to "ParametricUnivariateRealFunction" and moved to package "analysis". 
-o MATH-505:  TestUtils is thread-hostile. Remove getters and setters, and make static variables final. 
-o MATH-494:  FastMath atan2 does not agree with StrictMath for special cases 
-o MATH-492:  Removed checked "MaxIterationsExceededException" (superseded by
-        "MaxCountExceededException" from package "exception"). 
-o MATH-491:  Removed checked "DimensionMismatchException". Replaced all occurrences by its
-        equivalent from package "exception". 
-o MATH-489:  FastMath acos fails when input abs value is less than about 5.7851920321187236E-300 - returns NaN 
-o MATH-486:  FastMath toRadian and toDegree don't handle large double numbers well 
-o MATH-483:  FastMath does not handle all special cases correctly 
-o MATH-480:  Fix ulp(Infinity) to return Infinity rather than NaN 
-o MATH-479:  FastMath.signum(-0.0) does not agree with Math.signum(-0.0) 
-o MATH-478:  FastMath is not an exact replacement for StrictMath
-          (partially fixed) Add signum(float), ulp(float) 
-o MATH-482:  FastMath.max(50.0f, -50.0f) => -50.0f; should be +50.0f
-        Fixed FastMath.max(float, float) so it returns correct value. 
-o MATH-471:  MATH-491 MathUtils.equals(double, double) does not work properly for floats
-        - add equivalent (float, float) methods and basic tests 
-o MATH-458:  Removed "MathException" from the "throws" clause of the "interpolate" method
-        of the interpolators interfaces (package "analysis.interpolation"). 
-o MATH-461:  In order to comply with the new runtime exceptions policy, the classes
-        "RealVectorFormat", "ComplexFormat", "Vector3DFormat" and "CompositeFormat"
-        do not inherit anymore from the Java standard "Format" class. Failed parsing
-        will result in the throwing of a "MathParseException".
-        "CompositeFormat" is now a utility class ("private" constructor). 
-o MATH-447:  By policy, all Commons Math exceptions must inherit from class
-        "MathRuntimeException". 
-o MATH-454:  For optimizers (package "optimization"), the number of allowed function
-        evaluations is passed as a parameter to the "optimize" method. 
-o MATH-451:  For solvers (package "analysis.solvers"), the number of allowed function
-        evaluations is passed as a parameter to the "solve" method. 
-o MATH-447:  Created a "MathRuntimeException" to serve as a base class for exception
-        types that need to wrap another (lower-level) exception. 
-o MATH-380:  Removed the ode.jacobians package. 
-o MATH-432:  Created a generic "Pair" class to replace the "AbstractMap.SimpleEntry"
-        that is only available in Java 6 and later. 
-o MATH-428:  Class "DirectSearchOptimizer" (and subclasses "NelderMead"
-        and "MultiDirectional") was refactored into new classes:
-        "SimplexOptimizer" and "AbstractSimplex" (and subclasses
-        "NelderMeadSimplex" and "MultiDirectionalSimplex"). The old
-        classes were deprecated and removed. 
-o MATH-349:  All distribution classes (in package "distribution") are immutable. 
+o MATH-904:  Fixed "pow" method in class "FastMath". Thanks to Jeff Hain. 
+o MATH-905:  Fixed overflow in "sinh" and "cosh" methods in class "FastMath". Thanks to Jeff Hain. 
+o MATH-890:  Fixed naming inconsistencies between Interval and IntervalsSet classes. 
+o MATH-759:  Use getter/setter methods of super class for access to field "windowSize" in
+        "ListUnivariateImpl". Thanks to sebb. 
+o MATH-880:  Improved construction of polygons with an additional constructor, more robust numerically. 
+o MATH-778:  Allow unlimited input values for "Dfp#multiply(int)". Thanks to Sébastien Brisard. 
+o MATH-641:  Added distance to point to 2D Line and Segment. Thanks to Curtis Jensen. 
+o MATH-783:  "PowellOptimizer" (package "o.a.c.m.optimization.direct") uses
+        "BrentOptimizer" as its internal line search optimizer. The fix
+        forces the convergence criterion of "BrentOptimizer" to use
+        function values (instead of domain values). 
+o MATH-865,MATH-867,MATH-868:  Numerical accuracy problems arose in "CMAESOptimizer" (in package
+        "o.a.c.m.optimization.direct") when large finite boundaries were
+        specified, because the interval of allowed values was mapped to
+        [0, 1]. This mapping was not necessary and its removal allows
+        finite and infinite boundaries to be used together. Thanks to Nikolaus Hansen, Frank Hess. 
+o           Fixed some issues in nth root derivatives at 0. 
+o MATH-848:  Fixed transformation to a Schur matrix for certain input matrices. 
+o MATH-864:  "CMAESOptimizer": Solution was not constrained to lie within the
+        provided boundaries. Thanks to Frank Hess. 
+o MATH-666:  Deprecated "FieldVector#getData()" in favor of "toArray()". 
+o MATH-789:  Fixed an error in rectangular Cholesky decomposition. 
+o MATH-855:  Added a check so that the returned point will always be the best one. 
+o MATH-844:  Generate an exception for rare ill-conditioned cases in "HarmonicFitter"
+        guessing procedure (package "o.a.c.m.optimization.fitting"). 
+o MATH-828:  Improved numerical stability of "SimplexSolver" by introducing Bland's rule
+        to prevent cycling and a cutoff threshold to zero out very small values. 
+o MATH-836:  Fixed overflow detection for negative values in constructor of class "Fraction". Thanks to Baste Nesse Buanes. 
+o MATH-835:  Fixed overflow in method "percentageValue" in class "Fraction". Thanks to Baste Nesse Buanes. 
+o MATH-622:  Raised (to 10) the default number of fractional digits to print out. 
+o MATH-762:  Removed duplicate code. 
+o MATH-578:  Improve performance of quantile evaluation in "Percentile" class for cases
+        with lots of equal values. 
+o MATH-798:  Added overridden method in "PolynomialFitter" (package
+        "o.a.c.m.optimization.fitting") to limit the number of evaluations. 
+o MATH-804:  Parameterized "CurveFitter" class (package "o.a.c.m.optimization.fitting")
+        with the type of the fitting function. Updated subclasses "PolynomialFitter",
+        "HarmonicFitter", "GaussianFitter". 
+o MATH-801:  Fixed a problem when building rotations from two pairs of vectors. In very rare cases,
+        due to numerical inaccuracies the computed quaternion was not normalized (some examples
+        went as high as 1.0e8) and even after normalization, the quaternion was plain wrong. 
+o MATH-644:  Fix computation of upperCumulativeProbability in "HypergeometricDistribution" and
+        cleanup of duplicate probability mass function. Thanks to marzieh. 
+o MATH-791:  In GammaDistribution, deprecated getAlpha() and getBeta(). Replaced with
+        getShape() and getScale(), respectively. 
+o MATH-793:  Use inline computation for OrderedTuple hash code. Thanks to Sebb. 
+o MATH-718:  Use modified Lentz-Thompson algorithm for continued fraction evaluation to avoid
+        underflows. 
+o MATH-780:  Fixed a wrong assumption on BSP tree attributes when boundary collapses to a too
+        small polygon at a non-leaf node. 
+o MATH-787:  Put serialization back for PointValuePair and PointVectorValuePair. 
+o MATH-627:  Avoid superfluous null check when using iterators in RealVector and ArrayRealVector. Thanks to Arne Plöse. 
+o MATH-781:  Use epsilon instead of ulp in floating-point comparison when dropping columns after
+        phase 1 in SimplexSolver. Thanks to Scheiber Ernő. 
+o MATH-721:  Added a workaround for an OpenJDK issue on sparc solaris with too small constants. 
+o MATH-779:  Fixed ListPopulation#iterator to return an unmodifiable iterator. Thanks to Reid Hochstedler. 
+o MATH-775:  Cleanup of ListPopulation to consistently enforce the population limit. Thanks to Reid Hochstedler. 
+o MATH-776:  Use same range check in constructor for ElitisticListPopulation as in corresponding setter. Thanks to Reid Hochstedler. 
+o MATH-767:  Fixed unbalanced use of code tags in javadoc of several classes. Thanks to Dennis Hendriks. 
 
 Changes:
-o MATH-698:  Classes "CMAESOptimizer" and "BOBYQAOptimizer" inherit from
-        "BaseAbstractMultivariateSimpleBoundsOptimizer" (in package
-        "o.a.c.m.optimization.direct"). 
-o           Resources for error messages translations have been moved out of META-INF
-        folder in the jar, to avoid interferences with some build systems. 
-o MATH-488:  Removed "MathException" (from package "o.a.c.math"). 
-o MATH-459:  Removed "MathRuntimeException" (from package "o.a.c.math"). 
-o MATH-670:  Merged interface and implementation of EmpiricalDistribution. 
-o MATH-575:  Modified the genetics package to use localized exception messages. 
-o MATH-694:  Removed First, Third, Fourth moments from the public API.
-        These internally used statistics have non-standard definitions.
-        The classes remain, but now have package scope. 
-o MATH-693:  Added support for population variance in StatUtils, SummaryStatistics
-        and DescriptiveStatistics and clarified javadoc to make it clear that
-        'variance' means sample variance. 
-o MATH-697:  Added interface and abstract class for supporting optimizers classes
-        that can take simple constraints into account. 
-o MATH-701:  Changed the default seed used for RandomDataImpl, AbstractWell and MersenneTwister
-        PRNGs to add the system identity hash code of the instance to the current system
-        time, so generators initialized with default seeds within system clock resolution
-        will generate different sequences. Changed the default non-secure generator used
-        by RandomDataImpl to Well19937c. 
-o MATH-696:  Default implementation for "addToEntry" and "multiplyEntry" in
-        "AbstractRealMatrix". 
-o MATH-612:  Replaced temporary matrices and entry mutators with double[][] arrays to speed computation
-        in loops within QRDecomposition, Bi- and TriDiagonalTransformer implementations. Thanks to Christopher Nix. 
-o MATH-607:  SimpleRegression implements UpdatingMultipleLinearRegression interface. 
-o MATH-675:  Added isMonotone methods in MathUtils. Optimized checkOrder method. 
-o MATH-649:  Added the ability to suppress the estimation of the intercept in SimpleRegression. 
-o MATH-195:  Removed completely MathUserException. 
-o MATH-488:  Use the refactored exceptions framework for ODE. 
-o MATH-364:  Added erf(double,double) to Erf and used this to improve tail probability
-        accuracy in NormalDistributionImpl. Thanks to Christian Winter. 
-o MATH-449:  Added storeless covariance implementation. Thanks to Patrick Meyer. 
-o MATH-648:  Eliminated extraneous constructor from SimpleRegression. 
-o MATH-506:  Eliminated pluggability of ChiSquaredDistribution used by ChiSquaredDistributionTest. 
-o MATH-634:  Made RandomGenerator configurable and reseedable in EmpiricalDistributionImpl. 
-o MATH-624:  Added methods to solve upper and lower triangular systems to MatrixUtils. Thanks to Greg Sterijevski. 
-o MATH-642:  Improved performance of nextInt(int) in BitsStreamGenerator. 
-o MATH-623:  Slightly more efficient implementation of basic operations in
-        "ArrayRealVector". Thanks to Arne Plöse. 
-o MATH-609:  Improved efficiency in RandomDataImpl, LaguerreSolver, FastMath and OutlineExtractor by
-        moving conditional code into blocks where it is needed. Thanks to Dave Brosius. 
-o MATH-555:  Changed MathUtils.round(double,int,int) to propagate rather than
-        wrap runtime exceptions.  Instead of MathRuntimeException, this method
-        now throws IllegalArgumentException or ArithmeticException under
-        the conditions specified in the javadoc. 
-o MATH-545:  Added "cosine" method in "RealVector" interface and default implementation
-        in "AbstractRealVector". 
-o MATH-542:  All exceptions defined in Commons Math provide a context and a compound
-        message list. 
-o MATH-534:  Refactored "PolynomialFitter" (in package "optimization.fitting").
-        Added parametric function in "PolynomialFunction" (in package
-        "analysis.polynomials"). 
-o MATH-517:  Refactored "HarmonicFitter" (in package "optimization.fitting").
-        "HarmonicCoefficientsGuesser" removed. 
-o MATH-512:  Refactored "GaussianFitter" (in package "optimization.fitting").
-        The class now really fits a Gaussian function (whereas previously it was
-        fitting the sum of a constant and a Gaussian). Thanks to Ole Ersoy. 
-o MATH-496:  Create FastMath copySign methods 
-o MATH-430:  Replaced "ComposableFunction" and "BinaryFunction" (in package "analysis")
-        by a set of utilities in the new class "FunctionUtils" together with
-        independent function objects in the new "analysis.function" package.
-        Removed redundant "mapXxx" and "mapXxxToSelf" methods in "RealVector" and
-        "AbstractRealVector" (in package "linear"). 
-o MATH-439:  Refactoring of the "analysis.solvers" package. 
-o MATH-440:  Removed classes "FunctionEvaluationException", "MatrixVisitorException"
-        and "DerivativeException" (superseded by the new "MathUserException"). 
-o MATH-425:  Created "MatrixDimensionMismatchException" to replace
-        "InvalidMatrixException" (when the latter is used to signal that
-        matrices are not compatible for some operation).
-        Replaced "MatrixIndexException" with "OutOfRangeException" (when the
-        former is used to signal a row or column dimension mismatch). 
-o MATH-310:  Made "sample" methods part of the "IntegerDistribution" and
-        "ContinuousDistribution" interfaces. 
-o MATH-195:  Created an unchecked "FunctionEvaluationException".
-        Modified the "UnivariateRealFunction" interface: Removed the checked
-        "FunctionEvaluationException" from the signature of the "value" method. 
-o MATH-370:  Modified semantics: "equals" methods now consider that NaNs are not
-        equal (compliant with IEEE754).
-        Also, two adjacent floating point numbers are considered equal (this
-        is consistent with the fact that all real numbers between them can be
-        represented by either of the two). One consequence of that is that
-        "equals" is not transitive. 
-o MATH-397:  Removed methods referring to the concept of "iteration".
-        Removed interface methods to access the number of evaluations of the
-        gradient and Jacobian.
-        Added new "Incrementor" utility to be used as a bounded counter for
-        objective function evaluations.
-        Removed all references to "OptimizationException" (replaced by
-        "ConvergenceException"). 
-o MATH-397:  Modified "AbstractUnivariateRealOptimizer" to make it more similar to
-        "BaseAbstractScalarOptimizer".
-        Added utility methods in "ConvergingAlgorithmImpl". 
-o MATH-389:  Refactoring of some classes in package "optimization.general" to remove
-        code duplication and to allow the implementation of optimization algorithms
-        that do not use derivatives.
-        Created interface "BaseMultivariateRealOptimizer".
-        Created classes "BaseAbstractScalarOptimizer" and "AbstractScalarOptimizer".
-        "MultivariateRealOptimizer" and "DifferentiableMultivariateRealOptimizer"
-        both extend "BaseMultivariateRealOptimizer".
-        "AbstractScalarOptimizer" extends "BaseAbstractScalarOptimizer" and
-        "AbstractScalarDifferentiableOptimizer" inherits from "AbstractScalarOptimizer". 
+o MATH-672:  Added methods to EmpiricalDistribution to implement the RealDistribution
+        interface. 
+o MATH-902:  Created a "maximum number of iterations" stopping criterion in the
+        convergence checkers (package "o.a.c.m.optimization") that allows the
+        optimizers to return the "current best point" even if the convergence
+        criteria are not met. Thanks to Bruce A. Johnson. 
+o MATH-849:  Accuracy improvements of Gamma.logGamma, and implementation of
+        Gamma.gamma. Both new implementations are based on the NSWC
+        Library of Mathematical Functions. 
+o MATH-906:  Use "NaNStrategy#FAILED" as default strategy in "NaturalRanking". Thanks to Patrick Meyer. 
+o MATH-884:  Added "isSymmetric" and "checkSymmetric" in "MatrixUtils" (package
+        "o.a.c.m.linear"). 
+o MATH-885:  Moved private array argument validation methods from ChiSquareTest to MathArrays. 
+o MATH-859:  Clarified definition of isSupportXxxBoundInclusive in RealDistribution
+        interface, made code consistent with the definition, and deprecated
+        these methods, marking for removal in 4.0. 
+o MATH-841:  Performance improvement in computation of the greatest common divisor
+        (in class "o.a.c.m.util.ArithmeticUtils"). Thanks to Sebastien Riou. 
+o MATH-850:  Added RandomDataGenerator to replace RandomDataImpl and deprecated
+        RandomData interface and RandomDataImpl class. Deprecated
+        nextInversionDeviate methods from RandomDataImpl class. Ensured that
+        all nextXxx methods in RandomDataImpl/RandomDataGenerator use the
+        configured RandomGenerator. 
 
+Removed:
+o MATH-796:  Removed unused fields LocalizedFormats.ALPHA and LocalizedFormats.BETA. This is
+        an acceptable compatibility break, as these fields are only meant for internal use. 
 
 For complete information on Commons Math, including instructions on how to submit bug reports,
 patches, or suggestions for improvement, see the Apache Commons Math website:
