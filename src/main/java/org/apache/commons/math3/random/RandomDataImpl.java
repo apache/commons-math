@@ -128,7 +128,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * @param rand the source of (non-secure) random data
+     * @return the delegate object.
      * @deprecated To be removed in 4.0.
      */
     @Deprecated
