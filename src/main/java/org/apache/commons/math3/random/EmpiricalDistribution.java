@@ -134,14 +134,14 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
 
-    /** RandomDataImpl instance to use in repeated calls to getNext() */
-    private final RandomDataImpl randomData;
+    /** RandomDataGenerator instance to use in repeated calls to getNext() */
+    private final RandomDataGenerator randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
      */
     public EmpiricalDistribution() {
-        this(DEFAULT_BIN_COUNT, new RandomDataImpl());
+        this(DEFAULT_BIN_COUNT);
     }
 
     /**
@@ -150,7 +150,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param binCount number of bins
      */
     public EmpiricalDistribution(int binCount) {
-        this(binCount, new RandomDataImpl());
+        this(binCount, new RandomDataGenerator());
     }
 
     /**
@@ -162,9 +162,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.0
      */
     public EmpiricalDistribution(int binCount, RandomGenerator generator) {
-        this.binCount = binCount;
-        randomData = new RandomDataImpl(generator);
-        binStats = new ArrayList<SummaryStatistics>();
+        this(binCount, new RandomDataGenerator(generator));
     }
 
     /**
@@ -189,9 +187,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      */
     @Deprecated
     public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
-        this.binCount = binCount;
-        this.randomData = randomData;
-        binStats = new ArrayList<SummaryStatistics>();
+        this(binCount, randomData.getDelegate());
     }
 
     /**
@@ -207,7 +203,22 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         this(DEFAULT_BIN_COUNT, randomData);
     }
 
-     /**
+    /**
+     * Private constructor to allow lazy initialisation of the RNG contained
+     * in the {@link #randomData} instance variable.
+     *
+     * @param binCount number of bins
+     * @param randomData Random data generator.
+     */
+    private EmpiricalDistribution(int binCount,
+                                  RandomDataGenerator randomData) {
+        super(null);
+        this.binCount = binCount;
+        this.randomData = randomData;
+        binStats = new ArrayList<SummaryStatistics>();
+    }
+
+    /**
      * Computes the empirical distribution from the provided
      * array of numbers.
      *
