@@ -160,7 +160,7 @@ public class DSCompiler {
 
         this.parameters = parameters;
         this.order      = order;
-        this.sizes      = compileSizes(parameters, order, valueCompiler, derivativeCompiler);
+        this.sizes      = compileSizes(parameters, order, valueCompiler);
         this.derivativesIndirection =
                 compileDerivativesIndirection(parameters, order,
                                               valueCompiler, derivativeCompiler);
@@ -173,7 +173,7 @@ public class DSCompiler {
         this.compIndirection =
                 compileCompositionIndirection(parameters, order,
                                               valueCompiler, derivativeCompiler,
-                                              sizes, derivativesIndirection, lowerIndirection);
+                                              sizes, derivativesIndirection);
 
     }
 
@@ -228,12 +228,10 @@ public class DSCompiler {
      * @param parameters number of free parameters
      * @param order derivation order
      * @param valueCompiler compiler for the value part
-     * @param derivativeCompiler compiler for the derivative part
      * @return sizes array
      */
     private static int[][] compileSizes(final int parameters, final int order,
-                                        final DSCompiler valueCompiler,
-                                        final DSCompiler derivativeCompiler) {
+                                        final DSCompiler valueCompiler) {
 
         final int[][] sizes = new int[parameters + 1][order + 1];
         if (parameters == 0) {
@@ -401,15 +399,13 @@ public class DSCompiler {
      * @param derivativeCompiler compiler for the derivative part
      * @param sizes sizes array
      * @param derivativesIndirection derivatives indirection array
-     * @param lowerIndirection lower derivatives indirection array
      * @return multiplication indirection array
      */
     private static int[][][] compileCompositionIndirection(final int parameters, final int order,
                                                         final DSCompiler valueCompiler,
                                                         final DSCompiler derivativeCompiler,
                                                         final int[][] sizes,
-                                                        final int[][] derivativesIndirection,
-                                                        final int[] lowerIndirection) {
+                                                        final int[][] derivativesIndirection) {
 
         if ((parameters == 0) || (order == 0)) {
             return new int[][][] { { { 1, 0 } } };
