@@ -930,7 +930,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the result.
      * @since 3.1
      */
-    public double compute(MathArrays.Function f) {
+    public synchronized double compute(MathArrays.Function f) {
         return f.evaluate(internalArray, startIndex, numElements);
     }
 
