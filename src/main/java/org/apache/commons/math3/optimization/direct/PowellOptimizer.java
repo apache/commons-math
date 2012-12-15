@@ -49,6 +49,7 @@ import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChe
  * @version $Id$
  * @since 2.2
  */
+@Deprecated
 public class PowellOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
     implements MultivariateOptimizer {

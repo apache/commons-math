@@ -31,6 +31,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * @version $Id$
  * @since 2.2
  */
+@Deprecated
 public class BracketFinder {
     /** Tolerance to avoid division by zero. */
     private static final double EPS_MIN = 1e-21;

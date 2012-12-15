@@ -28,6 +28,7 @@ import org.apache.commons.math3.optimization.PointValuePair;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class MultiDirectionalSimplex extends AbstractSimplex {
     /** Default value for {@link #khi}: {@value}. */
     private static final double DEFAULT_KHI = 2;

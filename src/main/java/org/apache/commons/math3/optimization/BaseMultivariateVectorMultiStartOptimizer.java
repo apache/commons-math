@@ -40,6 +40,7 @@ import org.apache.commons.math3.random.RandomVectorGenerator;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class BaseMultivariateVectorMultiStartOptimizer<FUNC extends MultivariateVectorFunction>
     implements BaseMultivariateVectorOptimizer<FUNC> {
     /** Underlying classical optimizer. */

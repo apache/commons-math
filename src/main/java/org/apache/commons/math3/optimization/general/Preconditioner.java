@@ -23,6 +23,7 @@ package org.apache.commons.math3.optimization.general;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public interface Preconditioner {
     /**
      * Precondition a search direction.

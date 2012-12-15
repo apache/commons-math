@@ -36,6 +36,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class SimpleVectorValueChecker
     extends AbstractConvergenceChecker<PointVectorValuePair> {
     /**

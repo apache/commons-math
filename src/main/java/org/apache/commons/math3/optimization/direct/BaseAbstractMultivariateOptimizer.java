@@ -43,6 +43,7 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
  * @version $Id$
  * @since 2.2
  */
+@Deprecated
 public abstract class BaseAbstractMultivariateOptimizer<FUNC extends MultivariateFunction>
     implements BaseMultivariateOptimizer<FUNC> {
     /** Evaluations counter. */

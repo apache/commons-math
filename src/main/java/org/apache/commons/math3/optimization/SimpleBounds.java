@@ -27,6 +27,7 @@ package org.apache.commons.math3.optimization;
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public class SimpleBounds implements OptimizationData {
     /** Lower bounds. */
     private final double[] lower;

@@ -28,6 +28,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class NelderMeadSimplex extends AbstractSimplex {
     /** Default value for {@link #rho}: {@value}. */
     private static final double DEFAULT_RHO = 1;

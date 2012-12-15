@@ -57,6 +57,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 1.2
  */
+@Deprecated
 public abstract class AbstractLeastSquaresOptimizer
     extends BaseAbstractMultivariateVectorOptimizer<DifferentiableMultivariateVectorFunction>
     implements DifferentiableMultivariateVectorOptimizer {

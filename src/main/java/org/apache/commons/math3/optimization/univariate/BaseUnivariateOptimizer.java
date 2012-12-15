@@ -34,6 +34,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
     extends BaseOptimizer<UnivariatePointValuePair> {
     /**

@@ -53,6 +53,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  * @since 2.0
  */
 
+@Deprecated
 public class LeastSquaresConverter implements MultivariateFunction {
 
     /** Underlying vectorial function. */

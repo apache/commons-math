@@ -81,6 +81,7 @@ import org.apache.commons.math3.util.MathArrays;
  * @since 3.0
  */
 
+@Deprecated
 public class CMAESOptimizer
     extends BaseAbstractMultivariateSimpleBoundsOptimizer<MultivariateFunction>
     implements MultivariateOptimizer {

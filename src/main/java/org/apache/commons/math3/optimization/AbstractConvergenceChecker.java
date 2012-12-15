@@ -27,6 +27,7 @@ import org.apache.commons.math3.util.Precision;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public abstract class AbstractConvergenceChecker<PAIR>
     implements ConvergenceChecker<PAIR> {
     /**

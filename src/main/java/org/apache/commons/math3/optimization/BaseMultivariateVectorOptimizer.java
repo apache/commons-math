@@ -32,6 +32,7 @@ import org.apache.commons.math3.analysis.MultivariateVectorFunction;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public interface BaseMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction>
     extends BaseOptimizer<PointVectorValuePair> {
     /**

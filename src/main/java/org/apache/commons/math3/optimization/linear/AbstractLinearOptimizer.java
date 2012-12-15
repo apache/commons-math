@@ -34,6 +34,7 @@ import org.apache.commons.math3.optimization.PointValuePair;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public abstract class AbstractLinearOptimizer implements LinearOptimizer {
 
     /** Default maximal number of iterations allowed. */

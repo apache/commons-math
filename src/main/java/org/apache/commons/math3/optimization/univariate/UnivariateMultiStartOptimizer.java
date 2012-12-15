@@ -42,6 +42,7 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
     implements BaseUnivariateOptimizer<FUNC> {
     /** Underlying classical optimizer. */

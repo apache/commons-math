@@ -22,6 +22,7 @@ package org.apache.commons.math3.optimization.linear;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public enum Relationship {
 
     /** Equality relationship. */

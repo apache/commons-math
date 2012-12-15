@@ -50,6 +50,7 @@ import org.apache.commons.math3.optimization.MultivariateOptimizer;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class BOBYQAOptimizer
     extends BaseAbstractMultivariateSimpleBoundsOptimizer<MultivariateFunction>
     implements MultivariateOptimizer {

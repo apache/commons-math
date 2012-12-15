@@ -40,6 +40,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 2.0
  *
  */
+@Deprecated
 public class NonLinearConjugateGradientOptimizer
     extends AbstractScalarDifferentiableOptimizer {
     /** Update formula for the beta parameter. */

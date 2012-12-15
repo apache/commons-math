@@ -46,6 +46,7 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class CurveFitter<T extends ParametricUnivariateFunction> {
 
     /** Optimizer to use for the fitting.

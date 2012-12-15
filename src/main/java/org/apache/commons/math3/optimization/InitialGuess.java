@@ -25,6 +25,7 @@ package org.apache.commons.math3.optimization;
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public class InitialGuess implements OptimizationData {
     /** Initial guess. */
     private final double[] init;

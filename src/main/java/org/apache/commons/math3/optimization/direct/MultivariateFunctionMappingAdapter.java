@@ -75,6 +75,7 @@ import org.apache.commons.math3.util.MathUtils;
  * @since 3.0
  */
 
+@Deprecated
 public class MultivariateFunctionMappingAdapter implements MultivariateFunction {
 
     /** Underlying bounded function. */

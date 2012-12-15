@@ -48,6 +48,7 @@ import org.apache.commons.math3.optimization.OptimizationData;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public abstract class AbstractSimplex implements OptimizationData {
     /** Simplex. */
     private PointValuePair[] simplex;

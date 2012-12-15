@@ -33,6 +33,7 @@ package org.apache.commons.math3.optimization;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public interface BaseOptimizer<PAIR> {
     /**
      * Get the maximal number of function evaluations.

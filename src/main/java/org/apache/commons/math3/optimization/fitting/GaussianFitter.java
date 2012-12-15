@@ -56,6 +56,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 2.2
  * @version $Id$
  */
+@Deprecated
 public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
     /**
      * Constructs an instance using the specified optimizer.

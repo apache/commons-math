@@ -30,6 +30,7 @@ import org.apache.commons.math3.util.Pair;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class PointValuePair extends Pair<double[], Double> implements Serializable {
 
     /** Serializable UID. */

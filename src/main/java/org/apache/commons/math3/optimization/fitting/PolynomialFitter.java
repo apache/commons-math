@@ -28,6 +28,7 @@ import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOpt
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric> {
     /** Polynomial degree.
      * @deprecated

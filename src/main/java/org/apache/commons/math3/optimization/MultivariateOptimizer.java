@@ -30,5 +30,6 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public interface MultivariateOptimizer
     extends BaseMultivariateOptimizer<MultivariateFunction> {}

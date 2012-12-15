@@ -39,6 +39,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class LinearObjectiveFunction implements Serializable {
 
     /** Serializable version identifier. */

@@ -26,6 +26,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class UnboundedSolutionException extends MathIllegalStateException {
 
     /** Serializable version identifier. */

@@ -29,6 +29,7 @@ import org.apache.commons.math3.linear.NonSquareMatrixException;
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public class Weight implements OptimizationData {
     /** Weight matrix. */
     private final RealMatrix weightMatrix;

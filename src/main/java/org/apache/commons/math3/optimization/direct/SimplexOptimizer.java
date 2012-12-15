@@ -84,6 +84,7 @@ import org.apache.commons.math3.optimization.OptimizationData;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class SimplexOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateFunction>
     implements MultivariateOptimizer {

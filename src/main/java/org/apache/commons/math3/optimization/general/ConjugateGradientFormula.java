@@ -38,6 +38,7 @@ package org.apache.commons.math3.optimization.general;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public enum ConjugateGradientFormula {
 
     /** Fletcher-Reeves formula. */

@@ -43,6 +43,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction>
     implements BaseMultivariateVectorOptimizer<FUNC> {
     /** Evaluations counter. */

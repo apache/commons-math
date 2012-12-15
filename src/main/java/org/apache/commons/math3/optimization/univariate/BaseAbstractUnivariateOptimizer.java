@@ -32,6 +32,7 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public abstract class BaseAbstractUnivariateOptimizer
     implements UnivariateOptimizer {
     /** Convergence checker. */

@@ -35,6 +35,7 @@ import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOpti
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public abstract class AbstractDifferentiableOptimizer
     extends BaseAbstractMultivariateOptimizer<MultivariateDifferentiableFunction> {
     /**

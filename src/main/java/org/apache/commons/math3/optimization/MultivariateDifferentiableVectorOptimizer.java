@@ -27,5 +27,6 @@ import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentia
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public interface MultivariateDifferentiableVectorOptimizer
     extends BaseMultivariateVectorOptimizer<MultivariateDifferentiableVectorFunction> {}

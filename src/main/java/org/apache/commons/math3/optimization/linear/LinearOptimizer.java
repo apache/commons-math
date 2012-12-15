@@ -50,6 +50,7 @@ import org.apache.commons.math3.optimization.PointValuePair;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public interface LinearOptimizer {
 
     /**

@@ -45,6 +45,7 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  * @since 2.0
  *
  */
+@Deprecated
 public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** Indicator for using LU decomposition. */
     private final boolean useLU;

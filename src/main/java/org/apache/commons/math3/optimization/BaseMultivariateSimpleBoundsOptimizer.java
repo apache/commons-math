@@ -33,6 +33,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public interface BaseMultivariateSimpleBoundsOptimizer<FUNC extends MultivariateFunction>
     extends BaseMultivariateOptimizer<FUNC> {
     /**

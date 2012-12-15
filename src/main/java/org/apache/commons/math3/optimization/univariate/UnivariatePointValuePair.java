@@ -27,6 +27,7 @@ import java.io.Serializable;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public class UnivariatePointValuePair implements Serializable {
     /** Serializable version identifier. */
     private static final long serialVersionUID = 1003888396256744753L;

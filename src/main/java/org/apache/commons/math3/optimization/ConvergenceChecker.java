@@ -43,6 +43,7 @@ package org.apache.commons.math3.optimization;
  * @version $Id$
  * @since 3.0
  */
+@Deprecated
 public interface ConvergenceChecker<PAIR> {
     /**
      * Check if the optimization algorithm has converged.

@@ -31,6 +31,7 @@ import org.apache.commons.math3.random.RandomVectorGenerator;
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public class MultivariateDifferentiableVectorMultiStartOptimizer
     extends BaseMultivariateVectorMultiStartOptimizer<MultivariateDifferentiableVectorFunction>
     implements MultivariateDifferentiableVectorOptimizer {

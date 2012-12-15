@@ -41,6 +41,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
     /**
      * Golden section.

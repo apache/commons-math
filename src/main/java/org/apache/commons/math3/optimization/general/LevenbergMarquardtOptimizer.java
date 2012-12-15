@@ -105,6 +105,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 2.0
  *
  */
+@Deprecated
 public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
     /** Number of solved point. */
     private int solvedCols;

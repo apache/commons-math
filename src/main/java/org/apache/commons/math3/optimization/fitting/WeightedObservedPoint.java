@@ -25,6 +25,7 @@ import java.io.Serializable;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class WeightedObservedPoint implements Serializable {
 
     /** Serializable version id. */

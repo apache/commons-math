@@ -26,4 +26,5 @@ package org.apache.commons.math3.optimization;
  * @version $Id$
  * @since 3.1
  */
+@Deprecated
 public interface OptimizationData {}

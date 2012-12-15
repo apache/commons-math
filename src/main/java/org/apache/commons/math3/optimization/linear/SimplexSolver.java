@@ -31,6 +31,7 @@ import org.apache.commons.math3.util.Precision;
  * @version $Id$
  * @since 2.0
  */
+@Deprecated
 public class SimplexSolver extends AbstractLinearOptimizer {
 
     /** Default amount of error to accept for algorithm convergence. */
