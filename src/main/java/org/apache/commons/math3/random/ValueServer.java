@@ -292,7 +292,7 @@ public class ValueServer {
             try {
                 filePointer.close();
                 filePointer = null;
-            } catch (IOException ex) {
+            } catch (IOException ex) { //NOPMD
                 // ignore
             }
         }

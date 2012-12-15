@@ -269,7 +269,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         } finally {
            try {
                in.close();
-           } catch (IOException ex) {
+           } catch (IOException ex) { //NOPMD
                // ignore
            }
         }
@@ -301,7 +301,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         } finally {
             try {
                 in.close();
-            } catch (IOException ex) {
+            } catch (IOException ex) { //NOPMD
                 // ignore
             }
         }
