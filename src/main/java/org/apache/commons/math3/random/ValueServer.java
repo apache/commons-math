@@ -264,6 +264,9 @@ public class ValueServer {
     /**
      * Sets the the {@link #getValuesFileURL() values file URL}.
      *
+     * <p>The values file <i>must</i> be an ASCII text file containing one
+     * valid numeric entry per line.</p>
+     *
      * @param url URL of the values file.
      */
     public void setValuesFileURL(URL url) {
@@ -293,7 +296,7 @@ public class ValueServer {
                 // ignore
             }
         }
-        filePointer = new BufferedReader(new InputStreamReader(valuesFileURL.openStream()));
+        filePointer = new BufferedReader(new InputStreamReader(valuesFileURL.openStream(), "UTF-8"));
     }
 
     /**
