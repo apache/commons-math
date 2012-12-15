@@ -31,6 +31,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
  * @param <FUNC> Type of the objective function to be optimized.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

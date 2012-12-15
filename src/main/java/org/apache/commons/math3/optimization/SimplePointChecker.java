@@ -38,6 +38,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * The type of the "value" part of the pair (not used by this class).
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

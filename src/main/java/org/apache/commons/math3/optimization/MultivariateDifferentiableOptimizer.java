@@ -30,6 +30,7 @@ import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentia
  * @see MultivariateDifferentiableVectorOptimizer
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.1
  */
 @Deprecated

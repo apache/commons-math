@@ -55,6 +55,7 @@ import org.apache.commons.math3.util.FastMath;
  * {@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 1.2
  */
 @Deprecated

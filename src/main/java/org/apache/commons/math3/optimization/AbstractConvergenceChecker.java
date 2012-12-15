@@ -25,6 +25,7 @@ import org.apache.commons.math3.util.Precision;
  * @param <PAIR> Type of (point, value) pair.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

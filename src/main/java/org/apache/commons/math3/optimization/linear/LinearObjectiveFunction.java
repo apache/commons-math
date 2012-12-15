@@ -37,6 +37,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
  * the x<sub>i</sub> are the coordinates of the current point.
  * </p>
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */
 @Deprecated

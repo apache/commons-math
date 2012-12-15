@@ -31,6 +31,7 @@ package org.apache.commons.math3.optimization;
  * @param <PAIR> Type of the point/objective pair.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

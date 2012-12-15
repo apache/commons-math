@@ -47,6 +47,7 @@ import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChe
  * convergence checker set to {@link SimpleUnivariateValueChecker}.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.2
  */
 @Deprecated

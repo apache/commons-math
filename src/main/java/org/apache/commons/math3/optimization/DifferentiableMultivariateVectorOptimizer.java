@@ -25,8 +25,8 @@ import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunctio
  * objective functions}.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
- * @deprecated as of 3.1 replaced by {@link MultivariateDifferentiableVectorOptimizer}
  */
 @Deprecated
 public interface DifferentiableMultivariateVectorOptimizer

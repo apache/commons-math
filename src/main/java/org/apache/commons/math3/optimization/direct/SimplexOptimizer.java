@@ -82,6 +82,7 @@ import org.apache.commons.math3.optimization.OptimizationData;
  * @see CMAESOptimizer
  * @see BOBYQAOptimizer
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

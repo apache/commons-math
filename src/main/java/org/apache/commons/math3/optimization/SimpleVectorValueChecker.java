@@ -34,6 +34,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * (see {@link #SimpleVectorValueChecker(double,double,int) this constructor}).
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */
 @Deprecated

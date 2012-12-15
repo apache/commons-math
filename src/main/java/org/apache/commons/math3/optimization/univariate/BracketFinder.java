@@ -29,6 +29,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * module {@code optimize.py} v0.5).
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.2
  */
 @Deprecated

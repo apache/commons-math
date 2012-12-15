@@ -102,6 +102,7 @@ import org.apache.commons.math3.util.FastMath;
  * <ol></td></tr>
  * </table>
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  *
  */

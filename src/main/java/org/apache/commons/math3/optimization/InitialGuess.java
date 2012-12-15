@@ -23,6 +23,7 @@ package org.apache.commons.math3.optimization;
  * Immutable class.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.1
  */
 @Deprecated

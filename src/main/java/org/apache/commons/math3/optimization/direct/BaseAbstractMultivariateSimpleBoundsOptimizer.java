@@ -36,6 +36,7 @@ import org.apache.commons.math3.optimization.ConvergenceChecker;
  * @param <FUNC> Type of the objective function to be optimized.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  * @deprecated As of 3.1 since the {@link BaseAbstractMultivariateOptimizer
  * base class} contains similar functionality.

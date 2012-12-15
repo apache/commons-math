@@ -44,6 +44,7 @@ import org.apache.commons.math3.optimization.PointVectorValuePair;
  * @param <T> Function to use for the fit.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */
 @Deprecated

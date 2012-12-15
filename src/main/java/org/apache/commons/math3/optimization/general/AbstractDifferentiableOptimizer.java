@@ -33,6 +33,7 @@ import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOpti
  * It contains boiler-plate code for dealing with gradient evaluation.
  *
  * @version $Id$
+ * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.1
  */
 @Deprecated
