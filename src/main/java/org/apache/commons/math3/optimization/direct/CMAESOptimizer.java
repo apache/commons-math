@@ -399,6 +399,7 @@ public class CMAESOptimizer
      * values are more likely to find a local optimum close to the initial
      * guess).
      * Too small values might however lead to early termination.
+     * @since 3.1
      */
     public static class Sigma implements OptimizationData {
         /** Sigma values. */
@@ -437,6 +438,7 @@ public class CMAESOptimizer
      * Increasing the population size improves global search properties
      * at the expense of speed (which in general decreases at most
      * linearly with increasing population size).
+     * @since 3.1
      */
     public static class PopulationSize implements OptimizationData {
         /** Population size. */

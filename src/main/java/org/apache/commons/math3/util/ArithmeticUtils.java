@@ -967,6 +967,7 @@ public final class ArithmeticUtils {
      * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws MathArithmeticException if some overflow happens, typically for n exceeding 25 and
      * k between 20 and n-2 (S(n,n-1) is handled specifically and does not overflow)
+     * @since 3.1
      */
     public static long stirlingS2(final int n, final int k)
         throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {

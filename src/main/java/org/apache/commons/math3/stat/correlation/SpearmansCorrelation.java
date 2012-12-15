@@ -60,6 +60,7 @@ public class SpearmansCorrelation {
      * Create a SpearmansCorrelation with the given ranking algorithm.
      *
      * @param rankingAlgorithm ranking algorithm
+     * @since 3.1
      */
     public SpearmansCorrelation(final RankingAlgorithm rankingAlgorithm) {
         data = null;

@@ -63,6 +63,7 @@ public class RectangularCholeskyDecomposition {
      * @param matrix Symmetric positive semidefinite matrix.
      * @exception NonPositiveDefiniteMatrixException if the matrix is not
      * positive semidefinite.
+     * @since 3.1
      */
     public RectangularCholeskyDecomposition(RealMatrix matrix)
         throws NonPositiveDefiniteMatrixException {

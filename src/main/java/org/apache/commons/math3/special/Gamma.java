@@ -61,6 +61,7 @@ public class Gamma {
     /**
      * The value of the {@code g} constant in the Lanczos approximation, see
      * {@link #lanczos(double)}.
+     * @since 3.1
      */
     public static final double LANCZOS_G = 607.0 / 128.0;
 
@@ -506,6 +507,7 @@ public class Gamma {
      * equations (1) through (5), and Paul Godfrey's
      * <a href="http://my.fit.edu/~gabdo/gamma.txt">Note on the computation
      * of the convergent Lanczos complex Gamma approximation</a>
+     * @since 3.1
      */
     public static double lanczos(final double x) {
         double sum = 0.0;
@@ -525,6 +527,7 @@ public class Gamma {
      * @return The value of {@code 1.0 / Gamma(1.0 + x) - 1.0}.
      * @throws NumberIsTooSmallException if {@code x < -0.5}
      * @throws NumberIsTooLargeException if {@code x > 1.5}
+     * @since 3.1
      */
     public static double invGamma1pm1(final double x) {
 
@@ -617,6 +620,7 @@ public class Gamma {
      * @return The value of {@code log(Gamma(1 + x))}.
      * @throws NumberIsTooSmallException if {@code x < -0.5}.
      * @throws NumberIsTooLargeException if {@code x > 1.5}.
+     * @since 3.1
      */
     public static double logGamma1p(final double x)
         throws NumberIsTooSmallException, NumberIsTooLargeException {
@@ -639,6 +643,7 @@ public class Gamma {
      *
      * @param x Argument.
      * @return the value of {@code Gamma(x)}.
+     * @since 3.1
      */
     public static double gamma(final double x) {
 

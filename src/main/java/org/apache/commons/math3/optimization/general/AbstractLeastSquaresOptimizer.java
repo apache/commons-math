@@ -253,6 +253,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * Gets the square-root of the weight matrix.
      *
      * @return the square-root of the weight matrix.
+     * @since 3.1
      */
     public RealMatrix getWeightSquareRoot() {
         return weightMatrixSqrt.copy();
@@ -320,6 +321,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the covariance matrix.
      * @throws org.apache.commons.math3.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
+     * @since 3.1
      */
     public double[][] computeCovariances(double[] params,
                                          double threshold) {
@@ -392,6 +394,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return an estimate of the standard deviation of the optimized parameters
      * @throws org.apache.commons.math3.linear.SingularMatrixException
      * if the covariance matrix cannot be computed.
+     * @since 3.1
      */
     public double[] computeSigma(double[] params,
                                  double covarianceSingularityThreshold) {
@@ -531,6 +534,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the residuals.
      * @throws DimensionMismatchException if {@code params} has a wrong
      * length.
+     * @since 3.1
      */
     protected double[] computeResiduals(double[] objectiveValue) {
         final double[] target = getTarget();

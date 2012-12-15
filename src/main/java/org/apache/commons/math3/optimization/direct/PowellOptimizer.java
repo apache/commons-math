@@ -150,6 +150,7 @@ public class PowellOptimizer
      * @param lineAbs Absolute threshold for the internal line search optimizer.
      * @throws NotStrictlyPositiveException if {@code abs <= 0}.
      * @throws NumberIsTooSmallException if {@code rel < 2 * Math.ulp(1d)}.
+     * @since 3.1
      */
     public PowellOptimizer(double rel,
                            double abs,

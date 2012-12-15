@@ -1606,6 +1606,7 @@ public class FastMath {
      * @param d Number to raise.
      * @param e Exponent.
      * @return d<sup>e</sup>
+     * @since 3.1
      */
     public static double pow(double d, int e) {
 

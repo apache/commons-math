@@ -145,6 +145,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
     /**
      * Specification of expansion algorithm.
+     * @since 3.1
      */
     public static enum ExpansionMode {
         /** Multiplicative expansion mode. */
@@ -259,6 +260,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @param expansionFactor The array will be expanded based on this
      * parameter.
      * @throws MathIllegalArgumentException if parameters are not valid.
+     * @since 3.1
      */
     public ResizableDoubleArray(int initialCapacity,
                                 double expansionFactor)
@@ -317,6 +319,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * parameter.
      * @param contractionCriterion Contraction criterion.
      * @throws MathIllegalArgumentException if the parameters are not valid.
+     * @since 3.1
      */
     public ResizableDoubleArray(int initialCapacity,
                                 double expansionFactor,
@@ -541,6 +544,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @throws NumberIsTooSmallException if {@code contraction < expansion}.
      * @throws NumberIsTooSmallException if {@code contraction <= 1}.
      * @throws NumberIsTooSmallException if {@code expansion <= 1 }.
+     * @since 3.1
      */
     protected void checkContractExpand(double contraction,
                                        double expansion)
@@ -735,6 +739,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * <code>contractionFactor.</code>
      *
      * @return the contraction criterion used to reclaim memory.
+     * @since 3.1
      */
     public double getContractionCriterion() {
         return contractionCriterion;
@@ -829,6 +834,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * elements actually stored}.
      *
      * @return the length of the internal array.
+     * @since 3.1
      */
     public int getCapacity() {
         return internalArray.length;
@@ -922,6 +928,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *
      * @param f Function to be applied on this array.
      * @return the result.
+     * @since 3.1
      */
     public double compute(MathArrays.Function f) {
         return f.evaluate(internalArray, startIndex, numElements);

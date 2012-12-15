@@ -420,6 +420,7 @@ public class MatrixUtils {
      * @param eps Relative tolerance.
      * @throws NonSquareMatrixException if the matrix is not square.
      * @throws NonSymmetricMatrixException if the matrix is not symmetric.
+     * @since 3.1
      */
     public static void checkSymmetric(RealMatrix matrix,
                                       double eps) {
@@ -432,6 +433,7 @@ public class MatrixUtils {
      * @param matrix Matrix to check.
      * @param eps Relative tolerance.
      * @return {@code true} if {@code matrix} is symmetric.
+     * @since 3.1
      */
     public static boolean isSymmetric(RealMatrix matrix,
                                       double eps) {

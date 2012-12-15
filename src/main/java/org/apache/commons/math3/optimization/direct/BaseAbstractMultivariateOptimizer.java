@@ -136,6 +136,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * </ul>
      * @return the point/value pair giving the optimal value of the objective
      * function.
+     * @since 3.1
      */
     public PointValuePair optimize(int maxEval,
                                    FUNC f,
@@ -185,6 +186,7 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * function.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
+     * @since 3.1
      */
     protected PointValuePair optimizeInternal(int maxEval,
                                               FUNC f,
@@ -246,12 +248,14 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
     }
     /**
      * @return the lower bounds.
+     * @since 3.1
      */
     public double[] getLowerBound() {
         return lowerBound == null ? null : lowerBound.clone();
     }
     /**
      * @return the upper bounds.
+     * @since 3.1
      */
     public double[] getUpperBound() {
         return upperBound == null ? null : upperBound.clone();

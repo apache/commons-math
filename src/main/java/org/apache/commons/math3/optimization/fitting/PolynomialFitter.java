@@ -57,6 +57,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * Simple constructor.
      *
      * @param optimizer Optimizer to use for the fitting.
+     * @since 3.1
      */
     public PolynomialFitter(DifferentiableMultivariateVectorOptimizer optimizer) {
         super(optimizer);
@@ -88,6 +89,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * the number of evaluations exceeds {@code maxEval}.
      * @throws org.apache.commons.math3.exception.ConvergenceException
      * if the algorithm failed to converge.
+     * @since 3.1
      */
     public double[] fit(int maxEval, double[] guess) {
         return fit(maxEval, new PolynomialFunction.Parametric(), guess);
@@ -102,6 +104,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * @return the coefficients of the polynomial that best fits the observed points.
      * @throws org.apache.commons.math3.exception.ConvergenceException
      * if the algorithm failed to converge.
+     * @since 3.1
      */
     public double[] fit(double[] guess) {
         return fit(new PolynomialFunction.Parametric(), guess);

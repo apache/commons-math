@@ -201,6 +201,7 @@ public abstract class RealVector {
      * @param end the index of the last entry of the subvector (inclusive)
      * @throws OutOfRangeException if {@code start} of {@code end} are not valid
      * @throws NumberIsTooSmallException if {@code end < start}
+     * @since 3.1
      */
     protected void checkIndices(final int start, final int end)
         throws NumberIsTooSmallException, OutOfRangeException {
@@ -889,7 +890,6 @@ public abstract class RealVector {
         return this;
     }
 
-
     /**
      * Visits (but does not alter) all entries of this vector in default order
      * (increasing index).
@@ -898,6 +898,7 @@ public abstract class RealVector {
      * vector
      * @return the value returned by {@link RealVectorPreservingVisitor#end()}
      * at the end of the walk
+     * @since 3.1
      */
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor) {
         final int dim = getDimension();
@@ -919,6 +920,7 @@ public abstract class RealVector {
      * at the end of the walk
      * @throws NumberIsTooSmallException if {@code end < start}.
      * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.1
      */
     public double walkInDefaultOrder(final RealVectorPreservingVisitor visitor,
                                      final int start, final int end)
@@ -941,6 +943,7 @@ public abstract class RealVector {
      * vector
      * @return the value returned by {@link RealVectorPreservingVisitor#end()}
      * at the end of the walk
+     * @since 3.1
      */
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor) {
         return walkInDefaultOrder(visitor);
@@ -959,6 +962,7 @@ public abstract class RealVector {
      * at the end of the walk
      * @throws NumberIsTooSmallException if {@code end < start}.
      * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.1
      */
     public double walkInOptimizedOrder(final RealVectorPreservingVisitor visitor,
                                        final int start, final int end)
@@ -974,6 +978,7 @@ public abstract class RealVector {
      * of this vector
      * @return the value returned by {@link RealVectorChangingVisitor#end()}
      * at the end of the walk
+     * @since 3.1
      */
     public double walkInDefaultOrder(final RealVectorChangingVisitor visitor) {
         final int dim = getDimension();
@@ -995,6 +1000,7 @@ public abstract class RealVector {
      * at the end of the walk
      * @throws NumberIsTooSmallException if {@code end < start}.
      * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.1
      */
     public double walkInDefaultOrder(final RealVectorChangingVisitor visitor,
                               final int start, final int end)
@@ -1017,6 +1023,7 @@ public abstract class RealVector {
      * vector
      * @return the value returned by {@link RealVectorChangingVisitor#end()}
      * at the end of the walk
+     * @since 3.1
      */
     public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor) {
         return walkInDefaultOrder(visitor);
@@ -1035,6 +1042,7 @@ public abstract class RealVector {
      * at the end of the walk
      * @throws NumberIsTooSmallException if {@code end < start}.
      * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.1
      */
     public double walkInOptimizedOrder(final RealVectorChangingVisitor visitor,
                                        final int start, final int end)

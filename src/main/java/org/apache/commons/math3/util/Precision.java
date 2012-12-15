@@ -282,6 +282,7 @@ public class Precision {
      * @param eps Amount of allowed relative error.
      * @return {@code true} if the values are two adjacent floating point
      * numbers or they are within range of each other.
+     * @since 3.1
      */
     public static boolean equalsWithRelativeTolerance(double x, double y, double eps) {
         if (equals(x, y, 1)) {

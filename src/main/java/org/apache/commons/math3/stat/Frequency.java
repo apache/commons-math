@@ -123,6 +123,7 @@ public class Frequency implements Serializable {
      * @param v the value to add.
      * @param increment the amount by which the value should be incremented
      * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
+     * @since 3.1
      */
     public void incrementValue(Comparable<?> v, long increment){
         Comparable<?> obj = v;
@@ -206,6 +207,7 @@ public class Frequency implements Serializable {
      * map entries returned by the Iterator will in this case be Longs.</p>
      *
      * @return entry set Iterator
+     * @since 3.1
      */
     public Iterator<Map.Entry<Comparable<?>, Long>> entrySetIterator() {
         return freqTable.entrySet().iterator();
@@ -497,6 +499,7 @@ public class Frequency implements Serializable {
      * by the counts represented by other.
      *
      * @param other the other {@link Frequency} object to be merged
+     * @since 3.1
      */
     public void merge(Frequency other) {
         for (Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator(); iter.hasNext();) {
@@ -511,6 +514,7 @@ public class Frequency implements Serializable {
      * by the counts represented by each of the others.
      *
      * @param others the other {@link Frequency} objects to be merged
+     * @since 3.1
      */
     public void merge(Collection<Frequency> others) {
         for (Iterator<Frequency> iter = others.iterator(); iter.hasNext();) {

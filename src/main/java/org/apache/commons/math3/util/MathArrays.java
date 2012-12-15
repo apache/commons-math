@@ -49,6 +49,7 @@ public class MathArrays {
 
     /**
      * Real-valued function that operate on an array or a part of it.
+     * @since 3.1
      */
     public interface Function {
         /**
@@ -77,6 +78,7 @@ public class MathArrays {
      * @param b Second term of the addition.
      * @return a new array {@code r} where {@code r[i] = a[i] + b[i]}.
      * @throws DimensionMismatchException if the array lengths differ.
+     * @since 3.1
      */
     public static double[] ebeAdd(double[] a,
                                   double[] b) {
@@ -98,6 +100,7 @@ public class MathArrays {
      * @param b Element to be subtracted.
      * @return a new array {@code r} where {@code r[i] = a[i] - b[i]}.
      * @throws DimensionMismatchException if the array lengths differ.
+     * @since 3.1
      */
     public static double[] ebeSubtract(double[] a,
                                        double[] b) {
@@ -119,6 +122,7 @@ public class MathArrays {
      * @param b Second factor of the multiplication.
      * @return a new array {@code r} where {@code r[i] = a[i] * b[i]}.
      * @throws DimensionMismatchException if the array lengths differ.
+     * @since 3.1
      */
     public static double[] ebeMultiply(double[] a,
                                        double[] b) {
@@ -140,6 +144,7 @@ public class MathArrays {
      * @param b Denominator of the division.
      * @return a new array {@code r} where {@code r[i] = a[i] / b[i]}.
      * @throws DimensionMismatchException if the array lengths differ.
+     * @since 3.1
      */
     public static double[] ebeDivide(double[] a,
                                      double[] b) {
@@ -416,6 +421,7 @@ public class MathArrays {
      * @param in array to be tested
      * @throws NullArgumentException if input array is null
      * @throws DimensionMismatchException if input array is not rectangular
+     * @since 3.1
      */
     public static void checkRectangular(final long[][] in)
         throws NullArgumentException, DimensionMismatchException {
@@ -435,6 +441,7 @@ public class MathArrays {
      * @param in Array to be tested
      * @throws NotStrictlyPositiveException if any entries of the array are not
      * strictly positive.
+     * @since 3.1
      */
     public static void checkPositive(final double[] in)
         throws NotStrictlyPositiveException {
@@ -450,6 +457,7 @@ public class MathArrays {
      *
      * @param in Array to be tested
      * @throws NotPositiveException if any array entries are less than 0.
+     * @since 3.1
      */
     public static void checkNonNegative(final long[] in)
         throws NotPositiveException {
@@ -465,6 +473,7 @@ public class MathArrays {
      *
      * @param in Array to be tested
      * @throws NotPositiveException if any array entries are less than 0.
+     * @since 3.1
      */
     public static void checkNonNegative(final long[][] in)
         throws NotPositiveException {

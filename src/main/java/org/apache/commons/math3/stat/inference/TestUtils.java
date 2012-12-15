@@ -367,6 +367,7 @@ public class TestUtils  {
 
      /**
      * @see org.apache.commons.math3.stat.inference.GTest#g(double[], long[])
+     * @since 3.1
      */
     public static double g(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -376,6 +377,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#gTest( double[],  long[] )
+     * @since 3.1
      */
     public static double gTest(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -385,6 +387,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#gTestIntrinsic(double[], long[] )
+     * @since 3.1
      */
     public static double gTestIntrinsic(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -394,6 +397,7 @@ public class TestUtils  {
 
      /**
      * @see org.apache.commons.math3.stat.inference.GTest#gTest( double[],long[],double)
+     * @since 3.1
      */
     public static boolean gTest(final double[] expected, final long[] observed,
                                 final double alpha)
@@ -404,6 +408,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#gDataSetsComparison(long[], long[])
+     * @since 3.1
      */
     public static double gDataSetsComparison(final long[] observed1,
                                                   final long[] observed2)
@@ -413,6 +418,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#rootLogLikelihoodRatio(long, long, long, long)
+     * @since 3.1
      */
     public static double rootLogLikelihoodRatio(final long k11, final long k12, final long k21, final long k22)
         throws DimensionMismatchException, NotPositiveException, ZeroException {
@@ -422,7 +428,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(long[], long[])
-     *
+     * @since 3.1
      */
     public static double gTestDataSetsComparison(final long[] observed1,
                                                         final long[] observed2)
@@ -433,6 +439,7 @@ public class TestUtils  {
 
     /**
      * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(long[],long[],double)
+     * @since 3.1
      */
     public static boolean gTestDataSetsComparison(final long[] observed1,
                                                   final long[] observed2,
