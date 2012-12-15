@@ -29,8 +29,8 @@
         <p>
          The analysis package is the parent package for algorithms dealing with
          real-valued functions of one real variable. It contains dedicated sub-packages
-         providing numerical root-finding, integration, and interpolation. It also
-         contains a polynomials sub-package that considers polynomials with real
+         providing numerical root-finding, integration, interpolation and differentiation.
+         It also contains a polynomials sub-package that considers polynomials with real
          coefficients as differentiable real functions.
         </p>
         <p>
@@ -39,9 +39,6 @@
          on these function to find their roots, or integrate them, or ... Functions can
          be multivariate or univariate, real vectorial or matrix valued, and they can be
          differentiable or not.
-        </p>
-        <p>
-          Possible future additions may include numerical differentiation.
         </p>
       </subsection>
       <subsection name="4.2 Error handling" href="errorhandling">
@@ -547,6 +544,168 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
           Chebyshev, Hermite, Jacobi, Laguerre and Legendre polynomials. Coefficients are
           computed using exact fractions so these factory methods can build polynomials
           up to any degree.
+        </p>
+      </subsection>
+      <subsection name="4.7 Differentiation" href="differentiation">
+        <p>
+          The <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/package-summary.html">
+          org.apache.commons.math3.analysis.differentiation</a> package provides a general-purpose
+          differentiation framework.
+        </p>
+        <p>
+          The core class is <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> which holds the value and the differentials of a function. This class
+          handles some arbitrary number of free parameters and arbitrary derivation order. It is used
+          both as the input and the output type for the <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">
+          UnivariateDifferentiableFunction</a> interface. Any differentiable function should implement this
+          interface.
+        </p>
+        <p>
+          The main idea behind the <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> class is that it can be used almost as a number (i.e. it can be added,
+          multiplied, its square root can be extracted or its cosine computed... However, in addition to
+          computed the value itself when doing these computations, the partial derivatives are also computed
+          alongside. This is an extension of what is sometimes called Rall's numbers. This extension is
+          described in Dan Kalman's paper <a
+          href="http://www.math.american.edu/People/kalman/pdffiles/mmgautodiff.pdf">Doubly Recursive
+          Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75, no. 3, June 2002.
+          Rall's numbers only hold the first derivative with respect to one free parameter whereas Dan Kalman's
+          derivative structures hold all partial derivatives up to any specified order, with respect to any
+          number of free parameters. Rall's numbers therefore can be seen as derivative structures for order
+          one derivative and one free parameter, and primitive real numbers can be seen as derivative structures
+          with zero order derivative and no free parameters.
+        </p>
+        <p>
+          The workflow of computation of a derivatives of an expression <code>y=f(x)</code> is the following
+          one. First we configure an input parameter <code>x</code> of type <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> so it will drive the function to compute all derivatives up to order 3 for
+          example. Then we compute <code>y=f(x)</code> normally by passing this parameter to the f function.At
+          the end, we extract from <code>y</code> the value and the derivatives we want. As we have specified
+          3<sup>rd</sup> order when we built <code>x</code>, we can retrieve the derivatives up to 3<sup>rd</sup>
+          order from <code>y</code>. The following example shows that (the 0 parameter in the DerivativeStructure
+          constructor will be explained in the next paragraph):
+       </p>
+       <source>int params = 1;
+int order = 3;
+double xRealValue = 2.5;
+DerivativeStructure x = new DerivativeStructure(params, order, 0, xRealValue);
+DerivativeStructure y = f(x);
+System.out.println("y    = " + y.getValue();
+System.out.println("y'   = " + y.getPartialDerivative(1);
+System.out.println("y''  = " + y.getPartialDerivative(2);
+System.out.println("y''' = " + y.getPartialDerivative(3);</source>
+       <p>
+         In fact, there are no notions of <em>variables</em> in the framework, so neither <code>x</code>
+         nor <code>y</code> are considered to be variables per se. They are both considered to be
+         <em>functions</em> and to depend on implicit free parameters which are represented only by
+         indices in the framework. The <code>x</code> instance above is there considered by the framework
+         to be a function of free parameter <code>p0</code> at index 0, and as <code>y</code> is
+         computed from <code>x</code> it is the result of a functions composition and is therefore also
+         a function of this <code>p0</code> free parameter. The <code>p0</code> is not represented by itself,
+         it is simply defined implicitely by the 0 index above. This index is the third argument in the
+         constructor of the <code>x</code> instance. What this constructor means is that we built
+         <code>x</code> as a function that depends on one free parameter only (first constructor argument
+         set to 1), that can be differentiated up to order 3 (second constructor argument set to 3), and
+         which correspond to an identity function with respect to implicit free parameter number 0 (third
+         constructor argument set to 0), with current value equal to 2.5 (fourth constructor argument set
+         to 2.5). This specific constructor defines identity functions, and identity functions are the trick
+         we use to represent variables (there are of course other constructors, for example to build constants
+         or functions from all their derivatives if they are known beforehand). From the user point of view,
+         the <code>x</code> instance can be seen as the <code>x</code> variable, but it is really the identity
+         function applied to free parameter number 0. As the identity function, it has the same value as its
+         parameter, its first derivative is 1.0 with respect to this free parameter, and all its higher order
+         derivatives are 0.0. This can be checked by calling the getValue() or getPartialDerivative() methods
+         on <code>x</code>.
+       </p>
+       <p>
+         When we compute <code>y</code> from this setting, what we really do is chain <code>f</code> after the
+         identity function, so the net result is that the derivatives are computed with respect to the indexed
+         free parameters (i.e. only free parameter number 0 here since there is only one free parameter) of the
+         identity function x. Going one step further, if we compute <code>z = g(y)</code>, we will also compute
+         <code>z</code> as a function of the initial free parameter. The very important consequence is that
+         if we call <code>z.getPartialDerivative(1)</code>, we will not get the first derivative of <code>g</code>
+         with respect to <code>y</code>, but with respect to the free parameter <code>p0</code>: the derivatives
+         of g and f <em>will</em> be chained together automatically, without user intervention.
+       </p>
+       <p>
+         This design choice is a very classical one in many algorithmic differentiation frameworks, either
+         based on operator overloading (like the one we implemented here) or based on code generation. It implies
+         the user has to <em>bootstrap</em> the system by providing initial derivatives, and this is essentially
+         done by setting up identity function, i.e. functions that represent the variables themselves and have
+         only unit first derivative.
+       </p>
+       <p>
+         This design also allow a very interesting feature which can be explained with the following example.
+         Suppose we have a two arguments function <code>f</code> and a one argument function <code>g</code>. If
+         we compute <code>g(f(x, y))</code> with <code>x</code> and <code>y</code> be two variables, we
+         want to be able to compute the partial derivatives <code>dg/dx</code>, <code>dg/dy</code>,
+         <code>d2g/dx2</code> <code>d2g/dxdy</code> <code>d2g/dy2</code>. This does make sense since we combined
+         the two functions, and it does make sense despite g is a one argument function only. In order to do
+         this, we simply set up <code>x</code> as an identity function of an implicit free parameter
+         <code>p0</code> and <code>y</code> as an identity function of a different implicit free parameter
+         <code>p1</code> and compute everything directly. In order to be able to combine everything, however,
+         both <code>x</code> and <code>y</code> must be built with the appropriate dimensions, so they will both
+         be declared to handle two free parameters, but <code>x</code> will depend only on parameter 0 while
+         <code>y</code> will depend on parameter 1. Here is how we do this (note that
+         <code>getPartialDerivative</code> is a variable arguments method which take as arguments the derivation
+         order with respect to all free parameters, i.e. the first argument is derivation order with respect to
+         free parameter 0 and the second argument is derivation order with respect to free parameter 1):
+       </p>
+       <source>int params = 2;
+int order = 2;
+double xRealValue =  2.5;
+double yRealValue = -1.3;
+DerivativeStructure x = new DerivativeStructure(params, order, 0, xRealValue);
+DerivativeStructure y = new DerivativeStructure(params, order, 1, yRealValue);
+DerivativeStructure f = DerivativeStructure.hypot(x, y);
+DerivativeStructure g = f.log();
+System.out.println("g        = " + g.getValue();
+System.out.println("dg/dx    = " + g.getPartialDerivative(1, 0);
+System.out.println("dg/dy    = " + g.getPartialDerivative(0, 1);
+System.out.println("d2g/dx2  = " + g.getPartialDerivative(2, 0);
+System.out.println("d2g/dxdy = " + g.getPartialDerivative(1, 1);
+System.out.println("d2g/dy2  = " + g.getPartialDerivative(0, 2);</source>
+       <p>
+          There are several ways a user can create an implementation of the <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">
+          UnivariateDifferentiableFunction</a> interface. The first method is to simply write it directly using
+          the appropriate methods from <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> to compute addition, subtraction, sine, cosine... This is often quite
+          straigthforward and there is no need to remember the rules for differentiation: the user code only
+          represent the function itself, the differentials will be computed automatically under the hood. The
+          second method is to write a classical <a
+          href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">UnivariateFunction</a> and to
+          pass it to an existing implementation of the <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          UnivariateFunctionDifferentiator</a> interface to retrieve a differentiated version of the same function.
+          The first method is more suited to small functions for which user already control all the underlying code.
+          The second method is more suited to either large functions that would be cumbersome to write using the
+          <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          DerivativeStructure</a> API, or functions for which user does not have control to the full underlying code
+          (for example functions that call external libraries).
+        </p>
+        <p>
+          Apache Commons Math provides one implementation of the <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          UnivariateFunctionDifferentiator</a> interface: <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/FiniteDifferencesDifferentiator.html">
+          FiniteDifferencesDifferentiator</a>. This class creates a wrapper that will call the user-provided function
+          on a grid sample and will use finite differences to compute the derivatives. It takes care of boundaries
+          if the variable is not defined on the whole real line. It is possible to use more points than strictly
+          required by the derivation order (for example one can specify an 8-points scheme to compute first
+          derivative only). However, one must be aware that tuning the parameters for finite differences is
+          highly problem-dependent. Choosing the wrong step size or the wrong number of sampling points can lead
+          to huge errors. Finite differences are also not well suited to compute high order derivatives.
+        </p>
+        <p>
+          Another implementation of the <a
+          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          UnivariateFunctionDifferentiator</a> interface is under development in the related project
+          <a href="http://commons.apache.org/sandbox/nabla/">Apache Commons Nabla</a>. This implementation uses
+          automatic code analysis and generation at binary level. However, at time of writing
+          (end 2012), this project is not yet suitable for production use.
         </p>
       </subsection>
     </section>
