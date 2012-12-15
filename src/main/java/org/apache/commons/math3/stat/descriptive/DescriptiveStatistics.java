@@ -353,11 +353,9 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
      * not equal to {@link #INFINITE_WINDOW}
      */
     public void setWindowSize(int windowSize) throws MathIllegalArgumentException {
-        if (windowSize < 1) {
-            if (windowSize != INFINITE_WINDOW) {
-                throw new MathIllegalArgumentException(
-                      LocalizedFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
-            }
+        if (windowSize < 1 && windowSize != INFINITE_WINDOW) {
+            throw new MathIllegalArgumentException(
+                    LocalizedFormats.NOT_POSITIVE_WINDOW_SIZE, windowSize);
         }
 
         this.windowSize = windowSize;
