@@ -241,7 +241,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
 
     /**
      * Computes the empirical distribution using data read from a URL.
-
+     *
      * <p>The input file <i>must</i> be an ASCII text file containing one
      * valid numeric entry per line.</p>
      *
