@@ -122,6 +122,7 @@
             </tr>
             <tr>
               <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
+              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>variable order, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
