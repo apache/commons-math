@@ -95,7 +95,10 @@ public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFun
        return evaluate(a, c, z);
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * @since 3.1
+     */
     public DerivativeStructure value(final DerivativeStructure t) {
         verifyInputArray(a, c);
 

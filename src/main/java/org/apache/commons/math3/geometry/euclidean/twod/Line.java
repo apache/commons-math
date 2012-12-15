@@ -270,6 +270,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      *
      * @param p to check
      * @return distance between the instance and the point
+     * @since 3.1
      */
     public double distance(final Vector2D p) {
         return FastMath.abs(getOffset(p));

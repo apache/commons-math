@@ -112,6 +112,7 @@ public class EigenDecomposition {
      * @throws MaxCountExceededException if the algorithm fails to converge.
      * @throws MathArithmeticException if the decomposition of a general matrix
      * results in a matrix with zero norm
+     * @since 3.1
      */
     public EigenDecomposition(final RealMatrix matrix)
         throws MathArithmeticException {
@@ -151,6 +152,7 @@ public class EigenDecomposition {
      * @param main Main diagonal of the symmetric tridiagonal form.
      * @param secondary Secondary of the tridiagonal form.
      * @throws MaxCountExceededException if the algorithm fails to converge.
+     * @since 3.1
      */
     public EigenDecomposition(final double[] main, final double[] secondary) {
         isSymmetric = true;
@@ -367,6 +369,7 @@ public class EigenDecomposition {
      * @return the square-root of the matrix.
      * @throws MathUnsupportedOperationException if the matrix is not
      * symmetric or not positive definite.
+     * @since 3.1
      */
     public RealMatrix getSquareRoot() {
         if (!isSymmetric) {

@@ -167,6 +167,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * Returns the shape parameter of {@code this} distribution.
      *
      * @return the shape parameter
+     * @since 3.1
      */
     public double getShape() {
         return shape;
@@ -188,6 +189,7 @@ public class GammaDistribution extends AbstractRealDistribution {
      * Returns the scale parameter of {@code this} distribution.
      *
      * @return the scale parameter
+     * @since 3.1
      */
     public double getScale() {
         return scale;

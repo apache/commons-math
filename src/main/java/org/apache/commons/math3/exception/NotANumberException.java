@@ -21,7 +21,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Exception to be thrown when a number is not a number.
  *
- * @since 3.0
+ * @since 3.1
  * @version $Id$
  */
 public class NotANumberException extends MathIllegalNumberException {

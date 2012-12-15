@@ -128,6 +128,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @param hyperplaneThickness tolerance below which points are considered to
      * belong to the hyperplane (which is therefore more a slab)
      * @param vertices vertices of the simple loop boundary
+     * @since 3.1
      */
     public PolygonsSet(final double hyperplaneThickness, final Vector2D ... vertices) {
         super(verticesToTree(hyperplaneThickness, vertices));

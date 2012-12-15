@@ -49,8 +49,13 @@ implements RealDistribution, Serializable {
       */
     @Deprecated
     protected RandomDataImpl randomData = new RandomDataImpl();
-    /** RNG instance used to generate samples from the distribution. */
+
+    /**
+     * RNG instance used to generate samples from the distribution.
+     * @since 3.1
+     */
     protected final RandomGenerator random;
+
     /** Solver absolute accuracy for inverse cumulative computation */
     private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
@@ -66,6 +71,7 @@ implements RealDistribution, Serializable {
     }
     /**
      * @param rng Random number generator.
+     * @since 3.1
      */
     protected AbstractRealDistribution(RandomGenerator rng) {
         random = rng;
@@ -275,6 +281,7 @@ implements RealDistribution, Serializable {
      * {@inheritDoc}
      *
      * @return zero.
+     * @since 3.1
      */
     public double probability(double x) {
         return 0d;

@@ -78,6 +78,7 @@ public class Segment {
      *
      * @param p to check
      * @return distance between the instance and the point
+     * @since 3.1
      */
     public double distance(final Vector2D p) {
         final double deltaX = end.getX() - start.getX();

@@ -120,6 +120,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @param shape Shape parameter of this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
+     * @since 3.1
      */
     public LogNormalDistribution(RandomGenerator rng,
                                  double scale,

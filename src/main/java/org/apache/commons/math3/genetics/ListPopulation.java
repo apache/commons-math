@@ -111,7 +111,8 @@ public abstract class ListPopulation implements Population {
      * Add a {@link Collection} of chromosomes to this {@link Population}.
      * @param chromosomeColl a {@link Collection} of chromosomes
      * @throws NumberIsTooLargeException if the population would exceed the population limit when
-     *   adding this chromosome
+     * adding this chromosome
+     * @since 3.1
      */
     public void addChromosomes(final Collection<Chromosome> chromosomeColl) throws NumberIsTooLargeException {
         if (chromosomes.size() + chromosomeColl.size() > populationLimit) {
@@ -132,6 +133,7 @@ public abstract class ListPopulation implements Population {
     /**
      * Access the list of chromosomes.
      * @return the list of chromosomes
+     * @since 3.1
      */
     protected List<Chromosome> getChromosomeList() {
         return chromosomes;

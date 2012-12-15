@@ -115,6 +115,7 @@ public class Interval {
      * belong to the boundary
      * @return a code representing the point status: either {@link
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
+     * @since 3.1
      */
     public Location checkPoint(final double point, final double tolerance) {
         if (point < lower - tolerance || point > upper + tolerance) {

@@ -188,6 +188,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @throws NullArgumentException if the {@code coefficients} is
      * {@code null}.
      * @throws NoDataException if the {@code coefficients} array is empty.
+     * @since 3.1
      */
     public Complex[] solveAllComplex(double[] coefficients,
                                      double initial)
@@ -217,6 +218,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @throws NullArgumentException if the {@code coefficients} is
      * {@code null}.
      * @throws NoDataException if the {@code coefficients} array is empty.
+     * @since 3.1
      */
     public Complex solveComplex(double[] coefficients,
                                 double initial)

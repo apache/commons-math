@@ -107,6 +107,7 @@ public class JacobiPreconditioner extends RealLinearOperator {
      * P = diag(1 / &radic;A<sub>11</sub>, 1 / &radic;A<sub>22</sub>, &hellip;).
      *
      * @return the square root of {@code this} preconditioner
+     * @since 3.1
      */
     public RealLinearOperator sqrt() {
         final RealVector sqrtDiag = diag.map(new Sqrt());

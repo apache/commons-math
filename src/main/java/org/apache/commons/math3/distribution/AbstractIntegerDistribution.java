@@ -38,6 +38,7 @@ public abstract class AbstractIntegerDistribution
 implements IntegerDistribution, Serializable {
     /** Serializable version identifier */
     private static final long serialVersionUID = -1146319659338487221L;
+
      /**
       * RandomData instance used to generate samples from the distribution.
       * @deprecated As of 3.1, to be removed in 4.0. Please use the
@@ -45,7 +46,11 @@ implements IntegerDistribution, Serializable {
       */
     @Deprecated
     protected final RandomDataImpl randomData = new RandomDataImpl();
-    /** RNG instance used to generate samples from the distribution. */
+
+    /**
+     * RNG instance used to generate samples from the distribution.
+     * @since 3.1
+     */
     protected final RandomGenerator random;
 
     /**
@@ -60,6 +65,7 @@ implements IntegerDistribution, Serializable {
     }
     /**
      * @param rng Random number generator.
+     * @since 3.1
      */
     protected AbstractIntegerDistribution(RandomGenerator rng) {
         random = rng;
