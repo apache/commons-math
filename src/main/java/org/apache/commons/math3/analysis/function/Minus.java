@@ -39,8 +39,8 @@ public class Minus implements UnivariateDifferentiableFunction, DifferentiableUn
      * @deprecated as of 3.1, replaced by {@link #value(DerivativeStructure)}
      */
     @Deprecated
-    public UnivariateFunction derivative() {
-        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
+    public DifferentiableUnivariateFunction derivative() {
+        return new Constant(-1);
     }
 
     /** {@inheritDoc}
