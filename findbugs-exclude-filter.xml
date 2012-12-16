@@ -44,6 +44,11 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math3.optim.univariate.BrentOptimizer" />
+    <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.analysis.solvers.BrentSolver" />
     <Method name="brent" params="double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
@@ -134,7 +139,17 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math3.optim.PointValuePair"/>
+    <Method name="getPointRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
+    <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.optim.PointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
@@ -147,7 +162,20 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
+    <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
+    <Or>
+      <Method name="getPointRef" params="" returns="double[]" />
+      <Method name="getValueRef" params="" returns="double[]" />
+    </Or>
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
+  <Match>
     <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
+    <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
+    <Bug pattern="EI_EXPOSE_REP2" />
+  </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
     <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>

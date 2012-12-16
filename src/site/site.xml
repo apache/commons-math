@@ -26,7 +26,9 @@
     <menu name="Math">
       <item name="Overview" href="/index.html"/>
       <item name="Downloads" href="http://commons.apache.org/math/download_math.cgi"/>
-      <item name="Javadoc (3.0 release)" href="apidocs/index.html"/>
+      <item name="Javadoc (3.1 release)" href="apidocs/index.html"/>
+      <item name="Javadoc (3.0 release)"
+         href="http://commons.apache.org/math/api-3.0/index.html"/>
       <item name="Javadoc (2.2 release)"
          href="http://commons.apache.org/math/api-2.2/index.html"/>
       <item name="Issue Tracking" href="/issue-tracking.html"/>
