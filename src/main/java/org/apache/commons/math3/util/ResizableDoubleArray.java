@@ -33,6 +33,9 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * handles expanding and contracting its internal storage array as elements
  * are added and removed.
  * </p>
+ * <h3>Important note: Usage should not assume that this class is thread-safe
+ * even though some of the methods are {@code synchronized}.
+ * This qualifier will be dropped in the next major release (4.0).</h3>
  * <p>
  * The internal storage array starts with capacity determined by the
  * {@code initialCapacity} property, which can be set by the constructor.
@@ -930,7 +933,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * @return the result.
      * @since 3.1
      */
-    public synchronized double compute(MathArrays.Function f) {
+    public double compute(MathArrays.Function f) {
         return f.evaluate(internalArray, startIndex, numElements);
     }
 
