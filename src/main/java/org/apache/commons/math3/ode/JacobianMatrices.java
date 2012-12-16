@@ -474,7 +474,10 @@ public class JacobianMatrices {
 
     }
 
-    /** Special exception for equations mismatch. */
+    /**
+     * Special exception for equations mismatch.
+     * @since 3.1
+     */
     public static class MismatchedEquations extends MathIllegalArgumentException {
 
         /** Serializable UID. */
