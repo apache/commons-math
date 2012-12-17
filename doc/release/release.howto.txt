@@ -131,16 +131,12 @@ Create and transfer the artefacts to the Nexus server (a.k.a. "deploy").
 
 Because the artefacts must be cryptographically signed, this step requires that
 a profile named "release" exists in the maven "settings.xml" configuration file
-which will contain the idientifier of your GPG key (cf. sample "settings.xml" 
+which will contain the identifier of your GPG key (cf. sample "settings.xml" 
 file).
 
-You can then run the commands
+You can then run
 
-  $ mvn clean
-
-and
-
-  $ mvn deploy -Prelease
+  $ mvn -DskipTests=true clean deploy -Prelease
 
 which will transfer the artefacts to the Nexus repository located at
   https://repository.apache.org/index.html#stagingRepositories
