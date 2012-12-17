@@ -1,0 +1,45 @@
+<settings>
+
+  <servers>
+    <!-- To publish a snapshot -->
+    <server>
+      <id>apache.snapshots.https</id>
+      <username>__Your_apache_login__</username>
+      <password>{0Lbb__Your_encrypted_password__O4sQ=}</password>
+    </server>
+
+    <!-- To publish a release -->
+    <server>
+      <id>apache.releases.https</id>
+      <username>__Your_apache_login__</username>
+      <password>{0Lbb__Your_encrypted_password__O4sQ=}</password>
+    </server>
+
+    <!-- To stage the web site -->
+    <server>
+      <id>stagingSite</id>
+      <username>__Your_apache_login__</username>
+      <!-- This will use the default ssh key pair, whose public part must be
+           copied to the ~/.ssh/authorized_keys file on the server. -->
+    </server>
+
+    <!-- To publish the web site -->
+    <server>
+      <id>people.apache.org</id>
+      <username>__Your_apache_login__</username>
+      <!-- This will use the default ssh key pair, whose public part must be
+           copied to the ~/.ssh/authorized_keys file on the server. -->
+    </server>
+
+  </servers>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <properties>
+        <gpg.keyname>__Your_key_identifier__</gpg.keyname>
+      </properties>
+    </profile>
+  </profiles>
+
+</settings>
