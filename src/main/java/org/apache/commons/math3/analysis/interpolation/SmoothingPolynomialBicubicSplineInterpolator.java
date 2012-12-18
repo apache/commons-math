@@ -18,10 +18,13 @@ package org.apache.commons.math3.analysis.interpolation;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
-import org.apache.commons.math3.optimization.fitting.PolynomialFitter;
+import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
+import org.apache.commons.math3.fitting.PolynomialFitter;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 
 /**
  * Generates a bicubic interpolation function.
@@ -35,8 +38,12 @@ public class SmoothingPolynomialBicubicSplineInterpolator
     extends BicubicSplineInterpolator {
     /** Fitter for x. */
     private final PolynomialFitter xFitter;
+    /** Degree of the fitting polynomial. */
+    private final int xDegree;
     /** Fitter for y. */
     private final PolynomialFitter yFitter;
+    /** Degree of the fitting polynomial. */
+    private final int yDegree;
 
     /**
      * Default constructor. The degree of the fitting polynomials is set to 3.
@@ -60,8 +67,21 @@ public class SmoothingPolynomialBicubicSplineInterpolator
      */
     public SmoothingPolynomialBicubicSplineInterpolator(int xDegree,
                                                         int yDegree) {
-        xFitter = new PolynomialFitter(xDegree, new GaussNewtonOptimizer(false));
-        yFitter = new PolynomialFitter(yDegree, new GaussNewtonOptimizer(false));
+        if (xDegree < 0) {
+            throw new NotPositiveException(xDegree);
+        }
+        if (yDegree < 0) {
+            throw new NotPositiveException(yDegree);
+        }
+        this.xDegree = xDegree;
+        this.yDegree = yDegree;
+
+        final double safeFactor = 1e2;
+        final SimpleVectorValueChecker checker
+            = new SimpleVectorValueChecker(safeFactor * Precision.EPSILON,
+                                           safeFactor * Precision.SAFE_MIN);
+        xFitter = new PolynomialFitter(new GaussNewtonOptimizer(false, checker));
+        yFitter = new PolynomialFitter(new GaussNewtonOptimizer(false, checker));
     }
 
     /**
@@ -101,7 +121,9 @@ public class SmoothingPolynomialBicubicSplineInterpolator
                 xFitter.addObservedPoint(1, xval[i], fval[i][j]);
             }
 
-            yPolyX[j] = new PolynomialFunction(xFitter.fit());
+            // Initial guess for the fit is zero for each coefficients (of which
+            // there are "xDegree" + 1).
+            yPolyX[j] = new PolynomialFunction(xFitter.fit(new double[xDegree + 1]));
         }
 
         // For every knot (xval[i], yval[j]) of the grid, calculate corrected
@@ -123,7 +145,9 @@ public class SmoothingPolynomialBicubicSplineInterpolator
                 yFitter.addObservedPoint(1, yval[j], fval_1[i][j]);
             }
 
-            xPolyY[i] = new PolynomialFunction(yFitter.fit());
+            // Initial guess for the fit is zero for each coefficients (of which
+            // there are "yDegree" + 1).
+            xPolyY[i] = new PolynomialFunction(yFitter.fit(new double[yDegree + 1]));
         }
 
         // For every knot (xval[i], yval[j]) of the grid, calculate corrected
