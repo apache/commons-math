@@ -183,6 +183,8 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 converged = checker.converged(iter, previous, current);
                 if (converged) {
                     cost = computeCost(currentResiduals);
+                    // Update (deprecated) "point" field.
+                    point = current.getPoint();
                     return current;
                 }
             }
