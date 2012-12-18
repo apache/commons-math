@@ -24,7 +24,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
-  <version>3.1-SNAPSHOT</version>
+  <version>3.1</version>
   <name>Commons Math</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -293,9 +293,9 @@
   <properties>
     <commons.componentid>math3</commons.componentid>
     <!-- do not use snapshot suffix here -->
-    <commons.release.version>3.0</commons.release.version>
-    <commons.release.desc>(requires Java 1.5+; not compatible with 2.2)</commons.release.desc>
-    <!-- <commons.rc.version>RC1</commons.rc.version> -->
+    <commons.release.version>3.1</commons.release.version>
+    <commons.release.desc>(requires Java 1.5+)</commons.release.desc>
+    <commons.rc.version>RC4</commons.rc.version>
     <commons.binary.suffix>-bin</commons.binary.suffix>
  
     <commons.release.2.version>2.2</commons.release.2.version>
