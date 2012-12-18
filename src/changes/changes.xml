@@ -50,7 +50,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="3.1" date="2012-12-21" description="
+    <release version="3.1" date="2012-12-22" description="
 This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.0 JAR file.
