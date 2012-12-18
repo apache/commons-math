@@ -374,6 +374,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
             if (maxCosine <= orthoTolerance) {
                 // Convergence has been reached.
                 setCost(currentCost);
+                // Update (deprecated) "point" field.
+                point = current.getPoint();
                 return current;
             }
 
@@ -482,6 +484,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                         // we use the vectorial convergence checker
                         if (checker.converged(iter, previous, current)) {
                             setCost(currentCost);
+                            // Update (deprecated) "point" field.
+                            point = current.getPoint();
                             return current;
                         }
                     }
@@ -508,6 +512,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                      ratio <= 2.0) ||
                     delta <= parRelativeTolerance * xNorm) {
                     setCost(currentCost);
+                    // Update (deprecated) "point" field.
+                    point = current.getPoint();
                     return current;
                 }
 
