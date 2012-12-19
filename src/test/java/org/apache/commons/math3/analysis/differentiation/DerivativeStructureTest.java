@@ -225,23 +225,36 @@ public class DerivativeStructureTest {
                                                     -2, dsZ,
                                                     1, new DerivativeStructure(8, dsZ.multiply(dsX),
                                                                                -1, dsY).pow(3));
+                    DerivativeStructure dsOther =
+                            new DerivativeStructure(1, dsX,
+                                                    5, dsX.multiply(dsY),
+                                                    -2, dsZ).add(new DerivativeStructure(8, dsZ.multiply(dsX),
+                                                                                         -1, dsY).pow(3));
                     double f = x + 5 * x * y - 2 * z + FastMath.pow(8 * z * x - y, 3);
                     Assert.assertEquals(f, ds.getValue(),
+                                        FastMath.abs(epsilon * f));
+                    Assert.assertEquals(f, dsOther.getValue(),
                                         FastMath.abs(epsilon * f));
 
                     // df/dx = 1 + 5 y + 24 (8 z x - y)^2 z
                     double dfdx = 1 + 5 * y + 24 * z * FastMath.pow(8 * z * x - y, 2);
                     Assert.assertEquals(dfdx, ds.getPartialDerivative(1, 0, 0),
                                         FastMath.abs(epsilon * dfdx));
+                    Assert.assertEquals(dfdx, dsOther.getPartialDerivative(1, 0, 0),
+                                        FastMath.abs(epsilon * dfdx));
 
                     // df/dxdy = 5 + 48 z*(y - 8 z x)
                     double dfdxdy = 5 + 48 * z * (y - 8 * z * x);
                     Assert.assertEquals(dfdxdy, ds.getPartialDerivative(1, 1, 0),
                                         FastMath.abs(epsilon * dfdxdy));
+                    Assert.assertEquals(dfdxdy, dsOther.getPartialDerivative(1, 1, 0),
+                                        FastMath.abs(epsilon * dfdxdy));
 
                     // df/dxdydz = 48 (y - 16 z x)
                     double dfdxdydz = 48 * (y - 16 * z * x);
                     Assert.assertEquals(dfdxdydz, ds.getPartialDerivative(1, 1, 1),
+                                        FastMath.abs(epsilon * dfdxdydz));
+                    Assert.assertEquals(dfdxdydz, dsOther.getPartialDerivative(1, 1, 1),
                                         FastMath.abs(epsilon * dfdxdydz));
 
                 }
@@ -504,6 +517,51 @@ public class DerivativeStructureTest {
         DerivativeStructure sqrt  = dsX.multiply(dsX).add(dsY.multiply(dsY)).sqrt();
         Assert.assertTrue(Double.isInfinite(sqrt.getValue()));
 
+    }
+
+    @Test
+    public void testPrimitiveRemainder() {
+        double epsilon = 1.0e-15;
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = -1.7; x < 2; x += 0.2) {
+                DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
+                for (double y = -1.7; y < 2; y += 0.2) {
+                    DerivativeStructure remainder = dsX.remainder(y);
+                    DerivativeStructure ref = dsX.subtract(x - (x % y));
+                    DerivativeStructure zero = remainder.subtract(ref);
+                    for (int n = 0; n <= maxOrder; ++n) {
+                        for (int m = 0; m <= maxOrder; ++m) {
+                            if (n + m <= maxOrder) {
+                                Assert.assertEquals(0, zero.getPartialDerivative(n, m), epsilon);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testRemainder() {
+        double epsilon = 1.0e-15;
+        for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
+            for (double x = -1.7; x < 2; x += 0.2) {
+                DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
+                for (double y = -1.7; y < 2; y += 0.2) {
+                    DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
+                    DerivativeStructure remainder = dsX.remainder(dsY);
+                    DerivativeStructure ref = dsX.subtract(dsY.multiply((x - (x % y)) / y));
+                    DerivativeStructure zero = remainder.subtract(ref);
+                    for (int n = 0; n <= maxOrder; ++n) {
+                        for (int m = 0; m <= maxOrder; ++m) {
+                            if (n + m <= maxOrder) {
+                                Assert.assertEquals(0, zero.getPartialDerivative(n, m), epsilon);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Test

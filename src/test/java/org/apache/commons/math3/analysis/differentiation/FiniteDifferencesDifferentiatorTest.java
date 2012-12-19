@@ -108,6 +108,7 @@ public class FiniteDifferencesDifferentiatorTest {
             DerivativeStructure dsX  = new DerivativeStructure(1, maxError.length - 1, 0, x);
             DerivativeStructure yRef = gaussian.value(dsX);
             DerivativeStructure y    = f.value(dsX);
+            Assert.assertEquals(f.value(dsX.getValue()), f.value(dsX).getValue(), 1.0e-15);
             for (int order = 0; order <= yRef.getOrder(); ++order) {
                 maxError[order] = FastMath.max(maxError[order],
                                         FastMath.abs(yRef.getPartialDerivative(order) -
@@ -297,9 +298,16 @@ public class FiniteDifferencesDifferentiatorTest {
         });
 
         for (double x = -10; x < 10; x += 0.1) {
-            DerivativeStructure[] y = f.value(new DerivativeStructure(1, 2, 0, x));
+            DerivativeStructure dsX = new DerivativeStructure(1, 2, 0, x);
+            DerivativeStructure[] y = f.value(dsX);
             double cos = FastMath.cos(x);
             double sin = FastMath.sin(x);
+            double[] f1 = f.value(dsX.getValue());
+            DerivativeStructure[] f2 = f.value(dsX);
+            Assert.assertEquals(f1.length, f2.length);
+            for (int i = 0; i < f1.length; ++i) {
+                Assert.assertEquals(f1[i], f2[i].getValue(), 1.0e-15);
+            }
             Assert.assertEquals( cos, y[0].getValue(), 7.0e-16);
             Assert.assertEquals( sin, y[1].getValue(), 7.0e-16);
             Assert.assertEquals(-sin, y[0].getPartialDerivative(1), 6.0e-14);
@@ -328,11 +336,21 @@ public class FiniteDifferencesDifferentiatorTest {
         });
 
         for (double x = -1; x < 1; x += 0.02) {
-            DerivativeStructure[][] y = f.value(new DerivativeStructure(1, 2, 0, x));
+            DerivativeStructure dsX = new DerivativeStructure(1, 2, 0, x);
+            DerivativeStructure[][] y = f.value(dsX);
             double cos = FastMath.cos(x);
             double sin = FastMath.sin(x);
             double cosh = FastMath.cosh(x);
             double sinh = FastMath.sinh(x);
+            double[][] f1 = f.value(dsX.getValue());
+            DerivativeStructure[][] f2 = f.value(dsX);
+            Assert.assertEquals(f1.length, f2.length);
+            for (int i = 0; i < f1.length; ++i) {
+                Assert.assertEquals(f1[i].length, f2[i].length);
+                for (int j = 0; j < f1[i].length; ++j) {
+                    Assert.assertEquals(f1[i][j], f2[i][j].getValue(), 1.0e-15);
+                }
+            }
             Assert.assertEquals(cos,   y[0][0].getValue(), 7.0e-18);
             Assert.assertEquals(sin,   y[0][1].getValue(), 6.0e-17);
             Assert.assertEquals(cosh,  y[1][0].getValue(), 3.0e-16);

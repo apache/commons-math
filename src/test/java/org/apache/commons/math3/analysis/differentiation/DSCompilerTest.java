@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -126,6 +127,16 @@ public class DSCompilerTest {
         checkIndices(c.getPartialDerivativeOrders(3), 0, 0, 1, 0);
         checkIndices(c.getPartialDerivativeOrders(4), 0, 0, 0, 1);
 
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testIncompatbileParams() {
+        DSCompiler.getCompiler(3, 2).checkCompatibility(DSCompiler.getCompiler(4, 2));
+    }
+
+    @Test(expected=DimensionMismatchException.class)
+    public void testIncompatbileOrder() {
+        DSCompiler.getCompiler(3, 3).checkCompatibility(DSCompiler.getCompiler(3, 2));
     }
 
     @Test
