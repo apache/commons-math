@@ -130,12 +130,12 @@ public class DSCompilerTest {
     }
 
     @Test(expected=DimensionMismatchException.class)
-    public void testIncompatbileParams() {
+    public void testIncompatibleParams() {
         DSCompiler.getCompiler(3, 2).checkCompatibility(DSCompiler.getCompiler(4, 2));
     }
 
     @Test(expected=DimensionMismatchException.class)
-    public void testIncompatbileOrder() {
+    public void testIncompatibleOrder() {
         DSCompiler.getCompiler(3, 3).checkCompatibility(DSCompiler.getCompiler(3, 2));
     }
 
