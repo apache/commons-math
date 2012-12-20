@@ -5,6 +5,15 @@ The files "settings-security.xml" and "settings.xml" are minimal examples
 of files used by maven to pick up authentication credentials needed to
 connect to remote servers and to cryptographically sign the artefacts.
 
+(0)
+Preliminary checks:
+ * All Java files must contain a license header. The "RAT" maven plugin will
+   generate a report indicating for which files the license is missing.
+ * For a "minor" release, the library must be backward-compatible. Check all
+   the errors reported by the "Clirr" plugin.
+ * Clear all "CheckStyle" warnings.
+ * Make sure that the construct reported by "FindBugs" are intentional.
+
 
 (1)
 As a first optional step, you can test that everything works locally, i.e.
