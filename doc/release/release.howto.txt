@@ -67,8 +67,8 @@ to the SVN repository. Once the release process is over, you can do a
 
 
 (3)
-The "download" page template is located at "src/site/xdoc/download_math.xml"
-Update it by running the command:
+The "download" page template is located at "src/site/xdoc/download_math.xml".
+This file is updated automatically by running the command:
 
   $ mvn commons:download-page
 
@@ -279,11 +279,20 @@ Release (a.k.a. "promote") the artefacts on the Nexus server, as shown here:
 (14)
 Publish the web site. From your local working copy of the tag, run the command:
 
-  $ mvn site site:deploy
+  $ mvn site:deploy
 
 
 (15)
-Send (from your apache account) the release announcement to the following ML:
+Copy the the final RC tag to the official tag:
+  $ svn copy \
+    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC5 \
+    -m"RC5 becomes the 3.1 official version." \
+    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1
+
+
+(16)
+Allow for the web site mirrors to be updated (possibly several hours); then
+send (from your apache account) a release announcement to the following ML:
   announce@apache.org
   dev@commons.apache.org
   user@commons.apache.org
