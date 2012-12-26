@@ -37,7 +37,7 @@ import org.junit.runner.RunWith;
 @RunWith(RetryRunner.class)
 public final class ValueServerTest {
 
-    private ValueServer vs = new ValueServer();
+    private ValueServer vs = new ValueServer(new Well19937c(100));
 
     @Before
     public void setUp() {
