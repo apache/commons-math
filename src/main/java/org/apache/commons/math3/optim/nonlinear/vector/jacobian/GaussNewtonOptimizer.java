@@ -17,8 +17,8 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.BlockRealMatrix;
@@ -83,12 +83,7 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
         final double[] targetValues = getTarget();
         final int nR = targetValues.length; // Number of observed data.
 
-        final RealMatrix weightMatrix = getWeight();
-        // Diagonal of the weight matrix.
-        final double[] residualsWeights = new double[nR];
-        for (int i = 0; i < nR; i++) {
-            residualsWeights[i] = weightMatrix.getEntry(i, i);
-        }
+        final double[] residualsWeights = getNonCorrelatedWeight();
 
         final double[] currentPoint = getStartPoint();
         final int nC = currentPoint.length;

@@ -18,15 +18,14 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
+
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
+import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
 import org.junit.Test;
 
 /**
@@ -133,7 +132,7 @@ public class GaussNewtonOptimizerTest
                            circle.getModelFunction(),
                            circle.getModelFunctionJacobian(),
                            new Target(new double[] { 0, 0, 0, 0, 0 }),
-                           new Weight(new double[] { 1, 1, 1, 1, 1 }),
+                           new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1 }),
                            new InitialGuess(new double[] { 98.680, 47.345 }));
     }
 

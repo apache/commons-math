@@ -28,22 +28,20 @@ import org.apache.commons.math3.linear.NonSquareMatrixException;
  *
  * @version $Id: Weight.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 3.1
+ * @deprecated as of 3.1.1, replaced by {@link NonCorrelatedWeight}
  */
+@Deprecated
 public class Weight implements OptimizationData {
     /** Weight matrix. */
     private final RealMatrix weightMatrix;
 
     /**
-     * Creates a diagonal weight matrix.
+     * Creates a weight matrix.
      *
-     * @param weight List of the values of the diagonal.
+     * @param weight matrix elements.
      */
-    public Weight(double[] weight) {
-        final int dim = weight.length;
-        weightMatrix = MatrixUtils.createRealMatrix(dim, dim);
-        for (int i = 0; i < dim; i++) {
-            weightMatrix.setEntry(i, i, weight[i]);
-        }
+    public Weight(double[][] weight) {
+        weightMatrix = MatrixUtils.createRealMatrix(weight);
     }
 
     /**
@@ -61,9 +59,9 @@ public class Weight implements OptimizationData {
     }
 
     /**
-     * Gets the initial guess.
+     * Gets the weight.
      *
-     * @return the initial guess.
+     * @return a fresh copy of the weight.
      */
     public RealMatrix getWeight() {
         return weightMatrix.copy();

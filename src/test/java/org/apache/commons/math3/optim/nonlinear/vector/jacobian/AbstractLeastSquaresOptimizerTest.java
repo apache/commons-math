@@ -15,14 +15,15 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
 import java.util.Arrays;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
+import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
 import org.apache.commons.math3.util.FastMath;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class AbstractLeastSquaresOptimizerTest {
 
@@ -56,7 +57,7 @@ public class AbstractLeastSquaresOptimizerTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            new Target(y),
-                           new Weight(w),
+                           new NonCorrelatedWeight(w),
                            new InitialGuess(a));
         final double expected = dataset.getResidualSumOfSquares();
         final double actual = optimizer.getChiSquare();
@@ -81,7 +82,7 @@ public class AbstractLeastSquaresOptimizerTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            new Target(y),
-                           new Weight(w),
+                           new NonCorrelatedWeight(w),
                            new InitialGuess(a));
 
         final double expected = FastMath
@@ -110,7 +111,7 @@ public class AbstractLeastSquaresOptimizerTest {
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  new Target(y),
-                                 new Weight(w),
+                                 new NonCorrelatedWeight(w),
                                  new InitialGuess(a));
 
         final double[] sig = optimizer.computeSigma(optimum.getPoint(), 1e-14);

@@ -19,16 +19,18 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer;
+import org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer;
+import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -40,8 +42,13 @@ import org.apache.commons.math3.util.FastMath;
  */
 public abstract class AbstractLeastSquaresOptimizer
     extends JacobianMultivariateVectorOptimizer {
-    /** Square-root of the weight matrix. */
+    /** Square-root of the weight matrix.
+     * @deprecated as of 3.1.1, replaced by {@link #weight}
+     */
+    @Deprecated
     private RealMatrix weightMatrixSqrt;
+    /** Square-root of the weight vector. */
+    private double[] weightSquareRoot;
     /** Cost value (square root of the sum of the residuals). */
     private double cost;
 
@@ -61,7 +68,23 @@ public abstract class AbstractLeastSquaresOptimizer
      * match problem dimension.
      */
     protected RealMatrix computeWeightedJacobian(double[] params) {
-        return weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(computeJacobian(params)));
+
+        final double[][] jacobian = computeJacobian(params);
+
+        if (weightSquareRoot != null) {
+            for (int i = 0; i < jacobian.length; ++i) {
+                final double wi = weightSquareRoot[i];
+                final double[] row = jacobian[i];
+                for (int j = 0; j < row.length; ++j) {
+                    row[j] *= wi;
+                }
+            }
+            return MatrixUtils.createRealMatrix(jacobian);
+        } else {
+            // TODO: remove for 4.0, when the {@link Weight} class will be removed
+            return weightMatrixSqrt.multiply(MatrixUtils.createRealMatrix(jacobian));
+        }
+
     }
 
     /**
@@ -73,7 +96,13 @@ public abstract class AbstractLeastSquaresOptimizer
      */
     protected double computeCost(double[] residuals) {
         final ArrayRealVector r = new ArrayRealVector(residuals);
-        return FastMath.sqrt(r.dotProduct(getWeight().operate(r)));
+        final double[] weight = getNonCorrelatedWeight();
+        double sum = 0;
+        for (int i = 0; i < r.getDimension(); ++i) {
+            final double ri = r.getEntry(i);
+            sum += ri * weight[i] * ri;
+        }
+        return FastMath.sqrt(sum);
     }
 
     /**
@@ -105,7 +134,9 @@ public abstract class AbstractLeastSquaresOptimizer
      * Gets the square-root of the weight matrix.
      *
      * @return the square-root of the weight matrix.
+     * @deprecated as of 3.1.1, replaced with {@link MultivariateVectorOptimizer#getNonCorrelatedWeight()}
      */
+    @Deprecated
     public RealMatrix getWeightSquareRoot() {
         return weightMatrixSqrt.copy();
     }
@@ -183,7 +214,7 @@ public abstract class AbstractLeastSquaresOptimizer
      *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
      *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
      *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.Target}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.Weight}</li>
+     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight}</li>
      *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.ModelFunction}</li>
      *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian}</li>
      * </ul>
@@ -235,8 +266,7 @@ public abstract class AbstractLeastSquaresOptimizer
     /**
      * Scans the list of (required and optional) optimization data that
      * characterize the problem.
-     * If the weight matrix is specified, the {@link #weightMatrixSqrt}
-     * field is recomputed.
+     * If the weight is specified, the {@link #weightSquareRoot} field is recomputed.
      *
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
@@ -248,22 +278,19 @@ public abstract class AbstractLeastSquaresOptimizer
         // not provided in the argument list.
         for (OptimizationData data : optData) {
             if (data instanceof Weight) {
-                weightMatrixSqrt = squareRoot(((Weight) data).getWeight());
-                // If more data must be parsed, this statement _must_ be
-                // changed to "continue".
-                break;
+                // TODO: remove for 4.0, when the {@link Weight} class will be removed
+                weightSquareRoot = null;
+                final RealMatrix w = ((Weight) data).getWeight();
+                final EigenDecomposition dec = new EigenDecomposition(w);
+                weightMatrixSqrt = dec.getSquareRoot();
+            } else if (data instanceof NonCorrelatedWeight) {
+                weightSquareRoot = ((NonCorrelatedWeight) data).getWeight();
+                for (int i = 0; i < weightSquareRoot.length; ++i) {
+                    weightSquareRoot[i] = FastMath.sqrt(weightSquareRoot[i]);
+                }
+                weightMatrixSqrt = null;
             }
         }
     }
 
-    /**
-     * Computes the square-root of the weight matrix.
-     *
-     * @param m Symmetric, positive-definite (weight) matrix.
-     * @return the square-root of the weight matrix.
-     */
-    private RealMatrix squareRoot(RealMatrix m) {
-        final EigenDecomposition dec = new EigenDecomposition(m);
-        return dec.getSquareRoot();
-    }
 }

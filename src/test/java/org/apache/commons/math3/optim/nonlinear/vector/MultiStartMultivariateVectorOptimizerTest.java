@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math3.optim.nonlinear.vector;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.InitialGuess;
+import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
@@ -130,7 +129,7 @@ public class MultiStartMultivariateVectorOptimizerTest {
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  problem.getTarget(),
-                                 new Weight(new double[] { 1 }),
+                                 new NonCorrelatedWeight(new double[] { 1 }),
                                  new InitialGuess(new double[] { 0 }));
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1e-10);
         Assert.assertEquals(3.0, optimum.getValue()[0], 1e-10);
@@ -161,7 +160,7 @@ public class MultiStartMultivariateVectorOptimizerTest {
             = new MultiStartMultivariateVectorOptimizer(underlyingOptimizer, 10, generator);
         optimizer.optimize(new MaxEval(100),
                            new Target(new double[] { 0 }),
-                           new Weight(new double[] { 1 }),
+                           new NonCorrelatedWeight(new double[] { 1 }),
                            new InitialGuess(new double[] { 0 }),
                            new ModelFunction(new MultivariateVectorFunction() {
                                    public double[] value(double[] point) {

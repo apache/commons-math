@@ -17,13 +17,14 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.Arrays;
+
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 
 /**
@@ -300,7 +301,7 @@ public class LevenbergMarquardtOptimizer
         double[] work2   = new double[nC];
         double[] work3   = new double[nC];
 
-        final RealMatrix weightMatrixSqrt = getWeightSquareRoot();
+        final double[] weight = getNonCorrelatedWeight();
 
         // Evaluate the function at the starting point and calculate its norm.
         double[] currentObjective = computeObjectiveValue(currentPoint);
@@ -320,7 +321,10 @@ public class LevenbergMarquardtOptimizer
             // QR decomposition of the jacobian matrix
             qrDecomposition(computeWeightedJacobian(currentPoint));
 
-            weightedResidual = weightMatrixSqrt.operate(currentResiduals);
+            weightedResidual = new double[currentResiduals.length];
+            for (int i = 0; i < weightedResidual.length; ++i) {
+                weightedResidual[i] = FastMath.sqrt(weight[i]) * currentResiduals[i];
+            }
             for (int i = 0; i < nR; i++) {
                 qtf[i] = weightedResidual[i];
             }

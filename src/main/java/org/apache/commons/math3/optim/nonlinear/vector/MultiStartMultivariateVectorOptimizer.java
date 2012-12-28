@@ -16,18 +16,18 @@
  */
 package org.apache.commons.math3.optim.nonlinear.vector;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.random.RandomVectorGenerator;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer;
 import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.random.RandomVectorGenerator;
 
 /**
  * Multi-start optimizer for a (vector) model function.
@@ -98,7 +98,7 @@ public class MultiStartMultivariateVectorOptimizer
     private Comparator<PointVectorValuePair> getPairComparator() {
         return new Comparator<PointVectorValuePair>() {
             private final RealVector target = new ArrayRealVector(optimizer.getTarget(), false);
-            private final RealMatrix weight = optimizer.getWeight();
+            private final double[] weight   = optimizer.getNonCorrelatedWeight();
 
             public int compare(final PointVectorValuePair o1,
                                final PointVectorValuePair o2) {
@@ -114,7 +114,12 @@ public class MultiStartMultivariateVectorOptimizer
             private double weightedResidual(final PointVectorValuePair pv) {
                 final RealVector v = new ArrayRealVector(pv.getValueRef(), false);
                 final RealVector r = target.subtract(v);
-                return r.dotProduct(weight.operate(r));
+                double sum = 0;
+                for (int i = 0; i < r.getDimension(); ++i) {
+                    final double ri = r.getEntry(i);
+                    sum += ri * weight[i] * ri;
+                }
+                return sum;
             }
         };
     }
