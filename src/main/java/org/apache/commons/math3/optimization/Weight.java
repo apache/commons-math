@@ -18,7 +18,7 @@
 package org.apache.commons.math3.optimization;
 
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.NonSquareMatrixException;
 
 /**
@@ -41,11 +41,7 @@ public class Weight implements OptimizationData {
      * @param weight List of the values of the diagonal.
      */
     public Weight(double[] weight) {
-        final int dim = weight.length;
-        weightMatrix = new Array2DRowRealMatrix(dim, dim);
-        for (int i = 0; i < dim; i++) {
-            weightMatrix.setEntry(i, i, weight[i]);
-        }
+        weightMatrix = new DiagonalMatrix(weight);
     }
 
     /**
