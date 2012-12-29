@@ -17,15 +17,14 @@
 
 package org.apache.commons.math3.optim.nonlinear.vector;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.BaseMultivariateOptimizer;
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
+import org.apache.commons.math3.linear.RealMatrix;
 
 /**
  * Base class for a multivariate vector function optimizer.
@@ -37,13 +36,8 @@ public abstract class MultivariateVectorOptimizer
     extends BaseMultivariateOptimizer<PointVectorValuePair> {
     /** Target values for the model function at optimum. */
     private double[] target;
-    /** Weight matrix.
-     * @deprecated as of 3.1.1, replaced by weight
-     */
-    @Deprecated
+    /** Weight matrix. */
     private RealMatrix weightMatrix;
-    /** Weight vector. */
-    private double[] weight;
     /** Model function. */
     private MultivariateVectorFunction model;
 
@@ -71,25 +65,14 @@ public abstract class MultivariateVectorOptimizer
 
     /**
      * {@inheritDoc}
-     * <p>
-     * Note that for version 3.1 of Apache Commons Math, a general <code>Weight</code>
-     * data was looked for, which could hold arbitrary square matrices and not only
-     * vector as the current {@link NonCorrelatedWeight} does. This was flawed as some
-     * optimizers like {@link GaussNewtonOptimizer} only considered the diagonal elements.
-     * This feature was deprecated. If users need non-diagonal weights to handle correlated
-     * observations, they will have to implement it by themselves using pre-multiplication
-     * by a matrix in both their function implementation and observation vectors. There is
-     * no direct support for this anymore in the Apache Commons Math library. The only
-     * feature that is supported here is a convenience feature for non-correlated observations,
-     * with vector only weights (i.e. weight[i] is the weight for observation i).
-     * </p>
+     *
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
      *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
      *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
      *  <li>{@link Target}</li>
-     *  <li>{@link NonCorrelatedWeight}</li>
+     *  <li>{@link Weight}</li>
      *  <li>{@link ModelFunction}</li>
      * </ul>
      * @return {@inheritDoc}
@@ -113,21 +96,9 @@ public abstract class MultivariateVectorOptimizer
      * Gets the weight matrix of the observations.
      *
      * @return the weight matrix.
-     * @deprecated as of 3.1.1, replaced by {@link #getNonCorrelatedWeight()}
      */
-    @Deprecated
     public RealMatrix getWeight() {
         return weightMatrix.copy();
-    }
-
-    /**
-     * Gets the weights of the observations.
-     *
-     * @return the weights.
-     * @since 3.1.1
-     */
-    public double[] getNonCorrelatedWeight() {
-        return weight.clone();
     }
     /**
      * Gets the observed values to be matched by the objective vector
@@ -155,7 +126,7 @@ public abstract class MultivariateVectorOptimizer
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
      *  <li>{@link Target}</li>
-     *  <li>{@link NonCorrelatedWeight}</li>
+     *  <li>{@link Weight}</li>
      *  <li>{@link ModelFunction}</li>
      * </ul>
      */
@@ -171,18 +142,8 @@ public abstract class MultivariateVectorOptimizer
                 target = ((Target) data).getTarget();
                 continue;
             }
-            if (data instanceof NonCorrelatedWeight) {
-                weight = ((NonCorrelatedWeight) data).getWeight();
-                continue;
-            }
-            // TODO: remove this for 4.0, when the Weight class will be removed
             if (data instanceof Weight) {
                 weightMatrix = ((Weight) data).getWeight();
-                weight = new double[weightMatrix.getColumnDimension()];
-                for (int i = 0; i < weight.length; ++i) {
-                    // extract the diagonal of the matrix
-                    weight[i] = weightMatrix.getEntry(i, i);
-                }
                 continue;
             }
         }
@@ -192,11 +153,12 @@ public abstract class MultivariateVectorOptimizer
      * Check parameters consistency.
      *
      * @throws DimensionMismatchException if {@link #target} and
-     * {@link #weight} have inconsistent dimensions.
+     * {@link #weightMatrix} have inconsistent dimensions.
      */
     private void checkParameters() {
-        if (target.length != weight.length) {
-            throw new DimensionMismatchException(target.length, weight.length);
+        if (target.length != weightMatrix.getColumnDimension()) {
+            throw new DimensionMismatchException(target.length,
+                                                 weightMatrix.getColumnDimension());
         }
     }
 }

@@ -17,26 +17,28 @@
 
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.optim.InitialGuess;
+import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.nonlinear.vector.Target;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
+import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
+import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.SingularMatrixException;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
-import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -126,7 +128,7 @@ public class LevenbergMarquardtOptimizerTest
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  problem.getTarget(),
-                                 new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                                 new Weight(new double[] { 1, 1, 1 }),
                                  new InitialGuess(new double[] { 0, 0, 0 }));
         Assert.assertTrue(FastMath.sqrt(optimizer.getTargetSize()) * optimizer.getRMS() > 0.6);
 
@@ -172,7 +174,7 @@ public class LevenbergMarquardtOptimizerTest
                                problem,
                                problemJacobian,
                                new Target(new double[] { 0, 0, 0, 0, 0 }),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 98.680, 47.345 }));
             Assert.assertTrue(!shouldFail);
         } catch (DimensionMismatchException ee) {
@@ -227,7 +229,7 @@ public class LevenbergMarquardtOptimizerTest
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  new Target(dataPoints[1]),
-                                 new NonCorrelatedWeight(weights),
+                                 new Weight(weights),
                                  new InitialGuess(new double[] { 10, 900, 80, 27, 225 }));
 
         final double[] solution = optimum.getPoint();
@@ -291,7 +293,7 @@ public class LevenbergMarquardtOptimizerTest
                                                                 circle.getModelFunction(),
                                                                 circle.getModelFunctionJacobian(),
                                                                 new Target(circle.target()),
-                                                                new NonCorrelatedWeight(circle.weight()),
+                                                                new Weight(circle.weight()),
                                                                 new InitialGuess(init));
 
         final double[] paramFound = optimum.getPoint();

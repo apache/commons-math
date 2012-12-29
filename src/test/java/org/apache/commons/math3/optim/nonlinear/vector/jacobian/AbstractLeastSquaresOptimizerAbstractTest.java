@@ -17,22 +17,23 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
-
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.optim.nonlinear.vector.Target;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
-import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -114,7 +115,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1 }),
+                               new Weight(new double[] { 1 }),
                                new InitialGuess(new double[] { 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1e-10);
@@ -134,7 +135,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(7, optimum.getPoint()[0], 1e-10);
@@ -160,7 +161,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         for (int i = 0; i < problem.target.length; ++i) {
@@ -182,7 +183,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(1, optimum.getPoint()[0], 1e-10);
@@ -208,7 +209,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 0, 0, 0, 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(3, optimum.getPoint()[0], 1e-10);
@@ -234,7 +235,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            problem.getTarget(),
-                           new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                           new Weight(new double[] { 1, 1, 1 }),
                            new InitialGuess(new double[] { 0, 0, 0 }));
     }
 
@@ -252,7 +253,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem1.getModelFunction(),
                                problem1.getModelFunctionJacobian(),
                                problem1.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 1, 2, 3 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(1, optimum1.getPoint()[0], 1e-10);
@@ -271,7 +272,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem2.getModelFunction(),
                                problem2.getModelFunctionJacobian(),
                                problem2.getTarget(), 
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 0, 1, 2, 3 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(-81, optimum2.getPoint()[0], 1e-8);
@@ -294,7 +295,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            problem.getTarget(),
-                           new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                           new Weight(new double[] { 1, 1, 1 }),
                            new InitialGuess(new double[] { 7, 6, 5, 4 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
     }
@@ -315,7 +316,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1, 1, 1 }),
                                new InitialGuess(new double[] { 2, 2, 2, 2, 2, 2 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(3, optimum.getPointRef()[2], 1e-10);
@@ -338,7 +339,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                               new Weight(new double[] { 1, 1, 1 }),
                                new InitialGuess(new double[] { 1, 1 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(2, optimum.getPointRef()[0], 1e-10);
@@ -358,7 +359,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            problem.getTarget(),
-                           new NonCorrelatedWeight(new double[] { 1, 1, 1 }),
+                           new Weight(new double[] { 1, 1, 1 }),
                            new InitialGuess(new double[] { 1, 1 }));
         Assert.assertTrue(optimizer.getRMS() > 0.1);
     }
@@ -374,7 +375,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                problem.getModelFunction(),
                                problem.getModelFunctionJacobian(),
                                problem.getTarget(),
-                               new NonCorrelatedWeight(new double[] { 1, 1 }),
+                               new Weight(new double[] { 1, 1 }),
                                new InitialGuess(new double[] { 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(-1, optimum.getPoint()[0], 1e-10);
@@ -384,7 +385,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            problem.getTarget(),
-                           new NonCorrelatedWeight(new double[] { 1 }),
+                           new Weight(new double[] { 1 }),
                            new InitialGuess(new double[] { 0, 0 }));
     }
 
@@ -399,7 +400,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  problem.getTarget(),
-                                 new NonCorrelatedWeight(new double[] { 1, 1 }),
+                                 new Weight(new double[] { 1, 1 }),
                                  new InitialGuess(new double[] { 0, 0 }));
         Assert.assertEquals(0, optimizer.getRMS(), 1e-10);
         Assert.assertEquals(-1, optimum.getPoint()[0], 1e-10);
@@ -409,7 +410,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                            problem.getModelFunction(),
                            problem.getModelFunctionJacobian(),
                            new Target(new double[] { 1 }),
-                           new NonCorrelatedWeight(new double[] { 1 }),
+                           new Weight(new double[] { 1 }),
                            new InitialGuess(new double[] { 0, 0 }));
     }
 
@@ -427,7 +428,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                  circle.getModelFunction(),
                                  circle.getModelFunctionJacobian(),
                                  new Target(new double[] { 0, 0, 0, 0, 0 }),
-                                 new NonCorrelatedWeight(new double[] { 1, 1, 1, 1, 1 }),
+                                 new Weight(new double[] { 1, 1, 1, 1, 1 }),
                                  new InitialGuess(new double[] { 98.680, 47.345 }));
         Assert.assertTrue(optimizer.getEvaluations() < 10);
         double rms = optimizer.getRMS();
@@ -455,7 +456,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                      circle.getModelFunction(),
                                      circle.getModelFunctionJacobian(),
                                      new Target(target),
-                                     new NonCorrelatedWeight(weights),
+                                     new Weight(weights),
                                      new InitialGuess(new double[] { 98.680, 47.345 }));
         cov = optimizer.computeCovariances(optimum.getPoint(), 1e-14);
         Assert.assertEquals(0.0016, cov[0][0], 0.001);
@@ -481,7 +482,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                  circle.getModelFunction(),
                                  circle.getModelFunctionJacobian(),
                                  new Target(target),
-                                 new NonCorrelatedWeight(weights),
+                                 new Weight(weights),
                                  new InitialGuess(new double[] { -12, -12 }));
         Vector2D center = new Vector2D(optimum.getPointRef()[0], optimum.getPointRef()[1]);
         Assert.assertTrue(optimizer.getEvaluations() < 25);
@@ -508,7 +509,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                circle.getModelFunction(),
                                circle.getModelFunctionJacobian(),
                                new Target(target),
-                               new NonCorrelatedWeight(weights),
+                               new Weight(weights),
                                new InitialGuess(new double[] { 0, 0 }));
         Assert.assertEquals(-0.1517383071957963, optimum.getPointRef()[0], 1e-6);
         Assert.assertEquals(0.2074999736353867,  optimum.getPointRef()[1], 1e-6);
@@ -562,7 +563,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  new Target(data[1]),
-                                 new NonCorrelatedWeight(w),
+                                 new Weight(w),
                                  new InitialGuess(initial));
 
         final double[] actual = optimum.getPoint();

@@ -13,21 +13,20 @@
  */
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.ArrayList;
+import java.awt.geom.Point2D;
+import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
-import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.util.FastMath;
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * This class demonstrates the main functionality of the
@@ -125,7 +124,7 @@ public class AbstractLeastSquaresOptimizerTestValidation {
                                  problem.getModelFunction(),
                                  problem.getModelFunctionJacobian(),
                                  new Target(problem.target()),
-                                 new NonCorrelatedWeight(problem.weight()),
+                                 new Weight(problem.weight()),
                                  new InitialGuess(init));
             final double[] sigma = optim.computeSigma(optimum.getPoint(), 1e-14);
 
@@ -306,7 +305,7 @@ public class AbstractLeastSquaresOptimizerTestValidation {
                        problem.getModelFunction(),
                        problem.getModelFunctionJacobian(),
                        new Target(t),
-                       new NonCorrelatedWeight(w),
+                       new Weight(w),
                        new InitialGuess(params));
 
         return optim.getChiSquare() / (t.length - params.length);

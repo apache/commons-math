@@ -17,18 +17,18 @@
 
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
+import java.io.Serializable;
 import java.util.Arrays;
-
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.optim.nonlinear.vector.Target;
+import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
-import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.NonCorrelatedWeight;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -512,7 +512,7 @@ public class MinpackTest {
                                      function.getModelFunction(),
                                      function.getModelFunctionJacobian(),
                                      new Target(function.getTarget()),
-                                     new NonCorrelatedWeight(function.getWeight()),
+                                     new Weight(function.getWeight()),
                                      new InitialGuess(function.getStartPoint()));
             Assert.assertFalse(exceptionExpected);
             function.checkTheoreticalMinCost(optimizer.getRMS());
