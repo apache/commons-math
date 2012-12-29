@@ -18,7 +18,7 @@ package org.apache.commons.math3.optim.nonlinear.vector;
 
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.NonSquareMatrixException;
 
 /**
@@ -40,10 +40,7 @@ public class Weight implements OptimizationData {
      */
     public Weight(double[] weight) {
         final int dim = weight.length;
-        weightMatrix = MatrixUtils.createRealMatrix(dim, dim);
-        for (int i = 0; i < dim; i++) {
-            weightMatrix.setEntry(i, i, weight[i]);
-        }
+        weightMatrix = new DiagonalMatrix(weight);
     }
 
     /**
