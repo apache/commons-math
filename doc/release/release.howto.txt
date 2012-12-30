@@ -70,7 +70,10 @@ to the SVN repository. Once the release process is over, you can do a
 The "download" page template is located at "src/site/xdoc/download_math.xml".
 This file is updated automatically by running the command:
 
-  $ mvn commons:download-page
+  $ mvn commons:download-page -Dcommons.componentid=math
+
+The command-line property override is necessary because the download plugin
+expects the project name in the componentid property.
 
 
 (4)
