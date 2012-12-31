@@ -104,6 +104,14 @@ public abstract class BaseOptimizer<PAIR> {
 
     /**
      * Stores data and performs the optimization.
+     * <br/>
+     * The list of parameters is open-ended so that sub-classes can extend it
+     * with arguments specific to their concrete implementations.
+     * <br/>
+     * When the method is called multiple times, instance data is overwritten
+     * only when actually present in the list of arguments: when not specified,
+     * data set in a previous call is retained (and thus is optional in
+     * subsequent calls).
      *
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
