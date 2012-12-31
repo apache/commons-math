@@ -47,7 +47,6 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * Creates a matrix with the supplied dimension.
      *
      * @param dimension Number of rows and columns in the new matrix.
-     * @param columnDimension Number of columns in the new matrix.
      * @throws NotStrictlyPositiveException if the dimension is
      * not positive.
      */
