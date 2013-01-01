@@ -36,12 +36,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20121229L;
     /** Entries of the diagonal. */
-    private double[] data;
-
-    /**
-     * Creates a matrix with no data.
-     */
-    public DiagonalMatrix() {}
+    private final double[] data;
 
     /**
      * Creates a matrix with the supplied dimension.
@@ -64,16 +59,17 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @param d Data for the new matrix.
      */
     public DiagonalMatrix(final double[] d) {
-        data = d.clone();
+        this(d, true);
     }
 
     /**
      * Creates a matrix using the input array as the underlying data.
      * <br/>
-     * If an array is built specially in order to be embedded in a
-     * RealMatrix and not used directly, the {@code copyArray} may be
-     * set to {@code false}. This will prevent the copying and improve
-     * performance as no new array will be built and no data will be copied.
+     * If an array is created specially in order to be embedded in a
+     * this instance and not used directly, the {@code copyArray} may be
+     * set to {@code false}.
+     * This will prevent the copying and improve performance as no new
+     * array will be built and no data will be copied.
      *
      * @param d Data for new matrix.
      * @param copyArray if {@code true}, the input array will be copied,
