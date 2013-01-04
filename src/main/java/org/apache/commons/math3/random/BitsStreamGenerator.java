@@ -16,21 +16,26 @@
  */
 package org.apache.commons.math3.random;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.util.FastMath;
 
 /** Base class for random number generators that generates bits streams.
-
+ *
  * @version $Id$
  * @since 2.0
-
  */
-public abstract class BitsStreamGenerator implements RandomGenerator {
-
+public abstract class BitsStreamGenerator
+    implements RandomGenerator,
+               Serializable {
+    /** Serializable version identifier */
+    private static final long serialVersionUID = 20130104L;
     /** Next gaussian. */
     private double nextGaussian;
 
-    /** Creates a new random number generator.
+    /**
+     * Creates a new random number generator.
      */
     public BitsStreamGenerator() {
         nextGaussian = Double.NaN;
