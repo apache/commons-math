@@ -294,16 +294,12 @@
   </dependencies>
 
   <properties>
-    <!--
-    This is also used to generate download_xxx file name.
-    To override this when generating the download page:   
-
-    mvn commons:download-page -Dcommons.componentid=math
-       
-    The above seems to change the download page name but not any other
-    properties that depend on the componentid.
-    -->
-    <commons.componentid>math3</commons.componentid>
+    <!-- Do not change: "math" is the name of the component even if the
+         name of the base package evolves with major release numbers
+         (see "commons.osgi.symbolicName", below). -->
+    <commons.componentid>math</commons.componentid>
+    <!-- This value must reflect the current name of the base package. -->
+    <commons.osgi.symbolicName>org.apache.commons.math3</commons.osgi.symbolicName>
     <!-- do not use snapshot suffix here -->
     <commons.release.version>3.2</commons.release.version>
     <commons.release.desc>(requires Java 1.5+)</commons.release.desc>
