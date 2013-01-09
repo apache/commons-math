@@ -50,6 +50,17 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
+    <release version="3.1.1" date="2013-01-14" description="
+This is a point release: It fixes a bug that renders version 3.1 unusable
+  in some situations (see details below).
+">
+      <action dev="erans" type="fix" issue="MATH-924">
+        Added a (minimal) "DiagonalMatrix" implementation, such that the
+        case of a large number of uncorrelated observations is handled
+        efficiently.
+      </action>
+    </release>
+
     <release version="3.1" date="2012-12-23" description="
 This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
