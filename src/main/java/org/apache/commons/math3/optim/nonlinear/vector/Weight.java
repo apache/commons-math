@@ -39,7 +39,6 @@ public class Weight implements OptimizationData {
      * @param weight List of the values of the diagonal.
      */
     public Weight(double[] weight) {
-        final int dim = weight.length;
         weightMatrix = new DiagonalMatrix(weight);
     }
 
