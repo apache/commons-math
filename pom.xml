@@ -24,7 +24,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
-  <version>3.2-SNAPSHOT</version>
+  <version>3.1.1</version>
   <name>Commons Math</name>
 
   <inceptionYear>2003</inceptionYear>
@@ -301,9 +301,9 @@
     <!-- This value must reflect the current name of the base package. -->
     <commons.osgi.symbolicName>org.apache.commons.math3</commons.osgi.symbolicName>
     <!-- do not use snapshot suffix here -->
-    <commons.release.version>3.2</commons.release.version>
+    <commons.release.version>3.1.1</commons.release.version>
     <commons.release.desc>(requires Java 1.5+)</commons.release.desc>
-    <!-- <commons.rc.version>RC1</commons.rc.version> -->
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.binary.suffix>-bin</commons.binary.suffix>
  
     <commons.release.2.version>2.2</commons.release.2.version>
