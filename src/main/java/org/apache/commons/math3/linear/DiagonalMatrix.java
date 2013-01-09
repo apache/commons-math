@@ -52,7 +52,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
     }
 
     /**
-     * Creates a matrix using the input array as the underlying data. 
+     * Creates a matrix using the input array as the underlying data.
      * <br/>
      * The input array is copied, not referenced.
      *
@@ -79,7 +79,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
         data = copyArray ? d.clone() : d;
     }
 
-    /** 
+    /**
      * {@inheritDoc}
      *
      * @throws DimensionMismatchException if the requested dimensions are not equal.
@@ -214,7 +214,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
         return data;
     }
 
-    /**
+    /** {@inheritDoc}
      * @throws MathUnsupportedOperationException
      */
     @Override
