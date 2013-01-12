@@ -13,6 +13,8 @@ Preliminary checks:
    the errors reported by the "Clirr" plugin.
  * Clear all "CheckStyle" warnings.
  * Make sure that the construct reported by "FindBugs" are intentional.
+ * Mark all fixed issues as such in the bug-tracking system, and add a
+   corresponding entry in "src/changes/changes.xml".
 
 
 (1)
@@ -41,12 +43,12 @@ The "pom.xml" on the SVN server must always be in a state for creating snapshot
 versions of the library, i.e. the tag "<version>" should end with the string
 "-SNAPSHOT":
 
-    <version>3.2-SNAPSHOT</version>
+    <version>3.3-SNAPSHOT</version>
 
-Assuming that the release version will be "3.0", modify the "<version>" tag to
+Assuming that the release version will be "3.2", modify the "<version>" tag to
 read:
 
-    <version>3.1</version>
+    <version>3.2</version>
 
 Modify the section of "<properties>" that also refers to version numbers.
 You should uncomment the "<commons.rc.version>" line and indicate the
@@ -56,7 +58,7 @@ accepted (by a vote):
 
   <properties>
     <!-- ... -->
-    <commons.release.version>3.1</commons.release.version>
+    <commons.release.version>3.2</commons.release.version>
     <commons.rc.version>RC1</commons.rc.version>
     <!-- ... -->
   </properties>
@@ -109,8 +111,8 @@ be the  same as in the "<properties>" in the "pom.xml"), and the command
 will be:
 
   $ svn copy . \
-    -m"Creating Commons Math v3.1 RC1 tag." \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC1
+    -m"Creating Commons Math v3.2 RC1 tag." \
+    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1
 
 The tag will then be accessible at
   https://svn.apache.org/repos/asf/commons/proper/math/tags/
@@ -119,8 +121,8 @@ The tag will then be accessible at
 (6)
 Check out the tagged code and change into the newly created directory:
 
-  $ svn co https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC1
-  $ cd MATH_3_1_RC1
+  $ svn co https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1
+  $ cd MATH_3_2_RC1
 
 
 (7)
@@ -175,25 +177,25 @@ and
 
  $ mvn site:stage-deploy \
      -DstagingDirectory=src/site \
-     -DstagingSiteURL=scp://__Your_apache_login__@people.apache.org:/www/people.apache.org/builds/commons/math/3.1/RC1
+     -DstagingSiteURL=scp://__Your_apache_login__@people.apache.org:/www/people.apache.org/builds/commons/math/3.2/RC1
 
 The web site will be available for review at:
-  http://people.apache.org/builds/commons/math/3.1/RC1
+  http://people.apache.org/builds/commons/math/3.2/RC1
 
 
 (10)
 Call to vote by sending a message to the "dev" ML with subject
-"[VOTE] Release Commons Math 3.1". You can use the following example as
+"[VOTE][RC1] Release Commons Math 3.2". You can use the following example as
 a starting point, replacing the URLs with the appropriate ones:
 ----------
 Tag:
-  https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC1/
+  https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1/
 
 Site:
-  http://people.apache.org/builds/commons/math/3.1/RC1/
+  http://people.apache.org/builds/commons/math/3.2/RC1/
 
 Binaries:
-  https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.1/
+  https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.2/
 
 [ ] +1 Release it.
 [ ] +0 Go ahead; I don't care.
@@ -223,13 +225,13 @@ The artefacts must be copied to the distribution area on the ASF web server.
 The following actions must be performed when after login into your 
 "people.apache.org" account.
 
- (a) Create a new directory (e.g. "cm-3.1") and "cd" into it.
+ (a) Create a new directory (e.g. "cm-3.2") and "cd" into it.
 
  (b) Retrieve the files from the Nexus server:
 
       $ wget -r -l 1 -np -nH -nd -nv \
           -e robots=off --wait 10 --no-check-certificate \
-          https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.1/
+          https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.2/
 
  (c) Verify the checksum of each of the retrieved files. A possibility is to
      check out the tools from
@@ -246,11 +248,11 @@ The following actions must be performed when after login into your
 
      Source files go to the "source" subdirectory:
 
-      $ mv -i ~/cm-3.1/commons-math3-3.1-src* source
+      $ mv -i ~/cm-3.2/commons-math3-3.2-src* source
 
      Binary files go to the "binaries" subdirectory:
 
-      $ mv -i ~/cm-3.1/commons-math3-3.1-bin* binaries
+      $ mv -i ~/cm-3.2/commons-math3-3.2-bin* binaries
 
   (f) Check that the files permissions are all set to "-rw-rw-r--" and that
       the group owner is "commons".
@@ -260,7 +262,7 @@ The following actions must be performed when after login into your
 
   (h) Replace the "RELEASE-NOTES.txt" with the new one, e.g. using:
 
-        $ wget --no-check-certificate https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC1/RELEASE-NOTES.txt
+        $ wget --no-check-certificate https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1/RELEASE-NOTES.txt
         $ mv -i RELEASE-NOTES.txt.1 RELEASE-NOTES.txt
 
   (i) XXX There are no "current" symlinks in the "commmons/math" subdir
@@ -285,9 +287,9 @@ Publish the web site. From your local working copy of the tag, run the command:
 (15)
 Copy the the final RC tag to the official tag:
   $ svn copy \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1_RC5 \
-    -m"RC5 becomes the 3.1 official version." \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_1
+    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1 \
+    -m"RC1 becomes the 3.2 official version." \
+    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2
 
 
 (16)
