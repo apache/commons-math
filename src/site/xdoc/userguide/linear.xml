@@ -128,7 +128,7 @@ RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
 RealMatrix coefficients =
     new Array2DRowRealMatrix(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },
                        false);
-DecompositionSolver solver = new LUDecompositionImpl(coefficients).getSolver();
+DecompositionSolver solver = new LUDecomposition(coefficients).getSolver();
           </source>
           Next create a <code>RealVector</code> array to represent the constant
           vector B and use <code>solve(RealVector)</code> to solve the system
