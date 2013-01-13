@@ -50,6 +50,16 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
+    <release version="3.2" date="TBD" description="
+This is a minor release: It combines bug fixes and new features.
+  Changes to existing features were made in a backwards-compatible
+  way such as to allow drop-in replacement of the v3.1[.1] JAR file.
+">
+      <action dev="erans" type="fix" issue="MATH-927" due-to="Dennis Hendriks">
+        Made "BitStreamGenerator" implement the "Serializable" interface.
+      </action>
+    </release>
+
     <release version="3.1.1" date="2013-01-14" description="
 This is a point release: It fixes a bug that renders version 3.1 unusable
   in some situations (see details below).
