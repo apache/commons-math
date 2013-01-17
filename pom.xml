@@ -363,6 +363,15 @@
           <targetJdk>${maven.compile.target}</targetJdk>  
         </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-scm-publish-plugin</artifactId>
+          <configuration>
+            <ignorePathsToDelete>
+              <ignorePathToDelete>javadocs</ignorePathToDelete>
+            </ignorePathsToDelete>
+          </configuration>
+        </plugin>
       </plugins>
   </build>
 
