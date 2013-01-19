@@ -55,6 +55,11 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="tn" type="fix" issue="MATH-930">
+        Improved class javadoc wrt convergence criteria and added an 
+        additional constructor to override the default epsilon value in class
+        "SimplexSolver".
+      </action>
       <action dev="erans" type="fix" issue="MATH-929" due-to="Piotr Wydrych">
         Fixed truncated value in "MultivariateNormalDistribution".
       </action>
