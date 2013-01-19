@@ -24,6 +24,23 @@ import org.apache.commons.math3.util.Precision;
 
 /**
  * Solves a linear problem using the "Two-Phase Simplex" method.
+ * <p>
+ * <b>Note:</b> Depending on the problem definition, the default convergence criteria
+ * may be too strict, resulting in {@link NoFeasibleSolutionException} or
+ * {@link TooManyIterationsException}. In such a case it is advised to adjust these
+ * criteria with more appropriate values, e.g. relaxing the epsilon value.
+ * <p>
+ * Default convergence criteria:
+ * <ul>
+ *   <li>Algorithm convergence: 1e-6</li>
+ *   <li>Floating-point comparisons: 10 ulp</li>
+ * </ul>
+ * <p>
+ * It may also be counter-productive to provide a too large value for {@link MaxIter}
+ * as parameter in the call of {@link #optimize(org.apache.commons.math3.optim.OptimizationData...)},
+ * as the {@link SimplexSolver} will use different strategies depending on the current iteration
+ * count. After half of the allowed max iterations has already been reached, the strategy to select
+ * pivot rows will change in order to break possible cycles due to degenerate problems.
  *
  * @version $Id$
  * @since 2.0
@@ -46,6 +63,15 @@ public class SimplexSolver extends LinearOptimizer {
      */
     public SimplexSolver() {
         this(DEFAULT_EPSILON, DEFAULT_ULPS);
+    }
+
+    /**
+     * Builds a simplex solver with a specified accepted amount of error.
+     *
+     * @param epsilon Amount of error to accept for algorithm convergence.
+     */
+    public SimplexSolver(final double epsilon) {
+        this(epsilon, DEFAULT_ULPS);
     }
 
     /**
