@@ -24,7 +24,7 @@ import java.io.Serializable;
  * point.
  * This is a simple immutable container.
  *
- * @version $Id: UnivariatePointValuePair.java 1364392 2012-07-22 18:27:12Z tn $
+ * @version $Id$
  * @since 3.0
  */
 public class UnivariatePointValuePair implements Serializable {

@@ -24,7 +24,7 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
 /**
  * This class implements the Nelder-Mead simplex algorithm.
  *
- * @version $Id: NelderMeadSimplex.java 1364392 2012-07-22 18:27:12Z tn $
+ * @version $Id$
  * @since 3.0
  */
 public class NelderMeadSimplex extends AbstractSimplex {

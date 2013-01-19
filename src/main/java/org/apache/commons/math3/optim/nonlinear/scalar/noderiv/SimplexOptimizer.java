@@ -78,7 +78,7 @@ import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
  *  MultivariateFunctionPenaltyAdapter}.
  * </p>
  *
- * @version $Id: SimplexOptimizer.java 1397759 2012-10-13 01:12:58Z erans $
+ * @version $Id$
  * @since 3.0
  */
 public class SimplexOptimizer extends MultivariateOptimizer {

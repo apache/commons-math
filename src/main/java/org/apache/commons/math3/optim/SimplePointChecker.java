@@ -36,7 +36,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * @param <PAIR> Type of the (point, value) pair.
  * The type of the "value" part of the pair (not used by this class).
  *
- * @version $Id: SimplePointChecker.java 1413127 2012-11-24 04:37:30Z psteitz $
+ * @version $Id$
  * @since 3.0
  */
 public class SimplePointChecker<PAIR extends Pair<double[], ? extends Object>>

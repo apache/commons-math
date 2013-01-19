@@ -28,7 +28,7 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
  * This code is based on a Python implementation (from <em>SciPy</em>,
  * module {@code optimize.py} v0.5).
  *
- * @version $Id: BracketFinder.java 1413186 2012-11-24 13:47:59Z erans $
+ * @version $Id$
  * @since 2.2
  */
 public class BracketFinder {

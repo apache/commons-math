@@ -62,7 +62,7 @@ import org.apache.commons.math3.util.MathUtils;
  *
  * @see MultivariateFunctionMappingAdapter
  *
- * @version $Id: MultivariateFunctionPenaltyAdapter.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 3.0
  */
 public class MultivariateFunctionPenaltyAdapter

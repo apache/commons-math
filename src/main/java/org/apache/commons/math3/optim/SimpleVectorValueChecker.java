@@ -33,7 +33,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * method will also return {@code true} if the number of iterations has been set
  * (see {@link #SimpleVectorValueChecker(double,double,int) this constructor}).
  *
- * @version $Id: SimpleVectorValueChecker.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 3.0
  */
 public class SimpleVectorValueChecker

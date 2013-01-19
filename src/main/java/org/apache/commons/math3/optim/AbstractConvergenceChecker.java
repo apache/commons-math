@@ -21,7 +21,7 @@ package org.apache.commons.math3.optim;
  *
  * @param <PAIR> Type of (point, value) pair.
  *
- * @version $Id: AbstractConvergenceChecker.java 1370215 2012-08-07 12:38:59Z sebb $
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractConvergenceChecker<PAIR>

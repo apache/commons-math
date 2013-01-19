@@ -45,7 +45,7 @@ import org.apache.commons.math3.optim.OptimizationData;
  * this class.
  *
  * @see SimplexOptimizer
- * @version $Id: AbstractSimplex.java 1397759 2012-10-13 01:12:58Z erans $
+ * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractSimplex implements OptimizationData {

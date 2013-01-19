@@ -26,7 +26,7 @@ import org.apache.commons.math3.linear.NonSquareMatrixException;
  * <br/>
  * Immutable class.
  *
- * @version $Id: Weight.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 3.1
  */
 public class Weight implements OptimizationData {

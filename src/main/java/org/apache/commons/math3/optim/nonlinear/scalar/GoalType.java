@@ -22,7 +22,7 @@ import org.apache.commons.math3.optim.OptimizationData;
  * Goal type for an optimization problem (minimization or maximization of
  * a scalar function.
  *
- * @version $Id: GoalType.java 1364392 2012-07-22 18:27:12Z tn $
+ * @version $Id$
  * @since 2.0
  */
 public enum GoalType implements OptimizationData {

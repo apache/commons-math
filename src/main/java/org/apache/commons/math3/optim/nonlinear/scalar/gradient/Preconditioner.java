@@ -20,7 +20,7 @@ package org.apache.commons.math3.optim.nonlinear.scalar.gradient;
 /**
  * This interface represents a preconditioner for differentiable scalar
  * objective function optimizers.
- * @version $Id: Preconditioner.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 2.0
  */
 public interface Preconditioner {

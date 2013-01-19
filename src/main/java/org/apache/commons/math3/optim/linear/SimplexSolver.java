@@ -25,7 +25,7 @@ import org.apache.commons.math3.util.Precision;
 /**
  * Solves a linear problem using the "Two-Phase Simplex" method.
  *
- * @version $Id: SimplexSolver.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 2.0
  */
 public class SimplexSolver extends LinearOptimizer {

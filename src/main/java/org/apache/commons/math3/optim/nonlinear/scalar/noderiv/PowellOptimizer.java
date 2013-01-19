@@ -47,7 +47,7 @@ import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
  * The internal line search optimizer is a {@link BrentOptimizer} with a
  * convergence checker set to {@link SimpleUnivariateValueChecker}.
  *
- * @version $Id: PowellOptimizer.java 1413594 2012-11-26 13:16:39Z erans $
+ * @version $Id$
  * @since 2.2
  */
 public class PowellOptimizer

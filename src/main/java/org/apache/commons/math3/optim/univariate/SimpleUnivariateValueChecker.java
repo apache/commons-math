@@ -35,7 +35,7 @@ import org.apache.commons.math3.optim.AbstractConvergenceChecker;
  * has been set (see {@link #SimpleUnivariateValueChecker(double,double,int)
  * this constructor}).
  *
- * @version $Id: SimpleUnivariateValueChecker.java 1413171 2012-11-24 11:11:10Z erans $
+ * @version $Id$
  * @since 3.1
  */
 public class SimpleUnivariateValueChecker

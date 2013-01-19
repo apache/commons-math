@@ -43,7 +43,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
  * are the coordinates of the current point and v is the value of the constraint.
  * </p>
  *
- * @version $Id: LinearConstraint.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 2.0
  */
 public class LinearConstraint implements Serializable {

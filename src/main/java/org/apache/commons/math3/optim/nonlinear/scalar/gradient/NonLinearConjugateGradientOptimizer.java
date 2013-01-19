@@ -39,7 +39,7 @@ import org.apache.commons.math3.util.FastMath;
  * It also supports optional preconditioning.
  * </p>
  *
- * @version $Id: NonLinearConjugateGradientOptimizer.java 1416643 2012-12-03 19:37:14Z tn $
+ * @version $Id$
  * @since 2.0
  */
 public class NonLinearConjugateGradientOptimizer
