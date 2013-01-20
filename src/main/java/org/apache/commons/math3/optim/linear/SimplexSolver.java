@@ -34,7 +34,14 @@ import org.apache.commons.math3.util.Precision;
  * <ul>
  *   <li>Algorithm convergence: 1e-6</li>
  *   <li>Floating-point comparisons: 10 ulp</li>
+ *   <li>Cut-Off value: 1e-12</li>
  * </ul>
+ * <p>
+ * The cut-off value has been introduced to zero out very small numbers in the Simplex tableau,
+ * as these may lead to numerical instabilities due to the nature of the Simplex algorithm
+ * (the pivot element is used as a denominator). If the problem definition is very tight, the
+ * default cut-off value may be too small, thus it is advised to increase it to a larger value,
+ * in accordance with the chosen epsilon.
  * <p>
  * It may also be counter-productive to provide a too large value for {@link MaxIter}
  * as parameter in the call of {@link #optimize(org.apache.commons.math3.optim.OptimizationData...)},
@@ -46,11 +53,14 @@ import org.apache.commons.math3.util.Precision;
  * @since 2.0
  */
 public class SimplexSolver extends LinearOptimizer {
+    /** Default amount of error to accept in floating point comparisons (as ulps). */
+    static final int DEFAULT_ULPS = 10;
+
+    /** Default cut-off value. */
+    static final double DEFAULT_CUT_OFF = 1e-12;
+
     /** Default amount of error to accept for algorithm convergence. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
-
-    /** Default amount of error to accept in floating point comparisons (as ulps). */
-    private static final int DEFAULT_ULPS = 10;
 
     /** Amount of error to accept for algorithm convergence. */
     private final double epsilon;
@@ -59,10 +69,16 @@ public class SimplexSolver extends LinearOptimizer {
     private final int maxUlps;
 
     /**
+     * Cut-off value for entries in the tableau: values smaller than the cut-off
+     * are treated as zero to improve numerical stability.
+     */
+    private final double cutOff;
+
+    /**
      * Builds a simplex solver with default settings.
      */
     public SimplexSolver() {
-        this(DEFAULT_EPSILON, DEFAULT_ULPS);
+        this(DEFAULT_EPSILON, DEFAULT_ULPS, DEFAULT_CUT_OFF);
     }
 
     /**
@@ -71,7 +87,7 @@ public class SimplexSolver extends LinearOptimizer {
      * @param epsilon Amount of error to accept for algorithm convergence.
      */
     public SimplexSolver(final double epsilon) {
-        this(epsilon, DEFAULT_ULPS);
+        this(epsilon, DEFAULT_ULPS, DEFAULT_CUT_OFF);
     }
 
     /**
@@ -80,10 +96,21 @@ public class SimplexSolver extends LinearOptimizer {
      * @param epsilon Amount of error to accept for algorithm convergence.
      * @param maxUlps Amount of error to accept in floating point comparisons.
      */
-    public SimplexSolver(final double epsilon,
-                         final int maxUlps) {
+    public SimplexSolver(final double epsilon, final int maxUlps) {
+        this(epsilon, maxUlps, DEFAULT_CUT_OFF);
+    }
+
+    /**
+     * Builds a simplex solver with a specified accepted amount of error.
+     *
+     * @param epsilon Amount of error to accept for algorithm convergence.
+     * @param maxUlps Amount of error to accept in floating point comparisons.
+     * @param cutOff Values smaller than the cutOff are treated as zero.
+     */
+    public SimplexSolver(final double epsilon, final int maxUlps, final double cutOff) {
         this.epsilon = epsilon;
         this.maxUlps = maxUlps;
+        this.cutOff = cutOff;
     }
 
     /**
@@ -258,7 +285,8 @@ public class SimplexSolver extends LinearOptimizer {
                                getGoalType(),
                                isRestrictedToNonNegative(),
                                epsilon,
-                               maxUlps);
+                               maxUlps,
+                               cutOff);
 
         solvePhase1(tableau);
         tableau.dropPhase1Objective();

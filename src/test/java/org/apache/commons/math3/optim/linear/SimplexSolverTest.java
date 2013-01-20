@@ -420,11 +420,11 @@ public class SimplexSolverTest {
         double[] objFunctionCoeff = new double[33];
         objFunctionCoeff[3] = 1;
         LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
-        SimplexSolver solver = new SimplexSolver(1e-4, 10);
+        SimplexSolver solver = new SimplexSolver(1e-4, 10, 1e-6);
         
         PointValuePair solution = solver.optimize(new MaxIter(1000), f, new LinearConstraintSet(constraints),
                                                   GoalType.MINIMIZE, new NonNegativeConstraint(true));
-        Assert.assertEquals(0.3752298, solution.getValue(), 1e-6);
+        Assert.assertEquals(0.3752298, solution.getValue(), 1e-4);
     }
 
     @Test

@@ -66,12 +66,6 @@ class SimplexTableau implements Serializable {
     /** Column label for negative vars. */
     private static final String NEGATIVE_VAR_COLUMN_LABEL = "x-";
 
-    /** Default amount of error to accept in floating point comparisons (as ulps). */
-    private static final int DEFAULT_ULPS = 10;
-
-    /** The cut-off threshold to zero-out entries. */
-    private static final double CUTOFF_THRESHOLD = 1e-12;
-
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;
 
@@ -105,6 +99,9 @@ class SimplexTableau implements Serializable {
     /** Amount of error to accept in floating point comparisons. */
     private final int maxUlps;
 
+    /** Cut-off value for entries in the tableau. */
+    private final double cutOff;
+
     /**
      * Builds a tableau for a linear problem.
      *
@@ -120,7 +117,8 @@ class SimplexTableau implements Serializable {
                    final GoalType goalType,
                    final boolean restrictToNonNegative,
                    final double epsilon) {
-        this(f, constraints, goalType, restrictToNonNegative, epsilon, DEFAULT_ULPS);
+        this(f, constraints, goalType, restrictToNonNegative, epsilon,
+                SimplexSolver.DEFAULT_ULPS, SimplexSolver.DEFAULT_CUT_OFF);
     }
 
     /**
@@ -138,11 +136,32 @@ class SimplexTableau implements Serializable {
                    final boolean restrictToNonNegative,
                    final double epsilon,
                    final int maxUlps) {
+        this(f, constraints, goalType, restrictToNonNegative, epsilon, maxUlps, SimplexSolver.DEFAULT_CUT_OFF);
+    }
+
+    /**
+     * Build a tableau for a linear problem.
+     * @param f linear objective function
+     * @param constraints linear constraints
+     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}
+     * @param restrictToNonNegative whether to restrict the variables to non-negative values
+     * @param epsilon amount of error to accept when checking for optimality
+     * @param maxUlps amount of error to accept in floating point comparisons
+     * @param cutOff the cut-off value for tableau entries
+     */
+    SimplexTableau(final LinearObjectiveFunction f,
+                   final Collection<LinearConstraint> constraints,
+                   final GoalType goalType,
+                   final boolean restrictToNonNegative,
+                   final double epsilon,
+                   final int maxUlps,
+                   final double cutOff) {
         this.f                      = f;
         this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
         this.epsilon                = epsilon;
         this.maxUlps                = maxUlps;
+        this.cutOff                 = cutOff;
         this.numDecisionVariables   = f.getCoefficients().getDimension() +
                                       (restrictToNonNegative ? 0 : 1);
         this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +
@@ -462,8 +481,8 @@ class SimplexTableau implements Serializable {
                                final double multiple) {
         for (int i = 0; i < getWidth(); i++) {
             double result = tableau.getEntry(minuendRow, i) - tableau.getEntry(subtrahendRow, i) * multiple;
-            // cut-off values smaller than the CUTOFF_THRESHOLD, otherwise may lead to numerical instabilities
-            if (FastMath.abs(result) < CUTOFF_THRESHOLD) {
+            // cut-off values smaller than the cut-off threshold, otherwise may lead to numerical instabilities
+            if (FastMath.abs(result) < cutOff) {
                 result = 0.0;
             }
             tableau.setEntry(minuendRow, i, result);
