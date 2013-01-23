@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.stat.ranking;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NotANumberException;

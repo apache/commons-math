@@ -16,7 +16,7 @@ package org.apache.commons.math3.optimization.general;
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;

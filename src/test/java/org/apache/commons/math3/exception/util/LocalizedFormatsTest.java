@@ -22,7 +22,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Test;
 
