@@ -59,18 +59,17 @@ public class UnitSphereRandomVectorGenerator
 
     /** {@inheritDoc} */
     public double[] nextVector() {
-
         final double[] v = new double[dimension];
 
-        double normSq;
-        do {
-            normSq = 0;
-            for (int i = 0; i < dimension; i++) {
-                final double comp = 2 * rand.nextDouble() - 1;
-                v[i] = comp;
-                normSq += comp * comp;
-            }
-        } while (normSq > 1);
+        // See http://mathworld.wolfram.com/SpherePointPicking.html for example.
+        // Pick a point by choosing a standard Gaussian for each element, and then 
+        // normalizing to unit length.
+        double normSq = 0;
+        for (int i = 0; i < dimension; i++) {
+            final double comp = rand.nextGaussian();
+            v[i] = comp;
+            normSq += comp * comp;
+        }
 
         final double f = 1 / FastMath.sqrt(normSq);
         for (int i = 0; i < dimension; i++) {
@@ -78,7 +77,5 @@ public class UnitSphereRandomVectorGenerator
         }
 
         return v;
-
     }
-
 }

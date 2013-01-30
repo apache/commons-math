@@ -55,6 +55,9 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="erans" type="update" issue="MATH-931" due-to="Sean Owen">
+        Greater efficiency in "UnitSphereRandomVectorGenerator".
+      </action>
       <action dev="tn" type="fix" issue="MATH-930">
         Improved class javadoc wrt convergence criteria and added 
         additional constructors to override the default epsilon and cut-off
