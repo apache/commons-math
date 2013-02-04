@@ -19,6 +19,7 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.BlockRealMatrix;
@@ -32,6 +33,11 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
 
 /**
  * Gauss-Newton least-squares solver.
+ * <br/>
+ * Constraints are not supported: the call to
+ * {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link MathUnsupportedOperationException} if bounds are passed to it.
+ *
  * <p>
  * This class solve a least-square problem by solving the normal equations
  * of the linearized problem at each iteration. Either LU decomposition or
@@ -72,6 +78,8 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
     /** {@inheritDoc} */
     @Override
     public PointVectorValuePair doOptimize() {
+        checkParameters();
+
         final ConvergenceChecker<PointVectorValuePair> checker
             = getConvergenceChecker();
 
@@ -158,5 +166,16 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
         }
         // Must never happen.
         throw new MathInternalError();
+    }
+
+    /**
+     * @throws MathUnsupportedOperationException if bounds were passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     */
+    private void checkParameters() {
+        if (getLowerBound() != null ||
+            getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
+        }
     }
 }

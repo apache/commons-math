@@ -18,6 +18,7 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.Arrays;
 import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
@@ -27,7 +28,12 @@ import org.apache.commons.math3.util.FastMath;
 
 
 /**
- * This class solves a least-squares problem using the Levenberg-Marquardt algorithm.
+ * This class solves a least-squares problem using the Levenberg-Marquardt
+ * algorithm.
+ * <br/>
+ * Constraints are not supported: the call to
+ * {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link MathUnsupportedOperationException} if bounds are passed to it.
  *
  * <p>This implementation <em>should</em> work even for over-determined systems
  * (i.e. systems having more point than equations). Over-determined systems
@@ -276,6 +282,8 @@ public class LevenbergMarquardtOptimizer
     /** {@inheritDoc} */
     @Override
     protected PointVectorValuePair doOptimize() {
+        checkParameters();
+
         final int nR = getTarget().length; // Number of observed data.
         final double[] currentPoint = getStartPoint();
         final int nC = currentPoint.length; // Number of parameters.
@@ -934,6 +942,17 @@ public class LevenbergMarquardtOptimizer
             for (int i = k; i < nR; ++i) {
                 y[i] -= gamma * weightedJacobian[i][pk];
             }
+        }
+    }
+
+    /**
+     * @throws MathUnsupportedOperationException if bounds were passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     */
+    private void checkParameters() {
+        if (getLowerBound() != null ||
+            getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
         }
     }
 }

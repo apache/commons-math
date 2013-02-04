@@ -20,9 +20,11 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 import java.io.IOException;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
 import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
@@ -97,6 +99,16 @@ public class GaussNewtonOptimizerTest
     @Override
     public AbstractLeastSquaresOptimizer createOptimizer() {
         return new GaussNewtonOptimizer(new SimpleVectorValueChecker(1.0e-6, 1.0e-6));
+    }
+
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testConstraintsUnsupported() {
+        createOptimizer().optimize(new MaxEval(100),
+                                   new Target(new double[] { 2 }),
+                                   new Weight(new double[] { 1 }),
+                                   new InitialGuess(new double[] { 1, 2 }),
+                                   new SimpleBounds(new double[] { -10, 0 },
+                                                    new double[] { 20, 30 }));
     }
 
     @Override

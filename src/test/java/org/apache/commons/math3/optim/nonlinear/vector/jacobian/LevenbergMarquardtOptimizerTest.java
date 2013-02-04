@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
 import org.apache.commons.math3.optim.nonlinear.vector.Weight;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
@@ -32,6 +33,7 @@ import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.util.FastMath;
@@ -107,6 +109,16 @@ public class LevenbergMarquardtOptimizerTest
     @Override
     public AbstractLeastSquaresOptimizer createOptimizer() {
         return new LevenbergMarquardtOptimizer();
+    }
+
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testConstraintsUnsupported() {
+        createOptimizer().optimize(new MaxEval(100),
+                                   new Target(new double[] { 2 }),
+                                   new Weight(new double[] { 1 }),
+                                   new InitialGuess(new double[] { 1, 2 }),
+                                   new SimpleBounds(new double[] { -10, 0 },
+                                                    new double[] { 20, 30 }));
     }
 
     @Override
