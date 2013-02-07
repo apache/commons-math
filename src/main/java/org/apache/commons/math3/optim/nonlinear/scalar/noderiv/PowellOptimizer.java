@@ -21,8 +21,10 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
@@ -34,7 +36,7 @@ import org.apache.commons.math3.optim.univariate.SearchInterval;
 import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
 
 /**
- * Powell algorithm.
+ * Powell's algorithm.
  * This code is translated and adapted from the Python version of this
  * algorithm (as implemented in module {@code optimize.py} v0.5 of
  * <em>SciPy</em>).
@@ -46,6 +48,16 @@ import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
  * <br/>
  * The internal line search optimizer is a {@link BrentOptimizer} with a
  * convergence checker set to {@link SimpleUnivariateValueChecker}.
+ * <br/>
+ * Constraints are not supported: the call to
+ * {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link MathUnsupportedOperationException} if bounds are passed to it.
+ * In order to impose simple constraints, the objective function must be
+ * wrapped in an adapter like
+ * {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
+ * MultivariateFunctionMappingAdapter} or
+ * {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
+ * MultivariateFunctionPenaltyAdapter}.
  *
  * @version $Id$
  * @since 2.2
@@ -159,6 +171,8 @@ public class PowellOptimizer
     /** {@inheritDoc} */
     @Override
     protected PointValuePair doOptimize() {
+        checkParameters();
+
         final GoalType goal = getGoalType();
         final double[] guess = getStartPoint();
         final int n = guess.length;
@@ -351,6 +365,17 @@ public class PowellOptimizer
                             new SearchInterval(bracket.getLo(),
                                                bracket.getHi(),
                                                bracket.getMid()));
+        }
+    }
+
+    /**
+     * @throws MathUnsupportedOperationException if bounds were passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     */
+    private void checkParameters() {
+        if (getLowerBound() != null ||
+            getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
         }
     }
 }

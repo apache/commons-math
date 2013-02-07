@@ -27,15 +27,17 @@ import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentia
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.SimpleValueChecker;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunctionGradient;
 import org.junit.Assert;
 import org.junit.Test;
@@ -103,6 +105,22 @@ import org.junit.Test;
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
 public class NonLinearConjugateGradientOptimizerTest {
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testBoundsUnsupported() {
+        LinearProblem problem
+            = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
+        NonLinearConjugateGradientOptimizer optimizer
+            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
+                                                      new SimpleValueChecker(1e-6, 1e-6));
+        optimizer.optimize(new MaxEval(100),
+                           problem.getObjectiveFunction(),
+                           problem.getObjectiveFunctionGradient(),
+                           GoalType.MINIMIZE,
+                           new InitialGuess(new double[] { 0 }),
+                           new SimpleBounds(new double[] { -1 },
+                                            new double[] { 1 }));
+    }
+
     @Test
     public void testTrivial() {
         LinearProblem problem

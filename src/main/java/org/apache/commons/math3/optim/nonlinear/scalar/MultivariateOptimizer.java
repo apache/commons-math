@@ -46,11 +46,10 @@ public abstract class MultivariateOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data. The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link BaseMultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * BaseMultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
-     *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
-     *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
      *  <li>{@link ObjectiveFunction}</li>
      *  <li>{@link GoalType}</li>
      * </ul>
@@ -61,8 +60,6 @@ public abstract class MultivariateOptimizer
     @Override
     public PointValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException {
-         // Retrieve settings.
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -78,7 +75,11 @@ public abstract class MultivariateOptimizer
      *  <li>{@link GoalType}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
@@ -86,7 +87,7 @@ public abstract class MultivariateOptimizer
                 goal = (GoalType) data;
                 continue;
             }
-            if  (data instanceof ObjectiveFunction) {
+            if (data instanceof ObjectiveFunction) {
                 function = ((ObjectiveFunction) data).getObjectiveFunction();
                 continue;
             }

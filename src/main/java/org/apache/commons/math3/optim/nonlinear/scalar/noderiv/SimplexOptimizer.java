@@ -19,6 +19,8 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 import java.util.Comparator;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointValuePair;
@@ -76,6 +78,9 @@ import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
  *  MultivariateFunctionMappingAdapter} or
  *  {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
  *  MultivariateFunctionPenaltyAdapter}.
+ *  <br/>
+ *  The call to {@link #optimize(OptimizationData[]) optimize} will throw
+ *  {@link MathUnsupportedOperationException} if bounds are passed to it.
  * </p>
  *
  * @version $Id$
@@ -103,20 +108,16 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data.
-     * The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * MultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
-     *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
-     *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
      *  <li>{@link AbstractSimplex}</li>
      * </ul>
      * @return {@inheritDoc}
      */
     @Override
     public PointValuePair optimize(OptimizationData... optData) {
-        // Retrieve settings
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -124,9 +125,7 @@ public class SimplexOptimizer extends MultivariateOptimizer {
     /** {@inheritDoc} */
     @Override
     protected PointValuePair doOptimize() {
-        if (simplex == null) {
-            throw new NullArgumentException();
-        }
+        checkParameters();
 
         // Indirect call to "computeObjectiveValue" in order to update the
         // evaluations counter.
@@ -186,7 +185,11 @@ public class SimplexOptimizer extends MultivariateOptimizer {
      *  <li>{@link AbstractSimplex}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
@@ -196,6 +199,22 @@ public class SimplexOptimizer extends MultivariateOptimizer {
                 // changed to "continue".
                 break;
             }
+        }
+    }
+
+    /**
+     * @throws MathUnsupportedOperationException if bounds were passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     * @throws NullArgumentException if no initial simplex was passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     */
+    private void checkParameters() {
+        if (simplex == null) {
+            throw new NullArgumentException();
+        }
+        if (getLowerBound() != null ||
+            getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
         }
     }
 }

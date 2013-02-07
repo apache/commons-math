@@ -18,11 +18,13 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.SumSincFunction;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.SimpleBounds;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,6 +33,19 @@ import org.junit.Test;
  * Test for {@link PowellOptimizer}.
  */
 public class PowellOptimizerTest {
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testBoundsUnsupported() {
+        final MultivariateFunction func = new SumSincFunction(-1);
+        final PowellOptimizer optim = new PowellOptimizer(1e-8, 1e-5,
+                                                          1e-4, 1e-4);
+
+        optim.optimize(new MaxEval(100),
+                       new ObjectiveFunction(func),
+                       GoalType.MINIMIZE,
+                       new InitialGuess(new double[] { -3, 0 }),
+                       new SimpleBounds(new double[] { -5, -1 },
+                                        new double[] { 5, 1 }));
+    }
 
     @Test
     public void testSumSinc() {

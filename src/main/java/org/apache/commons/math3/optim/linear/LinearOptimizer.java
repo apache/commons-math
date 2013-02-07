@@ -76,9 +76,10 @@ public abstract class LinearOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data. The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * MultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxIter}</li>
      *  <li>{@link LinearObjectiveFunction}</li>
      *  <li>{@link LinearConstraintSet}</li>
      *  <li>{@link NonNegativeConstraint}</li>
@@ -90,8 +91,6 @@ public abstract class LinearOptimizer
     @Override
     public PointValuePair optimize(OptimizationData... optData)
         throws TooManyIterationsException {
-         // Retrieve settings.
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -108,7 +107,11 @@ public abstract class LinearOptimizer
      *  <li>{@link NonNegativeConstraint}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {

@@ -23,21 +23,25 @@ import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.GradientMultivariateOptimizer;
 import org.apache.commons.math3.util.FastMath;
 
 /**
  * Non-linear conjugate gradient optimizer.
- * <p>
+ * <br/>
  * This class supports both the Fletcher-Reeves and the Polak-Ribière
  * update formulas for the conjugate search directions.
  * It also supports optional preconditioning.
- * </p>
+ * <br/>
+ * Constraints are not supported: the call to
+ * {@link #optimize(OptimizationData[]) optimize} will throw
+ * {@link MathUnsupportedOperationException} if bounds are passed to it.
  *
  * @version $Id$
  * @since 2.0
@@ -166,15 +170,10 @@ public class NonLinearConjugateGradientOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data.
-     * The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link GradientMultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * GradientMultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
-     *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
-     *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunctionGradient}</li>
      *  <li>{@link BracketingStep}</li>
      * </ul>
      * @return {@inheritDoc}
@@ -184,8 +183,6 @@ public class NonLinearConjugateGradientOptimizer
     @Override
     public PointValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException {
-         // Retrieve settings.
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -300,7 +297,11 @@ public class NonLinearConjugateGradientOptimizer
      *  <li>{@link InitialStep}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
@@ -311,6 +312,8 @@ public class NonLinearConjugateGradientOptimizer
                 break;
             }
         }
+
+        checkParameters();
     }
 
     /**
@@ -388,6 +391,17 @@ public class NonLinearConjugateGradientOptimizer
             }
 
             return dotProduct;
+        }
+    }
+
+    /**
+     * @throws MathUnsupportedOperationException if bounds were passed to the
+     * {@link #optimize(OptimizationData[]) optimize} method.
+     */
+    private void checkParameters() {
+        if (getLowerBound() != null ||
+            getUpperBound() != null) {
+            throw new MathUnsupportedOperationException(LocalizedFormats.CONSTRAINT);
         }
     }
 }

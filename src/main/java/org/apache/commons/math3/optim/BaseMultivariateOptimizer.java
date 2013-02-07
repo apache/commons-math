@@ -51,10 +51,10 @@ public abstract class BaseMultivariateOptimizer<PAIR>
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data.
-     * The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link BaseOptimizer#parseOptimizationData(OptimizationData[]) BaseOptimizer},
+     * this method will register the following data:
      * <ul>
-     *  <li>{@link MaxEval}</li>
      *  <li>{@link InitialGuess}</li>
      *  <li>{@link SimpleBounds}</li>
      * </ul>
@@ -62,10 +62,6 @@ public abstract class BaseMultivariateOptimizer<PAIR>
      */
     @Override
     public PAIR optimize(OptimizationData... optData) {
-        // Retrieve settings.
-        parseOptimizationData(optData);
-        // Check input consistency.
-        checkParameters();
         // Perform optimization.
         return super.optimize(optData);
     }
@@ -80,7 +76,11 @@ public abstract class BaseMultivariateOptimizer<PAIR>
      *  <li>{@link SimpleBounds}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
@@ -95,6 +95,9 @@ public abstract class BaseMultivariateOptimizer<PAIR>
                 continue;
             }
         }
+
+        // Check input consistency.
+        checkParameters();
     }
 
     /**

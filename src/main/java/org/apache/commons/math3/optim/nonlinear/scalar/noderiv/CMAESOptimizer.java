@@ -342,12 +342,10 @@ public class CMAESOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data. The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * MultivariateOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
-     *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
-     *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction}</li>
      *  <li>{@link Sigma}</li>
      *  <li>{@link PopulationSize}</li>
      * </ul>
@@ -361,8 +359,6 @@ public class CMAESOptimizer
     public PointValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException,
                DimensionMismatchException {
-        // Retrieve settings.
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -370,7 +366,6 @@ public class CMAESOptimizer
     /** {@inheritDoc} */
     @Override
     protected PointValuePair doOptimize() {
-        checkParameters();
          // -------------------- Initialization --------------------------------
         isMinimize = getGoalType().equals(GoalType.MINIMIZE);
         final FitnessFunction fitfun = new FitnessFunction();
@@ -528,7 +523,11 @@ public class CMAESOptimizer
      *  <li>{@link PopulationSize}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
@@ -541,6 +540,8 @@ public class CMAESOptimizer
                 continue;
             }
         }
+
+        checkParameters();
     }
 
     /**

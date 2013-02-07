@@ -178,15 +178,11 @@ public abstract class AbstractLeastSquaresOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data. The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link JacobianMultivariateVectorOptimizer#parseOptimizationData(OptimizationData[])
+     * JacobianMultivariateVectorOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.MaxEval}</li>
-     *  <li>{@link org.apache.commons.math3.optim.InitialGuess}</li>
-     *  <li>{@link org.apache.commons.math3.optim.SimpleBounds}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.Target}</li>
      *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.Weight}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.ModelFunction}</li>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian}</li>
      * </ul>
      * @return {@inheritDoc}
      * @throws TooManyEvaluationsException if the maximal number of
@@ -197,8 +193,6 @@ public abstract class AbstractLeastSquaresOptimizer
     @Override
     public PointVectorValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException {
-        // Retrieve settings.
-        parseOptimizationData(optData);
         // Set up base class and perform computation.
         return super.optimize(optData);
     }
@@ -244,7 +238,11 @@ public abstract class AbstractLeastSquaresOptimizer
      *  <li>{@link Weight}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {

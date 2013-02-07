@@ -19,21 +19,37 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
 import org.apache.commons.math3.optim.nonlinear.scalar.LeastSquaresConverter;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class SimplexOptimizerNelderMeadTest {
+    @Test(expected=MathUnsupportedOperationException.class)
+    public void testBoundsUnsupported() {
+        SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);
+        final FourExtrema fourExtrema = new FourExtrema();
+
+        optimizer.optimize(new MaxEval(100),
+                           new ObjectiveFunction(fourExtrema),
+                           GoalType.MINIMIZE,
+                           new InitialGuess(new double[] { -3, 0 }),
+                           new NelderMeadSimplex(new double[] { 0.2, 0.2 }),
+                           new SimpleBounds(new double[] { -5, -1 },
+                                            new double[] { 5, 1 }));
+    }
+
     @Test
     public void testMinimize1() {
         SimplexOptimizer optimizer = new SimplexOptimizer(1e-10, 1e-30);

@@ -52,8 +52,9 @@ public abstract class UnivariateOptimizer
     /**
      * {@inheritDoc}
      *
-     * @param optData Optimization data.
-     * The following data will be looked for:
+     * @param optData Optimization data. In addition to those documented in
+     * {@link BaseOptimizer#parseOptimizationData(OptimizationData[])
+     * BaseOptimizer}, this method will register the following data:
      * <ul>
      *  <li>{@link GoalType}</li>
      *  <li>{@link SearchInterval}</li>
@@ -65,8 +66,6 @@ public abstract class UnivariateOptimizer
      */
     public UnivariatePointValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException {
-        // Retrieve settings.
-        parseOptimizationData(optData);
         // Perform computation.
         return super.optimize(optData);
     }
@@ -90,7 +89,11 @@ public abstract class UnivariateOptimizer
      *  <li>{@link UnivariateObjectiveFunction}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {

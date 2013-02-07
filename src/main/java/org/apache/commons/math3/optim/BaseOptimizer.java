@@ -112,8 +112,14 @@ public abstract class BaseOptimizer<PAIR> {
      * only when actually present in the list of arguments: when not specified,
      * data set in a previous call is retained (and thus is optional in
      * subsequent calls).
+     * <br/>
+     * Important note: Subclasses <em>must</em> override
+     * {@link #parseOptimizationData(OptimizationData[])} if they need to register
+     * their own options; but then, they <em>must</em> also call
+     * {@code super.parseOptimizationData(optData)} within that method.
      *
-     * @param optData Optimization data. The following data will be looked for:
+     * @param optData Optimization data.
+     * This method will register the following data:
      * <ul>
      *  <li>{@link MaxEval}</li>
      *  <li>{@link MaxIter}</li>
@@ -127,8 +133,9 @@ public abstract class BaseOptimizer<PAIR> {
     public PAIR optimize(OptimizationData... optData)
         throws TooManyEvaluationsException,
                TooManyIterationsException {
-        // Retrieve settings.
+        // Parse options.
         parseOptimizationData(optData);
+
         // Reset counters.
         evaluations.resetCount();
         iterations.resetCount();
@@ -177,7 +184,7 @@ public abstract class BaseOptimizer<PAIR> {
      *  <li>{@link MaxIter}</li>
      * </ul>
      */
-    private void parseOptimizationData(OptimizationData... optData) {
+    protected void parseOptimizationData(OptimizationData... optData) {
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
