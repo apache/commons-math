@@ -64,10 +64,10 @@ public class SphericalCoordinates implements Serializable {
     /** Azimuthal angle in the x-y plane &theta;. */
     private final double theta;
 
-    /** Polar angle (co-latitude) &phi;. */
+    /** Polar angle (co-latitude) &Phi;. */
     private final double phi;
 
-    /** Jacobian of (r, &theta; &phi). */
+    /** Jacobian of (r, &theta; &Phi). */
     private double[][] jacobian;
 
     /** Hessian of radius. */
@@ -96,7 +96,7 @@ public class SphericalCoordinates implements Serializable {
 
     /** Build a spherical coordinates transformer from spherical coordinates.
      * @param r radius
-     * @param theta azimuthal angle in x-y place
+     * @param theta azimuthal angle in x-y plane
      * @param phi polar (co-latitude) angle
      */
     public SphericalCoordinates(final double r, final double theta, final double phi) {
@@ -188,7 +188,7 @@ public class SphericalCoordinates implements Serializable {
      * @param sGradient gradient with respect to spherical coordinates
      * {df/dr, df/d&theta;, df/d&Phi;}
      * @return Hessian with respect to Cartesian coordinates
-     * {{d<sup>2</sup>f/dx<sup>2</sup>, d<sup>2</sup>f/rGradient.getY(), d<sup>2</sup>f/dxdz},
+     * {{d<sup>2</sup>f/dx<sup>2</sup>, d<sup>2</sup>f/dxdy, d<sup>2</sup>f/dxdz},
      *  {d<sup>2</sup>f/dxdy, d<sup>2</sup>f/dy<sup>2</sup>, d<sup>2</sup>f/dydz},
      *  {d<sup>2</sup>f/dxdz, d<sup>2</sup>f/dydz, d<sup>2</sup>f/dz<sup>2</sup>}}
      */
@@ -210,7 +210,7 @@ public class SphericalCoordinates implements Serializable {
         hj[0][2] = sHessian[0][0] * jacobian[0][2]                                   + sHessian[2][0] * jacobian[2][2];
         hj[1][0] = sHessian[1][0] * jacobian[0][0] + sHessian[1][1] * jacobian[1][0] + sHessian[2][1] * jacobian[2][0];
         hj[1][1] = sHessian[1][0] * jacobian[0][1] + sHessian[1][1] * jacobian[1][1] + sHessian[2][1] * jacobian[2][1];
-        hj[1][2] = sHessian[1][0] * jacobian[0][2]                                   + sHessian[2][1] * jacobian[2][2];
+        // don't compute hj[1][2] as it is not used below
         hj[2][0] = sHessian[2][0] * jacobian[0][0] + sHessian[2][1] * jacobian[1][0] + sHessian[2][2] * jacobian[2][0];
         hj[2][1] = sHessian[2][0] * jacobian[0][1] + sHessian[2][1] * jacobian[1][1] + sHessian[2][2] * jacobian[2][1];
         hj[2][2] = sHessian[2][0] * jacobian[0][2]                                   + sHessian[2][2] * jacobian[2][2];
