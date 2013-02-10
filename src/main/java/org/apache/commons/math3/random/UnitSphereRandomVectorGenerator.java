@@ -62,7 +62,7 @@ public class UnitSphereRandomVectorGenerator
         final double[] v = new double[dimension];
 
         // See http://mathworld.wolfram.com/SpherePointPicking.html for example.
-        // Pick a point by choosing a standard Gaussian for each element, and then 
+        // Pick a point by choosing a standard Gaussian for each element, and then
         // normalizing to unit length.
         double normSq = 0;
         for (int i = 0; i < dimension; i++) {
