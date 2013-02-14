@@ -14,6 +14,8 @@
 package org.apache.commons.math3.util;
 
 import java.util.Arrays;
+
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
@@ -537,6 +539,11 @@ public class MathArraysTest {
         final double abSumArray = MathArrays.linearCombination(a, b);
 
         Assert.assertEquals(abSumInline, abSumArray, 0);
+        Assert.assertEquals(-1.8551294182586248737720779899, abSumInline, 1.0e-15);
+
+        final double naive = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+        Assert.assertTrue(FastMath.abs(naive - abSumInline) > 1.5);
+
     }
 
     @Test
@@ -711,6 +718,149 @@ public class MathArraysTest {
                                                                     a[7][2], b[7][2],
                                                                     a[7][3], b[7][3])));
         Assert.assertTrue(Double.isNaN(MathArrays.linearCombination(a[7], b[7])));
+    }
+
+    @Test
+    public void testLinearCombination1DSDS() {
+        final DerivativeStructure[] a = new DerivativeStructure[] {
+            new DerivativeStructure(6, 1, 0, -1321008684645961.0 / 268435456.0),
+            new DerivativeStructure(6, 1, 1, -5774608829631843.0 / 268435456.0),
+            new DerivativeStructure(6, 1, 2, -7645843051051357.0 / 8589934592.0)
+        };
+        final DerivativeStructure[] b = new DerivativeStructure[] {
+            new DerivativeStructure(6, 1, 3, -5712344449280879.0 / 2097152.0),
+            new DerivativeStructure(6, 1, 4, -4550117129121957.0 / 2097152.0),
+            new DerivativeStructure(6, 1, 5, 8846951984510141.0 / 131072.0)
+        };
+
+        final DerivativeStructure abSumInline = MathArrays.linearCombination(a[0], b[0],
+                                                                             a[1], b[1],
+                                                                             a[2], b[2]);
+        final DerivativeStructure abSumArray = MathArrays.linearCombination(a, b);
+
+        Assert.assertEquals(abSumInline.getValue(), abSumArray.getValue(), 0);
+        Assert.assertEquals(-1.8551294182586248737720779899, abSumInline.getValue(), 1.0e-15);
+        Assert.assertEquals(b[0].getValue(), abSumInline.getPartialDerivative(1, 0, 0, 0, 0, 0), 1.0e-15);
+        Assert.assertEquals(b[1].getValue(), abSumInline.getPartialDerivative(0, 1, 0, 0, 0, 0), 1.0e-15);
+        Assert.assertEquals(b[2].getValue(), abSumInline.getPartialDerivative(0, 0, 1, 0, 0, 0), 1.0e-15);
+        Assert.assertEquals(a[0].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 1, 0, 0), 1.0e-15);
+        Assert.assertEquals(a[1].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 0, 1, 0), 1.0e-15);
+        Assert.assertEquals(a[2].getValue(), abSumInline.getPartialDerivative(0, 0, 0, 0, 0, 1), 1.0e-15);
+
+    }
+
+    @Test
+    public void testLinearCombination1DoubleDS() {
+        final double[] a = new double[] {
+            -1321008684645961.0 / 268435456.0,
+            -5774608829631843.0 / 268435456.0,
+            -7645843051051357.0 / 8589934592.0
+        };
+        final DerivativeStructure[] b = new DerivativeStructure[] {
+            new DerivativeStructure(3, 1, 0, -5712344449280879.0 / 2097152.0),
+            new DerivativeStructure(3, 1, 1, -4550117129121957.0 / 2097152.0),
+            new DerivativeStructure(3, 1, 2, 8846951984510141.0 / 131072.0)
+        };
+
+        final DerivativeStructure abSumInline = MathArrays.linearCombination(a[0], b[0],
+                                                                             a[1], b[1],
+                                                                             a[2], b[2]);
+        final DerivativeStructure abSumArray = MathArrays.linearCombination(a, b);
+
+        Assert.assertEquals(abSumInline.getValue(), abSumArray.getValue(), 0);
+        Assert.assertEquals(-1.8551294182586248737720779899, abSumInline.getValue(), 1.0e-15);
+        Assert.assertEquals(a[0], abSumInline.getPartialDerivative(1, 0, 0), 1.0e-15);
+        Assert.assertEquals(a[1], abSumInline.getPartialDerivative(0, 1, 0), 1.0e-15);
+        Assert.assertEquals(a[2], abSumInline.getPartialDerivative(0, 0, 1), 1.0e-15);
+
+    }
+
+    @Test
+    public void testLinearCombination2DSDS() {
+        // we compare accurate versus naive dot product implementations
+        // on regular vectors (i.e. not extreme cases like in the previous test)
+        Well1024a random = new Well1024a(0xc6af886975069f11l);
+
+        for (int i = 0; i < 10000; ++i) {
+            final DerivativeStructure[] u = new DerivativeStructure[4];
+            final DerivativeStructure[] v = new DerivativeStructure[4];
+            for (int j = 0; j < u.length; ++j) {
+                u[j] = new DerivativeStructure(u.length, 1, j, 1e17 * random.nextDouble());
+                v[j] = new DerivativeStructure(u.length, 1, 1e17 * random.nextDouble());
+            }
+
+            DerivativeStructure lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1]);
+            double ref = u[0].getValue() * v[0].getValue() +
+                         u[1].getValue() * v[1].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+
+            lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
+            ref = u[0].getValue() * v[0].getValue() +
+                  u[1].getValue() * v[1].getValue() +
+                  u[2].getValue() * v[2].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+
+            lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
+            ref = u[0].getValue() * v[0].getValue() +
+                  u[1].getValue() * v[1].getValue() +
+                  u[2].getValue() * v[2].getValue() +
+                  u[3].getValue() * v[3].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(v[0].getValue(), lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(v[1].getValue(), lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(v[2].getValue(), lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(v[3].getValue(), lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * FastMath.abs(v[3].getValue()));
+
+        }
+    }
+
+    @Test
+    public void testLinearCombination2DoubleDS() {
+        // we compare accurate versus naive dot product implementations
+        // on regular vectors (i.e. not extreme cases like in the previous test)
+        Well1024a random = new Well1024a(0xc6af886975069f11l);
+
+        for (int i = 0; i < 10000; ++i) {
+            final double[] u = new double[4];
+            final DerivativeStructure[] v = new DerivativeStructure[4];
+            for (int j = 0; j < u.length; ++j) {
+                u[j] = 1e17 * random.nextDouble();
+                v[j] = new DerivativeStructure(u.length, 1, j, 1e17 * random.nextDouble());
+            }
+
+            DerivativeStructure lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1]);
+            double ref = u[0] * v[0].getValue() +
+                         u[1] * v[1].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+
+            lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1], u[2], v[2]);
+            ref = u[0] * v[0].getValue() +
+                  u[1] * v[1].getValue() +
+                  u[2] * v[2].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+
+            lin = MathArrays.linearCombination(u[0], v[0], u[1], v[1], u[2], v[2], u[3], v[3]);
+            ref = u[0] * v[0].getValue() +
+                  u[1] * v[1].getValue() +
+                  u[2] * v[2].getValue() +
+                  u[3] * v[3].getValue();
+            Assert.assertEquals(ref, lin.getValue(), 1.0e-15 * FastMath.abs(ref));
+            Assert.assertEquals(u[0], lin.getPartialDerivative(1, 0, 0, 0), 1.0e-15 * FastMath.abs(v[0].getValue()));
+            Assert.assertEquals(u[1], lin.getPartialDerivative(0, 1, 0, 0), 1.0e-15 * FastMath.abs(v[1].getValue()));
+            Assert.assertEquals(u[2], lin.getPartialDerivative(0, 0, 1, 0), 1.0e-15 * FastMath.abs(v[2].getValue()));
+            Assert.assertEquals(u[3], lin.getPartialDerivative(0, 0, 0, 1), 1.0e-15 * FastMath.abs(v[3].getValue()));
+
+        }
     }
 
     @Test

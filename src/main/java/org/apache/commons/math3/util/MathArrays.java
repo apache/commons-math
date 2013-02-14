@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collections;
 
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
@@ -1115,6 +1116,353 @@ public class MathArrays {
         }
 
         return result;
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * This method computes the sum of the products
+     * <code>a<sub>i</sub> b<sub>i</sub></code> to high accuracy.
+     * It does so by using specific multiplication and addition algorithms to
+     * preserve accuracy and reduce cancellation effects.
+     * <br/>
+     * It is based on the 2005 paper
+     * <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump,
+     * and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     *
+     * @param a Factors.
+     * @param b Factors.
+     * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
+     * @throws DimensionMismatchException if arrays dimensions don't match
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b)
+        throws DimensionMismatchException {
+
+        // compute an accurate value, taking care of cancellations
+        final double[] aDouble = new double[a.length];
+        for (int i = 0; i < a.length; ++i) {
+            aDouble[i] = a[i].getValue();
+        }
+        final double[] bDouble = new double[b.length];
+        for (int i = 0; i < b.length; ++i) {
+            bDouble[i] = b[i].getValue();
+        }
+        final double accurateValue = MathArrays.linearCombination(aDouble, bDouble);
+
+        // compute a simple value, with all partial derivatives
+        DerivativeStructure simpleValue = a[0].getField().getZero();
+        for (int i = 0; i < a.length; ++i) {
+            simpleValue = simpleValue.add(a[i].multiply(b[i]));
+        }
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * This method computes the sum of the products
+     * <code>a<sub>i</sub> b<sub>i</sub></code> to high accuracy.
+     * It does so by using specific multiplication and addition algorithms to
+     * preserve accuracy and reduce cancellation effects.
+     * <br/>
+     * It is based on the 2005 paper
+     * <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump,
+     * and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     *
+     * @param a Factors.
+     * @param b Factors.
+     * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
+     * @throws DimensionMismatchException if arrays dimensions don't match
+     */
+    public static DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b)
+        throws DimensionMismatchException {
+
+        // compute an accurate value, taking care of cancellations
+        final double[] bDouble = new double[b.length];
+        for (int i = 0; i < b.length; ++i) {
+            bDouble[i] = b[i].getValue();
+        }
+        final double accurateValue = MathArrays.linearCombination(a, bDouble);
+
+        // compute a simple value, with all partial derivatives
+        DerivativeStructure simpleValue = b[0].getField().getZero();
+        for (int i = 0; i < a.length; ++i) {
+            simpleValue = simpleValue.add(b[i].multiply(a[i]));
+        }
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub>
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
+                                                        final DerivativeStructure a2, final DerivativeStructure b2) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+                                                                  a2.getValue(), b2.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub>
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure)
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
+                                                        final double a2, final DerivativeStructure b2) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+                                                                  a2, b2.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
+                                                        final DerivativeStructure a2, final DerivativeStructure b2,
+                                                        final DerivativeStructure a3, final DerivativeStructure b3) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+                                                                  a2.getValue(), b2.getValue(),
+                                                                  a3.getValue(), b3.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure)
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
+                                                        final double a2, final DerivativeStructure b2,
+                                                        final double a3, final DerivativeStructure b3) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+                                                                  a2, b2.getValue(),
+                                                                  a3, b3.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @param a4 first factor of the third term
+     * @param b4 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @see #linearCombination(DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
+                                                        final DerivativeStructure a2, final DerivativeStructure b2,
+                                                        final DerivativeStructure a3, final DerivativeStructure b3,
+                                                        final DerivativeStructure a4, final DerivativeStructure b4) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
+                                                                  a2.getValue(), b2.getValue(),
+                                                                  a3.getValue(), b3.getValue(),
+                                                                  a4.getValue(), b4.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
+    }
+
+    /**
+     * Compute a linear combination accurately.
+     * <p>
+     * This method computes a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * to high accuracy. It does so by using specific multiplication and
+     * addition algorithms to preserve accuracy and reduce cancellation effects.
+     * It is based on the 2005 paper <a
+     * href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
+     * Accurate Sum and Dot Product</a> by Takeshi Ogita,
+     * Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput.
+     * </p>
+     * @param a1 first factor of the first term
+     * @param b1 second factor of the first term
+     * @param a2 first factor of the second term
+     * @param b2 second factor of the second term
+     * @param a3 first factor of the third term
+     * @param b3 second factor of the third term
+     * @param a4 first factor of the third term
+     * @param b4 second factor of the third term
+     * @return a<sub>1</sub>&times;b<sub>1</sub> +
+     * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
+     * a<sub>4</sub>&times;b<sub>4</sub>
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure)
+     * @see #linearCombination(double, DerivativeStructure, double, DerivativeStructure, double, DerivativeStructure)
+     * @since 3.2
+     */
+    public static DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
+                                                        final double a2, final DerivativeStructure b2,
+                                                        final double a3, final DerivativeStructure b3,
+                                                        final double a4, final DerivativeStructure b4) {
+
+        // compute an accurate value, taking care of cancellations
+        final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
+                                                                  a2, b2.getValue(),
+                                                                  a3, b3.getValue(),
+                                                                  a4, b4.getValue());
+
+        // compute a simple value, with all partial derivatives
+        final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
+
+        // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
+        final double[] data = simpleValue.getAllDerivatives();
+        data[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+
     }
 
     /**
