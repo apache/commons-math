@@ -17,10 +17,16 @@
 
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,6 +50,41 @@ public class Vector3DTest {
                     2, 0, 3);
         checkVector(new Vector3D(new double[] { 2,  5,  -3 }),
                     2, 5, -3);
+    }
+
+    @Test
+    public void testEquals() {
+        Vector3D u1 = new Vector3D(1, 2, 3);
+        Vector3D u2 = new Vector3D(1, 2, 3);
+        Vector3D v  = new Vector3D(1, 2, 3 + 10 * Precision.EPSILON);
+        Assert.assertTrue(u1.equals(u1));
+        Assert.assertTrue(u1.equals(u2));
+        Assert.assertFalse(u1.equals(v));
+        Assert.assertTrue(new Vector3D(0, Double.NaN, 0).equals(new Vector3D(0, 0, Double.NaN)));
+    }
+
+    @Test
+    public void testHash() {
+        Assert.assertEquals(new Vector3D(0, Double.NaN, 0).hashCode(), new Vector3D(0, 0, Double.NaN).hashCode());
+        Vector3D u = new Vector3D(1, 2, 3);
+        Vector3D v = new Vector3D(1, 2, 3 + 10 * Precision.EPSILON);
+        Assert.assertTrue(u.hashCode() != v.hashCode());
+    }
+
+    @Test
+    public void testInfinite() {
+        Assert.assertTrue(new Vector3D(1, 1, Double.NEGATIVE_INFINITY).isInfinite());
+        Assert.assertTrue(new Vector3D(1, Double.NEGATIVE_INFINITY, 1).isInfinite());
+        Assert.assertTrue(new Vector3D(Double.NEGATIVE_INFINITY, 1, 1).isInfinite());
+        Assert.assertFalse(new Vector3D(1, 1, 2).isInfinite());
+        Assert.assertFalse(new Vector3D(1, Double.NaN, Double.NEGATIVE_INFINITY).isInfinite());
+    }
+
+    @Test
+    public void testToString() {
+        Assert.assertEquals("{3; 2; 1}", new Vector3D(3, 2, 1).toString());
+        NumberFormat format = new DecimalFormat("0.000", new DecimalFormatSymbols(Locale.US));
+        Assert.assertEquals("{3.000; 2.000; 1.000}", new Vector3D(3, 2, 1).toString(format));
     }
 
     @Test(expected=DimensionMismatchException.class)
