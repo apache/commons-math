@@ -1415,6 +1415,9 @@ public class DSCompiler {
 
         }
 
+        // fix value to take special cases (+0/+0, +0/-0, -0/+0, -0/-0, +/-infinity) correctly
+        result[resultOffset] = FastMath.atan2(y[yOffset], x[xOffset]);
+
     }
 
     /** Compute hyperbolic cosine of a derivative structure.

@@ -55,6 +55,9 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="luc" type="fix" issue="MATH-935" >
+        Fixed DerivativeStructure.atan2 for special cases when both arguments are +/-0.
+      </action>
       <action dev="luc" type="add" >
         Added accurate linear combination of DerivativeStructure instances,
         avoiding cancellation.  
