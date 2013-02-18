@@ -520,6 +520,46 @@ public class DerivativeStructureTest {
     }
 
     @Test
+    public void testHypotNeglectible() {
+
+        DerivativeStructure dsSmall = new DerivativeStructure(2, 5, 0, +3.0e-10);
+        DerivativeStructure dsLarge = new DerivativeStructure(2, 5, 1, -4.0e25);
+
+        Assert.assertEquals(dsLarge.abs().getValue(),
+                            DerivativeStructure.hypot(dsSmall, dsLarge).getValue(),
+                            1.0e-10);
+        Assert.assertEquals(0,
+                            DerivativeStructure.hypot(dsSmall, dsLarge).getPartialDerivative(1, 0),
+                            1.0e-10);
+        Assert.assertEquals(-1,
+                            DerivativeStructure.hypot(dsSmall, dsLarge).getPartialDerivative(0, 1),
+                            1.0e-10);
+
+        Assert.assertEquals(dsLarge.abs().getValue(),
+                            DerivativeStructure.hypot(dsLarge, dsSmall).getValue(),
+                            1.0e-10);
+        Assert.assertEquals(0,
+                            DerivativeStructure.hypot(dsLarge, dsSmall).getPartialDerivative(1, 0),
+                            1.0e-10);
+        Assert.assertEquals(-1,
+                            DerivativeStructure.hypot(dsLarge, dsSmall).getPartialDerivative(0, 1),
+                            1.0e-10);
+
+    }
+
+    @Test
+    public void testHypotSpecial() {
+        Assert.assertTrue(Double.isNaN(DerivativeStructure.hypot(new DerivativeStructure(2, 5, 0, Double.NaN),
+                                                                 new DerivativeStructure(2, 5, 0, +3.0e250)).getValue()));
+        Assert.assertTrue(Double.isNaN(DerivativeStructure.hypot(new DerivativeStructure(2, 5, 0, +3.0e250),
+                                                                 new DerivativeStructure(2, 5, 0, Double.NaN)).getValue()));
+        Assert.assertTrue(Double.isInfinite(DerivativeStructure.hypot(new DerivativeStructure(2, 5, 0, Double.POSITIVE_INFINITY),
+                                                                      new DerivativeStructure(2, 5, 0, +3.0e250)).getValue()));
+        Assert.assertTrue(Double.isInfinite(DerivativeStructure.hypot(new DerivativeStructure(2, 5, 0, +3.0e250),
+                                                                      new DerivativeStructure(2, 5, 0, Double.POSITIVE_INFINITY)).getValue()));
+    }
+
+    @Test
     public void testPrimitiveRemainder() {
         double epsilon = 1.0e-15;
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
@@ -1060,6 +1100,7 @@ public class DerivativeStructureTest {
 
     @Test
     public void testCopySign() {
+
         DerivativeStructure minusOne = new DerivativeStructure(1, 1, 0, -1.0);
         Assert.assertEquals(+1.0, minusOne.copySign(+1.0).getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(-1.0, minusOne.copySign(+1.0).getPartialDerivative(1), 1.0e-15);
@@ -1071,6 +1112,19 @@ public class DerivativeStructureTest {
         Assert.assertEquals(+1.0, minusOne.copySign(-0.0).getPartialDerivative(1), 1.0e-15);
         Assert.assertEquals(+1.0, minusOne.copySign(Double.NaN).getPartialDerivative(0), 1.0e-15);
         Assert.assertEquals(-1.0, minusOne.copySign(Double.NaN).getPartialDerivative(1), 1.0e-15);
+
+        DerivativeStructure plusOne = new DerivativeStructure(1, 1, 0, +1.0);
+        Assert.assertEquals(+1.0, plusOne.copySign(+1.0).getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.copySign(+1.0).getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-1.0, plusOne.copySign(-1.0).getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(-1.0, plusOne.copySign(-1.0).getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.copySign(+0.0).getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.copySign(+0.0).getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(-1.0, plusOne.copySign(-0.0).getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(-1.0, plusOne.copySign(-0.0).getPartialDerivative(1), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getPartialDerivative(0), 1.0e-15);
+        Assert.assertEquals(+1.0, plusOne.copySign(Double.NaN).getPartialDerivative(1), 1.0e-15);
+
     }
 
     @Test
