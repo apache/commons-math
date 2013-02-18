@@ -22,8 +22,10 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -53,13 +55,29 @@ public class Vector3DTest {
     }
 
     @Test
+    public void testSpace() {
+        Space space = new Vector3D(1, 2, 2).getSpace();
+        Assert.assertEquals(3, space.getDimension());
+        Assert.assertEquals(2, space.getSubSpace().getDimension());
+        Space deserialized = (Space) TestUtils.serializeAndRecover(space);
+        Assert.assertTrue(space == deserialized);
+    }
+
+    @Test
+    public void testZero() {
+        Assert.assertEquals(0, new Vector3D(1, 2, 2).getZero().getNorm(), 1.0e-15);
+    }
+
+    @Test
     public void testEquals() {
         Vector3D u1 = new Vector3D(1, 2, 3);
         Vector3D u2 = new Vector3D(1, 2, 3);
-        Vector3D v  = new Vector3D(1, 2, 3 + 10 * Precision.EPSILON);
         Assert.assertTrue(u1.equals(u1));
         Assert.assertTrue(u1.equals(u2));
-        Assert.assertFalse(u1.equals(v));
+        Assert.assertFalse(u1.equals(new Rotation(1, 0, 0, 0, false)));
+        Assert.assertFalse(u1.equals(new Vector3D(1, 2, 3 + 10 * Precision.EPSILON)));
+        Assert.assertFalse(u1.equals(new Vector3D(1, 2 + 10 * Precision.EPSILON, 3)));
+        Assert.assertFalse(u1.equals(new Vector3D(1 + 10 * Precision.EPSILON, 2, 3)));
         Assert.assertTrue(new Vector3D(0, Double.NaN, 0).equals(new Vector3D(0, 0, Double.NaN)));
     }
 
@@ -78,6 +96,15 @@ public class Vector3DTest {
         Assert.assertTrue(new Vector3D(Double.NEGATIVE_INFINITY, 1, 1).isInfinite());
         Assert.assertFalse(new Vector3D(1, 1, 2).isInfinite());
         Assert.assertFalse(new Vector3D(1, Double.NaN, Double.NEGATIVE_INFINITY).isInfinite());
+    }
+
+    @Test
+    public void testNaN() {
+        Assert.assertTrue(new Vector3D(1, 1, Double.NaN).isNaN());
+        Assert.assertTrue(new Vector3D(1, Double.NaN, 1).isNaN());
+        Assert.assertTrue(new Vector3D(Double.NaN, 1, 1).isNaN());
+        Assert.assertFalse(new Vector3D(1, 1, 2).isNaN());
+        Assert.assertFalse(new Vector3D(1, 1, Double.NEGATIVE_INFINITY).isNaN());
     }
 
     @Test
@@ -114,6 +141,12 @@ public class Vector3DTest {
     public void testNorm() {
         Assert.assertEquals(0.0, Vector3D.ZERO.getNorm(), 0);
         Assert.assertEquals(FastMath.sqrt(14), new Vector3D(1, 2, 3).getNorm(), 1.0e-12);
+    }
+
+    @Test
+    public void testNormSq() {
+        Assert.assertEquals(0.0, new Vector3D(0, 0, 0).getNormSq(), 0);
+        Assert.assertEquals(14, new Vector3D(1, 2, 3).getNormSq(), 1.0e-12);
     }
 
     @Test
@@ -254,6 +287,11 @@ public class Vector3DTest {
     }
 
     @Test
+    public void testNegate() {
+        checkVector(new Vector3D(0.1, 2.5, 1.3).negate(), -0.1, -2.5, -1.3);
+    }
+
+    @Test
     public void testOrthogonal() throws MathArithmeticException {
         Vector3D v1 = new Vector3D(0.1, 2.5, 1.3);
         Assert.assertEquals(0.0, Vector3D.dotProduct(v1, v1.orthogonal()), 1.0e-12);
@@ -261,6 +299,8 @@ public class Vector3DTest {
         Assert.assertEquals(0.0, Vector3D.dotProduct(v2, v2.orthogonal()), 1.0e-12);
         Vector3D v3 = new Vector3D(-1.7, 1.4, 0.2);
         Assert.assertEquals(0.0, Vector3D.dotProduct(v3, v3.orthogonal()), 1.0e-12);
+        Vector3D v4 = new Vector3D(4.2, 0.1, -1.8);
+        Assert.assertEquals(0.0, Vector3D.dotProduct(v4, v4.orthogonal()), 1.0e-12);
         try {
             new Vector3D(0, 0, 0).orthogonal();
             Assert.fail("an exception should have been thrown");
@@ -268,7 +308,6 @@ public class Vector3DTest {
             // expected behavior
         }
     }
-
     @Test
     public void testAngle() throws MathArithmeticException {
         Assert.assertEquals(0.22572612855273393616,

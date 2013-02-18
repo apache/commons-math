@@ -323,10 +323,10 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
 
-        if ((x >= -threshold) && (x <= threshold)) {
+        if (FastMath.abs(x) <= threshold) {
             double inverse  = 1 / FastMath.sqrt(y * y + z * z);
             return new Vector3D(0, inverse * z, -inverse * y);
-        } else if ((y >= -threshold) && (y <= threshold)) {
+        } else if (FastMath.abs(y) <= threshold) {
             double inverse  = 1 / FastMath.sqrt(x * x + z * z);
             return new Vector3D(-inverse * z, 0, inverse * x);
         }
