@@ -516,7 +516,7 @@ public class DSCompiler {
      *   at index 1, d<sup>2</sup>f/dp<sup>2</sup> at index 2 ...
      *   d<sup>k</sup>f/dp<sup>k</sup> at index k),</li>
      *   <li>if the {@link #getOrder() derivation order} is 1, then the derivatives
-     *   are sorted in incresing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
+     *   are sorted in increasing free parameter order (i.e. f at index 0, df/dx<sub>1</sub>
      *   at index 1, df/dx<sub>2</sub> at index 2 ... df/dx<sub>k</sub> at index k),</li>
      *   <li>all other cases are not publicly specified</li>
      * </ul>
