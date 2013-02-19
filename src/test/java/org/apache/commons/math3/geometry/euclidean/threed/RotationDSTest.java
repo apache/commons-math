@@ -486,11 +486,7 @@ public class RotationDSTest {
         RotationDS r1       = new RotationDS(createVector(2, -3, 5), createAngle(1.7));
         RotationDS r2       = new RotationDS(createVector(-1, 3, 2), createAngle(0.3));
         RotationDS r3       = r2.applyTo(r1);
-        RotationDS r3Double = r2.applyTo(new Rotation(r1.getQ0().getValue(),
-                                                      r1.getQ1().getValue(),
-                                                      r1.getQ2().getValue(),
-                                                      r1.getQ3().getValue(),
-                                                      false));
+        RotationDS r3Double = r2.applyTo(r1.toRotation());
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {
@@ -510,11 +506,7 @@ public class RotationDSTest {
         RotationDS r1 = new RotationDS(createVector(2, -3, 5), createAngle(1.7));
         RotationDS r2 = new RotationDS(createVector(-1, 3, 2), createAngle(0.3));
         RotationDS r3 = r2.applyInverseTo(r1);
-        RotationDS r3Double = r2.applyInverseTo(new Rotation(r1.getQ0().getValue(),
-                                                             r1.getQ1().getValue(),
-                                                             r1.getQ2().getValue(),
-                                                             r1.getQ3().getValue(),
-                                                             false));
+        RotationDS r3Double = r2.applyInverseTo(r1.toRotation());
 
         for (double x = -0.9; x < 0.9; x += 0.2) {
             for (double y = -0.9; y < 0.9; y += 0.2) {

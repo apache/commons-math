@@ -786,6 +786,13 @@ public class RotationDS implements Serializable {
 
     }
 
+    /** Convert to a constant vector without derivatives.
+     * @return a constant vector
+     */
+    public Rotation toRotation() {
+        return new Rotation(q0.getValue(), q1.getValue(), q2.getValue(), q3.getValue(), false);
+    }
+
     /** Apply the rotation to a vector.
      * @param u vector to apply the rotation to
      * @return a new vector which is the image of u by the rotation
