@@ -17,16 +17,16 @@
 package org.apache.commons.math3.linear;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.OpenIntToFieldHashMap;
 
 /**
@@ -479,7 +479,7 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
 
     /** {@inheritDoc} */
     public T[] toArray() {
-        T[] res = buildArray(virtualSize);
+        T[] res = MathArrays.buildArray(field, virtualSize);
         OpenIntToFieldHashMap<T>.Iterator iter = entries.iterator();
         while (iter.hasNext()) {
             iter.advance();
@@ -528,18 +528,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             return res;
         }
     }
-
-    /**
-     * Build an array of elements.
-     *
-     * @param length Size of the array to build.
-     * @return a new array.
-     */
-    @SuppressWarnings("unchecked") // field is type T
-    private T[] buildArray(final int length) {
-        return (T[]) Array.newInstance(field.getRuntimeClass(), length);
-    }
-
 
     /** {@inheritDoc} */
     @Override

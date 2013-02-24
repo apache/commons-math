@@ -19,7 +19,9 @@ package org.apache.commons.math3.dfp;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  *  Decimal floating point library for Java
@@ -93,7 +95,7 @@ import org.apache.commons.math3.FieldElement;
  * @version $Id$
  * @since 2.2
  */
-public class Dfp implements FieldElement<Dfp> {
+public class Dfp implements ExtendedFieldElement<Dfp> {
 
     /** The radix, or base of this system.  Set to 10000 */
     public static final int RADIX = 10000;
@@ -1178,7 +1180,7 @@ public class Dfp implements FieldElement<Dfp> {
     /** Get the exponent of the greatest power of 10 that is less than or equal to abs(this).
      *  @return integer base 10 logarithm
      */
-    public int log10()  {
+    public int intLog10()  {
         if (mant[mant.length-1] > 1000) {
             return exp * 4 - 1;
         }
@@ -2429,7 +2431,7 @@ public class Dfp implements FieldElement<Dfp> {
 
         /* Find the exponent, first estimate by integer log10, then adjust.
          Should be faster than doing a natural logarithm.  */
-        int exponent = (int)(y.log10() * 3.32);
+        int exponent = (int)(y.intLog10() * 3.32);
         if (exponent < 0) {
             exponent--;
         }
@@ -2501,6 +2503,350 @@ public class Dfp implements FieldElement<Dfp> {
         split[1] = subtract(newInstance(split[0])).toDouble();
 
         return split;
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public double getReal() {
+        return toDouble();
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp add(final double a) {
+        return add(newInstance(a));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp subtract(final double a) {
+        return subtract(newInstance(a));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp multiply(final double a) {
+        return multiply(newInstance(a));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp divide(final double a) {
+        return divide(newInstance(a));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp remainder(final double a) {
+        return remainder(newInstance(a));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public long round() {
+        return FastMath.round(toDouble());
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp signum() {
+        if (isNaN() || isZero()) {
+            return this;
+        } else {
+            return newInstance(sign > 0 ? +1 : -1);
+        }
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp copySign(final double sign) {
+        long s = Double.doubleToLongBits(sign);
+        if ((sign >= 0 && s >= 0) || (sign < 0 && s < 0)) { // Sign is currently OK
+            return this;
+        }
+        return negate(); // flip sign
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp scalb(final int n) {
+        return multiply(DfpMath.pow(getTwo(), n));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp hypot(final Dfp y) {
+        return multiply(this).add(y.multiply(y)).sqrt();
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp cbrt() {
+        return rootN(3);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp rootN(final int n) {
+        return DfpMath.pow(this, getOne().divide(n));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp pow(final double p) {
+        return DfpMath.pow(this, newInstance(p));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp pow(final int n) {
+        return DfpMath.pow(this, n);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp pow(final Dfp e) {
+        return DfpMath.pow(this, e);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp exp() {
+        return DfpMath.exp(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp expm1() {
+        return DfpMath.exp(this).subtract(getOne());
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp log() {
+        return DfpMath.log(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp log1p() {
+        return DfpMath.log(this.add(getOne()));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp log10() {
+        return DfpMath.log(this).divide(DfpMath.log(newInstance(10)));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp cos() {
+        return DfpMath.cos(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp sin() {
+        return DfpMath.sin(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp tan() {
+        return DfpMath.tan(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp acos() {
+        return DfpMath.acos(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp asin() {
+        return DfpMath.asin(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp atan() {
+        return DfpMath.atan(this);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp atan2(final Dfp x)
+        throws DimensionMismatchException {
+
+        // compute r = sqrt(x^2+y^2)
+        final Dfp r = x.multiply(x).add(multiply(this)).sqrt();
+
+        if (x.sign >= 0) {
+
+            // compute atan2(y, x) = 2 atan(y / (r + x))
+            return getTwo().multiply(divide(r.add(x)).atan());
+
+        } else {
+
+            // compute atan2(y, x) = +/- pi - 2 atan(y / (r - x))
+            final Dfp tmp = getTwo().multiply(divide(r.subtract(x)).atan());
+            final Dfp pmPi = newInstance((tmp.sign <= 0) ? -FastMath.PI : FastMath.PI);
+            return pmPi.subtract(tmp);
+
+        }
+
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp cosh() {
+        return DfpMath.exp(this).add(DfpMath.exp(negate())).divide(2);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp sinh() {
+        return DfpMath.exp(this).subtract(DfpMath.exp(negate())).divide(2);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp tanh() {
+        final Dfp ePlus  = DfpMath.exp(this);
+        final Dfp eMinus = DfpMath.exp(negate());
+        return ePlus.add(eMinus).divide(ePlus.subtract(eMinus));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp acosh() {
+        return multiply(this).subtract(getOne()).sqrt().add(this).log();
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp asinh() {
+        return multiply(this).add(getOne()).sqrt().add(this).log();
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp atanh() {
+        return getOne().add(this).divide(getOne().subtract(this)).log().divide(2);
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final Dfp[] a, final Dfp[] b)
+        throws DimensionMismatchException {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+        Dfp r = getZero();
+        for (int i = 0; i < a.length; ++i) {
+            r = r.add(a[i].multiply(b[i]));
+        }
+        return r;
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final double[] a, final Dfp[] b)
+        throws DimensionMismatchException {
+        if (a.length != b.length) {
+            throw new DimensionMismatchException(a.length, b.length);
+        }
+        Dfp r = getZero();
+        for (int i = 0; i < a.length; ++i) {
+            r = r.add(b[i].multiply(a[i]));
+        }
+        return r;
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final Dfp a1, final Dfp b1, final Dfp a2, final Dfp b2) {
+        return a1.multiply(b1).add(a2.multiply(b2));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final double a1, final Dfp b1, final double a2, final Dfp b2) {
+        return b1.multiply(a1).add(b2.multiply(a2));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final Dfp a1, final Dfp b1,
+                                 final Dfp a2, final Dfp b2,
+                                 final Dfp a3, final Dfp b3) {
+        return a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final double a1, final Dfp b1,
+                                 final double a2, final Dfp b2,
+                                 final double a3, final Dfp b3) {
+        return b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final Dfp a1, final Dfp b1, final Dfp a2, final Dfp b2,
+                                 final Dfp a3, final Dfp b3, final Dfp a4, final Dfp b4) {
+        return a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp linearCombination(final double a1, final Dfp b1, final double a2, final Dfp b2,
+                                 final double a3, final Dfp b3, final double a4, final Dfp b4) {
+        return b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
     }
 
 }

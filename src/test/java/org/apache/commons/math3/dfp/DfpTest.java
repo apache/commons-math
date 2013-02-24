@@ -1435,23 +1435,23 @@ public class DfpTest {
     public void testLog10()
     {
 
-        Assert.assertEquals("log10 #1", 1, field.newDfp("12").log10());
-        Assert.assertEquals("log10 #2", 2, field.newDfp("123").log10());
-        Assert.assertEquals("log10 #3", 3, field.newDfp("1234").log10());
-        Assert.assertEquals("log10 #4", 4, field.newDfp("12345").log10());
-        Assert.assertEquals("log10 #5", 5, field.newDfp("123456").log10());
-        Assert.assertEquals("log10 #6", 6, field.newDfp("1234567").log10());
-        Assert.assertEquals("log10 #6", 7, field.newDfp("12345678").log10());
-        Assert.assertEquals("log10 #7", 8, field.newDfp("123456789").log10());
-        Assert.assertEquals("log10 #8", 9, field.newDfp("1234567890").log10());
-        Assert.assertEquals("log10 #9", 10, field.newDfp("12345678901").log10());
-        Assert.assertEquals("log10 #10", 11, field.newDfp("123456789012").log10());
-        Assert.assertEquals("log10 #11", 12, field.newDfp("1234567890123").log10());
+        Assert.assertEquals("log10 #1", 1, field.newDfp("12").intLog10());
+        Assert.assertEquals("log10 #2", 2, field.newDfp("123").intLog10());
+        Assert.assertEquals("log10 #3", 3, field.newDfp("1234").intLog10());
+        Assert.assertEquals("log10 #4", 4, field.newDfp("12345").intLog10());
+        Assert.assertEquals("log10 #5", 5, field.newDfp("123456").intLog10());
+        Assert.assertEquals("log10 #6", 6, field.newDfp("1234567").intLog10());
+        Assert.assertEquals("log10 #6", 7, field.newDfp("12345678").intLog10());
+        Assert.assertEquals("log10 #7", 8, field.newDfp("123456789").intLog10());
+        Assert.assertEquals("log10 #8", 9, field.newDfp("1234567890").intLog10());
+        Assert.assertEquals("log10 #9", 10, field.newDfp("12345678901").intLog10());
+        Assert.assertEquals("log10 #10", 11, field.newDfp("123456789012").intLog10());
+        Assert.assertEquals("log10 #11", 12, field.newDfp("1234567890123").intLog10());
 
-        Assert.assertEquals("log10 #12", 0, field.newDfp("2").log10());
-        Assert.assertEquals("log10 #13", 0, field.newDfp("1").log10());
-        Assert.assertEquals("log10 #14", -1, field.newDfp("0.12").log10());
-        Assert.assertEquals("log10 #15", -2, field.newDfp("0.012").log10());
+        Assert.assertEquals("log10 #12", 0, field.newDfp("2").intLog10());
+        Assert.assertEquals("log10 #13", 0, field.newDfp("1").intLog10());
+        Assert.assertEquals("log10 #14", -1, field.newDfp("0.12").intLog10());
+        Assert.assertEquals("log10 #15", -2, field.newDfp("0.012").intLog10());
     }
 
     @Test
