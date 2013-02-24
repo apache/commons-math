@@ -17,20 +17,19 @@
 
 package org.apache.commons.math3.linear;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Basic implementation of {@link FieldMatrix} methods regardless of the underlying storage.
@@ -123,50 +122,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);
         }
         return d[0].getField();
-    }
-
-    /** Build an array of elements.
-     * <p>
-     * Complete arrays are filled with field.getZero()
-     * </p>
-     * @param <T> Type of the field elements
-     * @param field field to which array elements belong
-     * @param rows number of rows
-     * @param columns number of columns (may be negative to build partial
-     * arrays in the same way <code>new Field[rows][]</code> works)
-     * @return a new array
-     */
-    @SuppressWarnings("unchecked")
-    protected static <T extends FieldElement<T>> T[][] buildArray(final Field<T> field,
-                                                                  final int rows,
-                                                                  final int columns) {
-        if (columns < 0) {
-            T[] dummyRow = (T[]) Array.newInstance(field.getRuntimeClass(), 0);
-            return (T[][]) Array.newInstance(dummyRow.getClass(), rows);
-        }
-        T[][] array =
-            (T[][]) Array.newInstance(field.getRuntimeClass(), new int[] { rows, columns });
-        for (int i = 0; i < array.length; ++i) {
-            Arrays.fill(array[i], field.getZero());
-        }
-        return array;
-    }
-
-    /** Build an array of elements.
-     * <p>
-     * Arrays are filled with field.getZero()
-     * </p>
-     * @param <T> the type of the field elements
-     * @param field field to which array elements belong
-     * @param length of the array
-     * @return a new array
-     */
-    protected static <T extends FieldElement<T>> T[] buildArray(final Field<T> field,
-                                                                final int length) {
-        @SuppressWarnings("unchecked") // OK because field must be correct class
-        T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
-        Arrays.fill(array, field.getZero());
-        return array;
     }
 
     /** {@inheritDoc} */
@@ -337,7 +292,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
 
     /** {@inheritDoc} */
     public T[][] getData() {
-        final T[][] data = buildArray(field, getRowDimension(), getColumnDimension());
+        final T[][] data = MathArrays.buildArray(field, getRowDimension(), getColumnDimension());
 
         for (int i = 0; i < data.length; ++i) {
             final T[] dataI = data[i];
@@ -606,7 +561,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public T[] getRow(final int row) throws OutOfRangeException {
         checkRowIndex(row);
         final int nCols = getColumnDimension();
-        final T[] out = buildArray(field, nCols);
+        final T[] out = MathArrays.buildArray(field, nCols);
         for (int i = 0; i < nCols; ++i) {
             out[i] = getEntry(row, i);
         }
@@ -633,7 +588,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
     public T[] getColumn(final int column) throws OutOfRangeException {
         checkColumnIndex(column);
         final int nRows = getRowDimension();
-        final T[] out = buildArray(field, nRows);
+        final T[] out = MathArrays.buildArray(field, nRows);
         for (int i = 0; i < nRows; ++i) {
             out[i] = getEntry(i, column);
         }
@@ -717,7 +672,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             throw new DimensionMismatchException(v.length, nCols);
         }
 
-        final T[] out = buildArray(field, nRows);
+        final T[] out = MathArrays.buildArray(field, nRows);
         for (int row = 0; row < nRows; ++row) {
             T sum = field.getZero();
             for (int i = 0; i < nCols; ++i) {
@@ -741,7 +696,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 throw new DimensionMismatchException(v.getDimension(), nCols);
             }
 
-            final T[] out = buildArray(field, nRows);
+            final T[] out = MathArrays.buildArray(field, nRows);
             for (int row = 0; row < nRows; ++row) {
                 T sum = field.getZero();
                 for (int i = 0; i < nCols; ++i) {
@@ -763,7 +718,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
             throw new DimensionMismatchException(v.length, nRows);
         }
 
-        final T[] out = buildArray(field, nCols);
+        final T[] out = MathArrays.buildArray(field, nCols);
         for (int col = 0; col < nCols; ++col) {
             T sum = field.getZero();
             for (int i = 0; i < nRows; ++i) {
@@ -787,7 +742,7 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
                 throw new DimensionMismatchException(v.getDimension(), nRows);
             }
 
-            final T[] out = buildArray(field, nCols);
+            final T[] out = MathArrays.buildArray(field, nCols);
             for (int col = 0; col < nCols; ++col) {
                 T sum = field.getZero();
                 for (int i = 0; i < nRows; ++i) {

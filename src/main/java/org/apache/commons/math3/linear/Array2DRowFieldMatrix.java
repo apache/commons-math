@@ -29,6 +29,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -70,7 +71,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
                                  final int columnDimension)
         throws NotStrictlyPositiveException {
         super(field, rowDimension, columnDimension);
-        data = buildArray(field, rowDimension, columnDimension);
+        data = MathArrays.buildArray(field, rowDimension, columnDimension);
     }
 
     /**
@@ -197,7 +198,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     public Array2DRowFieldMatrix(final Field<T> field, final T[] v) {
         super(field);
         final int nRows = v.length;
-        data = buildArray(getField(), nRows, 1);
+        data = MathArrays.buildArray(getField(), nRows, 1);
         for (int row = 0; row < nRows; row++) {
             data[row][0] = v[row];
         }
@@ -232,7 +233,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        final T[][] outData = buildArray(getField(), rowCount, columnCount);
+        final T[][] outData = MathArrays.buildArray(getField(), rowCount, columnCount);
         for (int row = 0; row < rowCount; row++) {
             final T[] dataRow    = data[row];
             final T[] mRow       = m.data[row];
@@ -260,7 +261,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
 
         final int rowCount    = getRowDimension();
         final int columnCount = getColumnDimension();
-        final T[][] outData = buildArray(getField(), rowCount, columnCount);
+        final T[][] outData = MathArrays.buildArray(getField(), rowCount, columnCount);
         for (int row = 0; row < rowCount; row++) {
             final T[] dataRow    = data[row];
             final T[] mRow       = m.data[row];
@@ -290,7 +291,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         final int nRows = this.getRowDimension();
         final int nCols = m.getColumnDimension();
         final int nSum = this.getColumnDimension();
-        final T[][] outData = buildArray(getField(), nRows, nCols);
+        final T[][] outData = MathArrays.buildArray(getField(), nRows, nCols);
         for (int row = 0; row < nRows; row++) {
             final T[] dataRow    = data[row];
             final T[] outDataRow = outData[row];
@@ -345,7 +346,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
             if (nCols == 0) {
                 throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
             }
-            data = buildArray(getField(), subMatrix.length, nCols);
+            data = MathArrays.buildArray(getField(), subMatrix.length, nCols);
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
                     throw new DimensionMismatchException(nCols, subMatrix[i].length);
@@ -418,7 +419,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
         if (v.length != nCols) {
             throw new DimensionMismatchException(v.length, nCols);
         }
-        final T[] out = buildArray(getField(), nRows);
+        final T[] out = MathArrays.buildArray(getField(), nRows);
         for (int row = 0; row < nRows; row++) {
             final T[] dataRow = data[row];
             T sum = getField().getZero();
@@ -439,7 +440,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
             throw new DimensionMismatchException(v.length, nRows);
         }
 
-        final T[] out = buildArray(getField(), nCols);
+        final T[] out = MathArrays.buildArray(getField(), nCols);
         for (int col = 0; col < nCols; ++col) {
             T sum = getField().getZero();
             for (int i = 0; i < nRows; ++i) {
@@ -588,7 +589,7 @@ public class Array2DRowFieldMatrix<T extends FieldElement<T>>
      */
     private T[][] copyOut() {
         final int nRows = this.getRowDimension();
-        final T[][] out = buildArray(getField(), nRows, getColumnDimension());
+        final T[][] out = MathArrays.buildArray(getField(), nRows, getColumnDimension());
         // can't copy 2-d array in one shot, otherwise get row references
         for (int i = 0; i < nRows; i++) {
             System.arraycopy(data[i], 0, out[i], 0, data[i].length);

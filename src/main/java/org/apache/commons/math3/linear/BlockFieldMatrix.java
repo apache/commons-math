@@ -29,6 +29,7 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
@@ -159,7 +160,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
         if (copyArray) {
             // allocate storage blocks, taking care of smaller ones at right and bottom
-            blocks = buildArray(getField(), blockRows * blockColumns, -1);
+            blocks = MathArrays.buildArray(getField(), blockRows * blockColumns, -1);
         } else {
             // reference existing array
             blocks = blockData;
@@ -222,7 +223,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
 
         // convert array
         final Field<T> field = extractField(rawData);
-        final T[][] blocks = buildArray(field, blockRows * blockColumns, -1);
+        final T[][] blocks = MathArrays.buildArray(field, blockRows * blockColumns, -1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
@@ -234,7 +235,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                 final int jWidth = qEnd - qStart;
 
                 // allocate new block
-                final T[] block = buildArray(field, iHeight * jWidth);
+                final T[] block = MathArrays.buildArray(field, iHeight * jWidth);
                 blocks[blockIndex] = block;
 
                 // copy data
@@ -271,7 +272,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         final int blockRows    = (rows    + BLOCK_SIZE - 1) / BLOCK_SIZE;
         final int blockColumns = (columns + BLOCK_SIZE - 1) / BLOCK_SIZE;
 
-        final T[][] blocks = buildArray(field, blockRows * blockColumns, -1);
+        final T[][] blocks = MathArrays.buildArray(field, blockRows * blockColumns, -1);
         int blockIndex = 0;
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
             final int pStart  = iBlock * BLOCK_SIZE;
@@ -281,7 +282,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
                 final int qStart = jBlock * BLOCK_SIZE;
                 final int qEnd   = FastMath.min(qStart + BLOCK_SIZE, columns);
                 final int jWidth = qEnd - qStart;
-                blocks[blockIndex] = buildArray(field, iHeight * jWidth);
+                blocks[blockIndex] = MathArrays.buildArray(field, iHeight * jWidth);
                 ++blockIndex;
             }
         }
@@ -627,7 +628,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public T[][] getData() {
 
-        final T[][] data = buildArray(getField(), getRowDimension(), getColumnDimension());
+        final T[][] data = MathArrays.buildArray(getField(), getRowDimension(), getColumnDimension());
         final int lastColumns = columns - (blockColumns - 1) * BLOCK_SIZE;
 
         for (int iBlock = 0; iBlock < blockRows; ++iBlock) {
@@ -1004,7 +1005,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     public FieldVector<T> getRowVector(final int row)
         throws OutOfRangeException {
         checkRowIndex(row);
-        final T[] outData = buildArray(getField(), columns);
+        final T[] outData = MathArrays.buildArray(getField(), columns);
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
@@ -1036,7 +1037,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     public FieldVector<T> getColumnVector(final int column)
         throws OutOfRangeException {
         checkColumnIndex(column);
-        final T[] outData = buildArray(getField(), rows);
+        final T[] outData = MathArrays.buildArray(getField(), rows);
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
@@ -1069,7 +1070,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public T[] getRow(final int row) throws OutOfRangeException {
         checkRowIndex(row);
-        final T[] out = buildArray(getField(), columns);
+        final T[] out = MathArrays.buildArray(getField(), columns);
 
         // perform copy block-wise, to ensure good cache behavior
         final int iBlock  = row / BLOCK_SIZE;
@@ -1111,7 +1112,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
     @Override
     public T[] getColumn(final int column) throws OutOfRangeException {
         checkColumnIndex(column);
-        final T[] out = buildArray(getField(), rows);
+        final T[] out = MathArrays.buildArray(getField(), rows);
 
         // perform copy block-wise, to ensure good cache behavior
         final int jBlock  = column / BLOCK_SIZE;
@@ -1272,7 +1273,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         if (v.length != columns) {
             throw new DimensionMismatchException(v.length, columns);
         }
-        final T[] out = buildArray(getField(), rows);
+        final T[] out = MathArrays.buildArray(getField(), rows);
         final T zero = getField().getZero();
 
         // perform multiplication block-wise, to ensure good cache behavior
@@ -1314,7 +1315,7 @@ public class BlockFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMa
         if (v.length != rows) {
             throw new DimensionMismatchException(v.length, rows);
         }
-        final T[] out = buildArray(getField(), columns);
+        final T[] out = MathArrays.buildArray(getField(), columns);
         final T zero = getField().getZero();
 
         // perform multiplication block-wise, to ensure good cache behavior
