@@ -1634,4 +1634,14 @@ public class DfpTest extends AbstractExtendedFieldElementTest<Dfp> {
 
     }
 
+    @Test
+    public void testSpecialConstructors() {
+        Assert.assertEquals(ninf, field.newDfp(Double.NEGATIVE_INFINITY));
+        Assert.assertEquals(ninf, field.newDfp("-Infinity"));
+        Assert.assertEquals(pinf, field.newDfp(Double.POSITIVE_INFINITY));
+        Assert.assertEquals(pinf, field.newDfp("Infinity"));
+        Assert.assertTrue(field.newDfp(Double.NaN).isNaN());
+        Assert.assertTrue(field.newDfp("NaN").isNaN());
+    }
+
 }
