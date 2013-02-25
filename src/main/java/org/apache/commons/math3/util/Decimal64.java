@@ -330,12 +330,12 @@ public class Decimal64 extends Number
 
     /** {@inheritDoc} */
     public Decimal64 remainder(final double a) {
-        return new Decimal64(value % a);
+        return new Decimal64(FastMath.IEEEremainder(value, a));
     }
 
     /** {@inheritDoc} */
     public Decimal64 remainder(final Decimal64 a) {
-        return new Decimal64(value % a.value);
+        return new Decimal64(FastMath.IEEEremainder(value, a.value));
     }
 
     /** {@inheritDoc} */
@@ -369,6 +369,11 @@ public class Decimal64 extends Number
     }
 
     /** {@inheritDoc} */
+    public Decimal64 copySign(final Decimal64 sign) {
+        return new Decimal64(FastMath.copySign(value, sign.value));
+    }
+
+    /** {@inheritDoc} */
     public Decimal64 copySign(final double sign) {
         return new Decimal64(FastMath.copySign(value, sign));
     }
@@ -395,7 +400,11 @@ public class Decimal64 extends Number
 
     /** {@inheritDoc} */
     public Decimal64 rootN(final int n) {
-        return new Decimal64(FastMath.pow(value, 1.0 / n));
+        if (value < 0) {
+            return new Decimal64(-FastMath.pow(-value, 1.0 / n));
+        } else {
+            return new Decimal64(FastMath.pow(value, 1.0 / n));
+        }
     }
 
     /** {@inheritDoc} */

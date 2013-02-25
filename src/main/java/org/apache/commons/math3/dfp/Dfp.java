@@ -2568,9 +2568,19 @@ public class Dfp implements ExtendedFieldElement<Dfp> {
     /** {@inheritDoc}
      * @since 3.2
      */
-    public Dfp copySign(final double sign) {
-        long s = Double.doubleToLongBits(sign);
-        if ((sign >= 0 && s >= 0) || (sign < 0 && s < 0)) { // Sign is currently OK
+    public Dfp copySign(final Dfp s) {
+        if ((sign >= 0 && s.sign >= 0) || (sign < 0 && s.sign < 0)) { // Sign is currently OK
+            return this;
+        }
+        return negate(); // flip sign
+    }
+
+    /** {@inheritDoc}
+     * @since 3.2
+     */
+    public Dfp copySign(final double s) {
+        long sb = Double.doubleToLongBits(s);
+        if ((sign >= 0 && sb >= 0) || (sign < 0 && sb < 0)) { // Sign is currently OK
             return this;
         }
         return negate(); // flip sign
@@ -2601,7 +2611,9 @@ public class Dfp implements ExtendedFieldElement<Dfp> {
      * @since 3.2
      */
     public Dfp rootN(final int n) {
-        return DfpMath.pow(this, getOne().divide(n));
+        return (sign >= 0) ?
+               DfpMath.pow(this, getOne().divide(n)) :
+               DfpMath.pow(negate(), getOne().divide(n)).negate();
     }
 
     /** {@inheritDoc}
@@ -2747,7 +2759,7 @@ public class Dfp implements ExtendedFieldElement<Dfp> {
     public Dfp tanh() {
         final Dfp ePlus  = DfpMath.exp(this);
         final Dfp eMinus = DfpMath.exp(negate());
-        return ePlus.add(eMinus).divide(ePlus.subtract(eMinus));
+        return ePlus.subtract(eMinus).divide(ePlus.add(eMinus));
     }
 
     /** {@inheritDoc}

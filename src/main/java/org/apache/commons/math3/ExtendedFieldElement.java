@@ -44,15 +44,17 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      */
     T divide(double a);
 
-    /** '%' operator.
+    /** IEEE remainder operator.
      * @param a right hand side parameter of the operator
-     * @return this%a
+     * @return this - n &times; a where n is the closest integer to this/a
+     * (the even integer is chosen for n if this/a is halfway between two integers)
      */
     T remainder(double a);
 
-    /** '%' operator.
+    /** IEEE remainder operator.
      * @param a right hand side parameter of the operator
-     * @return this%a
+     * @return this - n &times; a where n is the closest integer to this/a
+     * (the even integer is chosen for n if this/a is halfway between two integers)
      * @exception DimensionMismatchException if number of free parameters or orders are inconsistent
      */
     T remainder(T a)
@@ -88,6 +90,15 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @return -1.0, -0.0, +0.0, +1.0 or NaN depending on sign of a
      */
     T signum();
+
+    /**
+     * Returns the instance with the sign of the argument.
+     * A NaN {@code sign} argument is treated as positive.
+     *
+     * @param sign the sign for the returned value
+     * @return the instance with the same sign as the {@code sign} argument
+     */
+    T copySign(T sign);
 
     /**
      * Returns the instance with the sign of the argument.

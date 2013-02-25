@@ -336,7 +336,7 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
     /** {@inheritDoc} */
     public DerivativeStructure remainder(final double a) {
         final DerivativeStructure ds = new DerivativeStructure(this);
-        ds.data[0] = ds.data[0] % a;
+        ds.data[0] = FastMath.IEEEremainder(ds.data[0], a);
         return ds;
     }
 
@@ -399,6 +399,16 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         return new DerivativeStructure(compiler.getFreeParameters(),
                                        compiler.getOrder(),
                                        FastMath.signum(data[0]));
+    }
+
+    /** {@inheritDoc} */
+    public DerivativeStructure copySign(final DerivativeStructure sign){
+        long m = Double.doubleToLongBits(data[0]);
+        long s = Double.doubleToLongBits(sign.data[0]);
+        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+            return this;
+        }
+        return negate(); // flip sign
     }
 
     /** {@inheritDoc} */

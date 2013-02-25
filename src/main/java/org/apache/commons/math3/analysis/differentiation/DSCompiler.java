@@ -812,7 +812,7 @@ public class DSCompiler {
                           final double[] result, final int resultOffset) {
 
         // compute k such that lhs % rhs = lhs - k rhs
-        final double rem = lhs[lhsOffset] % rhs[rhsOffset];
+        final double rem = FastMath.IEEEremainder(lhs[lhsOffset], rhs[rhsOffset]);
         final double k   = FastMath.rint((lhs[lhsOffset] - rem) / rhs[rhsOffset]);
 
         // set up value
