@@ -149,4 +149,49 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
 
     }
 
+    /** Interpolate value and first derivatives at a specified abscissa.
+     * @param x interpolation abscissa
+     * @param order maximum derivation order
+     * @return interpolated value and derivatives (value in row 0,
+     * 1<sup>st</sup> derivative in row 1, ... n<sup>th</sup> derivative in row n)
+     * @exception NoDataException if sample is empty
+     */
+    public T[][] derivatives(T x, int order) throws NoDataException {
+
+        // safety check
+        if (abscissae.isEmpty()) {
+            throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
+        }
+
+        final T zero = x.getField().getZero();
+        final T one  = x.getField().getOne();
+        final T[] tj = MathArrays.buildArray(x.getField(), order + 1);
+        tj[0] = zero;
+        for (int i = 0; i < order; ++i) {
+            tj[i + 1] = tj[i].add(one);
+        }
+
+        final T[][] derivatives =
+                MathArrays.buildArray(x.getField(), order + 1, topDiagonal.get(0).length);
+        final T[] valueCoeff = MathArrays.buildArray(x.getField(), order + 1);
+        valueCoeff[0] = x.getField().getOne();
+        for (int i = 0; i < topDiagonal.size(); ++i) {
+            T[] dividedDifference = topDiagonal.get(i);
+            final T deltaX = x.subtract(abscissae.get(i));
+            for (int j = order; j >= 0; --j) {
+                for (int k = 0; k < derivatives[j].length; ++k) {
+                    derivatives[j][k] =
+                            derivatives[j][k].add(dividedDifference[k].multiply(valueCoeff[j]));
+                }
+                valueCoeff[j] = valueCoeff[j].multiply(deltaX);
+                if (j > 0) {
+                    valueCoeff[j] = valueCoeff[j].add(tj[j].multiply(valueCoeff[j - 1]));
+                }
+            }
+        }
+
+        return derivatives;
+
+    }
+
 }

@@ -36,6 +36,9 @@ public class FieldHermiteInterpolatorTest {
         for (int x = -10; x < 10; x++) {
             BigFraction y = interpolator.value(new BigFraction(x))[0];
             Assert.assertEquals(BigFraction.ZERO, y);
+            BigFraction[][] derivatives = interpolator.derivatives(new BigFraction(x), 1);
+            Assert.assertEquals(BigFraction.ZERO, derivatives[0][0]);
+            Assert.assertEquals(BigFraction.ZERO, derivatives[1][0]);
         }
     }
 
@@ -48,6 +51,11 @@ public class FieldHermiteInterpolatorTest {
         for (double x = -10; x < 10; x += 1.0) {
             BigFraction y = interpolator.value(new BigFraction(x))[0];
             Assert.assertEquals((x - 1) * (x - 2), y.doubleValue(), 1.0e-15);
+            BigFraction[][] derivatives = interpolator.derivatives(new BigFraction(x), 3);
+            Assert.assertEquals((x - 1) * (x - 2), derivatives[0][0].doubleValue(), 1.0e-15);
+            Assert.assertEquals(2 * x - 3, derivatives[1][0].doubleValue(), 1.0e-15);
+            Assert.assertEquals(2, derivatives[2][0].doubleValue(), 1.0e-15);
+            Assert.assertEquals(0, derivatives[3][0].doubleValue(), 1.0e-15);
         }
     }
 
@@ -57,9 +65,27 @@ public class FieldHermiteInterpolatorTest {
         interpolator.addSamplePoint(new BigFraction(0), new BigFraction[] { new BigFraction(1) }, new BigFraction[] { new BigFraction(2) });
         interpolator.addSamplePoint(new BigFraction(1), new BigFraction[] { new BigFraction(4) });
         interpolator.addSamplePoint(new BigFraction(2), new BigFraction[] { new BigFraction(5) }, new BigFraction[] { new BigFraction(2) });
-        Assert.assertEquals(new BigFraction(1), interpolator.value(new BigFraction(0))[0]);
-        Assert.assertEquals(new BigFraction(4), interpolator.value(new BigFraction(1))[0]);
-        Assert.assertEquals(new BigFraction(5), interpolator.value(new BigFraction(2))[0]);
+        BigFraction[][] derivatives = interpolator.derivatives(new BigFraction(0), 5);
+        Assert.assertEquals(new BigFraction(  1), derivatives[0][0]);
+        Assert.assertEquals(new BigFraction(  2), derivatives[1][0]);
+        Assert.assertEquals(new BigFraction(  8), derivatives[2][0]);
+        Assert.assertEquals(new BigFraction(-24), derivatives[3][0]);
+        Assert.assertEquals(new BigFraction( 24), derivatives[4][0]);
+        Assert.assertEquals(new BigFraction(  0), derivatives[5][0]);
+        derivatives = interpolator.derivatives(new BigFraction(1), 5);
+        Assert.assertEquals(new BigFraction(  4), derivatives[0][0]);
+        Assert.assertEquals(new BigFraction(  2), derivatives[1][0]);
+        Assert.assertEquals(new BigFraction( -4), derivatives[2][0]);
+        Assert.assertEquals(new BigFraction(  0), derivatives[3][0]);
+        Assert.assertEquals(new BigFraction( 24), derivatives[4][0]);
+        Assert.assertEquals(new BigFraction(  0), derivatives[5][0]);
+        derivatives = interpolator.derivatives(new BigFraction(2), 5);
+        Assert.assertEquals(new BigFraction(  5), derivatives[0][0]);
+        Assert.assertEquals(new BigFraction(  2), derivatives[1][0]);
+        Assert.assertEquals(new BigFraction(  8), derivatives[2][0]);
+        Assert.assertEquals(new BigFraction( 24), derivatives[3][0]);
+        Assert.assertEquals(new BigFraction( 24), derivatives[4][0]);
+        Assert.assertEquals(new BigFraction(  0), derivatives[5][0]);
     }
 
     @Test
@@ -230,8 +256,13 @@ public class FieldHermiteInterpolatorTest {
     }
 
     @Test(expected=NoDataException.class)
-    public void testEmptySample() {
+    public void testEmptySampleValue() {
         new FieldHermiteInterpolator<BigFraction>().value(BigFraction.ZERO);
+    }
+
+    @Test(expected=NoDataException.class)
+    public void testEmptySampleDerivative() {
+        new FieldHermiteInterpolator<BigFraction>().derivatives(BigFraction.ZERO, 1);
     }
 
     @Test(expected=IllegalArgumentException.class)
