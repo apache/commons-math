@@ -121,7 +121,6 @@ public abstract class AbstractExtendedFieldElementTest<T extends ExtendedFieldEl
     public void testRemainderDouble() {
         for (double x = -3; x < 3; x += 0.2) {
             for (double y = -3.2; y < 3.2; y += 0.25) {
-                System.out.println(x + " " + y + " " + (x % y));
                 checkRelative(FastMath.IEEEremainder(x, y), build(x).remainder(y));
             }
         }
