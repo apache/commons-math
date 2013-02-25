@@ -16,11 +16,12 @@
  */
 package org.apache.commons.math3.util;
 
+import org.apache.commons.math3.AbstractExtendedFieldElementTest;
 import org.junit.Assert;
 
 import org.junit.Test;
 
-public class Decimal64Test {
+public class Decimal64Test extends AbstractExtendedFieldElementTest<Decimal64> {
     public static final double X = 1.2345;
 
     public static final Decimal64 PLUS_X = new Decimal64(X);
@@ -36,6 +37,10 @@ public class Decimal64Test {
     public static final Decimal64 PLUS_ZERO = new Decimal64(0.0);
 
     public static final Decimal64 MINUS_ZERO = new Decimal64(-0.0);
+
+    protected Decimal64 build(final double x) {
+        return new Decimal64(x);
+    }
 
     @Test
     public void testAdd() {

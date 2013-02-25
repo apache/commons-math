@@ -20,6 +20,7 @@ package org.apache.commons.math3.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.AbstractExtendedFieldElementTest;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -33,7 +34,11 @@ import org.junit.Test;
 /**
  * Test for class {@link DerivativeStructure}.
  */
-public class DerivativeStructureTest {
+public class DerivativeStructureTest extends AbstractExtendedFieldElementTest<DerivativeStructure> {
+
+    protected DerivativeStructure build(final double x) {
+        return new DerivativeStructure(2, 1, 0, x);
+    }
 
     @Test(expected=NumberIsTooLargeException.class)
     public void testWrongVariableIndex() {
@@ -568,7 +573,7 @@ public class DerivativeStructureTest {
                 DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
                 for (double y = -1.7; y < 2; y += 0.2) {
                     DerivativeStructure remainder = dsX.remainder(y);
-                    DerivativeStructure ref = dsX.subtract(x - (x % y));
+                    DerivativeStructure ref = dsX.subtract(x - FastMath.IEEEremainder(x, y));
                     DerivativeStructure zero = remainder.subtract(ref);
                     for (int n = 0; n <= maxOrder; ++n) {
                         for (int m = 0; m <= maxOrder; ++m) {
@@ -584,14 +589,14 @@ public class DerivativeStructureTest {
 
     @Test
     public void testRemainder() {
-        double epsilon = 1.0e-15;
+        double epsilon = 2.0e-15;
         for (int maxOrder = 0; maxOrder < 5; ++maxOrder) {
             for (double x = -1.7; x < 2; x += 0.2) {
                 DerivativeStructure dsX = new DerivativeStructure(2, maxOrder, 0, x);
                 for (double y = -1.7; y < 2; y += 0.2) {
                     DerivativeStructure dsY = new DerivativeStructure(2, maxOrder, 1, y);
                     DerivativeStructure remainder = dsX.remainder(dsY);
-                    DerivativeStructure ref = dsX.subtract(dsY.multiply((x - (x % y)) / y));
+                    DerivativeStructure ref = dsX.subtract(dsY.multiply((x - FastMath.IEEEremainder(x, y)) / y));
                     DerivativeStructure zero = remainder.subtract(ref);
                     for (int n = 0; n <= maxOrder; ++n) {
                         for (int m = 0; m <= maxOrder; ++m) {
