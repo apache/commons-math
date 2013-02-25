@@ -56,6 +56,9 @@ This is a minor release: It combines bug fixes and new features.
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
       <action dev="luc" type="add" >
+        Added Hermite interpolator for ExtendFieldElement instances.
+      </action>
+      <action dev="luc" type="add" >
         Added ExtendFieldElement interface to represent anything that is
         real number like, implemented by both Decimal64, Dfp and DerivativeStructure.  
       </action>
