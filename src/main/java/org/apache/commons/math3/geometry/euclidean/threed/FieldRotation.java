@@ -219,14 +219,14 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
 
         // build orthonormalized base from u1, u2
         // this fails when vectors are null or colinear, which is forbidden to define a rotation
-        final FieldVector3D<T> u3 = u1.crossProduct(u2).normalize();
-        u2 = u3.crossProduct(u1).normalize();
+        final FieldVector3D<T> u3 = FieldVector3D.crossProduct(u1, u2).normalize();
+        u2 = FieldVector3D.crossProduct(u3, u1).normalize();
         u1 = u1.normalize();
 
         // build an orthonormalized base from v1, v2
         // this fails when vectors are null or colinear, which is forbidden to define a rotation
-        final FieldVector3D<T> v3 = v1.crossProduct(v2).normalize();
-        v2 = v3.crossProduct(v1).normalize();
+        final FieldVector3D<T> v3 = FieldVector3D.crossProduct(v1, v2).normalize();
+        v2 = FieldVector3D.crossProduct(v3, v1).normalize();
         v1 = v1.normalize();
 
         // buid a matrix transforming the first base into the second one
@@ -269,7 +269,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM_FOR_ROTATION_DEFINING_VECTOR);
         }
 
-        final T dot = u.dotProduct(v);
+        final T dot = FieldVector3D.dotProduct(u, v);
 
         if (dot.getReal() < ((2.0e-15 - 1.0) * normProduct.getReal())) {
             // special case u = -v: we select a PI angle rotation around
@@ -284,7 +284,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
             // the shortest possible rotation: axis orthogonal to this plane
             q0 = dot.divide(normProduct).add(1.0).multiply(0.5).sqrt();
             final T coeff = q0.multiply(normProduct).multiply(2.0).reciprocal();
-            final FieldVector3D<T> q = v.crossProduct(u);
+            final FieldVector3D<T> q = FieldVector3D.crossProduct(v, u);
             q1 = coeff.multiply(q.getX());
             q2 = coeff.multiply(q.getY());
             q3 = coeff.multiply(q.getZ());
@@ -831,6 +831,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
     /** Apply a rotation to a vector.
      * @param r rotation to apply
      * @param u vector to apply the rotation to
+     * @param <T> the type of the field elements
      * @return a new vector which is the image of u by the rotation
      */
     public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> applyTo(final Rotation r, final FieldVector3D<T> u) {
@@ -927,6 +928,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
     /** Apply the inverse of a rotation to a vector.
      * @param r rotation to apply
      * @param u vector to apply the inverse of the rotation to
+     * @param <T> the type of the field elements
      * @return a new vector which such that u is its image by the rotation
      */
     public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> applyInverseTo(final Rotation r, final FieldVector3D<T> u) {
@@ -986,6 +988,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * where comp = applyTo(rOuter, rInner).
      * @param r1 rotation to apply
      * @param rInner rotation to apply the rotation to
+     * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the instance
      */
     public static <T extends ExtendedFieldElement<T>> FieldRotation<T> applyTo(final Rotation r1, final FieldRotation<T> rInner) {
@@ -1043,6 +1046,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * comp = applyInverseTo(rOuter, rInner).
      * @param rOuter rotation to apply the rotation to
      * @param rInner rotation to apply the rotation to
+     * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
@@ -1170,6 +1174,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * their components are different (they are exact opposites).</p>
      * @param r1 first rotation
      * @param r2 second rotation
+     * @param <T> the type of the field elements
      * @return <i>distance</i> between r1 and r2
      */
     public static <T extends ExtendedFieldElement<T>> T distance(final FieldRotation<T> r1, final FieldRotation<T> r2) {

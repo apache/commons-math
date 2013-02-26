@@ -563,28 +563,31 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     }
 
-    /** Compute the angular separation between the instance and another vector.
+    /** Compute the angular separation between two vectors.
      * <p>This method computes the angular separation between two
      * vectors using the dot product for well separated vectors and the
      * cross product for almost aligned vectors. This allows to have a
      * good accuracy in all cases, even for vectors very close to each
      * other.</p>
-     * @param v second vector
-     * @return angular separation between the instance and v
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public T angle(FieldVector3D<T> v) throws MathArithmeticException {
+    public static <T extends ExtendedFieldElement<T>> T angle(final FieldVector3D<T> v1, final FieldVector3D<T> v2)
+        throws MathArithmeticException {
 
-        final T normProduct = getNorm().multiply(v.getNorm());
+        final T normProduct = v1.getNorm().multiply(v2.getNorm());
         if (normProduct.getReal() == 0) {
             throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
         }
 
-        final T dot = dotProduct(v);
+        final T dot = dotProduct(v1, v2);
         final double threshold = normProduct.getReal() * 0.9999;
         if ((dot.getReal() < -threshold) || (dot.getReal() > threshold)) {
             // the vectors are almost aligned, compute using the sine
-            FieldVector3D<T> v3 = crossProduct(v);
+            FieldVector3D<T> v3 = crossProduct(v1, v2);
             if (dot.getReal() >= 0) {
                 return v3.getNorm().divide(normProduct).asin();
             }
@@ -594,6 +597,59 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
         // the vectors are sufficiently separated to use the cosine
         return dot.divide(normProduct).acos();
 
+    }
+
+    /** Compute the angular separation between two vectors.
+     * <p>This method computes the angular separation between two
+     * vectors using the dot product for well separated vectors and the
+     * cross product for almost aligned vectors. This allows to have a
+     * good accuracy in all cases, even for vectors very close to each
+     * other.</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return angular separation between v1 and v2
+     * @exception MathArithmeticException if either vector has a null norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T angle(final FieldVector3D<T> v1, final Vector3D v2)
+        throws MathArithmeticException {
+
+        final T normProduct = v1.getNorm().multiply(v2.getNorm());
+        if (normProduct.getReal() == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
+
+        final T dot = dotProduct(v1, v2);
+        final double threshold = normProduct.getReal() * 0.9999;
+        if ((dot.getReal() < -threshold) || (dot.getReal() > threshold)) {
+            // the vectors are almost aligned, compute using the sine
+            FieldVector3D<T> v3 = crossProduct(v1, v2);
+            if (dot.getReal() >= 0) {
+                return v3.getNorm().divide(normProduct).asin();
+            }
+            return v3.getNorm().divide(normProduct).asin().subtract(FastMath.PI).negate();
+        }
+
+        // the vectors are sufficiently separated to use the cosine
+        return dot.divide(normProduct).acos();
+
+    }
+
+    /** Compute the angular separation between two vectors.
+     * <p>This method computes the angular separation between two
+     * vectors using the dot product for well separated vectors and the
+     * cross product for almost aligned vectors. This allows to have a
+     * good accuracy in all cases, even for vectors very close to each
+     * other.</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return angular separation between v1 and v2
+     * @exception MathArithmeticException if either vector has a null norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T angle(final Vector3D v1, final FieldVector3D<T> v2)
+        throws MathArithmeticException {
+        return angle(v2, v1);
     }
 
     /** Get the opposite of the instance.
@@ -873,6 +929,242 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
         final T dy = y.subtract(v.getY());
         final T dz = z.subtract(v.getZ());
         return dx.multiply(dx).add(dy.multiply(dy)).add(dz.multiply(dz));
+    }
+
+    /** Compute the dot-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the dot product v1.v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
+                                                                   final FieldVector3D<T> v2) {
+        return v1.dotProduct(v2);
+    }
+
+    /** Compute the dot-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the dot product v1.v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
+                                                                   final Vector3D v2) {
+        return v1.dotProduct(v2);
+    }
+
+    /** Compute the dot-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the dot product v1.v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T dotProduct(final Vector3D v1,
+                                                                   final FieldVector3D<T> v2) {
+        return v2.dotProduct(v1);
+    }
+
+    /** Compute the cross-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the cross product v1 ^ v2 as a new Vector
+     */
+    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
+                                                                                    final FieldVector3D<T> v2) {
+        return v1.crossProduct(v2);
+    }
+
+    /** Compute the cross-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the cross product v1 ^ v2 as a new Vector
+     */
+    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
+                                                                                    final Vector3D v2) {
+        return v1.crossProduct(v2);
+    }
+
+    /** Compute the cross-product of two vectors.
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the cross product v1 ^ v2 as a new Vector
+     */
+    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1,
+                                                                                    final FieldVector3D<T> v2) {
+        return new FieldVector3D<T>(v2.x.linearCombination(v1.getY(), v2.z, -v1.getZ(), v2.y),
+                                    v2.y.linearCombination(v1.getZ(), v2.x, -v1.getX(), v2.z),
+                                    v2.z.linearCombination(v1.getX(), v2.y, -v1.getY(), v2.x));
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance1(final FieldVector3D<T> v1,
+                                                                  final FieldVector3D<T> v2) {
+        return v1.distance1(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance1(final FieldVector3D<T> v1,
+                                                                  final Vector3D v2) {
+        return v1.distance1(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>1</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm1()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance1(final Vector3D v1,
+                                                                  final FieldVector3D<T> v2) {
+        return v2.distance1(v1);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance(final FieldVector3D<T> v1,
+                                                                 final FieldVector3D<T> v2) {
+        return v1.distance(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance(final FieldVector3D<T> v1,
+                                                                 final Vector3D v2) {
+        return v1.distance(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNorm()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distance(final Vector3D v1,
+                                                                 final FieldVector3D<T> v2) {
+        return v2.distance(v1);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
+                                                                    final FieldVector3D<T> v2) {
+        return v1.distanceInf(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
+                                                                    final Vector3D v2) {
+        return v1.distanceInf(v2);
+    }
+
+    /** Compute the distance between two vectors according to the L<sub>&infin;</sub> norm.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormInf()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceInf(final Vector3D v1,
+                                                                    final FieldVector3D<T> v2) {
+        return v2.distanceInf(v1);
+    }
+
+    /** Compute the square of the distance between two vectors.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormSq()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the square of the distance between v1 and v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
+                                                                   final FieldVector3D<T> v2) {
+        return v1.distanceSq(v2);
+    }
+
+    /** Compute the square of the distance between two vectors.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormSq()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the square of the distance between v1 and v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
+                                                                   final Vector3D v2) {
+        return v1.distanceSq(v2);
+    }
+
+    /** Compute the square of the distance between two vectors.
+     * <p>Calling this method is equivalent to calling:
+     * <code>v1.subtract(v2).getNormSq()</code> except that no intermediate
+     * vector is built</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @param <T> the type of the field elements
+     * @return the square of the distance between v1 and v2
+     */
+    public static <T extends ExtendedFieldElement<T>> T distanceSq(final Vector3D v1,
+                                                                   final FieldVector3D<T> v2) {
+        return v2.distanceSq(v1);
     }
 
     /** Get a string representation of this vector.

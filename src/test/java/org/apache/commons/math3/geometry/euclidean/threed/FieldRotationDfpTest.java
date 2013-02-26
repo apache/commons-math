@@ -96,7 +96,7 @@ public class FieldRotationDfpTest {
         FieldRotation<Dfp> rTr = reverted.applyTo(r);
         checkRotationDS(rTr, 1, 0, 0, 0);
         Assert.assertEquals(r.getAngle().getReal(), reverted.getAngle().getReal(), 1.0e-15);
-        Assert.assertEquals(-1, r.getAxis().dotProduct(reverted.getAxis()).getReal(), 1.0e-15);
+        Assert.assertEquals(-1, FieldVector3D.dotProduct(r.getAxis(), reverted.getAxis()).getReal(), 1.0e-15);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class FieldRotationDfpTest {
 
         r = new FieldRotation<Dfp>(u1, u2, u1.negate(), u2.negate());
         FieldVector3D<Dfp> axis = r.getAxis();
-        if (axis.dotProduct(createVector(0, 0, 1)).getReal() > 0) {
+        if (FieldVector3D.dotProduct(axis, createVector(0, 0, 1)).getReal() > 0) {
             checkVector(axis, createVector(0, 0, 1));
         } else {
             checkVector(axis, createVector(0, 0, -1));
@@ -144,7 +144,7 @@ public class FieldRotationDfpTest {
                            createVector(0.5, 0.5, -sqrt));
         checkRotationDS(r, sqrt, 0.5, 0.5, 0);
 
-        r = new FieldRotation<Dfp>(u1, u2, u1, u1.crossProduct(u2));
+        r = new FieldRotation<Dfp>(u1, u2, u1, FieldVector3D.crossProduct(u1, u2));
         checkRotationDS(r, sqrt, -sqrt, 0, 0);
 
         checkRotationDS(new FieldRotation<Dfp>(u1, u2, u1, u2), 1, 0, 0, 0);
@@ -658,8 +658,8 @@ public class FieldRotationDfpTest {
                     quat.getQ2().getReal() * quat.getQ2().getReal() +
                     quat.getQ3().getReal() * quat.getQ3().getReal();
         Assert.assertEquals(1.0, q2, 1.0e-14);
-        Assert.assertEquals(0.0, v1.angle(quat.applyTo(u1)).getReal(), 1.0e-14);
-        Assert.assertEquals(0.0, v2.angle(quat.applyTo(u2)).getReal(), 1.0e-14);
+        Assert.assertEquals(0.0, FieldVector3D.angle(v1, quat.applyTo(u1)).getReal(), 1.0e-14);
+        Assert.assertEquals(0.0, FieldVector3D.angle(v2, quat.applyTo(u2)).getReal(), 1.0e-14);
 
     }
 
