@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.ode.events;
 
+
 /** This interface represents a handler for discrete events triggered
  * during ODE integration.
  *
@@ -107,6 +108,28 @@ public interface EventHandler  {
    * The switching function must be continuous in its roots neighborhood
    * (but not necessarily smooth), as the integrator will need to find its
    * roots to locate precisely the events.</p>
+   * <p>Also note that the integrator expect that once an event has occurred,
+   * the sign of the switching function at the start of the next step (i.e.
+   * just after the event) is the opposite of the sign just before the event.
+   * This consistency between the steps <string>must</strong> be preserved,
+   * otherwise {@link org.apache.commons.math3.exception.NoBracketingException
+   * exceptions} related to root not being bracketed will occur.</p>
+   * <p>This need for consistency is sometimes tricky to achieve. A typical
+   * example is using an event to model a ball bouncing on the floor. The first
+   * idea to represent this would be to have {@code g(t) = h(t)} where h is the
+   * height above the floor at time {@code t}. When {@code g(t)} reaches 0, the
+   * ball is on the floor, so it should bounce and the typical way to do this is
+   * to reverse its vertical velocity. However, this would mean that before the
+   * event {@code g(t)} was decreasing from positive values to 0, and after the
+   * event {@code g(t)} would be increasing from 0 to positive values again.
+   * Consistency is broken here! The solution here is to have {@code g(t) = sign
+   * * h(t)}, where sign is a variable with initial value set to {@code +1}. Each
+   * time {@link #eventOccurred(double, double[], boolean) eventOccurred} is called,
+   * {@code sign} is reset to {@code -sign}. This allows the {@code g(t)}
+   * function to remain continuous (and even smooth) even across events, despite
+   * {@code h(t)} is not. Basically, the event is used to <em>fold</em> {@code h(t)}
+   * at bounce points, and {@code sign} is used to <em>unfold</em> it back, so the
+   * solvers sees a {@code g(t)} function which behaves smoothly even across events.</p>
 
    * @param t current value of the independent <i>time</i> variable
    * @param y array containing the current value of the state vector
