@@ -363,7 +363,7 @@ public class EigenDecomposition {
 
     /**
      * Computes the square-root of the matrix.
-     * This implementation assumes that the matrix is symmetric and postive
+     * This implementation assumes that the matrix is symmetric and positive
      * definite.
      *
      * @return the square-root of the matrix.
