@@ -17,6 +17,7 @@
 package org.apache.commons.math3.stat.correlation;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.stat.descriptive.moment.Variance;
@@ -161,6 +162,16 @@ public class CovarianceTest {
         Assert.assertEquals(0d, new Covariance().covariance(noVariance, noVariance, true), Double.MIN_VALUE);
     }
 
+    /**
+     * One column
+     */
+    @Test
+    public void testOneColumn() {
+        RealMatrix cov = new Covariance(new double[][] {{1}, {2}}, false).getCovarianceMatrix();
+        Assert.assertEquals(1, cov.getRowDimension());
+        Assert.assertEquals(1, cov.getColumnDimension());
+        Assert.assertEquals(0.25, cov.getEntry(0, 0), 1.0e-15);
+    }
 
     /**
      * Insufficient data
@@ -175,11 +186,10 @@ public class CovarianceTest {
         } catch (IllegalArgumentException ex) {
             // Expected
         }
-        RealMatrix matrix = new Array2DRowRealMatrix(new double[][] {{0},{1}});
         try {
-            new Covariance(matrix);
-            Assert.fail("Expecting IllegalArgumentException");
-        } catch (IllegalArgumentException ex) {
+            new Covariance(new double[][] {{},{}});
+            Assert.fail("Expecting NotStrictlyPositiveException");
+        } catch (NotStrictlyPositiveException ex) {
             // Expected
         }
     }
