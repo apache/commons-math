@@ -20,7 +20,7 @@ package org.apache.commons.math3.analysis.differentiation;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math3.AbstractExtendedFieldElementTest;
+import org.apache.commons.math3.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -34,7 +34,7 @@ import org.junit.Test;
 /**
  * Test for class {@link DerivativeStructure}.
  */
-public class DerivativeStructureTest extends AbstractExtendedFieldElementTest<DerivativeStructure> {
+public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<DerivativeStructure> {
 
     protected DerivativeStructure build(final double x) {
         return new DerivativeStructure(2, 1, 0, x);

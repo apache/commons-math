@@ -17,7 +17,7 @@
 
 package org.apache.commons.math3.dfp;
 
-import org.apache.commons.math3.AbstractExtendedFieldElementTest;
+import org.apache.commons.math3.ExtendedFieldElementAbstractTest;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.After;
@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DfpTest extends AbstractExtendedFieldElementTest<Dfp> {
+public class DfpTest extends ExtendedFieldElementAbstractTest<Dfp> {
 
     protected Dfp build(final double x) {
         return field.newDfp(x);

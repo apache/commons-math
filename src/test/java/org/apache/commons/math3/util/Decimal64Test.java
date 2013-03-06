@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.util;
 
-import org.apache.commons.math3.AbstractExtendedFieldElementTest;
+import org.apache.commons.math3.ExtendedFieldElementAbstractTest;
 import org.junit.Assert;
 
 import org.junit.Test;
 
-public class Decimal64Test extends AbstractExtendedFieldElementTest<Decimal64> {
+public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
     public static final double X = 1.2345;
 
     public static final Decimal64 PLUS_X = new Decimal64(X);
