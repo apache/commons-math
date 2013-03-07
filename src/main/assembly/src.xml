@@ -36,6 +36,7 @@
       <excludes>
         <exclude>**/mantissa/**</exclude>
         <exclude>**/experimental/**</exclude>
+        <exclude>**/*.cgi</exclude>        
       </excludes>
     </fileSet>
   </fileSets>
