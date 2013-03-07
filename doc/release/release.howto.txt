@@ -21,7 +21,7 @@ Preliminary checks:
 As a first optional step, you can test that everything works locally, i.e.
 that the build process can create all the necessary artefacts. The command
 
-  $ mvn clean deploy -Prelease -Ptest-deploy
+  $ mvn clean deploy -Ptest-deploy
 
 should create the artefacts in the "target/deploy".
 
