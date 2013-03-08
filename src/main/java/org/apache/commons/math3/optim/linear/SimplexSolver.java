@@ -43,8 +43,9 @@ import org.apache.commons.math3.util.Precision;
  * default cut-off value may be too small, thus it is advised to increase it to a larger value,
  * in accordance with the chosen epsilon.
  * <p>
- * It may also be counter-productive to provide a too large value for {@link MaxIter}
- * as parameter in the call of {@link #optimize(org.apache.commons.math3.optim.OptimizationData...)},
+ * It may also be counter-productive to provide a too large value for {@link
+ * org.apache.commons.math3.optim.MaxIter MaxIter} as parameter in the call of {@link
+ * #optimize(org.apache.commons.math3.optim.OptimizationData...) optimize(OptimizationData...)},
  * as the {@link SimplexSolver} will use different strategies depending on the current iteration
  * count. After half of the allowed max iterations has already been reached, the strategy to select
  * pivot rows will change in order to break possible cycles due to degenerate problems.

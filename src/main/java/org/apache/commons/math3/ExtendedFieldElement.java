@@ -97,7 +97,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
     T rint();
 
     /** Get the closest long to instance value.
-     * @return closest long to {@link #getValue()}
+     * @return closest long to {@link #getReal()}
      */
     long round();
 
@@ -326,6 +326,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @param b Factors.
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @throws DimensionMismatchException if arrays dimensions don't match
+     * @since 3.2
      */
     T linearCombination(double[] a, T[] b)
         throws DimensionMismatchException;
@@ -352,8 +353,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @param b2 second factor of the second term
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub>
-     * @see #linearCombination(T, T, T, T, T, T)
-     * @see #linearCombination(T, T, T, T, T, T, T, T)
+     * @see #linearCombination(Object, Object, Object, Object, Object, Object)
+     * @see #linearCombination(Object, Object, Object, Object, Object, Object, Object, Object)
      * @since 3.2
      */
     T linearCombination(T a1, T b1, T a2, T b2);
@@ -380,8 +381,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @param b2 second factor of the second term
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub>
-     * @see #linearCombination(double, T, double, T, double, T)
-     * @see #linearCombination(double, T, double, T, double, T, double, T)
+     * @see #linearCombination(double, Object, double, Object, double, Object)
+     * @see #linearCombination(double, Object, double, Object, double, Object, double, Object)
      * @since 3.2
      */
     T linearCombination(double a1, T b1, double a2, T b2);
@@ -410,8 +411,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @param b3 second factor of the third term
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
-     * @see #linearCombination(T, T, T, T)
-     * @see #linearCombination(T, T, T, T, T, T, T, T)
+     * @see #linearCombination(Object, Object, Object, Object)
+     * @see #linearCombination(Object, Object, Object, Object, Object, Object, Object, Object)
      * @since 3.2
      */
     T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3);
@@ -440,8 +441,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @param b3 second factor of the third term
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub>
-     * @see #linearCombination(double, T, double, T)
-     * @see #linearCombination(double, T, double, T, double, T, double, T)
+     * @see #linearCombination(double, Object, double, Object)
+     * @see #linearCombination(double, Object, double, Object, double, Object, double, Object)
      * @since 3.2
      */
     T linearCombination(double a1, T b1,  double a2, T b2, double a3, T b3);
@@ -474,8 +475,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
      * a<sub>4</sub>&times;b<sub>4</sub>
-     * @see #linearCombination(T, T, T, T)
-     * @see #linearCombination(T, T, T, T, T, T)
+     * @see #linearCombination(Object, Object, Object, Object)
+     * @see #linearCombination(Object, Object, Object, Object, Object, Object)
      * @since 3.2
      */
     T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3, T a4, T b4);
@@ -508,8 +509,8 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @return a<sub>1</sub>&times;b<sub>1</sub> +
      * a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> +
      * a<sub>4</sub>&times;b<sub>4</sub>
-     * @see #linearCombination(double, T, double, T)
-     * @see #linearCombination(double, T, double, T, double, T)
+     * @see #linearCombination(double, Object, double, Object)
+     * @see #linearCombination(double, Object, double, Object, double, Object)
      * @since 3.2
      */
     T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3, double a4, T b4);

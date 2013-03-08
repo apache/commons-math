@@ -294,7 +294,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param optData Optimization data.
      * The following data will be looked for:
      * <ul>
-     *  <li>{@link InitialStep}</li>
+     *  <li>{@link BracketingStep}</li>
      * </ul>
      */
     @Override

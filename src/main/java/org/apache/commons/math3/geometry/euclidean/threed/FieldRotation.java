@@ -33,7 +33,7 @@ import org.apache.commons.math3.util.MathArrays;
  *
  * @param <T> the type of the field elements
  * @version $Id$
- * @see Vector3DDSDS
+ * @see FieldVector3D
  * @see RotationOrder
  * @since 3.2
  */
@@ -425,7 +425,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the normalized axis of the rotation.
      * @return normalized axis of the rotation
-     * @see #Rotation(FieldVector3D, T)
+     * @see #FieldRotation(FieldVector3D, ExtendedFieldElement)
      */
     public FieldVector3D<T> getAxis() {
         final T squaredSine = q1.multiply(q1).add(q2.multiply(q2)).add(q3.multiply(q3));
@@ -442,7 +442,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the angle of the rotation.
      * @return angle of the rotation (between 0 and &pi;)
-     * @see #Rotation(FieldVector3D, T)
+     * @see #FieldRotation(FieldVector3D, ExtendedFieldElement)
      */
     public T getAngle() {
         if ((q0.getReal() < -0.1) || (q0.getReal() > 0.1)) {

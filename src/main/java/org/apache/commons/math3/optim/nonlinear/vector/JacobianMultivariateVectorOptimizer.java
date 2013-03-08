@@ -64,7 +64,7 @@ public abstract class JacobianMultivariateVectorOptimizer
      * {@inheritDoc}
      *
      * @param optData Optimization data. In addition to those documented in
-     * {@link MultivariateOptimizer#parseOptimizationData(OptimizationData[])
+     * {@link MultivariateVectorOptimizer#optimize(OptimizationData...)}
      * MultivariateOptimizer}, this method will register the following data:
      * <ul>
      *  <li>{@link ModelFunctionJacobian}</li>

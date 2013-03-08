@@ -302,7 +302,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #Vector3D(T, T, T)
+     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
      */
     public T getX() {
         return x;
@@ -310,7 +310,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #Vector3D(T, T, T)
+     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
      */
     public T getY() {
         return y;
@@ -318,7 +318,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the height of the vector.
      * @return height of the vector
-     * @see #Vector3D(T, T, T)
+     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
      */
     public T getZ() {
         return z;
@@ -326,7 +326,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the vector coordinates as a dimension 3 array.
      * @return vector coordinates
-     * @see #Vector3D(T[])
+     * @see #FieldVector3D(ExtendedFieldElement[])
      */
     public T[] toArray() {
         final T[] array = MathArrays.buildArray(x.getField(), 3);
@@ -390,7 +390,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the azimuth of the vector.
      * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
-     * @see #Vector3D(T, T)
+     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement)
      */
     public T getAlpha() {
         return y.atan2(x);
@@ -398,7 +398,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the elevation of the vector.
      * @return elevation (&delta;) of the vector, between -&pi;/2 and +&pi;/2
-     * @see #Vector3D(T, T)
+     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement)
      */
     public T getDelta() {
         return z.divide(getNorm()).asin();
@@ -696,14 +696,14 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
     /**
      * Test for the equality of two 3D vectors.
      * <p>
-     * If all coordinates of two 3D vectors are exactly the same, and none are
-     * <code>T.NaN</code>, the two 3D vectors are considered to be equal.
+     * If all coordinates of two 3D vectors are exactly the same, and none of their
+     * {@link ExtendedFieldElement#getReal() real part} are <code>NaN</code>, the
+     * two 3D vectors are considered to be equal.
      * </p>
      * <p>
      * <code>NaN</code> coordinates are considered to affect globally the vector
-     * and be equals to each other - i.e, if either (or all) coordinates of the
-     * 3D vector are equal to <code>T.NaN</code>, the 3D vector is equal to
-     * {@link #NaN}.
+     * and be equals to each other - i.e, if either (or all) real part of the
+     * coordinates of the 3D vector are <code>NaN</code>, the 3D vector is <code>NaN</code>.
      * </p>
      *
      * @param other Object to test for equality to this
@@ -1175,7 +1175,10 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
         return Vector3DFormat.getInstance().format(toVector3D());
     }
 
-    /** {@inheritDoc} */
+    /** Get a string representation of this vector.
+     * @param format the custom format for components
+     * @return a string representation of this vector
+     */
     public String toString(final NumberFormat format) {
         return new Vector3DFormat(format).format(toVector3D());
     }
