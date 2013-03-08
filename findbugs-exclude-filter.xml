@@ -250,6 +250,11 @@
     <Method name="getDataRef" params="" returns="org.apache.commons.math3.FieldElement[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.linear.DiagonalMatrix"/>
+    <Method name="getDataRef" params="" returns="double[]" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
   <!-- The equals method for RealVector intentionally throws an exception -->
   <Match>
     <Class name="org.apache.commons.math3.linear.RealVector"/>
