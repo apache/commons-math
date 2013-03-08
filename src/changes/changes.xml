@@ -55,6 +55,9 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="luc" type="add" issue="MATH-941" due-to="Piotr Wydrych" >
+        Added discrete distributions.
+      </action>
       <action dev="luc" type="fix" issue="MATH-940" due-to="Piotr Wydrych" >
         Fixed abstract test class naming that broke ant builds.
       </action>
