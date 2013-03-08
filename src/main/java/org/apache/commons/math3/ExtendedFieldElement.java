@@ -327,7 +327,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @return <code>&Sigma;<sub>i</sub> a<sub>i</sub> b<sub>i</sub></code>.
      * @throws DimensionMismatchException if arrays dimensions don't match
      */
-    public T linearCombination(double[] a, T[] b)
+    T linearCombination(double[] a, T[] b)
         throws DimensionMismatchException;
 
     /**
@@ -356,7 +356,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(T, T, T, T, T, T, T, T)
      * @since 3.2
      */
-    public T linearCombination(T a1, T b1, T a2, T b2);
+    T linearCombination(T a1, T b1, T a2, T b2);
 
     /**
      * Compute a linear combination accurately.
@@ -384,7 +384,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(double, T, double, T, double, T, double, T)
      * @since 3.2
      */
-    public T linearCombination(double a1, T b1, double a2, T b2);
+    T linearCombination(double a1, T b1, double a2, T b2);
 
     /**
      * Compute a linear combination accurately.
@@ -414,7 +414,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(T, T, T, T, T, T, T, T)
      * @since 3.2
      */
-    public T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3);
+    T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3);
 
     /**
      * Compute a linear combination accurately.
@@ -444,7 +444,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(double, T, double, T, double, T, double, T)
      * @since 3.2
      */
-    public T linearCombination(double a1, T b1,  double a2, T b2, double a3, T b3);
+    T linearCombination(double a1, T b1,  double a2, T b2, double a3, T b3);
 
     /**
      * Compute a linear combination accurately.
@@ -478,7 +478,7 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(T, T, T, T, T, T)
      * @since 3.2
      */
-    public T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3, T a4, T b4);
+    T linearCombination(T a1, T b1, T a2, T b2, T a3, T b3, T a4, T b4);
 
     /**
      * Compute a linear combination accurately.
@@ -512,6 +512,6 @@ public interface ExtendedFieldElement<T> extends FieldElement<T> {
      * @see #linearCombination(double, T, double, T, double, T)
      * @since 3.2
      */
-    public T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3, double a4, T b4);
+    T linearCombination(double a1, T b1, double a2, T b2, double a3, T b3, double a4, T b4);
 
 }
