@@ -226,7 +226,7 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         return compiler.getOrder();
     }
 
-    /***/
+    /** {@inheritDoc} */
     public double getReal() {
         return data[0];
     }
@@ -784,9 +784,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         }
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), all);
 
     }
 
@@ -808,9 +808,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         }
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(simpleValue.getFreeParameters(), simpleValue.getOrder(), all);
 
     }
 
@@ -826,9 +826,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 
@@ -844,9 +844,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 
@@ -864,9 +864,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 
@@ -884,9 +884,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 
@@ -906,9 +906,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = a1.multiply(b1).add(a2.multiply(b2)).add(a3.multiply(b3)).add(a4.multiply(b4));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 
@@ -928,9 +928,9 @@ public class DerivativeStructure implements ExtendedFieldElement<DerivativeStruc
         final DerivativeStructure simpleValue = b1.multiply(a1).add(b2.multiply(a2)).add(b3.multiply(a3)).add(b4.multiply(a4));
 
         // create a result with accurate value and all derivatives (not necessarily as accurate as the value)
-        final double[] data = simpleValue.getAllDerivatives();
-        data[0] = accurateValue;
-        return new DerivativeStructure(getFreeParameters(), getOrder(), data);
+        final double[] all = simpleValue.getAllDerivatives();
+        all[0] = accurateValue;
+        return new DerivativeStructure(getFreeParameters(), getOrder(), all);
 
     }
 

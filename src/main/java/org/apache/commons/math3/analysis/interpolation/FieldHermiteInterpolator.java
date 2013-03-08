@@ -40,6 +40,8 @@ import org.apache.commons.math3.util.MathArrays;
  * derivative for all points all have degree 3n-1.
  * </p>
  *
+ * @param <T> Type of the field elements.
+ *
  * @version $Id$
  * @since 3.2
  */
