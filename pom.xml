@@ -375,7 +375,40 @@
             </ignorePathsToDelete>
           </configuration>
         </plugin>
-      </plugins>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${commons.rat.version}</version>
+        <configuration>
+          <excludes>
+
+            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
+            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
+
+            <!-- the following are test data files with specific syntax that cannot include
+                 Apache header (and the contained data is public, it is not owned by Apache) -->
+            <exclude>src/test/resources/org/apache/commons/math3/random/testData.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/random/emptyFile.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/PiDigits.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc3.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lew.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc2.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc1.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lottery.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc4.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Michelso.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Mavro.txt</exclude>
+
+            <!-- version 0.8 of apache-rat-plugin does not exclude properly
+                 some default development tools files (see RAT-126) -->
+            <exclude>bin/**</exclude>
+            <exclude>.gitignore</exclude>
+            <exclude>.git/**</exclude>
+
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <reporting>
