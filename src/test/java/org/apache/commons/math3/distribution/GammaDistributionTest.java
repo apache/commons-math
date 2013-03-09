@@ -236,8 +236,10 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
         in = new BufferedReader(new InputStreamReader(resourceAsStream));
 
         try {
-            for (String line = in.readLine(); line != null; line = in
-                .readLine()) {
+            for (String line = in.readLine(); line != null; line = in.readLine()) {
+                if (line.startsWith("#")) {
+                    continue;
+                }
                 final String[] tokens = line.split(", ");
                 Assert.assertTrue("expected two floating-point values",
                                   tokens.length == 2);
