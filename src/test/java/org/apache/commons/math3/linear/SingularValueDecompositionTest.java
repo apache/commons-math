@@ -279,11 +279,13 @@ public class SingularValueDecompositionTest {
             String strLine;
             int row = 0;
             while ((strLine = br.readLine()) != null) {
-                int col = 0;
-                for (String entry : strLine.split(",")) {
-                    m.setEntry(row, col++, Double.parseDouble(entry));
+                if (!strLine.startsWith("#")) {
+                    int col = 0;
+                    for (String entry : strLine.split(",")) {
+                        m.setEntry(row, col++, Double.parseDouble(entry));
+                    }
+                    row++;
                 }
-                row++;
             }
             in.close();
         } catch (IOException e) {}
