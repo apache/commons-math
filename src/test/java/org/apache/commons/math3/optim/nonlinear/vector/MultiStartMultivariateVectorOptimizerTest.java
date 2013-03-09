@@ -16,14 +16,16 @@
  */
 package org.apache.commons.math3.optim.nonlinear.vector;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.InitialGuess;
+import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
 import org.apache.commons.math3.random.GaussianRandomGenerator;
@@ -96,10 +98,10 @@ import org.junit.Test;
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
 public class MultiStartMultivariateVectorOptimizerTest {
+
     @Test(expected=NullPointerException.class)
     public void testGetOptimaBeforeOptimize() {
-        LinearProblem problem
-            = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
+
         JacobianMultivariateVectorOptimizer underlyingOptimizer
             = new GaussNewtonOptimizer(true, new SimpleVectorValueChecker(1e-6, 1e-6));
         JDKRandomGenerator g = new JDKRandomGenerator();
@@ -145,8 +147,45 @@ public class MultiStartMultivariateVectorOptimizerTest {
         Assert.assertEquals(100, optimizer.getMaxEvaluations());
     }
 
+    @Test
+    public void testIssue914() {
+        LinearProblem problem = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
+        JacobianMultivariateVectorOptimizer underlyingOptimizer =
+                new GaussNewtonOptimizer(true, new SimpleVectorValueChecker(1e-6, 1e-6)) {
+            public PointVectorValuePair optimize(OptimizationData... optData) {
+                // filter out simple bounds, as they are not supported
+                // by the underlying optimizer, and we don't really care for this test
+                OptimizationData[] filtered = optData.clone();
+                for (int i = 0; i < filtered.length; ++i) {
+                    if (filtered[i] instanceof SimpleBounds) {
+                        filtered[i] = null;
+                    }
+                }
+                return super.optimize(filtered);
+            }
+        };
+        JDKRandomGenerator g = new JDKRandomGenerator();
+        g.setSeed(16069223052l);
+        RandomVectorGenerator generator =
+                new UncorrelatedRandomVectorGenerator(1, new GaussianRandomGenerator(g));
+        MultiStartMultivariateVectorOptimizer optimizer =
+                new MultiStartMultivariateVectorOptimizer(underlyingOptimizer, 10, generator);
+
+        optimizer.optimize(new MaxEval(100),
+                           problem.getModelFunction(),
+                           problem.getModelFunctionJacobian(),
+                           problem.getTarget(),
+                           new Weight(new double[] { 1 }),
+                           new InitialGuess(new double[] { 0 }),
+                           new SimpleBounds(new double[] { -1.0e-10 }, new double[] {  1.0e-10 }));
+        PointVectorValuePair[] optima = optimizer.getOptima();
+        // only the first start should have succeeded
+        Assert.assertEquals(1, optima.length);
+
+    }
+
     /**
-     * Test demonstrating that the user exception is fnally thrown if none
+     * Test demonstrating that the user exception is finally thrown if none
      * of the runs succeed.
      */
     @Test(expected=TestException.class)
@@ -170,7 +209,9 @@ public class MultiStartMultivariateVectorOptimizerTest {
                                }));
     }
 
-    private static class TestException extends RuntimeException {}
+    private static class TestException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;}
 
     private static class LinearProblem {
         private final RealMatrix factors;

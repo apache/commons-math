@@ -18,6 +18,7 @@ package org.apache.commons.math3.optim;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.random.RandomVectorGenerator;
 
 /**
@@ -59,7 +60,15 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.
-     *
+     * <p>
+     * Note that if there are bounds constraints (see {@link #getLowerBound()}
+     * and {@link #getUpperBound()}), then a simple rejection algorithm is used
+     * at each restart. This implies that the random vector generator should have
+     * a good probability to generate vectors in the bounded domain, otherwise the
+     * rejection algorithm will hit the {@link #getMaxEvaluations()} count without
+     * generating a proper restart point. Users must be take great care of the <a
+     * href="http://en.wikipedia.org/wiki/Curse_of_dimensionality">curse of dimensionality</a>.
+     * </p>
      * @param optimizer Single-start optimizer to wrap.
      * @param starts Number of starts to perform. If {@code starts == 1},
      * the {@link #optimize(OptimizationData[]) optimize} will return the
@@ -157,8 +166,8 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
         clear();
 
         final int maxEval = getMaxEvaluations();
-        final double[] min = getLowerBound(); // XXX Should be used to enforce bounds (see below).
-        final double[] max = getUpperBound(); // XXX Should be used to enforce bounds (see below).
+        final double[] min = getLowerBound();
+        final double[] max = getUpperBound();
         final double[] startPoint = getStartPoint();
 
         // Multi-start loop.
@@ -168,9 +177,24 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
                 // Decrease number of allowed evaluations.
                 optimData[maxEvalIndex] = new MaxEval(maxEval - totalEvaluations);
                 // New start value.
-                final double[] s = (i == 0) ?
-                    startPoint :
-                    generator.nextVector(); // XXX This does not enforce bounds!
+                double[] s = null;
+                if (i == 0) {
+                    s = startPoint;
+                } else {
+                    int attempts = 0;
+                    while (s == null) {
+                        if (attempts++ >= getMaxEvaluations()) {
+                            throw new TooManyEvaluationsException(getMaxEvaluations());
+                        }
+                        s = generator.nextVector();
+                        for (int k = 0; s != null && k < s.length; ++k) {
+                            if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
+                                // reject the vector
+                                s = null;
+                            }
+                        }
+                    }
+                }
                 optimData[initialGuessIndex] = new InitialGuess(s);
                 // Optimize.
                 final PAIR result = optimizer.optimize(optimData);
