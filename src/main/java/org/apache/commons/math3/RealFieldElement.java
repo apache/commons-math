@@ -21,9 +21,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 /**
  * Interface representing a <a href="http://mathworld.wolfram.com/RealNumber.html">real</a>
  * <a href="http://mathworld.wolfram.com/Field.html">field</a>.
- * <p>
- * Classes implementing this interface will often be singletons.
- * </p>
  * @param <T> the type of the field elements
  * @see FieldElement
  * @version $Id$
