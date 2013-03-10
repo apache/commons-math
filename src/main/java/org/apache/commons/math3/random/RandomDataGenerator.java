@@ -246,6 +246,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * between 0 (inclusive) and the specified value (exclusive), drawn from
      * this random number generator's sequence.
      *
+     * @param rng random generator to use
      * @param n the bound on the random number to be returned.  Must be
      * positive.
      * @return  a pseudorandom, uniformly distributed <tt>long</tt>
@@ -391,6 +392,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * between 0 (inclusive) and the specified value (exclusive), drawn from
      * this random number generator's sequence.
      *
+     * @param rng random generator to use
      * @param n the bound on the random number to be returned.  Must be
      * positive.
      * @return  a pseudorandom, uniformly distributed <tt>long</tt>
