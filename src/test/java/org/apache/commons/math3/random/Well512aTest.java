@@ -23,7 +23,7 @@ public class Well512aTest extends RandomGeneratorAbstractTest {
     
     @Override
     public RandomGenerator makeGenerator() {
-        return new Well512a(100);
+        return new Well512a(101);
     }
     @Test
     public void testReferenceCode() {

@@ -163,6 +163,31 @@ public abstract class BitsStreamGenerator
     }
 
     /**
+     * Returns a pseudorandom, uniformly distributed <tt>long</tt> value
+     * between 0 (inclusive) and the specified value (exclusive), drawn from
+     * this random number generator's sequence.
+     *
+     * @param n the bound on the random number to be returned.  Must be
+     * positive.
+     * @return  a pseudorandom, uniformly distributed <tt>long</tt>
+     * value between 0 (inclusive) and n (exclusive).
+     * @throws IllegalArgumentException  if n is not positive.
+     */
+    public long nextLong(long n) throws IllegalArgumentException {
+        if (n > 0) {
+            long bits;
+            long val;
+            do {
+                bits = ((long) next(31)) << 32;
+                bits = bits | (((long) next(32)) & 0xffffffffL);
+                val  = bits % n;
+            } while (bits - val + (n - 1) < 0);
+            return val;
+        }
+        throw new NotStrictlyPositiveException(n);
+    }
+
+    /**
      * Clears the cache used by the default implementation of
      * {@link #nextGaussian}.
      */

@@ -176,22 +176,22 @@ public class NaturalRankingTest {
         NaturalRanking ranking = new NaturalRanking(NaNStrategy.FIXED,
                 randomGenerator);
         double[] ranks = ranking.rank(exampleData);
-        double[] correctRanks = { 5, 4, 6, 7, 3, 8, Double.NaN, 1, 4 };
+        double[] correctRanks = { 5, 3, 6, 7, 3, 8, Double.NaN, 1, 2 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(tiesFirst);
-        correctRanks = new double[] { 1, 1, 4, 3, 5 };
+        correctRanks = new double[] { 1, 2, 4, 3, 5 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(tiesLast);
-        correctRanks = new double[] { 3, 4, 2, 1 };
+        correctRanks = new double[] { 3, 3, 2, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(multipleNaNs);
         correctRanks = new double[] { 1, 2, Double.NaN, Double.NaN };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(multipleTies);
-        correctRanks = new double[] { 3, 2, 5, 5, 7, 6, 1 };
+        correctRanks = new double[] { 3, 2, 4, 4, 6, 7, 1 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
         ranks = ranking.rank(allSame);
-        correctRanks = new double[] { 1, 3, 4, 4 };
+        correctRanks = new double[] { 2, 3, 3, 3 };
         TestUtils.assertEquals(correctRanks, ranks, 0d);
     }
 

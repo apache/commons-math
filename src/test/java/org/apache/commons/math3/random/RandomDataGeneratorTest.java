@@ -113,25 +113,26 @@ public class RandomDataGeneratorTest {
             checkNextIntUniform(-3, 6);
         }
     }
-    
+
     @Test 
     public void testNextIntNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(-7, -4);
             checkNextIntUniform(-15, -2);
+            checkNextIntUniform(Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 12);
         }
     }
-    
+
     @Test 
     public void testNextIntPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextIntUniform(0, 3);
             checkNextIntUniform(2, 12);
             checkNextIntUniform(1,2);
+            checkNextIntUniform(Integer.MAX_VALUE - 12, Integer.MAX_VALUE - 1);
         }
     }
-    
-    
+
     private void checkNextIntUniform(int min, int max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
@@ -153,6 +154,24 @@ public class RandomDataGeneratorTest {
     }
 
     @Test
+    public void testNextIntWideRange() {
+        int lower = -0x6543210F;
+        int upper =  0x456789AB;
+        int max   = Integer.MIN_VALUE;
+        int min   = Integer.MAX_VALUE;
+        for (int i = 0; i < 1000000; ++i) {
+            int r = randomData.nextInt(lower, upper);
+            max = FastMath.max(max, r);
+            min = FastMath.min(min, r);
+            Assert.assertTrue(r >= lower);
+            Assert.assertTrue(r <= upper);
+        }
+        double ratio = (((double) max)   - ((double) min)) /
+                       (((double) upper) - ((double) lower));
+        Assert.assertTrue(ratio > 0.99999);
+    }
+    
+    @Test
     public void testNextLongIAE() {
         try {
             randomData.nextLong(4, 3);
@@ -161,7 +180,7 @@ public class RandomDataGeneratorTest {
             // ignored
         }
     }
-    
+
     @Test
     public void testNextLongNegativeToPositiveRange() {
         for (int i = 0; i < 5; i++) {
@@ -169,31 +188,34 @@ public class RandomDataGeneratorTest {
             checkNextLongUniform(-3, 6);
         }
     }
-    
+
     @Test 
     public void testNextLongNegativeRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(-7, -4);
             checkNextLongUniform(-15, -2);
+            checkNextLongUniform(Long.MIN_VALUE + 1, Long.MIN_VALUE + 12);
         }
     }
-    
+
     @Test 
     public void testNextLongPositiveRange() {
         for (int i = 0; i < 5; i++) {
             checkNextLongUniform(0, 3);
             checkNextLongUniform(2, 12);
+            checkNextLongUniform(Long.MAX_VALUE - 12, Long.MAX_VALUE - 1);
         }
     }
-    
-    private void checkNextLongUniform(int min, int max) {
+
+    private void checkNextLongUniform(long min, long max) {
         final Frequency freq = new Frequency();
         for (int i = 0; i < smallSampleSize; i++) {
             final long value = randomData.nextLong(min, max);
-            Assert.assertTrue("nextLong range", (value >= min) && (value <= max));
+            Assert.assertTrue("nextLong range: " + value + " " + min + " " + max,
+                              (value >= min) && (value <= max));
             freq.addValue(value);
         }
-        final int len = max - min + 1;
+        final int len = ((int) (max - min)) + 1;
         final long[] observed = new long[len];
         for (int i = 0; i < len; i++) {
             observed[i] = freq.getCount(min + i);
@@ -206,6 +228,24 @@ public class RandomDataGeneratorTest {
         TestUtils.assertChiSquareAccept(expected, observed, 0.01);
     }
 
+    @Test
+    public void testNextLongWideRange() {
+        long lower = -0x6543210FEDCBA987L;
+        long upper =  0x456789ABCDEF0123L;
+        long max = Long.MIN_VALUE;
+        long min = Long.MAX_VALUE;
+        for (int i = 0; i < 10000000; ++i) {
+            long r = randomData.nextLong(lower, upper);
+            max = FastMath.max(max, r);
+            min = FastMath.min(min, r);
+            Assert.assertTrue(r >= lower);
+            Assert.assertTrue(r <= upper);
+        }
+        double ratio = (((double) max)   - ((double) min)) /
+                       (((double) upper) - ((double) lower));
+        Assert.assertTrue(ratio > 0.99999);
+    }
+    
     @Test
     public void testNextSecureLongIAE() {
         try {

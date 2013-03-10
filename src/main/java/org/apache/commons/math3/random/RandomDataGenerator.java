@@ -45,7 +45,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -194,25 +193,82 @@ public class RandomDataGenerator implements RandomData, Serializable {
     }
 
     /** {@inheritDoc} */
-    public int nextInt(int lower, int upper) throws NumberIsTooLargeException {
+    public int nextInt(final int lower, final int upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
-        double r = getRan().nextDouble();
-        double scaled = r * upper + (1.0 - r) * lower + r;
-        return (int) FastMath.floor(scaled);
+        final int max = (upper - lower) + 1;
+        if (max <= 0) {
+            // the range is too wide to fit in a positive int (larger than 2^31); as it covers
+            // more than half the integer range, we use directly a simple rejection method
+            final RandomGenerator rng = getRan();
+            while (true) {
+                final int r = rng.nextInt();
+                if (r >= lower && r <= upper) {
+                    return r;
+                }
+            }
+        } else {
+            // we can shift the range and generate directly a positive int
+            return lower + getRan().nextInt(max);
+        }
     }
 
     /** {@inheritDoc} */
-    public long nextLong(long lower, long upper) throws NumberIsTooLargeException {
+    public long nextLong(final long lower, final long upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
-        double r = getRan().nextDouble();
-        double scaled = r * upper + (1.0 - r) * lower + r;
-        return (long)FastMath.floor(scaled);
+        final long max = (upper - lower) + 1;
+        if (max <= 0) {
+            // the range is too wide to fit in a positive long (larger than 2^63); as it covers
+            // more than half the long range, we use directly a simple rejection method
+            final RandomGenerator rng = getRan();
+            while (true) {
+                final long r = rng.nextLong();
+                if (r >= lower && r <= upper) {
+                    return r;
+                }
+            }
+        } else if (max < Integer.MAX_VALUE){
+            // we can shift the range and generate directly a positive int
+            return lower + getRan().nextInt((int) max);
+        } else {
+            // we can shift the range and generate directly a positive long
+            return lower + nextLong(getRan(), max);
+        }
+    }
+
+    /**
+     * Returns a pseudorandom, uniformly distributed <tt>long</tt> value
+     * between 0 (inclusive) and the specified value (exclusive), drawn from
+     * this random number generator's sequence.
+     *
+     * @param n the bound on the random number to be returned.  Must be
+     * positive.
+     * @return  a pseudorandom, uniformly distributed <tt>long</tt>
+     * value between 0 (inclusive) and n (exclusive).
+     * @throws IllegalArgumentException  if n is not positive.
+     */
+    private static long nextLong(final RandomGenerator rng, final long n) throws IllegalArgumentException {
+        if (n > 0) {
+            final byte[] byteArray = new byte[8];
+            long bits;
+            long val;
+            do {
+                rng.nextBytes(byteArray);
+                bits = 0;
+                for (final byte b : byteArray) {
+                    bits = (bits << 8) | (((long) b) & 0xffL);
+                }
+                bits = bits & 0x7fffffffffffffffL;
+                val  = bits % n;
+            } while (bits - val + (n - 1) < 0);
+            return val;
+        }
+        throw new NotStrictlyPositiveException(n);
     }
 
     /**
@@ -282,27 +338,82 @@ public class RandomDataGenerator implements RandomData, Serializable {
     }
 
     /**  {@inheritDoc} */
-    public int nextSecureInt(int lower, int upper) throws NumberIsTooLargeException {
+    public int nextSecureInt(final int lower, final int upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
-        SecureRandom sec = getSecRan();
-        final double r = sec.nextDouble();
-        final double scaled = r * upper + (1.0 - r) * lower + r;
-        return (int)FastMath.floor(scaled);
+        final int max = (upper - lower) + 1;
+        if (max <= 0) {
+            // the range is too wide to fit in a positive int (larger than 2^31); as it covers
+            // more than half the integer range, we use directly a simple rejection method
+            final SecureRandom rng = getSecRan();
+            while (true) {
+                final int r = rng.nextInt();
+                if (r >= lower && r <= upper) {
+                    return r;
+                }
+            }
+        } else {
+            // we can shift the range and generate directly a positive int
+            return lower + getSecRan().nextInt(max);
+        }
     }
 
     /** {@inheritDoc} */
-    public long nextSecureLong(long lower, long upper) throws NumberIsTooLargeException {
+    public long nextSecureLong(final long lower, final long upper) throws NumberIsTooLargeException {
         if (lower >= upper) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
-        SecureRandom sec = getSecRan();
-        final double r = sec.nextDouble();
-        final double scaled = r * upper + (1.0 - r) * lower + r;
-        return (long)FastMath.floor(scaled);
+        final long max = (upper - lower) + 1;
+        if (max <= 0) {
+            // the range is too wide to fit in a positive long (larger than 2^63); as it covers
+            // more than half the long range, we use directly a simple rejection method
+            final SecureRandom rng = getSecRan();
+            while (true) {
+                final long r = rng.nextLong();
+                if (r >= lower && r <= upper) {
+                    return r;
+                }
+            }
+        } else if (max < Integer.MAX_VALUE){
+            // we can shift the range and generate directly a positive int
+            return lower + getSecRan().nextInt((int) max);
+        } else {
+            // we can shift the range and generate directly a positive long
+            return lower + nextLong(getSecRan(), max);
+        }
+    }
+
+    /**
+     * Returns a pseudorandom, uniformly distributed <tt>long</tt> value
+     * between 0 (inclusive) and the specified value (exclusive), drawn from
+     * this random number generator's sequence.
+     *
+     * @param n the bound on the random number to be returned.  Must be
+     * positive.
+     * @return  a pseudorandom, uniformly distributed <tt>long</tt>
+     * value between 0 (inclusive) and n (exclusive).
+     * @throws IllegalArgumentException  if n is not positive.
+     */
+    private static long nextLong(final SecureRandom rng, final long n) throws IllegalArgumentException {
+        if (n > 0) {
+            final byte[] byteArray = new byte[8];
+            long bits;
+            long val;
+            do {
+                rng.nextBytes(byteArray);
+                bits = 0;
+                for (final byte b : byteArray) {
+                    bits = (bits << 8) | (((long) b) & 0xffL);
+                }
+                bits = bits & 0x7fffffffffffffffL;
+                val  = bits % n;
+            } while (bits - val + (n - 1) < 0);
+            return val;
+        }
+        throw new NotStrictlyPositiveException(n);
     }
 
     /**

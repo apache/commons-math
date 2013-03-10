@@ -23,7 +23,7 @@ public class MersenneTwisterTest extends RandomGeneratorAbstractTest {
 
     @Override
     protected RandomGenerator makeGenerator() {
-        return new MersenneTwister(100);
+        return new MersenneTwister(111);
     }
     
     // TODO: Some of the tests moved up to RandomGeneratorAbstractTest tested alternative seeding / constructors
