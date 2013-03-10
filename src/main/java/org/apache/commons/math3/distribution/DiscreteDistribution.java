@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.distribution;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -35,7 +37,8 @@ import org.apache.commons.math3.util.Pair;
  * @param <T> type of the random variable.
  * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">Discrete probability distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/DiscreteDistribution.html">Discrete Distribution (MathWorld)</a>
- * @version $Id: DiscreteDistribution.java 169 2013-03-08 09:02:38Z wydrych $
+ * @version $Id$
+ * @since 3.2
  */
 public class DiscreteDistribution<T> {
 
@@ -185,6 +188,45 @@ public class DiscreteDistribution<T> {
         }
 
         final Object[] out = new Object[sampleSize];
+
+        for (int i = 0; i < sampleSize; i++) {
+            out[i] = sample();
+        }
+
+        return out;
+
+    }
+
+    /**
+     * Generate a random sample from the distribution.
+     * <p>
+     * If the requested samples fit in the specified array, it is returned
+     * therein. Otherwise, a new array is allocated with the runtime type of
+     * the specified array and the size of this collection.
+     *
+     * @param sampleSize the number of random values to generate.
+     * @param array the array to populate.
+     * @return an array representing the random sample.
+     * @throws NotStrictlyPositiveException if {@code sampleSize} is not positive.
+     * @throws NullArgumentException if {@code array} is null
+     */
+    public T[] sample(int sampleSize, final T[] array) throws NotStrictlyPositiveException {
+        if (sampleSize <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
+        }
+
+        if (array == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+
+        T[] out;
+        if (array.length < sampleSize) {
+            @SuppressWarnings("unchecked") // safe as both are of type T
+            final T[] unchecked = (T[]) Array.newInstance(array.getClass().getComponentType(), sampleSize);
+            out = unchecked;
+        } else {
+            out = array;
+        }
 
         for (int i = 0; i < sampleSize; i++) {
             out[i] = sample();

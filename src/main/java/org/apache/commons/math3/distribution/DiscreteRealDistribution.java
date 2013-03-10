@@ -34,7 +34,8 @@ import org.apache.commons.math3.util.Pair;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">Discrete probability distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/DiscreteDistribution.html">Discrete Distribution (MathWorld)</a>
- * @version $Id: DiscreteRealDistribution.java 169 2013-03-08 09:02:38Z wydrych $
+ * @version $Id$
+ * @since 3.2
  */
 public class DiscreteRealDistribution extends AbstractRealDistribution {
 
