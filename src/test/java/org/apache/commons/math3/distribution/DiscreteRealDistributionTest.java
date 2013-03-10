@@ -16,11 +16,15 @@
  */
 package org.apache.commons.math3.distribution;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -199,4 +203,13 @@ public class DiscreteRealDistributionTest {
         Assert.assertEquals(testDistribution.getNumericalVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
+
+    @Test
+    public void testIssue942() {
+        List<Pair<Object,Double>> list = new ArrayList<Pair<Object, Double>>();
+        list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
+        list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
+        Assert.assertEquals(1, new DiscreteDistribution<Object>(list).sample(1).length);
+    }
+
 }
