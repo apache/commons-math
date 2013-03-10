@@ -509,6 +509,10 @@ and to extend the unit tests suite.
 2. A few methods in the FastMath class are in fact slower that their
 counterpart in either Math or StrictMath (cf. MATH-740). 
 ">
+      <action dev="mikl" type="add" issue="MATH-431">
+        Added statistical hypothesis tests "MannWhitneyUTest" and
+        "WilcoxonSignedRankTest".
+      </action>
       <action dev="erans" type="update" issue="MATH-698">
         Classes "CMAESOptimizer" and "BOBYQAOptimizer" inherit from
         "BaseAbstractMultivariateSimpleBoundsOptimizer" (in package
