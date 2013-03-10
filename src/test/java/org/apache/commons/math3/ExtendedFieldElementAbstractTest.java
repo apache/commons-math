@@ -23,7 +23,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.junit.Assert;
 import org.junit.Test;
 
-public abstract class ExtendedFieldElementAbstractTest<T extends ExtendedFieldElement<T>> {
+public abstract class ExtendedFieldElementAbstractTest<T extends RealFieldElement<T>> {
 
     protected abstract T build(double x);
 

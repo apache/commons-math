@@ -19,7 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -28,7 +28,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * This class is a re-implementation of {@link Rotation} using {@link ExtendedFieldElement}.
+ * This class is a re-implementation of {@link Rotation} using {@link RealFieldElement}.
  * <p>Instance of this class are guaranteed to be immutable.</p>
  *
  * @param <T> the type of the field elements
@@ -38,7 +38,7 @@ import org.apache.commons.math3.util.MathArrays;
  * @since 3.2
  */
 
-public class FieldRotation<T extends ExtendedFieldElement<T>> implements Serializable {
+public class FieldRotation<T extends RealFieldElement<T>> implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = 20130224l;
@@ -425,7 +425,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the normalized axis of the rotation.
      * @return normalized axis of the rotation
-     * @see #FieldRotation(FieldVector3D, ExtendedFieldElement)
+     * @see #FieldRotation(FieldVector3D, RealFieldElement)
      */
     public FieldVector3D<T> getAxis() {
         final T squaredSine = q1.multiply(q1).add(q2.multiply(q2)).add(q3.multiply(q3));
@@ -442,7 +442,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the angle of the rotation.
      * @return angle of the rotation (between 0 and &pi;)
-     * @see #FieldRotation(FieldVector3D, ExtendedFieldElement)
+     * @see #FieldRotation(FieldVector3D, RealFieldElement)
      */
     public T getAngle() {
         if ((q0.getReal() < -0.1) || (q0.getReal() > 0.1)) {
@@ -834,7 +834,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return a new vector which is the image of u by the rotation
      */
-    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> applyTo(final Rotation r, final FieldVector3D<T> u) {
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyTo(final Rotation r, final FieldVector3D<T> u) {
 
         final T x = u.getX();
         final T y = u.getY();
@@ -931,7 +931,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return a new vector which such that u is its image by the rotation
      */
-    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> applyInverseTo(final Rotation r, final FieldVector3D<T> u) {
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> applyInverseTo(final Rotation r, final FieldVector3D<T> u) {
 
         final T x = u.getX();
         final T y = u.getY();
@@ -991,7 +991,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return a new rotation which is the composition of r by the instance
      */
-    public static <T extends ExtendedFieldElement<T>> FieldRotation<T> applyTo(final Rotation r1, final FieldRotation<T> rInner) {
+    public static <T extends RealFieldElement<T>> FieldRotation<T> applyTo(final Rotation r1, final FieldRotation<T> rInner) {
         return new FieldRotation<T>(rInner.q0.multiply(r1.getQ0()).subtract(rInner.q1.multiply(r1.getQ1()).add(rInner.q2.multiply(r1.getQ2())).add(rInner.q3.multiply(r1.getQ3()))),
                                     rInner.q1.multiply(r1.getQ0()).add(rInner.q0.multiply(r1.getQ1())).add(rInner.q2.multiply(r1.getQ3()).subtract(rInner.q3.multiply(r1.getQ2()))),
                                     rInner.q2.multiply(r1.getQ0()).add(rInner.q0.multiply(r1.getQ2())).add(rInner.q3.multiply(r1.getQ1()).subtract(rInner.q1.multiply(r1.getQ3()))),
@@ -1050,7 +1050,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * @return a new rotation which is the composition of r by the inverse
      * of the instance
      */
-    public static <T extends ExtendedFieldElement<T>> FieldRotation<T> applyInverseTo(final Rotation rOuter, final FieldRotation<T> rInner) {
+    public static <T extends RealFieldElement<T>> FieldRotation<T> applyInverseTo(final Rotation rOuter, final FieldRotation<T> rInner) {
         return new FieldRotation<T>(rInner.q0.multiply(rOuter.getQ0()).add(rInner.q1.multiply(rOuter.getQ1()).add(rInner.q2.multiply(rOuter.getQ2())).add(rInner.q3.multiply(rOuter.getQ3()))).negate(),
                                     rInner.q0.multiply(rOuter.getQ1()).add(rInner.q2.multiply(rOuter.getQ3()).subtract(rInner.q3.multiply(rOuter.getQ2()))).subtract(rInner.q1.multiply(rOuter.getQ0())),
                                     rInner.q0.multiply(rOuter.getQ2()).add(rInner.q3.multiply(rOuter.getQ1()).subtract(rInner.q1.multiply(rOuter.getQ3()))).subtract(rInner.q2.multiply(rOuter.getQ0())),
@@ -1177,7 +1177,7 @@ public class FieldRotation<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return <i>distance</i> between r1 and r2
      */
-    public static <T extends ExtendedFieldElement<T>> T distance(final FieldRotation<T> r1, final FieldRotation<T> r2) {
+    public static <T extends RealFieldElement<T>> T distance(final FieldRotation<T> r1, final FieldRotation<T> r2) {
         return r1.applyInverseTo(r2).getAngle();
     }
 

@@ -16,20 +16,20 @@
  */
 package org.apache.commons.math3.util;
 
-import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 
 /**
  * This class wraps a {@code double} value in an object. It is similar to the
  * standard class {@link Double}, while also implementing the
- * {@link ExtendedFieldElement} interface.
+ * {@link RealFieldElement} interface.
  *
  * @since 3.1
  * @version $Id$
  */
 public class Decimal64 extends Number
-                       implements ExtendedFieldElement<Decimal64>, Comparable<Decimal64> {
+                       implements RealFieldElement<Decimal64>, Comparable<Decimal64> {
 
     /** The constant value of {@code 0d} as a {@code Decimal64}. */
     public static final Decimal64 ZERO;

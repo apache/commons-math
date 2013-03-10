@@ -19,7 +19,7 @@ package org.apache.commons.math3.dfp;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
 
@@ -95,7 +95,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 2.2
  */
-public class Dfp implements ExtendedFieldElement<Dfp> {
+public class Dfp implements RealFieldElement<Dfp> {
 
     /** The radix, or base of this system.  Set to 10000 */
     public static final int RADIX = 10000;

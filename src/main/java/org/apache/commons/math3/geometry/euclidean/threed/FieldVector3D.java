@@ -20,7 +20,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import java.io.Serializable;
 import java.text.NumberFormat;
 
-import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -28,13 +28,13 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * This class is a re-implementation of {@link Vector3D} using {@link ExtendedFieldElement}.
+ * This class is a re-implementation of {@link Vector3D} using {@link RealFieldElement}.
  * <p>Instance of this class are guaranteed to be immutable.</p>
  * @param <T> the type of the field elements
  * @version $Id$
  * @since 3.2
  */
-public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Serializable {
+public class FieldVector3D<T extends RealFieldElement<T>> implements Serializable {
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20130224L;
@@ -302,7 +302,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the abscissa of the vector.
      * @return abscissa of the vector
-     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
+     * @see #FieldVector3D(RealFieldElement, RealFieldElement, RealFieldElement)
      */
     public T getX() {
         return x;
@@ -310,7 +310,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the ordinate of the vector.
      * @return ordinate of the vector
-     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
+     * @see #FieldVector3D(RealFieldElement, RealFieldElement, RealFieldElement)
      */
     public T getY() {
         return y;
@@ -318,7 +318,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the height of the vector.
      * @return height of the vector
-     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement, ExtendedFieldElement)
+     * @see #FieldVector3D(RealFieldElement, RealFieldElement, RealFieldElement)
      */
     public T getZ() {
         return z;
@@ -326,7 +326,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the vector coordinates as a dimension 3 array.
      * @return vector coordinates
-     * @see #FieldVector3D(ExtendedFieldElement[])
+     * @see #FieldVector3D(RealFieldElement[])
      */
     public T[] toArray() {
         final T[] array = MathArrays.buildArray(x.getField(), 3);
@@ -390,7 +390,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the azimuth of the vector.
      * @return azimuth (&alpha;) of the vector, between -&pi; and +&pi;
-     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement)
+     * @see #FieldVector3D(RealFieldElement, RealFieldElement)
      */
     public T getAlpha() {
         return y.atan2(x);
@@ -398,7 +398,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
 
     /** Get the elevation of the vector.
      * @return elevation (&delta;) of the vector, between -&pi;/2 and +&pi;/2
-     * @see #FieldVector3D(ExtendedFieldElement, ExtendedFieldElement)
+     * @see #FieldVector3D(RealFieldElement, RealFieldElement)
      */
     public T getDelta() {
         return z.divide(getNorm()).asin();
@@ -575,7 +575,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static <T extends ExtendedFieldElement<T>> T angle(final FieldVector3D<T> v1, final FieldVector3D<T> v2)
+    public static <T extends RealFieldElement<T>> T angle(final FieldVector3D<T> v1, final FieldVector3D<T> v2)
         throws MathArithmeticException {
 
         final T normProduct = v1.getNorm().multiply(v2.getNorm());
@@ -611,7 +611,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static <T extends ExtendedFieldElement<T>> T angle(final FieldVector3D<T> v1, final Vector3D v2)
+    public static <T extends RealFieldElement<T>> T angle(final FieldVector3D<T> v1, final Vector3D v2)
         throws MathArithmeticException {
 
         final T normProduct = v1.getNorm().multiply(v2.getNorm());
@@ -647,7 +647,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @return angular separation between v1 and v2
      * @exception MathArithmeticException if either vector has a null norm
      */
-    public static <T extends ExtendedFieldElement<T>> T angle(final Vector3D v1, final FieldVector3D<T> v2)
+    public static <T extends RealFieldElement<T>> T angle(final Vector3D v1, final FieldVector3D<T> v2)
         throws MathArithmeticException {
         return angle(v2, v1);
     }
@@ -697,7 +697,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * Test for the equality of two 3D vectors.
      * <p>
      * If all coordinates of two 3D vectors are exactly the same, and none of their
-     * {@link ExtendedFieldElement#getReal() real part} are <code>NaN</code>, the
+     * {@link RealFieldElement#getReal() real part} are <code>NaN</code>, the
      * two 3D vectors are considered to be equal.
      * </p>
      * <p>
@@ -937,7 +937,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends ExtendedFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
                                                                    final FieldVector3D<T> v2) {
         return v1.dotProduct(v2);
     }
@@ -948,7 +948,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends ExtendedFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T dotProduct(final FieldVector3D<T> v1,
                                                                    final Vector3D v2) {
         return v1.dotProduct(v2);
     }
@@ -959,7 +959,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the dot product v1.v2
      */
-    public static <T extends ExtendedFieldElement<T>> T dotProduct(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> T dotProduct(final Vector3D v1,
                                                                    final FieldVector3D<T> v2) {
         return v2.dotProduct(v1);
     }
@@ -970,7 +970,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
                                                                                     final FieldVector3D<T> v2) {
         return v1.crossProduct(v2);
     }
@@ -981,7 +981,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> crossProduct(final FieldVector3D<T> v1,
                                                                                     final Vector3D v2) {
         return v1.crossProduct(v2);
     }
@@ -992,7 +992,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the cross product v1 ^ v2 as a new Vector
      */
-    public static <T extends ExtendedFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> FieldVector3D<T> crossProduct(final Vector3D v1,
                                                                                     final FieldVector3D<T> v2) {
         return new FieldVector3D<T>(v2.x.linearCombination(v1.getY(), v2.z, -v1.getZ(), v2.y),
                                     v2.y.linearCombination(v1.getZ(), v2.x, -v1.getX(), v2.z),
@@ -1008,7 +1008,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance1(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distance1(final FieldVector3D<T> v1,
                                                                   final FieldVector3D<T> v2) {
         return v1.distance1(v2);
     }
@@ -1022,7 +1022,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance1(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distance1(final FieldVector3D<T> v1,
                                                                   final Vector3D v2) {
         return v1.distance1(v2);
     }
@@ -1036,7 +1036,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>1</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance1(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> T distance1(final Vector3D v1,
                                                                   final FieldVector3D<T> v2) {
         return v2.distance1(v1);
     }
@@ -1050,7 +1050,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distance(final FieldVector3D<T> v1,
                                                                  final FieldVector3D<T> v2) {
         return v1.distance(v2);
     }
@@ -1064,7 +1064,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distance(final FieldVector3D<T> v1,
                                                                  final Vector3D v2) {
         return v1.distance(v2);
     }
@@ -1078,7 +1078,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>2</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distance(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> T distance(final Vector3D v1,
                                                                  final FieldVector3D<T> v2) {
         return v2.distance(v1);
     }
@@ -1092,7 +1092,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
                                                                     final FieldVector3D<T> v2) {
         return v1.distanceInf(v2);
     }
@@ -1106,7 +1106,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distanceInf(final FieldVector3D<T> v1,
                                                                     final Vector3D v2) {
         return v1.distanceInf(v2);
     }
@@ -1120,7 +1120,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the distance between v1 and v2 according to the L<sub>&infin;</sub> norm
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceInf(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> T distanceInf(final Vector3D v1,
                                                                     final FieldVector3D<T> v2) {
         return v2.distanceInf(v1);
     }
@@ -1134,7 +1134,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
                                                                    final FieldVector3D<T> v2) {
         return v1.distanceSq(v2);
     }
@@ -1148,7 +1148,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
+    public static <T extends RealFieldElement<T>> T distanceSq(final FieldVector3D<T> v1,
                                                                    final Vector3D v2) {
         return v1.distanceSq(v2);
     }
@@ -1162,7 +1162,7 @@ public class FieldVector3D<T extends ExtendedFieldElement<T>> implements Seriali
      * @param <T> the type of the field elements
      * @return the square of the distance between v1 and v2
      */
-    public static <T extends ExtendedFieldElement<T>> T distanceSq(final Vector3D v1,
+    public static <T extends RealFieldElement<T>> T distanceSq(final Vector3D v1,
                                                                    final FieldVector3D<T> v2) {
         return v2.distanceSq(v1);
     }

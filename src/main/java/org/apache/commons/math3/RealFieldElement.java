@@ -29,7 +29,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * @version $Id$
  * @since 3.2
  */
-public interface ExtendedFieldElement<T> extends FieldElement<T> {
+public interface RealFieldElement<T> extends FieldElement<T> {
 
     /** Get the real value of the number.
      * @return real value

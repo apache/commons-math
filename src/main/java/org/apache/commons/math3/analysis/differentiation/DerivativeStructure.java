@@ -18,7 +18,7 @@ package org.apache.commons.math3.analysis.differentiation;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.ExtendedFieldElement;
+import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -58,7 +58,7 @@ import org.apache.commons.math3.util.MathUtils;
  * @version $Id$
  * @since 3.1
  */
-public class DerivativeStructure implements ExtendedFieldElement<DerivativeStructure>, Serializable {
+public class DerivativeStructure implements RealFieldElement<DerivativeStructure>, Serializable {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20120730L;

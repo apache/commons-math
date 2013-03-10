@@ -81,10 +81,10 @@ This is a minor release: It combines bug fixes and new features.
         behave across events in ODE events detection.
       </action>
       <action dev="luc" type="add" >
-        Added Hermite interpolator for ExtendFieldElement instances.
+        Added Hermite interpolator for RealFieldElement instances.
       </action>
       <action dev="luc" type="add" >
-        Added ExtendFieldElement interface to represent anything that is
+        Added RealFieldElement interface to represent anything that is
         real number like, implemented by both Decimal64, Dfp and DerivativeStructure.  
       </action>
       <action dev="luc" type="add" >
