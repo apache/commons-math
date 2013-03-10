@@ -41,7 +41,7 @@ import org.junit.Test;
  * @version $Id$
  */
 
-public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
+public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTest {
 
     /** RandomGenerator under test */
     protected RandomGenerator generator;
@@ -57,7 +57,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
      */
     public RandomGeneratorAbstractTest() {
         generator = makeGenerator();
-        randomData = new RandomDataImpl(generator);
+        randomData = new RandomDataGenerator(generator);
     }
 
     /**
@@ -161,16 +161,19 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataTest {
         }
     }
 
-    @Override // TODO is this supposed to be an override?
-    @Test(expected=MathIllegalArgumentException.class)
-    public void testNextIntIAE() {
+    @Test
+    public void testNextIntIAE2() {
         try {
             generator.nextInt(-1);
             Assert.fail("MathIllegalArgumentException expected");
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        generator.nextInt(0);
+        try {
+            generator.nextInt(0);
+        } catch (MathIllegalArgumentException ex) {
+            // ignored
+        }
     }
 
     @Test

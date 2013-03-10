@@ -51,16 +51,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test cases for the RandomData class.
+ * Test cases for the RandomDataGenerator class.
  *
  * @version $Id$
- *          2009) $
  */
 @RunWith(RetryRunner.class)
-public class RandomDataTest {
+public class RandomDataGeneratorTest {
 
-    public RandomDataTest() {
-        randomData = new RandomDataImpl();
+    public RandomDataGeneratorTest() {
+        randomData = new RandomDataGenerator();
         randomData.reSeed(1000);
     }
 
@@ -69,7 +68,7 @@ public class RandomDataTest {
     protected final int largeSampleSize = 10000;
     private final String[] hex = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
             "a", "b", "c", "d", "e", "f" };
-    protected RandomDataImpl randomData = null;
+    protected RandomDataGenerator randomData = null;
     protected final ChiSquareTest testStatistic = new ChiSquareTest();
 
     @Test
@@ -828,16 +827,16 @@ public class RandomDataTest {
          */
 
         // test reseeding without first using the generators
-        RandomDataImpl rd = new RandomDataImpl();
+        RandomDataGenerator rd = new RandomDataGenerator();
         rd.reSeed(100);
         rd.nextLong(1, 2);
-        RandomDataImpl rd2 = new RandomDataImpl();
+        RandomDataGenerator rd2 = new RandomDataGenerator();
         rd2.reSeedSecure(2000);
         rd2.nextSecureLong(1, 2);
-        rd = new RandomDataImpl();
+        rd = new RandomDataGenerator();
         rd.reSeed();
         rd.nextLong(1, 2);
-        rd2 = new RandomDataImpl();
+        rd2 = new RandomDataGenerator();
         rd2.reSeedSecure();
         rd2.nextSecureLong(1, 2);
     }
@@ -992,21 +991,23 @@ public class RandomDataTest {
     @Test
     public void testNextInversionDeviate() {
         // Set the seed for the default random generator
-        randomData.reSeed(100);
+        RandomGenerator rg = new Well19937c(100);
+        RandomDataGenerator rdg = new RandomDataGenerator(rg);
         double[] quantiles = new double[10];
         for (int i = 0; i < 10; i++) {
-            quantiles[i] = randomData.nextUniform(0, 1);
+            quantiles[i] = rdg.nextUniform(0, 1);
         }
         // Reseed again so the inversion generator gets the same sequence
-        randomData.reSeed(100);
-        BetaDistribution betaDistribution = new BetaDistribution(2, 4);
+        rg.setSeed(100);
+        BetaDistribution betaDistribution = new BetaDistribution(rg, 2, 4,
+                                                                 BetaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
         /*
          *  Generate a sequence of deviates using inversion - the distribution function
          *  evaluated at the random value from the distribution should match the uniform
          *  random value used to generate it, which is stored in the quantiles[] array.
          */
         for (int i = 0; i < 10; i++) {
-            double value = randomData.nextInversionDeviate(betaDistribution);
+            double value = betaDistribution.sample();
             Assert.assertEquals(betaDistribution.cumulativeProbability(value), quantiles[i], 10E-9);
         }
     }
