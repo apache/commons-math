@@ -16,18 +16,16 @@
  */
 package org.apache.commons.math3.random;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
+import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class SynchronizedRandomGeneratorTest {
     private final int numberOfThreads = 5;
@@ -68,13 +66,12 @@ public class SynchronizedRandomGeneratorTest {
 
     @Test
     public void testMath899Sync() throws Throwable {
-        double[] v = null;
         try {
             // Running the test several times in order to decrease the
             // probability that a non-thread-safe code did not trigger
             // a concurrency problem.
             for (int i = 0; i < 10; i++) {
-                v = doTestMath899(true, numberOfThreads, numberOfGenerators, numberOfSamples);
+                doTestMath899(true, numberOfThreads, numberOfGenerators, numberOfSamples);
             }
         } catch (InterruptedException e) {
             Assert.fail(e.getMessage());

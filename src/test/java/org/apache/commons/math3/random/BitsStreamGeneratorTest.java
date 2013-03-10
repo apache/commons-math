@@ -42,6 +42,7 @@ public class BitsStreamGeneratorTest extends RandomGeneratorAbstractTest {
      */
     static class TestBitStreamGenerator extends BitsStreamGenerator {
 
+        private static final long serialVersionUID = 1L;
         private BitRandom ran = new BitRandom();
         
         @Override
