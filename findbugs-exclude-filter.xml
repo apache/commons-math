@@ -153,6 +153,16 @@
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
+  <!-- Serialization is handled by an internal class -->
+  <Match>
+    <Or>
+      <Class name="org.apache.commons.math3.optim.PointValuePair"/>
+      <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
+      <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
+      <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>      
+    </Or>
+    <Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR" />
+  </Match>
   <Match>
     <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
     <Or>
