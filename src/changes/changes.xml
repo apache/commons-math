@@ -55,6 +55,9 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="luc" type="fix" issue="MATH-570" due-to="Arne Plöse" >
+        ArrayFieldVector can now be constructed from any FieldVector.
+      </action>
       <action dev="luc" type="fix" issue="MATH-861" due-to="Sébastien Brisard" >
         Improved checking of null vector elements.
       </action>
