@@ -205,10 +205,12 @@ public interface RealFieldElement<T> extends FieldElement<T> {
      */
     T log1p();
 
-    /** Base 10 logarithm.
-     * @return base 10 logarithm of the instance
-     */
-    T log10();
+//    TODO: add this method in 4.0, as it is not possible to do it in 3.2
+//          due to incompatibility of the return type in the Dfp class
+//    /** Base 10 logarithm.
+//     * @return base 10 logarithm of the instance
+//     */
+//    T log10();
 
     /** Cosine operation.
      * @return cos(this)

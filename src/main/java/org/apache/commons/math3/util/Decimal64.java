@@ -442,7 +442,9 @@ public class Decimal64 extends Number
         return new Decimal64(FastMath.log1p(value));
     }
 
-    /** {@inheritDoc} */
+    /** Base 10 logarithm.
+     * @return base 10 logarithm of the instance
+     */
     public Decimal64 log10() {
         return new Decimal64(FastMath.log10(value));
     }

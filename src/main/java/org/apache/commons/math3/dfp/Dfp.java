@@ -2665,12 +2665,24 @@ public class Dfp implements RealFieldElement<Dfp> {
         return DfpMath.log(this.add(getOne()));
     }
 
-    /** {@inheritDoc}
-     * @since 3.2
+//  TODO: deactivate this implementation (and return type) in 4.0
+    /** Get the exponent of the greatest power of 10 that is less than or equal to abs(this).
+     *  @return integer base 10 logarithm
+     *  @deprecated as of 3.2, replaced by {@link #intLog10()}, in 4.0 the return type
+     *  will be changed to Dfp
      */
-    public Dfp log10() {
-        return DfpMath.log(this).divide(DfpMath.log(newInstance(10)));
+    @Deprecated
+    public int log10()  {
+        return intLog10();
     }
+
+//    TODO: activate this implementation (and return type) in 4.0
+//    /** {@inheritDoc}
+//     * @since 3.2
+//     */
+//    public Dfp log10() {
+//        return DfpMath.log(this).divide(DfpMath.log(newInstance(10)));
+//    }
 
     /** {@inheritDoc}
      * @since 3.2
