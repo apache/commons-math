@@ -83,8 +83,8 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeAdd(double[] a,
-                                  double[] b) {
+    public static double[] ebeAdd(double[] a, double[] b)
+        throws DimensionMismatchException {
         if (a.length != b.length) {
             throw new DimensionMismatchException(a.length, b.length);
         }
@@ -105,8 +105,8 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeSubtract(double[] a,
-                                       double[] b) {
+    public static double[] ebeSubtract(double[] a, double[] b)
+        throws DimensionMismatchException {
         if (a.length != b.length) {
             throw new DimensionMismatchException(a.length, b.length);
         }
@@ -127,8 +127,8 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeMultiply(double[] a,
-                                       double[] b) {
+    public static double[] ebeMultiply(double[] a, double[] b)
+        throws DimensionMismatchException {
         if (a.length != b.length) {
             throw new DimensionMismatchException(a.length, b.length);
         }
@@ -149,8 +149,8 @@ public class MathArrays {
      * @throws DimensionMismatchException if the array lengths differ.
      * @since 3.1
      */
-    public static double[] ebeDivide(double[] a,
-                                     double[] b) {
+    public static double[] ebeDivide(double[] a, double[] b)
+        throws DimensionMismatchException {
         if (a.length != b.length) {
             throw new DimensionMismatchException(a.length, b.length);
         }
@@ -323,9 +323,7 @@ public class MathArrays {
      * @param strict Whether the order should be strict.
      * @return {@code true} if sorted, {@code false} otherwise.
      */
-    public static boolean isMonotonic(double[] val,
-                                      OrderDirection dir,
-                                      boolean strict) {
+    public static boolean isMonotonic(double[] val, OrderDirection dir, boolean strict) {
         return checkOrder(val, dir, strict, false);
     }
 

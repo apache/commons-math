@@ -133,8 +133,7 @@ public abstract class BaseSecantSolver
      */
     @Override
     protected final double doSolve()
-        throws ConvergenceException,
-               MathInternalError {
+        throws ConvergenceException {
         // Get initial solution
         double x0 = getMin();
         double x1 = getMax();

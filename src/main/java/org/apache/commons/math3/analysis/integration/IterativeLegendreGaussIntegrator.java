@@ -19,10 +19,12 @@ package org.apache.commons.math3.analysis.integration;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.gauss.GaussIntegratorFactory;
 import org.apache.commons.math3.analysis.integration.gauss.GaussIntegrator;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -52,7 +54,7 @@ public class IterativeLegendreGaussIntegrator
      * @param minimalIterationCount Minimum number of iterations.
      * @param maximalIterationCount Maximum number of iterations.
      * @throws NotStrictlyPositiveException if minimal number of iterations
-     * is not strictly positive.
+     * or number of points are not strictly positive.
      * @throws NumberIsTooSmallException if maximal number of iterations
      * is smaller than or equal to the minimal number of iterations.
      */
@@ -63,7 +65,10 @@ public class IterativeLegendreGaussIntegrator
                                             final int maximalIterationCount)
         throws NotStrictlyPositiveException, NumberIsTooSmallException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
-        numberOfPoints = n;
+        if (n <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_POINTS, n);
+        }
+       numberOfPoints = n;
     }
 
     /**
@@ -72,10 +77,12 @@ public class IterativeLegendreGaussIntegrator
      * @param n Number of integration points.
      * @param relativeAccuracy Relative accuracy of the result.
      * @param absoluteAccuracy Absolute accuracy of the result.
+     * @throws NotStrictlyPositiveException if {@code n < 1}.
      */
     public IterativeLegendreGaussIntegrator(final int n,
                                             final double relativeAccuracy,
-                                            final double absoluteAccuracy) {
+                                            final double absoluteAccuracy)
+        throws NotStrictlyPositiveException {
         this(n, relativeAccuracy, absoluteAccuracy,
              DEFAULT_MIN_ITERATIONS_COUNT, DEFAULT_MAX_ITERATIONS_COUNT);
     }
@@ -90,10 +97,12 @@ public class IterativeLegendreGaussIntegrator
      * is not strictly positive.
      * @throws NumberIsTooSmallException if maximal number of iterations
      * is smaller than or equal to the minimal number of iterations.
+     * @throws NotStrictlyPositiveException if {@code n < 1}.
      */
     public IterativeLegendreGaussIntegrator(final int n,
                                             final int minimalIterationCount,
-                                            final int maximalIterationCount) {
+                                            final int maximalIterationCount)
+        throws NotStrictlyPositiveException, NumberIsTooSmallException {
         this(n, DEFAULT_RELATIVE_ACCURACY, DEFAULT_ABSOLUTE_ACCURACY,
              minimalIterationCount, maximalIterationCount);
     }
@@ -101,7 +110,7 @@ public class IterativeLegendreGaussIntegrator
     /** {@inheritDoc} */
     @Override
     protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
+        throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
         // Compute first estimate with a single step.
         double oldt = stage(1);
 
@@ -142,7 +151,8 @@ public class IterativeLegendreGaussIntegrator
         throws TooManyEvaluationsException {
         // Function to be integrated is stored in the base class.
         final UnivariateFunction f = new UnivariateFunction() {
-                public double value(double x) {
+                public double value(double x)
+                    throws MathIllegalArgumentException, TooManyEvaluationsException {
                     return computeObjectiveValue(x);
                 }
             };

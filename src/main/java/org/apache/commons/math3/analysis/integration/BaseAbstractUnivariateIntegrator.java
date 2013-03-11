@@ -107,9 +107,9 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      * is lesser than or equal to the minimal number of iterations
      */
     protected BaseAbstractUnivariateIntegrator(final double relativeAccuracy,
-                                           final double absoluteAccuracy,
-                                           final int minimalIterationCount,
-                                           final int maximalIterationCount)
+                                               final double absoluteAccuracy,
+                                               final int minimalIterationCount,
+                                               final int maximalIterationCount)
         throws NotStrictlyPositiveException, NumberIsTooSmallException {
 
         // accuracy settings

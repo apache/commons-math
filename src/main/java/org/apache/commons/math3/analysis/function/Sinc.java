@@ -22,6 +22,7 @@ import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -105,7 +106,8 @@ public class Sinc implements UnivariateDifferentiableFunction, DifferentiableUni
     /** {@inheritDoc}
      * @since 3.1
      */
-    public DerivativeStructure value(final DerivativeStructure t) {
+    public DerivativeStructure value(final DerivativeStructure t)
+        throws DimensionMismatchException {
 
         final double scaledX  = (normalized ? FastMath.PI : 1) * t.getValue();
         final double scaledX2 = scaledX * scaledX;

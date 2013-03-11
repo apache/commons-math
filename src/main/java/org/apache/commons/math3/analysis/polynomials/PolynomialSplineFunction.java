@@ -23,6 +23,7 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -95,11 +96,12 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
      * @throws NullArgumentException if either of the input arrays is {@code null}.
      * @throws NumberIsTooSmallException if knots has length less than 2.
      * @throws DimensionMismatchException if {@code polynomials.length != knots.length - 1}.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException if
-     * the {@code knots} array is not strictly increasing.
+     * @throws NonMonotonicSequenceException if the {@code knots} array is not strictly increasing.
      *
      */
-    public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[]) {
+    public PolynomialSplineFunction(double knots[], PolynomialFunction polynomials[])
+        throws NullArgumentException, NumberIsTooSmallException,
+               DimensionMismatchException, NonMonotonicSequenceException{
         if (knots == null ||
             polynomials == null) {
             throw new NullArgumentException();

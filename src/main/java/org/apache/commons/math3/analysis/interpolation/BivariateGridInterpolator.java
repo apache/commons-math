@@ -19,6 +19,8 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
  * Interface representing a bivariate real interpolating function where the
@@ -39,9 +41,12 @@ public interface BivariateGridInterpolator {
      * @return a function which interpolates the dataset.
      * @throws NoDataException if any of the arrays has zero length.
      * @throws DimensionMismatchException if the array lengths are inconsistent.
+     * @throws NonMonotonicSequenceException if the array is not sorted.
+     * @throws NumberIsTooSmallException if the number of points is too small for
+     * the order of the interpolation
      */
     BivariateFunction interpolate(double[] xval, double[] yval,
                                   double[][] fval)
-        throws NoDataException,
-               DimensionMismatchException;
+        throws NoDataException, DimensionMismatchException,
+               NonMonotonicSequenceException, NumberIsTooSmallException;
 }

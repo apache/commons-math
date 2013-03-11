@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.analysis.integration;
 
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
@@ -144,7 +145,7 @@ public class TrapezoidIntegrator extends BaseAbstractUnivariateIntegrator {
     /** {@inheritDoc} */
     @Override
     protected double doIntegrate()
-        throws TooManyEvaluationsException, MaxCountExceededException {
+        throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
 
         double oldt = stage(this, 0);
         iterations.incrementCount();

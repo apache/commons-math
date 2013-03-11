@@ -41,8 +41,7 @@ public class JacobianFunction implements MultivariateMatrixFunction {
     }
 
     /** {@inheritDoc} */
-    public double[][] value(double[] point)
-        throws IllegalArgumentException {
+    public double[][] value(double[] point) {
 
         // set up parameters
         final DerivativeStructure[] dsX = new DerivativeStructure[point.length];

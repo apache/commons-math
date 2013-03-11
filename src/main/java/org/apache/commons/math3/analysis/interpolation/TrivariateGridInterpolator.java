@@ -19,6 +19,8 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.TrivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
  * Interface representing a trivariate real interpolating function where the
@@ -42,9 +44,12 @@ public interface TrivariateGridInterpolator {
      * @return a function that interpolates the data set.
      * @throws NoDataException if any of the arrays has zero length.
      * @throws DimensionMismatchException if the array lengths are inconsistent.
+     * @throws NonMonotonicSequenceException if arrays are not sorted
+     * @throws NumberIsTooSmallException if the number of points is too small for
+     * the order of the interpolation
      */
     TrivariateFunction interpolate(double[] xval, double[] yval, double[] zval,
                                    double[][][] fval)
-        throws NoDataException,
-               DimensionMismatchException;
+        throws NoDataException, NumberIsTooSmallException,
+               DimensionMismatchException, NonMonotonicSequenceException;
 }

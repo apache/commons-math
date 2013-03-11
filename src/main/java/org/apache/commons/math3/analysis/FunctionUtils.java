@@ -172,8 +172,11 @@ public class FunctionUtils {
                 return r;
             }
 
-            /** {@inheritDoc} */
-            public DerivativeStructure value(final DerivativeStructure t) {
+            /** {@inheritDoc}
+             * @throws DimensionMismatchException if functions are not consistent with each other
+             */
+            public DerivativeStructure value(final DerivativeStructure t)
+                throws DimensionMismatchException {
                 DerivativeStructure r = f[0].value(t);
                 for (int i = 1; i < f.length; i++) {
                     r = r.add(f[i].value(t));
@@ -418,8 +421,8 @@ public class FunctionUtils {
      * @throws NotStrictlyPositiveException if the number of sample points
      * {@code n} is negative.
      */
-    public static double[] sample(UnivariateFunction f,
-                                  double min, double max, int n) {
+    public static double[] sample(UnivariateFunction f, double min, double max, int n)
+       throws NumberIsTooLargeException, NotStrictlyPositiveException {
 
         if (n <= 0) {
             throw new NotStrictlyPositiveException(
@@ -609,8 +612,8 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc}
-             * @exception DimensionMismatchException if number of parameters or derivation
-             * order are higher than 1
+             * @exception NumberIsTooLargeException if derivation order is higher than 1
+             * @exception DimensionMismatchException if numbers of free parameters are inconsistent
              */
             public DerivativeStructure value(final DerivativeStructure[] t)
                 throws DimensionMismatchException, NumberIsTooLargeException {
@@ -732,8 +735,8 @@ public class FunctionUtils {
             }
 
             /** {@inheritDoc}
-             * @exception DimensionMismatchException if number of parameters or derivation
-             * order are higher than 1
+             * @exception NumberIsTooLargeException if derivation order is higher than 1
+             * @exception DimensionMismatchException if numbers of free parameters are inconsistent
              */
             public DerivativeStructure[] value(final DerivativeStructure[] t)
                 throws DimensionMismatchException, NumberIsTooLargeException {

@@ -193,8 +193,9 @@ public class MicrosphereInterpolatingFunction
     /**
      * @param point Interpolation point.
      * @return the interpolated value.
+     * @throws DimensionMismatchException if point dimension does not math sample
      */
-    public double value(double[] point) {
+    public double value(double[] point) throws DimensionMismatchException {
         final RealVector p = new ArrayRealVector(point);
 
         // Reset.

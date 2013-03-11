@@ -17,7 +17,7 @@
 package org.apache.commons.math3.analysis.differentiation;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 
 /** Interface for univariate functions derivatives.
  * <p>This interface represents a simple function which computes
@@ -35,10 +35,10 @@ public interface UnivariateDifferentiableFunction extends UnivariateFunction {
      * value and the first derivative of the function.</p>
      * @param t function input value
      * @return function result
-     * @exception MathIllegalArgumentException if {@code t} does not
-     * fulfill functions constraints (argument out of bound, or unsupported
-     * derivative order for example)
+     * @exception DimensionMismatchException if t is inconsistent with
+     * function free parameters or order
      */
-    DerivativeStructure value(DerivativeStructure t) throws MathIllegalArgumentException;
+    DerivativeStructure value(DerivativeStructure t)
+        throws DimensionMismatchException;
 
 }

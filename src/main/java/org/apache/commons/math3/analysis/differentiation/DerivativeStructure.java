@@ -22,6 +22,7 @@ import org.apache.commons.math3.RealFieldElement;
 import org.apache.commons.math3.Field;
 import org.apache.commons.math3.FieldElement;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
@@ -80,8 +81,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** Build an instance with all values and derivatives set to 0.
      * @param parameters number of free parameters
      * @param order derivation order
+     * @throws NumberIsTooLargeException if order is too large
      */
-    public DerivativeStructure(final int parameters, final int order) {
+    public DerivativeStructure(final int parameters, final int order)
+        throws NumberIsTooLargeException {
         this(DSCompiler.getCompiler(parameters, order));
     }
 
@@ -89,9 +92,11 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @param parameters number of free parameters
      * @param order derivation order
      * @param value value of the constant
+     * @throws NumberIsTooLargeException if order is too large
      * @see #DerivativeStructure(int, int, int, double)
      */
-    public DerivativeStructure(final int parameters, final int order, final double value) {
+    public DerivativeStructure(final int parameters, final int order, final double value)
+        throws NumberIsTooLargeException {
         this(parameters, order);
         this.data[0] = value;
     }
@@ -193,10 +198,11 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * {@link DSCompiler#getPartialDerivativeIndex(int...)}
      * @exception DimensionMismatchException if derivatives array does not match the
      * {@link DSCompiler#getSize() size} expected by the compiler
+     * @throws NumberIsTooLargeException if order is too large
      * @see #getAllDerivatives()
      */
     public DerivativeStructure(final int parameters, final int order, final double ... derivatives)
-        throws DimensionMismatchException {
+        throws DimensionMismatchException, NumberIsTooLargeException {
         this(parameters, order);
         if (derivatives.length != data.length) {
             throw new DimensionMismatchException(derivatives.length, data.length);
@@ -269,7 +275,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure add(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -283,7 +292,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return add(-a);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure subtract(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -306,7 +318,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure multiply(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -324,7 +339,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure divide(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -340,7 +358,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure remainder(final DerivativeStructure a)
         throws DimensionMismatchException {
         compiler.checkCompatibility(a.compiler);
@@ -412,7 +433,7 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     }
 
     /** {@inheritDoc} */
-    public DerivativeStructure copySign(final double sign){
+    public DerivativeStructure copySign(final double sign) {
         long m = Double.doubleToLongBits(data[0]);
         long s = Double.doubleToLongBits(sign);
         if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
@@ -442,7 +463,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return ds;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure hypot(final DerivativeStructure y)
         throws DimensionMismatchException {
 
@@ -500,7 +524,8 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @param x a value
      * @param y a value
      * @return sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
-     * @exception DimensionMismatchException if number of free parameters or orders are inconsistent
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
      */
     public static DerivativeStructure hypot(final DerivativeStructure x, final DerivativeStructure y)
         throws DimensionMismatchException {
@@ -515,7 +540,8 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @exception DimensionMismatchException if the number of derivatives
      * in the array is not equal to {@link #getOrder() order} + 1
      */
-    public DerivativeStructure compose(final double ... f) {
+    public DerivativeStructure compose(final double ... f)
+        throws DimensionMismatchException {
         if (f.length != getOrder() + 1) {
             throw new DimensionMismatchException(f.length, getOrder() + 1);
         }
@@ -584,7 +610,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return result;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure pow(final DerivativeStructure e)
         throws DimensionMismatchException {
         compiler.checkCompatibility(e.compiler);
@@ -685,7 +714,8 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
      * @param y first argument of the arc tangent
      * @param x second argument of the arc tangent
      * @return atan2(y, x)
-     * @exception DimensionMismatchException if number of free parameters or orders are inconsistent
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
      */
     public static DerivativeStructure atan2(final DerivativeStructure y, final DerivativeStructure x)
         throws DimensionMismatchException {
@@ -759,12 +789,16 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
     /** Evaluate Taylor expansion a derivative structure.
      * @param delta parameters offsets (&Delta;x, &Delta;y, ...)
      * @return value of the Taylor expansion at x + &Delta;x, y + &Delta;y, ...
+     * @throws MathArithmeticException if factorials becomes too large
      */
-    public double taylor(final double ... delta) {
+    public double taylor(final double ... delta) throws MathArithmeticException {
         return compiler.taylor(data, 0, delta);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final DerivativeStructure[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
@@ -792,7 +826,10 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final double[] a, final DerivativeStructure[] b)
         throws DimensionMismatchException {
 
@@ -816,9 +853,13 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
-                                                 final DerivativeStructure a2, final DerivativeStructure b2) {
+                                                 final DerivativeStructure a2, final DerivativeStructure b2)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
@@ -834,9 +875,13 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
-                                                 final double a2, final DerivativeStructure b2) {
+                                                 final double a2, final DerivativeStructure b2)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
@@ -852,10 +897,14 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
                                                  final DerivativeStructure a2, final DerivativeStructure b2,
-                                                 final DerivativeStructure a3, final DerivativeStructure b3) {
+                                                 final DerivativeStructure a3, final DerivativeStructure b3)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
@@ -872,10 +921,14 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
                                                  final double a2, final DerivativeStructure b2,
-                                                 final double a3, final DerivativeStructure b3) {
+                                                 final double a3, final DerivativeStructure b3)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),
@@ -892,11 +945,15 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final DerivativeStructure a1, final DerivativeStructure b1,
                                                  final DerivativeStructure a2, final DerivativeStructure b2,
                                                  final DerivativeStructure a3, final DerivativeStructure b3,
-                                                 final DerivativeStructure a4, final DerivativeStructure b4) {
+                                                 final DerivativeStructure a4, final DerivativeStructure b4)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1.getValue(), b1.getValue(),
@@ -914,11 +971,15 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @exception DimensionMismatchException if number of free parameters
+     * or orders do not match
+     */
     public DerivativeStructure linearCombination(final double a1, final DerivativeStructure b1,
                                                  final double a2, final DerivativeStructure b2,
                                                  final double a3, final DerivativeStructure b3,
-                                                 final double a4, final DerivativeStructure b4) {
+                                                 final double a4, final DerivativeStructure b4)
+        throws DimensionMismatchException {
 
         // compute an accurate value, taking care of cancellations
         final double accurateValue = MathArrays.linearCombination(a1, b1.getValue(),

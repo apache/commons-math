@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
  * <p>
@@ -82,10 +85,14 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
      * and a previous point is zero (i.e. the two points are at same abscissa)
      * @exception MathArithmeticException if the number of derivatives is larger
      * than 20, which prevents computation of a factorial
+     * @throws DimensionMismatchException if derivative structures are inconsistent
+     * @throws NullArgumentException if x is null
      */
     public void addSamplePoint(final T x, final T[] ... value)
-        throws ZeroException, MathArithmeticException {
+        throws ZeroException, MathArithmeticException,
+               DimensionMismatchException, NullArgumentException {
 
+        MathUtils.checkNotNull(x);
         T factorial = x.getField().getOne();
         for (int i = 0; i < value.length; ++i) {
 
@@ -128,10 +135,12 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
      * @param x interpolation abscissa
      * @return interpolated value
      * @exception NoDataException if sample is empty
+     * @throws NullArgumentException if x is null
      */
-    public T[] value(T x) throws NoDataException {
+    public T[] value(T x) throws NoDataException, NullArgumentException {
 
         // safety check
+        MathUtils.checkNotNull(x);
         if (abscissae.isEmpty()) {
             throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }
@@ -157,10 +166,12 @@ public class FieldHermiteInterpolator<T extends FieldElement<T>> {
      * @return interpolated value and derivatives (value in row 0,
      * 1<sup>st</sup> derivative in row 1, ... n<sup>th</sup> derivative in row n)
      * @exception NoDataException if sample is empty
+     * @throws NullArgumentException if x is null
      */
-    public T[][] derivatives(T x, int order) throws NoDataException {
+    public T[][] derivatives(T x, int order) throws NoDataException, NullArgumentException {
 
         // safety check
+        MathUtils.checkNotNull(x);
         if (abscissae.isEmpty()) {
             throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
         }

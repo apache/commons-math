@@ -19,6 +19,8 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
@@ -82,7 +84,7 @@ public class UnivariatePeriodicInterpolator
      */
     public UnivariateFunction interpolate(double[] xval,
                                           double[] yval)
-        throws NumberIsTooSmallException {
+        throws NumberIsTooSmallException, NonMonotonicSequenceException {
         if (xval.length < extend) {
             throw new NumberIsTooSmallException(xval.length, extend, true);
         }
@@ -114,7 +116,7 @@ public class UnivariatePeriodicInterpolator
 
         final UnivariateFunction f = interpolator.interpolate(x, y);
         return new UnivariateFunction() {
-            public double value(final double x) {
+            public double value(final double x) throws MathIllegalArgumentException {
                 return f.value(MathUtils.reduce(x, period, offset));
             }
         };
