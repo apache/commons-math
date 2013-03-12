@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathUtils;
 
 /**
  * Maintains a frequency distribution.
@@ -499,11 +501,15 @@ public class Frequency implements Serializable {
      * by the counts represented by other.
      *
      * @param other the other {@link Frequency} object to be merged
+     * @throws NullArgumentException if {@code other} is null
      * @since 3.1
      */
-    public void merge(Frequency other) {
-        for (Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator(); iter.hasNext();) {
-            Map.Entry<Comparable<?>, Long> entry = iter.next();
+    public void merge(final Frequency other) throws NullArgumentException {
+        MathUtils.checkNotNull(other, LocalizedFormats.NULL_NOT_ALLOWED);
+
+        final Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator();
+        while (iter.hasNext()) {
+            final Map.Entry<Comparable<?>, Long> entry = iter.next();
             incrementValue(entry.getKey(), entry.getValue());
         }
     }
@@ -514,11 +520,14 @@ public class Frequency implements Serializable {
      * by the counts represented by each of the others.
      *
      * @param others the other {@link Frequency} objects to be merged
+     * @throws NullArgumentException if the collection is null
      * @since 3.1
      */
-    public void merge(Collection<Frequency> others) {
-        for (Iterator<Frequency> iter = others.iterator(); iter.hasNext();) {
-            merge(iter.next());
+    public void merge(final Collection<Frequency> others) throws NullArgumentException {
+        MathUtils.checkNotNull(others, LocalizedFormats.NULL_NOT_ALLOWED);
+
+        for (final Frequency freq : others) {
+            merge(freq);
         }
     }
 
