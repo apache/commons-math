@@ -100,70 +100,82 @@ public class QRDecomposition {
         cachedR  = null;
         cachedH  = null;
 
-        /*
-         * The QR decomposition of a matrix A is calculated using Householder
-         * reflectors by repeating the following operations to each minor
-         * A(minor,minor) of A:
-         */
-        for (int minor = 0; minor < FastMath.min(m, n); minor++) {
+        decompose(qrt);
 
-            final double[] qrtMinor = qrt[minor];
+    }
+
+    /** Decompose matrix.
+     * @param qrt transposed matrix
+     */
+    protected void decompose(double[][] qrt) {
+        for (int minor = 0; minor < FastMath.min(qrt.length, qrt[0].length); minor++) {
+            performHouseholderReflection(minor, qrt);
+        }
+    }
+
+    /** Perform Householder reflection for a minor A(minor, minor) of A.
+     * @param minor minor index
+     * @param qrt transposed matrix
+     */
+    protected void performHouseholderReflection(int minor, double[][] qrt) {
+
+        final double[] qrtMinor = qrt[minor];
+
+        /*
+         * Let x be the first column of the minor, and a^2 = |x|^2.
+         * x will be in the positions qr[minor][minor] through qr[m][minor].
+         * The first column of the transformed minor will be (a,0,0,..)'
+         * The sign of a is chosen to be opposite to the sign of the first
+         * component of x. Let's find a:
+         */
+        double xNormSqr = 0;
+        for (int row = minor; row < qrtMinor.length; row++) {
+            final double c = qrtMinor[row];
+            xNormSqr += c * c;
+        }
+        final double a = (qrtMinor[minor] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
+        rDiag[minor] = a;
+
+        if (a != 0.0) {
 
             /*
-             * Let x be the first column of the minor, and a^2 = |x|^2.
-             * x will be in the positions qr[minor][minor] through qr[m][minor].
-             * The first column of the transformed minor will be (a,0,0,..)'
-             * The sign of a is chosen to be opposite to the sign of the first
-             * component of x. Let's find a:
+             * Calculate the normalized reflection vector v and transform
+             * the first column. We know the norm of v beforehand: v = x-ae
+             * so |v|^2 = <x-ae,x-ae> = <x,x>-2a<x,e>+a^2<e,e> =
+             * a^2+a^2-2a<x,e> = 2a*(a - <x,e>).
+             * Here <x, e> is now qr[minor][minor].
+             * v = x-ae is stored in the column at qr:
              */
-            double xNormSqr = 0;
-            for (int row = minor; row < m; row++) {
-                final double c = qrtMinor[row];
-                xNormSqr += c * c;
-            }
-            final double a = (qrtMinor[minor] > 0) ? -FastMath.sqrt(xNormSqr) : FastMath.sqrt(xNormSqr);
-            rDiag[minor] = a;
+            qrtMinor[minor] -= a; // now |v|^2 = -2a*(qr[minor][minor])
 
-            if (a != 0.0) {
+            /*
+             * Transform the rest of the columns of the minor:
+             * They will be transformed by the matrix H = I-2vv'/|v|^2.
+             * If x is a column vector of the minor, then
+             * Hx = (I-2vv'/|v|^2)x = x-2vv'x/|v|^2 = x - 2<x,v>/|v|^2 v.
+             * Therefore the transformation is easily calculated by
+             * subtracting the column vector (2<x,v>/|v|^2)v from x.
+             *
+             * Let 2<x,v>/|v|^2 = alpha. From above we have
+             * |v|^2 = -2a*(qr[minor][minor]), so
+             * alpha = -<x,v>/(a*qr[minor][minor])
+             */
+            for (int col = minor+1; col < qrt.length; col++) {
+                final double[] qrtCol = qrt[col];
+                double alpha = 0;
+                for (int row = minor; row < qrtCol.length; row++) {
+                    alpha -= qrtCol[row] * qrtMinor[row];
+                }
+                alpha /= a * qrtMinor[minor];
 
-                /*
-                 * Calculate the normalized reflection vector v and transform
-                 * the first column. We know the norm of v beforehand: v = x-ae
-                 * so |v|^2 = <x-ae,x-ae> = <x,x>-2a<x,e>+a^2<e,e> =
-                 * a^2+a^2-2a<x,e> = 2a*(a - <x,e>).
-                 * Here <x, e> is now qr[minor][minor].
-                 * v = x-ae is stored in the column at qr:
-                 */
-                qrtMinor[minor] -= a; // now |v|^2 = -2a*(qr[minor][minor])
-
-                /*
-                 * Transform the rest of the columns of the minor:
-                 * They will be transformed by the matrix H = I-2vv'/|v|^2.
-                 * If x is a column vector of the minor, then
-                 * Hx = (I-2vv'/|v|^2)x = x-2vv'x/|v|^2 = x - 2<x,v>/|v|^2 v.
-                 * Therefore the transformation is easily calculated by
-                 * subtracting the column vector (2<x,v>/|v|^2)v from x.
-                 *
-                 * Let 2<x,v>/|v|^2 = alpha. From above we have
-                 * |v|^2 = -2a*(qr[minor][minor]), so
-                 * alpha = -<x,v>/(a*qr[minor][minor])
-                 */
-                for (int col = minor+1; col < n; col++) {
-                    final double[] qrtCol = qrt[col];
-                    double alpha = 0;
-                    for (int row = minor; row < m; row++) {
-                        alpha -= qrtCol[row] * qrtMinor[row];
-                    }
-                    alpha /= a * qrtMinor[minor];
-
-                    // Subtract the column vector alpha*v from x.
-                    for (int row = minor; row < m; row++) {
-                        qrtCol[row] -= alpha * qrtMinor[row];
-                    }
+                // Subtract the column vector alpha*v from x.
+                for (int row = minor; row < qrtCol.length; row++) {
+                    qrtCol[row] -= alpha * qrtMinor[row];
                 }
             }
         }
     }
+
 
     /**
      * Returns the matrix R of the decomposition.

@@ -18,13 +18,12 @@
 package org.apache.commons.math3.linear;
 
 import java.util.Random;
-import org.apache.commons.math3.linear.SingularMatrixException;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 
-public class QRDecompositionTest {
+public class RRQRDecompositionTest {
     private double[][] testData3x3NonSingular = {
             { 12, -51, 4 },
             { 6, 167, -68 },
@@ -70,36 +69,36 @@ public class QRDecompositionTest {
     private void checkDimension(RealMatrix m) {
         int rows = m.getRowDimension();
         int columns = m.getColumnDimension();
-        QRDecomposition qr = new QRDecomposition(m);
+        RRQRDecomposition qr = new RRQRDecomposition(m);
         Assert.assertEquals(rows,    qr.getQ().getRowDimension());
         Assert.assertEquals(rows,    qr.getQ().getColumnDimension());
         Assert.assertEquals(rows,    qr.getR().getRowDimension());
         Assert.assertEquals(columns, qr.getR().getColumnDimension());
     }
 
-    /** test A = QR */
+    /** test AP = QR */
     @Test
-    public void testAEqualQR() {
-        checkAEqualQR(MatrixUtils.createRealMatrix(testData3x3NonSingular));
+    public void testAPEqualQR() {
+        checkAPEqualQR(MatrixUtils.createRealMatrix(testData3x3NonSingular));
 
-        checkAEqualQR(MatrixUtils.createRealMatrix(testData3x3Singular));
+        checkAPEqualQR(MatrixUtils.createRealMatrix(testData3x3Singular));
 
-        checkAEqualQR(MatrixUtils.createRealMatrix(testData3x4));
+        checkAPEqualQR(MatrixUtils.createRealMatrix(testData3x4));
 
-        checkAEqualQR(MatrixUtils.createRealMatrix(testData4x3));
+        checkAPEqualQR(MatrixUtils.createRealMatrix(testData4x3));
 
         Random r = new Random(643895747384642l);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
-        checkAEqualQR(createTestMatrix(r, p, q));
+        checkAPEqualQR(createTestMatrix(r, p, q));
 
-        checkAEqualQR(createTestMatrix(r, q, p));
+        checkAPEqualQR(createTestMatrix(r, q, p));
 
     }
 
-    private void checkAEqualQR(RealMatrix m) {
-        QRDecomposition qr = new QRDecomposition(m);
-        double norm = qr.getQ().multiply(qr.getR()).subtract(m).getNorm();
+    private void checkAPEqualQR(RealMatrix m) {
+        RRQRDecomposition rrqr = new RRQRDecomposition(m);
+        double norm = rrqr.getQ().multiply(rrqr.getR()).subtract(m.multiply(rrqr.getP())).getNorm();
         Assert.assertEquals(0, norm, normTolerance);
     }
 
@@ -124,7 +123,7 @@ public class QRDecompositionTest {
     }
 
     private void checkQOrthogonal(RealMatrix m) {
-        QRDecomposition qr = new QRDecomposition(m);
+        RRQRDecomposition qr = new RRQRDecomposition(m);
         RealMatrix eye = MatrixUtils.createRealIdentityMatrix(m.getRowDimension());
         double norm = qr.getQT().multiply(qr.getQ()).subtract(eye).getNorm();
         Assert.assertEquals(0, norm, normTolerance);
@@ -134,25 +133,25 @@ public class QRDecompositionTest {
     @Test
     public void testRUpperTriangular() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData3x4);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
         matrix = MatrixUtils.createRealMatrix(testData4x3);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
         Random r = new Random(643895747384642l);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
         matrix = createTestMatrix(r, p, q);
-        checkUpperTriangular(new QRDecomposition(matrix).getR());
+        checkUpperTriangular(new RRQRDecomposition(matrix).getR());
 
     }
 
@@ -171,25 +170,25 @@ public class QRDecompositionTest {
     @Test
     public void testHTrapezoidal() {
         RealMatrix matrix = MatrixUtils.createRealMatrix(testData3x3NonSingular);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData3x3Singular);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData3x4);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
         matrix = MatrixUtils.createRealMatrix(testData4x3);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
         Random r = new Random(643895747384642l);
         int    p = (5 * BlockRealMatrix.BLOCK_SIZE) / 4;
         int    q = (7 * BlockRealMatrix.BLOCK_SIZE) / 4;
         matrix = createTestMatrix(r, p, q);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
         matrix = createTestMatrix(r, p, q);
-        checkTrapezoidal(new QRDecomposition(matrix).getH());
+        checkTrapezoidal(new RRQRDecomposition(matrix).getH());
 
     }
 
@@ -203,48 +202,11 @@ public class QRDecompositionTest {
             }
         });
     }
-    /** test matrices values */
-    @Test
-    public void testMatricesValues() {
-        QRDecomposition qr =
-            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3NonSingular));
-        RealMatrix qRef = MatrixUtils.createRealMatrix(new double[][] {
-                { -12.0 / 14.0,   69.0 / 175.0,  -58.0 / 175.0 },
-                {  -6.0 / 14.0, -158.0 / 175.0,    6.0 / 175.0 },
-                {   4.0 / 14.0,  -30.0 / 175.0, -165.0 / 175.0 }
-        });
-        RealMatrix rRef = MatrixUtils.createRealMatrix(new double[][] {
-                { -14.0,  -21.0, 14.0 },
-                {   0.0, -175.0, 70.0 },
-                {   0.0,    0.0, 35.0 }
-        });
-        RealMatrix hRef = MatrixUtils.createRealMatrix(new double[][] {
-                { 26.0 / 14.0, 0.0, 0.0 },
-                {  6.0 / 14.0, 648.0 / 325.0, 0.0 },
-                { -4.0 / 14.0,  36.0 / 325.0, 2.0 }
-        });
-
-        // check values against known references
-        RealMatrix q = qr.getQ();
-        Assert.assertEquals(0, q.subtract(qRef).getNorm(), 1.0e-13);
-        RealMatrix qT = qr.getQT();
-        Assert.assertEquals(0, qT.subtract(qRef.transpose()).getNorm(), 1.0e-13);
-        RealMatrix r = qr.getR();
-        Assert.assertEquals(0, r.subtract(rRef).getNorm(), 1.0e-13);
-        RealMatrix h = qr.getH();
-        Assert.assertEquals(0, h.subtract(hRef).getNorm(), 1.0e-13);
-
-        // check the same cached instance is returned the second time
-        Assert.assertTrue(q == qr.getQ());
-        Assert.assertTrue(r == qr.getR());
-        Assert.assertTrue(h == qr.getH());
-
-    }
 
     @Test(expected=SingularMatrixException.class)
     public void testNonInvertible() {
-        QRDecomposition qr =
-            new QRDecomposition(MatrixUtils.createRealMatrix(testData3x3Singular));
+        RRQRDecomposition qr =
+            new RRQRDecomposition(MatrixUtils.createRealMatrix(testData3x3Singular), 3.0e-16);
         qr.getSolver().getInverse();
     }
 
@@ -257,6 +219,15 @@ public class QRDecompositionTest {
             }
         });
         return m;
+    }
+
+    /** test the rank is returned correctly */
+    @Test
+    public void testRank() {
+        double[][] d = { { 1, 1, 1 }, { 0, 0, 0 }, { 1, 2, 3 } };
+        RealMatrix m = new Array2DRowRealMatrix(d);
+        RRQRDecomposition qr = new RRQRDecomposition(m);
+        Assert.assertEquals(2, qr.getRank(1.0e-16));
     }
 
 }
