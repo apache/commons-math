@@ -105,9 +105,9 @@ public class QRDecomposition {
     }
 
     /** Decompose matrix.
-     * @param qrt transposed matrix
+     * @param matrix transposed matrix
      */
-    protected void decompose(double[][] qrt) {
+    protected void decompose(double[][] matrix) {
         for (int minor = 0; minor < FastMath.min(qrt.length, qrt[0].length); minor++) {
             performHouseholderReflection(minor, qrt);
         }
@@ -115,9 +115,9 @@ public class QRDecomposition {
 
     /** Perform Householder reflection for a minor A(minor, minor) of A.
      * @param minor minor index
-     * @param qrt transposed matrix
+     * @param matrix transposed matrix
      */
-    protected void performHouseholderReflection(int minor, double[][] qrt) {
+    protected void performHouseholderReflection(int minor, double[][] matrix) {
 
         final double[] qrtMinor = qrt[minor];
 
