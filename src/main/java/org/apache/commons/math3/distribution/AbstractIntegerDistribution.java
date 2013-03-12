@@ -34,16 +34,16 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @version $Id$
  */
-public abstract class AbstractIntegerDistribution
-implements IntegerDistribution, Serializable {
+public abstract class AbstractIntegerDistribution implements IntegerDistribution, Serializable {
+
     /** Serializable version identifier */
     private static final long serialVersionUID = -1146319659338487221L;
 
-     /**
-      * RandomData instance used to generate samples from the distribution.
-      * @deprecated As of 3.1, to be removed in 4.0. Please use the
-      * {@link #random} instance variable instead.
-      */
+    /**
+     * RandomData instance used to generate samples from the distribution.
+     * @deprecated As of 3.1, to be removed in 4.0. Please use the
+     * {@link #random} instance variable instead.
+     */
     @Deprecated
     protected final RandomDataImpl randomData = new RandomDataImpl();
 
@@ -63,6 +63,7 @@ implements IntegerDistribution, Serializable {
         // New users are forbidden to use this constructor.
         random = null;
     }
+
     /**
      * @param rng Random number generator.
      * @since 3.1

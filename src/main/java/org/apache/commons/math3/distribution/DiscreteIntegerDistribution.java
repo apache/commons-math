@@ -28,11 +28,11 @@ import org.apache.commons.math3.util.Pair;
 
 /**
  * Implementation of the integer-valued discrete distribution.
+ * <p>
+ * Note: values with zero-probability are allowed but they do not extend the support.
  *
- * Note: values with zero-probability are allowed but they do not extend the
- * support.
- *
- * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">Discrete probability distribution (Wikipedia)</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">
+ * Discrete probability distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/DiscreteDistribution.html">Discrete Distribution (MathWorld)</a>
  * @version $Id$
  * @since 3.2
@@ -54,13 +54,10 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is
-     * negative.
+     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if probability of at least one value is negative.
      * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value
-     * is infinite.
+     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
      */
     public DiscreteIntegerDistribution(final int[] singletons, final double[] probabilities)
         throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {
@@ -74,13 +71,10 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      * @param rng random number generator.
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is
-     * negative.
+     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if probability of at least one value is negative.
      * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value
-     * is infinite.
+     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
      */
     public DiscreteIntegerDistribution(final RandomGenerator rng,
                                        final int[] singletons, final double[] probabilities)
@@ -200,9 +194,6 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int sample() {
         return innerDistribution.sample();

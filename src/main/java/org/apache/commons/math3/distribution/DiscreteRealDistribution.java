@@ -28,11 +28,11 @@ import org.apache.commons.math3.util.Pair;
 
 /**
  * Implementation of the discrete distribution on the reals.
+ * <p>
+ * Note: values with zero-probability are allowed but they do not extend the support.
  *
- * Note: values with zero-probability are allowed but they do not extend the
- * support.
- *
- * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">Discrete probability distribution (Wikipedia)</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">
+ * Discrete probability distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/DiscreteDistribution.html">Discrete Distribution (MathWorld)</a>
  * @version $Id$
  * @since 3.2
@@ -54,16 +54,14 @@ public class DiscreteRealDistribution extends AbstractRealDistribution {
      *
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is
-     * negative.
+     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if probability of at least one value is negative.
      * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value
-     * is infinite.
+     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
      */
     public DiscreteRealDistribution(final double[] singletons, final double[] probabilities)
-        throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {
+            throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
+            MathIllegalArgumentException {
         this(new Well19937c(), singletons, probabilities);
     }
 
@@ -74,13 +72,10 @@ public class DiscreteRealDistribution extends AbstractRealDistribution {
      * @param rng random number generator.
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if
-     * {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is
-     * negative.
+     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if probability of at least one value is negative.
      * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value
-     * is infinite.
+     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
      */
     public DiscreteRealDistribution(final RandomGenerator rng,
                                     final double[] singletons, final double[] probabilities)
@@ -99,9 +94,6 @@ public class DiscreteRealDistribution extends AbstractRealDistribution {
         innerDistribution = new DiscreteDistribution<Double>(rng, samples);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double probability(final double x) {
         return innerDistribution.probability(x);
@@ -236,9 +228,6 @@ public class DiscreteRealDistribution extends AbstractRealDistribution {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public double sample() {
         return innerDistribution.sample();

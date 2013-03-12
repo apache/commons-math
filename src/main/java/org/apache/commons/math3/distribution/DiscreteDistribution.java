@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.distribution;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +41,21 @@ import org.apache.commons.math3.util.Pair;
  * @version $Id$
  * @since 3.2
  */
-public class DiscreteDistribution<T> {
+public class DiscreteDistribution<T> implements Serializable {
+
+    /** Serializable UID. */
+    private static final long serialVersionUID = -6817222602957985244L;
 
     /**
      * RNG instance used to generate samples from the distribution.
      */
     protected final RandomGenerator random;
+
     /**
      * List of random variable values.
      */
     private final List<T> singletons;
+
     /**
      * Normalized array of probabilities of respective random variable values.
      */
