@@ -29,25 +29,27 @@ import java.util.List;
  * <li>prime number generation</li>
  * <li>factorization</li>
  * </ul>
- * {@link Math}.
  *
  * @version $Id$
  * @since 3.2
  */
 public class Primes {
+
     /**
-     * Only static methods in this class
+     * Hide utility class.
      */
     private Primes() {
     }
 
     /**
-     * Primality test: tells if the argument is a (provable) prime or not.</p>
-     * It uses the Miller-Rabin probabilistic test in such a way that result is always guaranteed: it uses the firsts prime numbers as successive base
-     * (see Handbook of applied cryptography by Menezes, table 4.1)
+     * Primality test: tells if the argument is a (provable) prime or not.
+     * <p>
+     * It uses the Miller-Rabin probabilistic test in such a way that result is always guaranteed:
+     * it uses the firsts prime numbers as successive base (see Handbook of applied cryptography
+     * by Menezes, table 4.1).
      *
      * @param n number to test.
-     * @return true if n is prime. (All numbers <2 return false).
+     * @return true if n is prime. (All numbers &lt; 2 return false).
      */
     public static boolean isPrime(int n) {
         if (n < 2) {
@@ -67,7 +69,7 @@ public class Primes {
      *
      * @param n a positive number.
      * @return the smallest prime superior or equal to n.
-     * @throws MathIllegalArgumentException if n <0.
+     * @throws MathIllegalArgumentException if n &lt; 0.
      */
     public static int nextPrime(int n) {
         if (n < 0) {
@@ -85,41 +87,42 @@ public class Primes {
             return n;
         }
 
-        //prepare entry in the +2, +4 loop:
-        //n should not be a multiple of 3
+        // prepare entry in the +2, +4 loop:
+        // n should not be a multiple of 3
         final int rem = n % 3;
-        if (0 == rem) {// if n%3==0
-            n += 2;//n%3==2
-        } else if (1 == rem) {//if n%3==1
-            //if (isPrime(n)) return n;
-            n += 4;//n%3==2
+        if (0 == rem) { // if n % 3 == 0
+            n += 2; // n % 3 == 2
+        } else if (1 == rem) { // if n % 3 == 1
+            // if (isPrime(n)) return n;
+            n += 4; // n % 3 == 2
         }
-        while (true) { //this loop skips all multiple of 3
+        while (true) { // this loop skips all multiple of 3
             if (isPrime(n)) {
                 return n;
             }
-            n += 2;//n%3==1
+            n += 2; // n % 3 == 1
             if (isPrime(n)) {
                 return n;
             }
-            n += 4;//n%3==2
+            n += 4; // n % 3 == 2
         }
     }
 
     /**
      * Prime factors decomposition
      *
-     * @param n number to factorize: must be >=2
+     * @param n number to factorize: must be &ge; 2
      * @return list of prime factors of n
-     * @throws MathIllegalArgumentException if n <2.
+     * @throws MathIllegalArgumentException if n &lt; 2.
      */
     public static List<Integer> primeFactors(int n) {
 
         if (n < 2) {
             throw new MathIllegalArgumentException(LocalizedFormats.NUMBER_TOO_SMALL, n, 2);
         }
-        //slower than trial div unless we do an awful lot of computation (then it finally gets JIT-compiled efficiently
-        //List<Integer> out = PollardRho.primeFactors(n);
+        // slower than trial div unless we do an awful lot of computation
+        // (then it finally gets JIT-compiled efficiently
+        // List<Integer> out = PollardRho.primeFactors(n);
         return SmallPrimes.trialDivision(n);
 
     }

@@ -31,9 +31,11 @@ import org.apache.commons.math3.util.FastMath;
 class SmallPrimes {
 
     /**
-     * The 512 firsts prime numbers
+     * The 512 firsts prime numbers.
+     * <p>
      * It contains all primes smaller or equal to the cubic square of Integer.MAX_VALUE.
-     * As a result, <code>int</code> numbers which are not reduced by those primes are garanteed to be either prime or semi prime.
+     * As a result, <code>int</code> numbers which are not reduced by those primes are guaranteed
+     * to be either prime or semi prime.
      */
     public static final int[] PRIMES = {2,
             3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,
@@ -62,20 +64,19 @@ class SmallPrimes {
             3271, 3299, 3301, 3307, 3313, 3319, 3323, 3329, 3331, 3343, 3347, 3359, 3361, 3371, 3373, 3389, 3391, 3407, 3413, 3433,
             3449, 3457, 3461, 3463, 3467, 3469, 3491, 3499, 3511, 3517, 3527, 3529, 3533, 3539, 3541, 3547, 3557, 3559, 3571, 3581,
             3583, 3593, 3607, 3613, 3617, 3623, 3631, 3637, 3643, 3659, 3671};
-    /**
-     * The last number in PRIMES
-     */
+
+    /** The last number in PRIMES. */
     public static final int PRIMES_LAST = PRIMES[PRIMES.length - 1];
 
     /**
-     * Only static methods in this class
+     * Hide utility class.
      */
     private SmallPrimes() {
     }
 
     /**
      * Extract small factors.
-     * @param n the number to factor, must be >0.
+     * @param n the number to factor, must be &gt; 0.
      * @param factors the list where to add the factors.
      * @return the part of n which remains to be factored, it is either a prime or a semi-prime
      */
@@ -90,7 +91,7 @@ class SmallPrimes {
     }
 
     /**
-     * Extract factors in the range <code>PRIME_LAST+2</code> to <code>maxFactors</code>
+     * Extract factors in the range <code>PRIME_LAST+2</code> to <code>maxFactors</code>.
      * @param n the number to factorize, must be >= PRIME_LAST+2 and must not contain any factor below PRIME_LAST+2
      * @param maxFactor the upper bound of trial division: if it is reach, the methods gives up and return n.
      * @param factors the list where to add the factors.
@@ -120,7 +121,7 @@ class SmallPrimes {
     }
 
     /**
-     * Factorization by trial division
+     * Factorization by trial division.
      * @param n the number to factorize
      * @return the list of prime factors of n
      */
@@ -138,9 +139,11 @@ class SmallPrimes {
 
     /**
      * Miller-Rabin probabilistic primality test for int type, used in such a way that result is always guaranteed.
-     * It uses the prime numbers as successive base therefore it is garanteed to be always correct. (see Handbook of applied cryptography by Menezes, table 4.1)
+     * <p>
+     * It uses the prime numbers as successive base therefore it is guaranteed to be always correct.
+     * (see Handbook of applied cryptography by Menezes, table 4.1)
      *
-     * @param n number to test: an odd integer >= 3
+     * @param n number to test: an odd integer &ge; 3
      * @return true if n is prime. false if n is definitely composite.
      */
     public static boolean millerRabinPrimeTest(final int n) {
@@ -172,15 +175,15 @@ class SmallPrimes {
                     y = (int) (square % n);
                     if (1 == y) {
                         return false;
-                    } //definitely composite
+                    } // definitely composite
                     j++;
                 }
                 if (nMinus1 != y) {
                     return false;
-                } //definitely composite
+                } // definitely composite
             }
         }
-        return true; //definitely prime
+        return true; // definitely prime
     }
 }
 

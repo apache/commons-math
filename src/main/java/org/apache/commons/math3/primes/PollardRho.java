@@ -29,14 +29,14 @@ import org.apache.commons.math3.util.FastMath;
 class PollardRho {
 
     /**
-     * Only static methods in this class
+     * Hide utility class.
      */
     private PollardRho() {
     }
 
     /**
      * Factorization using Pollard's rho algorithm.
-     * @param n number to factors, must be >0
+     * @param n number to factors, must be &gt; 0
      * @return the list of prime factors of n.
      */
     public static List<Integer> primeFactors(int n) {
@@ -59,14 +59,18 @@ class PollardRho {
     }
 
     /**
-     *  Implementation of the Pollard's rho factorization algorithm.
-     *  This implementation follows the paper "An improved Monte Carlo factorization algorithm" by Richard P. Brent.
-     *  This avoid the triple computation of f(x) typically found in Pollard's rho implementations. It also batch several gcd computation into 1.
-     *  The backtracking is not implemented as we deal only with semi-prime.
+     * Implementation of the Pollard's rho factorization algorithm.
+     * <p>
+     * This implementation follows the paper "An improved Monte Carlo factorization algorithm"
+     * by Richard P. Brent. This avoids the triple computation of f(x) typically found in Pollard's
+     * rho implementations. It also batch several gcd computation into 1.
+     * <p>
+     * The backtracking is not implemented as we deal only with semi-prime.
+     *
      * @param n number to factor, must be semi-prime.
      * @return a prime factor of n.
      */
-    static int rhoBrent(final int n){
+    static int rhoBrent(final int n) {
         final int x0 = 2;
         final int m = 25;
         int cst = SmallPrimes.PRIMES_LAST;
@@ -110,54 +114,52 @@ class PollardRho {
     }
 
     /**
-     * Gcd between two positive numbers
+     * Gcd between two positive numbers.
      * <p>
-     * Gets the greatest common divisor of two numbers,
-     * using the "binary gcd" method which avoids division and modulo
-     * operations. See Knuth 4.5.2 algorithm B. This algorithm is due to Josef
-     * Stein (1961).
+     * Gets the greatest common divisor of two numbers, using the "binary gcd" method,
+     * which avoids division and modulo operations. See Knuth 4.5.2 algorithm B.
+     * This algorithm is due to Josef Stein (1961).
      * </p>
      * Special cases:
      * <ul>
-     * <li>The result of {@code gcd(x, x)}, {@code gcd(0, x)} and
-     * {@code gcd(x, 0)} is the value of {@code x}.
-     * <li>The invocation {@code gcd(0, 0)} is the only one which returns
-     * {@code 0}.</li>
+     * <li>The result of {@code gcd(x, x)}, {@code gcd(0, x)} and {@code gcd(x, 0)} is the value of {@code x}.</li>
+     * <li>The invocation {@code gcd(0, 0)} is the only one which returns {@code 0}.</li>
      * </ul>
-     * @param a first number, must be >=0
-     * @param b second number, must be >=0
+     *
+     * @param a first number, must be &ge; 0
+     * @param b second number, must be &ge; 0
      * @return gcd(a,b)
      */
     static int gcdPositive(int a, int b){
         // both a and b must be positive, it is not checked here
-        //gdc(a,0) = a
+        // gdc(a,0) = a
         if (a == 0) {
             return b;
         } else if (b == 0) {
             return a;
         }
 
-        //make a and b odd, keep in mind the common power of twos
+        // make a and b odd, keep in mind the common power of twos
         final int aTwos = Integer.numberOfTrailingZeros(a);
         a >>= aTwos;
         final int bTwos = Integer.numberOfTrailingZeros(b);
         b >>= bTwos;
         final int shift = FastMath.min(aTwos, bTwos);
 
-        //a and b >0
-        //if a > b then gdc(a,b) = gcd(a-b,b)
-        //if a < b then gcd(a,b) = gcd(b-a,a)
-        //so next a is the absolute difference and next b is the minimum of current values
+        // a and b >0
+        // if a > b then gdc(a,b) = gcd(a-b,b)
+        // if a < b then gcd(a,b) = gcd(b-a,a)
+        // so next a is the absolute difference and next b is the minimum of current values
         while (a != b) {
             final int delta = a - b;
             b = FastMath.min(a, b);
             a = FastMath.abs(delta);
-            //for speed optimization:
-            //remove any power of two in a as b is guaranteed to be odd throughout all iterations
+            // for speed optimization:
+            // remove any power of two in a as b is guaranteed to be odd throughout all iterations
             a >>= Integer.numberOfTrailingZeros(a);
         }
 
-        //gcd(a,a) = a, just "add" the common power of twos
+        // gcd(a,a) = a, just "add" the common power of twos
         return a << shift;
     }
 }
