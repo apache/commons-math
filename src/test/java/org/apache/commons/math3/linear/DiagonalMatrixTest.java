@@ -16,12 +16,14 @@
  */
 package org.apache.commons.math3.linear;
 
-import org.junit.Test;
-import org.junit.Assert;
-
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.Precision;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link DiagonalMatrix} class.
@@ -74,6 +76,33 @@ public class DiagonalMatrixTest {
 
     }
 
+    @Test(expected=DimensionMismatchException.class)
+    public void testCreateError() {
+        final double[] d = { -1.2, 3.4, 5 };
+        final DiagonalMatrix m = new DiagonalMatrix(d, false);
+        m.createMatrix(5, 3);
+    }
+
+    @Test
+    public void testCreate() {
+        final double[] d = { -1.2, 3.4, 5 };
+        final DiagonalMatrix m = new DiagonalMatrix(d, false);
+        final RealMatrix p = m.createMatrix(5, 5);
+        Assert.assertTrue(p instanceof DiagonalMatrix);
+        Assert.assertEquals(5, p.getRowDimension());
+        Assert.assertEquals(5, p.getColumnDimension());
+    }
+
+    @Test
+    public void testCopy() {
+        final double[] d = { -1.2, 3.4, 5 };
+        final DiagonalMatrix m = new DiagonalMatrix(d, false);
+        final DiagonalMatrix p = m.copy();
+        for (int i = 0; i < m.getRowDimension(); ++i) {
+            Assert.assertEquals(m.getEntry(i, i), p.getEntry(i, i), 1.0e-20);
+        }
+    }
+
     @Test
     public void testGetData() {
         final double[] data = { -1.2, 3.4, 5 };
@@ -119,6 +148,27 @@ public class DiagonalMatrixTest {
     }
 
     @Test
+    public void testSubtract() {
+        final double[] data1 = { -1.2, 3.4, 5 };
+        final DiagonalMatrix m1 = new DiagonalMatrix(data1);
+ 
+        final double[] data2 = { 10.1, 2.3, 45 };
+        final DiagonalMatrix m2 = new DiagonalMatrix(data2);
+
+        final DiagonalMatrix result = m1.subtract(m2);
+        Assert.assertEquals(m1.getRowDimension(), result.getRowDimension());
+        for (int i = 0; i < result.getRowDimension(); i++) {
+            for (int j = 0; j < result.getRowDimension(); j++) {
+                if (i == j) {
+                    Assert.assertEquals(data1[i] - data2[i], result.getEntry(i, j), 0d);
+                } else {
+                    Assert.assertEquals(0d, result.getEntry(i, j), 0d);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testAddToEntry() {
         final double[] data = { -1.2, 3.4, 5 };
         final DiagonalMatrix m = new DiagonalMatrix(data);
@@ -147,7 +197,7 @@ public class DiagonalMatrixTest {
         final double[] data2 = { 10.1, 2.3, 45 };
         final DiagonalMatrix m2 = new DiagonalMatrix(data2);
 
-        final DiagonalMatrix result = m1.multiply(m2);
+        final DiagonalMatrix result = (DiagonalMatrix) m1.multiply((RealMatrix) m2);
         Assert.assertEquals(m1.getRowDimension(), result.getRowDimension());
         for (int i = 0; i < result.getRowDimension(); i++) {
             for (int j = 0; j < result.getRowDimension(); j++) {
@@ -208,10 +258,44 @@ public class DiagonalMatrixTest {
         TestUtils.assertEquals(diagResult, denseResult, 0d);
     }
 
-    @Test(expected=MathUnsupportedOperationException.class)
+    @Test(expected=NumberIsTooLargeException.class)
     public void testSetNonDiagonalEntry() {
         final DiagonalMatrix diag = new DiagonalMatrix(3);
         diag.setEntry(1, 2, 3.4);
+    }
+
+    @Test
+    public void testSetNonDiagonalZero() {
+        final DiagonalMatrix diag = new DiagonalMatrix(3);
+        diag.setEntry(1, 2, 0.0);
+        Assert.assertEquals(0.0, diag.getEntry(1, 2), Precision.SAFE_MIN);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testAddNonDiagonalEntry() {
+        final DiagonalMatrix diag = new DiagonalMatrix(3);
+        diag.addToEntry(1, 2, 3.4);
+    }
+
+    @Test
+    public void testAddNonDiagonalZero() {
+        final DiagonalMatrix diag = new DiagonalMatrix(3);
+        diag.addToEntry(1, 2, 0.0);
+        Assert.assertEquals(0.0, diag.getEntry(1, 2), Precision.SAFE_MIN);
+    }
+
+    @Test
+    public void testMultiplyNonDiagonalEntry() {
+        final DiagonalMatrix diag = new DiagonalMatrix(3);
+        diag.multiplyEntry(1, 2, 3.4);
+        Assert.assertEquals(0.0, diag.getEntry(1, 2), Precision.SAFE_MIN);
+    }
+
+    @Test
+    public void testMultiplyNonDiagonalZero() {
+        final DiagonalMatrix diag = new DiagonalMatrix(3);
+        diag.multiplyEntry(1, 2, 0.0);
+        Assert.assertEquals(0.0, diag.getEntry(1, 2), Precision.SAFE_MIN);
     }
 
     @Test(expected=OutOfRangeException.class)
@@ -219,4 +303,27 @@ public class DiagonalMatrixTest {
         final DiagonalMatrix diag = new DiagonalMatrix(3);
         diag.setEntry(3, 3, 3.4);
     }
+
+    @Test(expected=NullArgumentException.class)
+    public void testNull() {
+        new DiagonalMatrix(null, false);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testSetSubMatrixError() {
+        final double[] data = { -1.2, 3.4, 5 };
+        final DiagonalMatrix diag = new DiagonalMatrix(data);
+        diag.setSubMatrix(new double[][] { {1.0, 1.0}, {1.0, 1.0}}, 1, 1);
+    }
+
+    @Test
+    public void testSetSubMatrix() {
+        final double[] data = { -1.2, 3.4, 5 };
+        final DiagonalMatrix diag = new DiagonalMatrix(data);
+        diag.setSubMatrix(new double[][] { {0.0, 5.0, 0.0}, {0.0, 0.0, 6.0}}, 1, 0);
+        Assert.assertEquals(-1.2, diag.getEntry(0, 0), 1.0e-20);
+        Assert.assertEquals( 5.0, diag.getEntry(1, 1), 1.0e-20);
+        Assert.assertEquals( 6.0, diag.getEntry(2, 2), 1.0e-20);
+    }
+
 }

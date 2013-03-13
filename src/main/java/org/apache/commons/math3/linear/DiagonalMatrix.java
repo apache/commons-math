@@ -17,19 +17,21 @@
 package org.apache.commons.math3.linear;
 
 import java.io.Serializable;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implementation of a diagonal matrix.
- * <br/>
- * Caveat: This implementation is minimal; it is currently solely aimed
- * at solving issue MATH-924. In particular many methods just throw
- * {@code MathUnsupportedOperationException}.
  *
  * @version $Id$
+ * @since 3.1.1
  */
 public class DiagonalMatrix extends AbstractRealMatrix
     implements Serializable {
@@ -74,8 +76,11 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @param d Data for new matrix.
      * @param copyArray if {@code true}, the input array will be copied,
      * otherwise it will be referenced.
+     * @exception NullArgumentException if d is null
      */
-    public DiagonalMatrix(final double[] d, final boolean copyArray) {
+    public DiagonalMatrix(final double[] d, final boolean copyArray)
+        throws NullArgumentException {
+        MathUtils.checkNotNull(d);
         data = copyArray ? d.clone() : d;
     }
 
@@ -98,7 +103,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
 
     /** {@inheritDoc} */
     @Override
-    public RealMatrix copy() {
+    public DiagonalMatrix copy() {
         return new DiagonalMatrix(data);
     }
 
@@ -214,17 +219,6 @@ public class DiagonalMatrix extends AbstractRealMatrix
         return data;
     }
 
-    /** {@inheritDoc}
-     * @throws MathUnsupportedOperationException
-     */
-    @Override
-    public void setSubMatrix(final double[][] subMatrix,
-                             final int row,
-                             final int column)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
     /** {@inheritDoc} */
     @Override
     public double getEntry(final int row, final int column)
@@ -234,61 +228,58 @@ public class DiagonalMatrix extends AbstractRealMatrix
     }
 
     /** {@inheritDoc}
-     * @throws MathUnsupportedOperationException if {@code row != column}.
+     * @throws NumberIsTooLargeException if {@code row != column} and value is non-zero.
      */
     @Override
     public void setEntry(final int row, final int column, final double value)
-        throws OutOfRangeException,
-               MathUnsupportedOperationException {
-        if (row != column) {
-            throw new MathUnsupportedOperationException();
+        throws OutOfRangeException, NumberIsTooLargeException {
+        if (row == column) {
+            MatrixUtils.checkRowIndex(this, row);
+            data[row] = value;
+        } else {
+            ensureZero(value);
         }
-        MatrixUtils.checkMatrixIndex(this, row, column);
-        data[row] = value;
     }
 
     /** {@inheritDoc}
-     * @throws MathUnsupportedOperationException if {@code row != column}.
+     * @throws NumberIsTooLargeException if {@code row != column} and increment is non-zero.
      */
     @Override
     public void addToEntry(final int row,
                            final int column,
                            final double increment)
-        throws OutOfRangeException,
-               MathUnsupportedOperationException {
-        if (row != column) {
-            throw new MathUnsupportedOperationException();
+        throws OutOfRangeException, NumberIsTooLargeException {
+        if (row == column) {
+            MatrixUtils.checkRowIndex(this, row);
+            data[row] += increment;
+        } else {
+            ensureZero(increment);
         }
-        MatrixUtils.checkMatrixIndex(this, row, column);
-        data[row] += increment;
     }
 
-    /** {@inheritDoc}
-     * @throws MathUnsupportedOperationException if {@code row != column}.
-     */
+    /** {@inheritDoc} */
     @Override
     public void multiplyEntry(final int row,
                               final int column,
                               final double factor)
-        throws OutOfRangeException,
-               MathUnsupportedOperationException {
-        if (row != column) {
-            throw new MathUnsupportedOperationException();
+        throws OutOfRangeException {
+        // we don't care about non-diagonal elements for multiplication
+        if (row == column) {
+            MatrixUtils.checkRowIndex(this, row);
+            data[row] *= factor;
         }
-        MatrixUtils.checkMatrixIndex(this, row, column);
-        data[row] *= factor;
     }
 
     /** {@inheritDoc} */
     @Override
     public int getRowDimension() {
-        return data == null ? 0 : data.length;
+        return data.length;
     }
 
     /** {@inheritDoc} */
     @Override
     public int getColumnDimension() {
-        return getRowDimension();
+        return data.length;
     }
 
     /** {@inheritDoc} */
@@ -305,67 +296,14 @@ public class DiagonalMatrix extends AbstractRealMatrix
         return operate(v);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public double walkInRowOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
+    /** Ensure a value is zero.
+     * @param value value to check
+     * @exception NumberIsTooLargeException if value is not zero
+     */
+    private void ensureZero(final double value) throws NumberIsTooLargeException {
+        if (!Precision.equals(0.0, value, 1)) {
+            throw new NumberIsTooLargeException(FastMath.abs(value), 0, true);
+        }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInRowOrder(final RealMatrixChangingVisitor visitor,
-                                 final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor,
-                                 final int startRow, final int endRow,
-                                 final int startColumn, final int endColumn)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInColumnOrder(final RealMatrixChangingVisitor visitor,
-                                    final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor,
-                                    final int startRow, final int endRow,
-                                    final int startColumn, final int endColumn)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
 }
