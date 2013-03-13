@@ -65,20 +65,23 @@ public class FastMathTestPerformance {
     public void testLog() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.log(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.log(0.01 + i);
+        }
         long strictMath = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.log(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.log(0.01 + i);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.log(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.log(0.01 + i);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("log",strictMath,fastTime,mathTime);
@@ -89,20 +92,23 @@ public class FastMathTestPerformance {
     public void testLog10() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.log10(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.log10(0.01 + i);
+        }
         long strictMath = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.log10(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.log10(0.01 + i);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.log10(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.log10(0.01 + i);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("log10",strictMath,fastTime,mathTime);
@@ -113,20 +119,23 @@ public class FastMathTestPerformance {
     public void testLog1p() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.log1p(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.log1p(-0.9 + i);
+        }
         long strictMath = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.log1p(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.log1p(-0.9 + i);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.log1p(Math.PI + i/* 1.0 + i/1e9 */);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.log1p(-0.9 + i);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("log1p",strictMath,fastTime,mathTime);
@@ -137,20 +146,23 @@ public class FastMathTestPerformance {
     public void testPow() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.pow(Math.PI + i * F1, i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.pow(0.01 + i * F1, i * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.pow(Math.PI + i * F1, i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.pow(0.01 + i * F1, i * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.pow(Math.PI + i * F1, i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.pow(0.01 + i * F1, i * F1);
+        }
         long mathTime = System.nanoTime() - time;
         report("pow",strictTime,fastTime,mathTime);
         Assert.assertTrue(!Double.isNaN(x));
@@ -160,20 +172,23 @@ public class FastMathTestPerformance {
     public void testExp() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.exp(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.exp(100 * i * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.exp(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.exp(100 * i * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.exp(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.exp(100 * i * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("exp",strictTime,fastTime,mathTime);
@@ -184,20 +199,23 @@ public class FastMathTestPerformance {
     public void testSin() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.sin(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.sin(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.sin(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.sin(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.sin(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.sin(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("sin",strictTime,fastTime,mathTime);
@@ -208,20 +226,23 @@ public class FastMathTestPerformance {
     public void testAsin() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.asin(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.asin(0.999 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.asin(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.asin(0.999 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.asin(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.asin(0.999 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("asin",strictTime,fastTime,mathTime);
@@ -232,20 +253,23 @@ public class FastMathTestPerformance {
     public void testCos() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.cos(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.cos(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.cos(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.cos(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.cos(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.cos(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("cos",strictTime,fastTime,mathTime);
@@ -256,20 +280,23 @@ public class FastMathTestPerformance {
     public void testAcos() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.acos(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.acos(0.999 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.acos(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.acos(0.999 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.acos(i / (double) RUNS);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.acos(0.999 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
         report("acos",strictTime,fastTime,mathTime);
         Assert.assertTrue(!Double.isNaN(x));
@@ -279,20 +306,23 @@ public class FastMathTestPerformance {
     public void testTan() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.tan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.tan(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.tan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.tan(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.tan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.tan(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("tan",strictTime,fastTime,mathTime);
@@ -303,20 +333,23 @@ public class FastMathTestPerformance {
     public void testAtan() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.atan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.atan(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.atan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.atan(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.atan(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.atan(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("atan",strictTime,fastTime,mathTime);
@@ -327,20 +360,30 @@ public class FastMathTestPerformance {
     public void testAtan2() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.atan2(i * F1, i * F1);
+        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += StrictMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.atan2(i * F1, i * F1);
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += FastMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.atan2(i * F1, i * F1);
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += Math.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long mathTime = System.nanoTime() - time;
 
         report("atan2",strictTime,fastTime,mathTime);
@@ -351,20 +394,30 @@ public class FastMathTestPerformance {
     public void testHypot() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.hypot(i * F1, i * F1);
+        int max   = (int) FastMath.floor(FastMath.sqrt(RUNS));
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += StrictMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.hypot(i * F1, i * F1);
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += FastMath.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.hypot(i * F1, i * F1);
+        for (int i = 0; i < max; i++) {
+            for (int j = 0; j < max; j++) {
+                x += Math.atan2((i - max/2) * (100.0 / max), (j - max/2) * (100.0 / max));
+            }
+        }
         long mathTime = System.nanoTime() - time;
 
         report("hypot",strictTime,fastTime,mathTime);
@@ -375,20 +428,23 @@ public class FastMathTestPerformance {
     public void testCbrt() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.cbrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.cbrt(100 * i * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.cbrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.cbrt(100 * i * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.cbrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.cbrt(100 * i * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("cbrt",strictTime,fastTime,mathTime);
@@ -399,20 +455,23 @@ public class FastMathTestPerformance {
     public void testSqrt() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.sqrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.sqrt(100 * i * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.sqrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.sqrt(100 * i * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.sqrt(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.sqrt(100 * i * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("sqrt",strictTime,fastTime,mathTime);
@@ -423,20 +482,23 @@ public class FastMathTestPerformance {
     public void testCosh() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.cosh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.cosh(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.cosh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.cosh(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.cosh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.cosh(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("cosh",strictTime,fastTime,mathTime);
@@ -447,20 +509,23 @@ public class FastMathTestPerformance {
     public void testSinh() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.sinh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.sinh(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.sinh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.sinh(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.sinh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.sinh(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("sinh",strictTime,fastTime,mathTime);
@@ -471,20 +536,23 @@ public class FastMathTestPerformance {
     public void testTanh() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.tanh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.tanh(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.tanh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.tanh(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.tanh(i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.tanh(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
 
         report("tanh",strictTime,fastTime,mathTime);
@@ -495,20 +563,23 @@ public class FastMathTestPerformance {
     public void testExpm1() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += StrictMath.expm1(-i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += StrictMath.expm1(100 * (i - RUNS/2) * F1);
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += FastMath.expm1(-i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += FastMath.expm1(100 * (i - RUNS/2) * F1);
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
-            x += Math.expm1(-i * F1);
+        for (int i = 0; i < RUNS; i++) {
+            x += Math.expm1(100 * (i - RUNS/2) * F1);
+        }
         long mathTime = System.nanoTime() - time;
         report("expm1",strictTime,fastTime,mathTime);
         Assert.assertTrue(!Double.isNaN(x));
@@ -518,20 +589,23 @@ public class FastMathTestPerformance {
     public void testAbs() {
         double x = 0;
         long time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
+        for (int i = 0; i < RUNS; i++) {
             x += StrictMath.abs(i * (1 - 0.5 * RUNS));
+        }
         long strictTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
+        for (int i = 0; i < RUNS; i++) {
             x += FastMath.abs(i * (1 - 0.5 * RUNS));
+        }
         long fastTime = System.nanoTime() - time;
 
         x = 0;
         time = System.nanoTime();
-        for (int i = 0; i < RUNS; i++)
+        for (int i = 0; i < RUNS; i++) {
             x += Math.abs(i * (1 - 0.5 * RUNS));
+        }
         long mathTime = System.nanoTime() - time;
 
         report("abs",strictTime,fastTime,mathTime);
