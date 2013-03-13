@@ -97,7 +97,7 @@ public class DiagonalMatrixTest {
     public void testCopy() {
         final double[] d = { -1.2, 3.4, 5 };
         final DiagonalMatrix m = new DiagonalMatrix(d, false);
-        final DiagonalMatrix p = m.copy();
+        final DiagonalMatrix p = (DiagonalMatrix) m.copy();
         for (int i = 0; i < m.getRowDimension(); ++i) {
             Assert.assertEquals(m.getEntry(i, i), p.getEntry(i, i), 1.0e-20);
         }

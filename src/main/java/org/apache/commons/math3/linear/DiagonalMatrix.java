@@ -103,7 +103,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
 
     /** {@inheritDoc} */
     @Override
-    public DiagonalMatrix copy() {
+    public RealMatrix copy() {
         return new DiagonalMatrix(data);
     }
 
