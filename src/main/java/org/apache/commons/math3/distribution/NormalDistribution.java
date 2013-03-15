@@ -19,6 +19,7 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Erf;
 import org.apache.commons.math3.util.FastMath;
@@ -150,6 +151,15 @@ public class NormalDistribution extends AbstractRealDistribution {
             return dev < 0 ? 0.0d : 1.0d;
         }
         return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
+        if (p < 0.0 || p > 1.0) {
+            throw new OutOfRangeException(p, 0, 1);
+        }
+        return mean + standardDeviation * SQRT2 * Erf.erfInv(2 * p - 1);
     }
 
     /**

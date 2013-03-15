@@ -55,6 +55,12 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="luc" type="update"  >
+        Normal distribution now uses a direct implementation of the
+        inverse error function to compute inverse cumulative probability
+        instead of relying on a numerical solver. This is much faster,
+        more accurate and does not need convergence threshold.
+      </action>
       <action dev="luc" type="add" issue="MATH-948" >
         Implementations for inverse error function and inverse complementary
         error functions have been added.
