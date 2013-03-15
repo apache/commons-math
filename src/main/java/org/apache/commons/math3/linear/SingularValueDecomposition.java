@@ -285,10 +285,18 @@ public class SingularValueDecomposition {
                 final double threshold
                     = TINY + EPS * (FastMath.abs(singularValues[k]) +
                                     FastMath.abs(singularValues[k + 1]));
-                if (FastMath.abs(e[k]) <= threshold) {
+
+                // the following condition is written this way in order
+                // to break out of the loop when NaN occurs, writing it
+                // as "if (FastMath.abs(e[k]) <= threshold)" would loop
+                // indefinitely in case of NaNs because comparison on NaNs
+                // always return false, regardless of what is checked
+                // see issue MATH-947
+                if (!(FastMath.abs(e[k]) > threshold)) {
                     e[k] = 0;
                     break;
                 }
+
             }
 
             if (k == p - 2) {

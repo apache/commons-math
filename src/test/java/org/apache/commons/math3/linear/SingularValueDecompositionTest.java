@@ -316,4 +316,16 @@ public class SingularValueDecompositionTest {
         return u.multiply(d).multiply(v);
     }
 
+    @Test
+    public void testIssue947() {
+        double[][] nans = new double[][] {
+            { Double.NaN, Double.NaN },
+            { Double.NaN, Double.NaN }
+        };
+        RealMatrix m = new Array2DRowRealMatrix(nans, false);
+        SingularValueDecomposition svd = new SingularValueDecomposition(m);
+        Assert.assertTrue(Double.isNaN(svd.getSingularValues()[0]));
+        Assert.assertTrue(Double.isNaN(svd.getSingularValues()[1]));
+    }
+
 }
