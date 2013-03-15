@@ -16,68 +16,73 @@
  */
 package org.apache.commons.math3.distribution;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NotANumberException;
+import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class for {@link DiscreteIntegerDistribution}.
+ * Test class for {@link EnumeratedRealDistribution}.
  * 
- * @version $Id: DiscreteIntegerDistributionTest.java 161 2013-03-07 09:47:32Z wydrych $
+ * @version $Id$
  */
-public class DiscreteIntegerDistributionTest {
+public class EnumeratedRealDistributionTest {
 
     /**
      * The distribution object used for testing.
      */
-    private final DiscreteIntegerDistribution testDistribution;
+    private final EnumeratedRealDistribution testDistribution;
 
     /**
-     * Creates the default distribution object uded for testing.
+     * Creates the default distribution object used for testing.
      */
-    public DiscreteIntegerDistributionTest() {
+    public EnumeratedRealDistributionTest() {
         // Non-sorted singleton array with duplicates should be allowed.
         // Values with zero-probability do not extend the support.
-        testDistribution = new DiscreteIntegerDistribution(
-                new int[]{3, -1, 3, 7, -2, 8},
+        testDistribution = new EnumeratedRealDistribution(
+                new double[]{3.0, -1.0, 3.0, 7.0, -2.0, 8.0},
                 new double[]{0.2, 0.2, 0.3, 0.3, 0.0, 0.0});
     }
 
     /**
-     * Tests if the {@link DiscreteIntegerDistribution} constructor throws
-     * exceptions for ivalid data.
+     * Tests if the {@link EnumeratedRealDistribution} constructor throws
+     * exceptions for invalid data.
      */
     @Test
     public void testExceptions() {
-        DiscreteIntegerDistribution invalid = null;
+        EnumeratedRealDistribution invalid = null;
         try {
-            invalid = new DiscreteIntegerDistribution(new int[]{1, 2}, new double[]{0.0});
+            invalid = new EnumeratedRealDistribution(new double[]{1.0, 2.0}, new double[]{0.0});
             Assert.fail("Expected DimensionMismatchException");
         } catch (DimensionMismatchException e) {
         }
-        try {
-            invalid = new DiscreteIntegerDistribution(new int[]{1, 2}, new double[]{0.0, -1.0});
+        try{
+        invalid = new EnumeratedRealDistribution(new double[]{1.0, 2.0}, new double[]{0.0, -1.0});
             Assert.fail("Expected NotPositiveException");
         } catch (NotPositiveException e) {
         }
         try {
-            invalid = new DiscreteIntegerDistribution(new int[]{1, 2}, new double[]{0.0, 0.0});
+            invalid = new EnumeratedRealDistribution(new double[]{1.0, 2.0}, new double[]{0.0, 0.0});
             Assert.fail("Expected MathArithmeticException");
         } catch (MathArithmeticException e) {
         }
         try {
-            invalid = new DiscreteIntegerDistribution(new int[]{1, 2}, new double[]{0.0, Double.NaN});
-            Assert.fail("Expected MathArithmeticException");
-        } catch (MathArithmeticException e) {
+            invalid = new EnumeratedRealDistribution(new double[]{1.0, 2.0}, new double[]{0.0, Double.NaN});
+            Assert.fail("Expected NotANumberException");
+        } catch (NotANumberException e) {
         }
         try {
-            invalid = new DiscreteIntegerDistribution(new int[]{1, 2}, new double[]{0.0, Double.POSITIVE_INFINITY});
-            Assert.fail("Expected MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
+            invalid = new EnumeratedRealDistribution(new double[]{1.0, 2.0}, new double[]{0.0, Double.POSITIVE_INFINITY});
+            Assert.fail("Expected NotFiniteNumberException");
+        } catch (NotFiniteNumberException e) {
         }
         Assert.assertNull("Expected non-initialized DiscreteRealDistribution", invalid);
     }
@@ -87,11 +92,24 @@ public class DiscreteIntegerDistributionTest {
      */
     @Test
     public void testProbability() {
-        int[] points = new int[]{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8};
+        double[] points = new double[]{-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0};
         double[] results = new double[]{0, 0.2, 0, 0, 0, 0.5, 0, 0, 0, 0.3, 0};
         for (int p = 0; p < points.length; p++) {
-            double probability = testDistribution.probability(points[p]);
-            Assert.assertEquals(results[p], probability, 0.0);
+            double density = testDistribution.probability(points[p]);
+            Assert.assertEquals(results[p], density, 0.0);
+        }
+    }
+
+    /**
+     * Tests if the distribution returns proper density values.
+     */
+    @Test
+    public void testDensity() {
+        double[] points = new double[]{-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0};
+        double[] results = new double[]{0, 0.2, 0, 0, 0, 0.5, 0, 0, 0, 0.3, 0};
+        for (int p = 0; p < points.length; p++) {
+            double density = testDistribution.density(points[p]);
+            Assert.assertEquals(results[p], density, 0.0);
         }
     }
 
@@ -100,7 +118,7 @@ public class DiscreteIntegerDistributionTest {
      */
     @Test
     public void testCumulativeProbability() {
-        int[] points = new int[]{-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8};
+        double[] points = new double[]{-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0};
         double[] results = new double[]{0, 0.2, 0.2, 0.2, 0.2, 0.7, 0.7, 0.7, 0.7, 1.0, 1.0};
         for (int p = 0; p < points.length; p++) {
             double probability = testDistribution.cumulativeProbability(points[p]);
@@ -129,7 +147,7 @@ public class DiscreteIntegerDistributionTest {
      */
     @Test
     public void testGetSupportLowerBound() {
-        Assert.assertEquals(-1, testDistribution.getSupportLowerBound());
+        Assert.assertEquals(-1, testDistribution.getSupportLowerBound(), 0);
     }
 
     /**
@@ -137,7 +155,25 @@ public class DiscreteIntegerDistributionTest {
      */
     @Test
     public void testGetSupportUpperBound() {
-        Assert.assertEquals(7, testDistribution.getSupportUpperBound());
+        Assert.assertEquals(7, testDistribution.getSupportUpperBound(), 0);
+    }
+
+    /**
+     * Tests if the distribution returns properly that the support includes the
+     * lower bound.
+     */
+    @Test
+    public void testIsSupportLowerBoundInclusive() {
+        Assert.assertTrue(testDistribution.isSupportLowerBoundInclusive());
+    }
+
+    /**
+     * Tests if the distribution returns properly that the support includes the
+     * upper bound.
+     */
+    @Test
+    public void testIsSupportUpperBoundInclusive() {
+        Assert.assertTrue(testDistribution.isSupportUpperBoundInclusive());
     }
 
     /**
@@ -155,7 +191,7 @@ public class DiscreteIntegerDistributionTest {
     public void testSample() {
         final int n = 1000000;
         testDistribution.reseedRandomGenerator(-334759360); // fixed seed
-        final int[] samples = testDistribution.sample(n);
+        final double[] samples = testDistribution.sample(n);
         Assert.assertEquals(n, samples.length);
         double sum = 0;
         double sumOfSquares = 0;
@@ -168,4 +204,13 @@ public class DiscreteIntegerDistributionTest {
         Assert.assertEquals(testDistribution.getNumericalVariance(),
                 sumOfSquares / n - FastMath.pow(sum / n, 2), 1e-2);
     }
+
+    @Test
+    public void testIssue942() {
+        List<Pair<Object,Double>> list = new ArrayList<Pair<Object, Double>>();
+        list.add(new Pair<Object, Double>(new Object() {}, new Double(0)));
+        list.add(new Pair<Object, Double>(new Object() {}, new Double(1)));
+        Assert.assertEquals(1, new EnumeratedDistribution<Object>(list).sample(1).length);
+    }
+
 }

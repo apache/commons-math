@@ -20,33 +20,34 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NotANumberException;
+import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.util.Pair;
 
 /**
- * Implementation of the integer-valued discrete distribution.
- * <p>
- * Note: values with zero-probability are allowed but they do not extend the support.
+ * <p>Implementation of an integer-valued {@link EnumeratedDistribution}.</p>
  *
- * @see <a href="http://en.wikipedia.org/wiki/Probability_distribution#Discrete_probability_distribution">
- * Discrete probability distribution (Wikipedia)</a>
- * @see <a href="http://mathworld.wolfram.com/DiscreteDistribution.html">Discrete Distribution (MathWorld)</a>
+ * <p>Values with zero-probability are allowed but they do not extend the
+ * support.<br/>
+ * Duplicate values are allowed. Probabilities of duplicate values are combined
+ * when computing cumulative probabilities and statistics.</p>
+ *
  * @version $Id$
  * @since 3.2
  */
-public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
+public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
 
     /** Serializable UID. */
     private static final long serialVersionUID = 20130308L;
 
     /**
-     * {@link DiscreteDistribution} instance (using the {@link Integer} wrapper)
-     * used to generate samples.
+     * {@link EnumeratedDistribution} instance (using the {@link Integer} wrapper)
+     * used to generate the pmf.
      */
-    protected final DiscreteDistribution<Integer> innerDistribution;
+    protected final EnumeratedDistribution<Integer> innerDistribution;
 
     /**
      * Create a discrete distribution using the given probability mass function
@@ -54,13 +55,16 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      *
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is negative.
-     * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
+     * @throws DimensionMismatchException if
+     * {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if any of the probabilities are negative.
+     * @throws NotFiniteNumberException if any of the probabilities are infinite.
+     * @throws NotANumberException if any of the probabilities are NaN.
+     * @throws MathArithmeticException all of the probabilities are 0.
      */
-    public DiscreteIntegerDistribution(final int[] singletons, final double[] probabilities)
-        throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {
+    public EnumeratedIntegerDistribution(final int[] singletons, final double[] probabilities)
+    throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
+           NotFiniteNumberException, NotANumberException{
         this(new Well19937c(), singletons, probabilities);
     }
 
@@ -71,14 +75,17 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      * @param rng random number generator.
      * @param singletons array of random variable values.
      * @param probabilities array of probabilities.
-     * @throws DimensionMismatchException if {@code singletons.length != probabilities.length}
-     * @throws NotPositiveException if probability of at least one value is negative.
-     * @throws MathArithmeticException if the probabilities sum to zero.
-     * @throws MathIllegalArgumentException if probability of at least one value is infinite.
+     * @throws DimensionMismatchException if
+     * {@code singletons.length != probabilities.length}
+     * @throws NotPositiveException if any of the probabilities are negative.
+     * @throws NotFiniteNumberException if any of the probabilities are infinite.
+     * @throws NotANumberException if any of the probabilities are NaN.
+     * @throws MathArithmeticException all of the probabilities are 0.
      */
-    public DiscreteIntegerDistribution(final RandomGenerator rng,
+    public EnumeratedIntegerDistribution(final RandomGenerator rng,
                                        final int[] singletons, final double[] probabilities)
-        throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {
+        throws DimensionMismatchException, NotPositiveException, MathArithmeticException,
+                NotFiniteNumberException, NotANumberException {
         super(rng);
         if (singletons.length != probabilities.length) {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
@@ -90,7 +97,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
             samples.add(new Pair<Integer, Double>(singletons[i], probabilities[i]));
         }
 
-        innerDistribution = new DiscreteDistribution<Integer>(rng, samples);
+        innerDistribution = new EnumeratedDistribution<Integer>(rng, samples);
     }
 
     /**
@@ -106,7 +113,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
     public double cumulativeProbability(final int x) {
         double probability = 0;
 
-        for (final Pair<Integer, Double> sample : innerDistribution.getSamples()) {
+        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
             if (sample.getKey() <= x) {
                 probability += sample.getValue();
             }
@@ -123,7 +130,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
     public double getNumericalMean() {
         double mean = 0;
 
-        for (final Pair<Integer, Double> sample : innerDistribution.getSamples()) {
+        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
             mean += sample.getValue() * sample.getKey();
         }
 
@@ -139,7 +146,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
         double mean = 0;
         double meanOfSquares = 0;
 
-        for (final Pair<Integer, Double> sample : innerDistribution.getSamples()) {
+        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
             mean += sample.getValue() * sample.getKey();
             meanOfSquares += sample.getValue() * sample.getKey() * sample.getKey();
         }
@@ -156,7 +163,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      */
     public int getSupportLowerBound() {
         int min = Integer.MAX_VALUE;
-        for (final Pair<Integer, Double> sample : innerDistribution.getSamples()) {
+        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
             if (sample.getKey() < min && sample.getValue() > 0) {
                 min = sample.getKey();
             }
@@ -174,7 +181,7 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
      */
     public int getSupportUpperBound() {
         int max = Integer.MIN_VALUE;
-        for (final Pair<Integer, Double> sample : innerDistribution.getSamples()) {
+        for (final Pair<Integer, Double> sample : innerDistribution.getPmf()) {
             if (sample.getKey() > max && sample.getValue() > 0) {
                 max = sample.getKey();
             }
@@ -194,6 +201,9 @@ public class DiscreteIntegerDistribution extends AbstractIntegerDistribution {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int sample() {
         return innerDistribution.sample();
