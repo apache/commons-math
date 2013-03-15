@@ -55,6 +55,9 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="psteitz" type="add" issue="MATH-946" due-to="Jared Becksfort">
+        Added array-scaling methods to MathArrays.
+      </action>
       <action dev="luc" type="update" issue="MATH-877" due-to="Peter Andrews">
         Allow direct use of SummaryStatistics in one-way ANOVA.
       </action>

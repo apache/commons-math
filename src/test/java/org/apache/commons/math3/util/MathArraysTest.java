@@ -33,6 +33,38 @@ import org.junit.Test;
  * @version $Id$
  */
 public class MathArraysTest {
+    
+    @Test
+    public void testScale() {
+        final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
+        final double[] correctTest = MathArrays.copyOf(test);
+        final double[] correctScaled = new double[]{5.25, 2.1, 0, -2.1, -5.25};
+        
+        final double[] scaled = MathArrays.scale(-2.1, test);
+
+        // Make sure test has not changed
+        for (int i = 0; i < test.length; i++) {
+            Assert.assertEquals(correctTest[i], test[i], 0);
+        }
+
+        // Test scaled values
+        for (int i = 0; i < scaled.length; i++) {
+            Assert.assertEquals(correctScaled[i], scaled[i], 0);
+        }
+    }
+    
+    @Test
+    public void testScaleInPlace() {
+        final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
+        final double[] correctScaled = new double[]{5.25, 2.1, 0, -2.1, -5.25};
+        MathArrays.scaleInPlace(-2.1, test);
+
+        // Make sure test has changed
+        for (int i = 0; i < test.length; i++) {
+            Assert.assertEquals(correctScaled[i], test[i], 0);
+        }
+    }
+    
     @Test(expected=DimensionMismatchException.class)
     public void testEbeAddPrecondition() {
         MathArrays.ebeAdd(new double[3], new double[4]);

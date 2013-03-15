@@ -74,6 +74,35 @@ public class MathArrays {
     }
 
     /**
+     * Create a copy of an array scaled by a value.
+     *
+     * @param arr Array to scale.
+     * @param val Scalar.
+     * @return scaled copy of array with each entry multiplied by val.
+     */
+    public static double[] scale(double val, final double[] arr) {
+        double[] newArr = new double[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            newArr[i] = arr[i] * val;
+        }
+        return newArr;
+    }
+
+    /**
+     * <p>Multiply each element of an array by a value.</p>
+     *
+     * <p>The array is modified in place (no copy is created).</p>
+     *
+     * @param arr Array to scale
+     * @param val Scalar
+     */
+    public static void scaleInPlace(double val, final double[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] *= val;
+        }
+    }
+
+    /**
      * Creates an array whose contents will be the element-by-element
      * addition of the arguments.
      *
