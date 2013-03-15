@@ -307,7 +307,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
-     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldVector, FieldElement[])
+     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldVector, FieldElement[])}
      */
     @Deprecated
     public ArrayFieldVector(ArrayFieldVector<T> v1, T[] v2)
@@ -342,7 +342,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
-     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldElement[], FieldVector)
+     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldElement[], FieldVector)}
      */
     @Deprecated
     public ArrayFieldVector(T[] v1, ArrayFieldVector<T> v2)

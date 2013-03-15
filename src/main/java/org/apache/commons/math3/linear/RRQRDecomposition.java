@@ -63,7 +63,7 @@ public class RRQRDecomposition extends QRDecomposition {
      *
      * @param matrix The matrix to decompose.
      *
-     * @see #QRDecomposition(RealMatrix,double)
+     * @see #RRQRDecomposition(RealMatrix, double)
      */
     public RRQRDecomposition(RealMatrix matrix) {
         this(matrix, 0d);
@@ -74,6 +74,7 @@ public class RRQRDecomposition extends QRDecomposition {
      *
      * @param matrix The matrix to decompose.
      * @param threshold Singularity threshold.
+     * @see #RRQRDecomposition(RealMatrix)
      */
     public RRQRDecomposition(RealMatrix matrix,  double threshold) {
         super(matrix, threshold);
