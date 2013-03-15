@@ -213,4 +213,50 @@ public class ErfTest {
             }
         }
     }
+
+    @Test
+    public void testErfInvNaN() {
+        Assert.assertTrue(Double.isNaN(Erf.erfInv(-1.001)));
+        Assert.assertTrue(Double.isNaN(Erf.erfInv(+1.001)));
+    }
+
+    @Test
+    public void testErfInvInfinite() {
+        Assert.assertTrue(Double.isInfinite(Erf.erfInv(-1)));
+        Assert.assertTrue(Erf.erfInv(-1) < 0);
+        Assert.assertTrue(Double.isInfinite(Erf.erfInv(+1)));
+        Assert.assertTrue(Erf.erfInv(+1) > 0);
+    }
+
+    @Test
+    public void testErfInv() {
+        for (double x = -5.9; x < 5.9; x += 0.01) {
+            final double y = Erf.erf(x);
+            final double dydx = 2 * FastMath.exp(-x * x) / FastMath.sqrt(FastMath.PI);
+            Assert.assertEquals(x, Erf.erfInv(y), 1.0e-15 / dydx);
+        }
+    }
+
+    @Test
+    public void testErfcInvNaN() {
+        Assert.assertTrue(Double.isNaN(Erf.erfcInv(-0.001)));
+        Assert.assertTrue(Double.isNaN(Erf.erfcInv(+2.001)));
+    }
+
+    @Test
+    public void testErfcInvInfinite() {
+        Assert.assertTrue(Double.isInfinite(Erf.erfcInv(-0)));
+        Assert.assertTrue(Erf.erfcInv( 0) > 0);
+        Assert.assertTrue(Double.isInfinite(Erf.erfcInv(+2)));
+        Assert.assertTrue(Erf.erfcInv(+2) < 0);
+    }
+
+    @Test
+    public void testErfcInv() {
+        for (double x = -5.85; x < 5.9; x += 0.01) {
+            final double y = Erf.erfc(x);
+            final double dydxAbs = 2 * FastMath.exp(-x * x) / FastMath.sqrt(FastMath.PI);
+            Assert.assertEquals(x, Erf.erfcInv(y), 1.0e-15 / dydxAbs);
+        }
+    }
 }

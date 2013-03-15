@@ -6,6 +6,11 @@ The Apache Software Foundation (http://www.apache.org/).
 
 ===============================================================================
 
+The inverse error function implementation in the Erf class is based on CUDA
+code developed by Mike Giles, Oxford-Man Institute of Quantitative Finance,
+and published in GPU Computing Gems, volume 2, 2010.
+===============================================================================
+
 The BracketFinder (package org.apache.commons.math3.optimization.univariate)
 and PowellOptimizer (package org.apache.commons.math3.optimization.general)
 classes are based on the Python code in module "optimize.py" (version 0.5)
