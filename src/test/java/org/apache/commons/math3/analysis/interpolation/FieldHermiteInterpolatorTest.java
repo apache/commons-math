@@ -176,7 +176,6 @@ public class FieldHermiteInterpolatorTest {
                                         yP[k].subtract(yM[k]).divide(h.multiply(2)).getReal(),
                                         4.0e-8 * FastMath.abs(p[k].value(x.getReal())));
                 }
-                System.out.println();
             }
 
         }
