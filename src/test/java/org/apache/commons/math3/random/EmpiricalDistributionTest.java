@@ -22,15 +22,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.RealDistributionAbstractTest;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
@@ -427,5 +431,153 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         } else {
             return new NormalDistribution((upper + lower + 1) / 2d, 3.0276503540974917); 
         }
+    }
+    
+    @Test
+    public void testKernelOverrideConstant() {
+        final EmpiricalDistribution dist = new ConstantKernelEmpiricalDistribution(5);
+        final double[] data = {1d,2d,3d, 4d,5d,6d, 7d,8d,9d, 10d,11d,12d, 13d,14d,15d};
+        dist.load(data);
+        // Bin masses concentrated on 2, 5, 8, 11, 14 <- effectively discrete uniform distribution over these
+        double[] values = {2d, 5d, 8d, 11d, 14d};
+        for (int i = 0; i < 20; i++) {
+            Assert.assertTrue(Arrays.binarySearch(values, dist.sample()) >= 0);
+        }
+        final double tol = 10E-12;
+        Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
+        Assert.assertEquals(0.2, dist.cumulativeProbability(2), tol);
+        Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
+        Assert.assertEquals(0.8, dist.cumulativeProbability(12), tol);
+        Assert.assertEquals(0.8, dist.cumulativeProbability(13), tol);
+        Assert.assertEquals(1.0, dist.cumulativeProbability(15), tol);
+
+        Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.1), tol);
+        Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.2), tol);
+        Assert.assertEquals(5.0, dist.inverseCumulativeProbability(0.3), tol);
+        Assert.assertEquals(5.0, dist.inverseCumulativeProbability(0.4), tol);
+        Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.5), tol);
+        Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.6), tol);
+    }
+    
+    @Test
+    public void testKernelOverrideUniform() {
+        final EmpiricalDistribution dist = new UniformKernelEmpiricalDistribution(5);
+        final double[] data = {1d,2d,3d, 4d,5d,6d, 7d,8d,9d, 10d,11d,12d, 13d,14d,15d};
+        dist.load(data);
+        // Kernels are uniform distributions on [1,3], [4,6], [7,9], [10,12], [13,15]
+        final double bounds[] = {3d, 6d, 9d, 12d};
+        final double tol = 10E-12; 
+        for (int i = 0; i < 20; i++) {
+            final double v = dist.sample();
+            // Make sure v is not in the excluded range between bins - that is (bounds[i], bounds[i] + 1)
+            for (int j = 0; j < bounds.length; j++) {
+                Assert.assertFalse(v > bounds[j] + tol && v < bounds[j] + 1 - tol);
+            }
+        }   
+        Assert.assertEquals(0.0, dist.cumulativeProbability(1), tol);
+        Assert.assertEquals(0.1, dist.cumulativeProbability(2), tol);
+        Assert.assertEquals(0.6, dist.cumulativeProbability(10), tol);
+        Assert.assertEquals(0.8, dist.cumulativeProbability(12), tol);
+        Assert.assertEquals(0.8, dist.cumulativeProbability(13), tol);
+        Assert.assertEquals(1.0, dist.cumulativeProbability(15), tol);
+
+        Assert.assertEquals(2.0, dist.inverseCumulativeProbability(0.1), tol);
+        Assert.assertEquals(3.0, dist.inverseCumulativeProbability(0.2), tol);
+        Assert.assertEquals(5.0, dist.inverseCumulativeProbability(0.3), tol);
+        Assert.assertEquals(6.0, dist.inverseCumulativeProbability(0.4), tol);
+        Assert.assertEquals(8.0, dist.inverseCumulativeProbability(0.5), tol);
+        Assert.assertEquals(9.0, dist.inverseCumulativeProbability(0.6), tol);
+    }
+    
+    
+    /**
+     * Empirical distribution using a constant smoothing kernel.
+     */
+    private class ConstantKernelEmpiricalDistribution extends EmpiricalDistribution {
+        private static final long serialVersionUID = 1L;
+        public ConstantKernelEmpiricalDistribution(int i) {
+            super(i);
+        }
+        // Use constant distribution equal to bin mean within bin
+        protected RealDistribution getKernel(SummaryStatistics bStats) {
+            return new ConstantDistribution(bStats.getMean());
+        }
+    }
+    
+    /**
+     * Empirical distribution using a uniform smoothing kernel.
+     */
+    private class UniformKernelEmpiricalDistribution extends EmpiricalDistribution {
+        public UniformKernelEmpiricalDistribution(int i) {
+            super(i);
+        }
+        protected RealDistribution getKernel(SummaryStatistics bStats) {
+            return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax(),
+                    UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        }
+    }
+    
+    /**
+     * Distribution that takes just one value.
+     */
+    private class ConstantDistribution extends AbstractRealDistribution {
+        private static final long serialVersionUID = 1L;
+        
+        /** Singleton value in the sample space */
+        private final double c;
+        
+        public ConstantDistribution(double c) {
+            this.c = c;
+        }
+        
+        public double density(double x) {
+            return 0;
+        }
+
+        public double cumulativeProbability(double x) {
+            return x < c ? 0 : 1;
+        }
+        
+        @Override
+        public double inverseCumulativeProbability(double p) {
+            if (p < 0.0 || p > 1.0) {
+                throw new OutOfRangeException(p, 0, 1);
+            }
+            return c;
+        }
+
+        public double getNumericalMean() {
+            return c;
+        }
+
+        public double getNumericalVariance() {
+            return 0;
+        }
+
+        public double getSupportLowerBound() {
+            return c;
+        }
+
+        public double getSupportUpperBound() {
+            return c;
+        }
+
+        public boolean isSupportLowerBoundInclusive() {
+            return false;
+        }
+
+        public boolean isSupportUpperBoundInclusive() {
+            return true;
+        }
+
+        public boolean isSupportConnected() {
+            return true;
+        }
+        
+        @Override
+        public double sample() {
+            return c;
+        }
+        
     }
 }

@@ -110,6 +110,9 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     /** Serializable version identifier */
     private static final long serialVersionUID = 5729073523949762654L;
 
+    /** RandomDataGenerator instance to use in repeated calls to getNext() */
+    protected final RandomDataGenerator randomData;
+
     /** List of SummaryStatistics objects characterizing the bins */
     private final List<SummaryStatistics> binStats;
 
@@ -133,9 +136,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
 
     /** upper bounds of subintervals in (0,1) "belonging" to the bins */
     private double[] upperBounds = null;
-
-    /** RandomDataGenerator instance to use in repeated calls to getNext() */
-    private final RandomDataGenerator randomData;
 
     /**
      * Creates a new EmpiricalDistribution with the default bin count.
@@ -487,8 +487,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
                SummaryStatistics stats = binStats.get(i);
                if (stats.getN() > 0) {
                    if (stats.getStandardDeviation() > 0) {  // more than one obs
-                       return randomData.nextGaussian(stats.getMean(),
-                                                      stats.getStandardDeviation());
+                       return getKernel(stats).sample();
                    } else {
                        return stats.getMean(); // only one obs in bin
                    }
@@ -842,9 +841,10 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @param bStats summary statistics for the bin
      * @return within-bin kernel parameterized by bStats
      */
-    private RealDistribution getKernel(SummaryStatistics bStats) {
-        // For now, hard-code Gaussian (only kernel supported)
-        return new NormalDistribution(
-                bStats.getMean(), bStats.getStandardDeviation());
+    protected RealDistribution getKernel(SummaryStatistics bStats) {
+        // Default to Gaussian
+        return new NormalDistribution(randomData.getRandomGenerator(),
+                bStats.getMean(), bStats.getStandardDeviation(),
+                NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
     }
 }

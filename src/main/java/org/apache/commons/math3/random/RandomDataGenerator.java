@@ -163,7 +163,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
         }
 
         // Get a random number generator
-        RandomGenerator ran = getRan();
+        RandomGenerator ran = getRandomGenerator();
 
         // Initialize output buffer
         StringBuilder outBuffer = new StringBuilder();
@@ -202,7 +202,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
         if (max <= 0) {
             // the range is too wide to fit in a positive int (larger than 2^31); as it covers
             // more than half the integer range, we use directly a simple rejection method
-            final RandomGenerator rng = getRan();
+            final RandomGenerator rng = getRandomGenerator();
             while (true) {
                 final int r = rng.nextInt();
                 if (r >= lower && r <= upper) {
@@ -211,7 +211,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
             }
         } else {
             // we can shift the range and generate directly a positive int
-            return lower + getRan().nextInt(max);
+            return lower + getRandomGenerator().nextInt(max);
         }
     }
 
@@ -225,7 +225,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
         if (max <= 0) {
             // the range is too wide to fit in a positive long (larger than 2^63); as it covers
             // more than half the long range, we use directly a simple rejection method
-            final RandomGenerator rng = getRan();
+            final RandomGenerator rng = getRandomGenerator();
             while (true) {
                 final long r = rng.nextLong();
                 if (r >= lower && r <= upper) {
@@ -234,10 +234,10 @@ public class RandomDataGenerator implements RandomData, Serializable {
             }
         } else if (max < Integer.MAX_VALUE){
             // we can shift the range and generate directly a positive int
-            return lower + getRan().nextInt((int) max);
+            return lower + getRandomGenerator().nextInt((int) max);
         } else {
             // we can shift the range and generate directly a positive long
-            return lower + nextLong(getRan(), max);
+            return lower + nextLong(getRandomGenerator(), max);
         }
     }
 
@@ -433,7 +433,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @throws NotStrictlyPositiveException if {@code len <= 0}
      */
     public long nextPoisson(double mean) throws NotStrictlyPositiveException {
-        return new PoissonDistribution(getRan(), mean,
+        return new PoissonDistribution(getRandomGenerator(), mean,
                 PoissonDistribution.DEFAULT_EPSILON,
                 PoissonDistribution.DEFAULT_MAX_ITERATIONS).sample();
     }
@@ -443,7 +443,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
         if (sigma <= 0) {
             throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sigma);
         }
-        return sigma * getRan().nextGaussian() + mu;
+        return sigma * getRandomGenerator().nextGaussian() + mu;
     }
 
     /**
@@ -458,7 +458,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * </p>
      */
     public double nextExponential(double mean) throws NotStrictlyPositiveException {
-        return new ExponentialDistribution(getRan(), mean,
+        return new ExponentialDistribution(getRandomGenerator(), mean,
                 ExponentialDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -485,7 +485,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * {@code scale <= 0}.
      */
     public double nextGamma(double shape, double scale) throws NotStrictlyPositiveException {
-        return new GammaDistribution(getRan(),shape, scale,
+        return new GammaDistribution(getRandomGenerator(),shape, scale,
                 GammaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -502,7 +502,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @throws NotPositiveException  if {@code numberOfSuccesses < 0}.
      */
     public int nextHypergeometric(int populationSize, int numberOfSuccesses, int sampleSize) throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {
-        return new HypergeometricDistribution(getRan(),populationSize,
+        return new HypergeometricDistribution(getRandomGenerator(),populationSize,
                 numberOfSuccesses, sampleSize).sample();
     }
 
@@ -517,7 +517,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * range {@code [0, 1]}.
      */
     public int nextPascal(int r, double p) throws NotStrictlyPositiveException, OutOfRangeException {
-        return new PascalDistribution(getRan(), r, p).sample();
+        return new PascalDistribution(getRandomGenerator(), r, p).sample();
     }
 
     /**
@@ -528,7 +528,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @throws NotStrictlyPositiveException if {@code df <= 0}
      */
     public double nextT(double df) throws NotStrictlyPositiveException {
-        return new TDistribution(getRan(), df,
+        return new TDistribution(getRandomGenerator(), df,
                 TDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -542,7 +542,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * {@code scale <= 0}.
      */
     public double nextWeibull(double shape, double scale) throws NotStrictlyPositiveException {
-        return new WeibullDistribution(getRan(), shape, scale,
+        return new WeibullDistribution(getRandomGenerator(), shape, scale,
                 WeibullDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -556,7 +556,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * or {@code exponent <= 0}.
      */
     public int nextZipf(int numberOfElements, double exponent) throws NotStrictlyPositiveException {
-        return new ZipfDistribution(getRan(), numberOfElements, exponent).sample();
+        return new ZipfDistribution(getRandomGenerator(), numberOfElements, exponent).sample();
     }
 
     /**
@@ -567,7 +567,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @return random value sampled from the beta(alpha, beta) distribution
      */
     public double nextBeta(double alpha, double beta) {
-        return new BetaDistribution(getRan(), alpha, beta,
+        return new BetaDistribution(getRandomGenerator(), alpha, beta,
                 BetaDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -579,7 +579,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @return random value sampled from the Binomial(numberOfTrials, probabilityOfSuccess) distribution
      */
     public int nextBinomial(int numberOfTrials, double probabilityOfSuccess) {
-        return new BinomialDistribution(getRan(), numberOfTrials, probabilityOfSuccess).sample();
+        return new BinomialDistribution(getRandomGenerator(), numberOfTrials, probabilityOfSuccess).sample();
     }
 
     /**
@@ -590,7 +590,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @return random value sampled from the Cauchy(median, scale) distribution
      */
     public double nextCauchy(double median, double scale) {
-        return new CauchyDistribution(getRan(), median, scale,
+        return new CauchyDistribution(getRandomGenerator(), median, scale,
                 CauchyDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -601,7 +601,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @return random value sampled from the ChiSquare(df) distribution
      */
     public double nextChiSquare(double df) {
-        return new ChiSquaredDistribution(getRan(), df,
+        return new ChiSquaredDistribution(getRandomGenerator(), df,
                 ChiSquaredDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -615,7 +615,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * {@code numeratorDf <= 0} or {@code denominatorDf <= 0}.
      */
     public double nextF(double numeratorDf, double denominatorDf) throws NotStrictlyPositiveException {
-        return new FDistribution(getRan(), numeratorDf, denominatorDf,
+        return new FDistribution(getRandomGenerator(), numeratorDf, denominatorDf,
                 FDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY).sample();
     }
 
@@ -671,7 +671,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
             throw new NotANumberException();
         }
 
-        final RandomGenerator generator = getRan();
+        final RandomGenerator generator = getRandomGenerator();
 
         // ensure nextDouble() isn't 0.0
         double u = generator.nextDouble();
@@ -758,7 +758,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * @param seed the seed value to use
      */
     public void reSeed(long seed) {
-       getRan().setSeed(seed);
+       getRandomGenerator().setSeed(seed);
     }
 
     /**
@@ -789,7 +789,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * {@code System.currentTimeMillis() + System.identityHashCode(this))}.
      */
     public void reSeed() {
-        getRan().setSeed(System.currentTimeMillis() + System.identityHashCode(this));
+        getRandomGenerator().setSeed(System.currentTimeMillis() + System.identityHashCode(this));
     }
 
     /**
@@ -823,7 +823,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      *
      * @return the Random used to generate random data
      */
-    private RandomGenerator getRan() {
+    public RandomGenerator getRandomGenerator() {
         if (rand == null) {
             initRan();
         }
