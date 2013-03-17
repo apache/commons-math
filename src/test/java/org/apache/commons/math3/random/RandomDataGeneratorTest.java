@@ -34,6 +34,7 @@ import org.apache.commons.math3.distribution.FDistribution;
 import org.apache.commons.math3.distribution.GammaDistribution;
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.HypergeometricDistributionTest;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PascalDistribution;
 import org.apache.commons.math3.distribution.PascalDistributionTest;
 import org.apache.commons.math3.distribution.PoissonDistribution;
@@ -365,8 +366,7 @@ public class RandomDataGeneratorTest {
     /**
      * Make sure that empirical distribution of random Poisson(4)'s has P(X <=
      * 5) close to actual cumulative Poisson probability and that nextPoisson
-     * fails when mean is non-positive TODO: replace with statistical test,
-     * adding test stat to TestStatistic
+     * fails when mean is non-positive.
      */
     @Test
     public void testNextPoisson() {
@@ -376,16 +376,6 @@ public class RandomDataGeneratorTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        Frequency f = new Frequency();
-        for (int i = 0; i < largeSampleSize; i++) {
-            f.addValue(randomData.nextPoisson(4.0d));
-        }
-        long cumFreq = f.getCount(0) + f.getCount(1) + f.getCount(2)
-                + f.getCount(3) + f.getCount(4) + f.getCount(5);
-        long sumFreq = f.getSumFreq();
-        double cumPct = Double.valueOf(cumFreq).doubleValue()
-                / Double.valueOf(sumFreq).doubleValue();
-        Assert.assertEquals("cum Poisson(4)", cumPct, 0.7851, 0.2);
         try {
             randomData.nextPoisson(-1);
             Assert.fail("negative mean supplied -- MathIllegalArgumentException expected");
@@ -398,7 +388,25 @@ public class RandomDataGeneratorTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-
+        
+        final double mean = 4.0d;
+        final int len = 5;
+        PoissonDistribution poissonDistribution = new PoissonDistribution(mean);
+        Frequency f = new Frequency();
+        randomData.reSeed(1000);
+        for (int i = 0; i < largeSampleSize; i++) {
+            f.addValue(randomData.nextPoisson(mean));
+        }
+        final long[] observed = new long[len];
+        for (int i = 0; i < len; i++) {
+            observed[i] = f.getCount(i + 1);
+        }
+        final double[] expected = new double[len];
+        for (int i = 0; i < len; i++) {
+            expected[i] = poissonDistribution.probability(i + 1) * largeSampleSize;
+        }
+        
+        TestUtils.assertChiSquareAccept(expected, observed, 0.0001);
     }
 
     @Test
@@ -759,18 +767,14 @@ public class RandomDataGeneratorTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        SummaryStatistics u = new SummaryStatistics();
-        for (int i = 0; i < largeSampleSize; i++) {
-            u.addValue(randomData.nextGaussian(0, 1));
+        double[] quartiles = TestUtils.getDistributionQuartiles(new NormalDistribution(0,1));
+        long[] counts = new long[4];
+        randomData.reSeed(1000);
+        for (int i = 0; i < 1000; i++) {
+            double value = randomData.nextGaussian(0, 1);
+            TestUtils.updateCounts(value, counts, quartiles);
         }
-        double xbar = u.getMean();
-        double s = u.getStandardDeviation();
-        double n = u.getN();
-        /*
-         * t-test at .001-level TODO: replace with externalized t-test, with
-         * test statistic defined in TestStatistic
-         */
-        Assert.assertTrue(FastMath.abs(xbar) / (s / FastMath.sqrt(n)) < 3.29);
+        TestUtils.assertChiSquareAccept(expected, counts, 0.001);
     }
 
     /** test failure modes and distribution of nextExponential() */
@@ -788,25 +792,6 @@ public class RandomDataGeneratorTest {
         } catch (MathIllegalArgumentException ex) {
             // ignored
         }
-        long cumFreq = 0;
-        double v = 0;
-        for (int i = 0; i < largeSampleSize; i++) {
-            v = randomData.nextExponential(1);
-            Assert.assertTrue("exponential deviate postive", v > 0);
-            if (v < 2)
-                cumFreq++;
-        }
-        /*
-         * TODO: Replace with a statistical test, with statistic added to
-         * TestStatistic. Check below compares observed cumulative distribution
-         * evaluated at 2 with exponential CDF
-         */
-        Assert.assertEquals("exponential cumulative distribution", (double) cumFreq
-                / (double) largeSampleSize, 0.8646647167633873, .2);
-
-        /**
-         * Proposal on improving the test of generating exponentials
-         */
         double[] quartiles;
         long[] counts;
 
