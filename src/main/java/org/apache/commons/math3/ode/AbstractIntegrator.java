@@ -338,11 +338,15 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 interpolator.setSoftPreviousTime(previousT);
                 interpolator.setSoftCurrentTime(eventT);
 
-                // trigger the event
+                // get state at event time
                 interpolator.setInterpolatedTime(eventT);
                 final double[] eventY = interpolator.getInterpolatedState().clone();
-                currentEvent.stepAccepted(eventT, eventY);
-                isLastStep = currentEvent.stop();
+
+                // advance all event states to current time
+                for (final EventState state : eventsStates) {
+                    state.stepAccepted(eventT, eventY);
+                    isLastStep = isLastStep || state.stop();
+                }
 
                 // handle the first part of the step, up to the event
                 for (final StepHandler handler : stepHandlers) {
@@ -352,21 +356,19 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 if (isLastStep) {
                     // the event asked to stop integration
                     System.arraycopy(eventY, 0, y, 0, y.length);
-                    for (final EventState remaining : occuringEvents) {
-                        remaining.stepAccepted(eventT, eventY);
-                    }
                     return eventT;
                 }
 
-                if (currentEvent.reset(eventT, eventY)) {
+                boolean needReset = false;
+                for (final EventState state : eventsStates) {
+                    needReset =  needReset || state.reset(eventT, eventY);
+                }
+                if (needReset) {
                     // some event handler has triggered changes that
                     // invalidate the derivatives, we need to recompute them
                     System.arraycopy(eventY, 0, y, 0, y.length);
                     computeDerivatives(eventT, y, yDot);
                     resetOccurred = true;
-                    for (final EventState remaining : occuringEvents) {
-                        remaining.stepAccepted(eventT, eventY);
-                    }
                     return eventT;
                 }
 
@@ -383,6 +385,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
             }
 
+            // last part of the step, after the last event
             interpolator.setInterpolatedTime(currentT);
             final double[] currentY = interpolator.getInterpolatedState();
             for (final EventState state : eventsStates) {
