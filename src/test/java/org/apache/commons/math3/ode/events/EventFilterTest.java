@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math3.ode.events;
 
-import java.io.IOException;
-import java.io.PrintStream;
-
 import org.apache.commons.math3.analysis.solvers.BracketingNthOrderBrentSolver;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
@@ -119,22 +116,15 @@ public class EventFilterTest {
 
         // verify old events are preserved, even if randomly accessed
         RandomGenerator rng = new Well19937a(0xb0e7401265af8cd3l);
-        try {
-            PrintStream out = new PrintStream("/home/luc/x.dat");
         for (int i = 0; i < 5000; i++) {
             double t = t0 + (t1 - t0) * rng.nextDouble();
             double g = eventFilter.g(t, new double[] { FastMath.sin(t), FastMath.cos(t) });
             int turn = (int) FastMath.floor((t - refSwitch) / (2 * FastMath.PI));
-            out.println(t + " " + g);
             if (turn % 2 == 0) {
                 Assert.assertEquals( signEven * FastMath.sin(t), g, 1.0e-10);
             } else {
                 Assert.assertEquals(-signEven * FastMath.sin(t), g, 1.0e-10);
             }
-        }
-        out.close();
-        } catch (IOException ioe) {
-            Assert.fail(ioe.getLocalizedMessage());
         }
 
     }
