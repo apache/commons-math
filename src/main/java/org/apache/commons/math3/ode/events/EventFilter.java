@@ -19,9 +19,6 @@ package org.apache.commons.math3.ode.events;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-
-
 /** Wrapper used to detect only increasing or decreasing events.
  *
  * <p>General {@link EventHandler events} are defined implicitely
@@ -41,10 +38,11 @@ import org.apache.commons.math3.ode.FirstOrderIntegrator;
  *
  * <p>Users can wrap a regular {@link EventHandler event handler} in
  * an instance of this class and provide this wrapping instance to
- * the {@link FirstOrderIntegrator ODE solver} in order to avoid wasting
- * time looking for uninteresting events. The wrapper will intercept
- * the calls to the {@link EventHandler#g(double, double[]) g function}
- * and to the {@link EventHandler#eventOccurred(double, double[], boolean)
+ * the {@link org.apache.commons.math3.ode.FirstOrderIntegrator ODE solver}
+ * in order to avoid wasting time looking for uninteresting events.
+ * The wrapper will intercept the calls to the {@link
+ * EventHandler#g(double, double[]) g function} and to the {@link
+ * EventHandler#eventOccurred(double, double[], boolean)
  * eventOccurred} method in order to ignore uninteresting events. The
  * wrapped regular {@link EventHandler event handler} will the see only
  * the interesting events, i.e. either only {@code increasing} events or

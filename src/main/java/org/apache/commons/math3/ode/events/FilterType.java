@@ -18,8 +18,6 @@
 package org.apache.commons.math3.ode.events;
 
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.util.Precision;
-
 
 /** Enumerate for {@link EventFilter filtering events}.
  *
@@ -72,7 +70,7 @@ public enum FilterType {
          *       \_/         \                         /         \_/         \
          *  ------ ---------- 0 ----------_---------- 0 --------------------- 0 ---
          *                     \         / \         /                         \
-         *   h=max(+s,-g,+g)    \       /   \       /       h=max(+s,-g,+g)     \    
+         *   h=max(+s,-g,+g)    \       /   \       /       h=max(+s,-g,+g)     \
          *                       \     /     \     / h=-g                        \     /
          *                        \___/       \___/                               \___/
          * </pre>
@@ -85,7 +83,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
          * </p>
          */
         protected  Transformer selectTransformer(final Transformer previous,
@@ -261,7 +259,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
          * </p>
          */
         protected  Transformer selectTransformer(final Transformer previous,
