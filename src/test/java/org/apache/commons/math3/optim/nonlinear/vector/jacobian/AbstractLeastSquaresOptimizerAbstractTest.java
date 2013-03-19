@@ -112,7 +112,6 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                        new Weight(new double[] { 1 }),
                        new InitialGuess(new double[] { 3 }),
                        new ModelFunction(new MultivariateVectorFunction() {
-                               @Override
                                public double[] value(double[] point) {
                                    return new double[] {
                                        FastMath.pow(point[0], 4)
@@ -120,7 +119,6 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                                }
                            }),
                        new ModelFunctionJacobian(new MultivariateMatrixFunction() {
-                               @Override
                                public double[][] value(double[] point) {
                                    return new double[][] {
                                        { 0.25 * FastMath.pow(point[0], 3) }
