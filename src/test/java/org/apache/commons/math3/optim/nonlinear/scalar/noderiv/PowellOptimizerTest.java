@@ -262,5 +262,7 @@ public class PowellOptimizerTest {
             Assert.assertEquals("found[" + i + "]=" + point[i] + " value=" + result.getValue(),
                                 optimum[i], point[i], pointTol);
         }
+
+        Assert.assertTrue(optim.getIterations() > 0);
     }
 }

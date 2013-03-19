@@ -66,6 +66,9 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertEquals(fourExtrema.valueXmYp, optimum.getValue(), 6e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -84,6 +87,9 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertEquals(fourExtrema.valueXpYm, optimum.getValue(), 1e-11);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -102,6 +108,9 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertEquals(fourExtrema.valueXmYm, optimum.getValue(), 3e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -120,6 +129,9 @@ public class SimplexOptimizerNelderMeadTest {
         Assert.assertEquals(fourExtrema.valueXpYp, optimum.getValue(), 7e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 60);
         Assert.assertTrue(optimizer.getEvaluations() < 90);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test

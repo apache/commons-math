@@ -49,7 +49,7 @@ public class CMAESOptimizerTest {
 
     static final int DIM = 13;
     static final int LAMBDA = 4 + (int)(3.*Math.log(DIM));
-   
+
     @Test(expected = NumberIsTooLargeException.class)
     public void testInitOutofbounds1() {
         double[] startPoint = point(DIM,3);
@@ -510,6 +510,8 @@ public class CMAESOptimizerTest {
         for (int i = 0; i < dim; i++) {
             Assert.assertEquals(expected.getPoint()[i], result.getPoint()[i], pointTol);
         }
+
+        Assert.assertTrue(optim.getIterations() > 0);
     }
 
     private static double[] point(int n, double value) {

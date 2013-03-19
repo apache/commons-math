@@ -48,7 +48,7 @@ public abstract class BaseOptimizer<PAIR> {
         this.checker = checker;
 
         evaluations = new Incrementor(0, new MaxEvalCallback());
-        iterations = new Incrementor(0, new MaxIterCallback());
+        iterations = new Incrementor(Integer.MAX_VALUE, new MaxIterCallback());
     }
 
     /**

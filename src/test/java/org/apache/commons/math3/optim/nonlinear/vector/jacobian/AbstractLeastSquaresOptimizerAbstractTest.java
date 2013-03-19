@@ -106,6 +106,32 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
     public abstract AbstractLeastSquaresOptimizer createOptimizer();
 
     @Test
+    public void testGetIterations() {
+        AbstractLeastSquaresOptimizer optim = createOptimizer();
+        optim.optimize(new MaxEval(100), new Target(new double[] { 1 }),
+                       new Weight(new double[] { 1 }),
+                       new InitialGuess(new double[] { 3 }),
+                       new ModelFunction(new MultivariateVectorFunction() {
+                               @Override
+                               public double[] value(double[] point) {
+                                   return new double[] {
+                                       FastMath.pow(point[0], 4)
+                                   };
+                               }
+                           }),
+                       new ModelFunctionJacobian(new MultivariateMatrixFunction() {
+                               @Override
+                               public double[][] value(double[] point) {
+                                   return new double[][] {
+                                       { 0.25 * FastMath.pow(point[0], 3) }
+                                   };
+                               }
+                           }));
+
+        Assert.assertTrue(optim.getIterations() > 0);
+    }
+
+    @Test
     public void testTrivial() {
         LinearProblem problem
             = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });

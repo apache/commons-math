@@ -319,10 +319,10 @@ public class LevenbergMarquardtOptimizer
         // Outer loop.
         lmPar = 0;
         boolean firstIteration = true;
-        int iter = 0;
         final ConvergenceChecker<PointVectorValuePair> checker = getConvergenceChecker();
         while (true) {
-            ++iter;
+            incrementIterationCount();
+
             final PointVectorValuePair previous = current;
 
             // QR decomposition of the jacobian matrix
@@ -486,7 +486,7 @@ public class LevenbergMarquardtOptimizer
                     // tests for convergence.
                     if (checker != null) {
                         // we use the vectorial convergence checker
-                        if (checker.converged(iter, previous, current)) {
+                        if (checker.converged(getIterations(), previous, current)) {
                             setCost(currentCost);
                             return current;
                         }

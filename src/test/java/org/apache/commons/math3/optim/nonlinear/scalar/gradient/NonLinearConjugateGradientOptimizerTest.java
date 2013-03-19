@@ -136,6 +136,9 @@ public class NonLinearConjugateGradientOptimizerTest {
                                  new InitialGuess(new double[] { 0 }));
         Assert.assertEquals(1.5, optimum.getPoint()[0], 1.0e-10);
         Assert.assertEquals(0.0, optimum.getValue(), 1.0e-10);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test

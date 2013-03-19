@@ -61,6 +61,9 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertEquals(fourExtrema.valueXmYp, optimum.getValue(), 8e-13);
         Assert.assertTrue(optimizer.getEvaluations() > 120);
         Assert.assertTrue(optimizer.getEvaluations() < 150);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -79,6 +82,9 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertEquals(fourExtrema.valueXpYm, optimum.getValue(), 2e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 120);
         Assert.assertTrue(optimizer.getEvaluations() < 150);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -97,6 +103,9 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertEquals(fourExtrema.valueXmYm, optimum.getValue(), 2e-14);
         Assert.assertTrue(optimizer.getEvaluations() > 120);
         Assert.assertTrue(optimizer.getEvaluations() < 150);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
@@ -115,6 +124,9 @@ public class SimplexOptimizerMultiDirectionalTest {
         Assert.assertEquals(fourExtrema.valueXpYp, optimum.getValue(), 2e-12);
         Assert.assertTrue(optimizer.getEvaluations() > 180);
         Assert.assertTrue(optimizer.getEvaluations() < 220);
+
+        // Check that the number of iterations is updated (MATH-949).
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
