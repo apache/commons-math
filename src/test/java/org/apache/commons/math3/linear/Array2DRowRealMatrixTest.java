@@ -537,6 +537,11 @@ public final class Array2DRowRealMatrixTest {
         checkCopy(m, null,  1, 0, 2, 4, true);
         checkCopy(m, null, new int[] {},    new int[] { 0 }, true);
         checkCopy(m, null, new int[] { 0 }, new int[] { 4 }, true);
+        
+        // rectangular check
+        double[][] copy = new double[][] { { 0, 0, 0 }, { 0, 0 } };
+        checkCopy(m, copy, 0, 1, 0, 2, true);
+        checkCopy(m, copy, new int[] { 0, 1 }, new int[] { 0, 2 }, true);
     }
 
     private void checkCopy(RealMatrix m, double[][] reference,
@@ -544,8 +549,7 @@ public final class Array2DRowRealMatrixTest {
                            boolean mustFail) {
         try {
             double[][] sub = (reference == null) ?
-                             new double[1][1] :
-                             new double[reference.length][reference[0].length];
+                             new double[1][1] : createIdenticalCopy(reference);
             m.copySubMatrix(startRow, endRow, startColumn, endColumn, sub);
             Assert.assertEquals(new Array2DRowRealMatrix(reference), new Array2DRowRealMatrix(sub));
             if (mustFail) {
@@ -563,6 +567,10 @@ public final class Array2DRowRealMatrixTest {
             if (!mustFail) {
                 throw e;
             }
+        } catch (MatrixDimensionMismatchException e) {
+            if (!mustFail) {
+                throw e;
+            }
         }
     }
 
@@ -571,8 +579,7 @@ public final class Array2DRowRealMatrixTest {
                            boolean mustFail) {
         try {
             double[][] sub = (reference == null) ?
-                    new double[1][1] :
-                    new double[reference.length][reference[0].length];
+                    new double[1][1] : createIdenticalCopy(reference);
             m.copySubMatrix(selectedRows, selectedColumns, sub);
             Assert.assertEquals(new Array2DRowRealMatrix(reference), new Array2DRowRealMatrix(sub));
             if (mustFail) {
@@ -590,7 +597,19 @@ public final class Array2DRowRealMatrixTest {
             if (!mustFail) {
                 throw e;
             }
+        } catch (MatrixDimensionMismatchException e) {
+            if (!mustFail) {
+                throw e;
+            }
         }
+    }
+
+    private double[][] createIdenticalCopy(final double[][] matrix) {
+        final double[][] matrixCopy = new double[matrix.length][];
+        for (int i = 0; i < matrixCopy.length; i++) {
+            matrixCopy[i] = new double[matrix[i].length];
+        }
+        return matrixCopy;
     }
 
     @Test

@@ -353,6 +353,13 @@ public abstract class AbstractRealMatrix
                                                        rowsCount, columnsCount);
         }
 
+        for (int i = 1; i < rowsCount; i++) {
+            if (destination[i].length != columnsCount) {
+                throw new MatrixDimensionMismatchException(destination.length, destination[i].length,
+                                                           rowsCount, columnsCount);
+            }
+        }
+
         walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {
 
             /** Initial row index. */
@@ -385,14 +392,19 @@ public abstract class AbstractRealMatrix
         throws OutOfRangeException, NullArgumentException, NoDataException,
         MatrixDimensionMismatchException {
         MatrixUtils.checkSubMatrixIndex(this, selectedRows, selectedColumns);
+        final int nCols = selectedColumns.length;
         if ((destination.length < selectedRows.length) ||
-            (destination[0].length < selectedColumns.length)) {
+            (destination[0].length < nCols)) {
             throw new MatrixDimensionMismatchException(destination.length, destination[0].length,
                                                        selectedRows.length, selectedColumns.length);
         }
 
         for (int i = 0; i < selectedRows.length; i++) {
             final double[] destinationI = destination[i];
+            if (destinationI.length != nCols) {
+                throw new MatrixDimensionMismatchException(destination.length, destinationI.length,
+                                                           selectedRows.length, selectedColumns.length);
+            }
             for (int j = 0; j < selectedColumns.length; j++) {
                 destinationI[j] = getEntry(selectedRows[i], selectedColumns[j]);
             }
