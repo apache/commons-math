@@ -71,7 +71,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      *
      * @param d Data for the new matrix.
      * @throws DimensionMismatchException if {@code d} is not rectangular.
-     * @throws NoDataException if {@code d} row or colum dimension is zero.
+     * @throws NoDataException if {@code d} row or column dimension is zero.
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowRealMatrix(double[][], boolean)
      */
@@ -92,7 +92,7 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix implements Serializ
      * @param copyArray if {@code true}, the input array will be copied,
      * otherwise it will be referenced.
      * @throws DimensionMismatchException if {@code d} is not rectangular.
-     * @throws NoDataException if {@code d} row or colum dimension is zero.
+     * @throws NoDataException if {@code d} row or column dimension is zero.
      * @throws NullArgumentException if {@code d} is {@code null}.
      * @see #Array2DRowRealMatrix(double[][])
      */
