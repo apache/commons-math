@@ -19,7 +19,6 @@ package org.apache.commons.math3.distribution.fitting;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.math3.distribution.MixtureMultivariateRealDistribution;
 import org.apache.commons.math3.distribution.MultivariateNormalDistribution;
 import org.apache.commons.math3.distribution.MixtureMultivariateNormalDistribution;
 import org.apache.commons.math3.exception.ConvergenceException;
@@ -42,8 +41,7 @@ import org.apache.commons.math3.util.Pair;
  * multivariate normal mixture model distributions.
  *
  * This implementation is based on
- * <a href="http://cran.r-project.org/web/packages/mixtools/index.html">
- *  CRAN Mixtools</a>
+ * <a href="http://cran.r-project.org/web/packages/mixtools/index.html">CRAN Mixtools</a>
  *
  * @version $Id$
  * @since 3.2
@@ -199,9 +197,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
                 sumLogLikelihood += Math.log(rowDensity);
 
                 for (int j = 0; j < k; j++) {
-                    gamma[i][j] = weights[j] * mvns[j].density(data[i])
-                            / rowDensity;
-
+                    gamma[i][j] = weights[j] * mvns[j].density(data[i]) / rowDensity;
                     gammaSums[j] += gamma[i][j];
 
                     for (int col = 0; col < numCols; col++) {
