@@ -18,6 +18,9 @@ package org.apache.commons.math3.distribution;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.util.Pair;
 
@@ -26,6 +29,8 @@ import org.apache.commons.math3.util.Pair;
  * This class is mainly syntactic sugar.
  *
  * @see MixtureMultivariateRealDistribution
+ * @version $Id$
+ * @since 3.2
  */
 public class MixtureMultivariateNormalDistribution
     extends MixtureMultivariateRealDistribution<MultivariateNormalDistribution> {
@@ -63,7 +68,8 @@ public class MixtureMultivariateNormalDistribution
      * number of variables.
      */
     public MixtureMultivariateNormalDistribution(RandomGenerator rng,
-                                                 List<Pair<Double, MultivariateNormalDistribution>> components) {
+                                                 List<Pair<Double, MultivariateNormalDistribution>> components)
+        throws NotPositiveException, DimensionMismatchException {
         super(rng, components);
     }
 
