@@ -537,6 +537,11 @@ public final class Array2DRowRealMatrixTest {
         checkCopy(m, null,  1, 0, 2, 4, true);
         checkCopy(m, null, new int[] {},    new int[] { 0 }, true);
         checkCopy(m, null, new int[] { 0 }, new int[] { 4 }, true);
+        
+        // rectangular check
+        double[][] copy = new double[][] { { 0, 0, 0 }, { 0, 0 } };
+        checkCopy(m, copy, 0, 1, 0, 2, true);
+        checkCopy(m, copy, new int[] { 0, 1 }, new int[] { 0, 1, 2 }, true);
     }
 
     private void checkCopy(RealMatrix m, double[][] reference,
