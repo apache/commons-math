@@ -80,7 +80,7 @@ public class UnivariatePeriodicInterpolator
      * {@inheritDoc}
      *
      * @throws NumberIsTooSmallException if the number of extension points
-     * iss larger then the size of {@code xval}.
+     * is larger than the size of {@code xval}.
      */
     public UnivariateFunction interpolate(double[] xval,
                                           double[] yval)
