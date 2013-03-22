@@ -1,18 +1,18 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements. See the NOTICE file distributed with this
- * work for additional information regarding copyright ownership. The ASF
- * licenses this file to You under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.commons.math3.distribution.fitting;
 
@@ -36,13 +36,18 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.Pair;
 
 /**
- * <a href="https://www.ee.washington.edu/techsite/papers/documents/UWEETR-2010-0002.pdf">
  * Expectation-Maximization</a> algorithm for fitting the parameters of
  * multivariate normal mixture model distributions.
  *
- * This implementation is based on
- * <a href="http://cran.r-project.org/web/packages/mixtools/index.html">CRAN Mixtools</a>
- *
+ * This implementation is pure original code based on <a
+ * href="https://www.ee.washington.edu/techsite/papers/documents/UWEETR-2010-0002.pdf">
+ * EM Demystified: An Expectation-Maximization Tutorial</a> by Yihua Chen and Maya R. Gupta,
+ * Department of Electrical Engineering, University of Washington, Seattle, WA 98195.
+ * It was verified using external tools like <a
+ * href="http://cran.r-project.org/web/packages/mixtools/index.html">CRAN Mixtools</a>
+ * (see the JUnit test cases) but it is <strong>not</strong> based on Mixtools code at all.
+ * The discussion of the origin of this class can be seen in the comments of the <a
+ * href="https://issues.apache.org/jira/browse/MATH-817">MATH-817</a> JIRA issue.
  * @version $Id$
  * @since 3.2
  */
