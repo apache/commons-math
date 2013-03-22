@@ -3630,9 +3630,13 @@ public class FastMath {
      * @return the magnitude with the same sign as the {@code sign} argument
      */
     public static double copySign(double magnitude, double sign){
-        long m = Double.doubleToLongBits(magnitude);
-        long s = Double.doubleToLongBits(sign);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+        // The highest order bit is going to be zero if the
+        // highest order bit of m and s is the same and one otherwise.
+        // So (m^s) will be positive if both m and s have the same sign
+        // and negative otherwise.
+        final long m = Double.doubleToLongBits(magnitude);
+        final long s = Double.doubleToLongBits(sign);
+        if ((m^s) >= 0) {
             return magnitude;
         }
         return -magnitude; // flip sign
@@ -3647,9 +3651,13 @@ public class FastMath {
      * @return the magnitude with the same sign as the {@code sign} argument
      */
     public static float copySign(float magnitude, float sign){
-        int m = Float.floatToIntBits(magnitude);
-        int s = Float.floatToIntBits(sign);
-        if ((m >= 0 && s >= 0) || (m < 0 && s < 0)) { // Sign is currently OK
+        // The highest order bit is going to be zero if the
+        // highest order bit of m and s is the same and one otherwise.
+        // So (m^s) will be positive if both m and s have the same sign
+        // and negative otherwise.
+        final int m = Float.floatToIntBits(magnitude);
+        final int s = Float.floatToIntBits(sign);
+        if ((m^s) >= 0) {
             return magnitude;
         }
         return -magnitude; // flip sign
