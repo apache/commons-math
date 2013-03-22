@@ -30,7 +30,7 @@
   <inceptionYear>2003</inceptionYear>
   <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
 
-  <url>http://commons.apache.org/math/</url>
+  <url>http://commons.apache.org/proper/commons-math/</url>
 
   <issueManagement>
     <system>jira</system>
