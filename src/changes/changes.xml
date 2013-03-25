@@ -55,10 +55,13 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="luc" type="update" issue="MATH-954" due-to="Charles Cooper">
+        Improved speed of FastMath.abs methods for all signatures, by removing branching.
+      </action>
       <action dev="luc" type="update" issue="MATH-953" due-to="Charles Cooper">
         Improved speed of several FastMath methods.
       </action>
-        <action dev="luc" type="fix" issue="MATH-934">
+      <action dev="luc" type="fix" issue="MATH-934">
         Fixed Complex.reciprocal() for zero argument.
       </action>
       <action dev="luc" type="update" issue="MATH-951" due-to="Charles Cooper">
