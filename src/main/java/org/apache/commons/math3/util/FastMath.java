@@ -307,6 +307,12 @@ public class FastMath {
     /** Mask used to clear low order 30 bits */
     private static final long MASK_30BITS = -1L - (HEX_40000000 -1); // 0xFFFFFFFFC0000000L;
 
+    /** Mask used to clear the non-sign part of an int. */
+    private static final int MASK_NON_SIGN_INT = 0x7fffffff;
+
+    /** Mask used to clear the non-sign part of a long. */
+    private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
+
     /** 2^52 - double numbers this large must be integral (no fraction) or NaN or Infinite */
     private static final double TWO_POWER_52 = 4503599627370496.0;
     /** 2^53 - double numbers this large must be even. */
@@ -3011,7 +3017,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static float abs(final float x) {
-        return Float.intBitsToFloat(Integer.MAX_VALUE & Float.floatToRawIntBits(x));
+        return Float.intBitsToFloat(MASK_NON_SIGN_INT & Float.floatToRawIntBits(x));
     }
 
     /**
@@ -3020,7 +3026,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static double abs(double x) {
-        return Double.longBitsToDouble(Long.MAX_VALUE & Double.doubleToRawLongBits(x));
+        return Double.longBitsToDouble(MASK_NON_SIGN_LONG & Double.doubleToRawLongBits(x));
     }
 
     /**
