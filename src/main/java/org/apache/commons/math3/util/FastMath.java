@@ -3011,10 +3011,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static float abs(final float x) {
-        if ((Float.floatToRawIntBits(x) & Integer.MIN_VALUE) == 0) {
-            return x;
-        }
-        return -x;
+        return Float.intBitsToFloat(Integer.MAX_VALUE & Float.floatToRawIntBits(x));
     }
 
     /**
@@ -3023,10 +3020,7 @@ public class FastMath {
      * @return abs(x)
      */
     public static double abs(double x) {
-        if ((Double.doubleToRawLongBits(x) & Long.MIN_VALUE) == 0) {
-            return x;
-        }
-        return -x;
+        return Double.longBitsToDouble(Long.MAX_VALUE & Double.doubleToRawLongBits(x));
     }
 
     /**
