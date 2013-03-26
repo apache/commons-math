@@ -98,7 +98,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         checkDistribution();
         
         // Load again from a file (also verifies idempotency of load)
-        File file = new File(url.getFile());
+        File file = new File(url.toURI());
         empiricalDistribution.load(file);
         checkDistribution();
     }
