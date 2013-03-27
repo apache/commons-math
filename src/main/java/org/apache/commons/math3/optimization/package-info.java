@@ -20,6 +20,7 @@
  *  <ul>
  *   <li>{@link org.apache.commons.math3.optim}</li>
  *   <li>{@link org.apache.commons.math3.fitting}</li>
+ *  </ul>
  * </h3>
  *
  * <p>
