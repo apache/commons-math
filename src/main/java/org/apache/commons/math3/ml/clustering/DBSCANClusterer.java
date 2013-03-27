@@ -74,6 +74,8 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
 
     /**
      * Creates a new instance of a DBSCANClusterer.
+     * <p>
+     * The euclidean distance will be used as default distance measure.
      *
      * @param eps maximum radius of the neighborhood to be considered
      * @param minPts minimum number of points needed for a cluster

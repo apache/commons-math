@@ -75,6 +75,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * <p>
      * The default strategy for handling empty clusters that may appear during
      * algorithm iterations is to split the cluster with largest distance variance.
+     * <p>
+     * The euclidean distance will be used as default distance measure.
      *
      * @param k the number of clusters to split the data into
      */
@@ -86,6 +88,8 @@ public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T>
      * <p>
      * The default strategy for handling empty clusters that may appear during
      * algorithm iterations is to split the cluster with largest distance variance.
+     * <p>
+     * The euclidean distance will be used as default distance measure.
      *
      * @param k the number of clusters to split the data into
      * @param maxIterations the maximum number of iterations to run the algorithm for.
