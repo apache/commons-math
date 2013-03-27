@@ -17,27 +17,32 @@
 
 package org.apache.commons.math3.stat.correlation;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.ranking.NaNStrategy;
 import org.apache.commons.math3.stat.ranking.NaturalRanking;
 import org.apache.commons.math3.stat.ranking.RankingAlgorithm;
 
 /**
- * <p>Spearman's rank correlation. This implementation performs a rank
+ * Spearman's rank correlation. This implementation performs a rank
  * transformation on the input data and then computes {@link PearsonsCorrelation}
- * on the ranked data.</p>
- *
- * <p>By default, ranks are computed using {@link NaturalRanking} with default
+ * on the ranked data.
+ * <p>
+ * By default, ranks are computed using {@link NaturalRanking} with default
  * strategies for handling NaNs and ties in the data (NaNs maximal, ties averaged).
- * The ranking algorithm can be set using a constructor argument.</p>
+ * The ranking algorithm can be set using a constructor argument.
  *
  * @since 2.0
  * @version $Id$
  */
-
 public class SpearmansCorrelation {
 
     /** Input data */
@@ -58,6 +63,9 @@ public class SpearmansCorrelation {
 
     /**
      * Create a SpearmansCorrelation with the given ranking algorithm.
+     * <p>
+     * From version 4.0 onwards this constructor will throw an exception
+     * if the provided {@link NaturalRanking} uses a {@link NaNStrategy#REMOVED} strategy.
      *
      * @param rankingAlgorithm ranking algorithm
      * @since 3.1
@@ -81,15 +89,17 @@ public class SpearmansCorrelation {
     /**
      * Create a SpearmansCorrelation with the given input data matrix
      * and ranking algorithm.
+     * <p>
+     * From version 4.0 onwards this constructor will throw an exception
+     * if the provided {@link NaturalRanking} uses a {@link NaNStrategy#REMOVED} strategy.
      *
      * @param dataMatrix matrix of data with columns representing
      * variables to correlate
      * @param rankingAlgorithm ranking algorithm
      */
     public SpearmansCorrelation(final RealMatrix dataMatrix, final RankingAlgorithm rankingAlgorithm) {
-        this.data = dataMatrix.copy();
         this.rankingAlgorithm = rankingAlgorithm;
-        rankTransform(data);
+        this.data = rankTransform(dataMatrix);
         rankCorrelation = new PearsonsCorrelation(data);
     }
 
@@ -125,9 +135,8 @@ public class SpearmansCorrelation {
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
-    public RealMatrix computeCorrelationMatrix(RealMatrix matrix) {
-        RealMatrix matrixCopy = matrix.copy();
-        rankTransform(matrixCopy);
+    public RealMatrix computeCorrelationMatrix(final RealMatrix matrix) {
+        final RealMatrix matrixCopy = rankTransform(matrix);
         return new PearsonsCorrelation().computeCorrelationMatrix(matrixCopy);
     }
 
@@ -139,7 +148,7 @@ public class SpearmansCorrelation {
      * @param matrix matrix with columns representing variables to correlate
      * @return correlation matrix
      */
-    public RealMatrix computeCorrelationMatrix(double[][] matrix) {
+    public RealMatrix computeCorrelationMatrix(final double[][] matrix) {
        return computeCorrelationMatrix(new BlockRealMatrix(matrix));
     }
 
@@ -159,20 +168,93 @@ public class SpearmansCorrelation {
             throw new MathIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION,
                                                    xArray.length, 2);
         } else {
-            return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(xArray),
-                    rankingAlgorithm.rank(yArray));
+            double[] x = xArray;
+            double[] y = yArray;
+            if (rankingAlgorithm instanceof NaturalRanking &&
+                NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
+                final Set<Integer> nanPositions = new HashSet<Integer>();
+
+                nanPositions.addAll(getNaNPositions(xArray));
+                nanPositions.addAll(getNaNPositions(yArray));
+
+                x = removeValues(xArray, nanPositions);
+                y = removeValues(yArray, nanPositions);
+            }
+            return new PearsonsCorrelation().correlation(rankingAlgorithm.rank(x), rankingAlgorithm.rank(y));
         }
     }
 
     /**
      * Applies rank transform to each of the columns of <code>matrix</code>
-     * using the current <code>rankingAlgorithm</code>
+     * using the current <code>rankingAlgorithm</code>.
      *
      * @param matrix matrix to transform
+     * @return a rank-transformed matrix
      */
-    private void rankTransform(RealMatrix matrix) {
-        for (int i = 0; i < matrix.getColumnDimension(); i++) {
-            matrix.setColumn(i, rankingAlgorithm.rank(matrix.getColumn(i)));
+    private RealMatrix rankTransform(final RealMatrix matrix) {
+        RealMatrix transformed = null;
+
+        if (rankingAlgorithm instanceof NaturalRanking &&
+                ((NaturalRanking) rankingAlgorithm).getNanStrategy() == NaNStrategy.REMOVED) {
+            final Set<Integer> nanPositions = new HashSet<Integer>();
+            for (int i = 0; i < matrix.getColumnDimension(); i++) {
+                nanPositions.addAll(getNaNPositions(matrix.getColumn(i)));
+            }
+
+            // if we have found NaN values, we have to update the matrix size
+            if (!nanPositions.isEmpty()) {
+                transformed = new BlockRealMatrix(matrix.getRowDimension() - nanPositions.size(),
+                                                  matrix.getColumnDimension());
+                for (int i = 0; i < transformed.getColumnDimension(); i++) {
+                    transformed.setColumn(i, removeValues(matrix.getColumn(i), nanPositions));
+                }
+            }
         }
+
+        if (transformed == null) {
+            transformed = matrix.copy();
+        }
+
+        for (int i = 0; i < transformed.getColumnDimension(); i++) {
+            transformed.setColumn(i, rankingAlgorithm.rank(transformed.getColumn(i)));
+        }
+
+        return transformed;
+    }
+
+    /**
+     * Returns a list containing the indices of NaN values in the input array.
+     *
+     * @param input the input array
+     * @return a list of NaN positions in the input array
+     */
+    private List<Integer> getNaNPositions(final double[] input) {
+        final List<Integer> positions = new ArrayList<Integer>();
+        for (int i = 0; i < input.length; i++) {
+            if (Double.isNaN(input[i])) {
+                positions.add(i);
+            }
+        }
+        return positions;
+    }
+
+    /**
+     * Removes all values from the input array at the specified indices.
+     *
+     * @param input the input array
+     * @param indices a set containing the indices to be removed
+     * @return the input array without the values at the specified indices
+     */
+    private double[] removeValues(final double[] input, final Set<Integer> indices) {
+        if (indices.isEmpty()) {
+            return input;
+        }
+        final double[] result = new double[input.length - indices.size()];
+        for (int i = 0, j = 0; i < input.length; i++) {
+            if (!indices.contains(i)) {
+                result[j++] = input[i];
+            }
+        }
+        return result;
     }
 }

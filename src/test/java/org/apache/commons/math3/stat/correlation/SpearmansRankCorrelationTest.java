@@ -18,7 +18,10 @@ package org.apache.commons.math3.stat.correlation;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.linear.BlockRealMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.ranking.NaNStrategy;
+import org.apache.commons.math3.stat.ranking.NaturalRanking;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -116,6 +119,35 @@ public class SpearmansRankCorrelationTest extends PearsonsCorrelationTest {
                 corrInstance.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
         TestUtils.assertEquals("Correlation matrix", corrInstance.getCorrelationMatrix(),
                 new SpearmansCorrelation().computeCorrelationMatrix(data), Double.MIN_VALUE);
+    }
+
+    @Test
+    public void testMath891Array() {
+        final double[] xArray = new double[] { Double.NaN, 1.9, 2, 100, 3 };
+        final double[] yArray = new double[] { 10, 2, 10, Double.NaN, 4 };
+
+        NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
+        SpearmansCorrelation spearman = new SpearmansCorrelation(ranking);
+        
+        Assert.assertEquals(0.5, spearman.correlation(xArray, yArray), Double.MIN_VALUE);
+    }
+
+    @Test
+    public void testMath891Matrix() {
+        final double[] xArray = new double[] { Double.NaN, 1.9, 2, 100, 3 };
+        final double[] yArray = new double[] { 10, 2, 10, Double.NaN, 4 };
+
+        RealMatrix matrix = MatrixUtils.createRealMatrix(xArray.length, 2);
+        for (int i = 0; i < xArray.length; i++) {
+            matrix.addToEntry(i, 0, xArray[i]);
+            matrix.addToEntry(i, 1, yArray[i]);
+        }
+
+        // compute correlation
+        NaturalRanking ranking = new NaturalRanking(NaNStrategy.REMOVED);
+        SpearmansCorrelation spearman = new SpearmansCorrelation(matrix, ranking);
+        
+        Assert.assertEquals(0.5, spearman.getCorrelationMatrix().getEntry(0, 1), Double.MIN_VALUE);
     }
 
     // Not relevant here

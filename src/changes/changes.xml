@@ -55,6 +55,12 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="tn" type="fix" issue="MATH-891">
+        "SpearmansCorrelation" now works correctly in case of a provided
+        "NaturalRanking" with a "NaNStrategy.REMOVED" strategy and the input
+        data contains NaN values. From version 4.0 onwards this strategy will
+        not be supported anymore.
+      </action>
       <action dev="erans" type="update" issue="MATH-956">
         Replaced hard-coded numbers in "LevenbergMarquardtOptimizer".
       </action>
