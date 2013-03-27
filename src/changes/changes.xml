@@ -55,6 +55,12 @@ This is a minor release: It combines bug fixes and new features.
   Changes to existing features were made in a backwards-compatible
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
 ">
+      <action dev="tn" type="change" issue="MATH-917,MATH-918,MATH-919,MATH-920" due-to="Reid Hochstedler">
+        All contents of package "o.a.c.m.stat.clustering" refactored into
+        new package "o.a.c.m.ml.clustering" and added support for additional
+        distance measures in package "o.a.c.m.ml.distance": "CanberraDistance",
+        "ChebyshevDistance", "EuclideanDistance" and "ManhattanDistance".
+      </action>
       <action dev="tn" type="fix" issue="MATH-891">
         "SpearmansCorrelation" now works correctly in case of a provided
         "NaturalRanking" with a "NaNStrategy.REMOVED" strategy and the input
