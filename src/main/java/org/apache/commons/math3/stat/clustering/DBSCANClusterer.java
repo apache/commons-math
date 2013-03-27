@@ -57,7 +57,10 @@ import org.apache.commons.math3.util.MathUtils;
  * A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a>
  * @version $Id$
  * @since 3.1
+ * @deprecated As of 3.2 (to be removed in 4.0),
+ * use {@link org.apache.commons.math3.ml.clustering.DBSCANClusterer} instead
  */
+@Deprecated
 public class DBSCANClusterer<T extends Clusterable<T>> {
 
     /** Maximum radius of the neighborhood to be considered. */

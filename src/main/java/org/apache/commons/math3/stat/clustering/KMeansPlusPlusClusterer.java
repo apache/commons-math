@@ -36,7 +36,10 @@ import org.apache.commons.math3.util.MathUtils;
  * @see <a href="http://en.wikipedia.org/wiki/K-means%2B%2B">K-means++ (wikipedia)</a>
  * @version $Id$
  * @since 2.0
+ * @deprecated As of 3.2 (to be removed in 4.0),
+ * use {@link org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer} instead
  */
+@Deprecated
 public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
     /** Strategies to use for replacing an empty cluster. */

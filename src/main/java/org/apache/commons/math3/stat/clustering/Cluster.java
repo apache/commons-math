@@ -26,7 +26,10 @@ import java.util.List;
  * @param <T> the type of points that can be clustered
  * @version $Id$
  * @since 2.0
+ * @deprecated As of 3.2 (to be removed in 4.0),
+ * use {@link org.apache.commons.math3.ml.clustering.Cluster} instead
  */
+@Deprecated
 public class Cluster<T extends Clusterable<T>> implements Serializable {
 
     /** Serializable version identifier. */
