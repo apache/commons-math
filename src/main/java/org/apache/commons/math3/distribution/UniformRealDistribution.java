@@ -63,7 +63,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     public UniformRealDistribution(double lower, double upper)
         throws NumberIsTooLargeException {
-        this(new  Well19937c(), lower, upper);
+        this(new Well19937c(), lower, upper);
     }
 
     /**
@@ -79,7 +79,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     @Deprecated
     public UniformRealDistribution(double lower, double upper, double inverseCumAccuracy)
         throws NumberIsTooLargeException {
-        this(new  Well19937c(), lower, upper);
+        this(new Well19937c(), lower, upper);
     }
 
     /**
