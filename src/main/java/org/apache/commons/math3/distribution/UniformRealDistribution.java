@@ -18,6 +18,7 @@
 package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -32,7 +33,10 @@ import org.apache.commons.math3.random.Well19937c;
  * @since 3.0
  */
 public class UniformRealDistribution extends AbstractRealDistribution {
-    /** Default inverse cumulative probability accuracy. */
+    /** Default inverse cumulative probability accuracy.
+     * @deprecated as of 3.2 not used anymore, will be removed in 4.0
+     */
+    @Deprecated
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120109L;
@@ -40,8 +44,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     private final double lower;
     /** Upper bound of this distribution (exclusive). */
     private final double upper;
-    /** Inverse cumulative probability accuracy. */
-    private final double solverAbsoluteAccuracy;
 
     /**
      * Create a standard uniform real distribution with lower bound (inclusive)
@@ -61,7 +63,7 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      */
     public UniformRealDistribution(double lower, double upper)
         throws NumberIsTooLargeException {
-        this(lower, upper, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        this(new  Well19937c(), lower, upper);
     }
 
     /**
@@ -71,10 +73,13 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * @param upper Upper bound of this distribution (exclusive).
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @deprecated as of 3.2, inverse CDF is now calculated analytically, use
+     *             {@link #UniformRealDistribution(double, double)} instead.
      */
+    @Deprecated
     public UniformRealDistribution(double lower, double upper, double inverseCumAccuracy)
         throws NumberIsTooLargeException {
-        this(new  Well19937c(), lower, upper, inverseCumAccuracy);
+        this(new  Well19937c(), lower, upper);
     }
 
     /**
@@ -86,11 +91,30 @@ public class UniformRealDistribution extends AbstractRealDistribution {
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NumberIsTooLargeException if {@code lower >= upper}.
      * @since 3.1
+     * @deprecated as of 3.2, inverse CDF is now calculated analytically, use
+     *             {@link #UniformRealDistribution(RandomGenerator, double, double)}
+     *             instead.
      */
+    @Deprecated
     public UniformRealDistribution(RandomGenerator rng,
                                    double lower,
                                    double upper,
-                                   double inverseCumAccuracy)
+                                   double inverseCumAccuracy){
+        this(rng, lower, upper);
+    }
+
+    /**
+     * Creates a uniform distribution.
+     *
+     * @param rng Random number generator.
+     * @param lower Lower bound of this distribution (inclusive).
+     * @param upper Upper bound of this distribution (exclusive).
+     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @since 3.1
+     */
+    public UniformRealDistribution(RandomGenerator rng,
+                                   double lower,
+                                   double upper)
         throws NumberIsTooLargeException {
         super(rng);
         if (lower >= upper) {
@@ -101,7 +125,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
 
         this.lower = lower;
         this.upper = upper;
-        solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
     /** {@inheritDoc} */
@@ -123,10 +146,13 @@ public class UniformRealDistribution extends AbstractRealDistribution {
         return (x - lower) / (upper - lower);
     }
 
-    /** {@inheritDoc} */
     @Override
-    protected double getSolverAbsoluteAccuracy() {
-        return solverAbsoluteAccuracy;
+    public double inverseCumulativeProbability(final double p)
+            throws OutOfRangeException {
+        if (p < 0.0 || p > 1.0) {
+            throw new OutOfRangeException(p, 0, 1);
+        }
+        return p * (upper - lower) + lower;
     }
 
     /**
