@@ -53,6 +53,14 @@ import org.apache.commons.math3.util.Pair;
  */
 public class MultivariateNormalMixtureExpectationMaximization {
     /**
+     * Default maximum number of iterations allowed per fitting process.
+     */
+    private static final int DEFAULT_MAX_ITERATIONS = 1000;
+    /**
+     * Default convergence threshold for fitting.
+     */
+    private static final double DEFAULT_THRESHOLD = 1E-5;
+    /**
      * The data to fit.
      */
     private final double[][] data;
@@ -64,14 +72,6 @@ public class MultivariateNormalMixtureExpectationMaximization {
      * The log likelihood of the data given the fitted model.
      */
     private double logLikelihood = 0d;
-    /**
-     * Default maximum number of iterations allowed per fitting process.
-     */
-    private final int defaultMaxIterations = 1000;
-    /**
-     * Default convergence threshold for fitting.
-     */
-    private final double defaultThreshold = 1E-5;
 
     /**
      * Creates an object to fit a multivariate normal mixture model to data.
@@ -278,7 +278,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
     public void fit(MixtureMultivariateNormalDistribution initialMixture)
         throws SingularMatrixException,
                NotStrictlyPositiveException {
-        fit(initialMixture, defaultMaxIterations, defaultThreshold);
+        fit(initialMixture, DEFAULT_MAX_ITERATIONS, DEFAULT_THRESHOLD);
     }
 
     /**
