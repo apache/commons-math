@@ -860,6 +860,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
     /** Get the absolute value of instance.
      * @return absolute value of instance
+     * @since 3.2
      */
     public Dfp abs() {
         Dfp result = newInstance(this);
@@ -1001,6 +1002,7 @@ public class Dfp implements RealFieldElement<Dfp> {
      *  That is round to nearest integer unless both are equidistant.
      *  In which case round to the even one.
      *  @return rounded value
+     * @since 3.2
      */
     public Dfp rint() {
         return trunc(DfpField.RoundingMode.ROUND_HALF_EVEN);
@@ -1009,6 +1011,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Round to an integer using the round floor mode.
      * That is, round toward -Infinity
      *  @return rounded value
+     * @since 3.2
      */
     public Dfp floor() {
         return trunc(DfpField.RoundingMode.ROUND_FLOOR);
@@ -1017,6 +1020,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Round to an integer using the round ceil mode.
      * That is, round toward +Infinity
      *  @return rounded value
+     * @since 3.2
      */
     public Dfp ceil() {
         return trunc(DfpField.RoundingMode.ROUND_CEIL);
@@ -1025,6 +1029,7 @@ public class Dfp implements RealFieldElement<Dfp> {
     /** Returns the IEEE remainder.
      * @param d divisor
      * @return this less n &times; d, where n is the integer closest to this/d
+     * @since 3.2
      */
     public Dfp remainder(final Dfp d) {
 
@@ -1179,6 +1184,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
     /** Get the exponent of the greatest power of 10 that is less than or equal to abs(this).
      *  @return integer base 10 logarithm
+     * @since 3.2
      */
     public int intLog10()  {
         if (mant[mant.length-1] > 1000) {
@@ -1958,6 +1964,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
     /** Compute the square root.
      * @return square root of the instance
+     * @since 3.2
      */
     public Dfp sqrt() {
 

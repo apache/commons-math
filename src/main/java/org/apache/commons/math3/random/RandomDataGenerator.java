@@ -822,6 +822,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * </p>
      *
      * @return the Random used to generate random data
+     * @since 3.2
      */
     public RandomGenerator getRandomGenerator() {
         if (rand == null) {

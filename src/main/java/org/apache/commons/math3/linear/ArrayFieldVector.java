@@ -322,6 +322,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
+     * @since 3.2
      */
     public ArrayFieldVector(FieldVector<T> v1, T[] v2)
             throws NullArgumentException {
@@ -357,6 +358,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
+     * @since 3.2
      */
     public ArrayFieldVector(T[] v1, FieldVector<T> v2)
             throws NullArgumentException {

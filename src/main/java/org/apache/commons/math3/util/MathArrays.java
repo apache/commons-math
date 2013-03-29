@@ -79,6 +79,7 @@ public class MathArrays {
      * @param arr Array to scale.
      * @param val Scalar.
      * @return scaled copy of array with each entry multiplied by val.
+     * @since 3.2
      */
     public static double[] scale(double val, final double[] arr) {
         double[] newArr = new double[arr.length];
@@ -95,6 +96,7 @@ public class MathArrays {
      *
      * @param arr Array to scale
      * @param val Scalar
+     * @since 3.2
      */
     public static void scaleInPlace(double val, final double[] arr) {
         for (int i = 0; i < arr.length; i++) {
@@ -1311,6 +1313,7 @@ public class MathArrays {
       * @param field field to which array elements belong
       * @param length of the array
       * @return a new array
+      * @since 3.2
       */
      public static <T> T[] buildArray(final Field<T> field, final int length) {
          @SuppressWarnings("unchecked") // OK because field must be correct class
@@ -1326,9 +1329,10 @@ public class MathArrays {
       * @param <T> the type of the field elements
       * @param field field to which array elements belong
       * @param rows number of rows in the array
-     * @param columns number of columns (may be negative to build partial
-     * arrays in the same way <code>new Field[rows][]</code> works)
+      * @param columns number of columns (may be negative to build partial
+      * arrays in the same way <code>new Field[rows][]</code> works)
       * @return a new array
+      * @since 3.2
       */
      @SuppressWarnings("unchecked")
     public static <T> T[][] buildArray(final Field<T> field, final int rows, final int columns) {

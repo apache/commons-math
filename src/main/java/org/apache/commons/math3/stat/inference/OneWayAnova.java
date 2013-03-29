@@ -160,6 +160,7 @@ public class OneWayAnova {
      * at least two values
      * @throws ConvergenceException if the p-value can not be computed due to a convergence error
      * @throws MaxCountExceededException if the maximum number of iterations is exceeded
+     * @since 3.2
      */
     public double anovaPValue(final Collection<SummaryStatistics> categoryData,
                               final boolean allowOneElementData)

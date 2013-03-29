@@ -153,7 +153,9 @@ public class NormalDistribution extends AbstractRealDistribution {
         return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @since 3.2
+     */
     @Override
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {
