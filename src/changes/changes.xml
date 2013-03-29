@@ -80,7 +80,7 @@ This is a minor release: It combines bug fixes and new features.
       <action dev="luc" type="fix" issue="MATH-957" due-to="Evan Ward">
         Fixed inverse cumulative probability for uniform distribution.
       </action>
-      <action dev="tn" type="change" issue="MATH-917,MATH-918,MATH-919,MATH-920" due-to="Reid Hochstedler">
+      <action dev="tn" type="add" issue="MATH-917,MATH-918,MATH-919,MATH-920" due-to="Reid Hochstedler">
         All contents of package "o.a.c.m.stat.clustering" refactored into
         new package "o.a.c.m.ml.clustering" and added support for additional
         distance measures in package "o.a.c.m.ml.distance": "CanberraDistance",

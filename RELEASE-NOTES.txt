@@ -1,10 +1,14 @@
-The Commons Math team is pleased to announce the commons-math3-3.2 release!
+The Commons Math team is pleased to announce the commons-math3-3.2-SNAPSHOT release!
 
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
 Changes in this version include:
 
 New features:
+o All contents of package "o.a.c.m.stat.clustering" refactored into
+        new package "o.a.c.m.ml.clustering" and added support for additional
+        distance measures in package "o.a.c.m.ml.distance": "CanberraDistance",
+        "ChebyshevDistance", "EuclideanDistance" and "ManhattanDistance".  Issue: MATH-917,MATH-918,MATH-919,MATH-920. Thanks to Reid Hochstedler. 
 o Added Multivariate Normal Mixture Model Fitting by Expectation Maximization.  Issue: MATH-817. Thanks to Jared Becksfort. 
 o Added a way to trigger only increasing or decreasing events in ODE integration.  Issue: MATH-811. 
 o Added array-scaling methods to MathArrays.  Issue: MATH-946. Thanks to Jared Becksfort. 
