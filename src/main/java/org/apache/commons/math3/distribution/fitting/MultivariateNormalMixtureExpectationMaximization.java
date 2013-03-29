@@ -128,7 +128,6 @@ public class MultivariateNormalMixtureExpectationMaximization {
      *             or threshold is less than Double.MIN_VALUE
      * @throws DimensionMismatchException if initialMixture mean vector and data
      *             number of columns are not equal
-     * @see #estimateMultivariateNormalMixtureModelDistribution
      */
     public void fit(final MixtureMultivariateNormalDistribution initialMixture,
                     final int maxIterations,
@@ -275,7 +274,6 @@ public class MultivariateNormalMixtureExpectationMaximization {
      *             singular during fitting
      * @throws NotStrictlyPositiveException if numComponents is less than one or
      *             threshold is less than Double.MIN_VALUE
-     * @see #estimateMultivariateNormalMixtureModelDistribution
      */
     public void fit(MixtureMultivariateNormalDistribution initialMixture)
         throws SingularMatrixException,
@@ -285,7 +283,7 @@ public class MultivariateNormalMixtureExpectationMaximization {
 
     /**
      * Helper method to create a multivariate normal mixture model which can be
-     * used to initialize {@link #fit(MixtureMultivariateRealDistribution)}.
+     * used to initialize {@link #fit(MixtureMultivariateNormalDistribution)}.
      *
      * This method uses the data supplied to the constructor to try to determine
      * a good mixture model at which to start the fit, but it is not guaranteed
@@ -294,13 +292,12 @@ public class MultivariateNormalMixtureExpectationMaximization {
      * @param data Data to estimate distribution
      * @param numComponents Number of components for estimated mixture
      * @return Multivariate normal mixture model estimated from the data
-     * @throws NumberIsTooLargeException if {@code numComponents\ is greater
+     * @throws NumberIsTooLargeException if {@code numComponents} is greater
      * than the number of data rows.
      * @throws NumberIsTooSmallException if {@code numComponents < 2}.
      * @throws NotStrictlyPositiveException if data has less than 2 rows
      * @throws DimensionMismatchException if rows of data have different numbers
      *             of columns
-     * @see #fit
      */
     public static MixtureMultivariateNormalDistribution estimate(final double[][] data,
                                                                  final int numComponents)
