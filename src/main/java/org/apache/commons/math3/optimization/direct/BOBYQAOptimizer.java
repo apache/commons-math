@@ -18,8 +18,6 @@
 
 package org.apache.commons.math3.optimization.direct;
 
-import java.util.Arrays;
-
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
