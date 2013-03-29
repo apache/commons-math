@@ -240,10 +240,8 @@ public class BrentOptimizer extends BaseAbstractUnivariateOptimizer {
                                  isMinim),
                             isMinim);
 
-                if (checker != null) {
-                    if (checker.converged(iter, previous, current)) {
-                        return best;
-                    }
+                if (checker != null && checker.converged(iter, previous, current)) {
+                    return best;
                 }
 
                 // Update a, b, v, w and x.

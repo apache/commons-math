@@ -177,11 +177,9 @@ public class NonLinearConjugateGradientOptimizer
             final double objective = computeObjectiveValue(point);
             PointValuePair previous = current;
             current = new PointValuePair(point, objective);
-            if (previous != null) {
-                if (checker.converged(iter, previous, current)) {
-                    // We have found an optimum.
-                    return current;
-                }
+            if (previous != null && checker.converged(iter, previous, current)) {
+                // We have found an optimum.
+                return current;
             }
 
             // Find the optimal step in the search direction.

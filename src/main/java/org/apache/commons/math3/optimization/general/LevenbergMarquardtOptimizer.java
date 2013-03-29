@@ -480,14 +480,11 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer {
                     xNorm = FastMath.sqrt(xNorm);
 
                     // tests for convergence.
-                    if (checker != null) {
-                        // we use the vectorial convergence checker
-                        if (checker.converged(iter, previous, current)) {
-                            setCost(currentCost);
-                            // Update (deprecated) "point" field.
-                            point = current.getPoint();
-                            return current;
-                        }
+                    if (checker != null && checker.converged(iter, previous, current)) {
+                        setCost(currentCost);
+                        // Update (deprecated) "point" field.
+                        point = current.getPoint();
+                        return current;
                     }
                 } else {
                     // failed iteration, reset the previous values

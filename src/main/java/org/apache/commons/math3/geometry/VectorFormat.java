@@ -254,10 +254,8 @@ public abstract class VectorFormat<S extends Space> {
             CompositeFormat.parseAndIgnoreWhitespace(source, pos);
 
             // parse separator
-            if (i > 0) {
-                if (!CompositeFormat.parseFixedstring(source, trimmedSeparator, pos)) {
-                    return null;
-                }
+            if (i > 0 && !CompositeFormat.parseFixedstring(source, trimmedSeparator, pos)) {
+                return null;
             }
 
             // skip whitespace

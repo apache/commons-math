@@ -200,11 +200,9 @@ public class SimplexSolver extends LinearOptimizer {
                 for (Integer row : minRatioPositions) {
                     for (int i = varStart; i < varEnd && !row.equals(minRow); i++) {
                         final Integer basicRow = tableau.getBasicRow(i);
-                        if (basicRow != null && basicRow.equals(row)) {
-                            if (i < minIndex) {
-                                minIndex = i;
-                                minRow = row;
-                            }
+                        if (basicRow != null && basicRow.equals(row) && i < minIndex) {
+                            minIndex = i;
+                            minRow = row;
                         }
                     }
                 }

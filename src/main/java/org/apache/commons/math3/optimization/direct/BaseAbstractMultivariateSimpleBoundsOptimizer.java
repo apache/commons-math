@@ -64,20 +64,6 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
         super(checker);
     }
 
-    /**
-     * @return the lower bounds.
-     */
-    public double[] getLowerBound() {
-        return super.getLowerBound();
-    }
-
-    /**
-     * @return the upper bounds.
-     */
-    public double[] getUpperBound() {
-        return super.getUpperBound();
-    }
-
     /** {@inheritDoc} */
     @Override
     public PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,

@@ -118,11 +118,10 @@ public class CompositeFormat {
         final int n = sb.length();
         final int startIndex = pos.getIndex();
         final int endIndex = startIndex + n;
-        if (endIndex < source.length()) {
-            if (source.substring(startIndex, endIndex).compareTo(sb.toString()) == 0) {
-                ret = Double.valueOf(value);
-                pos.setIndex(endIndex);
-            }
+        if (endIndex < source.length() &&
+            source.substring(startIndex, endIndex).compareTo(sb.toString()) == 0) {
+            ret = Double.valueOf(value);
+            pos.setIndex(endIndex);
         }
 
         return ret;

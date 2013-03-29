@@ -1139,14 +1139,12 @@ public class FastMath {
         long bits = Double.doubleToRawLongBits(x);
 
         /* Handle special cases of negative input, and NaN */
-        if ((bits & 0x8000000000000000L) != 0 || x != x) {
-            if (x != 0.0) {
-                if (hiPrec != null) {
-                    hiPrec[0] = Double.NaN;
-                }
-
-                return Double.NaN;
+        if (((bits & 0x8000000000000000L) != 0 || x != x) && x != 0.0) {
+            if (hiPrec != null) {
+                hiPrec[0] = Double.NaN;
             }
+
+            return Double.NaN;
         }
 
         /* Handle special cases of Positive infinity. */
@@ -1181,43 +1179,24 @@ public class FastMath {
         }
 
 
-        if (exp == -1 || exp == 0) {
-            if (x < 1.01 && x > 0.99 && hiPrec == null) {
-                /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight
+        if ((exp == -1 || exp == 0) && x < 1.01 && x > 0.99 && hiPrec == null) {
+            /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight
            polynomial expansion in higer precision. */
 
-               /* Compute x - 1.0 and split it */
-                double xa = x - 1.0;
-                double xb = xa - x + 1.0;
-                double tmp = xa * HEX_40000000;
-                double aa = xa + tmp - tmp;
-                double ab = xa - aa;
-                xa = aa;
-                xb = ab;
+            /* Compute x - 1.0 and split it */
+            double xa = x - 1.0;
+            double xb = xa - x + 1.0;
+            double tmp = xa * HEX_40000000;
+            double aa = xa + tmp - tmp;
+            double ab = xa - aa;
+            xa = aa;
+            xb = ab;
 
-                final double[] lnCoef_last = LN_QUICK_COEF[LN_QUICK_COEF.length - 1];
-                double ya = lnCoef_last[0];
-                double yb = lnCoef_last[1];
+            final double[] lnCoef_last = LN_QUICK_COEF[LN_QUICK_COEF.length - 1];
+            double ya = lnCoef_last[0];
+            double yb = lnCoef_last[1];
 
-                for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {
-                    /* Multiply a = y * x */
-                    aa = ya * xa;
-                    ab = ya * xb + yb * xa + yb * xb;
-                    /* split, so now y = a */
-                    tmp = aa * HEX_40000000;
-                    ya = aa + tmp - tmp;
-                    yb = aa - ya + ab;
-
-                    /* Add  a = y + lnQuickCoef */
-                    final double[] lnCoef_i = LN_QUICK_COEF[i];
-                    aa = ya + lnCoef_i[0];
-                    ab = yb + lnCoef_i[1];
-                    /* Split y = a */
-                    tmp = aa * HEX_40000000;
-                    ya = aa + tmp - tmp;
-                    yb = aa - ya + ab;
-                }
-
+            for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {
                 /* Multiply a = y * x */
                 aa = ya * xa;
                 ab = ya * xb + yb * xa + yb * xb;
@@ -1226,8 +1205,25 @@ public class FastMath {
                 ya = aa + tmp - tmp;
                 yb = aa - ya + ab;
 
-                return ya + yb;
+                /* Add  a = y + lnQuickCoef */
+                final double[] lnCoef_i = LN_QUICK_COEF[i];
+                aa = ya + lnCoef_i[0];
+                ab = yb + lnCoef_i[1];
+                /* Split y = a */
+                tmp = aa * HEX_40000000;
+                ya = aa + tmp - tmp;
+                yb = aa - ya + ab;
             }
+
+            /* Multiply a = y * x */
+            aa = ya * xa;
+            ab = ya * xb + yb * xa + yb * xb;
+            /* split, so now y = a */
+            tmp = aa * HEX_40000000;
+            ya = aa + tmp - tmp;
+            yb = aa - ya + ab;
+
+            return ya + yb;
         }
 
         // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)

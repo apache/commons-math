@@ -653,11 +653,9 @@ public class DfpMath {
             r = exp(log(x).multiply(y));
         }
 
-        if (invert) {
+        if (invert && y.rint().equals(y) && !y.remainder(two).equals(zero)) {
             // if y is odd integer
-            if (y.rint().equals(y) && !y.remainder(two).equals(zero)) {
-                r = r.negate();
-            }
+            r = r.negate();
         }
 
         return x.newInstance(r);

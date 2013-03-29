@@ -486,12 +486,9 @@ public class LevenbergMarquardtOptimizer
                     xNorm = FastMath.sqrt(xNorm);
 
                     // tests for convergence.
-                    if (checker != null) {
-                        // we use the vectorial convergence checker
-                        if (checker.converged(getIterations(), previous, current)) {
-                            setCost(currentCost);
-                            return current;
-                        }
+                    if (checker != null && checker.converged(getIterations(), previous, current)) {
+                        setCost(currentCost);
+                        return current;
                     }
                 } else {
                     // failed iteration, reset the previous values

@@ -114,10 +114,8 @@ public class SimpleVectorValueChecker
     public boolean converged(final int iteration,
                              final PointVectorValuePair previous,
                              final PointVectorValuePair current) {
-        if (maxIterationCount != ITERATION_CHECK_DISABLED) {
-            if (iteration >= maxIterationCount) {
-                return true;
-            }
+        if (maxIterationCount != ITERATION_CHECK_DISABLED && iteration >= maxIterationCount) {
+            return true;
         }
 
         final double[] p = previous.getValueRef();

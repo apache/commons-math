@@ -193,11 +193,10 @@ public class DSCompiler {
 
         // get the cached compilers
         final DSCompiler[][] cache = compilers.get();
-        if (cache != null && cache.length > parameters && cache[parameters].length > order) {
-            if (cache[parameters][order] != null) {
-                // the compiler has already been created
-                return cache[parameters][order];
-            }
+        if (cache != null && cache.length > parameters &&
+            cache[parameters].length > order && cache[parameters][order] != null) {
+            // the compiler has already been created
+            return cache[parameters][order];
         }
 
         // we need to create more compilers
