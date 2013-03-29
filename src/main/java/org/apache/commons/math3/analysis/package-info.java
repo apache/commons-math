@@ -18,15 +18,14 @@
  *
  *    <p>
  *      Parent package for common numerical analysis procedures, including root finding,
- *      function interpolation and integration. Note that the optimization (i.e. minimization
- *      and maximization) is a huge separate top package, despite it also operate on functions
- *      as defined by this top-level package.
+ *      function interpolation and integration. Note that optimization (i.e. minimization
+ *      and maximization) is a separate top-level package.
  *    </p>
  *    <p>
- *      Functions interfaces are intended to be implemented by user code to represent their
- *      domain problems. The algorithms provided by the library will then operate on these
- *      function to find their roots, or integrate them, or ... Functions can be multivariate
- *      or univariate, real vectorial or matrix valued, and they can be differentiable or not.
+ *      Function interfaces are intended to be implemented by user code to represent
+ *      domain problems. The algorithms provided by the library operate on these
+ *      functions to find their roots, or integrate them, or ... Functions can be multivariate
+ *      or univariate, real vectorial or matrix-valued, and they can be differentiable or not.
  *    </p>
  *
  */
