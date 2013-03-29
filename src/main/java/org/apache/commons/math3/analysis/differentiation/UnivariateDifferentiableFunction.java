@@ -35,8 +35,8 @@ public interface UnivariateDifferentiableFunction extends UnivariateFunction {
      * value and the first derivative of the function.</p>
      * @param t function input value
      * @return function result
-     * @exception DimensionMismatchException if t is inconsistent with
-     * function free parameters or order
+     * @exception DimensionMismatchException if t is inconsistent with the
+     * function's free parameters or order
      */
     DerivativeStructure value(DerivativeStructure t)
         throws DimensionMismatchException;
