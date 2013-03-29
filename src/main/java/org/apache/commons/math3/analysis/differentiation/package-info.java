@@ -21,7 +21,7 @@
  *   dealing with differentiation.
  *   The core class is {@link org.apache.commons.math3.analysis.differentiation.DerivativeStructure
  *   DerivativeStructure} which holds the value and the differentials of a function. This class
- *   handles some arbitrary number of free parameters and arbitrary derivation order. It is used
+ *   handles some arbitrary number of free parameters and arbitrary differentiation order. It is used
  *   both as the input and the output type for the {@link
  *   org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
  *   UnivariateDifferentiableFunction} interface. Any differentiable function should implement this
@@ -29,7 +29,7 @@
  * </p>
  * <p>
  *   The {@link org.apache.commons.math3.analysis.differentiation.UnivariateFunctionDifferentiator
- *   UnivariateFunctionDifferentiator} interface defines a way to differentiation a simple {@link
+ *   UnivariateFunctionDifferentiator} interface defines a way to differentiate a simple {@link
  *   org.apache.commons.math3.analysis.UnivariateFunction UnivariateFunction} and get a {@link
  *   org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
  *   UnivariateDifferentiableFunction}.
