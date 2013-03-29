@@ -72,7 +72,15 @@
     <Method name="findEigenVectors" params="double[][]" returns="void" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
-
+  <Match>
+    <Or>
+      <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math3.optimization.direct.BOBYQAOptimizer" />
+    </Or>
+    <Method name="altmov" params="int,double" returns="double[]" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+  
   <!-- The following equality test is intentional and needed for semantic purposes -->
   <Match>
     <Or>
@@ -113,6 +121,34 @@
     <Class name="org.apache.commons.math3.util.FastMath" />
     <Method name="atan2" params="double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
+
+  <!-- The following switch fall-through are due to conversion from FORTRAN goto,
+       which are handled by a state integer representing the target labels of the goto.
+       In the original code, this is sequential and fall-through is expected
+   -->
+  <Match>
+    <Or>
+      <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math3.optimization.direct.BOBYQAOptimizer" />
+    </Or>
+    <Or>
+      <Method name="bobyqb" params="double[],double[]" returns="double" />
+      <Method name="trsbox" />
+      </Or>
+    <Bug pattern="SF_SWITCH_FALLTHROUGH" />
+  </Match>
+  
+  <!-- Spurious: The fields are deprecated and not used anymore
+       (to be removed in 4.0)
+    -->
+  <Match>
+    <Class name="org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer" />
+    <Or>
+      <Field name="weightedResidualJacobian" />
+      <Field name="weightedResiduals" />
+      </Or>
+    <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
   </Match>
 
   <!-- Spurious: Findbugs confused by final local variables -->
