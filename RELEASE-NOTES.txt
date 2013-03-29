@@ -1,26 +1,77 @@
-
-              Apache Commons Math 3.1.1 RELEASE NOTES
-
-The Commons Math team is pleased to announce the release of commons-math3-3.1.1
+The Commons Math team is pleased to announce the commons-math3-3.2 release!
 
 The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
 
-This is a point release: It fixes a bug that renders version 3.1 unusable
- in some situations (see details below).
-
 Changes in this version include:
 
+New features:
+o Added Multivariate Normal Mixture Model Fitting by Expectation Maximization.  Issue: MATH-817. Thanks to Jared Becksfort. 
+o Added a way to trigger only increasing or decreasing events in ODE integration.  Issue: MATH-811. 
+o Added array-scaling methods to MathArrays.  Issue: MATH-946. Thanks to Jared Becksfort. 
+o Added the Lévy distribution.  Issue: MATH-460. Thanks to Andrew Waterman. 
+o Implementations for inverse error function and inverse complementary
+        error functions have been added.  Issue: MATH-948. 
+o Added utilities for prime numbers.  Issue: MATH-845. Thanks to Sébastien Riou. 
+o Check bounds in multi-start vector optimizers.  Issue: MATH-914. 
+o Added discrete distributions.  Issue: MATH-941. Thanks to Piotr Wydrych. 
+o Added Hermite interpolator for RealFieldElement instances. 
+o Added RealFieldElement interface to represent anything that is
+        real number like, implemented by both Decimal64, Dfp and DerivativeStructure. 
+o Added partial derivatives computation for 3D vectors and rotations. 
+o Added accurate linear combination of DerivativeStructure instances,
+        avoiding cancellation. 
+o Added conversion of gradients and Hessians from spherical to Cartesian
+        coordinates in 3D. 
 
 Fixed Bugs:
-o MATH-924:  Added a (minimal) "DiagonalMatrix" implementation, such that the
-        case of a large number of uncorrelated observations is handled
-        efficiently. 
+o Fixed inverse cumulative probability for uniform distribution.  Issue: MATH-957. Thanks to Evan Ward. 
+o "SpearmansCorrelation" now works correctly in case of a provided
+        "NaturalRanking" with a "NaNStrategy.REMOVED" strategy and the input
+        data contains NaN values. From version 4.0 onwards this strategy will
+        not be supported anymore.  Issue: MATH-891. 
+o Fixed Complex.reciprocal() for zero argument.  Issue: MATH-934. 
+o AbstractRealMatrix will now check for rectangular input arrays in
+        its copySubMatrix methods.  Issue: MATH-862. 
+o Increment iteration counter in optimization algorithms.  Issue: MATH-949. 
+o Fixed missing update in ODE event handlers, when a RESET_STATE is triggered.  Issue: MATH-950. 
+o Fixed infinite loop when NaN occurs in singular value decomposition.  Issue: MATH-947. 
+o Extended ranges for FastMath performance tests.  Issue: MATH-580. 
+o Finalized implementation of diagonal matrix.  Issue: MATH-925. 
+o Added rank revealing QR decomposition.  Issue: MATH-630. Thanks to Christopher Nix. 
+o ArrayFieldVector can now be constructed from any FieldVector.  Issue: MATH-570. Thanks to Arne Plöse. 
+o Improved checking of null vector elements.  Issue: MATH-861. Thanks to Sébastien Brisard. 
+o Fixed generation of long random numbers between two bounds.  Issue: MATH-936. 
+o Fixed creation of generic array.  Issue: MATH-942. Thanks to Piotr Wydrych. 
+o Fixed abstract test class naming that broke ant builds.  Issue: MATH-940. Thanks to Piotr Wydrych. 
+o Allow covariance to be computed for one-dimensional variables.  Issue: MATH-939. Thanks to Piotr Wydrych. 
+o Fixed accuracy of 3D Line.revert().  Issue: MATH-938. 
+o Improved javadoc to explain how switching functions should
+        behave across events in ODE events detection.  Issue: MATH-937. 
+o Fixed DerivativeStructure.atan2 for special cases when both arguments are +/-0.  Issue: MATH-935. 
+o Improved class javadoc wrt convergence criteria and added 
+        additional constructors to override the default epsilon and cut-off
+        values in class "SimplexSolver".  Issue: MATH-930. 
+o Fixed truncated value in "MultivariateNormalDistribution".  Issue: MATH-929. Thanks to Piotr Wydrych. 
+o Made "BitStreamGenerator" implement the "Serializable" interface.  Issue: MATH-927. Thanks to Dennis Hendriks. 
+
+Changes:
+o Replaced hard-coded numbers in "LevenbergMarquardtOptimizer".  Issue: MATH-956. 
+o Fixed loading of test file when path contains a space.  Issue: MATH-955. Thanks to Evan Ward. 
+o Improved speed of FastMath.abs methods for all signatures, by removing branching.  Issue: MATH-954. Thanks to Charles Cooper. 
+o Improved speed of several FastMath methods.  Issue: MATH-953. Thanks to Charles Cooper. 
+o Improved speed of FastMath copysign methods.  Issue: MATH-951. Thanks to Charles Cooper. 
+o Made EmpiricalDisribution smoothing kernel pluggable.  Issue: MATH-671. 
+o Allow direct use of SummaryStatistics in one-way ANOVA.  Issue: MATH-877. Thanks to Peter Andrews. 
+o Normal distribution now uses a direct implementation of the
+        inverse error function to compute inverse cumulative probability
+        instead of relying on a numerical solver. This is much faster,
+        more accurate and does not need convergence threshold. 
+o Throw "MathUnsupportedOperationException" from optimizers that do
+        not support constraints (previous behaviour was to silently ignore
+        the "SimpleBounds" argument).  Issue: MATH-933. 
+o Greater efficiency in "UnitSphereRandomVectorGenerator".  Issue: MATH-931. Thanks to Sean Owen. 
 
 
-
-For complete information on Commons Math, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Commons Math website:
-
-http://commons.apache.org/math/
-
+Have fun!
+-Commons Math team
 
