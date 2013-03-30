@@ -38,7 +38,27 @@
     <release>
       <Version>
         <name>commons-math</name>
-        <created>TBD</created>
+        <created>2013-04-03</created>
+        <revision>3.2</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2013-01-13</created>
+        <revision>3.1.1</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2012-12-23</created>
+        <revision>3.1</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2012-03-08</created>
+        <revision>3.0</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
+        <created>2011-03-02</created>
         <revision>2.2</revision>
       </Version>
       <Version>
