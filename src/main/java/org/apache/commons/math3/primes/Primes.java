@@ -44,7 +44,7 @@ public class Primes {
     /**
      * Primality test: tells if the argument is a (provable) prime or not.
      * <p>
-     * It uses the Miller-Rabin probabilistic test in such a way that result is always guaranteed:
+     * It uses the Miller-Rabin probabilistic test in such a way that a result is guaranteed:
      * it uses the firsts prime numbers as successive base (see Handbook of applied cryptography
      * by Menezes, table 4.1).
      *
@@ -65,10 +65,10 @@ public class Primes {
     }
 
     /**
-     * Return the smallest prime superior or equal to n.
+     * Return the smallest prime greater than or equal to n.
      *
      * @param n a positive number.
-     * @return the smallest prime superior or equal to n.
+     * @return the smallest prime greater than or equal to n.
      * @throws MathIllegalArgumentException if n &lt; 0.
      */
     public static int nextPrime(int n) {

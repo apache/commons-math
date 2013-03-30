@@ -63,9 +63,9 @@ class PollardRho {
      * <p>
      * This implementation follows the paper "An improved Monte Carlo factorization algorithm"
      * by Richard P. Brent. This avoids the triple computation of f(x) typically found in Pollard's
-     * rho implementations. It also batch several gcd computation into 1.
+     * rho implementations. It also batches several gcd computation into 1.
      * <p>
-     * The backtracking is not implemented as we deal only with semi-prime.
+     * The backtracking is not implemented as we deal only with semi-primes.
      *
      * @param n number to factor, must be semi-prime.
      * @return a prime factor of n.

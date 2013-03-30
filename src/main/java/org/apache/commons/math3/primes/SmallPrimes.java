@@ -31,7 +31,7 @@ import org.apache.commons.math3.util.FastMath;
 class SmallPrimes {
 
     /**
-     * The 512 firsts prime numbers.
+     * The first 512 prime numbers.
      * <p>
      * It contains all primes smaller or equal to the cubic square of Integer.MAX_VALUE.
      * As a result, <code>int</code> numbers which are not reduced by those primes are guaranteed
@@ -93,7 +93,7 @@ class SmallPrimes {
     /**
      * Extract factors in the range <code>PRIME_LAST+2</code> to <code>maxFactors</code>.
      * @param n the number to factorize, must be >= PRIME_LAST+2 and must not contain any factor below PRIME_LAST+2
-     * @param maxFactor the upper bound of trial division: if it is reach, the methods gives up and return n.
+     * @param maxFactor the upper bound of trial division: if it is reached, the method gives up and returns n.
      * @param factors the list where to add the factors.
      * @return  n or 1 if factorization is completed.
      */
@@ -122,7 +122,7 @@ class SmallPrimes {
 
     /**
      * Factorization by trial division.
-     * @param n the number to factorize
+     * @param n the number to factor
      * @return the list of prime factors of n
      */
     public static List<Integer> trialDivision(int n){
@@ -138,7 +138,7 @@ class SmallPrimes {
     }
 
     /**
-     * Miller-Rabin probabilistic primality test for int type, used in such a way that result is always guaranteed.
+     * Miller-Rabin probabilistic primality test for int type, used in such a way that a result is always guaranteed.
      * <p>
      * It uses the prime numbers as successive base therefore it is guaranteed to be always correct.
      * (see Handbook of applied cryptography by Menezes, table 4.1)
