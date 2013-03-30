@@ -56,15 +56,16 @@ This is a minor release: It combines bug fixes and new features.
   way such as to allow drop-in replacement of the v3.1[.1] JAR file.
   
   Most notable among the new features are: Framework for automatic
-  differentiation, Lévy distribution, prime numbers, discrete
+  differentiation, Lévy distribution, prime numbers, enumerated
   distributions, real field allowing to use several algorithms
   (solvers, linear algebra, 3D geometry) with different real-like
   classes (high accuracy or automatic differentiation), spherical
   coordinates with gradients and Hessians, reorganized clustering
-  package with different distances implementations.
+  package with different distance implementations.
   
   The minimal version of the Java platform required to compile and use
   Commons Math is Java 5.
+  
   Users are encouraged to upgrade to this version as this release not
   only includes bug fixes but also deprecates numerous classes and
   methods that will be deleted from the next major release (4.0).
