@@ -336,6 +336,8 @@
     <maven.compile.source>1.5</maven.compile.source>
     <maven.compile.target>1.5</maven.compile.target>
     <math.pmd.version>2.7.1</math.pmd.version>
+    <math.findbugs.version>2.5.1</math.findbugs.version>
+    <math.checkstyle.version>2.9.1</math.checkstyle.version>
   </properties> 
 
   <build>
@@ -389,39 +391,6 @@
               <ignorePathToDelete>javadocs</ignorePathToDelete>
             </ignorePathsToDelete>
           </configuration>
-        </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <configuration>
-          <excludes>
-
-            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
-            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
-
-            <!-- the following are test data files with specific syntax that cannot include
-                 Apache header (and the contained data is public, it is not owned by Apache) -->
-            <exclude>src/test/resources/org/apache/commons/math3/random/testData.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/random/emptyFile.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/PiDigits.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc3.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lew.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc2.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc1.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lottery.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc4.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Michelso.txt</exclude>
-            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Mavro.txt</exclude>
-
-            <!-- version 0.8 of apache-rat-plugin does not exclude properly
-                 some default development tools files (see RAT-126) -->
-            <exclude>bin/**</exclude>
-            <exclude>.gitignore</exclude>
-            <exclude>.git/**</exclude>
-
-          </excludes>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -458,11 +427,43 @@
           </reportSet>
         </reportSets>
       </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${commons.rat.version}</version>
+        <configuration>
+          <excludes>
 
+            <!-- MANIFEST files cannot have any comments, so we can't put license header -->
+            <exclude>src/test/maxima/special/RealFunctionValidation/MANIFEST.txt</exclude>
+
+            <!-- the following are test data files with specific syntax that cannot include
+                 Apache header (and the contained data is public, it is not owned by Apache) -->
+            <exclude>src/test/resources/org/apache/commons/math3/random/testData.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/random/emptyFile.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/PiDigits.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc3.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lew.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc2.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc1.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Lottery.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/NumAcc4.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Michelso.txt</exclude>
+            <exclude>src/test/resources/org/apache/commons/math3/stat/data/Mavro.txt</exclude>
+
+            <!-- version 0.8 of apache-rat-plugin does not exclude properly
+                 some default development tools files (see RAT-126) -->
+            <exclude>bin/**</exclude>
+            <exclude>.gitignore</exclude>
+            <exclude>.git/**</exclude>
+
+          </excludes>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.4.0</version>
+        <version>${math.findbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
@@ -472,12 +473,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.7</version>
+        <version>${math.checkstyle.version}</version>
         <configuration>
           <configLocation>${basedir}/checkstyle.xml</configLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <headerLocation>${basedir}/license-header.txt</headerLocation>
         </configuration>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -497,7 +505,11 @@
           <reportSet>
             <reports>
               <report>pmd</report>
-              <report>cpd</report>
+              <!-- As of 3.x series, the cpd report sees (correctly) numerous duplications -->
+              <!-- This is due to packages being renamed, and the old name still needs to be -->
+              <!-- available for compatibility. They will be removed in 4.0 -->
+              <!-- So we temporarily disable the CPD report -->
+              <!-- <report>cpd</report> -->
             </reports>
           </reportSet>
         </reportSets>
