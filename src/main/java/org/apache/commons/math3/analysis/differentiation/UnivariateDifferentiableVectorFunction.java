@@ -33,7 +33,7 @@ public interface UnivariateDifferentiableVectorFunction
      * @param x the point for which the function value should be computed
      * @return the value
      * @exception MathIllegalArgumentException if {@code x} does not
-     * fulfill functions constraints (argument out of bound, or unsupported
+     * satisfy the function's constraints (argument out of bound, or unsupported
      * derivative order for example)
      */
     DerivativeStructure[] value(DerivativeStructure x) throws MathIllegalArgumentException;
