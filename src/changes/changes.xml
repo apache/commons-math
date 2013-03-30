@@ -52,23 +52,23 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.2" date="2013-04-03" description="
 This is a minor release: It combines bug fixes and new features.
-  Changes to existing features were made in a backwards-compatible
-  way such as to allow drop-in replacement of the v3.1[.1] JAR file.
+ Changes to existing features were made in a backwards-compatible
+ way such as to allow drop-in replacement of the v3.1[.1] JAR file.
   
-  Most notable among the new features are: Framework for automatic
-  differentiation, Lévy distribution, prime numbers, enumerated
-  distributions, real field allowing to use several algorithms
-  (solvers, linear algebra, 3D geometry) with different real-like
-  classes (high accuracy or automatic differentiation), spherical
-  coordinates with gradients and Hessians, reorganized clustering
-  package with different distance implementations.
+Most notable among the new features are: Framework for automatic
+ differentiation, Lévy distribution, prime numbers, enumerated
+ distributions, real field allowing to use several algorithms
+ (solvers, linear algebra, 3D geometry) with different real-like
+ classes (high accuracy or automatic differentiation), spherical
+ coordinates with gradients and Hessians, reorganized clustering
+ package with different distance implementations.
   
-  The minimal version of the Java platform required to compile and use
-  Commons Math is Java 5.
+The minimum version of the Java platform required to compile and use
+ Commons Math is Java 5.
   
-  Users are encouraged to upgrade to this version as this release not
-  only includes bug fixes but also deprecates numerous classes and
-  methods that will be deleted from the next major release (4.0).
+Users are encouraged to upgrade to this version as this release not
+ only includes bug fixes but also deprecates numerous classes and
+ methods that will be deleted from the next major release (4.0).
   
   Caveat:
   1. The implementation of the BOBYQA optimization algorithm is in alpha
