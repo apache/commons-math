@@ -333,9 +333,25 @@ public class ContinuousOutputModel
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * @see #getInterpolatedSecondaryState(int)
    */
   public double[] getInterpolatedState() throws MaxCountExceededException {
     return steps.get(index).getInterpolatedState();
+  }
+
+  /** Get the interpolated secondary state corresponding to the secondary equations.
+   * @param secondaryStateIndex index of the secondary set, as returned by {@link
+   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math3.ode.SecondaryEquations)
+   * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
+   * @return interpolated secondary state at the current interpolation date
+   * @see #getInterpolatedState()
+   * @since 3.2
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   */
+  public double[] getInterpolatedSecondaryState(final int secondaryStateIndex)
+    throws MaxCountExceededException {
+    return steps.get(index).getInterpolatedSecondaryState(secondaryStateIndex);
   }
 
   /** Compare a step interval and a double.

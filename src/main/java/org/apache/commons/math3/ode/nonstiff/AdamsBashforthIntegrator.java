@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.sampling.NordsieckStepInterpolator;
 import org.apache.commons.math3.util.FastMath;
@@ -255,7 +256,14 @@ public class AdamsBashforthIntegrator extends AdamsIntegrator {
             final double stepEnd = stepStart + stepSize;
             interpolator.shift();
             interpolator.setInterpolatedTime(stepEnd);
-            System.arraycopy(interpolator.getInterpolatedState(), 0, y, 0, y0.length);
+            final ExpandableStatefulODE expandable = getExpandable();
+            final EquationsMapper primary = expandable.getPrimaryMapper();
+            primary.insertEquationData(interpolator.getInterpolatedState(), y);
+            int index = 0;
+            for (final EquationsMapper secondary : expandable.getSecondaryMappers()) {
+                secondary.insertEquationData(interpolator.getInterpolatedSecondaryState(index), y);
+                ++index;
+            }
 
             // evaluate the derivative
             computeDerivatives(stepEnd, y, yDot);
