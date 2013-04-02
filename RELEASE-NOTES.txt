@@ -59,6 +59,9 @@ o           Added conversion of gradients and Hessians from spherical to Cartesi
         coordinates in 3D. 
 
 Fixed Bugs:
+o MATH-961:  Fixed wrong array dimensions in secondary equations handling in some cases. 
+o MATH-960:  Fixed missing side effects of secondary equations on main state in
+        Ordinary Differential Equations integration. 
 o MATH-957:  Fixed inverse cumulative probability for uniform distribution. Thanks to Evan Ward. 
 o MATH-891:  "SpearmansCorrelation" now works correctly in case of a provided
         "NaturalRanking" with a "NaNStrategy.REMOVED" strategy and the input
