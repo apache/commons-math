@@ -78,6 +78,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="fix" issue="MATH-960" >
+        Fixed missing side effects of secondary equations on main state in
+        Ordinary Differential Equations integration.
+      </action>
       <action dev="luc" type="fix" issue="MATH-957" due-to="Evan Ward">
         Fixed inverse cumulative probability for uniform distribution.
       </action>

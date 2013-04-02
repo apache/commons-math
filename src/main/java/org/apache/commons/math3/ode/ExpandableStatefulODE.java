@@ -117,7 +117,6 @@ public class ExpandableStatefulODE {
         // compute derivatives of the primary equations
         primaryMapper.extractEquationData(y, primaryState);
         primary.computeDerivatives(t, primaryState, primaryStateDot);
-        primaryMapper.insertEquationData(primaryStateDot, yDot);
 
         // Add contribution for secondary equations
         for (final SecondaryComponent component : components) {
@@ -126,6 +125,8 @@ public class ExpandableStatefulODE {
                                                   component.state, component.stateDot);
             component.mapper.insertEquationData(component.stateDot, yDot);
         }
+
+        primaryMapper.insertEquationData(primaryStateDot, yDot);
 
     }
 
