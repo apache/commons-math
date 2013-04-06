@@ -297,7 +297,7 @@ Release (a.k.a. "promote") the artefacts on the Nexus server, as shown here:
 (14)
 Publish the web site. From your local working copy of the tag, run the command:
 
-  $ mvn site:deploy
+  $ mvn site-deploy
 
 
 (15)
