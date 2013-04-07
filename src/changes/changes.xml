@@ -50,6 +50,8 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
+    <release version="x.y" date="TBD" description="TBD">
+    </release>
     <release version="3.2" date="2013-04-06" description="
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
