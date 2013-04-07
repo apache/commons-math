@@ -18,7 +18,6 @@ package org.apache.commons.math3.ml.distance;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Tests for {@link ChebyshevDistance} class.
