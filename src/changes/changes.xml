@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-965" >
+        Fixed inconsistent dimensions preventing use of secondary states
+        in ODE events.
+      </action>
     </release>
     <release version="3.2" date="2013-04-06" description="
 This is a minor release: It combines bug fixes and new features.

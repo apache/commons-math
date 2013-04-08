@@ -23,7 +23,9 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.SecondaryEquations;
 import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.DummyStepInterpolator;
@@ -56,6 +58,13 @@ public class EventStateTest {
         EventState es = new EventState(closeEventsGenerator, 1.5 * gap,
                                        tolerance, 100,
                                        new BrentSolver(tolerance));
+        es.setExpandable(new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
+            public int getDimension() {
+                return 0;
+            }
+            public void computeDerivatives(double t, double[] y, double[] yDot) {
+            }
+        }));
 
         AbstractStepInterpolator interpolator =
             new DummyStepInterpolator(new double[0], new double[0], true);
@@ -145,5 +154,74 @@ public class EventStateTest {
 
     }
 
+    // Jira: MATH-965
+    @Test
+    public void testIssue965()
+        throws DimensionMismatchException, NumberIsTooSmallException,
+               MaxCountExceededException, NoBracketingException {
+
+        ExpandableStatefulODE equation =
+                new ExpandableStatefulODE(new FirstOrderDifferentialEquations() {
+            
+            public int getDimension() {
+                return 1;
+            }
+            
+            public void computeDerivatives(double t, double[] y, double[] yDot) {
+                yDot[0] = 2.0;
+            }
+        });
+        equation.setTime(0.0);
+        equation.setPrimaryState(new double[1]);
+        equation.addSecondaryEquations(new SecondaryEquations() {
+            
+            public int getDimension() {
+                return 1;
+            }
+            
+            public void computeDerivatives(double t, double[] primary,
+                                           double[] primaryDot, double[] secondary,
+                                           double[] secondaryDot) {
+                secondaryDot[0] = -3.0;
+            }
+        });
+        int index = equation.getSecondaryMappers()[0].getFirstIndex();
+
+        DormandPrince853Integrator integrator = new DormandPrince853Integrator(0.001, 1000, 1.0e-14, 1.0e-14);
+        integrator.addEventHandler(new SecondaryStateEvent(index, -3.0), 0.1, 1.0e-9, 1000);
+        integrator.setInitialStepSize(3.0);
+
+        integrator.integrate(equation, 30.0);
+        Assert.assertEquals( 1.0, equation.getTime(), 1.0e-10);
+        Assert.assertEquals( 2.0, equation.getPrimaryState()[0], 1.0e-10);
+        Assert.assertEquals(-3.0, equation.getSecondaryState(0)[0], 1.0e-10);
+
+    }
+
+    private static class SecondaryStateEvent implements EventHandler {
+
+        private int index;
+        private final double target;
+
+        public SecondaryStateEvent(final int index, final double target) {
+            this.index  = index;
+            this.target = target;
+        }
+
+        public void init(double t0, double[] y0, double t) {
+        }
+
+        public double g(double t, double[] y) {
+            return y[index] - target;
+        }
+
+        public Action eventOccurred(double t, double[] y, boolean increasing) {
+            return Action.STOP;
+        }
+
+        public void resetState(double t, double[] y) {
+        }
+
+    }
 
 }

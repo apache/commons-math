@@ -188,6 +188,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
         evaluations.resetCount();
 
         for (final EventState state : eventsStates) {
+            state.setExpandable(expandable);
             state.getEventHandler().init(t0, y0, t);
         }
 
@@ -356,7 +357,6 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
                 // get state at event time
                 interpolator.setInterpolatedTime(eventT);
-                final double[] eventYPrimary  = interpolator.getInterpolatedState().clone();
                 final double[] eventYComplete = new double[y.length];
                 expandable.getPrimaryMapper().insertEquationData(interpolator.getInterpolatedState(),
                                                                  eventYComplete);
@@ -368,7 +368,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
                 // advance all event states to current time
                 for (final EventState state : eventsStates) {
-                    state.stepAccepted(eventT, eventYPrimary);
+                    state.stepAccepted(eventT, eventYComplete);
                     isLastStep = isLastStep || state.stop();
                 }
 
@@ -412,7 +412,14 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
             // last part of the step, after the last event
             interpolator.setInterpolatedTime(currentT);
-            final double[] currentY = interpolator.getInterpolatedState();
+            final double[] currentY = new double[y.length];
+            expandable.getPrimaryMapper().insertEquationData(interpolator.getInterpolatedState(),
+                                                             currentY);
+            int index = 0;
+            for (EquationsMapper secondary : expandable.getSecondaryMappers()) {
+                secondary.insertEquationData(interpolator.getInterpolatedSecondaryState(index++),
+                                             currentY);
+            }
             for (final EventState state : eventsStates) {
                 state.stepAccepted(currentT, currentY);
                 isLastStep = isLastStep || state.stop();
