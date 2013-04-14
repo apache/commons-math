@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-962">
+        Added clarification to the javadoc of "VectorFormat" and derived classes
+        in case "," is used as a separator.
+      </action>
       <action dev="tn" type="add" issue="MATH-898">
         Added "FuzzyKMeansClusterer" to "o.a.c.m.ml.clustering" package.
       </action>

@@ -35,6 +35,9 @@ import org.apache.commons.math3.exception.MathParseException;
  * " { 1 ; 1 ; 1 } " will be parsed without error and the same vector will be
  * returned. In the second case, however, the parse position after parsing will be
  * just after the closing curly brace, i.e. just before the trailing space.</p>
+ * <p><b>Note:</b> using "," as a separator may interfere with the grouping separator
+ * of the default {@link NumberFormat} for the current locale. Thus it is advised
+ * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
  *
  * @param <S> Type of the space.
  * @version $Id$
