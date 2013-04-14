@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -34,15 +35,32 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 
 /**
- * Fuzzy K-Means algorithm.
+ * Fuzzy K-Means clustering algorithm.
  * <p>
- * TODO
+ * The Fuzzy K-Means algorithm is a variation of the classical K-Means algorithm, with the
+ * major difference that a single data point is not uniquely assigned to a single cluster.
+ * Instead, each point i has a set of weights u<sub>ij</sub> which indicate the degree of membership
+ * to the cluster j.
+ * <p>
+ * The algorithm then tries to minimize the objective function:
+ * <pre>
+ * J = &#8721;<sub>i=1..C</sub>&#8721;<sub>k=1..N</sub> u<sub>ik</sub><sup>m</sup>d<sub>ik</sub><sup>2</sup>
+ * </pre>
+ * with d<sub>ik</sub> being the distance between data point i and the cluster center k.
  * <p>
  * The algorithm requires two parameters:
  * <ul>
- * <li>k: the number of clusters
- * <li>fuzzyness: ...
+ *   <li>k: the number of clusters
+ *   <li>fuzziness: determines the level of cluster fuzziness, larger values lead to fuzzier clusters
  * </ul>
+ * Additional, optional parameters:
+ * <ul>
+ *   <li>maxIterations: the maximum number of iterations
+ *   <li>epsilon: the convergence criteria, default is 1e-3
+ * </ul>
+ * <p>
+ * The fuzzy variant of the K-Means algorithm is more robust with regard to the selection
+ * of the initial cluster centers.
  *
  * @param <T> type of the points to cluster
  * @version $Id$
@@ -59,8 +77,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
     /** The maximum number of iterations. */
     private final int maxIterations;
 
-    /** The fuzzyness factor. */
-    private final double fuzzyness;
+    /** The fuzziness factor. */
+    private final double fuzziness;
 
     /** The convergence criteria. */
     private final double epsilon;
@@ -83,53 +101,53 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      * The euclidean distance will be used as default distance measure.
      *
      * @param k the number of clusters to split the data into
-     * @param fuzzyness the fuzzyness factor, must be &gt; 1.0
-     * @throws NumberIsTooSmallException if {@code fuzzyness <= 1.0}
+     * @param fuzziness the fuzziness factor, must be &gt; 1.0
+     * @throws NumberIsTooSmallException if {@code fuzziness <= 1.0}
      */
-    public FuzzyKMeansClusterer(final int k, final double fuzzyness) throws NumberIsTooSmallException {
-        this(k, fuzzyness, -1, new EuclideanDistance());
+    public FuzzyKMeansClusterer(final int k, final double fuzziness) throws NumberIsTooSmallException {
+        this(k, fuzziness, -1, new EuclideanDistance());
     }
 
     /**
      * Creates a new instance of a FuzzyKMeansClusterer.
      *
      * @param k the number of clusters to split the data into
-     * @param fuzzyness the fuzzyness factor, must be &gt; 1.0
+     * @param fuzziness the fuzziness factor, must be &gt; 1.0
      * @param maxIterations the maximum number of iterations to run the algorithm for.
      *   If negative, no maximum will be used.
      * @param measure the distance measure to use
-     * @throws NumberIsTooSmallException if {@code fuzzyness <= 1.0}
+     * @throws NumberIsTooSmallException if {@code fuzziness <= 1.0}
      */
-    public FuzzyKMeansClusterer(final int k, final double fuzzyness,
+    public FuzzyKMeansClusterer(final int k, final double fuzziness,
                                 final int maxIterations, final DistanceMeasure measure)
             throws NumberIsTooSmallException {
-        this(k, fuzzyness, maxIterations, measure, DEFAULT_EPSILON, new JDKRandomGenerator());
+        this(k, fuzziness, maxIterations, measure, DEFAULT_EPSILON, new JDKRandomGenerator());
     }
 
     /**
      * Creates a new instance of a FuzzyKMeansClusterer.
      *
      * @param k the number of clusters to split the data into
-     * @param fuzzyness the fuzzyness factor, must be &gt; 1.0
+     * @param fuzziness the fuzziness factor, must be &gt; 1.0
      * @param maxIterations the maximum number of iterations to run the algorithm for.
      *   If negative, no maximum will be used.
      * @param measure the distance measure to use
-     * @param epsilon the convergence criteria
+     * @param epsilon the convergence criteria (default is 1e-3)
      * @param random random generator to use for choosing initial centers
-     * @throws NumberIsTooSmallException if {@code fuzzyness <= 1.0}
+     * @throws NumberIsTooSmallException if {@code fuzziness <= 1.0}
      */
-    public FuzzyKMeansClusterer(final int k, final double fuzzyness,
+    public FuzzyKMeansClusterer(final int k, final double fuzziness,
                                 final int maxIterations, final DistanceMeasure measure,
                                 final double epsilon, final RandomGenerator random)
             throws NumberIsTooSmallException {
 
         super(measure);
 
-        if (fuzzyness <= 1.0d) {
-            throw new NumberIsTooSmallException(fuzzyness, 1.0, false);
+        if (fuzziness <= 1.0d) {
+            throw new NumberIsTooSmallException(fuzziness, 1.0, false);
         }
         this.k = k;
-        this.fuzzyness = fuzzyness;
+        this.fuzziness = fuzziness;
         this.maxIterations = maxIterations;
         this.epsilon = epsilon;
         this.random = random;
@@ -148,11 +166,11 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
     }
 
     /**
-     * Returns the fuzzyness factor used by this instance.
-     * @return the fuzzyness factor
+     * Returns the fuzziness factor used by this instance.
+     * @return the fuzziness factor
      */
-    public double getFuzzyness() {
-        return fuzzyness;
+    public double getFuzziness() {
+        return fuzziness;
     }
 
     /**
@@ -161,6 +179,14 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     public int getMaxIterations() {
         return maxIterations;
+    }
+
+    /**
+     * Returns the convergence criteria used by this instance.
+     * @return the convergence criteria
+     */
+    public double getEpsilon() {
+        return epsilon;
     }
 
     /**
@@ -179,8 +205,12 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      * to cluster {@code j}.
      *
      * @return the membership matrix
+     * @throws MathIllegalStateException if {@link #cluster(Collection)} has not been called before
      */
     public RealMatrix getMembershipMatrix() {
+        if (membershipMatrix == null) {
+            throw new MathIllegalStateException();
+        }
         return MatrixUtils.createRealMatrix(membershipMatrix);
     }
 
@@ -205,12 +235,12 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
 
     /**
      * Get the value of the objective function.
-     * @return the objective function as double value, or {@code 0.0} if {@link #cluster(Collection)}
-     *   has not been called before.
+     * @return the objective function evaluation as double value
+     * @throws MathIllegalStateException if {@link #cluster(Collection)} has not been called before
      */
     public double getObjectiveFunctionValue() {
         if (points == null || clusters == null) {
-            return 0;
+            throw new MathIllegalStateException();
         }
 
         int i = 0;
@@ -218,8 +248,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         for (final T point : points) {
             int j = 0;
             for (final CentroidCluster<T> cluster : clusters) {
-                double dist = distance(point, cluster.getCenter());
-                objFunction += (dist * dist) * FastMath.pow(membershipMatrix[i][j], fuzzyness);
+                final double dist = distance(point, cluster.getCenter());
+                objFunction += (dist * dist) * FastMath.pow(membershipMatrix[i][j], fuzziness);
                 j++;
             }
             i++;
@@ -293,7 +323,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
             double[] arr = new double[center.getPoint().length];
             double sum = 0.0;
             for (final T point : points) {
-                final double u = FastMath.pow(membershipMatrix[i][j], fuzzyness);
+                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
                 final double[] pointArr = point.getPoint();
                 for (int idx = 0; idx < arr.length; idx++) {
                     arr[idx] += u * pointArr[idx];
@@ -324,7 +354,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
 
                 for (final CentroidCluster<T> c : clusters) {
                     final double distB = FastMath.abs(distance(point, c.getCenter()));
-                    sum += FastMath.pow(distA / distB, 2.0 / (fuzzyness - 1.0));
+                    sum += FastMath.pow(distA / distB, 2.0 / (fuzziness - 1.0));
                 }
 
                 membershipMatrix[i][j] = 1.0 / sum;

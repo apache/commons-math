@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-898">
+        Added "FuzzyKMeansClusterer" to "o.a.c.m.ml.clustering" package.
+      </action>
       <action dev="luc" type="fix" issue="MATH-965" >
         Fixed inconsistent dimensions preventing use of secondary states
         in ODE events.

@@ -16,13 +16,19 @@
  */
 package org.apache.commons.math3.ml.clustering;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.junit.Assert;
+import org.apache.commons.math3.ml.distance.CanberraDistance;
+import org.apache.commons.math3.ml.distance.DistanceMeasure;
+import org.apache.commons.math3.random.JDKRandomGenerator;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.junit.Test;
 
 public class FuzzyKMeansClustererTest {
@@ -52,7 +58,7 @@ public class FuzzyKMeansClustererTest {
         boolean cluster1Found = false;
         boolean cluster2Found = false;
         boolean cluster3Found = false;
-        Assert.assertEquals(3, clusters.size());
+        assertEquals(3, clusters.size());
         for (final Cluster<DoublePoint> cluster : clusters) {
             if (cluster.getPoints().containsAll(clusterOne)) {
                 cluster1Found = true;
@@ -64,9 +70,9 @@ public class FuzzyKMeansClustererTest {
                 cluster3Found = true;
             }
         }
-        Assert.assertTrue(cluster1Found);
-        Assert.assertTrue(cluster2Found);
-        Assert.assertTrue(cluster3Found);
+        assertTrue(cluster1Found);
+        assertTrue(cluster2Found);
+        assertTrue(cluster3Found);
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -78,6 +84,21 @@ public class FuzzyKMeansClustererTest {
     public void testNullDataset() {
         FuzzyKMeansClusterer<DoublePoint> clusterer = new FuzzyKMeansClusterer<DoublePoint>(3, 2.0);
         clusterer.cluster(null);
+    }
+    
+    @Test
+    public void testGetters() {
+        DistanceMeasure measure = new CanberraDistance();
+        RandomGenerator random = new JDKRandomGenerator();
+        FuzzyKMeansClusterer<DoublePoint> clusterer =
+                new FuzzyKMeansClusterer<DoublePoint>(3, 2.0, 100, measure, 1e-6, random);
+        
+        assertEquals(3, clusterer.getK());
+        assertEquals(2.0, clusterer.getFuzziness(), 1e-6);
+        assertEquals(100, clusterer.getMaxIterations());
+        assertEquals(1e-6, clusterer.getEpsilon(), 1e-12);
+        assertThat(clusterer.getDistanceMeasure(), is(measure));
+        assertThat(clusterer.getRandomGenerator(), is(random));
     }
 
 }
