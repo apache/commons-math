@@ -127,7 +127,6 @@
                 <li><a href="optimization.html#a12.3_Linear_Programming">12.3 Linear Programming</a></li>
                 <li><a href="optimization.html#a12.4_Direct_Methods">12.4 Direct Methods</a></li>
                 <li><a href="optimization.html#a12.5_General_Case">12.5 General Case</a></li>
-                <li><a href="optimization.html#a12.6_Curve_Fitting">12.6 Curve Fitting</a></li>
                 </ul></li>                                 
         <li><a href="ode.html">13. Ordinary Differential Equations Integration</a>
                 <ul>
@@ -155,6 +154,13 @@
             <li><a href="exceptions.html#a16.2_Unchecked_Exceptions">16.2 Unchecked Exceptions</a></li>
             <li><a href="exceptions.html#a16.3_Hierarchies">16.3 Hierarchies</a></li>
             <li><a href="exceptions.html#a16.4_Features">16.4 Features</a></li>
+          </ul>
+        </li>
+        <li><a href="fitting.html">17. Curve Fitting</a>
+          <ul>
+            <li><a href="fitting.html#a17.1_Overview">17.1 Overview</a></li>
+            <li><a href="fitting.html#a17.2_General_Case">17.2 General Case</a></li>
+            <li><a href="fitting.html#a17.3_Special_Cases">17.3 Special Cases</a></li>
           </ul>
         </li>
         </ul>

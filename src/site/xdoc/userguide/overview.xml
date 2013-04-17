@@ -45,6 +45,7 @@
     <ul>
         <li>Computing means, variances and other summary statistics for a list of numbers</li>
         <li>Fitting a line to a set of data points using linear regression</li>
+        <li>Fitting a curve to a set of data points</li>
         <li>Finding a smooth curve that passes through a collection of points (interpolation)</li>
         <li>Fitting a parametric model to a set of measurements using least-squares methods</li>
         <li>Solving equations involving real-valued functions (i.e. root-finding)</li> 
@@ -72,7 +73,7 @@
 <subsection name="0.3 How commons-math is organized" href="organization">
     <p>
     Commons Math is divided into fourteen subpackages, based on functionality provided.
-    <ol>
+    <ul>
       <li><a href="stat.html">org.apache.commons.math3.stat</a> - statistics, statistical tests</li>
       <li><a href="analysis.html">org.apache.commons.math3.analysis</a> - rootfinding, integration, interpolation, polynomials</li>
       <li><a href="random.html">org.apache.commons.math3.random</a> - random numbers, strings and data generation</li>
@@ -84,10 +85,11 @@
       <li><a href="fraction.html">org.apache.commons.math3.fraction</a> - rational numbers</li>
       <li><a href="transform.html">org.apache.commons.math3.transform</a> - transform methods (Fast Fourier)</li>
       <li><a href="geometry.html">org.apache.commons.math3.geometry</a> - geometry (Euclidean spaces and Binary Space Partitioning)</li>
-      <li><a href="optimization.html">org.apache.commons.math3.optimization</a> - function maximization or minimization</li>
+      <li><a href="optimization.html">org.apache.commons.math3.optim</a> - function maximization or minimization</li>
       <li><a href="ode.html">org.apache.commons.math3.ode</a> - Ordinary Differential Equations integration</li>
       <li><a href="genetics.html">org.apache.commons.math3.genetics</a> - Genetic Algorithms</li>
-    </ol>
+      <li><a href="fitting.html">org.apache.commons.math3.fitting</a> - Curve Fitting</li>
+    </ul>
     Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>
 </subsection>

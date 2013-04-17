@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+
+<?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
+<!-- $Id$ -->
+<document url="fitting.html">
+
+  <properties>
+    <title>The Commons Math User Guide - Curve Fitting</title>
+  </properties>
+
+  <body>
+    <section name="17 Curve Fitting">
+      <subsection name="17.1 Overview" href="overview">
+        <p>
+          The fitting package deals with curve fitting for univariate real functions.
+          When a univariate real function y = f(x) does depend on some unknown parameters
+          p<sub>0</sub>, p<sub>1</sub> ... p<sub>n-1</sub>, curve fitting can be used to
+          find these parameters. It does this by <em>fitting</em> the curve so it remains
+          very close to a set of observed points (x<sub>0</sub>, y<sub>0</sub>),
+          (x<sub>1</sub>, y<sub>1</sub>) ... (x<sub>k-1</sub>, y<sub>k-1</sub>). This
+          fitting is done by finding the parameters values that minimizes the objective
+          function Σ(y<sub>i</sub> - f(x<sub>i</sub>))<sup>2</sup>. This is actually a
+          least-squares problem.
+        </p>
+        <p>
+          For all provided curve fitters, the operating principle is the same. Users must first
+          create an instance of the fitter, then add the observed points and once the complete
+          sample of observed points has been added they must call the <code>fit</code> method
+          which will compute the parameters that best fit the sample. A weight is associated
+          with each observed point, this allows to take into account uncertainty on some points
+          when they come from loosy measurements for example. If no such information exist and
+          all points should be treated the same, it is safe to put 1.0 as the weight for all points.
+        </p>
+      </subsection>
+
+      <subsection name="17.2 General Case" href="general">
+        <p>
+          The <a href="../apidocs/org/apache/commons/math3/fitting/CurveFitter.html">
+            CurveFitter</a> class provides curve fitting for general curves. Users must
+          provide their own implementation of the curve template as a class implementing
+          the <a href="../apidocs/org/apache/commons/math3/analysis/ParametricUnivariateFunction.html">
+            ParametricUnivariateFunction</a> interface and they must provide the initial guess of the
+          parameters.
+        </p>
+
+        <p>
+          The following example shows how to fit data with a polynomial function.
+        </p>
+        <source>final CurveFitter fitter = new CurveFitter(new LevenbergMarquardtOptimizer());
+fitter.addObservedPoint(-1.00, 2.021170021833143);
+fitter.addObservedPoint(-0.99, 2.221135431136975);
+fitter.addObservedPoint(-0.98, 2.09985277659314);
+fitter.addObservedPoint(-0.97, 2.0211192647627025);
+// ... Lots of lines omitted ...
+fitter.addObservedPoint( 0.99, -2.4345814727089854);
+
+// The degree of the polynomial is deduced from the length of the array containing
+// the initial guess for the coefficients of the polynomial.
+final double[] init = { 12.9, -3.4, 2.1 }; // 12.9 - 3.4 x + 2.1 x^2
+
+// Compute optimal coefficients.
+final double[] best = fitter.fit(new PolynomialFunction.Parametric(), init);
+
+// Construct the polynomial that best fits the data.
+final PolynomialFunction fitted = new PolynomialFunction(best);
+        </source>
+      </subsection>
+
+      <subsection name="17.3 Special Cases" href="special">
+
+        <p>
+          There are more specialized classes, for which the appropriate parametric
+          function is implicitly used:
+          <ul>
+            <li>
+              <a href="../apidocs/org/apache/commons/math3/fitting/PolynomialFitter.html">
+                PolynomialFitter</a> fits a
+              <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.Parametric.html">
+                polynomial</a> function
+            </li>
+            <li>
+              <a href="../apidocs/org/apache/commons/math3/fitting/HarmonicFitter.html">
+                HarmonicFitter</a> fits a
+              <a href="../apidocs/org/apache/commons/math3/analysis/function/HarmonicOscillator.Parametric.html">
+                harmonic</a> function
+            </li>
+            <li>
+              <a href="../apidocs/org/apache/commons/math3/fitting/GaussianFitter.html">
+                GaussianFitter</a> fits a
+              <a href="../apidocs/org/apache/commons/math3/analysis/function/Gaussian.Parametric.html">
+                Gaussian</a> function
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          The <code>HarmonicFitter</code> and <code>GaussianFitter</code> also provide a
+          no-argument <code>fit()</code> method that will internally estimate initial
+          guess values for the parameters.
+        </p>
+      </subsection>
+
+     </section>
+  </body>
+</document>
