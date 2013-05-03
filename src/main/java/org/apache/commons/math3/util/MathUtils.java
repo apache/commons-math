@@ -69,7 +69,7 @@ public final class MathUtils {
     }
 
     /**
-     * Normalize an angle in a 2&pi wide interval around a center value.
+     * Normalize an angle in a 2&pi; wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>
      *   <li>normalize an angle between 0 and 2&pi;:<br/>
