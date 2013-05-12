@@ -277,7 +277,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
             Arrays.fill(x, 0);
         } else {
             final int i = index - 1;
-            final long grayCode = i ^ (i / 2);
+            final long grayCode = i ^ (i >> 1); // compute the gray code of i = i XOR floor(i / 2)
             for (int j = 0; j < dimension; j++) {
                 long result = 0;
                 for (int k = 1; k <= BITS; k++) {
