@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-826" due-to="Sam Halliday">
+        Added low-discrepancy random generator "SobolSequenceGenerator".
+      </action>
       <action dev="tn" type="add" issue="MATH-973" due-to="Mauro Tortonesi">
         Added "GeometricDistribution" to "o.a.c.m.distribution" package.
       </action>
