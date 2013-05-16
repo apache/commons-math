@@ -1023,18 +1023,34 @@ public class MatrixUtils {
         final RealMatrix d = m.getSubMatrix(splitIndex1, n - 1, splitIndex1, n - 1);
 
         final SingularValueDecomposition aDec = new SingularValueDecomposition(a);
-        final RealMatrix aInv = aDec.getSolver().getInverse();
+        final DecompositionSolver aSolver = aDec.getSolver();
+        if (!aSolver.isNonSingular()) {
+            throw new SingularMatrixException();
+        }
+        final RealMatrix aInv = aSolver.getInverse();
 
         final SingularValueDecomposition dDec = new SingularValueDecomposition(d);
-        final RealMatrix dInv = dDec.getSolver().getInverse();
+        final DecompositionSolver dSolver = dDec.getSolver();
+        if (!dSolver.isNonSingular()) {
+            throw new SingularMatrixException();
+        }
+        final RealMatrix dInv = dSolver.getInverse();
 
         final RealMatrix tmp1 = a.subtract(b.multiply(dInv).multiply(c));
         final SingularValueDecomposition tmp1Dec = new SingularValueDecomposition(tmp1);
-        final RealMatrix result00 = tmp1Dec.getSolver().getInverse();
+        final DecompositionSolver tmp1Solver = tmp1Dec.getSolver();
+        if (!tmp1Solver.isNonSingular()) {
+            throw new SingularMatrixException();
+        }
+        final RealMatrix result00 = tmp1Solver.getInverse();
 
         final RealMatrix tmp2 = d.subtract(c.multiply(aInv).multiply(b));
         final SingularValueDecomposition tmp2Dec = new SingularValueDecomposition(tmp2);
-        final RealMatrix result11 = tmp2Dec.getSolver().getInverse();
+        final DecompositionSolver tmp2Solver = tmp2Dec.getSolver();
+        if (!tmp2Solver.isNonSingular()) {
+            throw new SingularMatrixException();
+        }
+        final RealMatrix result11 = tmp2Solver.getInverse();
 
         final RealMatrix result01 = aInv.multiply(b).multiply(result11).scalarMultiply(-1);
         final RealMatrix result10 = dInv.multiply(c).multiply(result00).scalarMultiply(-1);

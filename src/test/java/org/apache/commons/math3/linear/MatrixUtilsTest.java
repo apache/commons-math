@@ -364,6 +364,18 @@ public final class MatrixUtilsTest {
         }
     }
 
+    @Test(expected=SingularMatrixException.class)
+    public void testBlockInverseNonInvertible() {
+        final double[][] data = {
+            { -1, 0, 123, 4 },
+            { -56, 78.9, -0.1, -23.4 },
+            { 5.67, 8, -9, 1011 },
+            { 5.67, 8, -9, 1011 },
+        };
+
+        MatrixUtils.blockInverse(new Array2DRowRealMatrix(data), 2);
+    }
+
     @Test
     public void testIsSymmetric() {
         final double eps = Math.ulp(1d);
