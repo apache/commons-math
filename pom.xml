@@ -391,7 +391,65 @@
               <ignorePathToDelete>javadocs</ignorePathToDelete>
             </ignorePathsToDelete>
           </configuration>
+        </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <jar destfile="target/commons-math3-tools-${project.version}.jar">
+                  <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
+                  <manifest>
+                    <attribute name="Extension-Name" value="org.apache.commons.net" />
+                    <attribute name="Specification-Title" value="${project.name}" />
+                    <attribute name="Implementation-Title" value="${project.name}" />
+                    <attribute name="Implementation-Vendor" value="${project.organization.name}" />
+                    <attribute name="Implementation-Version" value="${project.version}" />
+                    <attribute name="Implementation-Vendor-Id" value="org.apache" />
+                    <attribute name="Implementation-Build" value="${implementation.build}"/>
+                    <attribute name="X-Compile-Source-JDK" value="${maven.compile.source}" />
+                    <attribute name="X-Compile-Target-JDK" value="${maven.compile.target}" />
+                  </manifest>
+                  <fileset dir="target/test-classes"
+                           includes="org/apache/commons/math3/PerfTestUtils*" />
+                </jar>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
+      <!--  Attaches the commons-math3-tools JAR to the Maven lifecycle
+            to ensure they will be signed and deployed as normal -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/commons-math3-tools-${project.version}.jar</file>
+                  <type>jar</type>
+                  <classifier>tools</classifier>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
