@@ -126,7 +126,7 @@ public class ClusteringExamples {
         }
         
         int[] nSamplesPerCenter = new int[centers];
-        int count = (samples / centers) * centers;
+        int count = samples / centers;
         Arrays.fill(nSamplesPerCenter, count);
         
         for (int i = 0; i < samples % centers; i++) {
@@ -288,7 +288,7 @@ public class ClusteringExamples {
             }
             
             g2.setPaint(Color.black);
-            g2.drawString(String.format("%.2f s", duration / 1e3), w - 30, h - 5);
+            g2.drawString(String.format("%.2f s", duration / 1e3), w - 40, h - 5);
         }        
         
         @Override
