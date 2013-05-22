@@ -33,8 +33,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+import javax.swing.JLabel;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -180,15 +179,12 @@ public class ClusteringExamples {
         return points;
     }
     
+    @SuppressWarnings("serial")
     public static class Display extends JFrame {
         
-        private static final long serialVersionUID = -8846964550416589808L;
-
         public Display() {
             setTitle("Clustering examples");
             setSize(800, 800);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
             
             setLayout(new GridBagLayout());
             
@@ -217,9 +213,7 @@ public class ClusteringExamples {
             c.insets = new Insets(2, 2, 2, 2);
 
             for (Pair<String, Clusterer<DoublePoint>> pair : algorithms) {
-                JTextArea text = new JTextArea(pair.getFirst());
-                text.setEditable(false);
-                text.setOpaque(false);
+                JLabel text = new JLabel("<html><body>" + pair.getFirst().replace("\n", "<br>"));
                 add(text, c);
                 c.gridx++;
             }
@@ -239,9 +233,8 @@ public class ClusteringExamples {
         }
     }
 
+    @SuppressWarnings("serial")
     public static class ClusterPlot extends JComponent {
-
-        private static final long serialVersionUID = 4546352048750419587L;
 
         private static double PAD = 10;
 
@@ -274,7 +267,7 @@ public class ClusteringExamples {
                 for (DoublePoint point : cluster.getPoints()) {
                     Clusterable p = transform(point, w, h);
                     double[] arr = p.getPoint();
-                    g2.fill(new Ellipse2D.Double(arr[0] - 2, arr[1] - 2, 4, 4));
+                    g2.fill(new Ellipse2D.Double(arr[0] - 1, arr[1] - 1, 3, 3));
                 }
                 
                 if (cluster instanceof CentroidCluster) {
@@ -304,11 +297,6 @@ public class ClusteringExamples {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Display d = new Display();
-                d.setVisible(true);
-            }
-        });
+        ExampleUtils.showExampleFrame(new Display());
     }
 }

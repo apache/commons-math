@@ -32,7 +32,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.random.HaltonSequenceGenerator;
@@ -118,15 +117,12 @@ public class RandomVectorGeneratorExamples {
         return points;
     }
     
+    @SuppressWarnings("serial")
     public static class Display extends JFrame {
         
-        private static final long serialVersionUID = -8846964550416589808L;
-
         public Display() {
             setTitle("Pseudo/Quasi-random examples");
             setSize(800, 800);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
             
             setLayout(new GridBagLayout());
             
@@ -206,9 +202,8 @@ public class RandomVectorGeneratorExamples {
         }
     }
 
+    @SuppressWarnings("serial")
     public static class Plot extends JComponent {
-
-        private static final long serialVersionUID = 4546352048750419587L;
 
         private static double PAD = 10;
 
@@ -252,11 +247,6 @@ public class RandomVectorGeneratorExamples {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Display d = new Display();
-                d.setVisible(true);
-            }
-        });
+        ExampleUtils.showExampleFrame(new Display());
     }
 }
