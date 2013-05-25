@@ -42,7 +42,7 @@ import org.apache.commons.math3.util.MathUtils;
  * one free parameter, and real numbers can be seen as derivative structures with zero
  * order derivative and no free parameters.</p>
  * <p>{@link DerivativeStructure} instances can be used directly thanks to
- * the arithmetic operators to the mathematical functions provided as static
+ * the arithmetic operators to the mathematical functions provided as
  * methods by this class (+, -, *, /, %, sin, cos ...).</p>
  * <p>Implementing complex expressions by hand using these classes is
  * a tedious and error-prone task but has the advantage of having no limitation
