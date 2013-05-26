@@ -227,6 +227,31 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
     <a href="../apidocs/org/apache/commons/math3/random/NormalizedRandomGenerator.html">NormalizedRandomGenerator</a>
     may be used.
     </p>
+    <p><dl>
+    <dt>Low discrepancy sequences</dt>
+    <dd>
+    There exist several quasi-random sequences with the property that for all values of N, the subsequence
+    x<sub>1</sub>, ..., x<sub>N</sub> has low discrepancy, which results in equi-distributed samples.
+    While their quasi-randomness makes them unsuitable for most applications (i.e. the sequence of values
+    is completely deterministic), their unique properties give them an important advantage for quasi-Monte Carlo simulations.<br/>
+    Currently, the following low-discrepancy sequences are supported:
+    <ul>
+        <li><a href="../apidocs/org/apache/commons/math3/random/SobolSequenceGenerator.html">Sobol sequence</a> (pre-configured up to dimension 1000)</li>
+        <li><a href="../apidocs/org/apache/commons/math3/random/HaltonSequenceGenerator.html">Halton sequence</a> (pre-configured up to dimension 40)</li>
+    </ul>
+    <source>
+// Create a Sobol sequence generator for 2-dimensional vectors
+RandomVectorGenerator generator = new SobolSequence(2);
+
+// Use the generator to generate vectors
+double[] randomVector = generator.nextVector();
+... </source>
+    The figure below illustrates the unique properties of low-discrepancy sequences when generating N samples in the interval [0, 1].
+    Roughly speaking, such sequences fill up the respective space more evenly which leads to faster convergence in quasi-Monte Carlo simulations.
+    <img src="../images/userguide/low_discrepancy_sequences.png" alt="Comparison of low-discrepancy sequences"/>
+    </dd></dl>
+    </p>
+    <p></p>
 </subsection>
 
 <subsection name="2.4 Random Strings" href="strings">
@@ -448,7 +473,7 @@ RealMatrix covariance = MatrixUtils.createRealMatrix(cov); </source>
 
       <p>
         <table border="1" align="center">
-          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Example of performances</font></td></tr>
+          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+1">Example of performances</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>generation rate (relative to MersenneTwister)</td></font></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/random/MersenneTwister.html">MersenneTwister</a></td><td>1</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/random/JDKRandomGenerator.html">JDKRandomGenerator</a></td><td>between 0.96 and 1.16</td></tr>
