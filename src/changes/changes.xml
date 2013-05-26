@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-977">
+        Added low-discrepancy random generator "HaltonSequenceGenerator".
+      </action>
       <action dev="tn" type="add" issue="MATH-826" due-to="Sam Halliday">
         Added low-discrepancy random generator "SobolSequenceGenerator".
       </action>
