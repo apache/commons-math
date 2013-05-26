@@ -57,7 +57,7 @@ import org.apache.commons.math3.util.Pair;
  * Based on
  * <a href="http://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html">scikit learn</a>.
  */
-public class ClusteringExamples {
+public class ClusterAlgorithmComparison {
 
     public static List<Vector2D> makeCircles(int samples, boolean shuffle, double noise, double factor, final RandomGenerator random) {
         if (factor < 0 || factor > 1) {

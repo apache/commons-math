@@ -48,7 +48,7 @@ import org.apache.commons.math3.util.Pair;
 /**
  * Plots 2D samples drawn from various pseudo / quasi-random generators.
  */
-public class RandomVectorGeneratorExamples {
+public class LowDiscrepancyGeneratorComparison {
 
     public static List<Vector2D> makeCircle(int samples, final RandomVectorGenerator generator) {
         List<Vector2D> points = new ArrayList<Vector2D>();
