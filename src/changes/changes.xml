@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-851" due-to="Clemens Novak">
+        Added method "MathArrays#convolve(double[], double[])" to compute the
+        discrete, linear convolution of two sequences.
+      </action>
       <action dev="tn" type="add" issue="MATH-977">
         Added low-discrepancy random generator "HaltonSequenceGenerator".
       </action>

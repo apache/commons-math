@@ -13,12 +13,15 @@
  */
 package org.apache.commons.math3.util;
 
+import static org.junit.Assert.fail;
+
 import java.util.Arrays;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -832,5 +835,63 @@ public class MathArraysTest {
             MathArrays.normalizeArray(testValues1, Double.NaN);
             Assert.fail("expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException ex) {}
+    }
+    
+    @Test
+    public void testConvolve() {
+        /* Test Case (obtained via SciPy)
+         * x=[1.2,-1.8,1.4]
+         * h=[1,0.8,0.5,0.3]
+         * convolve(x,h) -> array([ 1.2 , -0.84,  0.56,  0.58,  0.16,  0.42])
+         */
+        double[] x1 = { 1.2, -1.8, 1.4 };
+        double[] h1 = { 1, 0.8, 0.5, 0.3 };
+        double[] y1 = { 1.2, -0.84, 0.56, 0.58, 0.16, 0.42 };
+        double tolerance = 1e-13;
+
+        double[] yActual = MathArrays.convolve(x1, h1);
+        Assert.assertArrayEquals(y1, yActual, tolerance);
+
+        double[] x2 = { 1, 2, 3 };
+        double[] h2 = { 0, 1, 0.5 };
+        double[] y2 = { 0, 1, 2.5, 4, 1.5 };
+        
+        yActual = MathArrays.convolve(x2, h2);
+        Assert.assertArrayEquals(y2, yActual, tolerance);
+                
+        try {
+            MathArrays.convolve(new double[]{1, 2}, null);
+            fail("an exception should have been thrown");
+        } catch (NullArgumentException e) {
+            // expected behavior
+        }
+
+        try {
+            MathArrays.convolve(null, new double[]{1, 2});
+            fail("an exception should have been thrown");
+        } catch (NullArgumentException e) {
+            // expected behavior
+        }
+
+        try {
+            MathArrays.convolve(new double[]{1, 2}, new double[]{});
+            fail("an exception should have been thrown");
+        } catch (NoDataException e) {
+            // expected behavior
+        }
+
+        try {
+            MathArrays.convolve(new double[]{}, new double[]{1, 2});
+            fail("an exception should have been thrown");
+        } catch (NoDataException e) {
+            // expected behavior
+        }
+
+        try {
+            MathArrays.convolve(new double[]{}, new double[]{});
+            fail("an exception should have been thrown");
+        } catch (NoDataException e) {
+            // expected behavior
+        }
     }
 }
