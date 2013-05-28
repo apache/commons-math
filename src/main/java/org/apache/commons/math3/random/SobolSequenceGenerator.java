@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -67,6 +68,9 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     /** The resource containing the direction numbers. */
     private static final String RESOURCE_NAME = "/assets/org/apache/commons/math3/random/new-joe-kuo-6.1000";
 
+    /** Character set for file input. */
+    private static final String FILE_CHARSET = "US-ASCII";
+
     /** Space dimension. */
     private final int dimension;
 
@@ -110,6 +114,12 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
         } catch (MathParseException e) {
             // the internal resource file could not be parsed -> should not happen
             throw new MathInternalError();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) { // NOPMD
+                // ignore
+            }
         }
     }
 
@@ -133,6 +143,8 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
      * 2       1       0       1
      * 3       2       1       1 3
      * </pre>
+     * <p>
+     * The input stream <i>must</i> be an ASCII text containing one valid direction vector per line.
      *
      * @param dimension the space dimension
      * @param is the stream to read the direction vectors from
@@ -164,6 +176,9 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
 
     /**
      * Load the direction vector for each dimension from the given stream.
+     * <p>
+     * The input stream <i>must</i> be an ASCII text containing one
+     * valid direction vector per line.
      *
      * @param is the input stream to read the direction vector from
      * @return the last dimension that has been read from the input stream
@@ -177,7 +192,8 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
             direction[0][i] = 1l << (BITS - i);
         }
 
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        final Charset charset = Charset.forName(FILE_CHARSET);
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(is, charset));
         int dim = -1;
 
         try {
