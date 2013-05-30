@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.analysis.interpolation;
 
+import java.util.Arrays;
 import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
@@ -163,13 +164,7 @@ public class BicubicSplineInterpolatingFunction
     public double value(double x, double y)
         throws OutOfRangeException {
         final int i = searchIndex(x, xval);
-        if (i == -1) {
-            throw new OutOfRangeException(x, xval[0], xval[xval.length - 1]);
-        }
         final int j = searchIndex(y, yval);
-        if (j == -1) {
-            throw new OutOfRangeException(y, yval[0], yval[yval.length - 1]);
-        }
 
         final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
         final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
@@ -258,13 +253,7 @@ public class BicubicSplineInterpolatingFunction
         }
 
         final int i = searchIndex(x, xval);
-        if (i == -1) {
-            throw new OutOfRangeException(x, xval[0], xval[xval.length - 1]);
-        }
         final int j = searchIndex(y, yval);
-        if (j == -1) {
-            throw new OutOfRangeException(y, yval[0], yval[yval.length - 1]);
-        }
 
         final double xN = (x - xval[i]) / (xval[i + 1] - xval[i]);
         final double yN = (y - yval[j]) / (yval[j + 1] - yval[j]);
@@ -296,22 +285,32 @@ public class BicubicSplineInterpolatingFunction
      * @param c Coordinate.
      * @param val Coordinate samples.
      * @return the index in {@code val} corresponding to the interval
-     * containing {@code c}, or {@code -1} if {@code c} is out of the
+     * containing {@code c}.
+     * @throws OutOfRangeException if {@code c} is out of the
      * range defined by the boundary values of {@code val}.
      */
     private int searchIndex(double c, double[] val) {
-        if (c < val[0]) {
-            return -1;
+        final int r = Arrays.binarySearch(val, c);
+
+        if (r == -1 ||
+            r == -val.length) {
+            throw new OutOfRangeException(c, val[0], val[val.length - 1]);
         }
 
-        final int max = val.length;
-        for (int i = 1; i < max; i++) {
-            if (c <= val[i]) {
-                return i - 1;
-            }
+        if (r < 0) {
+            // "c" in within an interpolation sub-interval: Return the
+            // index of the sample at the lower end of the sub-interval.
+            return -r - 2;
+        }
+        final int last = val.length - 1;
+        if (r == last) {
+            // "c" is the last sample of the range: Return the index
+            // of the sample at the lower end of the last sub-interval.
+            return last - 1;
         }
 
-        return -1;
+        // "c" is another sample point.
+        return r;
     }
 
     /**
