@@ -33,6 +33,8 @@ import org.apache.commons.math3.util.MathArrays;
  */
 public class BicubicSplineInterpolatingFunction
     implements BivariateFunction {
+    /** Number of coefficients. */
+    private static final int NUM_COEFF = 16;
     /**
      * Matrix to compute the spline coefficients from the function values
      * and function derivatives values
@@ -342,12 +344,12 @@ public class BicubicSplineInterpolatingFunction
      * @return the spline coefficients.
      */
     private double[] computeSplineCoefficients(double[] beta) {
-        final double[] a = new double[16];
+        final double[] a = new double[NUM_COEFF];
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < NUM_COEFF; i++) {
             double result = 0;
             final double[] row = AINV[i];
-            for (int j = 0; j < 16; j++) {
+            for (int j = 0; j < NUM_COEFF; j++) {
                 result += row[j] * beta[j];
             }
             a[i] = result;
