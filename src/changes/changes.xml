@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-978" due-to="Ajo Fod">
+        Added append method to StorelessCovariance, making this class map/reducible.
+      </action>
       <action dev="tn" type="add" issue="MATH-851" due-to="Clemens Novak">
         Added method "MathArrays#convolve(double[], double[])" to compute the
         discrete, linear convolution of two sequences.

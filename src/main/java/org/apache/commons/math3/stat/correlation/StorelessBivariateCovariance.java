@@ -91,6 +91,24 @@ class StorelessBivariateCovariance {
     }
 
     /**
+     * Appends another bivariate covariance calculation to this.
+     * After this operation, statistics returned should be close to what would
+     * have been obtained by by performing all of the {@link #increment(double, double)}
+     * operations in {@code cov} directly on this.
+     *
+     * @param cov StorelessBivariateCovariance instance to append.
+     */
+    public void append(StorelessBivariateCovariance cov) {
+        double oldN = n;
+        n += cov.n;
+        final double deltaX = cov.meanX - meanX;
+        final double deltaY = cov.meanY - meanY;
+        meanX += deltaX * cov.n / n;
+        meanY += deltaY * cov.n / n;
+        covarianceNumerator += cov.covarianceNumerator + oldN * cov.n / n * deltaX * deltaY;
+    }
+
+    /**
      * Returns the number of observations.
      *
      * @return number of observations

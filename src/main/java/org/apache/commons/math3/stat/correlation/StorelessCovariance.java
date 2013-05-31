@@ -163,6 +163,29 @@ public class StorelessCovariance extends Covariance {
     }
 
     /**
+     * Appends {@code sc} to this, effectively aggregating the computations in {@code sc}
+     * with this.  After invoking this method, covariances returned should be close
+     * to what would have been obtained by performing all of the {@link #increment(double[])}
+     * operations in {@code sc} directly on this.
+     *
+     * @param sc externally computed StorelessCovariance to add to this
+     * @throws DimensionMismatchException if the dimension of sc does not match this
+     */
+    public void append(StorelessCovariance sc) throws DimensionMismatchException {
+        if (sc.dimension != dimension) {
+            throw new DimensionMismatchException(sc.dimension, dimension);
+        }
+
+        // only update the upper triangular part of the covariance matrix
+        // as only these parts are actually stored
+        for (int i = 0; i < dimension; i++) {
+            for (int j = i; j < dimension; j++) {
+                getElement(i, j).append(sc.getElement(i, j));
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      * @throws NumberIsTooSmallException if the number of observations
      * in a cell is &lt; 2
