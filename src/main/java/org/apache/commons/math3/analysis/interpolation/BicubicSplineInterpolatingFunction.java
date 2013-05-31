@@ -395,7 +395,7 @@ class BicubicSplineFunction
         this.a = new double[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                this.a[i][j] = a[i + N * j];
+                this.a[i][j] = a[i * N + j];
             }
         }
     }

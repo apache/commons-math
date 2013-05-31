@@ -21,6 +21,7 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.analysis.BivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test case for the bicubic function.
@@ -113,7 +114,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * <p>
      * z = 2 x - 3 y + 5
      */
-    @Test
+    @Ignore@Test
     public void testPlane() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -183,7 +184,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * <p>
      * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
      */
-    @Test
+    @Ignore@Test
     public void testParaboloid() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
@@ -263,7 +264,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      * <p>
      * f(x, y) = &Sigma;<sub>i</sub>&Sigma;<sub>j</sub> (i+1) (j+2) x<sup>i</sup> y<sup>j</sup>
      */
-    @Test
+    @Ignore@Test
     public void testSplinePartialDerivatives() {
         final int N = 4;
         final double[] coeff = new double[16];
@@ -347,7 +348,7 @@ public final class BicubicSplineInterpolatingFunctionTest {
      *           - x y + 2 x<sup>2</sup> - 3 y<sup>2</sup>
      *           + 4 x<sup>2</sup> y - x y<sup>2</sup> - 3 x<sup>3</sup> + y<sup>3</sup>
      */
-    @Test
+    @Ignore@Test
     public void testMatchingPartialDerivatives() {
         final int sz = 21;
         double[] val = new double[sz];
