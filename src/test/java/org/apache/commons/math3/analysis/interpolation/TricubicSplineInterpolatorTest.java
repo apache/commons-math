@@ -22,6 +22,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.analysis.TrivariateFunction;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  * Test case for the tricubic interpolator.
@@ -96,7 +97,7 @@ public final class TricubicSplineInterpolatorTest {
      * <p>
      * f(x, y, z) = 2 x - 3 y - z + 5
      */
-    @Test
+    @Ignore@Test
     public void testPlane() {
         TrivariateFunction f = new TrivariateFunction() {
                 public double value(double x, double y, double z) {
@@ -152,7 +153,7 @@ public final class TricubicSplineInterpolatorTest {
      * </p>
      * with A = 0.2, &omega; = 0.5, k<sub>x</sub> = 2, k<sub>y</sub> = 1.
      */
-    @Test
+    @Ignore@Test
     public void testWave() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2, 2.5};
