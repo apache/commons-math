@@ -293,7 +293,7 @@ public class BicubicSplineInterpolatingFunction
         final int r = Arrays.binarySearch(val, c);
 
         if (r == -1 ||
-            r == -val.length) {
+            r == -val.length - 1) {
             throw new OutOfRangeException(c, val[0], val[val.length - 1]);
         }
 
