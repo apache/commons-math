@@ -19,6 +19,9 @@ package org.apache.commons.math3.analysis.interpolation;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.analysis.BivariateFunction;
+import org.apache.commons.math3.distribution.UniformRealDistribution;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -442,6 +445,167 @@ public final class BicubicSplineInterpolatingFunctionTest {
                 result = bcf.partialDerivativeXY(x, y);
                 Assert.assertEquals(x + " " + y + " d2FdXdY", expected, result, tol);
             }
+        }
+    }
+
+    /**
+     * Interpolating a plane.
+     * <p>
+     * z = 2 x - 3 y + 5
+     */
+    @Test
+    public void testInterpolation1() {
+        final int sz = 21;
+        double[] xval = new double[sz];
+        double[] yval = new double[sz];
+        // Coordinate values
+        final double delta = 1d / (sz - 1);
+        for (int i = 0; i < sz; i++) {
+            xval[i] = -1 + 15 * i * delta;
+            yval[i] = -20 + 30 * i * delta;
+        }
+
+        // Function values
+        BivariateFunction f = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return 2 * x - 3 * y + 5;
+                }
+            };
+        double[][] zval = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                zval[i][j] = f.value(xval[i], yval[j]);
+            }
+        }
+        // Partial derivatives with respect to x
+        double[][] dZdX = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdX[i][j] = 2;
+            }
+        }
+        // Partial derivatives with respect to y
+        double[][] dZdY = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdY[i][j] = -3;
+            }
+        }
+        // Partial cross-derivatives
+        double[][] dZdXdY = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdXdY[i][j] = 0;
+            }
+        }
+
+        final BivariateFunction bcf
+            = new BicubicSplineInterpolatingFunction(xval, yval, zval,
+                                                     dZdX, dZdY, dZdXdY);
+        double x, y;
+        double expected, result;
+
+        final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
+        final UniformRealDistribution distX
+            = new UniformRealDistribution(xval[0], xval[xval.length - 1]);
+        final UniformRealDistribution distY
+            = new UniformRealDistribution(yval[0], yval[yval.length - 1]);
+
+        final int numSamples = 50;
+        final double tol = 6;
+        for (int i = 0; i < numSamples; i++) {
+            x = distX.sample();
+            for (int j = 0; j < numSamples; j++) {
+                y = distY.sample();
+//                 System.out.println(x + " " + y + " " + f.value(x, y) + " " + bcf.value(x, y));
+                Assert.assertEquals(f.value(x, y),  bcf.value(x, y), tol);
+            }
+//             System.out.println();
+        }
+    }
+
+    /**
+     * Interpolating a paraboloid.
+     * <p>
+     * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
+     */
+    @Test
+    public void testInterpolation2() {
+        final int sz = 21;
+        double[] xval = new double[sz];
+        double[] yval = new double[sz];
+        // Coordinate values
+        final double delta = 1d / (sz - 1);
+        for (int i = 0; i < sz; i++) {
+            xval[i] = -1 + 15 * i * delta;
+            yval[i] = -20 + 30 * i * delta;
+        }
+
+        // Function values
+        BivariateFunction f = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return 2 * x * x - 3 * y * y + 4 * x * y - 5;
+                }
+            };
+        double[][] zval = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                zval[i][j] = f.value(xval[i], yval[j]);
+            }
+        }
+        // Partial derivatives with respect to x
+        double[][] dZdX = new double[xval.length][yval.length];
+        BivariateFunction dfdX = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return 4 * (x + y);
+                }
+            };
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdX[i][j] = dfdX.value(xval[i], yval[j]);
+            }
+        }
+        // Partial derivatives with respect to y
+        double[][] dZdY = new double[xval.length][yval.length];
+        BivariateFunction dfdY = new BivariateFunction() {
+                public double value(double x, double y) {
+                    return 4 * x - 6 * y;
+                }
+            };
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdY[i][j] = dfdY.value(xval[i], yval[j]);
+            }
+        }
+        // Partial cross-derivatives
+        double[][] dZdXdY = new double[xval.length][yval.length];
+        for (int i = 0; i < xval.length; i++) {
+            for (int j = 0; j < yval.length; j++) {
+                dZdXdY[i][j] = 4;
+            }
+        }
+
+        BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
+                                                                       dZdX, dZdY, dZdXdY);
+        double x, y;
+        double expected, result;
+
+        final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
+        final UniformRealDistribution distX
+            = new UniformRealDistribution(rng, xval[0], xval[xval.length - 1]);
+        final UniformRealDistribution distY
+            = new UniformRealDistribution(rng, yval[0], yval[yval.length - 1]);
+
+        final double tol = 224;
+        double max = 0;
+        for (int i = 0; i < sz; i++) {
+            x = distX.sample();
+            for (int j = 0; j < sz; j++) {
+                y = distY.sample();
+//                 System.out.println(x + " " + y + " " + f.value(x, y) + " " + bcf.value(x, y));
+                Assert.assertEquals(f.value(x, y),  bcf.value(x, y), tol);
+            }
+//             System.out.println();
         }
     }
 }
