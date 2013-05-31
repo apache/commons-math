@@ -503,13 +503,12 @@ public final class BicubicSplineInterpolatingFunctionTest {
             = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                      dZdX, dZdY, dZdXdY);
         double x, y;
-        double expected, result;
 
         final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
         final UniformRealDistribution distX
-            = new UniformRealDistribution(xval[0], xval[xval.length - 1]);
+            = new UniformRealDistribution(rng, xval[0], xval[xval.length - 1]);
         final UniformRealDistribution distY
-            = new UniformRealDistribution(yval[0], yval[yval.length - 1]);
+            = new UniformRealDistribution(rng, yval[0], yval[yval.length - 1]);
 
         final int numSamples = 50;
         final double tol = 6;
@@ -588,7 +587,6 @@ public final class BicubicSplineInterpolatingFunctionTest {
         BivariateFunction bcf = new BicubicSplineInterpolatingFunction(xval, yval, zval,
                                                                        dZdX, dZdY, dZdXdY);
         double x, y;
-        double expected, result;
 
         final RandomGenerator rng = new Well19937c(1234567L); // "tol" depends on the seed.
         final UniformRealDistribution distX
