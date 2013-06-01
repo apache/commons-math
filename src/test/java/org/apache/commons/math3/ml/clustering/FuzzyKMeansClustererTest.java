@@ -16,8 +16,10 @@
  */
 package org.apache.commons.math3.ml.clustering;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +37,11 @@ public class FuzzyKMeansClustererTest {
 
     @Test
     public void testCluster() {
-        List<DoublePoint> points = new ArrayList<DoublePoint>();
-        
+        final List<DoublePoint> points = new ArrayList<DoublePoint>();
+
         // create 10 data points: [1], ... [10]
         for (int i = 1; i <= 10; i++) {
-            DoublePoint p = new DoublePoint(new double[] { i } );
+            final DoublePoint p = new DoublePoint(new double[] { i } );
             points.add(p);
         }
 
@@ -82,17 +84,17 @@ public class FuzzyKMeansClustererTest {
 
     @Test(expected = NullArgumentException.class)
     public void testNullDataset() {
-        FuzzyKMeansClusterer<DoublePoint> clusterer = new FuzzyKMeansClusterer<DoublePoint>(3, 2.0);
+        final FuzzyKMeansClusterer<DoublePoint> clusterer = new FuzzyKMeansClusterer<DoublePoint>(3, 2.0);
         clusterer.cluster(null);
     }
-    
+
     @Test
     public void testGetters() {
-        DistanceMeasure measure = new CanberraDistance();
-        RandomGenerator random = new JDKRandomGenerator();
-        FuzzyKMeansClusterer<DoublePoint> clusterer =
+        final DistanceMeasure measure = new CanberraDistance();
+        final RandomGenerator random = new JDKRandomGenerator();
+        final FuzzyKMeansClusterer<DoublePoint> clusterer =
                 new FuzzyKMeansClusterer<DoublePoint>(3, 2.0, 100, measure, 1e-6, random);
-        
+
         assertEquals(3, clusterer.getK());
         assertEquals(2.0, clusterer.getFuzziness(), 1e-6);
         assertEquals(100, clusterer.getMaxIterations());
