@@ -16,10 +16,8 @@
  */
 package org.apache.commons.math3.ml.clustering;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +58,7 @@ public class FuzzyKMeansClustererTest {
         boolean cluster1Found = false;
         boolean cluster2Found = false;
         boolean cluster3Found = false;
-        assertEquals(3, clusters.size());
+        Assert.assertEquals(3, clusters.size());
         for (final Cluster<DoublePoint> cluster : clusters) {
             if (cluster.getPoints().containsAll(clusterOne)) {
                 cluster1Found = true;
@@ -72,9 +70,9 @@ public class FuzzyKMeansClustererTest {
                 cluster3Found = true;
             }
         }
-        assertTrue(cluster1Found);
-        assertTrue(cluster2Found);
-        assertTrue(cluster3Found);
+        Assert.assertTrue(cluster1Found);
+        Assert.assertTrue(cluster2Found);
+        Assert.assertTrue(cluster3Found);
     }
 
     @Test(expected = MathIllegalArgumentException.class)
@@ -95,12 +93,12 @@ public class FuzzyKMeansClustererTest {
         final FuzzyKMeansClusterer<DoublePoint> clusterer =
                 new FuzzyKMeansClusterer<DoublePoint>(3, 2.0, 100, measure, 1e-6, random);
 
-        assertEquals(3, clusterer.getK());
-        assertEquals(2.0, clusterer.getFuzziness(), 1e-6);
-        assertEquals(100, clusterer.getMaxIterations());
-        assertEquals(1e-6, clusterer.getEpsilon(), 1e-12);
-        assertThat(clusterer.getDistanceMeasure(), is(measure));
-        assertThat(clusterer.getRandomGenerator(), is(random));
+        Assert.assertEquals(3, clusterer.getK());
+        Assert.assertEquals(2.0, clusterer.getFuzziness(), 1e-6);
+        Assert.assertEquals(100, clusterer.getMaxIterations());
+        Assert.assertEquals(1e-6, clusterer.getEpsilon(), 1e-12);
+        Assert.assertThat(clusterer.getDistanceMeasure(), CoreMatchers.is(measure));
+        Assert.assertThat(clusterer.getRandomGenerator(), CoreMatchers.is(random));
     }
 
 }

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.random;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 
 import java.io.InputStream;
 
@@ -50,8 +50,8 @@ public class SobolSequenceGeneratorTest {
     public void test3DReference() {
         for (int i = 0; i < referenceValues.length; i++) {
             double[] result = generator.nextVector();
-            assertArrayEquals(referenceValues[i], result, 1e-6);
-            assertEquals(i + 1, generator.getNextIndex());
+            Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
+            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
     
@@ -59,14 +59,14 @@ public class SobolSequenceGeneratorTest {
     public void testConstructor() {
         try {
             new SobolSequenceGenerator(0);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
         
         try {
             new SobolSequenceGenerator(1001);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
@@ -78,14 +78,14 @@ public class SobolSequenceGeneratorTest {
             final String RESOURCE_NAME = "/assets/org/apache/commons/math3/random/new-joe-kuo-6.1000";
             final InputStream is = getClass().getResourceAsStream(RESOURCE_NAME);
             new SobolSequenceGenerator(1001, is);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
         
         try {
             new SobolSequenceGenerator(1001);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
@@ -94,13 +94,13 @@ public class SobolSequenceGeneratorTest {
     @Test
     public void testSkip() {
         double[] result = generator.skipTo(5);
-        assertArrayEquals(referenceValues[5], result, 1e-6);
-        assertEquals(6, generator.getNextIndex());
+        Assert.assertArrayEquals(referenceValues[5], result, 1e-6);
+        Assert.assertEquals(6, generator.getNextIndex());
         
         for (int i = 6; i < referenceValues.length; i++) {
             result = generator.nextVector();
-            assertArrayEquals(referenceValues[i], result, 1e-6);
-            assertEquals(i + 1, generator.getNextIndex());
+            Assert.assertArrayEquals(referenceValues[i], result, 1e-6);
+            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
 

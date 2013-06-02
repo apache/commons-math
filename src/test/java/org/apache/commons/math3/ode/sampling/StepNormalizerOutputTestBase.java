@@ -17,7 +17,7 @@
 
 package org.apache.commons.math3.ode.sampling;
 
-import static org.junit.Assert.assertArrayEquals;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -257,7 +257,7 @@ public abstract class StepNormalizerOutputTestBase
         for(int i = 0; i < actual.length; i++) {
             actual[i] = output.get(i);
         }
-        assertArrayEquals(expected, actual, 1e-5);
+        Assert.assertArrayEquals(expected, actual, 1e-5);
     }
 
     /** {@inheritDoc} */

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.random;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -63,8 +63,8 @@ public class HaltonSequenceGeneratorTest {
     public void test3DReference() {
         for (int i = 0; i < referenceValues.length; i++) {
             double[] result = generator.nextVector();
-            assertArrayEquals(referenceValues[i], result, 1e-3);
-            assertEquals(i + 1, generator.getNextIndex());
+            Assert.assertArrayEquals(referenceValues[i], result, 1e-3);
+            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
 
@@ -73,8 +73,8 @@ public class HaltonSequenceGeneratorTest {
         generator = new HaltonSequenceGenerator(2, new int[] {2, 3}, null);
         for (int i = 0; i < referenceValuesUnscrambled.length; i++) {
             double[] result = generator.nextVector();
-            assertArrayEquals(referenceValuesUnscrambled[i], result, 1e-3);
-            assertEquals(i + 1, generator.getNextIndex());
+            Assert.assertArrayEquals(referenceValuesUnscrambled[i], result, 1e-3);
+            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
 
@@ -82,14 +82,14 @@ public class HaltonSequenceGeneratorTest {
     public void testConstructor() {
         try {
             new HaltonSequenceGenerator(0);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
         
         try {
             new HaltonSequenceGenerator(41);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
@@ -99,21 +99,21 @@ public class HaltonSequenceGeneratorTest {
     public void testConstructor2() throws Exception{
         try {
             new HaltonSequenceGenerator(2, new int[] { 1 }, null);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (OutOfRangeException e) {
             // expected
         }
 
         try {
             new HaltonSequenceGenerator(2, null, null);
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (NullArgumentException e) {
             // expected
         }
 
         try {
             new HaltonSequenceGenerator(2, new int[] { 1, 1 }, new int[] { 1 });
-            fail();
+            Assert.fail("an exception should have been thrown");
         } catch (DimensionMismatchException e) {
             // expected
         }
@@ -122,13 +122,13 @@ public class HaltonSequenceGeneratorTest {
     @Test
     public void testSkip() {
         double[] result = generator.skipTo(5);
-        assertArrayEquals(referenceValues[5], result, 1e-3);
-        assertEquals(6, generator.getNextIndex());
+        Assert.assertArrayEquals(referenceValues[5], result, 1e-3);
+        Assert.assertEquals(6, generator.getNextIndex());
         
         for (int i = 6; i < referenceValues.length; i++) {
             result = generator.nextVector();
-            assertArrayEquals(referenceValues[i], result, 1e-3);
-            assertEquals(i + 1, generator.getNextIndex());
+            Assert.assertArrayEquals(referenceValues[i], result, 1e-3);
+            Assert.assertEquals(i + 1, generator.getNextIndex());
         }
     }
 

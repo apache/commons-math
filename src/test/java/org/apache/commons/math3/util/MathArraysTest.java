@@ -13,8 +13,6 @@
  */
 package org.apache.commons.math3.util;
 
-import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 
 import org.apache.commons.math3.TestUtils;
@@ -861,35 +859,35 @@ public class MathArraysTest {
                 
         try {
             MathArrays.convolve(new double[]{1, 2}, null);
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NullArgumentException e) {
             // expected behavior
         }
 
         try {
             MathArrays.convolve(null, new double[]{1, 2});
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NullArgumentException e) {
             // expected behavior
         }
 
         try {
             MathArrays.convolve(new double[]{1, 2}, new double[]{});
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NoDataException e) {
             // expected behavior
         }
 
         try {
             MathArrays.convolve(new double[]{}, new double[]{1, 2});
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NoDataException e) {
             // expected behavior
         }
 
         try {
             MathArrays.convolve(new double[]{}, new double[]{});
-            fail("an exception should have been thrown");
+            Assert.fail("an exception should have been thrown");
         } catch (NoDataException e) {
             // expected behavior
         }
