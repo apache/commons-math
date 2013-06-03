@@ -39,6 +39,25 @@ public final class MidPointIntegratorTest {
      * Test of integrator for the sine function.
      */
     @Test
+    public void testLowAccuracy() {
+        UnivariateFunction f = new QuinticFunction();
+        UnivariateIntegrator integrator = new MidPointIntegrator(0.01, 1.0e-10, 2, 4);
+        
+        double min = -10;
+        double max =  -9;
+        double expected = -3697001.0 / 48.0;
+        double tolerance = FastMath.abs(expected * integrator.getRelativeAccuracy());
+        double result = integrator.integrate(Integer.MAX_VALUE, f, min, max);
+        Assert.assertTrue(integrator.getEvaluations() < Integer.MAX_VALUE / 2);
+        Assert.assertTrue(integrator.getIterations() < MidPointIntegrator.MIDPOINT_MAX_ITERATIONS_COUNT / 2);
+        Assert.assertEquals(expected, result, tolerance);
+
+    }
+
+    /**
+     * Test of integrator for the sine function.
+     */
+    @Test
     public void testSinFunction() {
         UnivariateFunction f = new Sin();
         UnivariateIntegrator integrator = new MidPointIntegrator();

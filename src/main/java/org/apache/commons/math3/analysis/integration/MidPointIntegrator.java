@@ -120,7 +120,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
         final double diff = getMax() - min;
 
         if (n == 0) {
-            final double midPoint = 0.5 * diff;
+            final double midPoint = min + 0.5 * diff;
             return diff * computeObjectiveValue(midPoint);
         } else {
             final long np = 1L << (n - 1);           // number of new points in this stage
