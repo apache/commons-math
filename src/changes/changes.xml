@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-988" due-to="Andreas Huber">
+        Fixed NullPointerException in 2D and 3D sub-line intersections.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-987" due-to="Ajo Fod">
         Added append method to SimpleRegression, making this class map/reducible.
       </action>

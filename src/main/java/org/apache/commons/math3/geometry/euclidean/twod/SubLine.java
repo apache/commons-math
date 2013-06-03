@@ -115,6 +115,9 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // compute the intersection on infinite line
         Vector2D v2D = line1.intersection(line2);
+        if (v2D == null) {
+            return null;
+        }
 
         // check location of point with respect to first sub-line
         Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace(v2D));

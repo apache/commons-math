@@ -144,4 +144,12 @@ public class SubLineTest {
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
+    @Test
+    public void testIntersectionParallel() {
+        final SubLine sub1 = new SubLine(new Vector2D(0, 1), new Vector2D(0, 2));
+        final SubLine sub2 = new SubLine(new Vector2D(66, 3), new Vector2D(66, 4));
+        Assert.assertNull(sub1.intersection(sub2, true));
+        Assert.assertNull(sub1.intersection(sub2, false));
+    }
+
 }
