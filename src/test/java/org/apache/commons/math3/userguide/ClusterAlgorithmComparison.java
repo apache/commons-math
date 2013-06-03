@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
@@ -49,6 +48,7 @@ import org.apache.commons.math3.random.RandomAdaptor;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.SobolSequenceGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Pair;
 
@@ -180,10 +180,10 @@ public class ClusterAlgorithmComparison {
     }
     
     @SuppressWarnings("serial")
-    public static class Display extends JFrame {
+    public static class Display extends ExampleFrame {
         
         public Display() {
-            setTitle("Clustering examples");
+            setTitle("Commons-Math: Cluster algorithm comparison");
             setSize(800, 800);
             
             setLayout(new GridBagLayout());
@@ -231,6 +231,7 @@ public class ClusterAlgorithmComparison {
                 c.gridy++;
             }            
         }
+
     }
 
     @SuppressWarnings("serial")

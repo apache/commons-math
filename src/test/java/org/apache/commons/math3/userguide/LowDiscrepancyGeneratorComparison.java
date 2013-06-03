@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
@@ -42,6 +41,7 @@ import org.apache.commons.math3.random.RandomVectorGenerator;
 import org.apache.commons.math3.random.SobolSequenceGenerator;
 import org.apache.commons.math3.random.UncorrelatedRandomVectorGenerator;
 import org.apache.commons.math3.random.UniformRandomGenerator;
+import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Pair;
 
@@ -118,10 +118,10 @@ public class LowDiscrepancyGeneratorComparison {
     }
     
     @SuppressWarnings("serial")
-    public static class Display extends JFrame {
+    public static class Display extends ExampleFrame {
         
         public Display() {
-            setTitle("Pseudo/Quasi-random examples");
+            setTitle("Commons-Math: Pseudo/Quasi-random examples");
             setSize(800, 800);
             
             setLayout(new GridBagLayout());
