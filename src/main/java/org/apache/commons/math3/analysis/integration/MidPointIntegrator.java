@@ -116,17 +116,17 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                          double previousStageResult)
         throws TooManyEvaluationsException {
 
-        final double max = getMax();
         final double min = getMin();
+        final double diff = getMax() - min;
 
         if (n == 0) {
-            final double midPoint = 0.5 * (max - min);
-            return (max - min) * computeObjectiveValue(midPoint);
+            final double midPoint = 0.5 * diff;
+            return diff * computeObjectiveValue(midPoint);
         } else {
             final long np = 1L << (n - 1);           // number of new points in this stage
             double sum = 0;
             // spacing between adjacent new points
-            final double spacing = (max - min) / np;
+            final double spacing = diff / np;
             double x = min + 0.5 * spacing;    // the first new point
             for (long i = 0; i < np; i++) {
                 sum += computeObjectiveValue(x);
