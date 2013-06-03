@@ -32,6 +32,8 @@ import org.apache.commons.math3.util.FastMath;
  * <p>
  * The function should be integrable.</p>
  *
+ * Class is immutable.
+ *
  * @version $Id$
  * @since 3.3
  */
@@ -39,9 +41,6 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** Maximum number of iterations for midpoint. */
     public static final int MIDPOINT_MAX_ITERATIONS_COUNT = 64;
-
-    /** Intermediate result. */
-    private double s;
 
     /**
      * Build a midpoint integrator with given accuracies and iterations counts.
@@ -109,11 +108,14 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * already computed values.</p>
      *
      * @param n the stage of 1/2 refinement, n = 0 is no refinement
+     * @param previousStageResult Result from the previous call to the {@code stage}
+     * method. It is unused in the first stage (when {@code n} is equal to 0).
      * @return the value of n-th stage integral
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
-    private double stage(final int n)
+    private double stage(final int n,
+                         double previousStageResult)
         throws TooManyEvaluationsException {
 
         final double max = getMax();
@@ -121,8 +123,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
         if (n == 0) {
             final double midPoint = 0.5 * (max - min);
-            s = (max - min) * computeObjectiveValue(midPoint);
-            return s;
+            return (max - min) * computeObjectiveValue(midPoint);
         } else {
             final long np = 1L << (n - 1);           // number of new points in this stage
             double sum = 0;
@@ -134,8 +135,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                 x += spacing;
             }
             // add the new sum to previously calculated result
-            s = 0.5 * (s + sum * spacing);
-            return s;
+            return 0.5 * (previousStageResult + sum * spacing);
         }
     }
 
@@ -143,11 +143,11 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
     protected double doIntegrate()
         throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
 
-        double oldt = stage(0);
+        double oldt = stage(0, 0d);
         iterations.incrementCount();
         while (true) {
             final int i = iterations.getCount();
-            final double t = stage(i);
+            final double t = stage(i, oldt);
             if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(t - oldt);
                 final double rLimit =
