@@ -1356,43 +1356,44 @@ public class MathArrays {
      /**
       * Calculates the convolution between two sequences.
       * <p>
-      * The solution is obtained via straightforward computation of the convolution sum (and not via FFT; for longer sequences,
-      * the performance of this method might be inferior to an FFT-based implementation).
+      * The solution is obtained via straightforward computation of the convolution sum (and not via FFT;
+      * for longer sequences, the performance of this method might be inferior to an FFT-based implementation).
       *
-      * @param x the first sequence (double array of length {@code N}); the sequence is assumed to be zero elsewhere
-      *   (i.e. {x[i]}=0 for i<0 and i>={@code N}). Typically, this sequence will represent an input signal to a system.
-      * @param h the second sequence (double array of length {@code M}); the sequence is assumed to be zero elsewhere
-      *   (i.e. {h[i]}=0 for i<0 and i>={@code M}). Typically, this sequence will represent the impulse response of the system.
+      * @param x the first sequence (double array of length {@code N});
+      *   the sequence is assumed to be zero elsewhere (i.e. {x[i]}=0 for i<0 and i>={@code N}).
+      *   Typically, this sequence will represent an input signal to a system.
+      * @param h the second sequence (double array of length {@code M});
+      *   the sequence is assumed to be zero elsewhere (i.e. {h[i]}=0 for i<0 and i>={@code M}).
+      *   Typically, this sequence will represent the impulse response of the system.
       * @return the convolution of {@code x} and {@code h} (double array of length {@code N} + {@code M} -1)
       * @throws NullArgumentException if either {@code x} or {@code h} is null
       * @throws NoDataException if either {@code x} or {@code h} is empty
       *
       * @see <a href="http://en.wikipedia.org/wiki/Convolution">Convolution (Wikipedia)</a>
-      * @since 4.0
+      * @since 3.3
       */
      public static double[] convolve(double[] x, double[] h) throws NullArgumentException, NoDataException {
          MathUtils.checkNotNull(x);
          MathUtils.checkNotNull(h);
 
-         final int N = x.length;
-         final int M = h.length;
+         final int lenX = x.length;
+         final int lenH = h.length;
 
-         if (N == 0 || M == 0) {
+         if (lenX == 0 || lenH == 0) {
              throw new NoDataException();
          }
 
          // initialize the output array
-         final int totalLength = N + M - 1;
+         final int totalLength = lenX + lenH - 1;
          final double[] y = new double[totalLength];
 
          // straightforward implementation of the convolution sum
          for (int n = 0; n < totalLength; n++) {
              double yn = 0;
-             for (int k = 0; k < M; k++) {
-                 final int j = n - k;
-                 if ((j > -1) && (j < N) ) {
-                     yn = yn + x[j] * h[k];
-                 }
+             int k = FastMath.max(0, n + 1 - lenX);
+             int j = n - k;
+             while (k < lenH && j >= 0) {
+                 yn += x[j--] * h[k++];
              }
              y[n] = yn;
          }
