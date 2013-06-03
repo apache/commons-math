@@ -18,10 +18,10 @@
 package org.apache.commons.math3.stat.regression;
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -156,6 +156,47 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
         n++;
     }
 
+    /**
+     * Appends data from another regression calculation to this one.
+     *
+     * <p>The mean update formulae are based on a paper written by Philippe
+     * P&eacute;bay:
+     * <a
+     * href="http://prod.sandia.gov/techlib/access-control.cgi/2008/086212.pdf">
+     * Formulas for Robust, One-Pass Parallel Computation of Covariances and
+     * Arbitrary-Order Statistical Moments</a>, 2008, Technical Report
+     * SAND2008-6212, Sandia National Laboratories.</p>
+     *
+     * @param reg model to append data from
+     */
+    public void append(SimpleRegression reg) {
+        if (n == 0) {
+            xbar = reg.xbar;
+            ybar = reg.ybar;
+            sumXX = reg.sumXX;
+            sumYY = reg.sumYY;
+            sumXY = reg.sumXY;
+        } else {
+            if (hasIntercept) {
+                final double fact1 = reg.n / (double) (reg.n + n);
+                final double fact2 = n * reg.n / (double) (reg.n + n);
+                final double dx = reg.xbar - xbar;
+                final double dy = reg.ybar - ybar;
+                sumXX += reg.sumXX + dx * dx * fact2;
+                sumYY += reg.sumYY + dy * dy * fact2;
+                sumXY += reg.sumXY + dx * dy * fact2;
+                xbar += dx * fact1;
+                ybar += dy * fact1;
+            }else{
+                sumXX += reg.sumXX;
+                sumYY += reg.sumYY;
+                sumXY += reg.sumXY;
+            }
+        }
+        sumX += reg.sumX;
+        sumY += reg.sumY;
+        n += reg.n;
+    }
 
     /**
      * Removes the observation (x,y) from the regression data set.

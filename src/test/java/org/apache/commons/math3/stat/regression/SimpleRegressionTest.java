@@ -20,6 +20,7 @@ import java.util.Random;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.random.ISAACRandom;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -109,6 +110,103 @@ public final class SimpleRegressionTest {
         {4,6}
     };
 
+
+    /**
+     * Test that the SimpleRegression objects generated from combining two
+     * SimpleRegression objects created from subsets of data are identical to
+     * SimpleRegression objects created from the combined data.
+     */
+    @Test
+    public void testAppend() {
+        check(false);
+        check(true);
+    }
+
+    /**
+     * Checks that adding data to a single model gives the same result
+     * as adding "parts" of the dataset to smaller models and using append
+     * to aggregate the smaller models.
+     *
+     * @param includeIntercept
+     */
+    private void check(boolean includeIntercept) {
+        final int sets = 2;
+        final ISAACRandom rand = new ISAACRandom(10L);// Seed can be changed
+        final SimpleRegression whole = new SimpleRegression(includeIntercept);// regression of the whole set
+        final SimpleRegression parts = new SimpleRegression(includeIntercept);// regression with parts.
+
+        for (int s = 0; s < sets; s++) {// loop through each subset of data.
+            final double coef = rand.nextDouble();
+            final SimpleRegression sub = new SimpleRegression(includeIntercept);// sub regression
+            for (int i = 0; i < 5; i++) { // loop through individual samlpes.
+                final double x = rand.nextDouble();
+                final double y = x * coef + rand.nextDouble();// some noise
+                sub.addData(x, y);
+                whole.addData(x, y);
+            }
+            parts.append(sub);
+            Assert.assertTrue(equals(parts, whole, 1E-6));
+        }
+    }
+
+    /**
+     * Returns true iff the statistics reported by model1 are all within tol of
+     * those reported by model2.
+     *
+     * @param model1 first model
+     * @param model2 second model
+     * @param tol tolerance
+     * @return true if the two models report the same regression stats
+     */
+    private boolean equals(SimpleRegression model1, SimpleRegression model2, double tol) {
+        if (model1.getN() != model2.getN()) {
+            return false;
+        }
+        if (Math.abs(model1.getIntercept() - model2.getIntercept()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getInterceptStdErr() - model2.getInterceptStdErr()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getMeanSquareError() - model2.getMeanSquareError()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getR() - model2.getR()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getRegressionSumSquares() - model2.getRegressionSumSquares()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getRSquare() - model2.getRSquare()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSignificance() - model2.getSignificance()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSlope() - model2.getSlope()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSlopeConfidenceInterval() - model2.getSlopeConfidenceInterval()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSlopeStdErr() - model2.getSlopeStdErr()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSumOfCrossProducts() - model2.getSumOfCrossProducts()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getSumSquaredErrors() - model2.getSumSquaredErrors()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getTotalSumSquares() - model2.getTotalSumSquares()) > tol) {
+            return false;
+        }
+        if (Math.abs(model1.getXSumSquares() - model2.getXSumSquares()) > tol) {
+            return false;
+        }
+        return true;
+    }
+
     @Test
     public void testRegressIfaceMethod(){
         final SimpleRegression regression = new SimpleRegression(true);
@@ -156,7 +254,7 @@ public final class SimpleRegressionTest {
         Assert.assertEquals("MSE", regressionIntOnly.getMeanSquareError(), onlyInt.getMeanSquareError() ,1.0E-8);
 
     }
-    
+
     /**
      * Verify that regress generates exceptions as advertised for bad model specifications.
      */
@@ -191,7 +289,7 @@ public final class SimpleRegressionTest {
         } catch (OutOfRangeException ex) {
             // Expected
         }
-        
+
         // With intercept
         final SimpleRegression regression = new SimpleRegression(true);
         regression.addData(noint2[0][1], noint2[0][0]);
