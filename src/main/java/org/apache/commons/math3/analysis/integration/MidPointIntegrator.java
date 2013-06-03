@@ -105,47 +105,54 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
      * arbitrary m sections because this configuration can best utilize the
      * already computed values.</p>
      *
-     * @param n the stage of 1/2 refinement, n = 0 is no refinement
-     * @param previousStageResult Result from the previous call to the {@code stage}
-     * method. It is unused in the first stage (when {@code n} is equal to 0).
+     * @param n the stage of 1/2 refinement. Must be larger than 0.
+     * @param previousStageResult Result from the previous call to the
+     * {@code stage} method.
+     * @param min Lower bound of the integration interval.
+     * @param diffMaxMin Difference between the lower bound and upper bound
+     * of the integration interval.
      * @return the value of n-th stage integral
      * @throws TooManyEvaluationsException if the maximal number of evaluations
      * is exceeded.
      */
     private double stage(final int n,
-                         double previousStageResult)
+                         double previousStageResult,
+                         double min,
+                         double diffMaxMin)
         throws TooManyEvaluationsException {
 
-        final double min = getMin();
-        final double diff = getMax() - min;
+        // number of new points in this stage
+        final long np = 1L << (n - 1);
+        double sum = 0;
 
-        if (n == 0) {
-            final double midPoint = min + 0.5 * diff;
-            return diff * computeObjectiveValue(midPoint);
-        } else {
-            final long np = 1L << (n - 1);           // number of new points in this stage
-            double sum = 0;
-            // spacing between adjacent new points
-            final double spacing = diff / np;
-            double x = min + 0.5 * spacing;    // the first new point
-            for (long i = 0; i < np; i++) {
-                sum += computeObjectiveValue(x);
-                x += spacing;
-            }
-            // add the new sum to previously calculated result
-            return 0.5 * (previousStageResult + sum * spacing);
+        // spacing between adjacent new points
+        final double spacing = diffMaxMin / np;
+
+        // the first new point
+        double x = min + 0.5 * spacing;
+        for (long i = 0; i < np; i++) {
+            sum += computeObjectiveValue(x);
+            x += spacing;
         }
+        // add the new sum to previously calculated result
+        return 0.5 * (previousStageResult + sum * spacing);
     }
+
 
     /** {@inheritDoc} */
     protected double doIntegrate()
         throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
 
-        double oldt = stage(0, 0d);
-        iterations.incrementCount();
+        final double min = getMin();
+        final double diff = getMax() - min;
+        final double midPoint = min + 0.5 * diff;
+
+        double oldt = diff * computeObjectiveValue(midPoint);
+
         while (true) {
+            iterations.incrementCount();
             final int i = iterations.getCount();
-            final double t = stage(i, oldt);
+            final double t = stage(i, oldt, min, diff);
             if (i >= getMinimalIterationCount()) {
                 final double delta = FastMath.abs(t - oldt);
                 final double rLimit =
@@ -155,7 +162,6 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
                 }
             }
             oldt = t;
-            iterations.incrementCount();
         }
 
     }
