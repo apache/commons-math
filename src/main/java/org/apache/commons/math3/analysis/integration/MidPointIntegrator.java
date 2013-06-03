@@ -32,8 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * <p>
  * The function should be integrable.</p>
  *
- * Class is immutable.
- *
  * @version $Id$
  * @since 3.3
  */
