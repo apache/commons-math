@@ -675,59 +675,69 @@ public class MathArrays {
     public static void sortInPlace(double[] x,
                                    final OrderDirection dir,
                                    double[] ... yList)
-        throws NullArgumentException, DimensionMismatchException {
+        throws NullArgumentException,
+               DimensionMismatchException {
+        final int yListLen = yList.length;
+        final int len = x.length;
+
+        // Consistency checks.
         if (x == null) {
             throw new NullArgumentException();
         }
-
-        final int len = x.length;
-        final List<Pair<Double, double[]>> list
-            = new ArrayList<Pair<Double, double[]>>(len);
-
-        final int yListLen = yList.length;
-        for (int i = 0; i < len; i++) {
-            final double[] yValues = new double[yListLen];
-            for (int j = 0; j < yListLen; j++) {
-                double[] y = yList[j];
-                if (y == null) {
-                    throw new NullArgumentException();
-                }
-                if (y.length != len) {
-                    throw new DimensionMismatchException(y.length, len);
-                }
-                yValues[j] = y[i];
+        for (int j = 0; j < yListLen; j++) {
+            final double[] y = yList[j];
+            if (y == null) {
+                throw new NullArgumentException();
             }
-            list.add(new Pair<Double, double[]>(x[i], yValues));
+            if (y.length != len) {
+                throw new DimensionMismatchException(y.length, len);
+            }
         }
 
-        final Comparator<Pair<Double, double[]>> comp
-            = new Comparator<Pair<Double, double[]>>() {
-            public int compare(Pair<Double, double[]> o1,
-                               Pair<Double, double[]> o2) {
-                int val;
-                switch (dir) {
-                case INCREASING:
-                    val = o1.getKey().compareTo(o2.getKey());
-                break;
-                case DECREASING:
-                    val = o2.getKey().compareTo(o1.getKey());
-                break;
-                default:
-                    // Should never happen.
-                    throw new MathInternalError();
-                }
-                return val;
+        // Associate each abscissa "x[i]" with its index "i".
+        final List<Pair<Double, Integer>> list
+            = new ArrayList<Pair<Double, Integer>>(len);
+        for (int i = 0; i < len; i++) {
+            list.add(new Pair<Double, Integer>(x[i], i));
+        }
+
+        // Create comparators for increasing and decreasing orders.
+        final Comparator<Pair<Double, Integer>> comp
+            = dir == MathArrays.OrderDirection.INCREASING ?
+            new Comparator<Pair<Double, Integer>>() {
+            public int compare(Pair<Double, Integer> o1,
+                               Pair<Double, Integer> o2) {
+                return o1.getKey().compareTo(o2.getKey());
+            }
+        } : new Comparator<Pair<Double,Integer>>() {
+            public int compare(Pair<Double, Integer> o1,
+                               Pair<Double, Integer> o2) {
+                return o2.getKey().compareTo(o1.getKey());
             }
         };
 
+        // Sort.
         Collections.sort(list, comp);
 
+        // Modify the original array so that its elements are in
+        // the prescribed order.
+        // Retrieve indices of original locations.
+        final int[] indices = new int[len];
         for (int i = 0; i < len; i++) {
-            final Pair<Double, double[]> e = list.get(i);
+            final Pair<Double, Integer> e = list.get(i);
             x[i] = e.getKey();
-            final double[] yValues = e.getValue();
-            for (int j = 0; j < yListLen; j++) {
-                yList[j][i] = yValues[j];
+            indices[i] = e.getValue();
+        }
+
+        // In each of the associated arrays, move the
+        // elements to their new location.
+        for (int j = 0; j < yListLen; j++) {
+            // Input array will be modified in place.
+            final double[] yInPlace = yList[j];
+            final double[] yOrig = yInPlace.clone();
+
+            for (int i = 0; i < len; i++) {
+                yInPlace[i] = yOrig[indices[i]];
             }
         }
     }
