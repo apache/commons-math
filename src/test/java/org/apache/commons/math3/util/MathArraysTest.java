@@ -406,6 +406,37 @@ public class MathArraysTest {
         Assert.assertEquals(25,  x2[4], Math.ulp(1d));
         Assert.assertEquals(125, x3[4], Math.ulp(1d));
     }
+
+    @Test
+    public void testSortInPlaceDecresasingOrder() {
+        final double[] x1 = {2,   5,  -3, 1,  4};
+        final double[] x2 = {4,  25,   9, 1, 16};
+        final double[] x3 = {8, 125, -27, 1, 64};
+
+        MathArrays.sortInPlace(x1,
+                               MathArrays.OrderDirection.DECREASING,
+                               x2, x3);
+
+        Assert.assertEquals(-3,  x1[4], Math.ulp(1d));
+        Assert.assertEquals(9,   x2[4], Math.ulp(1d));
+        Assert.assertEquals(-27, x3[4], Math.ulp(1d));
+
+        Assert.assertEquals(1, x1[3], Math.ulp(1d));
+        Assert.assertEquals(1, x2[3], Math.ulp(1d));
+        Assert.assertEquals(1, x3[3], Math.ulp(1d));
+
+        Assert.assertEquals(2, x1[2], Math.ulp(1d));
+        Assert.assertEquals(4, x2[2], Math.ulp(1d));
+        Assert.assertEquals(8, x3[2], Math.ulp(1d));
+
+        Assert.assertEquals(4,  x1[1], Math.ulp(1d));
+        Assert.assertEquals(16, x2[1], Math.ulp(1d));
+        Assert.assertEquals(64, x3[1], Math.ulp(1d));
+
+        Assert.assertEquals(5,   x1[0], Math.ulp(1d));
+        Assert.assertEquals(25,  x2[0], Math.ulp(1d));
+        Assert.assertEquals(125, x3[0], Math.ulp(1d));
+    }
     
     @Test
     /** Example in javadoc */
