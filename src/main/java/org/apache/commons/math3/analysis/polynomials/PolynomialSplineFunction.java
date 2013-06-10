@@ -229,4 +229,19 @@ public class PolynomialSplineFunction implements UnivariateDifferentiableFunctio
         System.arraycopy(knots, 0, out, 0, n + 1);
         return out;
     }
+
+    /**
+     * Indicates whether a point is within the interpolation range.
+     *
+     * @param x Point.
+     * @return {@code true} if {@code x} is a valid point.
+     */
+    public boolean isValidPoint(double x) {
+        if (x < knots[0] ||
+            x > knots[n]) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

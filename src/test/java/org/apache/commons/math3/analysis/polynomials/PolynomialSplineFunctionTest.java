@@ -134,6 +134,41 @@ public class PolynomialSplineFunctionTest {
         }
     }
 
+    @Test
+    public void testIsValidPoint() {
+        final PolynomialSplineFunction spline =
+            new PolynomialSplineFunction(knots, polynomials);
+        final double xMin = knots[0];
+        final double xMax = knots[knots.length - 1];
+
+        double x;
+
+        x = xMin;
+        Assert.assertTrue(spline.isValidPoint(x));
+        // Ensure that no exception is thrown.
+        spline.value(x);
+
+        x = xMax;
+        Assert.assertTrue(spline.isValidPoint(x));
+        // Ensure that no exception is thrown.
+        spline.value(x);
+ 
+        final double xRange = xMax - xMin;
+        x = xMin + xRange / 3.4;
+        Assert.assertTrue(spline.isValidPoint(x));
+        // Ensure that no exception is thrown.
+        spline.value(x);
+
+        final double small = 1e-8;
+        x = xMin - small;
+        Assert.assertFalse(spline.isValidPoint(x));
+        // Ensure that an exception would have been thrown.
+        try {
+            spline.value(x);
+            Assert.fail("OutOfRangeException expected");
+        } catch (OutOfRangeException expected) {}
+    }
+
     /**
      *  Do linear search to find largest knot point less than or equal to x.
      *  Implementation does binary search.
