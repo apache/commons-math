@@ -18,6 +18,7 @@ package org.apache.commons.math3.analysis.interpolation;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -605,5 +606,65 @@ public final class BicubicSplineInterpolatingFunctionTest {
             }
 //             System.out.println();
         }
+    }
+
+    @Test
+    public void testIsValidPoint() {
+        final double xMin = -12;
+        final double xMax = 34;
+        final double yMin = 5;
+        final double yMax = 67;
+        final double[] xval = new double[] { xMin, xMax };
+        final double[] yval = new double[] { yMin, yMax };
+        final double[][] f = new double[][] { { 1, 2 },
+                                              { 3, 4 } };
+        final double[][] dFdX = f;
+        final double[][] dFdY = f;
+        final double[][] dFdXdY = f;
+
+        final BicubicSplineInterpolatingFunction bcf
+            = new BicubicSplineInterpolatingFunction(xval, yval, f,
+                                                     dFdX, dFdY, dFdXdY);
+
+        double x, y;
+
+        x = xMin;
+        y = yMin;
+        Assert.assertTrue(bcf.isValidPoint(x, y));
+        // Ensure that no exception is thrown.
+        bcf.value(x, y);
+
+        x = xMax;
+        y = yMax;
+        Assert.assertTrue(bcf.isValidPoint(x, y));
+        // Ensure that no exception is thrown.
+        bcf.value(x, y);
+ 
+        final double xRange = xMax - xMin;
+        final double yRange = yMax - yMin;
+        x = xMin + xRange / 3.4;
+        y = yMin + yRange / 1.2;
+        Assert.assertTrue(bcf.isValidPoint(x, y));
+        // Ensure that no exception is thrown.
+        bcf.value(x, y);
+
+        final double small = 1e-8;
+        x = xMin - small;
+        y = yMax;
+        Assert.assertFalse(bcf.isValidPoint(x, y));
+        // Ensure that an exception would have been thrown.
+        try {
+            bcf.value(x, y);
+            Assert.fail("OutOfRangeException expected");
+        } catch (OutOfRangeException expected) {}
+
+        x = xMin;
+        y = yMax + small;
+        Assert.assertFalse(bcf.isValidPoint(x, y));
+        // Ensure that an exception would have been thrown.
+        try {
+            bcf.value(x, y);
+            Assert.fail("OutOfRangeException expected");
+        } catch (OutOfRangeException expected) {}
     }
 }

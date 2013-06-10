@@ -173,6 +173,24 @@ public class BicubicSplineInterpolatingFunction
     }
 
     /**
+     * Indicates whether a point is within the interpolation range.
+     *
+     * @param x First coordinate.
+     * @param y Second coordinate.
+     * @return {@code true} if (x, y) is a valid point.
+     */
+    public boolean isValidPoint(double x, double y) {
+        if (x < xval[0] ||
+            x > xval[xval.length - 1] ||
+            y < yval[0] ||
+            y > yval[yval.length - 1]) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * @param x x-coordinate.
      * @param y y-coordinate.
      * @return the value at point (x, y) of the first partial derivative with
