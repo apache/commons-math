@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-993">
+        In "GaussNewtonOptimizer", check for convergence before updating the
+        parameters estimation for the next iteration.
+      </action>
       <action dev="luc" type="add" issue="MATH-967" due-to="Oleksandr Kornieiev">
         Added midpoint integration method.
       </action>

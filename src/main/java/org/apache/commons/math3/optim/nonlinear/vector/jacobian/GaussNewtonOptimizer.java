@@ -139,6 +139,15 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 }
             }
 
+            // Check convergence.
+            if (previous != null) {
+                converged = checker.converged(getIterations(), previous, current);
+                if (converged) {
+                    setCost(computeCost(currentResiduals));
+                    return current;
+                }
+            }
+
             try {
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
@@ -152,15 +161,6 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer {
                 }
             } catch (SingularMatrixException e) {
                 throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
-            }
-
-            // Check convergence.
-            if (previous != null) {
-                converged = checker.converged(getIterations(), previous, current);
-                if (converged) {
-                    setCost(computeCost(currentResiduals));
-                    return current;
-                }
             }
         }
         // Must never happen.
