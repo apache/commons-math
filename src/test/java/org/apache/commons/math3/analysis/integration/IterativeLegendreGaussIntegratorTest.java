@@ -21,6 +21,7 @@ import java.util.Random;
 import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Sin;
+import org.apache.commons.math3.analysis.function.Gaussian;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.FastMath;
@@ -100,6 +101,24 @@ public class IterativeLegendreGaussIntegratorTest {
             }
 
         }
+    }
+
+    // Cf. MATH-995
+    @Test
+    public void testNormalDistributionWithLargeSigma() {
+        final double sigma = 1000;
+        final double mean = 0;
+        final double factor = 1 / (sigma * FastMath.sqrt(2 * FastMath.PI));
+        final UnivariateFunction normal = new Gaussian(factor, mean, sigma);
+
+        final double tol = 1e-2;
+        final IterativeLegendreGaussIntegrator integrator =
+            new IterativeLegendreGaussIntegrator(5, tol, tol);
+
+        final double a = -5000;
+        final double b = 5000;
+        final double s = integrator.integrate(50, normal, a, b);
+        Assert.assertEquals(1, s, 1e-5);
     }
 
     @Test
