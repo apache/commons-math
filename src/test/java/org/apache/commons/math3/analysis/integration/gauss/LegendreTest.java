@@ -29,7 +29,7 @@ import org.junit.Assert;
  * @version $Id$
  */
 public class LegendreTest {
-    private static GaussIntegratorFactory factory = new GaussIntegratorFactory();
+    private static final GaussIntegratorFactory factory = new GaussIntegratorFactory();
 
     @Test
     public void testCos() {
