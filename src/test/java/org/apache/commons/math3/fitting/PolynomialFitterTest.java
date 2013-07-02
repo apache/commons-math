@@ -135,6 +135,7 @@ public class PolynomialFitterTest {
         final double[] init = new double[] { 0, 0 };
         final int maxEval = 10000; // Trying hard to fit.
 
+        @SuppressWarnings("unused")
         final double[] gn = doMath798(new GaussNewtonOptimizer(checker), maxEval, init);
     }
 
