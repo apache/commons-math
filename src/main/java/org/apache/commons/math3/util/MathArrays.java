@@ -677,13 +677,15 @@ public class MathArrays {
                                    double[] ... yList)
         throws NullArgumentException,
                DimensionMismatchException {
-        final int yListLen = yList.length;
-        final int len = x.length;
 
         // Consistency checks.
         if (x == null) {
             throw new NullArgumentException();
         }
+
+        final int yListLen = yList.length;
+        final int len = x.length;
+
         for (int j = 0; j < yListLen; j++) {
             final double[] y = yList[j];
             if (y == null) {
