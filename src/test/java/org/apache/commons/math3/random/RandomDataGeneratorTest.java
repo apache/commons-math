@@ -43,7 +43,6 @@ import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.apache.commons.math3.distribution.ZipfDistributionTest;
 import org.apache.commons.math3.stat.Frequency;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -421,9 +420,8 @@ public class RandomDataGeneratorTest {
             checkNextPoissonConsistency(randomData.nextUniform(1, 1000));
         }
         // large means
-        // TODO: When MATH-282 is resolved, s/3000/10000 below
         for (int i = 1; i < 10; i++) {
-            checkNextPoissonConsistency(randomData.nextUniform(1000, 3000));
+            checkNextPoissonConsistency(randomData.nextUniform(1000, 10000));
         }
     }
 
