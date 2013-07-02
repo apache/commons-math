@@ -369,6 +369,7 @@ public class EigenDecompositionTest {
         };
 
         final EigenDecomposition dec = new EigenDecomposition(MatrixUtils.createRealMatrix(data));
+        @SuppressWarnings("unused")
         final RealMatrix sqrtM = dec.getSquareRoot();
     }
 
@@ -381,6 +382,7 @@ public class EigenDecompositionTest {
         };
 
         final EigenDecomposition dec = new EigenDecomposition(MatrixUtils.createRealMatrix(data));
+        @SuppressWarnings("unused")
         final RealMatrix sqrtM = dec.getSquareRoot();
     }
 
