@@ -66,6 +66,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
      * @param optimizer optimizer to use for the fitting
      * @deprecated as of 3.1 replaced by {@link #CurveFitter(MultivariateDifferentiableVectorOptimizer)}
      */
+    @Deprecated
     public CurveFitter(final DifferentiableMultivariateVectorOptimizer optimizer) {
         this.oldOptimizer = optimizer;
         this.optimizer    = null;

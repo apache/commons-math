@@ -105,6 +105,7 @@ public class FunctionUtils {
      * @return the composite function.
      * @deprecated as of 3.1 replaced by {@link #compose(UnivariateDifferentiableFunction...)}
      */
+    @Deprecated
     public static DifferentiableUnivariateFunction compose(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */
@@ -279,6 +280,7 @@ public class FunctionUtils {
      * @return a function that computes the product of the functions.
      * @deprecated as of 3.1 replaced by {@link #multiply(UnivariateDifferentiableFunction...)}
      */
+    @Deprecated
     public static DifferentiableUnivariateFunction multiply(final DifferentiableUnivariateFunction ... f) {
         return new DifferentiableUnivariateFunction() {
             /** {@inheritDoc} */

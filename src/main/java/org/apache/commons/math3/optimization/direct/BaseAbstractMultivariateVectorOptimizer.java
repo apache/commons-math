@@ -58,6 +58,7 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
     /** Weight for the least squares cost computation.
      * @deprecated
      */
+    @Deprecated
     private double[] weight;
     /** Initial guess. */
     private double[] start;

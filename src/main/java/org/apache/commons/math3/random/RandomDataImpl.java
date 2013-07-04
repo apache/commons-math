@@ -560,6 +560,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
+    @Deprecated
     public double nextInversionDeviate(RealDistribution distribution)
         throws MathIllegalArgumentException {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));
@@ -576,6 +577,7 @@ public class RandomDataImpl implements RandomData, Serializable {
      * @since 2.2
      * @deprecated use the distribution's sample() method
      */
+    @Deprecated
     public int nextInversionDeviate(IntegerDistribution distribution)
         throws MathIllegalArgumentException {
         return distribution.inverseCumulativeProbability(nextUniform(0, 1));

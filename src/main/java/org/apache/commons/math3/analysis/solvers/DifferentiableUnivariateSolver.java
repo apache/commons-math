@@ -26,5 +26,6 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
  * @version $Id$
  * @deprecated as of 3.1, replaced by {@link UnivariateDifferentiableSolver}
  */
+@Deprecated
 public interface DifferentiableUnivariateSolver
     extends BaseUnivariateSolver<DifferentiableUnivariateFunction> {}

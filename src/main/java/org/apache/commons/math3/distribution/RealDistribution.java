@@ -146,6 +146,7 @@ public interface RealDistribution {
      * function returns a non-NaN, non-infinite value there
      * @deprecated to be removed in 4.0
      */
+    @Deprecated
     boolean isSupportLowerBoundInclusive();
 
     /**
@@ -158,6 +159,7 @@ public interface RealDistribution {
      * function returns a non-NaN, non-infinite value there
      * @deprecated to be removed in 4.0
      */
+    @Deprecated
     boolean isSupportUpperBoundInclusive();
 
     /**

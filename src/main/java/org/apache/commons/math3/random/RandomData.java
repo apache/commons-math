@@ -28,6 +28,7 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
  * @deprecated to be removed in 4.0.  Use {@link RandomDataGenerator} directly
  * @version $Id$
  */
+@Deprecated
 public interface RandomData {
     /**
      * Generates a random string of hex characters of length {@code len}.

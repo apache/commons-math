@@ -105,6 +105,7 @@ public class ValueServer {
      * @since 3.0
      * @deprecated use {@link #ValueServer(RandomGenerator)}
      */
+    @Deprecated
     public ValueServer(RandomDataImpl randomData) {
         this.randomData = randomData;
     }

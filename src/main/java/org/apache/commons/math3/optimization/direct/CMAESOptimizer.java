@@ -233,6 +233,7 @@ public class CMAESOptimizer
      * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
      * optimize} (whereas in the current code it is set to an undocumented value).
      */
+    @Deprecated
     public CMAESOptimizer() {
         this(0);
     }
@@ -243,6 +244,7 @@ public class CMAESOptimizer
      * passed with the call to {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])
      * optimize} (whereas in the current code it is set to an undocumented value)..
      */
+    @Deprecated
     public CMAESOptimizer(int lambda) {
         this(lambda, null, DEFAULT_MAXITERATIONS, DEFAULT_STOPFITNESS,
              DEFAULT_ISACTIVECMA, DEFAULT_DIAGONALONLY,
