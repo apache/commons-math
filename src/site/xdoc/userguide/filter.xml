@@ -41,22 +41,22 @@
           MeasurementModel</a>, which contain the corresponding transformation and noise covariance matrices. 
           The parameter names used in the respective models correspond to the following names commonly used 
           in the mathematical literature:
-		<ul>
- 			<li>A - state transition matrix</li>
- 			<li>B - control input matrix</li>
- 			<li>H - measurement matrix</li>
- 			<li>Q - process noise covariance matrix</li>
- 			<li>R - measurement noise covariance matrix</li>
- 			<li>P - error covariance matrix</li>
- 		</ul>
- 		</p>
+        <ul>
+             <li>A - state transition matrix</li>
+             <li>B - control input matrix</li>
+             <li>H - measurement matrix</li>
+             <li>Q - process noise covariance matrix</li>
+             <li>R - measurement noise covariance matrix</li>
+             <li>P - error covariance matrix</li>
+         </ul>
+         </p>
         <p>
         <dl>
-      	  <dt>Initialization</dt>
+          <dt>Initialization</dt>
           <dd> The following code will create a Kalman filter using the provided 
           DefaultMeasurementModel and DefaultProcessModel classes. To support dynamically changing
           process and measurement noises, simply implement your own models.
-          	<source>
+            <source>
 // A = [ 1 ]
 RealMatrix A = new Array2DRowRealMatrix(new double[] { 1d });
 // no control input
@@ -72,11 +72,11 @@ ProcessModel pm
    = new DefaultProcessModel(A, B, Q, new ArrayRealVector(new double[] { 0 }), null);
 MeasurementModel mm = new DefaultMeasurementModel(H, R);
 KalmanFilter filter = new KalmanFilter(pm, mm);
- 			</source>
-		  </dd>
-		  <dt>Iteration</dt>
+            </source>
+          </dd>
+          <dt>Iteration</dt>
           <dd>The following code illustrates how to perform the predict/correct cycle:  
-		  <source>
+          <source>
 for (;;) {
    // predict the state estimate one time-step ahead
    // optionally provide some control input
@@ -91,9 +91,9 @@ for (;;) {
    double[] stateEstimate = filter.getStateEstimation();
    // do something with it
 }
-		  </source>
-		  </dd>
-		  <dt>Constant Voltage Example</dt>
+          </source>
+          </dd>
+          <dt>Constant Voltage Example</dt>
           <dd>The following example creates a Kalman filter for a static process: a system with a 
           constant voltage as internal state. We observe this process with an artificially 
           imposed measurement noise of 0.1V and assume an internal process noise of 1e-5V.
@@ -148,7 +148,7 @@ for (int i = 0; i &lt; 60; i++) {
 }
           </source>
           </dd>
-      	  <dt>Increasing Speed Vehicle Example</dt>
+          <dt>Increasing Speed Vehicle Example</dt>
           <dd>The following example creates a Kalman filter for a simple linear process: a 
           vehicle driving along a street with a velocity increasing at a constant rate. The process
           state is modeled as (position, velocity) and we only observe the position. A measurement

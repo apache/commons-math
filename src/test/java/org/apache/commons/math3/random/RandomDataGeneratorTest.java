@@ -955,7 +955,7 @@ public class RandomDataGeneratorTest {
         }
         
         String[] labels = {"{0, 1, 2}", "{ 0, 2, 1 }", "{ 1, 0, 2 }",
-        		"{ 1, 2, 0 }", "{ 2, 0, 1 }", "{ 2, 1, 0 }"};
+                "{ 1, 2, 0 }", "{ 2, 0, 1 }", "{ 2, 1, 0 }"};
         TestUtils.assertChiSquareAccept(labels, expected, observed, 0.001);
 
         // Check size = 1 boundary case

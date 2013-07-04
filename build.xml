@@ -97,7 +97,7 @@
 
   <!-- Should Java compilations set the 'optimize' compiler option? -->
   <property name="compile.optimize"        value="true"/>
-	
+
   <!-- File encoding -->
   <property name="source.encoding"         value="UTF-8"/>
     
@@ -241,9 +241,9 @@
                  author="true"
                 private="true"
                 version="true"
-    	       encoding="${source.encoding}"
-    	        charset="${source.encoding}"
-    	    docencoding="${source.encoding}"
+               encoding="${source.encoding}"
+                charset="${source.encoding}"
+            docencoding="${source.encoding}"
                doctitle="&lt;h1&gt;${component.title} ${component.version}&lt;/h1&gt;"
             windowtitle="${component.title} ${component.version}"
                  bottom="Copyright (c) 2003-${current.year}  Apache Software Foundation"

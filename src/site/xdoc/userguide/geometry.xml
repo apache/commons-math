@@ -164,7 +164,7 @@
         </p>
       </subsection>
       <subsection name="11.3 Binary Space Partitioning" href="partitioning">
-	    <p>
+        <p>
           <a href="../apidocs/org/apache/commons/math3/geometry/partitioning/BSPTree.html">
           BSP trees</a> are an efficient way to represent space partitions and
           to associate attributes with each cell. Each node in a BSP tree

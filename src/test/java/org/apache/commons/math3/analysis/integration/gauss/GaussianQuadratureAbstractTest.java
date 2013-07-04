@@ -81,8 +81,8 @@ public abstract class GaussianQuadratureAbstractTest {
      */
     public abstract double getExpectedValue(final int n);
 
-	/**
-	 * Checks that the value of the integral of each monomial
+    /**
+     * Checks that the value of the integral of each monomial
      *   <code>x<sup>0</sup>, ... , x<sup>p</sup></code>
      * returned by the quadrature rule under test conforms with the expected
      * value.
@@ -104,7 +104,7 @@ public abstract class GaussianQuadratureAbstractTest {
                                     " with a " +
                                     integrator.getNumberOfPoints() + "-point quadrature rule",
                                     expected, actual, eps);
-			} else {
+            } else {
                 double err = Math.abs(actual - expected) / Math.ulp(expected);
                 Assert.assertEquals("while integrating monomial x**" + n + " with a " +
                                     + integrator.getNumberOfPoints() + "-point quadrature rule, " +

@@ -707,17 +707,17 @@ counterpart in either Math or StrictMath (cf. MATH-740).
         Removed "MathRuntimeException" (from package "o.a.c.math").
       </action>
       <action dev="tn" type="fix" issue="MATH-739">
-      	Merged interface and implementation of statistical tests in
-      	o.a.c.m.stat.inference package.
+        Merged interface and implementation of statistical tests in
+        o.a.c.m.stat.inference package.
       </action>
       <action dev="tn" type="update" issue="MATH-670">
-      	Merged interface and implementation of EmpiricalDistribution.
+        Merged interface and implementation of EmpiricalDistribution.
       </action>
       <action dev="tn" type="fix" issue="MATH-588">
-      	Relaxed test for equality in UnivariateStatisticAbstractTest.
+        Relaxed test for equality in UnivariateStatisticAbstractTest.
       </action>
       <action dev="tn" type="update" issue="MATH-575">
-      	Modified the genetics package to use localized exception messages.
+        Modified the genetics package to use localized exception messages.
       </action>
       <action dev="tn" type="fix" issue="MATH-652" due-to="Greg Sterijevski">
         Fixed a faulty test for zero in TridiagonalTransformer.

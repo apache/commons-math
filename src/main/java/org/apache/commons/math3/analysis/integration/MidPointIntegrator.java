@@ -141,7 +141,7 @@ public class MidPointIntegrator extends BaseAbstractUnivariateIntegrator {
 
     /** {@inheritDoc} */
     @Override
-	protected double doIntegrate()
+    protected double doIntegrate()
         throws MathIllegalArgumentException, TooManyEvaluationsException, MaxCountExceededException {
 
         final double min = getMin();

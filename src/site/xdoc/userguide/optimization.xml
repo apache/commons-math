@@ -253,11 +253,11 @@
     <dl>
     <dt>Quadratic Problem Example</dt>
     <dd>
-	
-	
-	We are looking to find the best parameters [a, b, c] for the quadratic function
+
+
+    We are looking to find the best parameters [a, b, c] for the quadratic function
     <b><code>f(x) = a x<sup>2</sup> + b x + c</code></b>.
-	The data set below was generated using [a = 8, b = 10, c = 16]. 
+    The data set below was generated using [a = 8, b = 10, c = 16]. 
     A random number between zero and one was added to each y value calculated.
 
     <table cellspacing="0" cellpadding="3">
@@ -323,9 +323,9 @@ We'll tackle the implementation of the <code>MultivariateMatrixFunction jacobian
 In this case the Jacobian is the partial derivative of the function with respect
 to the parameters a, b and c.  These derivatives are computed as follows:
 <ul>
-	<li>d(ax<sup>2</sup> + bx + c)/da = x<sup>2</sup></li>
-	<li>d(ax<sup>2</sup> + bx + c)/db = x</li>
-	<li>d(ax<sup>2</sup> + bx + c)/dc = 1</li>
+    <li>d(ax<sup>2</sup> + bx + c)/da = x<sup>2</sup></li>
+    <li>d(ax<sup>2</sup> + bx + c)/db = x</li>
+    <li>d(ax<sup>2</sup> + bx + c)/dc = 1</li>
 </ul>
 </p>
 
@@ -478,11 +478,11 @@ private static class QuadraticProblem
     }
 
     public double[] calculateTarget() {
-    	double[] target = new double[y.size()];
-    	for (int i = 0; i &lt; y.size(); i++) {
-    		target[i] = y.get(i).doubleValue();
-    	}
-    	return target;
+        double[] target = new double[y.size()];
+        for (int i = 0; i &lt; y.size(); i++) {
+            target[i] = y.get(i).doubleValue();
+        }
+        return target;
     }
 
     private double[][] jacobian(double[] variables) {
