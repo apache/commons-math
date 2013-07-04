@@ -332,5 +332,19 @@ public final class FrequencyTest {
         Assert.assertEquals(1, f.getCount(twoI));
         Assert.assertEquals(1, f.getCount(threeI));        
     }
+    
+    @Test
+    public void testMode() {
+        Assert.assertEquals(0, f.getMode().size());
+        f.addValue("1");
+        Assert.assertEquals(1, f.getMode().size());
+        f.addValue("2");
+        Assert.assertEquals(2, f.getMode().size());
+        Assert.assertTrue(f.getMode().contains("1"));
+        Assert.assertTrue(f.getMode().contains("2"));
+        f.addValue("2");
+        Assert.assertEquals(1, f.getMode().size());
+        Assert.assertFalse(f.getMode().contains("1"));
+        Assert.assertTrue(f.getMode().contains("2"));
+    }
 }
-
