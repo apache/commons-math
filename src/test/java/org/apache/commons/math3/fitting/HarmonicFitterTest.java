@@ -179,7 +179,6 @@ public class HarmonicFitterTest {
         // and period 12, and all sample points are taken at integer abscissae
         // so function values all belong to the integer subset {-3, -2, -1, 0,
         // 1, 2, 3}.
-        @SuppressWarnings("unused")
-        final HarmonicFitter.ParameterGuesser guesser = new HarmonicFitter.ParameterGuesser(points);
+        new HarmonicFitter.ParameterGuesser(points);
     }
 }
