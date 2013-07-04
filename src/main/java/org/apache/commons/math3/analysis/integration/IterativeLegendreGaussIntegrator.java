@@ -32,6 +32,14 @@ import org.apache.commons.math3.util.FastMath;
  * sub-interval and on each of them performs a
  * <a href="http://mathworld.wolfram.com/Legendre-GaussQuadrature.html">
  * Legendre-Gauss</a> quadrature.
+ * Because of its <em>non-adaptive</em> nature, this algorithm can
+ * converge to a wrong value for the integral (for example, if the
+ * function is significantly different from zero toward the ends of the
+ * integration interval).
+ * In particular, a change of variables aimed at estimating integrals
+ * over infinite intervals as proposed
+ * <a href="http://en.wikipedia.org/w/index.php?title=Numerical_integration#Integrals_over_infinite_intervals">
+ *  here</a> should be avoided when using this class.
  *
  * @version $Id$
  * @since 3.1
