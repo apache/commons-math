@@ -34,7 +34,7 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(value=Parameterized.class)
 public class LegendreParametricTest extends GaussianQuadratureAbstractTest {
-    private static GaussIntegratorFactory factory = new GaussIntegratorFactory();
+    private static final GaussIntegratorFactory factory = new GaussIntegratorFactory();
 
     /**
      * The highest order quadrature rule to be tested.
