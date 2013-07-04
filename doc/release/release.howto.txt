@@ -279,19 +279,19 @@ $ svnmucc -U https://dist.apache.org/repos/dist \
           mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz release/commons/math/binaries/commons-math-3.2-bin.tar.gz \
           mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc release/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc \
           mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.md5 release/commons/math/binaries/commons-math-3.2-bin.tar.gz.md5 \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc release/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc \
+          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.sha1 release/commons/math/binaries/commons-math-3.2-bin.tar.gz.sha1 \
           mv dev/commons/math/binaries/commons-math-3.2-bin.zip release/commons/math/binaries/commons-math-3.2-bin.zip \
           mv dev/commons/math/binaries/commons-math-3.2-bin.zip.asc release/commons/math/binaries/commons-math-3.2-bin.zip.asc \
           mv dev/commons/math/binaries/commons-math-3.2-bin.zip.md5 release/commons/math/binaries/commons-math-3.2-bin.zip.md5 \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.zip.asc release/commons/math/binaries/commons-math-3.2-bin.zip.asc \
+          mv dev/commons/math/binaries/commons-math-3.2-bin.zip.sha1 release/commons/math/binaries/commons-math-3.2-bin.zip.sha1 \
           mv dev/commons/math/source/commons-math-3.2-src.tar.gz release/commons/math/source/commons-math-3.2-src.tar.gz \
           mv dev/commons/math/source/commons-math-3.2-src.tar.gz.asc release/commons/math/source/commons-math-3.2-src.tar.gz.asc \
           mv dev/commons/math/source/commons-math-3.2-src.tar.gz.md5 release/commons/math/source/commons-math-3.2-src.tar.gz.md5 \
-          mv dev/commons/math/source/commons-math-3.2-src.tar.gz.asc release/commons/math/source/commons-math-3.2-src.tar.gz.asc \
+          mv dev/commons/math/source/commons-math-3.2-src.tar.gz.sha1 release/commons/math/source/commons-math-3.2-src.tar.gz.sha1 \
           mv dev/commons/math/source/commons-math-3.2-src.zip release/commons/math/source/commons-math-3.2-src.zip \
           mv dev/commons/math/source/commons-math-3.2-src.zip.asc release/commons/math/source/commons-math-3.2-src.zip.asc \
           mv dev/commons/math/source/commons-math-3.2-src.zip.md5 release/commons/math/source/commons-math-3.2-src.zip.md5 \
-          mv dev/commons/math/source/commons-math-3.2-src.zip.asc release/commons/math/source/commons-math-3.2-src.zip.asc \
+          mv dev/commons/math/source/commons-math-3.2-src.zip.sha1 release/commons/math/source/commons-math-3.2-src.zip.sha1 \
           -m "Publish commons-math 3.2 Release"
 
 
