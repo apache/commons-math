@@ -232,7 +232,7 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Returns the number of values = v.
+     * Returns the number of values equal to v.
      * Returns 0 if the value is not comparable.
      *
      * @param v the value to lookup.
@@ -255,7 +255,7 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Returns the number of values = v.
+     * Returns the number of values equal to v.
      *
      * @param v the value to lookup.
      * @return the frequency of v.
@@ -265,7 +265,7 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Returns the number of values = v.
+     * Returns the number of values equal to v.
      *
      * @param v the value to lookup.
      * @return the frequency of v.
@@ -275,7 +275,7 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Returns the number of values = v.
+     * Returns the number of values equal to v.
      *
      * @param v the value to lookup.
      * @return the frequency of v.
