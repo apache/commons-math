@@ -23,19 +23,14 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.Pair;
 
 /**
- * Class that implements the Gaussian rule for
- * {@link #integrate(UnivariateFunction) integrating} a weighted
- * function.
+ * This class's implements {@link #integrate(UnivariateFunction) integrate}
+ * method assuming that the integral is symmetric about 0.
+ * This allows to reduce numerical errors.
  *
- * @since 3.1
+ * @since 3.3
  * @version $Id$
  */
-public class GaussIntegrator {
-    /** Nodes. */
-    private final double[] points;
-    /** Nodes weights. */
-    private final double[] weights;
-
+public class SymmetricGaussIntegrator extends GaussIntegrator {
     /**
      * Creates an integrator from the given {@code points} and {@code weights}.
      * The integration interval is defined by the first and last value of
@@ -47,18 +42,10 @@ public class GaussIntegrator {
      * sorted in increasing order.
      * @throws DimensionMismatchException if points and weights don't have the same length
      */
-    public GaussIntegrator(double[] points,
-                           double[] weights)
+    public SymmetricGaussIntegrator(double[] points,
+                                    double[] weights)
         throws NonMonotonicSequenceException, DimensionMismatchException {
-        if (points.length != weights.length) {
-            throw new DimensionMismatchException(points.length,
-                                                 weights.length);
-        }
-
-        MathArrays.checkOrder(points, MathArrays.OrderDirection.INCREASING, true, true);
-
-        this.points = points.clone();
-        this.weights = weights.clone();
+        super(points, weights);
     }
 
     /**
@@ -69,62 +56,51 @@ public class GaussIntegrator {
      * @throws NonMonotonicSequenceException if the {@code points} are not
      * sorted in increasing order.
      *
-     * @see #GaussIntegrator(double[], double[])
+     * @see #SymmetricGaussIntegrator(double[], double[])
      */
-    public GaussIntegrator(Pair<double[], double[]> pointsAndWeights)
+    public SymmetricGaussIntegrator(Pair<double[], double[]> pointsAndWeights)
         throws NonMonotonicSequenceException {
         this(pointsAndWeights.getFirst(), pointsAndWeights.getSecond());
     }
 
     /**
-     * Returns an estimate of the integral of {@code f(x) * w(x)},
-     * where {@code w} is a weight function that depends on the actual
-     * flavor of the Gauss integration scheme.
-     * The algorithm uses the points and associated weights, as passed
-     * to the {@link #GaussIntegrator(double[],double[]) constructor}.
-     *
-     * @param f Function to integrate.
-     * @return the integral of the weighted function.
+     * {@inheritDoc}
      */
+    @Override
     public double integrate(UnivariateFunction f) {
+        final int ruleLength = getNumberOfPoints();
+
+        if (ruleLength == 1) {
+            return getWeight(0) * f.value(0d);
+        }
+
+        final int iMax = ruleLength / 2;
         double s = 0;
         double c = 0;
-        for (int i = 0; i < points.length; i++) {
-            final double x = points[i];
-            final double w = weights[i];
-            final double y = w * f.value(x) - c;
+        for (int i = 0; i < iMax; i++) {
+            final double p = getPoint(i);
+            final double w = getWeight(i);
+
+            final double f1 = f.value(p);
+            final double f2 = f.value(-p);
+
+            final double y = w * (f1 + f2) - c;
             final double t = s + y;
+
             c = (t - s) - y;
             s = t;
         }
+
+        if (ruleLength % 2 == 1) {
+            final double w = getWeight(iMax);
+
+            final double y = w * f.value(0d) - c;
+            final double t = s + y;
+
+            c = (t - s) - y;
+            s = t;
+        }
+
         return s;
-    }
-
-    /**
-     * @return the order of the integration rule (the number of integration
-     * points).
-     */
-    public int getNumberOfPoints() {
-        return points.length;
-    }
-
-    /**
-     * Gets the integration point at the given index.
-     * The index must be in the valid range but no check is performed.
-     *
-     * @return the integration point.
-     */
-    public double getPoint(int index) {
-        return points[index];
-    }
-
-    /**
-     * Gets the weight of the integration point at the given index.
-     * The index must be in the valid range but no check is performed.
-     *
-     * @return the weight.
-     */
-    public double getWeight(int index) {
-        return weights[index];
     }
 }
