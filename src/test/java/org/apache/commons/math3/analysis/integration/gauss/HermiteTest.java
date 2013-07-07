@@ -50,7 +50,6 @@ public class HermiteTest {
         // is transformed to
         //   f(y) * exp(-y^2)
         final UnivariateFunction f = new UnivariateFunction() {
-                @Override
                 public double value(double y) {
                     return oneOverSqrtPi; // Constant function.
                 }
@@ -78,7 +77,6 @@ public class HermiteTest {
         // is transformed to
         //   f(y) * exp(-y^2)
         final UnivariateFunction f = new UnivariateFunction() {
-                @Override
                 public double value(double y) {
                     return oneOverSqrtPi * (sqrtTwo * sigma * y + mu);
                 }
@@ -106,7 +104,6 @@ public class HermiteTest {
         // is transformed to
         //   f(y) * exp(-y^2)
         final UnivariateFunction f = new UnivariateFunction() {
-                @Override
                 public double value(double y) {
                     return twoOverSqrtPi * sigma2 * y * y;
                 }
