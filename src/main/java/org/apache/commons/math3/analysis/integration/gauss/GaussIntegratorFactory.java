@@ -20,9 +20,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.analysis.BivariateFunction;
 import org.apache.commons.math3.util.Pair;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * Class that provides different ways to compute the nodes and weights to be
