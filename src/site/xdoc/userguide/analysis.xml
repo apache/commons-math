@@ -568,7 +568,7 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
           computed the value itself when doing these computations, the partial derivatives are also computed
           alongside. This is an extension of what is sometimes called Rall's numbers. This extension is
           described in Dan Kalman's paper <a
-          href="http://www.math.american.edu/People/kalman/pdffiles/mmgautodiff.pdf">Doubly Recursive
+          href="http://www1.american.edu/cas/mathstat/People/kalman/pdffiles/mmgautodiff.pdf">Doubly Recursive
           Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75, no. 3, June 2002.
           Rall's numbers only hold the first derivative with respect to one free parameter whereas Dan Kalman's
           derivative structures hold all partial derivatives up to any specified order, with respect to any

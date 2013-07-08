@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.MathArrays;
 
 /** Class holding "compiled" computation rules for derivative structures.
  * <p>This class implements the computation rules described in Dan Kalman's paper <a
- * href="http://www.math.american.edu/People/kalman/pdffiles/mmgautodiff.pdf">Doubly
+ * href="http://www1.american.edu/cas/mathstat/People/kalman/pdffiles/mmgautodiff.pdf">Doubly
  * Recursive Multivariate Automatic Differentiation</a>, Mathematics Magazine, vol. 75,
  * no. 3, June 2002. However, in order to avoid performances bottlenecks, the recursive
  * rules are "compiled" once in an unfold form. This class does this recursion unrolling
