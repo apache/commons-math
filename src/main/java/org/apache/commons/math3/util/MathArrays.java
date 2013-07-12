@@ -818,6 +818,11 @@ public class MathArrays {
             throw new DimensionMismatchException(len, b.length);
         }
 
+        if (len == 1) {
+            // Revert to scalar multiplication.
+            return a[0] * b[0];
+        }
+
         final double[] prodHigh = new double[len];
         double prodLowSum = 0;
 

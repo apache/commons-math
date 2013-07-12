@@ -582,6 +582,15 @@ public class MathArraysTest {
         }
     }
 
+    // MATH-1005
+    @Test
+    public void testLinearCombinationWithSingleElementArray() {
+        final double[] a = { 1.23456789 };
+        final double[] b = { 98765432.1 };
+
+        Assert.assertEquals(a[0] * b[0], MathArrays.linearCombination(a, b), 0d);
+    }
+
     @Test
     public void testLinearCombination1() {
         final double[] a = new double[] {

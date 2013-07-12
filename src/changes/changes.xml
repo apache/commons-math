@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1005" due-to="Roman Werpachowski">
+        Fixed "MathArrays.linearCombination" when array length is 1.
+      </action>
       <action dev="erans" type="add" issue="MATH-997">
         Implemented Gauss-Hermite quadrature scheme (in package
         "o.a.c.m.analysis.integration.gauss").
