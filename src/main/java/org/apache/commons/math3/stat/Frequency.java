@@ -518,12 +518,6 @@ public class Frequency implements Serializable {
             long frequency = ent.getValue().longValue();
             if (frequency == mostPopular) {
                modeList.add(ent.getKey());
-// Alternatively, to avoid scanning the entries twice, keep recreating the set
-// To use this approach, comment out the values() scan loop above and uncomment below              
-//            } else if (frequency > mostPopular) {
-//                modeList.clear(); // the previous List is obsolete
-//                modeList.add(ent.getKey());
-//                mostPopular = frequency;
             }
         }
         return modeList;
