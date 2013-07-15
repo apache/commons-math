@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="sebb" type="add" issue="MATH-1000">
+        Add mode function to Frequency class.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1005" due-to="Roman Werpachowski">
         Fixed "MathArrays.linearCombination" when array length is 1.
       </action>

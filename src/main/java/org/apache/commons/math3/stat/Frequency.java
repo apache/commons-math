@@ -18,10 +18,13 @@ package org.apache.commons.math3.stat;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -491,6 +494,39 @@ public class Frequency implements Serializable {
      */
     public double getCumPct(char v) {
         return getCumPct(Character.valueOf(v));
+    }
+
+    /**
+     * Returns the mode value(s) in comparator order.
+     * 
+     * @return a list containing the value(s) which appear most often.
+     * @since 3.3
+     */
+    public List<Comparable<?>> getMode() {
+        long mostPopular = 0; // frequencies are always positive
+        
+        // Get the max count first, so we avoid having to recreate the List each time
+        for(Long l : freqTable.values()) {
+            long frequency = l.longValue();
+            if (frequency > mostPopular) {
+                mostPopular = frequency;
+            }
+        }
+
+        List<Comparable<?>> modeList = new ArrayList<Comparable<?>>();
+        for (Entry<Comparable<?>, Long> ent : freqTable.entrySet()) {
+            long frequency = ent.getValue().longValue();
+            if (frequency == mostPopular) {
+               modeList.add(ent.getKey());
+// Alternatively, to avoid scanning the entries twice, keep recreating the set
+// To use this approach, comment out the values() scan loop above and uncomment below              
+//            } else if (frequency > mostPopular) {
+//                modeList.clear(); // the previous List is obsolete
+//                modeList.add(ent.getKey());
+//                mostPopular = frequency;
+            }
+        }
+        return modeList;
     }
 
     //----------------------------------------------------------------------------------------------

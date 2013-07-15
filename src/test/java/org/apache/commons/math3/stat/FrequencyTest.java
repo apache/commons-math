@@ -334,18 +334,28 @@ public final class FrequencyTest {
         Assert.assertEquals(1, f.getCount(THREEE));        
     }
     
-//    @Test
-//    public void testMode() {
-//        Assert.assertEquals(0, f.getMode().size());
-//        f.addValue("1");
-//        Assert.assertEquals(1, f.getMode().size());
-//        f.addValue("2");
-//        Assert.assertEquals(2, f.getMode().size());
-//        Assert.assertTrue(f.getMode().contains("1"));
-//        Assert.assertTrue(f.getMode().contains("2"));
-//        f.addValue("2");
-//        Assert.assertEquals(1, f.getMode().size());
-//        Assert.assertFalse(f.getMode().contains("1"));
-//        Assert.assertTrue(f.getMode().contains("2"));
-//    }
+    @Test
+    public void testMode() {
+        List<Comparable<?>> mode;
+        mode = f.getMode();
+        Assert.assertEquals(0, mode.size());
+
+        f.addValue("3");
+        mode = f.getMode();
+        Assert.assertEquals(1, mode.size());
+        Assert.assertEquals("3", mode.get(0));
+
+        f.addValue("2");
+        mode = f.getMode();
+        Assert.assertEquals(2, mode.size());
+        Assert.assertEquals("2", mode.get(0));
+        Assert.assertEquals("3",mode.get(1));
+
+        f.addValue("2");
+        mode = f.getMode();
+        Assert.assertEquals(1, mode.size());
+        Assert.assertEquals("2", mode.get(0));
+        Assert.assertFalse(mode.contains("1"));
+        Assert.assertTrue(mode.contains("2"));
+    }
 }
