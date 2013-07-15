@@ -77,6 +77,7 @@ public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Cluster
      *   underlying {@link KMeansPlusPlusClusterer} has its
      *   {@link KMeansPlusPlusClusterer.EmptyClusterStrategy} is set to {@code ERROR}.
      */
+    @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> points)
         throws MathIllegalArgumentException, ConvergenceException {
 

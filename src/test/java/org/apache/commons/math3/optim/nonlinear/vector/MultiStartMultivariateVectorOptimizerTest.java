@@ -152,6 +152,7 @@ public class MultiStartMultivariateVectorOptimizerTest {
         LinearProblem problem = new LinearProblem(new double[][] { { 2 } }, new double[] { 3 });
         JacobianMultivariateVectorOptimizer underlyingOptimizer =
                 new GaussNewtonOptimizer(true, new SimpleVectorValueChecker(1e-6, 1e-6)) {
+            @Override
             public PointVectorValuePair optimize(OptimizationData... optData) {
                 // filter out simple bounds, as they are not supported
                 // by the underlying optimizer, and we don't really care for this test

@@ -105,6 +105,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] sample() {
         // Sampled values.
         double[] vals = null;
@@ -133,6 +134,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
     }
 
     /** {@inheritDoc} */
+    @Override
     public void reseedRandomGenerator(long seed) {
         // Seed needs to be propagated to underlying components
         // in order to maintain consistency between runs.

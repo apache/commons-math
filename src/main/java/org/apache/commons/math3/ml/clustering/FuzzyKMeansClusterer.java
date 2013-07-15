@@ -265,6 +265,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      * @throws MathIllegalArgumentException if the data points are null or the number
      *     of clusters is larger than the number of data points
      */
+    @Override
     public List<CentroidCluster<T>> cluster(final Collection<T> dataPoints)
             throws MathIllegalArgumentException {
 

@@ -38,6 +38,7 @@ public class Decimal64Test extends ExtendedFieldElementAbstractTest<Decimal64> {
 
     public static final Decimal64 MINUS_ZERO = new Decimal64(-0.0);
 
+    @Override
     protected Decimal64 build(final double x) {
         return new Decimal64(x);
     }

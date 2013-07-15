@@ -83,6 +83,7 @@ public class RRQRDecomposition extends QRDecomposition {
     /** Decompose matrix.
      * @param qrt transposed matrix
      */
+    @Override
     protected void decompose(double[][] qrt) {
         p = new int[qrt.length];
         for (int i = 0; i < p.length; i++) {
@@ -95,6 +96,7 @@ public class RRQRDecomposition extends QRDecomposition {
      * @param minor minor index
      * @param qrt transposed matrix
      */
+    @Override
     protected void performHouseholderReflection(int minor, double[][] qrt) {
 
         double l2NormSquaredMax = 0;
@@ -184,6 +186,7 @@ public class RRQRDecomposition extends QRDecomposition {
      * Get a solver for finding the A &times; X = B solution in least square sense.
      * @return a solver
      */
+    @Override
     public DecompositionSolver getSolver() {
         return new Solver(super.getSolver(), this.getP());
     }

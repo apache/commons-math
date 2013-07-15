@@ -55,6 +55,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     protected double[] dataArray = null;
     protected final int n = 10000;
 
+    @Override
     @Before
     public void setUp() {
         super.setUp();
@@ -499,6 +500,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             super(i);
         }
         // Use constant distribution equal to bin mean within bin
+        @Override
         protected RealDistribution getKernel(SummaryStatistics bStats) {
             return new ConstantDistribution(bStats.getMean());
         }
@@ -511,6 +513,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         public UniformKernelEmpiricalDistribution(int i) {
             super(i);
         }
+        @Override
         protected RealDistribution getKernel(SummaryStatistics bStats) {
             return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax(),
                     UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);

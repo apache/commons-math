@@ -36,6 +36,7 @@ import org.junit.Test;
  */
 public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<DerivativeStructure> {
 
+    @Override
     protected DerivativeStructure build(final double x) {
         return new DerivativeStructure(2, 1, 0, x);
     }
@@ -610,6 +611,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Override
     @Test
     public void testExp() {
         double[] epsilon = new double[] { 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16, 1.0e-16 };
@@ -640,6 +642,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Override
     @Test
     public void testLog() {
         double[] epsilon = new double[] { 1.0e-16, 1.0e-16, 3.0e-14, 7.0e-13, 3.0e-11 };
@@ -827,6 +830,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Override
     @Test
     public void testAtan2() {
         double[] epsilon = new double[] { 5.0e-16, 3.0e-15, 2.2e-14, 1.0e-12, 8.0e-11 };
@@ -1043,6 +1047,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
         }
     }
 
+    @Override
     @Test
     public void testAbs() {
 
@@ -1064,6 +1069,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
 
     }
 
+    @Override
     @Test
     public void testSignum() {
 

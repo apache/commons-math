@@ -594,6 +594,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * {@inheritDoc}
      * @since 3.1
      */
+    @Override
     public double probability(double x) {
         return 0;
     }
@@ -672,6 +673,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      *
      * @since 3.1
      */
+    @Override
     public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0, 1);

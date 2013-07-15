@@ -36,6 +36,7 @@ public enum FilterType {
     TRIGGER_ONLY_DECREASING_EVENTS {
 
         /**  {@inheritDoc} */
+        @Override
         protected boolean getTriggeredIncreasing() {
             return false;
         }
@@ -86,6 +87,7 @@ public enum FilterType {
          * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
          * </p>
          */
+        @Override
         protected  Transformer selectTransformer(final Transformer previous,
                                                  final double g, final boolean forward) {
             if (forward) {
@@ -212,6 +214,7 @@ public enum FilterType {
     TRIGGER_ONLY_INCREASING_EVENTS {
 
         /**  {@inheritDoc} */
+        @Override
         protected boolean getTriggeredIncreasing() {
             return true;
         }
@@ -262,6 +265,7 @@ public enum FilterType {
          * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
          * </p>
          */
+        @Override
         protected  Transformer selectTransformer(final Transformer previous,
                                                  final double g, final boolean forward) {
             if (forward) {

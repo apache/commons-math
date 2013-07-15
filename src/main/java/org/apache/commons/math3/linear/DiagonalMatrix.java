@@ -179,6 +179,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @throws DimensionMismatchException if
      * {@code columnDimension(this) != rowDimension(m)}
      */
+    @Override
     public RealMatrix multiply(final RealMatrix m)
         throws DimensionMismatchException {
         if (m instanceof DiagonalMatrix) {

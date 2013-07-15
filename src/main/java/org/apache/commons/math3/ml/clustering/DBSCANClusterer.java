@@ -131,6 +131,7 @@ public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {
      * @return the list of clusters
      * @throws NullArgumentException if the data points are null
      */
+    @Override
     public List<Cluster<T>> cluster(final Collection<T> points) throws NullArgumentException {
 
         // sanity checks

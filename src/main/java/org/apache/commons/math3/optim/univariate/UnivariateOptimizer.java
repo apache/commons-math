@@ -64,6 +64,7 @@ public abstract class UnivariateOptimizer
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
      */
+    @Override
     public UnivariatePointValuePair optimize(OptimizationData... optData)
         throws TooManyEvaluationsException {
         // Perform computation.
