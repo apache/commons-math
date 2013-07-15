@@ -546,7 +546,7 @@ public class Frequency implements Serializable {
         final Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator();
         while (iter.hasNext()) {
             final Map.Entry<Comparable<?>, Long> entry = iter.next();
-            incrementValue(entry.getKey(), entry.getValue());
+            incrementValue(entry.getKey(), entry.getValue().longValue());
         }
     }
 
