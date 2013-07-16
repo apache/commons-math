@@ -24,6 +24,7 @@ import java.util.List;
 
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -357,5 +358,63 @@ public final class FrequencyTest {
         Assert.assertEquals("2", mode.get(0));
         Assert.assertFalse(mode.contains("1"));
         Assert.assertTrue(mode.contains("2"));
+
+        try {
+            f.addValue(Double.valueOf(Double.NaN));
+            Assert.fail("Expected MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
     }
+
+    @Test
+    public void testModeDoubleNan() {
+        List<Comparable<?>> mode;
+        f.addValue(Double.valueOf(Double.NaN));
+        f.addValue(Double.valueOf(Double.NaN));
+        f.addValue(Double.valueOf(Double.NaN));
+        f.addValue(Double.valueOf(Double.NEGATIVE_INFINITY));
+        f.addValue(Double.valueOf(Double.POSITIVE_INFINITY));
+        f.addValue(Double.valueOf(Double.NEGATIVE_INFINITY));
+        f.addValue(Double.valueOf(Double.POSITIVE_INFINITY));
+        f.addValue(Double.valueOf(Double.NEGATIVE_INFINITY));
+        f.addValue(Double.valueOf(Double.POSITIVE_INFINITY));
+        mode = f.getMode();
+        Assert.assertEquals(3, mode.size());
+        Assert.assertEquals(Double.valueOf(Double.NEGATIVE_INFINITY), mode.get(0));
+        Assert.assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), mode.get(1));
+        Assert.assertEquals(Double.valueOf(Double.NaN), mode.get(2));
+        try {
+            f.addValue(Float.valueOf(Float.NaN));
+            Assert.fail("Expected MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
+    }
+
+    @Test
+    public void testModeFloatNan() {
+        List<Comparable<?>> mode;
+        f.addValue(Float.valueOf(Float.NaN));
+        f.addValue(Float.valueOf(Float.NaN));
+        f.addValue(Float.valueOf(Float.NaN));
+        f.addValue(Float.valueOf(Float.NEGATIVE_INFINITY));
+        f.addValue(Float.valueOf(Float.POSITIVE_INFINITY));
+        f.addValue(Float.valueOf(Float.NEGATIVE_INFINITY));
+        f.addValue(Float.valueOf(Float.POSITIVE_INFINITY));
+        f.addValue(Float.valueOf(Float.NEGATIVE_INFINITY));
+        f.addValue(Float.valueOf(Float.POSITIVE_INFINITY));
+        mode = f.getMode();
+        Assert.assertEquals(3, mode.size());
+        Assert.assertEquals(Float.valueOf(Float.NEGATIVE_INFINITY), mode.get(0));
+        Assert.assertEquals(Float.valueOf(Float.POSITIVE_INFINITY), mode.get(1));
+        Assert.assertEquals(Float.valueOf(Float.NaN), mode.get(2));
+        try {
+            f.addValue(Double.valueOf(Double.NaN));
+            Assert.fail("Expected MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException e) {
+            // expected
+        }
+    }
+
 }
