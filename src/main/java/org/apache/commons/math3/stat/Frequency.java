@@ -506,13 +506,13 @@ public class Frequency implements Serializable {
 
     /**
      * Returns the mode value(s) in comparator order.
-     * 
+     *
      * @return a list containing the value(s) which appear most often.
      * @since 3.3
      */
     public List<Comparable<?>> getMode() {
         long mostPopular = 0; // frequencies are always positive
-        
+
         // Get the max count first, so we avoid having to recreate the List each time
         for(Long l : freqTable.values()) {
             long frequency = l.longValue();
