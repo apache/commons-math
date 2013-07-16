@@ -199,6 +199,20 @@ public final class FrequencyTest {
         Assert.assertTrue("cum pct, empty table", Double.isNaN(f.getCumPct(Integer.valueOf(0))));
     }
 
+    @Test
+    public void testNonComparableCumPct() {
+        f.addValue("a");
+        Assert.assertEquals("cum freq, single entry", 1.0d, f.getCumPct("a"),TOLERANCE);
+        Assert.assertEquals("cum freq, single entry non comparable", 0.0d, f.getCumPct(100),TOLERANCE);
+    }
+
+    @Test
+    public void testNonComparablePct() {
+        f.addValue("a");
+        Assert.assertEquals("cum freq, single entry", 1.0d, f.getPct("a"),TOLERANCE);
+        Assert.assertEquals("cum freq, single entry non comparable", 0.0d, f.getPct(100),TOLERANCE);
+    }
+
     /**
      * Tests toString()
      */
