@@ -48,6 +48,12 @@ import org.apache.commons.math3.util.MathUtils;
  * to combine integral types with chars in a frequency distribution will fail.
  * </p>
  * <p>
+ * Float is not coerced to Double.
+ * Since they are not Comparable with each other the user must do any necessary coercion.
+ * Float.NaN and Double.NaN are not treated specially; they may occur in input and will
+ * occur in output if appropriate.
+ * </b>
+ * <p>
  * The values are ordered using the default (natural order), unless a
  * <code>Comparator</code> is supplied in the constructor.</p>
  *
@@ -301,7 +307,9 @@ public class Frequency implements Serializable {
      * Returns the percentage of values that are equal to v
      * (as a proportion between 0 and 1).
      * <p>
-     * Returns <code>Double.NaN</code> if no values have been added.</p>
+     * Returns <code>Double.NaN</code> if no values have been added.
+     * Returns 0 if at least one value has been added, but v is not comparable
+     * to the values set.</p>
      *
      * @param v the value to lookup
      * @return the proportion of values equal to v
