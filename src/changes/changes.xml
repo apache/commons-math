@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-1006">
+        Enabled LaTeX expressions in javadoc via MathJax.
+      </action>
       <action dev="sebb" type="add" issue="MATH-1000">
         Add mode function to Frequency class.
       </action>
