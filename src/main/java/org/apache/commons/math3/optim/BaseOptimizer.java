@@ -39,7 +39,7 @@ public abstract class BaseOptimizer<PAIR> {
     /** Iterations counter. */
     protected final Incrementor iterations;
     /** Convergence checker. */
-    private ConvergenceChecker<PAIR> checker;
+    private final ConvergenceChecker<PAIR> checker;
 
     /**
      * @param checker Convergence checker.
