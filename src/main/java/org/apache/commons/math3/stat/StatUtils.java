@@ -16,7 +16,11 @@
  */
 package org.apache.commons.math3.stat;
 
+import java.util.List;
+
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NoDataException;
@@ -791,4 +795,88 @@ public final class StatUtils {
         }
         return standardizedSample;
     }
+
+    /**
+     * Returns the sample mode(s).  The mode is the most frequently occurring
+     * value in the sample. If there is a unique value with maximum frequency,
+     * this value is returned as the only element of the output array. Otherwise,
+     * the returned array contains the maximum frequency elements in increasing
+     * order.  For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
+     * the returned array will have length two, with 0 in the first element and
+     * 5 in the second.
+     *
+     * <p>NaN values are ignored when computing the mode - i.e., NaNs will never
+     * appear in the output array.  If the sample includes only NaNs or has
+     * length 0, an empty array is returned.</p>
+     *
+     * @param sample input data
+     * @return array of array of the most frequently occuring element(s) sorted in ascending order.
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     */    
+    public static double[] mode(double[] sample) throws MathIllegalArgumentException {
+        if (sample == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+        return getMode(sample, 0, sample.length);
+    }
+
+    /**
+     * Returns the sample mode(s).  The mode is the most frequently occurring
+     * value in the sample. If there is a unique value with maximum frequency,
+     * this value is returned as the only element of the output array. Otherwise,
+     * the returned array contains the maximum frequency elements in increasing
+     * order.  For example, if {@code sample} is {0, 12, 5, 6, 0, 13, 5, 17},
+     * the returned array will have length two, with 0 in the first element and
+     * 5 in the second.
+     *
+     * <p>NaN values are ignored when computing the mode - i.e., NaNs will never
+     * appear in the output array.  If the sample includes only NaNs or has
+     * length 0, an empty array is returned.</p>
+     *
+     * @param sample input data
+     * @param begin index (0-based) of the first array element to include
+     * @param length the number of elements to include
+     *
+     * @return array of array of the most frequently occuring element(s) sorted in ascending order.
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     */    
+    public static double[] mode(double[] sample, final int begin, final int length) {
+        if (sample == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+
+        if (begin < 0) {
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, Integer.valueOf(begin));
+        }
+
+        if (length < 0) {
+            throw new NotPositiveException(LocalizedFormats.LENGTH, Integer.valueOf(length));
+        }
+
+        return getMode(sample, begin, length);
+    }
+
+    /*
+     * Private helper method.
+     * Assumes parameters have been validated.
+     */
+    private static double[] getMode(double[] values, final int begin, final int length) {
+        // Add the values to the frequency table
+        Frequency freq = new Frequency();
+        for (int i = begin; i < begin + length; i++) {
+            final double value = values[i];
+            if (!Double.isNaN(value)) {
+                freq.addValue(Double.valueOf(value));
+            }
+        }
+        List<Comparable<?>> list = freq.getMode();
+        // Convert the list to an array of primitive double
+        double[] modes = new double[list.size()];
+        int i = 0;
+        for(Comparable<?> c : list) {
+            modes[i++] = ((Double) c).doubleValue();
+        }
+        return modes;
+    }
+
 }

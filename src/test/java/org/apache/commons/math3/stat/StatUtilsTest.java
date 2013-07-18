@@ -507,5 +507,42 @@ public final class StatUtilsTest {
         Assert.assertEquals(1.0, stats.getStandardDeviation(), distance);
 
     }
+    
+    @Test
+    public void testMode() {
+        final double[] singleMode = {0, 1, 0, 2, 7, 11, 12};
+        final double[] modeSingle = StatUtils.mode(singleMode);
+        Assert.assertEquals(0, modeSingle[0], Double.MIN_VALUE);
+        Assert.assertEquals(1, modeSingle.length);
+
+        final double[] twoMode = {0, 1, 2, 0, 2, 3, 7, 11};
+        final double[] modeDouble = StatUtils.mode(twoMode);
+        Assert.assertEquals(0, modeDouble[0], Double.MIN_VALUE);
+        Assert.assertEquals(2, modeDouble[1], Double.MIN_VALUE);
+        Assert.assertEquals(2, modeDouble.length);
+
+        final double[] nanInfested = {0, 0, 0, Double.NaN, Double.NaN, Double.NaN, Double.NaN, 2, 2, 2, 3, 5};
+        final double[] modeNan = StatUtils.mode(nanInfested);
+        Assert.assertEquals(0, modeNan[0], Double.MIN_VALUE);
+        Assert.assertEquals(2, modeNan[1], Double.MIN_VALUE);
+        Assert.assertEquals(2, modeNan.length);
+
+        final double[] infInfested = {0, 0, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+            Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 2, 2, 3, 5};
+        final double[] modeInf = StatUtils.mode(infInfested);
+        Assert.assertEquals(Double.NEGATIVE_INFINITY, modeInf[0], Double.MIN_VALUE);
+        Assert.assertEquals(0, modeInf[1], Double.MIN_VALUE);
+        Assert.assertEquals(2, modeInf[2], Double.MIN_VALUE);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, modeInf[3], Double.MIN_VALUE);
+        Assert.assertEquals(4, modeInf.length);
+
+        final double[] noData = {};
+        final double[] modeNodata = StatUtils.mode(noData);
+        Assert.assertEquals(0, modeNodata.length);
+
+        final double[] nansOnly = {Double.NaN, Double.NaN};
+        final double[] modeNansOnly = StatUtils.mode(nansOnly);
+        Assert.assertEquals(0, modeNansOnly.length);
+    }
 
 }
