@@ -42,7 +42,7 @@ public class RandomAdaptorTest {
         byte[] bytes = new byte[] {0};
         random.nextBytes(bytes);
         Assert.assertEquals(0, bytes[0]);
-        Assert.assertEquals(false, random.nextBoolean());
+        Assert.assertFalse(random.nextBoolean());
         Assert.assertEquals(0, random.nextDouble(), 0);
         Assert.assertEquals(0, random.nextFloat(), 0);
         Assert.assertEquals(0, random.nextGaussian(), 0);
