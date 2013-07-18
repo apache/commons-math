@@ -207,7 +207,7 @@ public abstract class BaseOptimizer<PAIR> {
         implements  Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
-         * @throws TooManyEvaluationsException.
+         * @throws TooManyEvaluationsException
          */
         public void trigger(int max) {
             throw new TooManyEvaluationsException(max);
@@ -222,7 +222,7 @@ public abstract class BaseOptimizer<PAIR> {
         implements Incrementor.MaxCountExceededCallback {
         /**
          * {@inheritDoc}
-         * @throws TooManyIterationsException.
+         * @throws TooManyIterationsException
          */
         public void trigger(int max) {
             throw new TooManyIterationsException(max);
