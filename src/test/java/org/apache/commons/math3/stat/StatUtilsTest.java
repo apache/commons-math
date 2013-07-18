@@ -543,6 +543,14 @@ public final class StatUtilsTest {
         final double[] nansOnly = {Double.NaN, Double.NaN};
         final double[] modeNansOnly = StatUtils.mode(nansOnly);
         Assert.assertEquals(0, modeNansOnly.length);
+        
+        final double[] nullArray = null;
+        try {
+            StatUtils.mode(nullArray);
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // Expected
+        }
     }
 
 }
