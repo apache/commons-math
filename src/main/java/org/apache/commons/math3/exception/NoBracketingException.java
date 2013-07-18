@@ -65,7 +65,7 @@ public class NoBracketingException extends MathIllegalArgumentException {
                                  double lo, double hi,
                                  double fLo, double fHi,
                                  Object ... args) {
-        super(specific, lo, hi, fLo, fHi, args);
+        super(specific, Double.valueOf(lo), Double.valueOf(hi), Double.valueOf(fLo), Double.valueOf(fHi), args);
         this.lo = lo;
         this.hi = hi;
         this.fLo = fLo;
