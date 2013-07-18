@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>30</version>
+    <version>32</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -339,8 +339,8 @@
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
     <commons.encoding>UTF-8</commons.encoding>
-    <maven.compile.source>1.5</maven.compile.source>
-    <maven.compile.target>1.5</maven.compile.target>
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
     <math.pmd.version>2.7.1</math.pmd.version>
     <math.findbugs.version>2.5.1</math.findbugs.version>
     <math.checkstyle.version>2.9.1</math.checkstyle.version>
@@ -386,7 +386,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${math.pmd.version}</version>
         <configuration>
-          <targetJdk>${maven.compile.target}</targetJdk>  
+          <targetJdk>${maven.compiler.target}</targetJdk>  
         </configuration>
         </plugin>
         <plugin>
@@ -416,8 +416,8 @@
                     <attribute name="Implementation-Version" value="${project.version}" />
                     <attribute name="Implementation-Vendor-Id" value="org.apache" />
                     <attribute name="Implementation-Build" value="${implementation.build}"/>
-                    <attribute name="X-Compile-Source-JDK" value="${maven.compile.source}" />
-                    <attribute name="X-Compile-Target-JDK" value="${maven.compile.target}" />
+                    <attribute name="X-Compile-Source-JDK" value="${maven.compiler.source}" />
+                    <attribute name="X-Compile-Target-JDK" value="${maven.compiler.target}" />
                   </manifest>
                   <fileset dir="target/test-classes"
                            includes="org/apache/commons/math3/PerfTestUtils*" />
@@ -459,7 +459,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
         <configuration>
           <additionalparam>-header &apos;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;&apos;</additionalparam>
         </configuration>
@@ -571,7 +570,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>${math.pmd.version}</version>
         <configuration>
-          <targetJdk>${maven.compile.target}</targetJdk>  
+          <targetJdk>${maven.compiler.target}</targetJdk>  
         </configuration>
         <reportSets>
           <reportSet>
@@ -590,7 +589,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
         <configuration>
           <additionalparam>-header &apos;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;&apos;</additionalparam>
         </configuration>
