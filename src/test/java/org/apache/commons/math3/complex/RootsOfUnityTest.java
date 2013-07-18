@@ -93,6 +93,7 @@ public class RootsOfUnityTest {
         final double tol = 10 * Math.ulp(1.0);
         for (int k = 0; k < n; k++) {
             final double t = 2.0 * FastMath.PI * k / n;
+            @SuppressWarnings("boxing")
             final String msg = String.format("n = %d, k = %d", n, k);
             Assert.assertEquals(msg, FastMath.cos(t), roots.getReal(k), tol);
             Assert.assertEquals(msg, FastMath.sin(t), roots.getImaginary(k), tol);

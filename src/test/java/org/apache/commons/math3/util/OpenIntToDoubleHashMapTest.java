@@ -32,6 +32,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link OpenIntToDoubleHashMap}.
  */
+@SuppressWarnings("boxing")
 public class OpenIntToDoubleHashMapTest {
 
     private Map<Integer, Double> javaMap = new HashMap<Integer, Double>();

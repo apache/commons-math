@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("boxing")
 public class RandomKeyTest {
 
     @Test(expected=IllegalArgumentException.class)

@@ -115,7 +115,7 @@ public class PerfTestUtils {
                     // Timed block.
                     final long start = System.nanoTime();
                     for (int i = 0; i < repeatChunk; i++) {
-                        result[i] = r.call();
+                        result[i] = r.call().doubleValue();
                     }
                     final long stop = System.nanoTime();
 
@@ -158,6 +158,7 @@ public class PerfTestUtils {
      * {@code call} method (i.e. the time taken by each timed block divided
      * by {@code repeatChunk}).
      */
+    @SuppressWarnings("boxing")
     public static StatisticalSummary[] timeAndReport(String title,
                                                      int repeatChunk,
                                                      int repeatStat,

@@ -45,8 +45,8 @@ public class MultivariateNormalMixtureModelDistributionTest {
 
         final List<Pair<Double, MultivariateNormalDistribution>> comp = d.getComponents();
 
-        Assert.assertEquals(1d / 3, comp.get(0).getFirst(), Math.ulp(1d));
-        Assert.assertEquals(2d / 3, comp.get(1).getFirst(), Math.ulp(1d));
+        Assert.assertEquals(1d / 3, comp.get(0).getFirst().doubleValue(), Math.ulp(1d));
+        Assert.assertEquals(2d / 3, comp.get(1).getFirst().doubleValue(), Math.ulp(1d));
     }
 
     @Test(expected=MathArithmeticException.class)

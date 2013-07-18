@@ -26,7 +26,7 @@ public class PairTest {
         final Pair<Integer, Double> p
             = new Pair<Integer, Double>(new Integer(1), new Double(2));
         Assert.assertEquals(new Integer(1), p.getKey());
-        Assert.assertEquals(new Double(2), p.getValue(), Math.ulp(1d));
+        Assert.assertEquals(2, p.getValue().doubleValue(), Math.ulp(1d));
     }
 
     @Test
