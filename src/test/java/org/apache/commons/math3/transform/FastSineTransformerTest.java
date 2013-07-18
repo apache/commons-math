@@ -143,7 +143,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
         final double[] y = new double[n];
         final double[] sin = new double[2 * n];
         for (int i = 0; i < sin.length; i++) {
-            sin[i] = FastMath.sin(FastMath.PI * i / (double) n);
+            sin[i] = FastMath.sin(FastMath.PI * i / n);
         }
         for (int j = 0; j < n; j++) {
             double yj = 0.0;
@@ -157,7 +157,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
             if (normalization == DstNormalization.STANDARD_DST_I) {
                 s = 1.0;
             } else if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
-                s = FastMath.sqrt(2.0 / (double) n);
+                s = FastMath.sqrt(2.0 / n);
             } else {
                 throw new MathIllegalStateException();
             }
@@ -165,7 +165,7 @@ public final class FastSineTransformerTest extends RealTransformerAbstractTest {
             if (normalization == DstNormalization.STANDARD_DST_I) {
                 s = 2.0 / n;
             } else if (normalization == DstNormalization.ORTHOGONAL_DST_I) {
-                s = FastMath.sqrt(2.0 / (double) n);
+                s = FastMath.sqrt(2.0 / n);
             } else {
                 throw new MathIllegalStateException();
             }
