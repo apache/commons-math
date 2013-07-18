@@ -32,7 +32,7 @@ public class NotANumberException extends MathIllegalNumberException {
      * Construct the exception.
      */
     public NotANumberException() {
-        super(LocalizedFormats.NAN_NOT_ALLOWED, Double.NaN);
+        super(LocalizedFormats.NAN_NOT_ALLOWED, Double.valueOf(Double.NaN));
     }
 
 }

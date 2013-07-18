@@ -84,7 +84,7 @@ public class NonMonotonicSequenceException extends MathIllegalNumberException {
               (strict ?
                LocalizedFormats.NOT_STRICTLY_DECREASING_SEQUENCE :
                LocalizedFormats.NOT_DECREASING_SEQUENCE),
-              wrong, previous, index, index - 1);
+              wrong, previous, Integer.valueOf(index), Integer.valueOf(index - 1));
 
         this.direction = direction;
         this.strict = strict;

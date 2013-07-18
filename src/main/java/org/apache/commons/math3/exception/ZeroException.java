@@ -44,6 +44,6 @@ public class ZeroException extends MathIllegalNumberException {
      * @param arguments Arguments.
      */
     public ZeroException(Localizable specific, Object ... arguments) {
-        super(specific, 0, arguments);
+        super(specific, INTEGER_ZERO, arguments);
     }
 }

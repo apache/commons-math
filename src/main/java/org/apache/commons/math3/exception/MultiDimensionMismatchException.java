@@ -79,13 +79,13 @@ public class MultiDimensionMismatchException extends MathIllegalArgumentExceptio
      * @return the wrong dimension stored at {@code index}.
      */
     public int getWrongDimension(int index) {
-        return wrong[index];
+        return wrong[index].intValue();
     }
     /**
      * @param index Dimension index.
      * @return the expected dimension stored at {@code index}.
      */
     public int getExpectedDimension(int index) {
-        return expected[index];
+        return expected[index].intValue();
     }
 }

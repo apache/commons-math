@@ -35,7 +35,7 @@ public class NotStrictlyPositiveException extends NumberIsTooSmallException {
      * @param value Argument.
      */
     public NotStrictlyPositiveException(Number value) {
-        super(value, 0, false);
+        super(value, INTEGER_ZERO, false);
     }
     /**
      * Construct the exception with a specific context.
@@ -45,6 +45,6 @@ public class NotStrictlyPositiveException extends NumberIsTooSmallException {
      */
     public NotStrictlyPositiveException(Localizable specific,
                                         Number value) {
-        super(specific, value, 0, false);
+        super(specific, value, INTEGER_ZERO, false);
     }
 }
