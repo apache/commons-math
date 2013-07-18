@@ -812,6 +812,7 @@ public final class StatUtils {
      * @param sample input data
      * @return array of array of the most frequently occuring element(s) sorted in ascending order.
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.3
      */    
     public static double[] mode(double[] sample) throws MathIllegalArgumentException {
         if (sample == null) {
@@ -839,6 +840,7 @@ public final class StatUtils {
      *
      * @return array of array of the most frequently occuring element(s) sorted in ascending order.
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.3
      */    
     public static double[] mode(double[] sample, final int begin, final int length) {
         if (sample == null) {
