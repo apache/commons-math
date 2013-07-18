@@ -114,13 +114,13 @@ public class PrimesTest {
     @Test
     public void testIsPrime() throws Exception {
         for (int i : BELOW_2) {
-            Assert.assertEquals(false,Primes.isPrime(i));
+            Assert.assertFalse(Primes.isPrime(i));
         }
         for (int i:NOT_PRIMES) {
-            Assert.assertEquals(false,Primes.isPrime(i));
+            Assert.assertFalse(Primes.isPrime(i));
         }
         for (int i:PRIMES) {
-            Assert.assertEquals(true,Primes.isPrime(i));
+            Assert.assertTrue(Primes.isPrime(i));
         }
     }
 
