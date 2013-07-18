@@ -63,7 +63,7 @@ public abstract class RealVectorAbstractTest {
 
     private enum BinaryOperation {
         ADD, SUB, MUL, DIV
-    };
+    }
 
     /**
      * <p>
