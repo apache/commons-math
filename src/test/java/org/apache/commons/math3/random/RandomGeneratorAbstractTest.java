@@ -136,7 +136,7 @@ public abstract class RandomGeneratorAbstractTest extends RandomDataGeneratorTes
                 (double) ((binUpperBounds[0] + 1) * smallSampleSize) / (double) n;
             for (int k = 1; k < binCount; k++) {
                 expected[k] = (double) smallSampleSize *
-                (double) (binUpperBounds[k] - binUpperBounds[k - 1]) / (double) n;
+                (double) (binUpperBounds[k] - binUpperBounds[k - 1]) / n;
             }
             for (int j = 0; j < numTests; j++) {
                 Arrays.fill(observed, 0);
