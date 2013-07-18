@@ -320,10 +320,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     }
     
     /** Uniform bin mass = 10/10001 == mass of all but the first bin */
-    private final double binMass = 10d / (double) (n + 1);
+    private final double binMass = 10d / (n + 1);
     
     /** Mass of first bin = 11/10001 */
-    private final double firstBinMass = 11d / (double) (n + 1);
+    private final double firstBinMass = 11d / (n + 1);
 
     @Override
     public double[] makeCumulativeTestPoints() {
@@ -510,6 +510,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
      * Empirical distribution using a uniform smoothing kernel.
      */
     private class UniformKernelEmpiricalDistribution extends EmpiricalDistribution {
+        private static final long serialVersionUID = 2963149194515159653L;
         public UniformKernelEmpiricalDistribution(int i) {
             super(i);
         }
