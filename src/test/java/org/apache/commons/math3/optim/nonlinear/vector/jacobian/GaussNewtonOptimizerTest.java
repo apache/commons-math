@@ -27,8 +27,6 @@ import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.SimpleBounds;
 import org.apache.commons.math3.optim.nonlinear.vector.Target;
 import org.apache.commons.math3.optim.nonlinear.vector.Weight;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
-import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
 import org.junit.Test;
 
 /**

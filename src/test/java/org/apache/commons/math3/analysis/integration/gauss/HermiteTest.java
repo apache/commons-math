@@ -17,11 +17,7 @@
 package org.apache.commons.math3.analysis.integration.gauss;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Pair;
 import org.junit.Test;
 import org.junit.Assert;
 

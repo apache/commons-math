@@ -17,13 +17,11 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;

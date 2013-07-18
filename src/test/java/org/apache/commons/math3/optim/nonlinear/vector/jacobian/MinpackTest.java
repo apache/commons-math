@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;

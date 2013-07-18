@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.optim.PointVectorValuePair;
@@ -30,7 +29,6 @@ import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
@@ -40,7 +38,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a

@@ -25,8 +25,6 @@ import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.optimization.GoalType;
@@ -34,10 +32,8 @@ import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.optimization.InitialGuess;
 import org.apache.commons.math3.optimization.SimpleBounds;
 import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 /**
