@@ -252,7 +252,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         try {
             return new BigReal(d.divide(a.d, scale, roundingMode));
         } catch (ArithmeticException e) {
-            // Division by zero has occured
+            // Division by zero has occurred
             throw new MathArithmeticException(LocalizedFormats.ZERO_NOT_ALLOWED);
         }
     }
@@ -266,7 +266,7 @@ public class BigReal implements FieldElement<BigReal>, Comparable<BigReal>, Seri
         try {
             return new BigReal(BigDecimal.ONE.divide(d, scale, roundingMode));
         } catch (ArithmeticException e) {
-            // Division by zero has occured
+            // Division by zero has occurred
             throw new MathArithmeticException(LocalizedFormats.ZERO_NOT_ALLOWED);
         }
     }

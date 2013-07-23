@@ -37,7 +37,7 @@ public class StatisticalReferenceDatasetFactory {
      *
      * @param name the name of the resource
      * @return a buffered reader
-     * @throws IOException if an I/O error occured
+     * @throws IOException if an I/O error occurred
      */
     public static BufferedReader createBufferedReaderFromResource(final String name)
         throws IOException {

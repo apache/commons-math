@@ -798,7 +798,7 @@ public class SymmLQ
         /**
          * Returns {@code true} if the default stopping criterion is fulfilled.
          *
-         * @return {@code true} if convergence of the iterations has occured
+         * @return {@code true} if convergence of the iterations has occurred
          */
         boolean hasConverged() {
             return hasConverged;
