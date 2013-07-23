@@ -28,11 +28,12 @@ import org.apache.commons.math3.exception.util.Localizable;
  * @version $Id$
  */
 public class MathIllegalNumberException extends MathIllegalArgumentException {
-    /** Serializable version Id. */
-    private static final long serialVersionUID = -7447085893598031110L;
 
     /** Helper to avoid boxing warnings. @since 3.3 */
     protected static final Integer INTEGER_ZERO = Integer.valueOf(0);
+
+    /** Serializable version Id. */
+    private static final long serialVersionUID = -7447085893598031110L;
 
     /** Requested. */
     private final Number argument;
