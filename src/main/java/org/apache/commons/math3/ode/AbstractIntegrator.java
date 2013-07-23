@@ -327,7 +327,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
             // search for next events that may occur during the step
             final int orderingSign = interpolator.isForward() ? +1 : -1;
-            SortedSet<EventState> occuringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
+            SortedSet<EventState> occurringEvents = new TreeSet<EventState>(new Comparator<EventState>() {
 
                 /** {@inheritDoc} */
                 public int compare(EventState es0, EventState es1) {
@@ -339,14 +339,14 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
             for (final EventState state : eventsStates) {
                 if (state.evaluateStep(interpolator)) {
                     // the event occurs during the current step
-                    occuringEvents.add(state);
+                    occurringEvents.add(state);
                 }
             }
 
-            while (!occuringEvents.isEmpty()) {
+            while (!occurringEvents.isEmpty()) {
 
                 // handle the chronologically first event
-                final Iterator<EventState> iterator = occuringEvents.iterator();
+                final Iterator<EventState> iterator = occurringEvents.iterator();
                 final EventState currentEvent = iterator.next();
                 iterator.remove();
 
@@ -405,7 +405,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
                 // check if the same event occurs again in the remaining part of the step
                 if (currentEvent.evaluateStep(interpolator)) {
                     // the event occurs during the current step
-                    occuringEvents.add(currentEvent);
+                    occurringEvents.add(currentEvent);
                 }
 
             }
