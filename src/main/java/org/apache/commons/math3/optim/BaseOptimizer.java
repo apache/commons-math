@@ -45,10 +45,21 @@ public abstract class BaseOptimizer<PAIR> {
      * @param checker Convergence checker.
      */
     protected BaseOptimizer(ConvergenceChecker<PAIR> checker) {
+        this(checker, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     * @param checker Convergence checker.
+     * @param maxEval Maximum number of objective function evaluations.
+     * @param maxIter Maximum number of algorithm iterations.
+     */
+    protected BaseOptimizer(ConvergenceChecker<PAIR> checker,
+                            int maxEval,
+                            int maxIter) {
         this.checker = checker;
 
-        evaluations = new Incrementor(0, new MaxEvalCallback());
-        iterations = new Incrementor(Integer.MAX_VALUE, new MaxIterCallback());
+        evaluations = new Incrementor(maxEval, new MaxEvalCallback());
+        iterations = new Incrementor(maxIter, new MaxIterCallback());
     }
 
     /**
@@ -136,6 +147,25 @@ public abstract class BaseOptimizer<PAIR> {
         // Parse options.
         parseOptimizationData(optData);
 
+        // Reset counters.
+        evaluations.resetCount();
+        iterations.resetCount();
+        // Perform optimization.
+        return doOptimize();
+    }
+
+    /**
+     * Performs the optimization.
+     *
+     * @return a point/value pair that satifies the convergence criteria.
+     * @throws TooManyEvaluationsException if the maximal number of
+     * evaluations is exceeded.
+     * @throws TooManyIterationsException if the maximal number of
+     * iterations is exceeded.
+     */
+    public PAIR optimize()
+        throws TooManyEvaluationsException,
+               TooManyIterationsException {
         // Reset counters.
         evaluations.resetCount();
         iterations.resetCount();
