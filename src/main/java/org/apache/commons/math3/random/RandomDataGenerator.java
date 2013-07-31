@@ -37,6 +37,7 @@ import org.apache.commons.math3.distribution.PoissonDistribution;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.distribution.ZipfDistribution;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
@@ -194,25 +195,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /** {@inheritDoc} */
     public int nextInt(final int lower, final int upper) throws NumberIsTooLargeException {
-        if (lower >= upper) {
-            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                                                lower, upper, false);
-        }
-        final int max = (upper - lower) + 1;
-        if (max <= 0) {
-            // the range is too wide to fit in a positive int (larger than 2^31); as it covers
-            // more than half the integer range, we use directly a simple rejection method
-            final RandomGenerator rng = getRandomGenerator();
-            while (true) {
-                final int r = rng.nextInt();
-                if (r >= lower && r <= upper) {
-                    return r;
-                }
-            }
-        } else {
-            // we can shift the range and generate directly a positive int
-            return lower + getRandomGenerator().nextInt(max);
-        }
+        return new UniformIntegerDistribution(getRandomGenerator(), lower, upper).sample();
     }
 
     /** {@inheritDoc} */
