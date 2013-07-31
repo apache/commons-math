@@ -156,8 +156,21 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
     /** {@inheritDoc} */
     @Override
     public int sample() {
-        final double r = random.nextDouble();
-        final double scaled = r * upper + (1 - r) * lower + r;
-        return (int) FastMath.floor(scaled);
+        final int max = (upper - lower) + 1;
+        if (max <= 0) {
+            // The range is too wide to fit in a positive int (larger
+            // than 2^31); as it covers more than half the integer range,
+            // we use a simple rejection method.
+            while (true) {
+                final int r = random.nextInt();
+                if (r >= lower &&
+                    r <= upper) {
+                    return r;
+                }
+            }
+        } else {
+            // We can shift the range and directly generate a positive int.
+            return lower + random.nextInt(max);
+        }
     }
 }
