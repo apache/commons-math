@@ -37,6 +37,7 @@ public class RandomGeneratorFactory {
      *
      * @param rng JDK {@link Random} instance that will generate the
      * the random data.
+     * @return the given RNG, wrapped in a {@link RandomGenerator}.
      */
     public static RandomGenerator createRandomGenerator(final Random rng) {
         return new RandomGenerator() {
