@@ -118,7 +118,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
     private RandomGenerator rand = null;
 
     /** underlying secure random number generator */
-    private SecureRandom secRand = null;
+    private RandomGenerator secRand = null;
 
     /**
      * Construct a RandomDataGenerator, using a default random generator as the source
@@ -278,7 +278,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
         }
 
         // Get SecureRandom and setup Digest provider
-        SecureRandom secRan = getSecRan();
+        final RandomGenerator secRan = getSecRan();
         MessageDigest alg = null;
         try {
             alg = MessageDigest.getInstance("SHA-1");
@@ -323,25 +323,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**  {@inheritDoc} */
     public int nextSecureInt(final int lower, final int upper) throws NumberIsTooLargeException {
-        if (lower >= upper) {
-            throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                                                lower, upper, false);
-        }
-        final int max = (upper - lower) + 1;
-        if (max <= 0) {
-            // the range is too wide to fit in a positive int (larger than 2^31); as it covers
-            // more than half the integer range, we use directly a simple rejection method
-            final SecureRandom rng = getSecRan();
-            while (true) {
-                final int r = rng.nextInt();
-                if (r >= lower && r <= upper) {
-                    return r;
-                }
-            }
-        } else {
-            // we can shift the range and generate directly a positive int
-            return lower + getSecRan().nextInt(max);
-        }
+        return new UniformIntegerDistribution(getSecRan(), lower, upper).sample();
     }
 
     /** {@inheritDoc} */
@@ -350,11 +332,11 @@ public class RandomDataGenerator implements RandomData, Serializable {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
                                                 lower, upper, false);
         }
+        final RandomGenerator rng = getSecRan();
         final long max = (upper - lower) + 1;
         if (max <= 0) {
             // the range is too wide to fit in a positive long (larger than 2^63); as it covers
             // more than half the long range, we use directly a simple rejection method
-            final SecureRandom rng = getSecRan();
             while (true) {
                 final long r = rng.nextLong();
                 if (r >= lower && r <= upper) {
@@ -363,42 +345,11 @@ public class RandomDataGenerator implements RandomData, Serializable {
             }
         } else if (max < Integer.MAX_VALUE){
             // we can shift the range and generate directly a positive int
-            return lower + getSecRan().nextInt((int) max);
+            return lower + rng.nextInt((int) max);
         } else {
             // we can shift the range and generate directly a positive long
-            return lower + nextLong(getSecRan(), max);
+            return lower + nextLong(rng, max);
         }
-    }
-
-    /**
-     * Returns a pseudorandom, uniformly distributed <tt>long</tt> value
-     * between 0 (inclusive) and the specified value (exclusive), drawn from
-     * this random number generator's sequence.
-     *
-     * @param rng random generator to use
-     * @param n the bound on the random number to be returned.  Must be
-     * positive.
-     * @return  a pseudorandom, uniformly distributed <tt>long</tt>
-     * value between 0 (inclusive) and n (exclusive).
-     * @throws IllegalArgumentException  if n is not positive.
-     */
-    private static long nextLong(final SecureRandom rng, final long n) throws IllegalArgumentException {
-        if (n > 0) {
-            final byte[] byteArray = new byte[8];
-            long bits;
-            long val;
-            do {
-                rng.nextBytes(byteArray);
-                bits = 0;
-                for (final byte b : byteArray) {
-                    bits = (bits << 8) | (((long) b) & 0xffL);
-                }
-                bits = bits & 0x7fffffffffffffffL;
-                val  = bits % n;
-            } while (bits - val + (n - 1) < 0);
-            return val;
-        }
-        throw new NotStrictlyPositiveException(n);
     }
 
     /**
@@ -793,7 +744,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
      */
     public void setSecureAlgorithm(String algorithm, String provider)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        secRand = SecureRandom.getInstance(algorithm, provider);
+        secRand = RandomGeneratorFactory.createRandomGenerator(SecureRandom.getInstance(algorithm, provider));
     }
 
     /**
@@ -829,11 +780,12 @@ public class RandomDataGenerator implements RandomData, Serializable {
      * {@code System.currentTimeMillis() + System.identityHashCode(this)} as the default seed.
      * </p>
      *
-     * @return the SecureRandom used to generate secure random data
+     * @return the SecureRandom used to generate secure random data, wrapped in a
+     * {@link RandomGenerator}.
      */
-    private SecureRandom getSecRan() {
+    private RandomGenerator getSecRan() {
         if (secRand == null) {
-            secRand = new SecureRandom();
+            secRand = RandomGeneratorFactory.createRandomGenerator(new SecureRandom());
             secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return secRand;
