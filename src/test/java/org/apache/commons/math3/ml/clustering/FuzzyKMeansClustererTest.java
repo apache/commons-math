@@ -31,6 +31,12 @@ import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.junit.Test;
 
+/**
+ * Test cases for FuzzyKMeansClusterer.
+ *
+ * @version $Id$
+ * @since 3.3
+ */
 public class FuzzyKMeansClustererTest {
 
     @Test

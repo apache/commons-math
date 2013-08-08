@@ -50,7 +50,7 @@ import org.apache.commons.math3.util.MathUtils;
  * @see <a href="https://lirias.kuleuven.be/bitstream/123456789/131168/1/mcm2005_bartv.pdf">
  * On the Halton sequence and its scramblings</a>
  * @version $Id$
- * @since 4.0
+ * @since 3.3
  */
 public class HaltonSequenceGenerator implements RandomVectorGenerator {
 

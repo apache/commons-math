@@ -52,7 +52,7 @@ import org.apache.commons.math3.util.FastMath;
  * @see <a href="http://web.maths.unsw.edu.au/~fkuo/sobol/">Sobol sequence direction numbers</a>
  *
  * @version $Id$
- * @since 4.0
+ * @since 3.3
  */
 public class SobolSequenceGenerator implements RandomVectorGenerator {
 

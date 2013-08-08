@@ -45,7 +45,7 @@ import org.apache.commons.math3.random.Well19937c;
  * Pareto distribution (MathWorld)</a>
  *
  * @version $Id$
- * @since 4.0
+ * @since 3.3
  */
 public class ParetoDistribution extends AbstractRealDistribution {
 
