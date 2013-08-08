@@ -25,6 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math3.Field;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -1422,4 +1425,84 @@ public class MathArrays {
 
          return y;
      }
+
+    /**
+     * Specification for indicating that some operation applies
+     * before or after a given index.
+     */
+    public static enum Position {
+        /** Designates the beginning of the array (near index 0). */
+        HEAD,
+        /** Designates the end of the array. */
+        TAIL
+    }
+
+    /**
+     * Shuffle the entries of the given array.
+     * The {@code start} and {@code pos} parameters select which portion
+     * of the array is randomized and which is left untouched.
+     *
+     * @param list Array whose entries will be shuffled (in-place).
+     * @param start Index at which shuffling begins.
+     * @param pos Shuffling is performed for index positions between
+     * {@code start} and either the end (if {@link Position#TAIL})
+     * or the beginning (if {@link Position#HEAD}) of the array.
+     */
+    public static void shuffle(int[] list,
+                               int start,
+                               Position pos) {
+        shuffle(list, start, pos, new Well19937c());
+    }
+
+    /**
+     * Shuffle the entries of the given array.
+     * The {@code start} and {@code pos} parameters select which portion
+     * of the array is randomized and which is left untouched.
+     *
+     * @param list Array whose entries will be shuffled (in-place).
+     * @param start Index at which shuffling begins.
+     * @param pos Shuffling is performed for index positions between
+     * {@code start} and either the end (if {@link Position#TAIL})
+     * or the beginning (if {@link Position#HEAD}) of the array.
+     * @param rng Random number generator.
+     */
+    public static void shuffle(int[] list,
+                               int start,
+                               Position pos,
+                               RandomGenerator rng) {
+        switch (pos) {
+        case TAIL: {
+            for (int i = list.length - 1; i >= start; i--) {
+                final int target;
+                if (i == start) {
+                    target = start;
+                } else {
+                    // NumberIsTooLargeException cannot occur.
+                    target = new UniformIntegerDistribution(start, i).sample();
+                }
+                final int temp = list[target];
+                list[target] = list[i];
+                list[i] = temp;
+            }
+        }
+            break;
+        case HEAD: {
+            for (int i = 0; i <= start; i++) {
+                final int target;
+                if (i == start) {
+                    target = start;
+                } else {
+                    // NumberIsTooLargeException cannot occur.
+                    target = new UniformIntegerDistribution(i, start).sample();
+                }
+                final int temp = list[target];
+                list[target] = list[i];
+                list[i] = temp;
+            }
+        }
+            break;
+        default:
+            throw new MathInternalError(); // Should never happen.
+        }
+    }
 }

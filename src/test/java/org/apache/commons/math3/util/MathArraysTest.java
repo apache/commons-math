@@ -932,4 +932,50 @@ public class MathArraysTest {
             // expected behavior
         }
     }
+
+    @Test
+    public void testShuffleTail() {
+        final int[] orig = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        final int[] list = orig.clone();
+        final int start = 4;
+        MathArrays.shuffle(list, start, MathArrays.Position.TAIL, new Well1024a(7654321L));
+
+        // Ensure that all entries below index "start" did not move.
+        for (int i = 0; i < start; i++) {
+            Assert.assertEquals(orig[i], list[i]);
+        }
+
+        // Ensure that at least one entry has moved.
+        boolean ok = false;
+        for (int i = start; i < orig.length - 1; i++) {
+            if (orig[i] != list[i]) {
+                ok = true;
+                break;
+            }
+        }
+        Assert.assertTrue(ok);
+    }
+
+    @Test
+    public void testShuffleHead() {
+        final int[] orig = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        final int[] list = orig.clone();
+        final int start = 4;
+        MathArrays.shuffle(list, start, MathArrays.Position.HEAD, new Well1024a(1234567L));
+
+        // Ensure that all entries above index "start" did not move.
+        for (int i = start + 1; i < orig.length; i++) {
+            Assert.assertEquals(orig[i], list[i]);
+        }
+
+        // Ensure that at least one entry has moved.
+        boolean ok = false;
+        for (int i = 0; i <= start; i++) {
+            if (orig[i] != list[i]) {
+                ok = true;
+                break;
+            }
+        }
+        Assert.assertTrue(ok);
+    }
 }
