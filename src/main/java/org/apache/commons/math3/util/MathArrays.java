@@ -1478,7 +1478,7 @@ public class MathArrays {
                     target = start;
                 } else {
                     // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(start, i).sample();
+                    target = new UniformIntegerDistribution(rng, start, i).sample();
                 }
                 final int temp = list[target];
                 list[target] = list[i];
@@ -1493,7 +1493,7 @@ public class MathArrays {
                     target = start;
                 } else {
                     // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(i, start).sample();
+                    target = new UniformIntegerDistribution(rng, i, start).sample();
                 }
                 final int temp = list[target];
                 list[target] = list[i];
