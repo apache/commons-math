@@ -1505,4 +1505,24 @@ public class MathArrays {
             throw new MathInternalError(); // Should never happen.
         }
     }
+
+    /**
+     * Shuffle the entries of the given array.
+     *
+     * @param list Array whose entries will be shuffled (in-place).
+     * @param rng Random number generator.
+     */
+    public static void shuffle(int[] list,
+                               RandomGenerator rng) {
+        shuffle(list, 0, Position.TAIL, rng);
+    }
+
+    /**
+     * Shuffle the entries of the given array.
+     *
+     * @param list Array whose entries will be shuffled (in-place).
+     */
+    public static void shuffle(int[] list) {
+        shuffle(list, new Well19937c());
+    }
 }

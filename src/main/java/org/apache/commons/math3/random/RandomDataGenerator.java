@@ -46,6 +46,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -639,13 +640,10 @@ public class RandomDataGenerator implements RandomData, Serializable {
         }
 
         int[] index = getNatural(n);
-        shuffle(index, n - k);
-        int[] result = new int[k];
-        for (int i = 0; i < k; i++) {
-            result[i] = index[n - i - 1];
-        }
+        MathArrays.shuffle(index, getRandomGenerator());
 
-        return result;
+        // Return a new array containing the first "k" entries of "index".
+        return MathArrays.copyOf(index, k);
     }
 
     /**
