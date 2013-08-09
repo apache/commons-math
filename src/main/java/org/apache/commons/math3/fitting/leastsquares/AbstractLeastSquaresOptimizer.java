@@ -17,7 +17,6 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -27,71 +26,82 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.BaseOptimizer;
+import org.apache.commons.math3.optim.AbstractOptimizer;
 import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.util.FastMath;
 
 /**
  * Base class for implementing least-squares optimizers.
  * It provides methods for error estimation.
  *
+ * @param <OPTIM> Concrete optimizer.
+ *
  * @version $Id$
  * @since 3.3
  */
-public abstract class AbstractLeastSquaresOptimizer
-    extends BaseOptimizer<PointVectorValuePair> {
+public abstract class AbstractLeastSquaresOptimizer<OPTIM extends AbstractLeastSquaresOptimizer<OPTIM>>
+    extends AbstractOptimizer<PointVectorValuePair, OPTIM>
+    implements WithTarget<OPTIM>,
+               WithWeight<OPTIM>,
+               WithModelAndJacobian<OPTIM>,
+               WithStartPoint<OPTIM> {
     /** Target values for the model function at optimum. */
-    private final double[] target;
+    private double[] target;
     /** Weight matrix. */
-    private final RealMatrix weight;
+    private RealMatrix weight;
     /** Model function. */
-    private final MultivariateVectorFunction model;
+    private MultivariateVectorFunction model;
     /** Jacobian of the model function. */
-    private final MultivariateMatrixFunction jacobian;
+    private MultivariateMatrixFunction jacobian;
     /** Square-root of the weight matrix. */
-    private final RealMatrix weightSqrt;
+    private RealMatrix weightSqrt;
     /** Initial guess. */
-    private final double[] start;
+    private double[] start;
 
     /**
-     * @param target Observations.
-     * @param weight Weight of the observations.
-     * For performance, no defensive copy is performed.
-     * @param weightSqrt Square-root of the {@code weight} matrix.
-     * If {@code null}, it will be computed; otherwise it is the caller's
-     * responsibility that {@code weight} and {@code weightSqrt} are
-     * consistent.
-     * No defensive copy is performed.
-     * @param model ModelFunction.
-     * @param jacobian Jacobian of the model function.
-     * @param checker Convergence checker.
-     * @param start Initial guess.
-     * @param maxEval Maximum number of evaluations of the model
-     * function.
-     * @param maxIter Maximum number of iterations.
+     * Default constructor.
      */
-    protected AbstractLeastSquaresOptimizer(double[] target,
-                                            RealMatrix weight,
-                                            RealMatrix weightSqrt,
-                                            MultivariateVectorFunction model,
-                                            MultivariateMatrixFunction jacobian,
-                                            ConvergenceChecker<PointVectorValuePair> checker,
-                                            double[] start,
-                                            int maxEval,
-                                            int maxIter) {
-        super(checker, maxEval, maxIter);
+    protected AbstractLeastSquaresOptimizer() {}
 
-        this.target = target;
-        this.weight = weight;
-        this.model = model;
-        this.jacobian = jacobian;
-        this.start = start;
+    /**
+     * Copy constructor.
+     *
+     * @param other Instance to copy.
+     */
+    protected AbstractLeastSquaresOptimizer(AbstractLeastSquaresOptimizer other) {
+        target = other.target == null ? null : other.target.clone();
+        start = other.start == null ? null : other.start.clone();
+        weight = other.weight == null ? null : other.weight.copy();
+        weightSqrt = other.weightSqrt == null ? null : other.weightSqrt.copy();
+        model = other.model; // XXX Not thread-safe
+        jacobian = other.jacobian; // XXX Not thread-safe
+    }
 
-        this.weightSqrt = weightSqrt == null ?
-            (weight == null ?
-             null : squareRoot(weight)) : weightSqrt;
+    /** {@inheritDoc} */
+    public OPTIM withTarget(double[] target) {
+        this.target = target.clone();
+        return self();
+    }
+
+    /** {@inheritDoc} */
+    public OPTIM withWeight(RealMatrix weight) {
+        this.weight = weight; // XXX Not thread-safe
+        weightSqrt = squareRoot(weight);
+        return self();
+    }
+
+    /** {@inheritDoc} */
+    public OPTIM withModelAndJacobian(MultivariateVectorFunction model,
+                                      MultivariateMatrixFunction jacobian) {
+        this.model = model; // XXX Not thread-safe
+        this.jacobian = jacobian; // XXX Not thread-safe
+        return self();
+    }
+
+    /** {@inheritDoc} */
+    public OPTIM withStartPoint(double[] start) {
+        this.start = start.clone();
+        return self();
     }
 
     /**
@@ -214,51 +224,6 @@ public abstract class AbstractLeastSquaresOptimizer
     public double computeRMS(double[] params) {
         final double cost = computeCost(computeResiduals(getModel().value(params)));
         return FastMath.sqrt(cost * cost / target.length);
-    }
-
-    /**
-     * Calling this method will raise an exception.
-     *
-     * @param optData Obsolete.
-     * @return nothing.
-     * @throws MathUnsupportedOperationException if called.
-     * @deprecated Do not use this method.
-     */
-    @Deprecated
-    @Override
-    public PointVectorValuePair optimize(OptimizationData... optData)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
-    }
-
-    /**
-     * Gets a reference to the corresponding field.
-     * Altering it could jeopardize the consistency of this class.
-     *
-     * @return the reference.
-     */
-    protected double[] getTargetInternal() {
-        return target;
-    }
-
-    /**
-     * Gets a reference to the corresponding field.
-     * Altering it could jeopardize the consistency of this class.
-     *
-     * @return the reference.
-     */
-    protected RealMatrix getWeightInternal() {
-        return weight;
-    }
-
-    /**
-     * Gets a reference to the corresponding field.
-     * Altering it could jeopardize the consistency of this class.
-     *
-     * @return the reference.
-     */
-    protected RealMatrix getWeightSquareRootInternal() {
-        return weightSqrt;
     }
 
     /**

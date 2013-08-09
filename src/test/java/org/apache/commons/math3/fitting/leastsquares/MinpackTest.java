@@ -498,13 +498,14 @@ public class MinpackTest {
 
     private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
         final double tol = 2.22044604926e-16;
+        final double sqrtTol = FastMath.sqrt(tol);
         LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create();
         optimizer = optimizer
-            .withTuningParameters(optimizer.getInitialStepBoundFactor(),
-                                  FastMath.sqrt(tol),
-                                  FastMath.sqrt(tol),
-                                  tol,
-                                  optimizer.getRankingThreshold())
+            .withInitialStepBoundFactor(optimizer.getInitialStepBoundFactor())
+            .withCostRelativeTolerance(sqrtTol)
+            .withParameterRelativeTolerance(sqrtTol)
+            .withOrthoTolerance(tol)
+            .withRankingThreshold(optimizer.getRankingThreshold())
             .withMaxEvaluations(400 * (function.getN() + 1))
             .withMaxIterations(2000)
             .withModelAndJacobian(function.getModelFunction(),

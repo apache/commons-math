@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -45,53 +43,10 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  *
  * @version $Id$
  * @since 3.3
- *
  */
-public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer
-    implements WithTarget<GaussNewtonOptimizer>,
-               WithWeight<GaussNewtonOptimizer>,
-               WithModelAndJacobian<GaussNewtonOptimizer>,
-               WithConvergenceChecker<GaussNewtonOptimizer>,
-               WithStartPoint<GaussNewtonOptimizer>,
-               WithMaxIterations<GaussNewtonOptimizer>,
-               WithMaxEvaluations<GaussNewtonOptimizer> {
+public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNewtonOptimizer> {
     /** Indicator for using LU decomposition. */
-    private final boolean useLU;
-
-    /**
-     * Constructor called by the various {@code withXxx} methods.
-     *
-     * @param target Observations.
-     * @param weight Weight of the observations.
-     * For performance, no defensive copy is performed.
-     * @param weightSqrt Square-root of the {@code weight} matrix.
-     * If {@code null}, it will be computed; otherwise it is the caller's
-     * responsibility that {@code weight} and {@code weightSqrt} are
-     * consistent.
-     * No defensive copy is performed.
-     * @param model ModelFunction.
-     * @param jacobian Jacobian of the model function.
-     * @param checker Convergence checker.
-     * @param start Initial guess.
-     * @param maxEval Maximum number of evaluations of the model
-     * function.
-     * @param maxIter Maximum number of iterations.
-     * @param useLU Whether to use LU decomposition.
-     */
-    private GaussNewtonOptimizer(double[] target,
-                                 RealMatrix weight,
-                                 RealMatrix weightSqrt,
-                                 MultivariateVectorFunction model,
-                                 MultivariateMatrixFunction jacobian,
-                                 ConvergenceChecker<PointVectorValuePair> checker,
-                                 double[] start,
-                                 int maxEval,
-                                 int maxIter,
-                                 boolean useLU) {
-        super(target, weight, weightSqrt, model, jacobian, checker, start, maxEval, maxIter);
-
-        this.useLU = useLU;
-    }
+    private boolean useLU = true;
 
     /**
      * Creates a bare-bones instance.
@@ -104,127 +59,16 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer
      * @return an instance of this class.
      */
     public static GaussNewtonOptimizer create() {
-        return new GaussNewtonOptimizer(null, null, null, null, null, null, null,
-                                        0, 0, true);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withTarget(double[] target) {
-        return new GaussNewtonOptimizer(target,
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withWeight(RealMatrix weight) {
-        return new GaussNewtonOptimizer(getTargetInternal(),
-                                        weight,
-                                        null,
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withModelAndJacobian(MultivariateVectorFunction model,
-                                                     MultivariateMatrixFunction jacobian) {
-        return new GaussNewtonOptimizer(getTargetInternal(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        model,
-                                        jacobian,
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withConvergenceChecker(ConvergenceChecker<PointVectorValuePair> checker) {
-        return new GaussNewtonOptimizer(getTarget(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        checker,
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withStartPoint(double[] start) {
-        return new GaussNewtonOptimizer(getTarget(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        start,
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withMaxIterations(int maxIter) {
-        return new GaussNewtonOptimizer(getTarget(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        maxIter,
-                                        useLU);
-    }
-
-    /** {@inheritDoc} */
-    public GaussNewtonOptimizer withMaxEvaluations(int maxEval) {
-        return new GaussNewtonOptimizer(getTarget(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        maxEval,
-                                        getMaxIterations(),
-                                        useLU);
+        return new GaussNewtonOptimizer();
     }
 
     /**
-     * Creates a new instance.
-     *
-     * @param withLU Whether to use LU decomposition.
-     * @return a new instance with all fields identical to this instance except
-     * for the givens arguments.
+     * @param useLU Whether to use LU decomposition.
+     * @return this instance.
      */
-    public GaussNewtonOptimizer withLU(boolean withLU) {
-        return new GaussNewtonOptimizer(getTarget(),
-                                        getWeightInternal(),
-                                        getWeightSquareRootInternal(),
-                                        getModel(),
-                                        getJacobian(),
-                                        getConvergenceChecker(),
-                                        getStart(),
-                                        getMaxEvaluations(),
-                                        getMaxIterations(),
-                                        withLU);
+    public GaussNewtonOptimizer withLU(boolean useLU) {
+        this.useLU = useLU;
+        return self();
     }
 
     /** {@inheritDoc} */

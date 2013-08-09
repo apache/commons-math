@@ -17,8 +17,6 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import java.util.Arrays;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -107,89 +105,24 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 2.0
  */
-public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer
-    implements WithTarget<LevenbergMarquardtOptimizer>,
-               WithWeight<LevenbergMarquardtOptimizer>,
-               WithModelAndJacobian<LevenbergMarquardtOptimizer>,
-               WithConvergenceChecker<LevenbergMarquardtOptimizer>,
-               WithStartPoint<LevenbergMarquardtOptimizer>,
-               WithMaxIterations<LevenbergMarquardtOptimizer>,
-               WithMaxEvaluations<LevenbergMarquardtOptimizer> {
+public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<LevenbergMarquardtOptimizer> {
     /** Twice the "epsilon machine". */
     private static final double TWO_EPS = 2 * Precision.EPSILON;
     /** Positive input variable used in determining the initial step bound. */
-    private final double initialStepBoundFactor;
+    private double initialStepBoundFactor = 100;
     /** Desired relative error in the sum of squares. */
-    private final double costRelativeTolerance;
+    private double costRelativeTolerance = 1e-10;
     /**  Desired relative error in the approximate solution parameters. */
-    private final double parRelativeTolerance;
+    private double parRelativeTolerance = 1e-10;
     /** Desired max cosine on the orthogonality between the function vector
      * and the columns of the jacobian. */
-    private final double orthoTolerance;
+    private double orthoTolerance = 1e-10;
     /** Threshold for QR ranking. */
-    private final double qrRankingThreshold;
+    private double qrRankingThreshold = Precision.SAFE_MIN;
     /** Levenberg-Marquardt parameter. */
     private double lmPar;
     /** Parameters evolution direction associated with lmPar. */
     private double[] lmDir;
-
-    /**
-     * Constructor called by the various {@code withXxx} methods.
-     *
-     * @param target Observations.
-     * @param weight Weight of the observations.
-     * For performance, no defensive copy is performed.
-     * @param weightSqrt Square-root of the {@code weight} matrix.
-     * If {@code null}, it will be computed; otherwise it is the caller's
-     * responsibility that {@code weight} and {@code weightSqrt} are
-     * consistent.
-     * No defensive copy is performed.
-     * @param model ModelFunction.
-     * @param jacobian Jacobian of the model function.
-     * @param checker Convergence checker.
-     * @param start Initial guess.
-     * @param maxEval Maximum number of evaluations of the model
-     * function.
-     * @param maxIter Maximum number of iterations.
-     * @param initialStepBoundFactor Positive input variable used in
-     * determining the initial step bound. This bound is set to the
-     * product of initialStepBoundFactor and the euclidean norm of
-     * {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor}
-     * itself. In most cases factor should lie in the interval
-     * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
-     * @param costRelativeTolerance Desired relative error in the sum of
-     * squares.
-     * @param parRelativeTolerance Desired relative error in the approximate
-     * solution parameters.
-     * @param orthoTolerance Desired max cosine on the orthogonality between
-     * the function vector and the columns of the Jacobian.
-     * @param threshold Desired threshold for QR ranking. If the squared norm
-     * of a column vector is smaller or equal to this threshold during QR
-     * decomposition, it is considered to be a zero vector and hence the rank
-     * of the matrix is reduced.
-     */
-    private LevenbergMarquardtOptimizer(double[] target,
-                                        RealMatrix weight,
-                                        RealMatrix weightSqrt,
-                                        MultivariateVectorFunction model,
-                                        MultivariateMatrixFunction jacobian,
-                                        ConvergenceChecker<PointVectorValuePair> checker,
-                                        double[] start,
-                                        int maxEval,
-                                        int maxIter,
-                                        double initialStepBoundFactor,
-                                        double costRelativeTolerance,
-                                        double parRelativeTolerance,
-                                        double orthoTolerance,
-                                        double threshold) {
-        super(target, weight, weightSqrt, model, jacobian, checker, start, maxEval, maxIter);
-
-        this.initialStepBoundFactor = initialStepBoundFactor;
-        this.costRelativeTolerance = costRelativeTolerance;
-        this.parRelativeTolerance = parRelativeTolerance;
-        this.orthoTolerance = orthoTolerance;
-        this.qrRankingThreshold = threshold;
-    }
 
     /**
      * Creates a bare-bones instance.
@@ -208,183 +141,68 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer
      * @return an instance of this class.
      */
     public static LevenbergMarquardtOptimizer create() {
-        return new LevenbergMarquardtOptimizer(null, null, null, null, null, null, null,
-                                               0, 0, 100, 1e-10, 1e-10, 1e-10,
-                                               Precision.SAFE_MIN);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withTarget(double[] target) {
-        return new LevenbergMarquardtOptimizer(target,
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withWeight(RealMatrix weight) {
-        return new LevenbergMarquardtOptimizer(getTargetInternal(),
-                                               weight,
-                                               null,
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withModelAndJacobian(MultivariateVectorFunction model,
-                                                            MultivariateMatrixFunction jacobian) {
-        return new LevenbergMarquardtOptimizer(getTargetInternal(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               model,
-                                               jacobian,
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withConvergenceChecker(ConvergenceChecker<PointVectorValuePair> checker) {
-        return new LevenbergMarquardtOptimizer(getTarget(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               checker,
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withStartPoint(double[] start) {
-        return new LevenbergMarquardtOptimizer(getTarget(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               start,
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withMaxIterations(int maxIter) {
-        return new LevenbergMarquardtOptimizer(getTarget(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               maxIter,
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
-    }
-
-    /** {@inheritDoc} */
-    public LevenbergMarquardtOptimizer withMaxEvaluations(int maxEval) {
-        return new LevenbergMarquardtOptimizer(getTarget(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               maxEval,
-                                               getMaxIterations(),
-                                               initialStepBoundFactor,
-                                               costRelativeTolerance,
-                                               parRelativeTolerance,
-                                               orthoTolerance,
-                                               qrRankingThreshold);
+        return new LevenbergMarquardtOptimizer();
     }
 
     /**
-     * Creates a new instance.
-     *
-     * @param initStepBoundFactor Positive input variable used in
+     * @param initialStepBoundFactor Positive input variable used in
      * determining the initial step bound. This bound is set to the
      * product of initialStepBoundFactor and the euclidean norm of
      * {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor}
      * itself. In most cases factor should lie in the interval
      * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
-     * @param costRelTol Desired relative error in the sum of squares.
-     * @param parRelTol Desired relative error in the approximate solution
-     * parameters.
-     * @param orthoTol Desired max cosine on the orthogonality between
-     * the function vector and the columns of the Jacobian.
-     * @param threshold Desired threshold for QR ranking. If the squared norm
-     * of a column vector is smaller or equal to this threshold during QR
-     * decomposition, it is considered to be a zero vector and hence the rank
      * of the matrix is reduced.
-     * @return a new instance with all fields identical to this instance except
-     * for the givens arguments.
+     * @return this instance.
      */
-    public LevenbergMarquardtOptimizer withTuningParameters(double initStepBoundFactor,
-                                                            double costRelTol,
-                                                            double parRelTol,
-                                                            double orthoTol,
-                                                            double threshold) {
-        return new LevenbergMarquardtOptimizer(getTarget(),
-                                               getWeightInternal(),
-                                               getWeightSquareRootInternal(),
-                                               getModel(),
-                                               getJacobian(),
-                                               getConvergenceChecker(),
-                                               getStart(),
-                                               getMaxEvaluations(),
-                                               getMaxIterations(),
-                                               initStepBoundFactor,
-                                               costRelTol,
-                                               parRelTol,
-                                               orthoTol,
-                                               threshold);
+    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double initialStepBoundFactor) {
+        this.initialStepBoundFactor = initialStepBoundFactor;
+        return self();
+    }
+
+    /**
+     * @param costRelativeTolerance Desired relative error in the sum of squares.
+     * @return this instance.
+     */
+    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double costRelativeTolerance) {
+        this.costRelativeTolerance = costRelativeTolerance;
+        return self();
+    }
+
+    /**
+     * @param parameterRelativeTolerance Desired relative error in the approximate solution
+     * parameters.
+     * @return this instance.
+     */
+    public LevenbergMarquardtOptimizer withParameterRelativeTolerance(double parameterRelativeTolerance) {
+        this.parRelativeTolerance = parameterRelativeTolerance;
+        return self();
+    }
+
+    /**
+     * @param orthoTolerance Desired max cosine on the orthogonality between
+     * the function vector and the columns of the Jacobian.
+     * @return this instance.
+     */
+    public LevenbergMarquardtOptimizer withOrthoTolerance(double orthoTolerance) {
+        this.orthoTolerance = orthoTolerance;
+        return self();
+    }
+
+    /**
+     * @param rankingThreshold Desired threshold for QR ranking.
+     * If the squared norm of a column vector is smaller or equal to this
+     * threshold during QR decomposition, it is considered to be a zero vector
+     * and hence the rank of the matrix is reduced.
+     * @return this instance.
+     */
+    public LevenbergMarquardtOptimizer withRankingThreshold(double rankingThreshold) {
+        this.qrRankingThreshold = rankingThreshold;
+        return self();
     }
 
     /**
      * Gets the value of a tuning parameter.
-     * @see #withTuningParameters(double,double,double,double,double)
+     * @see #withInitialStepBoundFactor(double)
      *
      * @return the parameter's value.
      */
@@ -394,7 +212,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer
 
     /**
      * Gets the value of a tuning parameter.
-     * @see #withTuningParameters(double,double,double,double,double)
+     * @see #withCostRelativeTolerance(double)
      *
      * @return the parameter's value.
      */
@@ -404,17 +222,17 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer
 
     /**
      * Gets the value of a tuning parameter.
-     * @see #withTuningParameters(double,double,double,double,double)
+     * @see #withParameterRelativeTolerance(double)
      *
      * @return the parameter's value.
      */
-    public double getParRelativeTolerance() {
+    public double getParameterRelativeTolerance() {
         return parRelativeTolerance;
     }
 
     /**
      * Gets the value of a tuning parameter.
-     * @see #withTuningParameters(double,double,double,double,double)
+     * @see #withOrthoTolerance(double)
      *
      * @return the parameter's value.
      */
@@ -424,7 +242,7 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer
 
     /**
      * Gets the value of a tuning parameter.
-     * @see #withTuningParameters(double,double,double,double,double)
+     * @see #withRankingThreshold(double)
      *
      * @return the parameter's value.
      */

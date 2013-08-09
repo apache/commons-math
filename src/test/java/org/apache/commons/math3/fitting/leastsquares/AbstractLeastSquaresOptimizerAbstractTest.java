@@ -44,14 +44,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public abstract class AbstractLeastSquaresOptimizerAbstractTest<T extends AbstractLeastSquaresOptimizer &
-                                                                          WithTarget<T> &
-                                                                          WithWeight<T> &
-                                                                          WithModelAndJacobian<T> &
-                                                                          WithConvergenceChecker<T> &
-                                                                          WithStartPoint<T> &
-                                                                          WithMaxIterations<T> &
-                                                                          WithMaxEvaluations<T>> {
+public abstract class AbstractLeastSquaresOptimizerAbstractTest<T extends AbstractLeastSquaresOptimizer<T>> {
     /**
      * @return a concrete optimizer.
      */

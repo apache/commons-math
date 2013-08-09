@@ -17,17 +17,17 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 
 /**
  * Interface for "fluent-API" that advertizes a capability of the optimizer.
  *
  * @param <T> Concrete optimizer implementation.
+ * @param <PAIR> Parametric type for the {@link ConvergenceChecker}.
  *
  * @version $Id$
  * @since 3.3
  */
-public interface WithConvergenceChecker<T> {
+public interface WithConvergenceChecker<PAIR, T> {
     /**
      * Creates a new instance with the specified parameter.
      *
@@ -35,5 +35,5 @@ public interface WithConvergenceChecker<T> {
      * @return a new optimizer instance with all fields identical to this
      * instance except for the given argument.
      */
-    T withConvergenceChecker(ConvergenceChecker<PointVectorValuePair> checker);
+    T withConvergenceChecker(ConvergenceChecker<PAIR> checker);
 }

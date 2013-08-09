@@ -115,11 +115,11 @@ public class LevenbergMarquardtOptimizerTest
                                double orthoTolerance, boolean shouldFail) {
         try {
             final LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create()
-                .withTuningParameters(initialStepBoundFactor,
-                                      costRelativeTolerance,
-                                      parRelativeTolerance,
-                                      orthoTolerance,
-                                      Precision.SAFE_MIN)
+                .withInitialStepBoundFactor(initialStepBoundFactor)
+                .withCostRelativeTolerance(costRelativeTolerance)
+                .withParameterRelativeTolerance(parRelativeTolerance)
+                .withOrthoTolerance(orthoTolerance)
+                .withRankingThreshold(Precision.SAFE_MIN)
                 .withMaxEvaluations(maxCostEval)
                 .withMaxIterations(100)
                 .withModelAndJacobian(problem, problemJacobian)
