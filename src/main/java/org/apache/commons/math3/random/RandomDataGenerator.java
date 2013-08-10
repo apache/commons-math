@@ -790,28 +790,6 @@ public class RandomDataGenerator implements RandomData, Serializable {
     }
 
     /**
-     * Uses a 2-cycle permutation shuffle to randomly re-order the last elements
-     * of list.
-     *
-     * @param list list to be shuffled
-     * @param end element past which shuffling begins
-     */
-    private void shuffle(int[] list, int end) {
-        int target = 0;
-        for (int i = list.length - 1; i >= end; i--) {
-            if (i == 0) {
-                target = 0;
-            } else {
-                // NumberIsTooLargeException cannot occur
-                target = nextInt(0, i);
-            }
-            int temp = list[target];
-            list[target] = list[i];
-            list[i] = temp;
-        }
-    }
-
-    /**
      * Returns an array representing n.
      *
      * @param n the natural number to represent
