@@ -51,6 +51,30 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1020">
+        Fixed "nextPermutation" method (in "o.a.c.m.random.RandomDataGenerator").
+        This bug does not affect applications using a previous version of
+        Commons Math.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1019">
+        Buggy (private) method "shuffle" in "o.a.c.m.random.RandomDataGenerator"
+        superseded by "MathArrays.shuffle" (cf. MATH-1010).
+      </action>
+      <action dev="erans" type="add" issue="MATH-1010">
+        Utility to shuffle an array.
+      </action>
+      <action dev="erans" type="fix" issue="MATH-1012">
+        Created "RandomGeneratorFactory" (package "o.a.c.m.random") to reduce
+        code duplication in "RandomDataGenerator".
+      </action>
+      <action dev="erans" type="add" issue="MATH-1008">
+        Created package ("o.a.c.m.fitting.leastsquares") for least-squares
+        fitting, with implementations of "LevenbergMarquardtOptimizer" and
+        "GaussNewtonOptimizer" adapted to a new ("fluent") API.
+      </action>
+      <action dev="erans" type="update" issue="MATH-1011">
+        Improved implementation of "sample" method of "UniformIntegerDistribution".
+      </action>
       <action dev="sebb" type="add" issue="MATH-1007">
         Add mode function to StatUtils class
       </action>
