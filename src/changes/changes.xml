@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-989">
+        "BicubicSplineInterpolatingFunction": added method "isValidPoint" that
+        checks whether a point is within the interpolation range.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1021" due-to="Brian Bloniarz">
         Fixed overflow in "HypergeometricDistribution".
       </action>

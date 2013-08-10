@@ -178,6 +178,7 @@ public class BicubicSplineInterpolatingFunction
      * @param x First coordinate.
      * @param y Second coordinate.
      * @return {@code true} if (x, y) is a valid point.
+     * @since 3.3
      */
     public boolean isValidPoint(double x, double y) {
         if (x < xval[0] ||
