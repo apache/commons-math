@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1021" due-to="Brian Bloniarz">
+        Fixed overflow in "HypergeometricDistribution".
+      </action>
       <action dev="erans" type="fix" issue="MATH-1020">
         Fixed "nextPermutation" method (in "o.a.c.m.random.RandomDataGenerator").
         This bug does not affect applications using a previous version of
