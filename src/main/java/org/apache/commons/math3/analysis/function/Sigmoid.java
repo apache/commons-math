@@ -80,7 +80,8 @@ public class Sigmoid implements UnivariateDifferentiableFunction, Differentiable
 
     /**
      * Parametric function where the input array contains the parameters of
-     * the logit function, ordered as follows:
+     * the {@link Sigmoid#Sigmoid(double,double) sigmoid function}, ordered
+     * as follows:
      * <ul>
      *  <li>Lower asymptote</li>
      *  <li>Higher asymptote</li>
