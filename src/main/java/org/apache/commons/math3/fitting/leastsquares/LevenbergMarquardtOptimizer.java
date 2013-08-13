@@ -103,7 +103,7 @@ import org.apache.commons.math3.util.FastMath;
  * </table>
  *
  * @version $Id$
- * @since 2.0
+ * @since 3.3
  */
 public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<LevenbergMarquardtOptimizer> {
     /** Twice the "epsilon machine". */
@@ -112,10 +112,12 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     private double initialStepBoundFactor = 100;
     /** Desired relative error in the sum of squares. */
     private double costRelativeTolerance = 1e-10;
-    /**  Desired relative error in the approximate solution parameters. */
+    /** Desired relative error in the approximate solution parameters. */
     private double parRelativeTolerance = 1e-10;
-    /** Desired max cosine on the orthogonality between the function vector
-     * and the columns of the jacobian. */
+    /**
+     * Desired max cosine on the orthogonality between the function vector
+     * and the columns of the jacobian.
+     */
     private double orthoTolerance = 1e-10;
     /** Threshold for QR ranking. */
     private double qrRankingThreshold = Precision.SAFE_MIN;
@@ -160,6 +162,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     }
 
     /**
+     * Modifies the given parameter.
+     *
      * @param costRelativeTolerance Desired relative error in the sum of squares.
      * @return this instance.
      */
@@ -169,6 +173,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     }
 
     /**
+     * Modifies the given parameter.
+     *
      * @param parameterRelativeTolerance Desired relative error in the approximate solution
      * parameters.
      * @return this instance.
@@ -179,6 +185,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     }
 
     /**
+     * Modifies the given parameter.
+     *
      * @param orthoTolerance Desired max cosine on the orthogonality between
      * the function vector and the columns of the Jacobian.
      * @return this instance.
@@ -189,6 +197,8 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     }
 
     /**
+     * Modifies the given parameter.
+     *
      * @param rankingThreshold Desired threshold for QR ranking.
      * If the squared norm of a column vector is smaller or equal to this
      * threshold during QR decomposition, it is considered to be a zero vector
