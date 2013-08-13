@@ -1442,6 +1442,8 @@ public class MathArrays {
      * The {@code start} and {@code pos} parameters select which portion
      * of the array is randomized and which is left untouched.
      *
+     * @see #shuffle(int[],int,Position,RandomGenerator)
+     *
      * @param list Array whose entries will be shuffled (in-place).
      * @param start Index at which shuffling begins.
      * @param pos Shuffling is performed for index positions between
@@ -1455,7 +1457,9 @@ public class MathArrays {
     }
 
     /**
-     * Shuffle the entries of the given array.
+     * Shuffle the entries of the given array, using the
+     * <a href="http://en.wikipedia.org/wiki/Fisher–Yates_shuffle#The_modern_algorithm">
+     * Fisher–Yates</a> algorithm.
      * The {@code start} and {@code pos} parameters select which portion
      * of the array is randomized and which is left untouched.
      *
@@ -1509,6 +1513,8 @@ public class MathArrays {
     /**
      * Shuffle the entries of the given array.
      *
+     * @see #shuffle(int[],int,Position,RandomGenerator)
+     *
      * @param list Array whose entries will be shuffled (in-place).
      * @param rng Random number generator.
      */
@@ -1519,6 +1525,8 @@ public class MathArrays {
 
     /**
      * Shuffle the entries of the given array.
+     *
+     * @see #shuffle(int[],int,Position,RandomGenerator)
      *
      * @param list Array whose entries will be shuffled (in-place).
      */

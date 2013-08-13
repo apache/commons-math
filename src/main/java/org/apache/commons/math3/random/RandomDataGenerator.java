@@ -620,11 +620,10 @@ public class RandomDataGenerator implements RandomData, Serializable {
     /**
      * {@inheritDoc}
      *
-     * <p>
-     * Uses a 2-cycle permutation shuffle. The shuffling process is described <a
-     * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
-     * here</a>.
-     * </p>
+     * This method calls {@link MathArrays#shuffle(int[],RandomGenerator)
+     * MathArrays.shuffle} in order to create a random shuffle of the set
+     * of natural numbers {@code { 0, 1, ..., n - 1 }}.
+     *
      * @throws NumberIsTooLargeException if {@code k > n}.
      * @throws NotStrictlyPositiveException if {@code k <= 0}.
      */
@@ -649,15 +648,8 @@ public class RandomDataGenerator implements RandomData, Serializable {
     /**
      * {@inheritDoc}
      *
-     * <p>
-     * <strong>Algorithm Description</strong>: Uses a 2-cycle permutation
-     * shuffle to generate a random permutation of <code>c.size()</code> and
-     * then returns the elements whose indexes correspond to the elements of the
-     * generated permutation. This technique is described, and proven to
-     * generate random samples <a
-     * href="http://www.maths.abdn.ac.uk/~igc/tch/mx4002/notes/node83.html">
-     * here</a>
-     * </p>
+     * This method calls {@link #nextPermutation(int,int) nextPermutation(c.size(), k)}
+     * in order to sample the collection.
      */
     public Object[] nextSample(Collection<?> c, int k) throws NumberIsTooLargeException, NotStrictlyPositiveException {
 

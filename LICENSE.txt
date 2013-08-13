@@ -385,3 +385,16 @@ Th Orekit library is described at:
   https://www.orekit.org/forge/projects/orekit
 The original files are distributed under the terms of the Apache 2 license
 which is: Copyright 2010 CS Communication & Systèmes
+
+===============================================================================
+
+The initial code for shuffling an array (originally in class
+"org.apache.commons.math3.random.RandomDataGenerator", now replaced by
+a method in class "org.apache.commons.math3.util.MathArrays") was
+inspired from the algorithm description provided in
+"Algorithms", by Ian Craw and John Pulham (University of Aberdeen 1999).
+The textbook (containing a proof that the shuffle is uniformly random) is
+available here:
+  http://citeseerx.ist.psu.edu/viewdoc/download;?doi=10.1.1.173.1898&rep=rep1&type=pdf
+
+===============================================================================
