@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.junit.Test;
+import org.junit.Assert;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -45,6 +46,28 @@ public class GaussNewtonOptimizerTest
     @Override
     public int getMaxIterations() {
         return 1000;
+    }
+
+    @Override
+    @Test
+    public void testShallowCopy() {
+        super.testShallowCopy(); // Test copy of parent.
+
+        final boolean useLU1 = false;
+        final GaussNewtonOptimizer optim1 = createOptimizer()
+            .withLU(useLU1);
+
+        final GaussNewtonOptimizer optim2 = optim1.shallowCopy();
+
+        // Check that all fields have the same values.
+        Assert.assertTrue(optim1.getLU() == optim2.getLU());
+
+        // Change "optim2".
+        final boolean useLU2 = true;
+        optim2.withLU(useLU2);
+
+        // Check that all fields now have different values.
+        Assert.assertFalse(optim1.getLU() == optim2.getLU());
     }
 
     @Override

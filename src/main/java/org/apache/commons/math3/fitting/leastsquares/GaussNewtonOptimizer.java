@@ -49,6 +49,22 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
     private boolean useLU = true;
 
     /**
+     * Default constructor.
+     */
+    protected GaussNewtonOptimizer() {}
+
+    /**
+     * Copy constructor.
+     *
+     * @param other object to copy.
+     */
+    protected GaussNewtonOptimizer(GaussNewtonOptimizer other) {
+        super(other);
+
+        this.useLU = other.useLU;
+    }
+
+    /**
      * Creates a bare-bones instance.
      * Several calls to {@code withXxx} methods are necessary to obtain
      * an object with all necessary fields set to sensible values.
@@ -62,6 +78,12 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
         return new GaussNewtonOptimizer();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public GaussNewtonOptimizer shallowCopy() {
+        return new GaussNewtonOptimizer(this);
+    }
+
     /**
      * @param useLU Whether to use LU decomposition.
      * @return this instance.
@@ -69,6 +91,13 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
     public GaussNewtonOptimizer withLU(boolean useLU) {
         this.useLU = useLU;
         return self();
+    }
+
+    /**
+     * @return {@code true} if LU decomposition is used.
+     */
+    public boolean getLU() {
+        return useLU;
     }
 
     /** {@inheritDoc} */

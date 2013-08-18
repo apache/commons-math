@@ -165,6 +165,15 @@ public abstract class AbstractOptimizer<PAIR, OPTIM extends AbstractOptimizer<PA
     }
 
     /**
+     * Creates a shallow copy of this instance.
+     * Further modifications of the returned object will not modify the
+     * fields in this instance.
+     *
+     * @return a shallow copy.
+     */
+    public abstract OPTIM shallowCopy();
+
+    /**
      * Performs the bulk of the optimization algorithm.
      *
      * @return the point/value pair giving the optimal value of the

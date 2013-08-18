@@ -127,6 +127,29 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     private double[] lmDir;
 
     /**
+     * Default constructor.
+     */
+    protected LevenbergMarquardtOptimizer() {}
+
+    /**
+     * Copy constructor.
+     *
+     * @param other object to copy.
+     */
+    protected LevenbergMarquardtOptimizer(LevenbergMarquardtOptimizer other) {
+        super(other);
+
+        this.initialStepBoundFactor = other.initialStepBoundFactor;
+        this.costRelativeTolerance = other.costRelativeTolerance;
+        this.parRelativeTolerance = other.parRelativeTolerance;
+        this.orthoTolerance = other.orthoTolerance;
+        this.qrRankingThreshold = other.qrRankingThreshold;
+
+        lmPar = 0; // Re-initialized in "doOptimize".
+        lmDir = null; // Re-initialized in "doOptimize".
+    }
+
+    /**
      * Creates a bare-bones instance.
      * Several calls to {@code withXxx} methods are necessary to obtain
      * an object with all necessary fields set to sensible values.
@@ -144,6 +167,12 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
      */
     public static LevenbergMarquardtOptimizer create() {
         return new LevenbergMarquardtOptimizer();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public LevenbergMarquardtOptimizer shallowCopy() {
+        return new LevenbergMarquardtOptimizer(this);
     }
 
     /**

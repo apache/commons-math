@@ -58,6 +58,53 @@ public class LevenbergMarquardtOptimizerTest
     }
 
     @Override
+    @Test
+    public void testShallowCopy() {
+        super.testShallowCopy(); // Test copy of parent.
+
+        final double initStep1 = 1e-1;
+        final double costTol1 = 1e-1;
+        final double parTol1 = 1e-1;
+        final double orthoTol1 = 1e-1;
+        final double threshold1 = 1e-1;
+        final LevenbergMarquardtOptimizer optim1 = createOptimizer()
+            .withInitialStepBoundFactor(initStep1)
+            .withCostRelativeTolerance(costTol1)
+            .withParameterRelativeTolerance(parTol1)
+            .withOrthoTolerance(orthoTol1)
+            .withRankingThreshold(threshold1);
+
+        final LevenbergMarquardtOptimizer optim2 = optim1.shallowCopy();
+
+        // Check that all fields have the same values.
+        Assert.assertTrue(optim1.getInitialStepBoundFactor() == optim2.getInitialStepBoundFactor());
+        Assert.assertTrue(optim1.getCostRelativeTolerance() == optim2.getCostRelativeTolerance());
+        Assert.assertTrue(optim1.getParameterRelativeTolerance() == optim2.getParameterRelativeTolerance());
+        Assert.assertTrue(optim1.getOrthoTolerance() == optim2.getOrthoTolerance());
+        Assert.assertTrue(optim1.getRankingThreshold() == optim2.getRankingThreshold());
+
+        // Change "optim2".
+        final double initStep2 = 2e-1;
+        final double costTol2 = 2e-1;
+        final double parTol2 = 2e-1;
+        final double orthoTol2 = 2e-1;
+        final double threshold2 = 2e-1;
+        optim2
+            .withInitialStepBoundFactor(initStep2)
+            .withCostRelativeTolerance(costTol2)
+            .withParameterRelativeTolerance(parTol2)
+            .withOrthoTolerance(orthoTol2)
+            .withRankingThreshold(threshold2);
+
+        // Check that all fields now have different values.
+        Assert.assertFalse(optim1.getInitialStepBoundFactor() == optim2.getInitialStepBoundFactor());
+        Assert.assertFalse(optim1.getCostRelativeTolerance() == optim2.getCostRelativeTolerance());
+        Assert.assertFalse(optim1.getParameterRelativeTolerance() == optim2.getParameterRelativeTolerance());
+        Assert.assertFalse(optim1.getOrthoTolerance() == optim2.getOrthoTolerance());
+        Assert.assertFalse(optim1.getRankingThreshold() == optim2.getRankingThreshold());
+    }
+
+    @Override
     @Test(expected=SingularMatrixException.class)
     public void testNonInvertible() {
         /*

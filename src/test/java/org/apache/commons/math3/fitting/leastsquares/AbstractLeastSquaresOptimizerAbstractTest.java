@@ -57,6 +57,87 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest<T extends Abstra
     public abstract int getMaxIterations();
 
     @Test
+    public void testShallowCopy() {
+        final int maxEval1 = 12;
+        final int maxIter1 = 23;
+        final double[] target1 = { 3.4 };
+        final double[] weight1 = { 4.5 };
+        final double[] start1 = { 5.6 };
+        final double factor1 = 6.7;
+        final MultivariateVectorFunction model1 = new MultivariateVectorFunction() {
+                public double[] value(double[] point) {
+                    return new double[] {
+                        factor1 * factor1 * point[0]
+                    };
+                }};
+        final MultivariateMatrixFunction jac1 = new MultivariateMatrixFunction() {
+                    public double[][] value(double[] point) {
+                        return new double[][] {
+                            { 2 * factor1 * point[0] }
+                        };
+                    }
+                };
+
+
+        final T optim1 = createOptimizer()
+            .withMaxEvaluations(maxEval1)
+            .withMaxIterations(maxIter1)
+            .withTarget(target1)
+            .withWeight(new DiagonalMatrix(weight1))
+            .withStartPoint(start1)
+            .withModelAndJacobian(model1, jac1);
+
+        final T optim2 = optim1.shallowCopy();
+
+        // Check that all fields have the same values.
+        Assert.assertTrue(optim1.getMaxEvaluations() == optim2.getMaxEvaluations());
+        Assert.assertTrue(optim1.getMaxIterations() == optim2.getMaxIterations());
+        Assert.assertTrue(optim1.getTarget()[0] == optim2.getTarget()[0]);
+        Assert.assertTrue(optim1.getWeight().getEntry(0, 0) == optim2.getWeight().getEntry(0, 0));
+        Assert.assertTrue(optim1.getStart()[0] == optim2.getStart()[0]);
+        Assert.assertTrue(optim1.getModel().value(new double[] {32})[0] == optim2.getModel().value(new double[] {32})[0]);
+        Assert.assertTrue(optim1.getJacobian().value(new double[] {54})[0][0] == optim2.getJacobian().value(new double[] {54})[0][0]);
+
+        // Change "optim2".
+        final int maxEval2 = 122;
+        final int maxIter2 = 232;
+        final double[] target2 = { 3.42 };
+        final double[] weight2 = { 4.52 };
+        final double[] start2 = { 5.62 };
+        final double factor2 = 6.72;
+        final MultivariateVectorFunction model2 = new MultivariateVectorFunction() {
+                public double[] value(double[] point) {
+                    return new double[] {
+                        factor2 * factor2 * point[0]
+                    };
+                }};
+        final MultivariateMatrixFunction jac2 = new MultivariateMatrixFunction() {
+                    public double[][] value(double[] point) {
+                        return new double[][] {
+                            { 2 * factor2 * point[0] }
+                        };
+                    }
+                };
+
+        optim2
+            .withMaxEvaluations(maxEval2)
+            .withMaxIterations(maxIter2)
+            .withTarget(target2)
+            .withWeight(new DiagonalMatrix(weight2))
+            .withStartPoint(start2)
+            .withModelAndJacobian(model2, jac2);
+
+        // Check that all fields now have different values.
+        Assert.assertFalse(optim1.getMaxEvaluations() == optim2.getMaxEvaluations());
+        Assert.assertFalse(optim1.getMaxIterations() == optim2.getMaxIterations());
+        Assert.assertFalse(optim1.getTarget()[0] == optim2.getTarget()[0]);
+        Assert.assertFalse(optim1.getWeight().getEntry(0, 0) == optim2.getWeight().getEntry(0, 0));
+        Assert.assertFalse(optim1.getStart()[0] == optim2.getStart()[0]);
+        Assert.assertFalse(optim1.getModel().value(new double[] {32})[0] == optim2.getModel().value(new double[] {32})[0]);
+        Assert.assertFalse(optim1.getJacobian().value(new double[] {54})[0][0] == optim2.getJacobian().value(new double[] {54})[0][0]);
+    }
+
+    @Test
     public void testGetIterations() {
         T optim = createOptimizer()
             .withMaxEvaluations(100)
