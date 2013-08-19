@@ -374,6 +374,8 @@
               <descriptor>src/main/assembly/src.xml</descriptor>
               <descriptor>src/main/assembly/bin.xml</descriptor>
             </descriptors>
+            <!-- There are a lot of long file names. Suppress the warnings. -->
+            <tarLongFileMode>gnu</tarLongFileMode>
           </configuration>
         </plugin>
         <plugin>
