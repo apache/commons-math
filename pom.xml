@@ -347,6 +347,8 @@
     <math.pmd.version>2.7.1</math.pmd.version>
     <math.findbugs.version>2.5.1</math.findbugs.version>
     <math.checkstyle.version>2.9.1</math.checkstyle.version>
+    <!-- Temporary downdate: 0.6.3 uses different tags and CP32 was not updated -->
+    <commons.jacoco.version>0.6.2.201302030002</commons.jacoco.version>
   </properties> 
 
   <build>
