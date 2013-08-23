@@ -53,7 +53,10 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @since 2.2
  * @version $Id: GaussianFitter.java 1416643 2012-12-03 19:37:14Z tn $
+ * @deprecated As of 3.3. Please use {@link GaussianCurveFitter} and
+ * {@link WeightedObservedPoints} instead.
  */
+@Deprecated
 public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
     /**
      * Constructs an instance using the specified optimizer.
