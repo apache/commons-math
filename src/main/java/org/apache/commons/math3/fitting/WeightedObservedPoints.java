@@ -46,7 +46,7 @@ public class WeightedObservedPoints implements Serializable {
      *
      * @see #add(double, double, double)
      * @see #add(WeightedObservedPoint)
-     * @see #getObservations()
+     * @see #toList()
      */
     public void add(double x, double y) {
         add(1d, x, y);
@@ -62,7 +62,7 @@ public class WeightedObservedPoints implements Serializable {
      *
      * @see #add(double, double)
      * @see #add(WeightedObservedPoint)
-     * @see #getObservations()
+     * @see #toList()
      */
     public void add(double weight, double x, double y) {
         observations.add(new WeightedObservedPoint(weight, x, y));
@@ -75,7 +75,7 @@ public class WeightedObservedPoints implements Serializable {
      *
      * @see #add(double, double)
      * @see #add(double, double, double)
-     * @see #getObservations()
+     * @see #toList()
      */
     public void add(WeightedObservedPoint observed) {
         observations.add(observed);
