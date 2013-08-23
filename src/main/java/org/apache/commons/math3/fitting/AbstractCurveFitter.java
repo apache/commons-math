@@ -40,9 +40,8 @@ import org.apache.commons.math3.optim.AbstractOptimizer;
  *  &sum;y<sub>k</sub> - f(x<sub>k</sub>)<sup>2</sup>,
  * </code></pre>
  * which is actually a least-squares problem.
- * This class contains boilerplate code for storing observed data
- * points, and calling the {@link #fit()} method for obtaining the
- * parameters.
+ * This class contains boilerplate code for calling the
+ * {@link #fit(Collection)} method for obtaining the parameters.
  * The problem setup, such as the choice of optimization algorithm
  * for fitting a specific function is delegated to subclasses.
  *
