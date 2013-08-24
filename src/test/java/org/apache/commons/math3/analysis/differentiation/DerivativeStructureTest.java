@@ -27,6 +27,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -175,7 +176,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             DerivativeStructure r = new DerivativeStructure(1, 6, 0, x).reciprocal();
             Assert.assertEquals(1 / x, r.getValue(), 1.0e-15);
             for (int i = 1; i < r.getOrder(); ++i) {
-                double expected = ArithmeticUtils.pow(-1, i) * ArithmeticUtils.factorial(i) /
+                double expected = ArithmeticUtils.pow(-1, i) * CombinatoricsUtils.factorial(i) /
                                   FastMath.pow(x, i + 1);
                 Assert.assertEquals(expected, r.getPartialDerivative(i), 1.0e-15 * FastMath.abs(expected));
             }
@@ -651,7 +652,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
                 DerivativeStructure log = new DerivativeStructure(1, maxOrder, 0, x).log();
                 Assert.assertEquals(FastMath.log(x), log.getValue(), epsilon[0]);
                 for (int n = 1; n <= maxOrder; ++n) {
-                    double refDer = -ArithmeticUtils.factorial(n - 1) / FastMath.pow(-x, n);
+                    double refDer = -CombinatoricsUtils.factorial(n - 1) / FastMath.pow(-x, n);
                     Assert.assertEquals(refDer, log.getPartialDerivative(n), epsilon[n]);
                 }
             }

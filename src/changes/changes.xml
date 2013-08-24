@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-1025">
+        Added CombinatoricsUtils to the util package, moving binomial
+        coefficients, factorials and Stirling numbers there and adding
+        a combinations iterator.
+      </action>
       <action dev="erans" type="add" issue="MATH-991">
         "PolynomialSplineFunction": added method "isValidPoint" that
         checks whether a point is within the interpolation range.

@@ -27,7 +27,7 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 
 /** Polynomial interpolator using both sample values and sample derivatives.
  * <p>
@@ -91,7 +91,7 @@ public class HermiteInterpolator implements UnivariateDifferentiableVectorFuncti
 
             final double[] y = value[i].clone();
             if (i > 1) {
-                double inv = 1.0 / ArithmeticUtils.factorial(i);
+                double inv = 1.0 / CombinatoricsUtils.factorial(i);
                 for (int j = 0; j < y.length; ++j) {
                     y[j] *= inv;
                 }

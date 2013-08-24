@@ -20,7 +20,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -138,7 +138,7 @@ public class PascalDistribution extends AbstractIntegerDistribution {
         if (x < 0) {
             ret = 0.0;
         } else {
-            ret = ArithmeticUtils.binomialCoefficientDouble(x +
+            ret = CombinatoricsUtils.binomialCoefficientDouble(x +
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
                   FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
                   FastMath.pow(1.0 - probabilityOfSuccess, x);

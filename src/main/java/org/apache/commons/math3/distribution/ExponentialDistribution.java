@@ -19,8 +19,8 @@ package org.apache.commons.math3.distribution;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.ResizableDoubleArray;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -80,7 +80,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
         final ResizableDoubleArray ra = new ResizableDoubleArray(20);
 
         while (qi < 1) {
-            qi += FastMath.pow(LN2, i) / ArithmeticUtils.factorial(i);
+            qi += FastMath.pow(LN2, i) / CombinatoricsUtils.factorial(i);
             ra.addElement(qi);
             ++i;
         }

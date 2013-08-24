@@ -19,8 +19,8 @@ package org.apache.commons.math3.distribution;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.special.Gamma;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -309,7 +309,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
             final double lambda = FastMath.floor(meanPoisson);
             final double lambdaFractional = meanPoisson - lambda;
             final double logLambda = FastMath.log(lambda);
-            final double logLambdaFactorial = ArithmeticUtils.factorialLog((int) lambda);
+            final double logLambdaFactorial = CombinatoricsUtils.factorialLog((int) lambda);
             final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
             final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
             final double halfDelta = delta / 2;
@@ -364,7 +364,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
                 if (v > qr) {
                     continue;
                 }
-                if (v < y * logLambda - ArithmeticUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
+                if (v < y * logLambda - CombinatoricsUtils.factorialLog((int) (y + lambda)) + logLambdaFactorial) {
                     y = lambda + y;
                     break;
                 }

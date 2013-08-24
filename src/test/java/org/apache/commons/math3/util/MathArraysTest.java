@@ -14,6 +14,7 @@
 package org.apache.commons.math3.util;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.DimensionMismatchException;

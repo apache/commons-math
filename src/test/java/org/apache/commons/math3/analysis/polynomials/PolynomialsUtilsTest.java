@@ -18,7 +18,7 @@ package org.apache.commons.math3.analysis.polynomials;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
@@ -289,7 +289,7 @@ public class PolynomialsUtilsTest {
             for (int w = 0; w < 10; ++w) {
                 for (int i = 0; i < 10; ++i) {
                     PolynomialFunction jacobi = PolynomialsUtils.createJacobiPolynomial(i, v, w);
-                    double binomial = ArithmeticUtils.binomialCoefficient(v + i, i);
+                    double binomial = CombinatoricsUtils.binomialCoefficient(v + i, i);
                     Assert.assertTrue(Precision.equals(binomial, jacobi.value(1.0), 1));
                 }
             }

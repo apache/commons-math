@@ -26,7 +26,7 @@ import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
@@ -1752,7 +1752,7 @@ public class DSCompiler {
                 if (orders[k] > 0) {
                     try {
                         term *= FastMath.pow(delta[k], orders[k]) /
-                                ArithmeticUtils.factorial(orders[k]);
+                        CombinatoricsUtils.factorial(orders[k]);
                     } catch (NotPositiveException e) {
                         // this cannot happen
                         throw new MathInternalError(e);

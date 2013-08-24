@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.ArithmeticUtils;
+import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class DSCompilerTest {
     public void testSize() {
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 6; ++j) {
-                long expected = ArithmeticUtils.binomialCoefficient(i + j, i);
+                long expected = CombinatoricsUtils.binomialCoefficient(i + j, i);
                 Assert.assertEquals(expected, DSCompiler.getCompiler(i, j).getSize());
                 Assert.assertEquals(expected, DSCompiler.getCompiler(j, i).getSize());
             }
