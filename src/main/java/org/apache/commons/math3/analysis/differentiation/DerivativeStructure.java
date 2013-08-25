@@ -631,6 +631,18 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         };
     }
 
+    /** Compute a<sup>x</sup> where a is a double and x a {@link DerivativeStructure}
+     * @param a number to exponentiate
+     * @param x power to apply
+     * @return a<sup>x</sup>
+     * @since 3.3
+     */
+    public static DerivativeStructure pow(final double a, final DerivativeStructure x) {
+        final DerivativeStructure result = new DerivativeStructure(x.compiler);
+        x.compiler.pow(a, x.data, 0, result.data, 0);
+        return result;
+    }
+
     /** {@inheritDoc}
      * @since 3.2
      */

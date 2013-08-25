@@ -217,6 +217,88 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     }
 
     @Test
+    public void testPowDoubleDS() {
+        for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
+
+            DerivativeStructure x = new DerivativeStructure(3, maxOrder, 0, 0.1);
+            DerivativeStructure y = new DerivativeStructure(3, maxOrder, 1, 0.2);
+            DerivativeStructure z = new DerivativeStructure(3, maxOrder, 2, 0.3);
+            List<DerivativeStructure> list = Arrays.asList(x, y, z,
+                                                           x.add(y).add(z),
+                                                           x.multiply(y).multiply(z));
+
+            for (DerivativeStructure ds : list) {
+                // the special case a = 0 is included here
+                for (double a : new double[] { 0.0, 0.1, 1.0, 2.0, 5.0 }) {
+                    DerivativeStructure reference = (a == 0) ?
+                                                    x.getField().getZero() :
+                                                    new DerivativeStructure(3, maxOrder, a).pow(ds);
+                    DerivativeStructure result = DerivativeStructure.pow(a, ds);
+                    checkEquals(reference, result, 1.0e-15);
+                }
+
+            }
+
+            // very special case: a = 0 and power = 0
+            DerivativeStructure zeroZero = DerivativeStructure.pow(0.0, new DerivativeStructure(3,  maxOrder, 0, 0.0));
+
+            // this should be OK for simple first derivative with one variable only ...
+            Assert.assertEquals(1.0, zeroZero.getValue(), 1.0e-15);
+            Assert.assertEquals(Double.NEGATIVE_INFINITY, zeroZero.getPartialDerivative(1, 0, 0), 1.0e-15);
+
+            // the following checks show a LIMITATION of the current implementation
+            // we have no way to tell x is a pure linear variable x = 0
+            // we only say: "x is a structure with value = 0.0,
+            // first derivative with respect to x = 1.0, and all other derivatives
+            // (first order with respect to y and z and higher derivatives) all 0.0.
+            // Wa have function f(x) = a^x root and x = 0 so we compute:
+            // f(0) = 1, f'(0) = ln(a), f''(0) = ln(a)^2. The limit of these values
+            // when a converges to 0 implies all derivatives keep switching between
+            // +infinity and -infinity.
+            //
+            // Function composition rule for first derivatives is:
+            // d[f(g(x,y,z))]/dy = f'(g(x,y,z)) * dg(x,y,z)/dy
+            // so given that in our case x represents g and does not depend
+            // on y or z, we have dg(x,y,z)/dy = 0
+            // applying the composition rules gives:
+            // d[f(g(x,y,z))]/dy = f'(g(x,y,z)) * dg(x,y,z)/dy
+            //                 = -infinity * 0
+            //                 = NaN
+            // if we knew x is really the x variable and not the identity
+            // function applied to x, we would not have computed f'(g(x,y,z)) * dg(x,y,z)/dy
+            // and we would have found that the result was 0 and not NaN
+            Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(0, 1, 0)));
+            Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(0, 0, 1)));
+
+            // Function composition rule for second derivatives is:
+            // d2[f(g(x))]/dx2 = f''(g(x)) * [g'(x)]^2 + f'(g(x)) * g''(x)
+            // when function f is the a^x root and x = 0 we have:
+            // f(0) = 1, f'(0) = ln(a), f''(0) = ln(a)^2 which for a = 0 implies
+            // all derivatives keep switching between +infinity and -infinity
+            // so given that in our case x represents g, we have g(x) = 0,
+            // g'(x) = 1 and g''(x) = 0
+            // applying the composition rules gives:
+            // d2[f(g(x))]/dx2 = f''(g(x)) * [g'(x)]^2 + f'(g(x)) * g''(x)
+            //                 = +infinity * 1^2 + -infinity * 0
+            //                 = +infinity + NaN
+            //                 = NaN
+            // if we knew x is really the x variable and not the identity
+            // function applied to x, we would not have computed f'(g(x)) * g''(x)
+            // and we would have found that the result was +infinity and not NaN
+            if (maxOrder > 1) {
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(2, 0, 0)));
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(0, 2, 0)));
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(0, 0, 2)));
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(1, 1, 0)));
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(0, 1, 1)));
+                Assert.assertTrue(Double.isNaN(zeroZero.getPartialDerivative(1, 1, 0)));
+            }
+
+        }
+
+    }
+
+    @Test
     public void testExpression() {
         double epsilon = 2.5e-13;
         for (double x = 0; x < 2; x += 0.2) {

@@ -835,6 +835,46 @@ public class DSCompiler {
 
     }
 
+    /** Compute power of a double to a derivative structure.
+     * @param a number to exponentiate
+     * @param operand array holding the power
+     * @param operandOffset offset of the power in its array
+     * @param result array where result must be stored (for
+     * power the result array <em>cannot</em> be the input
+     * array)
+     * @param resultOffset offset of the result in its array
+     * @since 3.3
+     */
+    public void pow(final double a,
+                    final double[] operand, final int operandOffset,
+                    final double[] result, final int resultOffset) {
+
+        // create the function value and derivatives
+        // [a^x, ln(a) a^x, ln(a)^2 a^x,, ln(a)^3 a^x, ... ]
+        final double[] function = new double[1 + order];
+        if (a == 0) {
+            if (operand[operandOffset] == 0) {
+                function[0] = 1;
+                double infinity = Double.POSITIVE_INFINITY;
+                for (int i = 1; i < function.length; ++i) {
+                    infinity = -infinity;
+                    function[i] = infinity;
+                }
+            }
+        } else {
+            function[0] = FastMath.pow(a, operand[operandOffset]);
+            final double lnA = FastMath.log(a);
+            for (int i = 1; i < function.length; ++i) {
+                function[i] = lnA * function[i - 1];
+            }
+        }
+
+
+        // apply function composition
+        compose(operand, operandOffset, function, result, resultOffset);
+
+    }
+
     /** Compute power of a derivative structure.
      * @param operand array holding the operand
      * @param operandOffset offset of the operand in its array
