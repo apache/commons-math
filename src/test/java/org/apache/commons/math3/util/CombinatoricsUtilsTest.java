@@ -379,14 +379,15 @@ public class CombinatoricsUtilsTest {
         combinationsIterator = CombinatoricsUtils.combinationsIterator(0, 0);
         checkIterator(combinationsIterator, 0, 0);
         combinationsIterator = CombinatoricsUtils.combinationsIterator(4, 2);
+        checkIterator(combinationsIterator, 4, 2);
+        combinationsIterator = CombinatoricsUtils.combinationsIterator(123, 2);
+        checkIterator(combinationsIterator, 123, 2);
     }
     
     /**
      * Verifies that the iterator generates a lexicographically
      * increasing sequence of b(n,k) arrays, each having length k
      * and each array itself increasing.
-     * 
-     * Note: the lexicographic order check only works for n < 10.
      * 
      * @param iterator 
      * @param n size of universe
@@ -398,7 +399,7 @@ public class CombinatoricsUtilsTest {
         while (iterator.hasNext()) {
             final int[] iterate = iterator.next();
             Assert.assertEquals(k, iterate.length);
-            final long curLex = lexNorm(iterate);
+            final long curLex = lexNorm(iterate, n);
             Assert.assertTrue(curLex > lastLex);
             lastLex = curLex;
             length++;
@@ -431,12 +432,13 @@ public class CombinatoricsUtilsTest {
      * For example [3,2,1] returns 123.
      * 
      * @param iterate input array
+     * @param n size of universe
      * @return lexicographic norm
      */
-    private long lexNorm(int[] iterate) {
+    private long lexNorm(int[] iterate, int n) {
         long ret = 0;
         for (int i = iterate.length - 1; i >= 0; i--) {
-            ret += iterate[i] * ArithmeticUtils.pow(10l, (long) i);
+            ret += iterate[i] * ArithmeticUtils.pow(n, (long) i);
         }
         return ret;
     }
