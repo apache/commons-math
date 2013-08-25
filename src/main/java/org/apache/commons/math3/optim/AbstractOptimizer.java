@@ -60,7 +60,7 @@ public abstract class AbstractOptimizer<PAIR, OPTIM extends AbstractOptimizer<PA
      *
      * @param other Instance to copy.
      */
-    protected AbstractOptimizer(AbstractOptimizer other) {
+    protected AbstractOptimizer(AbstractOptimizer<PAIR, OPTIM> other) {
         checker = other.checker; // XXX Not thread-safe.
         evaluations.setMaximalCount(other.getMaxEvaluations());
         iterations.setMaximalCount(other.getMaxIterations());
@@ -72,13 +72,14 @@ public abstract class AbstractOptimizer<PAIR, OPTIM extends AbstractOptimizer<PA
      * @return the "self-type" instance.
      */
     protected OPTIM self() {
+        @SuppressWarnings("unchecked")
         final OPTIM optim = (OPTIM) this;
         return optim;
     }
 
     /** {@inheritDoc} */
-    public OPTIM withConvergenceChecker(ConvergenceChecker<PAIR> checker) {
-        this.checker = checker;
+    public OPTIM withConvergenceChecker(ConvergenceChecker<PAIR> newChecker) {
+        this.checker = newChecker;
         return self();
     }
 

@@ -80,29 +80,29 @@ public abstract class AbstractLeastSquaresOptimizer<OPTIM extends AbstractLeastS
     }
 
     /** {@inheritDoc} */
-    public OPTIM withTarget(double[] target) {
-        this.target = target.clone();
+    public OPTIM withTarget(double[] newTarget) {
+        this.target = newTarget.clone();
         return self();
     }
 
     /** {@inheritDoc} */
-    public OPTIM withWeight(RealMatrix weight) {
-        this.weight = weight; // XXX Not thread-safe
-        weightSqrt = squareRoot(weight);
+    public OPTIM withWeight(RealMatrix newWeight) {
+        this.weight = newWeight; // XXX Not thread-safe
+        weightSqrt = squareRoot(newWeight);
         return self();
     }
 
     /** {@inheritDoc} */
-    public OPTIM withModelAndJacobian(MultivariateVectorFunction model,
-                                      MultivariateMatrixFunction jacobian) {
-        this.model = model; // XXX Not thread-safe
-        this.jacobian = jacobian; // XXX Not thread-safe
+    public OPTIM withModelAndJacobian(MultivariateVectorFunction newModel,
+                                      MultivariateMatrixFunction newJacobian) {
+        this.model = newModel; // XXX Not thread-safe
+        this.jacobian = newJacobian; // XXX Not thread-safe
         return self();
     }
 
     /** {@inheritDoc} */
-    public OPTIM withStartPoint(double[] start) {
-        this.start = start.clone();
+    public OPTIM withStartPoint(double[] newStart) {
+        this.start = newStart.clone();
         return self();
     }
 

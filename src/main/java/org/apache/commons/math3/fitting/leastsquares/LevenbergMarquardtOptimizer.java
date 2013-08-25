@@ -176,28 +176,28 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     }
 
     /**
-     * @param initialStepBoundFactor Positive input variable used in
+     * @param newInitialStepBoundFactor Positive input variable used in
      * determining the initial step bound. This bound is set to the
      * product of initialStepBoundFactor and the euclidean norm of
-     * {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor}
+     * {@code diag * x} if non-zero, or else to {@code newInitialStepBoundFactor}
      * itself. In most cases factor should lie in the interval
      * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
      * of the matrix is reduced.
      * @return this instance.
      */
-    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double initialStepBoundFactor) {
-        this.initialStepBoundFactor = initialStepBoundFactor;
+    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double newInitialStepBoundFactor) {
+        this.initialStepBoundFactor = newInitialStepBoundFactor;
         return self();
     }
 
     /**
      * Modifies the given parameter.
      *
-     * @param costRelativeTolerance Desired relative error in the sum of squares.
+     * @param newCostRelativeTolerance Desired relative error in the sum of squares.
      * @return this instance.
      */
-    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double costRelativeTolerance) {
-        this.costRelativeTolerance = costRelativeTolerance;
+    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double newCostRelativeTolerance) {
+        this.costRelativeTolerance = newCostRelativeTolerance;
         return self();
     }
 
@@ -216,12 +216,12 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
     /**
      * Modifies the given parameter.
      *
-     * @param orthoTolerance Desired max cosine on the orthogonality between
+     * @param newOrthoTolerance Desired max cosine on the orthogonality between
      * the function vector and the columns of the Jacobian.
      * @return this instance.
      */
-    public LevenbergMarquardtOptimizer withOrthoTolerance(double orthoTolerance) {
-        this.orthoTolerance = orthoTolerance;
+    public LevenbergMarquardtOptimizer withOrthoTolerance(double newOrthoTolerance) {
+        this.orthoTolerance = newOrthoTolerance;
         return self();
     }
 
@@ -547,17 +547,17 @@ public class LevenbergMarquardtOptimizer extends AbstractLeastSquaresOptimizer<L
      */
     private static class InternalData {
         /** Weighted Jacobian. */
-        final double[][] weightedJacobian;
+        private final double[][] weightedJacobian;
         /** Columns permutation array. */
-        final int[] permutation;
+        private final int[] permutation;
         /** Rank of the Jacobian matrix. */
-        final int rank;
+        private final int rank;
         /** Diagonal elements of the R matrix in the QR decomposition. */
-        final double[] diagR;
+        private final double[] diagR;
         /** Norms of the columns of the jacobian matrix. */
-        final double[] jacNorm;
+        private final double[] jacNorm;
         /** Coefficients of the Householder transforms vectors. */
-        final double[] beta;
+        private final double[] beta;
 
         /**
          * @param weightedJacobian Weighted Jacobian.

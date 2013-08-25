@@ -85,11 +85,11 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
     }
 
     /**
-     * @param useLU Whether to use LU decomposition.
+     * @param newUseLU Whether to use LU decomposition.
      * @return this instance.
      */
-    public GaussNewtonOptimizer withLU(boolean useLU) {
-        this.useLU = useLU;
+    public GaussNewtonOptimizer withLU(boolean newUseLU) {
+        this.useLU = newUseLU;
         return self();
     }
 
