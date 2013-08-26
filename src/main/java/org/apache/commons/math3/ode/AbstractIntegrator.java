@@ -141,7 +141,7 @@ public abstract class AbstractIntegrator implements FirstOrderIntegrator {
 
     /** {@inheritDoc} */
     public Collection<EventHandler> getEventHandlers() {
-        final List<EventHandler> list = new ArrayList<EventHandler>();
+        final List<EventHandler> list = new ArrayList<EventHandler>(eventsStates.size());
         for (EventState state : eventsStates) {
             list.add(state.getEventHandler());
         }

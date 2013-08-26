@@ -269,7 +269,7 @@ class SimplexTableau implements Serializable {
      * @return new versions of the constraints
      */
     public List<LinearConstraint> normalizeConstraints(Collection<LinearConstraint> originalConstraints) {
-        List<LinearConstraint> normalized = new ArrayList<LinearConstraint>();
+        List<LinearConstraint> normalized = new ArrayList<LinearConstraint>(originalConstraints.size());
         for (LinearConstraint constraint : originalConstraints) {
             normalized.add(normalize(constraint));
         }

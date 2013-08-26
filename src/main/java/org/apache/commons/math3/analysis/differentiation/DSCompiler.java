@@ -361,7 +361,7 @@ public class DSCompiler {
 
         for (int i = 0; i < dSize; ++i) {
             final int[][] dRow = derivativeCompiler.multIndirection[i];
-            List<int[]> row = new ArrayList<int[]>();
+            List<int[]> row = new ArrayList<int[]>(dRow.length * 2);
             for (int j = 0; j < dRow.length; ++j) {
                 row.add(new int[] { dRow[j][0], lowerIndirection[dRow[j][1]], vSize + dRow[j][2] });
                 row.add(new int[] { dRow[j][0], vSize + dRow[j][1], lowerIndirection[dRow[j][2]] });

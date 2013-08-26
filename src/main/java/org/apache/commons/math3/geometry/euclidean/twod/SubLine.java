@@ -81,7 +81,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         final Line line = (Line) getHyperplane();
         final List<Interval> list = ((IntervalsSet) getRemainingRegion()).asList();
-        final List<Segment> segments = new ArrayList<Segment>();
+        final List<Segment> segments = new ArrayList<Segment>(list.size());
 
         for (final Interval interval : list) {
             final Vector2D start = line.toSpace(new Vector1D(interval.getInf()));

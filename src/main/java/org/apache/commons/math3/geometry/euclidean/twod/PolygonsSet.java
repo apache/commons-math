@@ -186,7 +186,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         }
 
         // build the edges
-        List<Edge> edges = new ArrayList<Edge>();
+        List<Edge> edges = new ArrayList<Edge>(n);
         for (int i = 0; i < n; ++i) {
 
             // get the endpoints of the edge

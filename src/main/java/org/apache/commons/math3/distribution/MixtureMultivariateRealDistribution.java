@@ -153,7 +153,7 @@ public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistr
      * @return the component distributions and associated weights.
      */
     public List<Pair<Double, T>> getComponents() {
-        final List<Pair<Double, T>> list = new ArrayList<Pair<Double, T>>();
+        final List<Pair<Double, T>> list = new ArrayList<Pair<Double, T>>(weight.length);
 
         for (int i = 0; i < weight.length; i++) {
             list.add(new Pair<Double, T>(weight[i], distribution.get(i)));
