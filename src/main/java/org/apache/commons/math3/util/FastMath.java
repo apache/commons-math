@@ -2549,10 +2549,10 @@ public class FastMath {
         za = temp;
 
         double result = za + zb;
-        double resultb = -(result - za - zb);
 
         if (leftPlane) {
             // Result is in the left plane
+            final double resultb = -(result - za - zb);
             final double pia = 1.5707963267948966 * 2;
             final double pib = 6.123233995736766E-17 * 2;
 
