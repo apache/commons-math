@@ -2561,7 +2561,6 @@ public class FastMath {
             zb += pib - resultb;
 
             result = za + zb;
-            resultb = -(result - za - zb);
         }
 
 
