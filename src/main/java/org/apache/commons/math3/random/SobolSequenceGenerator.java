@@ -206,13 +206,13 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
             while ( (line = reader.readLine()) != null) {
                 StringTokenizer st = new StringTokenizer(line, " ");
                 try {
-                    dim = Integer.valueOf(st.nextToken());
+                    dim = Integer.parseInt(st.nextToken());
                     if (dim >= 2 && dim <= dimension) { // we have found the right dimension
-                        final int s = Integer.valueOf(st.nextToken());
-                        final int a = Integer.valueOf(st.nextToken());
+                        final int s = Integer.parseInt(st.nextToken());
+                        final int a = Integer.parseInt(st.nextToken());
                         final int[] m = new int[s + 1];
                         for (int i = 1; i <= s; i++) {
-                            m[i] = Integer.valueOf(st.nextToken());
+                            m[i] = Integer.parseInt(st.nextToken());
                         }
                         initDirectionVector(index++, a, m);
                     }

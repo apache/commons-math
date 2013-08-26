@@ -421,7 +421,7 @@ public class ValueServer {
                                                     valuesFileURL);
             }
         }
-        return Double.valueOf(str).doubleValue();
+        return Double.parseDouble(str);
     }
 
     /**

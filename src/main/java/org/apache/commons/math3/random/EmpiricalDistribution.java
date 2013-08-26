@@ -369,7 +369,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             double val = 0.0;
             sampleStats = new SummaryStatistics();
             while ((str = inputStream.readLine()) != null) {
-                val = Double.valueOf(str).doubleValue();
+                val = Double.parseDouble(str);
                 sampleStats.addValue(val);
             }
             inputStream.close();
@@ -428,7 +428,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         // Set up grid
         min = sampleStats.getMin();
         max = sampleStats.getMax();
-        delta = (max - min)/(Double.valueOf(binCount)).doubleValue();
+        delta = (max - min)/((double) binCount);
 
         // Initialize binStats ArrayList
         if (!binStats.isEmpty()) {
