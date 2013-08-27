@@ -232,6 +232,20 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
         return compiler.getOrder();
     }
 
+    /** Create a constant compatible with instance order and number of parameters.
+     * <p>
+     * This method is a convenience factory method, it simply calls
+     * {@code new DerivativeStructure(getFreeParameters(), getOrder(), c)}
+     * </p>
+     * @param c value of the constant
+     * @return a constant compatible with instance order and number of parameters
+     * @see #DerivativeStructure(int, int, double)
+     * @since 3.3
+     */
+    public DerivativeStructure createConstant(final double c) {
+        return new DerivativeStructure(getFreeParameters(), getOrder(), c);
+    }
+
     /** {@inheritDoc}
      * @since 3.2
      */

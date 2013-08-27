@@ -90,6 +90,15 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
     }
 
     @Test
+    public void testCreateConstant() {
+        DerivativeStructure a = new DerivativeStructure(3, 2, 0, 1.3);
+        DerivativeStructure b = a.createConstant(2.5);
+        Assert.assertEquals(a.getFreeParameters(), b.getFreeParameters());
+        Assert.assertEquals(a.getOrder(), b.getOrder());
+        checkEquals(a.getField().getOne().multiply(2.5), b, 1.0e-15);
+    }
+
+    @Test
     public void testPrimitiveAdd() {
         for (int maxOrder = 1; maxOrder < 5; ++maxOrder) {
             checkF0F1(new DerivativeStructure(3, maxOrder, 0, 1.0).add(5), 6.0, 1.0, 0.0, 0.0);
