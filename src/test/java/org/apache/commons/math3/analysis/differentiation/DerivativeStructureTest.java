@@ -239,6 +239,24 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
 
             }
 
+            // negative base: -1^x can be evaluated for integers only, so value is sometimes OK, derivatives are always NaN
+            DerivativeStructure negEvenInteger = DerivativeStructure.pow(-2.0, new DerivativeStructure(3,  maxOrder, 0, 2.0));
+            Assert.assertEquals(4.0, negEvenInteger.getValue(), 1.0e-15);
+            Assert.assertTrue(Double.isNaN(negEvenInteger.getPartialDerivative(1, 0, 0)));
+            DerivativeStructure negOddInteger = DerivativeStructure.pow(-2.0, new DerivativeStructure(3,  maxOrder, 0, 3.0));
+            Assert.assertEquals(-8.0, negOddInteger.getValue(), 1.0e-15);
+            Assert.assertTrue(Double.isNaN(negOddInteger.getPartialDerivative(1, 0, 0)));
+            DerivativeStructure negNonInteger = DerivativeStructure.pow(-2.0, new DerivativeStructure(3,  maxOrder, 0, 2.001));
+            Assert.assertTrue(Double.isNaN(negNonInteger.getValue()));
+            Assert.assertTrue(Double.isNaN(negNonInteger.getPartialDerivative(1, 0, 0)));
+
+            DerivativeStructure zeroNeg = DerivativeStructure.pow(0.0, new DerivativeStructure(3,  maxOrder, 0, -1.0));
+            Assert.assertTrue(Double.isNaN(zeroNeg.getValue()));
+            Assert.assertTrue(Double.isNaN(zeroNeg.getPartialDerivative(1, 0, 0)));
+            DerivativeStructure posNeg = DerivativeStructure.pow(2.0, new DerivativeStructure(3,  maxOrder, 0, -2.0));
+            Assert.assertEquals(1.0 / 4.0, posNeg.getValue(), 1.0e-15);
+            Assert.assertEquals(FastMath.log(2.0) / 4.0, posNeg.getPartialDerivative(1, 0, 0), 1.0e-15);
+
             // very special case: a = 0 and power = 0
             DerivativeStructure zeroZero = DerivativeStructure.pow(0.0, new DerivativeStructure(3,  maxOrder, 0, 0.0));
 

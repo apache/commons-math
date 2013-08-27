@@ -860,6 +860,8 @@ public class DSCompiler {
                     infinity = -infinity;
                     function[i] = infinity;
                 }
+            } else if (operand[operandOffset] < 0) {
+                Arrays.fill(function, Double.NaN);
             }
         } else {
             function[0] = FastMath.pow(a, operand[operandOffset]);
