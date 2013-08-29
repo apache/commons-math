@@ -300,7 +300,7 @@ public class DiagonalMatrix extends AbstractRealMatrix
     /** {@inheritDoc} */
     @Override
     public RealVector preMultiply(final RealVector v) throws DimensionMismatchException {
-        double[] vectorData = null;
+        final double[] vectorData;
         if (v instanceof ArrayRealVector) {
             vectorData = ((ArrayRealVector) v).getDataRef();
         } else {
