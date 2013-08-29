@@ -297,6 +297,18 @@ public class DiagonalMatrix extends AbstractRealMatrix
         return operate(v);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public RealVector preMultiply(final RealVector v) throws DimensionMismatchException {
+        double[] vectorData = null;
+        if (v instanceof ArrayRealVector) {
+            vectorData = ((ArrayRealVector) v).getDataRef();
+        } else {
+            vectorData = v.toArray();
+        }
+        return MatrixUtils.createRealVector(preMultiply(vectorData));
+    }
+
     /** Ensure a value is zero.
      * @param value value to check
      * @exception NumberIsTooLargeException if value is not zero

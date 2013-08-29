@@ -258,6 +258,20 @@ public class DiagonalMatrixTest {
         TestUtils.assertEquals(diagResult, denseResult, 0d);
     }
 
+    @Test
+    public void testPreMultiplyVector() {
+        final double[] data = { -1.2, 3.4, 5 };
+        final DiagonalMatrix diag = new DiagonalMatrix(data);
+        final RealMatrix dense = new Array2DRowRealMatrix(diag.getData());
+
+        final double[] v = { 6.7, 890.1, 23.4 };
+        final RealVector vector = MatrixUtils.createRealVector(v);
+        final RealVector diagResult = diag.preMultiply(vector);
+        final RealVector denseResult = dense.preMultiply(vector);
+
+        TestUtils.assertEquals("preMultiply(Vector) returns wrong result", diagResult, denseResult, 0d);
+    }
+
     @Test(expected=NumberIsTooLargeException.class)
     public void testSetNonDiagonalEntry() {
         final DiagonalMatrix diag = new DiagonalMatrix(3);
