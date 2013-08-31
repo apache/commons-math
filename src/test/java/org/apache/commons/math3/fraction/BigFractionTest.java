@@ -154,6 +154,9 @@ public class BigFractionTest {
         assertFraction(8, 13, new BigFraction(0.6152, 99));
         assertFraction(510, 829, new BigFraction(0.6152, 999));
         assertFraction(769, 1250, new BigFraction(0.6152, 9999));
+        
+        // MATH-996
+        assertFraction(1, 2, new BigFraction(0.5000000001, 10));
     }
 
     @Test

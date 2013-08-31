@@ -83,6 +83,9 @@ public class Fraction
     /** Serializable version identifier */
     private static final long serialVersionUID = 3698073679419233275L;
 
+    /** The default epsilon used for convergence. */
+    private static final double DEFAULT_EPSILON = 1e-5;
+
     /** The denominator. */
     private final int denominator;
 
@@ -96,7 +99,7 @@ public class Fraction
      *         converge.
      */
     public Fraction(double value) throws FractionConversionException {
-        this(value, 1.0e-5, 100);
+        this(value, DEFAULT_EPSILON, 100);
     }
 
     /**
@@ -182,8 +185,7 @@ public class Fraction
             throw new FractionConversionException(value, a0, 1l);
         }
 
-        // check for (almost) integer arguments, which should not go
-        // to iterations.
+        // check for (almost) integer arguments, which should not go to iterations.
         if (FastMath.abs(a0 - value) < epsilon) {
             this.numerator = (int) a0;
             this.denominator = 1;
@@ -206,7 +208,13 @@ public class Fraction
             long a1 = (long)FastMath.floor(r1);
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
+
             if ((FastMath.abs(p2) > overflow) || (FastMath.abs(q2) > overflow)) {
+                // in maxDenominator mode, if the last fraction was very close to the actual value
+                // q2 may overflow in the next iteration; in this case return the last one.
+                if (epsilon == 0.0 && FastMath.abs(q1) < maxDenominator) {
+                    break;
+                }
                 throw new FractionConversionException(value, p2, q2);
             }
 

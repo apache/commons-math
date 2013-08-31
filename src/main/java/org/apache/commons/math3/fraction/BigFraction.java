@@ -301,6 +301,11 @@ public class BigFraction
             p2 = (a1 * p1) + p0;
             q2 = (a1 * q1) + q0;
             if ((p2 > overflow) || (q2 > overflow)) {
+                // in maxDenominator mode, if the last fraction was very close to the actual value
+                // q2 may overflow in the next iteration; in this case return the last one.
+                if (epsilon == 0.0 && FastMath.abs(q1) < maxDenominator) {
+                    break;
+                }
                 throw new FractionConversionException(value, p2, q2);
             }
 

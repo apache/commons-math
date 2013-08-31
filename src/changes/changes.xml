@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type=fix issue="MATH-996" due-to="Tim Allison">
+        Creating a "Fraction" or "BigFraction" object with a maxDenominator parameter
+        does not throw a "FractionConversionException" in case the value is very close
+        to fraction.
+      </action>
       <action dev="tn" type="add" issue="MATH-1028" due-to="Thorsten Schäfer">
         Added new distance metric "EarthMoversDistance".
       </action>

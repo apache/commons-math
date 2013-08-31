@@ -129,6 +129,9 @@ public class FractionTest {
         assertFraction(8, 13,     new Fraction(0.6152,   99));
         assertFraction(510, 829,  new Fraction(0.6152,  999));
         assertFraction(769, 1250, new Fraction(0.6152, 9999));
+
+        // MATH-996
+        assertFraction(1, 2, new Fraction(0.5000000001, 10));
     }
 
     @Test
@@ -141,7 +144,9 @@ public class FractionTest {
 
     private void checkIntegerOverflow(double a) {
         try {
-            new Fraction(a, 1.0e-12, 1000);
+            @SuppressWarnings("unused")
+            Fraction f = new Fraction(a, 1.0e-12, 1000);
+            //System.out.println(f.getNumerator() + "/" + f.getDenominator());
             Assert.fail("an exception should have been thrown");
         } catch (ConvergenceException ce) {
             // expected behavior
