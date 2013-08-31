@@ -149,7 +149,7 @@ public abstract class AbstractOptimizer<PAIR, OPTIM extends AbstractOptimizer<PA
     /**
      * Performs the optimization.
      *
-     * @return a point/value pair that satifies the convergence criteria.
+     * @return a point/value pair that satisfies the convergence criteria.
      * @throws TooManyEvaluationsException if the maximal number of
      * evaluations is exceeded.
      * @throws TooManyIterationsException if the maximal number of
