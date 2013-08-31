@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1028" due-to="Thorsten Schäfer">
+        Improve performance of "DiagonalMatrix#preMultiply(RealVector)".
+      </action>
       <action dev="tn" type="fix" issue="MATH-999" due-to="Ajo Fod">
         Improve performance of "DiagonalMatrix#preMultiply(RealVector)".
       </action>
