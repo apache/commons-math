@@ -21,7 +21,7 @@ import org.apache.commons.math3.util.MathArrays;
 /**
  * Calculates the L<sub>&infin;</sub> (max of abs) distance between two points.
  *
- * @version $Id $
+ * @version $Id$
  * @since 3.2
  */
 public class ChebyshevDistance implements DistanceMeasure {
