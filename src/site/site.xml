@@ -65,6 +65,7 @@
       <item name="Genetic Algorithms"      href="/userguide/genetics.html"/>
       <item name="Filters"                 href="/userguide/filter.html"/>
       <item name="Fitting"                 href="/userguide/fitting.html"/>
+      <item name="Machine Learning"        href="/userguide/ml.html"/>
     </menu>
     
     <head>

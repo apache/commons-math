@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+  
+<?xml-stylesheet type="text/xsl" href="./xdoc.xsl"?>
+<!-- $Id$ -->
+<document url="ml.html">
+
+  <properties>
+    <title>The Commons Math User Guide - Machine Learning</title>
+  </properties>
+
+  <body>
+    <section name="16 Machine Learning">
+      <subsection name="16.1 Overview" href="overview">
+        <p>
+           Machine learning support in commons-math currently provides operations to cluster
+           data sets based on a distance measure.
+        </p>
+      </subsection>
+      <subsection name="16.2 Clustering algorithms and distance measures" href="clustering">
+        <p>
+          The <a href="../apidocs/org/apache/commons/math3/ml/clustering/Clusterer.html">
+          Clusterer</a> class represents a clustering algorithm.
+          The following algorithms are available:
+          <ul>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/KMeansPlusPlusClusterer.html">KMeans++</a>:
+          It is based on the well-known kMeans algorithm, but uses a different method for 
+          choosing the initial values (or "seeds") and thus avoids cases where KMeans sometimes 
+          results in poor clusterings. KMeans/KMeans++ clustering aims to partition n observations 
+          into k clusters in such that each point belongs to the cluster with the nearest center. 
+          </li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.html">Fuzzy-KMeans</a>:
+          A variation of the classical K-Means algorithm, with the major difference that a single
+          data point is not uniquely assigned to a single cluster. Instead, each point i has a set
+          of weights u<sub>ij</sub> which indicate the degree of membership to the cluster j. The fuzzy
+          variant does not require initial values for the cluster centers and is thus more robust, although
+          slower than the original kMeans algorithm.
+          </li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/DBSCANClusterer.html">DBSCAN</a>:
+          Density-based spatial clustering of applications with noise (DBSCAN) finds a number of 
+          clusters starting from the estimated density distribution of corresponding nodes. The
+          main advantages over KMeans/KMeans++ are that DBSCAN does not require the specification
+          of an initial number of clusters and can find arbitrarily shaped clusters.
+          </li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/MultiKMeansPlusPlusClusterer.html">Multi-KMeans++</a>:
+          Multi-KMeans++ is a meta algorithm that basically performs n runs using KMeans++ and then
+          chooses the best clustering (i.e., the one with the lowest distance variance over all clusters)
+          from those runs.
+          </li>
+          </ul>
+        </p>
+        <p>
+          An comparison of the available clustering algorithms:<br/>
+          <img src="../images/userguide/cluster_comparison.png" alt="Comparison of clustering algorithms"/>
+        </p>
+      </subsection>
+      <subsection name="16.3 Distance measures" href="distance">
+        <p>
+          Each clustering algorithm requires a distance measure to determine the distance
+          between two points (either data points or cluster centers).
+          The following distance measures are available:
+          <ul>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/CanberraDistance.html">Canberra distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/ChebyshevDistance.html">ChebyshevDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/EuclideanDistance.html">EuclideanDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/ManhattanDistance.html">ManhattanDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/EarthMoversDistance.html">Earth Mover's distance</a></li>
+          </ul>
+        </p>
+      </subsection>
+      <subsection name="16.3 Example" href="example">
+        <p>
+        Here is an example of a clustering execution. Let us assume we have a set of locations from our domain model,
+        where each location has a method <code>double getX()</code> and <code>double getY()</code>
+        representing their current coordinates in a 2-dimensional space. We want to cluster the locations into
+        10 different clusters based on their euclidean distance.
+        </p>
+        <p>
+        The cluster algorithms expect a list of <a href="../apidocs/org/apache/commons/math3/ml/cluster/Clusterable.html">Clusterable</a>
+        as input. Typically, we don't want to pollute our domain objects with interfaces from helper APIs.
+        Hence, we first create a wrapper object:
+        <source>
+// wrapper class
+public static class LocationWrapper implements Clusterable {
+    private double[] points;
+    private Location location;
+
+    public LocationWrapper(Location location) {
+        this.location = location;
+        this.points = new double[] { location.getX(), location.getY() }
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public double[] getPoint() {
+        return points;
+    }
+}
+        </source>
+        Now we will create a list of these wrapper objects (one for each location), 
+        which serves as input to our clustering algorithm. 
+        <source>
+// we have a list of our locations we want to cluster. create a      
+List&lt;Location&gt; locations = ...;
+List&lt;LocationWrapper&gt; clusterInput = new ArrayList&lt;LocationWrapper&gt;(locations.size());
+for (Location location : locations)
+    clusterInput.add(new LocationWrapper(location));
+        </source>
+        Finally, we can apply our clustering algorithm and output the found clusters.
+        <source>       
+// initialize a new clustering algorithm. 
+// we use KMeans++ with 10 clusters and 10000 iterations maximum.
+// we did not specify a distance measure; the default (euclidean distance) is used.
+KMeansPlusPlusClusterer&lt;LocationWrapper&gt; clusterer = new KMeansPlusPlusClusterer&lt;LocationWrapper&gt;(10, 10000);
+List&lt;CentroidCluster&lt;LocationWrapper&gt;&gt; clusterResults = clusterer.cluster(clusterInput);
+
+// output the clusters
+for (int i=0; i&lt;clusterResults.size(); i++) {
+    System.out.println("Cluster " + i);
+    for (LocationWrapper locationWrapper : clusterResults.get(i).getPoints())
+        System.out.println(locationWrapper.getLocation());
+    System.out.println();
+}
+        </source>
+        </p>
+      </subsection>
+  </section>
+  </body>
+</document>

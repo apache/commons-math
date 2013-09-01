@@ -72,7 +72,7 @@
 
 <subsection name="0.3 How commons-math is organized" href="organization">
     <p>
-    Commons Math is divided into fourteen subpackages, based on functionality provided.
+    Commons Math is divided into sixteen subpackages, based on functionality provided.
     <ul>
       <li><a href="stat.html">org.apache.commons.math3.stat</a> - statistics, statistical tests</li>
       <li><a href="analysis.html">org.apache.commons.math3.analysis</a> - rootfinding, integration, interpolation, polynomials</li>
@@ -89,6 +89,7 @@
       <li><a href="ode.html">org.apache.commons.math3.ode</a> - Ordinary Differential Equations integration</li>
       <li><a href="genetics.html">org.apache.commons.math3.genetics</a> - Genetic Algorithms</li>
       <li><a href="fitting.html">org.apache.commons.math3.fitting</a> - Curve Fitting</li>
+      <li><a href="ml.html">org.apache.commons.math3.ml</a> - Machine Learning</li>
     </ul>
     Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>

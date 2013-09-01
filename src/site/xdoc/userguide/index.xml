@@ -163,6 +163,13 @@
             <li><a href="fitting.html#a17.3_Special_Cases">17.3 Special Cases</a></li>
           </ul>
         </li>
+        <li><a href="ml.html">18. Machine Learning</a>
+          <ul>
+            <li><a href="ml.html#overview">18.1 Overview</a></li>
+            <li><a href="ml.html#clustering">18.2 Clustering algorithms and distance measures</a></li>
+            <li><a href="ml.html#implementation">18.3 Implementation</a></li>
+          </ul>
+        </li>        
         </ul>
       </section>
     
