@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1001" due-to="sebb">
+        Added overloaded methods for "Frequency#incrementValue(Comparable, long)" with
+        int, long and char primitive arguments.
+      </action>
       <action dev="tn" type="add" issue="MATH-1030" due-to="Thorsten Schäfer">
         Added a section to the userguide for the new package o.a.c.m.ml with an
         overview of available clustering algorithms and a code example.

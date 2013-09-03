@@ -34,15 +34,15 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-
 public final class FrequencyTest {
     private static final long ONE_LONG = 1L;
     private static final long TWO_LONG = 2L;
     private static final long THREE_LONG = 3L;
     private static final int ONE = 1;
     private static final int TWO = 2;
-    private static final int THREEE = 3 ;
+    private static final int THREE = 3 ;
     private static final double TOLERANCE = 10E-15d;
+    private static final char CHAR_A = 'a';
 
     private Frequency f = null;
 
@@ -135,7 +135,7 @@ public final class FrequencyTest {
         f.addValue(THREE_LONG);
         f.addValue(THREE_LONG);
         f.addValue(3);
-        f.addValue(THREEE);
+        f.addValue(THREE);
         Assert.assertEquals("one pct",0.25,f.getPct(1),TOLERANCE);
         Assert.assertEquals("two pct",0.25,f.getPct(Long.valueOf(2)),TOLERANCE);
         Assert.assertEquals("three pct",0.5,f.getPct(THREE_LONG),TOLERANCE);
@@ -255,10 +255,17 @@ public final class FrequencyTest {
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(1), TOLERANCE);
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Long.valueOf(1)), TOLERANCE);
         Assert.assertEquals("Integer 1 cumPct", 0.5, f.getCumPct(Integer.valueOf(1)), TOLERANCE);
+        
+        f.incrementValue(ONE, -2);
+        f.incrementValue(THREE, 5);
+
+        Assert.assertEquals("Integer 1 count", 0, f.getCount(1));
+        Assert.assertEquals("Integer 3 count", 5, f.getCount(3));
+
         Iterator<?> it = f.valuesIterator();
         while (it.hasNext()) {
             Assert.assertTrue(it.next() instanceof Long);
-        }
+        }        
     }
 
     @Test
@@ -292,6 +299,29 @@ public final class FrequencyTest {
         
         f.incrementValue(ONE_LONG, -5);
         Assert.assertEquals(0, f.getCount(ONE_LONG));
+        
+        try {
+            f.incrementValue(CHAR_A, 1);
+            Assert.fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+
+        f = new Frequency();
+        f.incrementValue(CHAR_A, 2);
+        
+        Assert.assertEquals(2, f.getCount(CHAR_A));
+
+        try {
+            f.incrementValue(ONE, 1);
+            Assert.fail("Expecting IllegalArgumentException");
+        } catch (IllegalArgumentException ex) {
+            // expected
+        }
+        
+        f.incrementValue(CHAR_A, 3);
+        Assert.assertEquals(5, f.getCount(CHAR_A));
+
     }
     
     @Test
@@ -309,18 +339,18 @@ public final class FrequencyTest {
         Frequency g = new Frequency();
         g.addValue(ONE_LONG);
         g.addValue(THREE_LONG);
-        g.addValue(THREEE);
+        g.addValue(THREE);
 
         Assert.assertEquals(2, g.getUniqueCount());
         Assert.assertEquals(1, g.getCount(ONE));
-        Assert.assertEquals(2, g.getCount(THREEE));
+        Assert.assertEquals(2, g.getCount(THREE));
 
         f.merge(g);
         
         Assert.assertEquals(3, f.getUniqueCount());
         Assert.assertEquals(3, f.getCount(ONE));
         Assert.assertEquals(2, f.getCount(TWO));
-        Assert.assertEquals(2, f.getCount(THREEE));        
+        Assert.assertEquals(2, f.getCount(THREE));        
     }
     
     @Test
@@ -346,7 +376,7 @@ public final class FrequencyTest {
         Assert.assertEquals(3, f.getUniqueCount());
         Assert.assertEquals(1, f.getCount(ONE));
         Assert.assertEquals(1, f.getCount(TWO));
-        Assert.assertEquals(1, f.getCount(THREEE));        
+        Assert.assertEquals(1, f.getCount(THREE));        
     }
     
     @Test

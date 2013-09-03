@@ -85,8 +85,7 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Return a string representation of this frequency
-     * distribution.
+     * Return a string representation of this frequency distribution.
      *
      * @return a string representation.
      */
@@ -125,43 +124,11 @@ public class Frequency implements Serializable {
     }
 
     /**
-     * Increments the frequency count for v.
-     * <p>
-     * If other objects have already been added to this Frequency, v must
-     * be comparable to those that have already been added.
-     * </p>
-     *
-     * @param v the value to add.
-     * @param increment the amount by which the value should be incremented
-     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries
-     * @since 3.1
-     */
-    public void incrementValue(Comparable<?> v, long increment){
-        Comparable<?> obj = v;
-        if (v instanceof Integer) {
-            obj = Long.valueOf(((Integer) v).longValue());
-        }
-        try {
-            Long count = freqTable.get(obj);
-            if (count == null) {
-                freqTable.put(obj, Long.valueOf(increment));
-            } else {
-                freqTable.put(obj, Long.valueOf(count.longValue() + increment));
-            }
-        } catch (ClassCastException ex) {
-            //TreeMap will throw ClassCastException if v is not comparable
-            throw new MathIllegalArgumentException(
-                  LocalizedFormats.INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES,
-                  v.getClass().getName());
-        }
-    }
-
-    /**
      * Adds 1 to the frequency count for v.
      *
      * @param v the value to add.
      * @throws MathIllegalArgumentException if the table contains entries not
-     * comparable to Integer
+     * comparable to Long
      */
     public void addValue(int v) throws MathIllegalArgumentException {
         addValue(Long.valueOf(v));
@@ -187,6 +154,89 @@ public class Frequency implements Serializable {
      */
     public void addValue(char v) throws MathIllegalArgumentException {
         addValue(Character.valueOf(v));
+    }
+
+    /**
+     * Increments the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     *
+     * @param v the value to add.
+     * @param increment the amount by which the value should be incremented
+     * @throws MathIllegalArgumentException if <code>v</code> is not comparable with previous entries
+     * @since 3.1
+     */
+    public void incrementValue(Comparable<?> v, long increment) throws MathIllegalArgumentException {
+        Comparable<?> obj = v;
+        if (v instanceof Integer) {
+            obj = Long.valueOf(((Integer) v).longValue());
+        }
+        try {
+            Long count = freqTable.get(obj);
+            if (count == null) {
+                freqTable.put(obj, Long.valueOf(increment));
+            } else {
+                freqTable.put(obj, Long.valueOf(count.longValue() + increment));
+            }
+        } catch (ClassCastException ex) {
+            //TreeMap will throw ClassCastException if v is not comparable
+            throw new MathIllegalArgumentException(
+                  LocalizedFormats.INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES,
+                  v.getClass().getName());
+        }
+    }
+
+    /**
+     * Increments the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     *
+     * @param v the value to add.
+     * @param increment the amount by which the value should be incremented
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Long
+     * @since 3.3
+     */
+    public void incrementValue(int v, long increment) throws MathIllegalArgumentException {
+        incrementValue(Long.valueOf(v), increment);
+    }
+
+    /**
+     * Increments the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     *
+     * @param v the value to add.
+     * @param increment the amount by which the value should be incremented
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Long
+     * @since 3.3
+     */
+    public void incrementValue(long v, long increment) throws MathIllegalArgumentException {
+        incrementValue(Long.valueOf(v), increment);
+    }
+
+    /**
+     * Increments the frequency count for v.
+     * <p>
+     * If other objects have already been added to this Frequency, v must
+     * be comparable to those that have already been added.
+     * </p>
+     *
+     * @param v the value to add.
+     * @param increment the amount by which the value should be incremented
+     * @throws MathIllegalArgumentException if the table contains entries not
+     * comparable to Char
+     * @since 3.3
+     */
+    public void incrementValue(char v, long increment) throws MathIllegalArgumentException {
+        incrementValue(Character.valueOf(v), increment);
     }
 
     /** Clears the frequency table */
