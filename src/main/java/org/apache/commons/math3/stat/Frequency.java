@@ -42,6 +42,9 @@ import org.apache.commons.math3.util.MathUtils;
  * Integer values (int, long, Integer, Long) are not distinguished by type --
  * i.e. <code>addValue(Long.valueOf(2)), addValue(2), addValue(2l)</code> all have
  * the same effect (similarly for arguments to <code>getCount,</code> etc.).</p>
+ * <p>NOTE: byte and short values will be implicitly converted to int values
+ * by the compiler, thus there are no explicit overloaded methods for these
+ * primitive types.</p>
  * <p>
  * char values are converted by <code>addValue</code> to Character instances.
  * As such, these values are not comparable to integral values, so attempts
