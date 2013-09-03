@@ -168,6 +168,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * SAND2008-6212, Sandia National Laboratories.</p>
      *
      * @param reg model to append data from
+     * @since 3.3
      */
     public void append(SimpleRegression reg) {
         if (n == 0) {

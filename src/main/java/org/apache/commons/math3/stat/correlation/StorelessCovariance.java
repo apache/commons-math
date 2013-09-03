@@ -170,6 +170,7 @@ public class StorelessCovariance extends Covariance {
      *
      * @param sc externally computed StorelessCovariance to add to this
      * @throws DimensionMismatchException if the dimension of sc does not match this
+     * @since 3.3
      */
     public void append(StorelessCovariance sc) throws DimensionMismatchException {
         if (sc.dimension != dimension) {
