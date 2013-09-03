@@ -115,6 +115,19 @@ public class ExponentialDistribution extends AbstractRealDistribution {
      *
      * @param rng Random number generator.
      * @param mean Mean of this distribution.
+     * @throws NotStrictlyPositiveException if {@code mean <= 0}.
+     * @since 3.3
+     */
+    public ExponentialDistribution(RandomGenerator rng, double mean)
+        throws NotStrictlyPositiveException {
+        this(rng, mean, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates an exponential distribution.
+     *
+     * @param rng Random number generator.
+     * @param mean Mean of this distribution.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).

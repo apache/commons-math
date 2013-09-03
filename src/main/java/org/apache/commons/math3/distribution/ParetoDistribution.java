@@ -103,6 +103,19 @@ public class ParetoDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param scale Scale parameter of this distribution.
      * @param shape Shape parameter of this distribution.
+     * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
+     */
+    public ParetoDistribution(RandomGenerator rng, double scale, double shape)
+        throws NotStrictlyPositiveException {
+        this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a log-normal distribution.
+     *
+     * @param rng Random number generator.
+     * @param scale Scale parameter of this distribution.
+     * @param shape Shape parameter of this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code scale <= 0} or {@code shape <= 0}.
      */

@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1018" due-to="Ajo Fod">
+        Added overloaded constructors for subclasses of "RealDistribution" implementations
+        which do not require an explicit "inverseCumulativeAccuracy". The default accuracy will
+        be used instead.
+      </action>
       <action dev="tn" type="add" issue="MATH-1001" due-to="sebb">
         Added overloaded methods for "Frequency#incrementValue(Comparable, long)" with
         int, long and char primitive arguments.

@@ -93,10 +93,26 @@ public class FDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param numeratorDegreesOfFreedom Numerator degrees of freedom.
      * @param denominatorDegreesOfFreedom Denominator degrees of freedom.
+     * @throws NotStrictlyPositiveException if {@code numeratorDegreesOfFreedom <= 0} or
+     * {@code denominatorDegreesOfFreedom <= 0}.
+     * @since 3.3
+     */
+    public FDistribution(RandomGenerator rng,
+                         double numeratorDegreesOfFreedom,
+                         double denominatorDegreesOfFreedom)
+        throws NotStrictlyPositiveException {
+        this(rng, numeratorDegreesOfFreedom, denominatorDegreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates an F distribution.
+     *
+     * @param rng Random number generator.
+     * @param numeratorDegreesOfFreedom Numerator degrees of freedom.
+     * @param denominatorDegreesOfFreedom Denominator degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse
      * cumulative probability estimates.
-     * @throws NotStrictlyPositiveException if
-     * {@code numeratorDegreesOfFreedom <= 0} or
+     * @throws NotStrictlyPositiveException if {@code numeratorDegreesOfFreedom <= 0} or
      * {@code denominatorDegreesOfFreedom <= 0}.
      * @since 3.1
      */

@@ -118,6 +118,20 @@ public class LogNormalDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param scale Scale parameter of this distribution.
      * @param shape Shape parameter of this distribution.
+     * @throws NotStrictlyPositiveException if {@code shape <= 0}.
+     * @since 3.3
+     */
+    public LogNormalDistribution(RandomGenerator rng, double scale, double shape)
+        throws NotStrictlyPositiveException {
+        this(rng, scale, shape, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a log-normal distribution.
+     *
+     * @param rng Random number generator.
+     * @param scale Scale parameter of this distribution.
+     * @param shape Shape parameter of this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code shape <= 0}.
      * @since 3.1

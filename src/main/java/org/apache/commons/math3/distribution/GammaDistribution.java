@@ -117,6 +117,21 @@ public class GammaDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param shape the shape parameter
      * @param scale the scale parameter
+     * @throws NotStrictlyPositiveException if {@code shape <= 0} or
+     * {@code scale <= 0}.
+     * @since 3.3
+     */
+    public GammaDistribution(RandomGenerator rng, double shape, double scale)
+        throws NotStrictlyPositiveException {
+        this(rng, shape, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a Gamma distribution.
+     *
+     * @param rng Random number generator.
+     * @param shape the shape parameter
+     * @param scale the scale parameter
      * @param inverseCumAccuracy the maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).

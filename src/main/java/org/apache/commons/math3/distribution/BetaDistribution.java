@@ -80,6 +80,18 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param alpha First shape parameter (must be positive).
      * @param beta Second shape parameter (must be positive).
+     * @since 3.3
+     */
+    public BetaDistribution(RandomGenerator rng, double alpha, double beta) {
+        this(rng, alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a &beta; distribution.
+     *
+     * @param rng Random number generator.
+     * @param alpha First shape parameter (must be positive).
+     * @param beta Second shape parameter (must be positive).
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).

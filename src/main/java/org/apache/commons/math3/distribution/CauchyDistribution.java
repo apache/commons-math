@@ -86,6 +86,19 @@ public class CauchyDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param median Median for this distribution.
      * @param scale Scale parameter for this distribution.
+     * @throws NotStrictlyPositiveException if {@code scale <= 0}.
+     * @since 3.3
+     */
+    public CauchyDistribution(RandomGenerator rng, double median, double scale) {
+        this(rng, median, scale, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a Cauchy distribution.
+     *
+     * @param rng Random number generator.
+     * @param median Median for this distribution.
+     * @param scale Scale parameter for this distribution.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).

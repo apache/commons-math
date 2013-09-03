@@ -93,6 +93,20 @@ public class NormalDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param mean Mean for this distribution.
      * @param sd Standard deviation for this distribution.
+     * @throws NotStrictlyPositiveException if {@code sd <= 0}.
+     * @since 3.3
+     */
+    public NormalDistribution(RandomGenerator rng, double mean, double sd)
+        throws NotStrictlyPositiveException {
+        this(rng, mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a normal distribution.
+     *
+     * @param rng Random number generator.
+     * @param mean Mean for this distribution.
+     * @param sd Standard deviation for this distribution.
      * @param inverseCumAccuracy Inverse cumulative probability accuracy.
      * @throws NotStrictlyPositiveException if {@code sd <= 0}.
      * @since 3.1

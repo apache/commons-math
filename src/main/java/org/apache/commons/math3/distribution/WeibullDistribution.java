@@ -97,11 +97,24 @@ public class WeibullDistribution extends AbstractRealDistribution {
      * @param rng Random number generator.
      * @param alpha Shape parameter.
      * @param beta Scale parameter.
+     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or {@code beta <= 0}.
+     * @since 3.3
+     */
+    public WeibullDistribution(RandomGenerator rng, double alpha, double beta)
+        throws NotStrictlyPositiveException {
+        this(rng, alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
+     * Creates a Weibull distribution.
+     *
+     * @param rng Random number generator.
+     * @param alpha Shape parameter.
+     * @param beta Scale parameter.
      * @param inverseCumAccuracy Maximum absolute error in inverse
      * cumulative probability estimates
      * (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
-     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or
-     * {@code beta <= 0}.
+     * @throws NotStrictlyPositiveException if {@code alpha <= 0} or {@code beta <= 0}.
      * @since 3.1
      */
     public WeibullDistribution(RandomGenerator rng,

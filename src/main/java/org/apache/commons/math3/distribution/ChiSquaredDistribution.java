@@ -64,6 +64,17 @@ public class ChiSquaredDistribution extends AbstractRealDistribution {
     }
 
     /**
+     * Create a Chi-Squared distribution with the given degrees of freedom.
+     *
+     * @param rng Random number generator.
+     * @param degreesOfFreedom Degrees of freedom.
+     * @since 3.3
+     */
+    public ChiSquaredDistribution(RandomGenerator rng, double degreesOfFreedom) {
+        this(rng, degreesOfFreedom, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+    }
+
+    /**
      * Create a Chi-Squared distribution with the given degrees of freedom and
      * inverse cumulative probability accuracy.
      *
