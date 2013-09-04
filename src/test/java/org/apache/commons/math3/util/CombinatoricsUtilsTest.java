@@ -32,7 +32,7 @@ import org.junit.Test;
 /**
  * Test cases for the {@link CombinatoricsUtils} class.
  *
- * @version $Id: $
+ * @version $Id$
  */
 public class CombinatoricsUtilsTest {
 
@@ -311,6 +311,24 @@ public class CombinatoricsUtilsTest {
         CombinatoricsUtils.stirlingS2(26, 9);
     }
 
+    @Test(expected=NotPositiveException.class)
+    public void testCheckBinomial1() {
+        // n < 0
+        CombinatoricsUtils.checkBinomial(-1, -2);
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testCheckBinomial2() {
+        // k > n
+        CombinatoricsUtils.checkBinomial(4, 5);
+    }
+
+    @Test
+    public void testCheckBinomial3() {
+        // OK (no exception thrown)
+        CombinatoricsUtils.checkBinomial(5, 4);
+    }
+
     /**
      * Exact (caching) recursive implementation to test against
      */
@@ -356,90 +374,5 @@ public class CombinatoricsUtilsTest {
             result *= i;
         }
         return result;
-    }
-    
-    @Test
-    public void testCombinationsIterator() {
-        Iterator<int[]> combinationsIterator = CombinatoricsUtils.combinationsIterator(5, 3);
-        checkIterator(combinationsIterator, 5, 3);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(6, 4);
-        checkIterator(combinationsIterator, 6, 4);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(8, 2);
-        checkIterator(combinationsIterator, 8, 2);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(6, 1);
-        checkIterator(combinationsIterator, 6, 1);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(3, 3);
-        checkIterator(combinationsIterator, 3, 3);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(1, 1);
-        checkIterator(combinationsIterator, 1, 1);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(1, 1);
-        checkIterator(combinationsIterator, 1, 1);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(1, 0);
-        checkIterator(combinationsIterator, 1, 0);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(0, 0);
-        checkIterator(combinationsIterator, 0, 0);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(4, 2);
-        checkIterator(combinationsIterator, 4, 2);
-        combinationsIterator = CombinatoricsUtils.combinationsIterator(123, 2);
-        checkIterator(combinationsIterator, 123, 2);
-    }
-    
-    /**
-     * Verifies that the iterator generates a lexicographically
-     * increasing sequence of b(n,k) arrays, each having length k
-     * and each array itself increasing.
-     * 
-     * @param iterator 
-     * @param n size of universe
-     * @param k size of subsets
-     */
-    private void checkIterator(Iterator<int[]> iterator, int n, int k) {
-        long lastLex = -1;
-        long length = 0;
-        while (iterator.hasNext()) {
-            final int[] iterate = iterator.next();
-            Assert.assertEquals(k, iterate.length);
-            final long curLex = lexNorm(iterate, n);
-            Assert.assertTrue(curLex > lastLex);
-            lastLex = curLex;
-            length++;
-            for (int i = 1; i < iterate.length; i++) {
-                Assert.assertTrue(iterate[i] > iterate[i - 1]);
-            }
-        }
-        Assert.assertEquals(CombinatoricsUtils.binomialCoefficient(n, k), length);
-    }
-    
-    @Test
-    public void testCombinationsIteratorFail() {
-        try {
-            CombinatoricsUtils.combinationsIterator(4, 5);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-
-        try {
-            CombinatoricsUtils.combinationsIterator(-1, -2);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
-            // ignored
-        }
-    }
-    
-    /**
-     * Returns the value represented by the digits in the input array in reverse order.
-     * For example [3,2,1] returns 123.
-     * 
-     * @param iterate input array
-     * @param n size of universe
-     * @return lexicographic norm
-     */
-    private long lexNorm(int[] iterate, int n) {
-        long ret = 0;
-        for (int i = iterate.length - 1; i >= 0; i--) {
-            ret += iterate[i] * ArithmeticUtils.pow(n, (long) i);
-        }
-        return ret;
     }
 }

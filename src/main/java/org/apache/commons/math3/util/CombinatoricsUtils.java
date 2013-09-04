@@ -17,7 +17,6 @@
 package org.apache.commons.math3.util;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
@@ -420,7 +419,7 @@ public final class CombinatoricsUtils {
     }
 
     /**
-     * Returns an Iterator whose range is the k-element subsets of {0, ..., n - 1}
+     * Returns an iterator whose range is the k-element subsets of {0, ..., n - 1}
      * represented as {@code int[]} arrays.
      * <p>
      * The arrays returned by the iterator are sorted in descending order and
@@ -433,187 +432,14 @@ public final class CombinatoricsUtils {
      * If {@code k == 0} an Iterator containing an empty array is returned and
      * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.
      *
-     * @param n size of the set from which subsets are selected
-     * @param k size of the subsets to be enumerated
-     * @return an Iterator over the k-sets in n
+     * @param n Size of the set from which subsets are selected.
+     * @param k Size of the subsets to be enumerated.
+     * @return an {@link Iterator iterator} over the k-sets in n.
      * @throws NotPositiveException if {@code n < 0}.
      * @throws NumberIsTooLargeException if {@code k > n}.
      */
     public static Iterator<int[]> combinationsIterator(int n, int k) {
-        checkBinomial(n, k);
-        if (k == 0) {
-            return new SingletonIterator(new int[]{});
-        }
-        if (k == n) {
-            // TODO: once getNatural is extracted from RandomDataGenerator, use it
-            final int[] natural = new int[n];
-            for (int i = 0; i < n; i++) {
-                natural[i] = i;
-            }
-            return new SingletonIterator(natural);
-        }
-        return new LexicographicCombinationIterator(n, k);
-    }
-
-    /**
-     * Lexicographic combinations iterator.
-     * <p>
-     * Implementation follows Algorithm T in <i>The Art of Computer Programming</i>
-     * Internet Draft (PRE-FASCICLE 3A), "A Draft of Section 7.2.1.3 Generating All
-     * Combinations</a>, D. Knuth, 2004.</p>
-     * <p>
-     * The degenerate cases {@code k == 0} and {@code k == n} are NOT handled by this
-     * implementation.  If constructor arguments satisfy {@code k == 0}
-     * or {@code k >= n}, no exception is generated, but the iterator is empty.
-     * </p>
-     *
-     */
-    private static class LexicographicCombinationIterator implements Iterator<int[]> {
-
-        /** Size of subsets returned by the iterator */
-        private final int k;
-
-        /**
-         * c[1], ..., c[k] stores the next combination; c[k + 1], c[k + 2] are
-         * sentinels.
-         * <p>
-         * Note that c[0] is "wasted" but this makes it a little easier to
-         * follow the code.
-         * </p>
-         */
-        private final int[] c;
-
-        /** Return value for {@link #hasNext()} */
-        private boolean more = true;
-
-        /** Marker: smallest index such that c[j + 1] > j */
-        private int j;
-
-        /**
-         * Construct a CombinationIterator to enumerate k-sets from n.
-         * <p>
-         * NOTE: If {@code k === 0} or {@code k >= n}, the Iterator will be empty
-         * (that is, {@link #hasNext()} will return {@code false} immediately.
-         * </p>
-         *
-         * @param n size of the set from which subsets are enumerated
-         * @param k size of the subsets to enumerate
-         */
-        public LexicographicCombinationIterator(int n, int k) {
-            this.k = k;
-            c = new int[k + 3];
-            if (k == 0 || k >= n) {
-                more = false;
-                return;
-            }
-            // Initialize c to start with lexicographically first k-set
-            for (int i = 1; i <= k; i++) {
-                c[i] = i - 1;
-            }
-            // Initialize sentinels
-            c[k + 1] = n;
-            c[k + 2] = 0;
-            j = k; // Set up invariant: j is smallest index such that c[j + 1] > j
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public boolean hasNext() {
-            return more;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        public int[] next() {
-            if (!more) {
-                throw new NoSuchElementException();
-            }
-            // Copy return value (prepared by last activation)
-            final int[] ret = new int[k];
-            System.arraycopy(c, 1, ret, 0, k);
-            //final int[] ret = MathArrays.copyOf(c, k + 1);
-
-            // Prepare next iteration
-            // T2 and T6 loop
-            int x = 0;
-            if (j > 0) {
-                x = j;
-                c[j] = x;
-                j--;
-                return ret;
-            }
-            // T3
-            if (c[1] + 1 < c[2]) {
-                c[1] = c[1] + 1;
-                return ret;
-            } else {
-                j = 2;
-            }
-            // T4
-            boolean stepDone = false;
-            while (!stepDone) {
-                c[j - 1] = j - 2;
-                x = c[j] + 1;
-                if (x == c[j + 1]) {
-                    j++;
-                } else {
-                    stepDone = true;
-                }
-            }
-            // T5
-            if (j > k) {
-                more = false;
-                return ret;
-            }
-            // T6
-            c[j] = x;
-            j--;
-            return ret;
-        }
-
-        /**
-         * Not supported.
-         */
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * Iterator with just one element to handle degenerate cases (full array,
-     * empty array) for combination iterator.
-     */
-    private static class SingletonIterator implements Iterator<int[]> {
-        /** Singleton array */
-        private final int[] singleton;
-        /** True on initialization, false after first call to next */
-        private boolean more = true;
-        /**
-         * Create a singleton iterator providing the given array.
-         * @param singleton array returned by the iterator
-         */
-        public SingletonIterator(final int[] singleton) {
-            this.singleton = singleton;
-        }
-        /** @return True until next is called the first time, then false */
-        public boolean hasNext() {
-            return more;
-        }
-        /** @return the singleton in first activation; throws NSEE thereafter */
-        public int[] next() {
-            if (more) {
-                more = false;
-                return singleton;
-            } else {
-                throw new NoSuchElementException();
-            }
-        }
-        /** Not supported */
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+        return new Combinations(n, k, Combinations.IterationOrder.LEXICOGRAPHIC).iterator();
     }
 
     /**
@@ -624,7 +450,10 @@ public final class CombinatoricsUtils {
      * @throws NotPositiveException if {@code n < 0}.
      * @throws NumberIsTooLargeException if {@code k > n}.
      */
-    private static void checkBinomial(final int n, final int k) throws NumberIsTooLargeException, NotPositiveException {
+    public static void checkBinomial(final int n,
+                                     final int k)
+        throws NumberIsTooLargeException,
+               NotPositiveException {
         if (n < k) {
             throw new NumberIsTooLargeException(LocalizedFormats.BINOMIAL_INVALID_PARAMETERS_ORDER,
                                                 k, n, true);
@@ -633,5 +462,4 @@ public final class CombinatoricsUtils {
             throw new NotPositiveException(LocalizedFormats.BINOMIAL_NEGATIVE_PARAMETER, n);
         }
     }
-
 }
