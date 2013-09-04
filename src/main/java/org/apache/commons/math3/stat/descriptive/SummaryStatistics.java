@@ -418,9 +418,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the Sum.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param sumImpl the StorelessUnivariateStatistic instance to use for
      *        computing the Sum
@@ -447,9 +448,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the sum of squares.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param sumsqImpl the StorelessUnivariateStatistic instance to use for
      *        computing the sum of squares
@@ -476,9 +478,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the minimum.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param minImpl the StorelessUnivariateStatistic instance to use for
      *        computing the minimum
@@ -505,9 +508,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the maximum.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param maxImpl the StorelessUnivariateStatistic instance to use for
      *        computing the maximum
@@ -534,9 +538,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the sum of logs.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param sumLogImpl the StorelessUnivariateStatistic instance to use for
      *        computing the log sum
@@ -564,9 +569,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the geometric mean.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param geoMeanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the geometric mean
@@ -593,9 +599,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the mean.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param meanImpl the StorelessUnivariateStatistic instance to use for
      *        computing the mean
@@ -622,9 +629,10 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * Sets the implementation for the variance.
      * </p>
      * <p>
-     * This method must be activated before any data has been added - i.e.,
-     * before {@link #addValue(double) addValue} has been used to add data;
-     * otherwise an IllegalStateException will be thrown.
+     * This method cannot be activated after data has been added - i.e.,
+     * after {@link #addValue(double) addValue} has been used to add data.
+     * If it is activated after data has been added, an IllegalStateException
+     * will be thrown.
      * </p>
      * @param varianceImpl the StorelessUnivariateStatistic instance to use for
      *        computing the variance
