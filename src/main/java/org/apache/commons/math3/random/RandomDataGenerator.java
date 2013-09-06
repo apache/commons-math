@@ -638,7 +638,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
                                                    k);
         }
 
-        int[] index = getNatural(n);
+        int[] index = MathArrays.natural(n);
         MathArrays.shuffle(index, getRandomGenerator());
 
         // Return a new array containing the first "k" entries of "index".
@@ -779,19 +779,5 @@ public class RandomDataGenerator implements RandomData, Serializable {
             secRand.setSeed(System.currentTimeMillis() + System.identityHashCode(this));
         }
         return secRand;
-    }
-
-    /**
-     * Returns an array representing n.
-     *
-     * @param n the natural number to represent
-     * @return array with entries = elements of n
-     */
-    private int[] getNatural(int n) {
-        int[] natural = new int[n];
-        for (int i = 0; i < n; i++) {
-            natural[i] = i;
-        }
-        return natural;
     }
 }
