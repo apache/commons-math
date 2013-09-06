@@ -994,6 +994,6 @@ public class MathArraysTest {
     @Test
     public void testNaturalZero() {
         final int[] natural = MathArrays.natural(0);
-        Assert.assertEquals(natural.length, 0);
+        Assert.assertEquals(0, natural.length);
     }
 }
