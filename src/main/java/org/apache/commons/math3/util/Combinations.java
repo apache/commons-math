@@ -131,16 +131,9 @@ public class Combinations implements Iterable<int[]> {
     /** {@inheritDoc} */
     @Override
     public Iterator<int[]> iterator() {
-        if (k == 0) {
-            return new SingletonIterator(new int[]{});
-        }
-        if (k == n) {
-            // TODO: once getNatural is extracted from RandomDataGenerator, use it
-            final int[] natural = new int[n];
-            for (int i = 0; i < n; i++) {
-                natural[i] = i;
-            }
-            return new SingletonIterator(natural);
+        if (k == 0 ||
+            k == n) {
+            return new SingletonIterator(MathArrays.natural(k));
         }
 
         switch (iterationOrder) {
