@@ -979,4 +979,21 @@ public class MathArraysTest {
         }
         Assert.assertTrue(ok);
     }
+
+    @Test
+    public void testNatural() {
+        final int n = 4;
+        final int[] expected = {0, 1, 2, 3};
+
+        final int[] natural = MathArrays.natural(n);
+        for (int i = 0; i < n; i++) {
+            Assert.assertEquals(expected[i], natural[i]);
+        }
+    }
+
+    @Test
+    public void testNaturalZero() {
+        final int[] natural = MathArrays.natural(0);
+        Assert.assertEquals(natural.length, 0);
+    }
 }

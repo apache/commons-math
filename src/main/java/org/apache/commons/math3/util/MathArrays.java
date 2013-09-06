@@ -1533,4 +1533,19 @@ public class MathArrays {
     public static void shuffle(int[] list) {
         shuffle(list, new Well19937c());
     }
+
+    /**
+     * Returns an array representing the natural number {@code n}.
+     *
+     * @param n Natural number.
+     * @return an array whose entries are the numbers 0, 1, ..., {@code n}-1.
+     * If {@code n == 0}, the returned array is empty.
+     */
+    public static int[] natural(int n) {
+        final int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = i;
+        }
+        return a;
+    }
 }
