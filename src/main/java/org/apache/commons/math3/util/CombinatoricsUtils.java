@@ -439,7 +439,7 @@ public final class CombinatoricsUtils {
      * @throws NumberIsTooLargeException if {@code k > n}.
      */
     public static Iterator<int[]> combinationsIterator(int n, int k) {
-        return new Combinations(n, k, Combinations.IterationOrder.LEXICOGRAPHIC).iterator();
+        return new Combinations(n, k).iterator();
     }
 
     /**

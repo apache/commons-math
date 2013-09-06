@@ -45,7 +45,7 @@ public class Combinations implements Iterable<int[]> {
      * Describes the type of iteration performed by the
      * {@link #iterator() iterator}.
      */
-    public static enum IterationOrder {
+    private static enum IterationOrder {
         /** Lexicographic order. */
         LEXICOGRAPHIC
     }
@@ -53,10 +53,19 @@ public class Combinations implements Iterable<int[]> {
    /**
      * Creates an instance whose range is the k-element subsets of
      * {0, ..., n - 1} represented as {@code int[]} arrays.
-     * The {@link #iterator() iteration order} is
-     * {@link IterationOrder lexicographic}.
-     *
-     * @see #Combinations(int,int,IterationOrder)
+     * <p>
+     * The iteration order is lexicographic: the arrays returned by the
+     * {@link #iterator() iterator} are sorted in descending order and
+     * they are visited in lexicographic order with significance from
+     * right to left.
+     * For example, {@code new Combinations(4, 2).iterator()} returns
+     * an iterator that will generate the following sequence of arrays
+     * on successive calls to
+     * {@code next()}:<br/>
+     * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
+     * </p>
+     * If {@code k == 0} an iterator containing an empty array is returned;
+     * if {@code k == n} an iterator containing [0, ..., n - 1] is returned.
      *
      * @param n Size of the set from which subsets are selected.
      * @param k Size of the subsets to be enumerated.
@@ -92,9 +101,9 @@ public class Combinations implements Iterable<int[]> {
      * @throws org.apache.commons.math3.exception.NotPositiveException if {@code n < 0}.
      * @throws org.apache.commons.math3.exception.NumberIsTooLargeException if {@code k > n}.
      */
-    public Combinations(int n,
-                        int k,
-                        IterationOrder iterationOrder) {
+    private Combinations(int n,
+                         int k,
+                         IterationOrder iterationOrder) {
         CombinatoricsUtils.checkBinomial(n, k);
         this.n = n;
         this.k = k;
