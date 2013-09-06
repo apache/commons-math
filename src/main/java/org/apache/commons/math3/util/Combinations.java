@@ -17,8 +17,13 @@
 package org.apache.commons.math3.util;
 
 import java.util.Iterator;
+import java.util.Comparator;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.io.Serializable;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
  * Utility to create <a href="http://en.wikipedia.org/wiki/Combination">
@@ -96,6 +101,24 @@ public class Combinations implements Iterable<int[]> {
         this.iterationOrder = iterationOrder;
     }
 
+    /**
+     * Gets the size of the set from which combinations are drawn.
+     *
+     * @return the size of the universe.
+     */
+    public int getN() {
+        return n;
+    }
+
+    /**
+     * Gets the number of elements in each combination.
+     *
+     * @return the size of the subsets to be enumerated.
+     */
+    public int getK() {
+        return k;
+    }
+
     /** {@inheritDoc} */
     @Override
     public Iterator<int[]> iterator() {
@@ -117,6 +140,24 @@ public class Combinations implements Iterable<int[]> {
         default:
             throw new MathInternalError(); // Should never happen.
         }
+    }
+
+    /**
+     * Defines a lexicographic ordering of combinations.
+     * The returned comparator allows to compare any two combinations
+     * that can be produced by this instance's {@link #iterator() iterator}.
+     * Its {@code compare(int[],int[])} method will throw exceptions if
+     * passed combinations that are inconsistent with this instance:
+     * <ul>
+     *  <li>{@code DimensionMismatchException} if the array lengths are not
+     *      equal to {@code k},</li>
+     *  <li>{@code OutOfRangeException} if an element of the array is not
+     *      within the interval [0, {@code n}).</li>
+     * </ul>
+     * @return a lexicographic comparator.
+     */
+    public Comparator<int[]> comparator() {
+        return new LexicographicComparator(n, k);
     }
 
     /**
@@ -276,6 +317,91 @@ public class Combinations implements Iterable<int[]> {
         /** Not supported */
         public void remove() {
             throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * Defines the lexicographic ordering of combinations, using
+     * the {@link #lexNorm(int[],int)} method.
+     */
+    private static class LexicographicComparator
+        implements Comparator<int[]>, Serializable {
+        /** Serializable version identifier. */
+        private static final long serialVersionUID = 20130906L;
+        /** Size of the set from which combinations are drawn. */
+        private final int n;
+        /** Number of elements in each combination. */
+        private final int k;
+
+        /**
+         * @param n Size of the set from which subsets are selected.
+         * @param k Size of the subsets to be enumerated.
+         */
+        public LexicographicComparator(int n,
+                                       int k) {
+            this.n = n;
+            this.k = k;
+        }
+
+        /**
+         * {@inheritDoc}
+         *
+         * @throws DimensionMismatchException if the array lengths are not
+         * equal to {@code k}.
+         * @throws OutOfRangeException if an element of the array is not
+         * within the interval [0, {@code n}).
+         */
+        public int compare(int[] c1,
+                           int[] c2) {
+            if (c1.length != k) {
+                throw new DimensionMismatchException(c1.length, k);
+            }
+            if (c2.length != k) {
+                throw new DimensionMismatchException(c2.length, k);
+            }
+
+            // Method "lexNorm" works with ordered arrays.
+            final int[] c1s = MathArrays.copyOf(c1);
+            Arrays.sort(c1s);
+            final int[] c2s = MathArrays.copyOf(c2);
+            Arrays.sort(c2s);
+
+            final long v1 = lexNorm(c1s);
+            final long v2 = lexNorm(c2s);
+
+            if (v1 < v2) {
+                return -1;
+            } else if (v1 > v2) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        /**
+         * Computes the value (in base 10) represented by the digit
+         * (interpreted in base {@code n}) in the input array in reverse
+         * order.
+         * For example if {@code c} is {@code {3, 2, 1}}, and {@code n}
+         * is 3, the method will return 18.
+         *
+         * @param c Input array.
+         * @return the lexicographic norm.
+         * @throws OutOfRangeException if an element of the array is not
+         * within the interval [0, {@code n}).
+         */
+        private long lexNorm(int[] c) {
+            long ret = 0;
+            for (int i = 0; i < c.length; i++) {
+                final int digit = c[i];
+                if (digit < 0 ||
+                    digit >= n) {
+                    throw new OutOfRangeException(digit, 0, n - 1);
+                }
+
+                ret += c[i] * ArithmeticUtils.pow(n, (long) i);
+            }
+            return ret;
         }
     }
 }
