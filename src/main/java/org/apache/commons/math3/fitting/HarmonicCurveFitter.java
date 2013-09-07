@@ -16,67 +16,121 @@
  */
 package org.apache.commons.math3.fitting;
 
-import org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
+import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
+import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * Class that implements a curve fitting specialized for sinusoids.
+ * Fits points to a {@link
+ * org.apache.commons.math3.analysis.function.HarmonicOscillator.Parametric harmonic oscillator}
+ * function.
+ * <br/>
+ * The {@link #withStartPoint(double[]) initial guess values} must be passed
+ * in the following order:
+ * <ul>
+ *  <li>Amplitude</li>
+ *  <li>Angular frequency</li>
+ *  <li>phase</li>
+ * </ul>
+ * The optimal values will be returned in the same order.
  *
- * Harmonic fitting is a very simple case of curve fitting. The
- * estimated coefficients are the amplitude a, the pulsation &omega; and
- * the phase &phi;: <code>f (t) = a cos (&omega; t + &phi;)</code>. They are
- * searched by a least square estimator initialized with a rough guess
- * based on integrals.
- *
- * @version $Id: HarmonicFitter.java 1416643 2012-12-03 19:37:14Z tn $
- * @since 2.0
- * @deprecated As of 3.3. Please use {@link HarmonicCurveFitter} and
- * {@link WeightedObservedPoints} instead.
+ * @version $Id$
+ * @since 3.3
  */
-@Deprecated
-public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
+public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtOptimizer>
+    implements WithStartPoint<HarmonicCurveFitter>,
+               WithMaxIterations<HarmonicCurveFitter> {
+    /** Parametric function to be fitted. */
+    private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
+    /** Initial guess. */
+    private final double[] initialGuess;
+    /** Maximum number of iterations of the optimization algorithm. */
+    private final int maxIter;
+
     /**
-     * Simple constructor.
-     * @param optimizer Optimizer to use for the fitting.
+     * Contructor used by the factory methods.
+     *
+     * @param initialGuess Initial guess. If set to {@code null}, the initial guess
+     * will be estimated using the {@link ParameterGuesser}.
+     * @param maxIter Maximum number of iterations of the optimization algorithm.
      */
-    public HarmonicFitter(final MultivariateVectorOptimizer optimizer) {
-        super(optimizer);
+    private HarmonicCurveFitter(double[] initialGuess,
+                                int maxIter) {
+        this.initialGuess = initialGuess;
+        this.maxIter = maxIter;
     }
 
     /**
-     * Fit an harmonic function to the observed points.
+     * Creates a default curve fitter.
+     * The initial guess for the parameters will be {@link ParameterGuesser}
+     * computed automatically, and the maximum number of iterations of the
+     * optimization algorithm is set to {@link Integer#MAX_VALUE}.
      *
-     * @param initialGuess First guess values in the following order:
-     * <ul>
-     *  <li>Amplitude</li>
-     *  <li>Angular frequency</li>
-     *  <li>Phase</li>
-     * </ul>
-     * @return the parameters of the harmonic function that best fits the
-     * observed points (in the same order as above).
+     * @return a curve fitter.
+     *
+     * @see #withStartPoint(double[])
+     * @see #withMaxIterations(int)
      */
-    public double[] fit(double[] initialGuess) {
-        return fit(new HarmonicOscillator.Parametric(), initialGuess);
+    public static HarmonicCurveFitter create() {
+        return new HarmonicCurveFitter(null, Integer.MAX_VALUE);
     }
 
-    /**
-     * Fit an harmonic function to the observed points.
-     * An initial guess will be automatically computed.
-     *
-     * @return the parameters of the harmonic function that best fits the
-     * observed points (see the other {@link #fit(double[]) fit} method.
-     * @throws NumberIsTooSmallException if the sample is too short for the
-     * the first guess to be computed.
-     * @throws ZeroException if the first guess cannot be computed because
-     * the abscissa range is zero.
-     */
-    public double[] fit() {
-        return fit((new ParameterGuesser(getObservations())).guess());
+    /** {@inheritDoc} */
+    public HarmonicCurveFitter withStartPoint(double[] start) {
+        return new HarmonicCurveFitter(start.clone(),
+                                       maxIter);
+    }
+
+    /** {@inheritDoc} */
+    public HarmonicCurveFitter withMaxIterations(int max) {
+        return new HarmonicCurveFitter(initialGuess,
+                                       max);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    protected LevenbergMarquardtOptimizer getOptimizer(Collection<WeightedObservedPoint> observations) {
+        // Prepare least-squares problem.
+        final int len = observations.size();
+        final double[] target  = new double[len];
+        final double[] weights = new double[len];
+
+        int i = 0;
+        for (WeightedObservedPoint obs : observations) {
+            target[i]  = obs.getY();
+            weights[i] = obs.getWeight();
+            ++i;
+        }
+
+        final AbstractCurveFitter.TheoreticalValuesFunction model
+            = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION,
+                                                                observations);
+
+        final double[] startPoint = initialGuess != null ?
+            initialGuess :
+            // Compute estimation.
+            new ParameterGuesser(observations).guess();
+
+        // Return a new optimizer set up to fit a Gaussian curve to the
+        // observed points.
+        return LevenbergMarquardtOptimizer.create()
+            .withMaxEvaluations(Integer.MAX_VALUE)
+            .withMaxIterations(maxIter)
+            .withStartPoint(startPoint)
+            .withTarget(target)
+            .withWeight(new DiagonalMatrix(weights))
+            .withModelAndJacobian(model.getModelFunction(),
+                                  model.getModelFunctionJacobian());
     }
 
     /**
@@ -195,13 +249,14 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
          * @throws MathIllegalStateException when the guessing procedure cannot
          * produce sensible results.
          */
-        public ParameterGuesser(WeightedObservedPoint[] observations) {
-            if (observations.length < 4) {
+        public ParameterGuesser(Collection<WeightedObservedPoint> observations) {
+            if (observations.size() < 4) {
                 throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
-                                                    observations.length, 4, true);
+                                                    observations.size(), 4, true);
             }
 
-            final WeightedObservedPoint[] sorted = sortObservations(observations);
+            final WeightedObservedPoint[] sorted
+                = sortObservations(observations).toArray(new WeightedObservedPoint[0]);
 
             final double aOmega[] = guessAOmega(sorted);
             a = aOmega[0];
@@ -230,28 +285,29 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
          * @param unsorted Input observations.
          * @return the input observations, sorted.
          */
-        private WeightedObservedPoint[] sortObservations(WeightedObservedPoint[] unsorted) {
-            final WeightedObservedPoint[] observations = unsorted.clone();
+        private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
+            final List<WeightedObservedPoint> observations = new ArrayList<WeightedObservedPoint>(unsorted);
 
             // Since the samples are almost always already sorted, this
             // method is implemented as an insertion sort that reorders the
             // elements in place. Insertion sort is very efficient in this case.
-            WeightedObservedPoint curr = observations[0];
-            for (int j = 1; j < observations.length; ++j) {
+            WeightedObservedPoint curr = observations.get(0);
+            final int len = observations.size();
+            for (int j = 1; j < len; j++) {
                 WeightedObservedPoint prec = curr;
-                curr = observations[j];
+                curr = observations.get(j);
                 if (curr.getX() < prec.getX()) {
                     // the current element should be inserted closer to the beginning
                     int i = j - 1;
-                    WeightedObservedPoint mI = observations[i];
+                    WeightedObservedPoint mI = observations.get(i);
                     while ((i >= 0) && (curr.getX() < mI.getX())) {
-                        observations[i + 1] = mI;
+                        observations.set(i + 1, mI);
                         if (i-- != 0) {
-                            mI = observations[i];
+                            mI = observations.get(i);
                         }
                     }
-                    observations[i + 1] = curr;
-                    curr = observations[j];
+                    observations.set(i + 1, curr);
+                    curr = observations.get(j);
                 }
             }
 
@@ -260,8 +316,6 @@ public class HarmonicFitter extends CurveFitter<HarmonicOscillator.Parametric> {
 
         /**
          * Estimate a first guess of the amplitude and angular frequency.
-         * This method assumes that the {@link #sortObservations()} method
-         * has been called previously.
          *
          * @param observations Observations, sorted w.r.t. abscissa.
          * @throws ZeroException if the abscissa range is zero.
