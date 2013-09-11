@@ -185,9 +185,9 @@ public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
      *            {\sum x_i x_i \sum y_i y_i - \sum x_i y_i \sum x_i y_i}
      * \]
      * \[
-     *   B = \frac{\sum x_i x_i \sum y_i z_i - \sum x_i y_i \sum x_i z_i} 
+     *   B = \frac{\sum x_i x_i \sum y_i z_i - \sum x_i y_i \sum x_i z_i}
      *            {\sum x_i x_i \sum y_i y_i - \sum x_i y_i \sum x_i y_i}
-     * 
+     *
      * \]
      *
      * <p>In fact, we can assume that both \(a\) and \(\omega\) are positive and
