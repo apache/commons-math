@@ -137,99 +137,99 @@ public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
      * This class guesses harmonic coefficients from a sample.
      * <p>The algorithm used to guess the coefficients is as follows:</p>
      *
-     * <p>We know f (t) at some sampling points t<sub>i</sub> and want to find a,
-     * &omega; and &phi; such that f (t) = a cos (&omega; t + &phi;).
+     * <p>We know \( f(t) \) at some sampling points \( t_i \) and want
+     * to find \( a \), \( \omega \) and \( \phi \) such that
+     * \( f(t) = a \cos (\omega t + \phi) \).
      * </p>
      *
      * <p>From the analytical expression, we can compute two primitives :
-     * <pre>
-     *     If2  (t) = &int; f<sup>2</sup>  = a<sup>2</sup> &times; [t + S (t)] / 2
-     *     If'2 (t) = &int; f'<sup>2</sup> = a<sup>2</sup> &omega;<sup>2</sup> &times; [t - S (t)] / 2
-     *     where S (t) = sin (2 (&omega; t + &phi;)) / (2 &omega;)
-     * </pre>
+     * \[
+     *     If2(t) = \int f^2 dt  = a^2 (t + S(t)) / 2
+     * \]
+     * \[
+     *     If'2(t) = \int f'^2 dt = a^2 \omega^2 (t - S(t)) / 2
+     * \]
+     * where \(S(t) = \frac{\sin(2 (\omega t + \phi))}{2\omega}\)
      * </p>
      *
-     * <p>We can remove S between these expressions :
-     * <pre>
-     *     If'2 (t) = a<sup>2</sup> &omega;<sup>2</sup> t - &omega;<sup>2</sup> If2 (t)
-     * </pre>
+     * <p>We can remove \(S\) between these expressions :
+     * \[
+     *     If'2(t) = a^2 \omega^2 t - \omega^2 If2(t)
+     * \]
      * </p>
      *
-     * <p>The preceding expression shows that If'2 (t) is a linear
-     * combination of both t and If2 (t): If'2 (t) = A &times; t + B &times; If2 (t)
+     * <p>The preceding expression shows that \(If'2 (t)\) is a linear
+     * combination of both \(t\) and \(If2(t)\):
+     * \[
+     *   If'2(t) = A t + B If2(t)
+     * \]
      * </p>
      *
      * <p>From the primitive, we can deduce the same form for definite
-     * integrals between t<sub>1</sub> and t<sub>i</sub> for each t<sub>i</sub> :
-     * <pre>
-     *   If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>) = A &times; (t<sub>i</sub> - t<sub>1</sub>) + B &times; (If2 (t<sub>i</sub>) - If2 (t<sub>1</sub>))
-     * </pre>
+     * integrals between \(t_1\) and \(t_i\) for each \(t_i\) :
+     * \[
+     *   If2(t_i) - If2(t_1) = A (t_i - t_1) + B (If2 (t_i) - If2(t_1))
+     * \]
      * </p>
      *
-     * <p>We can find the coefficients A and B that best fit the sample
+     * <p>We can find the coefficients \(A\) and \(B\) that best fit the sample
      * to this linear expression by computing the definite integrals for
      * each sample points.
      * </p>
      *
-     * <p>For a bilinear expression z (x<sub>i</sub>, y<sub>i</sub>) = A &times; x<sub>i</sub> + B &times; y<sub>i</sub>, the
-     * coefficients A and B that minimize a least square criterion
-     * &sum; (z<sub>i</sub> - z (x<sub>i</sub>, y<sub>i</sub>))<sup>2</sup> are given by these expressions:</p>
-     * <pre>
+     * <p>For a bilinear expression \(z(x_i, y_i) = A x_i + B y_i\), the
+     * coefficients \(A\) and \(B\) that minimize a least-squares criterion
+     * \(\sum (z_i - z(x_i, y_i))^2\) are given by these expressions:</p>
+     * \[
+     *   A = \frac{\sum y_i y_i \sum x_i z_i - \sum x_i y_i \sum y_i z_i}
+     *            {\sum x_i x_i \sum y_i y_i - \sum x_i y_i \sum x_i y_i}
+     * \]
+     * \[
+     *   B = \frac{\sum x_i x_i \sum y_i z_i - \sum x_i y_i \sum x_i z_i} 
+     *            {\sum x_i x_i \sum y_i y_i - \sum x_i y_i \sum x_i y_i}
+     * 
+     * \]
      *
-     *         &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
-     *     A = ------------------------
-     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
+     * <p>In fact, we can assume that both \(a\) and \(\omega\) are positive and
+     * compute them directly, knowing that \(A = a^2 \omega^2\) and that
+     * \(B = -\omega^2\). The complete algorithm is therefore:</p>
      *
-     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub>
-     *     B = ------------------------
-     *         &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
-     * </pre>
+     * For each \(t_i\) from \(t_1\) to \(t_{n-1}\), compute:
+     * \[ f(t_i) \]
+     * \[ f'(t_i) = \frac{f (t_{i+1}) - f(t_{i-1})}{t_{i+1} - t_{i-1}} \]
+     * \[ x_i = t_i  - t_1 \]
+     * \[ y_i = \int_{t_1}^{t_i} f^2(t) dt \]
+     * \[ z_i = \int_{t_1}^{t_i} f'^2(t) dt \]
+     * and update the sums:
+     * \[ \sum x_i x_i, \sum y_i y_i, \sum x_i y_i, \sum x_i z_i, \sum y_i z_i \]
+     *
+     * Then:
+     * \[
+     *  a = \sqrt{\frac{\sum y_i y_i  \sum x_i z_i - \sum x_i y_i \sum y_i z_i }
+     *                 {\sum x_i y_i  \sum x_i z_i - \sum x_i x_i \sum y_i z_i }}
+     * \]
+     * \[
+     *  \omega = \sqrt{\frac{\sum x_i y_i \sum x_i z_i - \sum x_i x_i \sum y_i z_i}
+     *                      {\sum x_i x_i \sum y_i y_i - \sum x_i y_i \sum x_i y_i}}
+     * \]
+     *
+     * <p>Once we know \(\omega\) we can compute:
+     * \[
+     *    fc = \omega f(t) \cos(\omega t) - f'(t) \sin(\omega t)
+     * \]
+     * \[
+     *    fs = \omega f(t) \sin(\omega t) + f'(t) \cos(\omega t)
+     * \]
      * </p>
      *
-     *
-     * <p>In fact, we can assume both a and &omega; are positive and
-     * compute them directly, knowing that A = a<sup>2</sup> &omega;<sup>2</sup> and that
-     * B = - &omega;<sup>2</sup>. The complete algorithm is therefore:</p>
-     * <pre>
-     *
-     * for each t<sub>i</sub> from t<sub>1</sub> to t<sub>n-1</sub>, compute:
-     *   f  (t<sub>i</sub>)
-     *   f' (t<sub>i</sub>) = (f (t<sub>i+1</sub>) - f(t<sub>i-1</sub>)) / (t<sub>i+1</sub> - t<sub>i-1</sub>)
-     *   x<sub>i</sub> = t<sub>i</sub> - t<sub>1</sub>
-     *   y<sub>i</sub> = &int; f<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
-     *   z<sub>i</sub> = &int; f'<sup>2</sup> from t<sub>1</sub> to t<sub>i</sub>
-     *   update the sums &sum;x<sub>i</sub>x<sub>i</sub>, &sum;y<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>y<sub>i</sub>, &sum;x<sub>i</sub>z<sub>i</sub> and &sum;y<sub>i</sub>z<sub>i</sub>
-     * end for
-     *
-     *            |--------------------------
-     *         \  | &sum;y<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
-     * a     =  \ | ------------------------
-     *           \| &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
-     *
-     *
-     *            |--------------------------
-     *         \  | &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>z<sub>i</sub> - &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>z<sub>i</sub>
-     * &omega;     =  \ | ------------------------
-     *           \| &sum;x<sub>i</sub>x<sub>i</sub> &sum;y<sub>i</sub>y<sub>i</sub> - &sum;x<sub>i</sub>y<sub>i</sub> &sum;x<sub>i</sub>y<sub>i</sub>
-     *
-     * </pre>
-     * </p>
-     *
-     * <p>Once we know &omega;, we can compute:
-     * <pre>
-     *    fc = &omega; f (t) cos (&omega; t) - f' (t) sin (&omega; t)
-     *    fs = &omega; f (t) sin (&omega; t) + f' (t) cos (&omega; t)
-     * </pre>
-     * </p>
-     *
-     * <p>It appears that <code>fc = a &omega; cos (&phi;)</code> and
-     * <code>fs = -a &omega; sin (&phi;)</code>, so we can use these
-     * expressions to compute &phi;. The best estimate over the sample is
+     * <p>It appears that \(fc = a \omega \cos(\phi)\) and
+     * \(fs = -a \omega \sin(\phi)\), so we can use these
+     * expressions to compute \(\phi\). The best estimate over the sample is
      * given by averaging these expressions.
      * </p>
      *
      * <p>Since integrals and means are involved in the preceding
-     * estimations, these operations run in O(n) time, where n is the
+     * estimations, these operations run in \(O(n)\) time, where \(n\) is the
      * number of measurements.</p>
      */
     public static class ParameterGuesser {
