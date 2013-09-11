@@ -68,7 +68,7 @@ public abstract class AbstractLeastSquaresOptimizer<OPTIM extends AbstractLeastS
      *
      * @param other Instance to copy.
      */
-    protected AbstractLeastSquaresOptimizer(AbstractLeastSquaresOptimizer other) {
+    protected AbstractLeastSquaresOptimizer(AbstractLeastSquaresOptimizer<OPTIM> other) {
         super(other);
 
         target = other.target == null ? null : other.target.clone();
