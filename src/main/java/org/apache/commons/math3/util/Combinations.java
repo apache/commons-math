@@ -129,7 +129,6 @@ public class Combinations implements Iterable<int[]> {
     }
 
     /** {@inheritDoc} */
-    @Override
     public Iterator<int[]> iterator() {
         if (k == 0 ||
             k == n) {
