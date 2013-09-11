@@ -1272,159 +1272,158 @@ public class MathArrays {
         return true;
     }
 
-     /**
-      * Normalizes an array to make it sum to a specified value.
-      * Returns the result of the transformation <pre>
-      *    x |-> x * normalizedSum / sum
-      * </pre>
-      * applied to each non-NaN element x of the input array, where sum is the
-      * sum of the non-NaN entries in the input array.</p>
-      *
-      * <p>Throws IllegalArgumentException if {@code normalizedSum} is infinite
-      * or NaN and ArithmeticException if the input array contains any infinite elements
-      * or sums to 0.</p>
-      *
-      * <p>Ignores (i.e., copies unchanged to the output array) NaNs in the input array.</p>
-      *
-      * @param values Input array to be normalized
-      * @param normalizedSum Target sum for the normalized array
-      * @return the normalized array.
-      * @throws MathArithmeticException if the input array contains infinite
-      * elements or sums to zero.
-      * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}.
-      * @since 2.1
-      */
-     public static double[] normalizeArray(double[] values, double normalizedSum)
-         throws MathIllegalArgumentException, MathArithmeticException {
-         if (Double.isInfinite(normalizedSum)) {
-             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
-         }
-         if (Double.isNaN(normalizedSum)) {
-             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
-         }
-         double sum = 0d;
-         final int len = values.length;
-         double[] out = new double[len];
-         for (int i = 0; i < len; i++) {
-             if (Double.isInfinite(values[i])) {
-                 throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
-             }
-             if (!Double.isNaN(values[i])) {
-                 sum += values[i];
-             }
-         }
-         if (sum == 0) {
-             throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
-         }
-         for (int i = 0; i < len; i++) {
-             if (Double.isNaN(values[i])) {
-                 out[i] = Double.NaN;
-             } else {
-                 out[i] = values[i] * normalizedSum / sum;
-             }
-         }
-         return out;
-     }
+    /**
+     * Normalizes an array to make it sum to a specified value.
+     * Returns the result of the transformation
+     * <pre>
+     *    x |-> x * normalizedSum / sum
+     * </pre>
+     * applied to each non-NaN element x of the input array, where sum is the
+     * sum of the non-NaN entries in the input array.
+     * <p>
+     * Throws IllegalArgumentException if {@code normalizedSum} is infinite
+     * or NaN and ArithmeticException if the input array contains any infinite elements
+     * or sums to 0.
+     * <p>
+     * Ignores (i.e., copies unchanged to the output array) NaNs in the input array.
+     *
+     * @param values Input array to be normalized
+     * @param normalizedSum Target sum for the normalized array
+     * @return the normalized array.
+     * @throws MathArithmeticException if the input array contains infinite
+     * elements or sums to zero.
+     * @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}.
+     * @since 2.1
+     */
+    public static double[] normalizeArray(double[] values, double normalizedSum)
+        throws MathIllegalArgumentException, MathArithmeticException {
+        if (Double.isInfinite(normalizedSum)) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
+        }
+        if (Double.isNaN(normalizedSum)) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+        }
+        double sum = 0d;
+        final int len = values.length;
+        double[] out = new double[len];
+        for (int i = 0; i < len; i++) {
+            if (Double.isInfinite(values[i])) {
+                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+            }
+            if (!Double.isNaN(values[i])) {
+                sum += values[i];
+            }
+        }
+        if (sum == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+        }
+        for (int i = 0; i < len; i++) {
+            if (Double.isNaN(values[i])) {
+                out[i] = Double.NaN;
+            } else {
+                out[i] = values[i] * normalizedSum / sum;
+            }
+        }
+        return out;
+    }
 
-     /** Build an array of elements.
-      * <p>
-      * Arrays are filled with field.getZero()
-      * </p>
-      * @param <T> the type of the field elements
-      * @param field field to which array elements belong
-      * @param length of the array
-      * @return a new array
-      * @since 3.2
-      */
-     public static <T> T[] buildArray(final Field<T> field, final int length) {
-         @SuppressWarnings("unchecked") // OK because field must be correct class
-         T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
-         Arrays.fill(array, field.getZero());
-         return array;
-     }
+    /** Build an array of elements.
+     * <p>
+     * Arrays are filled with field.getZero()
+     *
+     * @param <T> the type of the field elements
+     * @param field field to which array elements belong
+     * @param length of the array
+     * @return a new array
+     * @since 3.2
+     */
+    public static <T> T[] buildArray(final Field<T> field, final int length) {
+        @SuppressWarnings("unchecked") // OK because field must be correct class
+        T[] array = (T[]) Array.newInstance(field.getRuntimeClass(), length);
+        Arrays.fill(array, field.getZero());
+        return array;
+    }
 
-     /** Build a double dimension  array of elements.
-      * <p>
-      * Arrays are filled with field.getZero()
-      * </p>
-      * @param <T> the type of the field elements
-      * @param field field to which array elements belong
-      * @param rows number of rows in the array
-      * @param columns number of columns (may be negative to build partial
-      * arrays in the same way <code>new Field[rows][]</code> works)
-      * @return a new array
-      * @since 3.2
-      */
-     @SuppressWarnings("unchecked")
+    /** Build a double dimension  array of elements.
+     * <p>
+     * Arrays are filled with field.getZero()
+     *
+     * @param <T> the type of the field elements
+     * @param field field to which array elements belong
+     * @param rows number of rows in the array
+     * @param columns number of columns (may be negative to build partial
+     * arrays in the same way <code>new Field[rows][]</code> works)
+     * @return a new array
+     * @since 3.2
+     */
+    @SuppressWarnings("unchecked")
     public static <T> T[][] buildArray(final Field<T> field, final int rows, final int columns) {
-         final T[][] array;
-         if (columns < 0) {
-             T[] dummyRow = buildArray(field, 0);
-             array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
-         } else {
-             array = (T[][]) Array.newInstance(field.getRuntimeClass(),
-                                               new int[] {
-                                                   rows, columns
-                                               });
-             for (int i = 0; i < rows; ++i) {
-                 Arrays.fill(array[i], field.getZero());
-             }
-         }
-         return array;
-     }
+        final T[][] array;
+        if (columns < 0) {
+            T[] dummyRow = buildArray(field, 0);
+            array = (T[][]) Array.newInstance(dummyRow.getClass(), rows);
+        } else {
+            array = (T[][]) Array.newInstance(field.getRuntimeClass(),
+                                              new int[] {
+                                                  rows, columns
+                                              });
+            for (int i = 0; i < rows; ++i) {
+                Arrays.fill(array[i], field.getZero());
+            }
+        }
+        return array;
+    }
 
-     /**
-      * Calculates the <a href="http://en.wikipedia.org/wiki/Convolution">
-      * convolution</a> between two sequences.
-      * The solution is obtained via straightforward computation of the
-      * convolution sum (and not via FFT).
-      * Whenever the computation needs an element that would be located
-      * at an index outside the input arrays, the value is assumed to be
-      * zero.
-      *
-      * @param x First sequence.
-      * Typically, this sequence will represent an input signal to a system.
-      * @param h Second sequence.
-      * Typically, this sequence will represent the impulse response of the
-      * system.
-      * @return the convolution of {@code x} and {@code h}.
-      * This array's length will be {@code x.length + h.length - 1}.
-      * @throws NullArgumentException if either {@code x} or {@code h} is
-      * {@code null}.
-      * @throws NoDataException if either {@code x} or {@code h} is empty.
-      *
-      * @since 3.3
-      */
-     public static double[] convolve(double[] x, double[] h)
-         throws NullArgumentException,
-                NoDataException {
-         MathUtils.checkNotNull(x);
-         MathUtils.checkNotNull(h);
+    /**
+     * Calculates the <a href="http://en.wikipedia.org/wiki/Convolution">
+     * convolution</a> between two sequences.
+     * <p>
+     * The solution is obtained via straightforward computation of the
+     * convolution sum (and not via FFT). Whenever the computation needs
+     * an element that would be located at an index outside the input arrays,
+     * the value is assumed to be zero.
+     *
+     * @param x First sequence.
+     * Typically, this sequence will represent an input signal to a system.
+     * @param h Second sequence.
+     * Typically, this sequence will represent the impulse response of the system.
+     * @return the convolution of {@code x} and {@code h}.
+     * This array's length will be {@code x.length + h.length - 1}.
+     * @throws NullArgumentException if either {@code x} or {@code h} is {@code null}.
+     * @throws NoDataException if either {@code x} or {@code h} is empty.
+     *
+     * @since 3.3
+     */
+    public static double[] convolve(double[] x, double[] h)
+        throws NullArgumentException,
+               NoDataException {
+        MathUtils.checkNotNull(x);
+        MathUtils.checkNotNull(h);
 
-         final int xLen = x.length;
-         final int hLen = h.length;
+        final int xLen = x.length;
+        final int hLen = h.length;
 
-         if (xLen == 0 || hLen == 0) {
-             throw new NoDataException();
-         }
+        if (xLen == 0 || hLen == 0) {
+            throw new NoDataException();
+        }
 
-         // initialize the output array
-         final int totalLength = xLen + hLen - 1;
-         final double[] y = new double[totalLength];
+        // initialize the output array
+        final int totalLength = xLen + hLen - 1;
+        final double[] y = new double[totalLength];
 
-         // straightforward implementation of the convolution sum
-         for (int n = 0; n < totalLength; n++) {
-             double yn = 0;
-             int k = FastMath.max(0, n + 1 - xLen);
-             int j = n - k;
-             while (k < hLen && j >= 0) {
-                 yn += x[j--] * h[k++];
-             }
-             y[n] = yn;
-         }
+        // straightforward implementation of the convolution sum
+        for (int n = 0; n < totalLength; n++) {
+            double yn = 0;
+            int k = FastMath.max(0, n + 1 - xLen);
+            int j = n - k;
+            while (k < hLen && j >= 0) {
+                yn += x[j--] * h[k++];
+            }
+            y[n] = yn;
+        }
 
-         return y;
-     }
+        return y;
+    }
 
     /**
      * Specification for indicating that some operation applies
