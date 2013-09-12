@@ -238,7 +238,6 @@ public class Combinations implements Iterable<int[]> {
             // Copy return value (prepared by last activation)
             final int[] ret = new int[k];
             System.arraycopy(c, 1, ret, 0, k);
-            //final int[] ret = MathArrays.copyOf(c, k + 1);
 
             // Prepare next iteration
             // T2 and T6 loop
