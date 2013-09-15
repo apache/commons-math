@@ -47,6 +47,9 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     /** Amount of error to accept in floating point comparisons (as ulps). */
     private final int maxUlps;
 
+    /** Prevent cycles via Bland's rule. */
+    private boolean cyclePrevention;
+
     /**
      * Build a simplex solver with default settings.
      */
@@ -62,6 +65,33 @@ public class SimplexSolver extends AbstractLinearOptimizer {
     public SimplexSolver(final double epsilon, final int maxUlps) {
         this.epsilon = epsilon;
         this.maxUlps = maxUlps;
+        this.cyclePrevention = true;
+    }
+
+    /**
+     * Enables/disables cycle prevention using Bland's rule.
+     * <p>
+     * In case of a degeneracy the simplex algorithm might cycle. This can be prevented
+     * by using Bland's pivot selection rule. The drawback of this rule is that it may result
+     * in pivot choices that do not significantly improve the objective function value,
+     * thus increasing the number of required iterations.
+     * <p>
+     * By default, the cycle prevention is enabled.
+     *
+     * @param cyclePrevention if cycle prevention shall be used
+     *
+     * @see <a href="http://www.stanford.edu/class/msande310/blandrule.pdf">Bland's rule</a>
+     */
+    public void setCyclePrevention(boolean cyclePrevention) {
+        this.cyclePrevention = cyclePrevention;
+    }
+
+    /**
+     * Returns whether cycle prevention (using Bland's rule) is enabled.
+     * @return {@code true} if cycle prevention is enable, {@code false} otherwise
+     */
+    public boolean getCyclePrevention() {
+        return cyclePrevention;
     }
 
     /**
@@ -79,14 +109,42 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             if (entry < minValue) {
                 minValue = entry;
                 minPos = i;
+
+                // Bland's rule: chose the entering column with the lowest index
+                if (cyclePrevention && isValidPivotColumn(tableau, i)) {
+                    break;
+                }
             }
         }
         return minPos;
     }
 
     /**
+     * Checks whether the given column is valid pivot column, i.e. will result
+     * in a valid pivot row.
+     * <p>
+     * When applying Bland's rule to select the pivot column, it may happen that
+     * there is no corresponding pivot row. This method will check if the selected
+     * pivot column will return a valid pivot row.
+     *
+     * @param tableau simplex tableau for the problem
+     * @param col the column to test
+     * @return {@code true} if the pivot column is valid, {@code false} otherwise
+     */
+    private boolean isValidPivotColumn(SimplexTableau tableau, int col) {
+        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+            final double entry = tableau.getEntry(i, col);
+
+            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the row with the minimum ratio as given by the minimum ratio test (MRT).
-     * @param tableau simple tableau for the problem
+     * @param tableau simplex tableau for the problem
      * @param col the column to test the ratio of.  See {@link #getPivotColumn(SimplexTableau)}
      * @return row with the minimum ratio
      */
@@ -136,11 +194,7 @@ public class SimplexSolver extends AbstractLinearOptimizer {
             //
             // see http://www.stanford.edu/class/msande310/blandrule.pdf
             // see http://en.wikipedia.org/wiki/Bland%27s_rule (not equivalent to the above paper)
-            //
-            // Additional heuristic: if we did not get a solution after half of maxIterations
-            //                       revert to the simple case of just returning the top-most row
-            // This heuristic is based on empirical data gathered while investigating MATH-828.
-            if (getIterations() < getMaxIterations() / 2) {
+            if (cyclePrevention) {
                 Integer minRow = null;
                 int minIndex = tableau.getWidth();
                 final int varStart = tableau.getNumObjectiveFunctions();

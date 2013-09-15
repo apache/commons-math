@@ -73,7 +73,7 @@ class SimplexTableau implements Serializable {
     private static final int DEFAULT_ULPS = 10;
 
     /** The cut-off threshold to zero-out entries. */
-    private static final double CUTOFF_THRESHOLD = 1e-12;
+    private static final double CUTOFF_THRESHOLD = 1e-10;
 
     /** Serializable version identifier. */
     private static final long serialVersionUID = -1369660067587938365L;

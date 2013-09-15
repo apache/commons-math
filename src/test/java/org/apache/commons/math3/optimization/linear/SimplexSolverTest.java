@@ -31,6 +31,31 @@ import org.junit.Test;
 public class SimplexSolverTest {
 
     @Test
+    public void testMath842Cycle() {
+        // from http://www.math.toronto.edu/mpugh/Teaching/APM236_04/bland
+        //      maximize 10 x1 - 57 x2 - 9 x3 - 24 x4
+        //      subject to
+        //          1/2 x1 - 11/2 x2 - 5/2 x3 + 9 x4  <= 0
+        //          1/2 x1 -  3/2 x2 - 1/2 x3 +   x4  <= 0
+        //              x1                  <= 1
+        //      x1,x2,x3,x4 >= 0
+
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 10, -57, -9, -24}, 0);
+        
+        ArrayList <LinearConstraint>constraints = new ArrayList<LinearConstraint>();
+
+        constraints.add(new LinearConstraint(new double[] {0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
+        constraints.add(new LinearConstraint(new double[] {0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
+        constraints.add(new LinearConstraint(new double[] {  1,    0,    0, 0}, Relationship.LEQ, 1));
+        
+        double epsilon = 1e-6;
+        SimplexSolver solver = new SimplexSolver();
+        PointValuePair solution = solver.optimize(f, constraints, GoalType.MAXIMIZE, true);
+        Assert.assertEquals(1.0d, solution.getValue(), epsilon);
+        Assert.assertTrue(validSolution(solution, constraints, epsilon));
+    }
+
+    @Test
     public void testMath828() {
         LinearObjectiveFunction f = new LinearObjectiveFunction(
                 new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 0.0);
