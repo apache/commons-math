@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-1034" due-to="Thorsten Schaefer">
+        Added exact binomial test implementation.
+      </action>
       <action dev="tn" type="add" issue="MATH-1018" due-to="Ajo Fod">
         Added overloaded constructors for subclasses of "RealDistribution" implementations
         which do not require an explicit "inverseCumulativeAccuracy". The default accuracy will
