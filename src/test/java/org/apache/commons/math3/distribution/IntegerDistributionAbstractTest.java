@@ -135,7 +135,7 @@ public abstract class IntegerDistributionAbstractTest {
         for (int i = 0; i < densityTestPoints.length; i++) {
             Assert.assertEquals("Incorrect density value returned for " + densityTestPoints[i],
                     densityTestValues[i],
-                    distribution.probability(densityTestPoints[i]), tolerance);
+                    distribution.probability(densityTestPoints[i]), getTolerance());
         }
     }
 
@@ -147,7 +147,7 @@ public abstract class IntegerDistributionAbstractTest {
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             Assert.assertEquals("Incorrect cumulative probability value returned for " + cumulativeTestPoints[i],
                     cumulativeTestValues[i],
-                    distribution.cumulativeProbability(cumulativeTestPoints[i]), tolerance);
+                    distribution.cumulativeProbability(cumulativeTestPoints[i]), getTolerance());
         }
     }
 
@@ -199,7 +199,7 @@ public abstract class IntegerDistributionAbstractTest {
         Assert.assertEquals("Cumulative probability mmust be 0 below support lower bound.",
                 0.0, distribution.cumulativeProbability(lower - 1), 0.0);
         Assert.assertEquals("Cumulative probability of support lower bound must be equal to probability mass at this point.",
-                distribution.probability(lower), distribution.cumulativeProbability(lower), tolerance);
+                distribution.probability(lower), distribution.cumulativeProbability(lower), getTolerance());
         Assert.assertEquals("Inverse cumulative probability of 0 must be equal to support lower bound.",
                 lower, distribution.inverseCumulativeProbability(0.0));
 

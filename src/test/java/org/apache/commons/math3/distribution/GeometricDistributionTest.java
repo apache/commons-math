@@ -26,6 +26,10 @@ import org.junit.Test;
  */
 public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
 
+    public GeometricDistributionTest() {
+        setTolerance(1e-7);
+    }
+
     // -------------- Implementations for abstract methods --------------------
 
     /** Creates the default discrete distribution instance to use in tests. */
@@ -39,7 +43,7 @@ public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
     public int[] makeDensityTestPoints() {
         return new int[] { -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,
                             9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-                           29, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
+                           19, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
     }
 
     /** Creates the default probability density test expected values */
