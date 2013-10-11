@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * Test cases for the BinomialTest class.
  */
-
 public class BinomialTestTest {
 
     protected BinomialTest testStatistic = new BinomialTest();
@@ -64,7 +63,6 @@ public class BinomialTestTest {
         } catch (MathIllegalArgumentException e) {
             // expected exception;
         }
-
     }
 
     @Test
@@ -79,6 +77,5 @@ public class BinomialTestTest {
         Assert.assertFalse(testStatistic.binomialTest(trials, successes, probability, AlternativeHypothesis.TWO_SIDED, confidenceLevel99));
         Assert.assertFalse(testStatistic.binomialTest(trials, successes, probability, AlternativeHypothesis.GREATER_THAN, confidenceLevel99));
         Assert.assertFalse(testStatistic.binomialTest(trials, successes, probability, AlternativeHypothesis.LESS_THAN, confidenceLevel95));
-
     }
 }
