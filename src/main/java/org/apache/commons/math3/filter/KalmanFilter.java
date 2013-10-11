@@ -182,14 +182,15 @@ public class KalmanFilter {
         }
 
         // row dimension of B must be equal to A
+        // if no control matrix is available, the row and column dimension will be 0
         if (controlMatrix != null &&
             controlMatrix.getRowDimension() > 0 &&
             controlMatrix.getColumnDimension() > 0 &&
-            (controlMatrix.getRowDimension() != transitionMatrix.getRowDimension() ||
-             controlMatrix.getColumnDimension() != 1)) {
+            controlMatrix.getRowDimension() != transitionMatrix.getRowDimension()) {
             throw new MatrixDimensionMismatchException(controlMatrix.getRowDimension(),
                                                        controlMatrix.getColumnDimension(),
-                                                       transitionMatrix.getRowDimension(), 1);
+                                                       transitionMatrix.getRowDimension(),
+                                                       controlMatrix.getColumnDimension());
         }
 
         // Q must be equal to A
@@ -204,11 +205,11 @@ public class KalmanFilter {
         }
 
         // row dimension of R must be equal to row dimension of H
-        if (measNoise.getRowDimension() != measurementMatrix.getRowDimension() ||
-            measNoise.getColumnDimension() != 1) {
+        if (measNoise.getRowDimension() != measurementMatrix.getRowDimension()) {
             throw new MatrixDimensionMismatchException(measNoise.getRowDimension(),
                                                        measNoise.getColumnDimension(),
-                                                       measurementMatrix.getRowDimension(), 1);
+                                                       measurementMatrix.getRowDimension(),
+                                                       measNoise.getColumnDimension());
         }
     }
 
@@ -356,7 +357,7 @@ public class KalmanFilter {
                                                  measurementMatrix.getRowDimension());
         }
 
-        // S = H * P(k) - * H' + R
+        // S = H * P(k) * H' + R
         RealMatrix s = measurementMatrix.multiply(errorCovariance)
             .multiply(measurementMatrixT)
             .add(measurementModel.getMeasurementNoise());

@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1033" due-to="Yuan Qu">
+        The "KalmanFilter" wrongly enforced a column dimension of 1 for
+        the provided control and measurement noise matrix.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1037" due-to="Aleksei Dievskii">
         Fix a typo in the "GeometricDistributionTest" and ensure that a meaningful
         tolerance value is used when comparing test results with expected values.
