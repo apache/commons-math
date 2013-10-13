@@ -52,7 +52,7 @@ public abstract class IntegerDistributionAbstractTest {
     private IntegerDistribution distribution;
 
     /** Tolerance used in comparing expected and returned values */
-    private double tolerance = 1E-4;
+    private double tolerance = 1E-12;
 
     /** Arguments used to test probability density calculations */
     private int[] densityTestPoints;

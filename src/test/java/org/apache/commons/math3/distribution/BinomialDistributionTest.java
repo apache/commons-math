@@ -24,6 +24,13 @@ import org.junit.Test;
  */
 public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
 
+    /**
+     * Constructor to override default tolerance.
+     */
+    public BinomialDistributionTest() {
+        setTolerance(1e-12);
+    }
+    
     // -------------- Implementations for abstract methods
     // -----------------------
 
@@ -33,18 +40,21 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
         return new BinomialDistribution(10, 0.70);
     }
 
-    /** Creates the default probability density test input values */
+    /** Creates the default probability density test input values. */
     @Override
     public int[] makeDensityTestPoints() {
         return new int[] { -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
     }
 
-    /** Creates the default probability density test expected values */
+    /** 
+     * Creates the default probability density test expected values.
+     * Reference values are from R, version 2.15.3.
+     */
     @Override
     public double[] makeDensityTestValues() {
-        return new double[] { 0d, 0.0000059049d, 0.000137781d, 0.0014467d,
-                0.00900169d, 0.0367569d, 0.102919d, 0.200121d, 0.266828d,
-                0.233474d, 0.121061d, 0.0282475d, 0d };
+        return new double[] { 0d, 0.0000059049d, 0.000137781d, 0.0014467005,
+            0.009001692, 0.036756909, 0.1029193452, 0.200120949, 0.266827932,
+            0.2334744405, 0.121060821, 0.0282475249, 0d };
     }
 
     /** Creates the default cumulative probability density test input values */
@@ -53,11 +63,14 @@ public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
         return makeDensityTestPoints();
     }
 
-    /** Creates the default cumulative probability density test expected values */
+    /**
+     * Creates the default cumulative probability density test expected values.
+     * Reference values are from R, version 2.15.3.
+     */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] { 0d, 0.0000d, 0.0001d, 0.0016d, 0.0106d, 0.0473d,
-                0.1503d, 0.3504d, 0.6172d, 0.8507d, 0.9718d, 1d, 1d };
+        return new double[] { 0d, 5.9049e-06, 0.0001436859, 0.0015903864, 0.0105920784,  0.0473489874,
+            0.1502683326, 0.3503892816, 0.6172172136, 0.8506916541, 0.9717524751, 1d, 1d };
     }
 
     /** Creates the default inverse cumulative probability test input values */

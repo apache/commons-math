@@ -26,10 +26,13 @@ import org.junit.Test;
  */
 public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
 
+    /**
+     * Constructor to override default tolerance.
+     */
     public GeometricDistributionTest() {
-        setTolerance(1e-7);
+        setTolerance(1e-12);
     }
-
+    
     // -------------- Implementations for abstract methods --------------------
 
     /** Creates the default discrete distribution instance to use in tests. */
@@ -46,18 +49,20 @@ public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
                            19, 20, 21, 22, 23, 24, 25, 26, 27, 28 };
     }
 
-    /** Creates the default probability density test expected values */
+    /**
+     * Creates the default probability density test expected values.
+     * Reference values are from R, version version 2.15.3.
+     */
     @Override
     public double[] makeDensityTestValues() {
         return new double[] {
-            0.000000e+00, 4.000000e-01, 2.400000e-01, 1.440000e-01,
-            8.640000e-02, 5.184000e-02, 3.110400e-02, 1.866240e-02,
-            1.119744e-02, 6.718464e-03, 4.031078e-03, 2.418647e-03,
-            1.451188e-03, 8.707129e-04, 5.224278e-04, 3.134567e-04,
-            1.880740e-04, 1.128444e-04, 6.770664e-05, 4.062398e-05,
-            2.437439e-05, 1.462463e-05, 8.774780e-06, 5.264868e-06,
-            3.158921e-06, 1.895353e-06, 1.137212e-06, 6.823269e-07,
-            4.093961e-07, 2.456377e-07
+            0d, 0.4, 0.24, 0.144, 0.0864, 0.05184, 0.031104, 0.0186624,
+            0.01119744, 0.006718464, 0.0040310784, 0.00241864704,
+            0.001451188224,0.0008707129344, 0.00052242776064, 0.000313456656384,
+            0.00018807399383, 0.000112844396298, 6.77066377789e-05, 4.06239826674e-05,
+            2.43743896004e-05, 1.46246337603e-05, 8.77478025615e-06, 5.26486815369e-06,
+            3.15892089221e-06, 1.89535253533e-06, 1.1372115212e-06, 6.82326912718e-07,
+            4.09396147631e-07, 2.45637688579e-07
         };
     }
 
@@ -70,14 +75,14 @@ public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
     /** Creates the default cumulative probability density test expected values */
     @Override
     public double[] makeCumulativeTestValues() {
-        return new double[] {
-            0.0000000, 0.4000000, 0.6400000, 0.7840000, 0.8704000,
-            0.9222400, 0.9533440, 0.9720064, 0.9832038, 0.9899223,
-            0.9939534, 0.9963720, 0.9978232, 0.9986939, 0.9992164,
-            0.9995298, 0.9997179, 0.9998307, 0.9998984, 0.9999391,
-            0.9999634, 0.9999781, 0.9999868, 0.9999921, 0.9999953,
-            0.9999972, 0.9999983, 0.9999990, 0.9999994, 0.9999996
-        };
+        final double[] densities = makeDensityTestValues();
+        final int n = densities.length;
+        final double[] ret = new double[n];
+        ret[0] = densities[0];
+        for (int i = 1; i < n; i++) {
+            ret[i] = ret[i - 1] + densities[i];
+        }
+        return ret;
     }
 
     /** Creates the default inverse cumulative probability test input values */
