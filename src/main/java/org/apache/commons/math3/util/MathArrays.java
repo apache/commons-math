@@ -37,6 +37,7 @@ import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -1546,5 +1547,185 @@ public class MathArrays {
             a[i] = i;
         }
         return a;
+    }
+    /**
+     * This method is used
+     * to verify that the input parameters designate a subarray of positive length.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * positive length</li>
+     * <li>throws <code>MathIllegalArgumentException</code> if the array is null or
+     * or the indices are invalid</li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0.
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return true if the parameters are valid and designate a subarray of positive length
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.3
+     */
+    public static boolean test(
+        final double[] values,
+        final int begin,
+        final int length) throws MathIllegalArgumentException {
+        return test(values, begin, length, false);
+    }
+
+    /**
+     * This method is used
+     * to verify that the input parameters designate a subarray of positive length.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * non-negative length</li>
+     * <li>throws <code>IllegalArgumentException</code> if the array is null or
+     * or the indices are invalid</li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @param allowEmpty if <code>true</code> then zero length arrays are allowed
+     * @return true if the parameters are valid
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.3
+     */
+    public static boolean test(final double[] values, final int begin,
+            final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+
+        if (values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+
+        if (begin < 0) {
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, Integer.valueOf(begin));
+        }
+
+        if (length < 0) {
+            throw new NotPositiveException(LocalizedFormats.LENGTH, Integer.valueOf(length));
+        }
+
+        if (begin + length > values.length) {
+            throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
+                    Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
+        }
+
+        if (length == 0 && !allowEmpty) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    /**
+     * This method is used
+     * to verify that the begin and length parameters designate a subarray of positive length
+     * and the weights are all non-negative, non-NaN, finite, and not all zero.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * positive length and the weights array contains legitimate values.</li>
+     * <li>throws <code>IllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     *     <li>the start and length arguments do not determine a valid array</li></ul>
+     * </li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0.
+     * </ul></p>
+     *
+     * @param values the input array
+     * @param weights the weights array
+     * @param begin index of the first array element to include
+     * @param length the number of elements to include
+     * @return true if the parameters are valid and designate a subarray of positive length
+     * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @since 3.3
+     */
+    public static boolean test(
+        final double[] values,
+        final double[] weights,
+        final int begin,
+        final int length) throws MathIllegalArgumentException {
+        return test(values, weights, begin, length, false);
+    }
+
+    /**
+     * This method is used
+     * to verify that the begin and length parameters designate a subarray of positive length
+     * and the weights are all non-negative, non-NaN, finite, and not all zero.
+     * <p>
+     * <ul>
+     * <li>returns <code>true</code> iff the parameters designate a subarray of
+     * non-negative length and the weights array contains legitimate values.</li>
+     * <li>throws <code>MathIllegalArgumentException</code> if any of the following are true:
+     * <ul><li>the values array is null</li>
+     *     <li>the weights array is null</li>
+     *     <li>the weights array does not have the same length as the values array</li>
+     *     <li>the weights array contains one or more infinite values</li>
+     *     <li>the weights array contains one or more NaN values</li>
+     *     <li>the weights array contains negative values</li>
+     *     <li>the start and length arguments do not determine a valid array</li></ul>
+     * </li>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.
+     * </ul></p>
+     *
+     * @param values the input array.
+     * @param weights the weights array.
+     * @param begin index of the first array element to include.
+     * @param length the number of elements to include.
+     * @param allowEmpty if {@code true} than allow zero length arrays to pass.
+     * @return {@code true} if the parameters are valid.
+     * @throws NullArgumentException if either of the arrays are null
+     * @throws MathIllegalArgumentException if the array indices are not valid,
+     * the weights array contains NaN, infinite or negative elements, or there
+     * are no positive weights.
+     * @since 3.3
+     */
+    public static boolean test(final double[] values, final double[] weights,
+            final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
+
+        if (weights == null || values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+
+        if (weights.length != values.length) {
+            throw new DimensionMismatchException(weights.length, values.length);
+        }
+
+        boolean containsPositiveWeight = false;
+        for (int i = begin; i < begin + length; i++) {
+            final double weight = weights[i];
+            if (Double.isNaN(weight)) {
+                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, Integer.valueOf(i));
+            }
+            if (Double.isInfinite(weight)) {
+                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, Double.valueOf(weight), Integer.valueOf(i));
+            }
+            if (weight < 0) {
+                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, Integer.valueOf(i), Double.valueOf(weight));
+            }
+            if (!containsPositiveWeight && weight > 0.0) {
+                containsPositiveWeight = true;
+            }
+        }
+
+        if (!containsPositiveWeight) {
+            throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
+        }
+
+        return test(values, begin, length, allowEmpty);
     }
 }

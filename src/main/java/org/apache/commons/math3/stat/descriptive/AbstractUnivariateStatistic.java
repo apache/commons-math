@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * Abstract base class for all implementations of the
@@ -151,12 +152,14 @@ public abstract class AbstractUnivariateStatistic
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
+     * @deprecated 3.3 Use {@link MathArrays#test(double[], int, int)} instead
      */
+    @Deprecated
     protected boolean test(
         final double[] values,
         final int begin,
         final int length) throws MathIllegalArgumentException {
-        return test(values, begin, length, false);
+        return MathArrays.test(values, begin, length, false);
     }
 
     /**
@@ -179,33 +182,12 @@ public abstract class AbstractUnivariateStatistic
      * @return true if the parameters are valid
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.0
+     * @deprecated 3.3 Use {@link MathArrays#test(double[], int, int, boolean)} instead
      */
+    @Deprecated
     protected boolean test(final double[] values, final int begin,
             final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-
-        if (values == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        if (begin < 0) {
-            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
-        }
-
-        if (length < 0) {
-            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
-        }
-
-        if (begin + length > values.length) {
-            throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                                                begin + length, values.length, true);
-        }
-
-        if (length == 0 && !allowEmpty) {
-            return false;
-        }
-
-        return true;
-
+        return MathArrays.test(values, begin, length, allowEmpty);
     }
 
     /**
@@ -236,13 +218,15 @@ public abstract class AbstractUnivariateStatistic
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 2.1
+     * @deprecated 3.3 Use {@link MathArrays#test(double[], double[], int, int)} instead
      */
+    @Deprecated
     protected boolean test(
         final double[] values,
         final double[] weights,
         final int begin,
         final int length) throws MathIllegalArgumentException {
-        return test(values, weights, begin, length, false);
+        return MathArrays.test(values, weights, begin, length, false);
     }
 
     /**
@@ -277,39 +261,13 @@ public abstract class AbstractUnivariateStatistic
      * the weights array contains NaN, infinite or negative elements, or there
      * are no positive weights.
      * @since 3.0
+     * @deprecated 3.3 Use {@link MathArrays#test(double[], double[], int, int, boolean)} instead
      */
+    @Deprecated
     protected boolean test(final double[] values, final double[] weights,
             final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
-        if (weights == null || values == null) {
-            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
-        }
-
-        if (weights.length != values.length) {
-            throw new DimensionMismatchException(weights.length, values.length);
-        }
-
-        boolean containsPositiveWeight = false;
-        for (int i = begin; i < begin + length; i++) {
-            if (Double.isNaN(weights[i])) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
-            }
-            if (Double.isInfinite(weights[i])) {
-                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, weights[i], i);
-            }
-            if (weights[i] < 0) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, i, weights[i]);
-            }
-            if (!containsPositiveWeight && weights[i] > 0.0) {
-                containsPositiveWeight = true;
-            }
-        }
-
-        if (!containsPositiveWeight) {
-            throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
-        }
-
-        return test(values, begin, length, allowEmpty);
+        return MathArrays.test(values, weights, begin, length, allowEmpty);
     }
 }
 

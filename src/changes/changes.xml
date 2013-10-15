@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="sebb" type="add" issue="MATH-1002">
+        AbstractUnivariateStatistic.test(double[] values, int begin, int length, boolean allowEmpty)
+        has uses outside subclasses; implementation moved to MathArrays.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1033" due-to="Yuan Qu">
         The "KalmanFilter" wrongly enforced a column dimension of 1 for
         the provided control and measurement noise matrix.
