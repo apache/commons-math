@@ -79,6 +79,14 @@ public class PairTest {
         Assert.assertEquals("[foo, 3]", new Pair<String, Integer>("foo", 3).toString());
     }
 
+    @Test
+    public void testCreate() {
+        final Pair<String, Integer> p1 = Pair.create("foo", 3);
+        Assert.assertNotNull(p1);
+        final Pair<String, Integer> p2 = new Pair<String, Integer>("foo", 3);
+        Assert.assertEquals(p2, p1);
+    }
+
     /**
      * A mutable integer.
      */
