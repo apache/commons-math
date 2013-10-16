@@ -73,6 +73,12 @@ public class PairTest {
         Assert.assertFalse(p1.hashCode() == p2.hashCode());
     }
 
+    @Test
+    public void testToString() {
+        Assert.assertEquals("[null, null]", new Pair<Object, Object>(null, null).toString());
+        Assert.assertEquals("[foo, 3]", new Pair<String, Integer>("foo", 3).toString());
+    }
+
     /**
      * A mutable integer.
      */

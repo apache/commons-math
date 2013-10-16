@@ -133,4 +133,9 @@ public class Pair<K, V> {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "[" + getKey() + ", " + getValue() + "]";
+    }
 }
