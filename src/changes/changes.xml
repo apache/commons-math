@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-1041" due-to="Sean Owen">
+        "Pair": added factory method and "toString" method.
+      </action>
       <action dev="sebb" type="add" issue="MATH-1002">
         AbstractUnivariateStatistic.test(double[] values, int begin, int length, boolean allowEmpty)
         has uses outside subclasses; implementation moved to MathArrays.
