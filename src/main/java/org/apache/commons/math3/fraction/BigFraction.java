@@ -272,7 +272,8 @@ public class BigFraction
         long overflow = Integer.MAX_VALUE;
         double r0 = value;
         long a0 = (long) FastMath.floor(r0);
-        if (a0 > overflow) {
+
+        if (FastMath.abs(a0) > overflow) {
             throw new FractionConversionException(value, a0, 1l);
         }
 

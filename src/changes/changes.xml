@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1029">
+        The "BigFraction" constructor will throw a "FractionConversionException"
+        also in case negative values are provided which exceed the allowed range
+        (+/- Integer.MAX_VALUE).
+      </action>
       <action dev="erans" type="add" issue="MATH-1041" due-to="Sean Owen">
         "Pair": added factory method and "toString" method.
       </action>
