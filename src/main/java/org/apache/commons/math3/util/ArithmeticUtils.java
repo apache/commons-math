@@ -62,12 +62,11 @@ public final class ArithmeticUtils {
      * @param a an addend
      * @param b an addend
      * @return the sum {@code a+b}
-     * @throws MathArithmeticException if the result can not be represented as an
-     *         long
+     * @throws MathArithmeticException if the result can not be represented as an long
      * @since 1.2
      */
     public static long addAndCheck(long a, long b) throws MathArithmeticException {
-        return ArithmeticUtils.addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
+        return addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
     }
 
     /**
@@ -247,9 +246,7 @@ public final class ArithmeticUtils {
      * a non-negative {@code int} value.
      * @since 1.1
      */
-    public static int gcd(int p,
-                          int q)
-        throws MathArithmeticException {
+    public static int gcd(int p, int q) throws MathArithmeticException {
         int a = p;
         int b = q;
         if (a == 0 ||
@@ -326,8 +323,7 @@ public final class ArithmeticUtils {
      * @param b Positive number.
      * @return the greatest common divisor.
      */
-    private static int gcdPositive(int a,
-                                   int b) {
+    private static int gcdPositive(int a, int b) {
         if (a == 0) {
             return b;
         }
@@ -842,38 +838,11 @@ public final class ArithmeticUtils {
      * @since 1.2
      */
      private static long addAndCheck(long a, long b, Localizable pattern) throws MathArithmeticException {
-        long ret;
-        if (a > b) {
-            // use symmetry to reduce boundary cases
-            ret = addAndCheck(b, a, pattern);
-        } else {
-            // assert a <= b
-
-            if (a < 0) {
-                if (b < 0) {
-                    // check for negative overflow
-                    if (Long.MIN_VALUE - b <= a) {
-                        ret = a + b;
-                    } else {
-                        throw new MathArithmeticException(pattern, a, b);
-                    }
-                } else {
-                    // opposite sign addition is always safe
-                    ret = a + b;
-                }
-            } else {
-                // assert a >= 0
-                // assert b >= 0
-
-                // check for positive overflow
-                if (a <= Long.MAX_VALUE - b) {
-                    ret = a + b;
-                } else {
-                    throw new MathArithmeticException(pattern, a, b);
-                }
-            }
-        }
-        return ret;
+         final long result = a + b;
+         if (!((a ^ b) < 0 | (a ^ result) >= 0)) {
+             throw new MathArithmeticException(pattern, a, b);
+         }
+         return result;
     }
 
     /**

@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1035" due-to="derphead">
+        Simplified and improved performance of "ArithmeticUtils#addAndCheck(long, long)".
+      </action>
       <action dev="tn" type="add" issue="MATH-1004" due-to="Ajo Fod">
         Added new methods to compute the inverse of a matrix to "DiagonalMatrix"
         and "MatrixUtils".

@@ -62,10 +62,13 @@ public class ArithmeticUtilsTest {
         Assert.assertEquals(1, ArithmeticUtils.addAndCheck(2L, -1L));
         Assert.assertEquals(-3, ArithmeticUtils.addAndCheck(-2L, -1L));
         Assert.assertEquals(min, ArithmeticUtils.addAndCheck(min + 1, -1L));
+        Assert.assertEquals(-1, ArithmeticUtils.addAndCheck(min, max));
         testAddAndCheckLongFailure(max, 1L);
         testAddAndCheckLongFailure(min, -1L);
         testAddAndCheckLongFailure(1L, max);
         testAddAndCheckLongFailure(-1L, min);
+        testAddAndCheckLongFailure(max, max);
+        testAddAndCheckLongFailure(min, min);
     }
 
     @Test
