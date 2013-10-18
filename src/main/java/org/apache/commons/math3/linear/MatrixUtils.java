@@ -36,6 +36,7 @@ import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.fraction.Fraction;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -1062,5 +1063,58 @@ public class MatrixUtils {
         result.setSubMatrix(result11.getData(), splitIndex1, splitIndex1);
 
         return result;
+    }
+
+    /**
+     * Computes the inverse of the given matrix.
+     * <p>
+     * By default, the inverse of the matrix is computed using the QR-decomposition,
+     * unless a more efficient method can be determined for the input matrix.
+     * <p>
+     * Note: this method will use a singularity threshold of 0,
+     * use {@link #inverse(RealMatrix, double)} if a different threshold is needed.
+     *
+     * @param matrix Matrix whose inverse shall be computed
+     * @return the inverse of {@code matrix}
+     * @throws NullArgumentException if {@code matrix} is {@code null}
+     * @throws SingularMatrixException if m is singular
+     * @throws NonSquareMatrixException if matrix is not square
+     * @since 3.3
+     */
+    public static RealMatrix inverse(RealMatrix matrix)
+            throws NullArgumentException, SingularMatrixException, NonSquareMatrixException {
+        return inverse(matrix, 0);
+    }
+
+    /**
+     * Computes the inverse of the given matrix.
+     * <p>
+     * By default, the inverse of the matrix is computed using the QR-decomposition,
+     * unless a more efficient method can be determined for the input matrix.
+     *
+     * @param matrix Matrix whose inverse shall be computed
+     * @param threshold Singularity threshold
+     * @return the inverse of {@code m}
+     * @throws NullArgumentException if {@code matrix} is {@code null}
+     * @throws SingularMatrixException if matrix is singular
+     * @throws NonSquareMatrixException if matrix is not square
+     * @since 3.3
+     */
+    public static RealMatrix inverse(RealMatrix matrix, double threshold)
+            throws NullArgumentException, SingularMatrixException, NonSquareMatrixException {
+
+        MathUtils.checkNotNull(matrix);
+
+        if (!matrix.isSquare()) {
+            throw new NonSquareMatrixException(matrix.getRowDimension(),
+                                               matrix.getColumnDimension());
+        }
+
+        if (matrix instanceof DiagonalMatrix) {
+            return ((DiagonalMatrix) matrix).inverse(threshold);
+        } else {
+            QRDecomposition decomposition = new QRDecomposition(matrix, threshold);
+            return decomposition.getSolver().getInverse();
+        }
     }
 }

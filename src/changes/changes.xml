@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1004" due-to="Ajo Fod">
+        Added new methods to compute the inverse of a matrix to "DiagonalMatrix"
+        and "MatrixUtils".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1029">
         The "BigFraction" constructor will throw a "FractionConversionException"
         also in case negative values are provided which exceed the allowed range

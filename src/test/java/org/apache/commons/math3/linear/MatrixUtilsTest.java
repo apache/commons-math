@@ -17,6 +17,7 @@
 package org.apache.commons.math3.linear;
 
 import java.math.BigDecimal;
+
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.fraction.Fraction;
@@ -37,6 +38,8 @@ import org.junit.Test;
 public final class MatrixUtilsTest {
 
     protected double[][] testData = { {1d,2d,3d}, {2d,5d,3d}, {1d,0d,8d} };
+    protected double[][] testData3x3Singular = { { 1, 4, 7, }, { 2, 5, 8, }, { 3, 6, 9, } };
+    protected double[][] testData3x4 = { { 12, -51, 4, 1 }, { 6, 167, -68, 2 }, { -4, 24, -41, 3 } };
     protected double[][] nullMatrix = null;
     protected double[] row = {1,2,3};
     protected BigDecimal[] bigRow =
@@ -445,4 +448,38 @@ public final class MatrixUtilsTest {
         };
         MatrixUtils.checkSymmetric(MatrixUtils.createRealMatrix(dataNonSym), Math.ulp(1d));
     }
+    
+    @Test(expected=SingularMatrixException.class)
+    public void testInverseSingular() {
+        RealMatrix m = MatrixUtils.createRealMatrix(testData3x3Singular);
+        MatrixUtils.inverse(m);
+    }
+    
+    @Test(expected=NonSquareMatrixException.class)
+    public void testInverseNonSquare() {
+        RealMatrix m = MatrixUtils.createRealMatrix(testData3x4);
+        MatrixUtils.inverse(m);
+    }
+    
+    @Test
+    public void testInverseDiagonalMatrix() {
+        final double[] data = { 1, 2, 3 };
+        final RealMatrix m = new DiagonalMatrix(data);
+        final RealMatrix inverse = MatrixUtils.inverse(m);
+
+        final RealMatrix result = m.multiply(inverse);
+        TestUtils.assertEquals("MatrixUtils.inverse() returns wrong result",
+                MatrixUtils.createRealIdentityMatrix(data.length), result, Math.ulp(1d));
+    }
+
+    @Test
+    public void testInverseRealMatrix() {
+        RealMatrix m = MatrixUtils.createRealMatrix(testData);
+        final RealMatrix inverse = MatrixUtils.inverse(m);
+
+        final RealMatrix result = m.multiply(inverse);
+        TestUtils.assertEquals("MatrixUtils.inverse() returns wrong result",
+                MatrixUtils.createRealIdentityMatrix(testData.length), result, 1e-12);
+    }
+
 }

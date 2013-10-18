@@ -340,4 +340,29 @@ public class DiagonalMatrixTest {
         Assert.assertEquals( 6.0, diag.getEntry(2, 2), 1.0e-20);
     }
 
+    @Test(expected=SingularMatrixException.class)
+    public void testInverseError() {
+        final double[] data = { 1, 2, 0 };
+        final DiagonalMatrix diag = new DiagonalMatrix(data);
+        diag.inverse();
+    }
+
+    @Test(expected=SingularMatrixException.class)
+    public void testInverseError2() {
+        final double[] data = { 1, 2, 1e-6 };
+        final DiagonalMatrix diag = new DiagonalMatrix(data);
+        diag.inverse(1e-5);
+    }
+
+    @Test
+    public void testInverse() {
+        final double[] data = { 1, 2, 3 };
+        final DiagonalMatrix m = new DiagonalMatrix(data);
+        final DiagonalMatrix inverse = m.inverse();
+
+        final DiagonalMatrix result = m.multiply(inverse);
+        TestUtils.assertEquals("DiagonalMatrix.inverse() returns wrong result",
+                MatrixUtils.createRealIdentityMatrix(data.length), result, Math.ulp(1d));
+    }
+
 }

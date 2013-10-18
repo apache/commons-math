@@ -319,4 +319,53 @@ public class DiagonalMatrix extends AbstractRealMatrix
         }
     }
 
+    /**
+     * Computes the inverse of this diagonal matrix.
+     * <p>
+     * Note: this method will use a singularity threshold of 0,
+     * use {@link #inverse(double)} if a different threshold is needed.
+     *
+     * @return the inverse of {@code m}
+     * @throws SingularMatrixException if the matrix is singular
+     * @since 3.3
+     */
+    public DiagonalMatrix inverse() throws SingularMatrixException {
+        return inverse(0);
+    }
+
+    /**
+     * Computes the inverse of this diagonal matrix.
+     *
+     * @param threshold Singularity threshold.
+     * @return the inverse of {@code m}
+     * @throws SingularMatrixException if the matrix is singular
+     * @since 3.3
+     */
+    public DiagonalMatrix inverse(double threshold) throws SingularMatrixException {
+        if (isSingular(threshold)) {
+            throw new SingularMatrixException();
+        }
+
+        final double[] result = new double[data.length];
+        for (int i = 0; i < data.length; i++) {
+            result[i] = 1.0 / data[i];
+        }
+        return new DiagonalMatrix(result, false);
+    }
+
+    /** Returns whether this diagonal matrix is singular, i.e. any diagonal entry
+     * is equal to {@code 0} within the given threshold.
+     *
+     * @param threshold Singularity threshold.
+     * @return {@code true} if the matrix is singular, {@code false} otherwise
+     * @since 3.3
+     */
+    public boolean isSingular(double threshold) {
+        for (int i = 0; i < data.length; i++) {
+            if (Precision.equals(data[i], 0.0, threshold)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
