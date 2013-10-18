@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math3.stat.descriptive;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
