@@ -143,6 +143,8 @@ public class Pair<K, V> {
      * Convenience factory method that calls the
      * {@link #Pair(Object, Object) constructor}.
      *
+     * @param <K> the key type
+     * @param <V> the value type
      * @param k First element of the pair.
      * @param v Second element of the pair.
      * @return a new {@code Pair} containing {@code k} and {@code v}.
