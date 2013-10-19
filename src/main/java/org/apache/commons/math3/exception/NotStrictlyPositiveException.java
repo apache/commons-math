@@ -19,7 +19,7 @@ package org.apache.commons.math3.exception;
 import org.apache.commons.math3.exception.util.Localizable;
 
 /**
- * Exception to be thrown when the argument is negative.
+ * Exception to be thrown when the argument is not greater than 0.
  *
  * @since 2.2
  * @version $Id$
