@@ -18,7 +18,8 @@ package org.apache.commons.math3.stat.inference;
 
 import org.apache.commons.math3.distribution.FDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -61,7 +62,10 @@ public class BinomialConfidenceInterval {
      *        success falls within the returned interval
      * @return Confidence interval containing the probability of success with
      *         probability {@code confidenceLevel}
-     * @throws MathIllegalArgumentException if the preconditions are not met
+     * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
+     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
      */
     public ConfidenceInterval getClopperPearsonInterval(int numberOfTrials, int numberOfSuccesses,
                                                         double confidenceLevel) {
@@ -101,7 +105,6 @@ public class BinomialConfidenceInterval {
      *        success falls within the interval
      * @return Confidence interval containing the probability of success with
      *         probability {@code confidenceLevel}
-     * @throws MathIllegalArgumentException if the preconditions are not met
      */
     public ConfidenceInterval getNormalApproximationInterval(int numberOfTrials, int numberOfSuccesses,
                                                              double confidenceLevel) {
@@ -125,7 +128,10 @@ public class BinomialConfidenceInterval {
      *        success falls within the returned interval
      * @return Confidence interval containing the probability of success with
      *         probability {@code confidenceLevel}
-     * @throws MathIllegalArgumentException if the preconditions are not met
+     * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
+     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
      */
     public ConfidenceInterval getAgrestiCoullInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
@@ -153,7 +159,10 @@ public class BinomialConfidenceInterval {
      *        success falls within the returned interval
      * @return Confidence interval containing the probability of success with
      *         probability {@code confidenceLevel}
-     * @throws MathIllegalArgumentException if the preconditions are not met
+     * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
+     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
      */
     public ConfidenceInterval getWilsonScoreInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
@@ -177,11 +186,13 @@ public class BinomialConfidenceInterval {
     /**
      * Verifies that parameters satisfy preconditions.
      *
-     * @param numberOfTrials number of trials (must be positive)
-     * @param numberOfSuccesses number of successes (must not exceed
-     *        numberOfTrials)
-     * @param confidenceLevel confidence level (must be strictly between 0 and
-     *        1)
+     * @param numberOfTrials Number of trials (must be positive)
+     * @param numberOfSuccesses Number of successes (must not exceed numberOfTrials)
+     * @param confidenceLevel Confidence level (must be strictly between 0 and 1)
+     * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
+     * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
+     * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
      */
     private void checkParameters(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         if (numberOfTrials <= 0) {
@@ -191,12 +202,12 @@ public class BinomialConfidenceInterval {
             throw new NotPositiveException(LocalizedFormats.NEGATIVE_NUMBER_OF_SUCCESSES, numberOfSuccesses);
         }
         if (numberOfSuccesses > numberOfTrials) {
-            throw new MathIllegalArgumentException(LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
-                                                   numberOfSuccesses, numberOfTrials);
+            throw new NumberIsTooLargeException(LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,
+                                                numberOfSuccesses, numberOfTrials, true);
         }
         if (confidenceLevel <= 0 || confidenceLevel >= 1) {
-            throw new MathIllegalArgumentException(LocalizedFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL, confidenceLevel, 0,
-                                                   1);
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_CONFIDENCE_LEVEL,
+                                          confidenceLevel, 0, 1);
         }
     }
 }
