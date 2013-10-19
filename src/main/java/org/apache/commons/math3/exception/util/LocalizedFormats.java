@@ -275,6 +275,7 @@ public enum LocalizedFormats implements Localizable {
     OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY("observed counts are both zero for entry {0}"),
     BOBYQA_BOUND_DIFFERENCE_CONDITION("the difference between the upper and lower bound must be larger than twice the initial trust region radius ({0})"),
     OUT_OF_BOUNDS_QUANTILE_VALUE("out of bounds quantile value: {0}, must be in (0, 100]"),
+    OUT_OF_BOUNDS_CONFIDENCE_LEVEL("out of bounds confidence level {0}, must be between {1} and {2}"),
     OUT_OF_BOUND_SIGNIFICANCE_LEVEL("out of bounds significance level {0}, must be between {1} and {2}"),
     SIGNIFICANCE_LEVEL("significance level ({0})"), /* keep */
     OUT_OF_ORDER_ABSCISSA_ARRAY("the abscissae array must be sorted in a strictly increasing order, but the {0}-th element is {1} whereas {2}-th is {3}"),

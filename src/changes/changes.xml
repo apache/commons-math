@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <actiod dev="psteitz" type="add" issue="MATH-1038" due-to="Thorsten Schaefer">
+        Added ConfidenceInterval class and BinomialConfidenceInterval providing several
+        estimators for confidence intervals for binomial probabilities.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1035" due-to="derphead">
         Simplified and improved performance of "ArithmeticUtils#addAndCheck(long, long)".
       </action>
