@@ -51,7 +51,7 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
-      <actiod dev="psteitz" type="add" issue="MATH-1038" due-to="Thorsten Schaefer">
+      <action dev="psteitz" type="add" issue="MATH-1038" due-to="Thorsten Schaefer">
         Added ConfidenceInterval class and BinomialConfidenceInterval providing several
         estimators for confidence intervals for binomial probabilities.
       </action>
