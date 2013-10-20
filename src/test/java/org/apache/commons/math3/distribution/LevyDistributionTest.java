@@ -68,4 +68,15 @@ public class LevyDistributionTest extends RealDistributionAbstractTest {
         };
     }
 
+    /** 
+     * Creates the default logarithmic probability density test expected values.
+     * Reference values are from R, version 2.14.1.
+     */
+    @Override
+    public double[] makeLogDensityTestValues() {
+        return new double[] {
+            -1987.561573341398d, -14.469328620160d, -3.843764717971d,
+            -0.883485488811d, 0.076793740349d, -1.127785768948d,
+            -2.650679030597d, -3.644945255983d};
+    }
 }

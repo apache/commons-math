@@ -156,6 +156,29 @@ public class BetaDistribution extends AbstractRealDistribution {
         }
     }
 
+    /** {@inheritDoc} **/
+    @Override
+    public double logDensity(double x) {
+        recomputeZ();
+        if (x < 0 || x > 1) {
+            return Double.NEGATIVE_INFINITY;
+        } else if (x == 0) {
+            if (alpha < 1) {
+                throw new NumberIsTooSmallException(LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA, alpha, 1, false);
+            }
+            return Double.NEGATIVE_INFINITY;
+        } else if (x == 1) {
+            if (beta < 1) {
+                throw new NumberIsTooSmallException(LocalizedFormats.CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA, beta, 1, false);
+            }
+            return Double.NEGATIVE_INFINITY;
+        } else {
+            double logX = FastMath.log(x);
+            double log1mX = FastMath.log1p(-x);
+            return (alpha - 1) * logX + (beta - 1) * log1mX - z;
+        }
+    }
+
     /** {@inheritDoc} */
     public double cumulativeProbability(double x)  {
         if (x <= 0) {

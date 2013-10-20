@@ -67,6 +67,18 @@ public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
                 0.156293451851d, 0.00529247667642d, 8.27746364655e-09};
     }
 
+    /** 
+     * Creates the default logarithmic probability density test expected values.
+     * Reference values are from R, version 2.14.1.
+     */
+    @Override
+    public double[] makeLogDensityTestValues() {
+        return new double[] { Double.NEGATIVE_INFINITY, -4.000000000000d,
+                -2.613705638880d, -1.920558458320d, -1.632876385868d,
+                -1.632876385868d, -1.856019937183d, -5.241468961877d,
+                -18.609729238356d};
+    }
+
     /**
      * Creates the default cumulative probability density test input values.
      */

@@ -68,6 +68,12 @@ public class PascalDistribution extends AbstractIntegerDistribution {
     private final int numberOfSuccesses;
     /** The probability of success. */
     private final double probabilityOfSuccess;
+    /** The value of {@code log(p)}, where {@code p} is the probability of success,
+     * stored for faster computation. */
+    private final double logProbabilityOfSuccess;
+    /** The value of {@code log(1-p)}, where {@code p} is the probability of success,
+     * stored for faster computation. */
+    private final double log1mProbabilityOfSuccess;
 
     /**
      * Create a Pascal distribution with the given number of successes and
@@ -112,6 +118,8 @@ public class PascalDistribution extends AbstractIntegerDistribution {
 
         numberOfSuccesses = r;
         probabilityOfSuccess = p;
+        logProbabilityOfSuccess = FastMath.log(p);
+        log1mProbabilityOfSuccess = FastMath.log1p(-p);
     }
 
     /**
@@ -142,6 +150,21 @@ public class PascalDistribution extends AbstractIntegerDistribution {
                   numberOfSuccesses - 1, numberOfSuccesses - 1) *
                   FastMath.pow(probabilityOfSuccess, numberOfSuccesses) *
                   FastMath.pow(1.0 - probabilityOfSuccess, x);
+        }
+        return ret;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public double logProbability(int x) {
+        double ret;
+        if (x < 0) {
+            ret = Double.NEGATIVE_INFINITY;
+        } else {
+            ret = CombinatoricsUtils.binomialCoefficientLog(x +
+                  numberOfSuccesses - 1, numberOfSuccesses - 1) +
+                  logProbabilityOfSuccess * numberOfSuccesses +
+                  log1mProbabilityOfSuccess * x;
         }
         return ret;
     }

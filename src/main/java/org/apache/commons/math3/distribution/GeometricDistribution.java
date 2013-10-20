@@ -86,6 +86,19 @@ public class GeometricDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double logProbability(int x) {
+        double ret;
+        if (x < 0) {
+            ret = Double.NEGATIVE_INFINITY;
+        } else {
+            final double p = probabilityOfSuccess;
+            ret = x * FastMath.log1p(-p) + FastMath.log(p);
+        }
+        return ret;
+    }
+
+    /** {@inheritDoc} */
     public double cumulativeProbability(int x) {
         double ret;
         if (x < 0) {

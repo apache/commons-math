@@ -115,6 +115,16 @@ public class ZipfDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double logProbability(int x) {
+        if (x <= 0 || x > numberOfElements) {
+            return Double.NEGATIVE_INFINITY;
+        }
+
+        return -FastMath.log(x) * exponent - FastMath.log(generalizedHarmonic(numberOfElements, exponent));
+    }
+
+    /** {@inheritDoc} */
     public double cumulativeProbability(final int x) {
         if (x <= 0) {
             return 0.0;

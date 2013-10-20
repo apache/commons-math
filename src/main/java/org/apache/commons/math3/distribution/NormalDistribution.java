@@ -49,6 +49,8 @@ public class NormalDistribution extends AbstractRealDistribution {
     private final double mean;
     /** Standard deviation of this distribution. */
     private final double standardDeviation;
+    /** The value of {@code log(sd) + 0.5*log(2*pi)} stored for faster computation. */
+    private final double logStandardDeviationPlusHalfLog2Pi;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -124,6 +126,7 @@ public class NormalDistribution extends AbstractRealDistribution {
 
         this.mean = mean;
         standardDeviation = sd;
+        logStandardDeviationPlusHalfLog2Pi = FastMath.log(sd) + 0.5 * FastMath.log(2 * FastMath.PI);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -150,6 +153,13 @@ public class NormalDistribution extends AbstractRealDistribution {
         final double x0 = x - mean;
         final double x1 = x0 / standardDeviation;
         return FastMath.exp(-0.5 * x1 * x1) / (standardDeviation * SQRT2PI);
+    }
+
+    /** {@inheritDoc} */
+    public double logDensity(double x) {
+        final double x0 = x - mean;
+        final double x1 = x0 / standardDeviation;
+        return -0.5 * x1 * x1 - logStandardDeviationPlusHalfLog2Pi;
     }
 
     /**

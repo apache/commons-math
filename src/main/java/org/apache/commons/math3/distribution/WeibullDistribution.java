@@ -175,6 +175,26 @@ public class WeibullDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double logDensity(double x) {
+        if (x < 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+
+        final double xscale = x / scale;
+        final double logxscalepow = FastMath.log(xscale) * (shape - 1);
+
+        /*
+         * FastMath.pow(x / scale, shape) =
+         * FastMath.pow(xscale, shape) =
+         * FastMath.pow(xscale, shape - 1) * xscale
+         */
+        final double xscalepowshape = FastMath.exp(logxscalepow) * xscale;
+
+        return FastMath.log(shape / scale) + logxscalepow - xscalepowshape;
+    }
+
+    /** {@inheritDoc} */
     public double cumulativeProbability(double x) {
         double ret;
         if (x <= 0.0) {

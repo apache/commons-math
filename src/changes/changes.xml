@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-1039" due-to="Aleksei Dievskii">
+        Added logDensity methods to AbstractReal/IntegerDistribution with naive default
+        implementations and improved implementations for some current distributions.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-1038" due-to="Thorsten Schaefer">
         Added ConfidenceInterval class and BinomialConfidenceInterval providing several
         estimators for confidence intervals for binomial probabilities.

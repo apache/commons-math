@@ -18,6 +18,7 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -60,6 +61,9 @@ public abstract class IntegerDistributionAbstractTest {
     /** Values used to test probability density calculations */
     private double[] densityTestValues;
 
+    /** Values used to test logarithmic probability density calculations */
+    private double[] logDensityTestValues;
+
     /** Arguments used to test cumulative probability density calculations */
     private int[] cumulativeTestPoints;
 
@@ -83,6 +87,22 @@ public abstract class IntegerDistributionAbstractTest {
     /** Creates the default probability density test expected values */
     public abstract double[] makeDensityTestValues();
 
+    /** Creates the default logarithmic probability density test expected values.
+     *
+     * The default implementation simply computes the logarithm of all the values in
+     * {@link #makeDensityTestValues()}.
+     *
+     * @return double[] the default logarithmic probability density test expected values.
+     */
+    public double[] makeLogDensityTestValues() {
+        final double[] densityTestValues = makeDensityTestValues();
+        final double[] logDensityTestValues = new double[densityTestValues.length];
+        for (int i = 0; i < densityTestValues.length; i++) {
+            logDensityTestValues[i] = FastMath.log(densityTestValues[i]);
+        }
+        return logDensityTestValues;
+    }
+
     /** Creates the default cumulative probability density test input values */
     public abstract int[] makeCumulativeTestPoints();
 
@@ -105,6 +125,7 @@ public abstract class IntegerDistributionAbstractTest {
         distribution = makeDistribution();
         densityTestPoints = makeDensityTestPoints();
         densityTestValues = makeDensityTestValues();
+        logDensityTestValues = makeLogDensityTestValues();
         cumulativeTestPoints = makeCumulativeTestPoints();
         cumulativeTestValues = makeCumulativeTestValues();
         inverseCumulativeTestPoints = makeInverseCumulativeTestPoints();
@@ -119,6 +140,7 @@ public abstract class IntegerDistributionAbstractTest {
         distribution = null;
         densityTestPoints = null;
         densityTestValues = null;
+        logDensityTestValues = null;
         cumulativeTestPoints = null;
         cumulativeTestValues = null;
         inverseCumulativeTestPoints = null;
@@ -136,6 +158,19 @@ public abstract class IntegerDistributionAbstractTest {
             Assert.assertEquals("Incorrect density value returned for " + densityTestPoints[i],
                     densityTestValues[i],
                     distribution.probability(densityTestPoints[i]), getTolerance());
+        }
+    }
+
+    /**
+     * Verifies that logarithmic probability density calculations match expected values
+     * using current test instance data.
+     */
+    protected void verifyLogDensities() {
+        for (int i = 0; i < densityTestPoints.length; i++) {
+            // FIXME: when logProbability methods are added to IntegerDistribution in 4.0, remove cast below
+            Assert.assertEquals("Incorrect log density value returned for " + densityTestPoints[i],
+                    logDensityTestValues[i],
+                    ((AbstractIntegerDistribution) distribution).logProbability(densityTestPoints[i]), tolerance);
         }
     }
 
@@ -173,6 +208,15 @@ public abstract class IntegerDistributionAbstractTest {
     @Test
     public void testDensities() {
         verifyDensities();
+    }
+
+    /**
+     * Verifies that logarithmic probability density calculations match expected values
+     * using default test instance data
+     */
+    @Test
+    public void testLogDensities() {
+        verifyLogDensities();
     }
 
     /**

@@ -154,6 +154,21 @@ public class FDistribution extends AbstractRealDistribution {
                             Beta.logBeta(nhalf, mhalf));
     }
 
+    /** {@inheritDoc} **/
+    @Override
+    public double logDensity(double x) {
+        final double nhalf = numeratorDegreesOfFreedom / 2;
+        final double mhalf = denominatorDegreesOfFreedom / 2;
+        final double logx = FastMath.log(x);
+        final double logn = FastMath.log(numeratorDegreesOfFreedom);
+        final double logm = FastMath.log(denominatorDegreesOfFreedom);
+        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+                denominatorDegreesOfFreedom);
+        return nhalf * logn + nhalf * logx - logx +
+               mhalf * logm - nhalf * lognxm - mhalf * lognxm -
+               Beta.logBeta(nhalf, mhalf);
+    }
+
     /**
      * {@inheritDoc}
      *

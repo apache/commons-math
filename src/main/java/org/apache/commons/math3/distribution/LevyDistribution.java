@@ -80,6 +80,21 @@ public class LevyDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc}
+     *
+     * See documentation of {@link #density(double)} for computation details.
+     */
+    @Override
+    public double logDensity(double x) {
+        if (x < mu) {
+            return Double.NaN;
+        }
+
+        final double delta = x - mu;
+        final double f     = halfC / delta;
+        return 0.5 * FastMath.log(f / FastMath.PI) - f - FastMath.log(delta);
+    }
+
+    /** {@inheritDoc}
      * <p>
      * From Wikipedia: the cumulative distribution function is
      * </p>

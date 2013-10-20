@@ -175,6 +175,22 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double logProbability(int x) {
+        double ret;
+        if (x < 0 || x == Integer.MAX_VALUE) {
+            ret = Double.NEGATIVE_INFINITY;
+        } else if (x == 0) {
+            ret = -mean;
+        } else {
+            ret = -SaddlePointExpansion.getStirlingError(x) -
+                  SaddlePointExpansion.getDeviancePart(x, mean) -
+                  0.5 * FastMath.log(MathUtils.TWO_PI) - 0.5 * FastMath.log(x);
+        }
+        return ret;
+    }
+
+    /** {@inheritDoc} */
     public double cumulativeProbability(int x) {
         if (x < 0) {
             return 0;

@@ -130,6 +130,18 @@ public class TDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
+    @Override
+    public double logDensity(double x) {
+        final double n = degreesOfFreedom;
+        final double nPlus1Over2 = (n + 1) / 2;
+        return Gamma.logGamma(nPlus1Over2) -
+               0.5 * (FastMath.log(FastMath.PI) +
+                      FastMath.log(n)) -
+               Gamma.logGamma(n / 2) -
+               nPlus1Over2 * FastMath.log(1 + x * x / n);
+    }
+
+    /** {@inheritDoc} */
     public double cumulativeProbability(double x) {
         double ret;
         if (x == 0) {

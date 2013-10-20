@@ -232,4 +232,23 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
         }
         return result;
     }
+
+    /**
+     * For a random variable {@code X} whose values are distributed according to
+     * this distribution, this method returns {@code log(P(X = x))}, where
+     * {@code log} is the natural logarithm. In other words, this method
+     * represents the logarithm of the probability mass function (PMF) for the
+     * distribution. Note that due to the floating point precision and
+     * under/overflow issues, this method will for some distributions be more
+     * precise and faster than computing the logarithm of
+     * {@link #probability(int)}.
+     * <p>
+     * The default implementation simply computes the logarithm of {@code probability(x)}.</p>
+     *
+     * @param x the point at which the PMF is evaluated
+     * @return the logarithm of the value of the probability mass function at {@code x}
+     */
+    public double logProbability(int x) {
+        return FastMath.log(probability(x));
+    }
 }

@@ -71,6 +71,8 @@ public class LogNormalDistribution extends AbstractRealDistribution {
 
     /** The shape parameter of this distribution. */
     private final double shape;
+    /** The value of {@code log(shape) + 0.5 * log(2*PI)} stored for faster computation. */
+    private final double logShapePlusHalfLog2Pi;
 
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
@@ -149,6 +151,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
 
         this.scale = scale;
         this.shape = shape;
+        this.logShapePlusHalfLog2Pi = FastMath.log(shape) + 0.5 * FastMath.log(2 * FastMath.PI);
         this.solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -188,6 +191,21 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         final double x0 = FastMath.log(x) - scale;
         final double x1 = x0 / shape;
         return FastMath.exp(-0.5 * x1 * x1) / (shape * SQRT2PI * x);
+    }
+
+    /** {@inheritDoc}
+     *
+     * See documentation of {@link #density(double)} for computation details.
+     */
+    @Override
+    public double logDensity(double x) {
+        if (x <= 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        final double logX = FastMath.log(x);
+        final double x0 = logX - scale;
+        final double x1 = x0 / shape;
+        return -0.5 * x1 * x1 - (logShapePlusHalfLog2Pi + logX);
     }
 
     /**

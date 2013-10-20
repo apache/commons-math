@@ -73,6 +73,17 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
             0.0569028586912, 0.0487738788782, 0.0426771440184, 0.0379352391275, 0.0341417152147, 0};
     }
 
+    /** 
+     * Creates the default logarithmic probability density test expected values.
+     * Reference values are from R, version 2.14.1.
+     */
+    @Override
+    public double[] makeLogDensityTestValues() {
+        return new double[] {Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
+        -1.0746d, -1.7678d, -2.1733d, -2.4609d, -2.6841d, -2.8664d, -3.0206d, -3.1541d,
+        -3.2719d, -3.3772d, Double.NEGATIVE_INFINITY};
+    }
+
     /** Creates the default cumulative probability density test input values */
     @Override
     public int[] makeCumulativeTestPoints() {

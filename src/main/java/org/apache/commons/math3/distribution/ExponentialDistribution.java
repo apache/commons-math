@@ -56,6 +56,8 @@ public class ExponentialDistribution extends AbstractRealDistribution {
     private static final double[] EXPONENTIAL_SA_QI;
     /** The mean of this distribution. */
     private final double mean;
+    /** The logarithm of the mean, stored to reduce computing time. **/
+    private final double logMean;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
 
@@ -144,6 +146,7 @@ public class ExponentialDistribution extends AbstractRealDistribution {
             throw new NotStrictlyPositiveException(LocalizedFormats.MEAN, mean);
         }
         this.mean = mean;
+        logMean = FastMath.log(mean);
         solverAbsoluteAccuracy = inverseCumAccuracy;
     }
 
@@ -162,6 +165,12 @@ public class ExponentialDistribution extends AbstractRealDistribution {
             return 0;
         }
         return FastMath.exp(-x / mean) / mean;
+    }
+
+    /** {@inheritDoc} **/
+    @Override
+    public double logDensity(double x) {
+        return -x / mean - logMean;
     }
 
     /**

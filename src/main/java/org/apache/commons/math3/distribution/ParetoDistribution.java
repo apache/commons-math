@@ -174,6 +174,18 @@ public class ParetoDistribution extends AbstractRealDistribution {
         return FastMath.pow(scale, shape) / FastMath.pow(x, shape + 1) * shape;
     }
 
+    /** {@inheritDoc}
+     *
+     * See documentation of {@link #density(double)} for computation details.
+     */
+    @Override
+    public double logDensity(double x) {
+        if (x < scale) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        return FastMath.log(scale) * shape - FastMath.log(x) * (shape + 1) + FastMath.log(shape);
+    }
+
     /**
      * {@inheritDoc}
      * <p>

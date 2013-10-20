@@ -214,6 +214,30 @@ public class HypergeometricDistribution extends AbstractIntegerDistribution {
         return ret;
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public double logProbability(int x) {
+        double ret;
+
+        int[] domain = getDomain(populationSize, numberOfSuccesses, sampleSize);
+        if (x < domain[0] || x > domain[1]) {
+            ret = Double.NEGATIVE_INFINITY;
+        } else {
+            double p = (double) sampleSize / (double) populationSize;
+            double q = (double) (populationSize - sampleSize) / (double) populationSize;
+            double p1 = SaddlePointExpansion.logBinomialProbability(x,
+                    numberOfSuccesses, p, q);
+            double p2 =
+                    SaddlePointExpansion.logBinomialProbability(sampleSize - x,
+                            populationSize - numberOfSuccesses, p, q);
+            double p3 =
+                    SaddlePointExpansion.logBinomialProbability(sampleSize, populationSize, p, q);
+            ret = p1 + p2 - p3;
+        }
+
+        return ret;
+    }
+
     /**
      * For this distribution, {@code X}, this method returns {@code P(X >= x)}.
      *
