@@ -65,7 +65,7 @@ public class BinomialConfidenceInterval {
      * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
      * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
-     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code (0, 1)}.
      */
     public ConfidenceInterval getClopperPearsonInterval(int numberOfTrials, int numberOfSuccesses,
                                                         double confidenceLevel) {
@@ -131,7 +131,7 @@ public class BinomialConfidenceInterval {
      * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
      * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
-     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code (0, 1)}.
      */
     public ConfidenceInterval getAgrestiCoullInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
@@ -162,7 +162,7 @@ public class BinomialConfidenceInterval {
      * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
      * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
-     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code (0, 1)}.
      */
     public ConfidenceInterval getWilsonScoreInterval(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
@@ -186,13 +186,13 @@ public class BinomialConfidenceInterval {
     /**
      * Verifies that parameters satisfy preconditions.
      *
-     * @param numberOfTrials Number of trials (must be positive)
-     * @param numberOfSuccesses Number of successes (must not exceed numberOfTrials)
-     * @param confidenceLevel Confidence level (must be strictly between 0 and 1)
+     * @param numberOfTrials number of trials (must be positive)
+     * @param numberOfSuccesses number of successes (must not exceed numberOfTrials)
+     * @param confidenceLevel confidence level (must be strictly between 0 and 1)
      * @throws NotStrictlyPositiveException if {@code numberOfTrials <= 0}.
      * @throws NotPositiveException if {@code numberOfSuccesses < 0}.
      * @throws NumberIsTooLargeException if {@code numberOfSuccesses > numberOfTrials}.
-     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code [0, 1]}.
+     * @throws OutOfRangeException if {@code confidenceLevel} is not in the interval {@code (0, 1)}.
      */
     private void checkParameters(int numberOfTrials, int numberOfSuccesses, double confidenceLevel) {
         if (numberOfTrials <= 0) {
