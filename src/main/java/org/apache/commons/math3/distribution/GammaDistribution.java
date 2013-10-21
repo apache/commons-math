@@ -290,15 +290,15 @@ public class GammaDistribution extends AbstractRealDistribution {
         /*
          * Natural calculation.
          */
-        return densityPrefactor1  * FastMath.exp(-y) *
-                FastMath.pow(y, shape - 1);
+        return densityPrefactor1 * FastMath.exp(-y) * FastMath.pow(y, shape - 1);
     }
 
     /** {@inheritDoc} **/
     @Override
     public double logDensity(double x) {
-       /* see the comment in {@link #density(double)} for computation details
-        */
+        /*
+         * see the comment in {@link #density(double)} for computation details
+         */
         if (x < 0) {
             return Double.NEGATIVE_INFINITY;
         }
@@ -316,8 +316,7 @@ public class GammaDistribution extends AbstractRealDistribution {
         /*
          * Natural calculation.
          */
-        return logDensityPrefactor1  - y +
-                FastMath.log(y) * (shape - 1);
+        return logDensityPrefactor1 - y + FastMath.log(y) * (shape - 1);
     }
 
     /**
