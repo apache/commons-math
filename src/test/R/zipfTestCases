@@ -1,0 +1,89 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#------------------------------------------------------------------------------
+# R source file to validate Zipf distribution tests in
+# org.apache.commons.math.distribution.ZipfDistributionTest
+#
+# To run the test, install R, put this file and testFunctions
+# into the same directory, launch R from this directory and then enter
+# source("<name-of-this-file>")
+#
+# R functions used
+# dzipf(x, N, s, log = FALSE) <- density 
+# pzipf(q, N, s) <- distribution
+#------------------------------------------------------------------------------
+tol <- 1E-6                       # error tolerance for tests
+#------------------------------------------------------------------------------
+# Function definitions
+
+library(VGAM)
+source("testFunctions")           # utility test functions
+
+# function to verify density computations
+
+verifyDensity <- function(points, expected, N, s, tol, log = FALSE) {
+    rDensityValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDensityValues[i] <- dzipf(point, N, s, log)
+    }
+    output <- c("Density test N = ", N, ", s = ", s)
+    if (assertEquals(expected,rDensityValues,tol,"Density Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+# function to verify distribution computations
+
+verifyDistribution <- function(points, expected, N, s, tol) {
+    rDistValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDistValues[i] <- pzipf(point, N, s)
+    }
+    output <- c("Distribution test N = ", N, ", s = ", s)
+    if (assertEquals(expected,rDistValues,tol,"Distribution Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+#--------------------------------------------------------------------------
+cat("Zipf test cases\n")
+
+N <- 10
+s <- 1
+
+densityPoints <- c(-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+densityValues <- c(0, 0, 0.341417152147406, 0.170708576073703, 0.113805717382469, 0.0853542880368514,
+                   0.0682834304294811, 0.0569028586912343, 0.0487738788782008, 0.0426771440184257,
+                   0.0379352391274895, 0.0341417152147406, 0)
+logDensityValues <- c(Inf, NaN, -1.07465022926458, -1.76779740982453, -2.17326251793269, -2.46094459038447,
+                      -2.68408814169868, -2.86640969849264, -3.0205603783199, -3.15409177094442, -3.2718748066008,
+                      -3.37723532225863, -Inf)
+distributionValues <- c(0, 0, 0.341417152147406, 0.512125728221108, 0.625931445603577, 0.711285733640428,
+                        0.779569164069909, 0.836472022761144, 0.885245901639344, 0.92792304565777,
+                        0.96585828478526, 1, 1)
+
+verifyDensity(densityPoints, densityValues, N, s, tol)
+verifyDensity(densityPoints, logDensityValues, N, s, tol, TRUE)
+verifyDistribution(densityPoints, distributionValues, N, s, tol)
+

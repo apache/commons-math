@@ -80,8 +80,9 @@ public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
     @Override
     public double[] makeLogDensityTestValues() {
         return new double[] {Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY,
-        -1.0746d, -1.7678d, -2.1733d, -2.4609d, -2.6841d, -2.8664d, -3.0206d, -3.1541d,
-        -3.2719d, -3.3772d, Double.NEGATIVE_INFINITY};
+            -1.07465022926458, -1.76779740982453, -2.17326251793269, -2.46094459038447,
+            -2.68408814169868, -2.86640969849264, -3.0205603783199, -3.15409177094442,
+            -3.2718748066008, -3.37723532225863, Double.NEGATIVE_INFINITY};
     }
 
     /** Creates the default cumulative probability density test input values */
