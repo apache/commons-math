@@ -161,15 +161,16 @@ public class ExponentialDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double density(double x) {
-        if (x < 0) {
-            return 0;
-        }
-        return FastMath.exp(-x / mean) / mean;
+        final double logDensity = logDensity(x);
+        return logDensity == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logDensity);
     }
 
     /** {@inheritDoc} **/
     @Override
     public double logDensity(double x) {
+        if (x < 0) {
+            return Double.NEGATIVE_INFINITY;
+        }
         return -x / mean - logMean;
     }
 

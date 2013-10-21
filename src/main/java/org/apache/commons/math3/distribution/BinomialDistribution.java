@@ -99,15 +99,8 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
 
     /** {@inheritDoc} */
     public double probability(int x) {
-        double ret;
-        if (x < 0 || x > numberOfTrials) {
-            ret = 0.0;
-        } else {
-            ret = FastMath.exp(SaddlePointExpansion.logBinomialProbability(x,
-                    numberOfTrials, probabilityOfSuccess,
-                    1.0 - probabilityOfSuccess));
-        }
-        return ret;
+        final double logProbability = logProbability(x);
+        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
     }
 
     /** {@inheritDoc} **/

@@ -161,17 +161,8 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
 
     /** {@inheritDoc} */
     public double probability(int x) {
-        double ret;
-        if (x < 0 || x == Integer.MAX_VALUE) {
-            ret = 0.0;
-        } else if (x == 0) {
-            ret = FastMath.exp(-mean);
-        } else {
-            ret = FastMath.exp(-SaddlePointExpansion.getStirlingError(x) -
-                  SaddlePointExpansion.getDeviancePart(x, mean)) /
-                  FastMath.sqrt(MathUtils.TWO_PI * x);
-        }
-        return ret;
+        final double logProbability = logProbability(x);
+        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
     }
 
     /** {@inheritDoc} */
