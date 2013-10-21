@@ -66,6 +66,24 @@ public class GeometricDistributionTest extends IntegerDistributionAbstractTest {
         };
     }
 
+    /**
+     * Creates the default log probability density test expected values.
+     * Reference values are from R, version version 2.14.1.
+     */
+    @Override
+    public double[] makeLogDensityTestValues() {
+        return new double[] {
+            Double.NEGATIVE_INFINITY, -0.916290731874155, -1.42711635564015, -1.93794197940614,
+            -2.44876760317213, -2.95959322693812, -3.47041885070411, -3.9812444744701,
+            -4.49207009823609, -5.00289572200208, -5.51372134576807, -6.02454696953406,
+            -6.53537259330005, -7.04619821706604, -7.55702384083203, -8.06784946459802,
+            -8.57867508836402, -9.08950071213001, -9.600326335896, -10.111151959662,
+            -10.621977583428, -11.132803207194, -11.64362883096, -12.154454454726,
+            -12.6652800784919, -13.1761057022579, -13.6869313260239, -14.1977569497899,
+            -14.7085825735559, -15.2194081973219
+        };
+    }
+
     /** Creates the default cumulative probability density test input values */
     @Override
     public int[] makeCumulativeTestPoints() {
