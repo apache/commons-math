@@ -1,0 +1,121 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#------------------------------------------------------------------------------
+# R source file to validate Geometric distribution tests in
+# org.apache.commons.math.distribution.GeometricDistributionTest
+#
+# To run the test, install R, put this file and testFunctions
+# into the same directory, launch R from this directory and then enter
+# source("<name-of-this-file>")
+#
+# R functions used
+# dgeom(x, prob, log = FALSE) <- density 
+# pgeom(q, prob, lower.tail = TRUE, log.p = FALSE) <- distribution
+# qgeom(p, prob, lower.tail = TRUE, log.p = FALSE) <- quantiles
+#------------------------------------------------------------------------------
+tol <- 1E-6                       # error tolerance for tests
+#------------------------------------------------------------------------------
+# Function definitions
+
+source("testFunctions")           # utility test functions
+
+# function to verify density computations
+
+verifyDensity <- function(points, expected, prob, tol, log = FALSE) {
+    rDensityValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDensityValues[i] <- dgeom(point, prob, log)
+    }
+    output <- c("Density test prob = ", prob)
+    if (assertEquals(expected,rDensityValues,tol,"Density Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+# function to verify distribution computations
+
+verifyDistribution <- function(points, expected, prob, tol) {
+    rDistValues <- rep(0, length(points))
+    i <- 0
+    for (point in points) {
+        i <- i + 1
+        rDistValues[i] <- pgeom(point, prob)
+    }
+    output <- c("Distribution test prob = ", prob)
+    if (assertEquals(expected,rDistValues,tol,"Distribution Values")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }       
+}
+
+#--------------------------------------------------------------------------
+cat("Geometric test cases\n")
+
+prob <- 0.4
+
+densityPoints <- c(-1,  0,  1,  2,  3,  4,  5,  6,  7,  8,
+                    9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+                   19, 20, 21, 22, 23, 24, 25, 26, 27, 28)
+densityValues <- c(0, 0.4, 0.24, 0.144, 0.0864, 0.05184, 0.031104, 0.0186624, 0.01119744, 0.006718464,
+                   0.0040310784, 0.00241864704, 0.001451188224, 0.0008707129344, 0.00052242776064,
+                   0.000313456656384, 0.0001880739938304, 0.00011284439629824, 6.7706637778944e-05,
+                   4.06239826673664e-05, 2.43743896004198e-05, 1.46246337602519e-05, 8.77478025615113e-06,
+                   5.26486815369068e-06, 3.15892089221441e-06, 1.89535253532865e-06, 1.13721152119719e-06,
+                   6.82326912718312e-07, 4.09396147630988e-07, 2.45637688578593e-07) 
+logDensityValues <- c(-Inf, -0.916290731874155, -1.42711635564015, -1.93794197940614, -2.44876760317213,
+                      -2.95959322693812, -3.47041885070411, -3.9812444744701, -4.49207009823609,
+                      -5.00289572200208, -5.51372134576807, -6.02454696953406, -6.53537259330005,
+                      -7.04619821706604, -7.55702384083203, -8.06784946459802, -8.57867508836402,
+                      -9.08950071213001, -9.600326335896, -10.111151959662, -10.621977583428,
+                      -11.132803207194, -11.64362883096, -12.154454454726, -12.6652800784919, -13.1761057022579,
+                      -13.6869313260239, -14.1977569497899, -14.7085825735559, -15.2194081973219)
+distributionValues <- c(0, 0.4, 0.64, 0.784, 0.8704, 0.92224, 0.953344, 0.9720064, 0.98320384, 0.989922304,
+                        0.9939533824, 0.99637202944, 0.997823217664, 0.9986939305984, 0.99921635835904,
+                        0.999529815015424, 0.999717889009254, 0.999830733405553, 0.999898440043332,
+                        0.999939064025999, 0.999963438415599, 0.99997806304936, 0.999986837829616,
+                        0.99999210269777, 0.999995261618662, 0.999997156971197, 0.999998294182718,
+                        0.999998976509631, 0.999999385905779, 0.999999631543467)
+#Eliminate p=1 case because it will mess up adjustement below
+inverseCumPoints <- c(0, 0.001, 0.010, 0.025, 0.050, 0.100, 0.999,
+                      0.990, 0.975, 0.950, 0.900)
+inverseCumValues <- c(-1, -1, -1, -1, -1, -1, 12, 8, 6, 4, 3)
+
+verifyDensity(densityPoints, densityValues, prob, tol)
+verifyDensity(densityPoints, logDensityValues, prob, tol, TRUE)
+verifyDistribution(densityPoints, distributionValues, prob, tol)
+
+i <- 0
+rInverseCumValues <- rep(0,length(inverseCumPoints))
+for (point in inverseCumPoints) {
+  i <- i + 1
+  rInverseCumValues[i] <- qgeom(point, prob)
+}
+
+output <- c("Inverse Distribution test prob = ", prob)
+# R defines quantiles from the right, need to subtract one
+if (assertEquals(inverseCumValues, rInverseCumValues-1, tol,
+    "Inverse Dist Values")) {
+    displayPadded(output, SUCCEEDED, 80)
+} else {
+    displayPadded(output, FAILED, 80)
+}       
+
+displayDashes(WIDTH)
