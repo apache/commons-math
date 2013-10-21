@@ -65,6 +65,17 @@ public class HypergeometricDistributionTest extends IntegerDistributionAbstractT
             0.0992063492063, 0.00396825396825, 0d};
     }
 
+    /** 
+     * Creates the default probability log density test expected values
+     * Reference values are from R, version 2.14.1.
+     */
+    @Override
+    public double[] makeLogDensityTestValues() {
+        //-Inf  -Inf
+        return new double[] {Double.NEGATIVE_INFINITY, -5.52942908751142, -2.31055326264322, -0.924258901523332,
+                -0.924258901523332, -2.31055326264322, -5.52942908751142, Double.NEGATIVE_INFINITY};
+    }
+
     /** Creates the default cumulative probability density test input values */
     @Override
     public int[] makeCumulativeTestPoints() {

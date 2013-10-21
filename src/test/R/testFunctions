@@ -23,7 +23,7 @@
 WIDTH <- 80                    # screen size constant for display functions
 SUCCEEDED <- "SUCCEEDED"
 FAILED <- "FAILED"
-options(digits=12)             # display 12 digits throughout
+options(digits=15)             # display 12 digits throughout
 #------------------------------------------------------------------------------
 # Comparison functions
 #------------------------------------------------------------------------------

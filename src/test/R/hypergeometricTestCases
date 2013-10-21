@@ -34,12 +34,12 @@ source("testFunctions")           # utility test functions
 
 # function to verify density computations
 
-verifyDensity <- function(points, expected, good, bad, selected, tol) {
+verifyDensity <- function(points, expected, good, bad, selected, tol, log = FALSE) {
     rDensityValues <- rep(0, length(points))
     i <- 0
     for (point in points) {
         i <- i + 1
-        rDensityValues[i] <- dhyper(point, good, bad, selected)
+        rDensityValues[i] <- dhyper(point, good, bad, selected, log)
     }
     output <- c("Density test good = ", good, ", bad = ", bad, 
                 ", selected = ",selected)
@@ -76,8 +76,10 @@ bad <- 5
 selected <- 5
 
 densityPoints <- c(-1, 0, 1, 2, 3, 4, 5, 10)
-densityValues <- c(0, 0.003968, 0.099206, 0.396825, 0.396825, 0.099206, 
-                   0.003968, 0)
+densityValues <- c(0, 0.00396825396825397, 0.0992063492063492, 0.396825396825397, 0.396825396825397,
+                   0.0992063492063492, 0.00396825396825397, 0)
+logDensityValues <- c(-Inf, -5.52942908751142, -2.31055326264322, -0.924258901523332,
+                      -0.924258901523332, -2.31055326264322, -5.52942908751142, -Inf)
 distributionValues <- c(0, .003968, .103175, .50000, .896825, .996032,
                         1.00000, 1)
 #Eliminate p=1 case because it will mess up adjustement below
@@ -86,6 +88,7 @@ inverseCumPoints <- c(0, 0.001, 0.010, 0.025, 0.050, 0.100, 0.999,
 inverseCumValues <- c(-1, -1, 0, 0, 0, 0, 4, 3, 3, 3, 3)
 
 verifyDensity(densityPoints, densityValues, good, bad, selected, tol)
+verifyDensity(densityPoints, logDensityValues, good, bad, selected, tol, TRUE)
 verifyDistribution(densityPoints, distributionValues, good, bad, selected, tol)
 
 i <- 0
