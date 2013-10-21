@@ -41,8 +41,6 @@ public class NormalDistribution extends AbstractRealDistribution {
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
     private static final long serialVersionUID = 8589540077390120676L;
-    /** &radic;(2 &pi;) */
-    private static final double SQRT2PI = FastMath.sqrt(2 * FastMath.PI);
     /** &radic;(2) */
     private static final double SQRT2 = FastMath.sqrt(2.0);
     /** Mean of this distribution. */
@@ -150,9 +148,7 @@ public class NormalDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double density(double x) {
-        final double x0 = x - mean;
-        final double x1 = x0 / standardDeviation;
-        return FastMath.exp(-0.5 * x1 * x1) / (standardDeviation * SQRT2PI);
+        return FastMath.exp(logDensity(x));
     }
 
     /** {@inheritDoc} */
