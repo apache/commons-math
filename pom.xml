@@ -25,10 +25,10 @@
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3</artifactId>
   <version>3.3-SNAPSHOT</version>
-  <name>Commons Math</name>
+  <name>Apache Commons Math</name>
 
   <inceptionYear>2003</inceptionYear>
-  <description>The Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
+  <description>The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.</description>
 
   <url>http://commons.apache.org/proper/commons-math/</url>
 
@@ -46,7 +46,7 @@
   <distributionManagement>
     <site>
       <id>people.apache.org</id>
-      <name>Commons Math</name>
+      <name>Apache Commons Math</name>
       <url>scp://people.apache.org/www/commons.apache.org/math</url>
     </site>
   </distributionManagement>
