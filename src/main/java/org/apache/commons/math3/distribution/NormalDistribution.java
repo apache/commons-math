@@ -152,7 +152,8 @@ public class NormalDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    public double logDensity(double x) {
+    @Override
+	public double logDensity(double x) {
         final double x0 = x - mean;
         final double x1 = x0 / standardDeviation;
         return -0.5 * x1 * x1 - logStandardDeviationPlusHalfLog2Pi;
