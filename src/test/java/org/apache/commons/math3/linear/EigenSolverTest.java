@@ -20,6 +20,7 @@ package org.apache.commons.math3.linear;
 import java.util.Random;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.util.Precision;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -54,6 +55,35 @@ public class EigenSolverTest {
         RealMatrix error =
             m.multiply(inverse).subtract(MatrixUtils.createRealIdentityMatrix(m.getRowDimension()));
         Assert.assertEquals(0, error.getNorm(), 4.0e-15);
+    }
+
+    /**
+     * Verifies operation on very small values.
+     * Matrix with eigenvalues {8e-100, -1e-100, -1e-100}
+     */
+    @Test
+    public void testInvertibleTinyValues() {
+        final double tiny = 1e-100;
+        RealMatrix m = MatrixUtils.createRealMatrix(new double[][] {
+                {3,  2,  4},
+                {2,  0,  2},
+                {4,  2,  3}
+        });
+        m = m.scalarMultiply(tiny);
+
+        final EigenDecomposition ed = new EigenDecomposition(m);
+        RealMatrix inv = ed.getSolver().getInverse();
+
+        final RealMatrix id = m.multiply(inv);
+        for (int i = 0; i < m.getRowDimension(); i++) {
+            for (int j = 0; j < m.getColumnDimension(); j++) {
+                if (i == j) {
+                    Assert.assertTrue(Precision.equals(1, id.getEntry(i, j), 1e-15));
+                } else {
+                    Assert.assertTrue(Precision.equals(0, id.getEntry(i, j), 1e-15));
+                }
+            }
+        }
     }
 
     /** test solve dimension errors */
