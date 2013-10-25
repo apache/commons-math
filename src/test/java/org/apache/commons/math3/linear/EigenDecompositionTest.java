@@ -24,6 +24,7 @@ import java.util.Random;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.junit.After;
 import org.junit.Assert;
@@ -601,6 +602,28 @@ public class EigenDecompositionTest {
         double isqrt6 = 1/FastMath.sqrt(6.0);
         checkEigenVector((new double[] {2*isqrt6,-isqrt6,isqrt6}), ed, 1E-12);
     }
+
+    /**
+     * Verifies operation on very small values.
+     * Matrix with eigenvalues {2e-100, 0, 12e-100}
+     */
+    @Test
+    public void testTinyValues() {
+        final double tiny = 1e-100;
+        RealMatrix distinct = MatrixUtils.createRealMatrix(new double[][] {
+                {3, 1, -4},
+                {1, 3, -4},
+                {-4, -4, 8}
+        });
+        distinct = distinct.scalarMultiply(tiny);
+
+        final EigenDecomposition ed = new EigenDecomposition(distinct);
+        checkEigenValues(MathArrays.scale(tiny, new double[] {2, 0, 12}), ed, 1e-12 * tiny);
+        checkEigenVector(new double[] {1, -1, 0}, ed, 1e-12);
+        checkEigenVector(new double[] {1, 1, 1}, ed, 1e-12);
+        checkEigenVector(new double[] {-1, -1, 2}, ed, 1e-12);
+    }
+
     /**
      * Verifies that the given EigenDecomposition has eigenvalues equivalent to
      * the targetValues, ignoring the order of the values and allowing
