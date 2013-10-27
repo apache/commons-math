@@ -126,7 +126,7 @@ public class SparseGradientTest extends ExtendedFieldElementAbstractTest<SparseG
         final SparseGradient var1 = SparseGradient.createVariable(id1, v1);
         final SparseGradient sum = var1.multiply(c1);
         final SparseGradient mult = SparseGradient.createVariable(id2, v2);
-        mult.multInPlace(var1);
+        mult.multiplyInPlace(var1);
         sum.addInPlace(mult);
         Assert.assertEquals(v1 * c1 + v2 * v1, sum.getValue(), 1.0e-15); // returns the value
         Assert.assertEquals(2, sum.numVars());

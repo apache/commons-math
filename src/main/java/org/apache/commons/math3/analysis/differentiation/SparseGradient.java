@@ -235,7 +235,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      * </p>
      * @param a instance to multiply
      */
-    public void multInPlace(final SparseGradient a) {
+    public void multiplyInPlace(final SparseGradient a) {
         // Derivatives.
         for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
             derivatives.put(entry.getKey(), a.value * entry.getValue());
@@ -872,7 +872,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      */
     @Override
     public int hashCode() {
-        return 743 + 809 *  + 233 * MathUtils.hash(value) + 167 * derivatives.hashCode();
+        return 743 + 809 * MathUtils.hash(value) + 167 * derivatives.hashCode();
     }
 
 }
