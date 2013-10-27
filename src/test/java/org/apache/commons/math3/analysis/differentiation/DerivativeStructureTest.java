@@ -278,7 +278,7 @@ public class DerivativeStructureTest extends ExtendedFieldElementAbstractTest<De
             // we only say: "x is a structure with value = 0.0,
             // first derivative with respect to x = 1.0, and all other derivatives
             // (first order with respect to y and z and higher derivatives) all 0.0.
-            // Wa have function f(x) = a^x root and x = 0 so we compute:
+            // We have function f(x) = a^x and x = 0 so we compute:
             // f(0) = 1, f'(0) = ln(a), f''(0) = ln(a)^2. The limit of these values
             // when a converges to 0 implies all derivatives keep switching between
             // +infinity and -infinity.
