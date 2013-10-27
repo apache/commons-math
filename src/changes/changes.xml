@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-1036" due-to="Ajo Fod">
+        Added SparseGradient to deal efficiently with first derivatives when the number
+        of variables is very large but most computations depend only on a few of the
+        variables.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-1039" due-to="Aleksei Dievskii">
         Added logDensity methods to AbstractReal/IntegerDistribution with naive default
         implementations and improved implementations for some current distributions.
