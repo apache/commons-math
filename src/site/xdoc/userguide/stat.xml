@@ -302,7 +302,7 @@ double totalSampleSum = aggregatedStats.getSum();
           Strings, integers, longs and chars are all supported as value types,
           as well as instances of any class that implements <code>Comparable.</code>
           The ordering of values used in computing cumulative frequencies is by
-          default the <i>natural ordering,</i> but this can be overriden by supplying a
+          default the <i>natural ordering,</i> but this can be overridden by supplying a
           <code>Comparator</code> to the constructor. Adding values that are not
           comparable to those that have already been added results in an
           <code>IllegalArgumentException.</code>
@@ -385,7 +385,7 @@ System.out.println(f.getCumPct("z"));  // displays 1
            <li> When there are fewer than two observations in the model, or when
             there is no variation in the x values (i.e. all x values are the same)
             all statistics return <code>NaN</code>.  At least two observations with
-            different x coordinates are requred to estimate a bivariate regression
+            different x coordinates are required to estimate a bivariate regression
             model.</li>
            <li> getters for the statistics always compute values based on the current
            set of observations -- i.e., you can get statistics, then add more data
@@ -529,7 +529,7 @@ System.out.println(regression.getInterceptStdErr() );
           OLSMultipleLinearRegression</a> provides Ordinary Least Squares Regression, and 
           <a href="../apidocs/org/apache/commons/math3/stat/regression/GLSMultipleLinearRegression.html">
           GLSMultipleLinearRegression</a> implements Generalized Least Squares.  See the javadoc for these
-          classes for details on the algorithms and forumlas used.
+          classes for details on the algorithms and formulas used.
          </p>
          <p>
            Data for OLS models can be loaded in a single double[] array, consisting of concatenated rows of data, each containing
@@ -864,7 +864,7 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           assumptions of the parametric t-test procedure, as discussed
           <a href="http://www.basic.nwu.edu/statguidefiles/ttest_unpaired_ass_viol.html">
           here</a></li>
-          <li>p-values returned by t-, chi-square and Anova tests are exact, based
+          <li>p-values returned by t-, chi-square and ANOVA tests are exact, based
            on numerical approximations to the t-, chi-square and F distributions in the
            <code>distributions</code> package. </li>
           <li>The G test implementation provides two p-values:
@@ -893,7 +893,7 @@ double[] observed = {1d, 2d, 3d};
 double mu = 2.5d;
 System.out.println(TestUtils.t(mu, observed));
           </source>
-          The code above will display the t-statisitic associated with a one-sample
+          The code above will display the t-statistic associated with a one-sample
            t-test comparing the mean of the <code>observed</code> values against
            <code>mu.</code>
           </dd>
@@ -1026,7 +1026,7 @@ TestUtils.chiSquareTest(expected, observed);
           </source>
           </dd>
           <dd> To test the null hypothesis that <code>observed</code> conforms to
-          <code>expected</code> with <code>alpha</code> siginficance level
+          <code>expected</code> with <code>alpha</code> significance level
           (equiv. <code>100 * (1-alpha)%</code> confidence) where <code>
           0 &lt; alpha &lt; 1 </code> use:
           <source>
@@ -1058,7 +1058,7 @@ TestUtils.chiSquareTest(counts);
           </source>
           </dd>
           <dd>To perform a chi-square test of independence with <code>alpha</code>
-          siginficance level (equiv. <code>100 * (1-alpha)%</code> confidence)
+          significance level (equiv. <code>100 * (1-alpha)%</code> confidence)
           where <code>0 &lt; alpha &lt; 1 </code> use:
           <source>
 TestUtils.chiSquareTest(counts, alpha);
@@ -1070,12 +1070,12 @@ TestUtils.chiSquareTest(counts, alpha);
           <dt><strong>G tests</strong></dt>
           <br></br>
           <dd>G tests are an alternative to chi-square tests that are recommended
-          when observed counts are small and / or incidence probabillities for 
+          when observed counts are small and / or incidence probabilities for
           some cells are small. See Ted Dunning's paper,
           <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.5962">
           Accurate Methods for the Statistics of Surprise and Coincidence</a> for
           background and an empirical analysis showing now chi-square
-          statistics can be misldeading in the presence of low incidence probabilities.
+          statistics can be misleading in the presence of low incidence probabilities.
           This paper also derives the formulas used in computing G statistics and the
           root log likelihood ratio provided by the <code>GTest</code> class.</dd>
           <dd>
@@ -1116,7 +1116,7 @@ System.out.println(TestUtils.gDataSetsComparison(obs1, obs2)); // G statistic
 System.out.println(TestUtils.gTestDataSetsComparison(obs1, obs2)); // p-value
           </source>
           </dd>
-          <dd>For 2 x 2 designs, the <code>rootLogLikelihoodRaio</code> method
+          <dd>For 2 x 2 designs, the <code>rootLogLikelihoodRatio</code> method
           computes the
           <a href="http://tdunning.blogspot.com/2008/03/surprise-and-coincidence.html">
           signed root log likelihood ratio.</a>  For example, suppose that for two events
@@ -1129,7 +1129,7 @@ new GTest().rootLogLikelihoodRatio(5, 1995, 0, 100000);
           and B are independent.
           </dd>
           <br></br>
-          <dt><strong>One-Way Anova tests</strong></dt>
+          <dt><strong>One-Way ANOVA tests</strong></dt>
           <br></br>
           <source>
 double[] classA =
@@ -1151,7 +1151,7 @@ classes.add(classC);
 double fStatistic = TestUtils.oneWayAnovaFValue(classes); // F-value
 double pValue = TestUtils.oneWayAnovaPValue(classes);     // P-value
           </source>
-          To test perform a One-Way Anova test with signficance level set at 0.01
+          To test perform a One-Way ANOVA test with significance level set at 0.01
           (so the test will, assuming assumptions are met, reject the null
           hypothesis incorrectly only about one in 100 times), use
           <source>
