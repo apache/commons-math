@@ -460,6 +460,50 @@ public class ArithmeticUtilsTest {
 
     }
 
+    @Test(expected=MathArithmeticException.class)
+    public void testPowIntIntOverflow() {
+        final int base = 21;
+        final int exp = 8;
+        ArithmeticUtils.pow(base, exp);
+    }
+    @Test
+    public void testPowIntIntNoOverflow() {
+        final int base = 21;
+        final int exp = 7;
+        ArithmeticUtils.pow(base, exp);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testPowNegativeIntIntOverflow() {
+        final int base = -21;
+        final int exp = 8;
+        ArithmeticUtils.pow(base, exp);
+    }
+    @Test
+    public void testPowNegativeIntIntNoOverflow() {
+        final int base = -21;
+        final int exp = 7;
+        ArithmeticUtils.pow(base, exp);
+    }
+
+    @Test
+    public void testPowMinusOneInt() {
+        final int base = -1;
+        for (int i = 0; i < 100; i++) {
+            final int pow = ArithmeticUtils.pow(base, i);
+            Assert.assertEquals("i: " + i, i % 2 == 0 ? 1 : -1, pow);
+        }
+    }
+
+    @Test
+    public void testPowOneInt() {
+        final int base = 1;
+        for (int i = 0; i < 100; i++) {
+            final int pow = ArithmeticUtils.pow(base, i);
+            Assert.assertEquals("i: " + i, 1, pow);
+        }
+    }
+
     @Test
     public void testIsPowerOfTwo() {
         final int n = 1025;
