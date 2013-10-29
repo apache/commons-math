@@ -27,6 +27,13 @@ import org.junit.Assert;
 
 public class EigenSolverTest {
 
+    private double[][] bigSingular = {
+        { 1.0, 2.0,   3.0,    4.0 },
+        { 2.0, 5.0,   3.0,    4.0 },
+        { 7.0, 3.0, 256.0, 1930.0 },
+        { 3.0, 7.0,   6.0,    8.0 }
+    }; // 4th row = 1st + 2nd
+
     /** test non invertible matrix */
     @Test
     public void testNonInvertible() {
@@ -84,6 +91,20 @@ public class EigenSolverTest {
                 }
             }
         }
+    }
+
+    @Test(expected=SingularMatrixException.class)
+    public void testNonInvertibleMath1045() {
+        EigenDecomposition eigen =
+            new EigenDecomposition(MatrixUtils.createRealMatrix(bigSingular));
+        eigen.getSolver().getInverse();
+    }
+
+    @Test(expected=SingularMatrixException.class)
+    public void testZeroMatrix() {
+        EigenDecomposition eigen =
+            new EigenDecomposition(MatrixUtils.createRealMatrix(new double[][] {{0}}));
+        eigen.getSolver().getInverse();
     }
 
     /** test solve dimension errors */

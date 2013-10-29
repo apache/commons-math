@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1045" due-to="Sean Owen">
+        "EigenDecomposition": Using tolerance for detecting whether a matrix is singular.
+      </action>
       <action dev="luc" type="add" issue="MATH-1036" due-to="Ajo Fod">
         Added SparseGradient to deal efficiently with first derivatives when the number
         of variables is very large but most computations depend only on a few of the
