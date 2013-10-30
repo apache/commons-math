@@ -107,6 +107,17 @@ public class EigenSolverTest {
         eigen.getSolver().getInverse();
     }
 
+    @Test
+    public void testIsNonSingularTinyOutOfOrderEigenvalue() {
+        final EigenDecomposition eigen
+            = new EigenDecomposition(MatrixUtils.createRealMatrix(new double[][] {
+                        { 1e-13, 0 },
+                        { 1,     1 },
+                    }));
+        Assert.assertFalse("Singular matrix not detected",
+                           eigen.getSolver().isNonSingular());
+    }
+
     /** test solve dimension errors */
     @Test
     public void testSolveDimensionErrors() {
