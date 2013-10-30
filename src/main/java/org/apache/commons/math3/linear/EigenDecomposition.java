@@ -828,7 +828,7 @@ public class EigenDecomposition {
                     for (int j = l; j <= idx; j++) {
                         r = r + matrixT[i][j] * matrixT[j][idx];
                     }
-                    if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) < 0.0) {
+                    if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) < 0) {
                         z = w;
                         s = r;
                     } else {
@@ -890,7 +890,7 @@ public class EigenDecomposition {
                     }
                     double w = matrixT[i][i] - p;
 
-                    if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) < 0.0) {
+                    if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) < 0) {
                         z = w;
                         r = ra;
                         s = sa;
