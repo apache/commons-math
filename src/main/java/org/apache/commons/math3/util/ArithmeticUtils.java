@@ -680,7 +680,9 @@ public final class ArithmeticUtils {
      * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
+     * @deprecated As of 3.3. Please use {@link #pow(int,int)} instead.
      */
+    @Deprecated
     public static int pow(final int k, long e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
@@ -732,7 +734,9 @@ public final class ArithmeticUtils {
      * @param e Exponent (must be positive or zero).
      * @return k<sup>e</sup>
      * @throws NotPositiveException if {@code e < 0}.
+     * @deprecated As of 3.3. Please use {@link #pow(long,int)} instead.
      */
+    @Deprecated
     public static long pow(final long k, long e) throws NotPositiveException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
