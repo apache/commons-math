@@ -461,29 +461,33 @@ public class ArithmeticUtilsTest {
     }
 
     @Test(expected=MathArithmeticException.class)
-    public void testPowIntIntOverflow() {
-        final int base = 21;
-        final int exp = 8;
-        ArithmeticUtils.pow(base, exp);
+    public void testPowIntOverflow() {
+        ArithmeticUtils.pow(21, 8);
     }
+
     @Test
-    public void testPowIntIntNoOverflow() {
+    public void testPowInt() {
         final int base = 21;
-        final int exp = 7;
-        ArithmeticUtils.pow(base, exp);
+
+        Assert.assertEquals(85766121L,
+                            ArithmeticUtils.pow(base, 6));
+        Assert.assertEquals(1801088541L,
+                            ArithmeticUtils.pow(base, 7));
     }
 
     @Test(expected=MathArithmeticException.class)
-    public void testPowNegativeIntIntOverflow() {
-        final int base = -21;
-        final int exp = 8;
-        ArithmeticUtils.pow(base, exp);
+    public void testPowNegativeIntOverflow() {
+        ArithmeticUtils.pow(-21, 8);
     }
+
     @Test
-    public void testPowNegativeIntIntNoOverflow() {
+    public void testPowNegativeInt() {
         final int base = -21;
-        final int exp = 7;
-        ArithmeticUtils.pow(base, exp);
+
+        Assert.assertEquals(85766121,
+                            ArithmeticUtils.pow(base, 6));
+        Assert.assertEquals(-1801088541,
+                            ArithmeticUtils.pow(base, 7));
     }
 
     @Test
@@ -500,6 +504,54 @@ public class ArithmeticUtilsTest {
         final int base = 1;
         for (int i = 0; i < 100; i++) {
             final int pow = ArithmeticUtils.pow(base, i);
+            Assert.assertEquals("i: " + i, 1, pow);
+        }
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testPowLongOverflow() {
+        ArithmeticUtils.pow(21, 15);
+    }
+
+    @Test
+    public void testPowLong() {
+        final long base = 21;
+
+        Assert.assertEquals(154472377739119461L,
+                            ArithmeticUtils.pow(base, 13));
+        Assert.assertEquals(3243919932521508681L,
+                            ArithmeticUtils.pow(base, 14));
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testPowNegativeLongOverflow() {
+        ArithmeticUtils.pow(-21L, 15);
+    }
+
+    @Test
+    public void testPowNegativeLong() {
+        final long base = -21;
+
+        Assert.assertEquals(-154472377739119461L,
+                            ArithmeticUtils.pow(base, 13));
+        Assert.assertEquals(3243919932521508681L,
+                            ArithmeticUtils.pow(base, 14));
+    }
+
+    @Test
+    public void testPowMinusOneLong() {
+        final long base = -1;
+        for (int i = 0; i < 100; i++) {
+            final long pow = ArithmeticUtils.pow(base, i);
+            Assert.assertEquals("i: " + i, i % 2 == 0 ? 1 : -1, pow);
+        }
+    }
+
+    @Test
+    public void testPowOneLong() {
+        final long base = 1;
+        for (int i = 0; i < 100; i++) {
+            final long pow = ArithmeticUtils.pow(base, i);
             Assert.assertEquals("i: " + i, 1, pow);
         }
     }

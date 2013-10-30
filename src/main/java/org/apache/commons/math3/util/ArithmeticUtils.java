@@ -706,25 +706,45 @@ public final class ArithmeticUtils {
      *
      * @param k Number to raise.
      * @param e Exponent (must be positive or zero).
-     * @return k<sup>e</sup>
+     * @return \( k^e \)
      * @throws NotPositiveException if {@code e < 0}.
+     * @throws MathArithmeticException if the result would overflow.
      */
-    public static long pow(final long k, int e) throws NotPositiveException {
+    public static long pow(final long k,
+                           final int e)
+        throws NotPositiveException,
+               MathArithmeticException {
         if (e < 0) {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
-        long result = 1l;
-        long k2p    = k;
-        while (e != 0) {
-            if ((e & 0x1) != 0) {
-                result *= k2p;
-            }
-            k2p *= k2p;
-            e = e >> 1;
-        }
+        try {
+            int exp = e;
+            long result = 1;
+            long k2p    = k;
+            while (true) {
+                if ((exp & 0x1) != 0) {
+                    result = mulAndCheck(result, k2p);
+                }
 
-        return result;
+                exp >>= 1;
+                if (exp == 0) {
+                    break;
+                }
+
+                k2p = mulAndCheck(k2p, k2p);
+            }
+
+            return result;
+        } catch (MathArithmeticException mae) {
+            // Add context information.
+            mae.getContext().addMessage(LocalizedFormats.OVERFLOW);
+            mae.getContext().addMessage(LocalizedFormats.BASE, k);
+            mae.getContext().addMessage(LocalizedFormats.EXPONENT, e);
+
+            // Rethrow.
+            throw mae;
+        }
     }
 
     /**
