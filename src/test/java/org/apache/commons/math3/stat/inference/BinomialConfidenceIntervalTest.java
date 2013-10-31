@@ -23,7 +23,6 @@ import org.junit.Test;
 /**
  * Test cases for the BinomialConfidenceInterval class.
  */
-
 public class BinomialConfidenceIntervalTest {
 
     protected BinomialConfidenceInterval testStatistic = new BinomialConfidenceInterval();
