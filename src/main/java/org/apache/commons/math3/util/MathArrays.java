@@ -1568,11 +1568,9 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.3
      */
-    public static boolean test(
-        final double[] values,
-        final int begin,
-        final int length) throws MathIllegalArgumentException {
-        return test(values, begin, length, false);
+    public static boolean verifyValues(final double[] values, final int begin, final int length)
+            throws MathIllegalArgumentException {
+        return verifyValues(values, begin, length, false);
     }
 
     /**
@@ -1596,7 +1594,7 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.3
      */
-    public static boolean test(final double[] values, final int begin,
+    public static boolean verifyValues(final double[] values, final int begin,
             final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
         if (values == null) {
@@ -1653,12 +1651,12 @@ public class MathArrays {
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.3
      */
-    public static boolean test(
+    public static boolean verifyValues(
         final double[] values,
         final double[] weights,
         final int begin,
         final int length) throws MathIllegalArgumentException {
-        return test(values, weights, begin, length, false);
+        return verifyValues(values, weights, begin, length, false);
     }
 
     /**
@@ -1694,7 +1692,7 @@ public class MathArrays {
      * are no positive weights.
      * @since 3.3
      */
-    public static boolean test(final double[] values, final double[] weights,
+    public static boolean verifyValues(final double[] values, final double[] weights,
             final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
         if (weights == null || values == null) {
@@ -1726,6 +1724,6 @@ public class MathArrays {
             throw new MathIllegalArgumentException(LocalizedFormats.WEIGHT_AT_LEAST_ONE_NON_ZERO);
         }
 
-        return test(values, begin, length, allowEmpty);
+        return verifyValues(values, begin, length, allowEmpty);
     }
 }

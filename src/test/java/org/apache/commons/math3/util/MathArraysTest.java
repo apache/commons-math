@@ -14,7 +14,6 @@
 package org.apache.commons.math3.util;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.DimensionMismatchException;
@@ -36,6 +35,12 @@ import org.junit.Test;
  */
 public class MathArraysTest {
     
+    private double[] testArray = {0, 1, 2, 3, 4, 5};
+    private double[] testWeightsArray = {0.3, 0.2, 1.3, 1.1, 1.0, 1.8};
+    private double[] testNegativeWeightsArray = {-0.3, 0.2, -1.3, 1.1, 1.0, 1.8};
+    private double[] nullArray = null;
+    private double[] singletonArray = {0};
+
     @Test
     public void testScale() {
         final double[] test = new double[] { -2.5, -1, 0, 1, 2.5 };
@@ -995,5 +1000,70 @@ public class MathArraysTest {
     public void testNaturalZero() {
         final int[] natural = MathArrays.natural(0);
         Assert.assertEquals(0, natural.length);
+    }
+    
+    @Test
+    public void testVerifyValuesPositive() {
+        for (int j = 0; j < 6; j++) {
+            for (int i = 1; i < (7 - j); i++) {
+                Assert.assertTrue(MathArrays.verifyValues(testArray, 0, i));
+            }
+        }
+        Assert.assertTrue(MathArrays.verifyValues(singletonArray, 0, 1));
+        Assert.assertTrue(MathArrays.verifyValues(singletonArray, 0, 0, true));
+    }
+
+    @Test
+    public void testVerifyValuesNegative() {
+        Assert.assertFalse(MathArrays.verifyValues(singletonArray, 0, 0));
+        Assert.assertFalse(MathArrays.verifyValues(testArray, 0, 0));
+        try {
+            MathArrays.verifyValues(singletonArray, 2, 1);  // start past end
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, 0, 7);  // end past end
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, -1, 1);  // start negative
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, 0, -1);  // length negative
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(nullArray, 0, 1);  // null array
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, nullArray, 0, 1);  // null weights array
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(singletonArray, testWeightsArray, 0, 1);  // weights.length != value.length
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
+        try {
+            MathArrays.verifyValues(testArray, testNegativeWeightsArray, 0, 6);  // can't have negative weights
+            Assert.fail("Expecting MathIllegalArgumentException");
+        } catch (MathIllegalArgumentException ex) {
+            // expected
+        }
     }
 }

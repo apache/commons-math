@@ -94,7 +94,7 @@ If the output is not quite correct, check for invisible trailing spaces!
       </action>
       <action dev="sebb" type="add" issue="MATH-1002">
         AbstractUnivariateStatistic.test(double[] values, int begin, int length, boolean allowEmpty)
-        has uses outside subclasses; implementation moved to MathArrays.
+        has uses outside subclasses; implementation moved to MathArrays.verifyValues(...).
       </action>
       <action dev="tn" type="fix" issue="MATH-1033" due-to="Yuan Qu">
         The "KalmanFilter" wrongly enforced a column dimension of 1 for

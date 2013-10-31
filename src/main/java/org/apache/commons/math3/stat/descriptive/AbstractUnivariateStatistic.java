@@ -158,7 +158,7 @@ public abstract class AbstractUnivariateStatistic
         final double[] values,
         final int begin,
         final int length) throws MathIllegalArgumentException {
-        return MathArrays.test(values, begin, length, false);
+        return MathArrays.verifyValues(values, begin, length, false);
     }
 
     /**
@@ -186,7 +186,7 @@ public abstract class AbstractUnivariateStatistic
     @Deprecated
     protected boolean test(final double[] values, final int begin,
             final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
-        return MathArrays.test(values, begin, length, allowEmpty);
+        return MathArrays.verifyValues(values, begin, length, allowEmpty);
     }
 
     /**
@@ -225,7 +225,7 @@ public abstract class AbstractUnivariateStatistic
         final double[] weights,
         final int begin,
         final int length) throws MathIllegalArgumentException {
-        return MathArrays.test(values, weights, begin, length, false);
+        return MathArrays.verifyValues(values, weights, begin, length, false);
     }
 
     /**
@@ -266,7 +266,7 @@ public abstract class AbstractUnivariateStatistic
     protected boolean test(final double[] values, final double[] weights,
             final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
-        return MathArrays.test(values, weights, begin, length, allowEmpty);
+        return MathArrays.verifyValues(values, weights, begin, length, allowEmpty);
     }
 }
 
