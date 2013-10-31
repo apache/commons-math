@@ -948,15 +948,6 @@ public class EigenDecomposition {
             }
         }
 
-        // Vectors of isolated roots
-        for (int i = 0; i < n; i++) {
-            if (i < 0 | i > n - 1) {
-                for (int j = i; j < n; j++) {
-                    matrixP[i][j] = matrixT[i][j];
-                }
-            }
-        }
-
         // Back transformation to get eigenvectors of original matrix
         for (int j = n - 1; j >= 0; j--) {
             for (int i = 0; i <= n - 1; i++) {
