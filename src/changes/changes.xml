@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1051" due-to="Matt Adereth,devl">
+        Added Kendall's tau correlation (KendallsCorrelation).
+      </action>
       <action dev="tn" type="fix" issue="MATH-1051">
         "EigenDecomposition" may have failed to compute the decomposition for certain
         non-symmetric matrices. Port of the respective bugfix in Jama-1.0.3.
