@@ -51,6 +51,17 @@ verifySpearmansCorrelation <- function(matrix, expectedCorrelation, name) {
     }  
 }
 
+# Verify Kendall's correlation
+verifyKendallsCorrelation <- function(matrix, expectedCorrelation, name) {
+    correlation <- cor(matrix, method="kendall")
+    output <- c("Kendall's Correlation matrix test dataset = ", name)
+    if (assertEquals(expectedCorrelation, correlation,tol,"Kendall's Correlations")) {
+        displayPadded(output, SUCCEEDED, WIDTH)
+    } else {
+        displayPadded(output, FAILED, WIDTH)
+    }  
+}
+
 # function to verify p-values
 verifyPValues <- function(matrix, pValues, name) {
 	dimension <- dim(matrix)[2]
@@ -132,7 +143,7 @@ expectedCorrelation <- matrix(c(
           3.95834476307755e-10, 1.114663916723657e-13, 1.332267629550188e-15, 0.00466039138541463, 0.1078477071581498, 7.771561172376096e-15)
  verifyPValues(longley, expectedPValues, "longley")
  
- # Spearman's
+# Spearman's
 expectedCorrelation <- matrix(c(
           1, 0.982352941176471, 0.985294117647059, 0.564705882352941, 0.2264705882352941, 0.976470588235294,
           0.976470588235294, 0.982352941176471, 1, 0.997058823529412, 0.664705882352941, 0.2205882352941176,
@@ -144,7 +155,20 @@ expectedCorrelation <- matrix(c(
           0.976470588235294, 0.997058823529412, 0.9941176470588236, 0.685294117647059, 0.2264705882352941, 1, 1),
           nrow = 7, ncol = 7, byrow = TRUE)
  verifySpearmansCorrelation(longley, expectedCorrelation, "longley")
-  
+
+# Kendall's
+expectedCorrelation <- matrix(c(
+          1, 0.9166666666666666, 0.9333333333333332, 0.3666666666666666, 0.05, 0.8999999999999999,
+          0.8999999999999999, 0.9166666666666666, 1, 0.9833333333333333, 0.45, 0.03333333333333333,
+          0.9833333333333333, 0.9833333333333333, 0.9333333333333332, 0.9833333333333333, 1,
+          0.4333333333333333, 0.05, 0.9666666666666666, 0.9666666666666666, 0.3666666666666666,
+          0.45, 0.4333333333333333, 1, -0.2166666666666666, 0.4666666666666666, 0.4666666666666666, 0.05,
+          0.03333333333333333, 0.05, -0.2166666666666666, 1, 0.05, 0.05, 0.8999999999999999, 0.9833333333333333,
+          0.9666666666666666, 0.4666666666666666, 0.05, 1, 0.9999999999999999, 0.8999999999999999,
+          0.9833333333333333, 0.9666666666666666, 0.4666666666666666, 0.05, 0.9999999999999999, 1),
+          nrow = 7, ncol = 7, byrow = TRUE)
+ verifyKendallsCorrelation(longley, expectedCorrelation, "longley")
+
  # Swiss Fertility ---------------------------------------------------------
  fertility <- matrix(c(80.2,17.0,15,12,9.96,
   83.1,45.1,6,9,84.84,
@@ -221,5 +245,15 @@ expectedCorrelation <- matrix(c(
            0.4136455623012432, 0.2886878090882852, -0.4750575257171745, -0.1444163088302244, 1),
           nrow = 5, ncol = 5, byrow = TRUE)
  verifySpearmansCorrelation(fertility, expectedCorrelation, "swiss fertility")
+
+# Kendall's
+expectedCorrelation <- matrix(c(
+           1, 0.1795465254708308, -0.4762437404200669, -0.3306111613580587, 0.2453703703703704,
+           0.1795465254708308, 1, -0.4505221560842292, -0.4761645631778491, 0.2054604569820847,
+           -0.4762437404200669, -0.4505221560842292, 1, 0.528943683925829, -0.3212755391722673,
+           -0.3306111613580587, -0.4761645631778491, 0.528943683925829, 1, -0.08479652265379604,
+           0.2453703703703704, 0.2054604569820847, -0.3212755391722673, -0.08479652265379604, 1),
+          nrow = 5, ncol = 5, byrow = TRUE)
+ verifyKendallsCorrelation(fertility, expectedCorrelation, "swiss fertility")
 
 displayDashes(WIDTH)
