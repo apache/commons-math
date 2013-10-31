@@ -364,14 +364,12 @@ class SchurTransformer {
                 q = matrixT[k + 1][k - 1];
                 r = notlast ? matrixT[k + 2][k - 1] : 0.0;
                 shift.x = FastMath.abs(p) + FastMath.abs(q) + FastMath.abs(r);
-                if (!Precision.equals(shift.x, 0.0, epsilon)) {
-                    p = p / shift.x;
-                    q = q / shift.x;
-                    r = r / shift.x;
+                if (Precision.equals(shift.x, 0.0, epsilon)) {
+                    continue;
                 }
-            }
-            if (shift.x == 0.0) {
-                break;
+                p = p / shift.x;
+                q = q / shift.x;
+                r = r / shift.x;
             }
             double s = FastMath.sqrt(p * p + q * q + r * r);
             if (p < 0.0) {

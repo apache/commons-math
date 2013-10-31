@@ -436,7 +436,27 @@ public class EigenDecompositionTest {
             checkUnsymmetricMatrix(m);
         }        
     }
-    
+
+    /**
+     * Tests the porting of a bugfix in Jama-1.0.3 (from changelog):
+     * 
+     *  Patched hqr2 method in Jama.EigenvalueDecomposition to avoid infinite loop;
+     *  Thanks Frederic Devernay <frederic.devernay@m4x.org>
+     */
+    @Test
+    public void testMath1051() {
+        double[][] data = {
+                {0,0,0,0,0},
+                {0,0,0,0,1},
+                {0,0,0,1,0},
+                {1,1,0,0,1},
+                {1,0,1,0,1}
+        };
+        
+        RealMatrix m = MatrixUtils.createRealMatrix(data);
+        checkUnsymmetricMatrix(m);
+    }
+
     @Test
     @Ignore
     public void testNormalDistributionUnsymmetricMatrix() {

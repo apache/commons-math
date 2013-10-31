@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="x.y" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1051">
+        "EigenDecomposition" may have failed to compute the decomposition for certain
+        non-symmetric matrices. Port of the respective bugfix in Jama-1.0.3.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1047">
         Check for overflow in methods "pow" (class "o.a.c.m.util.ArithmeticUtils").
       </action>
