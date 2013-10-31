@@ -93,15 +93,15 @@ If the output is not quite correct, check for invisible trailing spaces!
         "Pair": added factory method and "toString" method.
       </action>
       <action dev="sebb" type="add" issue="MATH-1002">
-        AbstractUnivariateStatistic.test(double[] values, int begin, int length, boolean allowEmpty)
-        has uses outside subclasses; implementation moved to MathArrays.verifyValues(...).
+        "AbstractUnivariateStatistic.test(...)" methods have uses outside subclasses;
+        implementation moved to MathArrays.verifyValues(...).
       </action>
       <action dev="tn" type="fix" issue="MATH-1033" due-to="Yuan Qu">
         The "KalmanFilter" wrongly enforced a column dimension of 1 for
         the provided control and measurement noise matrix.
       </action>
       <action dev="tn" type="fix" issue="MATH-1037" due-to="Aleksei Dievskii">
-        Fix a typo in the "GeometricDistributionTest" and ensure that a meaningful
+        Fix a typo in the test class of "GeometricDistribution" and ensure that a meaningful
         tolerance value is used when comparing test results with expected values.
       </action>
       <action dev="psteitz" type="add" issue="MATH-1034" due-to="Thorsten Schaefer">
@@ -172,7 +172,7 @@ If the output is not quite correct, check for invisible trailing spaces!
         Improved implementation of "sample" method of "UniformIntegerDistribution".
       </action>
       <action dev="sebb" type="add" issue="MATH-1007">
-        Add mode function to StatUtils class
+        Add mode function to StatUtils class.
       </action>
       <action dev="psteitz" type="update" issue="MATH-1006">
         Enabled LaTeX expressions in javadoc and site docs via MathJax.
