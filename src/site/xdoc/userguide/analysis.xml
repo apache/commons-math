@@ -101,7 +101,7 @@
           includes implementations of the several root-finding algorithms:
         </p>
           <table border="1" align="center">
-            <tr BGCOLOR="#CCCCFF"><td colspan="5"><font size="+2">Root solvers</font></td></tr>
+            <tr BGCOLOR="#CCCCFF"><td colspan="5"><font size="+1">Root solvers</font></td></tr>
             <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Function type</td><td>Convergence</td><td>Needs initial bracketing</td><td>Bracket side selection</td></font></tr>
             <tr>
               <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BisectionSolver.html">Bisection</a></td>
