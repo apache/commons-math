@@ -258,7 +258,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
         </p>
         <p>
           <table border="1" align="center">
-          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Fixed Step Integrators</font></td></tr>
+          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+1">Fixed Step Integrators</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Order</td></font></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/EulerIntegrator.html">Euler</a></td><td>1</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/MidpointIntegrator.html">Midpoint</a></td><td>2</td></tr>
@@ -269,7 +269,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
         </p>
         <p>
           <table border="1" align="center">
-          <tr BGCOLOR="#CCCCFF"><td colspan="3"><font size="+2">Adaptive Stepsize Integrators</font></td></tr>
+          <tr BGCOLOR="#CCCCFF"><td colspan="3"><font size="+1">Adaptive Stepsize Integrators</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Integration Order</td><td>Error Estimation Order</td></font></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/HighamHall54Integrator.html">Higham and Hall</a></td><td>5</td><td>4</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/DormandPrince54Integrator.html">Dormand-Prince 5(4)</a></td><td>5</td><td>4</td></tr>
