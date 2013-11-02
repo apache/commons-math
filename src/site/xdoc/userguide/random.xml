@@ -246,8 +246,7 @@ RandomVectorGenerator generator = new SobolSequence(2);
 // Use the generator to generate vectors
 double[] randomVector = generator.nextVector();
 ... </source>
-    The figure below (created with <a href="../xref-test/org/apache/commons/math3/userguide/LowDiscrepancyGeneratorComparison.html">
-    LowDiscrepancyGeneratorComparison.java</a>) illustrates the unique properties of low-discrepancy sequences when generating N samples
+    The figure below illustrates the unique properties of low-discrepancy sequences when generating N samples
     in the interval [0, 1]. Roughly speaking, such sequences "fill" the respective space more evenly which leads to faster convergence in
     quasi-Monte Carlo simulations.<br/>
     <img src="../images/userguide/low_discrepancy_sequences.png" alt="Comparison of low-discrepancy sequences"/>
