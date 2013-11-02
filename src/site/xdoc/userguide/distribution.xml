@@ -30,6 +30,10 @@
           The distributions package provide a framework for some commonly used
           probability distributions.
         </p>
+        <p>
+          An comparison of available continuous distributions:<br/>
+          <img src="../images/userguide/real_distribution_examples.png" alt="Overview of continuous distributions"/>
+        </p>
       </subsection>
       <subsection name="8.2 Distribution Framework" href="distributions">
         <p>
