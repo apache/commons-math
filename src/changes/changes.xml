@@ -50,7 +50,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     <title>Commons Math Release Notes</title>
   </properties>
   <body>
-    <release version="x.y" date="TBD" description="TBD">
+    <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-983">
+        Added a graphical overview of available continuous distributions to the userguide.
+      </action>
       <action dev="tn" type="add" issue="MATH-1051" due-to="Matt Adereth,devl">
         Added Kendall's tau correlation (KendallsCorrelation).
       </action>
