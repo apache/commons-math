@@ -151,7 +151,7 @@ RealVector solution = solver.solve(constants);
         </p>
         <p>
           <table border="1" align="center">
-          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+2">Decomposition algorithms</font></td></tr>
+          <tr BGCOLOR="#CCCCFF"><td colspan="3"><font size="+1">Decomposition algorithms</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>coefficients matrix</td><td>problem type</td></font></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/linear/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/linear/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
