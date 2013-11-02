@@ -32,13 +32,13 @@
           and t-, chi-square and ANOVA test statistics.
         </p>
         <p>
-         <a href="#a1.2_Descriptive_statistics">Descriptive statistics</a><br></br>
-         <a href="#a1.3_Frequency_distributions">Frequency distributions</a><br></br>
-         <a href="#a1.4_Simple_regression">Simple Regression</a><br></br>
-         <a href="#a1.5_Multiple_linear_regression">Multiple Regression</a><br></br>
-         <a href="#a1.6_Rank_transformations">Rank transformations</a><br></br>
-         <a href="#a1.7_Covariance_and_correlation">Covariance and correlation</a><br></br>
-         <a href="#a1.8_Statistical_tests">Statistical Tests</a><br></br>
+         <a href="#a1.2_Descriptive_statistics">Descriptive statistics</a><br/>
+         <a href="#a1.3_Frequency_distributions">Frequency distributions</a><br/>
+         <a href="#a1.4_Simple_regression">Simple Regression</a><br/>
+         <a href="#a1.5_Multiple_linear_regression">Multiple Regression</a><br/>
+         <a href="#a1.6_Rank_transformations">Rank transformations</a><br/>
+         <a href="#a1.7_Covariance_and_correlation">Covariance and correlation</a><br/>
+         <a href="#a1.8_Statistical_tests">Statistical Tests</a><br/>
         </p>
       </subsection>
       <subsection name="1.2 Descriptive statistics">
@@ -154,7 +154,7 @@
           Here are some examples showing how to compute Descriptive statistics.
           <dl>
           <dt>Compute summary statistics for a list of double values</dt>
-          <br></br>
+          <br/>
           <dd>Using the <code>DescriptiveStatistics</code> aggregate
           (values are stored in memory):
         <source>
@@ -206,7 +206,7 @@ mean = StatUtils.mean(values, 0, 3);
         </dd>
         <dt>Maintain a "rolling mean" of the most recent 100 values from
         an input stream</dt>
-        <br></br>
+        <br/>
         <dd>Use a <code>DescriptiveStatistics</code> instance with
         window size set to 100
         <source>
@@ -311,7 +311,7 @@ double totalSampleSum = aggregatedStats.getSum();
           Here are some examples.
           <dl>
           <dt>Compute a frequency distribution based on integer values</dt>
-          <br></br>
+          <br/>
           <dd>Mixing integers, longs, Integers and Longs:
           <source>
  Frequency f = new Frequency();
@@ -328,7 +328,7 @@ double totalSampleSum = aggregatedStats.getSum();
           </source>
           </dd>
           <dt>Count string frequencies</dt>
-          <br></br>
+          <br/>
           <dd>Using case-sensitive comparison, alpha sort order (natural comparator):
           <source>
 Frequency f = new Frequency();
@@ -455,7 +455,7 @@ System.out.println(regression.predict(1.5d)
          More data points can be added and subsequent getXxx calls will incorporate
          additional data in statistics.
          </dd>
-         <br></br>
+         <br/>
          <dt>Estimate a model from a double[][] array of data points</dt>
           <dd>Instantiate a regression object and load dataset
           <source>
@@ -478,7 +478,7 @@ System.out.println(regression.getSlopeStdErr());
          More data points -- even another double[][] array -- can be added and subsequent
          getXxx calls will incorporate additional data in statistics.
          </dd>
-<br></br>
+<br/>
          <dt>Estimate a model from a double[][] array of data points, <em>excluding</em> the intercept</dt>
           <dd>Instantiate a regression object and load dataset
           <source>
@@ -558,7 +558,7 @@ System.out.println(regression.getInterceptStdErr() );
         Here are some examples.
         <dl>
          <dt>OLS regression</dt>
-          <br></br>
+          <br/>
           <dd>Instantiate an OLS regression object and load a dataset:
           <source>
 OLSMultipleLinearRegression regression = new OLSMultipleLinearRegression();
@@ -589,7 +589,7 @@ double sigma = regression.estimateRegressionStandardError();
          </source>
          </dd>
          <dt>GLS regression</dt>
-          <br></br>
+          <br/>
           <dd>Instantiate a GLS regression object and load a dataset:
           <source>
 GLSMultipleLinearRegression regression = new GLSMultipleLinearRegression();
@@ -664,17 +664,19 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           <a href="../apidocs/org/apache/commons/math3/stat/correlation/Covariance.html">
           Covariance</a> computes covariances, 
           <a href="../apidocs/org/apache/commons/math3/stat/correlation/PearsonsCorrelation.html">
-          PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients and
+          PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients,
           <a href="../apidocs/org/apache/commons/math3/stat/correlation/SpearmansCorrelation.html">
-          SpearmansCorrelation</a> computes Spearman's rank correlation.
+          SpearmansCorrelation</a> computes Spearman's rank correlation and
+          <a href="../apidocs/org/apache/commons/math3/stat/correlation/KendallsCorrelation.html">
+          KendallsCorrelation</a> computes Kendall's tau rank correlation.
         </p>
         <p>
           <strong>Implementation Notes</strong>
           <ul>
           <li>
-            Unbiased covariances are given by the formula <br></br>
-            <code>cov(X, Y) = sum [(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / (n - 1)</code>
-            where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
+           Unbiased covariances are given by the formula <br/>
+           <code>cov(X, Y) = sum [(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / (n - 1)</code>
+           where <code>E(X)</code> is the mean of <code>X</code> and <code>E(Y)</code>
            is the mean of the <code>Y</code> values. Non-bias-corrected estimates use 
            <code>n</code> in place of <code>n - 1.</code>  Whether or not covariances are
            bias-corrected is determined by the optional parameter, "biasCorrected," which
@@ -682,7 +684,7 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           </li>
           <li>
           <a href="../apidocs/org/apache/commons/math3/stat/correlation/PearsonsCorrelation.html">
-          PearsonsCorrelation</a> computes correlations defined by the formula <br></br>
+          PearsonsCorrelation</a> computes correlations defined by the formula <br/>
           <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code><br/>
           where <code>E(X)</code> and <code>E(Y)</code> are means of <code>X</code> and <code>Y</code>
           and <code>s(X)</code>, <code>s(Y)</code> are standard deviations.
@@ -693,6 +695,11 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
           correlation on the ranked data.  The ranking algorithm is configurable. By default, 
           <a href="../apidocs/org/apache/commons/math3/stat/ranking/NaturalRanking.html">
           NaturalRanking</a> with default strategies for handling ties and NaN values is used.
+          </li>
+          <li>
+          <a href="../apidocs/org/apache/commons/math3/stat/correlation/KendallsCorrelation.html">
+          KendallsCorrelation</a> computes the association between two measured quantities. A tau test
+          is a non-parametric hypothesis test for statistical dependence based on the tau coefficient.
           </li> 
           </ul>
         </p>
@@ -700,7 +707,7 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
         <strong>Examples:</strong>
         <dl>
           <dt><strong>Covariance of 2 arrays</strong></dt>
-          <br></br>
+          <br/>
           <dd>To compute the unbiased covariance between 2 double arrays,
           <code>x</code> and <code>y</code>, use:
           <source>
@@ -711,9 +718,9 @@ new Covariance().covariance(x, y)
 covariance(x, y, false)
           </source>
           </dd>
-          <br></br>
+          <br/>
           <dt><strong>Covariance matrix</strong></dt>
-          <br></br>
+          <br/>
           <dd> A covariance matrix over the columns of a source matrix <code>data</code>
           can be computed using
           <source>
@@ -726,18 +733,18 @@ new Covariance().computeCovarianceMatrix(data)
 computeCovarianceMatrix(data, false)
          </source>
           </dd>
-           <br></br>
+           <br/>
           <dt><strong>Pearson's correlation of 2 arrays</strong></dt>
-          <br></br>
+          <br/>
           <dd>To compute the Pearson's product-moment correlation between two double arrays
           <code>x</code> and <code>y</code>, use:
           <source>
 new PearsonsCorrelation().correlation(x, y)
           </source>
           </dd>
-          <br></br>
+          <br/>
           <dt><strong>Pearson's correlation matrix</strong></dt>
-          <br></br>
+          <br/>
           <dd> A (Pearson's) correlation matrix over the columns of a source matrix <code>data</code>
           can be computed using
           <source>
@@ -746,9 +753,9 @@ new PearsonsCorrelation().computeCorrelationMatrix(data)
           The i-jth entry of the returned matrix is the Pearson's product-moment correlation between the
           ith and jth columns of <code>data.</code> 
           </dd>
-           <br></br>
+          <br/>
           <dt><strong>Pearson's correlation significance and standard errors</strong></dt>
-          <br></br>
+          <br/>
           <dd> To compute standard errors and/or significances of correlation coefficients
           associated with Pearson's correlation coefficients, start by creating a
           <code>PearsonsCorrelation</code> instance
@@ -771,22 +778,22 @@ correlation.getCorrelationPValues()
           </source>
           <code>getCorrelationPValues().getEntry(i,j)</code> is the
           probability that a random variable distributed as <code>t<sub>n-2</sub></code> takes
-           a value with absolute value greater than or equal to <br></br>
-           <code>|r<sub>ij</sub>|((n - 2) / (1 - r<sub>ij</sub><sup>2</sup>))<sup>1/2</sup></code>,
-           where <code>r<sub>ij</sub></code> is the estimated correlation between the ith and jth
-           columns of the source array or RealMatrix. This is sometimes referred to as the 
-           <i>significance</i> of the coefficient.<br/><br/>
-           For example, if <code>data</code> is a RealMatrix with 2 columns and 10 rows, then 
-           <source>
+          a value with absolute value greater than or equal to <br/>
+          <code>|r<sub>ij</sub>|((n - 2) / (1 - r<sub>ij</sub><sup>2</sup>))<sup>1/2</sup></code>,
+          where <code>r<sub>ij</sub></code> is the estimated correlation between the ith and jth
+          columns of the source array or RealMatrix. This is sometimes referred to as the 
+          <i>significance</i> of the coefficient.<br/><br/>
+          For example, if <code>data</code> is a RealMatrix with 2 columns and 10 rows, then 
+          <source>
 new PearsonsCorrelation(data).getCorrelationPValues().getEntry(0,1)
-           </source>
-           is the significance of the Pearson's correlation coefficient between the two columns
-           of <code>data</code>.  If this value is less than .01, we can say that the correlation
-           between the two columns of data is significant at the 99% level.
+          </source>
+          is the significance of the Pearson's correlation coefficient between the two columns
+          of <code>data</code>.  If this value is less than .01, we can say that the correlation
+          between the two columns of data is significant at the 99% level.
           </dd>
-           <br></br>
+          <br/>
           <dt><strong>Spearman's rank correlation coefficient</strong></dt>
-          <br></br>
+          <br/>
           <dd>To compute the Spearman's rank-moment correlation between two double arrays
           <code>x</code> and <code>y</code>:
           <source>
@@ -798,7 +805,15 @@ RankingAlgorithm ranking = new NaturalRanking();
 new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           </source>
           </dd>
-           <br></br>
+          <br/>     
+          <dt><strong>Kendalls's tau rank correlation coefficient</strong></dt>
+          <br/>
+          <dd>To compute the Kendall's tau rank correlation between two double arrays
+          <code>x</code> and <code>y</code>:
+          <source>
+new KendallsCorrelation().correlation(x, y)
+          </source>
+          </dd>
         </dl>
         </p>
       </subsection>
@@ -814,9 +829,11 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section4/prc43.htm">
           One-Way ANOVA</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section3/prc35.htm">
-          Mann-Whitney U</a> and
+          Mann-Whitney U</a>,
           <a href="http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test">
-          Wilcoxon signed rank</a> test statistics as well as
+          Wilcoxon signed rank</a> and
+          <a href="http://en.wikipedia.org/wiki/Binomial_test">
+          Binomial</a> test statistics as well as
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code>,
           <code>Chi-Square</code>, <code>G</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
@@ -830,9 +847,11 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
           <a href="../apidocs/org/apache/commons/math3/stat/inference/OneWayAnova.html">
           OneWayAnova</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/MannWhitneyUTest.html">
-          MannWhitneyUTest</a>, and
+          MannWhitneyUTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/WilcoxonSignedRankTest.html">
-          WilcoxonSignedRankTest</a>.          
+          WilcoxonSignedRankTest</a> and
+          <a href="../apidocs/org/apache/commons/math3/stat/inference/BinomialTest.html">
+          BinomialTest</a>.                    
           The <a href="../apidocs/org/apache/commons/math3/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
@@ -886,7 +905,7 @@ new PearsonsCorrelation().correlation(ranking.rank(x), ranking.rank(y))
         <strong>Examples:</strong>
         <dl>
           <dt><strong>One-sample <code>t</code> tests</strong></dt>
-          <br></br>
+          <br/>
           <dd>To compare the mean of a double[] array to a fixed value:
           <source>
 double[] observed = {1d, 2d, 3d};
@@ -932,9 +951,9 @@ TestUtils.tTest(mu, observed, alpha);
           To test, for example at the 95% level of confidence, use
           <code>alpha = 0.05</code>
           </dd>
-          <br></br>
+          <br/>
           <dt><strong>Two-Sample t-tests</strong></dt>
-          <br></br>
+          <br/>
           <dd><strong>Example 1:</strong> Paired test evaluating
           the null hypothesis that the mean difference between corresponding
           (paired) elements of the <code>double[]</code> arrays
@@ -1005,9 +1024,9 @@ TestUtils.tTest(sample1, sample2, .05);
            replace "t" at the beginning of the method name with "homoscedasticT"
            </p>
            </dd>
-           <br></br>
+           <br/>
           <dt><strong>Chi-square tests</strong></dt>
-          <br></br>
+          <br/>
           <dd>To compute a chi-square statistic measuring the agreement between a
           <code>long[]</code> array of observed counts and a <code>double[]</code>
           array of expected counts, use:
@@ -1043,7 +1062,7 @@ TestUtils.chiSquareTest(expected, observed, alpha);
 TestUtils.chiSquareTest(counts);
           </source>
           The rows of the 2-way table are
-          <code>count[0], ... , count[count.length - 1]. </code><br></br>
+          <code>count[0], ... , count[count.length - 1]. </code><br/>
           The chi-square statistic returned is
           <code>sum((counts[i][j] - expected[i][j])^2/expected[i][j])</code>
           where the sum is taken over all table entries and
@@ -1066,9 +1085,9 @@ TestUtils.chiSquareTest(counts, alpha);
           The boolean value returned will be <code>true</code> iff the null
           hypothesis can be rejected with confidence <code>1 - alpha</code>.
           </dd>
-          <br></br>
+          <br/>
           <dt><strong>G tests</strong></dt>
-          <br></br>
+          <br/>
           <dd>G tests are an alternative to chi-square tests that are recommended
           when observed counts are small and / or incidence probabilities for
           some cells are small. See Ted Dunning's paper,
@@ -1077,8 +1096,8 @@ TestUtils.chiSquareTest(counts, alpha);
           background and an empirical analysis showing now chi-square
           statistics can be misleading in the presence of low incidence probabilities.
           This paper also derives the formulas used in computing G statistics and the
-          root log likelihood ratio provided by the <code>GTest</code> class.</dd>
-          <dd>
+          root log likelihood ratio provided by the <code>GTest</code> class.
+          </dd>
           <dd>To compute a G-test statistic measuring the agreement between a
           <code>long[]</code> array of observed counts and a <code>double[]</code>
           array of expected counts, use:
@@ -1090,13 +1109,13 @@ System.out.println(TestUtils.g(expected, observed));
           the value displayed will be
           <code>2 * sum(observed[i]) * log(observed[i]/expected[i])</code>
           </dd>
-          <dd> To get the p-value associated with the null hypothesis that
+          <dd>To get the p-value associated with the null hypothesis that
           <code>observed</code> conforms to <code>expected</code> use:
           <source>
 TestUtils.gTest(expected, observed);
           </source>
           </dd>
-          <dd> To test the null hypothesis that <code>observed</code> conforms to
+          <dd>To test the null hypothesis that <code>observed</code> conforms to
           <code>expected</code> with <code>alpha</code> siginficance level
           (equiv. <code>100 * (1-alpha)%</code> confidence) where <code>
           0 &lt; alpha &lt; 1 </code> use:
@@ -1128,9 +1147,10 @@ new GTest().rootLogLikelihoodRatio(5, 1995, 0, 100000);
           returns the root log likelihood associated with the null hypothesis that A 
           and B are independent.
           </dd>
-          <br></br>
+          <br/>
           <dt><strong>One-Way ANOVA tests</strong></dt>
-          <br></br>
+          <br/>
+          <dd>
           <source>
 double[] classA =
    {93.0, 103.0, 95.0, 101.0, 91.0, 105.0, 96.0, 94.0, 101.0 };
