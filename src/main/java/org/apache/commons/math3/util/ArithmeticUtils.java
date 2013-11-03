@@ -96,6 +96,7 @@ public final class ArithmeticUtils {
      * represented by a long integer.
      * @deprecated use {@link CombinatoricsUtils#binomialCoefficient(int, int)}
      */
+    @Deprecated
     public static long binomialCoefficient(final int n, final int k)
         throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
        return CombinatoricsUtils.binomialCoefficient(n, k);
@@ -127,6 +128,7 @@ public final class ArithmeticUtils {
      * represented by a long integer.
      * @deprecated use {@link CombinatoricsUtils#binomialCoefficientDouble(int, int)}
      */
+    @Deprecated
     public static double binomialCoefficientDouble(final int n, final int k)
         throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         return CombinatoricsUtils.binomialCoefficientDouble(n, k);
@@ -154,6 +156,7 @@ public final class ArithmeticUtils {
      * represented by a long integer.
      * @deprecated use {@link CombinatoricsUtils#binomialCoefficientLog(int, int)}
      */
+    @Deprecated
     public static double binomialCoefficientLog(final int n, final int k)
         throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         return CombinatoricsUtils.binomialCoefficientLog(n, k);
@@ -184,6 +187,7 @@ public final class ArithmeticUtils {
      * large to fit in a {@code long}.
      * @deprecated use {@link CombinatoricsUtils#factorial(int)}
      */
+    @Deprecated
     public static long factorial(final int n) throws NotPositiveException, MathArithmeticException {
         return CombinatoricsUtils.factorial(n);
     }
@@ -202,6 +206,7 @@ public final class ArithmeticUtils {
      * @throws NotPositiveException if {@code n < 0}.
      * @deprecated use {@link CombinatoricsUtils#factorialDouble(int)}
      */
+    @Deprecated
     public static double factorialDouble(final int n) throws NotPositiveException {
          return CombinatoricsUtils.factorialDouble(n);
     }
@@ -214,6 +219,7 @@ public final class ArithmeticUtils {
      * @throws NotPositiveException if {@code n < 0}.
      * @deprecated use {@link CombinatoricsUtils#factorialLog(int)}
      */
+    @Deprecated
     public static double factorialLog(final int n) throws NotPositiveException {
         return CombinatoricsUtils.factorialLog(n);
     }
@@ -864,6 +870,7 @@ public final class ArithmeticUtils {
      * @since 3.1
      * @deprecated use {@link CombinatoricsUtils#stirlingS2(int, int)}
      */
+    @Deprecated
     public static long stirlingS2(final int n, final int k)
         throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
         return CombinatoricsUtils.stirlingS2(n, k);

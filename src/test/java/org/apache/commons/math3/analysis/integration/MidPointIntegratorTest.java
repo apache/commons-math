@@ -31,7 +31,7 @@ import org.junit.Test;
  * Test runs show that for a default relative accuracy of 1E-6, it generally
  * takes 10 to 15 iterations for the integral to converge.
  *
- * @version $Id: MidPointIntegratorTest.java 1374632 2012-08-18 18:11:11Z luc $
+ * @version $Id$
  */
 public final class MidPointIntegratorTest {
 

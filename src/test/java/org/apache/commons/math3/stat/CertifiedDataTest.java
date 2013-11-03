@@ -96,8 +96,6 @@ public class CertifiedDataTest {
 
     /**
      * loads a DescriptiveStatistics off of a test file
-     * @param file
-     * @param statistical summary
      */
     private void loadStats(String resource, Object u) throws Exception {
 

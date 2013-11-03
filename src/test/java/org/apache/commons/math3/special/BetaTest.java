@@ -170,7 +170,7 @@ public class BetaTest {
     }
 
     /**
-     * Reference data for the {@link Gamma#logGammaSum(double, double)}
+     * Reference data for the {@link #logGammaSum(double, double)}
      * function. This data was generated with the following
      * <a href="http://maxima.sourceforge.net/">Maxima</a> script.
      *

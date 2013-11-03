@@ -322,7 +322,7 @@ public class Combinations implements Iterable<int[]> {
 
     /**
      * Defines the lexicographic ordering of combinations, using
-     * the {@link #lexNorm(int[],int)} method.
+     * the {@link #lexNorm(int[])} method.
      */
     private static class LexicographicComparator
         implements Comparator<int[]>, Serializable {

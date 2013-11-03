@@ -429,7 +429,6 @@ public class JacobianMatrices {
         /** Wrap a {@link FirstOrderDifferentialEquations} into a {@link MainStateJacobianProvider}.
          * @param ode original ODE problem, without jacobians computation skill
          * @param hY step sizes to compute the jacobian df/dy
-         * @see JacobianMatrices#setMainStateSteps(double[])
          * @exception DimensionMismatchException if there is a dimension mismatch between
          * the steps array {@code hY} and the equation dimension
          */

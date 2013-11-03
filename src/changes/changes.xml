@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1055" due-to="Sean Owen">
+        Fixed some invalid links inside javadoc and added missing deprecated annotations.
+      </action>
       <action dev="tn" type="add" issue="MATH-983">
         Added a graphical overview of available continuous distributions to the userguide.
       </action>
