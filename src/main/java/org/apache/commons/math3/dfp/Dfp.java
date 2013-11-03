@@ -1242,7 +1242,7 @@ public class Dfp implements RealFieldElement<Dfp> {
         }
 
         int rh = extra / RADIX;
-        extra = extra - rh * RADIX;
+        extra -= rh * RADIX;
         for (int i = 0; i < mant.length; i++) {
             final int r = mant[i] + rh;
             rh = r / RADIX;
@@ -1557,7 +1557,7 @@ public class Dfp implements RealFieldElement<Dfp> {
             int rh = 0;  // acts as a carry
             for (int j=0; j<mant.length; j++) {
                 int r = mant[i] * x.mant[j];    // multiply the 2 digits
-                r = r + product[i+j] + rh;  // add to the product digit with carry in
+                r += product[i+j] + rh;  // add to the product digit with carry in
 
                 rh = r / RADIX;
                 product[i+j] = r - rh * RADIX;
@@ -1806,7 +1806,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
                 /* find out how far off the remainder is telling us we are */
                 minadj = (remainder[mant.length] * RADIX)+remainder[mant.length-1];
-                minadj = minadj / (divisor.mant[mant.length-1]+1);
+                minadj /= (divisor.mant[mant.length-1]+1);
 
                 if (minadj >= 2) {
                     min = trial+minadj;  // update the minimum
@@ -2154,8 +2154,8 @@ public class Dfp implements RealFieldElement<Dfp> {
 
         while (p > 0) {
             outputbuffer[q++] = (char)(ae / p + '0');
-            ae = ae % p;
-            p = p / 10;
+            ae %= p;
+            p /= 10;
         }
 
         return new String(outputbuffer, 0, q);
@@ -2284,11 +2284,11 @@ public class Dfp implements RealFieldElement<Dfp> {
                 } else {
                     def = newInstance(result);  // gradual underflow
                 }
-                result.exp = result.exp + ERR_SCALE;
+                result.exp += ERR_SCALE;
                 break;
 
             case DfpField.FLAG_OVERFLOW:
-                result.exp = result.exp - ERR_SCALE;
+                result.exp -= ERR_SCALE;
                 def = newInstance(getZero());
                 def.sign = result.sign;
                 def.nans = INFINITE;

@@ -742,7 +742,7 @@ public class DfpField implements Field<Dfp> {
         for (int i = 0; i < 10000; i++) {
             num = num.multiply(x);
             num = num.multiply(x);
-            den = den + 2;
+            den += 2;
             Dfp t = num.divide(den);
             y = y.add(t);
             if (y.equals(py)) {

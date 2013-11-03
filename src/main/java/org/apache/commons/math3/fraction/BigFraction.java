@@ -191,7 +191,7 @@ public class BigFraction
         }
         int k = ((int) (exponent >> 52)) - 1075;
         while (((m & 0x001ffffffffffffeL) != 0) && ((m & 0x1) == 0)) {
-            m = m >> 1;
+            m >>= 1;
             ++k;
         }
 

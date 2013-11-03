@@ -701,7 +701,7 @@ public final class ArithmeticUtils {
                 result *= k2p;
             }
             k2p *= k2p;
-            e = e >> 1;
+            e >>= 1;
         }
 
         return result;
@@ -775,7 +775,7 @@ public final class ArithmeticUtils {
                 result *= k2p;
             }
             k2p *= k2p;
-            e = e >> 1;
+            e >>= 1;
         }
 
         return result;
@@ -817,7 +817,7 @@ public final class ArithmeticUtils {
                 result = result.multiply(k2p);
             }
             k2p = k2p.multiply(k2p);
-            e = e >> 1;
+            e >>= 1;
         }
 
         return result;

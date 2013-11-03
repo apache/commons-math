@@ -109,8 +109,8 @@ public class Well44497b extends AbstractWell {
 
         // add Matsumoto-Kurita tempering
         // to get a maximally-equidistributed generator
-        z4 = z4 ^ ((z4 <<  7) & 0x93dd1400);
-        z4 = z4 ^ ((z4 << 15) & 0xfa118000);
+        z4 ^= (z4 <<  7) & 0x93dd1400;
+        z4 ^= (z4 << 15) & 0xfa118000;
 
         return z4 >>> (32 - bits);
 

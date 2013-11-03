@@ -330,11 +330,11 @@ public class Gamma {
                    n < maxIterations &&
                    sum < Double.POSITIVE_INFINITY) {
                 // compute next element in the series
-                n = n + 1.0;
-                an = an * (x / (a + n));
+                n += 1.0;
+                an *= x / (a + n);
 
                 // update partial sum
-                sum = sum + an;
+                sum += an;
             }
             if (n >= maxIterations) {
                 throw new MaxCountExceededException(maxIterations);
@@ -512,7 +512,7 @@ public class Gamma {
     public static double lanczos(final double x) {
         double sum = 0.0;
         for (int i = LANCZOS.length - 1; i > 0; --i) {
-            sum = sum + (LANCZOS[i] / (x + i));
+            sum += LANCZOS[i] / (x + i);
         }
         return sum + LANCZOS[0];
     }
@@ -666,7 +666,7 @@ public class Gamma {
                 double prod = 1.0;
                 double t = x;
                 while (t > 2.5) {
-                    t = t - 1.0;
+                    t -= 1.0;
                     prod *= t;
                 }
                 ret = prod / (1.0 + invGamma1pm1(t - 1.0));
@@ -681,7 +681,7 @@ public class Gamma {
                 double prod = x;
                 double t = x;
                 while (t < -0.5) {
-                    t = t + 1.0;
+                    t += 1.0;
                     prod *= t;
                 }
                 ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));

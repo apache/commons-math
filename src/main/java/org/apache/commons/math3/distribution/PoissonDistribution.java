@@ -304,7 +304,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
 
             while (n < 1000 * meanPoisson) {
                 rnd = random.nextDouble();
-                r = r * rnd;
+                r *= rnd;
                 if (r >= p) {
                     n++;
                 } else {

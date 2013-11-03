@@ -492,11 +492,11 @@ public class CMAESOptimizer
             }
             // Adjust step size in case of equal function values (flat fitness)
             if (bestValue == fitness[arindex[(int)(0.1+lambda/4.)]]) {
-                sigma = sigma * Math.exp(0.2 + cs / damps);
+                sigma *= Math.exp(0.2 + cs / damps);
             }
             if (iterations > 2 && Math.max(historyWorst, bestFitness) -
                 Math.min(historyBest, bestFitness) == 0) {
-                sigma = sigma * Math.exp(0.2 + cs / damps);
+                sigma *= Math.exp(0.2 + cs / damps);
             }
             // store best in history
             push(fitnessHistory,bestFitness);

@@ -271,7 +271,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
         }
 
         for (int i = 0; i < dimension; i++) {
-            x[i] = x[i] ^ direction[i][c];
+            x[i] ^= direction[i][c];
             v[i] = (double) x[i] / SCALE;
         }
         count++;

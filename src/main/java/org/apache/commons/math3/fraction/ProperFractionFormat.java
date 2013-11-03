@@ -96,7 +96,7 @@ public class ProperFractionFormat extends FractionFormat {
         int num = fraction.getNumerator();
         int den = fraction.getDenominator();
         int whole = num / den;
-        num = num % den;
+        num %= den;
 
         if (whole != 0) {
             getWholeFormat().format(whole, toAppendTo, pos);

@@ -754,7 +754,7 @@ public class MillerUpdatingRegression implements UpdatingMultipleLinearRegressio
                     for (int _i = m1 + 1; _i < m1 + nvars - m - 1; _i++) {
                         r[_i] /= X;
                     }
-                    rhs[m] = rhs[m] / X;
+                    rhs[m] /= X;
                     bSkipTo40 = true;
                     //break;
                 }

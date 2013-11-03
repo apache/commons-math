@@ -143,14 +143,14 @@ public class KMeansPlusPlusClustererTest {
                 int points[] = { position1, position2, position3, position4 };
                 // multiply the values
                 for (int j = 0; j < points.length; j++) {
-                    points[j] = points[j] * multiplier;
+                    points[j] *= multiplier;
                 }
                 EuclideanIntegerPoint euclideanIntegerPoint = new EuclideanIntegerPoint(points);
                 breakingPoints[i] = euclideanIntegerPoint;
-                position1 = position1 + numberOfVariables;
-                position2 = position2 + numberOfVariables;
-                position3 = position3 + numberOfVariables;
-                position4 = position4 + numberOfVariables;
+                position1 += numberOfVariables;
+                position2 += numberOfVariables;
+                position3 += numberOfVariables;
+                position4 += numberOfVariables;
             }
 
             for (int n = 2; n < 27; ++n) {

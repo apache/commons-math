@@ -250,7 +250,7 @@ public class Combinations implements Iterable<int[]> {
             }
             // T3
             if (c[1] + 1 < c[2]) {
-                c[1] = c[1] + 1;
+                c[1]++;
                 return ret;
             } else {
                 j = 2;

@@ -248,7 +248,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
                 for (final byte b : byteArray) {
                     bits = (bits << 8) | (((long) b) & 0xffL);
                 }
-                bits = bits & 0x7fffffffffffffffL;
+                bits &= 0x7fffffffffffffffL;
                 val  = bits % n;
             } while (bits - val + (n - 1) < 0);
             return val;

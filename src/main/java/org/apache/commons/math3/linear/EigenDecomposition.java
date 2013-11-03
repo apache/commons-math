@@ -661,13 +661,13 @@ public class EigenDecomposition {
                             t = FastMath.sqrt(c * c + 1.0);
                             e[i + 1] = p * t;
                             s = 1.0 / t;
-                            c = c * s;
+                            c *= s;
                         } else {
                             s = p / q;
                             t = FastMath.sqrt(s * s + 1.0);
                             e[i + 1] = q * t;
                             c = 1.0 / t;
-                            s = s * c;
+                            s *= c;
                         }
                         if (e[i + 1] == 0.0) {
                             realEigenvalues[i + 1] -= u;
@@ -803,7 +803,7 @@ public class EigenDecomposition {
         double norm = 0.0;
         for (int i = 0; i < n; i++) {
            for (int j = FastMath.max(i - 1, 0); j < n; j++) {
-              norm = norm + FastMath.abs(matrixT[i][j]);
+               norm += FastMath.abs(matrixT[i][j]);
            }
         }
 
@@ -830,7 +830,7 @@ public class EigenDecomposition {
                     double w = matrixT[i][i] - p;
                     r = 0.0;
                     for (int j = l; j <= idx; j++) {
-                        r = r + matrixT[i][j] * matrixT[j][idx];
+                        r += matrixT[i][j] * matrixT[j][idx];
                     }
                     if (Precision.compareTo(imagEigenvalues[i], 0.0, EPSILON) < 0) {
                         z = w;
@@ -862,7 +862,7 @@ public class EigenDecomposition {
                         double t = FastMath.abs(matrixT[i][idx]);
                         if ((Precision.EPSILON * t) * t > 1) {
                             for (int j = i; j <= idx; j++) {
-                                matrixT[j][idx] = matrixT[j][idx] / t;
+                                matrixT[j][idx] /= t;
                             }
                         }
                     }
@@ -889,8 +889,8 @@ public class EigenDecomposition {
                     double ra = 0.0;
                     double sa = 0.0;
                     for (int j = l; j <= idx; j++) {
-                        ra = ra + matrixT[i][j] * matrixT[j][idx - 1];
-                        sa = sa + matrixT[i][j] * matrixT[j][idx];
+                        ra += matrixT[i][j] * matrixT[j][idx - 1];
+                        sa += matrixT[i][j] * matrixT[j][idx];
                     }
                     double w = matrixT[i][i] - p;
 
@@ -939,8 +939,8 @@ public class EigenDecomposition {
                                                 FastMath.abs(matrixT[i][idx]));
                         if ((Precision.EPSILON * t) * t > 1) {
                             for (int j = i; j <= idx; j++) {
-                                matrixT[j][idx - 1] = matrixT[j][idx - 1] / t;
-                                matrixT[j][idx]     = matrixT[j][idx] / t;
+                                matrixT[j][idx - 1] /= t;
+                                matrixT[j][idx] /= t;
                             }
                         }
                     }
@@ -953,7 +953,7 @@ public class EigenDecomposition {
             for (int i = 0; i <= n - 1; i++) {
                 z = 0.0;
                 for (int k = 0; k <= FastMath.min(j, n - 1); k++) {
-                    z = z + matrixP[i][k] * matrixT[k][j];
+                    z += matrixP[i][k] * matrixT[k][j];
                 }
                 matrixP[i][j] = z;
             }

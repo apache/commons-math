@@ -360,7 +360,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     @Override
     public RealVector mapAddToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = data[i] + d;
+            data[i] += d;
         }
         return this;
     }
@@ -369,7 +369,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     @Override
     public RealVector mapSubtractToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = data[i] - d;
+            data[i] -= d;
         }
         return this;
     }
@@ -378,7 +378,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     @Override
     public RealVector mapMultiplyToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = data[i] * d;
+            data[i] *= d;
         }
         return this;
     }
@@ -387,7 +387,7 @@ public class ArrayRealVector extends RealVector implements Serializable {
     @Override
     public RealVector mapDivideToSelf(double d) {
         for (int i = 0; i < data.length; i++) {
-            data[i] = data[i] / d;
+            data[i] /= d;
         }
         return this;
     }

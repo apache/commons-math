@@ -107,7 +107,7 @@ class PollardRho {
                 if (1 != out) {
                     return out;
                 }
-                k = k + m;
+                k += m;
             } while (k < r);
             r = 2 * r;
         } while (true);

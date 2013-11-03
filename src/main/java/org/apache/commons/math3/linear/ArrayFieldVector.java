@@ -940,7 +940,7 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
     public int hashCode() {
         int h = 3542;
         for (final T a : data) {
-            h = h ^ a.hashCode();
+            h ^= a.hashCode();
         }
         return h;
     }

@@ -297,7 +297,7 @@ public class PrecisionTest {
         Assert.assertEquals(39.25, Precision.round(39.245, 2), 0.0);
         Assert.assertEquals(39.24, Precision.round(39.245, 2, BigDecimal.ROUND_DOWN), 0.0);
         double xx = 39.0;
-        xx = xx + 245d / 1000d;
+        xx += 245d / 1000d;
         Assert.assertEquals(39.25, Precision.round(xx, 2), 0.0);
 
         // BZ 35904

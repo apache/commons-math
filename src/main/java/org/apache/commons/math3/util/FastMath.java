@@ -372,7 +372,7 @@ public class FastMath {
             return d; // These are un-normalised - don't try to convert
         }
         long xl = Double.doubleToRawLongBits(d); // can take raw bits because just gonna convert it back
-        xl = xl & MASK_30BITS; // Drop low order bits
+        xl &= MASK_30BITS; // Drop low order bits
         return Double.longBitsToDouble(xl);
     }
 
@@ -1026,8 +1026,8 @@ public class FastMath {
         zb = zb * epsilon + 0.041666663879186654;
         zb = zb * epsilon + 0.16666666666745392;
         zb = zb * epsilon + 0.49999999999999994;
-        zb = zb * epsilon;
-        zb = zb * epsilon;
+        zb *= epsilon;
+        zb *= epsilon;
 
         double za = epsilon;
         double temp = za + zb;
@@ -1302,7 +1302,7 @@ public class FastMath {
             lnza = lnza * epsilon + 0.3333333333332802;
             lnza = lnza * epsilon + -0.5;
             lnza = lnza * epsilon + 1.0;
-            lnza = lnza * epsilon;
+            lnza *= epsilon;
         }
 
         /* Relative sizes:
@@ -1324,27 +1324,27 @@ public class FastMath {
         double c = a+lnm[0];
         double d = -(c-a-lnm[0]);
         a = c;
-        b = b + d;
+        b += d;
 
         c = a + lnza;
         d = -(c - a - lnza);
         a = c;
-        b = b + d;
+        b += d;
 
         c = a + LN_2_B*exp;
         d = -(c - a - LN_2_B*exp);
         a = c;
-        b = b + d;
+        b += d;
 
         c = a + lnm[1];
         d = -(c - a - lnm[1]);
         a = c;
-        b = b + d;
+        b += d;
 
         c = a + lnzb;
         d = -(c - a - lnzb);
         a = c;
-        b = b + d;
+        b += d;
 
         if (hiPrec != null) {
             hiPrec[0] = a;
@@ -1594,7 +1594,7 @@ public class FastMath {
         z = z * lnb + (1.0 / 6.0);
         z = z * lnb + 0.5;
         z = z * lnb + 1.0;
-        z = z * lnb;
+        z *= lnb;
 
         final double result = exp(lna, z, null);
         //result = result + result * z;
@@ -1661,7 +1661,7 @@ public class FastMath {
             d2pLow  = d2pLow * d2p + tmpLow + (tmpHigh - d2pHigh);
             d2p     = d2pHigh + d2pLow;
 
-            e = e >> 1;
+            e >>= 1;
 
         }
 
@@ -1768,13 +1768,13 @@ public class FastMath {
         double c = a + t;
         double d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
         t = costA * sinEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
         b = b + sintA * cosEpsB + costA * sinEpsB;
         /*
@@ -1824,7 +1824,7 @@ public class FastMath {
             c = a + t;
             d = -(c - a - t);
             a = c;
-            b = b + d;
+            b += d;
         }
 
         result = a + b;
@@ -1912,16 +1912,16 @@ public class FastMath {
         double c = a + t;
         double d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
         t = costA*sinEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
-        b = b + sintA*cosEpsB + costA*sinEpsB;
-        b = b + sintB + costB*sinEpsA + sintB*cosEpsB + costB*sinEpsB;
+        b += sintA*cosEpsB + costA*sinEpsB;
+        b += sintB + costB*sinEpsA + sintB*cosEpsB + costB*sinEpsB;
 
         double sina = a + b;
         double sinb = -(sina - a - b);
@@ -1934,16 +1934,16 @@ public class FastMath {
         c = a + t;
         d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
         t = -sintA*sinEpsA;
         c = a + t;
         d = -(c - a - t);
         a = c;
-        b = b + d;
+        b += d;
 
-        b = b + costB*cosEpsA + costA*cosEpsB + costB*cosEpsB;
-        b = b - (sintB*sinEpsA + sintA*sinEpsB + sintB*sinEpsB);
+        b += costB*cosEpsA + costA*cosEpsB + costB*cosEpsB;
+        b -= sintB*sinEpsA + sintA*sinEpsB + sintB*sinEpsB;
 
         double cosa = a + b;
         double cosb = -(cosa - a - b);
@@ -2066,8 +2066,8 @@ public class FastMath {
         bita = (prodB & 0x8000000000000000L) != 0;
         bitb = (bc & 0x80000000L ) != 0;
 
-        prodB = prodB + (bc << 32);
-        prodA = prodA + (bc >>> 32);
+        prodB += bc << 32;
+        prodA += bc >>> 32;
 
         bitsum = (prodB & 0x8000000000000000L) != 0;
 
@@ -2085,7 +2085,7 @@ public class FastMath {
         ad = a * d;
 
         /* Collect terms */
-        ac = ac + ((bc + ad) >>> 32);
+        ac += (bc + ad) >>> 32;
 
         bita = (prodB & 0x8000000000000000L) != 0;
         bitb = (ac & 0x8000000000000000L ) != 0;
@@ -2152,8 +2152,8 @@ public class FastMath {
         bita = (prod2B & 0x8000000000000000L) != 0;
         bitb = (bc & 0x80000000L ) != 0;
 
-        prod2B = prod2B + (bc << 32);
-        prod2A = prod2A + (bc >>> 32);
+        prod2B += bc << 32;
+        prod2A += bc >>> 32;
 
         bitsum = (prod2B & 0x8000000000000000L) != 0;
 
@@ -2171,7 +2171,7 @@ public class FastMath {
         ad = a * d;
 
         /* Collect terms */
-        ac = ac + ((bc + ad) >>> 32);
+        ac += (bc + ad) >>> 32;
 
         bita = (prod2B & 0x8000000000000000L) != 0;
         bitb = (ac & 0x8000000000000000L ) != 0;
@@ -2193,7 +2193,7 @@ public class FastMath {
         ad = a * d;
 
         /* Collect terms */
-        ac = ac + ((bc + ad) >>> 32);
+        ac += (bc + ad) >>> 32;
 
         bita = (prod2B & 0x8000000000000000L) != 0;
         bitb = (ac & 0x8000000000000000L ) != 0;
@@ -2918,7 +2918,7 @@ public class FastMath {
       za = temp2;
 
       zb = za * yb + ya * zb + zb * yb;
-      za = za * ya;
+      za *= ya;
 
       double na = xs - za;
       double nb = -(na - xs + za);
@@ -2956,7 +2956,7 @@ public class FastMath {
 
         double result = xb * factb + xb * facta + xa * factb + xa * facta;
         if (result == 0) {
-            result = result * x; // ensure correct sign if calculation underflows
+            result *= x; // ensure correct sign if calculation underflows
         }
         return result;
     }
@@ -3090,11 +3090,11 @@ public class FastMath {
                 // the input is a normal number and the result is a subnormal number
 
                 // recover the hidden mantissa bit
-                mantissa = mantissa | (1L << 52);
+                mantissa |= 1L << 52;
 
                 // scales down complete mantissa, hence losing least significant bits
                 final long mostSignificantLostBit = mantissa & (1L << (-scaledExponent));
-                mantissa = mantissa >>> (1 - scaledExponent);
+                mantissa >>>= 1 - scaledExponent;
                 if (mostSignificantLostBit != 0) {
                     // we need to add 1 bit to round up the result
                     mantissa++;
@@ -3111,11 +3111,11 @@ public class FastMath {
 
                 // the input number is subnormal, normalize it
                 while ((mantissa >>> 52) != 1) {
-                    mantissa = mantissa << 1;
+                    mantissa <<= 1;
                     --scaledExponent;
                 }
                 ++scaledExponent;
-                mantissa = mantissa & 0x000fffffffffffffL;
+                mantissa &= 0x000fffffffffffffL;
 
                 if (scaledExponent < 2047) {
                     return Double.longBitsToDouble(sign | (((long) scaledExponent) << 52) | mantissa);
@@ -3174,11 +3174,11 @@ public class FastMath {
                 // the input is a normal number and the result is a subnormal number
 
                 // recover the hidden mantissa bit
-                mantissa = mantissa | (1 << 23);
+                mantissa |= 1 << 23;
 
                 // scales down complete mantissa, hence losing least significant bits
                 final int mostSignificantLostBit = mantissa & (1 << (-scaledExponent));
-                mantissa = mantissa >>> (1 - scaledExponent);
+                mantissa >>>= 1 - scaledExponent;
                 if (mostSignificantLostBit != 0) {
                     // we need to add 1 bit to round up the result
                     mantissa++;
@@ -3195,11 +3195,11 @@ public class FastMath {
 
                 // the input number is subnormal, normalize it
                 while ((mantissa >>> 23) != 1) {
-                    mantissa = mantissa << 1;
+                    mantissa <<= 1;
                     --scaledExponent;
                 }
                 ++scaledExponent;
-                mantissa = mantissa & 0x007fffff;
+                mantissa &= 0x007fffff;
 
                 if (scaledExponent < 255) {
                     return Float.intBitsToFloat(sign | (scaledExponent << 23) | mantissa);

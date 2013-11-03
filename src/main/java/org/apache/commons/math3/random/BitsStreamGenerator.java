@@ -81,7 +81,7 @@ public abstract class BitsStreamGenerator
         int random = next(32);
         while (i < bytes.length) {
             bytes[i++] = (byte) (random & 0xff);
-            random     = random >> 8;
+            random >>= 8;
         }
     }
 
@@ -179,7 +179,7 @@ public abstract class BitsStreamGenerator
             long val;
             do {
                 bits = ((long) next(31)) << 32;
-                bits = bits | (((long) next(32)) & 0xffffffffL);
+                bits |= ((long) next(32)) & 0xffffffffL;
                 val  = bits % n;
             } while (bits - val + (n - 1) < 0);
             return val;

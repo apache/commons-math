@@ -126,7 +126,7 @@ public class StableRandomGenerator implements NormalizedRandomGenerator {
                     FastMath.log(FastMath.PI / 2d * omega * cosPhi / betaPhi));
 
                 if (alpha != 1d) {
-                    x = x + beta * FastMath.tan(FastMath.PI * alpha / 2);
+                    x += beta * FastMath.tan(FastMath.PI * alpha / 2);
                 }
             }
         }

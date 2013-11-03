@@ -369,10 +369,10 @@ public class OrderedTuple implements Comparable<OrderedTuple> {
         while (scale != 0) {
             if ((ll & mask) != ll) {
                 msb |= scale;
-                ll = ll >> scale;
+                ll >>= scale;
             }
-            scale = scale >> 1;
-            mask  = mask >> scale;
+            scale >>= 1;
+            mask >>= scale;
         }
 
         return msb;
@@ -395,10 +395,10 @@ public class OrderedTuple implements Comparable<OrderedTuple> {
         while (scale != 0) {
             if ((ll & mask) == ll) {
                 lsb |= scale;
-                ll = ll >> scale;
+                ll >>= scale;
             }
-            scale = scale >> 1;
-            mask  = mask >> scale;
+            scale >>= 1;
+            mask >>= scale;
         }
 
         return lsb;

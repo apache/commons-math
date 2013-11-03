@@ -179,7 +179,7 @@ public class DfpMath {
             int prevtrial;
             while (true) {
                 prevtrial = trial;
-                trial = trial * 2;
+                trial *= 2;
                 if (trial > a) {
                     break;
                 }
@@ -235,13 +235,13 @@ public class DfpMath {
                 prevr = new Dfp(r);
                 prevtrial = trial;
                 r = r.multiply(r);
-                trial = trial * 2;
+                trial *= 2;
             } while (a>trial);
 
             r = prevr;
             trial = prevtrial;
 
-            a = a - trial;
+            a -= trial;
             result = result.multiply(r);
 
         } while (a >= 1);
@@ -447,7 +447,7 @@ public class DfpMath {
         for (int i = 0; i < 10000; i++) {
             num = num.multiply(x);
             num = num.multiply(x);
-            den = den + 2;
+            den += 2;
             t = num.divide(den);
             y = y.add(t);
             if (y.equals(py)) {
