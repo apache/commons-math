@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1058" due-to="Sean Owen">
+        Precision improvements (for small values of the argument) in "Beta" function
+        and in "LogNormalDistribution" and "WeibullDistribution".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1055" due-to="Sean Owen">
         Fixed some invalid links inside javadoc and added missing deprecated annotations.
       </action>

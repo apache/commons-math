@@ -289,7 +289,7 @@ public class LogNormalDistribution extends AbstractRealDistribution {
     public double getNumericalVariance() {
         final double s = shape;
         final double ss = s * s;
-        return (FastMath.exp(ss) - 1) * FastMath.exp(2 * scale + ss);
+        return (FastMath.expm1(ss)) * FastMath.exp(2 * scale + ss);
     }
 
     /**

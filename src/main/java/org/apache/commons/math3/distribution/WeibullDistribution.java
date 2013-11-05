@@ -221,7 +221,7 @@ public class WeibullDistribution extends AbstractRealDistribution {
         } else  if (p == 1) {
             ret = Double.POSITIVE_INFINITY;
         } else {
-            ret = scale * FastMath.pow(-FastMath.log(1.0 - p), 1.0 / shape);
+            ret = scale * FastMath.pow(-FastMath.log1p(-p), 1.0 / shape);
         }
         return ret;
     }

@@ -243,4 +243,12 @@ public class LogNormalDistributionTest extends RealDistributionAbstractTest {
         Assert.assertEquals(dist.getNumericalMean(), 0.0, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 0.0, tol);
     }
+
+    @Test
+    public void testTinyVariance() {
+        LogNormalDistribution dist = new LogNormalDistribution(0, 1e-9);
+        double t = dist.getNumericalVariance();
+        Assert.assertEquals(1e-18, t, 1e-20);
+    }
+
 }

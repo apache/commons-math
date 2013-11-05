@@ -64,6 +64,16 @@ public class WeibullDistributionTest extends RealDistributionAbstractTest {
     //---------------------------- Additional test cases -------------------------
 
     @Test
+    public void testInverseCumulativeProbabilitySmallPAccuracy() {
+        WeibullDistribution dist = new WeibullDistribution(2, 3);
+        double t = dist.inverseCumulativeProbability(1e-17);
+        // Analytically, answer is solution to 1e-17 = 1-exp(-(x/3)^2)
+        // x = sqrt(-9*log(1-1e-17))
+        // If we're not careful, answer will be 0. Answer below is computed with care in Octave:
+        Assert.assertEquals(9.48683298050514e-9, t, 1e-17);
+    }
+
+    @Test
     public void testInverseCumulativeProbabilityExtremes() {
         setInverseCumulativeTestPoints(new double[] {0.0, 1.0});
         setInverseCumulativeTestValues(

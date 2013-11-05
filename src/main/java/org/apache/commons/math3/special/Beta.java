@@ -218,7 +218,7 @@ public class Beta {
                     return 1.0;
                 }
             };
-            ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log(1.0 - x)) -
+            ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log1p(-x)) -
                 FastMath.log(a) - logBeta(a, b)) *
                 1.0 / fraction.evaluate(x, epsilon, maxIterations);
         }

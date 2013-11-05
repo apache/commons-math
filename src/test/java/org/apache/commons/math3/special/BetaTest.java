@@ -135,6 +135,13 @@ public class BetaTest {
     }
 
     @Test
+    public void testRegularizedBetaTinyArgument() {
+        double actual = Beta.regularizedBeta(1e-17, 1.0, 1e12);
+        // This value is from R: pbeta(1e-17,1,1e12)
+        TestUtils.assertEquals(9.999950000166648e-6, actual, 1e-16);
+    }
+
+    @Test
     public void testLogBetaNanPositive() {
         testLogBeta(Double.NaN, Double.NaN, 2.0);
     }
