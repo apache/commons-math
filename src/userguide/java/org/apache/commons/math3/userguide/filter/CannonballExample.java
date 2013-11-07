@@ -261,18 +261,18 @@ public class CannonballExample {
     }
 
     public static Chart createChart(String title, LegendPosition position) {
-        Chart chart = new ChartBuilder().width(600).height(400).build();
+        Chart chart = new ChartBuilder().width(650).height(450).build();
 
         // Customize Chart
         chart.setChartTitle(title);
         chart.getStyleManager().setChartTitleVisible(true);
-        chart.getStyleManager().setChartTitleFont(new Font("Arial", Font.PLAIN, 10));
+        chart.getStyleManager().setChartTitleFont(new Font("Arial", Font.PLAIN, 12));
         chart.getStyleManager().setLegendPosition(position);
         chart.getStyleManager().setLegendVisible(true);
-        chart.getStyleManager().setLegendFont(new Font("Arial", Font.PLAIN, 10));
+        chart.getStyleManager().setLegendFont(new Font("Arial", Font.PLAIN, 12));
         chart.getStyleManager().setLegendPadding(6);
         chart.getStyleManager().setLegendSeriesLineLength(10);
-        chart.getStyleManager().setAxisTickLabelsFont(new Font("Arial", Font.PLAIN, 9));
+        chart.getStyleManager().setAxisTickLabelsFont(new Font("Arial", Font.PLAIN, 10));
         
         chart.getStyleManager().setChartBackgroundColor(Color.white);
         chart.getStyleManager().setChartPadding(4);
