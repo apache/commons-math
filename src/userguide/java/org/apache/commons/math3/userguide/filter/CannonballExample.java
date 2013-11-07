@@ -124,15 +124,6 @@ public class CannonballExample {
     
     public static void cannonballTest(Chart chart) {
         
-        // Let's go over the physics behind the cannon shot, just to make sure it's
-        // correct:
-        // sin(45)*100 = 70.710 and cos(45)*100 = 70.710
-        // vf = vo + at
-        // 0 = 70.710 + (-9.81)t
-        // t = 70.710/9.81 = 7.208 seconds for half
-        // 14.416 seconds for full journey
-        // distance = 70.710 m/s * 14.416 sec = 1019.36796 m
-
         // time interval for each iteration
         final double dt = 0.1;
         // the number of iterations to run
@@ -166,7 +157,7 @@ public class CannonballExample {
         final RealVector controlVector =
                 MatrixUtils.createRealVector(new double[] { 0, 0, 0.5 * -9.81 * dt * dt, -9.81 * dt } );
 
-        // The control matrix B only expects y and vy, see control vector
+        // The control matrix B only update y and vy, see control vector
         final RealMatrix B = MatrixUtils.createRealMatrix(new double[][] {
                 { 0, 0, 0, 0 },
                 { 0, 0, 0, 0 },
@@ -178,8 +169,8 @@ public class CannonballExample {
         //
         //  x(n+1) = x(n) + vx(n)
         // vx(n+1) = vx(n)
-        //  y(n+1) = y(n) + vy(n) - 0.5*9.81*dt^2
-        // vy(n+1) = vy(n) + -9.81*dt
+        //  y(n+1) = y(n) + vy(n) - 0.5 * 9.81 * dt^2
+        // vy(n+1) = vy(n) + -9.81 * dt
         //
         // Which, if you recall, are the equations of motion for a parabola.
 

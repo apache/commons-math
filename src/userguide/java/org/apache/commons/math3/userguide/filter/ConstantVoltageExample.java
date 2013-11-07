@@ -90,7 +90,7 @@ public class ConstantVoltageExample {
     public static void constantVoltageTest(Chart chart1, Chart chart2) {
 
         final double voltage = 1.25d;
-        final double measurementNoise = 0.1d; // measurement noise (V) - std dev
+        final double measurementNoise = 0.2d; // measurement noise (V) - std dev
         final double processNoise = 1e-5d;
 
         final VoltMeter voltMeter = new VoltMeter(voltage, processNoise, measurementNoise, 2);
@@ -111,7 +111,7 @@ public class ConstantVoltageExample {
         final RealMatrix Q = new Array2DRowRealMatrix(new double[] { processNoise * processNoise });
 
         // the initial error covariance -> assume a large error at the beginning
-        final RealMatrix P0 = new Array2DRowRealMatrix(new double[] { 1 });
+        final RealMatrix P0 = new Array2DRowRealMatrix(new double[] { 0.1 });
 
         // the measurement covariance matrix -> put the "real" variance
         RealMatrix R = new Array2DRowRealMatrix(new double[] { measurementNoise * measurementNoise });
@@ -127,7 +127,7 @@ public class ConstantVoltageExample {
 
         final List<Number> covSeries = new ArrayList<Number>();
         
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 300; i++) {
             xAxis.add(i);
 
             voltMeter.step();
@@ -138,12 +138,11 @@ public class ConstantVoltageExample {
             final double measuredVoltage = voltMeter.getMeasuredVoltage();
             measuredVoltageSeries.add(measuredVoltage);
 
+            kalmanVoltageSeries.add(filter.getStateEstimation()[0]);
+            covSeries.add(filter.getErrorCovariance()[0][0]);
+
             filter.predict();
             filter.correct(new double[] { measuredVoltage });
-            
-            kalmanVoltageSeries.add(filter.getStateEstimation()[0]);
-            
-            covSeries.add(filter.getErrorCovariance()[0][0]);
         }
 
         chart1.setYAxisTitle("Voltage");
@@ -199,7 +198,7 @@ public class ConstantVoltageExample {
         JComponent container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
         
-        Chart chart1 = createChart("Filter", 550, 450, LegendPosition.InsideNE, true);
+        Chart chart1 = createChart("Voltage", 550, 450, LegendPosition.InsideNE, true);
         Chart chart2 = createChart("Error Covariance", 450, 450, LegendPosition.InsideNE, false);
         
         constantVoltageTest(chart1, chart2);
