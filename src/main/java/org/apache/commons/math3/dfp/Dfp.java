@@ -1806,7 +1806,7 @@ public class Dfp implements RealFieldElement<Dfp> {
 
                 /* find out how far off the remainder is telling us we are */
                 minadj = (remainder[mant.length] * RADIX)+remainder[mant.length-1];
-                minadj /= (divisor.mant[mant.length-1]+1);
+                minadj /= divisor.mant[mant.length-1] + 1;
 
                 if (minadj >= 2) {
                     min = trial+minadj;  // update the minimum
