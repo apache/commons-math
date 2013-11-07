@@ -14,13 +14,17 @@
 
 package org.apache.commons.math3.filter;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.MatrixDimensionMismatchException;
+import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -212,8 +216,6 @@ public class KalmanFilterTest {
         RealVector tmpPNoise = new ArrayRealVector(
                 new double[] { Math.pow(dt, 2d) / 2d, dt });
 
-        RealVector mNoise = new ArrayRealVector(1);
-
         // iterate 60 steps
         for (int i = 0; i < 60; i++) {
             filter.predict(u);
@@ -225,10 +227,10 @@ public class KalmanFilterTest {
             x = A.operate(x).add(B.operate(u)).add(pNoise);
 
             // Simulate the measurement
-            mNoise.setEntry(0, measurementNoise * rand.nextGaussian());
+            double mNoise = measurementNoise * rand.nextGaussian();
 
             // z = H * x + m_noise
-            RealVector z = H.operate(x).add(mNoise);
+            RealVector z = H.operate(x).mapAdd(mNoise);
 
             filter.correct(z);
 
@@ -241,7 +243,183 @@ public class KalmanFilterTest {
         Assert.assertTrue(Precision.compareTo(filter.getErrorCovariance()[1][1],
                                               0.1d, 1e-6) < 0);
     }
-    
+
+    /**
+     * Represents an idealized Cannonball only taking into account gravity.
+     */
+    public static class Cannonball {
+        
+        private final double[] gravity = { 0, -9.81 };
+        
+        private final double[] velocity;
+        private final double[] location;
+        
+        private double timeslice;
+        
+        public Cannonball(double timeslice, double angle, double initialVelocity) {
+            this.timeslice = timeslice;
+            
+            final double angleInRadians = FastMath.toRadians(angle);
+            this.velocity = new double[] {
+                    initialVelocity * FastMath.cos(angleInRadians),
+                    initialVelocity * FastMath.sin(angleInRadians)
+            };
+            
+            this.location = new double[] { 0, 0 };
+        }
+        
+        public double getX() {
+            return location[0];
+        }
+        
+        public double getY() {
+            return location[1];
+        }
+
+        public double getXVelocity() {
+            return velocity[0];
+        }
+        
+        public double getYVelocity() {
+            return velocity[1];
+        }
+        
+        public void step() {
+            // break gravitational force into a smaller time slice.
+            double[] slicedGravity = gravity.clone();
+            for ( int i = 0; i < slicedGravity.length; i++ ) {
+                slicedGravity[i] *= timeslice;
+            }
+            
+            // apply the acceleration to velocity.
+            double[] slicedVelocity = velocity.clone();
+            for ( int i = 0; i < velocity.length; i++ ) {
+                velocity[i] += slicedGravity[i];
+                slicedVelocity[i] = velocity[i] * timeslice;
+                location[i] += slicedVelocity[i];
+            }
+
+            // cannonballs shouldn't go into the ground.
+            if ( location[1] < 0 ) {
+                location[1] = 0;
+            }
+        }
+    }
+
+    @Test
+    public void testCannonball() {
+        // simulates the flight of a cannonball (only taking gravity and initial thrust into account)
+
+        // number of iterations
+        final int iterations = 144;
+        // discrete time interval
+        final double dt = 0.1d;
+        // position measurement noise (meter)
+        final double measurementNoise = 30d;
+        // the initial velocity of the cannonball
+        final double initialVelocity = 100;
+        // shooting angle
+        final double angle = 45;
+
+        final Cannonball cannonball = new Cannonball(dt, angle, initialVelocity);
+        
+        final double speedX = cannonball.getXVelocity();
+        final double speedY = cannonball.getYVelocity();
+
+        // A = [ 1, dt, 0,  0 ]  =>  x(n+1) = x(n) + vx(n)
+        //     [ 0,  1, 0,  0 ]  => vx(n+1) =        vx(n)
+        //     [ 0,  0, 1, dt ]  =>  y(n+1) =              y(n) + vy(n)
+        //     [ 0,  0, 0,  1 ]  => vy(n+1) =                     vy(n)
+        final RealMatrix A = MatrixUtils.createRealMatrix(new double[][] {
+                { 1, dt, 0,  0 },
+                { 0,  1, 0,  0 },
+                { 0,  0, 1, dt },
+                { 0,  0, 0,  1 }       
+        });
+
+        // The control vector, which adds acceleration to the kinematic equations.
+        // 0          =>  x(n+1) =  x(n+1)
+        // 0          => vx(n+1) = vx(n+1)
+        // -9.81*dt^2 =>  y(n+1) =  y(n+1) - 1/2 * 9.81 * dt^2
+        // -9.81*dt   => vy(n+1) = vy(n+1) - 9.81 * dt
+        final RealVector controlVector =
+                MatrixUtils.createRealVector(new double[] { 0, 0, 0.5 * -9.81 * dt * dt, -9.81 * dt } );
+
+        // The control matrix B only expects y and vy, see control vector
+        final RealMatrix B = MatrixUtils.createRealMatrix(new double[][] {
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
+        });
+
+        // We only observe the x/y position of the cannonball
+        final RealMatrix H = MatrixUtils.createRealMatrix(new double[][] {
+                { 1, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 0 }
+        });
+        
+        // our guess of the initial state.
+        final RealVector initialState = MatrixUtils.createRealVector(new double[] { 0, speedX, 0, speedY } );
+
+        // the initial error covariance matrix, the variance = noise^2
+        final double var = measurementNoise * measurementNoise;
+        final RealMatrix initialErrorCovariance = MatrixUtils.createRealMatrix(new double[][] {
+                { var,    0,   0,    0 },
+                {   0, 1e-3,   0,    0 },
+                {   0,    0, var,    0 },
+                {   0,    0,   0, 1e-3 }
+        });
+
+        // we assume no process noise -> zero matrix
+        final RealMatrix Q = MatrixUtils.createRealMatrix(4, 4);
+        
+        // the measurement covariance matrix
+        final RealMatrix R = MatrixUtils.createRealMatrix(new double[][] {
+                { var,    0,   0,    0 },
+                {   0, 1e-3,   0,    0 },
+                {   0,    0, var,    0 },
+                {   0,    0,   0, 1e-3 }
+        });
+
+        final ProcessModel pm = new DefaultProcessModel(A, B, Q, initialState, initialErrorCovariance);
+        final MeasurementModel mm = new DefaultMeasurementModel(H, R);
+        final KalmanFilter filter = new KalmanFilter(pm, mm);
+
+        final RandomGenerator rng = new Well19937c(1000);
+        final NormalDistribution dist = new NormalDistribution(rng, 0, measurementNoise);
+
+        for (int i = 0; i < iterations; i++) {
+            // get the "real" cannonball position
+            double x = cannonball.getX();
+            double y = cannonball.getY();
+            
+            // apply measurement noise to current cannonball position
+            double nx = x + dist.sample();
+            double ny = y + dist.sample();
+
+            cannonball.step();
+            
+            filter.predict(controlVector);
+            // correct the filter with our measurements
+            filter.correct(new double[] { nx, 0, ny, 0 } );
+
+            // state estimate shouldn't be larger than the measurement noise
+            double diff = FastMath.abs(cannonball.getY() - filter.getStateEstimation()[2]);
+            Assert.assertTrue(Precision.compareTo(diff, measurementNoise, 1e-6) < 0);
+        }
+
+        // error covariance of the x/y-position should be already very low (< 3m std dev = 9 variance)
+        
+        Assert.assertTrue(Precision.compareTo(filter.getErrorCovariance()[0][0],
+                                              9, 1e-6) < 0);
+
+        Assert.assertTrue(Precision.compareTo(filter.getErrorCovariance()[2][2],
+                                              9, 1e-6) < 0);
+    }
+
     private void assertVectorEquals(double[] expected, double[] result) {
         Assert.assertEquals("Wrong number of rows.", expected.length,
                             result.length);

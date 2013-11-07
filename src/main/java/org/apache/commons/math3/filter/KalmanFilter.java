@@ -20,8 +20,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.CholeskyDecomposition;
-import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixDimensionMismatchException;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.NonSquareMatrixException;
@@ -283,7 +281,7 @@ public class KalmanFilter {
      *             if the dimension of the control vector does not fit
      */
     public void predict(final double[] u) throws DimensionMismatchException {
-        predict(new ArrayRealVector(u));
+        predict(new ArrayRealVector(u, false));
     }
 
     /**
@@ -332,7 +330,7 @@ public class KalmanFilter {
      */
     public void correct(final double[] z)
             throws NullArgumentException, DimensionMismatchException, SingularMatrixException {
-        correct(new ArrayRealVector(z));
+        correct(new ArrayRealVector(z, false));
     }
 
     /**
@@ -363,10 +361,7 @@ public class KalmanFilter {
             .add(measurementModel.getMeasurementNoise());
 
         // invert S
-        // as the error covariance matrix is a symmetric positive
-        // semi-definite matrix, we can use the cholesky decomposition
-        DecompositionSolver solver = new CholeskyDecomposition(s).getSolver();
-        RealMatrix invertedS = solver.getInverse();
+        RealMatrix invertedS = MatrixUtils.inverse(s);
 
         // Inn = z(k) - H * xHat(k)-
         RealVector innovation = z.subtract(measurementMatrix.operate(stateEstimation));
