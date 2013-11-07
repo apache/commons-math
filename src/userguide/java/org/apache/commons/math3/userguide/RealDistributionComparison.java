@@ -118,7 +118,7 @@ public class RealDistributionComparison {
         chart.getStyleManager().setLegendVisible(true);
         chart.getStyleManager().setLegendFont(new Font("Arial", Font.PLAIN, 10));
         chart.getStyleManager().setLegendPadding(6);
-        //chart.getStyleManager().setLegendSeriesLineLength(6);
+        chart.getStyleManager().setLegendSeriesLineLength(6);
         chart.getStyleManager().setAxisTickLabelsFont(new Font("Arial", Font.PLAIN, 9));
         
         chart.getStyleManager().setXAxisMin(minX);
