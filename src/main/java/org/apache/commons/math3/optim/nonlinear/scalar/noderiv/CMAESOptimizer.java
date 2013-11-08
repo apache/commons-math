@@ -20,6 +20,7 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -35,11 +36,13 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * <p>An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
+ * An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
  * for non-linear, non-convex, non-smooth, global function minimization.
+ * <p>
  * The CMA-Evolution Strategy (CMA-ES) is a reliable stochastic optimization method
  * which should be applied if derivative-based methods, e.g. quasi-Newton BFGS or
  * conjugate gradient, fail due to a rugged search landscape (e.g. noise, local
@@ -47,25 +50,25 @@ import org.apache.commons.math3.util.MathArrays;
  * quasi-Newton method, the CMA-ES learns and applies a variable metric
  * on the underlying search space. Unlike a quasi-Newton method, the
  * CMA-ES neither estimates nor uses gradients, making it considerably more
- * reliable in terms of finding a good, or even close to optimal, solution.</p>
- *
- * <p>In general, on smooth objective functions the CMA-ES is roughly ten times
+ * reliable in terms of finding a good, or even close to optimal, solution.
+ * <p>
+ * In general, on smooth objective functions the CMA-ES is roughly ten times
  * slower than BFGS (counting objective function evaluations, no gradients provided).
  * For up to <math>N=10</math> variables also the derivative-free simplex
  * direct search method (Nelder and Mead) can be faster, but it is
- * far less reliable than CMA-ES.</p>
- *
- * <p>The CMA-ES is particularly well suited for non-separable
+ * far less reliable than CMA-ES.
+ * <p>
+ * The CMA-ES is particularly well suited for non-separable
  * and/or badly conditioned problems. To observe the advantage of CMA compared
  * to a conventional evolution strategy, it will usually take about
  * <math>30 N</math> function evaluations. On difficult problems the complete
  * optimization (a single run) is expected to take <em>roughly</em> between
  * <math>30 N</math> and <math>300 N<sup>2</sup></math>
- * function evaluations.</p>
- *
- * <p>This implementation is translated and adapted from the Matlab version
- * of the CMA-ES algorithm as implemented in module {@code cmaes.m} version 3.51.</p>
- *
+ * function evaluations.
+ * <p>
+ * This implementation is translated and adapted from the Matlab version
+ * of the CMA-ES algorithm as implemented in module {@code cmaes.m} version 3.51.
+ * <p>
  * For more information, please refer to the following links:
  * <ul>
  *  <li><a href="http://www.lri.fr/~hansen/cmaes.m">Matlab code</a></li>
@@ -431,7 +434,7 @@ public class CMAESOptimizer
                 updateCovarianceDiagonalOnly(hsig, bestArz);
             }
             // Adapt step size sigma - Eq. (5)
-            sigma *= Math.exp(Math.min(1, (normps/chiN - 1) * cs / damps));
+            sigma *= FastMath.exp(FastMath.min(1, (normps/chiN - 1) * cs / damps));
             final double bestFitness = fitness[arindex[0]];
             final double worstFitness = fitness[arindex[arindex.length - 1]];
             if (bestValue > bestFitness) {
@@ -452,7 +455,7 @@ public class CMAESOptimizer
             final double[] sqrtDiagC = sqrt(diagC).getColumn(0);
             final double[] pcCol = pc.getColumn(0);
             for (int i = 0; i < dimension; i++) {
-                if (sigma * Math.max(Math.abs(pcCol[i]), sqrtDiagC[i]) > stopTolX) {
+                if (sigma * FastMath.max(FastMath.abs(pcCol[i]), sqrtDiagC[i]) > stopTolX) {
                     break;
                 }
                 if (i >= dimension - 1) {
@@ -467,8 +470,8 @@ public class CMAESOptimizer
             final double historyBest = min(fitnessHistory);
             final double historyWorst = max(fitnessHistory);
             if (iterations > 2 &&
-                Math.max(historyWorst, worstFitness) -
-                Math.min(historyBest, bestFitness) < stopTolFun) {
+                FastMath.max(historyWorst, worstFitness) -
+                FastMath.min(historyBest, bestFitness) < stopTolFun) {
                 break generationLoop;
             }
             if (iterations > fitnessHistory.length &&
@@ -492,11 +495,11 @@ public class CMAESOptimizer
             }
             // Adjust step size in case of equal function values (flat fitness)
             if (bestValue == fitness[arindex[(int)(0.1+lambda/4.)]]) {
-                sigma *= Math.exp(0.2 + cs / damps);
+                sigma *= FastMath.exp(0.2 + cs / damps);
             }
-            if (iterations > 2 && Math.max(historyWorst, bestFitness) -
-                Math.min(historyBest, bestFitness) == 0) {
-                sigma *= Math.exp(0.2 + cs / damps);
+            if (iterations > 2 && FastMath.max(historyWorst, bestFitness) -
+                FastMath.min(historyBest, bestFitness) == 0) {
+                sigma *= FastMath.exp(0.2 + cs / damps);
             }
             // store best in history
             push(fitnessHistory,bestFitness);
@@ -587,7 +590,7 @@ public class CMAESOptimizer
 
         // initialize selection strategy parameters
         mu = lambda / 2; // number of parents/points for recombination
-        logMu2 = Math.log(mu + 0.5);
+        logMu2 = FastMath.log(mu + 0.5);
         weights = log(sequence(1, mu, 1)).scalarMultiply(-1).scalarAdd(logMu2);
         double sumw = 0;
         double sumwq = 0;
@@ -603,17 +606,17 @@ public class CMAESOptimizer
         cc = (4 + mueff / dimension) /
                 (dimension + 4 + 2 * mueff / dimension);
         cs = (mueff + 2) / (dimension + mueff + 3.);
-        damps = (1 + 2 * Math.max(0, Math.sqrt((mueff - 1) /
-                                               (dimension + 1)) - 1)) *
-            Math.max(0.3,
-                     1 - dimension / (1e-6 + maxIterations)) + cs; // minor increment
+        damps = (1 + 2 * FastMath.max(0, FastMath.sqrt((mueff - 1) /
+                                                       (dimension + 1)) - 1)) *
+            FastMath.max(0.3,
+                         1 - dimension / (1e-6 + maxIterations)) + cs; // minor increment
         ccov1 = 2 / ((dimension + 1.3) * (dimension + 1.3) + mueff);
-        ccovmu = Math.min(1 - ccov1, 2 * (mueff - 2 + 1 / mueff) /
-                          ((dimension + 2) * (dimension + 2) + mueff));
-        ccov1Sep = Math.min(1, ccov1 * (dimension + 1.5) / 3);
-        ccovmuSep = Math.min(1 - ccov1, ccovmu * (dimension + 1.5) / 3);
-        chiN = Math.sqrt(dimension) *
-            (1 - 1 / ((double) 4 * dimension) + 1 / ((double) 21 * dimension * dimension));
+        ccovmu = FastMath.min(1 - ccov1, 2 * (mueff - 2 + 1 / mueff) /
+                              ((dimension + 2) * (dimension + 2) + mueff));
+        ccov1Sep = FastMath.min(1, ccov1 * (dimension + 1.5) / 3);
+        ccovmuSep = FastMath.min(1 - ccov1, ccovmu * (dimension + 1.5) / 3);
+        chiN = FastMath.sqrt(dimension) *
+                (1 - 1 / ((double) 4 * dimension) + 1 / ((double) 21 * dimension * dimension));
         // intialize CMA internal values - updated each generation
         xmean = MatrixUtils.createColumnRealMatrix(guess); // objective variables
         diagD = insigma.scalarMultiply(1 / sigma);
@@ -644,14 +647,14 @@ public class CMAESOptimizer
     private boolean updateEvolutionPaths(RealMatrix zmean, RealMatrix xold) {
         ps = ps.scalarMultiply(1 - cs).add(
                 B.multiply(zmean).scalarMultiply(
-                        Math.sqrt(cs * (2 - cs) * mueff)));
+                        FastMath.sqrt(cs * (2 - cs) * mueff)));
         normps = ps.getFrobeniusNorm();
         final boolean hsig = normps /
-            Math.sqrt(1 - Math.pow(1 - cs, 2 * iterations)) /
+            FastMath.sqrt(1 - FastMath.pow(1 - cs, 2 * iterations)) /
             chiN < 1.4 + 2 / ((double) dimension + 1);
         pc = pc.scalarMultiply(1 - cc);
         if (hsig) {
-            pc = pc.add(xmean.subtract(xold).scalarMultiply(Math.sqrt(cc * (2 - cc) * mueff) / sigma));
+            pc = pc.add(xmean.subtract(xold).scalarMultiply(FastMath.sqrt(cc * (2 - cc) * mueff) / sigma));
         }
         return hsig;
     }
@@ -709,7 +712,7 @@ public class CMAESOptimizer
             if (isActiveCMA) {
                 // Adapt covariance matrix C active CMA
                 negccov = (1 - ccovmu) * 0.25 * mueff /
-                    (Math.pow(dimension + 2, 1.5) + 2 * mueff);
+                    (FastMath.pow(dimension + 2, 1.5) + 2 * mueff);
                 // keep at least 0.66 in all directions, small popsize are most
                 // critical
                 final double negminresidualvariance = 0.66;
@@ -962,7 +965,7 @@ public class CMAESOptimizer
         private double penalty(final double[] x, final double[] repaired) {
             double penalty = 0;
             for (int i = 0; i < x.length; i++) {
-                double diff = Math.abs(x[i] - repaired[i]);
+                double diff = FastMath.abs(x[i] - repaired[i]);
                 penalty += diff * valueRange;
             }
             return isMinimize ? penalty : -penalty;
@@ -979,7 +982,7 @@ public class CMAESOptimizer
         final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
-                d[r][c] = Math.log(m.getEntry(r, c));
+                d[r][c] = FastMath.log(m.getEntry(r, c));
             }
         }
         return new Array2DRowRealMatrix(d, false);
@@ -993,7 +996,7 @@ public class CMAESOptimizer
         final double[][] d = new double[m.getRowDimension()][m.getColumnDimension()];
         for (int r = 0; r < m.getRowDimension(); r++) {
             for (int c = 0; c < m.getColumnDimension(); c++) {
-                d[r][c] = Math.sqrt(m.getEntry(r, c));
+                d[r][c] = FastMath.sqrt(m.getEntry(r, c));
             }
         }
         return new Array2DRowRealMatrix(d, false);
