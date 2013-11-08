@@ -18,6 +18,7 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
 import java.util.Random;
+
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
@@ -29,6 +30,7 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.SimpleBounds;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -208,7 +210,7 @@ public class BOBYQAOptimizerTest {
             new PointValuePair(point(DIM,0.0),0.0);
         doTest(new Ackley(), startPoint, boundaries,
                 GoalType.MINIMIZE,
-                1e-8, 1e-5, 1000, expected);
+                1e-7, 1e-5, 1000, expected);
     }
 
     @Test
@@ -464,7 +466,7 @@ public class BOBYQAOptimizerTest {
             double f = 0;
             x = B.Rotate(x);
             for (int i = 0; i < x.length; ++i)
-                f += Math.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+                f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
             return f;
         }
     }
@@ -484,7 +486,7 @@ public class BOBYQAOptimizerTest {
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
-                f += Math.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
+                f += FastMath.pow(factor, i / (x.length - 1.)) * x[i] * x[i];
             return f;
         }
     }
@@ -501,7 +503,7 @@ public class BOBYQAOptimizerTest {
         public double value(double[] x) {
             double f = 0;
             for (int i = 0; i < x.length; ++i)
-                f += Math.pow(Math.abs(x[i]), 2. + 10 * (double) i
+                f += FastMath.pow(FastMath.abs(x[i]), 2. + 10 * (double) i
                         / (x.length - 1.));
 //            System.out.print("" + (fcount++) + ") ");
 //            for (int i = 0; i < x.length; i++)
@@ -514,7 +516,7 @@ public class BOBYQAOptimizerTest {
     private static class SsDiffPow implements MultivariateFunction {
 
         public double value(double[] x) {
-            double f = Math.pow(new DiffPow().value(x), 0.25);
+            double f = FastMath.pow(new DiffPow().value(x), 0.25);
             return f;
         }
     }
@@ -546,12 +548,12 @@ public class BOBYQAOptimizerTest {
             double res2 = 0;
             double fac = 0;
             for (int i = 0; i < x.length; ++i) {
-                fac = Math.pow(axisratio, (i - 1.) / (x.length - 1.));
+                fac = FastMath.pow(axisratio, (i - 1.) / (x.length - 1.));
                 f += fac * fac * x[i] * x[i];
-                res2 += Math.cos(2. * Math.PI * fac * x[i]);
+                res2 += FastMath.cos(2. * FastMath.PI * fac * x[i]);
             }
-            f = (20. - 20. * Math.exp(-0.2 * Math.sqrt(f / x.length))
-                    + Math.exp(1.) - Math.exp(res2 / x.length));
+            f = (20. - 20. * FastMath.exp(-0.2 * FastMath.sqrt(f / x.length))
+                    + FastMath.exp(1.) - FastMath.exp(res2 / x.length));
             return f;
         }
     }
@@ -574,11 +576,11 @@ public class BOBYQAOptimizerTest {
             double f = 0;
             double fac;
             for (int i = 0; i < x.length; ++i) {
-                fac = Math.pow(axisratio, (i - 1.) / (x.length - 1.));
+                fac = FastMath.pow(axisratio, (i - 1.) / (x.length - 1.));
                 if (i == 0 && x[i] < 0)
                     fac *= 1.;
                 f += fac * fac * x[i] * x[i] + amplitude
-                * (1. - Math.cos(2. * Math.PI * fac * x[i]));
+                * (1. - FastMath.cos(2. * FastMath.PI * fac * x[i]));
             }
             return f;
         }
@@ -623,7 +625,7 @@ public class BOBYQAOptimizerTest {
                 for (sp = 0., k = 0; k < DIM; ++k)
                     sp += basis[i][k] * basis[i][k]; /* squared norm */
                 for (k = 0; k < DIM; ++k)
-                    basis[i][k] /= Math.sqrt(sp);
+                    basis[i][k] /= FastMath.sqrt(sp);
             }
         }
     }

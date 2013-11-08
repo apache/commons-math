@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1057">
+        Fixed failing unit tests for "BOBYQAOptimizer" when executed with a Oracle/Sun JVM 1.5.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1062">
         A call to "KalmanFilter#correct(...)" may have resulted in "NonSymmetricMatrixException"
         as the internally used matrix inversion method was using a too strict symmetry check.
