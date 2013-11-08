@@ -143,7 +143,7 @@ public class KalmanFilterTest {
             filter.correct(z);
 
             // state estimate shouldn't be larger than measurement noise
-            double diff = Math.abs(constantValue - filter.getStateEstimation()[0]);
+            double diff = FastMath.abs(constantValue - filter.getStateEstimation()[0]);
             // System.out.println(diff);
             Assert.assertTrue(Precision.compareTo(diff, measurementNoise, 1e-6) < 0);
         }
@@ -171,7 +171,7 @@ public class KalmanFilterTest {
         // B = [ dt^2/2 ]
         //     [ dt     ]
         RealMatrix B = new Array2DRowRealMatrix(
-                new double[][] { { Math.pow(dt, 2d) / 2d }, { dt } });
+                new double[][] { { FastMath.pow(dt, 2d) / 2d }, { dt } });
 
         // H = [ 1 0 ]
         RealMatrix H = new Array2DRowRealMatrix(new double[][] { { 1d, 0d } });
@@ -180,12 +180,12 @@ public class KalmanFilterTest {
         RealVector x = new ArrayRealVector(new double[] { 0, 0 });
 
         RealMatrix tmp = new Array2DRowRealMatrix(
-                new double[][] { { Math.pow(dt, 4d) / 4d, Math.pow(dt, 3d) / 2d },
-                                 { Math.pow(dt, 3d) / 2d, Math.pow(dt, 2d) } });
+                new double[][] { { FastMath.pow(dt, 4d) / 4d, FastMath.pow(dt, 3d) / 2d },
+                                 { FastMath.pow(dt, 3d) / 2d, FastMath.pow(dt, 2d) } });
 
         // Q = [ dt^4/4 dt^3/2 ]
         //     [ dt^3/2 dt^2   ]
-        RealMatrix Q = tmp.scalarMultiply(Math.pow(accelNoise, 2));
+        RealMatrix Q = tmp.scalarMultiply(FastMath.pow(accelNoise, 2));
 
         // P0 = [ 1 1 ]
         //      [ 1 1 ]
@@ -193,7 +193,7 @@ public class KalmanFilterTest {
 
         // R = [ measurementNoise^2 ]
         RealMatrix R = new Array2DRowRealMatrix(
-                new double[] { Math.pow(measurementNoise, 2) });
+                new double[] { FastMath.pow(measurementNoise, 2) });
 
         // constant control input, increase velocity by 0.1 m/s per cycle
         RealVector u = new ArrayRealVector(new double[] { 0.1d });
@@ -214,7 +214,7 @@ public class KalmanFilterTest {
         RandomGenerator rand = new JDKRandomGenerator();
 
         RealVector tmpPNoise = new ArrayRealVector(
-                new double[] { Math.pow(dt, 2d) / 2d, dt });
+                new double[] { FastMath.pow(dt, 2d) / 2d, dt });
 
         // iterate 60 steps
         for (int i = 0; i < 60; i++) {
@@ -235,7 +235,7 @@ public class KalmanFilterTest {
             filter.correct(z);
 
             // state estimate shouldn't be larger than the measurement noise
-            double diff = Math.abs(x.getEntry(0) - filter.getStateEstimation()[0]);
+            double diff = FastMath.abs(x.getEntry(0) - filter.getStateEstimation()[0]);
             Assert.assertTrue(Precision.compareTo(diff, measurementNoise, 1e-6) < 0);
         }
 

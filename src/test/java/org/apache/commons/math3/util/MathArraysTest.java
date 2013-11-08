@@ -392,25 +392,25 @@ public class MathArraysTest {
 
         MathArrays.sortInPlace(x1, x2, x3);
 
-        Assert.assertEquals(-3,  x1[0], Math.ulp(1d));
-        Assert.assertEquals(9,   x2[0], Math.ulp(1d));
-        Assert.assertEquals(-27, x3[0], Math.ulp(1d));
+        Assert.assertEquals(-3,  x1[0], FastMath.ulp(1d));
+        Assert.assertEquals(9,   x2[0], FastMath.ulp(1d));
+        Assert.assertEquals(-27, x3[0], FastMath.ulp(1d));
 
-        Assert.assertEquals(1, x1[1], Math.ulp(1d));
-        Assert.assertEquals(1, x2[1], Math.ulp(1d));
-        Assert.assertEquals(1, x3[1], Math.ulp(1d));
+        Assert.assertEquals(1, x1[1], FastMath.ulp(1d));
+        Assert.assertEquals(1, x2[1], FastMath.ulp(1d));
+        Assert.assertEquals(1, x3[1], FastMath.ulp(1d));
 
-        Assert.assertEquals(2, x1[2], Math.ulp(1d));
-        Assert.assertEquals(4, x2[2], Math.ulp(1d));
-        Assert.assertEquals(8, x3[2], Math.ulp(1d));
+        Assert.assertEquals(2, x1[2], FastMath.ulp(1d));
+        Assert.assertEquals(4, x2[2], FastMath.ulp(1d));
+        Assert.assertEquals(8, x3[2], FastMath.ulp(1d));
 
-        Assert.assertEquals(4,  x1[3], Math.ulp(1d));
-        Assert.assertEquals(16, x2[3], Math.ulp(1d));
-        Assert.assertEquals(64, x3[3], Math.ulp(1d));
+        Assert.assertEquals(4,  x1[3], FastMath.ulp(1d));
+        Assert.assertEquals(16, x2[3], FastMath.ulp(1d));
+        Assert.assertEquals(64, x3[3], FastMath.ulp(1d));
 
-        Assert.assertEquals(5,   x1[4], Math.ulp(1d));
-        Assert.assertEquals(25,  x2[4], Math.ulp(1d));
-        Assert.assertEquals(125, x3[4], Math.ulp(1d));
+        Assert.assertEquals(5,   x1[4], FastMath.ulp(1d));
+        Assert.assertEquals(25,  x2[4], FastMath.ulp(1d));
+        Assert.assertEquals(125, x3[4], FastMath.ulp(1d));
     }
 
     @Test
@@ -423,25 +423,25 @@ public class MathArraysTest {
                                MathArrays.OrderDirection.DECREASING,
                                x2, x3);
 
-        Assert.assertEquals(-3,  x1[4], Math.ulp(1d));
-        Assert.assertEquals(9,   x2[4], Math.ulp(1d));
-        Assert.assertEquals(-27, x3[4], Math.ulp(1d));
+        Assert.assertEquals(-3,  x1[4], FastMath.ulp(1d));
+        Assert.assertEquals(9,   x2[4], FastMath.ulp(1d));
+        Assert.assertEquals(-27, x3[4], FastMath.ulp(1d));
 
-        Assert.assertEquals(1, x1[3], Math.ulp(1d));
-        Assert.assertEquals(1, x2[3], Math.ulp(1d));
-        Assert.assertEquals(1, x3[3], Math.ulp(1d));
+        Assert.assertEquals(1, x1[3], FastMath.ulp(1d));
+        Assert.assertEquals(1, x2[3], FastMath.ulp(1d));
+        Assert.assertEquals(1, x3[3], FastMath.ulp(1d));
 
-        Assert.assertEquals(2, x1[2], Math.ulp(1d));
-        Assert.assertEquals(4, x2[2], Math.ulp(1d));
-        Assert.assertEquals(8, x3[2], Math.ulp(1d));
+        Assert.assertEquals(2, x1[2], FastMath.ulp(1d));
+        Assert.assertEquals(4, x2[2], FastMath.ulp(1d));
+        Assert.assertEquals(8, x3[2], FastMath.ulp(1d));
 
-        Assert.assertEquals(4,  x1[1], Math.ulp(1d));
-        Assert.assertEquals(16, x2[1], Math.ulp(1d));
-        Assert.assertEquals(64, x3[1], Math.ulp(1d));
+        Assert.assertEquals(4,  x1[1], FastMath.ulp(1d));
+        Assert.assertEquals(16, x2[1], FastMath.ulp(1d));
+        Assert.assertEquals(64, x3[1], FastMath.ulp(1d));
 
-        Assert.assertEquals(5,   x1[0], Math.ulp(1d));
-        Assert.assertEquals(25,  x2[0], Math.ulp(1d));
-        Assert.assertEquals(125, x3[0], Math.ulp(1d));
+        Assert.assertEquals(5,   x1[0], FastMath.ulp(1d));
+        Assert.assertEquals(25,  x2[0], FastMath.ulp(1d));
+        Assert.assertEquals(125, x3[0], FastMath.ulp(1d));
     }
     
     @Test
@@ -535,7 +535,7 @@ public class MathArraysTest {
                                   -Double.MAX_VALUE,
                                   -1, 0,
                                   Double.MIN_VALUE,
-                                  Math.ulp(1d),
+                                  FastMath.ulp(1d),
                                   1, 3, 113, 4769,
                                   Double.MAX_VALUE,
                                   Double.POSITIVE_INFINITY };
@@ -553,7 +553,7 @@ public class MathArraysTest {
                                   -Double.MAX_VALUE,
                                   -1, 0,
                                   Double.MIN_VALUE,
-                                  Math.ulp(1d),
+                                  FastMath.ulp(1d),
                                   1, 3, 113, 4769,
                                   Double.MAX_VALUE,
                                   Double.POSITIVE_INFINITY };
@@ -572,7 +572,7 @@ public class MathArraysTest {
                                   -Double.MAX_VALUE,
                                   -1, 0,
                                   Double.MIN_VALUE,
-                                  Math.ulp(1d),
+                                  FastMath.ulp(1d),
                                   1, 3, 113, 4769,
                                   Double.MAX_VALUE,
                                   Double.POSITIVE_INFINITY };
