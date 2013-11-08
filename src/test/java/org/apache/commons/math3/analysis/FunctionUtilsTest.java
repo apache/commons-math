@@ -46,7 +46,7 @@ import org.junit.Test;
  * Test for {@link FunctionUtils}.
  */
 public class FunctionUtilsTest {
-    private final double EPS = Math.ulp(1d);
+    private final double EPS = FastMath.ulp(1d);
 
     @Test
     public void testCompose() {
@@ -113,7 +113,7 @@ public class FunctionUtilsTest {
         UnivariateDifferentiableFunction inv = new Inverse();
 
         final double a = 123.456;
-        Assert.assertEquals(- 1 / (a * a) -1 + Math.cos(a),
+        Assert.assertEquals(- 1 / (a * a) -1 + FastMath.cos(a),
                             FunctionUtils.add(inv, m, c, sin).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1),
                             EPS);
     }
@@ -138,11 +138,11 @@ public class FunctionUtilsTest {
         UnivariateDifferentiableFunction inv = new Inverse();
         UnivariateDifferentiableFunction pow = new Power(2.5);
         UnivariateDifferentiableFunction cos = new Cos();
-        Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cos(a) - Math.pow(a, 1.5) * Math.sin(a),
+        Assert.assertEquals(1.5 * FastMath.sqrt(a) * FastMath.cos(a) - FastMath.pow(a, 1.5) * FastMath.sin(a),
                             FunctionUtils.multiply(inv, pow, cos).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), EPS);
 
         UnivariateDifferentiableFunction cosh = new Cosh();
-        Assert.assertEquals(1.5 * Math.sqrt(a) * Math.cosh(a) + Math.pow(a, 1.5) * Math.sinh(a),
+        Assert.assertEquals(1.5 * FastMath.sqrt(a) * FastMath.cosh(a) + FastMath.pow(a, 1.5) * FastMath.sinh(a),
                             FunctionUtils.multiply(inv, pow, cosh).value(new DerivativeStructure(1, 1, 0, a)).getPartialDerivative(1), 8 * EPS);
     }
 
@@ -188,7 +188,7 @@ public class FunctionUtilsTest {
         UnivariateFunction sinc2 = new Sinc();
 
         for (int i = 0; i < 10; i++) {
-            double x = Math.random();
+            double x = FastMath.random();
             Assert.assertEquals(sinc1.value(x), sinc2.value(x), EPS);
         }
     }
@@ -202,31 +202,31 @@ public class FunctionUtilsTest {
         UnivariateFunction pow2 = FunctionUtils.fix2ndArgument(new Pow(), 2);
 
         for (int i = 0; i < 10; i++) {
-            double x = Math.random() * 10;
+            double x = FastMath.random() * 10;
             Assert.assertEquals(pow1.value(x), pow2.value(x), 0);
         }
     }
 
     @Test(expected = NumberIsTooLargeException.class)
     public void testSampleWrongBounds(){
-        FunctionUtils.sample(new Sin(), Math.PI, 0.0, 10);
+        FunctionUtils.sample(new Sin(), FastMath.PI, 0.0, 10);
     }
 
     @Test(expected = NotStrictlyPositiveException.class)
     public void testSampleNegativeNumberOfPoints(){
-        FunctionUtils.sample(new Sin(), 0.0, Math.PI, -1);
+        FunctionUtils.sample(new Sin(), 0.0, FastMath.PI, -1);
     }
 
     @Test(expected = NotStrictlyPositiveException.class)
     public void testSampleNullNumberOfPoints(){
-        FunctionUtils.sample(new Sin(), 0.0, Math.PI, 0);
+        FunctionUtils.sample(new Sin(), 0.0, FastMath.PI, 0);
     }
 
     @Test
     public void testSample() {
         final int n = 11;
         final double min = 0.0;
-        final double max = Math.PI;
+        final double max = FastMath.PI;
         final double[] actual = FunctionUtils.sample(new Sin(), min, max, n);
         for (int i = 0; i < n; i++) {
             final double x = min + (max - min) / n * i;
