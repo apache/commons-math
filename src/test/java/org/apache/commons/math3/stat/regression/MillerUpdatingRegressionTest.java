@@ -67,10 +67,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             xAll[i] = new double[3];
-            xAll[i][0] = Math.log(airdata[3][i]);
-            xAll[i][1] = Math.log(airdata[4][i]);
+            xAll[i][0] = FastMath.log(airdata[3][i]);
+            xAll[i][1] = FastMath.log(airdata[4][i]);
             xAll[i][2] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
         instance.addObservations(xAll, y);
         if (instance.getN() != xAll.length) {
@@ -169,10 +169,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = Math.log(airdata[3][i]);
-            x[i][2] = Math.log(airdata[4][i]);
+            x[i][1] = FastMath.log(airdata[3][i]);
+            x[i][2] = FastMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -201,10 +201,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = Math.log(airdata[3][i]);
-            x[i][1] = Math.log(airdata[4][i]);
+            x[i][0] = FastMath.log(airdata[3][i]);
+            x[i][1] = FastMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -722,10 +722,10 @@ public class MillerUpdatingRegressionTest {
 //        for (int i = 0; i < airdata[0].length; i++) {
 //            x[i] = new double[4];
 //            x[i][0] = 1.0;
-//            x[i][1] = Math.log(airdata[3][i]);
-//            x[i][2] = Math.log(airdata[4][i]);
+//            x[i][1] = FastMath.log(airdata[3][i]);
+//            x[i][2] = FastMath.log(airdata[4][i]);
 //            x[i][3] = airdata[5][i];
-//            y[i] = Math.log(airdata[2][i]);
+//            y[i] = FastMath.log(airdata[2][i]);
 //        }
 //
 //        instance.addObservations(x, y);
@@ -739,16 +739,16 @@ public class MillerUpdatingRegressionTest {
 //
 //        double[] beta = result.getParameterEstimates();
 //        double[] betar = resultInverse.getParameterEstimates();
-//        if (Math.abs(beta[0] - betar[0]) > 1.0e-14) {
+//        if (FastMath.abs(beta[0] - betar[0]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (0,3)");
 //        }
-//        if (Math.abs(beta[1] - betar[1]) > 1.0e-14) {
+//        if (FastMath.abs(beta[1] - betar[1]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (1,2)");
 //        }
-//        if (Math.abs(beta[2] - betar[2]) > 1.0e-14) {
+//        if (FastMath.abs(beta[2] - betar[2]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (2,1)");
 //        }
-//        if (Math.abs(beta[3] - betar[3]) > 1.0e-14) {
+//        if (FastMath.abs(beta[3] - betar[3]) > 1.0e-14) {
 //            Assert.fail("Parameters not correct after reorder (3,0)");
 //        }
 //    }
@@ -764,8 +764,8 @@ public class MillerUpdatingRegressionTest {
             x[i] = new double[4];
             x2[i] = new double[5];
             x[i][0] = 1.0;
-            x[i][1] = Math.log(airdata[3][i]);
-            x[i][2] = Math.log(airdata[4][i]);
+            x[i][1] = FastMath.log(airdata[3][i]);
+            x[i][2] = FastMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
 
             x2[i][0] = x[i][0];
@@ -774,7 +774,7 @@ public class MillerUpdatingRegressionTest {
             x2[i][3] = x[i][3];
             x2[i][4] = x[i][3];
 
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -790,14 +790,14 @@ public class MillerUpdatingRegressionTest {
         double[] ser = resultRedundant.getStdErrorOfEstimates();
 
         for (int i = 0; i < beta.length; i++) {
-            if (Math.abs(beta[i] - betar[i]) > 1.0e-8) {
+            if (FastMath.abs(beta[i] - betar[i]) > 1.0e-8) {
                 Assert.fail("Parameters not correctly estimated");
             }
-            if (Math.abs(se[i] - ser[i]) > 1.0e-8) {
+            if (FastMath.abs(se[i] - ser[i]) > 1.0e-8) {
                 Assert.fail("Standard errors not correctly estimated");
             }
             for (int j = 0; j < i; j++) {
-                if (Math.abs(result.getCovarianceOfParameters(i, j)
+                if (FastMath.abs(result.getCovarianceOfParameters(i, j)
                         - resultRedundant.getCovarianceOfParameters(i, j)) > 1.0e-8) {
                     Assert.fail("Variance Covariance not correct");
                 }
@@ -824,8 +824,8 @@ public class MillerUpdatingRegressionTest {
             x[i] = new double[4];
             x2[i] = new double[7];
             x[i][0] = 1.0;
-            x[i][1] = Math.log(airdata[3][i]);
-            x[i][2] = Math.log(airdata[4][i]);
+            x[i][1] = FastMath.log(airdata[3][i]);
+            x[i][2] = FastMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
 
             x2[i][0] = x[i][0];
@@ -836,7 +836,7 @@ public class MillerUpdatingRegressionTest {
             x2[i][5] = x[i][3];
             x2[i][6] = x[i][2];
 
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
@@ -851,71 +851,71 @@ public class MillerUpdatingRegressionTest {
         double[] se = result.getStdErrorOfEstimates();
         double[] ser = resultRedundant.getStdErrorOfEstimates();
 
-        if (Math.abs(beta[0] - betar[0]) > 1.0e-8) {
+        if (FastMath.abs(beta[0] - betar[0]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (0,3)");
         }
-        if (Math.abs(beta[1] - betar[2]) > 1.0e-8) {
+        if (FastMath.abs(beta[1] - betar[2]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (1,2)");
         }
-        if (Math.abs(beta[2] - betar[3]) > 1.0e-8) {
+        if (FastMath.abs(beta[2] - betar[3]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (2,1)");
         }
-        if (Math.abs(beta[3] - betar[5]) > 1.0e-8) {
+        if (FastMath.abs(beta[3] - betar[5]) > 1.0e-8) {
             Assert.fail("Parameters not correct after reorder (3,0)");
         }
 
-        if (Math.abs(se[0] - ser[0]) > 1.0e-8) {
+        if (FastMath.abs(se[0] - ser[0]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (0,3)");
         }
-        if (Math.abs(se[1] - ser[2]) > 1.0e-8) {
+        if (FastMath.abs(se[1] - ser[2]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (1,2)");
         }
-        if (Math.abs(se[2] - ser[3]) > 1.0e-8) {
+        if (FastMath.abs(se[2] - ser[3]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (2,1)");
         }
-        if (Math.abs(se[3] - ser[5]) > 1.0e-8) {
+        if (FastMath.abs(se[3] - ser[5]) > 1.0e-8) {
             Assert.fail("Se not correct after reorder (3,0)");
         }
 
-        if (Math.abs(result.getCovarianceOfParameters(0, 0)
+        if (FastMath.abs(result.getCovarianceOfParameters(0, 0)
                 - resultRedundant.getCovarianceOfParameters(0, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,0)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(0, 1)
+        if (FastMath.abs(result.getCovarianceOfParameters(0, 1)
                 - resultRedundant.getCovarianceOfParameters(0, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,1)<->(0,2)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(0, 2)
+        if (FastMath.abs(result.getCovarianceOfParameters(0, 2)
                 - resultRedundant.getCovarianceOfParameters(0, 3)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,2)<->(0,1)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(0, 3)
+        if (FastMath.abs(result.getCovarianceOfParameters(0, 3)
                 - resultRedundant.getCovarianceOfParameters(0, 5)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (0,3)<->(0,3)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(1, 0)
+        if (FastMath.abs(result.getCovarianceOfParameters(1, 0)
                 - resultRedundant.getCovarianceOfParameters(2, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct after reorder (1,0)<->(2,0)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(1, 1)
+        if (FastMath.abs(result.getCovarianceOfParameters(1, 1)
                 - resultRedundant.getCovarianceOfParameters(2, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct  (1,1)<->(2,1)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(1, 2)
+        if (FastMath.abs(result.getCovarianceOfParameters(1, 2)
                 - resultRedundant.getCovarianceOfParameters(2, 3)) > 1.0e-8) {
             Assert.fail("VCV not correct  (1,2)<->(2,2)");
         }
 
-        if (Math.abs(result.getCovarianceOfParameters(2, 0)
+        if (FastMath.abs(result.getCovarianceOfParameters(2, 0)
                 - resultRedundant.getCovarianceOfParameters(3, 0)) > 1.0e-8) {
             Assert.fail("VCV not correct  (2,0)<->(1,0)");
         }
-        if (Math.abs(result.getCovarianceOfParameters(2, 1)
+        if (FastMath.abs(result.getCovarianceOfParameters(2, 1)
                 - resultRedundant.getCovarianceOfParameters(3, 2)) > 1.0e-8) {
             Assert.fail("VCV not correct  (2,1)<->(1,2)");
         }
 
-        if (Math.abs(result.getCovarianceOfParameters(3, 3)
+        if (FastMath.abs(result.getCovarianceOfParameters(3, 3)
                 - resultRedundant.getCovarianceOfParameters(5, 5)) > 1.0e-8) {
             Assert.fail("VCV not correct  (3,3)<->(3,2)");
         }
@@ -940,10 +940,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = Math.log(airdata[3][i]);
-            x[i][2] = Math.log(airdata[4][i]);
+            x[i][1] = FastMath.log(airdata[3][i]);
+            x[i][2] = FastMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
             off = 0;
             for (int j = 0; j < 4; j++) {
                 double tmp = x[i][j];
@@ -968,14 +968,14 @@ public class MillerUpdatingRegressionTest {
         int off2 = 6;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < i; j++) {
-                if (Math.abs(pc[idx] - cp[off] / (diag[i] * diag[j])) > 1.0e-8) {
+                if (FastMath.abs(pc[idx] - cp[off] / (diag[i] * diag[j])) > 1.0e-8) {
                     Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
                 ++off;
             }
             ++off;
-            if (Math.abs(pc[i+off2] - yxcorr[ i] / (FastMath.sqrt(sumysq) * diag[i])) > 1.0e-8) {
+            if (FastMath.abs(pc[i+off2] - yxcorr[ i] / (FastMath.sqrt(sumysq) * diag[i])) > 1.0e-8) {
                 Assert.fail("Assert.failed cross product i = " + i + " y");
             }
         }
@@ -985,7 +985,7 @@ public class MillerUpdatingRegressionTest {
 
         for (int i = 1; i < 4; i++) {
             for (int j = 1; j < i; j++) {
-                if (Math.abs(pc2[idx] - corr.getEntry(j, i)) > 1.0e-8) {
+                if (FastMath.abs(pc2[idx] - corr.getEntry(j, i)) > 1.0e-8) {
                     Assert.fail("Failed cross products... i = " + i + " j = " + j);
                 }
                 ++idx;
@@ -1006,10 +1006,10 @@ public class MillerUpdatingRegressionTest {
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[4];
             x[i][0] = 1.0;
-            x[i][1] = Math.log(airdata[3][i]);
-            x[i][2] = Math.log(airdata[4][i]);
+            x[i][1] = FastMath.log(airdata[3][i]);
+            x[i][2] = FastMath.log(airdata[4][i]);
             x[i][3] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
         instance.addObservations(x, y);
         OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
@@ -1029,10 +1029,10 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = Math.log(airdata[3][i]);
-            x[i][1] = Math.log(airdata[4][i]);
+            x[i][0] = FastMath.log(airdata[3][i]);
+            x[i][1] = FastMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
         instance.addObservations(x, y);
         OLSMultipleLinearRegression ols = new OLSMultipleLinearRegression();
@@ -1057,15 +1057,15 @@ public class MillerUpdatingRegressionTest {
         double[] y = new double[airdata[0].length];
         for (int i = 0; i < airdata[0].length; i++) {
             x[i] = new double[3];
-            x[i][0] = Math.log(airdata[3][i]);
-            x[i][1] = Math.log(airdata[4][i]);
+            x[i][0] = FastMath.log(airdata[3][i]);
+            x[i][1] = FastMath.log(airdata[4][i]);
             x[i][2] = airdata[5][i];
             
             xReduced[i] = new double[2];
-            xReduced[i][0] = Math.log(airdata[3][i]);
-            xReduced[i][1] = Math.log(airdata[4][i]);
+            xReduced[i][0] = FastMath.log(airdata[3][i]);
+            xReduced[i][1] = FastMath.log(airdata[4][i]);
             
-            y[i] = Math.log(airdata[2][i]);
+            y[i] = FastMath.log(airdata[2][i]);
         }
 
         instance.addObservations(x, y);
