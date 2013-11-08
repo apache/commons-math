@@ -321,7 +321,7 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
             final double delta = FastMath.sqrt(lambda * FastMath.log(32 * lambda / FastMath.PI + 1));
             final double halfDelta = delta / 2;
             final double twolpd = 2 * lambda + delta;
-            final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / 8 * lambda);
+            final double a1 = FastMath.sqrt(FastMath.PI * twolpd) * FastMath.exp(1 / (8 * lambda));
             final double a2 = (twolpd / delta) * FastMath.exp(-delta * (1 + delta) / twolpd);
             final double aSum = a1 + a2 + 1;
             final double p1 = a1 / aSum;
