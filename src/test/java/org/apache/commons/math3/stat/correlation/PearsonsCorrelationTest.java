@@ -194,6 +194,7 @@ public class PearsonsCorrelationTest {
         double[] noVariance = new double[] {1, 1, 1, 1};
         double[] values = new double[] {1, 2, 3, 4};
         Assert.assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(noVariance, values)));
+        Assert.assertTrue(Double.isNaN(new PearsonsCorrelation().correlation(values, noVariance)));
     }
 
 
