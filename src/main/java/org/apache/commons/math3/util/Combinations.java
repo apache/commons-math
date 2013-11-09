@@ -399,7 +399,7 @@ public class Combinations implements Iterable<int[]> {
                     throw new OutOfRangeException(digit, 0, n - 1);
                 }
 
-                ret += c[i] * ArithmeticUtils.pow(n, (long) i);
+                ret += c[i] * ArithmeticUtils.pow(n, i);
             }
             return ret;
         }
