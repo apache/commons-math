@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="psteitz" type="add" issue="MATH-1061>
+        Added InsufficientDataException.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1056" due-to="Sean Owen">
         Fixed unintended integer division error in PoissonDistribution sampling method.
       </action>

@@ -130,6 +130,7 @@ public enum LocalizedFormats implements Localizable {
     @Deprecated
     INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE("input data comes from unsupported datasource: {0}, supported sources: {1}, {2}"),
     INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES("instance of class {0} not comparable to existing values"),
+    INSUFFICIENT_DATA("insufficient data"),
     INSUFFICIENT_DATA_FOR_T_STATISTIC("insufficient data for t statistic, needs at least 2, got {0}"),
     INSUFFICIENT_DIMENSION("insufficient dimension {0}, must be at least {1}"),
     DIMENSION("dimension ({0})"), /* keep */
