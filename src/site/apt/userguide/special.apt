@@ -47,7 +47,7 @@
   <<<Gamma.gamma(x)>>> computes the Gamma function, Γ(x)
   (see {{{http://mathworld.wolfram.com/GammaFunction.html}MathWorld}},
   {{{http://dlmf.nist.gov/5}DLMF}}). The accuracy of the Commons-Math
-  implementation is assessed by comparaison with high precision values computed
+  implementation is assessed by comparison with high precision values computed
   with the {{{http://maxima.sourceforge.net/}Maxima}} Computer Algebra System.
 
 *----------------+-----------------------------------------------+-----------------+----------------------+----------------+
@@ -106,7 +106,7 @@
   Beta function, log B(a, b).
   (see {{{http://mathworld.wolfram.com/BetaFunction.html}MathWorld}},
   {{{http://dlmf.nist.gov/5.12}DLMF}}). The accuracy of the Commons-Math
-  implementation is assessed by comparaison with high precision values computed
+  implementation is assessed by comparison with high precision values computed
   with the {{{http://maxima.sourceforge.net/}Maxima}} Computer Algebra System.
 
 *----------------+-----------------------------------------+-----------------+----------------------+----------------+
