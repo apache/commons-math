@@ -27,7 +27,7 @@
     <section name="8 Probability Distributions">
       <subsection name="8.1 Overview" href="overview">
         <p>
-          The distributions package provide a framework for some commonly used
+          The distributions package provides a framework and implementations for some commonly used
           probability distributions.
         </p>
         <p>
@@ -38,49 +38,54 @@
       <subsection name="8.2 Distribution Framework" href="distributions">
         <p>
           The distribution framework provides the means to compute probability density
-          function (PDF) probabilities and cumulative distribution function (CDF)
-          probabilities for common probability distributions. Along with the direct
-          computation of PDF and CDF probabilities, the framework also allows for the
-          computation of inverse PDF and inverse CDF values.
+          functions (<code>density(&middot;)</code>), probability mass functions
+          (<code>probability(&middot;)</code>) and distribution functions
+          (<code>cumulativeProbability(&middot;)</code>) for both
+          discrete (integer-valued) and continuous probability distributions.
+          The framework also allows for the computation of inverse cumulative probabilities.
         </p>
         <p>
-          Using a distribution object, PDF and CDF probabilities are easily computed
-          using the <code>cumulativeProbability</code> methods.  For a distribution
-          <code>X</code>, and a domain value, <code>x</code>,
-          <code>cumulativeProbability</code> computes <code>P(X &lt;= x)</code>
-          (i.e. the lower tail probability of <code>X</code>).
+          For an instance <code>f</code> of a distribution <code>F</code>,
+          and a domain value, <code>x</code>, <code>f.cumulativeProbability(x)</code>
+          computes <code>P(X &lt;= x)</code> where <code>X</code> is a random variable distributed
+          as <code>f</code>, i.e., <code>f.cumulativeProbability(&middot;)</code> represents
+          the distribution function of <code>f</code>. If <code>f</code> is continuous,
+          (implementing the <code>RealDistribution</code> interface) the probability density
+          function of <code>f</code> is represented by <code>f.density(&middot;)</code>.
+          For discrete <code>f</code> (implementing <code>IntegerDistribution</code>), the probability
+          mass function is represented by <code>f.probability(&middot;)</code>.  Continuous
+          distributions also implement <code>probability(&middot;)</code> with the same
+          definition (<code>f.probability(x)</code> represents <code>P(X = x)</code>
+          where <code>X</code> is distributed as <code>f</code>), though in the continuous
+          case, this will usually be identically 0. 
         </p>
 <source>TDistribution t = new TDistribution(29);
-double lowerTail = t.cumulativeProbability(-2.656);     // P(T &lt;= -2.656)
-double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T &gt;= 2.75)</source>
+double lowerTail = t.cumulativeProbability(-2.656);     // P(T(29) &lt;= -2.656)
+double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T(29) &gt;= 2.75)</source>
         <p>
-          The inverse PDF and CDF values are just as easily computed using the
-          <code>inverseCumulativeProbability</code> methods.  For a distribution <code>X</code>,
-          and a probability, <code>p</code>, <code>inverseCumulativeProbability</code>
-          computes the domain value <code>x</code>, such that:
-          <ul>
-            <li><code>P(X &lt;= x) = p</code>, for continuous distributions</li>
-            <li><code>P(X &lt;= x) &lt;= p</code>, for discrete distributions</li>
-          </ul>
-          Notice the different cases for continuous and discrete distributions.  This is the result
-          of PDFs not being invertible functions.  As such, for discrete distributions, an exact
-          domain value can not be returned.  Only the "best" domain value.  For Commons-Math, the "best"
-          domain value is determined by the largest domain value whose cumulative probability is
-          less-than or equal to the given probability.
+          Inverse distribution functions can be computed using the
+          <code>inverseCumulativeProbability</code> methods.  For continuous <code>f</code>
+          and <code>p</code> a probability, <code>f.inverseCumulativeProbability(p)</code> returns
+          <code><ul>
+            <li>inf{x in R | P(X&le;x) &ge; p} for 0 &lt; p &lt; 1},</li>
+            <li>inf{x in R | P(X&le;x) &gt; 0} for p = 0}.</li>
+          </ul></code> where <code>X</code> is distributed as <code>f</code>.<br/>
+          For discrete <code>f</code>, the definition is the same, with <code>Z</code> (the integers)
+          in place of <code>R</code>.  Note that in the discrete case, the &ge; in the definition
+          can make a difference when <code>p</code> is an attained value of the distribution.
         </p>
       </subsection>
+      <!--
+          TODO: add section on multivariate distributions
+      -->
       <subsection name="8.3 User Defined Distributions" href="userdefined">
         <p>
-        Since there are numerous distributions and Commons-Math only directly
-        supports a handful, it may be necessary to extend the distribution
-        framework to satisfy individual needs.  It is recommended that the
+        User-defined distributions can be implemented using
         <a href="../apidocs/org/apache/commons/math3/distribution/RealDistribution.html">RealDistribution</a>,
         <a href="../apidocs/org/apache/commons/math3/distribution/IntegerDistribution.html">IntegerDistribution</a> and
         <a href="../apidocs/org/apache/commons/math3/distribution/MultivariateRealDistribution.html">MultivariateRealDistribution</a>
-        interfaces serve as base types for any extension.  These serve as the basis for all the
-        distributions directly supported by Commons-Math and using those interfaces
-        for implementation purposes will ensure any extension is compatible with the
-        remainder of Commons-Math.  To aid in implementing a distribution extension,
+        interfaces serve as base types.  These serve as the basis for all the distributions directly supported by
+        Apache Commons Math.  To aid in implementing distributions,
         the <a href="../apidocs/org/apache/commons/math3/distribution/AbstractRealDistribution.html">AbstractRealDistribution</a>,
         <a href="../apidocs/org/apache/commons/math3/distribution/AbstractIntegerDistribution.html">AbstractIntegerDistribution</a> and 
         <a href="../apidocs/org/apache/commons/math3/distribution/AbstractMultivariateRealDistribution.html">AbstractMultivariateRealDistribution</a>
