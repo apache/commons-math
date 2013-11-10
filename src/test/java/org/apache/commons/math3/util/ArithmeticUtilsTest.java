@@ -395,10 +395,10 @@ public class ArithmeticUtilsTest {
             // expected behavior
         }
 
-        Assert.assertEquals(1801088541, ArithmeticUtils.pow(21, 7l));
-        Assert.assertEquals(1, ArithmeticUtils.pow(21, 0l));
+        Assert.assertEquals(1801088541, ArithmeticUtils.pow(21, 7));
+        Assert.assertEquals(1, ArithmeticUtils.pow(21, 0));
         try {
-            ArithmeticUtils.pow(21, -7l);
+            ArithmeticUtils.pow(21, -7);
             Assert.fail("Expecting MathIllegalArgumentException");
         } catch (MathIllegalArgumentException e) {
             // expected behavior
