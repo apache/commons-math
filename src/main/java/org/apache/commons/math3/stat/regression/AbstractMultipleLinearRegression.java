@@ -17,10 +17,10 @@
 package org.apache.commons.math3.stat.regression;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.NonSquareMatrixException;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -109,8 +109,8 @@ public abstract class AbstractMultipleLinearRegression implements
      * @throws NullArgumentException if the data array is null
      * @throws DimensionMismatchException if the length of the data array is not equal
      * to <code>nobs * (nvars + 1)</code>
-     * @throws NumberIsTooSmallException if <code>nobs</code> is smaller than
-     * <code>nvars</code>
+     * @throws InsufficientDataException if <code>nobs</code> is less than
+     * <code>nvars + 1</code>
      */
     public void newSampleData(double[] data, int nobs, int nvars) {
         if (data == null) {
@@ -120,7 +120,7 @@ public abstract class AbstractMultipleLinearRegression implements
             throw new DimensionMismatchException(data.length, nobs * (nvars + 1));
         }
         if (nobs <= nvars) {
-            throw new NumberIsTooSmallException(nobs, nvars, false);
+            throw new InsufficientDataException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, nobs, nvars + 1);
         }
         double[] y = new double[nobs];
         final int cols = noIntercept ? nvars: nvars + 1;
