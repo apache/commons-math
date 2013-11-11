@@ -108,13 +108,13 @@
     When the actual parameters provided to a method or the internal state of an object 
     make a computation meaningless, a
     <a href="../apidocs/org/apache/commons/math3/exception/MathIllegalArgumentException.html">
-      IllegalArgumentException</a> or
+      MathIllegalArgumentException</a> or
     <a href="../apidocs/org/apache/commons/math3/exception/MathIllegalStateException.html">
-      MathIllegalStateException</a> may be thrown. Exact conditions under which runtime
+    MathIllegalStateException</a> may be thrown. Exact conditions under which runtime
     exceptions (and any other exceptions) are thrown are specified in the javadoc method
     comments.
     In some cases, to be consistent with the <a href="http://grouper.ieee.org/groups/754/">
-      IEEE 754 standard</a> for floating point arithmetic and with java.lang.Math, Commons Math
+    IEEE 754 standard</a> for floating point arithmetic and with java.lang.Math, Commons Math
     methods return <code>Double.NaN</code> values. Conditions under which <code>Double.NaN</code>
     or other special values are returned are fully specified in the javadoc method comments.
   </p>
@@ -122,10 +122,9 @@
     As of version 2.2, the policy for dealing with null references is as
     follows: When an argument is unexpectedly null, a
     <a href="../apidocs/org/apache/commons/math3/exception/NullArgumentException.html">
-      NullArgumentException</a> is raised for signalling the illegal argument. Note that this
+    NullArgumentException</a> is raised to signal the illegal argument. Note that this
     class does not inherit from the standard <code>NullPointerException</code> but is a subclass
     of <code>MathIllegalArgumentException</code>.
-    No <code>NullPointerException</code> should be propagated from within Commons Math.
   </p>
 </subsection>
 
