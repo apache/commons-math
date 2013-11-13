@@ -81,10 +81,6 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
           <a href="../apidocs/org/apache/commons/math3/complex/Complex.html">
           Complex</a> also provides implementations of serveral transcendental
           functions involving complex number arguments.
-          Prior to version 1.2, these functions were provided
-          by <a href="../apidocs/org/apache/commons/math3/complex/ComplexUtils.html">
-          ComplexUtils</a> in a way similar to the real number functions found in
-          <code>java.lang.Math</code>, but this has been deprecated.
           These operations provide the means to compute the log, sine, tangent,
           and other complex values :
           <source>Complex first  = new Complex(1.0, 3.0);
