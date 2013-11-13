@@ -58,13 +58,11 @@
 <source>https://svn.apache.org/repos/asf/commons/proper/math/trunk</source>
         </li>
         <li>Like most commons components, Commons Math uses Apache Maven as our
-            build tool. We now use Maven 2 as our primary build platform (what
-            we use to cut releases, for continuous integration builds, and for
-            development).  The sources can also be built using Ant (a working 
+            build tool. The sources can also be built using Ant (a working 
             Ant build.xml is included in the top level project directory). 
-            To build Commons Math using Maven 2, you can follow the instructions for
+            To build Commons Math using Maven, you can follow the instructions for
             <a href="http://maven.apache.org/run-maven/index.html">Building a
-            project with Maven 2</a>. Launch Maven from the top-level directory
+            project with Maven</a>. Launch Maven from the top-level directory
             in the checkout of Commons Math trunk. No special setup is required,
             except that currently to build the site (i.e. to execute Maven's
             "site" goal), you may need to increase the default memory allocation
@@ -98,6 +96,8 @@
           the Unified Diff format, which can be easily generated using the svn
           client or various IDEs.
 <source>svn diff  > patch </source>
+          Run this command from the top-level project directory (where pom.xml
+          resides).
         </li>
       </li>
     </ol>
@@ -126,11 +126,7 @@
        the next step is to add an entry to the 
        <a href="http://wiki.apache.org/commons/MathWishList">Math Wish
        List</a> corresponding to the idea.  Include a reference to the
-       discussion thread and, for substantial enhancements, a new Wiki page
-       named using the enhancement / addition name, e.g. 
-       "PrincipalComponentsAnalysis." We can then us this page to lay out the
-       development plan and track progress and decisions related to the
-       feature.</li>
+       discussion thread. </li>
        <li>Create a JIRA ticket using the the feature title as the short
        description. Incorporate feedback from the initial posting in the
        description. Add a reference to the JIRA ticket to the WishList entry.
@@ -203,8 +199,6 @@
       Exceptions <i>must</i> be documented in both javadoc and method signatures
       and the documentation in the javadoc <i>must</i> include full description
       of the conditions under which exceptions are thrown.</li>
-      <li>
-      All exceptions inherit from the base class, MathRuntimeException.</li>
       <li>
       Methods <i>should</i> fully specify parameter preconditions required for
       successful activation.  When preconditions are violated, a
