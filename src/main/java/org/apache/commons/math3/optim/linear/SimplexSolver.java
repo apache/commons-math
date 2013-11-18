@@ -18,7 +18,9 @@ package org.apache.commons.math3.optim.linear;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.math3.exception.TooManyIterationsException;
+import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.util.Precision;
 
@@ -76,6 +78,12 @@ public class SimplexSolver extends LinearOptimizer {
     private final double cutOff;
 
     /**
+     * The solution callback to access the best solution found so far in case
+     * the optimizer fails to find an optimal solution within the iteration limits.
+     */
+    private SolutionCallback solutionCallback;
+
+    /**
      * Builds a simplex solver with default settings.
      */
     public SimplexSolver() {
@@ -112,6 +120,53 @@ public class SimplexSolver extends LinearOptimizer {
         this.epsilon = epsilon;
         this.maxUlps = maxUlps;
         this.cutOff = cutOff;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param optData Optimization data. In addition to those documented in
+     * {@link LinearOptimizer#optimize(OptimizationData...)
+     * LinearOptimizer}, this method will register the following data:
+     * <ul>
+     *  <li>{@link SolutionCallback}</li>
+     * </ul>
+     *
+     * @return {@inheritDoc}
+     * @throws TooManyIterationsException if the maximal number of iterations is exceeded.
+     */
+    @Override
+    public PointValuePair optimize(OptimizationData... optData)
+        throws TooManyIterationsException {
+        // Set up base class and perform computation.
+        return super.optimize(optData);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param optData Optimization data.
+     * In addition to those documented in
+     * {@link LinearOptimizer#parseOptimizationData(OptimizationData[])
+     * LinearOptimizer}, this method will register the following data:
+     * <ul>
+     *  <li>{@link SolutionCallback}</li>
+     * </ul>
+     */
+    @Override
+    protected void parseOptimizationData(OptimizationData... optData) {
+        // Allow base class to register its own data.
+        super.parseOptimizationData(optData);
+
+        // reset the callback before parsing
+        solutionCallback = null;
+
+        for (OptimizationData data : optData) {
+            if (data instanceof SolutionCallback) {
+                solutionCallback = (SolutionCallback) data;
+                continue;
+            }
+        }
     }
 
     /**
@@ -278,6 +333,13 @@ public class SimplexSolver extends LinearOptimizer {
         throws TooManyIterationsException,
                UnboundedSolutionException,
                NoFeasibleSolutionException {
+
+        // reset the tableau to indicate a non-feasible solution in case
+        // we do not pass phase 1 successfully
+        if (solutionCallback != null) {
+            solutionCallback.setTableau(null);
+        }
+
         final SimplexTableau tableau =
             new SimplexTableau(getFunction(),
                                getConstraints(),
@@ -289,6 +351,11 @@ public class SimplexSolver extends LinearOptimizer {
 
         solvePhase1(tableau);
         tableau.dropPhase1Objective();
+
+        // after phase 1, we are sure to have a feasible solution
+        if (solutionCallback != null) {
+            solutionCallback.setTableau(tableau);
+        }
 
         while (!tableau.isOptimal()) {
             doIteration(tableau);

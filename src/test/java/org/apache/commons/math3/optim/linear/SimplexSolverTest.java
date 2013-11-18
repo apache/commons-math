@@ -18,7 +18,10 @@ package org.apache.commons.math3.optim.linear;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.math3.exception.TooManyIterationsException;
 import org.apache.commons.math3.optim.MaxIter;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
@@ -318,7 +321,20 @@ public class SimplexSolverTest {
 
     @Test
     public void testMath930() {
-        Collection<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        Collection<LinearConstraint> constraints = createMath930Constraints();
+        
+        double[] objFunctionCoeff = new double[33];
+        objFunctionCoeff[3] = 1;
+        LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
+        SimplexSolver solver = new SimplexSolver(1e-4, 10, 1e-6);
+        
+        PointValuePair solution = solver.optimize(new MaxIter(1000), f, new LinearConstraintSet(constraints),
+                                                  GoalType.MINIMIZE, new NonNegativeConstraint(true));
+        Assert.assertEquals(0.3752298, solution.getValue(), 1e-4);
+    }
+
+    private List<LinearConstraint> createMath930Constraints() {
+        List<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
         constraints.add(new LinearConstraint(new double[] {1, -1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, -1, 0}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1}, Relationship.LEQ, 0.0));
@@ -416,15 +432,7 @@ public class SimplexSolverTest {
         constraints.add(new LinearConstraint(new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}, Relationship.GEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -0.028754}, Relationship.LEQ, 0.0));
         constraints.add(new LinearConstraint(new double[] {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, Relationship.EQ, 1.0));
-        
-        double[] objFunctionCoeff = new double[33];
-        objFunctionCoeff[3] = 1;
-        LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
-        SimplexSolver solver = new SimplexSolver(1e-4, 10, 1e-6);
-        
-        PointValuePair solution = solver.optimize(new MaxIter(1000), f, new LinearConstraintSet(constraints),
-                                                  GoalType.MINIMIZE, new NonNegativeConstraint(true));
-        Assert.assertEquals(0.3752298, solution.getValue(), 1e-4);
+        return constraints;
     }
 
     @Test
@@ -710,6 +718,49 @@ public class SimplexSolverTest {
         Assert.assertEquals(7518.0, solution.getValue(), .0000001);
     }
 
+    @Test
+    public void testSolutionCallback() {
+        // re-use the problem from testcase for MATH-930
+        // it normally requires 186 iterations
+        final List<LinearConstraint> constraints = createMath930Constraints();
+        
+        double[] objFunctionCoeff = new double[33];
+        objFunctionCoeff[3] = 1;
+        LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
+        SimplexSolver solver = new SimplexSolver(1e-4, 10, 1e-6);
+        
+        final SolutionCallback callback = new SolutionCallback();
+        
+        // 1. iteration limit is too low to reach phase 2 -> no feasible solution
+        try {
+            // we need to use a DeterministicLinearConstraintSet to always get the same behavior
+            solver.optimize(new MaxIter(100), f, new DeterministicLinearConstraintSet(constraints),
+                            GoalType.MINIMIZE, new NonNegativeConstraint(true), callback);
+            Assert.fail("expected TooManyIterationsException");
+        } catch (TooManyIterationsException ex) {
+            // expected
+        }
+        
+        final PointValuePair solution1 = callback.getSolution();
+        Assert.assertNull(solution1);
+
+        // 2. iteration limit allows to reach phase 2, but too low to find an optimal solution 
+        try {
+            // we need to use a DeterministicLinearConstraintSet to always get the same behavior
+            solver.optimize(new MaxIter(180), f, new DeterministicLinearConstraintSet(constraints),
+                            GoalType.MINIMIZE, new NonNegativeConstraint(true), callback);
+            Assert.fail("expected TooManyIterationsException");
+        } catch (TooManyIterationsException ex) {
+            // expected
+        }
+        
+        final PointValuePair solution2 = callback.getSolution();
+        Assert.assertNotNull(solution2);
+        Assert.assertTrue(validSolution(solution2, constraints, 1e-4));
+        // the solution is clearly not optimal
+        Assert.assertEquals(0.3752298, solution2.getValue(), 5e-1);
+    }
+
     /**
      * Converts a test string to a {@link LinearConstraint}.
      * Ex: x0 + x1 + x2 + x3 - x12 = 0
@@ -772,4 +823,42 @@ public class SimplexSolverTest {
         
         return true;
     }
+    
+    /**
+     * Needed for deterministic tests, as the original LinearConstraintSet uses as HashSet.
+     */
+    public class DeterministicLinearConstraintSet extends LinearConstraintSet {
+        /** Set of constraints. */
+        private final List<LinearConstraint> linearConstraints = new ArrayList<LinearConstraint>();
+
+        /**
+         * Creates a set containing the given constraints.
+         *
+         * @param constraints Constraints.
+         */
+        public DeterministicLinearConstraintSet(LinearConstraint... constraints) {
+            for (LinearConstraint c : constraints) {
+                linearConstraints.add(c);
+            }
+        }
+
+        /**
+         * Creates a set containing the given constraints.
+         *
+         * @param constraints Constraints.
+         */
+        public DeterministicLinearConstraintSet(Collection<LinearConstraint> constraints) {
+            linearConstraints.addAll(constraints);
+        }
+
+        /**
+         * Gets the set of linear constraints.
+         *
+         * @return the constraints.
+         */
+        public Collection<LinearConstraint> getConstraints() {
+            return Collections.unmodifiableList(linearConstraints);
+        }
+    }
+
 }

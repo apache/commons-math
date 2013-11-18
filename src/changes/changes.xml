@@ -51,6 +51,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-970">
+        Added possibility to retrieve the best found solution of the "SimplexSolver" in case
+        the iteration limit has been reached. The "optimize(OptimizationData...)" method now
+        supports a "SolutionCallback" which provides access to the best solution if
+        a feasible solution could be found (phase 2 of the Two-Phase simplex method has been reached).
+      </action>
       <action dev="tn" type="update" issue="MATH-1031" due-to="Thorsten Schäfer">
         Added new class "ClusterEvaluator" to evaluate the result of a clustering algorithm
         and refactored existing evaluation code in "MultiKMeansPlusPlusClusterer"
