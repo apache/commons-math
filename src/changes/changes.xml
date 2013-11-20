@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="add" issue="MATH-1014">
+        Refactoring of curve fitters (package "o.a.c.m.fitting").
+      </action>
       <action dev="tn" type="add" issue="MATH-970">
         Added possibility to retrieve the best found solution of the "SimplexSolver" in case
         the iteration limit has been reached. The "optimize(OptimizationData...)" method now

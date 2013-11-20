@@ -26,7 +26,10 @@ import org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimiz
  *
  * @version $Id: PolynomialFitter.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 2.0
+ * @deprecated As of 3.3. Please use {@link PolynomialCurveFitter} and
+ * {@link WeightedObservedPoints} instead.
  */
+@Deprecated
 public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric> {
     /**
      * Simple constructor.
