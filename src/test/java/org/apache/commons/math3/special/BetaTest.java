@@ -142,6 +142,19 @@ public class BetaTest {
     }
 
     @Test
+    public void testMath1067() {
+        final double x = 0.22580645161290325;
+        final double a = 64.33333333333334;
+        final double b = 223;
+
+        try {
+            final double r = Beta.regularizedBeta(x, a, b, 1e-14, 10000);
+        } catch (StackOverflowError error) {
+            Assert.fail("Infinite recursion");
+        }
+    }
+
+    @Test
     public void testLogBetaNanPositive() {
         testLogBeta(Double.NaN, Double.NaN, 2.0);
     }

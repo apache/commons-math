@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1067" due-to="Florian Erhard">
+        Avoid infinite recursion in "Beta.regularizedBeta" (package "o.a.c.m.special");
+      </action>
       <action dev="erans" type="add" issue="MATH-1014">
         Refactoring of curve fitters (package "o.a.c.m.fitting").
       </action>

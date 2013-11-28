@@ -189,11 +189,12 @@ public class Beta {
             Double.isNaN(b) ||
             x < 0 ||
             x > 1 ||
-            a <= 0.0 ||
-            b <= 0.0) {
+            a <= 0 ||
+            b <= 0) {
             ret = Double.NaN;
-        } else if (x > (a + 1.0) / (a + b + 2.0)) {
-            ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);
+        } else if (x > (a + 1) / (2 + b + a) &&
+                   1 - x <= (b + 1) / (2 + b + a)) {
+            ret = 1 - regularizedBeta(1 - x, b, a, epsilon, maxIterations);
         } else {
             ContinuedFraction fraction = new ContinuedFraction() {
 
