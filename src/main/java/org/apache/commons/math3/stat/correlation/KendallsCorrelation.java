@@ -160,7 +160,7 @@ public class KendallsCorrelation {
         }
 
         final int n = xArray.length;
-        final int numPairs = n * (n - 1) / 2;
+        final long numPairs = n * (n - 1l) / 2l;
 
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairs = new Pair[n];
@@ -254,7 +254,8 @@ public class KendallsCorrelation {
         }
         tiedYPairs += consecutiveYTies * (consecutiveYTies - 1) / 2;
 
-        int concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
-        return concordantMinusDiscordant / FastMath.sqrt((numPairs - tiedXPairs) * (numPairs - tiedYPairs));
+        final long concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
+        final double nonTiedPairsMultiplied = (numPairs - tiedXPairs) * (double) (numPairs - tiedYPairs);
+        return concordantMinusDiscordant / FastMath.sqrt(nonTiedPairsMultiplied);
     }
 }

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.stat.correlation;
 
+import java.util.Arrays;
+
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -248,4 +250,12 @@ public class KendallsCorrelationTest extends PearsonsCorrelationTest {
                 new BlockRealMatrix(expected));
     }
 
+    @Test
+    public void testLargeArray() {
+        // test integer overflow detected in MATH-1068
+        double[] xArray = new double[100000];
+        Arrays.fill(xArray, 0, 2500, 1.0);
+
+        Assert.assertEquals(1.0, correlation.correlation(xArray, xArray), 1e-6);
+    }
 }
