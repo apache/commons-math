@@ -490,6 +490,13 @@ public class PrecisionTest {
         Assert.assertEquals(0.0f, Precision.round(0.0f, 2), 0.0f);
         Assert.assertEquals(Float.POSITIVE_INFINITY, Precision.round(Float.POSITIVE_INFINITY, 2), 0.0f);
         Assert.assertEquals(Float.NEGATIVE_INFINITY, Precision.round(Float.NEGATIVE_INFINITY, 2), 0.0f);
+        
+        // MATH-1070
+        Assert.assertEquals(0.0f, Precision.round(0f, 2, BigDecimal.ROUND_UP), 0.0f);
+        Assert.assertEquals(0.05f, Precision.round(0.05f, 2, BigDecimal.ROUND_UP), 0.0f);
+        Assert.assertEquals(0.06f, Precision.round(0.051f, 2, BigDecimal.ROUND_UP), 0.0f);
+        Assert.assertEquals(0.06f, Precision.round(0.0505f, 2, BigDecimal.ROUND_UP), 0.0f);
+        Assert.assertEquals(0.06f, Precision.round(0.059f, 2, BigDecimal.ROUND_UP), 0.0f);
     }
 
 
