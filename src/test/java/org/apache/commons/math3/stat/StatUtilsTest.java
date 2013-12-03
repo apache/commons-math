@@ -471,7 +471,7 @@ public final class StatUtilsTest {
     @Test
     public void testNormalize1() {
         double sample[] = { 50, 100 };
-        double expectedSample[] = { -25 / Math.sqrt(1250), 25 / Math.sqrt(1250) };
+        double expectedSample[] = { -25 / FastMath.sqrt(1250), 25 / FastMath.sqrt(1250) };
         double[] out = StatUtils.normalize(sample);
         for (int i = 0; i < out.length; i++) {
             Assert.assertTrue(Precision.equals(out[i], expectedSample[i], 1));
@@ -490,7 +490,7 @@ public final class StatUtilsTest {
         int length = 77;
         double sample[] = new double[length];
         for (int i = 0; i < length; i++) {
-            sample[i] = Math.random();
+            sample[i] = FastMath.random();
         }
         // normalize this sample
         double standardizedSample[] = StatUtils.normalize(sample);

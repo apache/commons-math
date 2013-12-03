@@ -321,7 +321,7 @@ public abstract class AbstractMultipleLinearRegression implements
      * @since 2.2
      */
     public double estimateRegressionStandardError() {
-        return Math.sqrt(estimateErrorVariance());
+        return FastMath.sqrt(estimateErrorVariance());
     }
 
     /**

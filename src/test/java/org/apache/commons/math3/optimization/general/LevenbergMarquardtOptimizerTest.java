@@ -364,8 +364,8 @@ public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimiz
             for (int i = 0; i < values.length; ++i) {
                 final double t = time.get(i);
                 values[i] = params[0]
-                    + params[1] * Math.exp(-t / params[3])
-                    + params[2] * Math.exp(-t / params[4]);
+                    + params[1] * FastMath.exp(-t / params[3])
+                    + params[2] * FastMath.exp(-t / params[4]);
             }
             return values;
         }

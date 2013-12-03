@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.optimization.univariate;
 
+import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
@@ -138,7 +139,7 @@ public class BracketFinder {
             double tmp2 = (xB - xC) * (fB - fA);
 
             double val = tmp2 - tmp1;
-            double denom = Math.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
+            double denom = FastMath.abs(val) < EPS_MIN ? 2 * EPS_MIN : 2 * val;
 
             double w = xB - ((xB - xC) * tmp2 - (xB - xA) * tmp1) / denom;
             double wLim = xB + growLimit * (xC - xB);

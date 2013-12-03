@@ -342,7 +342,7 @@ public final class ArithmeticUtils {
         a >>= aTwos;
         final int bTwos = Integer.numberOfTrailingZeros(b);
         b >>= bTwos;
-        final int shift = Math.min(aTwos, bTwos);
+        final int shift = FastMath.min(aTwos, bTwos);
 
         // "a" and "b" are positive.
         // If a > b then "gdc(a, b)" is equal to "gcd(a - b, b)".

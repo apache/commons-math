@@ -689,8 +689,8 @@ public class BigFraction
         if (Double.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
-            int shift = Math.max(numerator.bitLength(),
-                                 denominator.bitLength()) - FastMath.getExponent(Double.MAX_VALUE);
+            int shift = FastMath.max(numerator.bitLength(),
+                                     denominator.bitLength()) - FastMath.getExponent(Double.MAX_VALUE);
             result = numerator.shiftRight(shift).doubleValue() /
                 denominator.shiftRight(shift).doubleValue();
         }
@@ -742,8 +742,8 @@ public class BigFraction
         if (Double.isNaN(result)) {
             // Numerator and/or denominator must be out of range:
             // Calculate how far to shift them to put them in range.
-            int shift = Math.max(numerator.bitLength(),
-                                 denominator.bitLength()) - FastMath.getExponent(Float.MAX_VALUE);
+            int shift = FastMath.max(numerator.bitLength(),
+                                     denominator.bitLength()) - FastMath.getExponent(Float.MAX_VALUE);
             result = numerator.shiftRight(shift).floatValue() /
                 denominator.shiftRight(shift).floatValue();
         }

@@ -506,7 +506,7 @@ public class PrecisionTest {
         final double x = 100;
         final int numTrials = 10000;
         for (int i = 0; i < numTrials; i++) {
-            final double originalDelta = Math.random();
+            final double originalDelta = FastMath.random();
             final double delta = Precision.representableDelta(x, originalDelta);
             if (delta != originalDelta) {
                 ++nonRepresentableCount;

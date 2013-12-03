@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1059">
+        Use "FastMath" instead of "Math" within Commons Math.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1068" due-to="Gal Lalouche">
         Avoid overflow when calculating Kendall's correlation for large arrays.
       </action>

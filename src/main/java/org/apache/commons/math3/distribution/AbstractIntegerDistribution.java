@@ -130,12 +130,12 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
             double k = FastMath.sqrt((1.0 - p) / p);
             double tmp = mu - k * sigma;
             if (tmp > lower) {
-                lower = ((int) Math.ceil(tmp)) - 1;
+                lower = ((int) FastMath.ceil(tmp)) - 1;
             }
             k = 1.0 / k;
             tmp = mu + k * sigma;
             if (tmp < upper) {
-                upper = ((int) Math.ceil(tmp)) - 1;
+                upper = ((int) FastMath.ceil(tmp)) - 1;
             }
         }
 

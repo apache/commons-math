@@ -30,7 +30,7 @@ public class SqrtTest {
        final Sqrt s = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
-                   return Math.sqrt(x);
+                   return FastMath.sqrt(x);
                }
            };
 
@@ -46,7 +46,7 @@ public class SqrtTest {
        final UnivariateDifferentiableFunction sPrime = new Sqrt();
        final UnivariateFunction f = new UnivariateFunction() {
                public double value(double x) {
-                   return 1 / (2 * Math.sqrt(x));
+                   return 1 / (2 * FastMath.sqrt(x));
                }
            };
 

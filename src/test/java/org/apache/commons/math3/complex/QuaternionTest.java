@@ -291,10 +291,10 @@ public class QuaternionTest {
 
         final double norm = q.getNorm();
 
-        Assert.assertEquals(Math.sqrt(30), norm, 0);
+        Assert.assertEquals(FastMath.sqrt(30), norm, 0);
 
         final double normSquareRef = Quaternion.multiply(q, q.getConjugate()).getScalarPart();
-        Assert.assertEquals(Math.sqrt(normSquareRef), norm, 0);
+        Assert.assertEquals(FastMath.sqrt(normSquareRef), norm, 0);
     }
 
     @Test

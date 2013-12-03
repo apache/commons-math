@@ -95,7 +95,7 @@ public class GTest {
         }
         double ratio = 1d;
         boolean rescale = false;
-        if (Math.abs(sumExpected - sumObserved) > 10E-6) {
+        if (FastMath.abs(sumExpected - sumObserved) > 10E-6) {
             ratio = sumObserved / sumExpected;
             rescale = true;
         }
@@ -270,7 +270,7 @@ public class GTest {
             for (int j = 0; j < k[i].length; j++) {
                 if (k[i][j] != 0) {
                     final double p_ij = (double) k[i][j] / sum_k;
-                    h += p_ij * Math.log(p_ij);
+                    h += p_ij * FastMath.log(p_ij);
                 }
             }
         }
@@ -297,7 +297,7 @@ public class GTest {
         for (int i = 0; i < k.length; i++) {
             if (k[i] != 0) {
                 final double p_i = (double) k[i] / sum_k;
-                h += p_i * Math.log(p_i);
+                h += p_i * FastMath.log(p_i);
             }
         }
         return -h;

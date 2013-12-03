@@ -190,7 +190,7 @@ public class ErfTest {
                          {16.6, 3.48454651995041e-62}
         };
         for (int i = 0; i < 15; i++) {
-            final double result = 0.5*Erf.erfc(ref[i][0]/Math.sqrt(2));
+            final double result = 0.5*Erf.erfc(ref[i][0]/FastMath.sqrt(2));
             Assert.assertEquals(ref[i][1], result, 1E-15);
             TestUtils.assertRelativelyEquals(ref[i][1], result, 1E-13);
         }

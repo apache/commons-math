@@ -168,7 +168,7 @@ public class Logistic implements UnivariateDifferentiableFunction, Differentiabl
             final double gb = factor2 * mMinusX * qExp;
             final double gq = factor2 * exp;
             final double ga = Logistic.value(mMinusX, 0, b, q, 1, oneOverN);
-            final double gn = factor1 * Math.log(qExp1) * oneOverN;
+            final double gn = factor1 * FastMath.log(qExp1) * oneOverN;
 
             return new double[] { gk, gm, gb, gq, ga, gn };
         }

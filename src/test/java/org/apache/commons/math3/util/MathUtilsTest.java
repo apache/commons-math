@@ -160,7 +160,7 @@ public final class MathUtilsTest {
                             1e-7);
 
         orig = offset - 123356789 * period - delta;
-        expected = Math.abs(period) - delta;
+        expected = FastMath.abs(period) - delta;
         Assert.assertEquals(expected,
                             MathUtils.reduce(orig, period, offset),
                             1e-6);

@@ -257,7 +257,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * Math.abs(expected);
+                final double delta = 1E-6 * FastMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -283,7 +283,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * Math.abs(expected);
+                final double delta = 1E-6 * FastMath.abs(expected);
                 final String msg = String.format("entry[%d][%d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -309,7 +309,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * Math.abs(expected);
+                final double delta = 1E-6 * FastMath.abs(expected);
                 final String msg = String.format("entry[%d][%d]", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
                 Assert.assertEquals(msg, x0.getEntry(i), 1., Math.ulp(1.));
@@ -421,7 +421,7 @@ public class SymmLQTest {
             for (int i = 0; i < n; i++) {
                 final double actual = x.getEntry(i);
                 final double expected = ainv.getEntry(i, j);
-                final double delta = 1E-6 * Math.abs(expected);
+                final double delta = 1E-6 * FastMath.abs(expected);
                 final String msg = String.format("coefficient (%d, %d)", i, j);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
@@ -467,7 +467,7 @@ public class SymmLQTest {
                 msg = String.format("row %d, column %d", i, j);
                 final double expected = x.getEntry(i);
                 final double actual = px.getEntry(i);
-                final double delta = 5E-5 * Math.abs(expected);
+                final double delta = 5E-5 * FastMath.abs(expected);
                 Assert.assertEquals(msg, expected, actual, delta);
             }
         }

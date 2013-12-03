@@ -369,8 +369,8 @@ public class LevenbergMarquardtOptimizerTest
                     for (int i = 0; i < values.length; ++i) {
                         final double t = time.get(i);
                         values[i] = params[0] +
-                            params[1] * Math.exp(-t / params[3]) +
-                            params[2] * Math.exp(-t / params[4]);
+                            params[1] * FastMath.exp(-t / params[3]) +
+                            params[2] * FastMath.exp(-t / params[4]);
                     }
                     return values;
                 }
@@ -390,10 +390,10 @@ public class LevenbergMarquardtOptimizerTest
                         final double p4 =  params[4];
                         final double tOp3 = t / p3;
                         final double tOp4 = t / p4;
-                        jacobian[i][1] = Math.exp(-tOp3);
-                        jacobian[i][2] = Math.exp(-tOp4);
-                        jacobian[i][3] = params[1] * Math.exp(-tOp3) * tOp3 / p3;
-                        jacobian[i][4] = params[2] * Math.exp(-tOp4) * tOp4 / p4;
+                        jacobian[i][1] = FastMath.exp(-tOp3);
+                        jacobian[i][2] = FastMath.exp(-tOp4);
+                        jacobian[i][3] = params[1] * FastMath.exp(-tOp3) * tOp3 / p3;
+                        jacobian[i][4] = params[2] * FastMath.exp(-tOp4) * tOp4 / p4;
                     }
                     return jacobian;
                 }

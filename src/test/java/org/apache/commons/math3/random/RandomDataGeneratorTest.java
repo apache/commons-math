@@ -820,8 +820,7 @@ public class RandomDataGeneratorTest {
         randomData.reSeed(1000);
         double v = randomData.nextUniform(0, 1);
         randomData.reSeed();
-        Assert.assertTrue("different seeds", Math
-                .abs(v - randomData.nextUniform(0, 1)) > 10E-12);
+        Assert.assertTrue("different seeds", FastMath.abs(v - randomData.nextUniform(0, 1)) > 10E-12);
         randomData.reSeed(1000);
         Assert.assertEquals("same seeds", v, randomData.nextUniform(0, 1), 10E-12);
         randomData.reSeedSecure(1000);
