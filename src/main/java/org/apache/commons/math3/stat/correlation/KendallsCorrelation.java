@@ -160,7 +160,7 @@ public class KendallsCorrelation {
         }
 
         final int n = xArray.length;
-        final long numPairs = n * (n - 1l) / 2l;
+        final long numPairs = sum(n - 1);
 
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairs = new Pair[n];
@@ -175,10 +175,10 @@ public class KendallsCorrelation {
             }
         });
 
-        int tiedXPairs = 0;
-        int tiedXYPairs = 0;
-        int consecutiveXTies = 1;
-        int consecutiveXYTies = 1;
+        long tiedXPairs = 0;
+        long tiedXYPairs = 0;
+        long consecutiveXTies = 1;
+        long consecutiveXYTies = 1;
         Pair<Double, Double> prev = pairs[0];
         for (int i = 1; i < n; i++) {
             final Pair<Double, Double> curr = pairs[i];
@@ -187,19 +187,19 @@ public class KendallsCorrelation {
                 if (curr.getSecond().equals(prev.getSecond())) {
                     consecutiveXYTies++;
                 } else {
-                    tiedXYPairs += consecutiveXYTies * (consecutiveXYTies - 1) / 2;
+                    tiedXYPairs += sum(consecutiveXYTies - 1);
                     consecutiveXYTies = 1;
                 }
             } else {
-                tiedXPairs += consecutiveXTies * (consecutiveXTies - 1) / 2;
+                tiedXPairs += sum(consecutiveXTies - 1);
                 consecutiveXTies = 1;
-                tiedXYPairs += consecutiveXYTies * (consecutiveXYTies - 1) / 2;
+                tiedXYPairs += sum(consecutiveXYTies - 1);
                 consecutiveXYTies = 1;
             }
             prev = curr;
         }
-        tiedXPairs += consecutiveXTies * (consecutiveXTies - 1) / 2;
-        tiedXYPairs += consecutiveXYTies * (consecutiveXYTies - 1) / 2;
+        tiedXPairs += sum(consecutiveXTies - 1);
+        tiedXYPairs += sum(consecutiveXYTies - 1);
 
         int swaps = 0;
         @SuppressWarnings("unchecked")
@@ -239,23 +239,34 @@ public class KendallsCorrelation {
             pairsDestination = pairsTemp;
         }
 
-        int tiedYPairs = 0;
-        int consecutiveYTies = 1;
+        long tiedYPairs = 0;
+        long consecutiveYTies = 1;
         prev = pairs[0];
         for (int i = 1; i < n; i++) {
             final Pair<Double, Double> curr = pairs[i];
             if (curr.getSecond().equals(prev.getSecond())) {
                 consecutiveYTies++;
             } else {
-                tiedYPairs += consecutiveYTies * (consecutiveYTies - 1) / 2;
+                tiedYPairs += sum(consecutiveYTies - 1);
                 consecutiveYTies = 1;
             }
             prev = curr;
         }
-        tiedYPairs += consecutiveYTies * (consecutiveYTies - 1) / 2;
+        tiedYPairs += sum(consecutiveYTies - 1);
 
         final long concordantMinusDiscordant = numPairs - tiedXPairs - tiedYPairs + tiedXYPairs - 2 * swaps;
         final double nonTiedPairsMultiplied = (numPairs - tiedXPairs) * (double) (numPairs - tiedYPairs);
         return concordantMinusDiscordant / FastMath.sqrt(nonTiedPairsMultiplied);
+    }
+
+    /**
+     * Returns the sum of the number from 1 .. n according to Gauss' summation formula:
+     * \[ \sum\limits_{k=1}^n k = \frac{n(n + 1)}{2} \]
+     *
+     * @param n the summation end
+     * @return the sum of the number from 1 to n
+     */
+    private static long sum(long n) {
+        return n * (n + 1) / 2l;
     }
 }
