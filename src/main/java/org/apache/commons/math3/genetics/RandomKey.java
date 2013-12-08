@@ -60,7 +60,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     private final List<Double> sortedRepresentation;
 
     /**
-     * Base sequence [0,1,...,n-1], permuted accorting to the representation (unmodifiable).
+     * Base sequence [0,1,...,n-1], permuted according to the representation (unmodifiable).
      */
     private final List<Integer> baseSeqPermutation;
 
