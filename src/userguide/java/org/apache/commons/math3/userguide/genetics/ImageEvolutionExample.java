@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,8 +17,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.apache.commons.math3.genetics.Chromosome;
@@ -26,14 +25,34 @@ import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.genetics.TournamentSelection;
 import org.apache.commons.math3.genetics.UniformCrossover;
+import org.apache.commons.math3.userguide.ExampleUtils;
+import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 
 /**
- * Based on http://www.nihilogic.dk/labs/evolving-images/
+ * This example shows a more advanced use of a genetic algorithm: approximate a raster image
+ * with ~100 semi-transparent polygons of length 6.
+ * <p>
+ * The fitness function is quite simple yet expensive to compute:
+ * 
+ *   - draw the polygons of a chromosome to an image
+ *   - compare each pixel with the corresponding reference image
+ * <p>
+ * To improve the speed of the calculation, we calculate the fitness not on the original image size,
+ * but rather on a scaled down version, which is sufficient to demonstrate the power of such a genetic algorithm.
+ * <p>
+ * TODO:
+ *  - improve user interface
+ *    - make algorithm parameters configurable
+ *    - add a gallery of results after x iterations / minutes (either automatic or based on button click)
+ *    - allow loading / selection of other images
+ *    - add logging in the user interface, e.g. number of generations, time spent, ...
+ * 
+ * @see <a href="http://www.nihilogic.dk/labs/evolving-images/">Evolving Images with JavaScript and canvas (Nihilogic)</a>
  */
 @SuppressWarnings("serial")
-public class ImageEvolutionExample extends JComponent {
+public class ImageEvolutionExample {
 
-    public static final int   POPULATION_SIZE  = 40;
+    public static final int   POPULATION_SIZE  = 50;
     public static final int   TOURNAMENT_ARITY = 2;
     public static final float MUTATION_RATE    = 0.02f;
     public static final float MUTATION_CHANGE  = 0.1f;
@@ -41,165 +60,165 @@ public class ImageEvolutionExample extends JComponent {
     public static final int POLYGON_LENGTH = 6;
     public static final int POLYGON_COUNT = 100;
 
-    private GeneticAlgorithm ga;
-    private Population currentPopulation;
-    private Chromosome bestFit;
-
-    private Thread internalThread;
-    private volatile boolean noStopRequested;
-
-    private BufferedImage ref;
-    private BufferedImage buf;
-    
-    private ImagePainter painter;
-
-    public ImageEvolutionExample() throws Exception {
-        super();
-        setLayout(new FlowLayout());
-
-        Box bar = Box.createHorizontalBox();
-
-        ref = ImageIO.read(new File("resources/canvas_small.png"));
-
-        JLabel picLabel = new JLabel(new ImageIcon(ref));
-        bar.add(picLabel);
-
-        painter = new ImagePainter(ref);
-        bar.add(painter);
-
-        buf = new BufferedImage(ref.getWidth(), ref.getHeight(), BufferedImage.TYPE_INT_ARGB);
+    public static class Display extends ExampleFrame {
         
-        // TODO: improve this
-        PolygonChromosome.setRefImage(ref);
-        PolygonChromosome.setTestImage(buf);
+        private GeneticAlgorithm ga;
+        private Population currentPopulation;
+        private Chromosome bestFit;
 
-        add(bar);
+        private Thread internalThread;
+        private volatile boolean noStopRequested;
 
-        JButton startButton = new JButton("Start");
-        startButton.setActionCommand("start");
-        add(startButton);
+        private BufferedImage ref;
+        
+        private BufferedImage referenceImage;
+        private BufferedImage testImage;
+        
+        private ImagePainter painter;
 
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (isAlive()) {
-                    stopRequest();
-                } else {
-                    startEvolution();
+        public Display() throws Exception {
+            setTitle("Commons-Math: Image Evolution Example");
+            setSize(600, 400);
+            
+            setLayout(new FlowLayout());
+
+            Box bar = Box.createHorizontalBox();
+
+            ref = ImageIO.read(new File("resources/monalisa.png"));
+            //ref = ImageIO.read(new File("resources/feather-small.gif"));
+
+            referenceImage = resizeImage(ref, 50, 50, BufferedImage.TYPE_INT_ARGB);
+            testImage = new BufferedImage(referenceImage.getWidth(), referenceImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            JLabel picLabel = new JLabel(new ImageIcon(ref));
+            bar.add(picLabel);
+
+            painter = new ImagePainter(ref.getWidth(), ref.getHeight());
+            bar.add(painter);
+
+            // set the images used for calculating the fitness function:
+            //   refImage  - the reference image
+            //   testImage - the test image to draw the current chromosome
+            PolygonChromosome.setRefImage(referenceImage);
+            PolygonChromosome.setTestImage(testImage);
+
+            add(bar);
+
+            JButton startButton = new JButton("Start");
+            startButton.setActionCommand("start");
+            add(startButton);
+
+            startButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (isAlive()) {
+                        stopRequest();
+                    } else {
+                        startEvolution();
+                    }
                 }
+            });
+
+            // initialize a new genetic algorithm
+            ga = new GeneticAlgorithm(new UniformCrossover<Polygon>(0.5), 1.0,
+                                      new RandomPolygonMutation(MUTATION_RATE, MUTATION_CHANGE), 1.0,
+                                      new TournamentSelection(TOURNAMENT_ARITY));
+
+            // initial population
+            currentPopulation = getInitialPopulation();
+            bestFit = currentPopulation.getFittestChromosome();
+        }
+        
+        public boolean isAlive() {
+            return internalThread != null && internalThread.isAlive();
+        }
+
+        public void stopRequest() {
+            noStopRequested = false;
+            internalThread.interrupt();
+            internalThread = null;
+        }
+
+        public void startEvolution() {
+            noStopRequested = true;
+            Runnable r = new Runnable() {
+                public void run() {
+                    try {
+                        double lastBestFit = Double.MIN_VALUE;
+                        int evolution = 0;
+                        while (noStopRequested) {
+                            currentPopulation = ga.nextGeneration(currentPopulation);
+
+                            System.out.println("generation: " + evolution++ + ": " + bestFit.toString());
+                            bestFit = currentPopulation.getFittestChromosome();
+
+                            if (lastBestFit > bestFit.getFitness()) {
+                                System.out.println("gotcha");
+                            }
+                            lastBestFit = bestFit.getFitness();
+                            painter.repaint();
+                        }
+                    } catch (Exception x) {
+                        // in case ANY exception slips through
+                        x.printStackTrace();
+                    }
+                }
+            };
+
+            internalThread = new Thread(r);
+            internalThread.start();
+        }
+
+        private class ImagePainter extends Component {
+            
+            private int width;
+            private int height;
+
+            public ImagePainter(int width, int height) {
+                this.width = width;
+                this.height = height;
             }
-        });
 
-        // initialize a new genetic algorithm
-        ga = new GeneticAlgorithm(new UniformCrossover<Polygon>(0.5), 1.0,
-                                  new RandomPolygonMutation(MUTATION_RATE, MUTATION_CHANGE), 1.0,
-                                  new TournamentSelection(TOURNAMENT_ARITY));
+            public Dimension getPreferredSize() {
+                return new Dimension(width, height);
+            }
 
-        // initial population
-        currentPopulation = getInitialPopulation();
-        bestFit = currentPopulation.getFittestChromosome();
+            @Override
+            public Dimension getMinimumSize() {
+                return getPreferredSize();
+            }
+
+            @Override
+            public Dimension getMaximumSize() {
+                return getPreferredSize();
+            }
+
+            public void paint(Graphics g) {
+                PolygonChromosome chromosome = (PolygonChromosome) bestFit;
+                chromosome.draw((Graphics2D) g, ref.getWidth(), ref.getHeight());
+            }
+
+        }
+
     }
 
-    private Population getInitialPopulation() {
+    public static void main(String[] args) throws Exception {
+        ExampleUtils.showExampleFrame(new Display());
+    }
+
+    private static BufferedImage resizeImage(BufferedImage originalImage, int width, int height, int type) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();
+        return resizedImage;
+    }
+
+    private static Population getInitialPopulation() {
         List<Chromosome> popList = new LinkedList<Chromosome>();
         for (int i = 0; i < POPULATION_SIZE; i++) {
             popList.add(PolygonChromosome.randomChromosome(POLYGON_LENGTH, POLYGON_COUNT));
         }
         return new ElitisticListPopulation(popList, popList.size(), 0.25);
-    }
-
-    public boolean isAlive() {
-        return internalThread != null && internalThread.isAlive();
-    }
-
-    public void stopRequest() {
-        noStopRequested = false;
-        internalThread.interrupt();
-        internalThread = null;
-    }
-
-    public void startEvolution() {
-        noStopRequested = true;
-        Runnable r = new Runnable() {
-            public void run() {
-                try {
-                    double lastBestFit = Double.MIN_VALUE;
-                    int evolution = 0;
-                    while (noStopRequested) {
-                        currentPopulation = ga.nextGeneration(currentPopulation);
-
-                        System.out.println("generation: " + evolution++ + ": " + bestFit.toString());
-                        bestFit = currentPopulation.getFittestChromosome();
-
-                        if (lastBestFit > bestFit.getFitness()) {
-                            System.out.println("gotcha");
-                        }
-                        lastBestFit = bestFit.getFitness();
-                        painter.repaint();
-                    }
-                } catch (Exception x) {
-                    // in case ANY exception slips through
-                    x.printStackTrace();
-                }
-            }
-        };
-
-        internalThread = new Thread(r);
-        internalThread.start();
-    }
-
-    private static void createAndShowGUI() throws Exception {
-        // Create and set up the window.
-        JFrame frame = new JFrame("Image Evolution Example");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.getContentPane().add(new ImageEvolutionExample());
-
-        // Display the window.
-        frame.pack();
-        frame.setSize(new Dimension(500, 300));
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        // Schedule a job for the event-dispatching thread:
-        // creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    createAndShowGUI();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private class ImagePainter extends Component {
-        BufferedImage ref;
-
-        public ImagePainter(final BufferedImage ref) {
-            this.ref = ref;
-        }
-
-        public Dimension getPreferredSize() {
-            return new Dimension(ref.getWidth(), ref.getHeight());
-        }
-
-        @Override
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
-        }
-
-        @Override
-        public Dimension getMaximumSize() {
-            return getPreferredSize();
-        }
-
-        public void paint(Graphics g) {
-            PolygonChromosome chromosome = (PolygonChromosome) bestFit;
-            chromosome.draw((Graphics2D) g, ref.getWidth(), ref.getHeight());
-        }
-
     }
 
 }

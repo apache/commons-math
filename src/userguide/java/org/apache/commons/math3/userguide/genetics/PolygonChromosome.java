@@ -4,7 +4,6 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,15 +54,15 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
         g2.dispose();
 
         int[] refPixels = refImage.getData().getPixels(0, 0, refImage.getWidth(), refImage.getHeight(), (int[]) null);
-        int[] pixels = testImage.getData().getPixels(0, 0, testImage.getWidth(), testImage.getHeight(), (int[]) null);
+        int[] testPixels = testImage.getData().getPixels(0, 0, testImage.getWidth(), testImage.getHeight(), (int[]) null);
 
         int diff = 0;
-        int p = width * height * 4 - 1;
+        int p = width * height * 4 - 1; // 4 channels: rgba
         int idx = 0;
 
         do {
             if (idx++ % 4 != 0) {
-                int dp = pixels[p] - refPixels[p];
+                int dp = testPixels[p] - refPixels[p];
                 if (dp < 0) {
                     diff -= dp;
                 } else {
@@ -76,27 +75,15 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
     }
 
     public void draw(Graphics2D g, int width, int height) {
-        g.setBackground(Color.RED);
+        g.setBackground(Color.WHITE);
         g.clearRect(0, 0, width, height);
 
-        //if (true) return;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 
         List<Polygon> polygons = getPolygonRepresentation();
         for (Polygon p : polygons) {
-            g.setColor(new Color(p.data[0], p.data[1], p.data[2], p.data[3]));
-
-            GeneralPath path = new GeneralPath();
-            path.moveTo(p.data[4] * width, p.data[5] * height);
-            
-            int polygonLength = (p.data.length - 4) / 2;
-            for (int j = 1; j < polygonLength; j++) {
-                path.lineTo(p.data[4 + j * 2] * width, p.data[5 + j * 2] * height);
-            }
-            path.closePath();
-
-            g.fill(path);
+            p.draw(g, width, height);
         }
     }
 
