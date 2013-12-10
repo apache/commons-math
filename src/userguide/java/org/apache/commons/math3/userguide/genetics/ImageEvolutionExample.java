@@ -142,24 +142,14 @@ public class ImageEvolutionExample {
             noStopRequested = true;
             Runnable r = new Runnable() {
                 public void run() {
-                    try {
-                        double lastBestFit = Double.MIN_VALUE;
-                        int evolution = 0;
-                        while (noStopRequested) {
-                            currentPopulation = ga.nextGeneration(currentPopulation);
+                    int evolution = 0;
+                    while (noStopRequested) {
+                        currentPopulation = ga.nextGeneration(currentPopulation);
 
-                            System.out.println("generation: " + evolution++ + ": " + bestFit.toString());
-                            bestFit = currentPopulation.getFittestChromosome();
+                        System.out.println("generation: " + evolution++ + ": " + bestFit.toString());
+                        bestFit = currentPopulation.getFittestChromosome();
 
-                            if (lastBestFit > bestFit.getFitness()) {
-                                System.out.println("gotcha");
-                            }
-                            lastBestFit = bestFit.getFitness();
-                            painter.repaint();
-                        }
-                    } catch (Exception x) {
-                        // in case ANY exception slips through
-                        x.printStackTrace();
+                        painter.repaint();
                     }
                 }
             };
