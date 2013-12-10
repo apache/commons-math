@@ -8,6 +8,9 @@ import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.util.FastMath;
 
+/**
+ * Represents a fixed size polgon with its fill color.
+ */
 public class Polygon {
 
     // the polygon in packed representation:
@@ -16,9 +19,18 @@ public class Polygon {
     //    1  | green component
     //    2  | blue component
     //    3  | alpha channel
-    //   
+    //    4  | first x coordinate
+    //    5  | first y coordinate
+    //    6  | second x coordinate
+    //  ...
+    //    N  | last y coordinate
+    // ---------------------------
+    /// size = 4 + 2*polygonlength
     private float[] data;
 
+    /**
+     * Creates a new random Polygon of the given length.
+     */
     public static Polygon randomPolygon(int length) {
         final int polygonSize = 4 + 2 * length;
 
@@ -42,6 +54,17 @@ public class Polygon {
         return p;
     }
 
+    /**
+     * Return a new Polygon, mutated with the given rate and amount.
+     * <p>
+     * Each component of the Polygon may be mutated according to the specified mutation rate.
+     * In case a component is going to be mutated, its value will be randomly modified in the
+     * uniform range of [-mutationAmount, +mutationAmount].
+     * 
+     * @param mutationRate the mutation rate
+     * @param mutationAmount the mutation amount
+     * @return a new Polygon
+     */
     public Polygon mutate(float mutationRate, float mutationAmount) {
         Polygon mutated = new Polygon();
         int size = data.length;
@@ -62,6 +85,9 @@ public class Polygon {
         return mutated;
     }    
 
+    /**
+     * Draw the Polygon to the buffer of the given size.
+     */
     public void draw(Graphics2D g, int width, int height) {
         g.setColor(new Color(data[0], data[1], data[2], data[3]));
 

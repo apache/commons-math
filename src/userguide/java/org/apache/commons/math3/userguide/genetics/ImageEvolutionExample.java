@@ -52,8 +52,8 @@ import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 @SuppressWarnings("serial")
 public class ImageEvolutionExample {
 
-    public static final int   POPULATION_SIZE  = 50;
-    public static final int   TOURNAMENT_ARITY = 2;
+    public static final int   POPULATION_SIZE  = 40;
+    public static final int   TOURNAMENT_ARITY = 5;
     public static final float MUTATION_RATE    = 0.02f;
     public static final float MUTATION_CHANGE  = 0.1f;
 

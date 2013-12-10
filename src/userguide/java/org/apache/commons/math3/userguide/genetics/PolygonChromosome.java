@@ -12,9 +12,14 @@ import org.apache.commons.math3.genetics.AbstractListChromosome;
 import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
 
+/**
+ * A simple chromosome representing a list of polygons.
+ */
 public class PolygonChromosome extends AbstractListChromosome<Polygon> {
 
+    /** The reference image for fitness testing. */
     private static BufferedImage refImage;
+    /** The image buffer used to draw the current chromosome during fitness testing. */
     private static BufferedImage testImage;
 
     public static void setRefImage(BufferedImage ref) {
@@ -39,10 +44,21 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
         return new PolygonChromosome(chromosomeRepresentation);
     }
 
+    /**
+     * Return the internal representation, which is needed for our custom mutation policy.
+     *
+     * @return the list of polygons
+     */
     public List<Polygon> getPolygonRepresentation() {
         return getRepresentation();
     }
 
+    /**
+     * Calculate the fitness function for this chromosome.
+     * <p>
+     * For this purpose, we first draw the polygons on the test buffer, and
+     * then compare the resulting image pixel by pixel with the reference image.
+     */
     public double fitness() {
 
         Graphics2D g2 = testImage.createGraphics();
@@ -61,7 +77,7 @@ public class PolygonChromosome extends AbstractListChromosome<Polygon> {
         int idx = 0;
 
         do {
-            if (idx++ % 4 != 0) {
+            if (idx++ % 4 != 0) { // ignore the alpha channel for fitness
                 int dp = testPixels[p] - refPixels[p];
                 if (dp < 0) {
                     diff -= dp;
