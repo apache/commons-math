@@ -105,8 +105,8 @@ public class OnePointCrossover<T> implements CrossoverPolicy {
         final List<T> parent1Rep = first.getRepresentation();
         final List<T> parent2Rep = second.getRepresentation();
         // and of the children
-        final ArrayList<T> child1Rep = new ArrayList<T> (first.getLength());
-        final ArrayList<T> child2Rep = new ArrayList<T> (second.getLength());
+        final List<T> child1Rep = new ArrayList<T>(first.getLength());
+        final List<T> child2Rep = new ArrayList<T>(second.getLength());
 
         // select a crossover point at random (0 and length makes no sense)
         final int crossoverIndex = 1 + (GeneticAlgorithm.getRandomGenerator().nextInt(length-2));

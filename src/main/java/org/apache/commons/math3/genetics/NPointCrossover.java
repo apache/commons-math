@@ -139,13 +139,13 @@ public class NPointCrossover<T> implements CrossoverPolicy {
         final List<T> parent1Rep = first.getRepresentation();
         final List<T> parent2Rep = second.getRepresentation();
         // and of the children
-        final ArrayList<T> child1Rep = new ArrayList<T>(first.getLength());
-        final ArrayList<T> child2Rep = new ArrayList<T>(second.getLength());
+        final List<T> child1Rep = new ArrayList<T>(first.getLength());
+        final List<T> child2Rep = new ArrayList<T>(second.getLength());
 
         final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
 
-        ArrayList<T> c1 = child1Rep;
-        ArrayList<T> c2 = child2Rep;
+        List<T> c1 = child1Rep;
+        List<T> c2 = child2Rep;
 
         int remainingPoints = crossoverPoints;
         int lastIndex = 0;
@@ -160,7 +160,7 @@ public class NPointCrossover<T> implements CrossoverPolicy {
             }
 
             // swap the children for the next segment
-            ArrayList<T> tmp = c1;
+            List<T> tmp = c1;
             c1 = c2;
             c2 = tmp;
 

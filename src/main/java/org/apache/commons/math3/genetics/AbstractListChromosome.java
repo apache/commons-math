@@ -40,7 +40,7 @@ public abstract class AbstractListChromosome<T> extends Chromosome {
      */
     public AbstractListChromosome(final List<T> representation) throws InvalidRepresentationException {
         checkValidity(representation);
-        this.representation = Collections.unmodifiableList(new ArrayList<T> (representation));
+        this.representation = Collections.unmodifiableList(new ArrayList<T>(representation));
     }
 
     /**
