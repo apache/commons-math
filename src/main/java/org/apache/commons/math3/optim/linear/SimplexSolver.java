@@ -27,6 +27,19 @@ import org.apache.commons.math3.util.Precision;
 /**
  * Solves a linear problem using the "Two-Phase Simplex" method.
  * <p>
+ * The {@link SimplexSolver} supports the following {@link OptimizationData} data provided
+ * as arguments to {@link #optimize(OptimizationData...)}:
+ * <ul>
+ *   <li>objective function: {@link LinearObjectiveFunction} - mandatory</li>
+ *   <li>linear constraints {@link LinearConstraintSet} - mandatory</li>
+ *   <li>type of optimization: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType GoalType}
+ *    - optional, default: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType#MINIMIZE MINIMIZE}</li>
+ *   <li>whether to allow negative values as solution: {@link NonNegativeConstraint} - optional, default: true</li>
+ *   <li>pivot selection rule: {@link PivotSelectionRule} - optional, default {@link PivotSelectionRule#Dantzig}</li>
+ *   <li>callback for the best solution: {@link SolutionCallback} - optional</li>
+ *   <li>maximum number of iterations: {@link MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
+ * </ul>
+ * <p>
  * <b>Note:</b> Depending on the problem definition, the default convergence criteria
  * may be too strict, resulting in {@link NoFeasibleSolutionException} or
  * {@link TooManyIterationsException}. In such a case it is advised to adjust these
@@ -42,15 +55,8 @@ import org.apache.commons.math3.util.Precision;
  * The cut-off value has been introduced to zero out very small numbers in the Simplex tableau,
  * as these may lead to numerical instabilities due to the nature of the Simplex algorithm
  * (the pivot element is used as a denominator). If the problem definition is very tight, the
- * default cut-off value may be too small, thus it is advised to increase it to a larger value,
- * in accordance with the chosen epsilon.
- * <p>
- * It may also be counter-productive to provide a too large value for {@link
- * org.apache.commons.math3.optim.MaxIter MaxIter} as parameter in the call of {@link
- * #optimize(org.apache.commons.math3.optim.OptimizationData...) optimize(OptimizationData...)},
- * as the {@link SimplexSolver} will use different strategies depending on the current iteration
- * count. After half of the allowed max iterations has already been reached, the strategy to select
- * pivot rows will change in order to break possible cycles due to degenerate problems.
+ * default cut-off value may be too small for certain problems, thus it is advised to increase it
+ * to a larger value, in accordance with the chosen epsilon.
  *
  * @version $Id$
  * @since 2.0
@@ -76,6 +82,9 @@ public class SimplexSolver extends LinearOptimizer {
      * are treated as zero to improve numerical stability.
      */
     private final double cutOff;
+
+    /** The pivot selection method to use. */
+    private PivotSelectionRule pivotSelection;
 
     /**
      * The solution callback to access the best solution found so far in case
@@ -120,6 +129,7 @@ public class SimplexSolver extends LinearOptimizer {
         this.epsilon = epsilon;
         this.maxUlps = maxUlps;
         this.cutOff = cutOff;
+        this.pivotSelection = PivotSelectionRule.Dantzig;
     }
 
     /**
@@ -130,6 +140,7 @@ public class SimplexSolver extends LinearOptimizer {
      * LinearOptimizer}, this method will register the following data:
      * <ul>
      *  <li>{@link SolutionCallback}</li>
+     *  <li>{@link PivotSelectionRule}</li>
      * </ul>
      *
      * @return {@inheritDoc}
@@ -151,6 +162,7 @@ public class SimplexSolver extends LinearOptimizer {
      * LinearOptimizer}, this method will register the following data:
      * <ul>
      *  <li>{@link SolutionCallback}</li>
+     *  <li>{@link PivotSelectionRule}</li>
      * </ul>
      */
     @Override
@@ -164,6 +176,10 @@ public class SimplexSolver extends LinearOptimizer {
         for (OptimizationData data : optData) {
             if (data instanceof SolutionCallback) {
                 solutionCallback = (SolutionCallback) data;
+                continue;
+            }
+            if (data instanceof PivotSelectionRule) {
+                pivotSelection = (PivotSelectionRule) data;
                 continue;
             }
         }
@@ -185,15 +201,43 @@ public class SimplexSolver extends LinearOptimizer {
             if (entry < minValue) {
                 minValue = entry;
                 minPos = i;
+
+                // Bland's rule: chose the entering column with the lowest index
+                if (pivotSelection == PivotSelectionRule.Bland && isValidPivotColumn(tableau, i)) {
+                    break;
+                }
             }
         }
         return minPos;
     }
 
     /**
+     * Checks whether the given column is valid pivot column, i.e. will result
+     * in a valid pivot row.
+     * <p>
+     * When applying Bland's rule to select the pivot column, it may happen that
+     * there is no corresponding pivot row. This method will check if the selected
+     * pivot column will return a valid pivot row.
+     *
+     * @param tableau simplex tableau for the problem
+     * @param col the column to test
+     * @return {@code true} if the pivot column is valid, {@code false} otherwise
+     */
+    private boolean isValidPivotColumn(SimplexTableau tableau, int col) {
+        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+            final double entry = tableau.getEntry(i, col);
+
+            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Returns the row with the minimum ratio as given by the minimum ratio test (MRT).
      *
-     * @param tableau Simple tableau for the problem.
+     * @param tableau Simplex tableau for the problem.
      * @param col Column to test the ratio of (see {@link #getPivotColumn(SimplexTableau)}).
      * @return the row with the minimum ratio.
      */
@@ -243,26 +287,21 @@ public class SimplexSolver extends LinearOptimizer {
             //
             // see http://www.stanford.edu/class/msande310/blandrule.pdf
             // see http://en.wikipedia.org/wiki/Bland%27s_rule (not equivalent to the above paper)
-            //
-            // Additional heuristic: if we did not get a solution after half of maxIterations
-            //                       revert to the simple case of just returning the top-most row
-            // This heuristic is based on empirical data gathered while investigating MATH-828.
-            if (getEvaluations() < getMaxEvaluations() / 2) {
-                Integer minRow = null;
-                int minIndex = tableau.getWidth();
-                final int varStart = tableau.getNumObjectiveFunctions();
-                final int varEnd = tableau.getWidth() - 1;
-                for (Integer row : minRatioPositions) {
-                    for (int i = varStart; i < varEnd && !row.equals(minRow); i++) {
-                        final Integer basicRow = tableau.getBasicRow(i);
-                        if (basicRow != null && basicRow.equals(row) && i < minIndex) {
-                            minIndex = i;
-                            minRow = row;
-                        }
+
+            Integer minRow = null;
+            int minIndex = tableau.getWidth();
+            final int varStart = tableau.getNumObjectiveFunctions();
+            final int varEnd = tableau.getWidth() - 1;
+            for (Integer row : minRatioPositions) {
+                for (int i = varStart; i < varEnd && !row.equals(minRow); i++) {
+                    final Integer basicRow = tableau.getBasicRow(i);
+                    if (basicRow != null && basicRow.equals(row) && i < minIndex) {
+                        minIndex = i;
+                        minRow = row;
                     }
                 }
-                return minRow;
             }
+            return minRow;
         }
         return minRatioPositions.get(0);
     }
