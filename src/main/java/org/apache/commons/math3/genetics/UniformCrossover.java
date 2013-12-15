@@ -112,8 +112,8 @@ public class UniformCrossover<T> implements CrossoverPolicy {
         final List<T> parent1Rep = first.getRepresentation();
         final List<T> parent2Rep = second.getRepresentation();
         // and of the children
-        final List<T> child1Rep = new ArrayList<T>(first.getLength());
-        final List<T> child2Rep = new ArrayList<T>(second.getLength());
+        final List<T> child1Rep = new ArrayList<T>(length);
+        final List<T> child2Rep = new ArrayList<T>(length);
 
         final RandomGenerator random = GeneticAlgorithm.getRandomGenerator();
 
