@@ -55,7 +55,7 @@ public class SimplexSolverTest {
         PointValuePair solution = solver.optimize(f, new LinearConstraintSet(constraints),
                                                   GoalType.MAXIMIZE,
                                                   new NonNegativeConstraint(true),
-                                                  PivotSelectionRule.Bland);
+                                                  PivotSelectionRule.BLAND);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);
         Assert.assertTrue(validSolution(solution, constraints, epsilon));
     }
@@ -98,8 +98,10 @@ public class SimplexSolverTest {
         constraints.add(new LinearConstraint(new double[] {15.0, -46.0, -41.0, -83.0, -98.0, -99.0, -21.0, -35.0, -7.0, -14.0, -80.0, -63.0, -18.0, -42.0, -5.0, -34.0, -56.0, -70.0, -16.0, -18.0, -74.0, -61.0, -47.0, -41.0, -15.0, -79.0, -18.0, -47.0, -88.0, -68.0, -55.0,}, Relationship.GEQ, 0.0));
         
         double epsilon = 1e-6;
-        PointValuePair solution = new SimplexSolver().optimize(DEFAULT_MAX_ITER, f, new LinearConstraintSet(constraints),
-                                                               GoalType.MINIMIZE, new NonNegativeConstraint(true));
+        PointValuePair solution = new SimplexSolver().optimize(DEFAULT_MAX_ITER, f,
+                                                               new DeterministicLinearConstraintSet(constraints),
+                                                               GoalType.MINIMIZE, new NonNegativeConstraint(true),
+                                                               PivotSelectionRule.BLAND);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);
         Assert.assertTrue(validSolution(solution, constraints, epsilon));        
     }
@@ -765,7 +767,7 @@ public class SimplexSolverTest {
             // we need to use a DeterministicLinearConstraintSet to always get the same behavior
             solver.optimize(new MaxIter(100), f, new DeterministicLinearConstraintSet(constraints),
                             GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
-                            PivotSelectionRule.Bland);
+                            PivotSelectionRule.BLAND);
             Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {
             // expected
@@ -779,7 +781,7 @@ public class SimplexSolverTest {
             // we need to use a DeterministicLinearConstraintSet to always get the same behavior
             solver.optimize(new MaxIter(111), f, new DeterministicLinearConstraintSet(constraints),
                             GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
-                            PivotSelectionRule.Bland);
+                            PivotSelectionRule.BLAND);
             //Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {
             // expected

@@ -29,11 +29,11 @@ public enum PivotSelectionRule implements OptimizationData {
      * The classical rule, the variable with the most negative coefficient
      * in the objective function row will be chosen as entering variable.
      */
-    Dantzig,
+    DANTZIG,
     /**
      * The first variable with a negative coefficient in the objective function
      * row will be chosen as entering variable. This rule guarantees to prevent
      * cycles, but may take longer to find an optimal solution.
      */
-    Bland
+    BLAND
 }

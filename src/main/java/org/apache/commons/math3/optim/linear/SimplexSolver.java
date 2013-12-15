@@ -129,7 +129,7 @@ public class SimplexSolver extends LinearOptimizer {
         this.epsilon = epsilon;
         this.maxUlps = maxUlps;
         this.cutOff = cutOff;
-        this.pivotSelection = PivotSelectionRule.Dantzig;
+        this.pivotSelection = PivotSelectionRule.DANTZIG;
     }
 
     /**
@@ -203,7 +203,7 @@ public class SimplexSolver extends LinearOptimizer {
                 minPos = i;
 
                 // Bland's rule: chose the entering column with the lowest index
-                if (pivotSelection == PivotSelectionRule.Bland && isValidPivotColumn(tableau, i)) {
+                if (pivotSelection == PivotSelectionRule.BLAND && isValidPivotColumn(tableau, i)) {
                     break;
                 }
             }
