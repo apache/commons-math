@@ -453,10 +453,10 @@ class SimplexTableau implements Serializable {
     }
 
     /**
-     * Subtracts a multiple of one row from another.
+     * Divides one row by a given divisor.
      * <p>
      * After application of this operation, the following will hold:
-     * <pre>minuendRow = minuendRow - multiple * subtrahendRow</pre>
+     * <pre>dividendRow = dividendRow / divisor</pre>
      *
      * @param dividendRow index of the row
      * @param divisor value of the divisor
