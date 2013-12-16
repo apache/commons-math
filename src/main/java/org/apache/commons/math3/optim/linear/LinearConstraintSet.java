@@ -16,10 +16,11 @@
  */
 package org.apache.commons.math3.optim.linear;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.HashSet;
 import java.util.Collection;
 import java.util.Collections;
+
 import org.apache.commons.math3.optim.OptimizationData;
 
 /**
@@ -30,8 +31,7 @@ import org.apache.commons.math3.optim.OptimizationData;
  */
 public class LinearConstraintSet implements OptimizationData {
     /** Set of constraints. */
-    private final Set<LinearConstraint> linearConstraints
-        = new HashSet<LinearConstraint>();
+    private final Set<LinearConstraint> linearConstraints = new LinkedHashSet<LinearConstraint>();
 
     /**
      * Creates a set containing the given constraints.

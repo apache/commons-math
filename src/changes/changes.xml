@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="update" issue="MATH-1080">
+        The "LinearConstraintSet" will now return the enclosed collection of "LinearConstraint"
+        objects in the same order as they have been added.
+      </action>
       <action dev="tn" type="fix" issue="MATH-842">
         Added support for different pivot selection rules to the "SimplexSolver" by introducing
         the new "OptimizationData" class "PivotSelectionRule". Currently supported rules are:

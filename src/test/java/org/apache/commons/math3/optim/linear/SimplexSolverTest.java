@@ -18,7 +18,6 @@ package org.apache.commons.math3.optim.linear;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math3.exception.TooManyIterationsException;
@@ -99,7 +98,7 @@ public class SimplexSolverTest {
         
         double epsilon = 1e-6;
         PointValuePair solution = new SimplexSolver().optimize(DEFAULT_MAX_ITER, f,
-                                                               new DeterministicLinearConstraintSet(constraints),
+                                                               new LinearConstraintSet(constraints),
                                                                GoalType.MINIMIZE, new NonNegativeConstraint(true),
                                                                PivotSelectionRule.BLAND);
         Assert.assertEquals(1.0d, solution.getValue(), epsilon);
@@ -753,7 +752,6 @@ public class SimplexSolverTest {
         // re-use the problem from testcase for MATH-930
         // it normally requires 113 iterations
         final List<LinearConstraint> constraints = createMath930Constraints();
-        //Collections.reverse(constraints);
         
         double[] objFunctionCoeff = new double[33];
         objFunctionCoeff[3] = 1;
@@ -765,7 +763,7 @@ public class SimplexSolverTest {
         // 1. iteration limit is too low to reach phase 2 -> no feasible solution
         try {
             // we need to use a DeterministicLinearConstraintSet to always get the same behavior
-            solver.optimize(new MaxIter(100), f, new DeterministicLinearConstraintSet(constraints),
+            solver.optimize(new MaxIter(100), f, new LinearConstraintSet(constraints),
                             GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
                             PivotSelectionRule.BLAND);
             Assert.fail("expected TooManyIterationsException");
@@ -779,10 +777,10 @@ public class SimplexSolverTest {
         // 2. iteration limit allows to reach phase 2, but too low to find an optimal solution 
         try {
             // we need to use a DeterministicLinearConstraintSet to always get the same behavior
-            solver.optimize(new MaxIter(111), f, new DeterministicLinearConstraintSet(constraints),
+            solver.optimize(new MaxIter(112), f, new LinearConstraintSet(constraints),
                             GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
                             PivotSelectionRule.BLAND);
-            //Assert.fail("expected TooManyIterationsException");
+            Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {
             // expected
         }
@@ -855,43 +853,6 @@ public class SimplexSolverTest {
         }
         
         return true;
-    }
-    
-    /**
-     * Needed for deterministic tests, as the original LinearConstraintSet uses as HashSet.
-     */
-    public class DeterministicLinearConstraintSet extends LinearConstraintSet {
-        /** Set of constraints. */
-        private final List<LinearConstraint> linearConstraints = new ArrayList<LinearConstraint>();
-
-        /**
-         * Creates a set containing the given constraints.
-         *
-         * @param constraints Constraints.
-         */
-        public DeterministicLinearConstraintSet(LinearConstraint... constraints) {
-            for (LinearConstraint c : constraints) {
-                linearConstraints.add(c);
-            }
-        }
-
-        /**
-         * Creates a set containing the given constraints.
-         *
-         * @param constraints Constraints.
-         */
-        public DeterministicLinearConstraintSet(Collection<LinearConstraint> constraints) {
-            linearConstraints.addAll(constraints);
-        }
-
-        /**
-         * Gets the set of linear constraints.
-         *
-         * @return the constraints.
-         */
-        public Collection<LinearConstraint> getConstraints() {
-            return Collections.unmodifiableList(linearConstraints);
-        }
     }
 
 }
