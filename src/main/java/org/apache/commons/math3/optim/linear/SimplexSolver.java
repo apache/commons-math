@@ -258,7 +258,7 @@ public class SimplexSolver extends LinearOptimizer {
                     minRatioPositions.add(i);
                 } else if (cmp < 0) {
                     minRatio = ratio;
-                    minRatioPositions = new ArrayList<Integer>();
+                    minRatioPositions.clear();
                     minRatioPositions.add(i);
                 }
             }
@@ -290,15 +290,11 @@ public class SimplexSolver extends LinearOptimizer {
 
             Integer minRow = null;
             int minIndex = tableau.getWidth();
-            final int varStart = tableau.getNumObjectiveFunctions();
-            final int varEnd = tableau.getWidth() - 1;
             for (Integer row : minRatioPositions) {
-                for (int i = varStart; i < varEnd && !row.equals(minRow); i++) {
-                    final Integer basicRow = tableau.getBasicRow(i);
-                    if (basicRow != null && basicRow.equals(row) && i < minIndex) {
-                        minIndex = i;
-                        minRow = row;
-                    }
+                final int basicVar = tableau.getBasicVariable(row);
+                if (basicVar < minIndex) {
+                    minIndex = basicVar;
+                    minRow = row;
                 }
             }
             return minRow;
@@ -325,17 +321,7 @@ public class SimplexSolver extends LinearOptimizer {
             throw new UnboundedSolutionException();
         }
 
-        // set the pivot element to 1
-        double pivotVal = tableau.getEntry(pivotRow, pivotCol);
-        tableau.divideRow(pivotRow, pivotVal);
-
-        // set the rest of the pivot column to 0
-        for (int i = 0; i < tableau.getHeight(); i++) {
-            if (i != pivotRow) {
-                final double multiplier = tableau.getEntry(i, pivotCol);
-                tableau.subtractRow(i, pivotRow, multiplier);
-            }
-        }
+        tableau.performRowOperations(pivotCol, pivotRow);
     }
 
     /**
