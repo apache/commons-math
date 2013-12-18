@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.math3.exception.TooManyIterationsException;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
+import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -49,7 +50,7 @@ import org.apache.commons.math3.util.Precision;
  * <ul>
  *   <li>Algorithm convergence: 1e-6</li>
  *   <li>Floating-point comparisons: 10 ulp</li>
- *   <li>Cut-Off value: 1e-12</li>
+ *   <li>Cut-Off value: 1e-10</li>
  * </ul>
  * <p>
  * The cut-off value has been introduced to zero out very small numbers in the Simplex tableau,
@@ -66,7 +67,7 @@ public class SimplexSolver extends LinearOptimizer {
     static final int DEFAULT_ULPS = 10;
 
     /** Default cut-off value. */
-    static final double DEFAULT_CUT_OFF = 1e-12;
+    static final double DEFAULT_CUT_OFF = 1e-10;
 
     /** Default amount of error to accept for algorithm convergence. */
     private static final double DEFAULT_EPSILON = 1.0e-6;
@@ -249,7 +250,11 @@ public class SimplexSolver extends LinearOptimizer {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
 
-            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+            // zero-out tableau entries that are too close to zero to avoid
+            // numerical instabilities as these entries might be used as divisor
+            if (FastMath.abs(entry) < cutOff) {
+                tableau.setEntry(i, col, 0);
+            } else if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
                 final double ratio = rhs / entry;
                 // check if the entry is strictly equal to the current min ratio
                 // do not use a ulp/epsilon check
@@ -371,8 +376,7 @@ public class SimplexSolver extends LinearOptimizer {
                                getGoalType(),
                                isRestrictedToNonNegative(),
                                epsilon,
-                               maxUlps,
-                               cutOff);
+                               maxUlps);
 
         solvePhase1(tableau);
         tableau.dropPhase1Objective();

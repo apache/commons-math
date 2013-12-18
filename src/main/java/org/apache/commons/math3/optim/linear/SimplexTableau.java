@@ -33,7 +33,6 @@ import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 /**
@@ -99,9 +98,6 @@ class SimplexTableau implements Serializable {
     /** Amount of error to accept in floating point comparisons. */
     private final int maxUlps;
 
-    /** Cut-off value for entries in the tableau. */
-    private final double cutOff;
-
     /** Maps basic variables to row they are basic in. */
     private int[] basicVariables;
     
@@ -123,8 +119,7 @@ class SimplexTableau implements Serializable {
                    final GoalType goalType,
                    final boolean restrictToNonNegative,
                    final double epsilon) {
-        this(f, constraints, goalType, restrictToNonNegative, epsilon,
-             SimplexSolver.DEFAULT_ULPS, SimplexSolver.DEFAULT_CUT_OFF);
+        this(f, constraints, goalType, restrictToNonNegative, epsilon, SimplexSolver.DEFAULT_ULPS);
     }
 
     /**
@@ -142,32 +137,11 @@ class SimplexTableau implements Serializable {
                    final boolean restrictToNonNegative,
                    final double epsilon,
                    final int maxUlps) {
-        this(f, constraints, goalType, restrictToNonNegative, epsilon, maxUlps, SimplexSolver.DEFAULT_CUT_OFF);
-    }
-
-    /**
-     * Build a tableau for a linear problem.
-     * @param f linear objective function
-     * @param constraints linear constraints
-     * @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE}
-     * @param restrictToNonNegative whether to restrict the variables to non-negative values
-     * @param epsilon amount of error to accept when checking for optimality
-     * @param maxUlps amount of error to accept in floating point comparisons
-     * @param cutOff the cut-off value for tableau entries
-     */
-    SimplexTableau(final LinearObjectiveFunction f,
-                   final Collection<LinearConstraint> constraints,
-                   final GoalType goalType,
-                   final boolean restrictToNonNegative,
-                   final double epsilon,
-                   final int maxUlps,
-                   final double cutOff) {
         this.f                      = f;
         this.constraints            = normalizeConstraints(constraints);
         this.restrictToNonNegative  = restrictToNonNegative;
         this.epsilon                = epsilon;
         this.maxUlps                = maxUlps;
-        this.cutOff                 = cutOff;
         this.numDecisionVariables   = f.getCoefficients().getDimension() + (restrictToNonNegative ? 0 : 1);
         this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +
                                       getConstraintTypeCounts(Relationship.GEQ);
@@ -516,7 +490,9 @@ class SimplexTableau implements Serializable {
         for (int i = 0; i < getHeight(); i++) {
             if (i != pivotRow) {
                 final double multiplier = getEntry(i, pivotCol);
-                subtractRow(i, pivotRow, multiplier);
+                if (multiplier != 0.0) {
+                    subtractRow(i, pivotRow, multiplier);
+                }
             }
         }
 
@@ -557,12 +533,7 @@ class SimplexTableau implements Serializable {
         final double[] minuendRow = getRow(minuendRowIndex);
         final double[] subtrahendRow = getRow(subtrahendRowIndex);
         for (int i = 0; i < getWidth(); i++) {
-            double result = minuendRow[i] - subtrahendRow[i] * multiplier;
-            // cut-off values smaller than the cut-off threshold, otherwise may lead to numerical instabilities
-            if (result != 0.0 && FastMath.abs(result) < cutOff) {
-                result = 0.0;
-            }
-            minuendRow[i] = result;
+            minuendRow[i] -= subtrahendRow[i] * multiplier;
         }
     }
 

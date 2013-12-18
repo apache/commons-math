@@ -750,7 +750,7 @@ public class SimplexSolverTest {
     @Test
     public void testSolutionCallback() {
         // re-use the problem from testcase for MATH-930
-        // it normally requires 113 iterations
+        // it normally requires 144 iterations
         final List<LinearConstraint> constraints = createMath930Constraints();
         
         double[] objFunctionCoeff = new double[33];
@@ -777,9 +777,10 @@ public class SimplexSolverTest {
         // 2. iteration limit allows to reach phase 2, but too low to find an optimal solution 
         try {
             // we need to use a DeterministicLinearConstraintSet to always get the same behavior
-            solver.optimize(new MaxIter(112), f, new LinearConstraintSet(constraints),
+            solver.optimize(new MaxIter(140), f, new LinearConstraintSet(constraints),
                             GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
-                            PivotSelectionRule.BLAND);
+                            PivotSelectionRule.DANTZIG);
+            System.out.println(solver.getIterations());
             Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {
             // expected
