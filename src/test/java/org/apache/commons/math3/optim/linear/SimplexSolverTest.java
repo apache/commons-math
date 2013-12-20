@@ -749,48 +749,34 @@ public class SimplexSolverTest {
 
     @Test
     public void testSolutionCallback() {
-        // re-use the problem from testcase for MATH-930
-        // it normally requires 144 iterations
-        final List<LinearConstraint> constraints = createMath930Constraints();
+        // re-use the problem from testcase for MATH-288
+        // it normally requires 5 iterations
         
-        double[] objFunctionCoeff = new double[33];
-        objFunctionCoeff[3] = 1;
-        LinearObjectiveFunction f = new LinearObjectiveFunction(objFunctionCoeff, 0);
-        SimplexSolver solver = new SimplexSolver(1e-2, 10, 1e-6);
-        
-        final SolutionCallback callback = new SolutionCallback();
-        
-        // 1. iteration limit is too low to reach phase 2 -> no feasible solution
-        try {
-            // we need to use a DeterministicLinearConstraintSet to always get the same behavior
-            solver.optimize(new MaxIter(100), f, new LinearConstraintSet(constraints),
-                            GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
-                            PivotSelectionRule.BLAND);
-            Assert.fail("expected TooManyIterationsException");
-        } catch (TooManyIterationsException ex) {
-            // expected
-        }
-        
-        final PointValuePair solution1 = callback.getSolution();
-        Assert.assertNull(solution1);
+        LinearObjectiveFunction f = new LinearObjectiveFunction(new double[] { 7, 3, 0, 0 }, 0 );
 
-        // 2. iteration limit allows to reach phase 2, but too low to find an optimal solution 
+        List<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
+        constraints.add(new LinearConstraint(new double[] { 3, 0, -5, 0 }, Relationship.LEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] { 2, 0, 0, -5 }, Relationship.LEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 3, 0, -5 }, Relationship.LEQ, 0.0));
+        constraints.add(new LinearConstraint(new double[] { 1, 0, 0, 0 }, Relationship.LEQ, 1.0));
+        constraints.add(new LinearConstraint(new double[] { 0, 1, 0, 0 }, Relationship.LEQ, 1.0));
+
+        final SimplexSolver solver = new SimplexSolver();
+        final SolutionCallback callback = new SolutionCallback();
+
         try {
-            // we need to use a DeterministicLinearConstraintSet to always get the same behavior
-            solver.optimize(new MaxIter(140), f, new LinearConstraintSet(constraints),
-                            GoalType.MINIMIZE, new NonNegativeConstraint(true), callback,
-                            PivotSelectionRule.DANTZIG);
-            System.out.println(solver.getIterations());
+            solver.optimize(new MaxIter(3), f, new LinearConstraintSet(constraints),
+                            GoalType.MAXIMIZE, new NonNegativeConstraint(true), callback);
             Assert.fail("expected TooManyIterationsException");
         } catch (TooManyIterationsException ex) {
             // expected
         }
         
-        final PointValuePair solution2 = callback.getSolution();
-        Assert.assertNotNull(solution2);
-        Assert.assertTrue(validSolution(solution2, constraints, 1e-4));
-        // the solution is clearly not optimal
-        Assert.assertEquals(0.3752298, solution2.getValue(), 5e-1);
+        final PointValuePair solution = callback.getSolution();
+        Assert.assertNotNull(solution);
+        Assert.assertTrue(validSolution(solution, constraints, 1e-4));
+        // the solution is clearly not optimal: optimal = 10.0
+        Assert.assertEquals(7.0, solution.getValue(), 1e-4);
     }
 
     /**

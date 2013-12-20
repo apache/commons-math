@@ -36,7 +36,7 @@ import org.apache.commons.math3.util.Precision;
  *   <li>type of optimization: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType GoalType}
  *    - optional, default: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType#MINIMIZE MINIMIZE}</li>
  *   <li>whether to allow negative values as solution: {@link NonNegativeConstraint} - optional, default: true</li>
- *   <li>pivot selection rule: {@link PivotSelectionRule} - optional, default {@link PivotSelectionRule#Dantzig}</li>
+ *   <li>pivot selection rule: {@link PivotSelectionRule} - optional, default {@link PivotSelectionRule#DANTZIG}</li>
  *   <li>callback for the best solution: {@link SolutionCallback} - optional</li>
  *   <li>maximum number of iterations: {@link MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
  * </ul>
@@ -51,13 +51,14 @@ import org.apache.commons.math3.util.Precision;
  *   <li>Algorithm convergence: 1e-6</li>
  *   <li>Floating-point comparisons: 10 ulp</li>
  *   <li>Cut-Off value: 1e-10</li>
- * </ul>
+  * </ul>
  * <p>
- * The cut-off value has been introduced to zero out very small numbers in the Simplex tableau,
- * as these may lead to numerical instabilities due to the nature of the Simplex algorithm
- * (the pivot element is used as a denominator). If the problem definition is very tight, the
- * default cut-off value may be too small for certain problems, thus it is advised to increase it
- * to a larger value, in accordance with the chosen epsilon.
+ * The cut-off value has been introduced to handle the case of very small pivot elements
+ * in the Simplex tableau, as these may lead to numerical instabilities and degeneracy.
+ * Potential pivot elements smaller than this value will be treated as if they were zero
+ * and are thus not considered by the pivot selection mechanism. The default value is safe
+ * for many problems, but may need to be adjusted in case of very small coefficients
+ * used in either the {@link LinearConstraint} or {@link LinearObjectiveFunction}.
  *
  * @version $Id$
  * @since 2.0
@@ -228,7 +229,8 @@ public class SimplexSolver extends LinearOptimizer {
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double entry = tableau.getEntry(i, col);
 
-            if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+            // do the same check as in getPivotRow
+            if (Precision.compareTo(entry, 0d, cutOff) > 0) {
                 return true;
             }
         }
@@ -250,12 +252,10 @@ public class SimplexSolver extends LinearOptimizer {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
             final double entry = tableau.getEntry(i, col);
 
-            // zero-out tableau entries that are too close to zero to avoid
-            // numerical instabilities as these entries might be used as divisor
-            if (FastMath.abs(entry) < cutOff) {
-                tableau.setEntry(i, col, 0);
-            } else if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
-                final double ratio = rhs / entry;
+            // only consider pivot elements larger than the cutOff threshold
+            // selecting others may lead to degeneracy or numerical instabilities
+            if (Precision.compareTo(entry, 0d, cutOff) > 0) {
+                final double ratio = FastMath.abs(rhs / entry);
                 // check if the entry is strictly equal to the current min ratio
                 // do not use a ulp/epsilon check
                 final int cmp = Double.compare(ratio, minRatio);
@@ -389,6 +389,20 @@ public class SimplexSolver extends LinearOptimizer {
         while (!tableau.isOptimal()) {
             doIteration(tableau);
         }
-        return tableau.getSolution();
+
+        // check that the solution respects the nonNegative restriction in case
+        // the epsilon/cutOff values are too large for the actual linear problem
+        // (e.g. with very small constraint coefficients), the solver might actually
+        // find a non-valid solution (with negative coefficients).
+        final PointValuePair solution = tableau.getSolution();
+        if (isRestrictedToNonNegative()) {
+            final double[] coeff = solution.getPoint();
+            for (int i = 0; i < coeff.length; i++) {
+                if (Precision.compareTo(coeff[i], 0, epsilon) < 0) {
+                    throw new NoFeasibleSolutionException();
+                }
+            }
+        }
+        return solution;
     }
 }
