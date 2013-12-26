@@ -22,7 +22,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 /**
- * The GLS implementation of the multiple linear regression.
+ * The GLS implementation of multiple linear regression.
  *
  * GLS assumes a general covariance matrix Omega of the error
  * <pre>
