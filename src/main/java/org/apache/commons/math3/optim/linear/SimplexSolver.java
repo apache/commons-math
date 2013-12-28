@@ -38,7 +38,7 @@ import org.apache.commons.math3.util.Precision;
  *   <li>whether to allow negative values as solution: {@link NonNegativeConstraint} - optional, default: true</li>
  *   <li>pivot selection rule: {@link PivotSelectionRule} - optional, default {@link PivotSelectionRule#DANTZIG}</li>
  *   <li>callback for the best solution: {@link SolutionCallback} - optional</li>
- *   <li>maximum number of iterations: {@link MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
+ *   <li>maximum number of iterations: {@link org.apache.commons.math3.optim.MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
  * </ul>
  * <p>
  * <b>Note:</b> Depending on the problem definition, the default convergence criteria
