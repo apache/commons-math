@@ -548,6 +548,13 @@
             <exclude>src/test/resources/org/apache/commons/math3/stat/data/Michelso.txt</exclude>
             <exclude>src/test/resources/org/apache/commons/math3/stat/data/Mavro.txt</exclude>
 
+            <!-- direction numbers for Sobol generation from Frances Y. Kuo and Stephen Joe,
+                 available under a BSD-style license (see NOTICE.txt and LICENSE.txt) -->
+            <exclude>src/main/resources/assets/org/apache/commons/math3/random/new-joe-kuo-6.1000</exclude>
+            
+            <!-- text file explaining reference to a public domain image -->
+            <exclude>src/userguide/resources/references.txt</exclude>
+            
             <!-- version 0.8 of apache-rat-plugin does not exclude properly
                  some default development tools files (see RAT-126) -->
             <exclude>bin/**</exclude>

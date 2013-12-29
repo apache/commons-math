@@ -72,6 +72,12 @@ The creation of the package "o.a.c.m.analysis.integration.gauss" was inspired
 by an original code donated by Sébastien Brisard.
 ===============================================================================
 
+The direction numbers in the resource file for Sobol generation was created
+by Frances Y. Kuo and Stephen Joe. Original source copyright:
+Copyright (c) 2008, Frances Y. Kuo and Stephen Joe
+All rights reserved.
+===============================================================================
+
 
 The complete text of licenses and disclaimers associated with the the original
 sources enumerated above at the time of code translation are in the LICENSE.txt
