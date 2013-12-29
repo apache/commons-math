@@ -100,10 +100,10 @@ class SimplexTableau implements Serializable {
 
     /** Maps basic variables to row they are basic in. */
     private int[] basicVariables;
-    
+
     /** Maps rows to their corresponding basic variables. */
     private int[] basicRows;
-    
+
     /**
      * Builds a tableau for a linear problem.
      *
@@ -317,7 +317,7 @@ class SimplexTableau implements Serializable {
         final int row = basicVariables[col];
         return row == -1 ? null : row;
     }
-    
+
     /**
      * Returns the variable that is basic in this row.
      * @param row the index of the row to check
@@ -509,7 +509,7 @@ class SimplexTableau implements Serializable {
      * After application of this operation, the following will hold:
      * <pre>dividendRow = dividendRow / divisor</pre>
      *
-     * @param dividendRow index of the row
+     * @param dividendRowIndex index of the row
      * @param divisor value of the divisor
      */
     protected void divideRow(final int dividendRowIndex, final double divisor) {
@@ -525,9 +525,9 @@ class SimplexTableau implements Serializable {
      * After application of this operation, the following will hold:
      * <pre>minuendRow = minuendRow - multiple * subtrahendRow</pre>
      *
-     * @param minuendRow row index
-     * @param subtrahendRow row index
-     * @param multiple multiplication factor
+     * @param minuendRowIndex row index
+     * @param subtrahendRowIndex row index
+     * @param multiplier multiplication factor
      */
     protected void subtractRow(final int minuendRowIndex, final int subtrahendRowIndex, final double multiplier) {
         final double[] minuendRow = getRow(minuendRowIndex);
