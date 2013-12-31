@@ -51,6 +51,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1082">
+        The cutOff mechanism of the "SimplexSolver" in package o.a.c.math3.optim.linear
+        could lead to invalid solutions. The mechanism has been improved in a way that
+        the tableau does not need to be updated anymore. Additionally, a new check will
+        prevent impossible solutions to be returned as valid.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1079">
         Improved performance of "SimplexSolver" in package o.a.c.math3.optim.linear by
         directly performing row operations and keeping track of the current basic variables.
