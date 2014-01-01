@@ -162,6 +162,13 @@ public class S2Point implements Point<Sphere2D> {
         return Double.isNaN(theta) || Double.isNaN(phi);
     }
 
+    /** Get the opposite of the instance.
+     * @return a new vector which is opposite to the instance
+     */
+    public S2Point negate() {
+        return new S2Point(-theta, FastMath.PI - phi, vector.negate());
+    }
+
     /** Compute the distance (angular separation) between two points.
      * @param p1 first vector
      * @param p2 second vector

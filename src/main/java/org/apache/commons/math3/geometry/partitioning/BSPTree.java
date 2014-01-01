@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
@@ -326,6 +329,48 @@ public class BSPTree<S extends Space> {
             return plus.getCell(point);
         }
 
+    }
+
+    /** Get the cells whose cut sub-hyperplanes are close to the point.
+     * @param point point to check
+     * @param maxOffset offset below which a cut sub-hyperplane is considered
+     * close to the point (in absolute value)
+     * @return close cells (may be empty if all cut sub-hyperplanes are farther
+     * than maxOffset from the point)
+     */
+    public List<BSPTree<S>> getCloseCuts(final Point<S> point, final double maxOffset) {
+        final List<BSPTree<S>> close = new ArrayList<BSPTree<S>>();
+        recurseCloseCuts(point, maxOffset, close);
+        return close;
+    }
+
+    /** Get the cells whose cut sub-hyperplanes are close to the point.
+     * @param point point to check
+     * @param maxOffset offset below which a cut sub-hyperplane is considered
+     * close to the point (in absolute value)
+     * @param close list to fill
+     */
+    private void recurseCloseCuts(final Point<S> point, final double maxOffset,
+                                  final List<BSPTree<S>> close) {
+        if (cut != null) {
+
+            // position of the point with respect to the cut hyperplane
+            final double offset = cut.getHyperplane().getOffset(point);
+
+            if (offset < -maxOffset) {
+                // point is on the minus side of the cut hyperplane
+                minus.recurseCloseCuts(point, maxOffset, close);
+            } else if (offset > maxOffset) {
+                // point is on the plus side of the cut hyperplane
+                plus.recurseCloseCuts(point, maxOffset, close);
+            } else {
+                // point is close to the cut hyperplane
+                close.add(this);
+                minus.recurseCloseCuts(point, maxOffset, close);
+                plus.recurseCloseCuts(point, maxOffset, close);
+            }
+
+        }
     }
 
     /** Perform condensation on a tree.

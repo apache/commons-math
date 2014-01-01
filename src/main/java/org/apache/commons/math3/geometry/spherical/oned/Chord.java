@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.spherical.oned;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a 1D oriented hyperplane on the circle.
  * <p>An hyperplane on the 1-sphere is a chord that splits
@@ -41,15 +42,20 @@ public class Chord implements Hyperplane<Sphere1D> {
     /** Middle point of the chord. */
     private final S1Point middle;
 
+    /** Tolerance below which close sub-arcs are merged together. */
+    private final double tolerance;
+
     /** Simple constructor.
      * @param start start angle of the chord
      * @param end end angle of the chord
+     * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public Chord(final double start, final double end) {
-        this.start  = start;
-        this.end    = end;
-        this.middle = new S1Point(0.5 * (start + end));
-        this.cos    = FastMath.cos(0.5 * (end - start));
+    public Chord(final double start, final double end, final double tolerance) {
+        this.start     = start;
+        this.end       = end;
+        this.middle    = new S1Point(0.5 * (start + end));
+        this.cos       = FastMath.cos(0.5 * (end - start));
+        this.tolerance = tolerance;
     }
 
     /** Copy the instance.
@@ -64,6 +70,15 @@ public class Chord implements Hyperplane<Sphere1D> {
     /** {@inheritDoc} */
     public double getOffset(final Point<Sphere1D> point) {
         return cos - middle.getVector().dotProduct(((S1Point) point).getVector());
+    }
+
+    /** Get the reverse of the instance.
+     * <p>Get a chord with reversed orientation with respect to the
+     * instance. A new object is built, the instance is untouched.</p>
+     * @return a new chord, with orientation opposite to the instance orientation
+     */
+    public Chord getReverse() {
+        return new Chord(end, MathUtils.normalizeAngle(start, end + FastMath.PI), tolerance);
     }
 
     /** Build a region covering the whole hyperplane.
@@ -86,7 +101,7 @@ public class Chord implements Hyperplane<Sphere1D> {
      * ArcsSet IntervalsSet} instance)
      */
     public ArcsSet wholeSpace() {
-        return new ArcsSet();
+        return new ArcsSet(tolerance);
     }
 
     /** {@inheritDoc} */
@@ -106,6 +121,13 @@ public class Chord implements Hyperplane<Sphere1D> {
      */
     public double getEnd() {
         return end;
+    }
+
+    /** Get the tolerance below which close sub-arcs are merged together.
+     * @return tolerance below which close sub-arcs are merged together
+     */
+    public double getTolerance() {
+        return tolerance;
     }
 
 }

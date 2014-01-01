@@ -22,11 +22,9 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.spherical.oned.Chord;
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
-import org.apache.commons.math3.geometry.spherical.oned.S1Point;
+import org.apache.commons.math3.geometry.spherical.oned.Chord;
 import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
-import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a sub-hyperplane for {@link Circle}.
  * @version $Id$
@@ -54,20 +52,18 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
     @Override
     public Side side(final Hyperplane<Sphere2D> hyperplane) {
 
-        final Circle    thisCircle  = (Circle) getHyperplane();
-        final Circle    otherCircle = (Circle) hyperplane;
-        final S2Point[] crossings   = thisCircle.intersection(otherCircle);
+        final Circle thisCircle  = (Circle) getHyperplane();
+        final Circle otherCircle = (Circle) hyperplane;
+        final Chord  chord       = thisCircle.getChord(otherCircle);
 
-        if (crossings == null) {
+        if (chord == null) {
             // the circles are disjoint
-            final double global = otherCircle.getOffset(thisCircle.getPointAt(0.0));
+            final double global = otherCircle.getOffset(thisCircle.getXAxis());
             return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
         }
 
-        // the circles do intersect
-        final boolean direct = FastMath.sin(thisCircle.getAngle() - otherCircle.getAngle()) < 0;
-        final S1Point x = thisCircle.toSubSpace(crossings);
-        return getRemainingRegion().side(new Chord(x, direct));
+        // the circles do intersect each other
+        return getRemainingRegion().side(chord);
 
     }
 
@@ -75,36 +71,33 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
     @Override
     public SplitSubHyperplane<Sphere2D> split(final Hyperplane<Sphere2D> hyperplane) {
 
-        final Circle    thisCircle  = (Circle) getHyperplane();
-        final Circle    otherCircle = (Circle) hyperplane;
-        final S2Point[] crossings   = thisCircle.intersection(otherCircle);
+        final Circle thisCircle  = (Circle) getHyperplane();
+        final Circle otherCircle = (Circle) hyperplane;
+        final Chord  chord       = thisCircle.getChord(otherCircle);
 
-        if (crossings == null) {
+        if (chord == null) {
             // the circles are disjoint
-            final double global = otherCircle.getOffset(thisCircle.getPointAt(0.0));
+            final double global = otherCircle.getOffset(thisCircle.getXAxis());
             return (global < -1.0e-10) ?
                    new SplitSubHyperplane<Sphere2D>(null, this) :
                    new SplitSubHyperplane<Sphere2D>(this, null);
         }
 
         // the circles do intersect
-        final boolean direct = FastMath.sin(thisCircle.getAngle() - otherCircle.getAngle()) < 0;
-        final S1Point x      = thisCircle.toSubSpace(crossings);
-        final SubHyperplane<Sphere1D> subPlus  = new Chord(x, !direct).wholeHyperplane();
-        final SubHyperplane<Sphere1D> subMinus = new Chord(x,  direct).wholeHyperplane();
-
+        final SubHyperplane<Sphere1D> subMinus = chord.wholeHyperplane();
+        final SubHyperplane<Sphere1D> subPlus  = chord.getReverse().wholeHyperplane();
         final BSPTree<Sphere1D> splitTree = getRemainingRegion().getTree(false).split(subMinus);
         final BSPTree<Sphere1D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?
                                                new BSPTree<Sphere1D>(Boolean.FALSE) :
                                                new BSPTree<Sphere1D>(subPlus, new BSPTree<Sphere1D>(Boolean.FALSE),
-                                                                        splitTree.getPlus(), null);
+                                                                     splitTree.getPlus(), null);
         final BSPTree<Sphere1D> minusTree = getRemainingRegion().isEmpty(splitTree.getMinus()) ?
                                                new BSPTree<Sphere1D>(Boolean.FALSE) :
                                                new BSPTree<Sphere1D>(subMinus, new BSPTree<Sphere1D>(Boolean.FALSE),
-                                                                        splitTree.getMinus(), null);
+                                                                     splitTree.getMinus(), null);
 
-        return new SplitSubHyperplane<Sphere2D>(new SubCircle(thisCircle.copySelf(), new ArcsSet(plusTree)),
-                                                new SubCircle(thisCircle.copySelf(), new ArcsSet(minusTree)));
+        return new SplitSubHyperplane<Sphere2D>(new SubCircle(thisCircle.copySelf(), new ArcsSet(plusTree, thisCircle.getTolerance())),
+                                                new SubCircle(thisCircle.copySelf(), new ArcsSet(minusTree, thisCircle.getTolerance())));
 
     }
 

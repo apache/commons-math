@@ -33,10 +33,14 @@ import org.apache.commons.math3.util.Precision;
  */
 public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
 
+    /** Tolerance below which close sub-arcs are merged together. */
+    private final double tolerance;
+
     /** Build an arcs set representing the whole circle.
+     * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public ArcsSet() {
-        super();
+    public ArcsSet(final double tolerance) {
+        this.tolerance = tolerance;
     }
 
     /** Build an arcs set corresponding to a single arc.
@@ -51,9 +55,11 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * </p>
      * @param lower lower bound of the arc
      * @param upper upper bound of the arc
+     * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public ArcsSet(final double lower, final double upper) {
-        super(buildTree(lower, upper));
+    public ArcsSet(final double lower, final double upper, final double tolerance) {
+        super(buildTree(lower, upper, tolerance));
+        this.tolerance = tolerance;
     }
 
     /** Build an arcs set from an inside/outside BSP tree.
@@ -64,9 +70,11 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the arcs set
+     * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public ArcsSet(final BSPTree<Sphere1D> tree) {
+    public ArcsSet(final BSPTree<Sphere1D> tree, final double tolerance) {
         super(tree);
+        this.tolerance = tolerance;
     }
 
     /** Build an arcs set from a Boundary REPresentation (B-rep).
@@ -87,9 +95,11 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
      * @param boundary collection of boundary elements
+     * @param tolerance tolerance below which close sub-arcs are merged together
      */
-    public ArcsSet(final Collection<SubHyperplane<Sphere1D>> boundary) {
+    public ArcsSet(final Collection<SubHyperplane<Sphere1D>> boundary, final double tolerance) {
         super(boundary);
+        this.tolerance = tolerance;
     }
 
     /** Build an inside/outside tree representing a single arc.
@@ -104,9 +114,10 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * </p>
      * @param lower lower angular bound of the arc
      * @param upper upper angular bound of the arc
+     * @param tolerance tolerance below which close sub-arcs are merged together
      * @return the built tree
      */
-    private static BSPTree<Sphere1D> buildTree(final double lower, final double upper) {
+    private static BSPTree<Sphere1D> buildTree(final double lower, final double upper, final double tolerance) {
 
         if (Precision.equals(lower, upper, 0)) {
             // the tree must cover the whole real line
@@ -115,7 +126,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
 
         // the two boundary angles define only one cutting chord
         final double normalizedUpper = MathUtils.normalizeAngle(upper, lower + FastMath.PI);
-        return new BSPTree<Sphere1D>(new Chord(lower, normalizedUpper).wholeHyperplane(),
+        return new BSPTree<Sphere1D>(new Chord(lower, normalizedUpper, tolerance).wholeHyperplane(),
                                      new BSPTree<Sphere1D>(Boolean.FALSE),
                                      new BSPTree<Sphere1D>(Boolean.TRUE),
                                      null);
@@ -125,7 +136,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
     /** {@inheritDoc} */
     @Override
     public ArcsSet buildNew(final BSPTree<Sphere1D> tree) {
-        return new ArcsSet(tree);
+        return new ArcsSet(tree, tolerance);
     }
 
     /** {@inheritDoc} */
@@ -181,21 +192,29 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
                 list.add(new Arc(lower, upper));
             }
         } else {
-            final Chord   chord = (Chord) node.getCut().getHyperplane();
-            final S1Point loc   = chord.getMiddle();
-            double        alpha = loc.getAlpha();
+            final SubChord  cut      = (SubChord) node.getCut();
+            final List<Arc> cutArcs  = cut.getSubArcs();
+            final double    cutStart = cutArcs.get(0).getInf();
+            final double    cutEnd   = cutArcs.get(cutArcs.size() - 1).getSup();
 
-            // make sure we explore the tree in increasing order
-            final BSPTree<Sphere1D> low  = chord.isDirect() ? node.getMinus() : node.getPlus();
-            final BSPTree<Sphere1D> high = chord.isDirect() ? node.getPlus()  : node.getMinus();
-
-            recurseList(low, list, lower, alpha);
-            if ((checkPoint(low,  loc) == Location.INSIDE) &&
-                (checkPoint(high, loc) == Location.INSIDE)) {
-                // merge the last arc added and the first one of the high sub-tree
-                alpha = list.remove(list.size() - 1).getInf();
+            recurseList(node.getMinus(), list, lower, cutStart);
+            if (list.get(list.size() - 1).checkPoint(cutStart, tolerance) == Location.INSIDE) {
+                // merge the last arc before the sub-chord and the sub-chord
+                final Arc merged = new Arc(list.remove(list.size() - 1).getInf(),
+                                           cutArcs.remove(0).getSup());
+                cutArcs.add(0, merged);
             }
-            recurseList(high, list, alpha, upper);
+
+            final List<Arc> highList = new ArrayList<Arc>();
+            recurseList(node.getPlus(), highList, cutEnd, upper);
+            if (highList.get(0).checkPoint(cutEnd, tolerance) == Location.INSIDE) {
+                // merge the first arc after the sub-chord and the sub-chord
+                final Arc merged = new Arc(cutArcs.remove(cutArcs.size() - 1).getInf(),
+                                           highList.remove(0).getSup());
+                highList.add(0, merged);
+            }
+
+            list.addAll(highList);
 
         }
 
