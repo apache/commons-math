@@ -17,7 +17,7 @@
 package org.apache.commons.math3.geometry.partitioning;
 
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.util.FastMath;
 
@@ -307,7 +307,7 @@ public class BSPTree<S extends Space> {
      * @param point point to check
      * @return the tree cell to which the point belongs (can be
      */
-    public BSPTree<S> getCell(final Vector<S> point) {
+    public BSPTree<S> getCell(final Point<S> point) {
 
         if (cut == null) {
             return this;

@@ -17,7 +17,7 @@
 package org.apache.commons.math3.geometry.partitioning;
 
 import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 
 /** This interface represents a region of a space as a partition.
 
@@ -110,7 +110,7 @@ public interface Region<S extends Space> {
      * @return a code representing the point status: either {@link
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
      */
-    Location checkPoint(final Vector<S> point);
+    Location checkPoint(final Point<S> point);
 
     /** Get the underlying BSP tree.
 
@@ -168,7 +168,7 @@ public interface Region<S extends Space> {
     /** Get the barycenter of the instance.
      * @return an object representing the barycenter
      */
-    Vector<S> getBarycenter();
+    Point<S> getBarycenter();
 
     /** Compute the relative position of the instance with respect to an
      * hyperplane.

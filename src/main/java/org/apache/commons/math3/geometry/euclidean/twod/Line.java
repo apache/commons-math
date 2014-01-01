@@ -20,7 +20,7 @@ import java.awt.geom.AffineTransform;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint;
@@ -177,13 +177,13 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** {@inheritDoc} */
-    public Vector1D toSubSpace(final Vector<Euclidean2D> point) {
+    public Vector1D toSubSpace(final Point<Euclidean2D> point) {
         Vector2D p2 = (Vector2D) point;
         return new Vector1D(cos * p2.getX() + sin * p2.getY());
     }
 
     /** {@inheritDoc} */
-    public Vector2D toSpace(final Vector<Euclidean1D> point) {
+    public Vector2D toSpace(final Point<Euclidean1D> point) {
         final double abscissa = ((Vector1D) point).getX();
         return new Vector2D(abscissa * cos - originOffset * sin,
                             abscissa * sin + originOffset * cos);
@@ -232,7 +232,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     }
 
     /** {@inheritDoc} */
-    public double getOffset(final Vector<Euclidean2D> point) {
+    public double getOffset(final Point<Euclidean2D> point) {
         Vector2D p2 = (Vector2D) point;
         return sin * p2.getX() - cos * p2.getY() + originOffset;
     }
@@ -390,7 +390,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         }
 
         /** {@inheritDoc} */
-        public Vector2D apply(final Vector<Euclidean2D> point) {
+        public Vector2D apply(final Point<Euclidean2D> point) {
             final Vector2D p2D = (Vector2D) point;
             final double  x   = p2D.getX();
             final double  y   = p2D.getY();

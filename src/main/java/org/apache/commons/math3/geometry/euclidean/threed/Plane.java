@@ -18,7 +18,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
@@ -223,8 +223,9 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * org.apache.commons.math3.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @see #toSpace
      */
-    public Vector2D toSubSpace(final Vector<Euclidean3D> point) {
-        return new Vector2D(point.dotProduct(u), point.dotProduct(v));
+    public Vector2D toSubSpace(final Point<Euclidean3D> point) {
+        final Vector3D p3D = (Vector3D) point;
+        return new Vector2D(p3D.dotProduct(u), p3D.dotProduct(v));
     }
 
     /** Transform an in-plane point into a 3D space point.
@@ -233,7 +234,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @return 3D space point (really a {@link Vector3D Vector3D} instance)
      * @see #toSubSpace
      */
-    public Vector3D toSpace(final Vector<Euclidean2D> point) {
+    public Vector3D toSpace(final Point<Euclidean2D> point) {
         final Vector2D p2D = (Vector2D) point;
         return new Vector3D(p2D.getX(), u, p2D.getY(), v, -originOffset, w);
     }
@@ -416,8 +417,8 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @param point point to check
      * @return offset of the point
      */
-    public double getOffset(final Vector<Euclidean3D> point) {
-        return point.dotProduct(w) + originOffset;
+    public double getOffset(final Point<Euclidean3D> point) {
+        return ((Vector3D) point).dotProduct(w) + originOffset;
     }
 
     /** Check if the instance has the same orientation as another hyperplane.

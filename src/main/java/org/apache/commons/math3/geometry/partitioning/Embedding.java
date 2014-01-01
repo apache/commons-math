@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 
 /** This interface defines mappers between a space and one of its sub-spaces.
@@ -49,7 +49,7 @@ public interface Embedding<S extends Space, T extends Space> {
      * the specified space point
      * @see #toSpace
      */
-    Vector<T> toSubSpace(Vector<S> point);
+    Point<T> toSubSpace(Point<S> point);
 
     /** Transform a sub-space point into a space point.
      * @param point (n-1)-dimension point of the sub-space
@@ -57,6 +57,6 @@ public interface Embedding<S extends Space, T extends Space> {
      * specified sub-space point
      * @see #toSubSpace
      */
-    Vector<S> toSpace(Vector<T> point);
+    Point<S> toSpace(Point<T> point);
 
 }

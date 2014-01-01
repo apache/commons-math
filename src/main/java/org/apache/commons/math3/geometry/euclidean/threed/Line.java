@@ -18,7 +18,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
@@ -125,14 +125,14 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** {@inheritDoc}
      * @see #getAbscissa(Vector3D)
      */
-    public Vector1D toSubSpace(final Vector<Euclidean3D> point) {
+    public Vector1D toSubSpace(final Point<Euclidean3D> point) {
         return new Vector1D(getAbscissa((Vector3D) point));
     }
 
     /** {@inheritDoc}
      * @see #pointAt(double)
      */
-    public Vector3D toSpace(final Vector<Euclidean1D> point) {
+    public Vector3D toSpace(final Point<Euclidean1D> point) {
         return pointAt(((Vector1D) point).getX());
     }
 

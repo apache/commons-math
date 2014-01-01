@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a 2D vector.
@@ -228,6 +229,41 @@ public class Vector2D implements Vector<Euclidean2D> {
         }
         return scalarMultiply(1 / s);
     }
+
+    /** Compute the angular separation between two vectors.
+     * <p>This method computes the angular separation between two
+     * vectors using the dot product for well separated vectors and the
+     * cross product for almost aligned vectors. This allows to have a
+     * good accuracy in all cases, even for vectors very close to each
+     * other.</p>
+     * @param v1 first vector
+     * @param v2 second vector
+     * @return angular separation between v1 and v2
+     * @exception MathArithmeticException if either vector has a null norm
+     */
+    public static double angle(Vector2D v1, Vector2D v2) throws MathArithmeticException {
+
+        double normProduct = v1.getNorm() * v2.getNorm();
+        if (normProduct == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_NORM);
+        }
+
+        double dot = v1.dotProduct(v2);
+        double threshold = normProduct * 0.9999;
+        if ((dot < -threshold) || (dot > threshold)) {
+            // the vectors are almost aligned, compute using the sine
+            final double n = FastMath.abs(MathArrays.linearCombination(v1.x, v2.y, -v1.y, v2.x));
+            if (dot >= 0) {
+                return FastMath.asin(n / normProduct);
+            }
+            return FastMath.PI - FastMath.asin(n / normProduct);
+        }
+
+        // the vectors are sufficiently separated to use the cosine
+        return FastMath.acos(dot / normProduct);
+
+    }
+
     /** {@inheritDoc} */
     public Vector2D negate() {
         return new Vector2D(-x, -y);
@@ -283,7 +319,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     /** {@inheritDoc} */
     public double dotProduct(final Vector<Euclidean2D> v) {
         final Vector2D v2 = (Vector2D) v;
-        return x * v2.x + y * v2.y;
+        return MathArrays.linearCombination(x, v2.x, y, v2.y);
     }
 
     /** Compute the distance between two vectors according to the L<sub>2</sub> norm.

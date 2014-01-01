@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.geometry.euclidean.oned;
 
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 
 /** This class represents a 1D oriented hyperplane.
@@ -54,7 +54,7 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     }
 
     /** {@inheritDoc} */
-    public double getOffset(final Vector<Euclidean1D> point) {
+    public double getOffset(final Point<Euclidean1D> point) {
         final double delta = ((Vector1D) point).getX() - location.getX();
         return direct ? delta : -delta;
     }

@@ -16,7 +16,7 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 
 /** This interface represents an hyperplane of a space.
@@ -53,7 +53,7 @@ public interface Hyperplane<S extends Space> {
      * @param point point to check
      * @return offset of the point
      */
-    double getOffset(Vector<S> point);
+    double getOffset(Point<S> point);
 
     /** Check if the instance has the same orientation as another hyperplane.
      * <p>This method is expected to be called on parallel hyperplanes. The

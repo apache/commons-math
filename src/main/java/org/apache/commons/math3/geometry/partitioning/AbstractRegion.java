@@ -25,7 +25,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 
 /** Abstract class for all regions, independently of geometry type or dimension.
 
@@ -44,7 +44,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     private double size;
 
     /** Barycenter. */
-    private Vector<S> barycenter;
+    private Point<S> barycenter;
 
     /** Build a region representing the whole space.
      */
@@ -80,7 +80,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * (their topological connections are not used here). However, if the
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
-     * calls to the {@link #checkPoint(Vector) checkPoint} method will not be
+     * calls to the {@link #checkPoint(Point) checkPoint} method will not be
      * meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -250,7 +250,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     }
 
     /** {@inheritDoc} */
-    public Location checkPoint(final Vector<S> point) {
+    public Location checkPoint(final Point<S> point) {
         return checkPoint(tree, point);
     }
 
@@ -261,7 +261,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * Region.Location#INSIDE INSIDE}, {@link Region.Location#OUTSIDE
      * OUTSIDE} or {@link Region.Location#BOUNDARY BOUNDARY}
      */
-    protected Location checkPoint(final BSPTree<S> node, final Vector<S> point) {
+    protected Location checkPoint(final BSPTree<S> node, final Point<S> point) {
         final BSPTree<S> cell = node.getCell(point);
         if (cell.getCut() == null) {
             // the point is in the interior of a cell, just check the attribute
@@ -423,7 +423,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     }
 
     /** {@inheritDoc} */
-    public Vector<S> getBarycenter() {
+    public Point<S> getBarycenter() {
         if (barycenter == null) {
             computeGeometricalProperties();
         }
@@ -433,7 +433,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     /** Set the barycenter of the instance.
      * @param barycenter barycenter of the instance
      */
-    protected void setBarycenter(final Vector<S> barycenter) {
+    protected void setBarycenter(final Point<S> barycenter) {
         this.barycenter = barycenter;
     }
 

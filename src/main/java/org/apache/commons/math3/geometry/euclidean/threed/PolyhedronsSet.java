@@ -19,7 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
 
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.SubLine;
@@ -340,7 +340,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
-        public Vector3D apply(final Vector<Euclidean3D> point) {
+        public Vector3D apply(final Point<Euclidean3D> point) {
             final Vector3D delta = ((Vector3D) point).subtract(center);
             return new Vector3D(1.0, center, 1.0, rotation.applyTo(delta));
         }
@@ -408,7 +408,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         }
 
         /** {@inheritDoc} */
-        public Vector3D apply(final Vector<Euclidean3D> point) {
+        public Vector3D apply(final Point<Euclidean3D> point) {
             return new Vector3D(1.0, (Vector3D) point, 1.0, translation);
         }
 
