@@ -16,11 +16,14 @@
  */
 package org.apache.commons.math3.geometry.spherical.oned;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
@@ -33,7 +36,7 @@ public class ArcsSetTest {
     public void testArc() {
         ArcsSet set = new ArcsSet(2.3, 5.7, 1.0e-10);
         Assert.assertEquals(3.4, set.getSize(), 1.0e-10);
-        Assert.assertEquals(4.0, ((S1Point) set.getBarycenter()).getAlpha(), 1.0e-10);
+        Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
         Assert.assertEquals(Region.Location.BOUNDARY, set.checkPoint(new S1Point(2.3)));
         Assert.assertEquals(Region.Location.BOUNDARY, set.checkPoint(new S1Point(5.7)));
         Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(1.2)));
@@ -43,13 +46,43 @@ public class ArcsSetTest {
         Assert.assertEquals(1, set.asList().size());
         Assert.assertEquals(2.3, set.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(5.7, set.asList().get(0).getSup(), 1.0e-10);
-        Assert.assertEquals(4.0, ((S1Point) set.getBarycenter()).getAlpha(), 1.0e-10);
-        Assert.assertEquals(3.4, set.getSize(), 1.0e-10);
+        Assert.assertEquals(2.3, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertFalse(set.getSmallestLimit().isDirect());
+        Assert.assertEquals(5.7, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertTrue(set.getLargestLimit().isDirect());
     }
 
     @Test
-    public void testFullCircle() {
-        ArcsSet set = new ArcsSet(9.0, 9.0, 1.0e-10);
+    public void testWrapAround2PiArc() {
+        ArcsSet set = new ArcsSet(5.7 - MathUtils.TWO_PI, 2.3, 1.0e-10);
+        Assert.assertEquals(MathUtils.TWO_PI - 3.4, set.getSize(), 1.0e-10);
+        Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
+        Assert.assertEquals(Region.Location.BOUNDARY, set.checkPoint(new S1Point(2.3)));
+        Assert.assertEquals(Region.Location.BOUNDARY, set.checkPoint(new S1Point(5.7)));
+        Assert.assertEquals(Region.Location.INSIDE,   set.checkPoint(new S1Point(1.2)));
+        Assert.assertEquals(Region.Location.INSIDE,   set.checkPoint(new S1Point(8.5)));
+        Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(8.7)));
+        Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(3.0)));
+        Assert.assertEquals(1, set.asList().size());
+        Assert.assertEquals(5.7, set.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(2.3 + MathUtils.TWO_PI, set.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(2.3, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertTrue(set.getSmallestLimit().isDirect());
+        Assert.assertEquals(5.7, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertFalse(set.getLargestLimit().isDirect());
+    }
+
+    @Test(expected=NumberIsTooLargeException.class)
+    public void testWrongInterval() {
+        new ArcsSet(1.2, 0.0, 1.0e-10);
+    }
+
+    @Test
+    public void testFullEqualEndPoints() {
+        ArcsSet set = new ArcsSet(1.0, 1.0, 1.0e-10);
+        Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
+        Assert.assertNull(set.getSmallestLimit());
+        Assert.assertNull(set.getLargestLimit());
         Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(9.0)));
         for (double alpha = -20.0; alpha <= 20.0; alpha += 0.1) {
             Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(alpha)));
@@ -58,6 +91,60 @@ public class ArcsSetTest {
         Assert.assertEquals(0.0, set.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(2 * FastMath.PI, set.asList().get(0).getSup(), 1.0e-10);
         Assert.assertEquals(2 * FastMath.PI, set.getSize(), 1.0e-10);
+    }
+
+    @Test
+    public void testFullCircle() {
+        ArcsSet set = new ArcsSet(1.0e-10);
+        Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
+        Assert.assertNull(set.getSmallestLimit());
+        Assert.assertNull(set.getLargestLimit());
+        Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(9.0)));
+        for (double alpha = -20.0; alpha <= 20.0; alpha += 0.1) {
+            Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(alpha)));
+        }
+        Assert.assertEquals(1, set.asList().size());
+        Assert.assertEquals(0.0, set.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(2 * FastMath.PI, set.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(2 * FastMath.PI, set.getSize(), 1.0e-10);
+    }
+
+    @Test
+    public void testEmpty() {
+        ArcsSet empty = (ArcsSet) new RegionFactory<Sphere1D>().getComplement(new ArcsSet(1.0e-10));
+        Assert.assertEquals(1.0e-10, empty.getTolerance(), 1.0e-20);
+        Assert.assertEquals(0.0, empty.getSize(), 1.0e-10);
+        Assert.assertTrue(empty.asList().isEmpty());
+        Assert.assertNull(empty.getSmallestLimit());
+        Assert.assertNull(empty.getLargestLimit());
+    }
+
+    @Test
+    public void testTiny() {
+        ArcsSet tiny = new ArcsSet(0.0, Precision.SAFE_MIN / 2, 1.0e-10);
+        Assert.assertEquals(1.0e-10, tiny.getTolerance(), 1.0e-20);
+        Assert.assertEquals(Precision.SAFE_MIN / 2, tiny.getSize(), 1.0e-10);
+        Assert.assertEquals(1, tiny.asList().size());
+        Assert.assertEquals(0.0, tiny.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(Precision.SAFE_MIN / 2, tiny.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(0.0, tiny.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertEquals(Precision.SAFE_MIN / 2, tiny.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
+    }
+
+    @Test
+    public void testSpecialConstruction() {
+        List<SubHyperplane<Sphere1D>> boundary = new ArrayList<SubHyperplane<Sphere1D>>();
+        boundary.add(new LimitAngle(new S1Point(0.0), false, 1.0e-10).wholeHyperplane());
+        boundary.add(new LimitAngle(new S1Point(MathUtils.TWO_PI), true, 1.0e-10).wholeHyperplane());
+        ArcsSet set = new ArcsSet(boundary, 1.0e-10);
+        Assert.assertEquals(MathUtils.TWO_PI, set.getSize(), 1.0e-10);
+        Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
+        Assert.assertEquals(1, set.asList().size());
+        Assert.assertEquals(0.0, set.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(MathUtils.TWO_PI, set.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(0.0, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertFalse(set.getSmallestLimit().isDirect());
+        Assert.assertEquals(0.0, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
     }
 
     @Test
@@ -139,9 +226,11 @@ public class ArcsSetTest {
         }
 
         List<Arc> aMbList = aMb.asList();
-        Assert.assertEquals(1,   aMbList.size());
+        Assert.assertEquals(2,   aMbList.size());
         Assert.assertEquals(1.0, aMbList.get(0).getInf(), 1.0e-10);
         Assert.assertEquals(3.0, aMbList.get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(5.0, aMbList.get(1).getInf(), 1.0e-10);
+        Assert.assertEquals(5.5, aMbList.get(1).getSup(), 1.0e-10);
 
 
     }
@@ -155,7 +244,6 @@ public class ArcsSetTest {
                                                               new ArcsSet(0.5, 2.0, 1.0e-10)),
                                                               new ArcsSet(0.0, 5.5, 1.0e-10));
         Assert.assertEquals(3.0, set.getSize(), 1.0e-10);
-        Assert.assertEquals(7.0 / 3.0, ((S1Point) set.getBarycenter()).getAlpha(), 1.0e-10);
         Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(0.0)));
         Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(4.0)));
         Assert.assertEquals(Region.Location.OUTSIDE,  set.checkPoint(new S1Point(6.0)));
@@ -179,7 +267,6 @@ public class ArcsSetTest {
     public void testSinglePoint() {
         ArcsSet set = new ArcsSet(1.0, FastMath.nextAfter(1.0, Double.POSITIVE_INFINITY), 1.0e-10);
         Assert.assertEquals(2 * Precision.EPSILON, set.getSize(), Precision.SAFE_MIN);
-        Assert.assertEquals(1.0, ((S1Point) set.getBarycenter()).getAlpha(), Precision.EPSILON);
     }
 
 }

@@ -21,6 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
@@ -30,6 +32,13 @@ import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
 
 /** This class represents a region of a circle: a set of arcs.
+ * <p>
+ * Note that due to the wrapping around \(2 \pi\), barycenter is
+ * ill-defined here. It was defined only in order to fulfill
+ * the requirements of the {@link
+ * org.apache.commons.math3.geometry.partitioning.Region Region}
+ * interface, but its use is discouraged.
+ * </p>
  * @version $Id$
  * @since 3.3
  */
@@ -47,19 +56,19 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
 
     /** Build an arcs set corresponding to a single arc.
      * <p>
-     * As the circle is a closed curve, {@code lower} is
-     * allowed to be greater than {@code upper}, and will
-     * be automatically canonicalized so the arc wraps
-     * around \( 2\pi \), but without exceeding a total
-     * length of \( 2\pi \). If {@code lower} is equals
-     * to {@code upper}, the arc is considered to be the full
-     * circle.
+     * If either {@code lower} is equals to {@code upper} or
+     * the interval exceeds \( 2 \pi \), the arc is considered
+     * to be the full circle and its initial defining boundaries
+     * will be forgotten. {@code lower} is not allowed to be greater
+     * than {@code upper} (an exception is thrown in this case).
      * </p>
      * @param lower lower bound of the arc
      * @param upper upper bound of the arc
      * @param tolerance tolerance below which close sub-arcs are merged together
+     * @exception NumberIsTooLargeException if lower is greater than upper
      */
-    public ArcsSet(final double lower, final double upper, final double tolerance) {
+    public ArcsSet(final double lower, final double upper, final double tolerance)
+        throws NumberIsTooLargeException {
         super(buildTree(lower, upper, tolerance));
         this.tolerance = tolerance;
     }
@@ -105,33 +114,236 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
     }
 
     /** Build an inside/outside tree representing a single arc.
-     * <p>
-     * As the circle is a closed curve, {@code lower} is
-     * allowed to be greater than {@code upper}, and will
-     * be automatically canonicalized so the arc wraps
-     * around \( 2\pi \), but without exceeding a total
-     * length of \( 2\pi \). If {@code lower} is equals
-     * to {@code upper}, the arc is considered to be the full
-     * circle.
-     * </p>
      * @param lower lower angular bound of the arc
      * @param upper upper angular bound of the arc
      * @param tolerance tolerance below which close sub-arcs are merged together
      * @return the built tree
+     * @exception NumberIsTooLargeException if lower is greater than upper
      */
-    private static BSPTree<Sphere1D> buildTree(final double lower, final double upper, final double tolerance) {
+    private static BSPTree<Sphere1D> buildTree(final double lower, final double upper,
+                                               final double tolerance)
+        throws NumberIsTooLargeException {
 
-        if (Precision.equals(lower, upper, 0)) {
-            // the tree must cover the whole real line
+        if (Precision.equals(lower, upper, 0) || (upper - lower) >= MathUtils.TWO_PI) {
+            // the tree must cover the whole circle
             return new BSPTree<Sphere1D>(Boolean.TRUE);
+        } else  if (lower > upper) {
+            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
+                                                lower, upper, true);
         }
 
-        // the two boundary angles define only one cutting chord
-        final double normalizedUpper = MathUtils.normalizeAngle(upper, lower + FastMath.PI);
-        return new BSPTree<Sphere1D>(new Chord(lower, normalizedUpper, tolerance).wholeHyperplane(),
-                                     new BSPTree<Sphere1D>(Boolean.FALSE),
-                                     new BSPTree<Sphere1D>(Boolean.TRUE),
-                                     null);
+        // this is a regular arc, covering only part of the circle
+        final double normalizedLower = MathUtils.normalizeAngle(lower, FastMath.PI);
+        final double normalizedUpper = normalizedLower + (upper - lower);
+        final SubHyperplane<Sphere1D> lowerCut =
+                new LimitAngle(new S1Point(normalizedLower), false, tolerance).wholeHyperplane();
+
+        if (normalizedUpper <= MathUtils.TWO_PI) {
+            // simple arc starting after 0 and ending before 2 \pi
+            final SubHyperplane<Sphere1D> upperCut =
+                    new LimitAngle(new S1Point(normalizedUpper), true, tolerance).wholeHyperplane();
+            return new BSPTree<Sphere1D>(lowerCut,
+                                         new BSPTree<Sphere1D>(Boolean.FALSE),
+                                         new BSPTree<Sphere1D>(upperCut,
+                                                               new BSPTree<Sphere1D>(Boolean.FALSE),
+                                                               new BSPTree<Sphere1D>(Boolean.TRUE),
+                                                               null),
+                                         null);
+        } else {
+            // arc wrapping around 2 \pi
+            final SubHyperplane<Sphere1D> upperCut =
+                    new LimitAngle(new S1Point(normalizedUpper - MathUtils.TWO_PI), true, tolerance).wholeHyperplane();
+            return new BSPTree<Sphere1D>(lowerCut,
+                                         new BSPTree<Sphere1D>(upperCut,
+                                                               new BSPTree<Sphere1D>(Boolean.FALSE),
+                                                               new BSPTree<Sphere1D>(Boolean.TRUE),
+                                                               null),
+                                         new BSPTree<Sphere1D>(Boolean.TRUE),
+                                         null);
+        }
+
+    }
+
+    /** Get the tolerance below which angles are considered identical.
+     * @return tolerance below which angles are considered identical
+     */
+    public double getTolerance() {
+        return tolerance;
+    }
+
+    /** Get the smallest internal node.
+     * @return smallest internal node (i.e. first after 0.0 radians, in trigonometric direction),
+     * or null if there are no internal nodes (i.e. the set is either empty or covers the full circle)
+     */
+    public LimitAngle getSmallestLimit() {
+
+        // start search at the tree root
+        BSPTree<Sphere1D> node = getTree(false);
+        if (node.getCut() == null) {
+            return null;
+        }
+
+        BSPTree<Sphere1D> previous = previousNode(node);
+        while (previous != null) {
+            node = previous;
+            previous = previousNode(node);
+        }
+
+        return (LimitAngle) node.getCut().getHyperplane();
+
+    }
+
+    /** Get the largest limit angle in the set.
+     * @return largest limit angle (i.e. last before or at \(2 \pi) radians, in trigonometric direction),
+     * or null if there are no limits (i.e. the set is either empty or covers the full circle)
+     */
+    public LimitAngle getLargestLimit() {
+
+        // start search at the tree root
+        BSPTree<Sphere1D> node = getTree(false);
+        if (node.getCut() == null) {
+            return null;
+        }
+
+        BSPTree<Sphere1D> next = nextNode(node);
+        while (next != null) {
+            node = next;
+            next = nextNode(node);
+        }
+
+        return (LimitAngle) node.getCut().getHyperplane();
+
+    }
+
+    /** Get the next internal node.
+     * @param node current node
+     * @return next internal node in trigonometric order, or null
+     * if this is the last internal node
+     */
+    private BSPTree<Sphere1D> nextNode(BSPTree<Sphere1D> node) {
+
+        final BSPTree<Sphere1D> nextDeeper =
+                ((LimitAngle) node.getCut().getHyperplane()).isDirect() ?
+                node.getPlus() : node.getMinus();
+
+        if (nextDeeper.getCut() != null) {
+            // the next node is in the sub-tree
+            return findSmallest(nextDeeper);
+        }
+
+        // there is nothing left deeper in the tree, we backtrack
+        while (isAfterParent(node)) {
+            node = node.getParent();
+        }
+        return node.getParent();
+
+    }
+
+    /** Get the previous internal node.
+     * @param node current node
+     * @return previous internal node in trigonometric order, or null
+     * if this is the first internal node
+     */
+    private BSPTree<Sphere1D> previousNode(BSPTree<Sphere1D> node) {
+
+        final BSPTree<Sphere1D> nextDeeper =
+                ((LimitAngle) node.getCut().getHyperplane()).isDirect() ?
+                node.getMinus() : node.getPlus();
+
+        if (nextDeeper.getCut() != null) {
+            // the next node is in the sub-tree
+            return findLargest(nextDeeper);
+        }
+
+        // there is nothing left deeper in the tree, we backtrack
+        while (isBeforeParent(node)) {
+            node = node.getParent();
+        }
+        return node.getParent();
+
+    }
+
+    /** Check if a node is the child before its parent in trigonometric order.
+     * @param node child node considered
+     * @return true is the node has a parent end is before it in trigonometric order
+     */
+    private boolean isBeforeParent(final BSPTree<Sphere1D> node) {
+        final BSPTree<Sphere1D> parent = node.getParent();
+        if (parent == null) {
+            return false;
+        }
+        if (((LimitAngle) parent.getCut().getHyperplane()).isDirect()) {
+            // smaller angles are on minus side, larger angles are on plus side
+            return node == parent.getMinus();
+        } else {
+            // smaller angles are on plus side, larger angles are on minus side
+            return node == parent.getPlus();
+        }
+    }
+
+    /** Check if a node is the child after its parent in trigonometric order.
+     * @param node child node considered
+     * @return true is the node has a parent end is after it in trigonometric order
+     */
+    private boolean isAfterParent(final BSPTree<Sphere1D> node) {
+        final BSPTree<Sphere1D> parent = node.getParent();
+        if (parent == null) {
+            return false;
+        }
+        if (((LimitAngle) parent.getCut().getHyperplane()).isDirect()) {
+            // smaller angles are on minus side, larger angles are on plus side
+            return node == parent.getPlus();
+        } else {
+            // smaller angles are on plus side, larger angles are on minus side
+            return node == parent.getMinus();
+        }
+    }
+
+    /** Find the smallest internal node in a sub-tree.
+     * @param node node at which the sub-tree starts
+     * @return smallest internal node (in trigonometric order), may be the
+     * provided node if no smaller internal node exist
+     */
+    private BSPTree<Sphere1D> findSmallest(BSPTree<Sphere1D> node) {
+
+        BSPTree<Sphere1D> internal = null;
+
+        while (node.getCut() != null) {
+            internal = node;
+            if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
+                // smaller angles are on minus side, larger angles are on plus side
+                node = node.getMinus();
+            } else {
+                // smaller angles are on plus side, larger angles are on minus side
+                node = node.getPlus();
+            }
+        }
+
+        return internal;
+
+    }
+
+    /** Find the largest internal node in a sub-tree.
+     * @param node node at which the sub-tree starts
+     * @return largest internal node (in trigonometric order), may be the
+     * provided node if no larger internal node exist
+     */
+    private BSPTree<Sphere1D> findLargest(BSPTree<Sphere1D> node) {
+
+        BSPTree<Sphere1D> internal = null;
+
+        while (node.getCut() != null) {
+            internal = node;
+            if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
+                // smaller angles are on minus side, larger angles are on plus side
+                node = node.getPlus();
+            } else {
+                // smaller angles are on plus side, larger angles are on minus side
+                node = node.getMinus();
+            }
+        }
+
+        return internal;
 
     }
 
@@ -160,8 +372,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
             } else if (size >= Precision.SAFE_MIN) {
                 setBarycenter(new S1Point(sum / size));
             } else {
-                final Chord chord = (Chord) getTree(false).getCut().getHyperplane();
-                setBarycenter(new S1Point(0.5 * (chord.getStart() + chord.getEnd())));
+                final LimitAngle limit = (LimitAngle) getTree(false).getCut().getHyperplane();
+                setBarycenter(limit.getLocation());
             }
         }
     }
@@ -182,7 +394,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
             // the tree has a single node
             if ((Boolean) root.getAttribute()) {
                 // it is an inside node, it represents the full circle
-                list.add(new Arc(0.0, 0.0)); // since lower == upper, the arc covers the full circle
+                list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
             }
         } else {
 
@@ -190,6 +402,11 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
             final LimitsCollector finder = new LimitsCollector();
             root.visit(finder);
             final List<Double> limits = finder.getLimits();
+            if (limits.size() < 2) {
+                // the start and end angle collapsed to the same value, its the full circle again
+                list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
+                return list;
+            }
 
             // sort them so the first angle is an arc start
             Collections.sort(limits);
@@ -201,7 +418,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
 
             // we can now build the list
             for (int i = 0; i < limits.size(); i += 2) {
-                list.add(new Arc(limits.get(i), limits.get(i + 1)));
+                list.add(new Arc(limits.get(i), limits.get(i + 1), tolerance));
             }
 
         }
@@ -229,12 +446,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
         /** {@inheritDoc} */
         public void visitInternalNode(final BSPTree<Sphere1D> node) {
             // check if the chord end points are arc limits
-            final Chord chord = (Chord) node.getCut().getHyperplane();
-            if (checkPoint(new S1Point(chord.getStart())) == Location.BOUNDARY) {
-                limits.add(MathUtils.normalizeAngle(chord.getStart(), FastMath.PI));
-            }
-            if (checkPoint(new S1Point(chord.getEnd())) == Location.BOUNDARY) {
-                limits.add(MathUtils.normalizeAngle(chord.getEnd(), FastMath.PI));
+            final LimitAngle limit = (LimitAngle) node.getCut().getHyperplane();
+            if (checkPoint(limit.getLocation()) == Location.BOUNDARY) {
+                limits.add(limit.getLocation().getAlpha());
             }
         }
 

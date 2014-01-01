@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.geometry.spherical.oned;
 
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -38,38 +40,54 @@ public class Arc {
     /** Middle point of the arc. */
     private final double middle;
 
+    /** Tolerance below which angles are considered identical. */
+    private final double tolerance;
+
     /** Simple constructor.
      * <p>
-     * As the circle is a closed curve, {@code lower} is
-     * allowed to be greater than {@code upper}, and will
-     * be automatically canonicalized so the arc wraps
-     * around \( 2\pi \), but without exceeding a total
-     * length of \( 2\pi \). If {@code lower} is equals
-     * to {@code upper}, the arc is considered to be the full
-     * circle.
+     * If either {@code lower} is equals to {@code upper} or
+     * the interval exceeds \( 2 \pi \), the arc is considered
+     * to be the full circle and its initial defining boundaries
+     * will be forgotten. {@code lower} is not allowed to be
+     * greater than {@code upper} (an exception is thrown in this case).
+     * {@code lower} will be canonicalized between 0 and \( 2 \pi \), and
+     * upper shifted accordingly, so the {@link #getInf()} and {@link #getSup()}
+     * may not return the value used at instance construction.
      * </p>
      * @param lower lower angular bound of the arc
      * @param upper upper angular bound of the arc
+     * @param tolerance tolerance below which angles are considered identical
+     * @exception NumberIsTooLargeException if lower is greater than upper
      */
-    public Arc(final double lower, final double upper) {
-        this.lower = lower;
-        if (Precision.equals(lower, upper, 0)) {
-            this.upper = MathUtils.TWO_PI + lower;
+    public Arc(final double lower, final double upper, final double tolerance)
+        throws NumberIsTooLargeException {
+        this.tolerance = tolerance;
+        if (Precision.equals(lower, upper, 0) || (upper - lower) >= MathUtils.TWO_PI) {
+            // the arc must cover the whole circle
+            this.lower  = 0;
+            this.upper  = MathUtils.TWO_PI;
+            this.middle = FastMath.PI;
+        } else  if (lower <= upper) {
+            this.lower  = MathUtils.normalizeAngle(lower, FastMath.PI);
+            this.upper  = this.lower + (upper - lower);
+            this.middle = 0.5 * (this.lower + this.upper);
         } else {
-            this.upper = MathUtils.normalizeAngle(upper, lower + FastMath.PI);
+            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,
+                                                lower, upper, true);
         }
-        this.middle = 0.5 * (this.lower + this.upper);
     }
 
     /** Get the lower angular bound of the arc.
-     * @return lower angular bound of the arc
+     * @return lower angular bound of the arc,
+     * always between 0 and \( 2 \pi \)
      */
     public double getInf() {
         return lower;
     }
 
     /** Get the upper angular bound of the arc.
-     * @return upper angular bound of the arc
+     * @return upper angular bound of the arc,
+     * always between {@link #getInf()} and {@link #getInf()} \( + 2 \pi \)
      */
     public double getSup() {
         return upper;
@@ -89,14 +107,19 @@ public class Arc {
         return middle;
     }
 
+    /** Get the tolerance below which angles are considered identical.
+     * @return tolerance below which angles are considered identical
+     */
+    public double getTolerance() {
+        return tolerance;
+    }
+
     /** Check a point with respect to the arc.
      * @param point point to check
-     * @param tolerance tolerance below which points are considered to
-     * belong to the boundary
      * @return a code representing the point status: either {@link
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
      */
-    public Location checkPoint(final double point, final double tolerance) {
+    public Location checkPoint(final double point) {
         final double normalizedPoint = MathUtils.normalizeAngle(point, middle);
         if (normalizedPoint < lower - tolerance || normalizedPoint > upper + tolerance) {
             return Location.OUTSIDE;

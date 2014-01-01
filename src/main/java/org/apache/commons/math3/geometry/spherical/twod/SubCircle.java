@@ -22,6 +22,7 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math3.geometry.spherical.oned.Arc;
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
 import org.apache.commons.math3.geometry.spherical.oned.Chord;
 import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
@@ -54,16 +55,8 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
 
         final Circle thisCircle  = (Circle) getHyperplane();
         final Circle otherCircle = (Circle) hyperplane;
-        final Chord  chord       = thisCircle.getChord(otherCircle);
-
-        if (chord == null) {
-            // the circles are disjoint
-            final double global = otherCircle.getOffset(thisCircle.getXAxis());
-            return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
-        }
-
-        // the circles do intersect each other
-        return getRemainingRegion().side(chord);
+        final Arc    arc         = thisCircle.getInsideArc(otherCircle);
+        return ((ArcsSet) getRemainingRegion()).side(arc);
 
     }
 
@@ -73,17 +66,8 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
 
         final Circle thisCircle  = (Circle) getHyperplane();
         final Circle otherCircle = (Circle) hyperplane;
-        final Chord  chord       = thisCircle.getChord(otherCircle);
+        final Arc    arc         = thisCircle.getInsideArc(otherCircle);
 
-        if (chord == null) {
-            // the circles are disjoint
-            final double global = otherCircle.getOffset(thisCircle.getXAxis());
-            return (global < -1.0e-10) ?
-                   new SplitSubHyperplane<Sphere2D>(null, this) :
-                   new SplitSubHyperplane<Sphere2D>(this, null);
-        }
-
-        // the circles do intersect
         final SubHyperplane<Sphere1D> subMinus = chord.wholeHyperplane();
         final SubHyperplane<Sphere1D> subPlus  = chord.getReverse().wholeHyperplane();
         final BSPTree<Sphere1D> splitTree = getRemainingRegion().getTree(false).split(subMinus);

@@ -23,8 +23,8 @@ import org.apache.commons.math3.geometry.partitioning.Embedding;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.Transform;
+import org.apache.commons.math3.geometry.spherical.oned.Arc;
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
-import org.apache.commons.math3.geometry.spherical.oned.Chord;
 import org.apache.commons.math3.geometry.spherical.oned.S1Point;
 import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
 import org.apache.commons.math3.util.FastMath;
@@ -223,15 +223,15 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         return pole;
     }
 
-    /** Get the chord of the instance that lies inside the other circle.
+    /** Get the arc of the instance that lies inside the other circle.
      * @param other other circle
-     * @return chord of the instance that lies inside the other circle
+     * @return arc of the instance that lies inside the other circle
      * (guaranteed to always have a length of \( \pi \))
      */
-    public Chord getChord(final Circle other) {
+    public Arc getInsideArc(final Circle other) {
         final double alpha  = getPhase(other.pole);
         final double halfPi = 0.5 * FastMath.PI;
-        return new Chord(alpha - halfPi, alpha + halfPi, tolerance);
+        return new Arc(alpha - halfPi, alpha + halfPi, tolerance);
     }
 
     /** {@inheritDoc} */

@@ -49,7 +49,8 @@ public class S1Point implements Point<Sphere1D> {
      * @see #getAlpha()
      */
     public S1Point(final double alpha) {
-        this(alpha, new Vector2D(FastMath.cos(alpha), FastMath.sin(alpha)));
+        this(MathUtils.normalizeAngle(alpha, FastMath.PI),
+             new Vector2D(FastMath.cos(alpha), FastMath.sin(alpha)));
     }
 
     /** Build a point from its internal components.

@@ -18,43 +18,33 @@ package org.apache.commons.math3.geometry.spherical.oned;
 
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a 1D oriented hyperplane on the circle.
- * <p>An hyperplane on the 1-sphere is a chord that splits
- * the circle in two parts.</p>
+ * <p>An hyperplane on the 1-sphere is an angle with an orientation.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
  * @version $Id$
  * @since 3.3
  */
-public class Chord implements Hyperplane<Sphere1D> {
+public class LimitAngle implements Hyperplane<Sphere1D> {
 
-    /** Start angle of the chord. */
-    private final double start;
+    /** Angle location. */
+    private S1Point location;
 
-    /** End angle of the chord. */
-    private final double end;
+    /** Orientation. */
+    private boolean direct;
 
-    /** Cosine of the half aperture. */
-    private final double cos;
-
-    /** Middle point of the chord. */
-    private final S1Point middle;
-
-    /** Tolerance below which close sub-arcs are merged together. */
+    /** Tolerance below which angles are considered identical. */
     private final double tolerance;
 
     /** Simple constructor.
-     * @param start start angle of the chord
-     * @param end end angle of the chord
-     * @param tolerance tolerance below which close sub-arcs are merged together
+     * @param location location of the hyperplane
+     * @param direct if true, the plus side of the hyperplane is towards
+     * angles greater than {@code location}
+     * @param tolerance tolerance below which angles are considered identical
      */
-    public Chord(final double start, final double end, final double tolerance) {
-        this.start     = start;
-        this.end       = end;
-        this.middle    = new S1Point(0.5 * (start + end));
-        this.cos       = FastMath.cos(0.5 * (end - start));
+    public LimitAngle(final S1Point location, final boolean direct, final double tolerance) {
+        this.location  = location;
+        this.direct    = direct;
         this.tolerance = tolerance;
     }
 
@@ -63,22 +53,31 @@ public class Chord implements Hyperplane<Sphere1D> {
      * the instance.</p>
      * @return the instance itself
      */
-    public Chord copySelf() {
+    public LimitAngle copySelf() {
         return this;
     }
 
     /** {@inheritDoc} */
     public double getOffset(final Point<Sphere1D> point) {
-        return cos - middle.getVector().dotProduct(((S1Point) point).getVector());
+        final double delta = ((S1Point) point).getAlpha()- location.getAlpha();
+        return direct ? delta : -delta;
+    }
+
+    /** Check if the hyperplane orientation is direct.
+     * @return true if the plus side of the hyperplane is towards
+     * angles greater than hyperplane location
+     */
+    public boolean isDirect() {
+        return direct;
     }
 
     /** Get the reverse of the instance.
-     * <p>Get a chord with reversed orientation with respect to the
+     * <p>Get a limit angle with reversed orientation with respect to the
      * instance. A new object is built, the instance is untouched.</p>
-     * @return a new chord, with orientation opposite to the instance orientation
+     * @return a new limit angle, with orientation opposite to the instance orientation
      */
-    public Chord getReverse() {
-        return new Chord(end, MathUtils.normalizeAngle(start, end + FastMath.PI), tolerance);
+    public LimitAngle getReverse() {
+        return new LimitAngle(location, !direct, tolerance);
     }
 
     /** Build a region covering the whole hyperplane.
@@ -92,8 +91,8 @@ public class Chord implements Hyperplane<Sphere1D> {
      * <em>not</em> be used otherwise.</p>
      * @return a dummy sub hyperplane
      */
-    public SubChord wholeHyperplane() {
-        return new SubChord(this);
+    public SubLimitAngle wholeHyperplane() {
+        return new SubLimitAngle(this, null);
     }
 
     /** Build a region covering the whole space.
@@ -106,25 +105,18 @@ public class Chord implements Hyperplane<Sphere1D> {
 
     /** {@inheritDoc} */
     public boolean sameOrientationAs(final Hyperplane<Sphere1D> other) {
-        return middle.getVector().dotProduct(((Chord) other).middle.getVector()) >= 0.0;
+        return !(direct ^ ((LimitAngle) other).direct);
     }
 
-    /** Get the start angle of the chord.
-     * @return start angle of the chord.
+    /** Get the hyperplane location on the circle.
+     * @return the hyperplane location
      */
-    public double getStart() {
-        return start;
+    public S1Point getLocation() {
+        return location;
     }
 
-    /** Get the end angle of the chord.
-     * @return end angle of the chord.
-     */
-    public double getEnd() {
-        return end;
-    }
-
-    /** Get the tolerance below which close sub-arcs are merged together.
-     * @return tolerance below which close sub-arcs are merged together
+    /** Get the tolerance below which angles are considered identical.
+     * @return tolerance below which angles are considered identical
      */
     public double getTolerance() {
         return tolerance;
