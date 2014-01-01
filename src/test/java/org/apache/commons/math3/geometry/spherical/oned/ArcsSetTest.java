@@ -48,8 +48,6 @@ public class ArcsSetTest {
         Assert.assertEquals(5.7, set.asList().get(0).getSup(), 1.0e-10);
         Assert.assertEquals(2.3, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
         Assert.assertFalse(set.getSmallestLimit().isDirect());
-        Assert.assertEquals(5.7, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
-        Assert.assertTrue(set.getLargestLimit().isDirect());
     }
 
     @Test
@@ -66,10 +64,8 @@ public class ArcsSetTest {
         Assert.assertEquals(1, set.asList().size());
         Assert.assertEquals(5.7, set.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(2.3 + MathUtils.TWO_PI, set.asList().get(0).getSup(), 1.0e-10);
-        Assert.assertEquals(2.3, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
-        Assert.assertTrue(set.getSmallestLimit().isDirect());
-        Assert.assertEquals(5.7, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
-        Assert.assertFalse(set.getLargestLimit().isDirect());
+        Assert.assertEquals(5.7, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
+        Assert.assertFalse(set.getSmallestLimit().isDirect());
     }
 
     @Test(expected=NumberIsTooLargeException.class)
@@ -82,7 +78,6 @@ public class ArcsSetTest {
         ArcsSet set = new ArcsSet(1.0, 1.0, 1.0e-10);
         Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
         Assert.assertNull(set.getSmallestLimit());
-        Assert.assertNull(set.getLargestLimit());
         Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(9.0)));
         for (double alpha = -20.0; alpha <= 20.0; alpha += 0.1) {
             Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(alpha)));
@@ -98,7 +93,6 @@ public class ArcsSetTest {
         ArcsSet set = new ArcsSet(1.0e-10);
         Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
         Assert.assertNull(set.getSmallestLimit());
-        Assert.assertNull(set.getLargestLimit());
         Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(9.0)));
         for (double alpha = -20.0; alpha <= 20.0; alpha += 0.1) {
             Assert.assertEquals(Region.Location.INSIDE, set.checkPoint(new S1Point(alpha)));
@@ -116,7 +110,6 @@ public class ArcsSetTest {
         Assert.assertEquals(0.0, empty.getSize(), 1.0e-10);
         Assert.assertTrue(empty.asList().isEmpty());
         Assert.assertNull(empty.getSmallestLimit());
-        Assert.assertNull(empty.getLargestLimit());
     }
 
     @Test
@@ -128,7 +121,6 @@ public class ArcsSetTest {
         Assert.assertEquals(0.0, tiny.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(Precision.SAFE_MIN / 2, tiny.asList().get(0).getSup(), 1.0e-10);
         Assert.assertEquals(0.0, tiny.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
-        Assert.assertEquals(Precision.SAFE_MIN / 2, tiny.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
     }
 
     @Test
@@ -144,7 +136,6 @@ public class ArcsSetTest {
         Assert.assertEquals(MathUtils.TWO_PI, set.asList().get(0).getSup(), 1.0e-10);
         Assert.assertEquals(0.0, set.getSmallestLimit().getLocation().getAlpha(), 1.0e-10);
         Assert.assertFalse(set.getSmallestLimit().isDirect());
-        Assert.assertEquals(0.0, set.getLargestLimit().getLocation().getAlpha(), 1.0e-10);
     }
 
     @Test

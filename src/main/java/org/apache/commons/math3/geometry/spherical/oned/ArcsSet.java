@@ -176,6 +176,19 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * or null if there are no internal nodes (i.e. the set is either empty or covers the full circle)
      */
     public LimitAngle getSmallestLimit() {
+        final BSPTree<Sphere1D> first = getFirstArcStart();
+        if (first == null) {
+            return null;
+        } else {
+            return (LimitAngle) first.getCut().getHyperplane();
+        }
+    }
+
+    /** Get the node corresponding to the first arc start.
+     * @return smallest internal node (i.e. first after 0.0 radians, in trigonometric direction),
+     * or null if there are no internal nodes (i.e. the set is either empty or covers the full circle)
+     */
+    private BSPTree<Sphere1D> getFirstArcStart() {
 
         // start search at the tree root
         BSPTree<Sphere1D> node = getTree(false);
@@ -183,35 +196,73 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
             return null;
         }
 
+        // walk tree until we find the smallest internal node
         BSPTree<Sphere1D> previous = previousNode(node);
         while (previous != null) {
             node = previous;
             previous = previousNode(node);
         }
 
-        return (LimitAngle) node.getCut().getHyperplane();
+        // walk tree until we find an arc start
+        while (node != null && !isArcStart(node)) {
+            node = nextNode(node);
+        }
+
+        return node;
 
     }
 
-    /** Get the largest limit angle in the set.
-     * @return largest limit angle (i.e. last before or at \(2 \pi) radians, in trigonometric direction),
-     * or null if there are no limits (i.e. the set is either empty or covers the full circle)
+    /** Check if a node corresponds to the start angle of an arc.
+     * @param node node to check
+     * @return true if the node corresponds to the start angle of an arc
      */
-    public LimitAngle getLargestLimit() {
+    private boolean isArcStart(final BSPTree<Sphere1D> node) {
 
-        // start search at the tree root
-        BSPTree<Sphere1D> node = getTree(false);
         if (node.getCut() == null) {
-            return null;
+            // it's not even a limit angle, it cannot start an arc!
+            return false;
         }
 
-        BSPTree<Sphere1D> next = nextNode(node);
-        while (next != null) {
-            node = next;
-            next = nextNode(node);
+        if ((Boolean) leafBefore(node).getAttribute()) {
+            // it has an inside cell before it, it may end an arc but not start it
+            return false;
         }
 
-        return (LimitAngle) node.getCut().getHyperplane();
+        if (!(Boolean) leafAfter(node).getAttribute()) {
+            // it has an outside cell after it, it is a dummy cut away from real arcs
+            return false;
+        }
+
+        // the cell defines a limit angle, with an outside before and an inside after
+        // it is the start of an arc
+        return true;
+
+    }
+
+    /** Check if a node corresponds to the end angle of an arc.
+     * @param node node to check
+     * @return true if the node corresponds to the end angle of an arc
+     */
+    private boolean isArcEnd(final BSPTree<Sphere1D> node) {
+
+        if (node.getCut() == null) {
+            // it's not even a limit angle, it cannot start an arc!
+            return false;
+        }
+
+        if (!(Boolean) leafBefore(node).getAttribute()) {
+            // it has an outside cell before it, it may start an arc but not end it
+            return false;
+        }
+
+        if ((Boolean) leafAfter(node).getAttribute()) {
+            // it has an inside cell after it, it is a dummy cut in the middle of an arc
+            return false;
+        }
+
+        // the cell defines a limit angle, with an inside before and an outside after
+        // it is the end of an arc
+        return true;
 
     }
 
@@ -222,13 +273,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      */
     private BSPTree<Sphere1D> nextNode(BSPTree<Sphere1D> node) {
 
-        final BSPTree<Sphere1D> nextDeeper =
-                ((LimitAngle) node.getCut().getHyperplane()).isDirect() ?
-                node.getPlus() : node.getMinus();
-
-        if (nextDeeper.getCut() != null) {
+        if (childAfter(node).getCut() != null) {
             // the next node is in the sub-tree
-            return findSmallest(nextDeeper);
+            return leafAfter(node).getParent();
         }
 
         // there is nothing left deeper in the tree, we backtrack
@@ -246,13 +293,9 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      */
     private BSPTree<Sphere1D> previousNode(BSPTree<Sphere1D> node) {
 
-        final BSPTree<Sphere1D> nextDeeper =
-                ((LimitAngle) node.getCut().getHyperplane()).isDirect() ?
-                node.getMinus() : node.getPlus();
-
-        if (nextDeeper.getCut() != null) {
+        if (childBefore(node).getCut() != null) {
             // the next node is in the sub-tree
-            return findLargest(nextDeeper);
+            return leafBefore(node).getParent();
         }
 
         // there is nothing left deeper in the tree, we backtrack
@@ -260,6 +303,42 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
             node = node.getParent();
         }
         return node.getParent();
+
+    }
+
+    /** Find the leaf node just before an internal node.
+     * @param node node at which the sub-tree starts
+     * @return leaf node just before the internal node
+     */
+    private BSPTree<Sphere1D> leafBefore(BSPTree<Sphere1D> node) {
+
+        if (node.getCut() != null) {
+            node = childBefore(node);
+        }
+
+        while (node.getCut() != null) {
+            node = childAfter(node);
+        }
+
+        return node;
+
+    }
+
+    /** Find the leaf node just after an internal node.
+     * @param node node at which the sub-tree starts
+     * @return leaf node just after the internal node
+     */
+    private BSPTree<Sphere1D> leafAfter(BSPTree<Sphere1D> node) {
+
+        if (node.getCut() != null) {
+            node = childAfter(node);
+        }
+
+        while (node.getCut() != null) {
+            node = childBefore(node);
+        }
+
+        return node;
 
     }
 
@@ -271,13 +350,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
         final BSPTree<Sphere1D> parent = node.getParent();
         if (parent == null) {
             return false;
-        }
-        if (((LimitAngle) parent.getCut().getHyperplane()).isDirect()) {
-            // smaller angles are on minus side, larger angles are on plus side
-            return node == parent.getMinus();
         } else {
-            // smaller angles are on plus side, larger angles are on minus side
-            return node == parent.getPlus();
+            return node == childBefore(parent);
         }
     }
 
@@ -289,62 +363,37 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
         final BSPTree<Sphere1D> parent = node.getParent();
         if (parent == null) {
             return false;
+        } else {
+            return node == childAfter(parent);
         }
-        if (((LimitAngle) parent.getCut().getHyperplane()).isDirect()) {
+    }
+
+    /** Find the child node just before an internal node.
+     * @param node node at which the sub-tree starts
+     * @return child node just before the internal node
+     */
+    private BSPTree<Sphere1D> childBefore(BSPTree<Sphere1D> node) {
+        if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
             // smaller angles are on minus side, larger angles are on plus side
-            return node == parent.getPlus();
+            return node.getMinus();
         } else {
             // smaller angles are on plus side, larger angles are on minus side
-            return node == parent.getMinus();
+            return node.getPlus();
         }
     }
 
-    /** Find the smallest internal node in a sub-tree.
+    /** Find the child node just after an internal node.
      * @param node node at which the sub-tree starts
-     * @return smallest internal node (in trigonometric order), may be the
-     * provided node if no smaller internal node exist
+     * @return child node just after the internal node
      */
-    private BSPTree<Sphere1D> findSmallest(BSPTree<Sphere1D> node) {
-
-        BSPTree<Sphere1D> internal = null;
-
-        while (node.getCut() != null) {
-            internal = node;
-            if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
-                // smaller angles are on minus side, larger angles are on plus side
-                node = node.getMinus();
-            } else {
-                // smaller angles are on plus side, larger angles are on minus side
-                node = node.getPlus();
-            }
+    private BSPTree<Sphere1D> childAfter(BSPTree<Sphere1D> node) {
+        if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
+            // smaller angles are on minus side, larger angles are on plus side
+            return node.getPlus();
+        } else {
+            // smaller angles are on plus side, larger angles are on minus side
+            return node.getMinus();
         }
-
-        return internal;
-
-    }
-
-    /** Find the largest internal node in a sub-tree.
-     * @param node node at which the sub-tree starts
-     * @return largest internal node (in trigonometric order), may be the
-     * provided node if no larger internal node exist
-     */
-    private BSPTree<Sphere1D> findLargest(BSPTree<Sphere1D> node) {
-
-        BSPTree<Sphere1D> internal = null;
-
-        while (node.getCut() != null) {
-            internal = node;
-            if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
-                // smaller angles are on minus side, larger angles are on plus side
-                node = node.getPlus();
-            } else {
-                // smaller angles are on plus side, larger angles are on minus side
-                node = node.getMinus();
-            }
-        }
-
-        return internal;
-
     }
 
     /** {@inheritDoc} */
