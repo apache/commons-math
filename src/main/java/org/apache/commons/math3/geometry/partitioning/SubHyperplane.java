@@ -71,8 +71,8 @@ public interface SubHyperplane<S extends Space> {
     /** Split the instance in two parts by an hyperplane.
      * @param hyperplane splitting hyperplane
      * @return an object containing both the part of the instance
-     * on the plus side of the instance and the part of the
-     * instance on the minus side of the instance
+     * on the plus side of the hyperplane and the part of the
+     * instance on the minus side of the hyperplane
      */
     SplitSubHyperplane<S> split(Hyperplane<S> hyperplane);
 
