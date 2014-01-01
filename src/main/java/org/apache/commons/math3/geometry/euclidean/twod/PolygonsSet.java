@@ -71,13 +71,13 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * its plus side.</p>
      * <p>The boundary elements can be in any order, and can form
      * several non-connected sets (like for example polygons with holes
-     * or a set of disjoint polyhedrons considered as a whole). In
+     * or a set of disjoint polygons considered as a whole). In
      * fact, the elements do not even need to be connected together
      * (their topological connections are not used here). However, if the
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Vector)
+     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -262,7 +262,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             return;
         }
 
-        // we have split the node by inserted an edge as a cut sub-hyperplane
+        // we have split the node by inserting an edge as a cut sub-hyperplane
         // distribute the remaining edges in the two sub-trees
         final List<Edge> plusList  = new ArrayList<Edge>();
         final List<Edge> minusList = new ArrayList<Edge>();
@@ -616,7 +616,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                     }
                 }
 
-                // tranform the loops in an array of arrays of points
+                // transform the loops in an array of arrays of points
                 vertices = new Vector2D[loops.size()][];
                 int i = 0;
 
@@ -830,7 +830,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         public void visitLeafNode(final BSPTree<Euclidean2D> node) {
         }
 
-        /** Add he contribution of a boundary facet.
+        /** Add the contribution of a boundary facet.
          * @param sub boundary facet
          * @param reversed if true, the facet has the inside on its plus side
          */

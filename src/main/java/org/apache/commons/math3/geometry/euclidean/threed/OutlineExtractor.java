@@ -96,13 +96,13 @@ public class OutlineExtractor {
 
     }
 
-    /** Check if a point is geometrically between its neighbour in an array.
-     * <p>The neighbours are computed considering the array is a loop
+    /** Check if a point is geometrically between its neighbor in an array.
+     * <p>The neighbors are computed considering the array is a loop
      * (i.e. point at index (n-1) is before point at index 0)</p>
      * @param loop points array
      * @param n number of points to consider in the array
      * @param i index of the point to check (must be between 0 and n-1)
-     * @return true if the point is exactly between its neighbours
+     * @return true if the point is exactly between its neighbors
      */
     private boolean pointIsBetween(final Vector2D[] loop, final int n, final int i) {
         final Vector2D previous = loop[(i + n - 1) % n];

@@ -102,7 +102,7 @@ public class BSPTree<S extends Space> {
      * <p>This method does <em>not</em> perform any verification on
      * consistency of its arguments, it should therefore be used only
      * when then caller knows what it is doing.</p>
-     * <p>This method is mainly useful kto build trees
+     * <p>This method is mainly useful to build trees
      * bottom-up. Building trees top-down is realized with the help of
      * method {@link #insertCut insertCut}.</p>
      * @param cut cut sub-hyperplane for the tree
@@ -170,7 +170,7 @@ public class BSPTree<S extends Space> {
     }
 
     /** Copy the instance.
-     * <p>The instance created is completely independant of the original
+     * <p>The instance created is completely independent of the original
      * one. A deep copy is used, none of the underlying objects are
      * shared (except for the nodes attributes and immutable
      * objects).</p>
@@ -330,7 +330,7 @@ public class BSPTree<S extends Space> {
 
     /** Perform condensation on a tree.
      * <p>The condensation operation is not recursive, it must be called
-     * explicitely from leaves to root.</p>
+     * explicitly from leaves to root.</p>
      */
     private void condense() {
         if ((cut != null) && (plus.cut == null) && (minus.cut == null) &&

@@ -27,7 +27,7 @@ public class Segment {
     /** Start point of the segment. */
     private final Vector2D start;
 
-    /** End point of the segments. */
+    /** End point of the segment. */
     private final Vector2D end;
 
     /** Line containing the segment. */
