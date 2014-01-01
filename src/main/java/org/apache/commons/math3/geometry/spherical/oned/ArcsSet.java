@@ -18,14 +18,13 @@ package org.apache.commons.math3.geometry.spherical.oned;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -169,19 +168,6 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      */
     public double getTolerance() {
         return tolerance;
-    }
-
-    /** Get the smallest internal node.
-     * @return smallest internal node (i.e. first after 0.0 radians, in trigonometric direction),
-     * or null if there are no internal nodes (i.e. the set is either empty or covers the full circle)
-     */
-    public LimitAngle getSmallestLimit() {
-        final BSPTree<Sphere1D> first = getFirstArcStart();
-        if (first == null) {
-            return null;
-        } else {
-            return (LimitAngle) first.getCut().getHyperplane();
-        }
     }
 
     /** Get the node corresponding to the first arc start.
@@ -373,7 +359,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * @return child node just before the internal node
      */
     private BSPTree<Sphere1D> childBefore(BSPTree<Sphere1D> node) {
-        if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
+        if (isDirect(node)) {
             // smaller angles are on minus side, larger angles are on plus side
             return node.getMinus();
         } else {
@@ -387,13 +373,29 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * @return child node just after the internal node
      */
     private BSPTree<Sphere1D> childAfter(BSPTree<Sphere1D> node) {
-        if (((LimitAngle) node.getCut().getHyperplane()).isDirect()) {
+        if (isDirect(node)) {
             // smaller angles are on minus side, larger angles are on plus side
             return node.getPlus();
         } else {
             // smaller angles are on plus side, larger angles are on minus side
             return node.getMinus();
         }
+    }
+
+    /** Check if an internal node has a direct limit angle.
+     * @param node node to check
+     * @return true if the limit angle is direct
+     */
+    private boolean isDirect(final BSPTree<Sphere1D> node) {
+        return ((LimitAngle) node.getCut().getHyperplane()).isDirect();
+    }
+
+    /** Get the limit angle of a node.
+     * @param node node to check
+     * @return true if the limit angle is direct
+     */
+    private double getAngle(final BSPTree<Sphere1D> node) {
+        return ((LimitAngle) node.getCut().getHyperplane()).getLocation().getAlpha();
     }
 
     /** {@inheritDoc} */
@@ -437,80 +439,65 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
     public List<Arc> asList() {
 
         final List<Arc> list = new ArrayList<Arc>();
-        final BSPTree<Sphere1D> root = getTree(false);
+        final BSPTree<Sphere1D> firstStart = getFirstArcStart();
 
-        if (root.getCut() == null) {
-            // the tree has a single node
-            if ((Boolean) root.getAttribute()) {
-                // it is an inside node, it represents the full circle
-                list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
-            }
+        if (firstStart == null) {
+                // the tree has a single node
+                if ((Boolean) getTree(false).getAttribute()) {
+                    // it is an inside node, it represents the full circle
+                    list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
+                }
+        } else if (previousNode(firstStart) == null && nextNode(firstStart) == null) {
+            // the tree is a degenerate tree (probably build from a custom collection of hyperplanes) with a single cut
+            // we ignore the cut and consider the tree represents the full circle
+            list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
         } else {
 
-            // find all arcs limits
-            final LimitsCollector finder = new LimitsCollector();
-            root.visit(finder);
-            final List<Double> limits = finder.getLimits();
-            if (limits.size() < 2) {
-                // the start and end angle collapsed to the same value, its the full circle again
-                list.add(new Arc(0.0, 0.0, tolerance)); // since lower == upper, the arc covers the full circle
-                return list;
-            }
+            // find all arcs
+            BSPTree<Sphere1D> start = firstStart;
+            while (start != null) {
 
-            // sort them so the first angle is an arc start
-            Collections.sort(limits);
-            if (checkPoint(new S1Point(0.5 * (limits.get(0) + limits.get(1)))) == Location.OUTSIDE) {
-                // the first angle is not an arc start, its the last arc end
-                // move it properly to the end
-                limits.add(limits.remove(0) + MathUtils.TWO_PI);
-            }
+                // look for the end of the current arc
+                BSPTree<Sphere1D> end = start;
+                while (end != null && !isArcEnd(end)) {
+                    end = nextNode(end);
+                }
 
-            // we can now build the list
-            for (int i = 0; i < limits.size(); i += 2) {
-                list.add(new Arc(limits.get(i), limits.get(i + 1), tolerance));
+                if (end != null) {
+
+                    // we have identified the current arc
+                    list.add(new Arc(getAngle(start), getAngle(end), tolerance));
+
+                    // prepare search for next arc
+                    start = end;
+                    while (start != null && !isArcStart(start)) {
+                        start = nextNode(start);
+                    }
+
+                } else {
+                    // the final arc wraps around 2\pi, its end is before the first start
+                    end = firstStart;
+                    while (end != null && !isArcEnd(end)) {
+                        end = previousNode(end);
+                    }
+                    if (end == null) {
+                        // this should never happen
+                        throw new MathInternalError();
+                    }
+
+                    // we have identified the last arc
+                    list.add(new Arc(getAngle(start), getAngle(end) + MathUtils.TWO_PI, tolerance));
+
+                    // stop the loop
+                    start = null;
+
+                }
+
             }
 
         }
 
         return list;
-
-    }
-
-    /** Visitor looking for arc limits. */
-    private final class LimitsCollector implements BSPTreeVisitor<Sphere1D> {
-
-        /** Collected limits. */
-        private List<Double> limits;
-
-        /** Simple constructor. */
-        public LimitsCollector() {
-            this.limits = new ArrayList<Double>();
-        }
-
-        /** {@inheritDoc} */
-        public BSPTreeVisitor.Order visitOrder(final BSPTree<Sphere1D> node) {
-            return Order.MINUS_PLUS_SUB;
-        }
-
-        /** {@inheritDoc} */
-        public void visitInternalNode(final BSPTree<Sphere1D> node) {
-            // check if the chord end points are arc limits
-            final LimitAngle limit = (LimitAngle) node.getCut().getHyperplane();
-            if (checkPoint(limit.getLocation()) == Location.BOUNDARY) {
-                limits.add(limit.getLocation().getAlpha());
-            }
-        }
-
-        /** {@inheritDoc} */
-        public void visitLeafNode(final BSPTree<Sphere1D> node) {
-        }
-
-        /** Get the collected limits.
-         * @return collected limits
-         */
-        public List<Double> getLimits() {
-            return limits;
-        }
 
     }
 
