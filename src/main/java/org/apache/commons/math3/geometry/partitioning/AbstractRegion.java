@@ -128,8 +128,11 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
                 /** {@inheritDoc} */
                 public void visitLeafNode(final BSPTree<S> node) {
-                    node.setAttribute((node == node.getParent().getPlus()) ?
-                                                                            Boolean.FALSE : Boolean.TRUE);
+                    if (node.getParent() == null || node == node.getParent().getMinus()) {
+                        node.setAttribute(Boolean.TRUE);
+                    } else {
+                        node.setAttribute(Boolean.FALSE);
+                    }
                 }
             });
 
