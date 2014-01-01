@@ -18,10 +18,12 @@ package org.apache.commons.math3.geometry.spherical.oned;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -144,7 +146,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
     protected void computeGeometricalProperties() {
         if (getTree(false).getCut() == null) {
             setBarycenter(S1Point.NaN);
-            setSize(((Boolean) getTree(false).getAttribute()) ? 2 * FastMath.PI : 0);
+            setSize(((Boolean) getTree(false).getAttribute()) ? MathUtils.TWO_PI : 0);
         } else {
             double size = 0.0;
             double sum  = 0.0;
@@ -153,7 +155,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
                 sum  += arc.getSize() * arc.getBarycenter();
             }
             setSize(size);
-            if (Precision.equals(size, 2 * FastMath.PI, 0)) {
+            if (Precision.equals(size, MathUtils.TWO_PI, 0)) {
                 setBarycenter(S1Point.NaN);
             } else if (size >= Precision.SAFE_MIN) {
                 setBarycenter(new S1Point(sum / size));
@@ -167,55 +169,84 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
     /** Build an ordered list of arcs representing the instance.
      * <p>This method builds this arcs set as an ordered list of
      * {@link Arc Arc} elements. An empty tree will build an empty list
-     * while a tree representing the whole real line will build a one
-     * element list with bounds set to \( 0 and \pi \).</p>
+     * while a tree representing the whole circle will build a one
+     * element list with bounds set to \( 0 and 2 \pi \).</p>
      * @return a new ordered list containing {@link Arc Arc} elements
      */
     public List<Arc> asList() {
+
         final List<Arc> list = new ArrayList<Arc>();
-        recurseList(getTree(false), list, 0, 2 * FastMath.PI);
-        return list;
-    }
+        final BSPTree<Sphere1D> root = getTree(false);
 
-    /** Update an arcs list.
-     * @param node current node
-     * @param list list to update
-     * @param lower lower bound of the current convex cell
-     * @param upper upper bound of the current convex cell
-     */
-    private void recurseList(final BSPTree<Sphere1D> node, final List<Arc> list,
-                             final double lower, final double upper) {
-
-        if (node.getCut() == null) {
-            if ((Boolean) node.getAttribute()) {
-                // this leaf cell is an inside cell: an arc
-                list.add(new Arc(lower, upper));
+        if (root.getCut() == null) {
+            // the tree has a single node
+            if ((Boolean) root.getAttribute()) {
+                // it is an inside node, it represents the full circle
+                list.add(new Arc(0.0, 0.0)); // since lower == upper, the arc covers the full circle
             }
         } else {
-            final SubChord  cut      = (SubChord) node.getCut();
-            final List<Arc> cutArcs  = cut.getSubArcs();
-            final double    cutStart = cutArcs.get(0).getInf();
-            final double    cutEnd   = cutArcs.get(cutArcs.size() - 1).getSup();
 
-            recurseList(node.getMinus(), list, lower, cutStart);
-            if (list.get(list.size() - 1).checkPoint(cutStart, tolerance) == Location.INSIDE) {
-                // merge the last arc before the sub-chord and the sub-chord
-                final Arc merged = new Arc(list.remove(list.size() - 1).getInf(),
-                                           cutArcs.remove(0).getSup());
-                cutArcs.add(0, merged);
+            // find all arcs limits
+            final LimitsCollector finder = new LimitsCollector();
+            root.visit(finder);
+            final List<Double> limits = finder.getLimits();
+
+            // sort them so the first angle is an arc start
+            Collections.sort(limits);
+            if (checkPoint(new S1Point(0.5 * (limits.get(0) + limits.get(1)))) == Location.OUTSIDE) {
+                // the first angle is not an arc start, its the last arc end
+                // move it properly to the end
+                limits.add(limits.remove(0) + MathUtils.TWO_PI);
             }
 
-            final List<Arc> highList = new ArrayList<Arc>();
-            recurseList(node.getPlus(), highList, cutEnd, upper);
-            if (highList.get(0).checkPoint(cutEnd, tolerance) == Location.INSIDE) {
-                // merge the first arc after the sub-chord and the sub-chord
-                final Arc merged = new Arc(cutArcs.remove(cutArcs.size() - 1).getInf(),
-                                           highList.remove(0).getSup());
-                highList.add(0, merged);
+            // we can now build the list
+            for (int i = 0; i < limits.size(); i += 2) {
+                list.add(new Arc(limits.get(i), limits.get(i + 1)));
             }
 
-            list.addAll(highList);
+        }
 
+        return list;
+
+    }
+
+    /** Visitor looking for arc limits. */
+    private final class LimitsCollector implements BSPTreeVisitor<Sphere1D> {
+
+        /** Collected limits. */
+        private List<Double> limits;
+
+        /** Simple constructor. */
+        public LimitsCollector() {
+            this.limits = new ArrayList<Double>();
+        }
+
+        /** {@inheritDoc} */
+        public BSPTreeVisitor.Order visitOrder(final BSPTree<Sphere1D> node) {
+            return Order.MINUS_PLUS_SUB;
+        }
+
+        /** {@inheritDoc} */
+        public void visitInternalNode(final BSPTree<Sphere1D> node) {
+            // check if the chord end points are arc limits
+            final Chord chord = (Chord) node.getCut().getHyperplane();
+            if (checkPoint(new S1Point(chord.getStart())) == Location.BOUNDARY) {
+                limits.add(MathUtils.normalizeAngle(chord.getStart(), FastMath.PI));
+            }
+            if (checkPoint(new S1Point(chord.getEnd())) == Location.BOUNDARY) {
+                limits.add(MathUtils.normalizeAngle(chord.getEnd(), FastMath.PI));
+            }
+        }
+
+        /** {@inheritDoc} */
+        public void visitLeafNode(final BSPTree<Sphere1D> node) {
+        }
+
+        /** Get the collected limits.
+         * @return collected limits
+         */
+        public List<Double> getLimits() {
+            return limits;
         }
 
     }

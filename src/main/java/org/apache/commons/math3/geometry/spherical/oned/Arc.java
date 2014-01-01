@@ -54,7 +54,7 @@ public class Arc {
     public Arc(final double lower, final double upper) {
         this.lower = lower;
         if (Precision.equals(lower, upper, 0)) {
-            this.upper = 2 * FastMath.PI + lower;
+            this.upper = MathUtils.TWO_PI + lower;
         } else {
             this.upper = MathUtils.normalizeAngle(upper, lower + FastMath.PI);
         }
@@ -103,7 +103,7 @@ public class Arc {
         } else if (normalizedPoint > lower + tolerance && normalizedPoint < upper - tolerance) {
             return Location.INSIDE;
         } else {
-            return Location.BOUNDARY;
+            return (getSize() >= MathUtils.TWO_PI - tolerance) ? Location.INSIDE : Location.BOUNDARY;
         }
     }
 
