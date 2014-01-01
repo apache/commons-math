@@ -285,7 +285,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * Transform} embedding a 3D rotation.
      * @param rotation rotation to use
      * @return a new transform that can be applied to either {@link
-     * Point<Sphere2D> Point<Sphere2D>}, {@link Circle Line} or {@link
+     * Point Point}, {@link Circle Line} or {@link
      * org.apache.commons.math3.geometry.partitioning.SubHyperplane
      * SubHyperplane} instances
      */

@@ -104,8 +104,8 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * <p>This constructor does not handle polygons with a boundary
      * forming several disconnected paths (such as polygons with holes).</p>
      * <p>For cases where this simple constructor applies, it is expected to
-     * be numerically more robust than the {@link #PolygonsSet(Collection) general
-     * constructor} using {@link SubHyperplane subhyperplanes}.</p>
+     * be numerically more robust than the {@link #SphericalPolygonsSet(Collection,
+     * double) general constructor} using {@link SubHyperplane subhyperplanes}.</p>
      * <p>If the list is empty, the region will represent the whole
      * space.</p>
      * <p>
@@ -804,10 +804,9 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
             // find the edge associated with the selected node
             for (final Edge edge : edges) {
-                if (edge.getNode() == selected) {
-                    if (Vector3D.angle(point.getVector(), edge.getStart().getLocation().getVector()) <= tolerance) {
-                        return edge;
-                    }
+                if (edge.getNode() == selected &&
+                    Vector3D.angle(point.getVector(), edge.getStart().getLocation().getVector()) <= tolerance) {
+                    return edge;
                 }
             }
 

@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
@@ -84,8 +85,8 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         final List<Segment> segments = new ArrayList<Segment>(list.size());
 
         for (final Interval interval : list) {
-            final Vector2D start = line.toSpace(new Vector1D(interval.getInf()));
-            final Vector2D end   = line.toSpace(new Vector1D(interval.getSup()));
+            final Vector2D start = line.toSpace((Point<Euclidean1D>) new Vector1D(interval.getInf()));
+            final Vector2D end   = line.toSpace((Point<Euclidean1D>) new Vector1D(interval.getSup()));
             segments.add(new Segment(start, end, line));
         }
 
@@ -120,10 +121,10 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         }
 
         // check location of point with respect to first sub-line
-        Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace(v2D));
+        Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace((Point<Euclidean2D>) v2D));
 
         // check location of point with respect to second sub-line
-        Location loc2 = subLine.getRemainingRegion().checkPoint(line2.toSubSpace(v2D));
+        Location loc2 = subLine.getRemainingRegion().checkPoint(line2.toSubSpace((Point<Euclidean2D>) v2D));
 
         if (includeEndPoints) {
             return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v2D : null;
@@ -140,8 +141,8 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
      */
     private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end) {
         final Line line = new Line(start, end);
-        return new IntervalsSet(line.toSubSpace(start).getX(),
-                                line.toSubSpace(end).getX());
+        return new IntervalsSet(line.toSubSpace((Point<Euclidean2D>) start).getX(),
+                                line.toSubSpace((Point<Euclidean2D>) end).getX());
     }
 
     /** {@inheritDoc} */
@@ -167,7 +168,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
-        final Vector1D x = thisLine.toSubSpace(crossing);
+        final Vector1D x = thisLine.toSubSpace((Point<Euclidean2D>) crossing);
         return getRemainingRegion().side(new OrientedPoint(x, direct));
 
     }
@@ -190,7 +191,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
-        final Vector1D x      = thisLine.toSubSpace(crossing);
+        final Vector1D x      = thisLine.toSubSpace((Point<Euclidean2D>) crossing);
         final SubHyperplane<Euclidean1D> subPlus  = new OrientedPoint(x, !direct).wholeHyperplane();
         final SubHyperplane<Euclidean1D> subMinus = new OrientedPoint(x,  direct).wholeHyperplane();
 

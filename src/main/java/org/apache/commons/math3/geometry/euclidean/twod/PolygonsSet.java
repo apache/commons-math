@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
@@ -207,7 +208,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             // check if another vertex also happens to be on this line
             for (final Vertex vertex : vArray) {
                 if (vertex != start && vertex != end &&
-                    FastMath.abs(line.getOffset(vertex.getLocation())) <= hyperplaneThickness) {
+                    FastMath.abs(line.getOffset((Point<Euclidean2D>) vertex.getLocation())) <= hyperplaneThickness) {
                     vertex.bindWith(line);
                 }
             }
@@ -268,8 +269,8 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         final List<Edge> minusList = new ArrayList<Edge>();
         for (final Edge edge : edges) {
             if (edge != inserted) {
-                final double startOffset = inserted.getLine().getOffset(edge.getStart().getLocation());
-                final double endOffset   = inserted.getLine().getOffset(edge.getEnd().getLocation());
+                final double startOffset = inserted.getLine().getOffset((Point<Euclidean2D>) edge.getStart().getLocation());
+                final double endOffset   = inserted.getLine().getOffset((Point<Euclidean2D>) edge.getEnd().getLocation());
                 Side startSide = (FastMath.abs(startOffset) <= hyperplaneThickness) ?
                                  Side.HYPER : ((startOffset < 0) ? Side.MINUS : Side.PLUS);
                 Side endSide   = (FastMath.abs(endOffset) <= hyperplaneThickness) ?
@@ -527,15 +528,15 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             if (tree.getCut() == null && (Boolean) tree.getAttribute()) {
                 // the instance covers the whole space
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Vector2D.NaN);
+                setBarycenter((Point<Euclidean2D>) Vector2D.NaN);
             } else {
                 setSize(0);
-                setBarycenter(new Vector2D(0, 0));
+                setBarycenter((Point<Euclidean2D>) new Vector2D(0, 0));
             }
         } else if (v[0][0] == null) {
             // there is at least one open-loop: the polygon is infinite
             setSize(Double.POSITIVE_INFINITY);
-            setBarycenter(Vector2D.NaN);
+            setBarycenter((Point<Euclidean2D>) Vector2D.NaN);
         } else {
             // all loops are closed, we compute some integrals around the shape
 
@@ -561,10 +562,10 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             if (sum < 0) {
                 // the polygon as a finite outside surrounded by an infinite inside
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Vector2D.NaN);
+                setBarycenter((Point<Euclidean2D>) Vector2D.NaN);
             } else {
                 setSize(sum / 2);
-                setBarycenter(new Vector2D(sumX / (3 * sum), sumY / (3 * sum)));
+                setBarycenter((Point<Euclidean2D>) new Vector2D(sumX / (3 * sum), sumY / (3 * sum)));
             }
 
         }
@@ -626,8 +627,8 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                         final Line line = loop.get(0).getLine();
                         vertices[i++] = new Vector2D[] {
                             null,
-                            line.toSpace(new Vector1D(-Float.MAX_VALUE)),
-                            line.toSpace(new Vector1D(+Float.MAX_VALUE))
+                            line.toSpace((Point<Euclidean1D>) new Vector1D(-Float.MAX_VALUE)),
+                            line.toSpace((Point<Euclidean1D>) new Vector1D(+Float.MAX_VALUE))
                         };
                     } else if (loop.get(0).getStart() == null) {
                         // open loop with at least one real point
@@ -637,10 +638,10 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
                             if (j == 0) {
                                 // null point and first dummy point
-                                double x = segment.getLine().toSubSpace(segment.getEnd()).getX();
+                                double x = segment.getLine().toSubSpace((Point<Euclidean2D>) segment.getEnd()).getX();
                                 x -= FastMath.max(1.0, FastMath.abs(x / 2));
                                 array[j++] = null;
-                                array[j++] = segment.getLine().toSpace(new Vector1D(x));
+                                array[j++] = segment.getLine().toSpace((Point<Euclidean1D>) new Vector1D(x));
                             }
 
                             if (j < (array.length - 1)) {
@@ -650,9 +651,9 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
                             if (j == (array.length - 1)) {
                                 // last dummy point
-                                double x = segment.getLine().toSubSpace(segment.getStart()).getX();
+                                double x = segment.getLine().toSubSpace((Point<Euclidean2D>) segment.getStart()).getX();
                                 x += FastMath.max(1.0, FastMath.abs(x / 2));
-                                array[j++] = segment.getLine().toSpace(new Vector1D(x));
+                                array[j++] = segment.getLine().toSpace((Point<Euclidean1D>) new Vector1D(x));
                             }
 
                         }
@@ -694,7 +695,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         // is this an open or a closed loop ?
         final boolean open = segment.getStart() == null;
 
-        while ((end != null) && (open || (globalStart.distance(end) > 1.0e-10))) {
+        while ((end != null) && (open || (globalStart.distance((Point<Euclidean2D>) end) > 1.0e-10))) {
 
             // search the sub-hyperplane starting where the previous one ended
             AVLTree<ComparableSegment>.Node selectedNode = null;
@@ -706,7 +707,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                  (n != null) && (n.getElement().compareTo(upperRight) <= 0);
                  n = n.getNext()) {
                 segment = n.getElement();
-                final double distance = end.distance(segment.getStart());
+                final double distance = end.distance((Point<Euclidean2D>) segment.getStart());
                 if (distance < selectedDistance) {
                     selectedNode     = n;
                     selectedSegment  = segment;
@@ -842,9 +843,9 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             final List<Interval> intervals = ((IntervalsSet) absSub.getRemainingRegion()).asList();
             for (final Interval i : intervals) {
                 final Vector2D start = Double.isInfinite(i.getInf()) ?
-                                      null : (Vector2D) line.toSpace(new Vector1D(i.getInf()));
+                                      null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getInf()));
                 final Vector2D end   = Double.isInfinite(i.getSup()) ?
-                                      null : (Vector2D) line.toSpace(new Vector1D(i.getSup()));
+                                      null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getSup()));
                 if (reversed) {
                     sorted.insert(new ComparableSegment(end, start, line.getReverse()));
                 } else {

@@ -22,7 +22,6 @@ import java.io.Serializable;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
 
 /**
  * This class implements a one-dimensional sphere (i.e. a circle).

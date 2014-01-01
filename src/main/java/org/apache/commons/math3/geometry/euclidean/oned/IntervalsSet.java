@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
@@ -73,7 +74,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Vector)
+     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -137,7 +138,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
     @Override
     protected void computeGeometricalProperties() {
         if (getTree(false).getCut() == null) {
-            setBarycenter(Vector1D.NaN);
+            setBarycenter((Point<Euclidean1D>) Vector1D.NaN);
             setSize(((Boolean) getTree(false).getAttribute()) ? Double.POSITIVE_INFINITY : 0);
         } else {
             double size = 0.0;
@@ -148,11 +149,11 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
             }
             setSize(size);
             if (Double.isInfinite(size)) {
-                setBarycenter(Vector1D.NaN);
+                setBarycenter((Point<Euclidean1D>) Vector1D.NaN);
             } else if (size >= Precision.SAFE_MIN) {
-                setBarycenter(new Vector1D(sum / size));
+                setBarycenter((Point<Euclidean1D>) new Vector1D(sum / size));
             } else {
-                setBarycenter(((OrientedPoint) getTree(false).getCut().getHyperplane()).getLocation());
+                setBarycenter((Point<Euclidean1D>) ((OrientedPoint) getTree(false).getCut().getHyperplane()).getLocation());
             }
         }
     }
@@ -238,8 +239,8 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
                 op.isDirect() ? node.getPlus()  : node.getMinus();
 
             recurseList(low, list, lower, x);
-            if ((checkPoint(low,  loc) == Location.INSIDE) &&
-                (checkPoint(high, loc) == Location.INSIDE)) {
+            if ((checkPoint(low,  (Point<Euclidean1D>) loc) == Location.INSIDE) &&
+                (checkPoint(high, (Point<Euclidean1D>) loc) == Location.INSIDE)) {
                 // merge the last interval added and the first one of the high sub-tree
                 x = list.remove(list.size() - 1).getInf();
             }

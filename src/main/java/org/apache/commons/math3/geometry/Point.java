@@ -38,4 +38,10 @@ public interface Point<S extends Space> extends Serializable {
      */
     boolean isNaN();
 
+    /** Compute the distance between the instance and another point.
+     * @param p second point
+     * @return the distance between the instance and p
+     */
+    double distance(Point<S> p);
+
 }

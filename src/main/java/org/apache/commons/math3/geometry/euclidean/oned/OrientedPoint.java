@@ -17,6 +17,7 @@
 package org.apache.commons.math3.geometry.euclidean.oned;
 
 import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 
 /** This class represents a 1D oriented hyperplane.
@@ -51,6 +52,16 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      */
     public OrientedPoint copySelf() {
         return this;
+    }
+
+    /** Get the offset (oriented distance) of a vector.
+     * @param vector vector to check
+     * @return offset of the vector
+     * @deprecated as of 3.3, replaced with {@link #getOffset(Point)}
+     */
+    @Deprecated
+    public double getOffset(Vector<Euclidean1D> vector) {
+        return getOffset((Point<Euclidean1D>) vector);
     }
 
     /** {@inheritDoc} */

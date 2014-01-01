@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represent a Binary Space Partition tree.
@@ -308,7 +309,20 @@ public class BSPTree<S extends Space> {
      * interior of the node, if the cell is an internal node the points
      * belongs to the node cut sub-hyperplane.</p>
      * @param point point to check
-     * @return the tree cell to which the point belongs (can be
+     * @return the tree cell to which the point belongs
+     * @deprecated as of 3.3, replaced with {@link #getCell(Point)}
+     */
+    @Deprecated
+    public BSPTree<S> getCell(final Vector<S> point) {
+        return getCell((Point<S>) point);
+    }
+
+    /** Get the cell to which a point belongs.
+     * <p>If the returned cell is a leaf node the points belongs to the
+     * interior of the node, if the cell is an internal node the points
+     * belongs to the node cut sub-hyperplane.</p>
+     * @param point point to check
+     * @return the tree cell to which the point belongs
      */
     public BSPTree<S> getCell(final Point<S> point) {
 

@@ -169,6 +169,11 @@ public class S2Point implements Point<Sphere2D> {
         return new S2Point(-theta, FastMath.PI - phi, vector.negate());
     }
 
+    /** {@inheritDoc} */
+    public double distance(final Point<Sphere2D> point) {
+        return distance(this, (S2Point) point);
+    }
+
     /** Compute the distance (angular separation) between two points.
      * @param p1 first vector
      * @param p2 second vector

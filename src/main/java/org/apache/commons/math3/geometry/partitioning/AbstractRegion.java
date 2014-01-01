@@ -26,6 +26,8 @@ import java.util.TreeSet;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.partitioning.Region.Location;
 
 /** Abstract class for all regions, independently of geometry type or dimension.
 
@@ -249,9 +251,33 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
         return new RegionFactory<S>().difference(region, this).isEmpty();
     }
 
+    /** Check a point with respect to the region.
+     * @param point point to check
+     * @return a code representing the point status: either {@link
+     * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
+     * @deprecated as of 3.3, replaced with {@link #checkPoint(Point)}
+     */
+    @Deprecated
+    public Location checkPoint(final Vector<S> point) {
+        return checkPoint((Point<S>) point);
+    }
+
     /** {@inheritDoc} */
     public Location checkPoint(final Point<S> point) {
         return checkPoint(tree, point);
+    }
+
+    /** Check a point with respect to the region starting at a given node.
+     * @param node root node of the region
+     * @param point point to check
+     * @return a code representing the point status: either {@link
+     * Region.Location#INSIDE INSIDE}, {@link Region.Location#OUTSIDE
+     * OUTSIDE} or {@link Region.Location#BOUNDARY BOUNDARY}
+     * @deprecated as of 3.3, replaced with {@link #checkPoint(BSPTree, Point)}
+     */
+    @Deprecated
+    protected Location checkPoint(final BSPTree<S> node, final Vector<S> point) {
+        return checkPoint(node, (Point<S>) point);
     }
 
     /** Check a point with respect to the region starting at a given node.
@@ -428,6 +454,15 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
             computeGeometricalProperties();
         }
         return barycenter;
+    }
+
+    /** Set the barycenter of the instance.
+     * @param barycenter barycenter of the instance
+     * @deprecated as of 3.3, replaced with {@link #setBarycenter(Point)}
+     */
+    @Deprecated
+    protected void setBarycenter(final Vector<S> barycenter) {
+        setBarycenter((Point<S>) barycenter);
     }
 
     /** Set the barycenter of the instance.

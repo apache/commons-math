@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
@@ -90,7 +91,8 @@ class NestedLoops {
             current = loop[i];
             final Line   line   = new Line(previous, current);
             final IntervalsSet region =
-                new IntervalsSet(line.toSubSpace(previous).getX(), line.toSubSpace(current).getX());
+                new IntervalsSet(line.toSubSpace((Point<Euclidean2D>) previous).getX(),
+                                 line.toSubSpace((Point<Euclidean2D>) current).getX());
             edges.add(new SubLine(line, region));
         }
         polygon = new PolygonsSet(edges);

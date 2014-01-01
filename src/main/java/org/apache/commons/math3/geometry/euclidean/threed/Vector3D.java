@@ -23,11 +23,12 @@ import java.text.NumberFormat;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
 
 /**
  * This class implements vectors in a three-dimensional space.
@@ -474,8 +475,16 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         return dx + dy + dz;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.3, replaced with {@link #distance(Point)}
+     */
+    @Deprecated
     public double distance(Vector<Euclidean3D> v) {
+        return distance((Point<Euclidean3D>) v);
+    }
+
+    /** {@inheritDoc} */
+    public double distance(Point<Euclidean3D> v) {
         final Vector3D v3 = (Vector3D) v;
         final double dx = v3.x - x;
         final double dy = v3.y - y;

@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.geometry.euclidean.threed;
 
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -71,8 +73,8 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         //     (i.e. the 3D half space on the plus side (resp. minus side)
         //      of the instance contains the 2D half plane on the plus side
         //      (resp. minus side) of the 2D line
-        Vector2D p = thisPlane.toSubSpace(inter.toSpace(Vector1D.ZERO));
-        Vector2D q = thisPlane.toSubSpace(inter.toSpace(Vector1D.ONE));
+        Vector2D p = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ZERO));
+        Vector2D q = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ONE));
         Vector3D crossP = Vector3D.crossProduct(inter.getDirection(), thisPlane.getNormal());
         if (crossP.dotProduct(otherPlane.getNormal()) < 0) {
             final Vector2D tmp = p;
@@ -109,8 +111,8 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
         }
 
         // the hyperplanes do intersect
-        Vector2D p = thisPlane.toSubSpace(inter.toSpace(Vector1D.ZERO));
-        Vector2D q = thisPlane.toSubSpace(inter.toSpace(Vector1D.ONE));
+        Vector2D p = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ZERO));
+        Vector2D q = thisPlane.toSubSpace((Point<Euclidean3D>) inter.toSpace((Point<Euclidean1D>) Vector1D.ONE));
         Vector3D crossP = Vector3D.crossProduct(inter.getDirection(), thisPlane.getNormal());
         if (crossP.dotProduct(otherPlane.getNormal()) < 0) {
             final Vector2D tmp = p;

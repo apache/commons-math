@@ -72,7 +72,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * (their topological connections are not used here). However, if the
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
-     * calls to the {@link Region#checkPoint(Vector) checkPoint} method will
+     * calls to the {@link Region#checkPoint(Point) checkPoint} method will
      * not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -138,11 +138,11 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
             // the polyhedrons set as a finite outside
             // surrounded by an infinite inside
             setSize(Double.POSITIVE_INFINITY);
-            setBarycenter(Vector3D.NaN);
+            setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
         } else {
             // the polyhedrons set is finite, apply the remaining scaling factors
             setSize(getSize() / 3.0);
-            setBarycenter(new Vector3D(1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
+            setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
         }
 
     }
@@ -153,7 +153,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         /** Simple constructor. */
         public FacetsContributionVisitor() {
             setSize(0);
-            setBarycenter(new Vector3D(0, 0, 0));
+            setBarycenter((Point<Euclidean3D>) new Vector3D(0, 0, 0));
         }
 
         /** {@inheritDoc} */
@@ -189,7 +189,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
             if (Double.isInfinite(area)) {
                 setSize(Double.POSITIVE_INFINITY);
-                setBarycenter(Vector3D.NaN);
+                setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
             } else {
 
                 final Plane    plane  = (Plane) facet.getHyperplane();
@@ -200,7 +200,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                 }
 
                 setSize(getSize() + scaled);
-                setBarycenter(new Vector3D(1.0, (Vector3D) getBarycenter(), scaled, facetB));
+                setBarycenter((Point<Euclidean3D>) new Vector3D(1.0, (Vector3D) getBarycenter(), scaled, facetB));
 
             }
 
@@ -240,7 +240,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
         final Plane               plane = (Plane) cut.getHyperplane();
 
         // establish search order
-        final double offset = plane.getOffset(point);
+        final double offset = plane.getOffset((Point<Euclidean3D>) point);
         final boolean in    = FastMath.abs(offset) < 1.0e-10;
         final BSPTree<Euclidean3D> near;
         final BSPTree<Euclidean3D> far;
@@ -290,7 +290,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      */
     private SubHyperplane<Euclidean3D> boundaryFacet(final Vector3D point,
                                                      final BSPTree<Euclidean3D> node) {
-        final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace(point);
+        final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) point);
         @SuppressWarnings("unchecked")
         final BoundaryAttribute<Euclidean3D> attribute =
             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
@@ -360,11 +360,11 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                 final Plane    oPlane = (Plane) original;
                 final Plane    tPlane = (Plane) transformed;
                 final Vector3D p00    = oPlane.getOrigin();
-                final Vector3D p10    = oPlane.toSpace(new Vector2D(1.0, 0.0));
-                final Vector3D p01    = oPlane.toSpace(new Vector2D(0.0, 1.0));
-                final Vector2D tP00   = tPlane.toSubSpace(apply(p00));
-                final Vector2D tP10   = tPlane.toSubSpace(apply(p10));
-                final Vector2D tP01   = tPlane.toSubSpace(apply(p01));
+                final Vector3D p10    = oPlane.toSpace((Point<Euclidean2D>) new Vector2D(1.0, 0.0));
+                final Vector3D p01    = oPlane.toSpace((Point<Euclidean2D>) new Vector2D(0.0, 1.0));
+                final Vector2D tP00   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p00));
+                final Vector2D tP10   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p10));
+                final Vector2D tP01   = tPlane.toSubSpace((Point<Euclidean3D>) apply(p01));
                 final AffineTransform at =
                     new AffineTransform(tP10.getX() - tP00.getX(), tP10.getY() - tP00.getY(),
                                         tP01.getX() - tP00.getX(), tP01.getY() - tP00.getY(),
@@ -426,7 +426,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
                 final Plane   oPlane = (Plane) original;
                 final Plane   tPlane = (Plane) transformed;
-                final Vector2D shift  = tPlane.toSubSpace(apply(oPlane.getOrigin()));
+                final Vector2D shift  = tPlane.toSubSpace((Point<Euclidean3D>) apply(oPlane.getOrigin()));
                 final AffineTransform at =
                     AffineTransform.getTranslateInstance(shift.getX(), shift.getY());
 

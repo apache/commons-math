@@ -90,7 +90,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> {
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Vector)
+     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>

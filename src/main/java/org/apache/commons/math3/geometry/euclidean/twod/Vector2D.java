@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.util.FastMath;
@@ -292,8 +293,16 @@ public class Vector2D implements Vector<Euclidean2D> {
         return dx + dy;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @deprecated as of 3.3, replaced with {@link #distance(Point)}
+     */
+    @Deprecated
     public double distance(Vector<Euclidean2D> p) {
+        return distance((Point<Euclidean2D>) p);
+    }
+
+    /** {@inheritDoc} */
+    public double distance(Point<Euclidean2D> p) {
         Vector2D p3 = (Vector2D) p;
         final double dx = p3.x - x;
         final double dy = p3.y - y;

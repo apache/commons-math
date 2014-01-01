@@ -86,6 +86,11 @@ public class S1Point implements Point<Sphere1D> {
         return Double.isNaN(alpha);
     }
 
+    /** {@inheritDoc} */
+    public double distance(final Point<Sphere1D> point) {
+        return distance(this, (S1Point) point);
+    }
+
     /** Compute the distance (angular separation) between two points.
      * @param p1 first vector
      * @param p2 second vector

@@ -120,7 +120,9 @@ public interface Vector<S extends Space> extends Point<S> {
      * vector is built</p>
      * @param v second vector
      * @return the distance between the instance and p according to the L<sub>2</sub> norm
+     * @deprecated as of 3.3 replaced with {@link Point#distance(Point)}
      */
+    @Deprecated
     double distance(Vector<S> v);
 
     /** Compute the distance between the instance and another vector according to the L<sub>&infin;</sub> norm.

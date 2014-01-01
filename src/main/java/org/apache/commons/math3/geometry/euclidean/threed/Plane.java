@@ -19,6 +19,8 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
@@ -216,6 +218,28 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         originOffset = -originOffset;
     }
 
+    /** Transform a space point into a sub-space point.
+     * @param vector n-dimension point of the space
+     * @return (n-1)-dimension point of the sub-space corresponding to
+     * the specified space point
+     * @deprecated as of 3.3, replaced with {@link #toSubSpace(Point)}
+     */
+    @Deprecated
+    public Vector2D toSubSpace(Vector<Euclidean3D> vector) {
+        return toSubSpace((Point<Euclidean3D>) vector);
+    }
+
+    /** Transform a sub-space point into a space point.
+     * @param vector (n-1)-dimension point of the sub-space
+     * @return n-dimension point of the space corresponding to the
+     * specified sub-space point
+     * @deprecated as of 3.3, replaced with {@link #toSpace(Point)}
+     */
+    @Deprecated
+    public Vector3D toSpace(Vector<Euclidean2D> vector) {
+        return toSpace((Point<Euclidean2D>) vector);
+    }
+
     /** Transform a 3D space point into an in-plane point.
      * @param point point of the space (must be a {@link Vector3D
      * Vector3D} instance)
@@ -311,7 +335,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         if (FastMath.abs(dot) < 1.0e-10) {
             return null;
         }
-        final Vector3D point = line.toSpace(Vector1D.ZERO);
+        final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
         final double   k     = -(originOffset + w.dotProduct(point)) / dot;
         return new Vector3D(1.0, point, k, direction);
     }
@@ -407,6 +431,16 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      */
     public double getOffset(final Plane plane) {
         return originOffset + (sameOrientationAs(plane) ? -plane.originOffset : plane.originOffset);
+    }
+
+    /** Get the offset (oriented distance) of a vector.
+     * @param vector vector to check
+     * @return offset of the vector
+     * @deprecated as of 3.3, replaced with {@link #getOffset(Point)}
+     */
+    @Deprecated
+    public double getOffset(Vector<Euclidean3D> vector) {
+        return getOffset((Point<Euclidean3D>) vector);
     }
 
     /** Get the offset (oriented distance) of a point.
