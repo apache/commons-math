@@ -199,7 +199,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * no upper limit, the last interval will have its upper bound equal
      * to {@code Double.POSITIVE_INFINITY}. An empty tree will
      * build an empty list while a tree representing the whole real line
-     * will build a one element list with both bounds beeing
+     * will build a one element list with both bounds being
      * infinite.</p>
      * @return a new ordered list containing {@link Interval Interval}
      * elements
