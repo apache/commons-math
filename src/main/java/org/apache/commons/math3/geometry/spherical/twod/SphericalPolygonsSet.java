@@ -489,27 +489,27 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                            final List<Edge> outsideList, final List<Edge> insideList) {
 
             // get the inside chord, synchronizing its phase with the edge itself
-            final double edgeStart          = circle.getPhase(start.getLocation().getVector());
-            final double chordRelativeStart = MathUtils.normalizeAngle(circle.getChord(splitCircle).getStart(),
-                                                                       edgeStart + FastMath.PI) - edgeStart;
-            final double chordRelativeEnd   = chordRelativeStart + FastMath.PI;
-            final double unwrappedEnd       = chordRelativeStart - FastMath.PI;
+            final double edgeStart        = circle.getPhase(start.getLocation().getVector());
+            final double arcRelativeStart = MathUtils.normalizeAngle(circle.getInsideArc(splitCircle).getInf(),
+                                                                     edgeStart + FastMath.PI) - edgeStart;
+            final double arcRelativeEnd   = arcRelativeStart + FastMath.PI;
+            final double unwrappedEnd     = arcRelativeStart - FastMath.PI;
 
             // build the sub-edges
-            if (chordRelativeStart < length) {
+            if (arcRelativeStart < length) {
                 if (unwrappedEnd > 0) {
                     // the edge starts inside the circle, then goes outside, then comes back inside
 
                     // create intermediate vertices
-                    final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + chordRelativeEnd)));
-                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + chordRelativeStart)));
+                    final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeEnd)));
+                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart)));
                     vExit.bindWith(splitCircle);
                     vEnter.bindWith(splitCircle);
 
                     // create sub-edges
                     final Edge eStartIn   = new Edge(start,  vExit,  unwrappedEnd,                      circle);
-                    final Edge eMiddleOut = new Edge(vExit,  vEnter, chordRelativeStart - unwrappedEnd, circle);
-                    final Edge eEndIn     = new Edge(vEnter, end,    length - chordRelativeStart,       circle);
+                    final Edge eMiddleOut = new Edge(vExit,  vEnter, arcRelativeStart - unwrappedEnd, circle);
+                    final Edge eEndIn     = new Edge(vEnter, end,    length - arcRelativeStart,       circle);
                     eStartIn.setNode(node);
                     eMiddleOut.setNode(node);
                     eEndIn.setNode(node);
@@ -523,12 +523,12 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                     // the edge starts outside of the circle, then comes inside
 
                     // create intermediate vertices
-                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + chordRelativeStart)));
+                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart)));
                     vEnter.bindWith(splitCircle);
 
                     // create sub-edges
-                    final Edge eStartOut  = new Edge(start,  vEnter, chordRelativeStart,          circle);
-                    final Edge eEndIn     = new Edge(vEnter, end,    length - chordRelativeStart, circle);
+                    final Edge eStartOut  = new Edge(start,  vEnter, arcRelativeStart,          circle);
+                    final Edge eEndIn     = new Edge(vEnter, end,    length - arcRelativeStart, circle);
                     eStartOut.setNode(node);
                     eEndIn.setNode(node);
 
@@ -547,12 +547,12 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                         // the edge starts inside the circle, then goes outside
 
                         // create intermediate vertices
-                        final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + chordRelativeEnd)));
+                        final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeEnd)));
                         vExit.bindWith(splitCircle);
 
                         // create sub-edges
-                        final Edge eStartIn   = new Edge(start, vExit, chordRelativeEnd,          circle);
-                        final Edge eEndOut    = new Edge(vExit, end,   length - chordRelativeEnd, circle);
+                        final Edge eStartIn   = new Edge(start, vExit, arcRelativeEnd,          circle);
+                        final Edge eEndOut    = new Edge(vExit, end,   length - arcRelativeEnd, circle);
                         eStartIn.setNode(node);
                         eEndOut.setNode(node);
 

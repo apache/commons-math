@@ -17,14 +17,11 @@
 package org.apache.commons.math3.geometry.spherical.twod;
 
 import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Side;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.geometry.spherical.oned.Arc;
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
-import org.apache.commons.math3.geometry.spherical.oned.Chord;
 import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
 
 /** This class represents a sub-hyperplane for {@link Circle}.
@@ -64,24 +61,12 @@ public class SubCircle extends AbstractSubHyperplane<Sphere2D, Sphere1D> {
     @Override
     public SplitSubHyperplane<Sphere2D> split(final Hyperplane<Sphere2D> hyperplane) {
 
-        final Circle thisCircle  = (Circle) getHyperplane();
-        final Circle otherCircle = (Circle) hyperplane;
-        final Arc    arc         = thisCircle.getInsideArc(otherCircle);
-
-        final SubHyperplane<Sphere1D> subMinus = chord.wholeHyperplane();
-        final SubHyperplane<Sphere1D> subPlus  = chord.getReverse().wholeHyperplane();
-        final BSPTree<Sphere1D> splitTree = getRemainingRegion().getTree(false).split(subMinus);
-        final BSPTree<Sphere1D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?
-                                               new BSPTree<Sphere1D>(Boolean.FALSE) :
-                                               new BSPTree<Sphere1D>(subPlus, new BSPTree<Sphere1D>(Boolean.FALSE),
-                                                                     splitTree.getPlus(), null);
-        final BSPTree<Sphere1D> minusTree = getRemainingRegion().isEmpty(splitTree.getMinus()) ?
-                                               new BSPTree<Sphere1D>(Boolean.FALSE) :
-                                               new BSPTree<Sphere1D>(subMinus, new BSPTree<Sphere1D>(Boolean.FALSE),
-                                                                     splitTree.getMinus(), null);
-
-        return new SplitSubHyperplane<Sphere2D>(new SubCircle(thisCircle.copySelf(), new ArcsSet(plusTree, thisCircle.getTolerance())),
-                                                new SubCircle(thisCircle.copySelf(), new ArcsSet(minusTree, thisCircle.getTolerance())));
+        final Circle thisCircle   = (Circle) getHyperplane();
+        final Circle otherCircle  = (Circle) hyperplane;
+        final Arc    arc          = thisCircle.getInsideArc(otherCircle);
+        final ArcsSet.Split split = ((ArcsSet) getRemainingRegion()).split(arc);
+        return new SplitSubHyperplane<Sphere2D>(new SubCircle(thisCircle.copySelf(), split.getPlus()),
+                                                new SubCircle(thisCircle.copySelf(), split.getMinus()));
 
     }
 

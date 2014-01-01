@@ -17,12 +17,15 @@
 package org.apache.commons.math3.geometry.spherical.oned;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
@@ -250,4 +253,207 @@ public class ArcsSetTest {
         Assert.assertEquals(2 * Precision.EPSILON, set.getSize(), Precision.SAFE_MIN);
     }
 
+    @Test
+    public void testIteration() {
+        ArcsSet set = (ArcsSet) new RegionFactory<Sphere1D>().difference(new ArcsSet(1.0, 6.0, 1.0e-10),
+                                                                         new ArcsSet(3.0, 5.0, 1.0e-10));
+        Iterator<double[]> iterator = set.iterator();
+        try {
+            iterator.remove();
+            Assert.fail("an exception should have been thrown");
+        } catch (UnsupportedOperationException uoe) {
+            // expected
+        }
+
+        Assert.assertTrue(iterator.hasNext());
+        double[] a0 = iterator.next();
+        Assert.assertEquals(2, a0.length);
+        Assert.assertEquals(1.0, a0[0], 1.0e-10);
+        Assert.assertEquals(3.0, a0[1], 1.0e-10);
+
+        Assert.assertTrue(iterator.hasNext());
+        double[] a1 = iterator.next();
+        Assert.assertEquals(2, a1.length);
+        Assert.assertEquals(5.0, a1[0], 1.0e-10);
+        Assert.assertEquals(6.0, a1[1], 1.0e-10);
+
+        Assert.assertFalse(iterator.hasNext());
+        try {
+            iterator.next();
+            Assert.fail("an exception should have been thrown");
+        } catch (NoSuchElementException nsee) {
+            // expected
+        }
+
+    }
+
+    @Test
+    public void testSide() {
+        ArcsSet set = (ArcsSet) new RegionFactory<Sphere1D>().difference(new ArcsSet(1.0, 6.0, 1.0e-10),
+                                                                         new ArcsSet(3.0, 5.0, 1.0e-10));
+        for (int k = -2; k < 3; ++k) {
+            Assert.assertEquals(Side.MINUS, set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                             6.1 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.PLUS,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                             0.8 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.PLUS,  set.side(new Arc(6.2 + k * MathUtils.TWO_PI,
+                                                             6.3 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.PLUS,  set.side(new Arc(3.5 + k * MathUtils.TWO_PI,
+                                                             4.5 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.BOTH,  set.side(new Arc(2.9 + k * MathUtils.TWO_PI,
+                                                             4.5 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.BOTH,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                             1.2 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+            Assert.assertEquals(Side.BOTH,  set.side(new Arc(0.5 + k * MathUtils.TWO_PI,
+                                                             5.9 + k * MathUtils.TWO_PI,
+                                                             set.getTolerance())));
+        }
+    }
+
+    @Test
+    public void testSideEmbedded() {
+
+        ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
+        ArcsSet s16 = new ArcsSet(1.0, 6.0, 1.0e-10);
+
+        Assert.assertEquals(Side.BOTH,  s16.side(new Arc(3.0, 5.0, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH,  s16.side(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)));
+        Assert.assertEquals(Side.MINUS, s35.side(new Arc(1.0, 6.0, 1.0e-10)));
+        Assert.assertEquals(Side.PLUS,  s35.side(new Arc(6.0, 1.0 + MathUtils.TWO_PI, 1.0e-10)));
+
+    }
+
+    @Test
+    public void testSideOverlapping() {
+        ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
+        ArcsSet s46 = new ArcsSet(4.0, 6.0, 1.0e-10);
+
+        Assert.assertEquals(Side.BOTH,  s46.side(new Arc(3.0, 5.0, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH,  s46.side(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH, s35.side(new Arc(4.0, 6.0, 1.0e-10)));
+        Assert.assertEquals(Side.BOTH,  s35.side(new Arc(6.0, 4.0 + MathUtils.TWO_PI, 1.0e-10)));
+    }
+
+    @Test
+    public void testSideHyper() {
+        ArcsSet sub = (ArcsSet) new RegionFactory<Sphere1D>().getComplement(new ArcsSet(1.0e-10));
+        Assert.assertTrue(sub.isEmpty());
+        Assert.assertEquals(Side.HYPER,  sub.side(new Arc(2.0, 3.0, 1.0e-10)));
+    }
+
+    @Test
+    public void testSplitEmbedded() {
+
+        ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
+        ArcsSet s16 = new ArcsSet(1.0, 6.0, 1.0e-10);
+
+        ArcsSet.Split split1 = s16.split(new Arc(3.0, 5.0, 1.0e-10));
+        ArcsSet split1Plus  = (ArcsSet) split1.getPlus();
+        ArcsSet split1Minus = (ArcsSet) split1.getMinus();
+        Assert.assertEquals(3.0, split1Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(2,   split1Plus.asList().size());
+        Assert.assertEquals(1.0, split1Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(3.0, split1Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(5.0, split1Plus.asList().get(1).getInf(), 1.0e-10);
+        Assert.assertEquals(6.0, split1Plus.asList().get(1).getSup(), 1.0e-10);
+        Assert.assertEquals(2.0, split1Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split1Minus.asList().size());
+        Assert.assertEquals(3.0, split1Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split1Minus.asList().get(0).getSup(), 1.0e-10);
+
+        ArcsSet.Split split2 = s16.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10));
+        ArcsSet split2Plus  = (ArcsSet) split2.getPlus();
+        ArcsSet split2Minus = (ArcsSet) split2.getMinus();
+        Assert.assertEquals(2.0, split2Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split2Plus.asList().size());
+        Assert.assertEquals(3.0, split2Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split2Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(3.0, split2Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(2,   split2Minus.asList().size());
+        Assert.assertEquals(1.0, split2Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(3.0, split2Minus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(5.0, split2Minus.asList().get(1).getInf(), 1.0e-10);
+        Assert.assertEquals(6.0, split2Minus.asList().get(1).getSup(), 1.0e-10);
+
+        ArcsSet.Split split3 = s35.split(new Arc(1.0, 6.0, 1.0e-10));
+        ArcsSet split3Plus  = (ArcsSet) split3.getPlus();
+        ArcsSet split3Minus = (ArcsSet) split3.getMinus();
+        Assert.assertNull(split3Plus);
+        Assert.assertEquals(2.0, split3Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split3Minus.asList().size());
+        Assert.assertEquals(3.0, split3Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split3Minus.asList().get(0).getSup(), 1.0e-10);
+
+        ArcsSet.Split split4 = s35.split(new Arc(6.0, 1.0 + MathUtils.TWO_PI, 1.0e-10));
+        ArcsSet split4Plus  = (ArcsSet) split4.getPlus();
+        ArcsSet split4Minus = (ArcsSet) split4.getMinus();
+        Assert.assertEquals(2.0, split4Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split4Plus.asList().size());
+        Assert.assertEquals(3.0, split4Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split4Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertNull(split4Minus);
+
+    }
+
+    @Test
+    public void testSplitOverlapping() {
+
+        ArcsSet s35 = new ArcsSet(3.0, 5.0, 1.0e-10);
+        ArcsSet s46 = new ArcsSet(4.0, 6.0, 1.0e-10);
+
+        ArcsSet.Split split1 = s46.split(new Arc(3.0, 5.0, 1.0e-10));
+        ArcsSet split1Plus  = (ArcsSet) split1.getPlus();
+        ArcsSet split1Minus = (ArcsSet) split1.getMinus();
+        Assert.assertEquals(1.0, split1Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split1Plus.asList().size());
+        Assert.assertEquals(5.0, split1Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(6.0, split1Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(1.0, split1Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split1Minus.asList().size());
+        Assert.assertEquals(4.0, split1Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split1Minus.asList().get(0).getSup(), 1.0e-10);
+
+        ArcsSet.Split split2 = s46.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10));
+        ArcsSet split2Plus  = (ArcsSet) split2.getPlus();
+        ArcsSet split2Minus = (ArcsSet) split2.getMinus();
+        Assert.assertEquals(1.0, split2Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split2Plus.asList().size());
+        Assert.assertEquals(4.0, split2Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split2Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(1.0, split2Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split2Minus.asList().size());
+        Assert.assertEquals(5.0, split2Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(6.0, split2Minus.asList().get(0).getSup(), 1.0e-10);
+
+        ArcsSet.Split split3 = s35.split(new Arc(4.0, 6.0, 1.0e-10));
+        ArcsSet split3Plus  = (ArcsSet) split3.getPlus();
+        ArcsSet split3Minus = (ArcsSet) split3.getMinus();
+        Assert.assertEquals(1.0, split3Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split3Plus.asList().size());
+        Assert.assertEquals(3.0, split3Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(4.0, split3Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(1.0, split3Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split3Minus.asList().size());
+        Assert.assertEquals(4.0, split3Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split3Minus.asList().get(0).getSup(), 1.0e-10);
+
+        ArcsSet.Split split4 = s35.split(new Arc(6.0, 4.0 + MathUtils.TWO_PI, 1.0e-10));
+        ArcsSet split4Plus  = (ArcsSet) split4.getPlus();
+        ArcsSet split4Minus = (ArcsSet) split4.getMinus();
+        Assert.assertEquals(1.0, split4Plus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split4Plus.asList().size());
+        Assert.assertEquals(4.0, split4Plus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(5.0, split4Plus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(1.0, split4Minus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   split4Minus.asList().size());
+        Assert.assertEquals(3.0, split4Minus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(4.0, split4Minus.asList().get(0).getSup(), 1.0e-10);
+
+    }
 }
