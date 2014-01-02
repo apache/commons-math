@@ -273,14 +273,6 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         return Vector3D.dotProduct(pole, otherC.pole) >= 0.0;
     }
 
-    /** Check if the circle contains a point.
-     * @param p point to check
-     * @return true if p belongs to the circle
-     */
-    public boolean contains(final Point<Sphere2D> p) {
-        return FastMath.abs(getOffset(p)) < 1.0e-10;
-    }
-
     /** Get a {@link org.apache.commons.math3.geometry.partitioning.Transform
      * Transform} embedding a 3D rotation.
      * @param rotation rotation to use
@@ -324,7 +316,7 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         public SubHyperplane<Sphere1D> apply(final SubHyperplane<Sphere1D> sub,
                                              final Hyperplane<Sphere2D> original,
                                              final Hyperplane<Sphere2D> transformed) {
-            // as the circle is rotated, the chords are rotated too
+            // as the circle is rotated, the limit angles are rotated too
             return sub;
         }
 
