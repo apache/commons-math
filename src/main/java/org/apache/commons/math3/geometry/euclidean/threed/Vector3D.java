@@ -475,10 +475,7 @@ public class Vector3D implements Serializable, Vector<Euclidean3D> {
         return dx + dy + dz;
     }
 
-    /** {@inheritDoc}
-     * @deprecated as of 3.3, replaced with {@link #distance(Point)}
-     */
-    @Deprecated
+    /** {@inheritDoc} */
     public double distance(Vector<Euclidean3D> v) {
         return distance((Point<Euclidean3D>) v);
     }
