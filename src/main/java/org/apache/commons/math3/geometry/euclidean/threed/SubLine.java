@@ -51,19 +51,33 @@ public class SubLine {
     /** Create a sub-line from two endpoints.
      * @param start start point
      * @param end end point
+     * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
+     * @since 3.3
      */
-    public SubLine(final Vector3D start, final Vector3D end)
+    public SubLine(final Vector3D start, final Vector3D end, final double tolerance)
         throws MathIllegalArgumentException {
-        this(new Line(start, end), buildIntervalSet(start, end));
+        this(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
+
+//    /** Create a sub-line from two endpoints.
+//     * @param start start point
+//     * @param end end point
+//     * @exception MathIllegalArgumentException if the points are equal
+//     * @deprecated as of 3.3, replaced with {@link #SubLine(Vector3D, Vector3D, double)}
+//     */
+//    public SubLine(final Vector3D start, final Vector3D end)
+//        throws MathIllegalArgumentException {
+//        this(start, end, 1.0e-10);
+//    }
 
     /** Create a sub-line from a segment.
      * @param segment single segment forming the sub-line
      * @exception MathIllegalArgumentException if the segment endpoints are equal
      */
     public SubLine(final Segment segment) throws MathIllegalArgumentException {
-        this(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd()));
+        this(segment.getLine(),
+             buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
     }
 
     /** Get the endpoints of the sub-line.
@@ -135,13 +149,15 @@ public class SubLine {
      * @param start start point
      * @param end end point
      * @return an interval set
+     * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
      */
-    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end)
+    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end, final double tolerance)
         throws MathIllegalArgumentException {
-        final Line line = new Line(start, end);
+        final Line line = new Line(start, end, tolerance);
         return new IntervalsSet(line.toSubSpace((Point<Euclidean3D>) start).getX(),
-                                line.toSubSpace((Point<Euclidean3D>) end).getX());
+                                line.toSubSpace((Point<Euclidean3D>) end).getX(),
+                                tolerance);
     }
 
 }

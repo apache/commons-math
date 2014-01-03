@@ -310,11 +310,11 @@ public class BSPTree<S extends Space> {
      * belongs to the node cut sub-hyperplane.</p>
      * @param point point to check
      * @return the tree cell to which the point belongs
-     * @deprecated as of 3.3, replaced with {@link #getCell(Point)}
+     * @deprecated as of 3.3, replaced with {@link #getCell(Point, double)}
      */
     @Deprecated
     public BSPTree<S> getCell(final Vector<S> point) {
-        return getCell((Point<S>) point);
+        return getCell((Point<S>) point, 1.0e-10);
     }
 
     /** Get the cell to which a point belongs.
@@ -322,9 +322,11 @@ public class BSPTree<S extends Space> {
      * interior of the node, if the cell is an internal node the points
      * belongs to the node cut sub-hyperplane.</p>
      * @param point point to check
+     * @param tolerance tolerance below which points close to a cut hyperplane
+     * are considered to belong to the hyperplane itself
      * @return the tree cell to which the point belongs
      */
-    public BSPTree<S> getCell(final Point<S> point) {
+    public BSPTree<S> getCell(final Point<S> point, final double tolerance) {
 
         if (cut == null) {
             return this;
@@ -333,14 +335,14 @@ public class BSPTree<S extends Space> {
         // position of the point with respect to the cut hyperplane
         final double offset = cut.getHyperplane().getOffset(point);
 
-        if (FastMath.abs(offset) < 1.0e-10) {
+        if (FastMath.abs(offset) < tolerance) {
             return this;
         } else if (offset <= 0) {
             // point is on the minus side of the cut hyperplane
-            return minus.getCell(point);
+            return minus.getCell(point, tolerance);
         } else {
             // point is on the plus side of the cut hyperplane
-            return plus.getCell(point);
+            return plus.getCell(point, tolerance);
         }
 
     }

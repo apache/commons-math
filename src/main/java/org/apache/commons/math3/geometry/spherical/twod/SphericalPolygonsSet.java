@@ -42,9 +42,6 @@ import org.apache.commons.math3.util.MathUtils;
  */
 public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
-    /** Tolerance below which points are consider to be identical. */
-    private final double tolerance;
-
     /** Boundary defined as an array of closed loops start vertices. */
     private List<Vertex> loops;
 
@@ -52,7 +49,19 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param tolerance below which points are consider to be identical
      */
     public SphericalPolygonsSet(final double tolerance) {
-        this.tolerance = tolerance;
+        super(tolerance);
+    }
+
+    /** Build a polygons set representing a hemisphere.
+     * @param pole pole of the hemisphere (the pole is in the inside half)
+     * @param tolerance below which points are consider to be identical
+     */
+    public SphericalPolygonsSet(final Vector3D pole, final double tolerance) {
+        super(new BSPTree<Sphere2D>(new Circle(pole, tolerance).wholeHyperplane(),
+                                    new BSPTree<Sphere2D>(Boolean.FALSE),
+                                    new BSPTree<Sphere2D>(Boolean.TRUE),
+                                    null),
+              tolerance);
     }
 
     /** Build a polygons set from a BSP tree.
@@ -66,8 +75,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param tolerance below which points are consider to be identical
      */
     public SphericalPolygonsSet(final BSPTree<Sphere2D> tree, final double tolerance) {
-        super(tree);
-        this.tolerance = tolerance;
+        super(tree, tolerance);
     }
 
     /** Build a polygons set from a Boundary REPresentation (B-rep).
@@ -92,8 +100,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param tolerance below which points are consider to be identical
      */
     public SphericalPolygonsSet(final Collection<SubHyperplane<Sphere2D>> boundary, final double tolerance) {
-        super(boundary);
-        this.tolerance = tolerance;
+        super(boundary, tolerance);
     }
 
     /** Build a polygon from a simple list of vertices.
@@ -127,8 +134,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * @param vertices vertices of the simple loop boundary
      */
     public SphericalPolygonsSet(final double hyperplaneThickness, final S2Point ... vertices) {
-        super(verticesToTree(hyperplaneThickness, vertices));
-        this.tolerance = hyperplaneThickness;
+        super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
     }
 
     /** Build the BSP tree of a polygons set from a simple list of vertices.
@@ -575,7 +581,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     /** {@inheritDoc} */
     @Override
     public SphericalPolygonsSet buildNew(final BSPTree<Sphere2D> tree) {
-        return new SphericalPolygonsSet(tree, tolerance);
+        return new SphericalPolygonsSet(tree, getTolerance());
     }
 
     /** {@inheritDoc}
@@ -675,7 +681,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
                 // sort the arcs according to their start point
                 final BSPTree<Sphere2D> root = getTree(true);
-                final EdgesBuilder visitor = new EdgesBuilder(root, tolerance);
+                final EdgesBuilder visitor = new EdgesBuilder(root, getTolerance());
                 root.visit(visitor);
                 final List<Edge> edges = visitor.getEdges();
 

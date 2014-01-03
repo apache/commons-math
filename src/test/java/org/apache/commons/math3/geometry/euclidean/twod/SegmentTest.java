@@ -28,7 +28,7 @@ public class SegmentTest {
     public void testDistance() {
         Vector2D start = new Vector2D(2, 2);
         Vector2D end = new Vector2D(-2, -2);
-        Segment segment = new Segment(start, end, new Line(start, end));
+        Segment segment = new Segment(start, end, new Line(start, end, 1.0e-10));
 
         // distance to center of segment
         Assert.assertEquals(FastMath.sqrt(2), segment.distance(new Vector2D(1, -1)), 1.0e-10);

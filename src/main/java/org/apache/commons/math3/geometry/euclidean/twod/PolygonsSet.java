@@ -47,9 +47,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     private Vector2D[][] vertices;
 
     /** Build a polygons set representing the whole real line.
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolygonsSet() {
-        super();
+    public PolygonsSet(final double tolerance) {
+        super(tolerance);
     }
 
     /** Build a polygons set from a BSP tree.
@@ -60,9 +62,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the region
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolygonsSet(final BSPTree<Euclidean2D> tree) {
-        super(tree);
+    public PolygonsSet(final BSPTree<Euclidean2D> tree, final double tolerance) {
+        super(tree, tolerance);
     }
 
     /** Build a polygons set from a Boundary REPresentation (B-rep).
@@ -84,9 +88,11 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * space.</p>
      * @param boundary collection of boundary elements, as a
      * collection of {@link SubHyperplane SubHyperplane} objects
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary) {
-        super(boundary);
+    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary, final double tolerance) {
+        super(boundary, tolerance);
     }
 
     /** Build a parallellepipedic box.
@@ -94,10 +100,13 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @param xMax high bound along the x direction
      * @param yMin low bound along the y direction
      * @param yMax high bound along the y direction
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
     public PolygonsSet(final double xMin, final double xMax,
-                       final double yMin, final double yMax) {
-        super(boxBoundary(xMin, xMax, yMin, yMax));
+                       final double yMin, final double yMax,
+                       final double tolerance) {
+        super(boxBoundary(xMin, xMax, yMin, yMax, tolerance), tolerance);
     }
 
     /** Build a polygon from a simple list of vertices.
@@ -129,30 +138,85 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @param hyperplaneThickness tolerance below which points are considered to
      * belong to the hyperplane (which is therefore more a slab)
      * @param vertices vertices of the simple loop boundary
-     * @since 3.1
      */
     public PolygonsSet(final double hyperplaneThickness, final Vector2D ... vertices) {
-        super(verticesToTree(hyperplaneThickness, vertices));
+        super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
     }
 
+//    /** Build a polygons set representing the whole real line.
+//     */
+//    public PolygonsSet() {
+//        super();
+//    }
+//
+//    /** Build a polygons set from a BSP tree.
+//     * <p>The leaf nodes of the BSP tree <em>must</em> have a
+//     * {@code Boolean} attribute representing the inside status of
+//     * the corresponding cell (true for inside cells, false for outside
+//     * cells). In order to avoid building too many small objects, it is
+//     * recommended to use the predefined constants
+//     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+//     * @param tree inside/outside BSP tree representing the region
+//     */
+//    public PolygonsSet(final BSPTree<Euclidean2D> tree) {
+//        super(tree);
+//    }
+//
+//    /** Build a polygons set from a Boundary REPresentation (B-rep).
+//     * <p>The boundary is provided as a collection of {@link
+//     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
+//     * interior part of the region on its minus side and the exterior on
+//     * its plus side.</p>
+//     * <p>The boundary elements can be in any order, and can form
+//     * several non-connected sets (like for example polygons with holes
+//     * or a set of disjoint polygons considered as a whole). In
+//     * fact, the elements do not even need to be connected together
+//     * (their topological connections are not used here). However, if the
+//     * boundary does not really separate an inside open from an outside
+//     * open (open having here its topological meaning), then subsequent
+//     * calls to the {@link
+//     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+//     * checkPoint} method will not be meaningful anymore.</p>
+//     * <p>If the boundary is empty, the region will represent the whole
+//     * space.</p>
+//     * @param boundary collection of boundary elements, as a
+//     * collection of {@link SubHyperplane SubHyperplane} objects
+//     */
+//    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary) {
+//        super(boundary);
+//    }
+//
+//    /** Build a parallellepipedic box.
+//     * @param xMin low bound along the x direction
+//     * @param xMax high bound along the x direction
+//     * @param yMin low bound along the y direction
+//     * @param yMax high bound along the y direction
+//     */
+//    public PolygonsSet(final double xMin, final double xMax,
+//                       final double yMin, final double yMax) {
+//        super(boxBoundary(xMin, xMax, yMin, yMax));
+//    }
+//
     /** Create a list of hyperplanes representing the boundary of a box.
      * @param xMin low bound along the x direction
      * @param xMax high bound along the x direction
      * @param yMin low bound along the y direction
      * @param yMax high bound along the y direction
+     * @param tolerance tolerance below which points are considered identical
      * @return boundary of the box
      */
     private static Line[] boxBoundary(final double xMin, final double xMax,
-                                      final double yMin, final double yMax) {
+                                      final double yMin, final double yMax,
+                                      final double tolerance) {
         final Vector2D minMin = new Vector2D(xMin, yMin);
         final Vector2D minMax = new Vector2D(xMin, yMax);
         final Vector2D maxMin = new Vector2D(xMax, yMin);
         final Vector2D maxMax = new Vector2D(xMax, yMax);
         return new Line[] {
-            new Line(minMin, maxMin),
-            new Line(maxMin, maxMax),
-            new Line(maxMax, minMax),
-            new Line(minMax, minMin)
+            new Line(minMin, maxMin, tolerance),
+            new Line(maxMin, maxMax, tolerance),
+            new Line(maxMax, minMax, tolerance),
+            new Line(minMax, minMin, tolerance)
         };
     }
 
@@ -199,7 +263,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
             // with the current one
             Line line = start.sharedLineWith(end);
             if (line == null) {
-                line = new Line(start.getLocation(), end.getLocation());
+                line = new Line(start.getLocation(), end.getLocation(), hyperplaneThickness);
             }
 
             // create the edge and store it
@@ -514,7 +578,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     /** {@inheritDoc} */
     @Override
     public PolygonsSet buildNew(final BSPTree<Euclidean2D> tree) {
-        return new PolygonsSet(tree);
+        return new PolygonsSet(tree, getTolerance());
     }
 
     /** {@inheritDoc} */

@@ -46,14 +46,11 @@ import org.apache.commons.math3.util.Precision;
  */
 public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Iterable<double[]> {
 
-    /** Tolerance below which close sub-arcs are merged together. */
-    private final double tolerance;
-
     /** Build an arcs set representing the whole circle.
      * @param tolerance tolerance below which close sub-arcs are merged together
      */
     public ArcsSet(final double tolerance) {
-        this.tolerance = tolerance;
+        super(tolerance);
     }
 
     /** Build an arcs set corresponding to a single arc.
@@ -71,8 +68,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      */
     public ArcsSet(final double lower, final double upper, final double tolerance)
         throws NumberIsTooLargeException {
-        super(buildTree(lower, upper, tolerance));
-        this.tolerance = tolerance;
+        super(buildTree(lower, upper, tolerance), tolerance);
     }
 
     /** Build an arcs set from an inside/outside BSP tree.
@@ -86,8 +82,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @param tolerance tolerance below which close sub-arcs are merged together
      */
     public ArcsSet(final BSPTree<Sphere1D> tree, final double tolerance) {
-        super(tree);
-        this.tolerance = tolerance;
+        super(tree, tolerance);
     }
 
     /** Build an arcs set from a Boundary REPresentation (B-rep).
@@ -111,8 +106,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @param tolerance tolerance below which close sub-arcs are merged together
      */
     public ArcsSet(final Collection<SubHyperplane<Sphere1D>> boundary, final double tolerance) {
-        super(boundary);
-        this.tolerance = tolerance;
+        super(boundary, tolerance);
     }
 
     /** Build an inside/outside tree representing a single arc.
@@ -164,13 +158,6 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                                          null);
         }
 
-    }
-
-    /** Get the tolerance below which angles are considered identical.
-     * @return tolerance below which angles are considered identical
-     */
-    public double getTolerance() {
-        return tolerance;
     }
 
     /** Get the node corresponding to the first arc start.
@@ -390,7 +377,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @return sub-hyperplane for start of arc
      */
     private SubLimitAngle arcStart(final double alpha) {
-        return new LimitAngle(new S1Point(alpha), false, tolerance).wholeHyperplane();
+        return new LimitAngle(new S1Point(alpha), false, getTolerance()).wholeHyperplane();
     }
 
     /** Build a sub-hyperplane corresponding to an arc end.
@@ -398,13 +385,13 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @return sub-hyperplane for end of arc
      */
     private SubLimitAngle arcEnd(final double alpha) {
-        return new LimitAngle(new S1Point(alpha), true, tolerance).wholeHyperplane();
+        return new LimitAngle(new S1Point(alpha), true, getTolerance()).wholeHyperplane();
     }
 
     /** {@inheritDoc} */
     @Override
     public ArcsSet buildNew(final BSPTree<Sphere1D> tree) {
-        return new ArcsSet(tree, tolerance);
+        return new ArcsSet(tree, getTolerance());
     }
 
     /** {@inheritDoc} */
@@ -443,7 +430,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
     public List<Arc> asList() {
         final List<Arc> list = new ArrayList<Arc>();
         for (final double[] a : this) {
-            list.add(new Arc(a[0], a[1], tolerance));
+            list.add(new Arc(a[0], a[1], getTolerance()));
         }
         return list;
     }
@@ -693,8 +680,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             }
         }
 
-        return new Split(plus.isEmpty()  ? null : new ArcsSet(plus, tolerance),
-                         minus.isEmpty() ? null : new ArcsSet(minus,tolerance));
+        return new Split(plus.isEmpty()  ? null : new ArcsSet(plus, getTolerance()),
+                         minus.isEmpty() ? null : new ArcsSet(minus,getTolerance()));
 
     }
 

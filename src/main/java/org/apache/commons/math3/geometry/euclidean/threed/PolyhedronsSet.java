@@ -42,9 +42,11 @@ import org.apache.commons.math3.util.FastMath;
 public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
     /** Build a polyhedrons set representing the whole real line.
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolyhedronsSet() {
-        super();
+    public PolyhedronsSet(final double tolerance) {
+        super(tolerance);
     }
 
     /** Build a polyhedrons set from a BSP tree.
@@ -55,9 +57,11 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the region
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolyhedronsSet(final BSPTree<Euclidean3D> tree) {
-        super(tree);
+    public PolyhedronsSet(final BSPTree<Euclidean3D> tree, final double tolerance) {
+        super(tree, tolerance);
     }
 
     /** Build a polyhedrons set from a Boundary REPresentation (B-rep).
@@ -78,9 +82,12 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * space.</p>
      * @param boundary collection of boundary elements, as a
      * collection of {@link SubHyperplane SubHyperplane} objects
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public PolyhedronsSet(final Collection<SubHyperplane<Euclidean3D>> boundary) {
-        super(boundary);
+    public PolyhedronsSet(final Collection<SubHyperplane<Euclidean3D>> boundary,
+                          final double tolerance) {
+        super(boundary, tolerance);
     }
 
     /** Build a parallellepipedic box.
@@ -90,12 +97,71 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * @param yMax high bound along the y direction
      * @param zMin low bound along the z direction
      * @param zMax high bound along the z direction
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
     public PolyhedronsSet(final double xMin, final double xMax,
                           final double yMin, final double yMax,
-                          final double zMin, final double zMax) {
-        super(buildBoundary(xMin, xMax, yMin, yMax, zMin, zMax));
+                          final double zMin, final double zMax,
+                          final double tolerance) {
+        super(buildBoundary(xMin, xMax, yMin, yMax, zMin, zMax, tolerance), tolerance);
     }
+
+//    /** Build a polyhedrons set representing the whole real line.
+//     */
+//    public PolyhedronsSet() {
+//        super();
+//    }
+//
+//    /** Build a polyhedrons set from a BSP tree.
+//     * <p>The leaf nodes of the BSP tree <em>must</em> have a
+//     * {@code Boolean} attribute representing the inside status of
+//     * the corresponding cell (true for inside cells, false for outside
+//     * cells). In order to avoid building too many small objects, it is
+//     * recommended to use the predefined constants
+//     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+//     * @param tree inside/outside BSP tree representing the region
+//     */
+//    public PolyhedronsSet(final BSPTree<Euclidean3D> tree) {
+//        super(tree);
+//    }
+//
+//    /** Build a polyhedrons set from a Boundary REPresentation (B-rep).
+//     * <p>The boundary is provided as a collection of {@link
+//     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
+//     * interior part of the region on its minus side and the exterior on
+//     * its plus side.</p>
+//     * <p>The boundary elements can be in any order, and can form
+//     * several non-connected sets (like for example polyhedrons with holes
+//     * or a set of disjoint polyhedrons considered as a whole). In
+//     * fact, the elements do not even need to be connected together
+//     * (their topological connections are not used here). However, if the
+//     * boundary does not really separate an inside open from an outside
+//     * open (open having here its topological meaning), then subsequent
+//     * calls to the {@link Region#checkPoint(Point) checkPoint} method will
+//     * not be meaningful anymore.</p>
+//     * <p>If the boundary is empty, the region will represent the whole
+//     * space.</p>
+//     * @param boundary collection of boundary elements, as a
+//     * collection of {@link SubHyperplane SubHyperplane} objects
+//     */
+//    public PolyhedronsSet(final Collection<SubHyperplane<Euclidean3D>> boundary) {
+//        super(boundary);
+//    }
+//
+//    /** Build a parallellepipedic box.
+//     * @param xMin low bound along the x direction
+//     * @param xMax high bound along the x direction
+//     * @param yMin low bound along the y direction
+//     * @param yMax high bound along the y direction
+//     * @param zMin low bound along the z direction
+//     * @param zMax high bound along the z direction
+//     */
+//    public PolyhedronsSet(final double xMin, final double xMax,
+//                          final double yMin, final double yMax,
+//                          final double zMin, final double zMax) {
+//        super(buildBoundary(xMin, xMax, yMin, yMax, zMin, zMax));
+//    }
 
     /** Build a parallellepipedic box boundary.
      * @param xMin low bound along the x direction
@@ -104,17 +170,20 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * @param yMax high bound along the y direction
      * @param zMin low bound along the z direction
      * @param zMax high bound along the z direction
+     * @param tolerance tolerance below which points are considered identical
      * @return boundary tree
+     * @since 3.3
      */
     private static BSPTree<Euclidean3D> buildBoundary(final double xMin, final double xMax,
                                                       final double yMin, final double yMax,
-                                                      final double zMin, final double zMax) {
-        final Plane pxMin = new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I);
-        final Plane pxMax = new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I);
-        final Plane pyMin = new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J);
-        final Plane pyMax = new Plane(new Vector3D(0,    yMax, 0),   Vector3D.PLUS_J);
-        final Plane pzMin = new Plane(new Vector3D(0,    0,   zMin), Vector3D.MINUS_K);
-        final Plane pzMax = new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K);
+                                                      final double zMin, final double zMax,
+                                                      final double tolerance) {
+        final Plane pxMin = new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I, tolerance);
+        final Plane pxMax = new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I,  tolerance);
+        final Plane pyMin = new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J, tolerance);
+        final Plane pyMax = new Plane(new Vector3D(0,    yMax, 0),   Vector3D.PLUS_J,  tolerance);
+        final Plane pzMin = new Plane(new Vector3D(0,    0,   zMin), Vector3D.MINUS_K, tolerance);
+        final Plane pzMax = new Plane(new Vector3D(0,    0,   zMax), Vector3D.PLUS_K,  tolerance);
         @SuppressWarnings("unchecked")
         final Region<Euclidean3D> boundary =
         new RegionFactory<Euclidean3D>().buildConvex(pxMin, pxMax, pyMin, pyMax, pzMin, pzMax);
@@ -124,7 +193,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
     /** {@inheritDoc} */
     @Override
     public PolyhedronsSet buildNew(final BSPTree<Euclidean3D> tree) {
-        return new PolyhedronsSet(tree);
+        return new PolyhedronsSet(tree, getTolerance());
     }
 
     /** {@inheritDoc} */

@@ -52,16 +52,27 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
     /** Create a sub-line from two endpoints.
      * @param start start point
      * @param end end point
+     * @param tolerance tolerance below which points are considered identical
+     * @since 3.3
      */
-    public SubLine(final Vector2D start, final Vector2D end) {
-        super(new Line(start, end), buildIntervalSet(start, end));
+    public SubLine(final Vector2D start, final Vector2D end, final double tolerance) {
+        super(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
+
+//  /** Create a sub-line from two endpoints.
+//  * @param start start point
+//  * @param end end point
+//  */
+// public SubLine(final Vector2D start, final Vector2D end) {
+//     super(new Line(start, end), buildIntervalSet(start, end));
+// }
 
     /** Create a sub-line from a segment.
      * @param segment single segment forming the sub-line
      */
     public SubLine(final Segment segment) {
-        super(segment.getLine(), buildIntervalSet(segment.getStart(), segment.getEnd()));
+        super(segment.getLine(),
+              buildIntervalSet(segment.getStart(), segment.getEnd(), segment.getLine().getTolerance()));
     }
 
     /** Get the endpoints of the sub-line.
@@ -137,12 +148,14 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
     /** Build an interval set from two points.
      * @param start start point
      * @param end end point
+     * @param tolerance tolerance below which points are considered identical
      * @return an interval set
      */
-    private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end) {
-        final Line line = new Line(start, end);
+    private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end, final double tolerance) {
+        final Line line = new Line(start, end, tolerance);
         return new IntervalsSet(line.toSubSpace((Point<Euclidean2D>) start).getX(),
-                                line.toSubSpace((Point<Euclidean2D>) end).getX());
+                                line.toSubSpace((Point<Euclidean2D>) end).getX(),
+                                tolerance);
     }
 
     /** {@inheritDoc} */
@@ -169,7 +182,7 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
         final Vector1D x = thisLine.toSubSpace((Point<Euclidean2D>) crossing);
-        return getRemainingRegion().side(new OrientedPoint(x, direct));
+        return getRemainingRegion().side(new OrientedPoint(x, direct, thisLine.getTolerance()));
 
     }
 
@@ -179,7 +192,8 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
         final Line    thisLine  = (Line) getHyperplane();
         final Line    otherLine = (Line) hyperplane;
-        final Vector2D crossing  = thisLine.intersection(otherLine);
+        final Vector2D crossing = thisLine.intersection(otherLine);
+        final double tolerance  = thisLine.getTolerance();
 
         if (crossing == null) {
             // the lines are parallel
@@ -192,8 +206,10 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         // the lines do intersect
         final boolean direct = FastMath.sin(thisLine.getAngle() - otherLine.getAngle()) < 0;
         final Vector1D x      = thisLine.toSubSpace((Point<Euclidean2D>) crossing);
-        final SubHyperplane<Euclidean1D> subPlus  = new OrientedPoint(x, !direct).wholeHyperplane();
-        final SubHyperplane<Euclidean1D> subMinus = new OrientedPoint(x,  direct).wholeHyperplane();
+        final SubHyperplane<Euclidean1D> subPlus  =
+                new OrientedPoint(x, !direct, tolerance).wholeHyperplane();
+        final SubHyperplane<Euclidean1D> subMinus =
+                new OrientedPoint(x,  direct, tolerance).wholeHyperplane();
 
         final BSPTree<Euclidean1D> splitTree = getRemainingRegion().getTree(false).split(subMinus);
         final BSPTree<Euclidean1D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?
@@ -205,8 +221,8 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
                                                new BSPTree<Euclidean1D>(subMinus, new BSPTree<Euclidean1D>(Boolean.FALSE),
                                                                         splitTree.getMinus(), null);
 
-        return new SplitSubHyperplane<Euclidean2D>(new SubLine(thisLine.copySelf(), new IntervalsSet(plusTree)),
-                                                   new SubLine(thisLine.copySelf(), new IntervalsSet(minusTree)));
+        return new SplitSubHyperplane<Euclidean2D>(new SubLine(thisLine.copySelf(), new IntervalsSet(plusTree, tolerance)),
+                                                   new SubLine(thisLine.copySelf(), new IntervalsSet(minusTree, tolerance)));
 
     }
 

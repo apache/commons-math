@@ -35,15 +35,31 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
     /** Orientation. */
     private boolean direct;
 
+    /** Tolerance below which points are considered to belong to the hyperplane. */
+    private final double tolerance;
+
     /** Simple constructor.
      * @param location location of the hyperplane
      * @param direct if true, the plus side of the hyperplane is towards
      * abscissas greater than {@code location}
+     * @param tolerance tolerance below which points are considered to belong to the hyperplane
+     * @since 3.3
      */
-    public OrientedPoint(final Vector1D location, final boolean direct) {
-        this.location = location;
-        this.direct   = direct;
+    public OrientedPoint(final Vector1D location, final boolean direct, final double tolerance) {
+        this.location  = location;
+        this.direct    = direct;
+        this.tolerance = tolerance;
     }
+
+//    /** Simple constructor.
+//     * @param location location of the hyperplane
+//     * @param direct if true, the plus side of the hyperplane is towards
+//     * abscissas greater than {@code location}
+//     */
+//    public OrientedPoint(final Vector1D location, final boolean direct) {
+//        this.location = location;
+//        this.direct   = direct;
+//    }
 
     /** Copy the instance.
      * <p>Since instances are immutable, this method directly returns
@@ -90,12 +106,17 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * IntervalsSet IntervalsSet} instance)
      */
     public IntervalsSet wholeSpace() {
-        return new IntervalsSet();
+        return new IntervalsSet(tolerance);
     }
 
     /** {@inheritDoc} */
     public boolean sameOrientationAs(final Hyperplane<Euclidean1D> other) {
         return !(direct ^ ((OrientedPoint) other).direct);
+    }
+
+    /** {@inheritDoc} */
+    public double getTolerance() {
+        return tolerance;
     }
 
     /** Get the hyperplane location on the real line.

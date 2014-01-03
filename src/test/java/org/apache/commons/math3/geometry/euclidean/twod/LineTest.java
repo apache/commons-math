@@ -17,6 +17,7 @@
 package org.apache.commons.math3.geometry.euclidean.twod;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
@@ -32,7 +33,7 @@ public class LineTest {
 
     @Test
     public void testContains() {
-        Line l = new Line(new Vector2D(0, 1), new Vector2D(1, 2));
+        Line l = new Line(new Vector2D(0, 1), new Vector2D(1, 2), 1.0e-10);
         Assert.assertTrue(l.contains(new Vector2D(0, 1)));
         Assert.assertTrue(l.contains(new Vector2D(1, 2)));
         Assert.assertTrue(l.contains(new Vector2D(7, 8)));
@@ -41,45 +42,45 @@ public class LineTest {
 
     @Test
     public void testAbscissa() {
-        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
+        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
         Assert.assertEquals(0.0,
-                            (l.toSubSpace(new Vector2D(-3,  4))).getX(),
+                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D(-3,  4))).getX(),
                             1.0e-10);
         Assert.assertEquals(0.0,
-                            (l.toSubSpace(new Vector2D( 3, -4))).getX(),
+                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D( 3, -4))).getX(),
                             1.0e-10);
         Assert.assertEquals(-5.0,
-                            (l.toSubSpace(new Vector2D( 7, -1))).getX(),
+                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D( 7, -1))).getX(),
                             1.0e-10);
         Assert.assertEquals( 5.0,
-                             (l.toSubSpace(new Vector2D(-1, -7))).getX(),
+                             (l.toSubSpace((Point<Euclidean2D>) new Vector2D(-1, -7))).getX(),
                              1.0e-10);
     }
 
     @Test
     public void testOffset() {
-        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
-        Assert.assertEquals(-5.0, l.getOffset(new Vector2D(5, -3)), 1.0e-10);
-        Assert.assertEquals(+5.0, l.getOffset(new Vector2D(-5, 2)), 1.0e-10);
+        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
+        Assert.assertEquals(-5.0, l.getOffset((Point<Euclidean2D>) new Vector2D(5, -3)), 1.0e-10);
+        Assert.assertEquals(+5.0, l.getOffset((Point<Euclidean2D>) new Vector2D(-5, 2)), 1.0e-10);
     }
 
     @Test
     public void testDistance() {
-        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
+        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
         Assert.assertEquals(+5.0, l.distance(new Vector2D(5, -3)), 1.0e-10);
         Assert.assertEquals(+5.0, l.distance(new Vector2D(-5, 2)), 1.0e-10);
     }
 
     @Test
     public void testPointAt() {
-        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2));
+        Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
         for (double a = -2.0; a < 2.0; a += 0.2) {
-            Vector1D pA = new Vector1D(a);
-            Vector2D point = l.toSpace(pA);
+            Point<Euclidean1D> pA = new Vector1D(a);
+            Point<Euclidean2D> point = l.toSpace(pA);
             Assert.assertEquals(a, (l.toSubSpace(point)).getX(), 1.0e-10);
             Assert.assertEquals(0.0, l.getOffset(point),   1.0e-10);
             for (double o = -2.0; o < 2.0; o += 0.2) {
-                point = l.getPointAt(pA, o);
+                point = l.getPointAt((Vector1D) pA, o);
                 Assert.assertEquals(a, (l.toSubSpace(point)).getX(), 1.0e-10);
                 Assert.assertEquals(o, l.getOffset(point),   1.0e-10);
             }
@@ -88,34 +89,34 @@ public class LineTest {
 
     @Test
     public void testOriginOffset() {
-        Line l1 = new Line(new Vector2D(0, 1), new Vector2D(1, 2));
+        Line l1 = new Line(new Vector2D(0, 1), new Vector2D(1, 2), 1.0e-10);
         Assert.assertEquals(FastMath.sqrt(0.5), l1.getOriginOffset(), 1.0e-10);
-        Line l2 = new Line(new Vector2D(1, 2), new Vector2D(0, 1));
+        Line l2 = new Line(new Vector2D(1, 2), new Vector2D(0, 1), 1.0e-10);
         Assert.assertEquals(-FastMath.sqrt(0.5), l2.getOriginOffset(), 1.0e-10);
     }
 
     @Test
     public void testParallel() {
-        Line l1 = new Line(new Vector2D(0, 1), new Vector2D(1, 2));
-        Line l2 = new Line(new Vector2D(2, 2), new Vector2D(3, 3));
+        Line l1 = new Line(new Vector2D(0, 1), new Vector2D(1, 2), 1.0e-10);
+        Line l2 = new Line(new Vector2D(2, 2), new Vector2D(3, 3), 1.0e-10);
         Assert.assertTrue(l1.isParallelTo(l2));
-        Line l3 = new Line(new Vector2D(1, 0), new Vector2D(0.5, -0.5));
+        Line l3 = new Line(new Vector2D(1, 0), new Vector2D(0.5, -0.5), 1.0e-10);
         Assert.assertTrue(l1.isParallelTo(l3));
-        Line l4 = new Line(new Vector2D(1, 0), new Vector2D(0.5, -0.51));
+        Line l4 = new Line(new Vector2D(1, 0), new Vector2D(0.5, -0.51), 1.0e-10);
         Assert.assertTrue(! l1.isParallelTo(l4));
     }
 
     @Test
     public void testTransform() throws MathIllegalArgumentException {
 
-        Line l1 = new Line(new Vector2D(1.0 ,1.0), new Vector2D(4.0 ,1.0));
+        Line l1 = new Line(new Vector2D(1.0 ,1.0), new Vector2D(4.0 ,1.0), 1.0e-10);
         Transform<Euclidean2D, Euclidean1D> t1 =
             Line.getTransform(new AffineTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5));
         Assert.assertEquals(0.5 * FastMath.PI,
                             ((Line) t1.apply(l1)).getAngle(),
                             1.0e-10);
 
-        Line l2 = new Line(new Vector2D(0.0, 0.0), new Vector2D(1.0, 1.0));
+        Line l2 = new Line(new Vector2D(0.0, 0.0), new Vector2D(1.0, 1.0), 1.0e-10);
         Transform<Euclidean2D, Euclidean1D> t2 =
             Line.getTransform(new AffineTransform(0.0, 0.5, -1.0, 0.0, 1.0, 1.5));
         Assert.assertEquals(FastMath.atan2(1.0, -2.0),
@@ -126,8 +127,8 @@ public class LineTest {
 
     @Test
     public void testIntersection() {
-        Line    l1 = new Line(new Vector2D( 0, 1), new Vector2D(1, 2));
-        Line    l2 = new Line(new Vector2D(-1, 2), new Vector2D(2, 1));
+        Line    l1 = new Line(new Vector2D( 0, 1), new Vector2D(1, 2), 1.0e-10);
+        Line    l2 = new Line(new Vector2D(-1, 2), new Vector2D(2, 1), 1.0e-10);
         Vector2D p  = l1.intersection(l2);
         Assert.assertEquals(0.5, p.getX(), 1.0e-10);
         Assert.assertEquals(1.5, p.getY(), 1.0e-10);

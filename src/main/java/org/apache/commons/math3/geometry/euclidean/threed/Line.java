@@ -47,13 +47,20 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     /** Line point closest to the origin. */
     private Vector3D zero;
 
+    /** Tolerance below which points are considered identical. */
+    private final double tolerance;
+
     /** Build a line from two points.
      * @param p1 first point belonging to the line (this can be any point)
      * @param p2 second point belonging to the line (this can be any point, different from p1)
+     * @param tolerance tolerance below which points are considered identical
      * @exception MathIllegalArgumentException if the points are equal
+     * @since 3.3
      */
-    public Line(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
+    public Line(final Vector3D p1, final Vector3D p2, final double tolerance)
+        throws MathIllegalArgumentException {
         reset(p1, p2);
+        this.tolerance = tolerance;
     }
 
     /** Copy constructor.
@@ -64,7 +71,17 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
     public Line(final Line line) {
         this.direction = line.direction;
         this.zero      = line.zero;
+        this.tolerance = line.tolerance;
     }
+
+//    /** Build a line from two points.
+//     * @param p1 first point belonging to the line (this can be any point)
+//     * @param p2 second point belonging to the line (this can be any point, different from p1)
+//     * @exception MathIllegalArgumentException if the points are equal
+//     */
+//    public Line(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
+//        reset(p1, p2);
+//    }
 
     /** Reset the instance as if built from two points.
      * @param p1 first point belonging to the line (this can be any point)
@@ -79,6 +96,14 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
         }
         this.direction = new Vector3D(1.0 / FastMath.sqrt(norm2), delta);
         zero = new Vector3D(1.0, p1, -p1.dotProduct(delta) / norm2, delta);
+    }
+
+    /** Get the tolerance below which points are considered identical.
+     * @return tolerance below which points are considered identical
+     * @since 3.3
+     */
+    public double getTolerance() {
+        return tolerance;
     }
 
     /** Get a line with reversed direction.
@@ -168,7 +193,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      */
     public boolean isSimilarTo(final Line line) {
         final double angle = Vector3D.angle(direction, line.direction);
-        return ((angle < 1.0e-10) || (angle > (FastMath.PI - 1.0e-10))) && contains(line.zero);
+        return ((angle < tolerance) || (angle > (FastMath.PI - tolerance))) && contains(line.zero);
     }
 
     /** Check if the instance contains a point.
@@ -176,7 +201,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @return true if p belongs to the line
      */
     public boolean contains(final Vector3D p) {
-        return distance(p) < 1.0e-10;
+        return distance(p) < tolerance;
     }
 
     /** Compute the distance between the instance and a point.
@@ -244,7 +269,7 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
      * @return a sub-line covering the whole line
      */
     public SubLine wholeLine() {
-        return new SubLine(this, new IntervalsSet());
+        return new SubLine(this, new IntervalsSet(tolerance));
     }
 
 }

@@ -42,6 +42,9 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     /** Inside/Outside BSP tree. */
     private BSPTree<S> tree;
 
+    /** Tolerance below which points are considered to belong to hyperplanes. */
+    private final double tolerance;
+
     /** Size of the instance. */
     private double size;
 
@@ -49,9 +52,11 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     private Point<S> barycenter;
 
     /** Build a region representing the whole space.
+     * @param tolerance tolerance below which points are considered identical.
      */
-    protected AbstractRegion() {
-        tree = new BSPTree<S>(Boolean.TRUE);
+    protected AbstractRegion(final double tolerance) {
+        this.tree      = new BSPTree<S>(Boolean.TRUE);
+        this.tolerance = tolerance;
     }
 
     /** Build a region from an inside/outside BSP tree.
@@ -65,9 +70,11 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * internal nodes representing the boundary as specified in the
      * {@link #getTree getTree} method).</p>
      * @param tree inside/outside BSP tree representing the region
+     * @param tolerance tolerance below which points are considered identical.
      */
-    protected AbstractRegion(final BSPTree<S> tree) {
-        this.tree = tree;
+    protected AbstractRegion(final BSPTree<S> tree, final double tolerance) {
+        this.tree      = tree;
+        this.tolerance = tolerance;
     }
 
     /** Build a Region from a Boundary REPresentation (B-rep).
@@ -88,8 +95,11 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * space.</p>
      * @param boundary collection of boundary elements, as a
      * collection of {@link SubHyperplane SubHyperplane} objects
+     * @param tolerance tolerance below which points are considered identical.
      */
-    protected AbstractRegion(final Collection<SubHyperplane<S>> boundary) {
+    protected AbstractRegion(final Collection<SubHyperplane<S>> boundary, final double tolerance) {
+
+        this.tolerance = tolerance;
 
         if (boundary.size() == 0) {
 
@@ -143,8 +153,10 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     /** Build a convex region from an array of bounding hyperplanes.
      * @param hyperplanes array of bounding hyperplanes (if null, an
      * empty region will be built)
+     * @param tolerance tolerance below which points are considered identical.
      */
-    public AbstractRegion(final Hyperplane<S>[] hyperplanes) {
+    public AbstractRegion(final Hyperplane<S>[] hyperplanes, final double tolerance) {
+        this.tolerance = tolerance;
         if ((hyperplanes == null) || (hyperplanes.length == 0)) {
             tree = new BSPTree<S>(Boolean.FALSE);
         } else {
@@ -170,6 +182,13 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
     /** {@inheritDoc} */
     public abstract AbstractRegion<S, T> buildNew(BSPTree<S> newTree);
+
+    /** Get the tolerance below which points are considered to belong to hyperplanes.
+     * @return tolerance below which points are considered to belong to hyperplanes
+     */
+    public double getTolerance() {
+        return tolerance;
+    }
 
     /** Recursively build a tree by inserting cut sub-hyperplanes.
      * @param node current tree node (it is a leaf node at the beginning
@@ -291,7 +310,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * OUTSIDE} or {@link Region.Location#BOUNDARY BOUNDARY}
      */
     protected Location checkPoint(final BSPTree<S> node, final Point<S> point) {
-        final BSPTree<S> cell = node.getCell(point);
+        final BSPTree<S> cell = node.getCell(point, tolerance);
         if (cell.getCut() == null) {
             // the point is in the interior of a cell, just check the attribute
             return ((Boolean) cell.getAttribute()) ? Location.INSIDE : Location.OUTSIDE;

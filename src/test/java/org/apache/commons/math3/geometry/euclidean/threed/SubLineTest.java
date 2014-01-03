@@ -31,7 +31,7 @@ public class SubLineTest {
     public void testEndPoints() throws MathIllegalArgumentException {
         Vector3D p1 = new Vector3D(-1, -7, 2);
         Vector3D p2 = new Vector3D(7, -1, 0);
-        Segment segment = new Segment(p1, p2, new Line(p1, p2));
+        Segment segment = new Segment(p1, p2, new Line(p1, p2, 1.0e-10));
         SubLine sub = new SubLine(segment);
         List<Segment> segments = sub.getSegments();
         Assert.assertEquals(1, segments.size());
@@ -41,7 +41,7 @@ public class SubLineTest {
 
     @Test
     public void testNoEndPoints() throws MathIllegalArgumentException {
-        SubLine wholeLine = new Line(new Vector3D(-1, 7, 2), new Vector3D(7, 1, 0)).wholeLine();
+        SubLine wholeLine = new Line(new Vector3D(-1, 7, 2), new Vector3D(7, 1, 0), 1.0e-10).wholeLine();
         List<Segment> segments = wholeLine.getSegments();
         Assert.assertEquals(1, segments.size());
         Assert.assertTrue(Double.isInfinite(segments.get(0).getStart().getX()) &&
@@ -60,25 +60,25 @@ public class SubLineTest {
 
     @Test
     public void testNoSegments() throws MathIllegalArgumentException {
-        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, 0)),
-                                    (IntervalsSet) new RegionFactory<Euclidean1D>().getComplement(new IntervalsSet()));
+        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, 0), 1.0e-10),
+                                    (IntervalsSet) new RegionFactory<Euclidean1D>().getComplement(new IntervalsSet(1.0e-10)));
         List<Segment> segments = empty.getSegments();
         Assert.assertEquals(0, segments.size());
     }
 
     @Test
     public void testSeveralSegments() throws MathIllegalArgumentException {
-        SubLine twoSubs = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, 0)),
-                                      (IntervalsSet) new RegionFactory<Euclidean1D>().union(new IntervalsSet(1, 2),
-                                                                                            new IntervalsSet(3, 4)));
+        SubLine twoSubs = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, 0), 1.0e-10),
+                                      (IntervalsSet) new RegionFactory<Euclidean1D>().union(new IntervalsSet(1, 2, 1.0e-10),
+                                                                                            new IntervalsSet(3, 4, 1.0e-10)));
         List<Segment> segments = twoSubs.getSegments();
         Assert.assertEquals(2, segments.size());
     }
 
     @Test
     public void testHalfInfiniteNeg() throws MathIllegalArgumentException {
-        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, -2)),
-                                    new IntervalsSet(Double.NEGATIVE_INFINITY, 0.0));
+        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, -2), 1.0e-10),
+                                    new IntervalsSet(Double.NEGATIVE_INFINITY, 0.0, 1.0e-10));
         List<Segment> segments = empty.getSegments();
         Assert.assertEquals(1, segments.size());
         Assert.assertTrue(Double.isInfinite(segments.get(0).getStart().getX()) &&
@@ -92,8 +92,8 @@ public class SubLineTest {
 
     @Test
     public void testHalfInfinitePos() throws MathIllegalArgumentException {
-        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, -2)),
-                                    new IntervalsSet(0.0, Double.POSITIVE_INFINITY));
+        SubLine empty = new SubLine(new Line(new Vector3D(-1, -7, 2), new Vector3D(7, -1, -2), 1.0e-10),
+                                    new IntervalsSet(0.0, Double.POSITIVE_INFINITY, 1.0e-10));
         List<Segment> segments = empty.getSegments();
         Assert.assertEquals(1, segments.size());
         Assert.assertEquals(0.0, new Vector3D(3, -4, 0).distance(segments.get(0).getStart()), 1.0e-10);
@@ -107,56 +107,56 @@ public class SubLineTest {
 
     @Test
     public void testIntersectionInsideInside() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 2, 2));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 2, 2), 1.0e-10);
         Assert.assertEquals(0.0, new Vector3D(2, 1, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
         Assert.assertEquals(0.0, new Vector3D(2, 1, 1).distance(sub1.intersection(sub2, false)), 1.0e-12);
     }
 
     @Test
     public void testIntersectionInsideBoundary() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 1, 1));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 1, 1), 1.0e-10);
         Assert.assertEquals(0.0, new Vector3D(2, 1, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
     @Test
     public void testIntersectionInsideOutside() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(3, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5), 1.0e-10);
         Assert.assertNull(sub1.intersection(sub2, true));
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
     @Test
     public void testIntersectionBoundaryBoundary() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(2, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 1, 1));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(2, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 1, 1), 1.0e-10);
         Assert.assertEquals(0.0, new Vector3D(2, 1, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
     @Test
     public void testIntersectionBoundaryOutside() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(2, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(2, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5), 1.0e-10);
         Assert.assertNull(sub1.intersection(sub2, true));
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
     @Test
     public void testIntersectionOutsideOutside() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(1.5, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(1.5, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 0, 0), new Vector3D(2, 0.5, 0.5), 1.0e-10);
         Assert.assertNull(sub1.intersection(sub2, true));
         Assert.assertNull(sub1.intersection(sub2, false));
     }
     
     @Test
     public void testIntersectionNotIntersecting() throws MathIllegalArgumentException {
-        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(1.5, 1, 1));
-        SubLine sub2 = new SubLine(new Vector3D(2, 3, 0), new Vector3D(2, 3, 0.5));
+        SubLine sub1 = new SubLine(new Vector3D(1, 1, 1), new Vector3D(1.5, 1, 1), 1.0e-10);
+        SubLine sub2 = new SubLine(new Vector3D(2, 3, 0), new Vector3D(2, 3, 0.5), 1.0e-10);
         Assert.assertNull(sub1.intersection(sub2, true));
         Assert.assertNull(sub1.intersection(sub2, false));
     }

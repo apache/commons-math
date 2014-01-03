@@ -32,10 +32,15 @@ import org.apache.commons.math3.util.Precision;
  */
 public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
 
+    /** Default value for tolerance. */
+    private static final double DEFAULT_TOLERANCE = 1.0e-10;
+
     /** Build an intervals set representing the whole real line.
+     * @param tolerance tolerance below which points are considered identical.
+     * @since 3.3
      */
-    public IntervalsSet() {
-        super();
+    public IntervalsSet(final double tolerance) {
+        super(tolerance);
     }
 
     /** Build an intervals set corresponding to a single interval.
@@ -43,9 +48,11 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
      * @param upper upper bound of the interval, must be greater or equal
      * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
+     * @param tolerance tolerance below which points are considered identical.
+     * @since 3.3
      */
-    public IntervalsSet(final double lower, final double upper) {
-        super(buildTree(lower, upper));
+    public IntervalsSet(final double lower, final double upper, final double tolerance) {
+        super(buildTree(lower, upper, tolerance), tolerance);
     }
 
     /** Build an intervals set from an inside/outside BSP tree.
@@ -56,9 +63,11 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * @param tree inside/outside BSP tree representing the intervals set
+     * @param tolerance tolerance below which points are considered identical.
+     * @since 3.3
      */
-    public IntervalsSet(final BSPTree<Euclidean1D> tree) {
-        super(tree);
+    public IntervalsSet(final BSPTree<Euclidean1D> tree, final double tolerance) {
+        super(tree, tolerance);
     }
 
     /** Build an intervals set from a Boundary REPresentation (B-rep).
@@ -79,19 +88,76 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
      * @param boundary collection of boundary elements
+     * @param tolerance tolerance below which points are considered identical.
+     * @since 3.3
      */
-    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary) {
-        super(boundary);
+    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary,
+                        final double tolerance) {
+        super(boundary, tolerance);
     }
+
+//    /** Build an intervals set representing the whole real line.
+//     */
+//    public IntervalsSet() {
+//        super();
+//    }
+//
+//    /** Build an intervals set corresponding to a single interval.
+//     * @param lower lower bound of the interval, must be lesser or equal
+//     * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
+//     * @param upper upper bound of the interval, must be greater or equal
+//     * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
+//     */
+//    public IntervalsSet(final double lower, final double upper) {
+//        super(buildTree(lower, upper));
+//    }
+//
+//    /** Build an intervals set from an inside/outside BSP tree.
+//     * <p>The leaf nodes of the BSP tree <em>must</em> have a
+//     * {@code Boolean} attribute representing the inside status of
+//     * the corresponding cell (true for inside cells, false for outside
+//     * cells). In order to avoid building too many small objects, it is
+//     * recommended to use the predefined constants
+//     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+//     * @param tree inside/outside BSP tree representing the intervals set
+//     */
+//    public IntervalsSet(final BSPTree<Euclidean1D> tree) {
+//        super(tree);
+//    }
+//
+//    /** Build an intervals set from a Boundary REPresentation (B-rep).
+//     * <p>The boundary is provided as a collection of {@link
+//     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
+//     * interior part of the region on its minus side and the exterior on
+//     * its plus side.</p>
+//     * <p>The boundary elements can be in any order, and can form
+//     * several non-connected sets (like for example polygons with holes
+//     * or a set of disjoints polyhedrons considered as a whole). In
+//     * fact, the elements do not even need to be connected together
+//     * (their topological connections are not used here). However, if the
+//     * boundary does not really separate an inside open from an outside
+//     * open (open having here its topological meaning), then subsequent
+//     * calls to the {@link
+//     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+//     * checkPoint} method will not be meaningful anymore.</p>
+//     * <p>If the boundary is empty, the region will represent the whole
+//     * space.</p>
+//     * @param boundary collection of boundary elements
+//     */
+//    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary) {
+//        super(boundary);
+//    }
 
     /** Build an inside/outside tree representing a single interval.
      * @param lower lower bound of the interval, must be lesser or equal
      * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
      * @param upper upper bound of the interval, must be greater or equal
      * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
+     * @param tolerance tolerance below which points are considered identical.
      * @return the built tree
      */
-    private static BSPTree<Euclidean1D> buildTree(final double lower, final double upper) {
+    private static BSPTree<Euclidean1D> buildTree(final double lower, final double upper,
+                                                  final double tolerance) {
         if (Double.isInfinite(lower) && (lower < 0)) {
             if (Double.isInfinite(upper) && (upper > 0)) {
                 // the tree must cover the whole real line
@@ -99,14 +165,14 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
             }
             // the tree must be open on the negative infinity side
             final SubHyperplane<Euclidean1D> upperCut =
-                new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();
+                new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
             return new BSPTree<Euclidean1D>(upperCut,
                                new BSPTree<Euclidean1D>(Boolean.FALSE),
                                new BSPTree<Euclidean1D>(Boolean.TRUE),
                                null);
         }
         final SubHyperplane<Euclidean1D> lowerCut =
-            new OrientedPoint(new Vector1D(lower), false).wholeHyperplane();
+            new OrientedPoint(new Vector1D(lower), false, tolerance).wholeHyperplane();
         if (Double.isInfinite(upper) && (upper > 0)) {
             // the tree must be open on the positive infinity side
             return new BSPTree<Euclidean1D>(lowerCut,
@@ -117,7 +183,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
 
         // the tree must be bounded on the two sides
         final SubHyperplane<Euclidean1D> upperCut =
-            new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();
+            new OrientedPoint(new Vector1D(upper), true, tolerance).wholeHyperplane();
         return new BSPTree<Euclidean1D>(lowerCut,
                                         new BSPTree<Euclidean1D>(Boolean.FALSE),
                                         new BSPTree<Euclidean1D>(upperCut,
@@ -131,7 +197,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
     /** {@inheritDoc} */
     @Override
     public IntervalsSet buildNew(final BSPTree<Euclidean1D> tree) {
-        return new IntervalsSet(tree);
+        return new IntervalsSet(tree, getTolerance());
     }
 
     /** {@inheritDoc} */

@@ -64,7 +64,7 @@ public class OutlineExtractor {
     public Vector2D[][] getOutline(final PolyhedronsSet polyhedronsSet) {
 
         // project all boundary facets into one polygons set
-        final BoundaryProjector projector = new BoundaryProjector();
+        final BoundaryProjector projector = new BoundaryProjector(polyhedronsSet.getTolerance());
         polyhedronsSet.getTree(true).visit(projector);
         final PolygonsSet projected = projector.getProjected();
 
@@ -125,10 +125,15 @@ public class OutlineExtractor {
         /** Projection of the polyhedrons set on the plane. */
         private PolygonsSet projected;
 
+        /** Tolerance below which points are considered identical. */
+        private final double tolerance;
+
         /** Simple constructor.
+         * @param tolerance tolerance below which points are considered identical
          */
-        public BoundaryProjector() {
-            projected = new PolygonsSet(new BSPTree<Euclidean2D>(Boolean.FALSE));
+        public BoundaryProjector(final double tolerance) {
+            this.projected = new PolygonsSet(new BSPTree<Euclidean2D>(Boolean.FALSE), tolerance);
+            this.tolerance = tolerance;
         }
 
         /** {@inheritDoc} */
@@ -210,7 +215,7 @@ public class OutlineExtractor {
                         final Vector2D  cPoint    = new Vector2D(current3D.dotProduct(u),
                                                                  current3D.dotProduct(v));
                         final org.apache.commons.math3.geometry.euclidean.twod.Line line =
-                            new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, cPoint);
+                            new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, cPoint, tolerance);
                         SubHyperplane<Euclidean2D> edge = line.wholeHyperplane();
 
                         if (closed || (previous != 1)) {
@@ -218,7 +223,7 @@ public class OutlineExtractor {
                             // it defines one bounding point of the edge
                             final double angle = line.getAngle() + 0.5 * FastMath.PI;
                             final org.apache.commons.math3.geometry.euclidean.twod.Line l =
-                                new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, angle);
+                                new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, angle, tolerance);
                             edge = edge.split(l).getPlus();
                         }
 
@@ -227,7 +232,7 @@ public class OutlineExtractor {
                             // it defines one bounding point of the edge
                             final double angle = line.getAngle() + 0.5 * FastMath.PI;
                             final org.apache.commons.math3.geometry.euclidean.twod.Line l =
-                                new org.apache.commons.math3.geometry.euclidean.twod.Line(cPoint, angle);
+                                new org.apache.commons.math3.geometry.euclidean.twod.Line(cPoint, angle, tolerance);
                             edge = edge.split(l).getMinus();
                         }
 
@@ -239,7 +244,7 @@ public class OutlineExtractor {
 
                     }
                 }
-                final PolygonsSet projectedFacet = new PolygonsSet(edges);
+                final PolygonsSet projectedFacet = new PolygonsSet(edges, tolerance);
 
                 // add the contribution of the facet to the global outline
                 projected = (PolygonsSet) new RegionFactory<Euclidean2D>().union(projected, projectedFacet);

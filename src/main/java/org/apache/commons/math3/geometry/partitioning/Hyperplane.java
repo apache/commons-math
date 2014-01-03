@@ -55,6 +55,12 @@ public interface Hyperplane<S extends Space> {
      */
     double getOffset(Point<S> point);
 
+    /** Get the tolerance below which points are considered to belong to the hyperplane.
+     * @return tolerance below which points are considered to belong to the hyperplane
+     * @since 3.3
+     */
+    double getTolerance();
+
     /** Check if the instance has the same orientation as another hyperplane.
      * <p>This method is expected to be called on parallel hyperplanes. The
      * method should <em>not</em> re-check for parallelism, only for

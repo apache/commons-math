@@ -226,7 +226,7 @@ public class PolygonsSetTest {
         };
         PolygonsSet set = buildSet(vertices);
 
-        Line l1 = new Line(new Vector2D(-1.5, 0.0), FastMath.PI / 4);
+        Line l1 = new Line(new Vector2D(-1.5, 0.0), FastMath.PI / 4, 1.0e-10);
         SubLine s1 = (SubLine) set.intersection(l1.wholeHyperplane());
         List<Interval> i1 = ((IntervalsSet) s1.getRemainingRegion()).asList();
         Assert.assertEquals(2, i1.size());
@@ -245,7 +245,7 @@ public class PolygonsSetTest {
         Assert.assertEquals(1.5, p11Upper.getX(), 1.0e-10);
         Assert.assertEquals(3.0, p11Upper.getY(), 1.0e-10);
 
-        Line l2 = new Line(new Vector2D(-1.0, 2.0), 0);
+        Line l2 = new Line(new Vector2D(-1.0, 2.0), 0, 1.0e-10);
         SubLine s2 = (SubLine) set.intersection(l2.wholeHyperplane());
         List<Interval> i2 = ((IntervalsSet) s2.getRemainingRegion()).asList();
         Assert.assertEquals(1, i2.size());
@@ -573,13 +573,13 @@ public class PolygonsSetTest {
         double pi6   = FastMath.PI / 6.0;
         double sqrt3 = FastMath.sqrt(3.0);
         SubLine[] hyp = {
-            new Line(new Vector2D(   0.0, 1.0),  5 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(-sqrt3, 1.0),  7 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(-sqrt3, 1.0),  9 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(-sqrt3, 0.0), 11 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(   0.0, 0.0), 13 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(   0.0, 1.0),  3 * pi6).wholeHyperplane(),
-            new Line(new Vector2D(-5.0 * sqrt3 / 6.0, 0.0), 9 * pi6).wholeHyperplane()
+            new Line(new Vector2D(   0.0, 1.0),  5 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(-sqrt3, 1.0),  7 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(-sqrt3, 1.0),  9 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(-sqrt3, 0.0), 11 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(   0.0, 0.0), 13 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(   0.0, 1.0),  3 * pi6, 1.0e-10).wholeHyperplane(),
+            new Line(new Vector2D(-5.0 * sqrt3 / 6.0, 0.0), 9 * pi6, 1.0e-10).wholeHyperplane()
         };
         hyp[1] = (SubLine) hyp[1].split(hyp[0].getHyperplane()).getMinus();
         hyp[2] = (SubLine) hyp[2].split(hyp[1].getHyperplane()).getMinus();
@@ -591,13 +591,14 @@ public class PolygonsSetTest {
         for (int i = hyp.length - 1; i >= 0; --i) {
             tree = new BSPTree<Euclidean2D>(hyp[i], new BSPTree<Euclidean2D>(Boolean.FALSE), tree, null);
         }
-        PolygonsSet set = new PolygonsSet(tree);
+        PolygonsSet set = new PolygonsSet(tree, 1.0e-10);
         SubLine splitter =
-            new Line(new Vector2D(-2.0 * sqrt3 / 3.0, 0.0), 9 * pi6).wholeHyperplane();
+            new Line(new Vector2D(-2.0 * sqrt3 / 3.0, 0.0), 9 * pi6, 1.0e-10).wholeHyperplane();
         PolygonsSet slice =
             new PolygonsSet(new BSPTree<Euclidean2D>(splitter,
                                                      set.getTree(false).split(splitter).getPlus(),
-                                                     new BSPTree<Euclidean2D>(Boolean.FALSE), null));
+                                                     new BSPTree<Euclidean2D>(Boolean.FALSE), null),
+                            1.0e-10);
         Assert.assertEquals(Region.Location.OUTSIDE,
                             slice.checkPoint(new Vector2D(0.1, 0.5)));
         Assert.assertEquals(11.0 / 3.0, slice.getBoundarySize(), 1.0e-10);
@@ -720,8 +721,8 @@ public class PolygonsSetTest {
                                                new BSPTree<Euclidean2D>(Boolean.FALSE), b5, null);
 
         PolygonsSet c =
-            (PolygonsSet) new RegionFactory<Euclidean2D>().union(new PolygonsSet(a9),
-                                                                 new PolygonsSet(b6));
+            (PolygonsSet) new RegionFactory<Euclidean2D>().union(new PolygonsSet(a9, 1.0e-10),
+                                                                 new PolygonsSet(b6, 1.0e-10));
 
         checkPoints(Region.Location.INSIDE, c, new Vector2D[] {
             new Vector2D(0.83, -0.06),
@@ -767,35 +768,37 @@ public class PolygonsSetTest {
 
         Line[] l = {
             new Line(new Vector2D(0.0, 0.625000007541172),
-                     new Vector2D(1.0, 0.625000007541172)),
+                     new Vector2D(1.0, 0.625000007541172), 1.0e-10),
                      new Line(new Vector2D(-0.19204433621902645, 0.0),
-                              new Vector2D(-0.19204433621902645, 1.0)),
+                              new Vector2D(-0.19204433621902645, 1.0), 1.0e-10),
                               new Line(new Vector2D(-0.40303524786887,  0.4248364535319128),
-                                       new Vector2D(-1.12851149797877, -0.2634107480798909)),
+                                       new Vector2D(-1.12851149797877, -0.2634107480798909), 1.0e-10),
                                        new Line(new Vector2D(0.0, 2.0),
-                                                new Vector2D(1.0, 2.0))
+                                                new Vector2D(1.0, 2.0), 1.0e-10)
         };
 
         BSPTree<Euclidean2D> node1 =
             new BSPTree<Euclidean2D>(new SubLine(l[0],
                                           new IntervalsSet(intersectionAbscissa(l[0], l[1]),
-                                                           intersectionAbscissa(l[0], l[2]))),
+                                                           intersectionAbscissa(l[0], l[2]),
+                                                           1.0e-10)),
                                                            new BSPTree<Euclidean2D>(Boolean.TRUE), new BSPTree<Euclidean2D>(Boolean.FALSE),
                                                            null);
         BSPTree<Euclidean2D> node2 =
             new BSPTree<Euclidean2D>(new SubLine(l[1],
                                           new IntervalsSet(intersectionAbscissa(l[1], l[2]),
-                                                           intersectionAbscissa(l[1], l[3]))),
+                                                           intersectionAbscissa(l[1], l[3]),
+                                                           1.0e-10)),
                                                            node1, new BSPTree<Euclidean2D>(Boolean.FALSE), null);
         BSPTree<Euclidean2D> node3 =
             new BSPTree<Euclidean2D>(new SubLine(l[2],
                                           new IntervalsSet(intersectionAbscissa(l[2], l[3]),
-                                                           Double.POSITIVE_INFINITY)),
+                                                           Double.POSITIVE_INFINITY, 1.0e-10)),
                                                            node2, new BSPTree<Euclidean2D>(Boolean.FALSE), null);
         BSPTree<Euclidean2D> node4 =
             new BSPTree<Euclidean2D>(l[3].wholeHyperplane(), node3, new BSPTree<Euclidean2D>(Boolean.FALSE), null);
 
-        PolygonsSet set = new PolygonsSet(node4);
+        PolygonsSet set = new PolygonsSet(node4, 1.0e-10);
         Assert.assertEquals(0, set.getVertices().length);
 
     }
@@ -991,11 +994,11 @@ public class PolygonsSetTest {
                 edges.add(buildSegment(vertices[i][j], vertices[i][(j + 1) % l]));
             }
         }
-        return new PolygonsSet(edges);
+        return new PolygonsSet(edges, 1.0e-10);
     }
 
     private SubHyperplane<Euclidean2D> buildLine(Vector2D start, Vector2D end) {
-        return new Line(start, end).wholeHyperplane();
+        return new Line(start, end, 1.0e-10).wholeHyperplane();
     }
 
     private double intersectionAbscissa(Line l0, Line l1) {
@@ -1005,21 +1008,21 @@ public class PolygonsSetTest {
 
     private SubHyperplane<Euclidean2D> buildHalfLine(Vector2D start, Vector2D end,
                                                      boolean startIsVirtual) {
-        Line   line  = new Line(start, end);
+        Line   line  = new Line(start, end, 1.0e-10);
         double lower = startIsVirtual
         ? Double.NEGATIVE_INFINITY
         : (line.toSubSpace(start)).getX();
         double upper = startIsVirtual
         ? (line.toSubSpace(end)).getX()
         : Double.POSITIVE_INFINITY;
-        return new SubLine(line, new IntervalsSet(lower, upper));
+        return new SubLine(line, new IntervalsSet(lower, upper, 1.0e-10));
     }
 
     private SubHyperplane<Euclidean2D> buildSegment(Vector2D start, Vector2D end) {
-        Line   line  = new Line(start, end);
+        Line   line  = new Line(start, end, 1.0e-10);
         double lower = (line.toSubSpace(start)).getX();
         double upper = (line.toSubSpace(end)).getX();
-        return new SubLine(line, new IntervalsSet(lower, upper));
+        return new SubLine(line, new IntervalsSet(lower, upper, 1.0e-10));
     }
 
     private void checkPoints(Region.Location expected, PolygonsSet set,
@@ -1032,7 +1035,7 @@ public class PolygonsSetTest {
     private boolean checkInSegment(Vector2D p,
                                    Vector2D p1, Vector2D p2,
                                    double tolerance) {
-        Line line = new Line(p1, p2);
+        Line line = new Line(p1, p2, 1.0e-10);
         if (line.getOffset(p) < tolerance) {
             double x  = (line.toSubSpace(p)).getX();
             double x1 = (line.toSubSpace(p1)).getX();
