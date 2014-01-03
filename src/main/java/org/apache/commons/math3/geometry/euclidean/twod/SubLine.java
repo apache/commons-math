@@ -40,6 +40,9 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
 
+    /** Default value for tolerance. */
+    private static final double DEFAULT_TOLERANCE = 1.0e-10;
+
     /** Simple constructor.
      * @param hyperplane underlying hyperplane
      * @param remainingRegion remaining region of the hyperplane
@@ -59,13 +62,15 @@ public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {
         super(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
     }
 
-//  /** Create a sub-line from two endpoints.
-//  * @param start start point
-//  * @param end end point
-//  */
-// public SubLine(final Vector2D start, final Vector2D end) {
-//     super(new Line(start, end), buildIntervalSet(start, end));
-// }
+    /** Create a sub-line from two endpoints.
+     * @param start start point
+     * @param end end point
+     * @deprecated as of 3.3, replaced with {@link #SubLine(Vector2D, Vector2D, double)}
+     */
+    @Deprecated
+    public SubLine(final Vector2D start, final Vector2D end) {
+        this(start, end, DEFAULT_TOLERANCE);
+    }
 
     /** Create a sub-line from a segment.
      * @param segment single segment forming the sub-line

@@ -29,6 +29,9 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
  */
 public class OrientedPoint implements Hyperplane<Euclidean1D> {
 
+    /** Default value for tolerance. */
+    private static final double DEFAULT_TOLERANCE = 1.0e-10;
+
     /** Vector location. */
     private Vector1D location;
 
@@ -51,15 +54,16 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
         this.tolerance = tolerance;
     }
 
-//    /** Simple constructor.
-//     * @param location location of the hyperplane
-//     * @param direct if true, the plus side of the hyperplane is towards
-//     * abscissas greater than {@code location}
-//     */
-//    public OrientedPoint(final Vector1D location, final boolean direct) {
-//        this.location = location;
-//        this.direct   = direct;
-//    }
+    /** Simple constructor.
+     * @param location location of the hyperplane
+     * @param direct if true, the plus side of the hyperplane is towards
+     * abscissas greater than {@code location}
+     * @deprecated as of 3.3, replaced with {@link #OrientedPoint(Vector1D, boolean, double)}
+     */
+    @Deprecated
+    public OrientedPoint(final Vector1D location, final boolean direct) {
+        this(location, direct, DEFAULT_TOLERANCE);
+    }
 
     /** Copy the instance.
      * <p>Since instances are immutable, this method directly returns

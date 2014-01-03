@@ -96,57 +96,65 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
         super(boundary, tolerance);
     }
 
-//    /** Build an intervals set representing the whole real line.
-//     */
-//    public IntervalsSet() {
-//        super();
-//    }
-//
-//    /** Build an intervals set corresponding to a single interval.
-//     * @param lower lower bound of the interval, must be lesser or equal
-//     * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
-//     * @param upper upper bound of the interval, must be greater or equal
-//     * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
-//     */
-//    public IntervalsSet(final double lower, final double upper) {
-//        super(buildTree(lower, upper));
-//    }
-//
-//    /** Build an intervals set from an inside/outside BSP tree.
-//     * <p>The leaf nodes of the BSP tree <em>must</em> have a
-//     * {@code Boolean} attribute representing the inside status of
-//     * the corresponding cell (true for inside cells, false for outside
-//     * cells). In order to avoid building too many small objects, it is
-//     * recommended to use the predefined constants
-//     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
-//     * @param tree inside/outside BSP tree representing the intervals set
-//     */
-//    public IntervalsSet(final BSPTree<Euclidean1D> tree) {
-//        super(tree);
-//    }
-//
-//    /** Build an intervals set from a Boundary REPresentation (B-rep).
-//     * <p>The boundary is provided as a collection of {@link
-//     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
-//     * interior part of the region on its minus side and the exterior on
-//     * its plus side.</p>
-//     * <p>The boundary elements can be in any order, and can form
-//     * several non-connected sets (like for example polygons with holes
-//     * or a set of disjoints polyhedrons considered as a whole). In
-//     * fact, the elements do not even need to be connected together
-//     * (their topological connections are not used here). However, if the
-//     * boundary does not really separate an inside open from an outside
-//     * open (open having here its topological meaning), then subsequent
-//     * calls to the {@link
-//     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
-//     * checkPoint} method will not be meaningful anymore.</p>
-//     * <p>If the boundary is empty, the region will represent the whole
-//     * space.</p>
-//     * @param boundary collection of boundary elements
-//     */
-//    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary) {
-//        super(boundary);
-//    }
+    /** Build an intervals set representing the whole real line.
+     * @deprecated as of 3.1 replaced with {@link #IntervalsSet(double)}
+     */
+    @Deprecated
+    public IntervalsSet() {
+        this(DEFAULT_TOLERANCE);
+    }
+
+    /** Build an intervals set corresponding to a single interval.
+     * @param lower lower bound of the interval, must be lesser or equal
+     * to {@code upper} (may be {@code Double.NEGATIVE_INFINITY})
+     * @param upper upper bound of the interval, must be greater or equal
+     * to {@code lower} (may be {@code Double.POSITIVE_INFINITY})
+     * @deprecated as of 3.3 replaced with {@link #IntervalsSet(double, double, double)}
+     */
+    @Deprecated
+    public IntervalsSet(final double lower, final double upper) {
+        this(lower, upper, DEFAULT_TOLERANCE);
+    }
+
+    /** Build an intervals set from an inside/outside BSP tree.
+     * <p>The leaf nodes of the BSP tree <em>must</em> have a
+     * {@code Boolean} attribute representing the inside status of
+     * the corresponding cell (true for inside cells, false for outside
+     * cells). In order to avoid building too many small objects, it is
+     * recommended to use the predefined constants
+     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+     * @param tree inside/outside BSP tree representing the intervals set
+     * @deprecated as of 3.3, replaced with {@link #IntervalsSet(BSPTree, double)}
+     */
+    @Deprecated
+    public IntervalsSet(final BSPTree<Euclidean1D> tree) {
+        this(tree, DEFAULT_TOLERANCE);
+    }
+
+    /** Build an intervals set from a Boundary REPresentation (B-rep).
+     * <p>The boundary is provided as a collection of {@link
+     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
+     * interior part of the region on its minus side and the exterior on
+     * its plus side.</p>
+     * <p>The boundary elements can be in any order, and can form
+     * several non-connected sets (like for example polygons with holes
+     * or a set of disjoints polyhedrons considered as a whole). In
+     * fact, the elements do not even need to be connected together
+     * (their topological connections are not used here). However, if the
+     * boundary does not really separate an inside open from an outside
+     * open (open having here its topological meaning), then subsequent
+     * calls to the {@link
+     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * checkPoint} method will not be meaningful anymore.</p>
+     * <p>If the boundary is empty, the region will represent the whole
+     * space.</p>
+     * @param boundary collection of boundary elements
+     * @deprecated as of 3.3, replaced with {@link #IntervalsSet(Collection, double)}
+     */
+    @Deprecated
+    public IntervalsSet(final Collection<SubHyperplane<Euclidean1D>> boundary) {
+        this(boundary, DEFAULT_TOLERANCE);
+    }
 
     /** Build an inside/outside tree representing a single interval.
      * @param lower lower bound of the interval, must be lesser or equal

@@ -43,6 +43,9 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
+    /** Default value for tolerance. */
+    private static final double DEFAULT_TOLERANCE = 1.0e-10;
+
     /** Vertices organized as boundary loops. */
     private Vector2D[][] vertices;
 
@@ -143,60 +146,68 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
     }
 
-//    /** Build a polygons set representing the whole real line.
-//     */
-//    public PolygonsSet() {
-//        super();
-//    }
-//
-//    /** Build a polygons set from a BSP tree.
-//     * <p>The leaf nodes of the BSP tree <em>must</em> have a
-//     * {@code Boolean} attribute representing the inside status of
-//     * the corresponding cell (true for inside cells, false for outside
-//     * cells). In order to avoid building too many small objects, it is
-//     * recommended to use the predefined constants
-//     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
-//     * @param tree inside/outside BSP tree representing the region
-//     */
-//    public PolygonsSet(final BSPTree<Euclidean2D> tree) {
-//        super(tree);
-//    }
-//
-//    /** Build a polygons set from a Boundary REPresentation (B-rep).
-//     * <p>The boundary is provided as a collection of {@link
-//     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
-//     * interior part of the region on its minus side and the exterior on
-//     * its plus side.</p>
-//     * <p>The boundary elements can be in any order, and can form
-//     * several non-connected sets (like for example polygons with holes
-//     * or a set of disjoint polygons considered as a whole). In
-//     * fact, the elements do not even need to be connected together
-//     * (their topological connections are not used here). However, if the
-//     * boundary does not really separate an inside open from an outside
-//     * open (open having here its topological meaning), then subsequent
-//     * calls to the {@link
-//     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
-//     * checkPoint} method will not be meaningful anymore.</p>
-//     * <p>If the boundary is empty, the region will represent the whole
-//     * space.</p>
-//     * @param boundary collection of boundary elements, as a
-//     * collection of {@link SubHyperplane SubHyperplane} objects
-//     */
-//    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary) {
-//        super(boundary);
-//    }
-//
-//    /** Build a parallellepipedic box.
-//     * @param xMin low bound along the x direction
-//     * @param xMax high bound along the x direction
-//     * @param yMin low bound along the y direction
-//     * @param yMax high bound along the y direction
-//     */
-//    public PolygonsSet(final double xMin, final double xMax,
-//                       final double yMin, final double yMax) {
-//        super(boxBoundary(xMin, xMax, yMin, yMax));
-//    }
-//
+    /** Build a polygons set representing the whole real line.
+     * @deprecated as of 3.3, replaced with {@link #PolygonsSet(double)}
+     */
+    @Deprecated
+    public PolygonsSet() {
+        this(DEFAULT_TOLERANCE);
+    }
+
+    /** Build a polygons set from a BSP tree.
+     * <p>The leaf nodes of the BSP tree <em>must</em> have a
+     * {@code Boolean} attribute representing the inside status of
+     * the corresponding cell (true for inside cells, false for outside
+     * cells). In order to avoid building too many small objects, it is
+     * recommended to use the predefined constants
+     * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+     * @param tree inside/outside BSP tree representing the region
+     * @deprecated as of 3.3, replaced with {@link #PolygonsSet(BSPTree, double)}
+     */
+    @Deprecated
+    public PolygonsSet(final BSPTree<Euclidean2D> tree) {
+        this(tree, DEFAULT_TOLERANCE);
+    }
+
+    /** Build a polygons set from a Boundary REPresentation (B-rep).
+     * <p>The boundary is provided as a collection of {@link
+     * SubHyperplane sub-hyperplanes}. Each sub-hyperplane has the
+     * interior part of the region on its minus side and the exterior on
+     * its plus side.</p>
+     * <p>The boundary elements can be in any order, and can form
+     * several non-connected sets (like for example polygons with holes
+     * or a set of disjoint polygons considered as a whole). In
+     * fact, the elements do not even need to be connected together
+     * (their topological connections are not used here). However, if the
+     * boundary does not really separate an inside open from an outside
+     * open (open having here its topological meaning), then subsequent
+     * calls to the {@link
+     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * checkPoint} method will not be meaningful anymore.</p>
+     * <p>If the boundary is empty, the region will represent the whole
+     * space.</p>
+     * @param boundary collection of boundary elements, as a
+     * collection of {@link SubHyperplane SubHyperplane} objects
+     * @deprecated as of 3.3, replaced with {@link #PolygonsSet(Collection, double)}
+     */
+    @Deprecated
+    public PolygonsSet(final Collection<SubHyperplane<Euclidean2D>> boundary) {
+        this(boundary, DEFAULT_TOLERANCE);
+    }
+
+    /** Build a parallellepipedic box.
+     * @param xMin low bound along the x direction
+     * @param xMax high bound along the x direction
+     * @param yMin low bound along the y direction
+     * @param yMax high bound along the y direction
+     * @deprecated as of 3.3, replaced with {@link #PolygonsSet(double, double, double, double, double)}
+     */
+    @Deprecated
+    public PolygonsSet(final double xMin, final double xMax,
+                       final double yMin, final double yMax) {
+        this(xMin, xMax, yMin, yMax, DEFAULT_TOLERANCE);
+    }
+
     /** Create a list of hyperplanes representing the boundary of a box.
      * @param xMin low bound along the x direction
      * @param xMax high bound along the x direction

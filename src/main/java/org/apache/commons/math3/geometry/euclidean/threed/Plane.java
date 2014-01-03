@@ -35,6 +35,9 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Euclidean2D> {
 
+    /** Default value for tolerance. */
+    private static final double DEFAULT_TOLERANCE = 1.0e-10;
+
     /** Offset of the origin with respect to the plane. */
     private double originOffset;
 
@@ -97,39 +100,41 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         this(p1, p2.subtract(p1).crossProduct(p3.subtract(p1)), tolerance);
     }
 
-//    /** Build a plane normal to a given direction and containing the origin.
-//     * @param normal normal direction to the plane
-//     * @exception MathArithmeticException if the normal norm is too small
-//     */
-//    public Plane(final Vector3D normal) throws MathArithmeticException {
-//        setNormal(normal);
-//        originOffset = 0;
-//        setFrame();
-//    }
-//
-//    /** Build a plane from a point and a normal.
-//     * @param p point belonging to the plane
-//     * @param normal normal direction to the plane
-//     * @exception MathArithmeticException if the normal norm is too small
-//     */
-//    public Plane(final Vector3D p, final Vector3D normal) throws MathArithmeticException {
-//        setNormal(normal);
-//        originOffset = -p.dotProduct(w);
-//        setFrame();
-//    }
-//
-//    /** Build a plane from three points.
-//     * <p>The plane is oriented in the direction of
-//     * {@code (p2-p1) ^ (p3-p1)}</p>
-//     * @param p1 first point belonging to the plane
-//     * @param p2 second point belonging to the plane
-//     * @param p3 third point belonging to the plane
-//     * @exception MathArithmeticException if the points do not constitute a plane
-//     */
-//    public Plane(final Vector3D p1, final Vector3D p2, final Vector3D p3)
-//        throws MathArithmeticException {
-//        this(p1, p2.subtract(p1).crossProduct(p3.subtract(p1)));
-//    }
+    /** Build a plane normal to a given direction and containing the origin.
+     * @param normal normal direction to the plane
+     * @exception MathArithmeticException if the normal norm is too small
+     * @deprecated as of 3.3, replaced with {@link #Plane(Vector3D, double)}
+     */
+    @Deprecated
+    public Plane(final Vector3D normal) throws MathArithmeticException {
+        this(normal, DEFAULT_TOLERANCE);
+    }
+
+    /** Build a plane from a point and a normal.
+     * @param p point belonging to the plane
+     * @param normal normal direction to the plane
+     * @exception MathArithmeticException if the normal norm is too small
+     * @deprecated as of 3.3, replaced with {@link #Plane(Vector3D, Vector3D, double)}
+     */
+    @Deprecated
+    public Plane(final Vector3D p, final Vector3D normal) throws MathArithmeticException {
+        this(p, normal, DEFAULT_TOLERANCE);
+    }
+
+    /** Build a plane from three points.
+     * <p>The plane is oriented in the direction of
+     * {@code (p2-p1) ^ (p3-p1)}</p>
+     * @param p1 first point belonging to the plane
+     * @param p2 second point belonging to the plane
+     * @param p3 third point belonging to the plane
+     * @exception MathArithmeticException if the points do not constitute a plane
+     * @deprecated as of 3.3, replaced with {@link #Plane(Vector3D, Vector3D, Vector3D, double)}
+     */
+    @Deprecated
+    public Plane(final Vector3D p1, final Vector3D p2, final Vector3D p3)
+        throws MathArithmeticException {
+        this(p1, p2, p3, DEFAULT_TOLERANCE);
+    }
 
     /** Copy constructor.
      * <p>The instance created is completely independant of the original
