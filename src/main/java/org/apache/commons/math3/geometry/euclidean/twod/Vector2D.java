@@ -294,9 +294,7 @@ public class Vector2D implements Vector<Euclidean2D> {
     }
 
     /** {@inheritDoc}
-     * @deprecated as of 3.3, replaced with {@link #distance(Point)}
      */
-    @Deprecated
     public double distance(Vector<Euclidean2D> p) {
         return distance((Point<Euclidean2D>) p);
     }

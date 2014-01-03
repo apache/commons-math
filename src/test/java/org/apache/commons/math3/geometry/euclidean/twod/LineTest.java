@@ -44,24 +44,24 @@ public class LineTest {
     public void testAbscissa() {
         Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
         Assert.assertEquals(0.0,
-                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D(-3,  4))).getX(),
+                            (l.toSubSpace(new Vector2D(-3,  4))).getX(),
                             1.0e-10);
         Assert.assertEquals(0.0,
-                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D( 3, -4))).getX(),
+                            (l.toSubSpace(new Vector2D( 3, -4))).getX(),
                             1.0e-10);
         Assert.assertEquals(-5.0,
-                            (l.toSubSpace((Point<Euclidean2D>) new Vector2D( 7, -1))).getX(),
+                            (l.toSubSpace(new Vector2D( 7, -1))).getX(),
                             1.0e-10);
         Assert.assertEquals( 5.0,
-                             (l.toSubSpace((Point<Euclidean2D>) new Vector2D(-1, -7))).getX(),
+                             (l.toSubSpace(new Vector2D(-1, -7))).getX(),
                              1.0e-10);
     }
 
     @Test
     public void testOffset() {
         Line l = new Line(new Vector2D(2, 1), new Vector2D(-2, -2), 1.0e-10);
-        Assert.assertEquals(-5.0, l.getOffset((Point<Euclidean2D>) new Vector2D(5, -3)), 1.0e-10);
-        Assert.assertEquals(+5.0, l.getOffset((Point<Euclidean2D>) new Vector2D(-5, 2)), 1.0e-10);
+        Assert.assertEquals(-5.0, l.getOffset(new Vector2D(5, -3)), 1.0e-10);
+        Assert.assertEquals(+5.0, l.getOffset(new Vector2D(-5, 2)), 1.0e-10);
     }
 
     @Test

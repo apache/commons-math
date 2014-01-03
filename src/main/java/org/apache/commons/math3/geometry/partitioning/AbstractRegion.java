@@ -277,9 +277,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * @param point point to check
      * @return a code representing the point status: either {@link
      * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
-     * @deprecated as of 3.3, replaced with {@link #checkPoint(Point)}
      */
-    @Deprecated
     public Location checkPoint(final Vector<S> point) {
         return checkPoint((Point<S>) point);
     }
@@ -295,9 +293,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
      * @return a code representing the point status: either {@link
      * Region.Location#INSIDE INSIDE}, {@link Region.Location#OUTSIDE
      * OUTSIDE} or {@link Region.Location#BOUNDARY BOUNDARY}
-     * @deprecated as of 3.3, replaced with {@link #checkPoint(BSPTree, Point)}
      */
-    @Deprecated
     protected Location checkPoint(final BSPTree<S> node, final Vector<S> point) {
         return checkPoint(node, (Point<S>) point);
     }
@@ -480,9 +476,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
 
     /** Set the barycenter of the instance.
      * @param barycenter barycenter of the instance
-     * @deprecated as of 3.3, replaced with {@link #setBarycenter(Point)}
      */
-    @Deprecated
     protected void setBarycenter(final Vector<S> barycenter) {
         setBarycenter((Point<S>) barycenter);
     }

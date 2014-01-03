@@ -18,7 +18,6 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 
 import java.util.List;
 
-import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
@@ -35,8 +34,8 @@ public class SubLineTest {
         SubLine sub = new SubLine(segment);
         List<Segment> segments = sub.getSegments();
         Assert.assertEquals(1, segments.size());
-        Assert.assertEquals(0.0, new Vector2D(-1, -7).distance((Point<Euclidean2D>) segments.get(0).getStart()), 1.0e-10);
-        Assert.assertEquals(0.0, new Vector2D( 7, -1).distance((Point<Euclidean2D>) segments.get(0).getEnd()), 1.0e-10);
+        Assert.assertEquals(0.0, new Vector2D(-1, -7).distance(segments.get(0).getStart()), 1.0e-10);
+        Assert.assertEquals(0.0, new Vector2D( 7, -1).distance(segments.get(0).getEnd()), 1.0e-10);
     }
 
     @Test
@@ -81,7 +80,7 @@ public class SubLineTest {
                           segments.get(0).getStart().getX() < 0);
         Assert.assertTrue(Double.isInfinite(segments.get(0).getStart().getY()) &&
                           segments.get(0).getStart().getY() < 0);
-        Assert.assertEquals(0.0, new Vector2D(3, -4).distance((Point<Euclidean2D>) segments.get(0).getEnd()), 1.0e-10);
+        Assert.assertEquals(0.0, new Vector2D(3, -4).distance(segments.get(0).getEnd()), 1.0e-10);
     }
 
     @Test
@@ -90,7 +89,7 @@ public class SubLineTest {
                                     new IntervalsSet(0.0, Double.POSITIVE_INFINITY, 1.0e-10));
         List<Segment> segments = empty.getSegments();
         Assert.assertEquals(1, segments.size());
-        Assert.assertEquals(0.0, new Vector2D(3, -4).distance((Point<Euclidean2D>) segments.get(0).getStart()), 1.0e-10);
+        Assert.assertEquals(0.0, new Vector2D(3, -4).distance(segments.get(0).getStart()), 1.0e-10);
         Assert.assertTrue(Double.isInfinite(segments.get(0).getEnd().getX()) &&
                           segments.get(0).getEnd().getX() > 0);
         Assert.assertTrue(Double.isInfinite(segments.get(0).getEnd().getY()) &&
@@ -101,15 +100,15 @@ public class SubLineTest {
     public void testIntersectionInsideInside() {
         SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(3, 1), 1.0e-10);
         SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 2), 1.0e-10);
-        Assert.assertEquals(0.0, new Vector2D(2, 1).distance((Point<Euclidean2D>) sub1.intersection(sub2, true)),  1.0e-12);
-        Assert.assertEquals(0.0, new Vector2D(2, 1).distance((Point<Euclidean2D>) sub1.intersection(sub2, false)), 1.0e-12);
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, false)), 1.0e-12);
     }
 
     @Test
     public void testIntersectionInsideBoundary() {
         SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(3, 1), 1.0e-10);
         SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 1), 1.0e-10);
-        Assert.assertEquals(0.0, new Vector2D(2, 1).distance((Point<Euclidean2D>) sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
@@ -125,7 +124,7 @@ public class SubLineTest {
     public void testIntersectionBoundaryBoundary() {
         SubLine sub1 = new SubLine(new Vector2D(1, 1), new Vector2D(2, 1), 1.0e-10);
         SubLine sub2 = new SubLine(new Vector2D(2, 0), new Vector2D(2, 1), 1.0e-10);
-        Assert.assertEquals(0.0, new Vector2D(2, 1).distance((Point<Euclidean2D>) sub1.intersection(sub2, true)),  1.0e-12);
+        Assert.assertEquals(0.0, new Vector2D(2, 1).distance(sub1.intersection(sub2, true)),  1.0e-12);
         Assert.assertNull(sub1.intersection(sub2, false));
     }
 
