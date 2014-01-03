@@ -62,7 +62,7 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
 
     /** {@inheritDoc} */
     public AbstractSubHyperplane<S, T> copySelf() {
-        return buildNew(hyperplane, remainingRegion);
+        return buildNew(hyperplane.copySelf(), remainingRegion);
     }
 
     /** Get the underlying hyperplane.
