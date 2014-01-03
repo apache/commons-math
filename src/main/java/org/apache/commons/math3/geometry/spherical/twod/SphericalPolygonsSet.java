@@ -48,7 +48,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     /** Boundary defined as an array of closed loops start vertices. */
     private List<Vertex> loops;
 
-    /** Build a polygons set representing the whole real circle.
+    /** Build a polygons set representing the whole real 2-sphere.
      * @param tolerance below which points are consider to be identical
      */
     public SphericalPolygonsSet(final double tolerance) {
