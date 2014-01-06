@@ -211,7 +211,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     }
 
     /** Recursively build a tree by inserting cut sub-hyperplanes.
-     * @param hyperplaneThickness tolerance below which points are consider to
+     * @param hyperplaneThickness tolerance below which points are considered to
      * belong to the hyperplane (which is therefore more a slab)
      * @param node current tree node (it is a leaf node at the beginning
      * of the call)
@@ -264,12 +264,12 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         if (!outsideList.isEmpty()) {
             insertEdges(hyperplaneThickness, node.getPlus(), outsideList);
         } else {
-            node.getMinus().setAttribute(Boolean.FALSE);
+            node.getPlus().setAttribute(Boolean.FALSE);
         }
         if (!insideList.isEmpty()) {
             insertEdges(hyperplaneThickness, node.getMinus(),  insideList);
         } else {
-            node.getPlus().setAttribute(Boolean.TRUE);
+            node.getMinus().setAttribute(Boolean.TRUE);
         }
 
     }
@@ -494,7 +494,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         private void split(final Circle splitCircle,
                            final List<Edge> outsideList, final List<Edge> insideList) {
 
-            // get the inside chord, synchronizing its phase with the edge itself
+            // get the inside arc, synchronizing its phase with the edge itself
             final double edgeStart        = circle.getPhase(start.getLocation().getVector());
             final double arcRelativeStart = MathUtils.normalizeAngle(circle.getInsideArc(splitCircle).getInf(),
                                                                      edgeStart + FastMath.PI) - edgeStart;
@@ -502,77 +502,90 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             final double unwrappedEnd     = arcRelativeStart - FastMath.PI;
 
             // build the sub-edges
-            if (arcRelativeStart < length) {
-                if (unwrappedEnd > 0) {
-                    // the edge starts inside the circle, then goes outside, then comes back inside
+            final double tolerance = circle.getTolerance();
+            Vertex previousVertex = start;
+            if (unwrappedEnd >= length - tolerance) {
 
-                    // create intermediate vertices
-                    final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeEnd)));
-                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart)));
-                    vExit.bindWith(splitCircle);
-                    vEnter.bindWith(splitCircle);
+                // the edge is entirely contained inside the circle
+                // we don't split anything
+                insideList.add(this);
 
-                    // create sub-edges
-                    final Edge eStartIn   = new Edge(start,  vExit,  unwrappedEnd,                      circle);
-                    final Edge eMiddleOut = new Edge(vExit,  vEnter, arcRelativeStart - unwrappedEnd, circle);
-                    final Edge eEndIn     = new Edge(vEnter, end,    length - arcRelativeStart,       circle);
-                    eStartIn.setNode(node);
-                    eMiddleOut.setNode(node);
-                    eEndIn.setNode(node);
-
-                    // distribute the sub-edges in the appropriate lists
-                    insideList.add(eStartIn);
-                    insideList.add(eEndIn);
-                    outsideList.add(eMiddleOut);
-
-                } else {
-                    // the edge starts outside of the circle, then comes inside
-
-                    // create intermediate vertices
-                    final Vertex vEnter   = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart)));
-                    vEnter.bindWith(splitCircle);
-
-                    // create sub-edges
-                    final Edge eStartOut  = new Edge(start,  vEnter, arcRelativeStart,          circle);
-                    final Edge eEndIn     = new Edge(vEnter, end,    length - arcRelativeStart, circle);
-                    eStartOut.setNode(node);
-                    eEndIn.setNode(node);
-
-                    // distribute the sub-edges in the appropriate lists
-                    outsideList.add(eStartOut);
-                    insideList.add(eEndIn);
-
-                }
             } else {
-                if (unwrappedEnd > 0) {
-                    if (unwrappedEnd > length) {
-                        // the edge is entirely contained inside the circle
-                        // we don't split anything
-                        insideList.add(this);
+
+                // there are at least some parts of the edge that should be outside
+                // (even is they are later be filtered out as being too small)
+                double alreadyManagedLength = 0;
+                if (unwrappedEnd >= 0) {
+                    // the start of the edge is inside the circle
+                    previousVertex = addSubEdge(previousVertex,
+                                                new Vertex(new S2Point(circle.getPointAt(edgeStart + unwrappedEnd))),
+                                                unwrappedEnd, insideList, splitCircle);
+                    alreadyManagedLength = unwrappedEnd;
+                }
+
+                if (arcRelativeStart >= length - tolerance) {
+                    // the edge ends while still outside of the circle
+                    if (unwrappedEnd >= 0) {
+                        previousVertex = addSubEdge(previousVertex, end,
+                                                    length - alreadyManagedLength, outsideList, splitCircle);
                     } else {
-                        // the edge starts inside the circle, then goes outside
-
-                        // create intermediate vertices
-                        final Vertex vExit    = new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeEnd)));
-                        vExit.bindWith(splitCircle);
-
-                        // create sub-edges
-                        final Edge eStartIn   = new Edge(start, vExit, arcRelativeEnd,          circle);
-                        final Edge eEndOut    = new Edge(vExit, end,   length - arcRelativeEnd, circle);
-                        eStartIn.setNode(node);
-                        eEndOut.setNode(node);
-
-                        // distribute the sub-edges in the appropriate lists
-                        insideList.add(eStartIn);
-                        outsideList.add(eEndOut);
-
+                        // the edge is entirely outside of the circle
+                        // we don't split anything
+                        outsideList.add(this);
                     }
                 } else {
-                    // the edge is entirely outside of the circle
-                    // we don't split anything
-                    outsideList.add(this);
+                    // the edge is long enough to enter inside the circle
+                    previousVertex = addSubEdge(previousVertex,
+                                                new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart))),
+                                                arcRelativeStart - alreadyManagedLength, outsideList, splitCircle);
+                    alreadyManagedLength = arcRelativeStart;
+
+                    if (arcRelativeEnd >= length - tolerance) {
+                        // the edge ends while still inside of the circle
+                        previousVertex = addSubEdge(previousVertex, end,
+                                                    length - alreadyManagedLength, insideList, splitCircle);
+                    } else {
+                        // the edge is long enough to exit outside of the circle
+                        previousVertex = addSubEdge(previousVertex,
+                                                    new Vertex(new S2Point(circle.getPointAt(edgeStart + arcRelativeStart))),
+                                                    arcRelativeStart - alreadyManagedLength, insideList, splitCircle);
+                        alreadyManagedLength = arcRelativeStart;
+                        previousVertex = addSubEdge(previousVertex, end,
+                                                    length - alreadyManagedLength, outsideList, splitCircle);
+                    }
                 }
+
             }
+
+        }
+
+        /** Add a sub-edge to a list if long enough.
+         * <p>
+         * If the length of the sub-edge to add is smaller than the {@link Circle#getTolerance()}
+         * tolerance of the support circle, it will be ignored.
+         * </p>
+         * @param subStart start of the sub-edge
+         * @param subEnd end of the sub-edge
+         * @param subLength length of the sub-edge
+         * @param splitCircle circle splitting the edge in several parts
+         * @param list list where to put the sub-edge
+         * @return end vertex of the edge ({@code subEnd} if the edge was long enough and really
+         * added, {@code subStart} if the edge was too small and therefore ignored)
+         */
+        private Vertex addSubEdge(final Vertex subStart, final Vertex subEnd, final double subLength,
+                                  final List<Edge> list, final Circle splitCircle) {
+
+            if (subLength <= circle.getTolerance()) {
+                // the edge is too short, we ignore it
+                return subStart;
+            }
+
+            // really add the edge
+            subEnd.bindWith(splitCircle);
+            final Edge edge = new Edge(subStart, subEnd, subLength, circle);
+            edge.setNode(node);
+            list.add(edge);
+            return subEnd;
 
         }
 
