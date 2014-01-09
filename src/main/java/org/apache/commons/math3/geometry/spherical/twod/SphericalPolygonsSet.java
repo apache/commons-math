@@ -172,11 +172,12 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
         // build the edges
         List<Edge> edges = new ArrayList<Edge>(n);
+        Vertex end = vArray[n - 1];
         for (int i = 0; i < n; ++i) {
 
             // get the endpoints of the edge
-            final Vertex start = vArray[i];
-            final Vertex end   = vArray[(i + 1) % n];
+            final Vertex start = end;
+            end = vArray[i];
 
             // get the circle supporting the edge, taking care not to recreate it
             // if it was already created earlier due to another edge being aligned

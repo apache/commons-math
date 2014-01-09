@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
@@ -65,6 +66,49 @@ public class ArcsSetTest {
         Assert.assertEquals(1, set.asList().size());
         Assert.assertEquals(5.7, set.asList().get(0).getInf(), 1.0e-10);
         Assert.assertEquals(2.3 + MathUtils.TWO_PI, set.asList().get(0).getSup(), 1.0e-10);
+    }
+
+    @Test
+    public void testSplitOver2Pi() {
+        ArcsSet set = new ArcsSet(1.0e-10);
+        Arc     arc = new Arc(1.5 * FastMath.PI, 2.5 * FastMath.PI, 1.0e-10);
+        ArcsSet.Split split = set.split(arc);
+        for (double alpha = 0; alpha <= MathUtils.TWO_PI; alpha += 0.01) {
+            S1Point p = new S1Point(alpha);
+            if (alpha < 0.5 * FastMath.PI || alpha > 1.5 * FastMath.PI) {
+                Assert.assertEquals(Location.OUTSIDE, split.getPlus().checkPoint(p));
+                Assert.assertEquals(Location.INSIDE,  split.getMinus().checkPoint(p));
+            } else {
+                Assert.assertEquals(Location.INSIDE,  split.getPlus().checkPoint(p));
+                Assert.assertEquals(Location.OUTSIDE, split.getMinus().checkPoint(p));
+            }
+        }
+    }
+
+    @Test
+    public void testSplitAtEnd() {
+        ArcsSet set = new ArcsSet(1.0e-10);
+        Arc     arc = new Arc(FastMath.PI, MathUtils.TWO_PI, 1.0e-10);
+        ArcsSet.Split split = set.split(arc);
+        for (double alpha = 0.01; alpha < MathUtils.TWO_PI; alpha += 0.01) {
+            S1Point p = new S1Point(alpha);
+            if (alpha > FastMath.PI) {
+                Assert.assertEquals(Location.OUTSIDE, split.getPlus().checkPoint(p));
+                Assert.assertEquals(Location.INSIDE,  split.getMinus().checkPoint(p));
+            } else {
+                Assert.assertEquals(Location.INSIDE,  split.getPlus().checkPoint(p));
+                Assert.assertEquals(Location.OUTSIDE, split.getMinus().checkPoint(p));
+            }
+        }
+
+        S1Point zero = new S1Point(0.0);
+        Assert.assertEquals(Location.BOUNDARY,  split.getPlus().checkPoint(zero));
+        Assert.assertEquals(Location.BOUNDARY,  split.getMinus().checkPoint(zero));
+
+        S1Point pi = new S1Point(FastMath.PI);
+        Assert.assertEquals(Location.BOUNDARY,  split.getPlus().checkPoint(pi));
+        Assert.assertEquals(Location.BOUNDARY,  split.getMinus().checkPoint(pi));
+
     }
 
     @Test(expected=NumberIsTooLargeException.class)
@@ -122,7 +166,7 @@ public class ArcsSetTest {
     public void testSpecialConstruction() {
         List<SubHyperplane<Sphere1D>> boundary = new ArrayList<SubHyperplane<Sphere1D>>();
         boundary.add(new LimitAngle(new S1Point(0.0), false, 1.0e-10).wholeHyperplane());
-        boundary.add(new LimitAngle(new S1Point(MathUtils.TWO_PI), true, 1.0e-10).wholeHyperplane());
+        boundary.add(new LimitAngle(new S1Point(MathUtils.TWO_PI - 1.0e-11), true, 1.0e-10).wholeHyperplane());
         ArcsSet set = new ArcsSet(boundary, 1.0e-10);
         Assert.assertEquals(MathUtils.TWO_PI, set.getSize(), 1.0e-10);
         Assert.assertEquals(1.0e-10, set.getTolerance(), 1.0e-20);
@@ -285,6 +329,53 @@ public class ArcsSetTest {
             // expected
         }
 
+    }
+
+    @Test
+    public void testEmptyTree() {
+        Assert.assertEquals(MathUtils.TWO_PI, new ArcsSet(new BSPTree<Sphere1D>(Boolean.TRUE), 1.0e-10).getSize(), 1.0e-10);
+    }
+
+    @Test
+    public void testShiftedAngles() {
+        for (int k = -2; k < 3; ++k) {
+            SubLimitAngle l1  = new LimitAngle(new S1Point(1.0 + k * MathUtils.TWO_PI), false, 1.0e-10).wholeHyperplane();
+            SubLimitAngle l2  = new LimitAngle(new S1Point(1.5 + k * MathUtils.TWO_PI), true,  1.0e-10).wholeHyperplane();
+            ArcsSet set = new ArcsSet(new BSPTree<Sphere1D>(l1,
+                                                            new BSPTree<Sphere1D>(Boolean.FALSE),
+                                                            new BSPTree<Sphere1D>(l2,
+                                                                                  new BSPTree<Sphere1D>(Boolean.FALSE),
+                                                                                  new BSPTree<Sphere1D>(Boolean.TRUE),
+                                                                                  null),
+                                                            null),
+                                      1.0e-10);
+            for (double alpha = 1.0e-6; alpha < MathUtils.TWO_PI; alpha += 0.001) {
+                if (alpha < 1 || alpha > 1.5) {
+                    Assert.assertEquals(Location.OUTSIDE, set.checkPoint(new S1Point(alpha)));
+                } else {
+                    Assert.assertEquals(Location.INSIDE,  set.checkPoint(new S1Point(alpha)));
+                }
+            }
+        }
+
+    }
+
+    @Test(expected=ArcsSet.InconsistentStateAt2PiWrapping.class)
+    public void testInconsistentState() {
+        SubLimitAngle l1 = new LimitAngle(new S1Point(1.0), false, 1.0e-10).wholeHyperplane();
+        SubLimitAngle l2 = new LimitAngle(new S1Point(2.0), true,  1.0e-10).wholeHyperplane();
+        SubLimitAngle l3 = new LimitAngle(new S1Point(3.0), false, 1.0e-10).wholeHyperplane();
+        new ArcsSet(new BSPTree<Sphere1D>(l1,
+                                          new BSPTree<Sphere1D>(Boolean.FALSE),
+                                          new BSPTree<Sphere1D>(l2,
+                                                                new BSPTree<Sphere1D>(l3,
+                                                                                      new BSPTree<Sphere1D>(Boolean.FALSE),
+                                                                                      new BSPTree<Sphere1D>(Boolean.TRUE),
+                                                                                      null),
+                                                                new BSPTree<Sphere1D>(Boolean.TRUE),
+                                                                null),
+                                          null),
+                                          1.0e-10);
     }
 
     @Test

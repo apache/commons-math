@@ -59,7 +59,7 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
 
     /** {@inheritDoc} */
     public double getOffset(final Point<Sphere1D> point) {
-        final double delta = ((S1Point) point).getAlpha()- location.getAlpha();
+        final double delta = ((S1Point) point).getAlpha() - location.getAlpha();
         return direct ? delta : -delta;
     }
 

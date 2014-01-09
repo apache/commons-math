@@ -115,6 +115,7 @@ public enum LocalizedFormats implements Localizable {
     GCD_OVERFLOW_64_BITS("overflow: gcd({0}, {1}) is 2^63"),
     HOLE_BETWEEN_MODELS_TIME_RANGES("{0} wide hole between models time ranges"),
     ILL_CONDITIONED_OPERATOR("condition number {1} is too high "),
+    INCONSISTENT_STATE_AT_2_PI_WRAPPING("inconsistent state at 2\u03c0 wrapping"),
     INDEX_LARGER_THAN_MAX("the index specified: {0} is larger than the current maximal index {1}"),
     INDEX_NOT_POSITIVE("index ({0}) is not positive"),
     INDEX_OUT_OF_RANGE("index {0} out of allowed range [{1}, {2}]"),
