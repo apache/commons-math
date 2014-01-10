@@ -434,3 +434,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ===============================================================================
 
+The initial commit of package "org.apache.commons.math3.ml.neuralnet" is
+an adapted version of code developed in the context of the Data Processing
+and Analysis Consortium (DPAC) of the "Gaia" project of the European Space
+Agency (ESA).
+===============================================================================

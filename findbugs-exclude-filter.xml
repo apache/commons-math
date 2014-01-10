@@ -363,4 +363,11 @@
     <Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
   </Match>
 
+  <!-- The following switch fall-through is intended. -->
+  <Match>
+    <Class name="org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D" />
+    <Method name="createLinks" />
+    <Bug pattern="SF_SWITCH_FALLTHROUGH" />
+  </Match>
+
 </FindBugsFilter>
