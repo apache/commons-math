@@ -63,7 +63,6 @@ public class NeighbourhoodSizeFunctionFactory {
                 = new ExponentialDecayFunction(initValue, valueAtNumCall, numCall);
 
             /** {@inheritDoc} */
-            @Override
             public int value(long n) {
                 return (int) FastMath.rint(decay.value(n));
             }
@@ -100,7 +99,6 @@ public class NeighbourhoodSizeFunctionFactory {
                 = new QuasiSigmoidDecayFunction(initValue, slope, numCall);
 
             /** {@inheritDoc} */
-            @Override
             public int value(long n) {
                 return (int) FastMath.rint(decay.value(n));
             }
