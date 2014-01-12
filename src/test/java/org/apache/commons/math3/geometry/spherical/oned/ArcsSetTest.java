@@ -73,7 +73,7 @@ public class ArcsSetTest {
         ArcsSet set = new ArcsSet(1.0e-10);
         Arc     arc = new Arc(1.5 * FastMath.PI, 2.5 * FastMath.PI, 1.0e-10);
         ArcsSet.Split split = set.split(arc);
-        for (double alpha = 0; alpha <= MathUtils.TWO_PI; alpha += 0.01) {
+        for (double alpha = 0.0; alpha <= MathUtils.TWO_PI; alpha += 0.01) {
             S1Point p = new S1Point(alpha);
             if (alpha < 0.5 * FastMath.PI || alpha > 1.5 * FastMath.PI) {
                 Assert.assertEquals(Location.OUTSIDE, split.getPlus().checkPoint(p));
@@ -445,8 +445,8 @@ public class ArcsSetTest {
         ArcsSet s16 = new ArcsSet(1.0, 6.0, 1.0e-10);
 
         ArcsSet.Split split1 = s16.split(new Arc(3.0, 5.0, 1.0e-10));
-        ArcsSet split1Plus  = (ArcsSet) split1.getPlus();
-        ArcsSet split1Minus = (ArcsSet) split1.getMinus();
+        ArcsSet split1Plus  = split1.getPlus();
+        ArcsSet split1Minus = split1.getMinus();
         Assert.assertEquals(3.0, split1Plus.getSize(), 1.0e-10);
         Assert.assertEquals(2,   split1Plus.asList().size());
         Assert.assertEquals(1.0, split1Plus.asList().get(0).getInf(), 1.0e-10);
@@ -459,8 +459,8 @@ public class ArcsSetTest {
         Assert.assertEquals(5.0, split1Minus.asList().get(0).getSup(), 1.0e-10);
 
         ArcsSet.Split split2 = s16.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10));
-        ArcsSet split2Plus  = (ArcsSet) split2.getPlus();
-        ArcsSet split2Minus = (ArcsSet) split2.getMinus();
+        ArcsSet split2Plus  = split2.getPlus();
+        ArcsSet split2Minus = split2.getMinus();
         Assert.assertEquals(2.0, split2Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split2Plus.asList().size());
         Assert.assertEquals(3.0, split2Plus.asList().get(0).getInf(), 1.0e-10);
@@ -473,8 +473,8 @@ public class ArcsSetTest {
         Assert.assertEquals(6.0, split2Minus.asList().get(1).getSup(), 1.0e-10);
 
         ArcsSet.Split split3 = s35.split(new Arc(1.0, 6.0, 1.0e-10));
-        ArcsSet split3Plus  = (ArcsSet) split3.getPlus();
-        ArcsSet split3Minus = (ArcsSet) split3.getMinus();
+        ArcsSet split3Plus  = split3.getPlus();
+        ArcsSet split3Minus = split3.getMinus();
         Assert.assertNull(split3Plus);
         Assert.assertEquals(2.0, split3Minus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split3Minus.asList().size());
@@ -482,8 +482,8 @@ public class ArcsSetTest {
         Assert.assertEquals(5.0, split3Minus.asList().get(0).getSup(), 1.0e-10);
 
         ArcsSet.Split split4 = s35.split(new Arc(6.0, 1.0 + MathUtils.TWO_PI, 1.0e-10));
-        ArcsSet split4Plus  = (ArcsSet) split4.getPlus();
-        ArcsSet split4Minus = (ArcsSet) split4.getMinus();
+        ArcsSet split4Plus  = split4.getPlus();
+        ArcsSet split4Minus = split4.getMinus();
         Assert.assertEquals(2.0, split4Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split4Plus.asList().size());
         Assert.assertEquals(3.0, split4Plus.asList().get(0).getInf(), 1.0e-10);
@@ -499,8 +499,8 @@ public class ArcsSetTest {
         ArcsSet s46 = new ArcsSet(4.0, 6.0, 1.0e-10);
 
         ArcsSet.Split split1 = s46.split(new Arc(3.0, 5.0, 1.0e-10));
-        ArcsSet split1Plus  = (ArcsSet) split1.getPlus();
-        ArcsSet split1Minus = (ArcsSet) split1.getMinus();
+        ArcsSet split1Plus  = split1.getPlus();
+        ArcsSet split1Minus = split1.getMinus();
         Assert.assertEquals(1.0, split1Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split1Plus.asList().size());
         Assert.assertEquals(5.0, split1Plus.asList().get(0).getInf(), 1.0e-10);
@@ -511,8 +511,8 @@ public class ArcsSetTest {
         Assert.assertEquals(5.0, split1Minus.asList().get(0).getSup(), 1.0e-10);
 
         ArcsSet.Split split2 = s46.split(new Arc(5.0, 3.0 + MathUtils.TWO_PI, 1.0e-10));
-        ArcsSet split2Plus  = (ArcsSet) split2.getPlus();
-        ArcsSet split2Minus = (ArcsSet) split2.getMinus();
+        ArcsSet split2Plus  = split2.getPlus();
+        ArcsSet split2Minus = split2.getMinus();
         Assert.assertEquals(1.0, split2Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split2Plus.asList().size());
         Assert.assertEquals(4.0, split2Plus.asList().get(0).getInf(), 1.0e-10);
@@ -523,8 +523,8 @@ public class ArcsSetTest {
         Assert.assertEquals(6.0, split2Minus.asList().get(0).getSup(), 1.0e-10);
 
         ArcsSet.Split split3 = s35.split(new Arc(4.0, 6.0, 1.0e-10));
-        ArcsSet split3Plus  = (ArcsSet) split3.getPlus();
-        ArcsSet split3Minus = (ArcsSet) split3.getMinus();
+        ArcsSet split3Plus  = split3.getPlus();
+        ArcsSet split3Minus = split3.getMinus();
         Assert.assertEquals(1.0, split3Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split3Plus.asList().size());
         Assert.assertEquals(3.0, split3Plus.asList().get(0).getInf(), 1.0e-10);
@@ -535,8 +535,8 @@ public class ArcsSetTest {
         Assert.assertEquals(5.0, split3Minus.asList().get(0).getSup(), 1.0e-10);
 
         ArcsSet.Split split4 = s35.split(new Arc(6.0, 4.0 + MathUtils.TWO_PI, 1.0e-10));
-        ArcsSet split4Plus  = (ArcsSet) split4.getPlus();
-        ArcsSet split4Minus = (ArcsSet) split4.getMinus();
+        ArcsSet split4Plus  = split4.getPlus();
+        ArcsSet split4Minus = split4.getMinus();
         Assert.assertEquals(1.0, split4Plus.getSize(), 1.0e-10);
         Assert.assertEquals(1,   split4Plus.asList().size());
         Assert.assertEquals(4.0, split4Plus.asList().get(0).getInf(), 1.0e-10);
@@ -547,4 +547,22 @@ public class ArcsSetTest {
         Assert.assertEquals(4.0, split4Minus.asList().get(0).getSup(), 1.0e-10);
 
     }
+
+    @Test
+    public void testFarSplit() {
+        ArcsSet set = new ArcsSet(FastMath.PI, 2.5 * FastMath.PI, 1.0e-10);
+        ArcsSet.Split split = set.split(new Arc(0.5 * FastMath.PI, 1.5 * FastMath.PI, 1.0e-10));
+        ArcsSet splitPlus  = split.getPlus();
+        ArcsSet splitMinus = split.getMinus();
+        Assert.assertEquals(1,   splitMinus.asList().size());
+        Assert.assertEquals(1.0 * FastMath.PI, splitMinus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(1.5 * FastMath.PI, splitMinus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(0.5 * FastMath.PI, splitMinus.getSize(), 1.0e-10);
+        Assert.assertEquals(1,   splitPlus.asList().size());
+        Assert.assertEquals(1.5 * FastMath.PI, splitPlus.asList().get(0).getInf(), 1.0e-10);
+        Assert.assertEquals(2.5 * FastMath.PI, splitPlus.asList().get(0).getSup(), 1.0e-10);
+        Assert.assertEquals(1.0 * FastMath.PI, splitPlus.getSize(), 1.0e-10);
+
+    }
+
 }

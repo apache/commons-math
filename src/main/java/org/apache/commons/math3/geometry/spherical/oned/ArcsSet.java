@@ -667,10 +667,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
 
         final BSPTree<Sphere1D> minus = new BSPTree<Sphere1D>();
         minus.setAttribute(Boolean.FALSE);
-        boolean minusIgnored = false;
         final BSPTree<Sphere1D> plus  = new BSPTree<Sphere1D>();
         plus.setAttribute(Boolean.FALSE);
-        boolean plusIgnored  = false;
 
         final double reference = FastMath.PI + arc.getInf();
         final double arcLength = arc.getSup() - arc.getInf();
@@ -681,146 +679,90 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             final double syncedEnd   = a[1] - arcOffset;
             if (syncedStart < arcLength) {
                 // the start point a[0] is in the minus part of the arc
-                minusIgnored = addArcStart(minus, a[0], minusIgnored);
+                addArcLimit(minus, a[0], true);
                 if (syncedEnd > arcLength) {
                     // the end point a[1] is past the end of the arc
                     // so we leave the minus part and enter the plus part
                     final double minusToPlus = arcLength + arcOffset;
-                    minusIgnored = addArcEnd(minus, minusToPlus, minusIgnored);
-                    plusIgnored  = addArcStart(plus, minusToPlus, plusIgnored);
+                    addArcLimit(minus, minusToPlus, false);
+                    addArcLimit(plus, minusToPlus, true);
                     if (syncedEnd > MathUtils.TWO_PI) {
                         // in fact the end point a[1] goes far enough that we
                         // leave the plus part of the arc and enter the minus part again
                         final double plusToMinus = MathUtils.TWO_PI + arcOffset;
-                        plusIgnored  = addArcEnd(plus, plusToMinus, plusIgnored);
-                        minusIgnored = addArcStart(minus, plusToMinus, minusIgnored);
-                        minusIgnored = addArcEnd(minus, a[1], minusIgnored);
+                        addArcLimit(plus, plusToMinus, false);
+                        addArcLimit(minus, plusToMinus, true);
+                        addArcLimit(minus, a[1], false);
                     } else {
                         // the end point a[1] is in the plus part of the arc
-                        plusIgnored  = addArcEnd(plus, a[1], plusIgnored);
+                        addArcLimit(plus, a[1], false);
                     }
                 } else {
                     // the end point a[1] is in the minus part of the arc
-                    minusIgnored = addArcEnd(minus, a[1], minusIgnored);
+                    addArcLimit(minus, a[1], false);
                 }
             } else {
                 // the start point a[0] is in the plus part of the arc
-                plusIgnored  = addArcStart(plus, a[0], plusIgnored);
+                addArcLimit(plus, a[0], true);
                 if (syncedEnd > MathUtils.TWO_PI) {
                     // the end point a[1] wraps around to the start of the arc
                     // so we leave the plus part and enter the minus part
                     final double plusToMinus = MathUtils.TWO_PI + arcOffset;
-                    plusIgnored  = addArcEnd(plus, plusToMinus, plusIgnored);
-                    minusIgnored = addArcStart(minus, plusToMinus, minusIgnored);
+                    addArcLimit(plus, plusToMinus, false);
+                    addArcLimit(minus, plusToMinus, true);
                     if (syncedEnd > MathUtils.TWO_PI + arcLength) {
                         // in fact the end point a[1] goes far enough that we
                         // leave the minus part of the arc and enter the plus part again
                         final double minusToPlus = MathUtils.TWO_PI + arcLength + arcOffset;
-                        minusIgnored = addArcEnd(minus, minusToPlus, minusIgnored);
-                        plusIgnored  = addArcStart(plus, minusToPlus, plusIgnored);
-                        plusIgnored  = addArcEnd(plus, a[1], plusIgnored);
+                        addArcLimit(minus, minusToPlus, false);
+                        addArcLimit(plus, minusToPlus, true);
+                        addArcLimit(plus, a[1], false);
                     } else {
                         // the end point a[1] is in the minus part of the arc
-                        minusIgnored = addArcEnd(minus, a[1], minusIgnored);
+                        addArcLimit(minus, a[1], false);
                     }
                 } else {
                     // the end point a[1] is in the plus part of the arc
-                    plusIgnored  = addArcEnd(plus, a[1], plusIgnored);
+                    addArcLimit(plus, a[1], false);
                 }
             }
         }
 
-        return new Split(createSplitPart(plus, plusIgnored), createSplitPart(minus, minusIgnored));
+        return new Split(createSplitPart(plus), createSplitPart(minus));
 
     }
 
-    /** Add an arc start to a BSP tree under construction.
-     * <p>
-     * Note that this method <em>MUST</em> be called in increasing angle order.
-     * </p>
+    /** Add an arc limit to a BSP tree under construction.
      * @param tree BSP tree under construction
-     * @param alpha arc start
-     * @param ignored if true, some end points have been ignored previously
-     * @return true if some points have been ignored, taking this arc end into account
+     * @param alpha arc limit
+     * @param isStart if true, the limit is the start of an arc
      */
-    private boolean addArcStart(final BSPTree<Sphere1D> tree, final double alpha, final boolean ignored) {
-
-        final BSPTree<Sphere1D> last = getLastLeaf(tree);
-
-        if (alpha <= getTolerance()) {
-            // don't add a spurious cut hyperplane at the start of the circle,
-            last.setAttribute(Boolean.TRUE);
-            return true;
+    private void addArcLimit(final BSPTree<Sphere1D> tree, final double alpha, final boolean isStart) {
+        final LimitAngle limit = new LimitAngle(new S1Point(alpha), !isStart, getTolerance());
+        final BSPTree<Sphere1D> node = tree.getCell(limit.getLocation(), getTolerance());
+        if (node.getCut() != null) {
+            // we find again an already added limit,
+            // this means we have done a full turn around the circle
+            leafBefore(node).setAttribute(Boolean.valueOf(!isStart));
         } else {
-            last.insertCut(new LimitAngle(new S1Point(alpha), false, getTolerance()));
-            last.setAttribute(null);
-            last.getPlus().setAttribute(Boolean.FALSE);
-            last.getMinus().setAttribute(Boolean.TRUE);
-            return ignored;
+            // it's a new node
+            node.insertCut(limit);
+            node.setAttribute(null);
+            node.getPlus().setAttribute(Boolean.FALSE);
+            node.getMinus().setAttribute(Boolean.TRUE);
         }
-
-    }
-
-    /** Add an arc end to a BSP tree under construction.
-     * <p>
-     * Note that this method <em>MUST</em> be called in increasing angle order.
-     * </p>
-     * @param tree BSP tree under construction
-     * @param alpha arc end
-     * @param ignored if true, some end points have been ignored previously
-     * @return true if some points have been ignored, taking this arc end into account
-     */
-    private boolean addArcEnd(final BSPTree<Sphere1D> tree, final double alpha, final boolean ignored) {
-
-        final BSPTree<Sphere1D> last = getLastLeaf(tree);
-
-        if (alpha >= MathUtils.TWO_PI - getTolerance()) {
-
-            // don't add a spurious cut hyperplane at the end of the circle,
-            last.setAttribute(Boolean.TRUE);
-            return true;
-
-        } else {
-            last.insertCut(new LimitAngle(new S1Point(alpha), true, getTolerance()));
-            last.setAttribute(null);
-            last.getPlus().setAttribute(Boolean.FALSE);
-            last.getMinus().setAttribute(Boolean.TRUE);
-            return ignored;
-        }
-
     }
 
     /** Create a split part.
      * @param tree BSP tree containing the limit angles of the split part
-     * @param ignored if true, some end points have been ignored previously
      * @return split part (may be null)
      */
-    private ArcsSet createSplitPart(final BSPTree<Sphere1D> tree, final boolean ignored) {
-
-        if (ignored) {
-            // ensure consistent state at 0 / 2 \pi crossing
-
-            final BSPTree<Sphere1D> first = getFirstLeaf(tree);
-            final boolean firstState      = (Boolean) first.getAttribute();
-            final BSPTree<Sphere1D> last  = getLastLeaf(tree);
-            final boolean lastState       = (Boolean) last.getAttribute();
-            if (firstState ^ lastState) {
-                // there should be a real boundary at the crossing. Since it is not accurately
-                // representable due to S1Point normalizing the angles between 0 (included)
-                // and 2 \pi (excluded), we insert it at the *beginning* of the tree,
-                // with an angle forced to 0.0
-                first.insertCut(new LimitAngle(new S1Point(0.0), true, getTolerance()));
-                first.getPlus().setAttribute(firstState);
-                first.getMinus().setAttribute(lastState);
-            }
-        }
-
+    private ArcsSet createSplitPart(final BSPTree<Sphere1D> tree) {
         if (tree.getCut() == null && !(Boolean) tree.getAttribute()) {
             return null;
         } else {
             return new ArcsSet(tree, getTolerance());
         }
-
     }
 
     /** Class holding the results of the {@link #split split} method.

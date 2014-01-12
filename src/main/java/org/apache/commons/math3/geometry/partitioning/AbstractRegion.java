@@ -394,7 +394,7 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
          * <p>The filtering consist in splitting the specified
          * sub-hyperplane into several parts lying in inside and outside
          * cells of the tree. The principle is to call this method twice for
-         * each cut sub-hyperplane in the tree, once one the plus node and
+         * each cut sub-hyperplane in the tree, once on the plus node and
          * once on the minus node. The parts that have the same flag
          * (inside/inside or outside/outside) do not belong to the boundary
          * while parts that have different flags (inside/outside or
