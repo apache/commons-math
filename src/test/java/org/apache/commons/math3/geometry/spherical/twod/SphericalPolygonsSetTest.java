@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.geometry.spherical.twod.SphericalPolygonsSet.Vertex;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.FastMath;
@@ -87,25 +86,32 @@ public class SphericalPolygonsSetTest {
 
         List<SphericalPolygonsSet.Vertex> loops = octant.getBoundaryLoops();
         Assert.assertEquals(1, loops.size());
-        boolean xFound = false;
-        boolean yFound = false;
-        boolean zFound = false;
-        Vertex first = loops.get(0);
-        xFound = first.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
-        yFound = first.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
-        zFound = first.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
-        int count = 1;
-        for (Vertex v = first.getOutgoing().getEnd(); v != first; v = v.getOutgoing().getEnd()) {
+        boolean xPFound = false;
+        boolean yPFound = false;
+        boolean zPFound = false;
+        boolean xVFound = false;
+        boolean yVFound = false;
+        boolean zVFound = false;
+        SphericalPolygonsSet.Vertex first = loops.get(0);
+        int count = 0;
+        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
             ++count;
-            Assert.assertTrue(v == v.getIncoming().getStart().getOutgoing().getEnd());
-            Assert.assertEquals(0.5 * FastMath.PI, v.getIncoming().getLength(), 1.0e-10);
-            xFound = xFound || v.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
-            yFound = yFound || v.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
-            zFound = zFound || v.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
+            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
+            xPFound = xPFound || e.getCircle().getPole().distance(Vector3D.PLUS_I) < 1.0e-10;
+            yPFound = yPFound || e.getCircle().getPole().distance(Vector3D.PLUS_J) < 1.0e-10;
+            zPFound = zPFound || e.getCircle().getPole().distance(Vector3D.PLUS_K) < 1.0e-10;
+            Assert.assertEquals(0.5 * FastMath.PI, e.getLength(), 1.0e-10);
+            xVFound = xVFound || v.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
+            yVFound = yVFound || v.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
+            zVFound = zVFound || v.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
         }
-        Assert.assertTrue(xFound);
-        Assert.assertTrue(yFound);
-        Assert.assertTrue(zFound);
+        Assert.assertTrue(xPFound);
+        Assert.assertTrue(yPFound);
+        Assert.assertTrue(zPFound);
+        Assert.assertTrue(xVFound);
+        Assert.assertTrue(yVFound);
+        Assert.assertTrue(zVFound);
         Assert.assertEquals(3, count);
 
         Assert.assertEquals(0.0,
@@ -132,6 +138,71 @@ public class SphericalPolygonsSetTest {
                 Assert.assertEquals(Location.BOUNDARY, octant.checkPoint(new S2Point(v)));
             }
         }
+    }
+
+    @Test
+    public void testNonConvex() {
+        double tol = 0.01;
+        double sinTol = FastMath.sin(tol);
+        RegionFactory<Sphere2D> factory = new RegionFactory<Sphere2D>();
+        SphericalPolygonsSet plusX = new SphericalPolygonsSet(Vector3D.PLUS_I, tol);
+        SphericalPolygonsSet plusY = new SphericalPolygonsSet(Vector3D.PLUS_J, tol);
+        SphericalPolygonsSet plusZ = new SphericalPolygonsSet(Vector3D.PLUS_K, tol);
+        SphericalPolygonsSet threeOctants =
+                (SphericalPolygonsSet) factory.difference(plusZ, factory.intersection(plusX, plusY));
+
+        UnitSphereRandomVectorGenerator random =
+                new UnitSphereRandomVectorGenerator(3, new Well1024a(0x9c9802fde3cbcf25l));
+        for (int i = 0; i < 1000; ++i) {
+            Vector3D v = new Vector3D(random.nextVector());
+            if (((v.getX() < -sinTol) || (v.getY() < -sinTol)) && (v.getZ() > sinTol)) {
+                Assert.assertEquals(Location.INSIDE, threeOctants.checkPoint(new S2Point(v)));
+            } else if (((v.getX() > sinTol) && (v.getY() > sinTol)) || (v.getZ() < -sinTol)) {
+                Assert.assertEquals(Location.OUTSIDE, threeOctants.checkPoint(new S2Point(v)));
+            } else {
+                Assert.assertEquals(Location.BOUNDARY, threeOctants.checkPoint(new S2Point(v)));
+            }
+        }
+
+        List<SphericalPolygonsSet.Vertex> loops = threeOctants.getBoundaryLoops();
+        Assert.assertEquals(1, loops.size());
+        boolean xPFound = false;
+        boolean yPFound = false;
+        boolean zPFound = false;
+        boolean xVFound = false;
+        boolean yVFound = false;
+        boolean zVFound = false;
+        SphericalPolygonsSet.Vertex first = loops.get(0);
+        int count = 0;
+        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
+            ++count;
+            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
+            xPFound = xPFound || e.getCircle().getPole().distance(Vector3D.MINUS_I) < 1.0e-10;
+            yPFound = yPFound || e.getCircle().getPole().distance(Vector3D.MINUS_J) < 1.0e-10;
+            zPFound = zPFound || e.getCircle().getPole().distance(Vector3D.PLUS_K)  < 1.0e-10;
+            if (Vector3D.PLUS_K.distance(e.getCircle().getPole()) < 1.0e-10) {
+                Assert.assertEquals(1.5 * FastMath.PI, e.getLength(), 1.0e-10);
+            } else {
+                Assert.assertEquals(0.5 * FastMath.PI, e.getLength(), 1.0e-10);
+            }
+            xVFound = xVFound || v.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
+            yVFound = yVFound || v.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
+            zVFound = zVFound || v.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
+        }
+        Assert.assertTrue(xPFound);
+        Assert.assertTrue(yPFound);
+        Assert.assertTrue(zPFound);
+        Assert.assertTrue(xVFound);
+        Assert.assertTrue(yVFound);
+        Assert.assertTrue(zVFound);
+        Assert.assertEquals(3, count);
+
+        Assert.assertEquals(1.5 * FastMath.PI, threeOctants.getSize(), 1.0e-10);
+        Assert.assertEquals(0.0,
+                            new Vector3D(-1, -1, 1).normalize().distance(((S2Point) threeOctants.getBarycenter()).getVector()),
+                            1.0e-10);
+
     }
 
 }

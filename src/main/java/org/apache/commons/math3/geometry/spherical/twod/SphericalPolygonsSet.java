@@ -632,8 +632,17 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                      edge = edge.getEnd().getOutgoing()) {
                     final Vector3D middle = edge.getPointAt(0.5 * edge.getLength());
                     sumP = new Vector3D(1, sumP, edge.getLength(), middle);
-                    sum += Vector3D.angle(edge.getCircle().getPole(),
-                                          edge.getEnd().getOutgoing().getCircle().getPole());
+
+                    // find path interior angle at vertex
+                    final Vector3D previousPole = edge.getCircle().getPole();
+                    final Vector3D nextPole     = edge.getEnd().getOutgoing().getCircle().getPole();
+                    final Vector3D point        = edge.getEnd().getLocation().getVector();
+                    double alpha = FastMath.atan2(Vector3D.dotProduct(nextPole, Vector3D.crossProduct(point, previousPole)),
+                                                  -Vector3D.dotProduct(nextPole, previousPole));
+                    if (alpha < 0) {
+                        alpha += MathUtils.TWO_PI;
+                    }
+                    sum += alpha;
                     n++;
                 }
 
