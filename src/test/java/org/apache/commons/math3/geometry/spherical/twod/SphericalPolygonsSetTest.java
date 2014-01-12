@@ -16,9 +16,12 @@
  */
 package org.apache.commons.math3.geometry.spherical.twod;
 
+import java.util.List;
+
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.geometry.spherical.twod.SphericalPolygonsSet.Vertex;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.FastMath;
@@ -81,6 +84,35 @@ public class SphericalPolygonsSetTest {
                 Assert.assertEquals(Location.BOUNDARY, octant.checkPoint(new S2Point(v)));
             }
         }
+
+        List<SphericalPolygonsSet.Vertex> loops = octant.getBoundaryLoops();
+        Assert.assertEquals(1, loops.size());
+        boolean xFound = false;
+        boolean yFound = false;
+        boolean zFound = false;
+        Vertex first = loops.get(0);
+        xFound = first.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
+        yFound = first.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
+        zFound = first.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
+        int count = 1;
+        for (Vertex v = first.getOutgoing().getEnd(); v != first; v = v.getOutgoing().getEnd()) {
+            ++count;
+            Assert.assertTrue(v == v.getIncoming().getStart().getOutgoing().getEnd());
+            Assert.assertEquals(0.5 * FastMath.PI, v.getIncoming().getLength(), 1.0e-10);
+            xFound = xFound || v.getLocation().getVector().distance(Vector3D.PLUS_I) < 1.0e-10;
+            yFound = yFound || v.getLocation().getVector().distance(Vector3D.PLUS_J) < 1.0e-10;
+            zFound = zFound || v.getLocation().getVector().distance(Vector3D.PLUS_K) < 1.0e-10;
+        }
+        Assert.assertTrue(xFound);
+        Assert.assertTrue(yFound);
+        Assert.assertTrue(zFound);
+        Assert.assertEquals(3, count);
+
+        Assert.assertEquals(0.0,
+                            new Vector3D(1, 1, 1).normalize().distance(((S2Point) octant.getBarycenter()).getVector()),
+                            1.0e-10);
+        Assert.assertEquals(0.5 * FastMath.PI, octant.getSize(), 1.0e-10);
+
     }
 
     @Test

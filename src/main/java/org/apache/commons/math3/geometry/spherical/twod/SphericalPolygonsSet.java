@@ -628,7 +628,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                 double sum = 0;
                 Vector3D sumP = Vector3D.ZERO;
                 for (Edge edge = startVertex.getOutgoing();
-                     edge.getEnd() != startVertex;
+                     n == 0 || edge.getStart() != startVertex;
                      edge = edge.getEnd().getOutgoing()) {
                     final Vector3D middle = edge.getPointAt(0.5 * edge.getLength());
                     sumP = new Vector3D(1, sumP, edge.getLength(), middle);
