@@ -19,7 +19,10 @@ package org.apache.commons.math3.geometry.spherical.twod;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -225,16 +228,10 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
         // find an edge with an hyperplane that can be inserted in the node
         int index = 0;
-        Edge inserted =null;
+        Edge inserted = null;
         while (inserted == null && index < edges.size()) {
             inserted = edges.get(index++);
-            if (inserted.getNode() == null) {
-                if (node.insertCut(inserted.getCircle())) {
-                    inserted.setNode(node);
-                } else {
-                    inserted = null;
-                }
-            } else {
+            if (!node.insertCut(inserted.getCircle())) {
                 inserted = null;
             }
         }
@@ -394,9 +391,6 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         /** Circle supporting the edge. */
         private final Circle circle;
 
-        /** Node whose cut hyperplane contains this edge. */
-        private BSPTree<Sphere2D> node;
-
         /** Build an edge not contained in any node yet.
          * @param start start vertex
          * @param end end vertex
@@ -409,7 +403,6 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             this.end    = end;
             this.length = length;
             this.circle = circle;
-            this.node   = null;
 
             // connect the vertices back to the edge
             start.setOutgoing(this);
@@ -457,20 +450,6 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
          */
         public Vector3D getPointAt(final double alpha) {
             return circle.getPointAt(alpha + circle.getPhase(start.getLocation().getVector()));
-        }
-
-        /** Set the node whose cut hyperplane contains this edge.
-         * @param node node whose cut hyperplane contains this edge
-         */
-        private void setNode(final BSPTree<Sphere2D> node) {
-            this.node = node;
-        }
-
-        /** Get the node whose cut hyperplane contains this edge.
-         * @return node whose cut hyperplane contains this edge
-         */
-        private BSPTree<Sphere2D> getNode() {
-            return node;
         }
 
         /** Connect the instance with a following edge.
@@ -584,7 +563,6 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             // really add the edge
             subEnd.bindWith(splitCircle);
             final Edge edge = new Edge(subStart, subEnd, subLength, circle);
-            edge.setNode(node);
             list.add(edge);
             return subEnd;
 
@@ -708,24 +686,32 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                 root.visit(visitor);
                 final List<Edge> edges = visitor.getEdges();
 
+
                 // convert the list of all edges into a list of start vertices
                 loops = new ArrayList<Vertex>();
-                for (final Edge edge : edges) {
-                    if (edge.getNode() != null) {
+                while (!edges.isEmpty()) {
 
-                        // this is an edge belonging to a new loop, store it
-                        final Vertex startVertex = edge.getStart();
-                        loops.add(startVertex);
+                    // this is an edge belonging to a new loop, store it
+                    Edge edge = edges.get(0);
+                    final Vertex startVertex = edge.getStart();
+                    loops.add(startVertex);
 
-                        // disable all remaining edges in the same loop
-                        for (Vertex vertex = edge.getEnd();
-                             vertex != startVertex;
-                             vertex = vertex.getOutgoing().getEnd()) {
-                            vertex.getIncoming().setNode(null);
+                    // remove all remaining edges in the same loop
+                    do {
+
+                        // remove one edge
+                        for (final Iterator<Edge> iterator = edges.iterator(); iterator.hasNext();) {
+                            if (iterator.next() == edge) {
+                                iterator.remove();
+                                break;
+                            }
                         }
-                        startVertex.getIncoming().setNode(null);
 
-                    }
+                        // go to next edge following the boundary loop
+                        edge = edge.getEnd().getOutgoing();
+
+                    } while (edge.getStart() != startVertex);
+
                 }
 
             }
@@ -744,17 +730,21 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         /** Tolerance below which points are consider to be identical. */
         private final double tolerance;
 
-        /** Boundary edges. */
-        private final List<Edge> edges;
+        /** Built edges and their associated nodes. */
+        private final Map<Edge, BSPTree<Sphere2D>> edgeToNode;
+
+        /** Reversed map. */
+        private final Map<BSPTree<Sphere2D>, List<Edge>> nodeToEdgesList;
 
         /** Simple constructor.
          * @param root tree root
          * @param tolerance below which points are consider to be identical
          */
         public EdgesBuilder(final BSPTree<Sphere2D> root, final double tolerance) {
-            this.root      = root;
-            this.tolerance = tolerance;
-            this.edges     = new ArrayList<Edge>();
+            this.root            = root;
+            this.tolerance       = tolerance;
+            this.edgeToNode      = new IdentityHashMap<Edge, BSPTree<Sphere2D>>();
+            this.nodeToEdgesList = new IdentityHashMap<BSPTree<Sphere2D>, List<Edge>>();
         }
 
         /** {@inheritDoc} */
@@ -764,6 +754,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
         /** {@inheritDoc} */
         public void visitInternalNode(final BSPTree<Sphere2D> node) {
+            nodeToEdgesList.put(node, new ArrayList<Edge>());
             @SuppressWarnings("unchecked")
             final BoundaryAttribute<Sphere2D> attribute = (BoundaryAttribute<Sphere2D>) node.getAttribute();
             if (attribute.getPlusOutside() != null) {
@@ -798,14 +789,14 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                 } else {
                     edge = new Edge(start, end, a.getSize(), circle);
                 }
-                edge.setNode(node);
-                edges.add(edge);
+                edgeToNode.put(edge, node);
+                nodeToEdgesList.get(node).add(edge);
             }
         }
 
         /** Get the edge that should naturally follow another one.
          * @param previous edge to be continued
-         * @return other edge, starting where the other one ends (they
+         * @return other edge, starting where the previous one ends (they
          * have not been connected yet)
          * @exception MathIllegalStateException if there is not a single other edge
          */
@@ -816,31 +807,28 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             final S2Point point = previous.getEnd().getLocation();
             final List<BSPTree<Sphere2D>> candidates = root.getCloseCuts(point, tolerance);
 
-            // filter the single other node we are interested in
-            BSPTree<Sphere2D> selected = null;
+            // the following edge we are looking for must start from one of the candidates nodes
+            double closest = tolerance;
+            Edge following = null;
             for (final BSPTree<Sphere2D> node : candidates) {
-                if (node != previous.getNode()) {
-                    if (selected == null) {
-                        selected = node;
-                    } else {
-                        throw new MathIllegalStateException(LocalizedFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
+                for (final Edge edge : nodeToEdgesList.get(node)) {
+                    if (edge != previous && edge.getStart().getIncoming() == null) {
+                        final Vector3D edgeStart = edge.getStart().getLocation().getVector();
+                        final double gap         = Vector3D.angle(point.getVector(), edgeStart);
+                        if (gap <= closest) {
+                            closest   = gap;
+                            following = edge;
+                        }
                     }
                 }
             }
-            if (selected == null) {
+
+            if (following == null) {
+                // this should never happen
                 throw new MathIllegalStateException(LocalizedFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
             }
 
-            // find the edge associated with the selected node
-            for (final Edge edge : edges) {
-                if (edge.getNode() == selected &&
-                    Vector3D.angle(point.getVector(), edge.getStart().getLocation().getVector()) <= tolerance) {
-                    return edge;
-                }
-            }
-
-            // we should never reach this point
-            throw new MathIllegalStateException(LocalizedFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
+            return following;
 
         }
 
@@ -851,11 +839,11 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         public List<Edge> getEdges() throws MathIllegalStateException {
 
             // connect the edges
-            for (final Edge previous : edges) {
+            for (final Edge previous : edgeToNode.keySet()) {
                 previous.setNextEdge(getFollowingEdge(previous));
             }
 
-            return edges;
+            return new ArrayList<Edge>(edgeToNode.keySet());
 
         }
 

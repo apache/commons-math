@@ -16,14 +16,20 @@
  */
 package org.apache.commons.math3.geometry.spherical.twod;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
+import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -204,5 +210,75 @@ public class SphericalPolygonsSetTest {
                             1.0e-10);
 
     }
+
+    @Test
+    public void testModeratlyComplexShape() {
+        double tol = 0.01;
+        List<SubHyperplane<Sphere2D>> boundary = new ArrayList<SubHyperplane<Sphere2D>>();
+        boundary.add(create(Vector3D.MINUS_J, Vector3D.PLUS_I,  Vector3D.PLUS_K,  tol, 0.0, 0.5 * FastMath.PI));
+        boundary.add(create(Vector3D.MINUS_I, Vector3D.PLUS_K,  Vector3D.PLUS_J,  tol, 0.0, 0.5 * FastMath.PI));
+        boundary.add(create(Vector3D.PLUS_K,  Vector3D.PLUS_J,  Vector3D.MINUS_I, tol, 0.0, 0.5 * FastMath.PI));
+        boundary.add(create(Vector3D.MINUS_J, Vector3D.MINUS_I, Vector3D.MINUS_K, tol, 0.0, 0.5 * FastMath.PI));
+        boundary.add(create(Vector3D.MINUS_I, Vector3D.MINUS_K, Vector3D.MINUS_J, tol, 0.0, 0.5 * FastMath.PI));
+        boundary.add(create(Vector3D.PLUS_K,  Vector3D.MINUS_J, Vector3D.PLUS_I,  tol, 0.0, 0.5 * FastMath.PI));
+        SphericalPolygonsSet polygon = new SphericalPolygonsSet(boundary, tol);
+
+        Assert.assertEquals(Location.OUTSIDE, polygon.checkPoint(new S2Point(new Vector3D( 1,  1,  1).normalize())));
+        Assert.assertEquals(Location.INSIDE,  polygon.checkPoint(new S2Point(new Vector3D(-1,  1,  1).normalize())));
+        Assert.assertEquals(Location.INSIDE,  polygon.checkPoint(new S2Point(new Vector3D(-1, -1,  1).normalize())));
+        Assert.assertEquals(Location.INSIDE,  polygon.checkPoint(new S2Point(new Vector3D( 1, -1,  1).normalize())));
+        Assert.assertEquals(Location.OUTSIDE, polygon.checkPoint(new S2Point(new Vector3D( 1,  1, -1).normalize())));
+        Assert.assertEquals(Location.OUTSIDE, polygon.checkPoint(new S2Point(new Vector3D(-1,  1, -1).normalize())));
+        Assert.assertEquals(Location.INSIDE,  polygon.checkPoint(new S2Point(new Vector3D(-1, -1, -1).normalize())));
+        Assert.assertEquals(Location.OUTSIDE, polygon.checkPoint(new S2Point(new Vector3D( 1, -1, -1).normalize())));
+
+        Assert.assertEquals(MathUtils.TWO_PI, polygon.getSize(), 1.0e-10);
+        Assert.assertEquals(3 * FastMath.PI, polygon.getBoundarySize(), 1.0e-10);
+
+        List<SphericalPolygonsSet.Vertex> loops = polygon.getBoundaryLoops();
+        Assert.assertEquals(1, loops.size());
+        boolean pXFound = false;
+        boolean mXFound = false;
+        boolean pYFound = false;
+        boolean mYFound = false;
+        boolean pZFound = false;
+        boolean mZFound = false;
+        SphericalPolygonsSet.Vertex first = loops.get(0);
+        int count = 0;
+        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
+            ++count;
+            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
+            pXFound = pXFound || v.getLocation().getVector().distance(Vector3D.PLUS_I)  < 1.0e-10;
+            mXFound = mXFound || v.getLocation().getVector().distance(Vector3D.MINUS_I) < 1.0e-10;
+            pYFound = pYFound || v.getLocation().getVector().distance(Vector3D.PLUS_J)  < 1.0e-10;
+            mYFound = mYFound || v.getLocation().getVector().distance(Vector3D.MINUS_J) < 1.0e-10;
+            pZFound = pZFound || v.getLocation().getVector().distance(Vector3D.PLUS_K)  < 1.0e-10;
+            mZFound = mZFound || v.getLocation().getVector().distance(Vector3D.MINUS_K) < 1.0e-10;
+            Assert.assertEquals(0.5 * FastMath.PI, e.getLength(), 1.0e-10);
+        }
+        Assert.assertTrue(pXFound);
+        Assert.assertTrue(mXFound);
+        Assert.assertTrue(pYFound);
+        Assert.assertTrue(mYFound);
+        Assert.assertTrue(pZFound);
+        Assert.assertTrue(mZFound);
+        Assert.assertEquals(6, count);
+
+    }
+
+    private SubCircle create(Vector3D pole, Vector3D x, Vector3D y,
+                             double tolerance, double ... limits) {
+        RegionFactory<Sphere1D> factory = new RegionFactory<Sphere1D>();
+        Circle circle = new Circle(pole, tolerance);
+        Circle phased =
+                (Circle) Circle.getTransform(new Rotation(circle.getXAxis(), circle.getYAxis(), x, y)).apply(circle);
+        ArcsSet set = (ArcsSet) factory.getComplement(new ArcsSet(tolerance));
+        for (int i = 0; i < limits.length; i += 2) {
+            set = (ArcsSet) factory.union(set, new ArcsSet(limits[i], limits[i + 1], tolerance));
+        }
+        return new SubCircle(phased, set);
+    }
+
 
 }
