@@ -143,6 +143,7 @@ public class CircleTest {
 
     private void checkArcIsInside(final Circle arcCircle, final Circle otherCircle) {
         Arc arc = arcCircle.getInsideArc(otherCircle);
+        Assert.assertEquals(FastMath.PI, arc.getSize(), 1.0e-10);
         for (double alpha = arc.getInf(); alpha < arc.getSup(); alpha += 0.1) {
             Assert.assertTrue(otherCircle.getOffset(arcCircle.getPointAt(alpha)) <= 2.0e-15);
         }

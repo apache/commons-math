@@ -476,10 +476,10 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
             // get the inside arc, synchronizing its phase with the edge itself
             final double edgeStart        = circle.getPhase(start.getLocation().getVector());
-            final double arcRelativeStart = MathUtils.normalizeAngle(circle.getInsideArc(splitCircle).getInf(),
-                                                                     edgeStart + FastMath.PI) - edgeStart;
-            final double arcRelativeEnd   = arcRelativeStart + FastMath.PI;
-            final double unwrappedEnd     = arcRelativeStart - FastMath.PI;
+            final Arc    arc              = circle.getInsideArc(splitCircle);
+            final double arcRelativeStart = MathUtils.normalizeAngle(arc.getInf(), edgeStart + FastMath.PI) - edgeStart;
+            final double arcRelativeEnd   = arcRelativeStart + arc.getSize();
+            final double unwrappedEnd     = arcRelativeEnd - MathUtils.TWO_PI;
 
             // build the sub-edges
             final double tolerance = circle.getTolerance();

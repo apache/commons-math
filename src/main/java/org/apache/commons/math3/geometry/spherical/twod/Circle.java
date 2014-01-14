@@ -112,9 +112,9 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
      * @param newPole circle pole
      */
     public void reset(final Vector3D newPole) {
-        this.pole   = newPole.normalize();
-        this.x      = newPole.orthogonal();
-        this.y      = Vector3D.crossProduct(newPole, x).normalize();
+        this.pole = newPole.normalize();
+        this.x    = newPole.orthogonal();
+        this.y    = Vector3D.crossProduct(newPole, x).normalize();
     }
 
     /** Revert the instance.
@@ -226,7 +226,6 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
     /** Get the arc of the instance that lies inside the other circle.
      * @param other other circle
      * @return arc of the instance that lies inside the other circle
-     * (guaranteed to always have a length of \( \pi \))
      */
     public Arc getInsideArc(final Circle other) {
         final double alpha  = getPhase(other.pole);
