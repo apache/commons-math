@@ -665,6 +665,46 @@ public class BSPTree<S extends Space> {
 
     }
 
+    /** Prune a tree around a cell.
+     * <p>
+     * This method can be used to extract a convex cell from a tree.
+     * The original cell may either be a leaf node or an internal node.
+     * If it is an internal node, it's subtree will be ignored (i.e. the
+     * extracted cell will be a leaf node in all cases). The original
+     * tree to which the original cell belongs is not touched at all,
+     * a new independent tree will be built.
+     * </p>
+     * @param cellAttribute attribute to set for the leaf node
+     * corresponding to the initial instance cell
+     * @param otherLeafsAttributes attribute to set for the other leaf
+     * nodes
+     * @param internalAttributes attribute to set for the internal nodes
+     * @return a new tree (the original tree is left untouched) containing
+     * a single branch with the cell as a leaf node, and other leaf nodes
+     * as the remnants of the pruned branches
+     */
+    public BSPTree<S> pruneAroundConvexCell(final Object cellAttribute,
+                                            final Object otherLeafsAttributes,
+                                            final Object internalAttributes) {
+
+        // build the current cell leaf
+        BSPTree<S> tree = new BSPTree<S>(cellAttribute);
+
+        // build the pruned tree bottom-up
+        for (BSPTree<S> current = this; current.parent != null; current = current.parent) {
+            final SubHyperplane<S> parentCut = current.parent.cut.copySelf();
+            final BSPTree<S>       sibling   = new BSPTree<S>(otherLeafsAttributes);
+            if (current == current.parent.plus) {
+                tree = new BSPTree<S>(parentCut, tree, sibling, internalAttributes);
+            } else {
+                tree = new BSPTree<S>(parentCut, sibling, tree, internalAttributes);
+            }
+        }
+
+        return tree;
+
+    }
+
     /** Chop off parts of the tree.
      * <p>The instance is modified in place, all the parts that are on
      * the minus side of the chopping hyperplane are discarded, only the

@@ -520,8 +520,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             current    = firstStart;
 
             if (firstStart == null) {
-                // the tree has a single node
-                if ((Boolean) getTree(false).getAttribute()) {
+                // all the leaf tree nodes share the same inside/outside status
+                if ((Boolean) getFirstLeaf(getTree(false)).getAttribute()) {
                     // it is an inside node, it represents the full circle
                     pending = new double[] {
                         0, MathUtils.TWO_PI

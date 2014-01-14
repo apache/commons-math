@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
@@ -65,6 +67,19 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
                                     new BSPTree<Sphere2D>(Boolean.TRUE),
                                     null),
               tolerance);
+    }
+
+    /** Build a polygons set representing a regular polygon.
+     * @param center center of the polygon (the center is in the inside half)
+     * @param meridian point defining the reference meridian for first polygon vertex
+     * @param outsideRadius distance of the vertices to the center
+     * @param n number of sides of the polygon
+     * @param tolerance below which points are consider to be identical
+     */
+    public SphericalPolygonsSet(final Vector3D center, final Vector3D meridian,
+                                final double outsideRadius, final int n,
+                                final double tolerance) {
+        this(tolerance, createRegularPolygonVertices(center, meridian, outsideRadius, n));
     }
 
     /** Build a polygons set from a BSP tree.
@@ -138,6 +153,27 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      */
     public SphericalPolygonsSet(final double hyperplaneThickness, final S2Point ... vertices) {
         super(verticesToTree(hyperplaneThickness, vertices), hyperplaneThickness);
+    }
+
+    /** Build the vertices representing a regular polygon.
+     * @param center center of the polygon (the center is in the inside half)
+     * @param meridian point defining the reference meridian for first polygon vertex
+     * @param outsideRadius distance of the vertices to the center
+     * @param n number of sides of the polygon
+     * @return vertices array
+     */
+    private static S2Point[] createRegularPolygonVertices(final Vector3D center, final Vector3D meridian,
+                                                          final double outsideRadius, final int n) {
+        final S2Point[] array = new S2Point[n];
+        final Rotation r0 = new Rotation(Vector3D.crossProduct(center, meridian), outsideRadius);
+        array[0] = new S2Point(r0.applyTo(center));
+
+        final Rotation r = new Rotation(center, MathUtils.TWO_PI / n);
+        for (int i = 1; i < n; ++i) {
+            array[i] = new S2Point(r.applyTo(array[i - 1].getVector()));
+        }
+
+        return array;
     }
 
     /** Build the BSP tree of a polygons set from a simple list of vertices.
@@ -583,70 +619,28 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
     @Override
     protected void computeGeometricalProperties() throws MathIllegalStateException {
 
-        final List<Vertex> boundary = getBoundaryLoops();
+        final BSPTree<Sphere2D> tree = getTree(true);
 
-        if (boundary.isEmpty()) {
-            final BSPTree<Sphere2D> tree = getTree(false);
+        if (tree.getCut() == null) {
+
+            // the instance has a single cell without any boundaries
+
             if (tree.getCut() == null && (Boolean) tree.getAttribute()) {
                 // the instance covers the whole space
                 setSize(4 * FastMath.PI);
+                setBarycenter(new S2Point(0, 0));
             } else {
                 setSize(0);
+                setBarycenter(S2Point.NaN);
             }
-            setBarycenter(new S2Point(0, 0));
+
         } else {
 
-            // compute some integrals around the shape
-            double   sumArea = 0;
-            Vector3D sumB    = Vector3D.ZERO;
-
-            for (final Vertex startVertex : boundary) {
-
-                int n = 0;
-                double sum = 0;
-                Vector3D sumP = Vector3D.ZERO;
-                for (Edge edge = startVertex.getOutgoing();
-                     n == 0 || edge.getStart() != startVertex;
-                     edge = edge.getEnd().getOutgoing()) {
-                    final Vector3D middle = edge.getPointAt(0.5 * edge.getLength());
-                    sumP = new Vector3D(1, sumP, edge.getLength(), middle);
-
-                    // find path interior angle at vertex
-                    final Vector3D previousPole = edge.getCircle().getPole();
-                    final Vector3D nextPole     = edge.getEnd().getOutgoing().getCircle().getPole();
-                    final Vector3D point        = edge.getEnd().getLocation().getVector();
-                    double alpha = FastMath.atan2(Vector3D.dotProduct(nextPole, Vector3D.crossProduct(point, previousPole)),
-                                                  -Vector3D.dotProduct(nextPole, previousPole));
-                    if (alpha < 0) {
-                        alpha += MathUtils.TWO_PI;
-                    }
-                    sum += alpha;
-                    n++;
-                }
-
-                // compute area using extended Girard theorem
-                // see Spherical Trigonometry: For the Use of Colleges and Schools by I. Todhunter
-                // article 99 in chapter VIII Area Of a Spherical Triangle. Spherical Excess.
-                // book available from project Gutenberg at http://www.gutenberg.org/ebooks/19770
-                final double area = sum - (n - 2) * FastMath.PI;
-                sumArea += area;
-
-                sumB = new Vector3D(1, sumB, area, sumP);
-
-            }
-
-            if (sumArea < 0) {
-                sumArea = 4 * FastMath.PI - sumArea;
-                sumB = sumB.negate();
-            }
-
-            setSize(sumArea);
-            final double norm = sumB.getNorm();
-            if (norm == 0.0) {
-                setBarycenter(S2Point.NaN);
-            } else {
-                setBarycenter(new S2Point(new Vector3D(1.0 / norm, sumB)));
-            }
+            // the instance has a boundary
+            final PropertiesComputer pc = new PropertiesComputer(getTolerance());
+            tree.visit(pc);
+            setSize(pc.getArea());
+            setBarycenter(pc.getBarycenter());
 
         }
 
@@ -845,6 +839,139 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
 
             return new ArrayList<Edge>(edgeToNode.keySet());
 
+        }
+
+    }
+
+    /** Visitor computing geometrical properties. */
+    private static class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
+
+        /** Tolerance below which points are consider to be identical. */
+        private final double tolerance;
+
+        /** Summed area. */
+        private double summedArea;
+
+        /** Summed barycenter. */
+        private Vector3D summedBarycenter;
+
+        /** Simple constructor.
+     * @param tolerance below which points are consider to be identical
+         */
+        public PropertiesComputer(final double tolerance) {
+            this.tolerance        = tolerance;
+            this.summedArea       = 0;
+            this.summedBarycenter = Vector3D.ZERO;
+        }
+
+        /** {@inheritDoc} */
+        public Order visitOrder(final BSPTree<Sphere2D> node) {
+            return Order.MINUS_SUB_PLUS;
+        }
+
+        /** {@inheritDoc} */
+        public void visitInternalNode(final BSPTree<Sphere2D> node) {
+            // nothing to do here
+        }
+
+        /** {@inheritDoc} */
+        public void visitLeafNode(final BSPTree<Sphere2D> node) {
+            if ((Boolean) node.getAttribute()) {
+
+                // transform this inside leaf cell into a simple convex polygon
+                final SphericalPolygonsSet convex =
+                        new SphericalPolygonsSet(node.pruneAroundConvexCell(Boolean.TRUE,
+                                                                            Boolean.FALSE,
+                                                                            null),
+                                                 tolerance);
+
+                // extract the start of the single loop boundary of the convex cell
+                final List<Vertex> boundary = convex.getBoundaryLoops();
+                if (boundary.size() != 1) {
+                    // this should never happen
+                    throw new MathInternalError();
+                }
+
+                // compute the geometrical properties of the convex cell
+                final double area  = convexCellArea(boundary.get(0));
+                final Vector3D barycenter = convexCellBarycenter(boundary.get(0));
+
+                // add the cell contribution to the global properties
+                summedArea      += area;
+                summedBarycenter = new Vector3D(1, summedBarycenter, area, barycenter);
+
+            }
+        }
+
+        /** Compute convex cell area.
+         * @param start start vertex of the convex cell boundary
+         * @return area
+         */
+        private double convexCellArea(final Vertex start) {
+
+            int n = 0;
+            double sum = 0;
+
+            // loop around the cell
+            for (Edge e = start.getOutgoing(); n == 0 || e.getStart() != start; e = e.getEnd().getOutgoing()) {
+
+                // find path interior angle at vertex
+                final Vector3D previousPole = e.getCircle().getPole();
+                final Vector3D nextPole     = e.getEnd().getOutgoing().getCircle().getPole();
+                final Vector3D point        = e.getEnd().getLocation().getVector();
+                double alpha = FastMath.atan2(Vector3D.dotProduct(nextPole, Vector3D.crossProduct(point, previousPole)),
+                                              -Vector3D.dotProduct(nextPole, previousPole));
+                if (alpha < 0) {
+                    alpha += MathUtils.TWO_PI;
+                }
+                sum += alpha;
+                n++;
+            }
+
+            // compute area using extended Girard theorem
+            // see Spherical Trigonometry: For the Use of Colleges and Schools by I. Todhunter
+            // article 99 in chapter VIII Area Of a Spherical Triangle. Spherical Excess.
+            // book available from project Gutenberg at http://www.gutenberg.org/ebooks/19770
+            return sum - (n - 2) * FastMath.PI;
+
+        }
+
+        /** Compute convex cell barycenter.
+         * @param start start vertex of the convex cell boundary
+         * @return barycenter
+         */
+        private Vector3D convexCellBarycenter(final Vertex start) {
+
+            int n = 0;
+            Vector3D sumB = Vector3D.ZERO;
+
+            // loop around the cell
+            for (Edge e = start.getOutgoing(); n == 0 || e.getStart() != start; e = e.getEnd().getOutgoing()) {
+                final Vector3D middle = e.getPointAt(0.5 * e.getLength());
+                sumB = new Vector3D(1, sumB, e.getLength(), middle);
+                n++;
+            }
+
+            return sumB.normalize();
+
+        }
+
+        /** Get the area.
+         * @return area
+         */
+        public double getArea() {
+            return summedArea;
+        }
+
+        /** Get the barycenter.
+         * @return barycenter
+         */
+        public S2Point getBarycenter() {
+            if (summedBarycenter.getNormSq() == 0) {
+                return S2Point.NaN;
+            } else {
+                return new S2Point(summedBarycenter);
+            }
         }
 
     }
