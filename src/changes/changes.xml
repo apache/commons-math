@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="fix" >
+        Fixed an issue with noisy functions for ODE events detection.
+      </action>
       <action dev="erans" type="add" issue="MATH-923">
         Utilities for creating artificial neural networks (package "o.a.c.m.ml.neuralnet").
         Implementation of Kohonen's Self-Organizing Feature Map (SOFM).

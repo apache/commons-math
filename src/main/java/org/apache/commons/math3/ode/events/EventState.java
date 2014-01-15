@@ -290,9 +290,13 @@ public class EventState {
                         (FastMath.abs(root - ta) <= convergence) &&
                         (FastMath.abs(root - previousEventTime) <= convergence)) {
                         // we have either found nothing or found (again ?) a past event,
-                        // retry the substep excluding this value
-                        ta = forward ? ta + convergence : ta - convergence;
-                        ga = f.value(ta);
+                        // retry the substep excluding this value, and taking care to have the
+                        // required sign in case the g function is noisy around its zero and
+                        // crosses the axis several times
+                        do {
+                            ta = forward ? ta + convergence : ta - convergence;
+                            ga = f.value(ta);
+                        } while ((g0Positive ^ (ga >= 0)) && (forward ^ (ta >= tb)));
                         --i;
                     } else if (Double.isNaN(previousEventTime) ||
                                (FastMath.abs(previousEventTime - root) > convergence)) {
