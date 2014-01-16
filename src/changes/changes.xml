@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1089">
+        "Precision#round(double, ...)" will now return negative zero for negative
+        values rounded to zero, similar to the float variant.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1088">
         The iterator returned by "MultiDimensionalCounter#iterator()" will now
         correctly throw a "NoSuchElementException" when calling "next()" and the

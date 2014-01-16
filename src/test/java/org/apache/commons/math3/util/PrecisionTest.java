@@ -393,6 +393,9 @@ public class PrecisionTest {
         Assert.assertEquals(0.0, Precision.round(0.0, 2), 0.0);
         Assert.assertEquals(Double.POSITIVE_INFINITY, Precision.round(Double.POSITIVE_INFINITY, 2), 0.0);
         Assert.assertEquals(Double.NEGATIVE_INFINITY, Precision.round(Double.NEGATIVE_INFINITY, 2), 0.0);
+        // comparison of positive and negative zero is not possible -> always equal thus do string comparison
+        Assert.assertEquals("-0.0", Double.toString(Precision.round(-0.0, 0)));
+        Assert.assertEquals("-0.0", Double.toString(Precision.round(-1e-10, 0)));
     }
 
     @Test
@@ -490,7 +493,10 @@ public class PrecisionTest {
         Assert.assertEquals(0.0f, Precision.round(0.0f, 2), 0.0f);
         Assert.assertEquals(Float.POSITIVE_INFINITY, Precision.round(Float.POSITIVE_INFINITY, 2), 0.0f);
         Assert.assertEquals(Float.NEGATIVE_INFINITY, Precision.round(Float.NEGATIVE_INFINITY, 2), 0.0f);
-        
+        // comparison of positive and negative zero is not possible -> always equal thus do string comparison
+        Assert.assertEquals("-0.0", Float.toString(Precision.round(-0.0f, 0)));
+        Assert.assertEquals("-0.0", Float.toString(Precision.round(-1e-10f, 0)));
+
         // MATH-1070
         Assert.assertEquals(0.0f, Precision.round(0f, 2, BigDecimal.ROUND_UP), 0.0f);
         Assert.assertEquals(0.05f, Precision.round(0.05f, 2, BigDecimal.ROUND_UP), 0.0f);
