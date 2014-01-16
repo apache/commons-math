@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-1088">
+        The iterator returned by "MultiDimensionalCounter#iterator()" will now
+        correctly throw a "NoSuchElementException" when calling "next()" and the
+        iterator is already exhausted.
+      </action>
       <action dev="luc" type="fix" >
         Fixed an issue with noisy functions for ODE events detection.
       </action>
