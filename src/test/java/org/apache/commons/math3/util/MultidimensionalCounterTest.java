@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.util;
 
+import java.util.NoSuchElementException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -24,7 +25,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
+ * Test cases for the {@link MultidimensionalCounter} class.
  *
+ * @version $Id$
  */
 public class MultidimensionalCounterTest {
     @Test
@@ -101,6 +104,38 @@ public class MultidimensionalCounterTest {
     }
 
     @Test
+    public void testIterator() {
+        final int dim1 = 3;
+        final int dim2 = 4;
+
+        final MultidimensionalCounter.Iterator iter
+            = new MultidimensionalCounter(dim1, dim2).iterator();
+
+        final int max = dim1 * dim2;
+        for (int i = 0; i < max; i++) {
+            Assert.assertTrue(iter.hasNext());
+
+            // Should not throw.
+            iter.next();
+        }
+
+        Assert.assertFalse(iter.hasNext());
+    }
+
+    @Test(expected=NoSuchElementException.class)
+    public void testIteratorNoMoreElements() {
+        final MultidimensionalCounter.Iterator iter
+            = new MultidimensionalCounter(4, 2).iterator();
+
+        while (iter.hasNext()) {
+            iter.next();
+        }
+
+        // No more elements: should throw.
+        iter.next();
+    }
+
+    @Test
     public void testMulti2UniConversion() {
         final MultidimensionalCounter c = new MultidimensionalCounter(2, 4, 5);
         Assert.assertEquals(c.getCount(1, 2, 3), 33);
@@ -150,6 +185,8 @@ public class MultidimensionalCounterTest {
         };
 
         final int totalSize = c.getSize();
+        Assert.assertEquals(expected.length, totalSize);
+
         final int nDim = c.getDimension();
         final MultidimensionalCounter.Iterator iter = c.iterator();
         for (int i = 0; i < totalSize; i++) {
