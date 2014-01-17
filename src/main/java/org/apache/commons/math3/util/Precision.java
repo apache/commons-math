@@ -60,6 +60,8 @@ public class Precision {
     private static final long SGN_MASK = 0x8000000000000000L;
     /** Offset to order signed double numbers lexicographically. */
     private static final int SGN_MASK_FLOAT = 0x80000000;
+    /** Positive zero. */
+    private static final double POSITIVE_ZERO = 0d;
 
     static {
         /*
@@ -396,7 +398,7 @@ public class Precision {
                    .setScale(scale, roundingMethod))
                    .doubleValue();
             // MATH-1089: negative values rounded to zero should result in negative zero
-            return rounded == 0.0 ? rounded * FastMath.copySign(1d, x) : rounded;
+            return rounded == POSITIVE_ZERO ? POSITIVE_ZERO * x : rounded;
         } catch (NumberFormatException ex) {
             if (Double.isInfinite(x)) {
                 return x;
