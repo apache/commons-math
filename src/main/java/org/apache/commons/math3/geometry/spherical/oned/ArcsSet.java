@@ -435,7 +435,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
 
     /** Get the limit angle of an internal node.
      * @param node internal node to check
-     * @return true if the limit angle is direct
+     * @return limit angle
      */
     private double getAngle(final BSPTree<Sphere1D> node) {
         return ((LimitAngle) node.getCut().getHyperplane()).getLocation().getAlpha();
