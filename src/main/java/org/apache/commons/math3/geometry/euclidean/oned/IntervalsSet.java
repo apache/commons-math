@@ -18,7 +18,9 @@ package org.apache.commons.math3.geometry.euclidean.oned;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
@@ -30,7 +32,7 @@ import org.apache.commons.math3.util.Precision;
  * @version $Id$
  * @since 3.0
  */
-public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
+public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> implements Iterable<double[]> {
 
     /** Default value for tolerance. */
     private static final double DEFAULT_TOLERANCE = 1.0e-10;
@@ -281,45 +283,354 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> {
      */
     public List<Interval> asList() {
         final List<Interval> list = new ArrayList<Interval>();
-        recurseList(getTree(false), list,
-                    Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        for (final double[] a : this) {
+            list.add(new Interval(a[0], a[1]));
+        }
         return list;
     }
 
-    /** Update an intervals list.
-     * @param node current node
-     * @param list list to update
-     * @param lower lower bound of the current convex cell
-     * @param upper upper bound of the current convex cell
+    /** Get the first leaf node of a tree.
+     * @param root tree root
+     * @return first leaf node
      */
-    private void recurseList(final BSPTree<Euclidean1D> node,
-                             final List<Interval> list,
-                             final double lower, final double upper) {
+    private BSPTree<Euclidean1D> getFirstLeaf(final BSPTree<Euclidean1D> root) {
 
+        if (root.getCut() == null) {
+            return root;
+        }
+
+        // find the smallest internal node
+        BSPTree<Euclidean1D> smallest = null;
+        for (BSPTree<Euclidean1D> n = root; n != null; n = previousInternalNode(n)) {
+            smallest = n;
+        }
+
+        return leafBefore(smallest);
+
+    }
+
+    /** Get the node corresponding to the first interval boundary.
+     * @return smallest internal node,
+     * or null if there are no internal nodes (i.e. the set is either empty or covers the real line)
+     */
+    private BSPTree<Euclidean1D> getFirstIntervalBoundary() {
+
+        // start search at the tree root
+        BSPTree<Euclidean1D> node = getTree(false);
         if (node.getCut() == null) {
-            if ((Boolean) node.getAttribute()) {
-                // this leaf cell is an inside cell: an interval
-                list.add(new Interval(lower, upper));
-            }
+            return null;
+        }
+
+        // walk tree until we find the smallest internal node
+        node = getFirstLeaf(node).getParent();
+
+        // walk tree until we find an interval boundary
+        while (node != null && !(isIntervalStart(node) || isIntervalEnd(node))) {
+            node = nextInternalNode(node);
+        }
+
+        return node;
+
+    }
+
+    /** Check if an internal node corresponds to the start abscissa of an interval.
+     * @param node internal node to check
+     * @return true if the node corresponds to the start abscissa of an interval
+     */
+    private boolean isIntervalStart(final BSPTree<Euclidean1D> node) {
+
+        if ((Boolean) leafBefore(node).getAttribute()) {
+            // it has an inside cell before it, it may end an interval but not start it
+            return false;
+        }
+
+        if (!(Boolean) leafAfter(node).getAttribute()) {
+            // it has an outside cell after it, it is a dummy cut away from real intervals
+            return false;
+        }
+
+        // the cell has an outside before and an inside after it
+        // it is the start of an interval
+        return true;
+
+    }
+
+    /** Check if an internal node corresponds to the end abscissa of an interval.
+     * @param node internal node to check
+     * @return true if the node corresponds to the end abscissa of an interval
+     */
+    private boolean isIntervalEnd(final BSPTree<Euclidean1D> node) {
+
+        if (!(Boolean) leafBefore(node).getAttribute()) {
+            // it has an outside cell before it, it may start an interval but not end it
+            return false;
+        }
+
+        if ((Boolean) leafAfter(node).getAttribute()) {
+            // it has an inside cell after it, it is a dummy cut in the middle of an interval
+            return false;
+        }
+
+        // the cell has an inside before and an outside after it
+        // it is the end of an interval
+        return true;
+
+    }
+
+    /** Get the next internal node.
+     * @param node current internal node
+     * @return next internal node in ascending order, or null
+     * if this is the last internal node
+     */
+    private BSPTree<Euclidean1D> nextInternalNode(BSPTree<Euclidean1D> node) {
+
+        if (childAfter(node).getCut() != null) {
+            // the next node is in the sub-tree
+            return leafAfter(node).getParent();
+        }
+
+        // there is nothing left deeper in the tree, we backtrack
+        while (isAfterParent(node)) {
+            node = node.getParent();
+        }
+        return node.getParent();
+
+    }
+
+    /** Get the previous internal node.
+     * @param node current internal node
+     * @return previous internal node in ascending order, or null
+     * if this is the first internal node
+     */
+    private BSPTree<Euclidean1D> previousInternalNode(BSPTree<Euclidean1D> node) {
+
+        if (childBefore(node).getCut() != null) {
+            // the next node is in the sub-tree
+            return leafBefore(node).getParent();
+        }
+
+        // there is nothing left deeper in the tree, we backtrack
+        while (isBeforeParent(node)) {
+            node = node.getParent();
+        }
+        return node.getParent();
+
+    }
+
+    /** Find the leaf node just before an internal node.
+     * @param node internal node at which the sub-tree starts
+     * @return leaf node just before the internal node
+     */
+    private BSPTree<Euclidean1D> leafBefore(BSPTree<Euclidean1D> node) {
+
+        node = childBefore(node);
+        while (node.getCut() != null) {
+            node = childAfter(node);
+        }
+
+        return node;
+
+    }
+
+    /** Find the leaf node just after an internal node.
+     * @param node internal node at which the sub-tree starts
+     * @return leaf node just after the internal node
+     */
+    private BSPTree<Euclidean1D> leafAfter(BSPTree<Euclidean1D> node) {
+
+        node = childAfter(node);
+        while (node.getCut() != null) {
+            node = childBefore(node);
+        }
+
+        return node;
+
+    }
+
+    /** Check if a node is the child before its parent in ascending order.
+     * @param node child node considered
+     * @return true is the node has a parent end is before it in ascending order
+     */
+    private boolean isBeforeParent(final BSPTree<Euclidean1D> node) {
+        final BSPTree<Euclidean1D> parent = node.getParent();
+        if (parent == null) {
+            return false;
         } else {
-            final OrientedPoint op  = (OrientedPoint) node.getCut().getHyperplane();
-            final Vector1D       loc = op.getLocation();
-            double              x   = loc.getX();
+            return node == childBefore(parent);
+        }
+    }
 
-            // make sure we explore the tree in increasing order
-            final BSPTree<Euclidean1D> low  =
-                op.isDirect() ? node.getMinus() : node.getPlus();
-            final BSPTree<Euclidean1D> high =
-                op.isDirect() ? node.getPlus()  : node.getMinus();
+    /** Check if a node is the child after its parent in ascending order.
+     * @param node child node considered
+     * @return true is the node has a parent end is after it in ascending order
+     */
+    private boolean isAfterParent(final BSPTree<Euclidean1D> node) {
+        final BSPTree<Euclidean1D> parent = node.getParent();
+        if (parent == null) {
+            return false;
+        } else {
+            return node == childAfter(parent);
+        }
+    }
 
-            recurseList(low, list, lower, x);
-            if ((checkPoint(low,  (Point<Euclidean1D>) loc) == Location.INSIDE) &&
-                (checkPoint(high, (Point<Euclidean1D>) loc) == Location.INSIDE)) {
-                // merge the last interval added and the first one of the high sub-tree
-                x = list.remove(list.size() - 1).getInf();
+    /** Find the child node just before an internal node.
+     * @param node internal node at which the sub-tree starts
+     * @return child node just before the internal node
+     */
+    private BSPTree<Euclidean1D> childBefore(BSPTree<Euclidean1D> node) {
+        if (isDirect(node)) {
+            // smaller abscissas are on minus side, larger abscissas are on plus side
+            return node.getMinus();
+        } else {
+            // smaller abscissas are on plus side, larger abscissas are on minus side
+            return node.getPlus();
+        }
+    }
+
+    /** Find the child node just after an internal node.
+     * @param node internal node at which the sub-tree starts
+     * @return child node just after the internal node
+     */
+    private BSPTree<Euclidean1D> childAfter(BSPTree<Euclidean1D> node) {
+        if (isDirect(node)) {
+            // smaller abscissas are on minus side, larger abscissas are on plus side
+            return node.getPlus();
+        } else {
+            // smaller abscissas are on plus side, larger abscissas are on minus side
+            return node.getMinus();
+        }
+    }
+
+    /** Check if an internal node has a direct oriented point.
+     * @param node internal node to check
+     * @return true if the oriented point is direct
+     */
+    private boolean isDirect(final BSPTree<Euclidean1D> node) {
+        return ((OrientedPoint) node.getCut().getHyperplane()).isDirect();
+    }
+
+    /** Get the abscissa of an internal node.
+     * @param node internal node to check
+     * @return abscissa
+     */
+    private double getAngle(final BSPTree<Euclidean1D> node) {
+        return ((OrientedPoint) node.getCut().getHyperplane()).getLocation().getX();
+    }
+
+    /** {@inheritDoc}
+     * <p>
+     * The iterator returns the limit values of sub-intervals in ascending order.
+     * </p>
+     * <p>
+     * The iterator does <em>not</em> support the optional {@code remove} operation.
+     * </p>
+     * @since 3.3
+     */
+    public Iterator<double[]> iterator() {
+        return new SubIntervalsIterator();
+    }
+
+    /** Local iterator for sub-intervals. */
+    private class SubIntervalsIterator implements Iterator<double[]> {
+
+        /** Current node. */
+        private BSPTree<Euclidean1D> current;
+
+        /** Sub-interval no yet returned. */
+        private double[] pending;
+
+        /** Simple constructor.
+         */
+        public SubIntervalsIterator() {
+
+            current = getFirstIntervalBoundary();
+
+            if (current == null) {
+                // all the leaf tree nodes share the same inside/outside status
+                if ((Boolean) getFirstLeaf(getTree(false)).getAttribute()) {
+                    // it is an inside node, it represents the full real line
+                    pending = new double[] {
+                        Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY
+                    };
+                } else {
+                    pending = null;
+                }
+            } else if (isIntervalEnd(current)) {
+                // the first boundary is an interval end,
+                // so the first interval starts at infinity
+                pending = new double[] {
+                    Double.NEGATIVE_INFINITY, getAngle(current)
+                };
+            } else {
+                selectPending();
             }
-            recurseList(high, list, x, upper);
+        }
 
+        /** Walk the tree to select the pending sub-interval.
+         */
+        private void selectPending() {
+
+            // look for the start of the interval
+            BSPTree<Euclidean1D> start = current;
+            while (start != null && !isIntervalStart(start)) {
+                start = nextInternalNode(start);
+            }
+
+            if (start == null) {
+                // we have exhausted the iterator
+                current = null;
+                pending = null;
+                return;
+            }
+
+            // look for the end of the interval
+            BSPTree<Euclidean1D> end = start;
+            while (end != null && !isIntervalEnd(end)) {
+                end = nextInternalNode(end);
+            }
+
+            if (end != null) {
+
+                // we have identified the interval
+                pending = new double[] {
+                    getAngle(start), getAngle(end)
+                };
+
+                // prepare search for next interval
+                current = end;
+
+            } else {
+
+                // the final interval is open toward infinity
+                pending = new double[] {
+                    getAngle(start), Double.POSITIVE_INFINITY
+                };
+
+                // there won't be any other intervals
+                current = null;
+
+            }
+
+        }
+
+        /** {@inheritDoc} */
+        public boolean hasNext() {
+            return pending != null;
+        }
+
+        /** {@inheritDoc} */
+        public double[] next() {
+            if (pending == null) {
+                throw new NoSuchElementException();
+            }
+            final double[] next = pending;
+            selectPending();
+            return next;
+        }
+
+        /** {@inheritDoc} */
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
 
     }

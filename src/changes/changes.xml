@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-1090">
+       IntervalsSet now implements Iterable&lt;double[]&gt;, so one can iterate
+       over the sub-intervals without building a full list containing
+       a copy of everything beforehand.
+      </action>
       <action dev="tn" type="fix" issue="MATH-1089">
         "Precision#round(double, ...)" will now return negative zero for negative
         values rounded to zero, similar to the float variant.
