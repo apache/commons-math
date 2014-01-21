@@ -252,7 +252,16 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
         return v;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public Point<Euclidean3D> project(Point<Euclidean3D> point) {
+        return toSpace(toSubSpace(point));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.3
+     */
     public double getTolerance() {
         return tolerance;
     }

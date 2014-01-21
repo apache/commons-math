@@ -116,7 +116,16 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
         return !(direct ^ ((OrientedPoint) other).direct);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public Point<Euclidean1D> project(Point<Euclidean1D> point) {
+        return location;
+    }
+
+    /** {@inheritDoc}
+     * @since 3.3
+     */
     public double getTolerance() {
         return tolerance;
     }

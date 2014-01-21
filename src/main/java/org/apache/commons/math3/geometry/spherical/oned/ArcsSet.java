@@ -26,8 +26,10 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
 import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
@@ -471,6 +473,88 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
                 setBarycenter(limit.getLocation());
             }
         }
+    }
+
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public BoundaryProjection<Sphere1D> projectToBoundary(final Point<Sphere1D> point) {
+
+        // get position of test point
+        final double alpha = ((S1Point) point).getAlpha();
+
+        boolean wrapFirst = false;
+        double first      = Double.NaN;
+        double previous   = Double.NaN;
+        for (final double[] a : this) {
+
+            if (Double.isNaN(first)) {
+                // remember the first angle in case we need it later
+                first = a[0];
+            }
+
+            if (!wrapFirst) {
+                if (alpha < a[0]) {
+                    // the test point lies between the previous and the current arcs
+                    // offset will be positive
+                    if (Double.isNaN(previous)) {
+                        // we need to wrap around the circle
+                        wrapFirst = true;
+                    } else {
+                        final double previousOffset = alpha - previous;
+                        final double currentOffset  = a[0] - alpha;
+                        if (previousOffset < currentOffset) {
+                            return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
+                        } else {
+                            return new BoundaryProjection<Sphere1D>(point, new S1Point(a[0]), currentOffset);
+                        }
+                    }
+                } else if (alpha <= a[1]) {
+                    // the test point lies within the current arc
+                    // offset will be negative
+                    final double offset0 = a[0] - alpha;
+                    final double offset1 = alpha - a[1];
+                    if (offset0 < offset1) {
+                        return new BoundaryProjection<Sphere1D>(point, new S1Point(a[1]), offset1);
+                    } else {
+                        return new BoundaryProjection<Sphere1D>(point, new S1Point(a[0]), offset0);
+                    }
+                }
+            }
+            previous = a[1];
+        }
+
+        if (Double.isNaN(previous)) {
+
+            // there are no points at all in the arcs set
+            return new BoundaryProjection<Sphere1D>(point, null, MathUtils.TWO_PI);
+
+        } else {
+
+            // the test point if before first arc and after last arc,
+            // somewhere around the 0/2 \pi crossing
+            if (wrapFirst) {
+                // the test point is between 0 and first
+                final double previousOffset = alpha - (previous - MathUtils.TWO_PI);
+                final double currentOffset  = first - alpha;
+                if (previousOffset < currentOffset) {
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
+                } else {
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(first), currentOffset);
+                }
+            } else {
+                // the test point is between last and 2\pi
+                final double previousOffset = alpha - previous;
+                final double currentOffset  = first + MathUtils.TWO_PI - alpha;
+                if (previousOffset < currentOffset) {
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(previous), previousOffset);
+                } else {
+                    return new BoundaryProjection<Sphere1D>(point, new S1Point(first), currentOffset);
+                }
+            }
+
+        }
+
     }
 
     /** Build an ordered list of arcs representing the instance.

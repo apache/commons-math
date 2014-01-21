@@ -273,6 +273,15 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
         return new RegionFactory<S>().difference(region, this).isEmpty();
     }
 
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public BoundaryProjection<S> projectToBoundary(final Point<S> point) {
+        final BoundaryProjector<S, T> projector = new BoundaryProjector<S, T>(point);
+        getTree(true).visit(projector);
+        return projector.getProjection();
+    }
+
     /** Check a point with respect to the region.
      * @param point point to check
      * @return a code representing the point status: either {@link

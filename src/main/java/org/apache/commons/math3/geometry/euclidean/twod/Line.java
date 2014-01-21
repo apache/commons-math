@@ -260,7 +260,16 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
                             (sin * other.originOffset - other.sin * originOffset) / d);
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public Point<Euclidean2D> project(Point<Euclidean2D> point) {
+        return toSpace(toSubSpace(point));
+    }
+
+    /** {@inheritDoc}
+     * @since 3.3
+     */
     public double getTolerance() {
         return tolerance;
     }

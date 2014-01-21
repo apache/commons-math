@@ -23,6 +23,7 @@ import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
@@ -100,6 +101,38 @@ public class PolygonsSetTest {
     }
 
     @Test
+    public void testEmpty() {
+        PolygonsSet empty = (PolygonsSet) new RegionFactory<Euclidean2D>().getComplement(new PolygonsSet(1.0e-10));
+        Assert.assertTrue(empty.isEmpty());
+        Assert.assertEquals(0, empty.getVertices().length);
+        Assert.assertEquals(0.0, empty.getBoundarySize(), 1.0e-10);
+        Assert.assertEquals(0.0, empty.getSize(), 1.0e-10);
+        for (double y = -1; y < 1; y += 0.1) {
+            for (double x = -1; x < 1; x += 0.1) {
+                Assert.assertEquals(Double.POSITIVE_INFINITY,
+                                    empty.projectToBoundary(new Vector2D(x, y)).getOffset(),
+                                    1.0e-10);
+            }
+        }
+    }
+
+    @Test
+    public void testFull() {
+        PolygonsSet empty = new PolygonsSet(1.0e-10);
+        Assert.assertFalse(empty.isEmpty());
+        Assert.assertEquals(0, empty.getVertices().length);
+        Assert.assertEquals(0.0, empty.getBoundarySize(), 1.0e-10);
+        Assert.assertEquals(Double.POSITIVE_INFINITY, empty.getSize(), 1.0e-10);
+        for (double y = -1; y < 1; y += 0.1) {
+            for (double x = -1; x < 1; x += 0.1) {
+                Assert.assertEquals(Double.NEGATIVE_INFINITY,
+                                    empty.projectToBoundary(new Vector2D(x, y)).getOffset(),
+                                    1.0e-10);
+            }
+        }
+    }
+
+    @Test
     public void testHole() {
         Vector2D[][] vertices = new Vector2D[][] {
             new Vector2D[] {
@@ -141,6 +174,40 @@ public class PolygonsSetTest {
             new Vector2D(3.0, 3.0)
         });
         checkVertices(set.getVertices(), vertices);
+
+        for (double x = -0.999; x < 3.999; x += 0.11) {
+            Vector2D v = new Vector2D(x, x + 0.5);
+            BoundaryProjection<Euclidean2D> projection = set.projectToBoundary(v);
+            Assert.assertTrue(projection.get0riginal() == v);
+            Vector2D p = (Vector2D) projection.getProjected();
+            if (x < -0.5) {
+                Assert.assertEquals(0.0,      p.getX(), 1.0e-10);
+                Assert.assertEquals(0.0,      p.getY(), 1.0e-10);
+                Assert.assertEquals(+v.distance(Vector2D.ZERO), projection.getOffset(), 1.0e-10);
+            } else if (x < 0.5) {
+                Assert.assertEquals(0.0,      p.getX(), 1.0e-10);
+                Assert.assertEquals(v.getY(), p.getY(), 1.0e-10);
+                Assert.assertEquals(-v.getX(), projection.getOffset(), 1.0e-10);
+            } else if (x < 1.25) {
+                Assert.assertEquals(1.0,      p.getX(), 1.0e-10);
+                Assert.assertEquals(v.getY(), p.getY(), 1.0e-10);
+                Assert.assertEquals(v.getX() - 1.0, projection.getOffset(), 1.0e-10);
+            } else if (x < 2.0) {
+                Assert.assertEquals(v.getX(), p.getX(), 1.0e-10);
+                Assert.assertEquals(2.0,      p.getY(), 1.0e-10);
+                Assert.assertEquals(2.0 - v.getY(), projection.getOffset(), 1.0e-10);
+            } else if (x < 3.0) {
+                Assert.assertEquals(v.getX(), p.getX(), 1.0e-10);
+                Assert.assertEquals(3.0,      p.getY(), 1.0e-10);
+                Assert.assertEquals(v.getY() - 3.0, projection.getOffset(), 1.0e-10);
+            } else {
+                Assert.assertEquals(3.0,      p.getX(), 1.0e-10);
+                Assert.assertEquals(3.0,      p.getY(), 1.0e-10);
+                Assert.assertEquals(+v.distance(new Vector2D(3, 3)), projection.getOffset(), 1.0e-10);
+            }
+            
+        }
+
     }
 
     @Test

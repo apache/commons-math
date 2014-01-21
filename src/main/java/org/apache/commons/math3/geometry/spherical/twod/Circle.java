@@ -134,9 +134,12 @@ public class Circle implements Hyperplane<Sphere2D>, Embedding<Sphere2D, Sphere1
         return new Circle(pole.negate(), x, y.negate(), tolerance);
     }
 
-    /** Get the tolerance below which close sub-arcs are merged together.
-     * @return tolerance below which close sub-arcs are merged together
-     */
+    /** {@inheritDoc} */
+    public Point<Sphere2D> project(Point<Sphere2D> point) {
+        return toSpace(toSubSpace(point));
+    }
+
+    /** {@inheritDoc} */
     public double getTolerance() {
         return tolerance;
     }

@@ -682,6 +682,7 @@ public class BSPTree<S extends Space> {
      * @return a new tree (the original tree is left untouched) containing
      * a single branch with the cell as a leaf node, and other leaf nodes
      * as the remnants of the pruned branches
+     * @since 3.3
      */
     public BSPTree<S> pruneAroundConvexCell(final Object cellAttribute,
                                             final Object otherLeafsAttributes,

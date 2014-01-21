@@ -25,6 +25,7 @@ import java.util.NoSuchElementException;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.Precision;
 
@@ -266,6 +267,53 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
             node = op.isDirect() ? node.getPlus() : node.getMinus();
         }
         return ((Boolean) node.getAttribute()) ? Double.POSITIVE_INFINITY : sup;
+    }
+
+    /** {@inheritDoc}
+     * @since 3.3
+     */
+    public BoundaryProjection<Euclidean1D> projectToBoundary(final Point<Euclidean1D> point) {
+
+        // get position of test point
+        final double x = ((Vector1D) point).getX();
+
+        double previous = Double.NEGATIVE_INFINITY;
+        for (final double[] a : this) {
+            if (x < a[0]) {
+                // the test point lies between the previous and the current intervals
+                // offset will be positive
+                final double previousOffset = x - previous;
+                final double currentOffset  = a[0] - x;
+                if (previousOffset < currentOffset) {
+                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(previous), previousOffset);
+                } else {
+                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[0]), currentOffset);
+                }
+            } else if (x <= a[1]) {
+                // the test point lies within the current interval
+                // offset will be negative
+                final double offset0 = a[0] - x;
+                final double offset1 = x - a[1];
+                if (offset0 < offset1) {
+                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[1]), offset1);
+                } else {
+                    return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(a[0]), offset0);
+                }
+            }
+            previous = a[1];
+        }
+
+        // the test point if past the last sub-interval
+        return new BoundaryProjection<Euclidean1D>(point, finiteOrNullPoint(previous), x - previous);
+
+    }
+
+    /** Build a finite point.
+     * @param x abscissa of the point
+     * @return a new point for finite abscissa, null otherwise
+     */
+    private Vector1D finiteOrNullPoint(final double x) {
+        return Double.isInfinite(x) ? null : new Vector1D(x);
     }
 
     /** Build an ordered list of intervals representing the instance.

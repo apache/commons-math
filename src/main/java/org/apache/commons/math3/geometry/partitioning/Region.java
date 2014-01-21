@@ -112,6 +112,13 @@ public interface Region<S extends Space> {
      */
     Location checkPoint(final Point<S> point);
 
+    /** Project a point on the boundary of the region.
+     * @param point point to check
+     * @return projection of the point on the boundary
+     * @since 3.3
+     */
+    BoundaryProjection<S> projectToBoundary(final Point<S> point);
+
     /** Get the underlying BSP tree.
 
      * <p>Regions are represented by an underlying inside/outside BSP

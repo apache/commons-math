@@ -818,8 +818,15 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
             }
 
             if (following == null) {
+                final Vector3D previousStart = previous.getStart().getLocation().getVector();
+                if (Vector3D.angle(point.getVector(), previousStart) <= tolerance) {
+                    // the edge connects back to itself
+                    return previous;
+                }
+
                 // this should never happen
                 throw new MathIllegalStateException(LocalizedFormats.OUTLINE_BOUNDARY_LOOP_OPEN);
+
             }
 
             return following;

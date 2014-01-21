@@ -115,9 +115,12 @@ public class LimitAngle implements Hyperplane<Sphere1D> {
         return location;
     }
 
-    /** Get the tolerance below which angles are considered identical.
-     * @return tolerance below which angles are considered identical
-     */
+    /** {@inheritDoc} */
+    public Point<Sphere1D> project(Point<Sphere1D> point) {
+        return location;
+    }
+
+    /** {@inheritDoc} */
     public double getTolerance() {
         return tolerance;
     }
