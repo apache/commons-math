@@ -49,7 +49,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     /** Vertices organized as boundary loops. */
     private Vector2D[][] vertices;
 
-    /** Build a polygons set representing the whole real line.
+    /** Build a polygons set representing the whole plane.
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
      */
