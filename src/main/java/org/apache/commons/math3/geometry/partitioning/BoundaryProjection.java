@@ -53,7 +53,7 @@ public class BoundaryProjection<S extends Space> {
     /** Get the original point.
      * @return original point
      */
-    public Point<S> get0riginal() {
+    public Point<S> getOriginal() {
         return original;
     }
 

@@ -178,7 +178,7 @@ public class PolygonsSetTest {
         for (double x = -0.999; x < 3.999; x += 0.11) {
             Vector2D v = new Vector2D(x, x + 0.5);
             BoundaryProjection<Euclidean2D> projection = set.projectToBoundary(v);
-            Assert.assertTrue(projection.get0riginal() == v);
+            Assert.assertTrue(projection.getOriginal() == v);
             Vector2D p = (Vector2D) projection.getProjected();
             if (x < -0.5) {
                 Assert.assertEquals(0.0,      p.getX(), 1.0e-10);
