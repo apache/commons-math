@@ -52,7 +52,7 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.3" date="TBD" description="TBD">
       <action dev="luc" type="add" issue="MATH-1091">
-       BSP tree now provide an API to compute a global signed distance from
+       BSP tree now provides an API to compute a global signed distance from
        a test point to the region. The distance is positive if the point is
        outside of the region, negative if the point is inside, and zero
        when the point is at the boundary. The distance is continuous
