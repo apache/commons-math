@@ -763,6 +763,9 @@ public class SimplexSolverTest {
 
         final SimplexSolver solver = new SimplexSolver();
         final SolutionCallback callback = new SolutionCallback();
+        
+        Assert.assertNull(callback.getSolution());
+        Assert.assertFalse(callback.isSolutionOptimal());
 
         try {
             solver.optimize(new MaxIter(3), f, new LinearConstraintSet(constraints),
@@ -775,6 +778,7 @@ public class SimplexSolverTest {
         final PointValuePair solution = callback.getSolution();
         Assert.assertNotNull(solution);
         Assert.assertTrue(validSolution(solution, constraints, 1e-4));
+        Assert.assertFalse(callback.isSolutionOptimal());
         // the solution is clearly not optimal: optimal = 10.0
         Assert.assertEquals(7.0, solution.getValue(), 1e-4);
     }
