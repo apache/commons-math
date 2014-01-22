@@ -16,7 +16,7 @@
  */
 /**
  *
- *      Classes providing hypothesis testing.
+ *      Classes providing binomial proportion confidence interval construction.
  *
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math3.stat.interval;
