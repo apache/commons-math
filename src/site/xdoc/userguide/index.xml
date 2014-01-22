@@ -117,8 +117,9 @@
         <li><a href="geometry.html">11. Geometry</a>
                 <ul>
                 <li><a href="geometry.html#a11.1_Overview">11.1 Overview</a></li>
-                <li><a href="geometry.html#a11.2_Vectors">11.2 Vectors</a></li>
-                <li><a href="geometry.html#a11.3_Rotations">11.3 Rotations</a></li>
+                <li><a href="geometry.html#a11.2_Euclidean_spaces">11.2  Euclidean spaces</a></li>
+                <li><a href="geometry.html#a11.3_n-Sphere">11.3 n-Sphere</a></li>
+                <li><a href="geometry.html#a11.4_Binary_Space_Partitioning">11.4 Binary Space Partitioning</a></li>
                 </ul></li>                                 
         <li><a href="optimization.html">12. Optimization</a>
                 <ul>

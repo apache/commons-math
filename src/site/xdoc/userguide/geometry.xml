@@ -30,50 +30,64 @@
       <subsection name="11.1 Overview" href="overview">
         <p>
            The geometry package provides classes useful for many physical simulations
-           in Euclidean spaces, like vectors and rotations in 3D, as well as a general
-           implentation of Binary Space Partitioning Trees (BSP trees).
+           in Euclidean spaces, like vectors and rotations in 3D, as well as on the
+           sphere. It also provides a general implementation of Binary Space Partitioning
+           Trees (BSP trees).
+        </p>
+        <p>
+           All supported type of spaces (Euclidean 3D, Euclidean 2D, Euclidean 1D, 2-Sphere
+           and 1-Sphere) provide dedicated classes that represent complex regions of the
+           space as shown in the following table:
+        </p>
+        <p>
+          <table border="1" align="center">
+          <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+1">Regions</font></td></tr>
+          <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Space</td><td>Region</td></font></tr>
+          <tr><td>Euclidean 1D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.html">IntervalsSet</a></td></tr>
+          <tr><td>Euclidean 2D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.html">PolygonsSet</a></td></tr>
+          <tr><td>Euclidean 3D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.html">PolyhedronsSet</a></td></tr>
+          <tr><td>1-Sphere</td><td><a href="../apidocs/org/apache/commons/math3/geometry/spherical/oned/ArcsSet.html">ArcsSet</a></td></tr>
+          <tr><td>2-Sphere</td><td><a href="../apidocs/org/apache/commons/math3/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a></td></tr>
+          </table>
+        </p>
+        <p>
+          All these regions share common features. Regions can be defined from several non-connected parts.
+          As an example, one PolygonsSet instance in Euclidean 2D (i.e. one the plane) can represent a region composed
+          of several separated polygons separate from each other. They also support regions containing holes. As an example
+          a SphericalPolygonsSet on the 2-Sphere can represent a land mass on the Earth with an interior sea, where points
+          on this sea would not be considered to belong to the land mass. Of course more complex models can also be represented
+          and it is possible to define for example one region composed of several continents, with interior sea containing
+          separate islands, some of which having lakes, which may have smaller island ... In the infinite Euclidean spaces,
+          regions can have infinite parts. for example in 1D (i.e. along a line), one can define an interval starting at
+          abscissa 3 and extending up to infinity. This is also possible in 2D and 3D. For all spaces, regions without any
+          boundaries are also possible so one can define the whole space or the empty region. The classical set operations
+          are available in all cases: union, intersection, symmetric difference (exclusive or), difference, complement.
+          There are also region predicates (point inside/outside/on boundary, emptiness, other region contained). For some
+          regions, they can be constructed directly from a boundary representation (for example vertices in the case of 2D
+          polygons, both on the Euclidean space or on the 2-Sphere). Some geometric properties like size, or boundary size
+          can be computed, as well as barycenters on the Euclidean space. Another important feature available for all these
+          regions is the projection of a point to the closest region boundary (if there is a boundary). The projection provides
+          both the projected point and the signed distance between the point and its projection, with the convention distance
+          to boundary is considered negative if the point is inside the region, positive if the point is outside the region
+          and of course 0 if the point is already on the boundary. This feature can be used for example as the value of a
+          function in a root solver to determine when a moving point crosses the region boundary.
         </p>
       </subsection>
+
       <subsection name="11.2 Euclidean spaces" href="euclidean">
-      <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/Interval.html">
-          Interval</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.html">
-          IntervalsSet</a> represent one dimensional regions. All classical set operations are available
-          for intervals sets: union, intersection, symmetric difference (exclusive or), difference, complement,
-          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
-          It is also possible to compute geometrical properties like size, barycenter or boundary size.
-          Intervals sets can be built by constructive geometry (union, intersection ...) or from a boundary
-          representation.
-      </p>
-      <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.html">
-          PolygonsSet</a> represent two dimensional regions. All classical set operations are available
-          for polygons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
-          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
-          It is also possible to compute geometrical properties like size, barycenter or boundary size and
-          to extract the vertices. Polygons sets can be built by constructive geometry (union, intersection ...)
-          or from a boundary representation.
-      </p>
-      <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.html">
-          PolyhedronsSet</a> represent three dimensional regions. All classical set operations are available
-          for polyhedrons sets: union, intersection, symmetric difference (exclusive or), difference, complement,
-          as well as region predicates (point inside/outside/on boundary, emptiness, other region contained).
-          It is also possible to compute geometrical properties like size, barycenter or boundary size and
-          to extract the vertices. Polyhedrons sets can be built by constructive geometry (union, intersection ...)
-          or from a boundary representation.
-      </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.html">
-          Vector3D</a> provides a simple vector type. One important feature is
-          that instances of this class are guaranteed
+          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/Vector1D.html">
+          Vector1D</a>, <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/Vector2D.html">
+          Vector2D</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.html">
+          Vector3D</a> provide simple vector types. One important feature is
+          that instances of these classes are guaranteed
           to be immutable, this greatly simplifies modelling dynamical systems
           with changing states: once a vector has been computed, a reference to it
           is known to preserve its state as long as the reference itself is preserved.
         </p>
         <p>
           Numerous constructors are available to create vectors. In addition to the
-          straightforward cartesian coordinates constructor, a constructor using
+          straightforward Cartesian coordinates constructor, a constructor using
           azimuthal coordinates can build normalized vectors and linear constructors
           from one, two, three or four base vectors are also available. Constants have
           been defined for the most commons vectors (plus and minus canonical axes,
@@ -86,9 +100,11 @@
           is of course also implemented.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3DFormat.html">
-          Vector3DFormat</a> is a specialized format for formatting output or parsing
-          input with text representation of 3D vectors.
+          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/Vector1DFormat.html">
+          Vector1DFormat</a>, <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/Vector2DFormat.html">
+          Vector2DFormat</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3DFormat.html">
+          Vector3DFormat</a> are specialized classes for formatting output or parsing
+          input with text representation of vectors.
         </p>
         <p>
           <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Rotation.html">
@@ -163,7 +179,18 @@
           <code>applyInverseTo(Rotation)</code>.
         </p>
       </subsection>
-      <subsection name="11.3 Binary Space Partitioning" href="partitioning">
+      <subsection name="11.3 n-Sphere" href="sphere">
+        <p>
+          The Apache Commons Math library provides a few classes dealing with geometry
+          on the 1-sphere (i.e. the one dimensional circle corresponding to the boundary of
+          a two-dimensional disc) and the 2-sphere (i.e. the two dimensional sphere surface
+          corresponding to the boundary of a three-dimensional ball). The main classes in
+          this package corresopnd to the region explained above, i.e.
+          <a href="../apidocs/org/apache/commons/math3/geometry/spherical/oned/ArcsSet.html">ArcsSet</a>
+          and <a href="../apidocs/org/apache/commons/math3/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a>.
+        </p>
+      </subsection>
+      <subsection name="11.4 Binary Space Partitioning" href="partitioning">
         <p>
           <a href="../apidocs/org/apache/commons/math3/geometry/partitioning/BSPTree.html">
           BSP trees</a> are an efficient way to represent space partitions and
@@ -177,12 +204,21 @@
           The main use of such partitions is to use a boolean attribute to
           define an inside/outside property, hence representing arbitrary
           polytopes (line segments in 1D, polygons in 2D and polyhedrons in
-          3D) and to operate on them.
+          3D) and to operate on them. This is how the regions explained above in the Euclidean
+          and Sphere spaces are implemented. The partitioning package provides the engine to do the
+          computation, but not the dimension-specific implementations. The
+          various interfaces in this package (hyperplane, sub-hyperplane, embedding,
+          and even region) are therefore not considered to be reusable public
+          interface, they are private interface. They may change and users are not expected to
+          rely directly on them. What users can rely on is the BSP tree class itself, and the
+          space-specific implementations of the interfaces (i.e. Plane in 3D as the implementation
+          of hyperplane, or S2Point on the 2-Sphere as the implementation of Point).
         </p>
 
         <p>
-          Another example would be to represent Voronoi tesselations, the
-          attribute of each cell holding the defining point of the cell.
+          Another example of BST tree use would be to represent Voronoi tesselations, the
+          attribute of each cell holding the defining point of the cell. This is not
+          available yet.
         </p>
 
         <p>
