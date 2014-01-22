@@ -560,6 +560,7 @@
             <exclude>bin/**</exclude>
             <exclude>.gitignore</exclude>
             <exclude>.git/**</exclude>
+            <exclude>.checkstyle</excude>
 
           </excludes>
         </configuration>
