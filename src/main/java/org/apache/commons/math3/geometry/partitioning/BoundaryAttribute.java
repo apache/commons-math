@@ -21,9 +21,10 @@ import org.apache.commons.math3.geometry.Space;
 /** Class holding boundary attributes.
  * <p>This class is used for the attributes associated with the
  * nodes of region boundary shell trees returned by the {@link
- * Region#getTree Region.getTree}. It contains the
- * parts of the node cut sub-hyperplane that belong to the
- * boundary.</p>
+ * Region#getTree(boolean) Region.getTree(includeBoundaryAttributes)}
+ * when the boolean {@code includeBoundaryAttributes} parameter is
+ * set to {@code true}. It contains the parts of the node cut
+ * sub-hyperplane that belong to the boundary.</p>
  * <p>This class is a simple placeholder, it does not provide any
  * processing methods.</p>
  * @param <S> Type of the space.

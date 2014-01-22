@@ -136,10 +136,10 @@ public interface Region<S extends Space> {
      * all internal nodes are guaranteed to have non-null
      * attributes, however some {@link BoundaryAttribute
      * BoundaryAttribute} instances may have their {@link
-     * BoundaryAttribute#plusInside plusInside} and {@link
-     * BoundaryAttribute#plusOutside plusOutside} fields both null if
-     * the corresponding cut sub-hyperplane does not have any parts
-     * belonging to the boundary.</p>
+     * BoundaryAttribute#getPlusInside() getPlusInside} and {@link
+     * BoundaryAttribute#getPlusOutside() getPlusOutside} methods both
+     * returning null if the corresponding cut sub-hyperplane does not
+     * have any parts belonging to the boundary.</p>
 
      * <p>Since computing the boundary is not always required and can be
      * time-consuming for large trees, these internal nodes attributes
