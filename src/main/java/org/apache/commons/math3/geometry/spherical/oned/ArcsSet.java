@@ -717,10 +717,10 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             final double syncedStart = MathUtils.normalizeAngle(a[0], reference) - arc.getInf();
             final double arcOffset   = a[0] - syncedStart;
             final double syncedEnd   = a[1] - arcOffset;
-            if (syncedStart < arcLength || syncedEnd > MathUtils.TWO_PI) {
+            if (syncedStart <= arcLength - getTolerance() || syncedEnd >= MathUtils.TWO_PI + getTolerance()) {
                 inMinus = true;
             }
-            if (syncedEnd > arcLength) {
+            if (syncedEnd >= arcLength + getTolerance()) {
                 inPlus = true;
             }
         }
@@ -749,10 +749,8 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      */
     public Split split(final Arc arc) {
 
-        final BSPTree<Sphere1D> minus = new BSPTree<Sphere1D>();
-        minus.setAttribute(Boolean.FALSE);
-        final BSPTree<Sphere1D> plus  = new BSPTree<Sphere1D>();
-        plus.setAttribute(Boolean.FALSE);
+        final List<Double> minus = new ArrayList<Double>();
+        final List<Double>  plus = new ArrayList<Double>();
 
         final double reference = FastMath.PI + arc.getInf();
         final double arcLength = arc.getSup() - arc.getInf();
@@ -763,51 +761,51 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
             final double syncedEnd   = a[1] - arcOffset;
             if (syncedStart < arcLength) {
                 // the start point a[0] is in the minus part of the arc
-                addArcLimit(minus, a[0], true);
+                minus.add(a[0]);
                 if (syncedEnd > arcLength) {
                     // the end point a[1] is past the end of the arc
                     // so we leave the minus part and enter the plus part
                     final double minusToPlus = arcLength + arcOffset;
-                    addArcLimit(minus, minusToPlus, false);
-                    addArcLimit(plus, minusToPlus, true);
+                    minus.add(minusToPlus);
+                    plus.add(minusToPlus);
                     if (syncedEnd > MathUtils.TWO_PI) {
                         // in fact the end point a[1] goes far enough that we
                         // leave the plus part of the arc and enter the minus part again
                         final double plusToMinus = MathUtils.TWO_PI + arcOffset;
-                        addArcLimit(plus, plusToMinus, false);
-                        addArcLimit(minus, plusToMinus, true);
-                        addArcLimit(minus, a[1], false);
+                        plus.add(plusToMinus);
+                        minus.add(plusToMinus);
+                        minus.add(a[1]);
                     } else {
                         // the end point a[1] is in the plus part of the arc
-                        addArcLimit(plus, a[1], false);
+                        plus.add(a[1]);
                     }
                 } else {
                     // the end point a[1] is in the minus part of the arc
-                    addArcLimit(minus, a[1], false);
+                    minus.add(a[1]);
                 }
             } else {
                 // the start point a[0] is in the plus part of the arc
-                addArcLimit(plus, a[0], true);
+                plus.add(a[0]);
                 if (syncedEnd > MathUtils.TWO_PI) {
                     // the end point a[1] wraps around to the start of the arc
                     // so we leave the plus part and enter the minus part
                     final double plusToMinus = MathUtils.TWO_PI + arcOffset;
-                    addArcLimit(plus, plusToMinus, false);
-                    addArcLimit(minus, plusToMinus, true);
+                    plus.add(plusToMinus);
+                    minus.add(plusToMinus);
                     if (syncedEnd > MathUtils.TWO_PI + arcLength) {
                         // in fact the end point a[1] goes far enough that we
                         // leave the minus part of the arc and enter the plus part again
                         final double minusToPlus = MathUtils.TWO_PI + arcLength + arcOffset;
-                        addArcLimit(minus, minusToPlus, false);
-                        addArcLimit(plus, minusToPlus, true);
-                        addArcLimit(plus, a[1], false);
+                        minus.add(minusToPlus);
+                        plus.add(minusToPlus);
+                        plus.add(a[1]);
                     } else {
                         // the end point a[1] is in the minus part of the arc
-                        addArcLimit(minus, a[1], false);
+                        minus.add(a[1]);
                     }
                 } else {
                     // the end point a[1] is in the plus part of the arc
-                    addArcLimit(plus, a[1], false);
+                    plus.add(a[1]);
                 }
             }
         }
@@ -822,30 +820,85 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * @param isStart if true, the limit is the start of an arc
      */
     private void addArcLimit(final BSPTree<Sphere1D> tree, final double alpha, final boolean isStart) {
+
         final LimitAngle limit = new LimitAngle(new S1Point(alpha), !isStart, getTolerance());
         final BSPTree<Sphere1D> node = tree.getCell(limit.getLocation(), getTolerance());
         if (node.getCut() != null) {
-            // we find again an already added limit,
-            // this means we have done a full turn around the circle
-            leafBefore(node).setAttribute(Boolean.valueOf(!isStart));
-        } else {
-            // it's a new node
-            node.insertCut(limit);
-            node.setAttribute(null);
-            node.getPlus().setAttribute(Boolean.FALSE);
-            node.getMinus().setAttribute(Boolean.TRUE);
+            // this should never happen
+            throw new MathInternalError();
         }
+
+        node.insertCut(limit);
+        node.setAttribute(null);
+        node.getPlus().setAttribute(Boolean.FALSE);
+        node.getMinus().setAttribute(Boolean.TRUE);
+
     }
 
     /** Create a split part.
-     * @param tree BSP tree containing the limit angles of the split part
+     * <p>
+     * As per construction, the list of limit angles is known to have
+     * an even number of entries, with start angles at even indices and
+     * end angles at odd indices.
+     * </p>
+     * @param limits limit angles of the split part
      * @return split part (may be null)
      */
-    private ArcsSet createSplitPart(final BSPTree<Sphere1D> tree) {
-        if (tree.getCut() == null && !(Boolean) tree.getAttribute()) {
+    private ArcsSet createSplitPart(final List<Double> limits) {
+        if (limits.isEmpty()) {
             return null;
         } else {
+
+            // collapse close limit angles
+            for (int i = 0; i < limits.size(); ++i) {
+                final int    j  = (i + 1) % limits.size();
+                final double lA = limits.get(i);
+                final double lB = MathUtils.normalizeAngle(limits.get(j), lA);
+                if (FastMath.abs(lB - lA) <= getTolerance()) {
+                    // the two limits are too close to each other, we remove both of them
+                    if (j > 0) {
+                        // regular case, the two entries are consecutive ones
+                        limits.remove(j);
+                        limits.remove(i);
+                        i = i - 1;
+                    } else {
+                        // special case, i the the last entry and j is the first entry
+                        // we have wrapped around list end
+                        final double lEnd   = limits.remove(limits.size() - 1);
+                        final double lStart = limits.remove(0);
+                        if (limits.isEmpty()) {
+                            // the ends were the only limits, is it a full circle or an empty circle?
+                            if (lEnd - lStart > FastMath.PI) {
+                                // it was full circle
+                                return new ArcsSet(new BSPTree<Sphere1D>(Boolean.TRUE), getTolerance());
+                            } else {
+                                // it was an empty circle
+                                return null;
+                            }
+                        } else {
+                            // we have removed the first interval start, so our list
+                            // currently starts with an interval end, which is wrong
+                            // we need to move this interval end to the end of the list
+                            limits.add(limits.remove(0) + MathUtils.TWO_PI);
+                        }
+                    }
+                }
+            }
+
+            // build the tree by adding all angular sectors
+            BSPTree<Sphere1D> tree = new BSPTree<Sphere1D>(Boolean.FALSE);
+            for (int i = 0; i < limits.size() - 1; i += 2) {
+                addArcLimit(tree, limits.get(i),     true);
+                addArcLimit(tree, limits.get(i + 1), false);
+            }
+
+            if (tree.getCut() == null) {
+                // we did not insert anything
+                return null;
+            }
+
             return new ArcsSet(tree, getTolerance());
+
         }
     }
 

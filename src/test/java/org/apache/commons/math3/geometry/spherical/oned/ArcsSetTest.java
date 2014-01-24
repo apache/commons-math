@@ -565,4 +565,16 @@ public class ArcsSetTest {
 
     }
 
+    @Test
+    public void testSplitWithinEpsilon() {
+        double epsilon = 1.0e-10;
+        double a = 6.25;
+        double b = a - 0.5 * epsilon;
+        ArcsSet set = new ArcsSet(a - 1, a, epsilon);
+        Arc arc = new Arc(b, b + FastMath.PI, epsilon);
+        ArcsSet.Split split = set.split(arc);
+        Assert.assertEquals(set.getSize(), split.getPlus().getSize(),  epsilon);
+        Assert.assertNull(split.getMinus());
+    }
+
 }
