@@ -30,7 +30,6 @@ import org.apache.commons.math3.distribution.FDistribution;
 public class ClopperPearsonInterval implements BinomialConfidenceInterval {
 
     /** {@inheritDoc} */
-    @Override
     public ConfidenceInterval createInterval(int numberOfTrials, int numberOfSuccesses,
                                              double confidenceLevel) {
         IntervalUtils.checkParameters(numberOfTrials, numberOfSuccesses, confidenceLevel);
