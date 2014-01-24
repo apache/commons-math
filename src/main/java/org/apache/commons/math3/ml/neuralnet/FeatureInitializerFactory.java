@@ -21,6 +21,7 @@ import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Constant;
+import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * Creates functions that will select the initial values of a neuron's
@@ -37,6 +38,25 @@ public class FeatureInitializerFactory {
      *
      * @param min Lower bound of the range.
      * @param max Upper bound of the range.
+     * @return an initializer such that the features will be initialized with
+     * values within the given range.
+     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * if {@code min >= max}.
+     */
+    public static FeatureInitializer uniform(final RandomGenerator rng,
+                                             final double min,
+                                             final double max) {
+        return randomize(new UniformRealDistribution(rng, min, max),
+                         function(new Constant(0), 0, 0));
+    }
+
+    /**
+     * Uniform sampling of the given range.
+     *
+     * @param min Lower bound of the range.
+     * @param max Upper bound of the range.
+     * @param rng Random number generator used to draw samples from a
+     * uniform distribution.
      * @return an initializer such that the features will be initialized with
      * values within the given range.
      * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
