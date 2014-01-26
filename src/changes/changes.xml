@@ -51,19 +51,23 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="add" issue="MATH-1072">
+        Added a constructor to "AbstractListChromosome" that does not copy the
+        input argument.
+      </action>
       <action dev="luc" type="add" issue="MATH-1091">
-       BSP tree now provides an API to compute a global signed distance from
-       a test point to the region. The distance is positive if the point is
-       outside of the region, negative if the point is inside, and zero
-       when the point is at the boundary. The distance is continuous
-       everywhere, so it can be used with a root solver to identify accurately
-       boundary crossings. This API is available for all BSP trees, in
-       Euclidean and spherical geometries, and in all dimensions.
+        BSP tree now provides an API to compute a global signed distance from
+        a test point to the region. The distance is positive if the point is
+        outside of the region, negative if the point is inside, and zero
+        when the point is at the boundary. The distance is continuous
+        everywhere, so it can be used with a root solver to identify accurately
+        boundary crossings. This API is available for all BSP trees, in
+        Euclidean and spherical geometries, and in all dimensions.
       </action>
       <action dev="luc" type="add" issue="MATH-1090">
-       IntervalsSet now implements Iterable&lt;double[]&gt;, so one can iterate
-       over the sub-intervals without building a full list containing
-       a copy of everything beforehand.
+        IntervalsSet now implements Iterable&lt;double[]&gt;, so one can iterate
+        over the sub-intervals without building a full list containing
+        a copy of everything beforehand.
       </action>
       <action dev="tn" type="fix" issue="MATH-1089">
         "Precision#round(double, ...)" will now return negative zero for negative
