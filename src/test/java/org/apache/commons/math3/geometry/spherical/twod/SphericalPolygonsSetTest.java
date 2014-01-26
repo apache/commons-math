@@ -92,7 +92,7 @@ public class SphericalPolygonsSetTest {
             }
         }
 
-        List<SphericalPolygonsSet.Vertex> loops = octant.getBoundaryLoops();
+        List<Vertex> loops = octant.getBoundaryLoops();
         Assert.assertEquals(1, loops.size());
         boolean xPFound = false;
         boolean yPFound = false;
@@ -100,11 +100,11 @@ public class SphericalPolygonsSetTest {
         boolean xVFound = false;
         boolean yVFound = false;
         boolean zVFound = false;
-        SphericalPolygonsSet.Vertex first = loops.get(0);
+        Vertex first = loops.get(0);
         int count = 0;
-        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
+        for (Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
             ++count;
-            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Edge e = v.getIncoming();
             Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
             xPFound = xPFound || e.getCircle().getPole().distance(Vector3D.PLUS_I) < 1.0e-10;
             yPFound = yPFound || e.getCircle().getPole().distance(Vector3D.PLUS_J) < 1.0e-10;
@@ -172,7 +172,7 @@ public class SphericalPolygonsSetTest {
             }
         }
 
-        List<SphericalPolygonsSet.Vertex> loops = threeOctants.getBoundaryLoops();
+        List<Vertex> loops = threeOctants.getBoundaryLoops();
         Assert.assertEquals(1, loops.size());
         boolean xPFound = false;
         boolean yPFound = false;
@@ -180,11 +180,11 @@ public class SphericalPolygonsSetTest {
         boolean xVFound = false;
         boolean yVFound = false;
         boolean zVFound = false;
-        SphericalPolygonsSet.Vertex first = loops.get(0);
+        Vertex first = loops.get(0);
         int count = 0;
-        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
+        for (Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
             ++count;
-            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Edge e = v.getIncoming();
             Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
             xPFound = xPFound || e.getCircle().getPole().distance(Vector3D.MINUS_I) < 1.0e-10;
             yPFound = yPFound || e.getCircle().getPole().distance(Vector3D.MINUS_J) < 1.0e-10;
@@ -234,7 +234,7 @@ public class SphericalPolygonsSetTest {
         Assert.assertEquals(MathUtils.TWO_PI, polygon.getSize(), 1.0e-10);
         Assert.assertEquals(3 * FastMath.PI, polygon.getBoundarySize(), 1.0e-10);
 
-        List<SphericalPolygonsSet.Vertex> loops = polygon.getBoundaryLoops();
+        List<Vertex> loops = polygon.getBoundaryLoops();
         Assert.assertEquals(1, loops.size());
         boolean pXFound = false;
         boolean mXFound = false;
@@ -242,11 +242,11 @@ public class SphericalPolygonsSetTest {
         boolean mYFound = false;
         boolean pZFound = false;
         boolean mZFound = false;
-        SphericalPolygonsSet.Vertex first = loops.get(0);
+        Vertex first = loops.get(0);
         int count = 0;
-        for (SphericalPolygonsSet.Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
+        for (Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
             ++count;
-            SphericalPolygonsSet.Edge e = v.getIncoming();
+            Edge e = v.getIncoming();
             Assert.assertTrue(v == e.getStart().getOutgoing().getEnd());
             pXFound = pXFound || v.getLocation().getVector().distance(Vector3D.PLUS_I)  < 1.0e-10;
             mXFound = mXFound || v.getLocation().getVector().distance(Vector3D.MINUS_I) < 1.0e-10;
