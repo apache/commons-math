@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-985" due-to="Johnathan Kool">
+        Fixed an indexing problem in "BicubicSplineInterpolatingFunction" which
+        resulted in wrong interpolations.
+      </action>
       <action dev="tn" type="add" issue="MATH-1072">
         Added a constructor to "AbstractListChromosome" that does not copy the
         input argument.
