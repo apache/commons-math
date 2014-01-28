@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-1095">
+       Added Emo Welzl algorithm to find the smallest enclosing ball of a collection of points.
+      </action>
       <action dev="erans" type="fix" issue="MATH-985" due-to="Johnathan Kool">
         Fixed an indexing problem in "BicubicSplineInterpolatingFunction" which
         resulted in wrong interpolations.
