@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.enclosing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 
@@ -101,7 +102,12 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
             // recurse search, restricted to the small subset containing support and farthest point
             support.clear();
             support.add(farthest);
+            EnclosingBall<S, P> savedBall = ball;
             ball = moveToFrontBall(extreme, support);
+            if (ball.getRadius() < savedBall.getRadius()) {
+                // TODO: fix this, it should never happen but it does!
+                throw new MathInternalError();
+            }
 
             // it was an interesting point, move it to the front
             // according to Gärtner's heuristic
