@@ -22,7 +22,7 @@ import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.geometry.enclosing.SupportBallGenerator;
 import org.apache.commons.math3.util.MathArrays;
 
-/** Class implementing Emo Welzl algorithm to find the smallest enclosing ball in linear time.
+/** Class generating an enclosing ball from its support points.
  * @version $Id$
  * @since 3.3
  */
