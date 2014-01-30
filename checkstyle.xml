@@ -46,7 +46,14 @@
      <!-- Require method javadocs, allow undeclared RTE -->
     <module name="JavadocMethod">
       <property name="allowUndeclaredRTE" value="true"/>
+      <property name="allowThrowsTagsForSubclasses" value="true"/>
     </module>
+
+   <!-- Allow declaration of detailed exception set -->
+   <module name="RedundantThrows">
+     <property name="allowUnchecked"  value="true"/>
+     <property name="allowSubclasses" value="true"/>
+   </module>
         
     <!-- Require field javadoc -->
     <module name="JavadocVariable"/>
