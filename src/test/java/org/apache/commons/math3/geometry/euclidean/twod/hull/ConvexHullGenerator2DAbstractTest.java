@@ -26,6 +26,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
+import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,12 +41,14 @@ import org.junit.Test;
 public abstract class ConvexHullGenerator2DAbstractTest {
 
     protected ConvexHullGenerator2D generator;
+    protected RandomGenerator random;
 
     protected abstract ConvexHullGenerator2D createConvexHullGenerator();
 
     @Before
     public void setUp() {
         generator = createConvexHullGenerator();
+        random = new MersenneTwister(10);
     }
 
     // ------------------------------------------------------------------------------
@@ -79,16 +83,15 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Test
     public void testConvexHull() {
-        // randomize the size from 4 to 100
-        int size = (int) FastMath.floor(FastMath.random() * 96.0 + 4.0);
+        // execute 100 random variations
+        for (int i = 0; i < 100; i++) {
+            // randomize the size from 4 to 100
+            int size = (int) FastMath.floor(random.nextDouble() * 96.0 + 4.0);
 
-        List<Vector2D> points = createRandomPoints(size);
-
-        ConvexHull2D hull = generator.generate(points);
-
-        Assert.assertNotNull(hull);
-        Assert.assertTrue(isConvex(hull));
-        checkPointsInsideHullRegion(points, hull);
+            List<Vector2D> points = createRandomPoints(size);
+            ConvexHull2D hull = generator.generate(points);
+            checkConvexHull(points, hull);
+        }
     }
 
     // ------------------------------------------------------------------------------
@@ -98,11 +101,17 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         List<Vector2D> points = new ArrayList<Vector2D>(size);
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
-            points.add(new Vector2D(FastMath.random() * 2.0 - 1.0, FastMath.random() * 2.0 - 1.0));
+            points.add(new Vector2D(random.nextDouble() * 2.0 - 1.0, random.nextDouble() * 2.0 - 1.0));
         }
         return points;
     }
     
+    protected final void checkConvexHull(final Collection<Vector2D> points, final ConvexHull2D hull) {
+        Assert.assertNotNull(hull);
+        Assert.assertTrue(isConvex(hull));
+        checkPointsInsideHullRegion(points, hull);
+    }
+
     // verify that the constructed hull is really convex
     protected final boolean isConvex(final ConvexHull2D hull) {
         double sign = 0.0;

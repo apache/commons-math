@@ -28,11 +28,13 @@ import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements Graham's scan method to generate the convex hull of a finite set of
  * points in the two-dimensional euclidean space.
+ * <p>
+ * The implementation is not sensitive to colinear points. The runtime complexity
+ * is O(n log n), with n being the number of input points.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Graham_scan">Graham's scan algorithm (Wikipedia)</a>
  * @since 3.3
@@ -91,30 +93,26 @@ public class GrahamScan2D implements ConvexHullGenerator2D {
         });
 
         // list containing the vertices of the hull in ccw direction
-        final List<Vector2D> hull = new ArrayList<Vector2D>(points.size());
+        final List<Vector2D> hullVertices = new ArrayList<Vector2D>(points.size());
 
         // push the first two points on the stack
         final Iterator<Vertex> it = pointsSortedByAngle.iterator();
-        hull.add(it.next().point);
-        hull.add(it.next().point);
+        hullVertices.add(it.next().point);
+        hullVertices.add(it.next().point);
 
         Vector2D currentPoint = null;
         while (it.hasNext() || currentPoint != null) {
-            // if only one point is on the stack, push the current point to form a line segment
-            final int size = hull.size();
+            // push the current point to form a line segment if there is only one element
+            final int size = hullVertices.size();
             if (size == 1) {
-                if (it.hasNext()) {
-                    hull.add(it.next().point);
-                } else {
-                    hull.add(currentPoint);
-                    currentPoint = null;
-                }
+                hullVertices.add(currentPoint != null ? currentPoint : it.next().point);
+                currentPoint = null;
                 continue;
             }
 
             // get the last line segment of the current convex hull
-            final Vector2D p1 = hull.get(size - 2);
-            final Vector2D p2 = hull.get(size - 1);
+            final Vector2D p1 = hullVertices.get(size - 2);
+            final Vector2D p2 = hullVertices.get(size - 1);
             final Line line = new Line(p1, p2, tolerance);
 
             if (currentPoint == null) {
@@ -125,21 +123,17 @@ public class GrahamScan2D implements ConvexHullGenerator2D {
             final double offset = line.getOffset(currentPoint);
 
             if (offset < 0.0) {
-                hull.add(currentPoint);
+                // the current point forms a convex section
+                hullVertices.add(currentPoint);
                 currentPoint = null;
             } else {
-                // in case the new point is on the line segment, discard it
-                if (Precision.equals(offset, 0.0, tolerance)) {
-                    currentPoint = null;
-                } else {
-                    // otherwise, we need to discard the last point of the current
-                    // hull, as the current point would create a concave section.
-                    hull.remove(size - 1);
-                }
+                // otherwise, the point is either colinear or will create
+                // a concave section, thus we need to remove the last point.
+                hullVertices.remove(size - 1);
             }
         }
 
-        return new ConvexHull2D(hull, tolerance);
+        return new ConvexHull2D(hullVertices, tolerance);
     }
 
     /**
