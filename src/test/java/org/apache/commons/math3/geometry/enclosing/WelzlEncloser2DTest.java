@@ -26,7 +26,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well1024a;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -63,8 +62,7 @@ public class WelzlEncloser2DTest {
     }
 
     @Test
-    @Ignore // this test currently fails, it generate a ball that reduces at one iteration
-    public void testReducingBall() {
+    public void testReducingBall1() {
         List<Vector2D> list = buildList(0.05380958511396061, 0.57332359658700000,
                                         0.99348810731127870, 0.02056421361521466,
                                         0.01203950647796437, 0.99779675042261860,
@@ -74,7 +72,15 @@ public class WelzlEncloser2DTest {
     }
 
     @Test
-    @Ignore // this test currently fails, it generate balls that reduce at some iterations
+    public void testReducingBall2() {
+        List<Vector2D> list = buildList(0.016930586154703, 0.333955448537779,
+                                        0.987189104892331, 0.969778855274507,
+                                        0.983696889599935, 0.012904580013266,
+                                        0.013114499572905, 0.034740156356895);
+        checkDisk(list, Arrays.asList(list.get(1), list.get(2), list.get(3)));
+    }
+
+    @Test
     public void testLargeSamples() {
         RandomGenerator random = new Well1024a(0xa2a63cad12c01fb2l);
         for (int k = 0; k < 100; ++k) {

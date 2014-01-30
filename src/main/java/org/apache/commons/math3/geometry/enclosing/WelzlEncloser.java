@@ -65,9 +65,9 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
     }
 
     /** {@inheritDoc} */
-    public EnclosingBall<S, P> enclose(final List<P> points) {
+    public EnclosingBall<S, P> enclose(final Iterable<P> points) {
 
-        if (points == null || points.isEmpty()) {
+        if (points == null || !points.iterator().hasNext()) {
             // return an empty ball
             return generator.ballOnSupport(new ArrayList<P>());
         }
@@ -81,14 +81,14 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
      * @param points points to be enclosed
      * @return enclosing ball
      */
-    private EnclosingBall<S, P> pivotingBall(final List<P> points) {
+    private EnclosingBall<S, P> pivotingBall(final Iterable<P> points) {
 
         List<P> extreme = new ArrayList<P>(max);
         List<P> support = new ArrayList<P>(max);
 
         // start with only first point selected as a candidate support
-        extreme.add(points.get(0));
-        EnclosingBall<S, P> ball = moveToFrontBall(extreme, support);
+        extreme.add(points.iterator().next());
+        EnclosingBall<S, P> ball = moveToFrontBall(extreme, extreme.size(), support);
 
         while (true) {
 
@@ -103,7 +103,7 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
             support.clear();
             support.add(farthest);
             EnclosingBall<S, P> savedBall = ball;
-            ball = moveToFrontBall(extreme, support);
+            ball = moveToFrontBall(extreme, extreme.size(), support);
             if (ball.getRadius() < savedBall.getRadius()) {
                 // TODO: fix this, it should never happen but it does!
                 throw new MathInternalError();
@@ -122,28 +122,31 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
 
     /** Compute enclosing ball using Welzl's move to front heuristic.
      * @param extreme subset of extreme points
+     * @param nbExtreme number of extreme points to consider
      * @param support points that must belong to the ball support
      * @return enclosing ball, for the extreme subset only
      */
-    private EnclosingBall<S, P> moveToFrontBall(final List<P> extreme, final List<P> support) {
+    private EnclosingBall<S, P> moveToFrontBall(final List<P> extreme, final int nbExtreme,
+                                                final List<P> support) {
 
         // create a new ball on the prescribed support
         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
 
         if (ball.getSupportSize() < max) {
 
-            for (int i = 0; i < extreme.size(); ++i) {
+            for (int i = 0; i < nbExtreme; ++i) {
                 final P pi = extreme.get(i);
                 if (!ball.contains(pi, tolerance)) {
 
                     // we have found an outside point,
                     // enlarge the ball by adding it to the support
                     support.add(pi);
-                    ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+                    ball = moveToFrontBall(extreme, i, support);
+                    support.remove(support.size() - 1);
 
                     // it was an interesting point, move it to the front
                     // according to Welzl's heuristic
-                    for (int j = i; j > 1; --j) {
+                    for (int j = i; j > 0; --j) {
                         extreme.set(j, extreme.get(j - 1));
                     }
                     extreme.set(0, pi);
@@ -162,7 +165,7 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
      * @param ball current ball
      * @return farthest point
      */
-    public P selectFarthest(final List<P> points, final EnclosingBall<S, P> ball) {
+    public P selectFarthest(final Iterable<P> points, final EnclosingBall<S, P> ball) {
 
         final P center = ball.getCenter();
         P farthest   = null;
