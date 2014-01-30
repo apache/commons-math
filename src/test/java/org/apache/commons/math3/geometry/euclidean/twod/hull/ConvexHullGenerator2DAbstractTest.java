@@ -45,6 +45,11 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     protected abstract ConvexHullGenerator2D createConvexHullGenerator();
 
+    protected Collection<Vector2D> reducePoints(Collection<Vector2D> points) {
+        // do nothing by default, may be overridden by other tests
+        return points;
+    }
+
     @Before
     public void setUp() {
         generator = createConvexHullGenerator();
@@ -89,7 +94,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
             int size = (int) FastMath.floor(random.nextDouble() * 96.0 + 4.0);
 
             List<Vector2D> points = createRandomPoints(size);
-            ConvexHull2D hull = generator.generate(points);
+            ConvexHull2D hull = generator.generate(reducePoints(points));
             checkConvexHull(points, hull);
         }
     }
