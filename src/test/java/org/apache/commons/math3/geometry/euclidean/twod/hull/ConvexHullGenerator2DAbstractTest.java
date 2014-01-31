@@ -99,6 +99,19 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         }
     }
 
+    @Test
+    public void testColinearPoints() {
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
+        points.add(new Vector2D(1, 1));
+        points.add(new Vector2D(2, 2));
+        points.add(new Vector2D(2, 4));
+        points.add(new Vector2D(4, 1));
+        points.add(new Vector2D(10, 1));
+
+        final ConvexHull2D hull = generator.generate(points);
+        checkConvexHull(points, hull);
+    }
+
     // ------------------------------------------------------------------------------
     
     protected final List<Vector2D> createRandomPoints(int size) {

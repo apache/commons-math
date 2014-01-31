@@ -17,7 +17,6 @@
 package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -35,19 +34,6 @@ public class GrahamScanTest extends ConvexHullGenerator2DAbstractTest {
     }
 
     // ------------------------------------------------------------------------------
-
-    @Test
-    public void testColinearPoints() {
-        final Collection<Vector2D> points = new ArrayList<Vector2D>();
-        points.add(new Vector2D(1, 1));
-        points.add(new Vector2D(2, 2));
-        points.add(new Vector2D(2, 4));
-        points.add(new Vector2D(4, 1));
-        points.add(new Vector2D(10, 1));
-
-        final ConvexHull2D hull = generator.generate(points);
-        checkConvexHull(points, hull);
-    }
 
     @Test
     public void testIdenticalPoints() {
