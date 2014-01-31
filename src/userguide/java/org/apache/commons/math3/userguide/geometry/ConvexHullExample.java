@@ -16,14 +16,14 @@ import javax.swing.JComponent;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan2D;
+import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.userguide.ExampleUtils;
 import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 
 /**
- * Plots 2D samples drawn from various pseudo / quasi-random generators.
+ * Shows how to generate the convex hull of a point cloud in 2D.
  */
 public class ConvexHullExample {
 
@@ -48,7 +48,7 @@ public class ConvexHullExample {
             
             setLayout(new FlowLayout());
             
-            GrahamScan2D generator = new GrahamScan2D();
+            GrahamScan generator = new GrahamScan();
             Collection<Vector2D> cloud = createRandomPoints(150);
             ConvexHull2D hull = generator.generate(cloud);
 

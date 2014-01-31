@@ -40,7 +40,7 @@ import org.apache.commons.math3.util.MathUtils;
  * @since 3.3
  * @version $Id$
  */
-public class GrahamScan2D implements ConvexHullGenerator2D {
+public class GrahamScan implements ConvexHullGenerator2D {
 
     /** Default value for tolerance. */
     private static final double DEFAULT_TOLERANCE = 1e-10;
@@ -56,7 +56,7 @@ public class GrahamScan2D implements ConvexHullGenerator2D {
      * <p>
      * The default tolerance (1e-10) will be used to determine identical points.
      */
-    public GrahamScan2D() {
+    public GrahamScan() {
         this(DEFAULT_TOLERANCE);
     }
 
@@ -64,7 +64,7 @@ public class GrahamScan2D implements ConvexHullGenerator2D {
      * Creates a new instance with the given tolerance for determining identical points.
      * @param tolerance tolerance below which points are considered identical
      */
-    public GrahamScan2D(final double tolerance) {
+    public GrahamScan(final double tolerance) {
         this.tolerance = tolerance;
     }
 

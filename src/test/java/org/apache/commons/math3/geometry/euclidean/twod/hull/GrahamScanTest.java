@@ -21,17 +21,17 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan2D;
+import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan;
 import org.junit.Test;
 
 /**
  * Test class for GrahamScan2D.
  * @version $Id$
  */
-public class GrahamScan2DTest extends ConvexHullGenerator2DAbstractTest {
+public class GrahamScanTest extends ConvexHullGenerator2DAbstractTest {
 
     protected ConvexHullGenerator2D createConvexHullGenerator() {
-        return new GrahamScan2D();
+        return new GrahamScan();
     }
 
     // ------------------------------------------------------------------------------
