@@ -50,7 +50,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
      * @param vertices the vertices of the convex hull
      * @param tolerance tolerance below which points are considered identical
      */
-    public ConvexHull2D(final Collection<Vector2D> vertices, final double tolerance) {
+    ConvexHull2D(final Collection<Vector2D> vertices, final double tolerance) {
         this.vertices = vertices.toArray(new Vector2D[vertices.size()]);
 
         // construct the line segments - handle special cases of 1 or 2 points
