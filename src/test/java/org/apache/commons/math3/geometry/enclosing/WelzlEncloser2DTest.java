@@ -35,7 +35,7 @@ public class WelzlEncloser2DTest {
     public void testNullList() {
         DiskGenerator generator = new DiskGenerator();
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, 2, generator);
+                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, generator);
         EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(null);
         Assert.assertTrue(ball.getRadius() < 0);
     }
@@ -44,7 +44,7 @@ public class WelzlEncloser2DTest {
     public void testNoPoints() {
         DiskGenerator generator = new DiskGenerator();
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, 2, generator);
+                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, generator);
         EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(new ArrayList<Vector2D>());
         Assert.assertTrue(ball.getRadius() < 0);
     }
@@ -149,7 +149,7 @@ public class WelzlEncloser2DTest {
     private EnclosingBall<Euclidean2D, Vector2D> checkDisk(List<Vector2D> points) {
 
         WelzlEncloser<Euclidean2D, Vector2D> encloser =
-                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, 2, new DiskGenerator());
+                new WelzlEncloser<Euclidean2D, Vector2D>(1.0e-10, new DiskGenerator());
         EnclosingBall<Euclidean2D, Vector2D> disk = encloser.enclose(points);
 
         // all points are enclosed

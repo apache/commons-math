@@ -46,21 +46,15 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
     /** Tolerance below which points are consider to be identical. */
     private final double tolerance;
 
-    /** Maximum number of points to define a ball. */
-    private final int max;
-
     /** Generator for balls on support. */
     private final SupportBallGenerator<S, P> generator;
 
     /** Simple constructor.
      * @param tolerance below which points are consider to be identical
-     * @param dimension dimension of the space
      * @param generator generator for balls on support
      */
-    protected WelzlEncloser(final double tolerance, final int dimension,
-                            final SupportBallGenerator<S, P> generator) {
+    public WelzlEncloser(final double tolerance, final SupportBallGenerator<S, P> generator) {
         this.tolerance = tolerance;
-        this.max       = dimension + 1;
         this.generator = generator;
     }
 
@@ -83,11 +77,12 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
      */
     private EnclosingBall<S, P> pivotingBall(final Iterable<P> points) {
 
-        List<P> extreme = new ArrayList<P>(max);
-        List<P> support = new ArrayList<P>(max);
+        final P first = points.iterator().next();
+        final List<P> extreme = new ArrayList<P>(first.getSpace().getDimension() + 1);
+        final List<P> support = new ArrayList<P>(first.getSpace().getDimension() + 1);
 
         // start with only first point selected as a candidate support
-        extreme.add(points.iterator().next());
+        extreme.add(first);
         EnclosingBall<S, P> ball = moveToFrontBall(extreme, extreme.size(), support);
 
         while (true) {
@@ -132,7 +127,7 @@ public class WelzlEncloser<S extends Space, P extends Point<S>> implements Enclo
         // create a new ball on the prescribed support
         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
 
-        if (ball.getSupportSize() < max) {
+        if (ball.getSupportSize() <= ball.getCenter().getSpace().getDimension()) {
 
             for (int i = 0; i < nbExtreme; ++i) {
                 final P pi = extreme.get(i);
