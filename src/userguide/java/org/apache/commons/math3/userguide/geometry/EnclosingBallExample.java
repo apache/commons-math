@@ -6,7 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Line2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,10 +14,12 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
+import org.apache.commons.math3.geometry.enclosing.Encloser;
+import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
+import org.apache.commons.math3.geometry.euclidean.twod.DiskGenerator;
+import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.MonotoneChain;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.userguide.ExampleUtils;
@@ -26,7 +28,7 @@ import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 /**
  * Shows how to generate the convex hull of a point cloud in 2D.
  */
-public class ConvexHullExample {
+public class EnclosingBallExample {
 
     public static List<Vector2D> createRandomPoints(int size) {
         RandomGenerator random = new MersenneTwister();
@@ -35,7 +37,7 @@ public class ConvexHullExample {
         List<Vector2D> points = new ArrayList<Vector2D>(size);
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
-            points.add(new Vector2D(random.nextDouble() * 2.0 - 1.0, random.nextDouble() * 2.0 - 1.0));
+            points.add(new Vector2D(random.nextDouble() - 0.5, random.nextDouble() - 0.5));
         }
         return points;
     }
@@ -44,16 +46,16 @@ public class ConvexHullExample {
     public static class Display extends ExampleFrame {
         
         public Display() {
-            setTitle("Commons-Math: Convex Hull example");
+            setTitle("Commons-Math: Enclosing Ball example");
             setSize(400, 400);
             
             setLayout(new FlowLayout());
-            
-            ConvexHullGenerator2D generator = new MonotoneChain();
-            Collection<Vector2D> cloud = createRandomPoints(150);
-            ConvexHull2D hull = generator.generate(cloud);
 
-            add(new Plot(cloud, hull));
+            Collection<Vector2D> cloud = createRandomPoints(150);
+            Encloser<Euclidean2D, Vector2D> encloser = new WelzlEncloser<Euclidean2D, Vector2D>(1e-10, new DiskGenerator());
+            EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(cloud);
+
+            add(new Plot(cloud, ball));
         }
     }
 
@@ -63,11 +65,11 @@ public class ConvexHullExample {
         private static double PAD = 10;
 
         private Iterable<Vector2D> cloud;
-        private ConvexHull2D hull;
+        private EnclosingBall<Euclidean2D, Vector2D> ball;
 
-        public Plot(Iterable<Vector2D> cloud, ConvexHull2D hull) {
+        public Plot(Iterable<Vector2D> cloud, EnclosingBall<Euclidean2D, Vector2D> ball) {
             this.cloud = cloud;
-            this.hull = hull;
+            this.ball = ball;
         }
         
         @Override
@@ -90,17 +92,7 @@ public class ConvexHullExample {
             }
             
             g.setColor(Color.RED);
-            Vector2D firstPoint = hull.getVertices()[0];
-            Vector2D lastPoint = null;
-            for (Vector2D point : hull.getVertices()) {
-                drawPoint(g2, point, w, h);
-                if (lastPoint != null) {
-                    drawLine(g2, lastPoint, point, w, h);
-                }
-                lastPoint = point;
-            }
-
-            drawLine(g2, lastPoint, firstPoint, w, h);
+            drawCircle(g2, ball.getCenter(), ball.getRadius(), w, h);
         }        
 
         private void drawPoint(Graphics2D g2, Vector2D point, int width, int height) {
@@ -109,12 +101,12 @@ public class ConvexHullExample {
             g2.draw(new Rectangle2D.Double(arr[0] - 1, arr[1] - 1, 2, 2));
         }
 
-        public void drawLine(Graphics2D g2, Vector2D point1, Vector2D point2, int width, int height) {
-            Vector2D p1 = transform(point1, width, height);
-            double[] arr1 = p1.toArray();
-            Vector2D p2 = transform(point2, width, height);
-            double[] arr2 = p2.toArray();            
-            g2.draw(new Line2D.Double(arr1[0], arr1[1], arr2[0], arr2[1]));
+        public void drawCircle(Graphics2D g2, Vector2D center, double radius, int width, int height) {
+            Vector2D c = transform(center, width, height);
+            double[] arr = c.toArray();
+            double rx = (radius) / 2 * (width - 2 * PAD);
+            double ry = (radius) / 2 * (height - 2 * PAD);
+            g2.draw(new Ellipse2D.Double(arr[0] - rx, arr[1] - ry, rx * 2, ry * 2));
         }
 
         @Override
@@ -124,8 +116,8 @@ public class ConvexHullExample {
 
         private Vector2D transform(Vector2D point, int width, int height) {
             double[] arr = point.toArray();
-            return new Vector2D(new double[] { PAD + (arr[0] + 1) / 2.0 * (width - 2 * PAD),
-                                               height - PAD - (arr[1] + 1) / 2.0 * (height - 2 * PAD) });
+            return new Vector2D(new double[] { PAD + (arr[0] + 0.5) / 2 * (width - 2 * PAD) + width / 4,
+                                               height - PAD - (arr[1] + 0.5) / 2 * (height - 2 * PAD) - height / 4 });
         }
     }
 
