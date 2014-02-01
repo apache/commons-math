@@ -29,6 +29,7 @@ import org.junit.Test;
  */
 public class GrahamScanTest extends ConvexHullGenerator2DAbstractTest {
 
+    @Override
     protected ConvexHullGenerator2D createConvexHullGenerator() {
         return new GrahamScan();
     }

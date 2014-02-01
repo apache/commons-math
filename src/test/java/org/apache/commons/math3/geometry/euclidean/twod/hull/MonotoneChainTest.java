@@ -22,6 +22,7 @@ package org.apache.commons.math3.geometry.euclidean.twod.hull;
  */
 public class MonotoneChainTest extends ConvexHullGenerator2DAbstractTest {
 
+    @Override
     protected ConvexHullGenerator2D createConvexHullGenerator() {
         return new MonotoneChain();
     }
