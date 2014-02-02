@@ -329,6 +329,34 @@ public class Vector2D implements Vector<Euclidean2D> {
         return MathArrays.linearCombination(x, v2.x, y, v2.y);
     }
 
+    /**
+     * Compute the cross-product of the instance and the given points.
+     * <p>
+     * The cross product can be used to determine the location of a point
+     * with regard to the line formed by (p1, p2) and is calculated as:
+     * \[
+     *    P = (x_2 - x_1)(y_3 - y_1) - (y_2 - y_1)(x_3 - x_1)
+     * \]
+     * with \(p3 = (x_3, y_3)\) being this instance.
+     * <p>
+     * If the result is 0, the points are collinear, i.e. lie on a single straight line L;
+     * if it is positive, this point lies to the left, otherwise to the right of the line
+     * formed by (p1, p2).
+     *
+     * @param p1 first point of the line
+     * @param p2 second point of the line
+     * @return the cross-product
+     *
+     * @see <a href="http://en.wikipedia.org/wiki/Cross_product">Cross product (Wikipedia)</a>
+     */
+    public double crossProduct(final Vector2D p1, final Vector2D p2) {
+        final double x1 = p2.getX() - p1.getX();
+        final double y1 = getY() - p1.getY();
+        final double x2 = getX() - p1.getX();
+        final double y2 = p2.getY() - p1.getY();
+        return MathArrays.linearCombination(x1, y1, -x2, y2);
+    }
+
     /** Compute the distance between two vectors according to the L<sub>2</sub> norm.
      * <p>Calling this method is equivalent to calling:
      * <code>p1.subtract(p2).getNorm()</code> except that no intermediate
