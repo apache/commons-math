@@ -44,6 +44,7 @@ public class SubLimitAngle extends AbstractSubHyperplane<Sphere1D, Sphere1D> {
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isEmpty() {
         return false;
     }

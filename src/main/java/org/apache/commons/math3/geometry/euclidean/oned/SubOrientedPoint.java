@@ -46,6 +46,7 @@ public class SubOrientedPoint extends AbstractSubHyperplane<Euclidean1D, Euclide
     }
 
     /** {@inheritDoc} */
+    @Override
     public boolean isEmpty() {
         return false;
     }

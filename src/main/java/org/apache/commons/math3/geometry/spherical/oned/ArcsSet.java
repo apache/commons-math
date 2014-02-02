@@ -478,6 +478,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public BoundaryProjection<Sphere1D> projectToBoundary(final Point<Sphere1D> point) {
 
         // get position of test point

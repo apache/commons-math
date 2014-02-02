@@ -272,6 +272,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
     /** {@inheritDoc}
      * @since 3.3
      */
+    @Override
     public BoundaryProjection<Euclidean1D> projectToBoundary(final Point<Euclidean1D> point) {
 
         // get position of test point
