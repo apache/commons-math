@@ -31,7 +31,7 @@ import org.apache.commons.math3.util.MathUtils;
  * Implements Andrew's monotone chain method to generate the convex hull of a finite set of
  * points in the two-dimensional euclidean space.
  * <p>
- * The implementation is not sensitive to colinear points. The runtime complexity
+ * The implementation is not sensitive to collinear points. The runtime complexity
  * is O(n log n), with n being the number of input points. If the point set is already
  * sorted (by x-coordinate), the runtime complexity is O(n).
  *
@@ -97,7 +97,7 @@ public class MonotoneChain implements ConvexHullGenerator2D {
                 final Vector2D p1 = lowerHull.get(size - 2);
                 final Vector2D p2 = lowerHull.get(size - 1);
 
-                if (getLocation(p, p1, p2) <= 0) {
+                if (p.crossProduct(p1, p2) <= 0) {
                     lowerHull.remove(size - 1);
                 } else {
                     break;
@@ -115,7 +115,7 @@ public class MonotoneChain implements ConvexHullGenerator2D {
                 final Vector2D p1 = upperHull.get(size - 2);
                 final Vector2D p2 = upperHull.get(size - 1);
 
-                if (getLocation(p, p1, p2) <= 0) {
+                if (p.crossProduct(p1, p2) <= 0) {
                     upperHull.remove(size - 1);
                 } else {
                     break;
@@ -135,24 +135,6 @@ public class MonotoneChain implements ConvexHullGenerator2D {
         }
 
         return new ConvexHull2D(hullVertices, tolerance);
-    }
-
-    /**
-     * Get the location of a point with regard to the given line.
-     * <p>
-     * Note: this method does the same as {@link Line#getOffset(Vector)} but is
-     * faster, thus preferred for this heuristic.
-     *
-     * @param point the point to check
-     * @param linePoint1 the first point of the line
-     * @param linePoint2 the second point of the line
-     * @return the location of the point with regard to the line
-     */
-    private double getLocation(final Vector2D point,
-                               final Vector2D linePoint1,
-                               final Vector2D linePoint2) {
-        return (linePoint2.getX() - linePoint1.getX()) * (point.getY() - linePoint1.getY()) -
-               (point.getX() - linePoint1.getX()) * (linePoint2.getY() - linePoint1.getY());
     }
 
 }

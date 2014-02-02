@@ -23,6 +23,7 @@ import java.util.Iterator;
 import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
+import org.apache.commons.math3.geometry.euclidean.twod.Segment;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.hull.ConvexHull;
 import org.apache.commons.math3.geometry.partitioning.Region;
@@ -43,11 +44,11 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     private final Vector2D[] vertices;
 
     /** Line segments of the hull. */
-    private final Line[] lineSegments;
+    private final Segment[] lineSegments;
 
     /**
      * Simple constructor.
-     * @param vertices the vertices of the convex hull
+     * @param vertices the vertices of the convex hull, must be ordered in CCW winding
      * @param tolerance tolerance below which points are considered identical
      */
     ConvexHull2D(final Collection<Vector2D> vertices, final double tolerance) {
@@ -56,13 +57,15 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
         // construct the line segments - handle special cases of 1 or 2 points
         final int size = vertices.size();
         if (size <= 1) {
-            this.lineSegments = new Line[0];
+            this.lineSegments = new Segment[0];
         } else if (size == 2) {
-            this.lineSegments = new Line[1];
+            this.lineSegments = new Segment[1];
             final Iterator<Vector2D> it = vertices.iterator();
-            this.lineSegments[0] = new Line(it.next(), it.next(), tolerance);
+            final Vector2D p1 = it.next();
+            final Vector2D p2 = it.next();
+            this.lineSegments[0] = new Segment(p1, p2, new Line(p1, p2, tolerance));
         } else {
-            this.lineSegments = new Line[size];
+            this.lineSegments = new Segment[size];
             Vector2D firstPoint = null;
             Vector2D lastPoint = null;
             int index = 0;
@@ -71,11 +74,13 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
                     firstPoint = point;
                     lastPoint = point;
                 } else {
-                    this.lineSegments[index++] = new Line(lastPoint, point, tolerance);
+                    this.lineSegments[index++] =
+                            new Segment(lastPoint, point, new Line(lastPoint, point, tolerance));
                     lastPoint = point;
                 }
             }
-            this.lineSegments[index] = new Line(lastPoint, firstPoint, tolerance);
+            this.lineSegments[index] =
+                    new Segment(lastPoint, firstPoint, new Line(lastPoint, firstPoint, tolerance));
         }
     }
 
@@ -85,10 +90,10 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     }
 
     /**
-     * Get the line segments of the convex hull, ordered in CCW direction.
+     * Get the line segments of the convex hull, ordered in CCW winding.
      * @return the line segments of the convex hull
      */
-    public Line[] getLineSegments() {
+    public Segment[] getLineSegments() {
         return lineSegments.clone();
     }
 
@@ -98,6 +103,10 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
             throw new InsufficientDataException();
         }
         final RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
-        return factory.buildConvex(lineSegments);
+        final Line[] lineArray = new Line[lineSegments.length];
+        for (int i = 0; i < lineSegments.length; i++) {
+            lineArray[i] = lineSegments[i].getLine();
+        }
+        return factory.buildConvex(lineArray);
     }
 }

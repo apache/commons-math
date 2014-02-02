@@ -33,7 +33,7 @@ import org.apache.commons.math3.util.MathUtils;
  * Implements Graham's scan method to generate the convex hull of a finite set of
  * points in the two-dimensional euclidean space.
  * <p>
- * The implementation is not sensitive to colinear points. The runtime complexity
+ * The implementation is not sensitive to collinear points. The runtime complexity
  * is O(n log n), with n being the number of input points.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Graham_scan">Graham's scan algorithm (Wikipedia)</a>
@@ -127,7 +127,7 @@ public class GrahamScan implements ConvexHullGenerator2D {
                 hullVertices.add(currentPoint);
                 currentPoint = null;
             } else {
-                // otherwise, the point is either colinear or will create
+                // otherwise, the point is either collinear or will create
                 // a concave section, thus we need to remove the last point.
                 hullVertices.remove(size - 1);
             }

@@ -130,7 +130,7 @@ public final class AklToussaintHeuristic {
         }
 
         // get the location of the point relative to the first two vertices
-        final double last = getLocation(point, p1, p2);
+        final double last = point.crossProduct(p1, p2);
         final int size = quadrilateralPoints.size();
         // loop through the rest of the vertices
         for (int i = 1; i < size; i++) {
@@ -141,33 +141,14 @@ public final class AklToussaintHeuristic {
                 return true;
             }
 
-            // do side of line test
-            // multiply the last location with this location
+            // do side of line test: multiply the last location with this location
             // if they are the same sign then the operation will yield a positive result
             // -x * -y = +xy, x * y = +xy, -x * y = -xy, x * -y = -xy
-            if (last * getLocation(point, p1, p2) < 0) {
+            if (last * point.crossProduct(p1, p2) < 0) {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Get the location of a point with regard to the given line.
-     * <p>
-     * Note: this method does the same as {@link Line#getOffset(Vector)} but is
-     * faster, thus preferred for this heuristic.
-     *
-     * @param point the point to check
-     * @param linePoint1 the first point of the line
-     * @param linePoint2 the second point of the line
-     * @return the location of the point with regard to the line
-     */
-    private static double getLocation(final Vector2D point,
-                                      final Vector2D linePoint1,
-                                      final Vector2D linePoint2) {
-        return (linePoint2.getX() - linePoint1.getX()) * (point.getY() - linePoint1.getY()) -
-               (point.getX() - linePoint1.getX()) * (linePoint2.getY() - linePoint1.getY());
     }
 
 }
