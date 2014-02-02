@@ -24,6 +24,7 @@ import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math3.random.Well1024a;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -135,7 +136,7 @@ public class SphereGeneratorTest {
     public void testRandom() {
         final RandomGenerator random = new Well1024a(0xd015982e9f31ee04l);
         final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
-        for (int i = 0; i < 500; ++i) {
+        for (int i = 0; i < 100; ++i) {
             double d = 25 * random.nextDouble();
             double refRadius = 10 * random.nextDouble();
             Vector3D refCenter = new Vector3D(d, new Vector3D(sr.nextVector()));
@@ -148,6 +149,38 @@ public class SphereGeneratorTest {
             Assert.assertEquals(refRadius, sphere.getRadius(), 1e-7 * refRadius);
         }
         
+    }
+
+    @Test
+    public void testDegeneratedCase() {
+       final List<Vector3D> support =
+               Arrays.asList(new Vector3D(FastMath.scalb(-8039905610797991.0, -50),   //   -7.140870659936730
+                                          FastMath.scalb(-4663475464714142.0, -48),   //  -16.567993074240455
+                                          FastMath.scalb( 6592658872616184.0, -49)),  //   11.710914678204503
+                             new Vector3D(FastMath.scalb(-8036658568968473.0, -50),   //   -7.137986707455888
+                                          FastMath.scalb(-4664256346424880.0, -48),   //  -16.570767323375720
+                                          FastMath.scalb( 6591357011730307.0, -49)),  //  11.708602108715928)
+                             new Vector3D(FastMath.scalb(-8037820142977230.0, -50),   //   -7.139018392423351
+                                          FastMath.scalb(-4665280434237813.0, -48),   //  -16.574405614157020
+                                          FastMath.scalb( 6592435966112099.0, -49)),  //   11.710518716711425
+                             new Vector3D(FastMath.scalb(-8038007803611611.0, -50),   //   -7.139185068549035
+                                          FastMath.scalb(-4664291215918380.0, -48),   //  -16.570891204702250
+                                          FastMath.scalb( 6595270610894208.0, -49))); //   11.715554057357394
+        EnclosingBall<Euclidean3D, Vector3D> sphere = new SphereGenerator().ballOnSupport(support);
+
+        // the following values have been computed using Emacs calc with exact arithmetic from the
+        // rational representation corresponding to the scalb calls (i.e. -8039905610797991/2^50, ...)
+        // The results were converted to decimal representation rounded to 1.0e-30 when writing the reference
+        // values in this test
+        Assert.assertEquals(  0.003616820213530053297575846168, sphere.getRadius(),        1.0e-20);
+        Assert.assertEquals( -7.139325643360503322823511839511, sphere.getCenter().getX(), 1.0e-20);
+        Assert.assertEquals(-16.571096474251747245361467833760, sphere.getCenter().getY(), 1.0e-20);
+        Assert.assertEquals( 11.711945804096960876521111630800, sphere.getCenter().getZ(), 1.0e-20);
+
+        for (Vector3D v : support) {
+            Assert.assertTrue(sphere.contains(v, 1.0e-14));
+        }
+
     }
 
 }

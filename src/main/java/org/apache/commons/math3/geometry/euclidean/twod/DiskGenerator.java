@@ -18,9 +18,10 @@ package org.apache.commons.math3.geometry.euclidean.twod;
 
 import java.util.List;
 
+import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.geometry.enclosing.SupportBallGenerator;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.FastMath;
 
 /** Class generating an enclosing ball from its support points.
  * @version $Id$
@@ -66,42 +67,43 @@ public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D
                     //      y_0 = -m_13 / (2 m_11)
                     // Note that the minors m_11, m_12 and m_13 all have the last column
                     // filled with 1.0, hence simplifying the computation
-                    final double[] c1 = new double[] {
-                        vA.getNormSq(), vB.getNormSq(), vC.getNormSq()
+                    final BigFraction[] c2 = new BigFraction[] {
+                        new BigFraction(vA.getX()), new BigFraction(vB.getX()), new BigFraction(vC.getX())
                     };
-                    final double[] c2 = new double[] {
-                        vA.getX(), vB.getX(), vC.getX()
+                    final BigFraction[] c3 = new BigFraction[] {
+                        new BigFraction(vA.getY()), new BigFraction(vB.getY()), new BigFraction(vC.getY())
                     };
-                    final double[] c3 = new double[] {
-                        vA.getY(), vB.getY(), vC.getY()
+                    final BigFraction[] c1 = new BigFraction[] {
+                        c2[0].multiply(c2[0]).add(c3[0].multiply(c3[0])),
+                        c2[1].multiply(c2[1]).add(c3[1].multiply(c3[1])),
+                        c2[2].multiply(c2[2]).add(c3[2].multiply(c3[2]))
                     };
-                    final double m11 = minor(c2, c3);
-                    final double m12 = minor(c1, c3);
-                    final double m13 = minor(c1, c2);
-                    final Vector2D center = new Vector2D(0.5 * m12 / m11, -0.5 * m13 / m11);
-                    return new EnclosingBall<Euclidean2D, Vector2D>(center, center.distance(vA), vA, vB, vC);
+                    final BigFraction twoM11  = minor(c2, c3).multiply(2);
+                    final BigFraction m12     = minor(c1, c3);
+                    final BigFraction m13     = minor(c1, c2);
+                    final BigFraction centerX = m12.divide(twoM11);
+                    final BigFraction centerY = m13.divide(twoM11).negate();
+                    final BigFraction dx      = c2[0].subtract(centerX);
+                    final BigFraction dy      = c3[0].subtract(centerY);
+                    final BigFraction r2      = dx.multiply(dx).add(dy.multiply(dy));
+                    return new EnclosingBall<Euclidean2D, Vector2D>(new Vector2D(centerX.doubleValue(),
+                                                                                 centerY.doubleValue()),
+                                                                    FastMath.sqrt(r2.doubleValue()),
+                                                                    vA, vB, vC);
                 }
             }
         }
     }
 
     /** Compute a dimension 3 minor, when 3<sup>d</sup> column is known to be filled with 1.0.
-     * <p>
-     * The computation is performed using {@link MathArrays#linearCombination(double[], double[])
-     * high accuracy sum of products}, trying to avoid cancellations effect. This should reduce
-     * risks in case of near co-planar points.
-     * </p>
      * @param c1 first column
      * @param c2 second column
-     * @return value of the minor computed to high accuracy
+     * @return value of the minor computed has an exact fraction
      */
-    private double minor(final double[] c1, final double[] c2) {
-        return MathArrays.linearCombination(new double[] {
-                                                c1[0], c1[2], c1[1], -c1[2], -c1[0], -c1[1]
-                                            },
-                                            new double[] {
-                                                c2[1], c2[0], c2[2],  c2[1],  c2[2],  c2[0]
-                                            });
+    private BigFraction minor(final BigFraction[] c1, final BigFraction[] c2) {
+        return      c2[0].multiply(c1[2].subtract(c1[1])).
+                add(c2[1].multiply(c1[0].subtract(c1[2]))).
+                add(c2[2].multiply(c1[1].subtract(c1[0])));
     }
 
 }

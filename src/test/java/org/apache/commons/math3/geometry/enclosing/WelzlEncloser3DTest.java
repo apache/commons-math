@@ -28,7 +28,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
 import org.apache.commons.math3.random.Well1024a;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -53,7 +52,6 @@ public class WelzlEncloser3DTest {
     }
 
     @Test
-    @Ignore
     public void testReducingBall() {
         List<Vector3D> list =
                 Arrays.asList(new Vector3D(-7.140397329568118, -16.571661242582177,  11.714458961735405),
@@ -106,14 +104,14 @@ public class WelzlEncloser3DTest {
     public void testLargeSamples() throws IOException {
         RandomGenerator random = new Well1024a(0x35ddecfc78131e1dl);
         final UnitSphereRandomVectorGenerator sr = new UnitSphereRandomVectorGenerator(3, random);
-        for (int k = 0; k < 100; ++k) {
+        for (int k = 0; k < 50; ++k) {
 
             // define the reference sphere we want to compute
             double d = 25 * random.nextDouble();
             double refRadius = 10 * random.nextDouble();
             Vector3D refCenter = new Vector3D(d, new Vector3D(sr.nextVector()));
             // set up a large sample inside the reference sphere
-            int nbPoints = random.nextInt(10000);
+            int nbPoints = random.nextInt(1000);
             List<Vector3D> points = new ArrayList<Vector3D>();
             for (int i = 0; i < nbPoints; ++i) {
                 double r = refRadius * random.nextDouble();

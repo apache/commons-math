@@ -19,12 +19,13 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.geometry.enclosing.SupportBallGenerator;
 import org.apache.commons.math3.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.FastMath;
 
 /** Class generating an enclosing ball from its support points.
  * @version $Id$
@@ -88,24 +89,39 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
                         //      z_0 = +m_14 / (2 m_11)
                         // Note that the minors m_11, m_12, m_13 and m_14 all have the last column
                         // filled with 1.0, hence simplifying the computation
-                        final double[] c1 = new double[] {
-                            vA.getNormSq(), vB.getNormSq(), vC.getNormSq(), vD.getNormSq()
+                        final BigFraction[] c2 = new BigFraction[] {
+                            new BigFraction(vA.getX()), new BigFraction(vB.getX()),
+                            new BigFraction(vC.getX()), new BigFraction(vD.getX())
                         };
-                        final double[] c2 = new double[] {
-                            vA.getX(), vB.getX(), vC.getX(), vD.getX()
+                        final BigFraction[] c3 = new BigFraction[] {
+                            new BigFraction(vA.getY()), new BigFraction(vB.getY()),
+                            new BigFraction(vC.getY()), new BigFraction(vD.getY())
                         };
-                        final double[] c3 = new double[] {
-                            vA.getY(), vB.getY(), vC.getY(), vD.getY()
+                        final BigFraction[] c4 = new BigFraction[] {
+                            new BigFraction(vA.getZ()), new BigFraction(vB.getZ()),
+                            new BigFraction(vC.getZ()), new BigFraction(vD.getZ())
                         };
-                        final double[] c4 = new double[] {
-                            vA.getZ(), vB.getZ(), vC.getZ(), vD.getZ()
+                        final BigFraction[] c1 = new BigFraction[] {
+                            c2[0].multiply(c2[0]).add(c3[0].multiply(c3[0])).add(c4[0].multiply(c4[0])),
+                            c2[1].multiply(c2[1]).add(c3[1].multiply(c3[1])).add(c4[1].multiply(c4[1])),
+                            c2[2].multiply(c2[2]).add(c3[2].multiply(c3[2])).add(c4[2].multiply(c4[2])),
+                            c2[3].multiply(c2[3]).add(c3[3].multiply(c3[3])).add(c4[3].multiply(c4[3]))
                         };
-                        final double m11 = minor(c2, c3, c4);
-                        final double m12 = minor(c1, c3, c4);
-                        final double m13 = minor(c1, c2, c4);
-                        final double m14 = minor(c1, c2, c3);
-                        final Vector3D center = new Vector3D(0.5 * m12 / m11, -0.5 * m13 / m11, 0.5 * m14 / m11);
-                        return new EnclosingBall<Euclidean3D, Vector3D>(center, center.distance(vA),
+                        final BigFraction twoM11  = minor(c2, c3, c4).multiply(2);
+                        final BigFraction m12     = minor(c1, c3, c4);
+                        final BigFraction m13     = minor(c1, c2, c4);
+                        final BigFraction m14     = minor(c1, c2, c3);
+                        final BigFraction centerX = m12.divide(twoM11);
+                        final BigFraction centerY = m13.divide(twoM11).negate();
+                        final BigFraction centerZ = m14.divide(twoM11);
+                        final BigFraction dx      = c2[0].subtract(centerX);
+                        final BigFraction dy      = c3[0].subtract(centerY);
+                        final BigFraction dz      = c4[0].subtract(centerZ);
+                        final BigFraction r2      = dx.multiply(dx).add(dy.multiply(dy)).add(dz.multiply(dz));
+                        return new EnclosingBall<Euclidean3D, Vector3D>(new Vector3D(centerX.doubleValue(),
+                                                                                     centerY.doubleValue(),
+                                                                                     centerZ.doubleValue()),
+                                                                        FastMath.sqrt(r2.doubleValue()),
                                                                         vA, vB, vC, vD);
                     }
                 }
@@ -114,41 +130,24 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
     }
 
     /** Compute a dimension 4 minor, when 4<sup>th</sup> column is known to be filled with 1.0.
-     * <p>
-     * The computation is performed using {@link MathArrays#linearCombination(double[], double[])
-     * high accuracy sum of products}, trying to avoid cancellations effect. This should reduce
-     * risks in case of near co-planar points.
-     * </p>
      * @param c1 first column
      * @param c2 second column
      * @param c3 third column
-     * @return value of the minor computed to high accuracy
+     * @return value of the minor computed has an exact fraction
      */
-    private double minor(final double[] c1, final double[] c2, final double[] c3) {
-        final double m01 = c2[0] * c3[1];
-        final double m02 = c2[0] * c3[2];
-        final double m03 = c2[0] * c3[3];
-        final double m10 = c2[1] * c3[0];
-        final double m12 = c2[1] * c3[2];
-        final double m13 = c2[1] * c3[3];
-        final double m20 = c2[2] * c3[0];
-        final double m21 = c2[2] * c3[1];
-        final double m23 = c2[2] * c3[3];
-        final double m30 = c2[3] * c3[0];
-        final double m31 = c2[3] * c3[1];
-        final double m32 = c2[3] * c3[2];
-        return MathArrays.linearCombination(new double[] {
-                                                c1[2], c1[1], c1[3], -c1[1], -c1[3], -c1[2],
-                                                c1[0], c1[3], c1[2], -c1[3], -c1[0], -c1[2],
-                                                c1[1], c1[0], c1[3], -c1[0], -c1[3], -c1[1],
-                                                c1[0], c1[2], c1[1], -c1[2], -c1[0], -c1[1]
-                                            },
-                                            new double[] {
-                                                m13, m32, m21, m23, m12, m31,
-                                                m23, m02, m30, m20, m32, m03,
-                                                m03, m31, m10, m13, m01, m30,
-                                                m12, m01, m20, m10, m21, m02
-                                            });
+    private BigFraction minor(final BigFraction[] c1, final BigFraction[] c2, final BigFraction[] c3) {
+        return      c2[0].multiply(c3[1]).multiply(c1[2].subtract(c1[3])).
+                add(c2[0].multiply(c3[2]).multiply(c1[3].subtract(c1[1]))).
+                add(c2[0].multiply(c3[3]).multiply(c1[1].subtract(c1[2]))).
+                add(c2[1].multiply(c3[0]).multiply(c1[3].subtract(c1[2]))).
+                add(c2[1].multiply(c3[2]).multiply(c1[0].subtract(c1[3]))).
+                add(c2[1].multiply(c3[3]).multiply(c1[2].subtract(c1[0]))).
+                add(c2[2].multiply(c3[0]).multiply(c1[1].subtract(c1[3]))).
+                add(c2[2].multiply(c3[1]).multiply(c1[3].subtract(c1[0]))).
+                add(c2[2].multiply(c3[3]).multiply(c1[0].subtract(c1[1]))).
+                add(c2[3].multiply(c3[0]).multiply(c1[2].subtract(c1[1]))).
+                add(c2[3].multiply(c3[1]).multiply(c1[0].subtract(c1[2]))).
+                add(c2[3].multiply(c3[2]).multiply(c1[1].subtract(c1[0])));
     }
 
 }
