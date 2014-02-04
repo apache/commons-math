@@ -51,9 +51,9 @@ public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D
                     // which can be written:
                     // (2)   (x^2 + y^2) - 2 x_0 x - 2 y_0 y + (x_0^2 + y_0^2 - r^2) = 0
                     // or simply:
-                    // (3)   (x^2 + y^2) + a x + b y + c= 0
+                    // (3)   (x^2 + y^2) + a x + b y + c = 0
                     // with disk center coordinates -a/2, -b/2
-                    // If the sphere exists, a, b and c are a non zero solution to
+                    // If the disk exists, a, b and c are a non-zero solution to
                     // [ (x^2  + y^2 )   x    y   1 ]   [ 1 ]   [ 0 ]
                     // [ (xA^2 + yA^2)   xA   yA  1 ]   [ a ]   [ 0 ]
                     // [ (xB^2 + yB^2)   xB   yB  1 ] * [ b ] = [ 0 ]
