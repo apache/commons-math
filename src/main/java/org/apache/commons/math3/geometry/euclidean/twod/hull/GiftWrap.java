@@ -115,7 +115,7 @@ public class GiftWrap extends AbstractConvexHullGenerator2D {
                 }
             }
             pointOnHull = nextPoint;
-        } while (nextPoint != hullVertices.get(0));
+        } while (nextPoint != hullVertices.get(0) && nextPoint != null);
 
         return hullVertices;
     }
