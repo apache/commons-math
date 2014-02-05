@@ -27,8 +27,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 public class AklToussaintHeuristicTest extends ConvexHullGenerator2DAbstractTest {
 
     @Override
-    protected ConvexHullGenerator2D createConvexHullGenerator() {
-        return new GrahamScan();
+    protected ConvexHullGenerator2D createConvexHullGenerator(boolean includeCollinearPoints) {
+        return new GrahamScan(includeCollinearPoints);
     }
 
     @Override

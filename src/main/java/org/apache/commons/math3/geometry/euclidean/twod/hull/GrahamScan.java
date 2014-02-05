@@ -23,11 +23,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
 
 /**
  * Implements Graham's scan method to generate the convex hull of a finite set of
@@ -40,47 +37,50 @@ import org.apache.commons.math3.util.MathUtils;
  * @since 3.3
  * @version $Id$
  */
-public class GrahamScan implements ConvexHullGenerator2D {
-
-    /** Default value for tolerance. */
-    private static final double DEFAULT_TOLERANCE = 1e-10;
+public class GrahamScan extends AbstractConvexHullGenerator2D {
 
     /** Vector representing the x-axis. */
     private static final Vector2D X_AXIS = new Vector2D(1.0, 0.0);
 
-    /** Tolerance below which points are considered identical. */
-    private final double tolerance;
-
     /**
-     * Creates a new instance.
+     * Create a new GrahamScan instance.
      * <p>
-     * The default tolerance (1e-10) will be used to determine identical points.
+     * Collinear points on the hull will not be added to the hull vertices and
+     * {@code 1e-10} will be used as tolerance criteria for identical points.
      */
     public GrahamScan() {
-        this(DEFAULT_TOLERANCE);
+        super();
     }
 
     /**
-     * Creates a new instance with the given tolerance for determining identical points.
-     * @param tolerance tolerance below which points are considered identical
+     * Create a new GrahamScan instance.
+     * <p>
+     * The default tolerance (1e-10) will be used to determine identical points.
+     *
+     * @param includeCollinearPoints indicates if collinear points on the hull shall be
+     * added as hull vertices
      */
-    public GrahamScan(final double tolerance) {
-        this.tolerance = tolerance;
+    public GrahamScan(final boolean includeCollinearPoints) {
+        super(includeCollinearPoints);
     }
 
-    /** {@inheritDoc} */
-    public ConvexHull2D generate(final Collection<Vector2D> points) throws NullArgumentException {
+    /**
+     * Create a new GrahamScan instance.
+     *
+     * @param includeCollinearPoints indicates if collinear points on the hull shall be
+     * added as hull vertices
+     * @param tolerance tolerance below which points are considered identical
+     */
+    public GrahamScan(final boolean includeCollinearPoints, final double tolerance) {
+        super(includeCollinearPoints, tolerance);
+    }
 
-        // check for null points
-        MathUtils.checkNotNull(points);
-
-        if (points.size() < 3) {
-            return new ConvexHull2D(points, tolerance);
-        }
+    @Override
+    protected Collection<Vector2D> generateHull(final Collection<Vector2D> points) {
 
         final Vector2D referencePoint = getReferencePoint(points);
 
-        final List<Vertex> pointsSortedByAngle = new ArrayList<Vertex>();
+        final List<Vertex> pointsSortedByAngle = new ArrayList<Vertex>(points.size());
         for (final Vector2D p : points) {
             pointsSortedByAngle.add(new Vertex(p, getAngleBetweenPoints(p, referencePoint)));
         }
@@ -92,13 +92,22 @@ public class GrahamScan implements ConvexHullGenerator2D {
             }
         });
 
-        // list containing the vertices of the hull in ccw direction
-        final List<Vector2D> hullVertices = new ArrayList<Vector2D>(points.size());
+        // list containing the vertices of the hull in CCW direction
+        final List<Vector2D> hullVertices = new ArrayList<Vector2D>();
 
         // push the first two points on the stack
         final Iterator<Vertex> it = pointsSortedByAngle.iterator();
-        hullVertices.add(it.next().point);
-        hullVertices.add(it.next().point);
+        final Vector2D firstPoint = it.next().point;
+        hullVertices.add(firstPoint);
+
+        final double tolerance = getTolerance();
+        // ensure that we do not add an identical point
+        while(hullVertices.size() < 2 && it.hasNext()) {
+            final Vector2D p = it.next().point;
+            if (firstPoint.distance(p) >= tolerance) {
+                hullVertices.add(p);
+            }
+        }
 
         Vector2D currentPoint = null;
         while (it.hasNext() || currentPoint != null) {
@@ -113,27 +122,47 @@ public class GrahamScan implements ConvexHullGenerator2D {
             // get the last line segment of the current convex hull
             final Vector2D p1 = hullVertices.get(size - 2);
             final Vector2D p2 = hullVertices.get(size - 1);
-            final Line line = new Line(p1, p2, tolerance);
 
             if (currentPoint == null) {
                 currentPoint = it.next().point;
             }
 
             // test if the current point is to the left of the line
-            final double offset = line.getOffset(currentPoint);
+            final double offset = currentPoint.crossProduct(p1, p2);
 
-            if (offset < 0.0) {
-                // the current point forms a convex section
+            if (FastMath.abs(offset) < tolerance) {
+                // the point is collinear to the line (p1, p2)
+
+                final double distanceToCurrent = p1.distance(currentPoint);
+                if (distanceToCurrent < tolerance || p2.distance(currentPoint) < tolerance) {
+                    // the point is assumed to be identical to either p1 or p2
+                    currentPoint = null;
+                    continue;
+                }
+
+                final double distanceToLast = p1.distance(p2);
+                if (isIncludeCollinearPoints()) {
+                    final int index = distanceToCurrent < distanceToLast ? size - 1 : size;
+                    hullVertices.add(index, currentPoint);
+                    currentPoint = null;
+                } else {
+                    if (distanceToCurrent > distanceToLast) {
+                        hullVertices.remove(size - 1);
+                    } else {
+                        currentPoint = null;
+                    }
+                }
+            } else if (offset > 0.0) {
+                // the current point forms a convex polygon
                 hullVertices.add(currentPoint);
                 currentPoint = null;
             } else {
-                // otherwise, the point is either collinear or will create
-                // a concave section, thus we need to remove the last point.
+                // the current point creates a concave polygon, remove the last point
                 hullVertices.remove(size - 1);
             }
         }
 
-        return new ConvexHull2D(hullVertices, tolerance);
+        return hullVertices;
     }
 
     /**
@@ -145,7 +174,7 @@ public class GrahamScan implements ConvexHullGenerator2D {
      * @param points the point set
      * @return the point with the lowest y-coordinate
      */
-    private Vector2D getReferencePoint(final Collection<Vector2D> points) {
+    private Vector2D getReferencePoint(final Iterable<Vector2D> points) {
         Vector2D minY = null;
         for (final Vector2D p : points) {
             if (minY == null) {

@@ -17,6 +17,7 @@
 package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -30,14 +31,14 @@ import org.junit.Test;
 public class GrahamScanTest extends ConvexHullGenerator2DAbstractTest {
 
     @Override
-    protected ConvexHullGenerator2D createConvexHullGenerator() {
-        return new GrahamScan();
+    protected ConvexHullGenerator2D createConvexHullGenerator(boolean includeCollinearPoints) {
+        return new GrahamScan(includeCollinearPoints);
     }
 
     // ------------------------------------------------------------------------------
 
     @Test
-    public void testIdenticalPoints() {
+    public void testIdenticalPointsRandom() {
         final List<Vector2D> points = new ArrayList<Vector2D>();
 
         points.add(new Vector2D(0.7886552422, 0.8629523066));
@@ -62,5 +63,18 @@ public class GrahamScanTest extends ConvexHullGenerator2DAbstractTest {
         final ConvexHull2D hull = generator.generate(points);
         checkConvexHull(points, hull);
     }
-    
+
+    @Test
+    public void testIdenticalPointsAtStart() {
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
+        points.add(new Vector2D(1, 1));
+        points.add(new Vector2D(2, 2));
+        points.add(new Vector2D(2, 4));
+        points.add(new Vector2D(4, 1.5));
+        points.add(new Vector2D(1, 1));
+
+        final ConvexHull2D hull = createConvexHullGenerator(true).generate(points);
+        checkConvexHull(points, hull, true);
+    }
+
 }
