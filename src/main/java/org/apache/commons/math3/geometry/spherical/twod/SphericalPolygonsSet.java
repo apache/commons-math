@@ -23,11 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
-import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.SphereGenerator;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
@@ -413,83 +409,5 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         return Collections.unmodifiableList(loops);
 
     }
-
-    /** Get a small circle enclosing the polygon.
-     * <p>
-     * This method is intended as a first test to quickly identify points
-     * that are guaranteed to be outside of the region before doing a full
-     * {@link #checkPoint(org.apache.commons.math3.geometry.Vector) checkPoint}
-     * to accurately identify the remaining undecided points. It is is therefore
-     * mostly useful to speed up computation for small polygons with complex
-     * shapes (say a country boundary on Earth). A typical use case is therefore:
-     * </p>
-     * <pre>
-     *   // compute region, plus an enclosing small circle
-     *   SphericalPolygonsSet complexShape = ...;
-     *   SmallCircle circle = complexShape.getEnclosingCircle();
-     *
-     *   // check lots of points
-     *   for (Vector3D p : points) {
-     *     final Location l;
-     *     if (circle != null && !circle.contains(p)) {
-     *       // no need to do further computation,
-     *       // we already know the point is outside
-     *       l = Location.OUTSIDE;
-     *     } else {
-     *       // we cannot be sure where the point is
-     *       // we need to do the full computation
-     *       l = complexShape.checkPoint(v);
-     *     }
-     *
-     *     // use l
-     *
-     *   }
-     * </pre>
-     * <p>
-     * In the special cases of empty or whole sphere polygons, special
-     * enclosing circles are returned, with radius set to negative
-     * or positive infinity so the {@link
-     * EnclosingBall#contains(org.apache.commons.math3.geometry.Point) ball.contains(point)}
-     * method return always false or true.
-     * </p>
-     * @return a small circle enclosing the polygon
-     */
-    public EnclosingBall<Sphere2D, S2Point> getEnclosingCircle() {
-
-        // extract boundary
-        final List<Vertex> boundary = getBoundaryLoops();
-
-        if (boundary.isEmpty()) {
-            // the polygon is either empty or covers the full sphere
-            // we return a dummy enclosing circle
-            final double dummyRadius = getSize() < 1.0 ?
-                                       Double.NEGATIVE_INFINITY :
-                                       Double.POSITIVE_INFINITY;
-            return new EnclosingBall<Sphere2D, S2Point>(S2Point.PLUS_K, dummyRadius);
-        }
-
-        // extract all 3D points from the boundary
-        final List<Vector3D> points = new ArrayList<Vector3D>();
-        for (Vertex first : boundary) {
-            int count = 0;
-            for (Vertex v = first; count == 0 || v != first; v = v.getOutgoing().getEnd()) {
-                ++count;
-                points.add(v.getLocation().getVector());
-            }
-        }
-
-        // find the smallest enclosing sphere in 3D
-        final WelzlEncloser<Euclidean3D, Vector3D> encloser =
-                new WelzlEncloser<Euclidean3D, Vector3D>(getTolerance(), new SphereGenerator());
-        final EnclosingBall<Euclidean3D, Vector3D> enclosing = encloser.enclose(points);
-
-        if (enclosing.getCenter().getNorm() <= getTolerance()) {
-            // the enclosing sphere is a poor one, it will not
-        }
-
-        // TODO: compute enclosing small circle
-        return null;
-
-        }
 
 }
