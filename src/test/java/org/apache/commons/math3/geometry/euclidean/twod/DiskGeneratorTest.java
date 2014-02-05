@@ -106,12 +106,12 @@ public class DiskGeneratorTest {
             double refRadius = 10 * random.nextDouble();
             Vector2D refCenter = new Vector2D(d, new Vector2D(sr.nextVector()));
             List<Vector2D> support = new ArrayList<Vector2D>();
-            for (int j = 0; j < 4; ++j) {
+            for (int j = 0; j < 3; ++j) {
                 support.add(new Vector2D(1.0, refCenter, refRadius, new Vector2D(sr.nextVector())));
             }
-            EnclosingBall<Euclidean2D, Vector2D> sphere = new DiskGenerator().ballOnSupport(support);
-            Assert.assertEquals(0.0, refCenter.distance(sphere.getCenter()), 3e-9 * refRadius);
-            Assert.assertEquals(refRadius, sphere.getRadius(), 7e-10 * refRadius);
+            EnclosingBall<Euclidean2D, Vector2D> disk = new DiskGenerator().ballOnSupport(support);
+            Assert.assertEquals(0.0, refCenter.distance(disk.getCenter()), 3e-9 * refRadius);
+            Assert.assertEquals(refRadius, disk.getRadius(), 7e-10 * refRadius);
         }
         
     }

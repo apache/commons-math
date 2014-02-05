@@ -37,7 +37,7 @@ public class SphereGenerator implements SupportBallGenerator<Euclidean3D, Vector
     public EnclosingBall<Euclidean3D, Vector3D> ballOnSupport(final List<Vector3D> support) {
 
         if (support.size() < 1) {
-            return new EnclosingBall<Euclidean3D, Vector3D>(Vector3D.ZERO, -1.0);
+            return new EnclosingBall<Euclidean3D, Vector3D>(Vector3D.ZERO, Double.NEGATIVE_INFINITY);
         } else {
             final Vector3D vA = support.get(0);
             if (support.size() < 2) {
