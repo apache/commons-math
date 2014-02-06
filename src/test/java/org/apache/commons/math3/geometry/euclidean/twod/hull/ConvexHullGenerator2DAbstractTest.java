@@ -96,7 +96,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         points.add(new Vector2D(1, 1));
 
         final ConvexHull2D hull = generator.generate(points);
-        checkConvexHull(points, hull);
+        Assert.assertTrue(hull.getVertices().length == 1);
     }
 
     @Test
@@ -231,9 +231,9 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         double sign = 0.0;
 
         final Vector2D[] points = hull.getVertices();
-        if (points.length < 3) {
-            return true;
-        }
+//        if (points.length < 3) {
+//            return true;
+//        }
 
         for (int i = 0; i < points.length; i++) {
             Vector2D p1 = points[i == 0 ? points.length - 1 : i - 1];
@@ -268,9 +268,9 @@ public abstract class ConvexHullGenerator2DAbstractTest {
                                                      final boolean includesCollinearPoints) {
 
         final Collection<Vector2D> hullVertices = Arrays.asList(hull.getVertices());
-        if (hullVertices.size() < 3) {
-            return;
-        }
+//        if (hullVertices.size() < 3) {
+//            return;
+//        }
         final Region<Euclidean2D> region = hull.createRegion();
 
         for (final Vector2D p : points) {

@@ -16,9 +16,7 @@
  */
 package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -43,16 +41,6 @@ public abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerat
      * If {@code false}, only the extreme points are added to the hull.
      */
     private final boolean includeCollinearPoints;
-
-    /**
-     * Simple constructor.
-     * <p>
-     * Collinear points on the hull will not be added to the hull vertices and
-     * {@code 1e-10} will be used as tolerance criteria for identical points.
-     */
-    protected AbstractConvexHullGenerator2D() {
-        this(false, DEFAULT_TOLERANCE);
-    }
 
     /**
      * Simple constructor.
@@ -100,30 +88,19 @@ public abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerat
         // check for null points
         MathUtils.checkNotNull(points);
 
-        final int size = points.size();
-        if (size == 2) {
-            // special case: check that the two points are not identical
-            final Iterator<Vector2D> it = points.iterator();
-            final Vector2D firstPoint = it.next();
-            final Vector2D secondPoint = it.next();
-            if (firstPoint.distance(secondPoint) > tolerance) {
-                return new ConvexHull2D(points, tolerance);
-            } else {
-                return new ConvexHull2D(Arrays.asList(firstPoint), tolerance);
-            }
-        } else if (size < 2) {
+        if (points.size() < 2) {
             return new ConvexHull2D(points, tolerance);
         }
 
-        final Collection<Vector2D> hullVertices = generateHull(points);
+        final Collection<Vector2D> hullVertices = findHullVertices(points);
         return new ConvexHull2D(hullVertices, tolerance);
     }
 
     /**
-     * Compute the convex hull vertices from the set of input points.
+     * Find the convex hull vertices from the set of input points.
      * @param points the set of input points
      * @return the convex hull vertices in CCW winding
      */
-    protected abstract Collection<Vector2D> generateHull(Collection<Vector2D> points);
+    protected abstract Collection<Vector2D> findHullVertices(Collection<Vector2D> points);
 
 }

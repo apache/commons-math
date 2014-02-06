@@ -28,8 +28,17 @@ import org.apache.commons.math3.util.FastMath;
  * Implements the Gift wrapping algorithm to generate the convex hull of a finite set of
  * points in the two-dimensional euclidean space.
  * <p>
- * The implementation is not sensitive to collinear points. The runtime complexity is O(nh),
- * with n being the number of input points and h the number of points on the convex hull.
+ * The runtime complexity is O(nh), with n being the number of input points and h the number
+ * of points on the convex hull.
+ * <p>
+ * The implementation is not sensitive to collinear points on the hull. The parameter
+ * {@code includeCollinearPoints} allows to control the behavior with regard to collinear points.
+ * If {@code true}, all points on the boundary of the hull will be added to the hull vertices,
+ * otherwise only the extreme points will be present. By default, collinear points are not added
+ * as hull vertices.
+ * <p>
+ * The {@code tolerance} parameter (default: 1e-10) is used as epsilon criteria to determine
+ * identical and collinear points.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Gift_wrapping_algorithm">Gift wrapping algorithm (Wikipedia)</a>
  * @since 3.3
@@ -39,21 +48,14 @@ public class GiftWrap extends AbstractConvexHullGenerator2D {
 
     /**
      * Create a new GiftWrap instance.
-     * <p>
-     * Collinear points on the hull will not be added to the hull vertices and
-     * {@code 1e-10} will be used as tolerance criteria for identical points.
      */
     public GiftWrap() {
-        super();
+        this(false);
     }
 
     /**
      * Create a new GiftWrap instance.
-     * <p>
-     * The default tolerance (1e-10) will be used to determine identical points.
-     *
-     * @param includeCollinearPoints indicates if collinear points on the hull shall be
-     * added as hull vertices
+     * @param includeCollinearPoints whether collinear points shall be added as hull vertices
      */
     public GiftWrap(final boolean includeCollinearPoints) {
         super(includeCollinearPoints);
@@ -61,9 +63,7 @@ public class GiftWrap extends AbstractConvexHullGenerator2D {
 
     /**
      * Create a new GiftWrap instance.
-     *
-     * @param includeCollinearPoints indicates if collinear points on the hull shall be
-     * added as hull vertices
+     * @param includeCollinearPoints whether collinear points shall be added as hull vertices
      * @param tolerance tolerance below which points are considered identical
      */
     public GiftWrap(final boolean includeCollinearPoints, final double tolerance) {
@@ -71,7 +71,7 @@ public class GiftWrap extends AbstractConvexHullGenerator2D {
     }
 
     @Override
-    public Collection<Vector2D> generateHull(final Collection<Vector2D> points) {
+    public Collection<Vector2D> findHullVertices(final Collection<Vector2D> points) {
 
         final double tolerance = getTolerance();
         final List<Vector2D> hullVertices = new ArrayList<Vector2D>();

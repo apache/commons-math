@@ -30,8 +30,16 @@ import org.apache.commons.math3.util.FastMath;
  * Implements Graham's scan method to generate the convex hull of a finite set of
  * points in the two-dimensional euclidean space.
  * <p>
- * The implementation is not sensitive to collinear points. The runtime complexity
- * is O(n log n), with n being the number of input points.
+ * The runtime complexity is O(n log h), with n being the number of input points.
+ * <p>
+ * The implementation is not sensitive to collinear points on the hull. The parameter
+ * {@code includeCollinearPoints} allows to control the behavior with regard to collinear points.
+ * If {@code true}, all points on the boundary of the hull will be added to the hull vertices,
+ * otherwise only the extreme points will be present. By default, collinear points are not added
+ * as hull vertices.
+ * <p>
+ * The {@code tolerance} parameter (default: 1e-10) is used as epsilon criteria to determine
+ * identical and collinear points.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Graham_scan">Graham's scan algorithm (Wikipedia)</a>
  * @since 3.3
@@ -44,21 +52,14 @@ public class GrahamScan extends AbstractConvexHullGenerator2D {
 
     /**
      * Create a new GrahamScan instance.
-     * <p>
-     * Collinear points on the hull will not be added to the hull vertices and
-     * {@code 1e-10} will be used as tolerance criteria for identical points.
      */
     public GrahamScan() {
-        super();
+        this(false);
     }
 
     /**
      * Create a new GrahamScan instance.
-     * <p>
-     * The default tolerance (1e-10) will be used to determine identical points.
-     *
-     * @param includeCollinearPoints indicates if collinear points on the hull shall be
-     * added as hull vertices
+     * @param includeCollinearPoints whether collinear points shall be added as hull vertices
      */
     public GrahamScan(final boolean includeCollinearPoints) {
         super(includeCollinearPoints);
@@ -66,9 +67,7 @@ public class GrahamScan extends AbstractConvexHullGenerator2D {
 
     /**
      * Create a new GrahamScan instance.
-     *
-     * @param includeCollinearPoints indicates if collinear points on the hull shall be
-     * added as hull vertices
+     * @param includeCollinearPoints whether collinear points shall be added as hull vertices
      * @param tolerance tolerance below which points are considered identical
      */
     public GrahamScan(final boolean includeCollinearPoints, final double tolerance) {
@@ -76,7 +75,7 @@ public class GrahamScan extends AbstractConvexHullGenerator2D {
     }
 
     @Override
-    protected Collection<Vector2D> generateHull(final Collection<Vector2D> points) {
+    protected Collection<Vector2D> findHullVertices(final Collection<Vector2D> points) {
 
         final Vector2D referencePoint = getReferencePoint(points);
 
