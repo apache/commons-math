@@ -51,20 +51,24 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="update" issue="MATH-1050">
+        Deprecated "ArithmeticUtils#pow(int, long)" and "ArithmeticUtils#pow(long, long)"
+        in favor of corresponding methods "ArithmeticUtils#pow(..., int)".
+      </action>
       <action dev="erans" type="fix" issue="MATH-976">
-       Create additional artifact "commons-math3-tools-x.y.z.jar" as part of the
-       release process. This artifact contains useful tools, e.g. for performance testing.
+        Create additional artifact "commons-math3-tools-x.y.z.jar" as part of the
+        release process. This artifact contains useful tools, e.g. for performance testing.
       </action>
       <action dev="erans" type="fix" issue="MATH-990">
-       Improved performance of "MathArrays#sortInPlace(...)".
+        Improved performance of "MathArrays#sortInPlace(...)".
       </action>
       <action dev="tn" type="fix" issue="MATH-1044" due-to="Sean Owen">
-       Clarify javadoc of "DecompositionSolver#getInverse()" and corresponding implementations
-       wrt the actually returned inverse. Several decomposition implementations are able
-       to return a pseudo-inverse in case of a singular matrix.
+        Clarify javadoc of "DecompositionSolver#getInverse()" and corresponding implementations
+        wrt the actually returned inverse. Several decomposition implementations are able
+        to return a pseudo-inverse in case of a singular matrix.
       </action>
       <action dev="luc" type="add" issue="MATH-1095">
-       Added Emo Welzl algorithm to find the smallest enclosing ball of a collection of points.
+        Added Emo Welzl algorithm to find the smallest enclosing ball of a collection of points.
       </action>
       <action dev="erans" type="fix" issue="MATH-985" due-to="Johnathan Kool">
         Fixed an indexing problem in "BicubicSplineInterpolatingFunction" which
