@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-976">
+       Create additional artifact "commons-math3-tools-x.y.z.jar" as part of the
+       release process. This artifact contains useful tools, e.g. for performance testing.
+      </action>
       <action dev="erans" type="fix" issue="MATH-990">
        Improved performance of "MathArrays#sortInPlace(...)".
       </action>
