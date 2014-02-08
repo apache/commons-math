@@ -18,7 +18,6 @@ package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
@@ -43,8 +42,14 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     /** Vertices of the hull. */
     private final Vector2D[] vertices;
 
-    /** Line segments of the hull. */
-    private final Segment[] lineSegments;
+    /** Tolerance threshold used during creation of the hull vertices. */
+    private final double tolerance;
+
+    /**
+     * Line segments of the hull.
+     * The array is not serialized and will be created from the vertices on first access.
+     */
+    private transient Segment[] lineSegments;
 
     /**
      * Simple constructor.
@@ -53,35 +58,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
      */
     ConvexHull2D(final Collection<Vector2D> vertices, final double tolerance) {
         this.vertices = vertices.toArray(new Vector2D[vertices.size()]);
-
-        // construct the line segments - handle special cases of 1 or 2 points
-        final int size = vertices.size();
-        if (size <= 1) {
-            this.lineSegments = new Segment[0];
-        } else if (size == 2) {
-            this.lineSegments = new Segment[1];
-            final Iterator<Vector2D> it = vertices.iterator();
-            final Vector2D p1 = it.next();
-            final Vector2D p2 = it.next();
-            this.lineSegments[0] = new Segment(p1, p2, new Line(p1, p2, tolerance));
-        } else {
-            this.lineSegments = new Segment[size];
-            Vector2D firstPoint = null;
-            Vector2D lastPoint = null;
-            int index = 0;
-            for (Vector2D point : vertices) {
-                if (lastPoint == null) {
-                    firstPoint = point;
-                    lastPoint = point;
-                } else {
-                    this.lineSegments[index++] =
-                            new Segment(lastPoint, point, new Line(lastPoint, point, tolerance));
-                    lastPoint = point;
-                }
-            }
-            this.lineSegments[index] =
-                    new Segment(lastPoint, firstPoint, new Line(lastPoint, firstPoint, tolerance));
-        }
+        this.tolerance = tolerance;
     }
 
     /** {@inheritDoc} */
@@ -94,7 +71,45 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
      * @return the line segments of the convex hull
      */
     public Segment[] getLineSegments() {
-        return lineSegments.clone();
+        return retrieveLineSegments().clone();
+    }
+
+    /**
+     * Retrieve the line segments from the cached array or create them if needed.
+     *
+     * @return the array of line segments
+     */
+    private Segment[] retrieveLineSegments() {
+        if (lineSegments == null) {
+            // construct the line segments - handle special cases of 1 or 2 points
+            final int size = vertices.length;
+            if (size <= 1) {
+                this.lineSegments = new Segment[0];
+            } else if (size == 2) {
+                this.lineSegments = new Segment[1];
+                final Vector2D p1 = vertices[0];
+                final Vector2D p2 = vertices[1];
+                this.lineSegments[0] = new Segment(p1, p2, new Line(p1, p2, tolerance));
+            } else {
+                this.lineSegments = new Segment[size];
+                Vector2D firstPoint = null;
+                Vector2D lastPoint = null;
+                int index = 0;
+                for (Vector2D point : vertices) {
+                    if (lastPoint == null) {
+                        firstPoint = point;
+                        lastPoint = point;
+                    } else {
+                        this.lineSegments[index++] =
+                                new Segment(lastPoint, point, new Line(lastPoint, point, tolerance));
+                        lastPoint = point;
+                    }
+                }
+                this.lineSegments[index] =
+                        new Segment(lastPoint, firstPoint, new Line(lastPoint, firstPoint, tolerance));
+            }
+        }
+        return lineSegments;
     }
 
     /** {@inheritDoc} */
@@ -103,9 +118,10 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
             throw new InsufficientDataException();
         }
         final RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
-        final Line[] lineArray = new Line[lineSegments.length];
-        for (int i = 0; i < lineSegments.length; i++) {
-            lineArray[i] = lineSegments[i].getLine();
+        final Segment[] segments = retrieveLineSegments();
+        final Line[] lineArray = new Line[segments.length];
+        for (int i = 0; i < segments.length; i++) {
+            lineArray[i] = segments[i].getLine();
         }
         return factory.buildConvex(lineArray);
     }
