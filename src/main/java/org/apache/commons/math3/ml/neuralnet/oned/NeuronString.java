@@ -29,6 +29,7 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * Each neuron defines one point on the line.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class NeuronString implements Serializable {
 

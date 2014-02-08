@@ -25,6 +25,7 @@ package org.apache.commons.math3.ml.neuralnet.sofm;
  * function.
  *
  * @version $Id$
+ * @since 3.3
  */
 public interface NeighbourhoodSizeFunction {
     /**

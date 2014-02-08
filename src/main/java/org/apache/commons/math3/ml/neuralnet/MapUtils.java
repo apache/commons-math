@@ -28,6 +28,7 @@ import org.apache.commons.math3.util.Pair;
  * Utilities for network maps.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class MapUtils {
     /**

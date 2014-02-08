@@ -30,6 +30,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * This class aims to be thread-safe.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class Neuron implements Serializable {
     /** Serializable. */

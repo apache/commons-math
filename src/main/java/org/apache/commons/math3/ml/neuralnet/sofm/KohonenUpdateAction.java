@@ -64,6 +64,7 @@ import org.apache.commons.math3.analysis.function.Gaussian;
  * the training process.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class KohonenUpdateAction implements UpdateAction {
     /** Distance function. */

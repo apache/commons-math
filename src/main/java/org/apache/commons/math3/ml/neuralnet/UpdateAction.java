@@ -22,6 +22,7 @@ package org.apache.commons.math3.ml.neuralnet;
  * sample.
  *
  * @version $Id$
+ * @since 3.3
  */
 public interface UpdateAction {
     /**

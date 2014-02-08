@@ -41,6 +41,7 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
  * network's topology (adding or removing links) is not.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class Network
     implements Iterable<Neuron>,

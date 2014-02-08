@@ -24,6 +24,7 @@ import org.apache.commons.math3.ml.neuralnet.Network;
  * Trainer for Kohonen's Self-Organizing Map.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class KohonenTrainingTask implements Runnable {
     /** SOFM to be trained. */

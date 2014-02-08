@@ -28,6 +28,7 @@ import org.apache.commons.math3.random.RandomGenerator;
  * features.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class FeatureInitializerFactory {
     /** Class contains only static methods. */

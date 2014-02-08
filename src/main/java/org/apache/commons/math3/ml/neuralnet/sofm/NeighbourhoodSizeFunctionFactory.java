@@ -25,6 +25,7 @@ import org.apache.commons.math3.util.FastMath;
  * Factory for creating instances of {@link NeighbourhoodSizeFunction}.
  *
  * @version $Id$
+ * @since 3.3
  */
 public class NeighbourhoodSizeFunctionFactory {
     /** Class contains only static methods. */
