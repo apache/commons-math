@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1044" due-to="Sean Owen">
+       Clarify javadoc of "DecompositionSolver#getInverse()" and corresponding implementations
+       wrt the actualy returned inverse. Several decomposition implementations are able
+       to return a pseudo-inverse in case of a singular matrix.
+      </action>
       <action dev="luc" type="add" issue="MATH-1095">
        Added Emo Welzl algorithm to find the smallest enclosing ball of a collection of points.
       </action>

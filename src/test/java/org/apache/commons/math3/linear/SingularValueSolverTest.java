@@ -28,6 +28,12 @@ public class SingularValueSolverTest {
             { 24.0 / 25.0, 43.0 / 25.0 },
             { 57.0 / 25.0, 24.0 / 25.0 }
     };
+    private double[][] bigSingular = {
+        { 1.0, 2.0,   3.0,    4.0 },
+        { 2.0, 5.0,   3.0,    4.0 },
+        { 7.0, 3.0, 256.0, 1930.0 },
+        { 3.0, 7.0,   6.0,    8.0 }
+    }; // 4th row = 1st + 2nd
 
     private static final double normTolerance = 10e-14;
 
@@ -134,6 +140,20 @@ public class SingularValueSolverTest {
             new SingularValueDecomposition(rm);
         RealMatrix recomposed = svd.getU().multiply(svd.getS()).multiply(svd.getVT());
         Assert.assertEquals(0.0, recomposed.subtract(rm).getNorm(), 2.0e-15);
+    }
+
+    @Test
+    public void testSingular() {
+      SingularValueDecomposition svd =
+          new SingularValueDecomposition(MatrixUtils.createRealMatrix(bigSingular));
+      RealMatrix pseudoInverse = svd.getSolver().getInverse();
+      RealMatrix expected = new Array2DRowRealMatrix(new double[][] {
+          {-0.0355022687,0.0512742236,-0.0001045523,0.0157719549},
+          {-0.3214992438,0.3162419255,0.0000348508,-0.0052573183},
+          {0.5437098346,-0.4107754586,-0.0008256918,0.132934376},
+          {-0.0714905202,0.053808742,0.0006279816,-0.0176817782}
+      });
+      Assert.assertEquals(0, expected.subtract(pseudoInverse).getNorm(), 1.0e-9);
     }
 
 }

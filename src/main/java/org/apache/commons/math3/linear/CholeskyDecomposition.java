@@ -299,7 +299,11 @@ public class CholeskyDecomposition {
             return new Array2DRowRealMatrix(x);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * Get the inverse of the decomposed matrix.
+         *
+         * @return the inverse matrix.
+         */
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(lTData.length));
         }

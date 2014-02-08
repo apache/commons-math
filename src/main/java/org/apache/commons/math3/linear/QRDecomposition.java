@@ -458,7 +458,10 @@ public class QRDecomposition {
             return new BlockRealMatrix(n, columns, xBlocks, false);
         }
 
-        /** {@inheritDoc} */
+        /**
+         * {@inheritDoc}
+         * @throws SingularMatrixException if the decomposed matrix is singular.
+         */
         public RealMatrix getInverse() {
             return solve(MatrixUtils.createRealIdentityMatrix(rDiag.length));
         }
