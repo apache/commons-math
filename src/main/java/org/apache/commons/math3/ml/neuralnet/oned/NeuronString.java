@@ -31,6 +31,10 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * @version $Id$
  */
 public class NeuronString implements Serializable {
+
+    /** Serializable UID. */
+    private static final long serialVersionUID = 20140208L;
+
     /** Underlying network. */
     private final Network network;
     /** Number of neurons. */
