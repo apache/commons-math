@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="erans" type="fix" issue="MATH-990">
+       Improved performance of "MathArrays#sortInPlace(...)".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1044" due-to="Sean Owen">
        Clarify javadoc of "DecompositionSolver#getInverse()" and corresponding implementations
        wrt the actually returned inverse. Several decomposition implementations are able
