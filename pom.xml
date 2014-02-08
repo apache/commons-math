@@ -432,12 +432,11 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <jar destfile="target/commons-math3-tools-${project.version}.jar">
+                <jar destfile="${project.build.directory}/${project.artifactId}-tools-${project.version}.jar">
                   <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
                   <manifest>
-                    <attribute name="Extension-Name" value="org.apache.commons.net" />
-                    <attribute name="Specification-Title" value="${project.name}" />
-                    <attribute name="Implementation-Title" value="${project.name}" />
+                    <attribute name="Specification-Title" value="${project.name} Tools" />
+                    <attribute name="Implementation-Title" value="${project.name} Tools" />
                     <attribute name="Implementation-Vendor" value="${project.organization.name}" />
                     <attribute name="Implementation-Version" value="${project.version}" />
                     <attribute name="Implementation-Vendor-Id" value="org.apache" />
@@ -445,7 +444,7 @@
                     <attribute name="X-Compile-Source-JDK" value="${maven.compiler.source}" />
                     <attribute name="X-Compile-Target-JDK" value="${maven.compiler.target}" />
                   </manifest>
-                  <fileset dir="target/test-classes"
+                  <fileset dir="${project.build.directory}/test-classes"
                            includes="org/apache/commons/math3/PerfTestUtils*" />
                 </jar>
               </target>
@@ -472,7 +471,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>target/commons-math3-tools-${project.version}.jar</file>
+                  <file>${project.build.directory}/${project.artifactId}-tools-${project.version}.jar</file>
                   <type>jar</type>
                   <classifier>tools</classifier>
                 </artifact>
