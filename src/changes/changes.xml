@@ -53,7 +53,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="3.3" date="TBD" description="TBD">
       <action dev="tn" type="fix" issue="MATH-1044" due-to="Sean Owen">
        Clarify javadoc of "DecompositionSolver#getInverse()" and corresponding implementations
-       wrt the actualy returned inverse. Several decomposition implementations are able
+       wrt the actually returned inverse. Several decomposition implementations are able
        to return a pseudo-inverse in case of a singular matrix.
       </action>
       <action dev="luc" type="add" issue="MATH-1095">
