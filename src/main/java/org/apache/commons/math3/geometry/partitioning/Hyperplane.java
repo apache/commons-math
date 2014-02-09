@@ -30,6 +30,13 @@ import org.apache.commons.math3.geometry.Space;
  * space). They can be more exotic objects in specific fields, for
  * example a circle on the surface of the unit sphere.</p>
 
+ * <p>
+ * Note that this interface is <em>not</em> intended to be implemented
+ * by Apache Commons Math users, it is only intended to be implemented
+ * within the library itself. New methods may be added even for minor
+ * versions, which breaks compatibility for external implementations.
+ * </p>
+
  * @param <S> Type of the space.
 
  * @version $Id$

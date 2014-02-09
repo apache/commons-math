@@ -103,6 +103,12 @@
  * href="http://www.cs.utexas.edu/users/fussell/courses/cs384g/bsp_treemerge.pdf">here</a>.
  * </p>
  *
+ * <p>
+ * Note that the interfaces defined in this package are <em>not</em> intended to
+ * be implemented by Apache Commons Math users, they are only intended to be
+ * implemented within the library itself. New methods may be added even for
+ * minor versions, which breaks compatibility for external implementations.
+ * </p>
  *
  */
 package org.apache.commons.math3.geometry.partitioning;

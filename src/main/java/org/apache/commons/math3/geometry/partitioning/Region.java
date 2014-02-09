@@ -39,6 +39,13 @@ import org.apache.commons.math3.geometry.Point;
  * or) for the binary operations, complement for the unary
  * operation.</p>
 
+ * <p>
+ * Note that this interface is <em>not</em> intended to be implemented
+ * by Apache Commons Math users, it is only intended to be implemented
+ * within the library itself. New methods may be added even for minor
+ * versions, which breaks compatibility for external implementations.
+ * </p>
+
  * @param <S> Type of the space.
 
  * @version $Id$

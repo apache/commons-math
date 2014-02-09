@@ -34,6 +34,13 @@ import org.apache.commons.math3.geometry.Space;
  * <p>In the 3D euclidean space, hyperplanes are 2D planes, and the 1D
  * sub-spaces are lines.</p>
 
+ * <p>
+ * Note that this interface is <em>not</em> intended to be implemented
+ * by Apache Commons Math users, it is only intended to be implemented
+ * within the library itself. New methods may be added even for minor
+ * versions, which breaks compatibility for external implementations.
+ * </p>
+
  * @param <S> Type of the embedding space.
  * @param <T> Type of the embedded sub-space.
 
