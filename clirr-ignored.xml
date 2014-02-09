@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<differences>
+
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Region</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.partitioning.Region$Location checkPoint(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.partitioning.Region$Location checkPoint(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Region</className>
+    <differenceType>7012</differenceType> <!-- Method Added to Interface -->
+    <method>boolean isFull()</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Region</className>
+    <differenceType>7012</differenceType> <!-- Method Added to Interface -->
+    <method>boolean isFull(org.apache.commons.math3.geometry.partitioning.BSPTree)</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Region</className>
+    <differenceType>7012</differenceType> <!-- Method Added to Interface -->
+    <method>org.apache.commons.math3.geometry.partitioning.BoundaryProjection projectToBoundary(org.apache.commons.math3.geometry.Point)</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Region</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector getBarycenter()</method>
+    <to>org.apache.commons.math3.geometry.Point</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Hyperplane</className>
+    <differenceType>7012</differenceType> <!-- Method Added to Interface -->
+    <method>double getTolerance()</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Hyperplane</className>
+    <differenceType>7012</differenceType> <!-- Method Added to Interface -->
+    <method>org.apache.commons.math3.geometry.Point project(org.apache.commons.math3.geometry.Point)</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Hyperplane</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>double getOffset(org.apache.commons.math3.geometry.Vector)</method>
+    <to>double getOffset(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Embedding</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Embedding</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Point</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Embedding</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSubSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Point</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Transform</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector apply(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Vector apply(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/Transform</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector apply(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Point</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>AbstractRegion(org.apache.commons.math3.geometry.partitioning.BSPTree)</method>
+    <to>AbstractRegion(double)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7004</differenceType> <!-- Method Argument Count Changed -->
+    <method>AbstractRegion(java.util.Collection)</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7004</differenceType> <!-- Method Argument Count Changed -->
+    <method>AbstractRegion()</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7004</differenceType> <!-- Method Argument Count Changed -->
+    <method>AbstractRegion(org.apache.commons.math3.geometry.partitioning.Hyperplane[])</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7009</differenceType> <!-- Method is now Less Accessible -->
+    <method>AbstractRegion(org.apache.commons.math3.geometry.partitioning.Hyperplane[])</method>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/partitioning/AbstractRegion</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector getBarycenter()</method>
+    <to>org.apache.commons.math3.geometry.Point</to>
+  </difference>
+
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Plane</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Plane</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.threed.Vector3D</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Plane</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSubSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.twod.Vector2D</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Line</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Line</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.threed.Vector3D</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/threed/Line</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSubSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.oned.Vector1D</to>
+  </difference>
+
+
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/twod/Line</className>
+    <differenceType>7005</differenceType> <!-- Method Argument Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Point)</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/twod/Line</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.twod.Vector2D</to>
+  </difference>
+  <difference>
+    <className>org/apache/commons/math3/geometry/euclidean/twod/Line</className>
+    <differenceType>7006</differenceType> <!-- Method Return Type changed -->
+    <method>org.apache.commons.math3.geometry.Vector toSubSpace(org.apache.commons.math3.geometry.Vector)</method>
+    <to>org.apache.commons.math3.geometry.euclidean.oned.Vector1D</to>
+  </difference>
+
+
+</differences>

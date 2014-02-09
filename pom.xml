@@ -362,6 +362,7 @@
     <math.pmd.version>2.7.1</math.pmd.version>
     <math.findbugs.version>2.5.1</math.findbugs.version>
     <math.checkstyle.version>2.9.1</math.checkstyle.version>
+    <math.clirr.version>2.6.1</math.clirr.version>
     <!-- Temporary downdate: 0.6.3 uses different tags and CP32 was not updated -->
     <commons.jacoco.version>0.6.2.201302030002</commons.jacoco.version>
 
@@ -400,7 +401,11 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>clirr-maven-plugin</artifactId>
-          <version>${commons.clirr.version}</version>
+          <version>${math.clirr.version}</version>
+          <configuration>
+            <minSeverity>${minSeverity}</minSeverity>
+            <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
+          </configuration>
           <executions>
             <execution>
               <goals>
@@ -594,9 +599,10 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
-        <version>${commons.clirr.version}</version>
+        <version>${math.clirr.version}</version>
         <configuration>
           <minSeverity>${minSeverity}</minSeverity>
+          <ignoredDifferencesFile>${basedir}/clirr-ignored.xml</ignoredDifferencesFile>
          </configuration>
       </plugin>
       <plugin>
