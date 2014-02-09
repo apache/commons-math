@@ -42,10 +42,6 @@ import org.apache.commons.math3.exception.MathInternalError;
  * @since 3.3
  */
 public class NeuronSquareMesh2D implements Serializable {
-
-    /** Serializable UID. */
-    private static final long serialVersionUID = 20140208L;
-
     /** Underlying network. */
     private final Network network;
     /** Number of rows. */
