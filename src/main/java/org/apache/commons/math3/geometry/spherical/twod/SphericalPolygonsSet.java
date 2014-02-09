@@ -19,10 +19,14 @@ package org.apache.commons.math3.geometry.spherical.twod;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
@@ -407,6 +411,315 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
         }
 
         return Collections.unmodifiableList(loops);
+
+    }
+
+    /** Get a spherical cap enclosing the polygon.
+     * <p>
+     * This method is intended as a first test to quickly identify points
+     * that are guaranteed to be outside of the region, hence performing a full
+     * {@link #checkPoint(org.apache.commons.math3.geometry.Vector) checkPoint}
+     * only if the point status remains undecided after the quick check. It is
+     * is therefore mostly useful to speed up computation for small polygons with
+     * complex shapes (say a country boundary on Earth), as the spherical cap will
+     * be small and hence will reliably identify a large part of the sphere as outside,
+     * whereas the full check can be more computing intensive. A typical use case is
+     * therefore:
+     * </p>
+     * <pre>
+     *   // compute region, plus an enclosing spherical cap
+     *   SphericalPolygonsSet complexShape = ...;
+     *   EnclosingBall<Sphere2D, S2Point> cap = complexShape.getEnclosingCap();
+     *
+     *   // check lots of points
+     *   for (Vector3D p : points) {
+     *
+     *     final Location l;
+     *     if (cap.contains(p)) {
+     *       // we cannot be sure where the point is
+     *       // we need to perform the full computation
+     *       l = complexShape.checkPoint(v);
+     *     } else {
+     *       // no need to do further computation,
+     *       // we already know the point is outside
+     *       l = Location.OUTSIDE;
+     *     }
+     *
+     *     // use l ...
+     *
+     *   }
+     * </pre>
+     * <p>
+     * In the special cases of empty or whole sphere polygons, special
+     * spherical caps are returned, with angular radius set to negative
+     * or positive infinity so the {@link
+     * EnclosingBall#contains(org.apache.commons.math3.geometry.Point) ball.contains(point)}
+     * method return always false or true.
+     * </p>
+     * <p>
+     * This method is <em>not</em> guaranteed to return the smallest enclosing cap. It
+     * will do so for small polygons without holes, but may select a very large spherical
+     * cap in other cases.
+     * </p>
+     * @return a spherical cap enclosing the polygon
+     */
+    public EnclosingBall<Sphere2D, S2Point> getEnclosingCap() {
+
+        // handle special cases first
+        if (isEmpty()) {
+            return new EnclosingBall<Sphere2D, S2Point>(S2Point.PLUS_K, Double.NEGATIVE_INFINITY);
+        }
+        if (isFull()) {
+            return new EnclosingBall<Sphere2D, S2Point>(S2Point.PLUS_K, Double.POSITIVE_INFINITY);
+        }
+
+        // as the polygons is neither empty nor full, it has some boundaries and cut hyperplanes
+        final BSPTree<Sphere2D> root = getTree(false);
+        if (isEmpty(root.getMinus()) && isFull(root.getPlus())) {
+            // the polygon covers an hemisphere, and its boundary is one 2π long edge
+            final Circle circle = (Circle) root.getCut().getHyperplane();
+            return new EnclosingBall<Sphere2D, S2Point>(new S2Point(circle.getPole()).negate(),
+                                                        0.5 * FastMath.PI);
+        }
+        if (isFull(root.getMinus()) && isEmpty(root.getPlus())) {
+            // the polygon covers an hemisphere, and its boundary is one 2π long edge
+            final Circle circle = (Circle) root.getCut().getHyperplane();
+            return new EnclosingBall<Sphere2D, S2Point>(new S2Point(circle.getPole()),
+                                                        0.5 * FastMath.PI);
+        }
+
+        // extract boundary
+        final List<Vertex> boundary = getBoundaryLoops();
+
+        final List<S2Point> points = new ArrayList<S2Point>();
+        for (final Vertex loopStart : boundary) {
+            // extract points from the boundary loops, to be used by the encloser
+            for (Vertex v = loopStart; points.isEmpty() || v != loopStart; v = v.getOutgoing().getEnd()) {
+                points.add(v.getLocation());
+            }
+        }
+
+        // find the smallest enclosing spherical cap
+        final SphericalCapGenerator capGenerator = new SphericalCapGenerator(getInsidePoint(boundary));
+        final WelzlEncloser<Sphere2D, S2Point> encloser =
+                new WelzlEncloser<Sphere2D, S2Point>(getTolerance(), capGenerator);
+        EnclosingBall<Sphere2D, S2Point> enclosing = encloser.enclose(points);
+
+        // ensure that the spherical cap (which was defined using only a few points)
+        // does not cross any edges
+        if (enclosing.getRadius() >= 0.5 * FastMath.PI) {
+            final List<Edge> notEnclosed = notEnclosed(boundary, enclosing);
+            if (!notEnclosed.isEmpty()) {
+                // the vertex-based spherical cap is too small
+                // it does not fully enclose some edges
+
+                // add the edges converging to the support points if any
+                for (final S2Point point : enclosing.getSupport()) {
+                    final Vertex vertex = associatedVertex(point, boundary);
+                    if (vertex != null) {
+                        addEdge(vertex.getIncoming(), notEnclosed);
+                        addEdge(vertex.getOutgoing(), notEnclosed);
+                    }
+                }
+                if (notEnclosed.size() < 3) {
+                    // this should never happen
+                    throw new MathInternalError();
+                }
+
+                // enlarge the spherical cap so it encloses even the three farthest edges
+                Collections.sort(notEnclosed, new DistanceComparator(enclosing.getCenter().getVector()));
+                enclosing = capGenerator.ballOnSupport(notEnclosed.get(notEnclosed.size() - 1).getCircle(),
+                                                       notEnclosed.get(notEnclosed.size() - 2).getCircle(),
+                                                       notEnclosed.get(notEnclosed.size() - 3).getCircle());
+
+            }
+        }
+
+        // return the spherical cap found
+        return enclosing;
+
+    }
+
+    /** Get an inside point.
+     * @param boundary boundary loops (known to be non-empty)
+     * @return an inside point
+     */
+    private Vector3D getInsidePoint(final List<Vertex> boundary) {
+
+        // search for a leaf inside cell bounded by the loop
+        final BSPTree<Sphere2D> leaf = getInsideLeaf(boundary.get(0).getOutgoing());
+
+        // build a convex region from this inside leaf
+        final SphericalPolygonsSet convex =
+            new SphericalPolygonsSet(leaf.pruneAroundConvexCell(Boolean.TRUE, Boolean.FALSE, null),
+                                     getTolerance());
+
+        // select the convex region barycenter as the inside point
+        return ((S2Point) convex.getBarycenter()).getVector();
+
+    }
+
+    /** Get an inside leaf cell relative to a single boundary loop.
+     * @param edge edge belonging to the loop
+     * @return an inside leaf cell
+     */
+    private BSPTree<Sphere2D> getInsideLeaf(final Edge edge) {
+
+        // search for the node whose cut sub-hyperplane contains the edge
+        final S2Point middlePoint = new S2Point(edge.getPointAt(0.5 * edge.getLength()));
+        final BSPTree<Sphere2D> cuttingNode = getTree(true).getCell(middlePoint, getTolerance());
+        if (cuttingNode.getCut() == null) {
+            // this should never happen
+            throw new MathInternalError();
+        }
+
+        final Vector3D cutPole  = ((Circle) cuttingNode.getCut().getHyperplane()).getPole();
+        final Vector3D edgePole = edge.getCircle().getPole();
+
+        if (Vector3D.dotProduct(cutPole, edgePole) > 0) {
+            // the inside part is on the minus part of the cut
+            return cuttingNode.getMinus().getCell(middlePoint, getTolerance());
+        } else {
+            // the inside part is on the plus part of the cut
+            return cuttingNode.getPlus().getCell(middlePoint, getTolerance());
+        }
+
+    }
+
+    /** Get the edges that fails to be in an enclosing spherical cap.
+     * <p>
+     * This method must be called <em>only</em> when the edges endpoints
+     * are already known to be all inside of the spherical cap.
+     * </p>
+     * @param boundary boundary loops
+     * @param cap spherical cap that already encloses all vertices
+     * @return the edges that are not fully in the cap, despite their endpoints are
+     */
+    private List<Edge> notEnclosed(final List<Vertex> boundary,
+                                    final EnclosingBall<Sphere2D, S2Point> cap) {
+
+        final List<Edge> edges = new ArrayList<Edge>();
+
+        for (final Vertex loopStart : boundary) {
+            int count = 0;
+            Edge edge = null;
+            for (Vertex vertex = loopStart; count == 0 || vertex != loopStart; vertex = edge.getEnd()) {
+
+                ++count;
+                edge = vertex.getOutgoing();
+
+                // find the intersection of the circle containing the edge and the cap boundary
+                // let (u, α) and (v, β) be the poles and angular radii of the two circles
+                // the intersection is computed as p = a u + b v + c u^v, with ||p|| = 1, so:
+                // a = (cos α - u.v cos β) / (1 - (u.v)²)
+                // b = (cos β - u.v cos α) / (1 - (u.v)²)
+                // c = ±√[(1 - (a u + b v)²) / (1 - (u.v)²)]
+                // here, α = π/2, hence cos α = 0
+                // a u + b v is the part of the p vector in the (u, v) plane
+                // c u^v is the part of the p vector orthogonal to the (u, v) plane
+                final Vector3D u       = edge.getCircle().getPole();
+                final Vector3D v       = cap.getCenter().getVector();
+                final double cosBeta   = FastMath.cos(cap.getRadius());
+                final double s         = Vector3D.dotProduct(u, v);
+                final double f         = 1.0 / ((1 - s) * (1 + s));
+                final double b         = cosBeta * f;
+                final double a         = -s * b;
+                final Vector3D inPlane = new Vector3D(a, u, b, v);
+                final double aubv2     = inPlane.getNormSq();
+                if (aubv2 < 1.0) {
+
+                    // the two circles have two intersection points
+                    final double   c          = FastMath.sqrt((1 - aubv2) * f);
+                    final Vector3D crossPlane = Vector3D.crossProduct(u, v);
+                    final Vector3D pPlus      = new Vector3D(1, inPlane, +c, crossPlane);
+                    final Vector3D pMinus     = new Vector3D(1, inPlane, -c, crossPlane);
+                    if (Vector3D.angle(pPlus, edge.getStart().getLocation().getVector()) <= getTolerance() ||
+                        Vector3D.angle(pPlus, edge.getStart().getLocation().getVector()) <= getTolerance() ||
+                        Vector3D.angle(pPlus, edge.getStart().getLocation().getVector()) <= getTolerance() ||
+                        Vector3D.angle(pPlus, edge.getStart().getLocation().getVector()) <= getTolerance()) {
+                        // the edge endpoints are really close, we select the edge
+                        edges.add(edge);
+                    } else {
+                        // the edge is limited to a part of the circle, check its extension
+                        final double startPhase          = edge.getCircle().getPhase(edge.getStart().getLocation().getVector());
+                        final double pPlusRelativePhase  = MathUtils.normalizeAngle(edge.getCircle().getPhase(pPlus),
+                                                                                    startPhase + FastMath.PI);
+                        final double pMinusRelativePhase = MathUtils.normalizeAngle(edge.getCircle().getPhase(pMinus),
+                                                                                    startPhase + FastMath.PI);
+                        if (FastMath.min(pPlusRelativePhase, pMinusRelativePhase) < edge.getLength()) {
+                            // the edge really goes out of the cap and enter it again,
+                            // it is not entirely contained in the cap
+                            edges.add(edge);
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+        return edges;
+
+    }
+
+    /** Find the vertex associated to a point.
+     * @param point point to associate to a vertex
+     * @param boundary boundary loops
+     * @return vertex associated to point, or null if the point is not a vertex
+     */
+    private Vertex associatedVertex(final S2Point point, final List<Vertex> boundary) {
+        for (final Vertex loopStart : boundary) {
+            int count = 0;
+            for (Vertex vertex = loopStart; count == 0 || vertex != loopStart; vertex = vertex.getOutgoing().getEnd()) {
+                ++count;
+                if (point == vertex.getLocation()) {
+                    return vertex;
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Add an edge to a list if not already present.
+     * @param edge edge to add
+     * @param list to which edge must be added
+     */
+    private void addEdge(final Edge edge, final List<Edge> list) {
+        for (final Edge present : list) {
+            if (present == edge) {
+                // the edge was already in the list
+                return;
+            }
+        }
+        list.add(edge);
+    }
+
+    /** Comparator for sorting edges according to distance wrt a spherical cap pole. */
+    private static class DistanceComparator implements Comparator<Edge> {
+
+        /** Pole of the spherical cap. */
+        private final Vector3D pole;
+
+        /** Simple constructor.
+         * @param pole pole of the spherical cap
+         */
+        public DistanceComparator(final Vector3D pole) {
+            this.pole = pole;
+        }
+
+        /** {@inheritDoc} */
+        public int compare(final Edge o1, final Edge o2) {
+            return Double.compare(distance(o1), distance(o2));
+        }
+
+        /** Compute distance between edge and pole.
+         * @param edge edge
+         * @return distance between adged and pole
+         */
+        private double distance(final Edge edge) {
+            final double alpha = edge.getCircle().getPole().distance(pole);
+            return FastMath.max(alpha + 0.5 * FastMath.PI, 1.5 * FastMath.PI - alpha);
+        }
 
     }
 

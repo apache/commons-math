@@ -41,7 +41,7 @@ import org.apache.commons.math3.util.FastMath;
  * boundary points only is ambiguous: one cannot say if what has been
  * computed is the cap or its complement without further information. For
  * this reason, the generator must be built with a point known to lie
- * outside of the spherical cap to generate, so it can decide which of the
+ * inside of the spherical cap to generate, so it can decide which of the
  * two caps should be generated.
  * </p>
  * @version $Id$
@@ -49,21 +49,21 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class SphericalCapGenerator implements SupportBallGenerator<Sphere2D, S2Point> {
 
-    /** Reference point that must be outside of the cap. */
-    private final Vector3D outside;
+    /** Reference point that must be inside of the cap. */
+    private final Vector3D inside;
 
     /** Simple constructor.
-     * @param outside reference point that must be outside of generated caps
+     * @param inside reference point that must be inside of generated caps
      */
-    public SphericalCapGenerator(final Vector3D outside) {
-        this.outside = outside;
+    public SphericalCapGenerator(final Vector3D inside) {
+        this.inside = inside;
     }
 
     /** {@inheritDoc} */
     public EnclosingBall<Sphere2D, S2Point> ballOnSupport(final List<S2Point> support) {
 
         if (support.size() < 1) {
-            return new EnclosingBall<Sphere2D, S2Point>(new S2Point(outside.negate()), -1.0);
+            return new EnclosingBall<Sphere2D, S2Point>(new S2Point(inside), -1.0);
         } else {
             final S2Point vA = support.get(0);
             if (support.size() < 2) {
@@ -90,6 +90,32 @@ public class SphericalCapGenerator implements SupportBallGenerator<Sphere2D, S2P
                 }
             }
         }
+    }
+
+    /** Generate a spherical cap enclosing three circles.
+     * @param c1 first circle
+     * @param c2 second circle
+     * @param c3 third circle
+     * @return spherical cap enclosing the circles
+     */
+    public EnclosingBall<Sphere2D, S2Point> ballOnSupport(final Circle c1,
+                                                          final Circle c2,
+                                                          final Circle c3) {
+        final BigFraction[] p1     = convert(c1.getPole());
+        final BigFraction[] p2     = convert(c2.getPole());
+        final BigFraction[] p3     = convert(c3.getPole());
+        final BigFraction[] bfPole = crossProduct(subtract(p1, p2),
+                                                  subtract(p2, p3));
+        if (dotProduct(bfPole, p1).doubleValue() < 0) {
+            bfPole[0] = bfPole[0].negate();
+            bfPole[1] = bfPole[1].negate();
+            bfPole[2] = bfPole[2].negate();
+        }
+        final Vector3D pole = convert(bfPole);
+
+        return new EnclosingBall<Sphere2D, S2Point>(new S2Point(pole),
+                                                    Vector3D.angle(pole, c1.getPole()) + 0.5 * FastMath.PI);
+
     }
 
     /** Convert a vector to exact arithmetic array of Cartesian coordinates.
@@ -132,6 +158,19 @@ public class SphericalCapGenerator implements SupportBallGenerator<Sphere2D, S2P
         };
     }
 
+    /** Subtract two vectors
+     * @param u first vector
+     * @param v second vector
+     * @return u - v
+     */
+    private BigFraction[] subtract(final BigFraction[] u, final BigFraction[] v) {
+        return new BigFraction[] {
+            u[0].subtract(v[0]),
+            u[1].subtract(v[1]),
+            u[2].subtract(v[2]),
+        };
+    }
+
     /** Compute cross product of two vectors
      * @param u first vector
      * @param v second vector
@@ -145,6 +184,15 @@ public class SphericalCapGenerator implements SupportBallGenerator<Sphere2D, S2P
         };
     }
 
+    /** Compute dot product of two vectors
+     * @param u first vector
+     * @param v second vector
+     * @return u.v
+     */
+    private BigFraction dotProduct(final BigFraction[] u, final BigFraction[] v) {
+        return u[0].multiply(v[0]).add(u[1].multiply(v[1])).add(u[2].multiply(v[2]));
+    }
+
     /** Select the spherical cap or its complement to ensure outside point is outside.
      * @param pole spherical cap pole (or its opposite)
      * @param radius spherical cap angular radius (or its complement to \( \pi \))
@@ -153,7 +201,7 @@ public class SphericalCapGenerator implements SupportBallGenerator<Sphere2D, S2P
      */
     private EnclosingBall<Sphere2D, S2Point> selectCap(final Vector3D pole, final double radius,
                                                        final S2Point ... support) {
-        if (Vector3D.angle(pole, outside) >= radius) {
+        if (Vector3D.angle(pole, inside) <= radius) {
             // it is already the good pole and radius
             return new EnclosingBall<Sphere2D, S2Point>(new S2Point(pole), radius, support);
         } else {

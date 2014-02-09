@@ -36,7 +36,7 @@ public class SphericalCapGeneratorTest {
     @Test
     public void testSupport0Point() {
         List<S2Point> support = Arrays.asList(new S2Point[0]);
-        EnclosingBall<Sphere2D, S2Point> cap = new SphericalCapGenerator(Vector3D.MINUS_K).ballOnSupport(support);
+        EnclosingBall<Sphere2D, S2Point> cap = new SphericalCapGenerator(Vector3D.PLUS_K).ballOnSupport(support);
         Assert.assertTrue(cap.getRadius() < 0);
         Assert.assertEquals(0, cap.getSupportSize());
         Assert.assertEquals(0, cap.getSupport().length);
@@ -45,7 +45,7 @@ public class SphericalCapGeneratorTest {
     @Test
     public void testSupport1Point() {
         List<S2Point> support = Arrays.asList(new S2Point(1, 2));
-        EnclosingBall<Sphere2D, S2Point> cap = new SphericalCapGenerator(Vector3D.MINUS_K).ballOnSupport(support);
+        EnclosingBall<Sphere2D, S2Point> cap = new SphericalCapGenerator(Vector3D.PLUS_K).ballOnSupport(support);
         Assert.assertEquals(0.0, cap.getRadius(), 1.0e-10);
         Assert.assertTrue(cap.contains(support.get(0)));
         Assert.assertTrue(cap.contains(support.get(0), 0.5));
@@ -65,7 +65,7 @@ public class SphericalCapGeneratorTest {
         double phi = 1.0;
         List<S2Point> support = Arrays.asList(new S2Point(0, phi), new S2Point(0.5 * FastMath.PI, phi));
         EnclosingBall<Sphere2D, S2Point> cap =
-                new SphericalCapGenerator(new Vector3D(-1, -1, -1)).ballOnSupport(support);
+                new SphericalCapGenerator(new Vector3D(1, 1, 1)).ballOnSupport(support);
         double cosPhi = FastMath.cos(phi);
         Assert.assertEquals(0.5 * FastMath.acos(cosPhi * cosPhi), cap.getRadius(), 1.0e-10);
         int i = 0;
@@ -87,7 +87,7 @@ public class SphericalCapGeneratorTest {
         double phi = 1.0;
         List<S2Point> support = Arrays.asList(new S2Point(0, phi), new S2Point(0.5 * FastMath.PI, phi));
         EnclosingBall<Sphere2D, S2Point> cap =
-                new SphericalCapGenerator(new Vector3D(1, 1, 1)).ballOnSupport(support);
+                new SphericalCapGenerator(new Vector3D(-1, -1, -1)).ballOnSupport(support);
         double cosPhi = FastMath.cos(phi);
         Assert.assertEquals(FastMath.PI - 0.5 * FastMath.acos(cosPhi * cosPhi), cap.getRadius(), 1.0e-10);
         int i = 0;
@@ -108,7 +108,7 @@ public class SphericalCapGeneratorTest {
     public void testSupport3Points() {
         List<S2Point> support = Arrays.asList(new S2Point(0, 1), new S2Point(0, 1.6), new S2Point(2, 2));
         EnclosingBall<Sphere2D, S2Point> cap =
-                new SphericalCapGenerator(Vector3D.MINUS_I).ballOnSupport(support);
+                new SphericalCapGenerator(Vector3D.PLUS_I).ballOnSupport(support);
 
         // reference value computed using expression found in I. Todhunter book
         // Spherical Trigonometry: For the Use of Colleges and Schools
@@ -162,13 +162,13 @@ public class SphericalCapGeneratorTest {
                                                      sinR * FastMath.sin(alpha), y)));
             }
             EnclosingBall<Sphere2D, S2Point> cap =
-                    new SphericalCapGenerator(Vector3D.MINUS_K).ballOnSupport(support);
-            if (refCenter.distance(S2Point.MINUS_K) > refRadius) {
-            Assert.assertEquals(0.0, refCenter.distance(cap.getCenter()), 3e-9 * refRadius);
-            Assert.assertEquals(refRadius, cap.getRadius(), 7e-10 * refRadius);
+                    new SphericalCapGenerator(Vector3D.PLUS_K).ballOnSupport(support);
+            if (refCenter.distance(S2Point.PLUS_K) < refRadius) {
+                Assert.assertEquals(0.0, refCenter.distance(cap.getCenter()), 3e-9 * refRadius);
+                Assert.assertEquals(refRadius, cap.getRadius(), 7e-10 * refRadius);
             } else {
                 Assert.assertEquals(FastMath.PI, refCenter.distance(cap.getCenter()), 3e-9 * refRadius);
-                 Assert.assertEquals(FastMath.PI - refRadius, cap.getRadius(), 7e-10 * refRadius);
+                Assert.assertEquals(FastMath.PI - refRadius, cap.getRadius(), 7e-10 * refRadius);
             }
         }
         

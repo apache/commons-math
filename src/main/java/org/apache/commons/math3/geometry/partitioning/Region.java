@@ -99,6 +99,20 @@ public interface Region<S extends Space> {
      */
     boolean isEmpty(final BSPTree<S> node);
 
+    /** Check if the instance covers the full space.
+     * @return true if the instance covers the full space
+     */
+    boolean isFull();
+
+    /** Check if the sub-tree starting at a given node covers the full space.
+     * @param node root node of the sub-tree (<em>must</em> have {@link
+     * Region Region} tree semantics, i.e. the leaf nodes must have
+     * {@code Boolean} attributes representing an inside/outside
+     * property)
+     * @return true if the sub-tree starting at the given node covers the full space
+     */
+    boolean isFull(final BSPTree<S> node);
+
     /** Check if the instance entirely contains another region.
      * @param region region to check against the instance
      * @return true if the instance contains the specified tree

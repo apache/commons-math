@@ -269,6 +269,28 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     }
 
     /** {@inheritDoc} */
+    public boolean isFull() {
+        return isFull(tree);
+    }
+
+    /** {@inheritDoc} */
+    public boolean isFull(final BSPTree<S> node) {
+
+        // we use a recursive function rather than the BSPTreeVisitor
+        // interface because we can stop visiting the tree as soon as we
+        // have found an outside cell
+
+        if (node.getCut() == null) {
+            // if we find an outside node, the region does not cover full space
+            return (Boolean) node.getAttribute();
+        }
+
+        // check both sides of the sub-tree
+        return isFull(node.getMinus()) && isFull(node.getPlus());
+
+    }
+
+    /** {@inheritDoc} */
     public boolean contains(final Region<S> region) {
         return new RegionFactory<S>().difference(region, this).isEmpty();
     }

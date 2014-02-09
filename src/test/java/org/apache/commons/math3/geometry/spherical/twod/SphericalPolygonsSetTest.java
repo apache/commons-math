@@ -19,6 +19,7 @@ package org.apache.commons.math3.geometry.spherical.twod;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
@@ -47,6 +48,25 @@ public class SphericalPolygonsSetTest {
         Assert.assertEquals(4 * FastMath.PI, new SphericalPolygonsSet(0.01, new S2Point[0]).getSize(), 1.0e-10);
         Assert.assertEquals(0, new SphericalPolygonsSet(0.01, new S2Point[0]).getBoundarySize(), 1.0e-10);
         Assert.assertEquals(0, full.getBoundaryLoops().size());
+        Assert.assertTrue(full.getEnclosingCap().getRadius() > 0);
+        Assert.assertTrue(Double.isInfinite(full.getEnclosingCap().getRadius()));
+    }
+
+    @Test
+    public void testEmpty() {
+        SphericalPolygonsSet empty =
+            (SphericalPolygonsSet) new RegionFactory<Sphere2D>().getComplement(new SphericalPolygonsSet(1.0e-10));
+        UnitSphereRandomVectorGenerator random =
+                new UnitSphereRandomVectorGenerator(3, new Well1024a(0x76d9205d6167b6ddl));
+        for (int i = 0; i < 1000; ++i) {
+            Vector3D v = new Vector3D(random.nextVector());
+            Assert.assertEquals(Location.OUTSIDE, empty.checkPoint(new S2Point(v)));
+        }
+        Assert.assertEquals(0, empty.getSize(), 1.0e-10);
+        Assert.assertEquals(0, empty.getBoundarySize(), 1.0e-10);
+        Assert.assertEquals(0, empty.getBoundaryLoops().size());
+        Assert.assertTrue(empty.getEnclosingCap().getRadius() < 0);
+        Assert.assertTrue(Double.isInfinite(empty.getEnclosingCap().getRadius()));
     }
 
     @Test
@@ -67,6 +87,16 @@ public class SphericalPolygonsSetTest {
             }
         }
         Assert.assertEquals(1, south.getBoundaryLoops().size());
+
+        EnclosingBall<Sphere2D, S2Point> southCap = south.getEnclosingCap();
+        Assert.assertEquals(0.0, S2Point.MINUS_K.distance(southCap.getCenter()), 1.0e-10);
+        Assert.assertEquals(0.5 * FastMath.PI, southCap.getRadius(), 1.0e-10);
+
+        EnclosingBall<Sphere2D, S2Point> northCap =
+                ((SphericalPolygonsSet) new RegionFactory<Sphere2D>().getComplement(south)).getEnclosingCap();
+        Assert.assertEquals(0.0, S2Point.PLUS_K.distance(northCap.getCenter()), 1.0e-10);
+        Assert.assertEquals(0.5 * FastMath.PI, northCap.getRadius(), 1.0e-10);
+
     }
 
     @Test
@@ -123,9 +153,18 @@ public class SphericalPolygonsSetTest {
         Assert.assertEquals(3, count);
 
         Assert.assertEquals(0.0,
-                            new Vector3D(1, 1, 1).normalize().distance(((S2Point) octant.getBarycenter()).getVector()),
+                            ((S2Point) octant.getBarycenter()).distance(new S2Point(new Vector3D(1, 1, 1))),
                             1.0e-10);
         Assert.assertEquals(0.5 * FastMath.PI, octant.getSize(), 1.0e-10);
+
+        EnclosingBall<Sphere2D, S2Point> cap = octant.getEnclosingCap();
+        Assert.assertEquals(0.0, octant.getBarycenter().distance(cap.getCenter()), 1.0e-10);
+        Assert.assertEquals(FastMath.acos(1.0 / FastMath.sqrt(3)), cap.getRadius(), 1.0e-10);
+
+        EnclosingBall<Sphere2D, S2Point> reversedCap =
+                ((SphericalPolygonsSet) factory.getComplement(octant)).getEnclosingCap();
+        Assert.assertEquals(0, reversedCap.getCenter().distance(new S2Point(new Vector3D(-1, -1, -1))), 1.0e-10);
+        Assert.assertEquals(FastMath.PI - FastMath.asin(1.0 / FastMath.sqrt(3)), reversedCap.getRadius(), 1.0e-10);
 
     }
 
@@ -393,6 +432,7 @@ public class SphericalPolygonsSetTest {
         Assert.assertEquals(+0.027, concentric.projectToBoundary(new S2Point( 1.67,  phi)).getOffset(), 0.01);
         Assert.assertEquals(-0.044, concentric.projectToBoundary(new S2Point( 1.79,  phi)).getOffset(), 0.01);
         Assert.assertEquals(+0.201, concentric.projectToBoundary(new S2Point( 2.16,  phi)).getOffset(), 0.01);
+
     }
 
     private SubCircle create(Vector3D pole, Vector3D x, Vector3D y,

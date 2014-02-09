@@ -132,8 +132,7 @@ class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {
 
         // loop around the cell
         for (Edge e = start.getOutgoing(); n == 0 || e.getStart() != start; e = e.getEnd().getOutgoing()) {
-            final Vector3D middle = e.getPointAt(0.5 * e.getLength());
-            sumB = new Vector3D(1, sumB, e.getLength(), middle);
+            sumB = new Vector3D(1, sumB, e.getLength(), e.getCircle().getPole());
             n++;
         }
 
