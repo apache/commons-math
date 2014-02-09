@@ -51,6 +51,11 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="tn" type="fix" issue="MATH-1065" due-to="matteodg">
+        Calculating the inverse cumulative probability of an "EnumeratedRealDistribution"
+        will now return the correct result according to the selected enumerated probability
+        mass function.
+      </action>
       <action dev="erans" type="update" issue="MATH-1050">
         Deprecated "ArithmeticUtils#pow(int, long)" and "ArithmeticUtils#pow(long, long)"
         in favor of corresponding methods "ArithmeticUtils#pow(..., int)".

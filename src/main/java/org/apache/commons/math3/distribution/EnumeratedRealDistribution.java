@@ -18,11 +18,13 @@ package org.apache.commons.math3.distribution;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.NotFiniteNumberException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.util.Pair;
@@ -134,6 +136,33 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
         }
 
         return probability;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {
+        if (p < 0.0 || p > 1.0) {
+            throw new OutOfRangeException(p, 0, 1);
+        }
+
+        double probability = 0;
+        double x = getSupportLowerBound();
+        for (final Pair<Double, Double> sample : innerDistribution.getPmf()) {
+            if (sample.getValue() == 0.0) {
+                continue;
+            }
+
+            probability += sample.getValue();
+            x = sample.getKey();
+
+            if (probability >= p) {
+                break;
+            }
+        }
+
+        return x;
     }
 
     /**
