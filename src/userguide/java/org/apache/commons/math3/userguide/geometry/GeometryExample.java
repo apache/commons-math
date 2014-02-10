@@ -28,8 +28,11 @@ import org.apache.commons.math3.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Segment;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math3.geometry.euclidean.twod.hull.AklToussaintHeuristic;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
+import org.apache.commons.math3.geometry.euclidean.twod.hull.GiftWrap;
+import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.MonotoneChain;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
@@ -39,6 +42,7 @@ import org.piccolo2d.PCanvas;
 import org.piccolo2d.PNode;
 import org.piccolo2d.event.PBasicInputEventHandler;
 import org.piccolo2d.event.PInputEvent;
+import org.piccolo2d.event.PMouseWheelZoomEventHandler;
 import org.piccolo2d.extras.PFrame;
 import org.piccolo2d.nodes.PPath;
 import org.piccolo2d.nodes.PText;
@@ -80,19 +84,19 @@ public class GeometryExample extends PFrame {
     }
 
     public void initialize() {
-        List<Vector2D> points = createRandomPoints(100);
+        List<Vector2D> points = createRandomPoints(1000);
         PNode pointSet = new PNode();
         for (Vector2D point : points) {
-            final PNode n1 = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
-            n1.addAttribute("tooltip", point);
-            n1.setPaint(Color.gray);
-            pointSet.addChild(n1);
+            final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
+            node.addAttribute("tooltip", point);
+            node.setPaint(Color.gray);
+            pointSet.addChild(node);
         }
 
         getCanvas().getLayer().addChild(pointSet);
         
         ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
-        ConvexHull2D hull = generator.generate(points);
+        ConvexHull2D hull = generator.generate(AklToussaintHeuristic.reducePoints(points));
         
         PNode hullNode = new PNode();
         for (Vector2D vertex : hull.getVertices()) {
@@ -106,6 +110,7 @@ public class GeometryExample extends PFrame {
         for (Segment line : hull.getLineSegments()) {
             final PPath node = PPath.createLine(line.getStart().getX(), line.getStart().getY(),
                                                 line.getEnd().getX(), line.getEnd().getY());
+            node.setPickable(false);
             node.setPaint(Color.red);
             node.setStrokePaint(Color.red);
             hullNode.addChild(node);
@@ -117,6 +122,11 @@ public class GeometryExample extends PFrame {
         EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(points);
 
         final double radius = ball.getRadius();
+        PPath ballCenter = PPath.createEllipse(ball.getCenter().getX() - 1, ball.getCenter().getY() - 1, 2, 2);
+        ballCenter.setStrokePaint(Color.blue);
+        ballCenter.setPaint(Color.blue);
+        getCanvas().getLayer().addChild(0, ballCenter);
+
         PPath ballNode = PPath.createEllipse(ball.getCenter().getX() - radius, ball.getCenter().getY() - radius, radius * 2, radius * 2);
         ballNode.setTransparency(1.0f);
         ballNode.setStrokePaint(Color.blue);
@@ -154,6 +164,14 @@ public class GeometryExample extends PFrame {
                 }
             }
         });
+        
+        // uninstall default zoom event handler
+        getCanvas().removeInputEventListener(getCanvas().getZoomEventHandler());
+
+        // install mouse wheel zoom event handler
+        final PMouseWheelZoomEventHandler mouseWheelZoomEventHandler = new PMouseWheelZoomEventHandler();
+        getCanvas().addInputEventListener(mouseWheelZoomEventHandler);
+
     }
 
     public static void main(final String[] argv) {
