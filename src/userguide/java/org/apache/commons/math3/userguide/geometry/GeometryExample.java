@@ -16,10 +16,20 @@
  */
 package org.apache.commons.math3.userguide.geometry;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import org.apache.commons.math3.geometry.enclosing.Encloser;
 import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
@@ -31,11 +41,11 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.AklToussaintHeuristic;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.GiftWrap;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.GrahamScan;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.MonotoneChain;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.userguide.ExampleUtils;
+import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
 import org.apache.commons.math3.util.FastMath;
 import org.piccolo2d.PCamera;
 import org.piccolo2d.PCanvas;
@@ -43,32 +53,20 @@ import org.piccolo2d.PNode;
 import org.piccolo2d.event.PBasicInputEventHandler;
 import org.piccolo2d.event.PInputEvent;
 import org.piccolo2d.event.PMouseWheelZoomEventHandler;
-import org.piccolo2d.extras.PFrame;
 import org.piccolo2d.nodes.PPath;
 import org.piccolo2d.nodes.PText;
 
 /**
  * Simple example illustrating some parts of the geometry package.
  * 
- * TODO:
+ * TODO: 
  *  - add user interface to re-generate points
  *  - select convex hull algorithm
  *  - select tolerance level
  *  - allow editing of the point set
  *  - pre-defined shapes, e.g. circle, cross, ...
  */
-public class GeometryExample extends PFrame {
-
-    private static final long serialVersionUID = 1L;
-
-    public GeometryExample() {
-        this(null);
-    }
-
-    public GeometryExample(final PCanvas aCanvas) {
-        super("Geometry example", false, aCanvas);
-        setSize(600, 600);
-    }
+public class GeometryExample {
 
     public static List<Vector2D> createRandomPoints(int size) {
         RandomGenerator random = new MersenneTwister();
@@ -78,64 +76,16 @@ public class GeometryExample extends PFrame {
         // fill the cloud with a random distribution of points
         for (int i = 0; i < size; i++) {
             points.add(new Vector2D(FastMath.round(random.nextDouble() * 400 + 100),
-                                    FastMath.round(random.nextDouble() * 400 + 100)));
+                    FastMath.round(random.nextDouble() * 400 + 100)));
         }
         return points;
     }
 
-    public void initialize() {
-        List<Vector2D> points = createRandomPoints(1000);
-        PNode pointSet = new PNode();
-        for (Vector2D point : points) {
-            final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
-            node.addAttribute("tooltip", point);
-            node.setPaint(Color.gray);
-            pointSet.addChild(node);
-        }
-
-        getCanvas().getLayer().addChild(pointSet);
+    public static PCanvas createCanvas() {
+        final PCanvas canvas = new PCanvas();
+        final PCamera camera = canvas.getCamera();
         
-        ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
-        ConvexHull2D hull = generator.generate(AklToussaintHeuristic.reducePoints(points));
-        
-        PNode hullNode = new PNode();
-        for (Vector2D vertex : hull.getVertices()) {
-            final PPath node = PPath.createEllipse(vertex.getX() - 1, vertex.getY() - 1, 2, 2);
-            node.addAttribute("tooltip", vertex);
-            node.setPaint(Color.red);
-            node.setStrokePaint(Color.red);
-            hullNode.addChild(node);
-        }
-        
-        for (Segment line : hull.getLineSegments()) {
-            final PPath node = PPath.createLine(line.getStart().getX(), line.getStart().getY(),
-                                                line.getEnd().getX(), line.getEnd().getY());
-            node.setPickable(false);
-            node.setPaint(Color.red);
-            node.setStrokePaint(Color.red);
-            hullNode.addChild(node);
-        }
-        
-        getCanvas().getLayer().addChild(hullNode);
-
-        Encloser<Euclidean2D, Vector2D> encloser = new WelzlEncloser<Euclidean2D, Vector2D>(1e-10, new DiskGenerator());
-        EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(points);
-
-        final double radius = ball.getRadius();
-        PPath ballCenter = PPath.createEllipse(ball.getCenter().getX() - 1, ball.getCenter().getY() - 1, 2, 2);
-        ballCenter.setStrokePaint(Color.blue);
-        ballCenter.setPaint(Color.blue);
-        getCanvas().getLayer().addChild(0, ballCenter);
-
-        PPath ballNode = PPath.createEllipse(ball.getCenter().getX() - radius, ball.getCenter().getY() - radius, radius * 2, radius * 2);
-        ballNode.setTransparency(1.0f);
-        ballNode.setStrokePaint(Color.blue);
-        getCanvas().getLayer().addChild(0, ballNode);
-
-        final PCamera camera = getCanvas().getCamera();
-
         final PText tooltipNode = new PText();
-
         tooltipNode.setPickable(false);
         camera.addChild(tooltipNode);
 
@@ -164,17 +114,115 @@ public class GeometryExample extends PFrame {
                 }
             }
         });
-        
+
         // uninstall default zoom event handler
-        getCanvas().removeInputEventListener(getCanvas().getZoomEventHandler());
+        canvas.removeInputEventListener(canvas.getZoomEventHandler());
 
         // install mouse wheel zoom event handler
         final PMouseWheelZoomEventHandler mouseWheelZoomEventHandler = new PMouseWheelZoomEventHandler();
-        getCanvas().addInputEventListener(mouseWheelZoomEventHandler);
+        canvas.addInputEventListener(mouseWheelZoomEventHandler);
 
+        return canvas;
+    }
+
+    @SuppressWarnings("serial")
+    public static class Display extends ExampleFrame {
+
+        private PCanvas canvas;
+        private JComponent container;
+        private JComponent controlPanel;
+
+        public Display() {
+            setTitle("Commons Math: Geometry Examples");
+            setSize(800, 700);
+
+            container = new JPanel(new BorderLayout());
+            canvas = createCanvas();
+            container.add(canvas);
+            container.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+
+            controlPanel = new JPanel();
+            JButton random = new JButton("Randomize");
+            controlPanel.add(random);
+
+            random.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    canvas.getLayer().removeAllChildren();
+                    createAndPaintRandomCloud();
+                }
+            });
+
+            JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, container, controlPanel);
+            splitpane.setDividerLocation(600);
+
+            add(splitpane);
+            
+            createAndPaintRandomCloud();
+        }
+
+        @Override
+        public Component getMainPanel() {
+            return container;
+        }
+        
+        public void createAndPaintRandomCloud() {
+            List<Vector2D> points = createRandomPoints(1000);
+            PNode pointSet = new PNode();
+            for (Vector2D point : points) {
+                final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
+                node.addAttribute("tooltip", point);
+                node.setPaint(Color.gray);
+                pointSet.addChild(node);
+            }
+
+            canvas.getLayer().addChild(pointSet);
+
+            ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
+            ConvexHull2D hull = generator.generate(AklToussaintHeuristic.reducePoints(points));
+
+            PNode hullNode = new PNode();
+            for (Vector2D vertex : hull.getVertices()) {
+                final PPath node = PPath.createEllipse(vertex.getX() - 1, vertex.getY() - 1, 2, 2);
+                node.addAttribute("tooltip", vertex);
+                node.setPaint(Color.red);
+                node.setStrokePaint(Color.red);
+                hullNode.addChild(node);
+            }
+
+            for (Segment line : hull.getLineSegments()) {
+                final PPath node = PPath.createLine(line.getStart().getX(), line.getStart().getY(),
+                                                    line.getEnd().getX(), line.getEnd().getY());
+                node.setPickable(false);
+                node.setPaint(Color.red);
+                node.setStrokePaint(Color.red);
+                hullNode.addChild(node);
+            }
+
+            canvas.getLayer().addChild(hullNode);
+
+            Encloser<Euclidean2D, Vector2D> encloser =
+                    new WelzlEncloser<Euclidean2D, Vector2D>(1e-10, new DiskGenerator());
+            EnclosingBall<Euclidean2D, Vector2D> ball = encloser.enclose(points);
+
+            final double radius = ball.getRadius();
+            PPath ballCenter =
+                    PPath.createEllipse(ball.getCenter().getX() - 1, ball.getCenter().getY() - 1, 2, 2);
+            ballCenter.setStrokePaint(Color.blue);
+            ballCenter.setPaint(Color.blue);
+            canvas.getLayer().addChild(0, ballCenter);
+
+            PPath ballNode =
+                    PPath.createEllipse(ball.getCenter().getX() - radius, ball.getCenter().getY() - radius,
+                                        radius * 2, radius * 2);
+            ballNode.setTransparency(1.0f);
+            ballNode.setStrokePaint(Color.blue);
+            canvas.getLayer().addChild(0, ballNode);
+        }
     }
 
     public static void main(final String[] argv) {
-        new GeometryExample();
+        ExampleUtils.showExampleFrame(new Display());
     }
 }
