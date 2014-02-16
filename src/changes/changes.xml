@@ -52,10 +52,8 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.3" date="TBD" description="TBD">
       <action dev="tn" type="add" issue="MATH-749">
-        Added algorithms to compute the convex hull of a collection of points in 2D.
-        The implemented algorithms can be found in package
-        o.a.c.m.geometry.euclidean.twod.hull and include GrahamScan, MonotoneChain
-        and GiftWrap. Additionally, the AklToussaintHeuristic can be used to speed up
+        Added MonotoneChain algorithm to compute the convex hull of a collection of
+        points in 2D. Additionally, the AklToussaintHeuristic can be used to speed up
         the generation.
       </action>
       <action dev="tn" type="fix" issue="MATH-1065" due-to="matteodg">

@@ -18,6 +18,8 @@ package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
 import java.util.Collection;
 
+import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.MathUtils;
@@ -28,7 +30,7 @@ import org.apache.commons.math3.util.MathUtils;
  * @since 3.3
  * @version $Id$
  */
-public abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
+abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerator2D {
 
     /** Default value for tolerance. */
     private static final double DEFAULT_TOLERANCE = 1e-10;
@@ -84,16 +86,25 @@ public abstract class AbstractConvexHullGenerator2D implements ConvexHullGenerat
     }
 
     /** {@inheritDoc} */
-    public ConvexHull2D generate(final Collection<Vector2D> points) throws NullArgumentException {
+    public ConvexHull2D generate(final Collection<Vector2D> points)
+            throws NullArgumentException, ConvergenceException {
         // check for null points
         MathUtils.checkNotNull(points);
 
+        Collection<Vector2D> hullVertices = null;
         if (points.size() < 2) {
-            return new ConvexHull2D(points, tolerance);
+            hullVertices = points;
+        } else {
+            hullVertices = findHullVertices(points);
         }
 
-        final Collection<Vector2D> hullVertices = findHullVertices(points);
-        return new ConvexHull2D(hullVertices, tolerance);
+        try {
+            return new ConvexHull2D(hullVertices.toArray(new Vector2D[hullVertices.size()]),
+                                    tolerance);
+        } catch (MathIllegalArgumentException e) {
+            // the hull vertices may not form a convex hull if the tolerance value is to large
+            throw new ConvergenceException();
+        }
     }
 
     /**

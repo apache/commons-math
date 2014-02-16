@@ -17,9 +17,10 @@
 package org.apache.commons.math3.geometry.euclidean.twod.hull;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import org.apache.commons.math3.exception.InsufficientDataException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Segment;
@@ -27,6 +28,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.hull.ConvexHull;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
 
 /**
  * This class represents a convex hull in an two-dimensional euclidean space.
@@ -53,12 +56,52 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
 
     /**
      * Simple constructor.
-     * @param vertices the vertices of the convex hull, must be ordered in CCW winding
+     * @param vertices the vertices of the convex hull, must be ordered
      * @param tolerance tolerance below which points are considered identical
+     * @throws MathIllegalArgumentException if the vertices do not form a convex hull
      */
-    ConvexHull2D(final Collection<Vector2D> vertices, final double tolerance) {
-        this.vertices = vertices.toArray(new Vector2D[vertices.size()]);
+    public ConvexHull2D(final Vector2D[] vertices, final double tolerance)
+        throws MathIllegalArgumentException {
+
+        if (!isConvex(vertices)) {
+            throw new MathIllegalArgumentException(LocalizedFormats.NOT_CONVEX);
+        }
+
+        this.vertices = vertices.clone();
         this.tolerance = tolerance;
+    }
+
+    /**
+     * Checks whether the given hull vertices form a convex hull.
+     * @param hullVertices the hull vertices
+     * @return {@code true} if the vertices form a convex hull, {@code false} otherwise
+     */
+    private boolean isConvex(final Vector2D[] hullVertices) {
+        if (hullVertices.length < 3) {
+            return true;
+        }
+
+        double sign = 0.0;
+        for (int i = 0; i < hullVertices.length; i++) {
+            final Vector2D p1 = hullVertices[i == 0 ? hullVertices.length - 1 : i - 1];
+            final Vector2D p2 = hullVertices[i];
+            final Vector2D p3 = hullVertices[i == hullVertices.length - 1 ? 0 : i + 1];
+
+            final Vector2D d1 = p2.subtract(p1);
+            final Vector2D d2 = p3.subtract(p2);
+
+            final double cross = FastMath.signum(MathArrays.linearCombination( d1.getX(), d2.getY(),
+                                                                              -d1.getY(), d2.getX()));
+            // in case of collinear points the cross product will be zero
+            if (cross != 0.0) {
+                if (sign != 0.0 && cross != sign) {
+                    return false;
+                }
+                sign = cross;
+            }
+        }
+
+        return true;
     }
 
     /** {@inheritDoc} */
@@ -67,7 +110,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     }
 
     /**
-     * Get the line segments of the convex hull, ordered in CCW winding.
+     * Get the line segments of the convex hull, ordered.
      * @return the line segments of the convex hull
      */
     public Segment[] getLineSegments() {

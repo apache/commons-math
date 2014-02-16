@@ -38,7 +38,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.DiskGenerator;
 import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
 import org.apache.commons.math3.geometry.euclidean.twod.Segment;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.AklToussaintHeuristic;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
 import org.apache.commons.math3.geometry.euclidean.twod.hull.MonotoneChain;
@@ -60,11 +59,8 @@ import org.piccolo2d.nodes.PText;
  * Simple example illustrating some parts of the geometry package.
  * 
  * TODO: 
- *  - add user interface to re-generate points
- *  - select convex hull algorithm
  *  - select tolerance level
  *  - allow editing of the point set
- *  - pre-defined shapes, e.g. circle, cross, ...
  */
 public class GeometryExample {
 
@@ -78,6 +74,31 @@ public class GeometryExample {
             points.add(new Vector2D(FastMath.round(random.nextDouble() * 400 + 100),
                     FastMath.round(random.nextDouble() * 400 + 100)));
         }
+        
+        return points;
+    }
+
+    public static List<Vector2D> createCircle(int samples) {
+        List<Vector2D> points = new ArrayList<Vector2D>();
+        final Vector2D center = new Vector2D(300, 300);
+        double range = 2.0 * FastMath.PI;
+        double step = range / (samples + 1);
+        for (double angle = 0; angle < range; angle += step) {
+            Vector2D circle = new Vector2D(FastMath.cos(angle), FastMath.sin(angle));
+            points.add(circle.scalarMultiply(200).add(center));
+        }
+        
+        return points;
+    }
+
+    public static List<Vector2D> createCross() {
+        List<Vector2D> points = new ArrayList<Vector2D>();
+        
+        for (int i = 100; i < 500; i += 10) {
+            points.add(new Vector2D(300, i));
+            points.add(new Vector2D(i, 300));
+        }
+
         return points;
     }
 
@@ -128,6 +149,7 @@ public class GeometryExample {
     @SuppressWarnings("serial")
     public static class Display extends ExampleFrame {
 
+        private List<Vector2D> points;
         private PCanvas canvas;
         private JComponent container;
         private JComponent controlPanel;
@@ -150,7 +172,37 @@ public class GeometryExample {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     canvas.getLayer().removeAllChildren();
-                    createAndPaintRandomCloud();
+                    
+                    points = createRandomPoints(1000);
+                    paintConvexHull();
+                }
+            });
+
+            JButton circle = new JButton("Circle");
+            controlPanel.add(circle);
+
+            circle.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    canvas.getLayer().removeAllChildren();
+                    
+                    points = createCircle(100);
+                    paintConvexHull();
+                }
+            });
+
+            JButton cross = new JButton("Cross");
+            controlPanel.add(cross);
+
+            cross.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    canvas.getLayer().removeAllChildren();
+                    
+                    points = createCross();
+                    paintConvexHull();
                 }
             });
 
@@ -159,7 +211,8 @@ public class GeometryExample {
 
             add(splitpane);
             
-            createAndPaintRandomCloud();
+            points = createRandomPoints(1000);
+            paintConvexHull();
         }
 
         @Override
@@ -167,8 +220,7 @@ public class GeometryExample {
             return container;
         }
         
-        public void createAndPaintRandomCloud() {
-            List<Vector2D> points = createRandomPoints(1000);
+        public void paintConvexHull() {
             PNode pointSet = new PNode();
             for (Vector2D point : points) {
                 final PNode node = PPath.createEllipse(point.getX() - 1, point.getY() - 1, 2, 2);
@@ -180,7 +232,7 @@ public class GeometryExample {
             canvas.getLayer().addChild(pointSet);
 
             ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
-            ConvexHull2D hull = generator.generate(AklToussaintHeuristic.reducePoints(points));
+            ConvexHull2D hull = generator.generate(points); //AklToussaintHeuristic.reducePoints(points));
 
             PNode hullNode = new PNode();
             for (Vector2D vertex : hull.getVertices()) {
