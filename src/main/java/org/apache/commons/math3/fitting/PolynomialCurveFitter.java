@@ -22,8 +22,6 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
-import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 
 /**
@@ -39,9 +37,7 @@ import org.apache.commons.math3.linear.DiagonalMatrix;
  * @version $Id$
  * @since 3.3
  */
-public class PolynomialCurveFitter extends AbstractCurveFitter
-    implements WithStartPoint<PolynomialCurveFitter>,
-               WithMaxIterations<PolynomialCurveFitter> {
+public class PolynomialCurveFitter extends AbstractCurveFitter {
     /** Parametric function to be fitted. */
     private static final PolynomialFunction.Parametric FUNCTION = new PolynomialFunction.Parametric();
     /** Initial guess. */

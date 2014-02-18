@@ -27,8 +27,6 @@ import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
-import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
 
@@ -49,9 +47,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 3.3
  */
-public class HarmonicCurveFitter extends AbstractCurveFitter
-    implements WithStartPoint<HarmonicCurveFitter>,
-               WithMaxIterations<HarmonicCurveFitter> {
+public class HarmonicCurveFitter extends AbstractCurveFitter {
     /** Parametric function to be fitted. */
     private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
     /** Initial guess. */

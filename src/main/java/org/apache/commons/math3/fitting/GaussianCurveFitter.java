@@ -32,8 +32,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
-import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -72,9 +70,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 3.3
  */
-public class GaussianCurveFitter extends AbstractCurveFitter
-    implements WithStartPoint<GaussianCurveFitter>,
-               WithMaxIterations<GaussianCurveFitter> {
+public class GaussianCurveFitter extends AbstractCurveFitter {
     /** Parametric function to be fitted. */
     private static final Gaussian.Parametric FUNCTION = new Gaussian.Parametric() {
             @Override
