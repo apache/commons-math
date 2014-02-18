@@ -2,6 +2,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 
 /**
  * Applies a dense weight matrix to an evaluation.
@@ -37,19 +38,19 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     }
 
     /** {@inheritDoc} */
-    public double[] computeResiduals() {
+    public RealVector computeResiduals() {
         return this.weightSqrt.operate(this.unweighted.computeResiduals());
     }
 
     /* delegate */
 
     /** {@inheritDoc} */
-    public double[] getPoint() {
+    public RealVector getPoint() {
         return unweighted.getPoint();
     }
 
     /** {@inheritDoc} */
-    public double[] computeValue() {
+    public RealVector computeValue() {
         return unweighted.computeValue();
     }
 }

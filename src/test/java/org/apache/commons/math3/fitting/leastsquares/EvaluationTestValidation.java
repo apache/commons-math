@@ -13,17 +13,18 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
-import java.awt.geom.Point2D;
-
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.util.FastMath;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class demonstrates the main functionality of the
@@ -95,7 +96,7 @@ public class EvaluationTestValidation {
             sigmaEstimate[i] = new SummaryStatistics();
         }
 
-        final double[] init = { slope, offset };
+        final RealVector init = new ArrayRealVector(new double[]{ slope, offset }, false);
 
         // Monte-Carlo (generates many sets of observations).
         final int mcRepeat = MONTE_CARLO_RUNS;
@@ -117,12 +118,12 @@ public class EvaluationTestValidation {
             // covariance matrix).
             final LeastSquaresProblem lsp = builder(problem).build();
 
-            final double[] sigma = lsp.evaluate(init).computeSigma(1e-14);
+            final RealVector sigma = lsp.evaluate(init).computeSigma(1e-14);
 
             // Accumulate statistics.
             for (int i = 0; i < numParams; i++) {
                 paramsFoundByDirectSolution[i].addValue(regress[i]);
-                sigmaEstimate[i].addValue(sigma[i]);
+                sigmaEstimate[i].addValue(sigma.getEntry(i));
             }
 
             // Next Monte-Carlo.
@@ -138,7 +139,7 @@ public class EvaluationTestValidation {
 
             StatisticalSummary s = paramsFoundByDirectSolution[i].getSummary();
             System.out.printf("              %+.6e   %+.6e   %+.6e\n",
-                              init[i],
+                              init.getEntry(i),
                               s.getMean(),
                               s.getStandardDeviation());
 
@@ -212,7 +213,7 @@ public class EvaluationTestValidation {
         }
 
         // Direct solution (using simple regression).
-        final double[] regress = problem.solve();
+        final RealVector regress = new ArrayRealVector(problem.solve(), false);
 
         // Dummy optimizer (to compute the chi-square).
         final LeastSquaresProblem lsp = builder(problem).build();
@@ -221,7 +222,7 @@ public class EvaluationTestValidation {
         // Get chi-square of the best parameters set for the given set of
         // observations.
         final double bestChi2N = getChi2N(lsp, regress);
-        final double[] sigma = lsp.evaluate(regress).computeSigma(1e-14);
+        final RealVector sigma = lsp.evaluate(regress).computeSigma(1e-14);
 
         // Monte-Carlo (generates a grid of parameters).
         final int mcRepeat = MONTE_CARLO_RUNS;
@@ -233,8 +234,8 @@ public class EvaluationTestValidation {
         // Index 2 = normalized chi2
         final List<double[]> paramsAndChi2 = new ArrayList<double[]>(gridSize * gridSize);
 
-        final double slopeRange = 10 * sigma[0];
-        final double offsetRange = 10 * sigma[1];
+        final double slopeRange = 10 * sigma.getEntry(0);
+        final double offsetRange = 10 * sigma.getEntry(1);
         final double minSlope = slope - 0.5 * slopeRange;
         final double minOffset = offset - 0.5 * offsetRange;
         final double deltaSlope =  slopeRange/ gridSize;
@@ -243,7 +244,8 @@ public class EvaluationTestValidation {
             final double s = minSlope + i * deltaSlope;
             for (int j = 0; j < gridSize; j++) {
                 final double o = minOffset + j * deltaOffset;
-                final double chi2N = getChi2N(lsp, new double[] {s, o});
+                final double chi2N = getChi2N(lsp,
+                        new ArrayRealVector(new double[] {s, o}, false));
 
                 paramsAndChi2.add(new double[] {s, o, chi2N});
             }
@@ -260,7 +262,7 @@ public class EvaluationTestValidation {
         final String lineFmt = "%+.10e %+.10e   %.8e\n";
 
         // Point with smallest chi-square.
-        System.out.printf(lineFmt, regress[0], regress[1], bestChi2N);
+        System.out.printf(lineFmt, regress.getEntry(0), regress.getEntry(1), bestChi2N);
         System.out.println(); // Empty line.
 
         // Points within the confidence interval.
@@ -280,7 +282,7 @@ public class EvaluationTestValidation {
         }
         System.out.println(); // Empty line.
 
-        System.out.println("# sigma=" + Arrays.toString(sigma));
+        System.out.println("# sigma=" + sigma.toString());
         System.out.println("# " + numLarger + " sets filtered out");
     }
 
@@ -289,15 +291,17 @@ public class EvaluationTestValidation {
                 .model(problem.getModelFunction())
                 .jacobian(problem.getModelFunctionJacobian())
                 .target(problem.target())
-                .weight(new DiagonalMatrix(problem.weight()));
+                .weight(new DiagonalMatrix(problem.weight()))
+                //unused start point to avoid NPE
+                .start(new double[2]);
     }
     /**
      * @return the normalized chi-square.
      */
     private double getChi2N(LeastSquaresProblem lsp,
-                            double[] params) {
+                            RealVector params) {
         final double cost = lsp.evaluate(params).computeCost();
-        return cost * cost / (lsp.getObservationSize() - params.length);
+        return cost * cost / (lsp.getObservationSize() - params.getDimension());
     }
 }
 

@@ -3,6 +3,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 
 /**
  * The data necessary to define a non-linear least squares problem. Includes the observed
@@ -19,7 +20,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
      *
      * @return the initial guess values.
      */
-    double[] getStart();
+    RealVector getStart();
 
     /**
      * Get the number of observations (rows in the Jacobian) in this problem.
@@ -38,13 +39,14 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
     /**
      * Evaluate the model at the specified point.
      *
+     *
      * @param point the parameter values.
      * @return the model's value and derivative at the given point.
      * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
      *          if the maximal number of evaluations (of the model vector function) is
      *          exceeded.
      */
-    Evaluation evaluate(double[] point);
+    Evaluation evaluate(RealVector point);
 
     /**
      * An evaluation of a {@link LeastSquaresProblem} at a particular point. This class
@@ -59,12 +61,13 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
          * way for the caller to specify that the result of this computation should be
          * considered meaningless, and thus trigger an exception.
          *
+         *
          * @param threshold Singularity threshold.
          * @return the covariance matrix.
          * @throws org.apache.commons.math3.linear.SingularMatrixException
          *          if the covariance matrix cannot be computed (singular problem).
          */
-        double[][] computeCovariances(double threshold);
+        RealMatrix computeCovariances(double threshold);
 
         /**
          * Computes an estimate of the standard deviation of the parameters. The returned
@@ -72,13 +75,14 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
          * matrix, {@code sd(a[i]) ~= sqrt(C[i][i])}, where {@code a[i]} is the optimized
          * value of the {@code i}-th parameter, and {@code C} is the covariance matrix.
          *
+         *
          * @param covarianceSingularityThreshold Singularity threshold (see {@link
          *                                       #computeCovariances(double) computeCovariances}).
          * @return an estimate of the standard deviation of the optimized parameters
          * @throws org.apache.commons.math3.linear.SingularMatrixException
          *          if the covariance matrix cannot be computed.
          */
-        double[] computeSigma(double covarianceSingularityThreshold);
+        RealVector computeSigma(double covarianceSingularityThreshold);
 
         /**
          * Computes the normalized cost. It is the square-root of the sum of squared of
@@ -93,7 +97,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
          *
          * @return the objective function value at the specified point.
          */
-        double[] computeValue();
+        RealVector computeValue();
 
         /**
          * Computes the weighted Jacobian matrix.
@@ -121,13 +125,13 @@ public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
          * @return the weighted residuals: W<sup>1/2</sup> K.
          * @throws DimensionMismatchException if the residuals have the wrong length.
          */
-        double[] computeResiduals();
+        RealVector computeResiduals();
 
         /**
          * Get the abscissa (independent variables) of this evaluation.
          *
-         * @return the point provided to {@link #evaluate(double[])}.
+         * @return the point provided to {@link #evaluate(RealVector)}.
          */
-        double[] getPoint();
+        RealVector getPoint();
     }
 }

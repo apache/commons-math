@@ -518,7 +518,7 @@ public class MinpackTest {
             final Optimum optimum = optimizer.optimize(problem);
             Assert.assertFalse(exceptionExpected);
             function.checkTheoreticalMinCost(optimum.computeRMS());
-            function.checkTheoreticalMinParams(optimum.getPoint());
+            function.checkTheoreticalMinParams(optimum.getPoint().toArray());
         } catch (TooManyEvaluationsException e) {
             Assert.assertTrue(exceptionExpected);
         }

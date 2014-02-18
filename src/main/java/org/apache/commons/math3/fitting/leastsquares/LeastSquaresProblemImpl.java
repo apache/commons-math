@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
@@ -36,15 +35,15 @@ class LeastSquaresProblemImpl
         implements LeastSquaresProblem {
 
     /** Target values for the model function at optimum. */
-    private double[] target;
+    private RealVector target;
     /** Model function. */
     private MultivariateJacobianFunction model;
     /** Initial guess. */
-    private double[] start;
+    private RealVector start;
 
     LeastSquaresProblemImpl(final MultivariateJacobianFunction model,
-                            final double[] target,
-                            final double[] start,
+                            final RealVector target,
+                            final RealVector start,
                             final ConvergenceChecker<Evaluation> checker,
                             final int maxEvaluations,
                             final int maxIterations) {
@@ -55,18 +54,18 @@ class LeastSquaresProblemImpl
     }
 
     public int getObservationSize() {
-        return target.length;
+        return target.getDimension();
     }
 
     public int getParameterSize() {
-        return start.length;
+        return start.getDimension();
     }
 
-    public double[] getStart() {
-        return start == null ? null : start.clone();
+    public RealVector getStart() {
+        return start == null ? null : start.copy();
     }
 
-    public Evaluation evaluate(final double[] point) {
+    public Evaluation evaluate(final RealVector point) {
         //evaluate value and jacobian in one function call
         final Pair<RealVector, RealMatrix> value = this.model.value(point);
         return new UnweightedEvaluation(
@@ -84,19 +83,19 @@ class LeastSquaresProblemImpl
     private static class UnweightedEvaluation extends AbstractEvaluation {
 
         /** the point of evaluation */
-        private final double[] point;
+        private final RealVector point;
         /** value at point */
         private final RealVector values;
         /** deriviative at point */
         private final RealMatrix jacobian;
         /** reference to the observed values */
-        private final double[] target;
+        private final RealVector target;
 
         private UnweightedEvaluation(final RealVector values,
                                      final RealMatrix jacobian,
-                                     final double[] target,
-                                     final double[] point) {
-            super(target.length);
+                                     final RealVector target,
+                                     final RealVector point) {
+            super(target.getDimension());
             this.values = values;
             this.jacobian = jacobian;
             this.target = target;
@@ -104,31 +103,20 @@ class LeastSquaresProblemImpl
         }
 
 
-        public double[] computeValue() {
-            return this.values.toArray();
+        public RealVector computeValue() {
+            return this.values;
         }
 
         public RealMatrix computeJacobian() {
             return this.jacobian;
         }
 
-        public double[] getPoint() {
+        public RealVector getPoint() {
             return this.point;
         }
 
-        public double[] computeResiduals() {
-            final double[] objectiveValue = this.computeValue();
-            if (objectiveValue.length != target.length) {
-                throw new DimensionMismatchException(target.length,
-                        objectiveValue.length);
-            }
-
-            final double[] residuals = new double[target.length];
-            for (int i = 0; i < target.length; i++) {
-                residuals[i] = target[i] - objectiveValue[i];
-            }
-
-            return residuals;
+        public RealVector computeResiduals() {
+            return target.subtract(this.computeValue());
         }
 
     }

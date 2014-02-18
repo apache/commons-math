@@ -3,6 +3,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 
 /**
  * A pedantic implementation of {@link Optimum}.
@@ -44,12 +45,12 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public double[][] computeCovariances(double threshold) {
+    public RealMatrix computeCovariances(double threshold) {
         return value.computeCovariances(threshold);
     }
 
     /** {@inheritDoc} */
-    public double[] computeSigma(double covarianceSingularityThreshold) {
+    public RealVector computeSigma(double covarianceSingularityThreshold) {
         return value.computeSigma(covarianceSingularityThreshold);
     }
 
@@ -59,7 +60,7 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public double[] computeValue() {
+    public RealVector computeValue() {
         return value.computeValue();
     }
 
@@ -74,12 +75,12 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public double[] computeResiduals() {
+    public RealVector computeResiduals() {
         return value.computeResiduals();
     }
 
     /** {@inheritDoc} */
-    public double[] getPoint() {
+    public RealVector getPoint() {
         return value.getPoint();
     }
 }

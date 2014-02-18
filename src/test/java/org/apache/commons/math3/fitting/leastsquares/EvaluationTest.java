@@ -15,6 +15,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -87,10 +88,10 @@ public class EvaluationTest {
 
         final Evaluation evaluation = lsp.evaluate(lsp.getStart());
         final double cost = evaluation.computeCost();
-        final double[] sig = evaluation.computeSigma(1e-14);
+        final RealVector sig = evaluation.computeSigma(1e-14);
         final int dof = lsp.getObservationSize() - lsp.getParameterSize();
-        for (int i = 0; i < sig.length; i++) {
-            final double actual = FastMath.sqrt(cost * cost / dof) * sig[i];
+        for (int i = 0; i < sig.getDimension(); i++) {
+            final double actual = FastMath.sqrt(cost * cost / dof) * sig.getEntry(i);
             Assert.assertEquals(dataset.getName() + ", parameter #" + i,
                                 expected[i], actual, 1e-6 * expected[i]);
         }

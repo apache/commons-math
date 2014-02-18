@@ -1,5 +1,6 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.util.Incrementor;
 
@@ -23,7 +24,7 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
     }
 
     /** {@inheritDoc} */
-    public double[] getStart() {
+    public RealVector getStart() {
         return problem.getStart();
     }
 
@@ -37,8 +38,9 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
         return problem.getParameterSize();
     }
 
-    /** {@inheritDoc} */
-    public Evaluation evaluate(final double[] point) {
+    /** {@inheritDoc}
+     * @param point*/
+    public Evaluation evaluate(final RealVector point) {
         return problem.evaluate(point);
     }
 

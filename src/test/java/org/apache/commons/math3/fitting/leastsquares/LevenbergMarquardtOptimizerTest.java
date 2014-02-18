@@ -24,6 +24,8 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
@@ -201,10 +203,10 @@ public class LevenbergMarquardtOptimizerTest
                         .build()
         );
 
-        final double[] solution = optimum.getPoint();
+        final RealVector solution = optimum.getPoint();
         final double[] expectedSolution = { 10.4, 958.3, 131.4, 33.9, 205.0 };
 
-        final double[][] covarMatrix = optimum.computeCovariances(1e-14);
+        final RealMatrix covarMatrix = optimum.computeCovariances(1e-14);
         final double[][] expectedCovarMatrix = {
             { 3.38, -3.69, 27.98, -2.34, -49.24 },
             { -3.69, 2492.26, 81.89, -69.21, -8.9 },
@@ -218,7 +220,7 @@ public class LevenbergMarquardtOptimizerTest
         // Check that the computed solution is within the reference error range.
         for (int i = 0; i < numParams; i++) {
             final double error = FastMath.sqrt(expectedCovarMatrix[i][i]);
-            Assert.assertEquals("Parameter " + i, expectedSolution[i], solution[i], error);
+            Assert.assertEquals("Parameter " + i, expectedSolution[i], solution.getEntry(i), error);
         }
 
         // Check that each entry of the computed covariance matrix is within 10%
@@ -227,7 +229,7 @@ public class LevenbergMarquardtOptimizerTest
             for (int j = 0; j < numParams; j++) {
                 Assert.assertEquals("Covariance matrix [" + i + "][" + j + "]",
                                     expectedCovarMatrix[i][j],
-                                    covarMatrix[i][j],
+                                    covarMatrix.getEntry(i, j),
                                     FastMath.abs(0.1 * expectedCovarMatrix[i][j]));
             }
         }
@@ -258,10 +260,10 @@ public class LevenbergMarquardtOptimizerTest
         final Optimum optimum = optimizer.optimize(
                 builder(circle).maxIterations(50).start(init).build());
 
-        final double[] paramFound = optimum.getPoint();
+        final double[] paramFound = optimum.getPoint().toArray();
 
         // Retrieve errors estimation.
-        final double[] asymptoticStandardErrorFound = optimum.computeSigma(1e-14);
+        final double[] asymptoticStandardErrorFound = optimum.computeSigma(1e-14).toArray();
 
         // Check that the parameters are found within the assumed error bars.
         Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);

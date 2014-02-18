@@ -5,6 +5,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -31,7 +32,7 @@ abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
-    public double[][] computeCovariances(double threshold) {
+    public RealMatrix computeCovariances(double threshold) {
         // Set up the Jacobian.
         final RealMatrix j = this.computeJacobian();
 
@@ -41,16 +42,16 @@ abstract class AbstractEvaluation implements Evaluation {
         // Compute the covariances matrix.
         final DecompositionSolver solver
                 = new QRDecomposition(jTj, threshold).getSolver();
-        return solver.getInverse().getData();
+        return solver.getInverse();
     }
 
     /** {@inheritDoc} */
-    public double[] computeSigma(double covarianceSingularityThreshold) {
-        final double[][] cov = this.computeCovariances(covarianceSingularityThreshold);
-        final int nC = cov.length;
-        final double[] sig = new double[nC];
+    public RealVector computeSigma(double covarianceSingularityThreshold) {
+        final RealMatrix cov = this.computeCovariances(covarianceSingularityThreshold);
+        final int nC = cov.getColumnDimension();
+        final RealVector sig = new ArrayRealVector(nC);
         for (int i = 0; i < nC; ++i) {
-            sig[i] = FastMath.sqrt(cov[i][i]);
+            sig.setEntry(i, FastMath.sqrt(cov.getEntry(i,i)));
         }
         return sig;
     }

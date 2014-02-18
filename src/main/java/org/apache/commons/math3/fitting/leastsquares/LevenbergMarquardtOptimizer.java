@@ -19,6 +19,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 import java.util.Arrays;
 
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -297,7 +298,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         //pull in relevant data from the problem as locals
         final int nR = problem.getObservationSize(); // Number of observed data.
         final int nC = problem.getParameterSize(); // Number of parameters.
-        final double[] currentPoint = problem.getStart();
+        final double[] currentPoint = problem.getStart().toArray();
         //counters
         final Incrementor iterationCounter = problem.getIterationCounter();
         final Incrementor evaluationCounter = problem.getEvaluationCounter();
@@ -327,8 +328,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         // Evaluate the function at the starting point and calculate its norm.
         evaluationCounter.incrementCount();
         //value will be reassigned in the loop
-        Evaluation current = problem.evaluate(currentPoint);
-        double[] currentResiduals = current.computeResiduals();
+        Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint, false));
+        double[] currentResiduals = current.computeResiduals().toArray();
         double currentCost = current.computeCost();
 
         // Outer loop.
@@ -444,8 +445,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
                 // Evaluate the function at x + p and calculate its norm.
                 evaluationCounter.incrementCount();
-                current = problem.evaluate(currentPoint);
-                currentResiduals = current.computeResiduals();
+                current = problem.evaluate(new ArrayRealVector(currentPoint,false));
+                currentResiduals = current.computeResiduals().toArray();
                 currentCost = current.computeCost();
 
                 // compute the scaled actual reduction

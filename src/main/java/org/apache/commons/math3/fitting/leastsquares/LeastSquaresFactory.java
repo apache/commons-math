@@ -26,6 +26,34 @@ public class LeastSquaresFactory {
     private LeastSquaresFactory() {
     }
 
+     /**
+     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * from the given elements. There will be no weights applied (Identity weights).
+     *
+     * @param model          the model function. Produces the computed values.
+     * @param observed       the observed (target) values
+     * @param start          the initial guess.
+     * @param checker        convergence checker
+     * @param maxEvaluations the maximum number of times to evaluate the model
+     * @param maxIterations  the maximum number to times to iterate in the algorithm
+     * @return the specified General Least Squares problem.
+     */
+    public static LeastSquaresProblem create(final MultivariateJacobianFunction model,
+                                             final RealVector observed,
+                                             final RealVector start,
+                                             final ConvergenceChecker<Evaluation> checker,
+                                             final int maxEvaluations,
+                                             final int maxIterations) {
+        return new LeastSquaresProblemImpl(
+                model,
+                observed,
+                start,
+                checker,
+                maxEvaluations,
+                maxIterations
+        );
+    }
+
     /**
      * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements. There will be no weights applied (Identity weights).
@@ -44,10 +72,10 @@ public class LeastSquaresFactory {
                                              final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return new LeastSquaresProblemImpl(
+        return create(
                 model,
-                observed,
-                start,
+                new ArrayRealVector(observed, false),
+                new ArrayRealVector(start, false),
                 checker,
                 maxEvaluations,
                 maxIterations
@@ -132,7 +160,7 @@ public class LeastSquaresFactory {
         final RealMatrix weightSquareRoot = squareRoot(weights);
         return new LeastSquaresAdapter(problem) {
             @Override
-            public Evaluation evaluate(final double[] point) {
+            public Evaluation evaluate(final RealVector point) {
                 return new DenseWeightedEvaluation(super.evaluate(point), weightSquareRoot);
             }
         };
@@ -154,7 +182,7 @@ public class LeastSquaresFactory {
 
     /**
      * Count the evaluations of a particular problem. The {@code counter} will be
-     * incremented every time {@link LeastSquaresProblem#evaluate(double[])} is called on
+     * incremented every time {@link LeastSquaresProblem#evaluate(RealVector)} is called on
      * the <em>returned</em> problem.
      *
      * @param problem the problem to track.
@@ -165,7 +193,7 @@ public class LeastSquaresFactory {
                                                        final Incrementor counter) {
         return new LeastSquaresAdapter(problem) {
 
-            public Evaluation evaluate(final double[] point) {
+            public Evaluation evaluate(final RealVector point) {
                 counter.incrementCount();
                 return super.evaluate(point);
             }
@@ -192,12 +220,12 @@ public class LeastSquaresFactory {
                 return checker.converged(
                         iteration,
                         new PointVectorValuePair(
-                                previous.getPoint(),
-                                previous.computeValue(),
+                                previous.getPoint().toArray(),
+                                previous.computeValue().toArray(),
                                 false),
                         new PointVectorValuePair(
-                                current.getPoint(),
-                                current.computeValue(),
+                                current.getPoint().toArray(),
+                                current.computeValue().toArray(),
                                 false)
                 );
             }
@@ -237,11 +265,13 @@ public class LeastSquaresFactory {
             final MultivariateMatrixFunction jacobian
     ) {
         return new MultivariateJacobianFunction() {
-            public Pair<RealVector, RealMatrix> value(final double[] point) {
-                //evaluate and use Real* interfaces without copying
+            public Pair<RealVector, RealMatrix> value(final RealVector point) {
+                //TODO get array from RealVector without copying?
+                final double[] pointArray = point.toArray();
+                //evaluate and return data without copying
                 return new Pair<RealVector, RealMatrix>(
-                        new ArrayRealVector(value.value(point), false),
-                        new Array2DRowRealMatrix(jacobian.value(point), false));
+                        new ArrayRealVector(value.value(pointArray), false),
+                        new Array2DRowRealMatrix(jacobian.value(pointArray), false));
             }
         };
     }

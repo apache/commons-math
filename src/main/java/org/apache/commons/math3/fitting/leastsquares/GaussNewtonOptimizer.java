@@ -26,6 +26,7 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.util.Incrementor;
@@ -133,7 +134,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         final int nR = lsp.getObservationSize(); // Number of observed data.
         final int nC = lsp.getParameterSize();
 
-        final double[] currentPoint = lsp.getStart();
+        final RealVector currentPoint = lsp.getStart();
 
         // iterate until convergence is reached
         Evaluation current = null;
@@ -145,7 +146,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             // Value of the objective function at "currentPoint".
             evaluationCounter.incrementCount();
             current = lsp.evaluate(currentPoint);
-            final double[] currentResiduals = current.computeResiduals();
+            final RealVector currentResiduals = current.computeResiduals();
             final RealMatrix weightedJacobian = current.computeJacobian();
 
             // Check convergence.
@@ -164,7 +165,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             for (int i = 0; i < nR; ++i) {
 
                 final double[] grad = weightedJacobian.getRow(i);
-                final double residual = currentResiduals[i];
+                final double residual = currentResiduals.getEntry(i);
 
                 // compute the normal equation
                 //residual is already weighted
@@ -186,10 +187,10 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
                 DecompositionSolver solver = this.decomposition.getSolver(mA);
-                final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
+                final RealVector dX = solver.solve(new ArrayRealVector(b, false));
                 // update the estimated parameters
                 for (int i = 0; i < nC; ++i) {
-                    currentPoint[i] += dX[i];
+                    currentPoint.setEntry(i, currentPoint.getEntry(i) + dX.getEntry(i));
                 }
             } catch (SingularMatrixException e) {
                 throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);

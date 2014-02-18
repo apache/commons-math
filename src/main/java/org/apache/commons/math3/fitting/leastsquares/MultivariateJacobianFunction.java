@@ -18,6 +18,6 @@ public interface MultivariateJacobianFunction {
      * @param point the abscissae
      * @return the values and their Jacobian of this vector valued function.
      */
-    Pair<RealVector, RealMatrix> value(double[] point);
+    Pair<RealVector, RealMatrix> value(RealVector point);
 
 }
