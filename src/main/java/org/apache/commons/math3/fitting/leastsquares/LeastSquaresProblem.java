@@ -6,9 +6,11 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
 
 /**
  * The data necessary to define a non-linear least squares problem. Includes the observed
- * values, computed model function, weights, and convergence/divergence criteria.
+ * values, computed model function, and convergence/divergence criteria. Weights are
+ * implicit in {@link Evaluation#computeResiduals()} and {@link
+ * Evaluation#computeJacobian()}.
  *
- * @author Evan Ward
+ * @version $Id$
  */
 public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValuePair> {
 
@@ -19,13 +21,15 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
      */
     double[] getStart();
 
-    /** Get the number of observations (rows in the Jacobian) in this problem.
+    /**
+     * Get the number of observations (rows in the Jacobian) in this problem.
      *
      * @return the number of scalar observations
      */
     int getObservationSize();
 
-    /** Get the number of parameters (columns in the Jacobian) in this problem.
+    /**
+     * Get the number of parameters (columns in the Jacobian) in this problem.
      *
      * @return the number of scalar parameters
      */
@@ -36,9 +40,16 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
      *
      * @param point the parameter values.
      * @return the model's value and derivative at the given point.
+     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     *          if the maximal number of evaluations (of the model vector function) is
+     *          exceeded.
      */
     Evaluation evaluate(double[] point);
 
+    /**
+     * An evaluation of a {@link LeastSquaresProblem} at a particular point. This class
+     * also computes several quantities derived from the value and its Jacobian.
+     */
     public interface Evaluation {
 
         /**
@@ -62,8 +73,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
          * value of the {@code i}-th parameter, and {@code C} is the covariance matrix.
          *
          * @param covarianceSingularityThreshold Singularity threshold (see {@link
-         *                                       #computeCovariances(double[], double)
-         *                                       computeCovariances}).
+         *                                       #computeCovariances(double) computeCovariances}).
          * @return an estimate of the standard deviation of the optimized parameters
          * @throws org.apache.commons.math3.linear.SingularMatrixException
          *          if the covariance matrix cannot be computed.
@@ -82,9 +92,6 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
          * Computes the objective (model) function value.
          *
          * @return the objective function value at the specified point.
-         * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
-         *          if the maximal number of evaluations (of the model vector function) is
-         *          exceeded.
          */
         double[] computeValue();
 
@@ -101,7 +108,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
          * Computes the cost.
          *
          * @return the cost.
-         * @see #computeResiduals(double[])
+         * @see #computeResiduals()
          */
         double computeCost();
 
@@ -112,7 +119,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
          * then multiplied by the square root of the weight matrix.
          *
          * @return the weighted residuals: W<sup>1/2</sup> K.
-         * @throws DimensionMismatchException if {@code params} has a wrong length.
+         * @throws DimensionMismatchException if the residuals have the wrong length.
          */
         double[] computeResiduals();
 
