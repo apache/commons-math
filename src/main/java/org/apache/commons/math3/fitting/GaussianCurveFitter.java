@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Collection;
 import java.util.Collections;
+
 import org.apache.commons.math3.analysis.function.Gaussian;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -29,7 +30,8 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
 import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
 import org.apache.commons.math3.util.FastMath;
@@ -70,7 +72,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 3.3
  */
-public class GaussianCurveFitter extends AbstractCurveFitter<LevenbergMarquardtOptimizer>
+public class GaussianCurveFitter extends AbstractCurveFitter
     implements WithStartPoint<GaussianCurveFitter>,
                WithMaxIterations<GaussianCurveFitter> {
     /** Parametric function to be fitted. */
@@ -146,7 +148,8 @@ public class GaussianCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
 
     /** {@inheritDoc} */
     @Override
-    protected LevenbergMarquardtOptimizer getOptimizer(Collection<WeightedObservedPoint> observations) {
+    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
+
         // Prepare least-squares problem.
         final int len = observations.size();
         final double[] target  = new double[len];
@@ -159,25 +162,26 @@ public class GaussianCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
             ++i;
         }
 
-        final AbstractCurveFitter.TheoreticalValuesFunction model
-            = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION,
-                                                                observations);
+        final AbstractCurveFitter.TheoreticalValuesFunction model =
+                new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION, observations);
 
         final double[] startPoint = initialGuess != null ?
             initialGuess :
             // Compute estimation.
             new ParameterGuesser(observations).guess();
 
-        // Return a new optimizer set up to fit a Gaussian curve to the
+        // Return a new least squares problem set up to fit a Gaussian curve to the
         // observed points.
-        return LevenbergMarquardtOptimizer.create()
-            .withMaxEvaluations(Integer.MAX_VALUE)
-            .withMaxIterations(maxIter)
-            .withStartPoint(startPoint)
-            .withTarget(target)
-            .withWeight(new DiagonalMatrix(weights))
-            .withModelAndJacobian(model.getModelFunction(),
-                                  model.getModelFunctionJacobian());
+        return new LeastSquaresBuilder().
+                maxEvaluations(Integer.MAX_VALUE).
+                maxIterations(maxIter).
+                start(startPoint).
+                target(target).
+                weight(new DiagonalMatrix(weights)).
+                model(model.getModelFunction()).
+                jacobian(model.getModelFunctionJacobian()).
+                build();
+
     }
 
     /**

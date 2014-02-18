@@ -22,6 +22,7 @@ import java.util.Arrays;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
@@ -499,26 +500,27 @@ public class MinpackTest {
     private void minpackTest(MinpackFunction function, boolean exceptionExpected) {
         final double tol = 2.22044604926e-16;
         final double sqrtTol = FastMath.sqrt(tol);
-        LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create();
-        optimizer = optimizer
-            .withInitialStepBoundFactor(optimizer.getInitialStepBoundFactor())
+
+        LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create()
             .withCostRelativeTolerance(sqrtTol)
             .withParameterRelativeTolerance(sqrtTol)
-            .withOrthoTolerance(tol)
-            .withRankingThreshold(optimizer.getRankingThreshold())
-            .withMaxEvaluations(400 * (function.getN() + 1))
-            .withMaxIterations(2000)
-            .withModelAndJacobian(function.getModelFunction(),
-                                  function.getModelFunctionJacobian())
-            .withTarget(function.getTarget())
-            .withWeight(new DiagonalMatrix(function.getWeight()))
-            .withStartPoint(function.getStartPoint());
+            .withOrthoTolerance(tol);
+
+        LeastSquaresProblem problem = new LeastSquaresBuilder()
+                .maxEvaluations(400 * (function.getN() + 1))
+                .maxIterations(2000)
+                .model(function.getModelFunction())
+                .jacobian(function.getModelFunctionJacobian())
+                .target(function.getTarget())
+                .weight(new DiagonalMatrix(function.getWeight()))
+                .start(function.getStartPoint())
+                .build();
 
         try {
-            final double[] optimum = optimizer.optimize().getPoint();
+            final Optimum optimum = optimizer.optimize(problem);
             Assert.assertFalse(exceptionExpected);
-            function.checkTheoreticalMinCost(optimizer.computeRMS(optimum));
-            function.checkTheoreticalMinParams(optimum);
+            function.checkTheoreticalMinCost(optimum.computeRMS());
+            function.checkTheoreticalMinParams(optimum.getPoint());
         } catch (TooManyEvaluationsException e) {
             Assert.assertTrue(exceptionExpected);
         }

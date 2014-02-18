@@ -17,14 +17,13 @@
 
 package org.apache.commons.math3.fitting.leastsquares;
 
-import java.io.IOException;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
-import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.junit.Test;
 import org.junit.Assert;
+
+import java.io.IOException;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -36,60 +35,58 @@ import org.junit.Assert;
  * @version $Id$
  */
 public class GaussNewtonOptimizerTest
-    extends AbstractLeastSquaresOptimizerAbstractTest<GaussNewtonOptimizer> {
-    @Override
-    public GaussNewtonOptimizer createOptimizer() {
-        return GaussNewtonOptimizer.create()
-            .withConvergenceChecker(new SimpleVectorValueChecker(1e-6, 1e-6));
-    }
+    extends AbstractLeastSquaresOptimizerAbstractTest {
 
     @Override
     public int getMaxIterations() {
         return 1000;
     }
 
-    @Override
     @Test
-    public void testShallowCopy() {
-        super.testShallowCopy(); // Test copy of parent.
+    public void testGaussNewtonLU() throws Exception {
+        check(new GaussNewtonOptimizer(true));
+    }
 
-        final boolean useLU1 = false;
-        final GaussNewtonOptimizer optim1 = createOptimizer()
-            .withLU(useLU1);
-
-        final GaussNewtonOptimizer optim2 = optim1.shallowCopy();
-
-        // Check that all fields have the same values.
-        Assert.assertTrue(optim1.getLU() == optim2.getLU());
-
-        // Change "optim2".
-        final boolean useLU2 = true;
-        optim2.withLU(useLU2);
-
-        // Check that all fields now have different values.
-        Assert.assertFalse(optim1.getLU() == optim2.getLU());
+    @Test
+    public void testGaussNewtonQR() throws Exception {
+        check(new GaussNewtonOptimizer(false));
     }
 
     @Override
-    @Test(expected=ConvergenceException.class)
-    public void testMoreEstimatedParametersSimple() {
-        /*
-         * Exception is expected with this optimizer
-         */
-        super.testMoreEstimatedParametersSimple();
+    public void check(LeastSquaresOptimizer optimizer) throws Exception {
+        super.check(optimizer);
+        //add an additional test
+        testMaxEvaluations(optimizer);
     }
 
     @Override
-    @Test(expected=ConvergenceException.class)
-    public void testMoreEstimatedParametersUnsorted() {
+    public void testMoreEstimatedParametersSimple(LeastSquaresOptimizer optimizer) {
         /*
          * Exception is expected with this optimizer
          */
-        super.testMoreEstimatedParametersUnsorted();
+        try {
+            super.testMoreEstimatedParametersSimple(optimizer);
+            fail(optimizer);
+        } catch (ConvergenceException e) {
+            //expected
+        }
     }
 
-    @Test(expected=TooManyEvaluationsException.class)
-    public void testMaxEvaluations() throws Exception {
+    @Override
+    public void testMoreEstimatedParametersUnsorted(LeastSquaresOptimizer optimizer) {
+        /*
+         * Exception is expected with this optimizer
+         */
+        try{
+            super.testMoreEstimatedParametersUnsorted(optimizer);
+            fail(optimizer);
+        }catch (ConvergenceException e){
+            //expected
+        }
+    }
+
+    public void testMaxEvaluations(LeastSquaresOptimizer optimizer) throws Exception {
+        try{
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
         circle.addPoint( 50.0,  -6.0);
@@ -97,36 +94,48 @@ public class GaussNewtonOptimizerTest
         circle.addPoint( 35.0,  15.0);
         circle.addPoint( 45.0,  97.0);
 
-        GaussNewtonOptimizer optimizer = createOptimizer()
-            .withConvergenceChecker(new SimpleVectorValueChecker(1e-30, 1e-30))
-            .withMaxIterations(Integer.MAX_VALUE)
-            .withMaxEvaluations(100)
-            .withModelAndJacobian(circle.getModelFunction(),
-                                  circle.getModelFunctionJacobian())
-            .withTarget(new double[] { 0, 0, 0, 0, 0 })
-            .withWeight(new DiagonalMatrix(new double[] { 1, 1, 1, 1, 1 }))
-            .withStartPoint(new double[] { 98.680, 47.345 });
+        LeastSquaresProblem lsp = builder(circle)
+                .checker(new SimpleVectorValueChecker(1e-30, 1e-30))
+                .maxIterations(Integer.MAX_VALUE)
+                .start(new double[]{98.680, 47.345})
+                .build();
 
-        optimizer.optimize();
+        optimizer.optimize(lsp);
+
+            fail(optimizer);
+        }catch (TooManyEvaluationsException e){
+            //expected
+        }
     }
 
     @Override
-    @Test(expected=ConvergenceException.class)
-    public void testCircleFittingBadInit() {
+    public void testCircleFittingBadInit(LeastSquaresOptimizer optimizer) {
         /*
          * This test does not converge with this optimizer.
          */
-        super.testCircleFittingBadInit();
+        try{
+            super.testCircleFittingBadInit(optimizer);
+            fail(optimizer);
+        }catch (ConvergenceException e){
+            //expected
+        }
     }
 
     @Override
-    @Test(expected=ConvergenceException.class)
-    public void testHahn1()
+    public void testHahn1(LeastSquaresOptimizer optimizer)
         throws IOException {
         /*
          * TODO This test leads to a singular problem with the Gauss-Newton
          * optimizer. This should be inquired.
          */
-        super.testHahn1();
+        try{
+            super.testHahn1(optimizer);
+            fail(optimizer);
+        } catch (ConvergenceException e){
+            //expected for LU
+        } catch (TooManyEvaluationsException e){
+            //expected for QR
+        }
     }
+
 }

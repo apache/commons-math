@@ -16,11 +16,11 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -30,38 +30,58 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.util.Incrementor;
 
 /**
- * Gauss-Newton least-squares solver.
- *
- * <p>
- * This class solve a least-square problem by solving the normal equations
- * of the linearized problem at each iteration. Either LU decomposition or
- * QR decomposition can be used to solve the normal equations. LU decomposition
- * is faster but QR decomposition is more robust for difficult problems.
+ * Gauss-Newton least-squares solver. <p/> <p> This class solve a least-square problem by
+ * solving the normal equations of the linearized problem at each iteration. Either LU
+ * decomposition or QR decomposition can be used to solve the normal equations. LU
+ * decomposition is faster but QR decomposition is more robust for difficult problems.
  * </p>
  *
  * @version $Id$
  * @since 3.3
  */
-public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNewtonOptimizer> {
+public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
+
+    /**
+     * The singularity threshold for matrix decompositions. Determines when a {@link
+     * ConvergenceException} is thrown. The current value was the default value for {@link
+     * LUDecomposition}.
+     */
+    private static final double SINGULARITY_THRESHOLD = 1e-11;
+
     /** Indicator for using LU decomposition. */
     private boolean useLU = true;
 
     /**
-     * Default constructor.
+     * Creates a Gauss Newton optimizer.
+     *
+     * The default for the algorithm is to solve the normal equations
+     * using LU decomposition.
      */
-    protected GaussNewtonOptimizer() {}
+    public GaussNewtonOptimizer() {
+        this(true);
+    }
 
     /**
-     * Copy constructor.
+     * Creates a Gauss Newton optimizer.
      *
-     * @param other object to copy.
+     * @param useLU if {@code true} the {@link LUDecomposition} will be used to solve the
+     *              normal equations. Otherwise the {@link QRDecomposition} will be used.
      */
-    protected GaussNewtonOptimizer(GaussNewtonOptimizer other) {
-        super(other);
+    public GaussNewtonOptimizer(boolean useLU) {
+        this.useLU = useLU;
+    }
 
-        this.useLU = other.useLU;
+    /**
+     * If the LU decomposition is used in the optimization.
+     *
+     * @return {@code true} if the LU decomposition is used. {@code false} if the QR
+     *         decomposition is used.
+     */
+    public boolean isUseLU() {
+        return useLU;
     }
 
     /**
@@ -79,48 +99,20 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
     }
 
     /** {@inheritDoc} */
-    @Override
-    public GaussNewtonOptimizer shallowCopy() {
-        return new GaussNewtonOptimizer(this);
-    }
-
-    /**
-     * @param newUseLU Whether to use LU decomposition.
-     * @return this instance.
-     */
-    public GaussNewtonOptimizer withLU(boolean newUseLU) {
-        this.useLU = newUseLU;
-        return self();
-    }
-
-    /**
-     * @return {@code true} if LU decomposition is used.
-     */
-    public boolean getLU() {
-        return useLU;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public PointVectorValuePair doOptimize() {
+    public Optimum optimize(final LeastSquaresProblem lsp) {
+        //create local evaluation and iteration counts
+        final Incrementor evaluationCounter = lsp.getEvaluationCounter();
+        final Incrementor iterationCounter = lsp.getIterationCounter();
         final ConvergenceChecker<PointVectorValuePair> checker
-            = getConvergenceChecker();
+                = lsp.getConvergenceChecker();
 
         // Computation will be useless without a checker (see "for-loop").
         if (checker == null) {
             throw new NullArgumentException();
         }
 
-        final double[] targetValues = getTarget();
-        final int nR = targetValues.length; // Number of observed data.
-
-        final RealMatrix weightMatrix = getWeight();
-        if (weightMatrix.getRowDimension() != nR) {
-            throw new DimensionMismatchException(weightMatrix.getRowDimension(), nR);
-        }
-        if (weightMatrix.getColumnDimension() != nR) {
-            throw new DimensionMismatchException(weightMatrix.getColumnDimension(), nR);
-        }
+        final RealMatrix weightMatrix = lsp.getWeight();
+        final int nR = weightMatrix.getRowDimension(); // Number of observed data.
 
         // Diagonal of the weight matrix.
         final double[] residualsWeights = new double[nR];
@@ -128,29 +120,31 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
             residualsWeights[i] = weightMatrix.getEntry(i, i);
         }
 
-        final double[] currentPoint = getStart();
+        final double[] currentPoint = lsp.getStart();
         final int nC = currentPoint.length;
 
         // iterate until convergence is reached
         PointVectorValuePair current = null;
-        for (boolean converged = false; !converged;) {
-            incrementIterationCount();
+        for (boolean converged = false; !converged; ) {
+            iterationCounter.incrementCount();
 
             // evaluate the objective function and its jacobian
             PointVectorValuePair previous = current;
             // Value of the objective function at "currentPoint".
-            final double[] currentObjective = computeObjectiveValue(currentPoint);
-            final double[] currentResiduals = computeResiduals(currentObjective);
-            final RealMatrix weightedJacobian = computeWeightedJacobian(currentPoint);
+            evaluationCounter.incrementCount();
+            final Evaluation value = lsp.evaluate(currentPoint);
+            final double[] currentObjective = value.computeValue();
+            final double[] currentResiduals = value.computeResiduals();
+            final RealMatrix weightedJacobian = value.computeWeightedJacobian();
             current = new PointVectorValuePair(currentPoint, currentObjective);
 
             // build the linear problem
-            final double[]   b = new double[nC];
+            final double[] b = new double[nC];
             final double[][] a = new double[nC][nC];
             for (int i = 0; i < nR; ++i) {
 
-                final double[] grad   = weightedJacobian.getRow(i);
-                final double weight   = residualsWeights[i];
+                final double[] grad = weightedJacobian.getRow(i);
+                final double weight = residualsWeights[i];
                 final double residual = currentResiduals[i];
 
                 // compute the normal equation
@@ -171,9 +165,12 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
 
             // Check convergence.
             if (previous != null) {
-                converged = checker.converged(getIterations(), previous, current);
+                converged = checker.converged(iterationCounter.getCount(), previous, current);
                 if (converged) {
-                    return current;
+                    return new OptimumImpl(
+                            value,
+                            evaluationCounter.getCount(),
+                            iterationCounter.getCount());
                 }
             }
 
@@ -181,8 +178,8 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
                 DecompositionSolver solver = useLU ?
-                        new LUDecomposition(mA).getSolver() :
-                        new QRDecomposition(mA).getSolver();
+                        new LUDecomposition(mA, SINGULARITY_THRESHOLD).getSolver() :
+                        new QRDecomposition(mA, SINGULARITY_THRESHOLD).getSolver();
                 final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
                 // update the estimated parameters
                 for (int i = 0; i < nC; ++i) {
@@ -195,4 +192,12 @@ public class GaussNewtonOptimizer extends AbstractLeastSquaresOptimizer<GaussNew
         // Must never happen.
         throw new MathInternalError();
     }
+
+    @Override
+    public String toString() {
+        return "GaussNewtonOptimizer{" +
+                "useLU=" + useLU +
+                '}';
+    }
+
 }

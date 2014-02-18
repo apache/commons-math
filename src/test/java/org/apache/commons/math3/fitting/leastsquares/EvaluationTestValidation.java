@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
 import org.apache.commons.math3.linear.DiagonalMatrix;
@@ -27,7 +27,7 @@ import org.junit.Assert;
 
 /**
  * This class demonstrates the main functionality of the
- * {@link AbstractLeastSquaresOptimizer}, common to the
+ * {@link LeastSquaresProblem.Evaluation}, common to the
  * optimizer implementations in package
  * {@link org.apache.commons.math3.fitting.leastsquares}.
  * <br/>
@@ -35,14 +35,14 @@ import org.junit.Assert;
  * <br/>
  * Invoke by running
  * <pre><code>
- *  mvn test -Dtest=AbstractLeastSquaresOptimizerTestValidation
+ *  mvn test -Dtest=EvaluationTestValidation
  * </code></pre>
  * or by running
  * <pre><code>
- *  mvn test -Dtest=AbstractLeastSquaresOptimizerTestValidation -DargLine="-DmcRuns=1234 -server"
+ *  mvn test -Dtest=EvaluationTestValidation -DargLine="-DmcRuns=1234 -server"
  * </code></pre>
  */
-public class AbstractLeastSquaresOptimizerTestValidation {
+public class EvaluationTestValidation {
     /** Number of runs. */
     private static final int MONTE_CARLO_RUNS = Integer.parseInt(System.getProperty("mcRuns",
                                                                                     "100"));
@@ -115,14 +115,9 @@ public class AbstractLeastSquaresOptimizerTestValidation {
 
             // Estimation of the standard deviation (diagonal elements of the
             // covariance matrix).
-            // Dummy optimizer (to compute the covariance matrix).
-            final AbstractLeastSquaresOptimizer optim = LevenbergMarquardtOptimizer.create()
-                .withModelAndJacobian(problem.getModelFunction(),
-                                      problem.getModelFunctionJacobian())
-                .withTarget(problem.target())
-                .withWeight(new DiagonalMatrix(problem.weight()));
+            final LeastSquaresProblem lsp = builder(problem).build();
 
-            final double[] sigma = optim.computeSigma(init, 1e-14);
+            final double[] sigma = lsp.evaluate(init).computeSigma(1e-14);
 
             // Accumulate statistics.
             for (int i = 0; i < numParams; i++) {
@@ -220,17 +215,13 @@ public class AbstractLeastSquaresOptimizerTestValidation {
         final double[] regress = problem.solve();
 
         // Dummy optimizer (to compute the chi-square).
-        final AbstractLeastSquaresOptimizer optim = LevenbergMarquardtOptimizer.create()
-            .withModelAndJacobian(problem.getModelFunction(),
-                                  problem.getModelFunctionJacobian())
-            .withTarget(problem.target())
-            .withWeight(new DiagonalMatrix(problem.weight()));
+        final LeastSquaresProblem lsp = builder(problem).build();
 
         final double[] init = { slope, offset };
         // Get chi-square of the best parameters set for the given set of
         // observations.
-        final double bestChi2N = getChi2N(optim, problem, regress);
-        final double[] sigma = optim.computeSigma(regress, 1e-14);
+        final double bestChi2N = getChi2N(lsp, regress);
+        final double[] sigma = lsp.evaluate(regress).computeSigma(1e-14);
 
         // Monte-Carlo (generates a grid of parameters).
         final int mcRepeat = MONTE_CARLO_RUNS;
@@ -252,7 +243,7 @@ public class AbstractLeastSquaresOptimizerTestValidation {
             final double s = minSlope + i * deltaSlope;
             for (int j = 0; j < gridSize; j++) {
                 final double o = minOffset + j * deltaOffset;
-                final double chi2N = getChi2N(optim, problem, new double[] {s, o});
+                final double chi2N = getChi2N(lsp, new double[] {s, o});
 
                 paramsAndChi2.add(new double[] {s, o, chi2N});
             }
@@ -293,16 +284,20 @@ public class AbstractLeastSquaresOptimizerTestValidation {
         System.out.println("# " + numLarger + " sets filtered out");
     }
 
+    LeastSquaresBuilder builder(StraightLineProblem problem){
+        return new LeastSquaresBuilder()
+                .model(problem.getModelFunction())
+                .jacobian(problem.getModelFunctionJacobian())
+                .target(problem.target())
+                .weight(new DiagonalMatrix(problem.weight()));
+    }
     /**
      * @return the normalized chi-square.
      */
-    private double getChi2N(AbstractLeastSquaresOptimizer optim,
-                            StraightLineProblem problem,
+    private double getChi2N(LeastSquaresProblem lsp,
                             double[] params) {
-        final double[] t = problem.target();
-        final double[] w = problem.weight();
-        final double cost = optim.computeCost(optim.computeResiduals(optim.getModel().value(params)));
-        return cost * cost / (t.length - params.length);
+        final double cost = lsp.evaluate(params).computeCost();
+        return cost * cost / (lsp.getObservationSize() - params.length);
     }
 }
 

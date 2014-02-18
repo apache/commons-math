@@ -17,11 +17,13 @@
 package org.apache.commons.math3.fitting;
 
 import java.util.Collection;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
+import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 
 /**
@@ -37,7 +39,7 @@ import org.apache.commons.math3.linear.DiagonalMatrix;
  * @version $Id$
  * @since 3.3
  */
-public class PolynomialCurveFitter extends AbstractCurveFitter<LevenbergMarquardtOptimizer>
+public class PolynomialCurveFitter extends AbstractCurveFitter
     implements WithStartPoint<PolynomialCurveFitter>,
                WithMaxIterations<PolynomialCurveFitter> {
     /** Parametric function to be fitted. */
@@ -90,7 +92,7 @@ public class PolynomialCurveFitter extends AbstractCurveFitter<LevenbergMarquard
 
     /** {@inheritDoc} */
     @Override
-    protected LevenbergMarquardtOptimizer getOptimizer(Collection<WeightedObservedPoint> observations) {
+    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
         // Prepare least-squares problem.
         final int len = observations.size();
         final double[] target  = new double[len];
@@ -103,23 +105,25 @@ public class PolynomialCurveFitter extends AbstractCurveFitter<LevenbergMarquard
             ++i;
         }
 
-        final AbstractCurveFitter.TheoreticalValuesFunction model
-            = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION,
-                                                                observations);
+        final AbstractCurveFitter.TheoreticalValuesFunction model =
+                new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION, observations);
 
         if (initialGuess == null) {
             throw new MathInternalError();
         }
 
-        // Return a new optimizer set up to fit a Gaussian curve to the
+        // Return a new least squares problem set up to fit a polynomial curve to the
         // observed points.
-        return LevenbergMarquardtOptimizer.create()
-            .withMaxEvaluations(Integer.MAX_VALUE)
-            .withMaxIterations(maxIter)
-            .withStartPoint(initialGuess)
-            .withTarget(target)
-            .withWeight(new DiagonalMatrix(weights))
-            .withModelAndJacobian(model.getModelFunction(),
-                                  model.getModelFunctionJacobian());
+        return new LeastSquaresBuilder().
+                maxEvaluations(Integer.MAX_VALUE).
+                maxIterations(maxIter).
+                start(initialGuess).
+                target(target).
+                weight(new DiagonalMatrix(weights)).
+                model(model.getModelFunction()).
+                jacobian(model.getModelFunctionJacobian()).
+                build();
+
     }
+
 }

@@ -17,11 +17,13 @@
 package org.apache.commons.math3.fitting;
 
 import java.util.Collection;
+
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.AbstractOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
 
 /**
  * Base class that contains common code for fitting parametric univariate
@@ -45,12 +47,10 @@ import org.apache.commons.math3.optim.AbstractOptimizer;
  * The problem setup, such as the choice of optimization algorithm
  * for fitting a specific function is delegated to subclasses.
  *
- * @param <OPTIM> Optimizer to use for the fit.
- *
  * @version $Id$
  * @since 3.3
  */
-public abstract class AbstractCurveFitter<OPTIM extends AbstractOptimizer<PointVectorValuePair, OPTIM>> {
+public abstract class AbstractCurveFitter {
     /**
      * Fits a curve.
      * This method computes the coefficients of the curve that best
@@ -61,17 +61,30 @@ public abstract class AbstractCurveFitter<OPTIM extends AbstractOptimizer<PointV
      */
     public double[] fit(Collection<WeightedObservedPoint> points) {
         // Perform the fit.
-        return getOptimizer(points).optimize().getPoint();
+        return getOptimizer().optimize(getProblem(points)).getPoint();
     }
 
     /**
      * Creates an optimizer set up to fit the appropriate curve.
-     *
-     * @param points Sample points.
+     * <p>
+     * The default implementation uses a {@link LevenbergMarquardtOptimizer
+     * Levenberg-Marquardt} optimizer.
+     * </p>
      * @return the optimizer to use for fitting the curve to the
      * given {@code points}.
      */
-    protected abstract OPTIM getOptimizer(Collection<WeightedObservedPoint> points);
+    protected LeastSquaresOptimizer getOptimizer() {
+        return LevenbergMarquardtOptimizer.create();
+    }
+
+    /**
+     * Creates a least squares problem corresponding to the appropriate curve.
+     *
+     * @param points Sample points.
+     * @return the least squares problem to use for fitting the curve to the
+     * given {@code points}.
+     */
+    protected abstract LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> points);
 
     /**
      * Vector function for computing function theoretical values.

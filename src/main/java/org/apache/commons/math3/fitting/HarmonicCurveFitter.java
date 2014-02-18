@@ -16,17 +16,19 @@
  */
 package org.apache.commons.math3.fitting;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fitting.leastsquares.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
 import org.apache.commons.math3.fitting.leastsquares.WithMaxIterations;
+import org.apache.commons.math3.fitting.leastsquares.WithStartPoint;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
 
@@ -47,7 +49,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 3.3
  */
-public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtOptimizer>
+public class HarmonicCurveFitter extends AbstractCurveFitter
     implements WithStartPoint<HarmonicCurveFitter>,
                WithMaxIterations<HarmonicCurveFitter> {
     /** Parametric function to be fitted. */
@@ -99,7 +101,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
 
     /** {@inheritDoc} */
     @Override
-    protected LevenbergMarquardtOptimizer getOptimizer(Collection<WeightedObservedPoint> observations) {
+    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> observations) {
         // Prepare least-squares problem.
         final int len = observations.size();
         final double[] target  = new double[len];
@@ -123,14 +125,16 @@ public class HarmonicCurveFitter extends AbstractCurveFitter<LevenbergMarquardtO
 
         // Return a new optimizer set up to fit a Gaussian curve to the
         // observed points.
-        return LevenbergMarquardtOptimizer.create()
-            .withMaxEvaluations(Integer.MAX_VALUE)
-            .withMaxIterations(maxIter)
-            .withStartPoint(startPoint)
-            .withTarget(target)
-            .withWeight(new DiagonalMatrix(weights))
-            .withModelAndJacobian(model.getModelFunction(),
-                                  model.getModelFunctionJacobian());
+        return new LeastSquaresBuilder().
+                maxEvaluations(Integer.MAX_VALUE).
+                maxIterations(maxIter).
+                start(startPoint).
+                target(target).
+                weight(new DiagonalMatrix(weights)).
+                model(model.getModelFunction()).
+                jacobian(model.getModelFunctionJacobian()).
+                build();
+
     }
 
     /**
