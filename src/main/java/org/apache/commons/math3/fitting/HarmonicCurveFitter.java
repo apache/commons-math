@@ -131,8 +131,7 @@ public class HarmonicCurveFitter extends AbstractCurveFitter
                 start(startPoint).
                 target(target).
                 weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction()).
-                jacobian(model.getModelFunctionJacobian()).
+                model(model.getModelFunction(), model.getModelFunctionJacobian()).
                 build();
 
     }

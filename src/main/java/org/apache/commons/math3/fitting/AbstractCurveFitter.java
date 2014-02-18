@@ -61,7 +61,7 @@ public abstract class AbstractCurveFitter {
      */
     public double[] fit(Collection<WeightedObservedPoint> points) {
         // Perform the fit.
-        return getOptimizer().optimize(getProblem(points)).getPoint();
+        return getOptimizer().optimize(getProblem(points)).getPoint().toArray();
     }
 
     /**

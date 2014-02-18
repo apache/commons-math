@@ -120,8 +120,7 @@ public class PolynomialCurveFitter extends AbstractCurveFitter
                 start(initialGuess).
                 target(target).
                 weight(new DiagonalMatrix(weights)).
-                model(model.getModelFunction()).
-                jacobian(model.getModelFunctionJacobian()).
+                model(model.getModelFunction(), model.getModelFunctionJacobian()).
                 build();
 
     }
