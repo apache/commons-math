@@ -20,10 +20,20 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 /**
- * The data necessary to define a non-linear least squares problem. Includes the observed
- * values, computed model function, and convergence/divergence criteria. Weights are
- * implicit in {@link Evaluation#computeResiduals()} and {@link
- * Evaluation#computeJacobian()}.
+ * The data necessary to define a non-linear least squares problem.
+ * <p>
+ * Includes the observed values, computed model function, and
+ * convergence/divergence criteria. Weights are implicit in {@link
+ * Evaluation#computeResiduals()} and {@link Evaluation#computeJacobian()}.
+ * </p>
+ * <p>
+ * Instances are typically either created progressively using a {@link
+ * LeastSquaresBuilder builder} or created at once using a {@link LeastSquaresFactory
+ * factory}.
+ * </p>
+ * @see LeastSquaresBuilder
+ * @see LeastSquaresFactory
+ * @see LeastSquaresAdapter
  *
  * @version $Id$
  * @since 3.3
