@@ -17,7 +17,6 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
@@ -111,7 +110,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
         // iterate until convergence is reached
         PointVectorValuePair current = null;
-        for (boolean converged = false; !converged; ) {
+        while (true) {
             iterationCounter.incrementCount();
 
             // evaluate the objective function and its jacobian
@@ -123,6 +122,16 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             final double[] currentResiduals = value.computeResiduals();
             final RealMatrix weightedJacobian = value.computeJacobian();
             current = new PointVectorValuePair(currentPoint, currentObjective);
+
+            // Check convergence.
+            if (previous != null) {
+                if (checker.converged(iterationCounter.getCount(), previous, current)) {
+                    return new OptimumImpl(
+                            value,
+                            evaluationCounter.getCount(),
+                            iterationCounter.getCount());
+                }
+            }
 
             // build the linear problem
             final double[] b = new double[nC];
@@ -148,17 +157,6 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                 }
             }
 
-            // Check convergence.
-            if (previous != null) {
-                converged = checker.converged(iterationCounter.getCount(), previous, current);
-                if (converged) {
-                    return new OptimumImpl(
-                            value,
-                            evaluationCounter.getCount(),
-                            iterationCounter.getCount());
-                }
-            }
-
             try {
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
@@ -174,8 +172,6 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                 throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
             }
         }
-        // Must never happen.
-        throw new MathInternalError();
     }
 
     @Override
