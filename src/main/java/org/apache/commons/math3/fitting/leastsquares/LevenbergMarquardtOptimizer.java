@@ -126,12 +126,6 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
     /** Threshold for QR ranking. */
     private final double qrRankingThreshold;
 
-    /* scratch space TODO convert to locals */
-    /** Levenberg-Marquardt parameter. */
-    private double lmPar;
-    /** Parameters evolution direction associated with lmPar. */
-    private double[] lmDir;
-
     /** Default constructor.
      * <p>
      * The default values for the algorithm settings are:
@@ -314,8 +308,10 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
         // arrays shared with the other private methods
         final int solvedCols  = FastMath.min(nR, nC);
-        lmDir = new double[nC];
-        lmPar = 0;
+        /* Parameters evolution direction associated with lmPar. */
+        double[] lmDir = new double[nC];
+        /* Levenberg-Marquardt parameter. */
+        double lmPar = 0;
 
         // local point
         double   delta   = 0;
@@ -435,9 +431,9 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 oldObj    = tmpVec;
 
                 // determine the Levenberg-Marquardt parameter
-                determineLMParameter(qtf, delta, diag,
+                lmPar = determineLMParameter(qtf, delta, diag,
                                      internalData, solvedCols,
-                                     work1, work2, work3);
+                                     work1, work2, work3, lmDir, lmPar);
 
                 // compute the new point and the norm of the evolution direction
                 double lmNorm = 0;
@@ -631,10 +627,14 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * @param work1 work array
      * @param work2 work array
      * @param work3 work array
+     * @param lmDir the "returned" LM direction will be stored in this array.
+     * @param lmPar the value of the LM parameter from the previous iteration.
+     * @return the new LM parameter
      */
-    private void determineLMParameter(double[] qy, double delta, double[] diag,
+    private double determineLMParameter(double[] qy, double delta, double[] diag,
                                       InternalData internalData, int solvedCols,
-                                      double[] work1, double[] work2, double[] work3) {
+                                      double[] work1, double[] work2, double[] work3,
+                                      double[] lmDir, double lmPar) {
         final double[][] weightedJacobian = internalData.weightedJacobian;
         final int[] permutation = internalData.permutation;
         final int rank = internalData.rank;
@@ -672,7 +672,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         double fp = dxNorm - delta;
         if (fp <= 0.1 * delta) {
             lmPar = 0;
-            return;
+            return lmPar;
         }
 
         // if the jacobian is not rank deficient, the Newton step provides
@@ -734,7 +734,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 int pj = permutation[j];
                 work1[pj] = sPar * diag[pj];
             }
-            determineLMDirection(qy, work1, work2, internalData, solvedCols, work3);
+            determineLMDirection(qy, work1, work2, internalData, solvedCols, work3, lmDir);
 
             dxNorm = 0;
             for (int j = 0; j < solvedCols; ++j) {
@@ -753,7 +753,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 (parl == 0 &&
                  fp <= previousFP &&
                  previousFP < 0)) {
-                return;
+                return lmPar;
             }
 
             // compute the Newton correction
@@ -787,7 +787,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             lmPar = FastMath.max(parl, lmPar + correction);
         }
 
-        return;
+        return lmPar;
     }
 
     /**
@@ -811,12 +811,14 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * @param internalData Data (modified in-place in this method).
      * @param solvedCols Number of sloved point.
      * @param work work array
+     * @param lmDir the "returned" LM direction is stored in this array
      */
     private void determineLMDirection(double[] qy, double[] diag,
                                       double[] lmDiag,
                                       InternalData internalData,
                                       int solvedCols,
-                                      double[] work) {
+                                      double[] work,
+                                      double[] lmDir) {
         final int[] permutation = internalData.permutation;
         final double[][] weightedJacobian = internalData.weightedJacobian;
         final double[] diagR = internalData.diagR;
