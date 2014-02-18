@@ -1,6 +1,5 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 
 /**
  * An algorithm that can be applied to a non-linear least squares problem.
@@ -24,7 +23,7 @@ public interface LeastSquaresOptimizer {
      * some metadata.
      */
     //TODO Solution?
-    interface Optimum extends Evaluation {
+    interface Optimum extends LeastSquaresProblem.Evaluation {
 
         /**
          * Get the number of times the model was evaluated in order to produce this
