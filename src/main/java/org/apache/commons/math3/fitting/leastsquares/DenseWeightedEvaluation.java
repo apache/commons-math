@@ -42,6 +42,11 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
         return this.weightSqrt.operate(this.unweighted.computeResiduals());
     }
 
+    /** {@inheritDoc} */
+    public RealVector computeValue() {
+        return this.weightSqrt.operate(unweighted.computeValue());
+    }
+
     /* delegate */
 
     /** {@inheritDoc} */
@@ -49,8 +54,4 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
         return unweighted.getPoint();
     }
 
-    /** {@inheritDoc} */
-    public RealVector computeValue() {
-        return unweighted.computeValue();
-    }
 }

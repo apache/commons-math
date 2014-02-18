@@ -92,9 +92,9 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
         double computeRMS();
 
         /**
-         * Computes the objective (model) function value.
+         * Computes the weighted objective (model) function value.
          *
-         * @return the objective function value at the specified point.
+         * @return the weighted objective function value at the specified point.
          */
         RealVector computeValue();
 
