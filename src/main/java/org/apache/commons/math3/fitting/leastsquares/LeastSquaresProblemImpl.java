@@ -16,14 +16,13 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.AbstractOptimizationProblem;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.util.Pair;
 
 /**
  * A private, "field" immutable (not "real" immutable) implementation of {@link
@@ -39,14 +38,11 @@ class LeastSquaresProblemImpl
     /** Target values for the model function at optimum. */
     private double[] target;
     /** Model function. */
-    private MultivariateVectorFunction model;
-    /** Jacobian of the model function. */
-    private MultivariateMatrixFunction jacobian;
+    private MultivariateJacobianFunction model;
     /** Initial guess. */
     private double[] start;
 
-    LeastSquaresProblemImpl(final MultivariateVectorFunction model,
-                            final MultivariateMatrixFunction jacobian,
+    LeastSquaresProblemImpl(final MultivariateJacobianFunction model,
                             final double[] target,
                             final double[] start,
                             final ConvergenceChecker<PointVectorValuePair> checker,
@@ -55,7 +51,6 @@ class LeastSquaresProblemImpl
         super(maxEvaluations, maxIterations, checker);
         this.target = target;
         this.model = model;
-        this.jacobian = jacobian;
         this.start = start;
     }
 
@@ -72,10 +67,11 @@ class LeastSquaresProblemImpl
     }
 
     public Evaluation evaluate(final double[] point) {
-        //TODO evaluate value and jacobian in one function call
+        //evaluate value and jacobian in one function call
+        final Pair<RealVector, RealMatrix> value = this.model.value(point);
         return new UnweightedEvaluation(
-                this.model.value(point),
-                this.jacobian.value(point),
+                value.getFirst(),
+                value.getSecond(),
                 this.target,
                 point);
     }
@@ -90,14 +86,14 @@ class LeastSquaresProblemImpl
         /** the point of evaluation */
         private final double[] point;
         /** value at point */
-        private final double[] values;
+        private final RealVector values;
         /** deriviative at point */
-        private final double[][] jacobian;
+        private final RealMatrix jacobian;
         /** reference to the observed values */
         private final double[] target;
 
-        private UnweightedEvaluation(final double[] values,
-                                     final double[][] jacobian,
+        private UnweightedEvaluation(final RealVector values,
+                                     final RealMatrix jacobian,
                                      final double[] target,
                                      final double[] point) {
             super(target.length);
@@ -109,13 +105,12 @@ class LeastSquaresProblemImpl
 
 
         public double[] computeValue() {
-            return this.values;
+            return this.values.toArray();
         }
 
         public RealMatrix computeJacobian() {
-            return MatrixUtils.createRealMatrix(this.jacobian);
+            return this.jacobian;
         }
-
 
         public double[] getPoint() {
             return this.point;

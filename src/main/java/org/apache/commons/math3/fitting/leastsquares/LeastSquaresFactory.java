@@ -2,6 +2,8 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -10,6 +12,7 @@ import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.Pair;
 
 /**
  * A Factory for creating {@link LeastSquaresProblem}s.
@@ -20,6 +23,34 @@ public class LeastSquaresFactory {
 
     /** Prevent instantiation. */
     private LeastSquaresFactory() {
+    }
+
+    /**
+     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * from the given elements. There will be no weights applied (Identity weights).
+     *
+     * @param model          the model function. Produces the computed values.
+     * @param observed       the observed (target) values
+     * @param start          the initial guess.
+     * @param checker        convergence checker
+     * @param maxEvaluations the maximum number of times to evaluate the model
+     * @param maxIterations  the maximum number to times to iterate in the algorithm
+     * @return the specified General Least Squares problem.
+     */
+    public static LeastSquaresProblem create(final MultivariateJacobianFunction model,
+                                             final double[] observed,
+                                             final double[] start,
+                                             final ConvergenceChecker<PointVectorValuePair> checker,
+                                             final int maxEvaluations,
+                                             final int maxIterations) {
+        return new LeastSquaresProblemImpl(
+                model,
+                observed,
+                start,
+                checker,
+                maxEvaluations,
+                maxIterations
+        );
     }
 
     /**
@@ -42,9 +73,8 @@ public class LeastSquaresFactory {
                                              final ConvergenceChecker<PointVectorValuePair> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return new LeastSquaresProblemImpl(
-                model,
-                jacobian,
+        return create(
+                combine(model, jacobian),
                 observed,
                 start,
                 checker,
@@ -162,6 +192,28 @@ public class LeastSquaresFactory {
             final EigenDecomposition dec = new EigenDecomposition(m);
             return dec.getSquareRoot();
         }
+    }
+
+    /**
+     * Combine a {@link MultivariateVectorFunction} with a {@link
+     * MultivariateMatrixFunction} to produce a {@link MultivariateJacobianFunction}.
+     *
+     * @param value    the vector value function
+     * @param jacobian the Jacobian function
+     * @return a function that computes both at the same time
+     */
+    private static MultivariateJacobianFunction combine(
+            final MultivariateVectorFunction value,
+            final MultivariateMatrixFunction jacobian
+    ) {
+        return new MultivariateJacobianFunction() {
+            public Pair<RealVector, RealMatrix> value(final double[] point) {
+                //evaluate and use Real* interfaces without copying
+                return new Pair<RealVector, RealMatrix>(
+                        new ArrayRealVector(value.value(point), false),
+                        new Array2DRowRealMatrix(jacobian.value(point), false));
+            }
+        };
     }
 }
 
