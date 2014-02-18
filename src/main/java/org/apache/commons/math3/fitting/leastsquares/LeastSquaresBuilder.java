@@ -3,7 +3,9 @@ package org.apache.commons.math3.fitting.leastsquares;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
 
@@ -22,13 +24,11 @@ public class LeastSquaresBuilder {
     /** convergence checker */
     private ConvergenceChecker<Evaluation> checker;
     /** model function */
-    private MultivariateVectorFunction model;
-    /** Jacobian function */
-    private MultivariateMatrixFunction jacobian;
+    private MultivariateJacobianFunction model;
     /** observed values */
-    private double[] target;
+    private RealVector target;
     /** initial guess */
-    private double[] start;
+    private RealVector start;
     /** weight matrix */
     private RealMatrix weight;
 
@@ -39,7 +39,7 @@ public class LeastSquaresBuilder {
      * @return a new {@link LeastSquaresProblem}.
      */
     public LeastSquaresProblem build() {
-        return LeastSquaresFactory.create(model, jacobian, target, start, weight, checker, maxEvaluations, maxIterations);
+        return LeastSquaresFactory.create(model, target, start, weight, checker, maxEvaluations, maxIterations);
     }
 
     /**
@@ -90,22 +90,34 @@ public class LeastSquaresBuilder {
     /**
      * Configure the model function.
      *
-     * @param model the model function
+     * @param value the model function value
+     * @param jacobian the Jacobian of {@code value}
      * @return this
      */
-    public LeastSquaresBuilder model(final MultivariateVectorFunction model) {
+    public LeastSquaresBuilder model(final MultivariateVectorFunction value,
+                                     final MultivariateMatrixFunction jacobian) {
+        return model(LeastSquaresFactory.model(value, jacobian));
+    }
+
+    /**
+     * Configure the model function.
+     *
+     * @param model the model function value and Jacobian
+     * @return this
+     */
+    public LeastSquaresBuilder model(final MultivariateJacobianFunction model) {
         this.model = model;
         return this;
     }
 
     /**
-     * Configure the Jacobian function.
+     * Configure the observed data.
      *
-     * @param jacobian the Jacobian function
+     * @param target the observed data.
      * @return this
      */
-    public LeastSquaresBuilder jacobian(final MultivariateMatrixFunction jacobian) {
-        this.jacobian = jacobian;
+    public LeastSquaresBuilder target(final RealVector target) {
+        this.target = target;
         return this;
     }
 
@@ -116,7 +128,17 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder target(final double[] target) {
-        this.target = target;
+        return target(new ArrayRealVector(target, false));
+    }
+
+    /**
+     * Configure the initial guess.
+     *
+     * @param start the initial guess.
+     * @return this
+     */
+    public LeastSquaresBuilder start(final RealVector start) {
+        this.start = start;
         return this;
     }
 
@@ -127,8 +149,7 @@ public class LeastSquaresBuilder {
      * @return this
      */
     public LeastSquaresBuilder start(final double[] start) {
-        this.start = start;
-        return this;
+        return start(new ArrayRealVector(start, false));
     }
 
     /**

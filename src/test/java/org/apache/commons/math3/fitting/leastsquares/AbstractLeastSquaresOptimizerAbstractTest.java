@@ -22,12 +22,15 @@ import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Pair;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -59,8 +62,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         final double[] weights = new double[c.getN()];
         Arrays.fill(weights, 1.0);
         return base()
-                .model(c.getModelFunction())
-                .jacobian(c.getModelFunctionJacobian())
+                .model(c.getModelFunction(), c.getModelFunctionJacobian())
                 .target(new double[c.getN()])
                 .weight(new DiagonalMatrix(weights));
     }
@@ -71,8 +73,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         final double[] weights = new double[dataset.getNumObservations()];
         Arrays.fill(weights, 1.0);
         return base()
-                .model(problem.getModelFunction())
-                .jacobian(problem.getModelFunctionJacobian())
+                .model(problem.getModelFunction(), problem.getModelFunctionJacobian())
                 .target(dataset.getData()[1])
                 .weight(new DiagonalMatrix(weights))
                 .start(dataset.getStartingPoint(0));
@@ -133,24 +134,22 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .target(new double[]{1})
                 .weight(new DiagonalMatrix(new double[]{1}))
                 .start(new double[]{3})
-                .model(
-                        new MultivariateVectorFunction() {
-                            public double[] value(double[] point) {
-                                return new double[]{
-                                        FastMath.pow(point[0], 4)
-                                };
-                            }
-                        }
-                )
-                .jacobian(
-                        new MultivariateMatrixFunction() {
-                            public double[][] value(double[] point) {
-                                return new double[][]{
-                                        {0.25 * FastMath.pow(point[0], 3)}
-                                };
-                            }
-                        }
-                )
+                .model(new MultivariateJacobianFunction() {
+                    public Pair<RealVector, RealMatrix> value(final RealVector point) {
+                        return new Pair<RealVector, RealMatrix>(
+                                new ArrayRealVector(
+                                        new double[]{
+                                                FastMath.pow(point.getEntry(0), 4)
+                                        },
+                                        false),
+                                new Array2DRowRealMatrix(
+                                        new double[][]{
+                                                {0.25 * FastMath.pow(point.getEntry(0), 3)}
+                                        },
+                                        false)
+                        );
+                    }
+                })
                 .build();
 
         Optimum optimum = optimizer.optimize(lsp);
@@ -554,8 +553,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
             final double[] weights = new double[target.length];
             Arrays.fill(weights, 1.0);
             return base()
-                    .model(getModelFunction())
-                    .jacobian(getModelFunctionJacobian())
+                    .model(getModelFunction(), getModelFunctionJacobian())
                     .target(target)
                     .weight(new DiagonalMatrix(weights))
                     .start(new double[factors.getColumnDimension()]);

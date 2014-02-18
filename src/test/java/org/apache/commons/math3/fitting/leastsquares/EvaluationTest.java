@@ -44,8 +44,7 @@ public class EvaluationTest {
         Arrays.fill(weights, 1d);
 
         return new LeastSquaresBuilder()
-                .model(problem.getModelFunction())
-                .jacobian(problem.getModelFunctionJacobian())
+                .model(problem.getModelFunction(), problem.getModelFunctionJacobian())
                 .target(observed)
                 .weight(new DiagonalMatrix(weights))
                 .start(start);

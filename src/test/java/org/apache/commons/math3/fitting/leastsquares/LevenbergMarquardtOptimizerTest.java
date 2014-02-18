@@ -49,14 +49,12 @@ public class LevenbergMarquardtOptimizerTest
 
     public LeastSquaresBuilder builder(BevingtonProblem problem){
         return base()
-                .model(problem.getModelFunction())
-                .jacobian(problem.getModelFunctionJacobian());
+                .model(problem.getModelFunction(), problem.getModelFunctionJacobian());
     }
 
     public LeastSquaresBuilder builder(CircleProblem problem){
         return base()
-                .model(problem.getModelFunction())
-                .jacobian(problem.getModelFunctionJacobian())
+                .model(problem.getModelFunction(), problem.getModelFunctionJacobian())
                 .target(problem.target())
                 .weight(new DiagonalMatrix(problem.weight()));
     }

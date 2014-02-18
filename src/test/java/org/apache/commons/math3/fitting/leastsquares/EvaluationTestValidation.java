@@ -288,8 +288,7 @@ public class EvaluationTestValidation {
 
     LeastSquaresBuilder builder(StraightLineProblem problem){
         return new LeastSquaresBuilder()
-                .model(problem.getModelFunction())
-                .jacobian(problem.getModelFunctionJacobian())
+                .model(problem.getModelFunction(), problem.getModelFunctionJacobian())
                 .target(problem.target())
                 .weight(new DiagonalMatrix(problem.weight()))
                 //unused start point to avoid NPE
