@@ -43,6 +43,33 @@ import org.apache.commons.math3.util.Incrementor;
  */
 public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
 
+    /** The decomposition algorithm to use to solve the normal equations. */
+    //TODO move to linear package and expand options?
+    public static enum Decomposition {
+        /** Use {@link LUDecomposition}. */
+        LU {
+            @Override
+            protected DecompositionSolver getSolver(final RealMatrix matrix) {
+                return new LUDecomposition(matrix, SINGULARITY_THRESHOLD).getSolver();
+            }
+        },
+        /** Use {@link QRDecomposition}. */
+        QR {
+            @Override
+            protected DecompositionSolver getSolver(final RealMatrix matrix) {
+                return new QRDecomposition(matrix, SINGULARITY_THRESHOLD).getSolver();
+            }
+        };
+
+        /**
+         * Decompose the normal equations.
+         *
+         * @param matrix the normal matrix.
+         * @return a solver.
+         */
+        protected abstract DecompositionSolver getSolver(RealMatrix matrix);
+    }
+
     /**
      * The singularity threshold for matrix decompositions. Determines when a {@link
      * ConvergenceException} is thrown. The current value was the default value for {@link
@@ -51,44 +78,45 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     private static final double SINGULARITY_THRESHOLD = 1e-11;
 
     /** Indicator for using LU decomposition. */
-    private final boolean useLU;
+    private final Decomposition decomposition;
 
     /**
      * Creates a Gauss Newton optimizer.
-     *
-     * The default for the algorithm is to solve the normal equations
-     * using LU decomposition.
+     * <p/>
+     * The default for the algorithm is to solve the normal equations using LU
+     * decomposition.
      */
     public GaussNewtonOptimizer() {
-        this(true);
+        this(Decomposition.LU);
     }
 
     /**
-     * Creates a Gauss Newton optimizer.
+     * Create a Gauss Newton optimizer that uses the given decomposition algorithm to
+     * solve the normal equations.
      *
-     * @param useLU if {@code true} the {@link LUDecomposition} will be used to solve the
-     *              normal equations. Otherwise the {@link QRDecomposition} will be used.
+     * @param decomposition the {@link Decomposition} algorithm.
      */
-    public GaussNewtonOptimizer(final boolean useLU) {
-        this.useLU = useLU;
+    public GaussNewtonOptimizer(final Decomposition decomposition) {
+        this.decomposition = decomposition;
     }
 
     /**
-     * If the LU decomposition is used in the optimization.
+     * Get the matrix decomposition algorithm used to solve the normal equations.
      *
-     * @return {@code true} if the LU decomposition is used. {@code false} if the QR
-     *         decomposition is used.
+     * @return the matrix {@link Decomposition} algoritm.
      */
-    public boolean isUseLU() {
-        return useLU;
+    public Decomposition getDecomposition() {
+        return this.decomposition;
     }
 
     /**
-     * @param useLU Whether to use LU decomposition.
-     * @return this instance.
+     * Configure the decomposition algorithm.
+     *
+     * @param decomposition the {@link Decomposition} algorithm to use.
+     * @return a new instance.
      */
-    public GaussNewtonOptimizer withLU(final boolean useLU) {
-        return new GaussNewtonOptimizer(useLU);
+    public GaussNewtonOptimizer withDecomposition(final Decomposition decomposition) {
+        return new GaussNewtonOptimizer(decomposition);
     }
 
     public Optimum optimize(final LeastSquaresProblem lsp) {
@@ -160,9 +188,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             try {
                 // solve the linearized least squares problem
                 RealMatrix mA = new BlockRealMatrix(a);
-                DecompositionSolver solver = useLU ?
-                        new LUDecomposition(mA, SINGULARITY_THRESHOLD).getSolver() :
-                        new QRDecomposition(mA, SINGULARITY_THRESHOLD).getSolver();
+                DecompositionSolver solver = this.decomposition.getSolver(mA);
                 final double[] dX = solver.solve(new ArrayRealVector(b, false)).toArray();
                 // update the estimated parameters
                 for (int i = 0; i < nC; ++i) {
@@ -177,7 +203,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     @Override
     public String toString() {
         return "GaussNewtonOptimizer{" +
-                "useLU=" + useLU +
+                "decomposition=" + decomposition +
                 '}';
     }
 
