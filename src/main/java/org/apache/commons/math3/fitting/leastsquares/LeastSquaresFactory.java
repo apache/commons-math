@@ -56,65 +56,44 @@ public class LeastSquaresFactory {
 
     /**
      * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
-     * from the given elements. There will be no weights applied (Identity weights).
+     * from the given elements.
      *
      * @param model          the model function. Produces the computed values.
      * @param observed       the observed (target) values
      * @param start          the initial guess.
+     * @param weight         the weight matrix
      * @param checker        convergence checker
      * @param maxEvaluations the maximum number of times to evaluate the model
      * @param maxIterations  the maximum number to times to iterate in the algorithm
      * @return the specified General Least Squares problem.
      */
     public static LeastSquaresProblem create(final MultivariateJacobianFunction model,
-                                             final double[] observed,
-                                             final double[] start,
+                                             final RealVector observed,
+                                             final RealVector start,
+                                             final RealMatrix weight,
                                              final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return create(
-                model,
-                new ArrayRealVector(observed, false),
-                new ArrayRealVector(start, false),
-                checker,
-                maxEvaluations,
-                maxIterations
-        );
-    }
-
-    /**
-     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
-     * from the given elements. There will be no weights applied (Identity weights).
-     *
-     * @param model          the model function. Produces the computed values.
-     * @param jacobian       the jacobian of the model with respect to the parameters
-     * @param observed       the observed (target) values
-     * @param start          the initial guess.
-     * @param checker        convergence checker
-     * @param maxEvaluations the maximum number of times to evaluate the model
-     * @param maxIterations  the maximum number to times to iterate in the algorithm
-     * @return the specified General Least Squares problem.
-     */
-    public static LeastSquaresProblem create(final MultivariateVectorFunction model,
-                                             final MultivariateMatrixFunction jacobian,
-                                             final double[] observed,
-                                             final double[] start,
-                                             final ConvergenceChecker<Evaluation> checker,
-                                             final int maxEvaluations,
-                                             final int maxIterations) {
-        return create(
-                combine(model, jacobian),
-                observed,
-                start,
-                checker,
-                maxEvaluations,
-                maxIterations
-        );
+        return weightMatrix(
+                create(
+                        model,
+                        observed,
+                        start,
+                        checker,
+                        maxEvaluations,
+                        maxIterations
+                ),
+                weight);
     }
 
     /**
      * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements.
+     * <p/>
+     * This factory method is provided for continuity with previous interfaces. Newer
+     * applications should use {@link #create(MultivariateJacobianFunction, RealVector,
+     * RealVector, ConvergenceChecker, int, int)}, or {@link #create(MultivariateJacobianFunction,
+     * RealVector, RealVector, RealMatrix, ConvergenceChecker, int, int)}.
      *
      * @param model          the model function. Produces the computed values.
      * @param jacobian       the jacobian of the model with respect to the parameters
@@ -134,17 +113,15 @@ public class LeastSquaresFactory {
                                              final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return weightMatrix(
-                create(
-                        model,
-                        jacobian,
-                        observed,
-                        start,
-                        checker,
-                        maxEvaluations,
-                        maxIterations
-                ),
-                weight);
+        return create(
+                model(model, jacobian),
+                new ArrayRealVector(observed, false),
+                new ArrayRealVector(start, false),
+                weight,
+                checker,
+                maxEvaluations,
+                maxIterations
+        );
     }
 
     /**
@@ -167,7 +144,7 @@ public class LeastSquaresFactory {
     }
 
     /**
-     * Apply a diagon weight matrix to the {@link LeastSquaresProblem}.
+     * Apply a diagonal weight matrix to the {@link LeastSquaresProblem}.
      *
      * @param problem the unweighted problem
      * @param weights the diagonal of the weight matrix
@@ -260,7 +237,7 @@ public class LeastSquaresFactory {
      * @param jacobian the Jacobian function
      * @return a function that computes both at the same time
      */
-    private static MultivariateJacobianFunction combine(
+    public static MultivariateJacobianFunction model(
             final MultivariateVectorFunction value,
             final MultivariateMatrixFunction jacobian
     ) {
