@@ -17,13 +17,11 @@
 
 package org.apache.commons.math3.fitting.leastsquares;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
@@ -501,7 +499,7 @@ public class MinpackTest {
         final double tol = 2.22044604926e-16;
         final double sqrtTol = FastMath.sqrt(tol);
 
-        LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create()
+        LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer()
             .withCostRelativeTolerance(sqrtTol)
             .withParameterRelativeTolerance(sqrtTol)
             .withOrthoTolerance(tol);

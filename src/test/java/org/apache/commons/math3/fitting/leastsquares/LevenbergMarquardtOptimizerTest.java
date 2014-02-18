@@ -130,7 +130,7 @@ public class LevenbergMarquardtOptimizerTest
                                double costRelativeTolerance, double parRelativeTolerance,
                                double orthoTolerance, boolean shouldFail) {
         try {
-            final LevenbergMarquardtOptimizer optimizer = LevenbergMarquardtOptimizer.create()
+            final LevenbergMarquardtOptimizer optimizer = new LevenbergMarquardtOptimizer()
                 .withInitialStepBoundFactor(initialStepBoundFactor)
                 .withCostRelativeTolerance(costRelativeTolerance)
                 .withParameterRelativeTolerance(parRelativeTolerance)

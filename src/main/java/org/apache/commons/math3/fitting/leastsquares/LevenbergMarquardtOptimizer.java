@@ -112,51 +112,28 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
     /** Twice the "epsilon machine". */
     private static final double TWO_EPS = 2 * Precision.EPSILON;
+
+    /* configuration parameters */
     /** Positive input variable used in determining the initial step bound. */
-    private double initialStepBoundFactor = 100;
+    private final double initialStepBoundFactor;
     /** Desired relative error in the sum of squares. */
-    private double costRelativeTolerance = 1e-10;
-    /** Desired relative error in the approximate solution parameters. */
-    private double parRelativeTolerance = 1e-10;
-    /**
-     * Desired max cosine on the orthogonality between the function vector
-     * and the columns of the jacobian.
-     */
-    private double orthoTolerance = 1e-10;
+    private final double costRelativeTolerance;
+    /**  Desired relative error in the approximate solution parameters. */
+    private final double parRelativeTolerance;
+    /** Desired max cosine on the orthogonality between the function vector
+     * and the columns of the jacobian. */
+    private final double orthoTolerance;
     /** Threshold for QR ranking. */
-    private double qrRankingThreshold = Precision.SAFE_MIN;
+    private final double qrRankingThreshold;
+
+    /* scratch space TODO convert to locals */
     /** Levenberg-Marquardt parameter. */
     private double lmPar;
     /** Parameters evolution direction associated with lmPar. */
     private double[] lmDir;
 
-    /**
-     * Default constructor.
-     */
-    protected LevenbergMarquardtOptimizer() {}
-
-    /**
-     * Copy constructor.
-     *
-     * @param other object to copy.
-     */
-    protected LevenbergMarquardtOptimizer(LevenbergMarquardtOptimizer other) {
-
-        this.initialStepBoundFactor = other.initialStepBoundFactor;
-        this.costRelativeTolerance = other.costRelativeTolerance;
-        this.parRelativeTolerance = other.parRelativeTolerance;
-        this.orthoTolerance = other.orthoTolerance;
-        this.qrRankingThreshold = other.qrRankingThreshold;
-
-        lmPar = 0; // Re-initialized in "doOptimize".
-        lmDir = null; // Re-initialized in "doOptimize".
-    }
-
-    /**
-     * Creates a bare-bones instance.
-     * Several calls to {@code withXxx} methods are necessary to obtain
-     * an object with all necessary fields set to sensible values.
-     * <br/>
+    /** Default constructor.
+     * <p>
      * The default values for the algorithm settings are:
      * <ul>
      *  <li>Initial step bound factor: 100</li>
@@ -165,11 +142,33 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      *  <li>Orthogonality tolerance: 1e-10</li>
      *  <li>QR ranking threshold: {@link Precision#SAFE_MIN}</li>
      * </ul>
+     **/
+    public LevenbergMarquardtOptimizer() {
+        this(100, 1e-10, 1e-10, 1e-10, Precision.SAFE_MIN);
+    }
+
+    /**
+     * Construct an instance with all parameters specified.
      *
-     * @return an instance of this class.
+     * @param initialStepBoundFactor initial step bound factor
+     * @param costRelativeTolerance  cost relative tolerance
+     * @param parRelativeTolerance   parameters relative tolerance
+     * @param orthoTolerance         orthogonality tolerance
+     * @param qrRankingThreshold     threshold in the QR decomposition. Columns with a 2
+     *                               norm less than this threshold are considered to be
+     *                               all 0s.
      */
-    public static LevenbergMarquardtOptimizer create() {
-        return new LevenbergMarquardtOptimizer();
+    public LevenbergMarquardtOptimizer(
+            final double initialStepBoundFactor,
+            final double costRelativeTolerance,
+            final double parRelativeTolerance,
+            final double orthoTolerance,
+            final double qrRankingThreshold) {
+        this.initialStepBoundFactor = initialStepBoundFactor;
+        this.costRelativeTolerance = costRelativeTolerance;
+        this.parRelativeTolerance = parRelativeTolerance;
+        this.orthoTolerance = orthoTolerance;
+        this.qrRankingThreshold = qrRankingThreshold;
     }
 
     /**
@@ -180,34 +179,42 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * itself. In most cases factor should lie in the interval
      * {@code (0.1, 100.0)}. {@code 100} is a generally recommended value.
      * of the matrix is reduced.
-     * @return this instance.
+     * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double newInitialStepBoundFactor) {
-        this.initialStepBoundFactor = newInitialStepBoundFactor;
-        return self();
+    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double initialStepBoundFactor) {
+        return new LevenbergMarquardtOptimizer(
+                initialStepBoundFactor,
+                costRelativeTolerance,
+                parRelativeTolerance,
+                orthoTolerance,
+                qrRankingThreshold);
     }
 
     /**
-     * Modifies the given parameter.
-     *
-     * @param newCostRelativeTolerance Desired relative error in the sum of squares.
-     * @return this instance.
+     * @param costRelativeTolerance Desired relative error in the sum of squares.
+     * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double newCostRelativeTolerance) {
-        this.costRelativeTolerance = newCostRelativeTolerance;
-        return self();
+    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double costRelativeTolerance) {
+        return new LevenbergMarquardtOptimizer(
+                initialStepBoundFactor,
+                costRelativeTolerance,
+                parRelativeTolerance,
+                orthoTolerance,
+                qrRankingThreshold);
     }
 
     /**
-     * Modifies the given parameter.
-     *
-     * @param parameterRelativeTolerance Desired relative error in the approximate solution
+     * @param parRelativeTolerance Desired relative error in the approximate solution
      * parameters.
-     * @return this instance.
+     * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withParameterRelativeTolerance(double parameterRelativeTolerance) {
-        this.parRelativeTolerance = parameterRelativeTolerance;
-        return self();
+    public LevenbergMarquardtOptimizer withParameterRelativeTolerance(double parRelativeTolerance) {
+        return new LevenbergMarquardtOptimizer(
+                initialStepBoundFactor,
+                costRelativeTolerance,
+                parRelativeTolerance,
+                orthoTolerance,
+                qrRankingThreshold);
     }
 
     /**
@@ -215,33 +222,31 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      *
      * @param newOrthoTolerance Desired max cosine on the orthogonality between
      * the function vector and the columns of the Jacobian.
-     * @return this instance.
+     * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withOrthoTolerance(double newOrthoTolerance) {
-        this.orthoTolerance = newOrthoTolerance;
-        return self();
+    public LevenbergMarquardtOptimizer withOrthoTolerance(double orthoTolerance) {
+        return new LevenbergMarquardtOptimizer(
+                initialStepBoundFactor,
+                costRelativeTolerance,
+                parRelativeTolerance,
+                orthoTolerance,
+                qrRankingThreshold);
     }
 
     /**
-     * Modifies the given parameter.
-     *
-     * @param rankingThreshold Desired threshold for QR ranking.
+     * @param qrRankingThreshold Desired threshold for QR ranking.
      * If the squared norm of a column vector is smaller or equal to this
      * threshold during QR decomposition, it is considered to be a zero vector
      * and hence the rank of the matrix is reduced.
-     * @return this instance.
+     * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withRankingThreshold(double rankingThreshold) {
-        this.qrRankingThreshold = rankingThreshold;
-        return self();
-    }
-
-    /** Get this.
-     *
-     * @return this
-     */
-    private LevenbergMarquardtOptimizer self(){
-        return this;
+    public LevenbergMarquardtOptimizer withRankingThreshold(double qrRankingThreshold) {
+        return new LevenbergMarquardtOptimizer(
+                initialStepBoundFactor,
+                costRelativeTolerance,
+                parRelativeTolerance,
+                orthoTolerance,
+                qrRankingThreshold);
     }
 
     /**

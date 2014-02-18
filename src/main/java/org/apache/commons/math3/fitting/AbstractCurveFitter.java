@@ -74,7 +74,7 @@ public abstract class AbstractCurveFitter {
      * given {@code points}.
      */
     protected LeastSquaresOptimizer getOptimizer() {
-        return LevenbergMarquardtOptimizer.create();
+        return new LevenbergMarquardtOptimizer();
     }
 
     /**
