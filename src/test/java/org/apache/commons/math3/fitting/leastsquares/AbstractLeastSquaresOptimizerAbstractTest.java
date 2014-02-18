@@ -46,7 +46,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
     public LeastSquaresBuilder base() {
         return new LeastSquaresBuilder()
-                .checker(new SimpleVectorValueChecker(1e-6, 1e-6))
+                .checkerPair(new SimpleVectorValueChecker(1e-6, 1e-6))
                 .maxEvaluations(100)
                 .maxIterations(getMaxIterations());
     }

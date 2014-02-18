@@ -1,7 +1,6 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.Incrementor;
 
 /**
@@ -54,7 +53,7 @@ public class LeastSquaresAdapter implements LeastSquaresProblem {
     }
 
     /** {@inheritDoc} */
-    public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
+    public ConvergenceChecker<Evaluation> getConvergenceChecker() {
         return problem.getConvergenceChecker();
     }
 }

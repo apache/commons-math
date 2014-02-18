@@ -2,6 +2,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
@@ -19,7 +20,7 @@ public class LeastSquaresBuilder {
     /** max iterations */
     private int maxIterations;
     /** convergence checker */
-    private ConvergenceChecker<PointVectorValuePair> checker;
+    private ConvergenceChecker<Evaluation> checker;
     /** model function */
     private MultivariateVectorFunction model;
     /** Jacobian function */
@@ -69,9 +70,21 @@ public class LeastSquaresBuilder {
      * @param checker the convergence checker.
      * @return this
      */
-    public LeastSquaresBuilder checker(final ConvergenceChecker<PointVectorValuePair> checker) {
+    public LeastSquaresBuilder checker(final ConvergenceChecker<Evaluation> checker) {
         this.checker = checker;
         return this;
+    }
+
+    /**
+     * Configure the convergence checker.
+     * <p/>
+     * This function is an overloaded version of {@link #checker(ConvergenceChecker)}.
+     *
+     * @param checker the convergence checker.
+     * @return this
+     */
+    public LeastSquaresBuilder checkerPair(final ConvergenceChecker<PointVectorValuePair> checker) {
+        return this.checker(LeastSquaresFactory.evaluationChecker(checker));
     }
 
     /**

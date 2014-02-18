@@ -96,7 +96,7 @@ public class GaussNewtonOptimizerTest
         circle.addPoint( 45.0,  97.0);
 
         LeastSquaresProblem lsp = builder(circle)
-                .checker(new SimpleVectorValueChecker(1e-30, 1e-30))
+                .checkerPair(new SimpleVectorValueChecker(1e-30, 1e-30))
                 .maxIterations(Integer.MAX_VALUE)
                 .start(new double[]{98.680, 47.345})
                 .build();

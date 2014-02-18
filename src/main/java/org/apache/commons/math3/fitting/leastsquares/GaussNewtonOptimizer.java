@@ -28,7 +28,6 @@ import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularMatrixException;
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.Incrementor;
 
 /**
@@ -123,7 +122,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         //create local evaluation and iteration counts
         final Incrementor evaluationCounter = lsp.getEvaluationCounter();
         final Incrementor iterationCounter = lsp.getIterationCounter();
-        final ConvergenceChecker<PointVectorValuePair> checker
+        final ConvergenceChecker<Evaluation> checker
                 = lsp.getConvergenceChecker();
 
         // Computation will be useless without a checker (see "for-loop").
@@ -137,25 +136,23 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         final double[] currentPoint = lsp.getStart();
 
         // iterate until convergence is reached
-        PointVectorValuePair current = null;
+        Evaluation current = null;
         while (true) {
             iterationCounter.incrementCount();
 
             // evaluate the objective function and its jacobian
-            PointVectorValuePair previous = current;
+            Evaluation previous = current;
             // Value of the objective function at "currentPoint".
             evaluationCounter.incrementCount();
-            final Evaluation value = lsp.evaluate(currentPoint);
-            final double[] currentObjective = value.computeValue();
-            final double[] currentResiduals = value.computeResiduals();
-            final RealMatrix weightedJacobian = value.computeJacobian();
-            current = new PointVectorValuePair(currentPoint, currentObjective);
+            current = lsp.evaluate(currentPoint);
+            final double[] currentResiduals = current.computeResiduals();
+            final RealMatrix weightedJacobian = current.computeJacobian();
 
             // Check convergence.
             if (previous != null) {
                 if (checker.converged(iterationCounter.getCount(), previous, current)) {
                     return new OptimumImpl(
-                            value,
+                            current,
                             evaluationCounter.getCount(),
                             iterationCounter.getCount());
                 }

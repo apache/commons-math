@@ -17,11 +17,11 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.AbstractOptimizationProblem;
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.Pair;
 
 /**
@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.Pair;
  * @since 3.3
  */
 class LeastSquaresProblemImpl
-        extends AbstractOptimizationProblem<PointVectorValuePair>
+        extends AbstractOptimizationProblem<Evaluation>
         implements LeastSquaresProblem {
 
     /** Target values for the model function at optimum. */
@@ -45,7 +45,7 @@ class LeastSquaresProblemImpl
     LeastSquaresProblemImpl(final MultivariateJacobianFunction model,
                             final double[] target,
                             final double[] start,
-                            final ConvergenceChecker<PointVectorValuePair> checker,
+                            final ConvergenceChecker<Evaluation> checker,
                             final int maxEvaluations,
                             final int maxIterations) {
         super(maxEvaluations, maxIterations, checker);

@@ -23,7 +23,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.util.Precision;
 import org.apache.commons.math3.util.FastMath;
@@ -303,7 +302,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         final Incrementor iterationCounter = problem.getIterationCounter();
         final Incrementor evaluationCounter = problem.getEvaluationCounter();
         //convergence criterion
-        final ConvergenceChecker<PointVectorValuePair> checker
+        final ConvergenceChecker<Evaluation> checker
                 = problem.getConvergenceChecker();
 
         // arrays shared with the other private methods
@@ -319,7 +318,6 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         double[] diag    = new double[nC];
         double[] oldX    = new double[nC];
         double[] oldRes  = new double[nR];
-        double[] oldObj  = new double[nR];
         double[] qtf     = new double[nR];
         double[] work1   = new double[nC];
         double[] work2   = new double[nC];
@@ -329,23 +327,20 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         // Evaluate the function at the starting point and calculate its norm.
         evaluationCounter.incrementCount();
         //value will be reassigned in the loop
-        Evaluation value = problem.evaluate(currentPoint);
-        double[] currentObjective = value.computeValue();
-        double[] currentResiduals = value.computeResiduals();
-        PointVectorValuePair current = new PointVectorValuePair(currentPoint, currentObjective);
-        double currentCost = value.computeCost();
+        Evaluation current = problem.evaluate(currentPoint);
+        double[] currentResiduals = current.computeResiduals();
+        double currentCost = current.computeCost();
 
         // Outer loop.
         boolean firstIteration = true;
         while (true) {
             iterationCounter.incrementCount();
 
-            final PointVectorValuePair previous = current;
-            final Evaluation previousValue = value;
+            final Evaluation previous = current;
 
             // QR decomposition of the jacobian matrix
             final InternalData internalData
-                    = qrDecomposition(value.computeJacobian(), solvedCols);
+                    = qrDecomposition(current.computeJacobian(), solvedCols);
             final double[][] weightedJacobian = internalData.weightedJacobian;
             final int[] permutation = internalData.permutation;
             final double[] diagR = internalData.diagR;
@@ -404,7 +399,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
             if (maxCosine <= orthoTolerance) {
                 // Convergence has been reached.
                 return new OptimumImpl(
-                        value,
+                        current,
                         evaluationCounter.getCount(),
                         iterationCounter.getCount());
             }
@@ -426,9 +421,6 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 double[] tmpVec = weightedResidual;
                 weightedResidual = oldRes;
                 oldRes    = tmpVec;
-                tmpVec    = currentObjective;
-                currentObjective = oldObj;
-                oldObj    = tmpVec;
 
                 // determine the Levenberg-Marquardt parameter
                 lmPar = determineLMParameter(qtf, delta, diag,
@@ -452,11 +444,9 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
                 // Evaluate the function at x + p and calculate its norm.
                 evaluationCounter.incrementCount();
-                value = problem.evaluate(currentPoint);
-                currentObjective = value.computeValue();
-                currentResiduals = value.computeResiduals();
-                current = new PointVectorValuePair(currentPoint, currentObjective);
-                currentCost = value.computeCost();
+                current = problem.evaluate(currentPoint);
+                currentResiduals = current.computeResiduals();
+                currentCost = current.computeCost();
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;
@@ -515,7 +505,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
                     // tests for convergence.
                     if (checker != null && checker.converged(iterationCounter.getCount(), previous, current)) {
-                        return new OptimumImpl(value, iterationCounter.getCount(), evaluationCounter.getCount());
+                        return new OptimumImpl(current, iterationCounter.getCount(), evaluationCounter.getCount());
                     }
                 } else {
                     // failed iteration, reset the previous values
@@ -527,12 +517,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                     tmpVec    = weightedResidual;
                     weightedResidual = oldRes;
                     oldRes    = tmpVec;
-                    tmpVec    = currentObjective;
-                    currentObjective = oldObj;
-                    oldObj    = tmpVec;
                     // Reset "current" to previous values.
-                    current = new PointVectorValuePair(currentPoint, currentObjective);
-                    value = previousValue;
+                    current = previous;
                 }
 
                 // Default convergence criteria.
@@ -540,7 +526,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                      preRed <= costRelativeTolerance &&
                      ratio <= 2.0) ||
                     delta <= parRelativeTolerance * xNorm) {
-                    return new OptimumImpl(value, iterationCounter.getCount(), evaluationCounter.getCount());
+                    return new OptimumImpl(current, iterationCounter.getCount(), evaluationCounter.getCount());
                 }
 
                 // tests for termination and stringent tolerances

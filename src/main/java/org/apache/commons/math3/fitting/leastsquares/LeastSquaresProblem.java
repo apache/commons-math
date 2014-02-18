@@ -1,8 +1,8 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.PointVectorValuePair;
 
 /**
  * The data necessary to define a non-linear least squares problem. Includes the observed
@@ -12,7 +12,7 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  *
  * @version $Id$
  */
-public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValuePair> {
+public interface LeastSquaresProblem extends OptimizationProblem<Evaluation> {
 
     /**
      * Gets the initial guess.

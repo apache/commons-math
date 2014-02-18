@@ -2,6 +2,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DiagonalMatrix;
@@ -40,7 +41,7 @@ public class LeastSquaresFactory {
     public static LeastSquaresProblem create(final MultivariateJacobianFunction model,
                                              final double[] observed,
                                              final double[] start,
-                                             final ConvergenceChecker<PointVectorValuePair> checker,
+                                             final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
         return new LeastSquaresProblemImpl(
@@ -70,7 +71,7 @@ public class LeastSquaresFactory {
                                              final MultivariateMatrixFunction jacobian,
                                              final double[] observed,
                                              final double[] start,
-                                             final ConvergenceChecker<PointVectorValuePair> checker,
+                                             final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
         return create(
@@ -102,7 +103,7 @@ public class LeastSquaresFactory {
                                              final double[] observed,
                                              final double[] start,
                                              final RealMatrix weight,
-                                             final ConvergenceChecker<PointVectorValuePair> checker,
+                                             final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
         return weightMatrix(
@@ -171,6 +172,35 @@ public class LeastSquaresFactory {
 
             /* delegate the rest */
 
+        };
+    }
+
+    /**
+     * View a convergence checker specified for a {@link PointVectorValuePair} as one
+     * specified for an {@link Evaluation}.
+     *
+     * @param checker the convergence checker to adapt.
+     * @return a convergence checker that delegates to {@code checker}.
+     */
+    public static ConvergenceChecker<Evaluation> evaluationChecker(
+            final ConvergenceChecker<PointVectorValuePair> checker
+    ) {
+        return new ConvergenceChecker<Evaluation>() {
+            public boolean converged(final int iteration,
+                                     final Evaluation previous,
+                                     final Evaluation current) {
+                return checker.converged(
+                        iteration,
+                        new PointVectorValuePair(
+                                previous.getPoint(),
+                                previous.computeValue(),
+                                false),
+                        new PointVectorValuePair(
+                                current.getPoint(),
+                                current.computeValue(),
+                                false)
+                );
+            }
         };
     }
 
