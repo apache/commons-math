@@ -175,9 +175,9 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * of the matrix is reduced.
      * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double initialStepBoundFactor) {
+    public LevenbergMarquardtOptimizer withInitialStepBoundFactor(double newInitialStepBoundFactor) {
         return new LevenbergMarquardtOptimizer(
-                initialStepBoundFactor,
+                newInitialStepBoundFactor,
                 costRelativeTolerance,
                 parRelativeTolerance,
                 orthoTolerance,
@@ -185,28 +185,28 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
     }
 
     /**
-     * @param costRelativeTolerance Desired relative error in the sum of squares.
+     * @param newCostRelativeTolerance Desired relative error in the sum of squares.
      * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double costRelativeTolerance) {
+    public LevenbergMarquardtOptimizer withCostRelativeTolerance(double newCostRelativeTolerance) {
         return new LevenbergMarquardtOptimizer(
                 initialStepBoundFactor,
-                costRelativeTolerance,
+                newCostRelativeTolerance,
                 parRelativeTolerance,
                 orthoTolerance,
                 qrRankingThreshold);
     }
 
     /**
-     * @param parRelativeTolerance Desired relative error in the approximate solution
+     * @param newParRelativeTolerance Desired relative error in the approximate solution
      * parameters.
      * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withParameterRelativeTolerance(double parRelativeTolerance) {
+    public LevenbergMarquardtOptimizer withParameterRelativeTolerance(double newParRelativeTolerance) {
         return new LevenbergMarquardtOptimizer(
                 initialStepBoundFactor,
                 costRelativeTolerance,
-                parRelativeTolerance,
+                newParRelativeTolerance,
                 orthoTolerance,
                 qrRankingThreshold);
     }
@@ -218,29 +218,29 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
      * the function vector and the columns of the Jacobian.
      * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withOrthoTolerance(double orthoTolerance) {
+    public LevenbergMarquardtOptimizer withOrthoTolerance(double newOrthoTolerance) {
         return new LevenbergMarquardtOptimizer(
                 initialStepBoundFactor,
                 costRelativeTolerance,
                 parRelativeTolerance,
-                orthoTolerance,
+                newOrthoTolerance,
                 qrRankingThreshold);
     }
 
     /**
-     * @param qrRankingThreshold Desired threshold for QR ranking.
+     * @param newQRRankingThreshold Desired threshold for QR ranking.
      * If the squared norm of a column vector is smaller or equal to this
      * threshold during QR decomposition, it is considered to be a zero vector
      * and hence the rank of the matrix is reduced.
      * @return a new instance.
      */
-    public LevenbergMarquardtOptimizer withRankingThreshold(double qrRankingThreshold) {
+    public LevenbergMarquardtOptimizer withRankingThreshold(double newQRRankingThreshold) {
         return new LevenbergMarquardtOptimizer(
                 initialStepBoundFactor,
                 costRelativeTolerance,
                 parRelativeTolerance,
                 orthoTolerance,
-                qrRankingThreshold);
+                newQRRankingThreshold);
     }
 
     /**

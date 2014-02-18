@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
@@ -14,6 +30,7 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  *
  * @version $Id$
  * @see LeastSquaresFactory
+ * @since 3.3
  */
 public class LeastSquaresBuilder {
 
@@ -45,33 +62,33 @@ public class LeastSquaresBuilder {
     /**
      * Configure the max evaluations.
      *
-     * @param maxEvaluations the maximum number of evaluations permitted.
+     * @param newMaxEvaluations the maximum number of evaluations permitted.
      * @return this
      */
-    public LeastSquaresBuilder maxEvaluations(final int maxEvaluations) {
-        this.maxEvaluations = maxEvaluations;
+    public LeastSquaresBuilder maxEvaluations(final int newMaxEvaluations) {
+        this.maxEvaluations = newMaxEvaluations;
         return this;
     }
 
     /**
      * Configure the max iterations.
      *
-     * @param maxIterations the maximum number of iterations permitted.
+     * @param newMaxIterations the maximum number of iterations permitted.
      * @return this
      */
-    public LeastSquaresBuilder maxIterations(final int maxIterations) {
-        this.maxIterations = maxIterations;
+    public LeastSquaresBuilder maxIterations(final int newMaxIterations) {
+        this.maxIterations = newMaxIterations;
         return this;
     }
 
     /**
      * Configure the convergence checker.
      *
-     * @param checker the convergence checker.
+     * @param newChecker the convergence checker.
      * @return this
      */
-    public LeastSquaresBuilder checker(final ConvergenceChecker<Evaluation> checker) {
-        this.checker = checker;
+    public LeastSquaresBuilder checker(final ConvergenceChecker<Evaluation> newChecker) {
+        this.checker = newChecker;
         return this;
     }
 
@@ -80,11 +97,11 @@ public class LeastSquaresBuilder {
      * <p/>
      * This function is an overloaded version of {@link #checker(ConvergenceChecker)}.
      *
-     * @param checker the convergence checker.
+     * @param newChecker the convergence checker.
      * @return this
      */
-    public LeastSquaresBuilder checkerPair(final ConvergenceChecker<PointVectorValuePair> checker) {
-        return this.checker(LeastSquaresFactory.evaluationChecker(checker));
+    public LeastSquaresBuilder checkerPair(final ConvergenceChecker<PointVectorValuePair> newChecker) {
+        return this.checker(LeastSquaresFactory.evaluationChecker(newChecker));
     }
 
     /**
@@ -102,64 +119,64 @@ public class LeastSquaresBuilder {
     /**
      * Configure the model function.
      *
-     * @param model the model function value and Jacobian
+     * @param newModel the model function value and Jacobian
      * @return this
      */
-    public LeastSquaresBuilder model(final MultivariateJacobianFunction model) {
-        this.model = model;
+    public LeastSquaresBuilder model(final MultivariateJacobianFunction newModel) {
+        this.model = newModel;
         return this;
     }
 
     /**
      * Configure the observed data.
      *
-     * @param target the observed data.
+     * @param newTarget the observed data.
      * @return this
      */
-    public LeastSquaresBuilder target(final RealVector target) {
-        this.target = target;
+    public LeastSquaresBuilder target(final RealVector newTarget) {
+        this.target = newTarget;
         return this;
     }
 
     /**
      * Configure the observed data.
      *
-     * @param target the observed data.
+     * @param newTarget the observed data.
      * @return this
      */
-    public LeastSquaresBuilder target(final double[] target) {
-        return target(new ArrayRealVector(target, false));
+    public LeastSquaresBuilder target(final double[] newTarget) {
+        return target(new ArrayRealVector(newTarget, false));
     }
 
     /**
      * Configure the initial guess.
      *
-     * @param start the initial guess.
+     * @param newStart the initial guess.
      * @return this
      */
-    public LeastSquaresBuilder start(final RealVector start) {
-        this.start = start;
+    public LeastSquaresBuilder start(final RealVector newStart) {
+        this.start = newStart;
         return this;
     }
 
     /**
      * Configure the initial guess.
      *
-     * @param start the initial guess.
+     * @param newStart the initial guess.
      * @return this
      */
-    public LeastSquaresBuilder start(final double[] start) {
-        return start(new ArrayRealVector(start, false));
+    public LeastSquaresBuilder start(final double[] newStart) {
+        return start(new ArrayRealVector(newStart, false));
     }
 
     /**
      * Configure the weight matrix.
      *
-     * @param weight the weight matrix
+     * @param newWeight the weight matrix
      * @return this
      */
-    public LeastSquaresBuilder weight(final RealMatrix weight) {
-        this.weight = weight;
+    public LeastSquaresBuilder weight(final RealMatrix newWeight) {
+        this.weight = newWeight;
         return this;
     }
 

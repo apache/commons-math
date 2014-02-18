@@ -112,11 +112,11 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     /**
      * Configure the decomposition algorithm.
      *
-     * @param decomposition the {@link Decomposition} algorithm to use.
+     * @param newDecomposition the {@link Decomposition} algorithm to use.
      * @return a new instance.
      */
-    public GaussNewtonOptimizer withDecomposition(final Decomposition decomposition) {
-        return new GaussNewtonOptimizer(decomposition);
+    public GaussNewtonOptimizer withDecomposition(final Decomposition newDecomposition) {
+        return new GaussNewtonOptimizer(newDecomposition);
     }
 
     /** {@inheritDoc} */
