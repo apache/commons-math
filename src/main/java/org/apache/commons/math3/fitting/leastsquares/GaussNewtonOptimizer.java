@@ -104,17 +104,10 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             throw new NullArgumentException();
         }
 
-        final RealMatrix weightMatrix = lsp.getWeight();
-        final int nR = weightMatrix.getRowDimension(); // Number of observed data.
-
-        // Diagonal of the weight matrix.
-        final double[] residualsWeights = new double[nR];
-        for (int i = 0; i < nR; i++) {
-            residualsWeights[i] = weightMatrix.getEntry(i, i);
-        }
+        final int nR = lsp.getObservationSize(); // Number of observed data.
+        final int nC = lsp.getParameterSize();
 
         final double[] currentPoint = lsp.getStart();
-        final int nC = currentPoint.length;
 
         // iterate until convergence is reached
         PointVectorValuePair current = null;
@@ -128,7 +121,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             final Evaluation value = lsp.evaluate(currentPoint);
             final double[] currentObjective = value.computeValue();
             final double[] currentResiduals = value.computeResiduals();
-            final RealMatrix weightedJacobian = value.computeWeightedJacobian();
+            final RealMatrix weightedJacobian = value.computeJacobian();
             current = new PointVectorValuePair(currentPoint, currentObjective);
 
             // build the linear problem
@@ -137,21 +130,20 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             for (int i = 0; i < nR; ++i) {
 
                 final double[] grad = weightedJacobian.getRow(i);
-                final double weight = residualsWeights[i];
                 final double residual = currentResiduals[i];
 
                 // compute the normal equation
-                final double wr = weight * residual;
+                //residual is already weighted
                 for (int j = 0; j < nC; ++j) {
-                    b[j] += wr * grad[j];
+                    b[j] += residual * grad[j];
                 }
 
                 // build the contribution matrix for measurement i
                 for (int k = 0; k < nC; ++k) {
                     double[] ak = a[k];
-                    double wgk = weight * grad[k];
+                    //Jacobian/gradient is already weighted
                     for (int l = 0; l < nC; ++l) {
-                        ak[l] += wgk * grad[l];
+                        ak[l] += grad[k] * grad[l];
                     }
                 }
             }

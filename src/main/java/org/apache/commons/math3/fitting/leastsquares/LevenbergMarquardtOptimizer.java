@@ -311,7 +311,6 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         //convergence criterion
         final ConvergenceChecker<PointVectorValuePair> checker
                 = problem.getConvergenceChecker();
-        final RealMatrix weightMatrixSqrt = problem.getWeightSquareRoot();
 
         // arrays shared with the other private methods
         final int solvedCols  = FastMath.min(nR, nC);
@@ -350,13 +349,14 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // QR decomposition of the jacobian matrix
             final InternalData internalData
-                    = qrDecomposition(value.computeWeightedJacobian(), solvedCols);
+                    = qrDecomposition(value.computeJacobian(), solvedCols);
             final double[][] weightedJacobian = internalData.weightedJacobian;
             final int[] permutation = internalData.permutation;
             final double[] diagR = internalData.diagR;
             final double[] jacNorm = internalData.jacNorm;
 
-            double[] weightedResidual = weightMatrixSqrt.operate(currentResiduals);
+            //residuals already have weights applied
+            double[] weightedResidual = currentResiduals;
             for (int i = 0; i < nR; i++) {
                 qtf[i] = weightedResidual[i];
             }

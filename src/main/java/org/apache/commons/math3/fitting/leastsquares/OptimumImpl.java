@@ -64,12 +64,7 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix computeWeightedJacobian() {
-        return value.computeWeightedJacobian();
-    }
-
-    /** {@inheritDoc} */
-    public double[][] computeJacobian() {
+    public RealMatrix computeJacobian() {
         return value.computeJacobian();
     }
 

@@ -19,17 +19,11 @@ package org.apache.commons.math3.fitting.leastsquares;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.optim.AbstractOptimizationProblem;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * A private, "field" immutable (not "real" immutable) implementation of {@link
@@ -44,14 +38,10 @@ class LeastSquaresProblemImpl
 
     /** Target values for the model function at optimum. */
     private double[] target;
-    /** Weight matrix. */
-    private RealMatrix weight;
     /** Model function. */
     private MultivariateVectorFunction model;
     /** Jacobian of the model function. */
     private MultivariateMatrixFunction jacobian;
-    /** Square-root of the weight matrix. */
-    private RealMatrix weightSqrt;
     /** Initial guess. */
     private double[] start;
 
@@ -59,16 +49,13 @@ class LeastSquaresProblemImpl
                             final int maxIterations,
                             final ConvergenceChecker<PointVectorValuePair> checker,
                             final double[] target,
-                            final RealMatrix weight,
                             final MultivariateVectorFunction model,
                             final MultivariateMatrixFunction jacobian,
                             final double[] start) {
         super(maxEvaluations, maxIterations, checker);
         this.target = target;
-        this.weight = weight;
         this.model = model;
         this.jacobian = jacobian;
-        this.weightSqrt = squareRoot(weight);
         this.start = start;
     }
 
@@ -93,44 +80,11 @@ class LeastSquaresProblemImpl
         return start == null ? null : start.clone();
     }
 
-    /**
-     * Gets the square-root of the weight matrix.
-     *
-     * @return the square-root of the weight matrix.
-     */
-    public RealMatrix getWeightSquareRoot() {
-        return weightSqrt == null ? null : weightSqrt.copy();
-    }
-
-    /**
-     * Gets the model function.
-     *
-     * @return the model function.
-     */
-    public MultivariateVectorFunction getModel() {
-        return model;
-    }
-
-    /**
-     * Gets the model function's Jacobian.
-     *
-     * @return the Jacobian.
-     */
-    public MultivariateMatrixFunction getJacobian() {
-        return jacobian;
-    }
-
-    public RealMatrix getWeight() {
-        return weight.copy();
-    }
-
     public Evaluation evaluate(final double[] point) {
         //TODO evaluate value and jacobian in one function call
-        return new EvaluationImpl(
+        return new UnweightedEvaluation(
                 this.model.value(point),
                 this.jacobian.value(point),
-                this.weight,
-                this.weightSqrt,
                 this.target,
                 point);
     }
@@ -140,7 +94,7 @@ class LeastSquaresProblemImpl
      * <p/>
      * TODO revisit lazy evaluation
      */
-    private static class EvaluationImpl implements Evaluation {
+    private static class UnweightedEvaluation extends AbstractEvaluation {
 
         /** the point of evaluation */
         private final double[] point;
@@ -148,70 +102,32 @@ class LeastSquaresProblemImpl
         private final double[] values;
         /** deriviative at point */
         private final double[][] jacobian;
-        /* references to data defined by the least squares problem. Not modified.
-         * Could be a reference to the problem.
-         */
-        private final RealMatrix weight;
-        private final RealMatrix weightSqrt;
+        /** reference to the observed values */
         private final double[] target;
 
-        private EvaluationImpl(final double[] values,
-                               final double[][] jacobian,
-                               final RealMatrix weight,
-                               final RealMatrix weightSqrt,
-                               final double[] target,
-                               final double[] point) {
+        private UnweightedEvaluation(final double[] values,
+                                     final double[][] jacobian,
+                                     final double[] target,
+                                     final double[] point) {
+            super(target.length);
             this.values = values;
             this.jacobian = jacobian;
-            this.weight = weight;
-            this.weightSqrt = weightSqrt;
             this.target = target;
             this.point = point;
         }
 
-        public double[][] computeCovariances(double threshold) {
-            // Set up the Jacobian.
-            final RealMatrix j = computeWeightedJacobian();
-
-            // Compute transpose(J)J.
-            final RealMatrix jTj = j.transpose().multiply(j);
-
-            // Compute the covariances matrix.
-            final DecompositionSolver solver
-                    = new QRDecomposition(jTj, threshold).getSolver();
-            return solver.getInverse().getData();
-        }
-
-        public double[] computeSigma(double covarianceSingularityThreshold) {
-            final double[][] cov = computeCovariances(covarianceSingularityThreshold);
-            final int nC = cov.length;
-            final double[] sig = new double[nC];
-            for (int i = 0; i < nC; ++i) {
-                sig[i] = FastMath.sqrt(cov[i][i]);
-            }
-            return sig;
-        }
-
-        public double computeRMS() {
-            final double cost = computeCost();
-            return FastMath.sqrt(cost * cost / target.length);
-        }
 
         public double[] computeValue() {
             return this.values;
         }
 
-        public RealMatrix computeWeightedJacobian() {
-            return weightSqrt.multiply(MatrixUtils.createRealMatrix(computeJacobian()));
+        public RealMatrix computeJacobian() {
+            return MatrixUtils.createRealMatrix(this.jacobian);
         }
 
-        public double[][] computeJacobian() {
-            return this.jacobian;
-        }
 
-        public double computeCost() {
-            final ArrayRealVector r = new ArrayRealVector(computeResiduals());
-            return FastMath.sqrt(r.dotProduct(weight.operate(r)));
+        public double[] getPoint() {
+            return this.point;
         }
 
         public double[] computeResiduals() {
@@ -229,29 +145,6 @@ class LeastSquaresProblemImpl
             return residuals;
         }
 
-        public double[] getPoint() {
-            //TODO copy?
-            return this.point;
-        }
     }
 
-    /**
-     * Computes the square-root of the weight matrix.
-     *
-     * @param m Symmetric, positive-definite (weight) matrix.
-     * @return the square-root of the weight matrix.
-     */
-    private RealMatrix squareRoot(RealMatrix m) {
-        if (m instanceof DiagonalMatrix) {
-            final int dim = m.getRowDimension();
-            final RealMatrix sqrtM = new DiagonalMatrix(dim);
-            for (int i = 0; i < dim; i++) {
-                sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));
-            }
-            return sqrtM;
-        } else {
-            final EigenDecomposition dec = new EigenDecomposition(m);
-            return dec.getSquareRoot();
-        }
-    }
 }

@@ -2,13 +2,56 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Incrementor;
 
-/** @author Evan Ward */
+/**
+ * A Factory for creating {@link LeastSquaresProblem}s.
+ *
+ * @version $Id$
+ */
 public class LeastSquaresFactory {
+
+    /** Prevent instantiation. */
+    private LeastSquaresFactory() {
+    }
+
+    /**
+     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * from the given elements. There will be no weights applied (Identity weights).
+     *
+     * @param model          the model function. Produces the computed values.
+     * @param jacobian       the jacobian of the model with respect to the parameters
+     * @param observed       the observed (target) values
+     * @param start          the initial guess.
+     * @param checker        convergence checker
+     * @param maxEvaluations the maximum number of times to evaluate the model
+     * @param maxIterations  the maximum number to times to iterate in the algorithm
+     * @return the specified General Least Squares problem.
+     */
+    public static LeastSquaresProblem create(final MultivariateVectorFunction model,
+                                             final MultivariateMatrixFunction jacobian,
+                                             final double[] observed,
+                                             final double[] start,
+                                             final ConvergenceChecker<PointVectorValuePair> checker,
+                                             final int maxEvaluations,
+                                             final int maxIterations) {
+        return new LeastSquaresProblemImpl(
+                maxEvaluations,
+                maxIterations,
+                checker,
+                observed,
+                model,
+                jacobian,
+                start
+        );
+    }
 
     /**
      * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
@@ -32,16 +75,50 @@ public class LeastSquaresFactory {
                                              final ConvergenceChecker<PointVectorValuePair> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return new LeastSquaresProblemImpl(
-                maxEvaluations,
-                maxIterations,
-                checker,
-                observed,
-                weight,
-                model,
-                jacobian,
-                start
-        );
+        return weightMatrix(
+                create(
+                        model,
+                        jacobian,
+                        observed,
+                        start,
+                        checker,
+                        maxEvaluations,
+                        maxIterations
+                ),
+                weight);
+    }
+
+    /**
+     * Apply a dense weight matrix to the {@link LeastSquaresProblem}.
+     *
+     * @param problem the unweighted problem
+     * @param weights the matrix of weights
+     * @return a new {@link LeastSquaresProblem} with the weights applied. The original
+     *         {@code problem} is not modified.
+     */
+    public static LeastSquaresProblem weightMatrix(final LeastSquaresProblem problem,
+                                                   final RealMatrix weights) {
+        final RealMatrix weightSquareRoot = squareRoot(weights);
+        return new LeastSquaresAdapter(problem) {
+            @Override
+            public Evaluation evaluate(final double[] point) {
+                return new DenseWeightedEvaluation(super.evaluate(point), weightSquareRoot);
+            }
+        };
+    }
+
+    /**
+     * Apply a diagon weight matrix to the {@link LeastSquaresProblem}.
+     *
+     * @param problem the unweighted problem
+     * @param weights the diagonal of the weight matrix
+     * @return a new {@link LeastSquaresProblem} with the weights applied. The original
+     *         {@code problem} is not modified.
+     */
+    public static LeastSquaresProblem weightDiagonal(final LeastSquaresProblem problem,
+                                                     final RealVector weights) {
+        //TODO more efficient implementation
+        return weightMatrix(problem, new DiagonalMatrix(weights.toArray()));
     }
 
     /**
@@ -55,48 +132,36 @@ public class LeastSquaresFactory {
      */
     public static LeastSquaresProblem countEvaluations(final LeastSquaresProblem problem,
                                                        final Incrementor counter) {
-        //TODO adapter?
-        return new LeastSquaresProblem() {
+        return new LeastSquaresAdapter(problem) {
 
-            public Evaluation evaluate(double[] point) {
+            public Evaluation evaluate(final double[] point) {
                 counter.incrementCount();
-                return problem.evaluate(point);
+                return super.evaluate(point);
             }
 
             /* delegate the rest */
 
-            public double[] getStart() {
-                return problem.getStart();
-            }
-
-            public int getObservationSize() {
-                return problem.getObservationSize();
-            }
-
-            public int getParameterSize() {
-                return problem.getParameterSize();
-            }
-
-            public RealMatrix getWeight() {
-                return problem.getWeight();
-            }
-
-            public RealMatrix getWeightSquareRoot() {
-                return problem.getWeightSquareRoot();
-            }
-
-            public Incrementor getEvaluationCounter() {
-                return problem.getEvaluationCounter();
-            }
-
-            public Incrementor getIterationCounter() {
-                return problem.getIterationCounter();
-            }
-
-            public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
-                return problem.getConvergenceChecker();
-            }
         };
     }
 
+    /**
+     * Computes the square-root of the weight matrix.
+     *
+     * @param m Symmetric, positive-definite (weight) matrix.
+     * @return the square-root of the weight matrix.
+     */
+    private static RealMatrix squareRoot(final RealMatrix m) {
+        if (m instanceof DiagonalMatrix) {
+            final int dim = m.getRowDimension();
+            final RealMatrix sqrtM = new DiagonalMatrix(dim);
+            for (int i = 0; i < dim; i++) {
+                sqrtM.setEntry(i, i, FastMath.sqrt(m.getEntry(i, i)));
+            }
+            return sqrtM;
+        } else {
+            final EigenDecomposition dec = new EigenDecomposition(m);
+            return dec.getSquareRoot();
+        }
+    }
 }
+

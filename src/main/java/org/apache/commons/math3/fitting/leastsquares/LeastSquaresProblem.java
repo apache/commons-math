@@ -39,22 +39,6 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
      */
     Evaluation evaluate(double[] point);
 
-    /**
-     * Gets the weight matrix of the observations.
-     * <p/>
-     * TODO Is it possible to leave out this method and have the weights implicit in the
-     * {@link Evaluation}?
-     *
-     * @return the weight matrix.
-     */
-    RealMatrix getWeight();
-
-    /**Get the square root of the weight matrix.
-     * TODO delete this method
-     * @return the square root of the weight matrix
-     */
-    RealMatrix getWeightSquareRoot();
-
     public interface Evaluation {
 
         /**
@@ -111,14 +95,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
          * @throws DimensionMismatchException if the Jacobian dimension does not match
          *                                    problem dimension.
          */
-        RealMatrix computeWeightedJacobian();
-
-        /**
-         * Computes the Jacobian matrix.
-         *
-         * @return the Jacobian at the specified point.
-         */
-        double[][] computeJacobian();
+        RealMatrix computeJacobian();
 
         /**
          * Computes the cost.
@@ -129,15 +106,15 @@ public interface LeastSquaresProblem extends OptimizationProblem<PointVectorValu
         double computeCost();
 
         /**
-         * Computes the residuals. The residual is the difference between the observed
-         * (target) values and the model (objective function) value. There is one residual
-         * for each element of the vector-valued function.
+         * Computes the weighted residuals. The residual is the difference between the
+         * observed (target) values and the model (objective function) value. There is one
+         * residual for each element of the vector-valued function. The raw residuals are
+         * then multiplied by the square root of the weight matrix.
          *
-         * @return the residuals.
+         * @return the weighted residuals: W<sup>1/2</sup> K.
          * @throws DimensionMismatchException if {@code params} has a wrong length.
          */
         double[] computeResiduals();
-
 
         /**
          * Get the abscissa (independent variables) of this evaluation.
