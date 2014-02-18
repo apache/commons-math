@@ -45,13 +45,13 @@ class LeastSquaresProblemImpl
     /** Initial guess. */
     private double[] start;
 
-    LeastSquaresProblemImpl(final int maxEvaluations,
-                            final int maxIterations,
-                            final ConvergenceChecker<PointVectorValuePair> checker,
-                            final double[] target,
-                            final MultivariateVectorFunction model,
+    LeastSquaresProblemImpl(final MultivariateVectorFunction model,
                             final MultivariateMatrixFunction jacobian,
-                            final double[] start) {
+                            final double[] target,
+                            final double[] start,
+                            final ConvergenceChecker<PointVectorValuePair> checker,
+                            final int maxEvaluations,
+                            final int maxIterations) {
         super(maxEvaluations, maxIterations, checker);
         this.target = target;
         this.model = model;
@@ -65,15 +65,6 @@ class LeastSquaresProblemImpl
 
     public int getParameterSize() {
         return start.length;
-    }
-
-    /**
-     * Gets the target values.
-     *
-     * @return the target values.
-     */
-    public double[] getTarget() {
-        return target == null ? null : target.clone();
     }
 
     public double[] getStart() {

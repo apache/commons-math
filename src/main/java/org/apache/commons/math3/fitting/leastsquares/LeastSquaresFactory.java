@@ -43,13 +43,13 @@ public class LeastSquaresFactory {
                                              final int maxEvaluations,
                                              final int maxIterations) {
         return new LeastSquaresProblemImpl(
-                maxEvaluations,
-                maxIterations,
-                checker,
-                observed,
                 model,
                 jacobian,
-                start
+                observed,
+                start,
+                checker,
+                maxEvaluations,
+                maxIterations
         );
     }
 
