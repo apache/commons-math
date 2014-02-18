@@ -22,36 +22,36 @@ import org.apache.commons.math3.fitting.leastsquares.OptimizationProblem;
 import org.apache.commons.math3.util.Incrementor;
 
 /**
- * Base class for implementing optimizers. It contains the boiler-plate code for counting
- * the number of evaluations of the objective function and the number of iterations of the
- * algorithm, and storing the convergence checker.
+ * Base class for implementing optimization problems. It contains the boiler-plate code
+ * for counting the number of evaluations of the objective function and the number of
+ * iterations of the algorithm, and storing the convergence checker.
  *
- * @param <PAIR>  Type of the point/value pair returned by the optimization algorithm.
- * @param <OPTIM> Type of a subclass of this class. This parameter allows to implement
- *                fluent API methods at upper levels of the class hierarchy (since the
- *                fluent API requires that the actual type of the subclass is returned).
+ * @param <PAIR> Type of the point/value pair returned by the optimization algorithm.
  * @version $Id$
  * @since 3.3
  */
 public abstract class AbstractOptimizationProblem<PAIR>
         implements OptimizationProblem<PAIR> {
 
+    /** Callback to use for the evaluation counter. */
+    private static final MaxEvalCallback MAX_EVAL_CALLBACK = new MaxEvalCallback();
+    /** Callback to use for the iteration counter. */
+    private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();
+
     /** max evaluations */
     private final int maxEvaluations;
     /** max iterations */
     private final int maxIterations;
     /** Convergence checker. */
-    private ConvergenceChecker<PAIR> checker = null;
+    private final ConvergenceChecker<PAIR> checker;
 
-
-    public Incrementor getEvaluationCounter() {
-        return new Incrementor(this.maxEvaluations, MAX_EVAL_CALLBACK);
-    }
-
-    public Incrementor getIterationCounter() {
-        return new Incrementor(this.maxIterations, MAX_ITER_CALLBACK);
-    }
-
+    /**
+     * Create an {@link AbstractOptimizationProblem} from the given data.
+     *
+     * @param maxEvaluations the number of allowed model function evaluations.
+     * @param maxIterations  the number of allowed iterations.
+     * @param checker        the convergence checker.
+     */
     protected AbstractOptimizationProblem(final int maxEvaluations,
                                           final int maxIterations,
                                           final ConvergenceChecker<PAIR> checker) {
@@ -60,6 +60,17 @@ public abstract class AbstractOptimizationProblem<PAIR>
         this.checker = checker;
     }
 
+    /** {@inheritDoc} */
+    public Incrementor getEvaluationCounter() {
+        return new Incrementor(this.maxEvaluations, MAX_EVAL_CALLBACK);
+    }
+
+    /** {@inheritDoc} */
+    public Incrementor getIterationCounter() {
+        return new Incrementor(this.maxIterations, MAX_ITER_CALLBACK);
+    }
+
+    /** {@inheritDoc} */
     public ConvergenceChecker<PAIR> getConvergenceChecker() {
         return checker;
     }
@@ -77,8 +88,6 @@ public abstract class AbstractOptimizationProblem<PAIR>
         }
     }
 
-    private static final MaxEvalCallback MAX_EVAL_CALLBACK = new MaxEvalCallback();
-
     /** Defines the action to perform when reaching the maximum number of evaluations. */
     private static class MaxIterCallback
             implements Incrementor.MaxCountExceededCallback {
@@ -92,5 +101,4 @@ public abstract class AbstractOptimizationProblem<PAIR>
         }
     }
 
-    private static final MaxIterCallback MAX_ITER_CALLBACK = new MaxIterCallback();
 }

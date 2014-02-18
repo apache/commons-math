@@ -119,6 +119,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         return new GaussNewtonOptimizer(decomposition);
     }
 
+    /** {@inheritDoc} */
     public Optimum optimize(final LeastSquaresProblem lsp) {
         //create local evaluation and iteration counts
         final Incrementor evaluationCounter = lsp.getEvaluationCounter();

@@ -41,6 +41,16 @@ class LeastSquaresProblemImpl
     /** Initial guess. */
     private RealVector start;
 
+    /**
+     * Create a {@link LeastSquaresProblem} from the given data.
+     *
+     * @param model          the model function
+     * @param target         the observed data
+     * @param start          the initial guess
+     * @param checker        the convergence checker
+     * @param maxEvaluations the allowed evaluations
+     * @param maxIterations  the allowed iterations
+     */
     LeastSquaresProblemImpl(final MultivariateJacobianFunction model,
                             final RealVector target,
                             final RealVector start,
@@ -53,18 +63,22 @@ class LeastSquaresProblemImpl
         this.start = start;
     }
 
+    /** {@inheritDoc} */
     public int getObservationSize() {
         return target.getDimension();
     }
 
+    /** {@inheritDoc} */
     public int getParameterSize() {
         return start.getDimension();
     }
 
+    /** {@inheritDoc} */
     public RealVector getStart() {
         return start == null ? null : start.copy();
     }
 
+    /** {@inheritDoc} */
     public Evaluation evaluate(final RealVector point) {
         //evaluate value and jacobian in one function call
         final Pair<RealVector, RealMatrix> value = this.model.value(point);
@@ -91,6 +105,14 @@ class LeastSquaresProblemImpl
         /** reference to the observed values */
         private final RealVector target;
 
+        /**
+         * Create an {@link Evaluation} with no weights.
+         *
+         * @param values   the computed function values
+         * @param jacobian the computed function Jacobian
+         * @param target   the observed values
+         * @param point    the abscissa
+         */
         private UnweightedEvaluation(final RealVector values,
                                      final RealMatrix jacobian,
                                      final RealVector target,
@@ -102,19 +124,22 @@ class LeastSquaresProblemImpl
             this.point = point;
         }
 
-
+        /** {@inheritDoc} */
         public RealVector computeValue() {
             return this.values;
         }
 
+        /** {@inheritDoc} */
         public RealMatrix computeJacobian() {
             return this.jacobian;
         }
 
+        /** {@inheritDoc} */
         public RealVector getPoint() {
             return this.point;
         }
 
+        /** {@inheritDoc} */
         public RealVector computeResiduals() {
             return target.subtract(this.computeValue());
         }
