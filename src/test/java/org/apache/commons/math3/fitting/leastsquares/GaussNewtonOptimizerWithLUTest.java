@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.junit.Test;
-import org.junit.Assert;
 
 import java.io.IOException;
 
@@ -35,7 +34,7 @@ import java.io.IOException;
  *
  * @version $Id$
  */
-public class GaussNewtonOptimizerTest
+public class GaussNewtonOptimizerWithLUTest
     extends AbstractLeastSquaresOptimizerAbstractTest {
 
     @Override
@@ -43,30 +42,19 @@ public class GaussNewtonOptimizerTest
         return 1000;
     }
 
-    @Test
-    public void testGaussNewtonLU() throws Exception {
-        check(new GaussNewtonOptimizer(Decomposition.LU));
-    }
-
-    @Test
-    public void testGaussNewtonQR() throws Exception {
-        check(new GaussNewtonOptimizer(Decomposition.QR));
+    @Override
+    public LeastSquaresOptimizer getOptimizer() {
+        return new GaussNewtonOptimizer(Decomposition.LU);
     }
 
     @Override
-    public void check(LeastSquaresOptimizer optimizer) throws Exception {
-        super.check(optimizer);
-        //add an additional test
-        testMaxEvaluations(optimizer);
-    }
-
-    @Override
-    public void testMoreEstimatedParametersSimple(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testMoreEstimatedParametersSimple() {
         /*
          * Exception is expected with this optimizer
          */
         try {
-            super.testMoreEstimatedParametersSimple(optimizer);
+            super.testMoreEstimatedParametersSimple();
             fail(optimizer);
         } catch (ConvergenceException e) {
             //expected
@@ -74,19 +62,21 @@ public class GaussNewtonOptimizerTest
     }
 
     @Override
-    public void testMoreEstimatedParametersUnsorted(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testMoreEstimatedParametersUnsorted() {
         /*
          * Exception is expected with this optimizer
          */
         try{
-            super.testMoreEstimatedParametersUnsorted(optimizer);
+            super.testMoreEstimatedParametersUnsorted();
             fail(optimizer);
         }catch (ConvergenceException e){
             //expected
         }
     }
 
-    public void testMaxEvaluations(LeastSquaresOptimizer optimizer) throws Exception {
+    @Test
+    public void testMaxEvaluations() throws Exception {
         try{
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint( 30.0,  68.0);
@@ -110,12 +100,13 @@ public class GaussNewtonOptimizerTest
     }
 
     @Override
-    public void testCircleFittingBadInit(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testCircleFittingBadInit() {
         /*
          * This test does not converge with this optimizer.
          */
         try{
-            super.testCircleFittingBadInit(optimizer);
+            super.testCircleFittingBadInit();
             fail(optimizer);
         }catch (ConvergenceException e){
             //expected
@@ -123,14 +114,15 @@ public class GaussNewtonOptimizerTest
     }
 
     @Override
-    public void testHahn1(LeastSquaresOptimizer optimizer)
+    @Test
+    public void testHahn1()
         throws IOException {
         /*
          * TODO This test leads to a singular problem with the Gauss-Newton
          * optimizer. This should be inquired.
          */
         try{
-            super.testHahn1(optimizer);
+            super.testHahn1();
             fail(optimizer);
         } catch (ConvergenceException e){
             //expected for LU

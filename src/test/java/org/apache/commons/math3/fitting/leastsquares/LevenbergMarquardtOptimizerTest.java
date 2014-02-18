@@ -64,21 +64,14 @@ public class LevenbergMarquardtOptimizerTest
         return 25;
     }
 
+    @Override
+    public LeastSquaresOptimizer getOptimizer() {
+        return new LevenbergMarquardtOptimizer();
+    }
+
+    @Override
     @Test
-    public void testLevenberMarquardtOptimizer() throws Exception {
-        check(new LevenbergMarquardtOptimizer());
-    }
-
-    @Override
-    public void check(LeastSquaresOptimizer optimizer) throws Exception {
-        super.check(optimizer);
-        //add LM specific tests
-        testBevington(optimizer);
-        testCircleFitting2(optimizer);
-    }
-
-    @Override
-    public void testNonInvertible(LeastSquaresOptimizer optimizer) {
+    public void testNonInvertible() {
         try{
             /*
              * Overrides the method from parent class, since the default singularity
@@ -162,7 +155,8 @@ public class LevenbergMarquardtOptimizerTest
      * relaxed for this test to be currently really useful (the issue is under
      * investigation).
      */
-    public void testBevington(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testBevington() {
         final double[][] dataPoints = {
             // column 1 = times
             { 15, 30, 45, 60, 75, 90, 105, 120, 135, 150,
@@ -233,7 +227,8 @@ public class LevenbergMarquardtOptimizerTest
         }
     }
 
-    public void testCircleFitting2(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testCircleFitting2() {
         final double xCenter = 123.456;
         final double yCenter = 654.321;
         final double xSigma = 10;

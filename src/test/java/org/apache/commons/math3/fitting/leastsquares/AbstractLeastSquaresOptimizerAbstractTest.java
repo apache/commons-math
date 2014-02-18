@@ -32,6 +32,7 @@ import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Assert;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -103,33 +104,19 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
     public abstract int getMaxIterations();
 
     /**
-     * Test the give optimizer on a suite of sample problems. If you need to disable a
-     * particular test case override it in your subclass. If you want to add more tests
-     * override this method and call super.
+     * Get an instance of the optimizer under test.
+     *
+     * @return the subject under test.
      */
-    public void check(LeastSquaresOptimizer optimizer) throws Exception {
-        testGetIterations(optimizer);
-        testTrivial(optimizer);
-        testQRColumnsPermutation(optimizer);
-        testNoDependency(optimizer);
-        testOneSet(optimizer);
-        testTwoSets(optimizer);
-        testNonInvertible(optimizer);
-        testIllConditioned(optimizer);
-        testMoreEstimatedParametersSimple(optimizer);
-        testMoreEstimatedParametersUnsorted(optimizer);
-        testRedundantEquations(optimizer);
-        testInconsistentEquations(optimizer);
-        testInconsistentSizes1(optimizer);
-        testInconsistentSizes2(optimizer);
-        testCircleFitting(optimizer);
-        testCircleFittingBadInit(optimizer);
-        testCircleFittingGoodInit(optimizer);
-        testKirby2(optimizer);
-        testHahn1(optimizer);
-    }
+    public abstract LeastSquaresOptimizer getOptimizer();
 
-    public void testGetIterations(LeastSquaresOptimizer optimizer) {
+    /**
+     * The subject under test.
+     */
+    public final LeastSquaresOptimizer optimizer = this.getOptimizer();
+
+    @Test
+    public void testGetIterations() {
         LeastSquaresProblem lsp = base()
                 .target(new double[]{1})
                 .weight(new DiagonalMatrix(new double[]{1}))
@@ -158,7 +145,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertTrue(optimum.getIterations() > 0);
     }
 
-    public void testTrivial(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testTrivial() {
         LinearProblem problem
                 = new LinearProblem(new double[][]{{2}},
                 new double[]{3});
@@ -171,7 +159,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(3.0, optimum.computeValue().getEntry(0), TOl);
     }
 
-    public void testQRColumnsPermutation(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testQRColumnsPermutation() {
         LinearProblem problem
                 = new LinearProblem(new double[][]{{1, -1}, {0, 2}, {1, -2}},
                 new double[]{4, 6, 1});
@@ -183,7 +172,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(TOl, optimum.computeValue(), 4, 6, 1);
     }
 
-    public void testNoDependency(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testNoDependency() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {2, 0, 0, 0, 0, 0},
                 {0, 2, 0, 0, 0, 0},
@@ -201,7 +191,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         }
     }
 
-    public void testOneSet(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testOneSet() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {1, 0, 0},
                 {-1, 1, 0},
@@ -214,7 +205,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(TOl, optimum.getPoint(), 1, 2, 3);
     }
 
-    public void testTwoSets(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testTwoSets() {
         double epsilon = 1e-7;
         LinearProblem problem = new LinearProblem(new double[][]{
                 {2, 1, 0, 4, 0, 0},
@@ -231,7 +223,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(TOl, optimum.getPoint(), 3, 4, -1, -2, 1 + epsilon, 1 - epsilon);
     }
 
-    public void testNonInvertible(LeastSquaresOptimizer optimizer) throws Exception {
+    @Test
+    public void testNonInvertible() throws Exception {
         try {
             LinearProblem problem = new LinearProblem(new double[][]{
                     {1, 2, -3},
@@ -247,7 +240,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         }
     }
 
-    public void testIllConditioned(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testIllConditioned() {
         LinearProblem problem1 = new LinearProblem(new double[][]{
                 {10, 7, 8, 7},
                 {7, 5, 6, 5},
@@ -275,7 +269,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(1e-8, optimum.getPoint(), -81, 137, -34, 22);
     }
 
-    public void testMoreEstimatedParametersSimple(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testMoreEstimatedParametersSimple() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {3, 2, 0, 0},
                 {0, 1, -1, 1},
@@ -288,7 +283,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(0, optimum.computeRMS(), TOl);
     }
 
-    public void testMoreEstimatedParametersUnsorted(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testMoreEstimatedParametersUnsorted() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {1, 1, 0, 0, 0, 0},
                 {0, 0, 1, 1, 1, 0},
@@ -305,7 +301,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(TOl, optimum.getPoint(), 2, 1, 3, 4, 5, 6);
     }
 
-    public void testRedundantEquations(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testRedundantEquations() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {1, 1},
                 {1, -1},
@@ -319,7 +316,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         assertEquals(TOl, optimum.getPoint(), 2, 1);
     }
 
-    public void testInconsistentEquations(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testInconsistentEquations() {
         LinearProblem problem = new LinearProblem(new double[][]{
                 {1, 1},
                 {1, -1},
@@ -333,7 +331,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertTrue(optimum.computeRMS() > 0.1);
     }
 
-    public void testInconsistentSizes1(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testInconsistentSizes1() {
         try {
             LinearProblem problem
                     = new LinearProblem(new double[][]{{1, 0},
@@ -356,7 +355,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         }
     }
 
-    public void testInconsistentSizes2(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testInconsistentSizes2() {
         try {
             LinearProblem problem
                     = new LinearProblem(new double[][]{{1, 0}, {0, 1}},
@@ -381,7 +381,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         }
     }
 
-    public void testCircleFitting(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testCircleFitting() {
         CircleVectorial circle = new CircleVectorial();
         circle.addPoint(30, 68);
         circle.addPoint(50, -6);
@@ -427,7 +428,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(0.0016, cov[1][1], 0.001);
     }
 
-    public void testCircleFittingBadInit(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testCircleFittingBadInit() {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = circlePoints;
         double[] weights = new double[points.length];
@@ -447,7 +449,8 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(0.2075001, center.getY(), 1e-6);
     }
 
-    public void testCircleFittingGoodInit(LeastSquaresOptimizer optimizer) {
+    @Test
+    public void testCircleFittingGoodInit() {
         CircleVectorial circle = new CircleVectorial();
         double[][] points = circlePoints;
         double[] weights = new double[points.length];
@@ -512,11 +515,13 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         }
     }
 
-    public void testKirby2(LeastSquaresOptimizer optimizer) throws IOException {
+    @Test
+    public void testKirby2() throws IOException {
         doTestStRD(StatisticalReferenceDatasetFactory.createKirby2(), optimizer, 1E-7, 1E-7);
     }
 
-    public void testHahn1(LeastSquaresOptimizer optimizer) throws IOException {
+    @Test
+    public void testHahn1() throws IOException {
         doTestStRD(StatisticalReferenceDatasetFactory.createHahn1(), optimizer, 1E-7, 1E-4);
     }
 
