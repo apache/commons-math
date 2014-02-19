@@ -51,6 +51,12 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="update" issue="MATH-870">
+        The sparse vector and matrix classes have been un-deprecated. This is a reversal
+        of a former decision, as we now think we should adopt a generally accepted
+        behavior which is ... to ignore the problems of NaNs and infinities in
+        sparse linear algebra entities.
+      </action>
       <action dev="tn" type="add" issue="MATH-749">
         Added MonotoneChain algorithm to compute the convex hull of a collection of
         points in 2D. Additionally, the AklToussaintHeuristic can be used to speed up

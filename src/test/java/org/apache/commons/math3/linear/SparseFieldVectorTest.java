@@ -55,57 +55,57 @@ public class SparseFieldVectorTest {
         //octave =  v1 .+ 2.0
         FieldVector<Fraction> v_mapAdd = v1.mapAdd(new Fraction(2));
         Fraction[] result_mapAdd = {new Fraction(3), new Fraction(4), new Fraction(5)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapAdd,v_mapAdd.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapAdd,v_mapAdd.toArray());
 
         //octave =  v1 .+ 2.0
         FieldVector<Fraction> v_mapAddToSelf = v1.copy();
         v_mapAddToSelf.mapAddToSelf(new Fraction(2));
         Fraction[] result_mapAddToSelf = {new Fraction(3), new Fraction(4), new Fraction(5)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapAddToSelf,v_mapAddToSelf.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapAddToSelf,v_mapAddToSelf.toArray());
 
         //octave =  v1 .- 2.0
         FieldVector<Fraction> v_mapSubtract = v1.mapSubtract(new Fraction(2));
         Fraction[] result_mapSubtract = {new Fraction(-1), new Fraction(0), new Fraction(1)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapSubtract,v_mapSubtract.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapSubtract,v_mapSubtract.toArray());
 
         //octave =  v1 .- 2.0
         FieldVector<Fraction> v_mapSubtractToSelf = v1.copy();
         v_mapSubtractToSelf.mapSubtractToSelf(new Fraction(2));
         Fraction[] result_mapSubtractToSelf = {new Fraction(-1), new Fraction(0), new Fraction(1)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapSubtractToSelf,v_mapSubtractToSelf.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapSubtractToSelf,v_mapSubtractToSelf.toArray());
 
         //octave =  v1 .* 2.0
         FieldVector<Fraction> v_mapMultiply = v1.mapMultiply(new Fraction(2));
         Fraction[] result_mapMultiply = {new Fraction(2), new Fraction(4), new Fraction(6)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapMultiply,v_mapMultiply.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapMultiply,v_mapMultiply.toArray());
 
         //octave =  v1 .* 2.0
         FieldVector<Fraction> v_mapMultiplyToSelf = v1.copy();
         v_mapMultiplyToSelf.mapMultiplyToSelf(new Fraction(2));
         Fraction[] result_mapMultiplyToSelf = {new Fraction(2), new Fraction(4), new Fraction(6)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapMultiplyToSelf,v_mapMultiplyToSelf.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapMultiplyToSelf,v_mapMultiplyToSelf.toArray());
 
         //octave =  v1 ./ 2.0
         FieldVector<Fraction> v_mapDivide = v1.mapDivide(new Fraction(2));
         Fraction[] result_mapDivide = {new Fraction(.5d), new Fraction(1), new Fraction(1.5d)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapDivide,v_mapDivide.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapDivide,v_mapDivide.toArray());
 
         //octave =  v1 ./ 2.0
         FieldVector<Fraction> v_mapDivideToSelf = v1.copy();
         v_mapDivideToSelf.mapDivideToSelf(new Fraction(2));
         Fraction[] result_mapDivideToSelf = {new Fraction(.5d), new Fraction(1), new Fraction(1.5d)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapDivideToSelf,v_mapDivideToSelf.toArray());
 
         //octave =  v1 .^-1
         FieldVector<Fraction> v_mapInv = v1.mapInv();
         Fraction[] result_mapInv = {new Fraction(1),new Fraction(0.5d),new Fraction(3.333333333333333e-01d)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapInv,v_mapInv.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapInv,v_mapInv.toArray());
 
         //octave =  v1 .^-1
         FieldVector<Fraction> v_mapInvToSelf = v1.copy();
         v_mapInvToSelf.mapInvToSelf();
         Fraction[] result_mapInvToSelf = {new Fraction(1),new Fraction(0.5d),new Fraction(3.333333333333333e-01d)};
-        Assert.assertArrayEquals("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.getData());
+        Assert.assertArrayEquals("compare vectors" ,result_mapInvToSelf,v_mapInvToSelf.toArray());
 
 
     }
@@ -120,39 +120,39 @@ public class SparseFieldVectorTest {
         //octave =  v1 + v2
         FieldVector<Fraction> v_add = v1.add(v2);
         Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
-        Assert.assertArrayEquals("compare vect" ,v_add.getData(),result_add);
+        Assert.assertArrayEquals("compare vect" ,v_add.toArray(),result_add);
 
         FieldVector<Fraction> vt2 = new ArrayFieldVectorTest.FieldVectorTestImpl<Fraction>(vec2);
         FieldVector<Fraction> v_add_i = v1.add(vt2);
         Fraction[] result_add_i = {new Fraction(5), new Fraction(7), new Fraction(9)};
-        Assert.assertArrayEquals("compare vect" ,v_add_i.getData(),result_add_i);
+        Assert.assertArrayEquals("compare vect" ,v_add_i.toArray(),result_add_i);
 
         //octave =  v1 - v2
         SparseFieldVector<Fraction> v_subtract = v1.subtract(v2);
         Fraction[] result_subtract = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
-        assertClose("compare vect" ,v_subtract.getData(),result_subtract,normTolerance);
+        assertClose("compare vect" ,v_subtract.toArray(),result_subtract,normTolerance);
 
         FieldVector<Fraction> v_subtract_i = v1.subtract(vt2);
         Fraction[] result_subtract_i = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
-        assertClose("compare vect" ,v_subtract_i.getData(),result_subtract_i,normTolerance);
+        assertClose("compare vect" ,v_subtract_i.toArray(),result_subtract_i,normTolerance);
 
         // octave v1 .* v2
         FieldVector<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
         Fraction[] result_ebeMultiply = {new Fraction(4), new Fraction(10), new Fraction(18)};
-        assertClose("compare vect" ,v_ebeMultiply.getData(),result_ebeMultiply,normTolerance);
+        assertClose("compare vect" ,v_ebeMultiply.toArray(),result_ebeMultiply,normTolerance);
 
         FieldVector<Fraction>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
         Fraction[] result_ebeMultiply_2 = {new Fraction(4), new Fraction(10), new Fraction(18)};
-        assertClose("compare vect" ,v_ebeMultiply_2.getData(),result_ebeMultiply_2,normTolerance);
+        assertClose("compare vect" ,v_ebeMultiply_2.toArray(),result_ebeMultiply_2,normTolerance);
 
         // octave v1 ./ v2
         FieldVector<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
         Fraction[] result_ebeDivide = {new Fraction(0.25d), new Fraction(0.4d), new Fraction(0.5d)};
-        assertClose("compare vect" ,v_ebeDivide.getData(),result_ebeDivide,normTolerance);
+        assertClose("compare vect" ,v_ebeDivide.toArray(),result_ebeDivide,normTolerance);
 
         FieldVector<Fraction>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
         Fraction[] result_ebeDivide_2 = {new Fraction(0.25d), new Fraction(0.4d), new Fraction(0.5d)};
-        assertClose("compare vect" ,v_ebeDivide_2.getData(),result_ebeDivide_2,normTolerance);
+        assertClose("compare vect" ,v_ebeDivide_2.toArray(),result_ebeDivide_2,normTolerance);
 
         // octave  dot(v1,v2)
         Fraction dot =  v1.dotProduct(v2);

@@ -265,7 +265,7 @@ public class SparseFieldMatrixTest {
         assertClose("identity operate", testVector, m.operate(testVector),
                 entryTolerance);
         assertClose("identity operate", testVector, m.operate(
-                new ArrayFieldVector<Fraction>(testVector)).getData(), entryTolerance);
+                new ArrayFieldVector<Fraction>(testVector)).toArray(), entryTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.operate(testVector);
