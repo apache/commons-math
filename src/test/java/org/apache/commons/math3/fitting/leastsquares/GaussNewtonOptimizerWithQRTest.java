@@ -49,20 +49,6 @@ public class GaussNewtonOptimizerWithQRTest
 
     @Override
     @Test
-    public void testMoreEstimatedParametersSimple() {
-        /*
-         * Exception is expected with this optimizer
-         */
-        try {
-            super.testMoreEstimatedParametersSimple();
-            fail(optimizer);
-        } catch (ConvergenceException e) {
-            //expected
-        }
-    }
-
-    @Override
-    @Test
     public void testMoreEstimatedParametersUnsorted() {
         /*
          * Exception is expected with this optimizer
