@@ -21,8 +21,10 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.CholeskyDecomposition;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
@@ -50,7 +52,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
          * Solve by forming the normal equations (J<sup>T</sup>Jx=J<sup>T</sup>r) and
          * using the {@link LUDecomposition}.
          *
-         * <p> Theoretically this method takes mn<sup>2></sup>/2 operations to compute the
+         * <p> Theoretically this method takes mn<sup>2</sup>/2 operations to compute the
          * normal matrix and n<sup>3</sup>/3 operations (m > n) to solve the system using
          * the LU decomposition. </p>
          */
@@ -88,6 +90,32 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                             .getSolver()
                             .solve(residuals);
                 } catch (SingularMatrixException e) {
+                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+                }
+            }
+        },
+        /**
+         * Solve by forming the normal equations (J<sup>T</sup>Jx=J<sup>T</sup>r) and
+         * using the {@link CholeskyDecomposition}.
+         *
+         * <p> Theoretically this method takes mn<sup>2</sup>/2 operations to compute the
+         * normal matrix and n<sup>3</sup>/6 operations (m > n) to solve the system using
+         * the Cholesky decomposition. </p>
+         */
+        CHOLESKY {
+            @Override
+            protected RealVector solve(final RealMatrix jacobian,
+                                       final RealVector residuals) {
+                try {
+                    final Pair<RealMatrix, RealVector> normalEquation =
+                            computeNormalMatrix(jacobian, residuals);
+                    final RealMatrix normal = normalEquation.getFirst();
+                    final RealVector jTr = normalEquation.getSecond();
+                    return new CholeskyDecomposition(
+                            normal, SINGULARITY_THRESHOLD, SINGULARITY_THRESHOLD)
+                            .getSolver()
+                            .solve(jTr);
+                } catch (NonPositiveDefiniteMatrixException e) {
                     throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
                 }
             }

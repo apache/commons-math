@@ -52,6 +52,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   <body>
     <release version="3.3" date="TBD" description="TBD">
       <action dev="luc" type="update" issue="MATH-1099" due-to="Evan Ward">
+	    Add Cholesky option to GaussNewtonOptimizer.
+	  </action>
+	  <action dev="luc" type="update" issue="MATH-1099" due-to="Evan Ward">
         Make QR in GaussNewton faster and more accurate.
       </action>
       <action dev="luc" type="update" issue="MATH-870">
