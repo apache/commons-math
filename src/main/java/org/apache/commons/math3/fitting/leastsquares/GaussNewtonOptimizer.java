@@ -69,7 +69,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                             .getSolver()
                             .solve(jTr);
                 } catch (SingularMatrixException e) {
-                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM, e);
                 }
             }
         },
@@ -90,7 +90,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                             .getSolver()
                             .solve(residuals);
                 } catch (SingularMatrixException e) {
-                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM, e);
                 }
             }
         },
@@ -116,7 +116,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                             .getSolver()
                             .solve(jTr);
                 } catch (NonPositiveDefiniteMatrixException e) {
-                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM, e);
                 }
             }
         };
@@ -148,11 +148,11 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     /**
      * Creates a Gauss Newton optimizer.
      * <p/>
-     * The default for the algorithm is to solve the normal equations using LU
+     * The default for the algorithm is to solve the normal equations using QR
      * decomposition.
      */
     public GaussNewtonOptimizer() {
-        this(Decomposition.LU);
+        this(Decomposition.QR);
     }
 
     /**
