@@ -35,7 +35,8 @@ import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
  *  the equality {@code x * 0d == 0d} holds. But it is is not true for
  *  {@code NaN}. Moreover, zero entries will lose their sign.
  *  Some operations (that involve {@code NaN} and/or infinities) may
- *  thus give incorrect results.
+ *  thus give incorrect results, like multiplications, divisions or
+ *  functions mapping.
  * </p>
  * @version $Id$
  * @since 2.0

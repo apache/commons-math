@@ -871,7 +871,7 @@ public abstract class RealVectorAbstractTest {
         TestUtils.assertEquals(f.getClass().getSimpleName(), expected, actual, 1E-16);
     }
 
-    private UnivariateFunction[] createFunctions() {
+    protected UnivariateFunction[] createFunctions() {
         return new UnivariateFunction[] {
             new Power(2.0), new Exp(), new Expm1(), new Log(), new Log10(),
             new Log1p(), new Cosh(), new Sinh(), new Tanh(), new Cos(),
