@@ -215,11 +215,11 @@ public class LeastSquaresFactory {
                         iteration,
                         new PointVectorValuePair(
                                 previous.getPoint().toArray(),
-                                previous.computeValue().toArray(),
+                                previous.getValue().toArray(),
                                 false),
                         new PointVectorValuePair(
                                 current.getPoint().toArray(),
-                                current.computeValue().toArray(),
+                                current.getValue().toArray(),
                                 false)
                 );
             }

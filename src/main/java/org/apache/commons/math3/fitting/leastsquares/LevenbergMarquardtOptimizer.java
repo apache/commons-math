@@ -329,8 +329,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         evaluationCounter.incrementCount();
         //value will be reassigned in the loop
         Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint, false));
-        double[] currentResiduals = current.computeResiduals().toArray();
-        double currentCost = current.computeCost();
+        double[] currentResiduals = current.getResiduals().toArray();
+        double currentCost = current.getCost();
 
         // Outer loop.
         boolean firstIteration = true;
@@ -341,7 +341,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             // QR decomposition of the jacobian matrix
             final InternalData internalData
-                    = qrDecomposition(current.computeJacobian(), solvedCols);
+                    = qrDecomposition(current.getJacobian(), solvedCols);
             final double[][] weightedJacobian = internalData.weightedJacobian;
             final int[] permutation = internalData.permutation;
             final double[] diagR = internalData.diagR;
@@ -446,8 +446,8 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 // Evaluate the function at x + p and calculate its norm.
                 evaluationCounter.incrementCount();
                 current = problem.evaluate(new ArrayRealVector(currentPoint,false));
-                currentResiduals = current.computeResiduals().toArray();
-                currentCost = current.computeCost();
+                currentResiduals = current.getResiduals().toArray();
+                currentCost = current.getCost();
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;

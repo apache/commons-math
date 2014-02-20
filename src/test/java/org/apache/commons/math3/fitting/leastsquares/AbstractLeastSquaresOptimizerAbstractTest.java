@@ -154,9 +154,9 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(ls);
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 1.5);
-        Assert.assertEquals(3.0, optimum.computeValue().getEntry(0), TOl);
+        Assert.assertEquals(3.0, optimum.getValue().getEntry(0), TOl);
     }
 
     @Test
@@ -167,9 +167,9 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 7, 3);
-        assertEquals(TOl, optimum.computeValue(), 4, 6, 1);
+        assertEquals(TOl, optimum.getValue(), 4, 6, 1);
     }
 
     @Test
@@ -185,7 +185,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         for (int i = 0; i < problem.target.length; ++i) {
             Assert.assertEquals(0.55 * i, optimum.getPoint().getEntry(i), TOl);
         }
@@ -201,7 +201,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 1, 2, 3);
     }
 
@@ -219,7 +219,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 3, 4, -1, -2, 1 + epsilon, 1 - epsilon);
     }
 
@@ -253,7 +253,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Optimum optimum = optimizer
                 .optimize(problem1.getBuilder().start(start).build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 1, 1, 1, 1);
 
         LinearProblem problem2 = new LinearProblem(new double[][]{
@@ -265,7 +265,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         optimum = optimizer.optimize(problem2.getBuilder().start(start).build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(1e-8, optimum.getPoint(), -81, 137, -34, 22);
     }
 
@@ -280,7 +280,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Optimum optimum = optimizer
                 .optimize(problem.getBuilder().start(new double[]{7, 6, 5, 4}).build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
     }
 
     @Test
@@ -296,7 +296,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Optimum optimum = optimizer.optimize(
                 problem.getBuilder().start(new double[]{2, 2, 2, 2, 2, 2}).build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         //TODO the first two elements of point were not previously checked
         assertEquals(TOl, optimum.getPoint(), 2, 1, 3, 4, 5, 6);
     }
@@ -312,7 +312,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Optimum optimum = optimizer
                 .optimize(problem.getBuilder().start(new double[]{1, 1}).build());
 
-        Assert.assertEquals(0, optimum.computeRMS(), TOl);
+        Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 2, 1);
     }
 
@@ -328,7 +328,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 .optimize(problem.getBuilder().start(new double[]{1, 1}).build());
 
         //TODO what is this actually testing?
-        Assert.assertTrue(optimum.computeRMS() > 0.1);
+        Assert.assertTrue(optimum.getRMS() > 0.1);
     }
 
     @Test
@@ -342,7 +342,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
             //TODO why is this part here? hasn't it been tested already?
             Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-            Assert.assertEquals(0, optimum.computeRMS(), TOl);
+            Assert.assertEquals(0, optimum.getRMS(), TOl);
             assertEquals(TOl, optimum.getPoint(), -1, 1);
 
             //TODO move to builder test
@@ -364,7 +364,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
             Optimum optimum = optimizer.optimize(problem.getBuilder().build());
 
-            Assert.assertEquals(0, optimum.computeRMS(), TOl);
+            Assert.assertEquals(0, optimum.getRMS(), TOl);
             assertEquals(TOl, optimum.getPoint(), -1, 1);
 
             //TODO move to builder test
@@ -395,7 +395,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Assert.assertTrue(optimum.getEvaluations() < 10);
 
-        double rms = optimum.computeRMS();
+        double rms = optimum.getRMS();
         Assert.assertEquals(1.768262623567235, FastMath.sqrt(circle.getN()) * rms, TOl);
 
         Vector2D center = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
@@ -403,7 +403,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         Assert.assertEquals(96.07590211815305, center.getX(), 1e-6);
         Assert.assertEquals(48.13516790438953, center.getY(), 1e-6);
 
-        double[][] cov = optimum.computeCovariances(1e-14).getData();
+        double[][] cov = optimum.getCovariances(1e-14).getData();
         Assert.assertEquals(1.839, cov[0][0], 0.001);
         Assert.assertEquals(0.731, cov[0][1], 0.001);
         Assert.assertEquals(cov[0][1], cov[1][0], 1e-14);
@@ -421,7 +421,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
         optimum = optimizer.optimize(
                 builder(circle).weight(new DiagonalMatrix(weights)).start(start).build());
 
-        cov = optimum.computeCovariances(1e-14).getData();
+        cov = optimum.getCovariances(1e-14).getData();
         Assert.assertEquals(0.0016, cov[0][0], 0.001);
         Assert.assertEquals(3.2e-7, cov[0][1], 1e-9);
         Assert.assertEquals(cov[0][1], cov[1][0], 1e-14);
@@ -443,7 +443,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Vector2D center = new Vector2D(optimum.getPoint().getEntry(0), optimum.getPoint().getEntry(1));
         Assert.assertTrue(optimum.getEvaluations() < 25);
-        Assert.assertEquals(0.043, optimum.computeRMS(), 1e-3);
+        Assert.assertEquals(0.043, optimum.getRMS(), 1e-3);
         Assert.assertEquals(0.292235, circle.getRadius(center), 1e-6);
         Assert.assertEquals(-0.151738, center.getX(), 1e-6);
         Assert.assertEquals(0.2075001, center.getY(), 1e-6);
@@ -464,7 +464,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 builder(circle).weight(new DiagonalMatrix(weights)).start(start).build());
 
         assertEquals(1e-6, optimum.getPoint(), -0.1517383071957963, 0.2074999736353867);
-        Assert.assertEquals(0.04268731682389561, optimum.computeRMS(), 1e-8);
+        Assert.assertEquals(0.04268731682389561, optimum.getRMS(), 1e-8);
     }
 
     private final double[][] circlePoints = new double[][]{

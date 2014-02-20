@@ -42,16 +42,16 @@ abstract class AbstractEvaluation implements Evaluation {
      * Constructor.
      *
      * @param observationSize the number of observation. Needed for {@link
-     *                        #computeRMS()}.
+     *                        #getRMS()}.
      */
     AbstractEvaluation(final int observationSize) {
         this.observationSize = observationSize;
     }
 
     /** {@inheritDoc} */
-    public RealMatrix computeCovariances(double threshold) {
+    public RealMatrix getCovariances(double threshold) {
         // Set up the Jacobian.
-        final RealMatrix j = this.computeJacobian();
+        final RealMatrix j = this.getJacobian();
 
         // Compute transpose(J)J.
         final RealMatrix jTj = j.transpose().multiply(j);
@@ -63,8 +63,8 @@ abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
-    public RealVector computeSigma(double covarianceSingularityThreshold) {
-        final RealMatrix cov = this.computeCovariances(covarianceSingularityThreshold);
+    public RealVector getSigma(double covarianceSingularityThreshold) {
+        final RealMatrix cov = this.getCovariances(covarianceSingularityThreshold);
         final int nC = cov.getColumnDimension();
         final RealVector sig = new ArrayRealVector(nC);
         for (int i = 0; i < nC; ++i) {
@@ -74,14 +74,14 @@ abstract class AbstractEvaluation implements Evaluation {
     }
 
     /** {@inheritDoc} */
-    public double computeRMS() {
-        final double cost = this.computeCost();
+    public double getRMS() {
+        final double cost = this.getCost();
         return FastMath.sqrt(cost * cost / this.observationSize);
     }
 
     /** {@inheritDoc} */
-    public double computeCost() {
-        final ArrayRealVector r = new ArrayRealVector(this.computeResiduals());
+    public double getCost() {
+        final ArrayRealVector r = new ArrayRealVector(this.getResiduals());
         return FastMath.sqrt(r.dotProduct(r));
     }
 

@@ -62,38 +62,38 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public RealMatrix computeCovariances(double threshold) {
-        return value.computeCovariances(threshold);
+    public RealMatrix getCovariances(double threshold) {
+        return value.getCovariances(threshold);
     }
 
     /** {@inheritDoc} */
-    public RealVector computeSigma(double covarianceSingularityThreshold) {
-        return value.computeSigma(covarianceSingularityThreshold);
+    public RealVector getSigma(double covarianceSingularityThreshold) {
+        return value.getSigma(covarianceSingularityThreshold);
     }
 
     /** {@inheritDoc} */
-    public double computeRMS() {
-        return value.computeRMS();
+    public double getRMS() {
+        return value.getRMS();
     }
 
     /** {@inheritDoc} */
-    public RealVector computeValue() {
-        return value.computeValue();
+    public RealVector getValue() {
+        return value.getValue();
     }
 
     /** {@inheritDoc} */
-    public RealMatrix computeJacobian() {
-        return value.computeJacobian();
+    public RealMatrix getJacobian() {
+        return value.getJacobian();
     }
 
     /** {@inheritDoc} */
-    public double computeCost() {
-        return value.computeCost();
+    public double getCost() {
+        return value.getCost();
     }
 
     /** {@inheritDoc} */
-    public RealVector computeResiduals() {
-        return value.computeResiduals();
+    public RealVector getResiduals() {
+        return value.getResiduals();
     }
 
     /** {@inheritDoc} */

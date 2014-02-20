@@ -125,12 +125,12 @@ class LeastSquaresProblemImpl
         }
 
         /** {@inheritDoc} */
-        public RealVector computeValue() {
+        public RealVector getValue() {
             return this.values;
         }
 
         /** {@inheritDoc} */
-        public RealMatrix computeJacobian() {
+        public RealMatrix getJacobian() {
             return this.jacobian;
         }
 
@@ -140,8 +140,8 @@ class LeastSquaresProblemImpl
         }
 
         /** {@inheritDoc} */
-        public RealVector computeResiduals() {
-            return target.subtract(this.computeValue());
+        public RealVector getResiduals() {
+            return target.subtract(this.getValue());
         }
 
     }

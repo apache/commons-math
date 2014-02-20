@@ -50,18 +50,18 @@ class DenseWeightedEvaluation extends AbstractEvaluation {
     /* apply weights */
 
     /** {@inheritDoc} */
-    public RealMatrix computeJacobian() {
-        return weightSqrt.multiply(this.unweighted.computeJacobian());
+    public RealMatrix getJacobian() {
+        return weightSqrt.multiply(this.unweighted.getJacobian());
     }
 
     /** {@inheritDoc} */
-    public RealVector computeResiduals() {
-        return this.weightSqrt.operate(this.unweighted.computeResiduals());
+    public RealVector getResiduals() {
+        return this.weightSqrt.operate(this.unweighted.getResiduals());
     }
 
     /** {@inheritDoc} */
-    public RealVector computeValue() {
-        return this.weightSqrt.operate(unweighted.computeValue());
+    public RealVector getValue() {
+        return this.weightSqrt.operate(unweighted.getValue());
     }
 
     /* delegate */

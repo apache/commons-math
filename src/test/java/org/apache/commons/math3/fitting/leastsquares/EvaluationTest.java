@@ -78,7 +78,7 @@ public class EvaluationTest {
 
         //action + verify
         Assert.assertArrayEquals(
-                evaluation.computeResiduals().toArray(),
+                evaluation.getResiduals().toArray(),
                 new double[]{2, -3},
                 Precision.EPSILON);
     }
@@ -104,14 +104,14 @@ public class EvaluationTest {
         //action
         TestUtils.assertEquals(
                 "covariance",
-                evaluation.computeCovariances(FastMath.nextAfter(1e-4, 0.0)),
+                evaluation.getCovariances(FastMath.nextAfter(1e-4, 0.0)),
                 MatrixUtils.createRealMatrix(new double[][]{{1, 0}, {0, 1e4}}),
                 Precision.EPSILON
         );
 
         //singularity fail
         try {
-            evaluation.computeCovariances(FastMath.nextAfter(1e-4, 1.0));
+            evaluation.getCovariances(FastMath.nextAfter(1e-4, 1.0));
             Assert.fail("Expected Exception");
         } catch (SingularMatrixException e) {
             //expected
@@ -141,8 +141,8 @@ public class EvaluationTest {
                 .evaluate(point);
 
         //action
-        RealVector value = evaluation.computeValue();
-        RealMatrix jacobian = evaluation.computeJacobian();
+        RealVector value = evaluation.getValue();
+        RealMatrix jacobian = evaluation.getJacobian();
 
         //verify
         Assert.assertArrayEquals(evaluation.getPoint().toArray(), point.toArray(), 0);
@@ -162,7 +162,7 @@ public class EvaluationTest {
         final LeastSquaresProblem lsp = builder(dataset).build();
 
         final double expected = dataset.getResidualSumOfSquares();
-        final double cost = lsp.evaluate(lsp.getStart()).computeCost();
+        final double cost = lsp.evaluate(lsp.getStart()).getCost();
         final double actual = cost * cost;
         Assert.assertEquals(dataset.getName(), expected, actual, 1e-11 * expected);
     }
@@ -176,7 +176,7 @@ public class EvaluationTest {
 
         final double expected = FastMath.sqrt(dataset.getResidualSumOfSquares() /
                                               dataset.getNumObservations());
-        final double actual = lsp.evaluate(lsp.getStart()).computeRMS();
+        final double actual = lsp.evaluate(lsp.getStart()).getRMS();
         Assert.assertEquals(dataset.getName(), expected, actual, 1e-11 * expected);
     }
 
@@ -190,8 +190,8 @@ public class EvaluationTest {
         final double[] expected = dataset.getParametersStandardDeviations();
 
         final Evaluation evaluation = lsp.evaluate(lsp.getStart());
-        final double cost = evaluation.computeCost();
-        final RealVector sig = evaluation.computeSigma(1e-14);
+        final double cost = evaluation.getCost();
+        final RealVector sig = evaluation.getSigma(1e-14);
         final int dof = lsp.getObservationSize() - lsp.getParameterSize();
         for (int i = 0; i < sig.getDimension(); i++) {
             final double actual = FastMath.sqrt(cost * cost / dof) * sig.getEntry(i);

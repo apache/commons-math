@@ -87,9 +87,9 @@ public class LevenbergMarquardtOptimizerTest
                     problem.getBuilder().maxIterations(20).build());
 
             //TODO check that it is a bad fit? Why the extra conditions?
-            Assert.assertTrue(FastMath.sqrt(problem.getTarget().length) * optimum.computeRMS() > 0.6);
+            Assert.assertTrue(FastMath.sqrt(problem.getTarget().length) * optimum.getRMS() > 0.6);
 
-            optimum.computeCovariances(1.5e-14);
+            optimum.getCovariances(1.5e-14);
 
             fail(optimizer);
         }catch (SingularMatrixException e){
@@ -198,7 +198,7 @@ public class LevenbergMarquardtOptimizerTest
         final RealVector solution = optimum.getPoint();
         final double[] expectedSolution = { 10.4, 958.3, 131.4, 33.9, 205.0 };
 
-        final RealMatrix covarMatrix = optimum.computeCovariances(1e-14);
+        final RealMatrix covarMatrix = optimum.getCovariances(1e-14);
         final double[][] expectedCovarMatrix = {
             { 3.38, -3.69, 27.98, -2.34, -49.24 },
             { -3.69, 2492.26, 81.89, -69.21, -8.9 },
@@ -256,7 +256,7 @@ public class LevenbergMarquardtOptimizerTest
         final double[] paramFound = optimum.getPoint().toArray();
 
         // Retrieve errors estimation.
-        final double[] asymptoticStandardErrorFound = optimum.computeSigma(1e-14).toArray();
+        final double[] asymptoticStandardErrorFound = optimum.getSigma(1e-14).toArray();
 
         // Check that the parameters are found within the assumed error bars.
         Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);

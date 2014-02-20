@@ -24,7 +24,7 @@ import org.apache.commons.math3.linear.RealVector;
  * <p>
  * Includes the observed values, computed model function, and
  * convergence/divergence criteria. Weights are implicit in {@link
- * Evaluation#computeResiduals()} and {@link Evaluation#computeJacobian()}.
+ * Evaluation#getResiduals()} and {@link Evaluation#getJacobian()}.
  * </p>
  * <p>
  * Instances are typically either created progressively using a {@link
@@ -92,57 +92,57 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
          * @throws org.apache.commons.math3.linear.SingularMatrixException
          *          if the covariance matrix cannot be computed (singular problem).
          */
-        RealMatrix computeCovariances(double threshold);
+        RealMatrix getCovariances(double threshold);
 
         /**
-         * Computes an estimate of the standard deviation of the parameters. The returned
+         * Get an estimate of the standard deviation of the parameters. The returned
          * values are the square root of the diagonal coefficients of the covariance
          * matrix, {@code sd(a[i]) ~= sqrt(C[i][i])}, where {@code a[i]} is the optimized
          * value of the {@code i}-th parameter, and {@code C} is the covariance matrix.
          *
          *
          * @param covarianceSingularityThreshold Singularity threshold (see {@link
-         *                                       #computeCovariances(double) computeCovariances}).
+         *                                       #getCovariances(double) computeCovariances}).
          * @return an estimate of the standard deviation of the optimized parameters
          * @throws org.apache.commons.math3.linear.SingularMatrixException
          *          if the covariance matrix cannot be computed.
          */
-        RealVector computeSigma(double covarianceSingularityThreshold);
+        RealVector getSigma(double covarianceSingularityThreshold);
 
         /**
-         * Computes the normalized cost. It is the square-root of the sum of squared of
+         * Get the normalized cost. It is the square-root of the sum of squared of
          * the residuals, divided by the number of measurements.
          *
          * @return the cost.
          */
-        double computeRMS();
+        double getRMS();
 
         /**
-         * Computes the weighted objective (model) function value.
+         * Get the weighted objective (model) function value.
          *
          * @return the weighted objective function value at the specified point.
          */
-        RealVector computeValue();
+        RealVector getValue();
 
         /**
-         * Computes the weighted Jacobian matrix.
+         * Get the weighted Jacobian matrix.
          *
          * @return the weighted Jacobian: W<sup>1/2</sup> J.
          * @throws org.apache.commons.math3.exception.DimensionMismatchException
          * if the Jacobian dimension does not match problem dimension.
          */
-        RealMatrix computeJacobian();
+        RealMatrix getJacobian();
 
         /**
-         * Computes the cost.
+         * Get the cost.
          *
          * @return the cost.
-         * @see #computeResiduals()
+         * @see #getResiduals()
          */
-        double computeCost();
+        double getCost();
 
         /**
-         * Computes the weighted residuals. The residual is the difference between the
+         * Get the weighted residuals. The residual is the difference between the
          * observed (target) values and the model (objective function) value. There is one
          * residual for each element of the vector-valued function. The raw residuals are
          * then multiplied by the square root of the weight matrix.
@@ -151,7 +151,7 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
          * @throws org.apache.commons.math3.exception.DimensionMismatchException
          * if the residuals have the wrong length.
          */
-        RealVector computeResiduals();
+        RealVector getResiduals();
 
         /**
          * Get the abscissa (independent variables) of this evaluation.

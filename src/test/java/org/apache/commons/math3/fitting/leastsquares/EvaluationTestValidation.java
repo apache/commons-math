@@ -118,7 +118,7 @@ public class EvaluationTestValidation {
             // covariance matrix).
             final LeastSquaresProblem lsp = builder(problem).build();
 
-            final RealVector sigma = lsp.evaluate(init).computeSigma(1e-14);
+            final RealVector sigma = lsp.evaluate(init).getSigma(1e-14);
 
             // Accumulate statistics.
             for (int i = 0; i < numParams; i++) {
@@ -222,7 +222,7 @@ public class EvaluationTestValidation {
         // Get chi-square of the best parameters set for the given set of
         // observations.
         final double bestChi2N = getChi2N(lsp, regress);
-        final RealVector sigma = lsp.evaluate(regress).computeSigma(1e-14);
+        final RealVector sigma = lsp.evaluate(regress).getSigma(1e-14);
 
         // Monte-Carlo (generates a grid of parameters).
         final int mcRepeat = MONTE_CARLO_RUNS;
@@ -299,7 +299,7 @@ public class EvaluationTestValidation {
      */
     private double getChi2N(LeastSquaresProblem lsp,
                             RealVector params) {
-        final double cost = lsp.evaluate(params).computeCost();
+        final double cost = lsp.evaluate(params).getCost();
         return cost * cost / (lsp.getObservationSize() - params.getDimension());
     }
 }
