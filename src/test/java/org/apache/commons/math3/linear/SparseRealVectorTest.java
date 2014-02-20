@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math3.linear;
 
+import org.apache.commons.math3.linear.RealVectorAbstractTest.BinaryOperation;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -97,6 +98,24 @@ public class SparseRealVectorTest extends RealVectorAbstractTest {
 
         u.ebeMultiply(v1);
         u.ebeDivide(v1);
+    }
+
+    @Test
+    @Override
+    public void testEbeMultiplyMixedTypes() {
+        doTestEbeBinaryOperation(BinaryOperation.MUL, true, true);
+    }
+
+    @Test
+    @Override
+    public void testEbeMultiplySameType() {
+        doTestEbeBinaryOperation(BinaryOperation.MUL, false, true);
+    }
+
+    @Test
+    @Override
+    public void testEbeDivideSameType() {
+        doTestEbeBinaryOperation(BinaryOperation.DIV, false, true);
     }
 
     /**
