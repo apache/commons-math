@@ -17,6 +17,7 @@
 package org.apache.commons.math3.linear;
 
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.junit.Assert;
 import org.junit.Test;
 
 public final class OpenMapRealMatrixTest {
@@ -26,4 +27,23 @@ public final class OpenMapRealMatrixTest {
         new OpenMapRealMatrix(3, Integer.MAX_VALUE);
     }
 
+    @Test
+    public void testMath870() {
+        // Caveat: This implementation assumes that, for any {@code x},
+        // the equality {@code x * 0d == 0d} holds. But it is is not true for
+        // {@code NaN}. Moreover, zero entries will lose their sign.
+        // Some operations (that involve {@code NaN} and/or infinities) may
+        // thus give incorrect results.
+        OpenMapRealMatrix a = new OpenMapRealMatrix(3, 3);
+        OpenMapRealMatrix x = new OpenMapRealMatrix(3, 1);
+        x.setEntry(0, 0, Double.NaN);
+        x.setEntry(2, 0, Double.NEGATIVE_INFINITY);
+        OpenMapRealMatrix b = a.multiply(x);
+        for (int i = 0; i < b.getRowDimension(); ++i) {
+            for (int j = 0; j < b.getColumnDimension(); ++j) {
+                // NaNs and infinities have disappeared, this is a limitation of our implementation
+                Assert.assertEquals(0.0, b.getEntry(i, j), 1.0e-20);
+            }
+        }
+    }
 }
