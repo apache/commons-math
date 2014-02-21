@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathArrays;
@@ -515,6 +516,32 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
     }
 
     /**
+     * Checks that the indices of a subvector are valid.
+     *
+     * @param start the index of the first entry of the subvector
+     * @param end the index of the last entry of the subvector (inclusive)
+     * @throws OutOfRangeException if {@code start} of {@code end} are not valid
+     * @throws NumberIsTooSmallException if {@code end < start}
+     * @since 3.3
+     */
+    private void checkIndices(final int start, final int end)
+        throws NumberIsTooSmallException, OutOfRangeException {
+        final int dim = getDimension();
+        if ((start < 0) || (start >= dim)) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, start, 0,
+                                          dim - 1);
+        }
+        if ((end < 0) || (end >= dim)) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, end, 0,
+                                          dim - 1);
+        }
+        if (end < start) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW,
+                                                end, start, false);
+        }
+    }
+
+    /**
      * Check if instance dimension is equal to some expected value.
      *
      * @param n Expected dimension.
@@ -541,6 +568,166 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
             }
             return res;
         }
+    }
+
+    /**
+     * Visits (but does not alter) all entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link FieldVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @since 3.3
+     */
+    public T walkInDefaultOrder(final FieldVectorPreservingVisitor<T> visitor) {
+        final int dim = getDimension();
+        visitor.start(dim, 0, dim - 1);
+        for (int i = 0; i < dim; i++) {
+            visitor.visit(i, getEntry(i));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (but does not alter) some entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link FieldVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @throws NumberIsTooSmallException if {@code end < start}.
+     * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.3
+     */
+    public T walkInDefaultOrder(final FieldVectorPreservingVisitor<T> visitor,
+                                final int start, final int end)
+        throws NumberIsTooSmallException, OutOfRangeException {
+        checkIndices(start, end);
+        visitor.start(getDimension(), start, end);
+        for (int i = start; i <= end; i++) {
+            visitor.visit(i, getEntry(i));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (but does not alter) all entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link FieldVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @since 3.3
+     */
+    public T walkInOptimizedOrder(final FieldVectorPreservingVisitor<T> visitor) {
+        return walkInDefaultOrder(visitor);
+    }
+
+    /**
+     * Visits (but does not alter) some entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link FieldVectorPreservingVisitor#end()}
+     * at the end of the walk
+     * @throws NumberIsTooSmallException if {@code end < start}.
+     * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.3
+     */
+    public T walkInOptimizedOrder(final FieldVectorPreservingVisitor<T> visitor,
+                                  final int start, final int end)
+        throws NumberIsTooSmallException, OutOfRangeException {
+        return walkInDefaultOrder(visitor, start, end);
+    }
+
+    /**
+     * Visits (and possibly alters) all entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor the visitor to be used to process and modify the entries
+     * of this vector
+     * @return the value returned by {@link FieldVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @since 3.3
+     */
+    public T walkInDefaultOrder(final FieldVectorChangingVisitor<T> visitor) {
+        final int dim = getDimension();
+        visitor.start(dim, 0, dim - 1);
+        for (int i = 0; i < dim; i++) {
+            setEntry(i, visitor.visit(i, getEntry(i)));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (and possibly alters) some entries of this vector in default order
+     * (increasing index).
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link FieldVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @throws NumberIsTooSmallException if {@code end < start}.
+     * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.3
+     */
+    public T walkInDefaultOrder(final FieldVectorChangingVisitor<T> visitor,
+                                final int start, final int end)
+        throws NumberIsTooSmallException, OutOfRangeException {
+        checkIndices(start, end);
+        visitor.start(getDimension(), start, end);
+        for (int i = start; i <= end; i++) {
+            setEntry(i, visitor.visit(i, getEntry(i)));
+        }
+        return visitor.end();
+    }
+
+    /**
+     * Visits (and possibly alters) all entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor the visitor to be used to process the entries of this
+     * vector
+     * @return the value returned by {@link FieldVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @since 3.3
+     */
+    public T walkInOptimizedOrder(final FieldVectorChangingVisitor<T> visitor) {
+        return walkInDefaultOrder(visitor);
+    }
+
+    /**
+     * Visits (and possibly change) some entries of this vector in optimized
+     * order. The order in which the entries are visited is selected so as to
+     * lead to the most efficient implementation; it might depend on the
+     * concrete implementation of this abstract class.
+     *
+     * @param visitor visitor to be used to process the entries of this vector
+     * @param start the index of the first entry to be visited
+     * @param end the index of the last entry to be visited (inclusive)
+     * @return the value returned by {@link FieldVectorChangingVisitor#end()}
+     * at the end of the walk
+     * @throws NumberIsTooSmallException if {@code end < start}.
+     * @throws OutOfRangeException if the indices are not valid.
+     * @since 3.3
+     */
+    public T walkInOptimizedOrder(final FieldVectorChangingVisitor<T> visitor,
+                                  final int start, final int end)
+        throws NumberIsTooSmallException, OutOfRangeException {
+        return walkInDefaultOrder(visitor, start, end);
     }
 
     /** {@inheritDoc} */

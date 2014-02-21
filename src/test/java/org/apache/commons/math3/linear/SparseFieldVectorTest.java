@@ -17,10 +17,14 @@
 package org.apache.commons.math3.linear;
 
 
+import java.util.Arrays;
+
 import org.apache.commons.math3.fraction.Fraction;
 import org.apache.commons.math3.fraction.FractionConversionException;
 import org.apache.commons.math3.fraction.FractionField;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -240,4 +244,539 @@ public class SparseFieldVectorTest {
         }
     }
 
+    /*
+     * TESTS OF THE VISITOR PATTERN
+     */
+
+    /** The whole vector is visited. */
+    @Test
+    public void testWalkInDefaultOrderPreservingVisitor1() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+
+            private int expectedIndex;
+
+            public void visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(expectedIndex, actualIndex);
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                ++expectedIndex;
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(0, actualStart);
+                Assert.assertEquals(data.length - 1, actualEnd);
+                expectedIndex = 0;
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInDefaultOrder(visitor);
+    }
+
+    /** Visiting an invalid subvector. */
+    @Test
+    public void testWalkInDefaultOrderPreservingVisitor2() {
+        final SparseFieldVector<Fraction> v = create(5);
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+
+            public void visit(int index, Fraction value) {
+                // Do nothing
+            }
+
+            public void start(int dimension, int start, int end) {
+                // Do nothing
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        try {
+            v.walkInDefaultOrder(visitor, -1, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 5, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 0, -1);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 0, 5);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 4, 0);
+            Assert.fail();
+        } catch (NumberIsTooSmallException e) {
+            // Expected behavior
+        }
+    }
+
+    /** Visiting a valid subvector. */
+    @Test
+    public void testWalkInDefaultOrderPreservingVisitor3() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final int expectedStart = 2;
+        final int expectedEnd = 7;
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+
+            private int expectedIndex;
+
+            public void visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(expectedIndex, actualIndex);
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                ++expectedIndex;
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(expectedStart, actualStart);
+                Assert.assertEquals(expectedEnd, actualEnd);
+                expectedIndex = expectedStart;
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
+    }
+
+    /** The whole vector is visited. */
+    @Test
+    public void testWalkInOptimizedOrderPreservingVisitor1() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+            private final boolean[] visited = new boolean[data.length];
+
+            public void visit(final int actualIndex, final Fraction actualValue) {
+                visited[actualIndex] = true;
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(0, actualStart);
+                Assert.assertEquals(data.length - 1, actualEnd);
+                Arrays.fill(visited, false);
+            }
+
+            public Fraction end() {
+                for (int i = 0; i < data.length; i++) {
+                    Assert.assertTrue("entry " + i + "has not been visited",
+                                      visited[i]);
+                }
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInOptimizedOrder(visitor);
+    }
+
+    /** Visiting an invalid subvector. */
+    @Test
+    public void testWalkInOptimizedOrderPreservingVisitor2() {
+        final SparseFieldVector<Fraction> v = create(5);
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+
+            public void visit(int index, Fraction value) {
+                // Do nothing
+            }
+
+            public void start(int dimension, int start, int end) {
+                // Do nothing
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        try {
+            v.walkInOptimizedOrder(visitor, -1, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 5, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 0, -1);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 0, 5);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 4, 0);
+            Assert.fail();
+        } catch (NumberIsTooSmallException e) {
+            // Expected behavior
+        }
+    }
+
+    /** Visiting a valid subvector. */
+    @Test
+    public void testWalkInOptimizedOrderPreservingVisitor3() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final int expectedStart = 2;
+        final int expectedEnd = 7;
+        final FieldVectorPreservingVisitor<Fraction> visitor;
+        visitor = new FieldVectorPreservingVisitor<Fraction>() {
+            private final boolean[] visited = new boolean[data.length];
+
+            public void visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                visited[actualIndex] = true;
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(expectedStart, actualStart);
+                Assert.assertEquals(expectedEnd, actualEnd);
+                Arrays.fill(visited, true);
+            }
+
+            public Fraction end() {
+                for (int i = expectedStart; i <= expectedEnd; i++) {
+                    Assert.assertTrue("entry " + i + "has not been visited",
+                                      visited[i]);
+                }
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
+    }
+
+    /** The whole vector is visited. */
+    @Test
+    public void testWalkInDefaultOrderChangingVisitor1() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+
+            private int expectedIndex;
+
+            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(expectedIndex, actualIndex);
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                ++expectedIndex;
+                return actualValue.add(actualIndex);
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(0, actualStart);
+                Assert.assertEquals(data.length - 1, actualEnd);
+                expectedIndex = 0;
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInDefaultOrder(visitor);
+        for (int i = 0; i < data.length; i++) {
+            Assert.assertEquals("entry " + i, data[i].add(i), v.getEntry(i));
+        }
+    }
+
+    /** Visiting an invalid subvector. */
+    @Test
+    public void testWalkInDefaultOrderChangingVisitor2() {
+        final SparseFieldVector<Fraction> v = create(5);
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+
+            public Fraction visit(int index, Fraction value) {
+                return Fraction.ZERO;
+            }
+
+            public void start(int dimension, int start, int end) {
+                // Do nothing
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        try {
+            v.walkInDefaultOrder(visitor, -1, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 5, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 0, -1);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 0, 5);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInDefaultOrder(visitor, 4, 0);
+            Assert.fail();
+        } catch (NumberIsTooSmallException e) {
+            // Expected behavior
+        }
+    }
+
+    /** Visiting a valid subvector. */
+    @Test
+    public void testWalkInDefaultOrderChangingVisitor3() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final int expectedStart = 2;
+        final int expectedEnd = 7;
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+
+            private int expectedIndex;
+
+            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(expectedIndex, actualIndex);
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                ++expectedIndex;
+                return actualValue.add(actualIndex);
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(expectedStart, actualStart);
+                Assert.assertEquals(expectedEnd, actualEnd);
+                expectedIndex = expectedStart;
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInDefaultOrder(visitor, expectedStart, expectedEnd);
+        for (int i = expectedStart; i <= expectedEnd; i++) {
+            Assert.assertEquals("entry " + i, data[i].add(i), v.getEntry(i));
+        }
+    }
+
+    /** The whole vector is visited. */
+    @Test
+    public void testWalkInOptimizedOrderChangingVisitor1() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+            private final boolean[] visited = new boolean[data.length];
+
+            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+                visited[actualIndex] = true;
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                return actualValue.add(actualIndex);
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(0, actualStart);
+                Assert.assertEquals(data.length - 1, actualEnd);
+                Arrays.fill(visited, false);
+            }
+
+            public Fraction end() {
+                for (int i = 0; i < data.length; i++) {
+                    Assert.assertTrue("entry " + i + "has not been visited",
+                                      visited[i]);
+                }
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInOptimizedOrder(visitor);
+        for (int i = 0; i < data.length; i++) {
+            Assert.assertEquals("entry " + i, data[i].add(i), v.getEntry(i));
+        }
+    }
+
+    /** Visiting an invalid subvector. */
+    @Test
+    public void testWalkInOptimizedOrderChangingVisitor2() {
+        final SparseFieldVector<Fraction> v = create(5);
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+
+            public Fraction visit(int index, Fraction value) {
+                return Fraction.ZERO;
+            }
+
+            public void start(int dimension, int start, int end) {
+                // Do nothing
+            }
+
+            public Fraction end() {
+                return Fraction.ZERO;
+            }
+        };
+        try {
+            v.walkInOptimizedOrder(visitor, -1, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 5, 4);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 0, -1);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 0, 5);
+            Assert.fail();
+        } catch (OutOfRangeException e) {
+            // Expected behavior
+        }
+        try {
+            v.walkInOptimizedOrder(visitor, 4, 0);
+            Assert.fail();
+        } catch (NumberIsTooSmallException e) {
+            // Expected behavior
+        }
+    }
+
+    /** Visiting a valid subvector. */
+    @Test
+    public void testWalkInOptimizedOrderChangingVisitor3() {
+        final Fraction[] data = new Fraction[] {
+            Fraction.ZERO, Fraction.ONE, Fraction.ZERO,
+            Fraction.ZERO, Fraction.TWO, Fraction.ZERO,
+            Fraction.ZERO, Fraction.ZERO, new Fraction(3)
+        };
+        final SparseFieldVector<Fraction> v = new SparseFieldVector<Fraction>(field, data);
+        final int expectedStart = 2;
+        final int expectedEnd = 7;
+        final FieldVectorChangingVisitor<Fraction> visitor;
+        visitor = new FieldVectorChangingVisitor<Fraction>() {
+            private final boolean[] visited = new boolean[data.length];
+
+            public Fraction visit(final int actualIndex, final Fraction actualValue) {
+                Assert.assertEquals(Integer.toString(actualIndex),
+                                    data[actualIndex], actualValue);
+                visited[actualIndex] = true;
+                return actualValue.add(actualIndex);
+            }
+
+            public void start(final int actualSize, final int actualStart,
+                              final int actualEnd) {
+                Assert.assertEquals(data.length, actualSize);
+                Assert.assertEquals(expectedStart, actualStart);
+                Assert.assertEquals(expectedEnd, actualEnd);
+                Arrays.fill(visited, true);
+            }
+
+            public Fraction end() {
+                for (int i = expectedStart; i <= expectedEnd; i++) {
+                    Assert.assertTrue("entry " + i + "has not been visited",
+                                      visited[i]);
+                }
+                return Fraction.ZERO;
+            }
+        };
+        v.walkInOptimizedOrder(visitor, expectedStart, expectedEnd);
+        for (int i = expectedStart; i <= expectedEnd; i++) {
+            Assert.assertEquals("entry " + i, data[i].add(i), v.getEntry(i));
+        }
+    }
+
+    private SparseFieldVector<Fraction> create(int n) {
+        Fraction[] t = new Fraction[n];
+        for (int i = 0; i < n; ++i) {
+            t[i] = Fraction.ZERO;
+        }
+        return new SparseFieldVector<Fraction>(field, t);
+    }
 }

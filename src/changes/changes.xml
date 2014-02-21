@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-820">
+        Field vectors now implement the visitor pattern just like real vectors.
+      </action>
       <action dev="luc" type="fix" issue="MATH-875">
         Un-deprecated RealVector.sparseIterator, documenting explicitly that entries
         not iterated above are the zero ones.
