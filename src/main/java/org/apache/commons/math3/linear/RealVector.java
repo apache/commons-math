@@ -725,24 +725,16 @@ public abstract class RealVector {
 
     /**
      * Create a sparse iterator over the vector, which may omit some entries.
-     * Specialized implementations may choose to not iterate over all
-     * dimensions, either because those values are unset, or are equal
-     * to defaultValue(), or are small enough to be ignored for the
-     * purposes of iteration. No guarantees are made about order of iteration.
-     * In dense implementations, this method will often delegate to
-     * {@link #iterator()}.
+     * The ommitted entries are either exact zeroes (for dense implementations)
+     * or are the entries which are not stored (for real sparse vectors).
+     * No guarantees are made about order of iteration.
      *
      * <p>Note: derived classes are required to return an {@link Iterator} that
      * returns non-null {@link Entry} objects as long as {@link Iterator#hasNext()}
      * returns {@code true}.</p>
      *
      * @return a sparse iterator.
-     * @deprecated As of 3.1, this method is deprecated, because its interface
-     * is too confusing (see
-     * <a href="https://issues.apache.org/jira/browse/MATH-875">JIRA MATH-875</a>).
-     * This method will be completely removed in 4.0.
      */
-    @Deprecated
     public Iterator<Entry> sparseIterator() {
         return new SparseEntryIterator();
     }
@@ -1121,7 +1113,7 @@ public abstract class RealVector {
     /**
      * This class should rarely be used, but is here to provide
      * a default implementation of sparseIterator(), which is implemented
-     * by walking over the entries, skipping those whose values are the default one.
+     * by walking over the entries, skipping those that are zero.
      *
      * Concrete subclasses which are SparseVector implementations should
      * make their own sparse iterator, rather than using this one.
@@ -1130,13 +1122,8 @@ public abstract class RealVector {
      * operations which preserve the default value are to be done on the entries,
      * and the fraction of non-default values is small (i.e. someone took a
      * SparseVector, and passed it into the copy-constructor of ArrayRealVector)
-     *
-     * @deprecated As of 3.1, this class is deprecated, see
-     * <a href="https://issues.apache.org/jira/browse/MATH-875">JIRA MATH-875</a>.
-     * This class will be completely removed in 4.0.
 
      */
-    @Deprecated
     protected class SparseEntryIterator implements Iterator<Entry> {
         /** Dimension of the vector. */
         private final int dim;
