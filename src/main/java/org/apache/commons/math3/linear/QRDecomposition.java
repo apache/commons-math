@@ -463,7 +463,7 @@ public class QRDecomposition {
          * @throws SingularMatrixException if the decomposed matrix is singular.
          */
         public RealMatrix getInverse() {
-            return solve(MatrixUtils.createRealIdentityMatrix(rDiag.length));
+            return solve(MatrixUtils.createRealIdentityMatrix(qrt[0].length));
         }
     }
 }
