@@ -273,5 +273,14 @@ public class QRDecompositionTest {
         });
         return m;
     }
+    
+    @Test(expected=SingularMatrixException.class)
+    public void testQRSingular() {
+        final RealMatrix a = MatrixUtils.createRealMatrix(new double[][] {
+            { 1, 6, 4 }, { 2, 4, -1 }, { -1, 2, 5 }
+        });
+        final RealVector b = new ArrayRealVector(new double[]{ 5, 6, 1 });
+        new QRDecomposition(a, 1.0e-15).getSolver().solve(b);
+    }
 
 }

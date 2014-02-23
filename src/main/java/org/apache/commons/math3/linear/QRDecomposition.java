@@ -291,6 +291,14 @@ public class QRDecomposition {
 
     /**
      * Get a solver for finding the A &times; X = B solution in least square sense.
+     * <p>
+     * Least Square sense means a solver can be computed for an overdetermined system,
+     * (i.e. a system with more equations than unknowns, which corresponds to a tall A
+     * matrix with more rows than columns). In any case, if the matrix is singular
+     * within the tolerance set at {@link QRDecomposition#QRDecomposition(RealMatrix,
+     * double) construction}, an error will be triggered when
+     * the {@link DecompositionSolver#solve(RealVector) solve} method will be called.
+     * </p>
      * @return a solver
      */
     public DecompositionSolver getSolver() {

@@ -144,10 +144,16 @@ RealVector solution = solver.solve(constants);
           Each type of decomposition has its specific semantics and constraints on
           the coefficient matrix as shown in the following table. For algorithms that
           solve AX=B in least squares sense the value returned for X is such that the
-          residual AX-B has minimal norm. If an exact solution exist (i.e. if for some
-          X the residual AX-B is exactly 0), then this exact solution is also the solution
-          in least square sense. This implies that algorithms suited for least squares
-          problems can also be used to solve exact problems, but the reverse is not true. 
+          residual AX-B has minimal norm. Least Square sense means a solver can be computed
+          for an overdetermined system, (i.e. a system with more equations than unknowns,
+          which corresponds to a tall A matrix with more rows than columns). If an exact
+          solution exist (i.e. if for some X the residual AX-B is exactly 0), then this
+          exact solution is also the solution in least square sense. This implies that
+          algorithms suited for least squares problems can also be used to solve exact
+          problems, but the reverse is not true. In any case, if the matrix is singular
+          within the tolerance set at construction, an error will be triggered when
+          the solve method will be called, both for algorithms that compute exact solutions
+          and for algorithms that compute least square solutions.
         </p>
         <p>
           <table border="1" align="center">
