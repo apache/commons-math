@@ -216,11 +216,11 @@ public class LeastSquaresFactory {
                         iteration,
                         new PointVectorValuePair(
                                 previous.getPoint().toArray(),
-                                previous.getValue().toArray(),
+                                previous.getResiduals().toArray(),
                                 false),
                         new PointVectorValuePair(
                                 current.getPoint().toArray(),
-                                current.getValue().toArray(),
+                                current.getResiduals().toArray(),
                                 false)
                 );
             }
@@ -344,12 +344,10 @@ public class LeastSquaresFactory {
 
             /** the point of evaluation */
             private final RealVector point;
-            /** value at point */
-            private final RealVector values;
             /** deriviative at point */
             private final RealMatrix jacobian;
-            /** reference to the observed values */
-            private final RealVector target;
+            /** the computed residuals. */
+            private final RealVector residuals;
 
             /**
              * Create an {@link Evaluation} with no weights.
@@ -364,15 +362,9 @@ public class LeastSquaresFactory {
                                          final RealVector target,
                                          final RealVector point) {
                 super(target.getDimension());
-                this.values = values;
                 this.jacobian = jacobian;
-                this.target = target;
                 this.point = point;
-            }
-
-            /** {@inheritDoc} */
-            public RealVector getValue() {
-                return this.values;
+                this.residuals = target.subtract(values);
             }
 
             /** {@inheritDoc} */
@@ -387,7 +379,7 @@ public class LeastSquaresFactory {
 
             /** {@inheritDoc} */
             public RealVector getResiduals() {
-                return target.subtract(this.getValue());
+                return this.residuals;
             }
 
         }

@@ -119,13 +119,6 @@ public interface LeastSquaresProblem extends OptimizationProblem<LeastSquaresPro
         double getRMS();
 
         /**
-         * Get the weighted objective (model) function value.
-         *
-         * @return the weighted objective function value at the specified point.
-         */
-        RealVector getValue();
-
-        /**
          * Get the weighted Jacobian matrix.
          *
          * @return the weighted Jacobian: W<sup>1/2</sup> J.

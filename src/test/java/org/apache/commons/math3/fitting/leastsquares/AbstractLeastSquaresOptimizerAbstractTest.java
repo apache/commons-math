@@ -156,7 +156,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 1.5);
-        Assert.assertEquals(3.0, optimum.getValue().getEntry(0), TOl);
+        Assert.assertEquals(0.0, optimum.getResiduals().getEntry(0), TOl);
     }
 
     @Test
@@ -169,7 +169,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 
         Assert.assertEquals(0, optimum.getRMS(), TOl);
         assertEquals(TOl, optimum.getPoint(), 7, 3);
-        assertEquals(TOl, optimum.getValue(), 4, 6, 1);
+        assertEquals(TOl, optimum.getResiduals(), 0, 0, 0);
     }
 
     @Test

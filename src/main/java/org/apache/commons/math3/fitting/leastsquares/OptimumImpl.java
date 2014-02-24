@@ -77,11 +77,6 @@ class OptimumImpl implements Optimum {
     }
 
     /** {@inheritDoc} */
-    public RealVector getValue() {
-        return value.getValue();
-    }
-
-    /** {@inheritDoc} */
     public RealMatrix getJacobian() {
         return value.getJacobian();
     }

@@ -141,12 +141,12 @@ public class EvaluationTest {
                 .evaluate(point);
 
         //action
-        RealVector value = evaluation.getValue();
+        RealVector residuals = evaluation.getResiduals();
         RealMatrix jacobian = evaluation.getJacobian();
 
         //verify
         Assert.assertArrayEquals(evaluation.getPoint().toArray(), point.toArray(), 0);
-        Assert.assertArrayEquals(new double[]{12, 8}, value.toArray(), Precision.EPSILON);
+        Assert.assertArrayEquals(new double[]{-12, -8}, residuals.toArray(), Precision.EPSILON);
         TestUtils.assertEquals(
                 "jacobian",
                 jacobian,
