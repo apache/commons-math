@@ -33,7 +33,7 @@ import org.apache.commons.math3.util.FastMath;
  * @version $Id$
  * @since 3.3
  */
-abstract class AbstractEvaluation implements Evaluation {
+public abstract class AbstractEvaluation implements Evaluation {
 
     /** number of observations */
     private final int observationSize;
