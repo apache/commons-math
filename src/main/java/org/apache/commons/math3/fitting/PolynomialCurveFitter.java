@@ -75,7 +75,7 @@ public class PolynomialCurveFitter extends AbstractCurveFitter {
     }
 
     /**
-     * Configure the sart point (initial guess).
+     * Configure the start point (initial guess).
      * @param newStart new start point (initial guess)
      * @return a new instance.
      */
