@@ -69,7 +69,7 @@ public class KohonenUpdateActionTest {
         final Neuron bestBefore = MapUtils.findBest(features, net, dist);
 
         // Initial distance from the best match is larger than zero.
-        Assert.assertTrue(dist.compute(bestBefore.getFeatures(), features) >= 0.2 * 0.2);
+        Assert.assertTrue(dist.compute(bestBefore.getFeatures(), features) >= 0.2);
 
         update.update(net, features);
 
