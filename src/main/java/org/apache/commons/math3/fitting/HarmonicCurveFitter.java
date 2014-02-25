@@ -83,16 +83,24 @@ public class HarmonicCurveFitter extends AbstractCurveFitter {
         return new HarmonicCurveFitter(null, Integer.MAX_VALUE);
     }
 
-    /** {@inheritDoc} */
-    public HarmonicCurveFitter withStartPoint(double[] start) {
-        return new HarmonicCurveFitter(start.clone(),
+    /**
+     * Configure the sart point (initial guess).
+     * @param newStart new start point (initial guess)
+     * @return a new instance.
+     */
+    public HarmonicCurveFitter withStartPoint(double[] newStart) {
+        return new HarmonicCurveFitter(newStart.clone(),
                                        maxIter);
     }
 
-    /** {@inheritDoc} */
-    public HarmonicCurveFitter withMaxIterations(int max) {
+    /**
+     * Configure the maximum number of iterations.
+     * @param newMaxIter maximum number of iterations
+     * @return a new instance.
+     */
+    public HarmonicCurveFitter withMaxIterations(int newMaxIter) {
         return new HarmonicCurveFitter(initialGuess,
-                                       max);
+                                       newMaxIter);
     }
 
     /** {@inheritDoc} */

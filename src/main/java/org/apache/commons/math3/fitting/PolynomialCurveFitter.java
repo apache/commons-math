@@ -74,16 +74,24 @@ public class PolynomialCurveFitter extends AbstractCurveFitter {
         return new PolynomialCurveFitter(new double[degree + 1], Integer.MAX_VALUE);
     }
 
-    /** {@inheritDoc} */
-    public PolynomialCurveFitter withStartPoint(double[] start) {
-        return new PolynomialCurveFitter(start.clone(),
+    /**
+     * Configure the sart point (initial guess).
+     * @param newStart new start point (initial guess)
+     * @return a new instance.
+     */
+    public PolynomialCurveFitter withStartPoint(double[] newStart) {
+        return new PolynomialCurveFitter(newStart.clone(),
                                          maxIter);
     }
 
-    /** {@inheritDoc} */
-    public PolynomialCurveFitter withMaxIterations(int max) {
+    /**
+     * Configure the maximum number of iterations.
+     * @param newMaxIter maximum number of iterations
+     * @return a new instance.
+     */
+    public PolynomialCurveFitter withMaxIterations(int newMaxIter) {
         return new PolynomialCurveFitter(initialGuess,
-                                         max);
+                                         newMaxIter);
     }
 
     /** {@inheritDoc} */

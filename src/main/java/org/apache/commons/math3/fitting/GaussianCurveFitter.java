@@ -16,22 +16,22 @@
  */
 package org.apache.commons.math3.fitting;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -130,16 +130,24 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
         return new GaussianCurveFitter(null, Integer.MAX_VALUE);
     }
 
-    /** {@inheritDoc} */
-    public GaussianCurveFitter withStartPoint(double[] start) {
-        return new GaussianCurveFitter(start.clone(),
+    /**
+     * Configure the sart point (initial guess).
+     * @param newStart new start point (initial guess)
+     * @return a new instance.
+     */
+    public GaussianCurveFitter withStartPoint(double[] newStart) {
+        return new GaussianCurveFitter(newStart.clone(),
                                        maxIter);
     }
 
-    /** {@inheritDoc} */
-    public GaussianCurveFitter withMaxIterations(int max) {
+    /**
+     * Configure the maximum number of iterations.
+     * @param newMaxIter maximum number of iterations
+     * @return a new instance.
+     */
+    public GaussianCurveFitter withMaxIterations(int newMaxIter) {
         return new GaussianCurveFitter(initialGuess,
-                                       max);
+                                       newMaxIter);
     }
 
     /** {@inheritDoc} */
