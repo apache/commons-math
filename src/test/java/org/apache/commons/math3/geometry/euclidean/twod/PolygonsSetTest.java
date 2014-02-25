@@ -76,6 +76,19 @@ public class PolygonsSetTest {
     }
 
     @Test
+    public void testBox() {
+        PolygonsSet box = new PolygonsSet(0, 2, -1, 1, 1.0e-10);
+        Assert.assertEquals(4.0, box.getSize(), 1.0e-10);
+        Assert.assertEquals(8.0, box.getBoundarySize(), 1.0e-10);
+    }
+
+    @Test
+    public void testInfinite() {
+        PolygonsSet box = new PolygonsSet(new BSPTree<Euclidean2D>(Boolean.TRUE), 1.0e-10);
+        Assert.assertTrue(Double.isInfinite(box.getSize()));
+    }
+
+    @Test
     public void testStair() {
         Vector2D[][] vertices = new Vector2D[][] {
             new Vector2D[] {

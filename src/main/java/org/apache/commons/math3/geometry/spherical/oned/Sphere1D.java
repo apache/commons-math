@@ -59,13 +59,13 @@ public class Sphere1D implements Serializable, Space {
     /** {@inheritDoc}
      * <p>
      * As the 1-dimension sphere does not have proper sub-spaces,
-     * this method always throws a {@link MathUnsupportedOperationException}
+     * this method always throws a {@link NoSubSpaceException}
      * </p>
      * @return nothing
-     * @throws MathUnsupportedOperationException in all cases
+     * @throws NoSubSpaceException in all cases
      */
-    public Space getSubSpace() throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException(LocalizedFormats.NOT_SUPPORTED_IN_DIMENSION_N, 1);
+    public Space getSubSpace() throws NoSubSpaceException {
+        throw new NoSubSpaceException();
     }
 
     // CHECKSTYLE: stop HideUtilityClassConstructor
@@ -84,6 +84,24 @@ public class Sphere1D implements Serializable, Space {
     private Object readResolve() {
         // return the singleton instance
         return LazyHolder.INSTANCE;
+    }
+
+    /** Specialized exception for inexistent sub-space.
+     * <p>
+     * This exception is thrown when attempting to get the sub-space of a one-dimensional space
+     * </p>
+     */
+    public static class NoSubSpaceException extends MathUnsupportedOperationException {
+
+        /** Serializable UID. */
+        private static final long serialVersionUID = 20140225L;
+
+        /** Simple constructor.
+         */
+        public NoSubSpaceException() {
+            super(LocalizedFormats.NOT_SUPPORTED_IN_DIMENSION_N, 1);
+        }
+
     }
 
 }
