@@ -48,6 +48,7 @@ source("regressionTestCases")
 # inference
 source("chiSquareTestCases")
 source("anovaTestCases")
+source("KolmogorovSmirnovTestCases")
 
 # descriptive
 source("descriptiveTestCases")

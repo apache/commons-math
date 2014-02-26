@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="psteitz" type="update" issue="MATH-437">
+        Added KolmogorovSmirnovTest class, deprecating KolmogorovSmirnovDistribution.
+      </action>
       <action dev="luc" type="add" issue="MATH-1101">
         Improved documentation of QR decomposition handling of singular matrices.
       </action>
