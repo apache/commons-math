@@ -18,22 +18,16 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.MaxEval;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
-import org.apache.commons.math3.optim.univariate.BracketFinder;
-import org.apache.commons.math3.optim.univariate.BrentOptimizer;
+import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
 import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
-import org.apache.commons.math3.optim.univariate.SimpleUnivariateValueChecker;
-import org.apache.commons.math3.optim.univariate.SearchInterval;
-import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
 
 /**
  * Powell's algorithm.
@@ -131,7 +125,8 @@ public class PowellOptimizer
         absoluteThreshold = abs;
 
         // Create the line search optimizer.
-        line = new LineSearch(lineRel,
+        line = new LineSearch(this,
+                              lineRel,
                               lineAbs);
     }
 
@@ -290,79 +285,6 @@ public class PowellOptimizer
         result[1] = nD;
 
         return result;
-    }
-
-    /**
-     * Class for finding the minimum of the objective function along a given
-     * direction.
-     */
-    private class LineSearch extends BrentOptimizer {
-        /**
-         * Value that will pass the precondition check for {@link BrentOptimizer}
-         * but will not pass the convergence check, so that the custom checker
-         * will always decide when to stop the line search.
-         */
-        private static final double REL_TOL_UNUSED = 1e-15;
-        /**
-         * Value that will pass the precondition check for {@link BrentOptimizer}
-         * but will not pass the convergence check, so that the custom checker
-         * will always decide when to stop the line search.
-         */
-        private static final double ABS_TOL_UNUSED = Double.MIN_VALUE;
-        /**
-         * Automatic bracketing.
-         */
-        private final BracketFinder bracket = new BracketFinder();
-
-        /**
-         * The "BrentOptimizer" default stopping criterion uses the tolerances
-         * to check the domain (point) values, not the function values.
-         * We thus create a custom checker to use function values.
-         *
-         * @param rel Relative threshold.
-         * @param abs Absolute threshold.
-         */
-        LineSearch(double rel,
-                   double abs) {
-            super(REL_TOL_UNUSED,
-                  ABS_TOL_UNUSED,
-                  new SimpleUnivariateValueChecker(rel, abs));
-        }
-
-        /**
-         * Find the minimum of the function {@code f(p + alpha * d)}.
-         *
-         * @param p Starting point.
-         * @param d Search direction.
-         * @return the optimum.
-         * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
-         * if the number of evaluations is exceeded.
-         */
-        public UnivariatePointValuePair search(final double[] p, final double[] d) {
-            final int n = p.length;
-            final UnivariateFunction f = new UnivariateFunction() {
-                    public double value(double alpha) {
-                        final double[] x = new double[n];
-                        for (int i = 0; i < n; i++) {
-                            x[i] = p[i] + alpha * d[i];
-                        }
-                        final double obj = PowellOptimizer.this.computeObjectiveValue(x);
-                        return obj;
-                    }
-                };
-
-            final GoalType goal = PowellOptimizer.this.getGoalType();
-            bracket.search(f, goal, 0, 1);
-            // Passing "MAX_VALUE" as a dummy value because it is the enclosing
-            // class that counts the number of evaluations (and will eventually
-            // generate the exception).
-            return optimize(new MaxEval(Integer.MAX_VALUE),
-                            new UnivariateObjectiveFunction(f),
-                            goal,
-                            new SearchInterval(bracket.getLo(),
-                                               bracket.getHi(),
-                                               bracket.getMid()));
-        }
     }
 
     /**

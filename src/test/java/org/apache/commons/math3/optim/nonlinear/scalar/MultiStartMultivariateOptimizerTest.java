@@ -66,12 +66,15 @@ public class MultiStartMultivariateOptimizerTest {
         PointValuePair[] optima = optimizer.getOptima();
         for (PointValuePair o : optima) {
             Vector2D center = new Vector2D(o.getPointRef()[0], o.getPointRef()[1]);
-            Assert.assertEquals(69.960161753, circle.getRadius(center), 1e-8);
-            Assert.assertEquals(96.075902096, center.getX(), 1e-8);
-            Assert.assertEquals(48.135167894, center.getY(), 1e-8);
+
+            Assert.assertEquals(69.9601, circle.getRadius(center), 1e-4);
+            Assert.assertEquals(96.075, center.getX(), 1e-3);
+            Assert.assertEquals(48.13516, center.getY(), 1e-5);
         }
-        Assert.assertTrue(optimizer.getEvaluations() > 70);
-        Assert.assertTrue(optimizer.getEvaluations() < 90);
+
+        Assert.assertTrue(optimizer.getEvaluations() > 590);
+        Assert.assertTrue(optimizer.getEvaluations() < 610);
+
         Assert.assertEquals(3.1267527, optimum.getValue(), 1e-8);
     }
 
