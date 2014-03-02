@@ -69,8 +69,8 @@ public class LineSearch {
      * tolerances to check the domain (point) values, not the function
      * values.
      * The {@code relativeTolerance} and {@code absoluteTolerance}
-     * arguments are thus passed to a custom checker that will use
-     * the function values.
+     * arguments are thus passed to a {@link SimpleUnivariateValueChecker
+     * custom checker} that will use the function values.
      *
      * @param optimizer Optimizer on behalf of which the line search
      * be performed.
@@ -78,9 +78,9 @@ public class LineSearch {
      * computeObjectiveValue} method will be called by the
      * {@link #search(double[],double[]) search} method.
      * @param relativeTolerance Search will stop when the function relative
-     * difference between successive iterations is smaller than this value.
+     * difference between successive iterations is below this value.
      * @param absoluteTolerance Search will stop when the function absolute
-     * difference between successive iterations is smaller than this value.
+     * difference between successive iterations is below this value.
      * @param initialBracketingRange Extent of the initial interval used to
      * find an interval that brackets the optimum.
      * If the optimized function varies a lot in the vicinity of the optimum,
