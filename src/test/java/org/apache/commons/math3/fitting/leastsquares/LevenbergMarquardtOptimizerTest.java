@@ -22,11 +22,13 @@ import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularMatrixException;
+import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
@@ -34,6 +36,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * <p>Some of the unit tests are re-implementations of the MINPACK <a
@@ -262,6 +266,27 @@ public class LevenbergMarquardtOptimizerTest
         Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);
         Assert.assertEquals(yCenter, paramFound[1], asymptoticStandardErrorFound[1]);
         Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
+    }
+
+    @Test
+    public void testEvaluationCount() {
+        //setup
+        LeastSquaresProblem lsp = new LinearProblem(new double[][] {{1}}, new double[] {1})
+                .getBuilder()
+                .checker(new ConvergenceChecker<Evaluation>() {
+                    public boolean converged(int iteration, Evaluation previous, Evaluation current) {
+                        return true;
+                    }
+                })
+                .build();
+
+        //action
+        Optimum optimum = optimizer.optimize(lsp);
+
+        //verify
+        //check iterations and evaluations are not switched.
+        Assert.assertThat(optimum.getIterations(), is(1));
+        Assert.assertThat(optimum.getEvaluations(), is(2));
     }
 
     //TODO delete or use
