@@ -55,6 +55,11 @@ public class LineSearch {
      */
     private final BracketFinder bracket = new BracketFinder();
     /**
+     * Extent of the initial interval used to find an interval that
+     * brackets the optimum.
+     */
+    private final double initialBracketingRange;
+    /**
      * Optimizer on behalf of which the line search must be performed.
      */
     private final MultivariateOptimizer mainOptimizer;
@@ -70,23 +75,33 @@ public class LineSearch {
      * @param optimizer Optimizer on behalf of which the line search
      * be performed.
      * Its {@link MultivariateOptimizer#computeObjectiveValue(double[])
-     * computeObjectiveValue} method will be called by this class's
+     * computeObjectiveValue} method will be called by the
      * {@link #search(double[],double[]) search} method.
-     * @param relativeTolerance Relative threshold.
-     * @param absoluteTolerance Absolute threshold.
+     * @param relativeTolerance Search will stop when the function relative
+     * difference between successive iterations is smaller than this value.
+     * @param absoluteTolerance Search will stop when the function absolute
+     * difference between successive iterations is smaller than this value.
+     * @param initialBracketingRange Extent of the initial interval used to
+     * find an interval that brackets the optimum.
+     * If the optimized function varies a lot in the vicinity of the optimum,
+     * it may be necessary to provide a value lower than the distance between
+     * successive local minima.
      */
     public LineSearch(MultivariateOptimizer optimizer,
                       double relativeTolerance,
-                      double absoluteTolerance) {
+                      double absoluteTolerance,
+                      double initialBracketingRange) {
         mainOptimizer = optimizer;
         lineOptimizer = new BrentOptimizer(REL_TOL_UNUSED,
                                            ABS_TOL_UNUSED,
                                            new SimpleUnivariateValueChecker(relativeTolerance,
                                                                             absoluteTolerance));
+        this.initialBracketingRange = initialBracketingRange;
     }
 
     /**
-     * Find the minimum of the function {@code f(p + alpha * d)}.
+     * Finds the number {@code alpha} that optimizes
+     * {@code f(startPoint + alpha * direction)}.
      *
      * @param startPoint Starting point.
      * @param direction Search direction.
@@ -109,7 +124,7 @@ public class LineSearch {
             };
 
         final GoalType goal = mainOptimizer.getGoalType();
-        bracket.search(f, goal, 0, 1);
+        bracket.search(f, goal, 0, initialBracketingRange);
         // Passing "MAX_VALUE" as a dummy value because it is the enclosing
         // class that counts the number of evaluations (and will eventually
         // generate the exception).

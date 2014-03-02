@@ -127,7 +127,8 @@ public class PowellOptimizer
         // Create the line search optimizer.
         line = new LineSearch(this,
                               lineRel,
-                              lineAbs);
+                              lineAbs,
+                              1d);
     }
 
     /**

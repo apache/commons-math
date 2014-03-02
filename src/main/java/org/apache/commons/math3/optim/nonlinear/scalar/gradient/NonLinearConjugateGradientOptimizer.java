@@ -86,7 +86,9 @@ public class NonLinearConjugateGradientOptimizer
      * search.
      *
      * @since 3.1
-     * @deprecated As of v3.3, class is not used anymore.
+     * @deprecated As of v3.3, this class is not used anymore.
+     * This setting is replaced by the {@code initialBracketingRange}
+     * argument to the new constructors.
      */
     @Deprecated
     public static class BracketingStep implements OptimizationData {
@@ -125,6 +127,7 @@ public class NonLinearConjugateGradientOptimizer
              checker,
              1e-8,
              1e-8,
+             1e-8,
              new IdentityPreconditioner());
     }
 
@@ -137,7 +140,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param checker Convergence checker.
      * @param lineSearchSolver Solver to use during line search.
      * @deprecated as of 3.3. Please use
-     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double)} instead.
+     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double,double)} instead.
      */
     @Deprecated
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
@@ -158,17 +161,23 @@ public class NonLinearConjugateGradientOptimizer
      * @param checker Convergence checker.
      * @param relativeTolerance Relative threshold for line search.
      * @param absoluteTolerance Absolute threshold for line search.
+     * @param initialBracketingRange Extent of the initial interval used to
+     * find an interval that brackets the optimum in order to perform the
+     * line search.
      *
-     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double)
+     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double,double)
+     * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
                                                ConvergenceChecker<PointValuePair> checker,
                                                double relativeTolerance,
-                                               double absoluteTolerance) {
+                                               double absoluteTolerance,
+                                               double initialBracketingRange) {
         this(updateFormula,
              checker,
              relativeTolerance,
              absoluteTolerance,
+             initialBracketingRange,
              new IdentityPreconditioner());
     }
 
@@ -180,7 +189,7 @@ public class NonLinearConjugateGradientOptimizer
      * @param lineSearchSolver Solver to use during line search.
      * @param preconditioner Preconditioner.
      * @deprecated as of 3.3. Please use
-     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double,Preconditioner)} instead.
+     * {@link #NonLinearConjugateGradientOptimizer(Formula,ConvergenceChecker,double,double,double,Preconditioner)} instead.
      */
     @Deprecated
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
@@ -190,6 +199,7 @@ public class NonLinearConjugateGradientOptimizer
         this(updateFormula,
              checker,
              lineSearchSolver.getRelativeAccuracy(),
+             lineSearchSolver.getAbsoluteAccuracy(),
              lineSearchSolver.getAbsoluteAccuracy(),
              preconditioner);
     }
@@ -202,13 +212,18 @@ public class NonLinearConjugateGradientOptimizer
      * @param preconditioner Preconditioner.
      * @param relativeTolerance Relative threshold for line search.
      * @param absoluteTolerance Absolute threshold for line search.
+     * @param initialBracketingRange Extent of the initial interval used to
+     * find an interval that brackets the optimum in order to perform the
+     * line search.
      *
-     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double)
+     * @see LineSearch#LineSearch(MultivariateOptimizer,double,double,double)
+     * @since 3.3
      */
     public NonLinearConjugateGradientOptimizer(final Formula updateFormula,
                                                ConvergenceChecker<PointValuePair> checker,
                                                double relativeTolerance,
                                                double absoluteTolerance,
+                                               double initialBracketingRange,
                                                final Preconditioner preconditioner) {
         super(checker);
 
@@ -216,7 +231,8 @@ public class NonLinearConjugateGradientOptimizer
         this.preconditioner = preconditioner;
         line = new LineSearch(this,
                               relativeTolerance,
-                              absoluteTolerance);
+                              absoluteTolerance,
+                              initialBracketingRange);
     }
 
     /**

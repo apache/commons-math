@@ -110,7 +110,10 @@ public class BracketFinder {
      * @throws TooManyEvaluationsException if the maximum number of evaluations
      * is exceeded.
      */
-    public void search(UnivariateFunction func, GoalType goal, double xA, double xB) {
+    public void search(UnivariateFunction func,
+                       GoalType goal,
+                       double xA,
+                       double xB) {
         evaluations.resetCount();
         final boolean isMinim = goal == GoalType.MINIMIZE;
 

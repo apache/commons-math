@@ -105,7 +105,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         optimizer.optimize(new MaxEval(100),
                            problem.getObjectiveFunction(),
                            problem.getObjectiveFunctionGradient(),
@@ -122,7 +122,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -145,7 +145,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -171,7 +171,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -193,7 +193,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -235,7 +235,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                      new SimpleValueChecker(1e-13, 1e-13),
-                                                     1e-7, 1e-7,
+                                                     1e-7, 1e-7, 1,
                                                      preconditioner);
 
         PointValuePair optimum
@@ -267,7 +267,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -288,7 +288,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-13, 1e-13),
-                                                      1e-15, 1e-15);
+                                                      1e-15, 1e-15, 1);
         PointValuePair optimum1
             = optimizer.optimize(new MaxEval(200),
                                  problem1.getObjectiveFunction(),
@@ -333,7 +333,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -356,7 +356,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                      new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                     1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -377,7 +377,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -400,7 +400,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
             = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                       new SimpleValueChecker(1e-6, 1e-6),
-                                                      1e-3, 1e-3);
+                                                      1e-3, 1e-3, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
@@ -422,7 +422,7 @@ public class NonLinearConjugateGradientOptimizerTest {
         NonLinearConjugateGradientOptimizer optimizer
            = new NonLinearConjugateGradientOptimizer(NonLinearConjugateGradientOptimizer.Formula.POLAK_RIBIERE,
                                                      new SimpleValueChecker(1e-30, 1e-30),
-                                                     1e-15, 1e-13);
+                                                     1e-15, 1e-13, 1);
         PointValuePair optimum
             = optimizer.optimize(new MaxEval(100),
                                  problem.getObjectiveFunction(),
