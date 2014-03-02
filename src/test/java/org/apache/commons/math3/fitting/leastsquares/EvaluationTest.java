@@ -199,4 +199,22 @@ public class EvaluationTest {
                                 expected[i], actual, 1e-6 * expected[i]);
         }
     }
+
+    @Test
+    public void testEvaluateCopiesPoint() throws IOException {
+        //setup
+        StatisticalReferenceDataset dataset
+                = StatisticalReferenceDatasetFactory.createKirby2();
+        LeastSquaresProblem lsp = builder(dataset).build();
+        RealVector point = new ArrayRealVector(lsp.getParameterSize());
+
+        //action
+        Evaluation evaluation = lsp.evaluate(point);
+
+        //verify
+        Assert.assertNotSame(point, evaluation.getPoint());
+        point.setEntry(0, 1);
+        Assert.assertEquals(evaluation.getPoint().getEntry(0), 0, 0);
+    }
+
 }

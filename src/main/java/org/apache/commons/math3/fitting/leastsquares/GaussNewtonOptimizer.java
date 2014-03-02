@@ -197,9 +197,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             throw new NullArgumentException();
         }
 
-        final int nC = lsp.getParameterSize();
-
-        final RealVector currentPoint = lsp.getStart();
+        RealVector currentPoint = lsp.getStart();
 
         // iterate until convergence is reached
         Evaluation current = null;
@@ -227,9 +225,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             // solve the linearized least squares problem
             final RealVector dX = this.decomposition.solve(weightedJacobian, currentResiduals);
             // update the estimated parameters
-            for (int i = 0; i < nC; ++i) {
-                currentPoint.setEntry(i, currentPoint.getEntry(i) + dX.getEntry(i));
-            }
+            currentPoint = currentPoint.add(dX);
         }
     }
 

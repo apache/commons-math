@@ -21,6 +21,7 @@ import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -28,6 +29,7 @@ import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Pair;
@@ -36,6 +38,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.sameInstance;
 
 /**
  * Some of the unit tests are re-implementations of the MINPACK <a
@@ -523,6 +529,33 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
     @Test
     public void testHahn1() throws IOException {
         doTestStRD(StatisticalReferenceDatasetFactory.createHahn1(), optimizer, 1E-7, 1E-4);
+    }
+
+    @Test
+    public void testPointCopy() {
+        LinearProblem problem = new LinearProblem(new double[][]{
+                {1, 0, 0},
+                {-1, 1, 0},
+                {0, -1, 1}
+        }, new double[]{1, 1, 1});
+        //mutable boolean
+        final boolean[] checked = {false};
+
+        final LeastSquaresBuilder builder = problem.getBuilder()
+                .checker(new ConvergenceChecker<Evaluation>() {
+                    public boolean converged(int iteration, Evaluation previous, Evaluation current) {
+                        Assert.assertThat(
+                                previous.getPoint(),
+                                not(sameInstance(current.getPoint())));
+                        Assert.assertArrayEquals(new double[3], previous.getPoint().toArray(), 0);
+                        Assert.assertArrayEquals(new double[] {1, 2, 3}, current.getPoint().toArray(), TOl);
+                        checked[0] = true;
+                        return true;
+                    }
+                });
+        Optimum optimum = optimizer.optimize(builder.build());
+
+        Assert.assertThat(checked[0], is(true));
     }
 
     class LinearProblem {

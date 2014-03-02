@@ -332,7 +332,8 @@ public class LeastSquaresFactory {
                     value.getFirst(),
                     value.getSecond(),
                     this.target,
-                    point);
+                    // copy so optimizer can change point without changing our instance
+                    point.copy());
         }
 
         /**
