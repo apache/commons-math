@@ -303,8 +303,12 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                 problem.getBuilder().start(new double[]{2, 2, 2, 2, 2, 2}).build());
 
         Assert.assertEquals(0, optimum.getRMS(), TOl);
-        //TODO the first two elements of point were not previously checked
-        assertEquals(TOl, optimum.getPoint(), 2, 1, 3, 4, 5, 6);
+        RealVector point = optimum.getPoint();
+        //the first two elements are under constrained
+        //check first two elements obey the constraint: sum to 3
+        Assert.assertEquals(3, point.getEntry(0) + point.getEntry(1), TOl);
+        //#constrains = #states fro the last 4 elements
+        assertEquals(TOl, point.getSubVector(2, 4), 3, 4, 5, 6);
     }
 
     @Test

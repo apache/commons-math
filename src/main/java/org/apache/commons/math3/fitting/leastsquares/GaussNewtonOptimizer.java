@@ -29,15 +29,19 @@ import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularMatrixException;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.apache.commons.math3.optim.ConvergenceChecker;
 import org.apache.commons.math3.util.Incrementor;
 import org.apache.commons.math3.util.Pair;
 
 /**
- * Gauss-Newton least-squares solver. <p/> <p> This class solve a least-square problem by
+ * Gauss-Newton least-squares solver.
+ * <p> This class solve a least-square problem by
  * solving the normal equations of the linearized problem at each iteration. Either LU
- * decomposition or QR decomposition can be used to solve the normal equations. LU
- * decomposition is faster but QR decomposition is more robust for difficult problems.
+ * decomposition or Cholesky decomposition can be used to solve the normal equations,
+ * or QR decomposition or SVD decomposition can be used to solve the linear system. LU
+ * decomposition is faster but QR decomposition is more robust for difficult problems,
+ * and SVD can compute a solution for rank-deficient problems.
  * </p>
  *
  * @version $Id$
@@ -118,6 +122,22 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
                 } catch (NonPositiveDefiniteMatrixException e) {
                     throw new ConvergenceException(LocalizedFormats.UNABLE_TO_SOLVE_SINGULAR_PROBLEM, e);
                 }
+            }
+        },
+        /**
+         * Solve the linear least squares problem using the {@link
+         * SingularValueDecomposition}.
+         *
+         * <p> This method is slower, but can provide a solution for rank deficient and
+         * nearly singular systems.
+         */
+        SVD {
+            @Override
+            protected RealVector solve(final RealMatrix jacobian,
+                                       final RealVector residuals) {
+                return new SingularValueDecomposition(jacobian)
+                        .getSolver()
+                        .solve(residuals);
             }
         };
 
