@@ -377,7 +377,8 @@ public class CMAESOptimizer
         dimension = guess.length;
         initializeCMA(guess);
         iterations = 0;
-        double bestValue = fitfun.value(guess);
+        ValuePenaltyPair valuePenalty = fitfun.value(guess);
+        double bestValue = valuePenalty.value+valuePenalty.penalty;
         push(fitnessHistory, bestValue);
         PointValuePair optimum
             = new PointValuePair(getStartPoint(),
@@ -394,6 +395,7 @@ public class CMAESOptimizer
             final RealMatrix arz = randn1(dimension, lambda);
             final RealMatrix arx = zeros(dimension, lambda);
             final double[] fitness = new double[lambda];
+            final ValuePenaltyPair[] valuePenaltyPairs = new ValuePenaltyPair[lambda];
             // generate random offspring
             for (int k = 0; k < lambda; k++) {
                 RealMatrix arxk = null;
@@ -414,11 +416,18 @@ public class CMAESOptimizer
                 }
                 copyColumn(arxk, 0, arx, k);
                 try {
-                    fitness[k] = fitfun.value(arx.getColumn(k)); // compute fitness
+                    valuePenaltyPairs[k] = fitfun.value(arx.getColumn(k)); // compute fitness
                 } catch (TooManyEvaluationsException e) {
                     break generationLoop;
                 }
             }
+
+            // Compute fitnesses by adding value and penalty after scaling by value range.
+            double valueRange = valueRange(valuePenaltyPairs);
+            for (int iValue=0;iValue<valuePenaltyPairs.length;iValue++) {
+                 fitness[iValue] = valuePenaltyPairs[iValue].value + valuePenaltyPairs[iValue].penalty*valueRange;
+            }
+
             // Sort by fitness and compute weighted mean into xmean
             final int[] arindex = sortedIndices(fitness);
             // Calculate new xmean, this is selection and recombination
@@ -503,7 +512,6 @@ public class CMAESOptimizer
             }
             // store best in history
             push(fitnessHistory,bestFitness);
-            fitfun.setValueRange(worstFitness-bestFitness);
             if (generateStatistics) {
                 statisticsSigmaHistory.add(sigma);
                 statisticsFitnessHistory.add(bestFitness);
@@ -825,6 +833,25 @@ public class CMAESOptimizer
         }
         return indices;
     }
+   /**
+     * Get range of values.
+     *
+     * @param vpPairs Array of valuePenaltyPairs to get range from.
+     * @return a double equal to maximum value minus minimum value.
+     */
+    private double valueRange(final ValuePenaltyPair[] vpPairs) {
+        double max = Double.NEGATIVE_INFINITY;
+        double min = Double.MAX_VALUE;
+        for (ValuePenaltyPair vpPair:vpPairs) {
+            if (vpPair.value > max) {
+                max = vpPair.value;
+            }
+            if (vpPair.value < min) {
+                min = vpPair.value;
+            }
+        }
+        return max-min;
+    }
 
     /**
      * Used to sort fitness values. Sorting is always in lower value first
@@ -872,15 +899,31 @@ public class CMAESOptimizer
             return (int) ((1438542 ^ (bits >>> 32) ^ bits) & 0xffffffff);
         }
     }
+    /**
+     * Stores the value and penalty (for repair of out of bounds point).
+     */
+    private static class ValuePenaltyPair {
+        /** Objective function value. */
+        private double value;
+        /** Penalty value for repair of out out of bounds points. */
+        private double penalty;
+
+        /**
+         * @param value Function value.
+         * @param penalty Out-of-bounds penalty.
+        */
+        public ValuePenaltyPair(final double value, final double penalty) {
+            this.value   = value;
+            this.penalty = penalty;
+        }
+    }
+
 
     /**
      * Normalizes fitness values to the range [0,1]. Adds a penalty to the
-     * fitness value if out of range. The penalty is adjusted by calling
-     * setValueRange().
+     * fitness value if out of range.
      */
     private class FitnessFunction {
-        /** Determines the penalty for boundary violations */
-        private double valueRange;
         /**
          * Flag indicating whether the objective variables are forced into their
          * bounds if defined
@@ -890,7 +933,6 @@ public class CMAESOptimizer
         /** Simple constructor.
          */
         public FitnessFunction() {
-            valueRange = 1;
             isRepairMode = true;
         }
 
@@ -898,16 +940,19 @@ public class CMAESOptimizer
          * @param point Normalized objective variables.
          * @return the objective value + penalty for violated bounds.
          */
-        public double value(final double[] point) {
+        public ValuePenaltyPair value(final double[] point) {
             double value;
+            double penalty=0.0;
             if (isRepairMode) {
                 double[] repaired = repair(point);
-                value = CMAESOptimizer.this.computeObjectiveValue(repaired) +
-                    penalty(point, repaired);
+                value = CMAESOptimizer.this.computeObjectiveValue(repaired);
+                penalty =  penalty(point, repaired);
             } else {
                 value = CMAESOptimizer.this.computeObjectiveValue(point);
             }
-            return isMinimize ? value : -value;
+            value = isMinimize ? value : -value;
+            penalty = isMinimize ? penalty : -penalty;
+            return new ValuePenaltyPair(value,penalty);
         }
 
         /**
@@ -927,13 +972,6 @@ public class CMAESOptimizer
                 }
             }
             return true;
-        }
-
-        /**
-         * @param valueRange Adjusts the penalty computation.
-         */
-        public void setValueRange(double valueRange) {
-            this.valueRange = valueRange;
         }
 
         /**
@@ -966,7 +1004,7 @@ public class CMAESOptimizer
             double penalty = 0;
             for (int i = 0; i < x.length; i++) {
                 double diff = FastMath.abs(x[i] - repaired[i]);
-                penalty += diff * valueRange;
+                penalty += diff;
             }
             return isMinimize ? penalty : -penalty;
         }

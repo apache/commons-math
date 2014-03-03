@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-1107" due-to="Bruce A Johnson">
+        Prevent penalties to grow multiplicatively in CMAES for out of bounds points.
+      </action>
       <action dev="psteitz" type="update" issue="MATH-437">
         Added KolmogorovSmirnovTest class, deprecating KolmogorovSmirnovDistribution.
       </action>
