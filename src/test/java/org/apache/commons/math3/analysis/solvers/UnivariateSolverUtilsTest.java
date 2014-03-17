@@ -21,6 +21,7 @@ import org.apache.commons.math3.analysis.QuinticFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.function.Sin;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -87,6 +88,56 @@ public class UnivariateSolverUtilsTest {
     }
 
     @Test
+    public void testBracketCentered() {
+        double initial = 0.1;
+        double[] result = UnivariateSolverUtils.bracket(sin, initial, -2.0, 2.0, 0.2, 1.0, 100);
+        Assert.assertTrue(result[0] < initial);
+        Assert.assertTrue(result[1] > initial);
+        Assert.assertTrue(sin.value(result[0]) < 0);
+        Assert.assertTrue(sin.value(result[1]) > 0);
+    }
+
+    @Test
+    public void testBracketLow() {
+        double initial = 0.5;
+        double[] result = UnivariateSolverUtils.bracket(sin, initial, -2.0, 2.0, 0.2, 1.0, 100);
+        Assert.assertTrue(result[0] < initial);
+        Assert.assertTrue(result[1] < initial);
+        Assert.assertTrue(sin.value(result[0]) < 0);
+        Assert.assertTrue(sin.value(result[1]) > 0);
+    }
+
+    @Test
+    public void testBracketHigh(){
+        double initial = -0.5;
+        double[] result = UnivariateSolverUtils.bracket(sin, initial, -2.0, 2.0, 0.2, 1.0, 100);
+        Assert.assertTrue(result[0] > initial);
+        Assert.assertTrue(result[1] > initial);
+        Assert.assertTrue(sin.value(result[0]) < 0);
+        Assert.assertTrue(sin.value(result[1]) > 0);
+    }
+
+    @Test(expected=NoBracketingException.class)
+    public void testBracketLinear(){
+        UnivariateSolverUtils.bracket(new UnivariateFunction() {
+            public double value(double x) {
+                return 1 - x;
+            }
+        }, 1000, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0, 1.0, 100);
+    }
+
+    @Test
+    public void testBracketExponential(){
+        double[] result = UnivariateSolverUtils.bracket(new UnivariateFunction() {
+            public double value(double x) {
+                return 1 - x;
+            }
+        }, 1000, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1.0, 2.0, 10);
+        Assert.assertTrue(result[0] <= 1);
+        Assert.assertTrue(result[1] >= 1);
+    }
+
+    @Test
     public void testBracketEndpointRoot() {
         double[] result = UnivariateSolverUtils.bracket(sin, 1.5, 0, 2.0);
         Assert.assertEquals(0.0, sin.value(result[0]), 1.0e-15);
@@ -97,18 +148,28 @@ public class UnivariateSolverUtilsTest {
     public void testNullFunction() {
         UnivariateSolverUtils.bracket(null, 1.5, 0, 2.0);
     }
-    
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testBadInitial() {
         UnivariateSolverUtils.bracket(sin, 2.5, 0, 2.0);
     }
-    
+
+    @Test(expected=MathIllegalArgumentException.class)
+    public void testBadAdditive() {
+        UnivariateSolverUtils.bracket(sin, 1.0, -2.0, 3.0, -1.0, 1.0, 100);
+    }
+
+    @Test(expected=NoBracketingException.class)
+    public void testIterationExceeded() {
+        UnivariateSolverUtils.bracket(sin, 1.0, -2.0, 3.0, 1.0e-5, 1.0, 100);
+    }
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testBadEndpoints() {
         // endpoints not valid
         UnivariateSolverUtils.bracket(sin, 1.5, 2.0, 1.0);
     }
-    
+
     @Test(expected=MathIllegalArgumentException.class)
     public void testBadMaximumIterations() {
         // bad maximum iterations
