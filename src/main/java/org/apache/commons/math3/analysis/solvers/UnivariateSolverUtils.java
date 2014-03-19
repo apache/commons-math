@@ -179,8 +179,8 @@ public class UnivariateSolverUtils {
      * <code>ConvergenceException.</code>  Unless you are confident that there
      * is a root between <code>lowerBound</code> and <code>upperBound</code>
      * near <code>initial,</code> it is better to use
-     * {@link #bracket(UnivariateFunction, double, double, double,
-     * double, int) bracket(function, initial, lowerBound, upperBound, delta, maximumIterations)},
+     * {@link #bracket(UnivariateFunction, double, double, double, double,
+     * double, int) bracket(function, initial, lowerBound, upperBound, q, r, maximumIterations)},
      * explicitly specifying the maximum number of iterations.</p>
      *
      * @param function Function.

@@ -40,8 +40,7 @@ import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
  * to define a custom convergence checker that might terminate the algorithm
  * earlier.
  * <br/>
- * The internal line search optimizer is a {@link BrentOptimizer} with a
- * convergence checker set to {@link SimpleUnivariateValueChecker}.
+ * Line search is performed by the {@link LineSearch} class.
  * <br/>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
