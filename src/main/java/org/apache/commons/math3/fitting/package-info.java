@@ -17,11 +17,10 @@
 /**
  * Classes to perform curve fitting.
  *
- * Curve fitting is a special case of a least squares problem
- * were the parameters are the coefficients of a function {@code f}
- * whose graph {@code y = f(x)} should pass through sample points, and
+ * Curve fitting is a special case of a least-squares problem
+ * where the parameters are the coefficients of a function \( f \)
+ * whose graph \( y = f(x) \) should pass through sample points, and
  * were the objective function is the squared sum of the residuals
- * <code>f(x<sub>i</sub>) - y<sub>i</sub></code> for observed points
- * <code>(x<sub>i</sub>, y<sub>i</sub>)</code>.
+ * \( f(x_i) - y_i \) for observed points \( (x_i, y_i) \).
  */
 package org.apache.commons.math3.fitting;
