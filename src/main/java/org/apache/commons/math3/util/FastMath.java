@@ -2546,9 +2546,11 @@ public class FastMath {
         /* Add in effect of epsB.   atan'(x) = 1/(1+x^2) */
         yb += epsB / (1d + epsA * epsA);
 
+        final double eighths = EIGHTHS[idx];
+
         //result = yb + eighths[idx] + ya;
-        double za = EIGHTHS[idx] + ya;
-        double zb = -(za - EIGHTHS[idx] - ya);
+        double za = eighths + ya;
+        double zb = -(za - eighths - ya);
         temp = za + yb;
         zb += -(temp - za - yb);
         za = temp;
