@@ -2457,9 +2457,13 @@ public class FastMath {
             final double oneOverXa = 1 / xa;
             idx = (int) (-((-1.7168146928204136 * oneOverXa * oneOverXa + 8.0) * oneOverXa) + 13.07);
         }
-        double epsA = xa - TANGENT_TABLE_A[idx];
-        double epsB = -(epsA - xa + TANGENT_TABLE_A[idx]);
-        epsB += xb - TANGENT_TABLE_B[idx];
+
+        final double ttA = TANGENT_TABLE_A[idx];
+        final double ttB = TANGENT_TABLE_B[idx];
+
+        double epsA = xa - ttA;
+        double epsB = -(epsA - xa + ttA);
+        epsB += xb - ttB;
 
         double temp = epsA + epsB;
         epsB = -(temp - epsA - epsB);
@@ -2476,20 +2480,20 @@ public class FastMath {
         if (idx == 0) {
             /* If the slope of the arctan is gentle enough (< 0.45), this approximation will suffice */
             //double denom = 1.0 / (1.0 + xa*tangentTableA[idx] + xb*tangentTableA[idx] + xa*tangentTableB[idx] + xb*tangentTableB[idx]);
-            final double denom = 1d / (1d + (xa + xb) * (TANGENT_TABLE_A[idx] + TANGENT_TABLE_B[idx]));
+            final double denom = 1d / (1d + (xa + xb) * (ttA + ttB));
             //double denom = 1.0 / (1.0 + xa*tangentTableA[idx]);
             ya = epsA * denom;
             yb = epsB * denom;
         } else {
-            double temp2 = xa * TANGENT_TABLE_A[idx];
+            double temp2 = xa * ttA;
             double za = 1d + temp2;
             double zb = -(za - 1d - temp2);
-            temp2 = xb * TANGENT_TABLE_A[idx] + xa * TANGENT_TABLE_B[idx];
+            temp2 = xb * ttA + xa * ttB;
             temp = za + temp2;
             zb += -(temp - za - temp2);
             za = temp;
 
-            zb += xb * TANGENT_TABLE_B[idx];
+            zb += xb * ttB;
             ya = epsA / za;
 
             temp = ya * HEX_40000000;
