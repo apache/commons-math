@@ -2433,7 +2433,6 @@ public class FastMath {
      */
     private static double atan(double xa, double xb, boolean leftPlane) {
         boolean negate = false;
-        int idx;
 
         if (xa == 0.0) { // Matches +/- 0.0; return correct sign
             return leftPlane ? copySign(Math.PI, xa) : xa;
@@ -2451,6 +2450,7 @@ public class FastMath {
         }
 
         /* Estimate the closest tabulated arctan value, compute eps = xa-tangentTable */
+        final int idx;
         if (xa < 1) {
             idx = (int) (((-1.7168146928204136 * xa * xa + 8.0) * xa) + 0.5);
         } else {
