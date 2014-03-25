@@ -2432,17 +2432,18 @@ public class FastMath {
      * @return atan(xa + xb) (or angle shifted by {@code PI} if leftPlane is true)
      */
     private static double atan(double xa, double xb, boolean leftPlane) {
-        boolean negate = false;
-
         if (xa == 0.0) { // Matches +/- 0.0; return correct sign
             return leftPlane ? copySign(Math.PI, xa) : xa;
         }
 
+        final boolean negate;
         if (xa < 0) {
             // negative
             xa = -xa;
             xb = -xb;
             negate = true;
+        } else {
+            negate = false;
         }
 
         if (xa > 1.633123935319537E16) { // Very large input
