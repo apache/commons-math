@@ -556,11 +556,16 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * of [0,1] used in generating data from the empirical distribution.
      * Subintervals correspond to bins with lengths proportional to bin counts.</p>
      *
+     * <strong>Preconditions:</strong><ul>
+     * <li>the distribution must be loaded before invoking this method</li></ul>
+     *
      * <p>In versions 1.0-2.0 of commons-math, this array was (incorrectly) returned
      * by {@link #getUpperBounds()}.</p>
      *
      * @since 2.1
      * @return array of upper bounds of subintervals used in data generation
+     * @throws NullPointerException unless a {@code load} method has been
+     * called beforehand.
      */
     public double[] getGeneratorUpperBounds() {
         int len = upperBounds.length;
