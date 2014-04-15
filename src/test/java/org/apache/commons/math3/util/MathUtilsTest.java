@@ -25,10 +25,27 @@ import org.junit.Test;
 
 /**
  * Test cases for the MathUtils class.
+ *
  * @version $Id$
- *          2007) $
  */
 public final class MathUtilsTest {
+    @Test
+    public void testEqualsDouble() {
+        final double x = 1234.5678;
+        Assert.assertTrue(MathUtils.equals(x, x));
+        Assert.assertFalse(MathUtils.equals(x, -x));
+
+        // Special cases (cf. semantics of JDK's "Double").
+        // 1. NaN
+        Assert.assertTrue(MathUtils.equals(Double.NaN, Double.NaN));
+        // 2. Negative zero
+        final double mZero = -0d;
+        final double zero = 0d;
+        Assert.assertTrue(MathUtils.equals(zero, zero));
+        Assert.assertTrue(MathUtils.equals(mZero, mZero));
+        Assert.assertFalse(MathUtils.equals(mZero, zero));
+    }
+
     @Test
     public void testHash() {
         double[] testArray = {

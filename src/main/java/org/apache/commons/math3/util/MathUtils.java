@@ -58,6 +58,18 @@ public final class MathUtils {
     }
 
     /**
+     * Returns {@code true} if the values are equal according to semantics of
+     * {@link Double#equals(Object)}.
+     *
+     * @param x Value
+     * @param y Value
+     * @return {@code new Double(x).equals(new Double(y))}
+     */
+    public static boolean equals(double x, double y) {
+        return new Double(x).equals(new Double(y));
+    }
+
+    /**
      * Returns an integer hash code representing the given double array.
      *
      * @param value the value to be hashed (may be null)
