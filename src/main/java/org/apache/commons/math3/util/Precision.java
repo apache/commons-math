@@ -276,7 +276,7 @@ public class Precision {
 
     /**
      * Returns {@code true} if there is no double value strictly between the
-     * arguments or the reltaive difference between them is smaller or equal
+     * arguments or the relative difference between them is smaller or equal
      * to the given tolerance.
      *
      * @param x First value.
