@@ -311,7 +311,7 @@ public class ComplexTest {
     @Test
     public void testReciprocalReal() {
         Complex z = new Complex(-2.0, 0.0);
-        Assert.assertEquals(new Complex(-0.5, 0.0), z.reciprocal());
+        Assert.assertTrue(Complex.equals(new Complex(-0.5, 0.0), z.reciprocal()));
     }
 
     @Test
@@ -497,6 +497,15 @@ public class ComplexTest {
         Assert.assertFalse(x.equals(null));
     }
 
+    @Test(expected=NullPointerException.class)
+    public void testFloatingPointEqualsPrecondition1() {
+        Complex.equals(new Complex(3.0, 4.0), null, 3);
+    }
+    @Test(expected=NullPointerException.class)
+    public void testFloatingPointEqualsPrecondition2() {
+        Complex.equals(null, new Complex(3.0, 4.0), 3);
+    }
+
     @Test
     public void testEqualsClass() {
         Complex x = new Complex(3.0, 4.0);
@@ -507,6 +516,65 @@ public class ComplexTest {
     public void testEqualsSame() {
         Complex x = new Complex(3.0, 4.0);
         Assert.assertTrue(x.equals(x));
+    }
+
+    @Test
+    public void testFloatingPointEquals() {
+        double re = -3.21;
+        double im = 456789e10;
+
+        final Complex x = new Complex(re, im);
+        Complex y = new Complex(re, im);
+
+        Assert.assertTrue(x.equals(y));
+        Assert.assertTrue(Complex.equals(x, y));
+
+        final int maxUlps = 5;
+        for (int i = 0; i < maxUlps; i++) {
+            re = Math.nextUp(re);
+            im = Math.nextUp(im);
+        }
+        y = new Complex(re, im);
+        Assert.assertTrue(Complex.equals(x, y, maxUlps));
+
+        re = Math.nextUp(re);
+        im = Math.nextUp(im);
+        y = new Complex(re, im);
+        Assert.assertFalse(Complex.equals(x, y, maxUlps));
+    }
+
+    @Test
+    public void testFloatingPointEqualsNaN() {
+        Complex c = new Complex(Double.NaN, 1);
+        Assert.assertFalse(Complex.equals(c, c));
+
+        c = new Complex(1, Double.NaN);
+        Assert.assertFalse(Complex.equals(c, c));
+    }
+
+    @Test
+    public void testFloatingPointEqualsWithAllowedDelta() {
+        final double re = 153.0000;
+        final double im = 152.9375;
+        final double tol1 = 0.0625;
+        final Complex x = new Complex(re, im);
+        final Complex y = new Complex(re + tol1, im + tol1);
+        Assert.assertTrue(Complex.equals(x, y, tol1));
+
+        final double tol2 = 0.0624;
+        Assert.assertFalse(Complex.equals(x, y, tol2));
+    }
+
+    @Test
+    public void testFloatingPointEqualsWithRelativeTolerance() {
+        final double tol = 1e-4;
+        final double re = 1;
+        final double im = 1e10;
+
+        final double f = 1 + tol;
+        final Complex x = new Complex(re, im);
+        final Complex y = new Complex(re * f, im * f);
+        Assert.assertTrue(Complex.equalsWithRelativeTolerance(x, y, tol));
     }
 
     @Test
@@ -551,6 +619,21 @@ public class ComplexTest {
         Complex imaginaryNaN = new Complex(0.0, Double.NaN);
         Assert.assertEquals(realNaN.hashCode(), imaginaryNaN.hashCode());
         Assert.assertEquals(imaginaryNaN.hashCode(), Complex.NaN.hashCode());
+
+        // MATH-1118
+        // "equals" and "hashCode" must be compatible: if two objects have
+        // different hash codes, "equals" must return false.
+        final String msg = "'equals' not compatible with 'hashCode'";
+
+        x = new Complex(0.0, 0.0);
+        y = new Complex(0.0, -0.0);
+        Assert.assertTrue(x.hashCode() != y.hashCode());
+        Assert.assertFalse(msg, x.equals(y));
+
+        x = new Complex(0.0, 0.0);
+        y = new Complex(-0.0, 0.0);
+        Assert.assertTrue(x.hashCode() != y.hashCode());
+        Assert.assertFalse(msg, x.equals(y));
     }
 
     @Test
@@ -1067,7 +1150,8 @@ public class ComplexTest {
     /** test issue MATH-221 */
     @Test
     public void testMath221() {
-        Assert.assertEquals(new Complex(0,-1), new Complex(0,1).multiply(new Complex(-1,0)));
+        Assert.assertTrue(Complex.equals(new Complex(0,-1),
+                                         new Complex(0,1).multiply(new Complex(-1,0))));
     }
 
     /**
