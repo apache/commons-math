@@ -61,7 +61,7 @@ public final class CombinatoricsUtils {
      * <Strong>Preconditions</strong>:
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
+     * {@code MathIllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
      * largest value of {@code n} for which all coefficients are
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
