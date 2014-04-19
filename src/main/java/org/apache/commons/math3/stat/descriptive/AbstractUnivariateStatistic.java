@@ -151,9 +151,7 @@ public abstract class AbstractUnivariateStatistic
      * @param length the number of elements to include
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
-     * @deprecated 3.3 Use {@link MathArrays#verifyValues(double[], int, int)} instead
      */
-    @Deprecated
     protected boolean test(
         final double[] values,
         final int begin,
@@ -181,9 +179,7 @@ public abstract class AbstractUnivariateStatistic
      * @return true if the parameters are valid
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 3.0
-     * @deprecated 3.3 Use {@link MathArrays#verifyValues(double[], int, int, boolean)} instead
      */
-    @Deprecated
     protected boolean test(final double[] values, final int begin,
             final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
         return MathArrays.verifyValues(values, begin, length, allowEmpty);
@@ -217,9 +213,7 @@ public abstract class AbstractUnivariateStatistic
      * @return true if the parameters are valid and designate a subarray of positive length
      * @throws MathIllegalArgumentException if the indices are invalid or the array is null
      * @since 2.1
-     * @deprecated 3.3 Use {@link MathArrays#verifyValues(double[], double[], int, int)} instead
      */
-    @Deprecated
     protected boolean test(
         final double[] values,
         final double[] weights,
@@ -260,9 +254,7 @@ public abstract class AbstractUnivariateStatistic
      * the weights array contains NaN, infinite or negative elements, or there
      * are no positive weights.
      * @since 3.0
-     * @deprecated 3.3 Use {@link MathArrays#verifyValues(double[], double[], int, int, boolean)} instead
      */
-    @Deprecated
     protected boolean test(final double[] values, final double[] weights,
             final int begin, final int length, final boolean allowEmpty) throws MathIllegalArgumentException {
 
