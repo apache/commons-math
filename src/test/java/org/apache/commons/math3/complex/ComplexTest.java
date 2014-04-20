@@ -531,14 +531,14 @@ public class ComplexTest {
 
         final int maxUlps = 5;
         for (int i = 0; i < maxUlps; i++) {
-            re = Math.nextUp(re);
-            im = Math.nextUp(im);
+            re = FastMath.nextUp(re);
+            im = FastMath.nextUp(im);
         }
         y = new Complex(re, im);
         Assert.assertTrue(Complex.equals(x, y, maxUlps));
 
-        re = Math.nextUp(re);
-        im = Math.nextUp(im);
+        re = FastMath.nextUp(re);
+        im = FastMath.nextUp(im);
         y = new Complex(re, im);
         Assert.assertFalse(Complex.equals(x, y, maxUlps));
     }
