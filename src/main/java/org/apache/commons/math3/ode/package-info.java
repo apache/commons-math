@@ -136,6 +136,7 @@
  * <tr><td>{@link org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator Classical Runge-Kutta}</td><td>4</td></tr>
  * <tr><td>{@link org.apache.commons.math3.ode.nonstiff.GillIntegrator Gill}</td><td>4</td></tr>
  * <tr><td>{@link org.apache.commons.math3.ode.nonstiff.ThreeEighthesIntegrator 3/8}</td><td>4</td></tr>
+ * <tr><td>{@link org.apache.commons.math3.ode.nonstiff.LutherIntegrator Luther}</td><td>6</td></tr>
  * </table>
  * </p>
  *

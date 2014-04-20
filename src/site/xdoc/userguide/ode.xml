@@ -265,6 +265,7 @@ public int eventOccurred(double t, double[] y, boolean increasing) {
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/ClassicalRungeKuttaIntegrator.html">Classical Runge-Kutta</a></td><td>4</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/GillIntegrator.html">Gill</a></td><td>4</td></tr>
           <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/ThreeEighthesIntegrator.html">3/8</a></td><td>4</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math3/ode/nonstiff/LutherIntegrator.html">Luther</a></td><td>6</td></tr>
           </table>
         </p>
         <p>

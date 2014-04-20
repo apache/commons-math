@@ -56,6 +56,9 @@ If the output is not quite correct, check for invisible trailing spaces!
         Added new methods for testing floating-point equality between the real
         (resp. imaginary) parts of two complex numbers.
       </action>
+      <action dev="luc" type="add" >
+        Added an order 6 fixed-step ODE integrator designed by H. A. Luther in 1968.
+      </action>
       <action dev="luc" type="update" >
         Bracketing utility for univariate root solvers returns a tighter interval than before.
         It also allows choosing the search interval expansion rate, supporting both linear
