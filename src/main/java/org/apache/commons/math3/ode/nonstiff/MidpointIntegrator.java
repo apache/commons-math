@@ -35,6 +35,8 @@ package org.apache.commons.math3.ode.nonstiff;
  * @see EulerIntegrator
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
+ * @see ThreeEighthesIntegrator
+ * @see LutherIntegrator
  *
  * @version $Id$
  * @since 1.2
