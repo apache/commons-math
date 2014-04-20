@@ -51,6 +51,9 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="add" issue="MATH-1119">
+        Added a fast single-step method for fixed-step Runge-Kutta integrators.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1118">
         "Complex": Fixed compatibility of "equals(Object)" with "hashCode()".
         Added new methods for testing floating-point equality between the real

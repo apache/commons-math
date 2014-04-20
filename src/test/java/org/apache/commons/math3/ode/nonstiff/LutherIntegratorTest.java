@@ -306,4 +306,24 @@ public class LutherIntegratorTest {
         }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
     }
 
+    @Test
+    public void testSingleStep() {
+
+        final TestProblem3 pb  = new TestProblem3(0.9);
+        double h = (pb.getFinalTime() - pb.getInitialTime()) * 0.0003;
+
+        RungeKuttaIntegrator integ = new LutherIntegrator(Double.NaN);
+        double   t = pb.getInitialTime();
+        double[] y = pb.getInitialState();
+        for (int i = 0; i < 100; ++i) {
+            y = integ.singleStep(pb, t, y, t + h);
+            t += h;
+        }
+        double[] yth = pb.computeTheoreticalState(t);
+        double dx = y[0] - yth[0];
+        double dy = y[1] - yth[1];
+        double error = dx * dx + dy * dy;
+        Assert.assertEquals(0.0, error, 1.0e-11);
+    }
+
 }
