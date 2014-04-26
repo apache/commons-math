@@ -64,6 +64,16 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * cells). In order to avoid building too many small objects, it is
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+     * <p>
+     * This constructor is aimed at expert use, as building the tree may
+     * be a difficult taks. It is not intended for general use and for
+     * performances reasons does not check thoroughly its input, as this would
+     * require walking the full tree each time. Failing to provide a tree with
+     * the proper attributes, <em>will</em> therefore generate problems like
+     * {@link NullPointerException} or {@link ClassCastException} only later on.
+     * This limitation is known and explains why this constructor is for expert
+     * use only. The caller does have the responsibility to provided correct arguments.
+     * </p>
      * @param tree inside/outside BSP tree representing the region
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
@@ -219,6 +229,10 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     private static Line[] boxBoundary(final double xMin, final double xMax,
                                       final double yMin, final double yMax,
                                       final double tolerance) {
+        if ((xMin >= xMax - tolerance) || (yMin >= yMax - tolerance)) {
+            // too thin box, build an empty polygons set
+            return null;
+        }
         final Vector2D minMin = new Vector2D(xMin, yMin);
         final Vector2D minMax = new Vector2D(xMin, yMax);
         final Vector2D maxMin = new Vector2D(xMax, yMin);

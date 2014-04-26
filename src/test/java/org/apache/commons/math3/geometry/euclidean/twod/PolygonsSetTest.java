@@ -1066,6 +1066,28 @@ public class PolygonsSetTest {
         Assert.assertEquals(1, verticies.length);
     }
 
+    @Test
+    public void testTooThinBox() {
+        Assert.assertEquals(0.0,
+                            new PolygonsSet(0.0, 0.0, 0.0, 10.3206397147574, 1.0e-10).getSize(),
+                            1.0e-10);
+    }
+
+    @Test
+    public void testWrongUsage() {
+        // the following is a wrong usage of the constructor.
+        // as explained in the javadoc, the failure is NOT detected at construction
+        // time but occurs later on
+        PolygonsSet ps = new PolygonsSet(new BSPTree<Euclidean2D>(), 1.0e-10);
+        Assert.assertNotNull(ps);
+        try {
+            ps.getSize();
+            Assert.fail("an exception should have been thrown");
+        } catch (NullPointerException npe) {
+            // this is expected
+        }
+    }
+
     private PolygonsSet buildSet(Vector2D[][] vertices) {
         ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
         for (int i = 0; i < vertices.length; ++i) {
