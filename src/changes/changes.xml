@@ -51,6 +51,10 @@ If the output is not quite correct, check for invisible trailing spaces!
   </properties>
   <body>
     <release version="3.3" date="TBD" description="TBD">
+      <action dev="luc" type="fix" issue="MATH-1115">
+        Build properly empty polyhedrons set when given equal min/max boundaries. Also explained
+        better in the javadoc about some wrong usage of PolyhedronsSet constructor.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1117">
         Build properly empty polygons set when given equal min/max boundaries. Also explained
         better in the javadoc about some wrong usage of PolygonsSet constructor.

@@ -59,6 +59,16 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
      * cells). In order to avoid building too many small objects, it is
      * recommended to use the predefined constants
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
+     * <p>
+     * This constructor is aimed at expert use, as building the tree may
+     * be a difficult taks. It is not intended for general use and for
+     * performances reasons does not check thoroughly its input, as this would
+     * require walking the full tree each time. Failing to provide a tree with
+     * the proper attributes, <em>will</em> therefore generate problems like
+     * {@link NullPointerException} or {@link ClassCastException} only later on.
+     * This limitation is known and explains why this constructor is for expert
+     * use only. The caller does have the responsibility to provided correct arguments.
+     * </p>
      * @param tree inside/outside BSP tree representing the region
      * @param tolerance tolerance below which points are considered identical
      * @since 3.3
@@ -190,6 +200,10 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                                                       final double yMin, final double yMax,
                                                       final double zMin, final double zMax,
                                                       final double tolerance) {
+        if ((xMin >= xMax - tolerance) || (yMin >= yMax - tolerance) || (zMin >= zMax - tolerance)) {
+            // too thin box, build an empty polygons set
+            return new BSPTree<Euclidean3D>(Boolean.FALSE);
+        }
         final Plane pxMin = new Plane(new Vector3D(xMin, 0,    0),   Vector3D.MINUS_I, tolerance);
         final Plane pxMax = new Plane(new Vector3D(xMax, 0,    0),   Vector3D.PLUS_I,  tolerance);
         final Plane pyMin = new Plane(new Vector3D(0,    yMin, 0),   Vector3D.MINUS_J, tolerance);

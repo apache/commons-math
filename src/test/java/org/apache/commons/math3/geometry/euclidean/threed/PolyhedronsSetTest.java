@@ -285,6 +285,28 @@ public class PolyhedronsSetTest {
         Assert.assertEquals(24.0, polyhedronsSet.getBoundarySize(), 5.0e-6);
     }
 
+    @Test
+    public void testTooThinBox() {
+        Assert.assertEquals(0.0,
+                            new PolyhedronsSet(0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0e-10).getSize(),
+                            1.0e-10);
+    }
+
+    @Test
+    public void testWrongUsage() {
+        // the following is a wrong usage of the constructor.
+        // as explained in the javadoc, the failure is NOT detected at construction
+        // time but occurs later on
+        PolyhedronsSet ps = new PolyhedronsSet(new BSPTree<Euclidean3D>(), 1.0e-10);
+        Assert.assertNotNull(ps);
+        try {
+            ps.checkPoint(Vector3D.ZERO);
+            Assert.fail("an exception should have been thrown");
+        } catch (NullPointerException npe) {
+            // this is expected
+        }
+    }
+
     private void checkPoints(Region.Location expected, PolyhedronsSet tree, Vector3D[] points) {
         for (int i = 0; i < points.length; ++i) {
             Assert.assertEquals(expected, tree.checkPoint(points[i]));
