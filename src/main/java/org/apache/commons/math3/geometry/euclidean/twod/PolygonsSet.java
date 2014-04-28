@@ -66,7 +66,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * {@code Boolean.TRUE} and {@code Boolean.FALSE}</p>
      * <p>
      * This constructor is aimed at expert use, as building the tree may
-     * be a difficult taks. It is not intended for general use and for
+     * be a difficult task. It is not intended for general use and for
      * performances reasons does not check thoroughly its input, as this would
      * require walking the full tree each time. Failing to provide a tree with
      * the proper attributes, <em>will</em> therefore generate problems like
