@@ -1,5 +1,5 @@
 
-              Apache Apache Commons Math 3.3 RELEASE NOTES
+              Apache Commons Math 3.3 RELEASE NOTES
 
 The Apache Commons Math team is pleased to announce the release of commons-math3-3.3.
 
@@ -222,5 +222,3 @@ For complete information on Apache Commons Math, including instructions on how t
 patches, or suggestions for improvement, see the Apache Apache Commons Math website:
 
 http://commons.apache.org/proper/commons-math/
-
-
