@@ -440,7 +440,7 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <jar destfile="${project.build.directory}/${project.artifactId}-tools-${project.version}.jar">
+                <jar destfile="${project.build.directory}/${project.artifactId}-${project.version}-tools.jar">
                   <metainf dir="${basedir}" includes="NOTICE.txt,LICENSE.txt" />
                   <manifest>
                     <attribute name="Specification-Title" value="${project.name} Tools" />
@@ -463,7 +463,7 @@
           </execution>
         </executions>
       </plugin>
-      <!--  Attaches the commons-math3-tools JAR to the Maven lifecycle
+      <!--  Attaches the commons-math3 tools JAR to the Maven lifecycle
             to ensure they will be signed and deployed as normal -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -479,7 +479,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <file>${project.build.directory}/${project.artifactId}-tools-${project.version}.jar</file>
+                  <file>${project.build.directory}/${project.artifactId}-${project.version}-tools.jar</file>
                   <type>jar</type>
                   <classifier>tools</classifier>
                 </artifact>

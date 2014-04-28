@@ -157,7 +157,7 @@ Users are encouraged to upgrade to this version as this release not
         in favor of corresponding methods "ArithmeticUtils#pow(..., int)".
       </action>
       <action dev="erans" type="fix" issue="MATH-976">
-        Create additional artifact "commons-math3-tools-x.y.z.jar" as part of the
+        Create additional artifact "commons-math3-x.y.z-tools.jar" as part of the
         release process. This artifact contains useful tools, e.g. for performance testing.
       </action>
       <action dev="erans" type="fix" issue="MATH-990">
