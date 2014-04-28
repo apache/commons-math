@@ -21,8 +21,8 @@ import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.apache.commons.math3.util.FastMath;
 
 /**
- * This class implements a step interpolator for second order
- * Runge-Kutta integrator.
+ * This class represents an interpolator over the last step during an
+ * ODE integration for the 6th order Luther integrator.
  *
  * <p>This interpolator computes dense output inside the last
  * step computed. The interpolation equation is consistent with the
