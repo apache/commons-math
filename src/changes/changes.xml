@@ -56,7 +56,7 @@ This is a minor release: It combines bug fixes and new features.
  way such as to allow drop-in replacement of the v3.x JAR file.
   
 Most notable among the new features are:
- Framework for creating artifical neural nets, self organizing feature maps,
+ Framework for creating artificial neural nets, self organizing feature maps,
  computational geometry algorithms (convex hull, enclosing ball), performance
  improvements of the linear simplex solver, refactoring of curve fitters,
  low-discrepancy random generators (sobol, halton), least-squares fitting.
