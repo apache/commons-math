@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>32</version>
+    <version>34</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
@@ -366,8 +366,6 @@
     <math.findbugs.version>2.5.1</math.findbugs.version>
     <math.checkstyle.version>2.9.1</math.checkstyle.version>
     <math.clirr.version>2.6.1</math.clirr.version>
-    <!-- Temporary downdate: 0.6.3 uses different tags and CP32 was not updated -->
-    <commons.jacoco.version>0.6.2.201302030002</commons.jacoco.version>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>

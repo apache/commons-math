@@ -219,6 +219,6 @@ o MATH-978:  Added append method to StorelessCovariance, making this class map/r
 
 
 For complete information on Apache Commons Math, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Apache Commons Math website:
+patches, or suggestions for improvement, see the Apache Commons Math website:
 
 http://commons.apache.org/proper/commons-math/
