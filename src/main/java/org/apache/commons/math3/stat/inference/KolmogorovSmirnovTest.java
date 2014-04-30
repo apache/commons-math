@@ -351,7 +351,7 @@ public class KolmogorovSmirnovTest {
     /**
      * Calculates \(P(D_n < d)\) using the method described in [1] with quick decisions for extreme
      * values given in [2] (see above). The result is not exact as with
-     * {@link KolmogorovSmirnovDistribution#cdfExact(double)} because calculations are based on
+     * {@link #cdfExact(double, int)} because calculations are based on
      * {@code double} rather than {@link org.apache.commons.math3.fraction.BigFraction}.
      *
      * @param d statistic
@@ -370,7 +370,7 @@ public class KolmogorovSmirnovTest {
      * Calculates {@code P(D_n < d)}. The result is exact in the sense that BigFraction/BigReal is
      * used everywhere at the expense of very slow execution time. Almost never choose this in real
      * applications unless you are very sure; this is almost solely for verification purposes.
-     * Normally, you would choose {@link KolmogorovSmirnovDistribution#cdf(double)}. See the class
+     * Normally, you would choose {@link #cdf(double, int)}. See the class
      * javadoc for definitions and algorithm description.
      *
      * @param d statistic

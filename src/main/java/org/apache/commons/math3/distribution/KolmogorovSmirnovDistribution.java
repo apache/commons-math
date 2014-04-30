@@ -70,7 +70,7 @@ import org.apache.commons.math3.util.FastMath;
  * Kolmogorov-Smirnov test (Wikipedia)</a>
  * @version $Id$
  * @deprecated to be removed in version 4.0 -
- *  use {@link org.apache.commmons.math3.stat.inference.KolmogorovSmirnovTest}
+ *  use {@link org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest}
  */
 public class KolmogorovSmirnovDistribution implements Serializable {
 
