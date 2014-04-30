@@ -80,6 +80,11 @@ Users are encouraged to upgrade to this version as this release not
   classes are intended to be package private only and are not supposed to be
   used for other purposes. 
 ">
+      <action dev="erans" type="fix" issue="MATH-1092">
+        Extracted class "LineSearch" from "PowellOptimizer", to be used in
+        "NonLinearConjugateGradientOptimizer" (in place of the implementation
+        that triggered this issue).
+      </action>
       <action dev="luc" type="fix" issue="MATH-1115">
         Build properly empty polyhedrons set when given equal min/max boundaries. Also explained
         better in the javadoc about some wrong usage of PolyhedronsSet constructor.
