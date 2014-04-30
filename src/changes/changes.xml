@@ -188,6 +188,14 @@ Users are encouraged to upgrade to this version as this release not
         boundary crossings. This API is available for all BSP trees, in
         Euclidean and spherical geometries, and in all dimensions.
       </action>
+      <action dev="luc" type="add">
+        Added new geometry sub-packages: spherical.oned which deals with geometry
+        on the 1-sphere (i.e. the circle) and spherical.twod which deals with the
+        2-sphere (i.e. the regular sphere). BSP trees can be used in these new
+        spaces, so one can build arcs sets and spherical polygons sets with all
+        the regular operations (inside/outside/boundary checks, union, intersection,
+        symetric difference, complement ...).
+      </action>
       <action dev="luc" type="add" issue="MATH-1090">
         IntervalsSet now implements Iterable&lt;double[]&gt;, so one can iterate
         over the sub-intervals without building a full list containing
