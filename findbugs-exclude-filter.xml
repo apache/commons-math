@@ -80,6 +80,11 @@
     <Method name="altmov" params="int,double" returns="double[]" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
+  <Match>
+    <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.CMAESOptimizer" />
+    <Method name="doOptimize" params="" returns="org.apache.commons.math3.optim.PointValuePair" />
+    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
+  </Match>
   
   <!-- The following equality test is intentional and needed for semantic purposes -->
   <Match>
