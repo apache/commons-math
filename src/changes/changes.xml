@@ -80,7 +80,7 @@ Users are encouraged to upgrade to this version as this release not
   classes are intended to be package private only and are not supposed to be
   used for other purposes. 
 ">
-      <action dev="tn" type="add" issue="MATH-1110">
+      <action dev="tn" type="add" issue="MATH-1110" due-to="Edward Segall">
         Added new constructor to "OLSMultipleLinearRegression" to be able
         to specify a custom singularity threshold for QR decomposition.
       </action>
