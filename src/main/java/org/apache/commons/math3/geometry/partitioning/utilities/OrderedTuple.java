@@ -44,7 +44,7 @@ import org.apache.commons.math3.util.FastMath;
  * given range. This is depicted in dimension 2 by the following
  * picture:</p>
  *
- * <img src="doc-files/OrderedTuple.png" />
+ * <img src="doc-files/OrderedTuple.png" alt="OrderedTuple">
  *
  * <p>This picture shows a set of 100000 random 2-D pairs having their
  * first component between -50 and +150 and their second component

@@ -20,30 +20,28 @@ import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 
 /** This interface defines mappers between a space and one of its sub-spaces.
-
- * <p>Sub-spaces are the lower dimensions subsets of a n-dimensions
+ * <p>
+ * Sub-spaces are the lower dimensions subsets of a n-dimensions
  * space. The (n-1)-dimension sub-spaces are specific sub-spaces known
  * as {@link Hyperplane hyperplanes}. This interface can be used regardless
  * of the dimensions differences. As an example, {@link
  * org.apache.commons.math3.geometry.euclidean.threed.Line Line} in 3D
- * implements Embedding<{@link
- * org.apache.commons.math3.geometry.euclidean.threed.Vector3D Vector3D}, {link
- * org.apache.commons.math3.geometry.euclidean.oned.Vector1D Vector1D>, i.e. it
- * maps directly dimensions 3 and 1.</p>
-
- * <p>In the 3D euclidean space, hyperplanes are 2D planes, and the 1D
- * sub-spaces are lines.</p>
-
+ * implements Embedding&lt;{@link
+ * org.apache.commons.math3.geometry.euclidean.threed.Vector3D Vector3D}, {@link
+ * org.apache.commons.math3.geometry.euclidean.oned.Vector1D Vector1D}&gt;, i.e. it
+ * maps directly dimensions 3 and 1.
+ * <p>
+ * In the 3D euclidean space, hyperplanes are 2D planes, and the 1D
+ * sub-spaces are lines.
  * <p>
  * Note that this interface is <em>not</em> intended to be implemented
  * by Apache Commons Math users, it is only intended to be implemented
  * within the library itself. New methods may be added even for minor
  * versions, which breaks compatibility for external implementations.
- * </p>
-
+ *
  * @param <S> Type of the embedding space.
  * @param <T> Type of the embedded sub-space.
-
+ *
  * @see Hyperplane
  * @version $Id$
  * @since 3.0

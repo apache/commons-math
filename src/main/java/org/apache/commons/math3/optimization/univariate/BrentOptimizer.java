@@ -16,12 +16,12 @@
  */
 package org.apache.commons.math3.optimization.univariate;
 
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * For a function defined on some interval {@code (lo, hi)}, this class
@@ -30,7 +30,7 @@ import org.apache.commons.math3.optimization.GoalType;
  * It implements Richard Brent's algorithm (from his book "Algorithms for
  * Minimization without Derivatives", p. 79) for finding minima of real
  * univariate functions.
- * <br/>
+ * <p>
  * This code is an adaptation, partly based on the Python code from SciPy
  * (module "optimize.py" v0.5); the original algorithm is also modified
  * <ul>

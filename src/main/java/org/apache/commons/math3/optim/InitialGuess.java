@@ -19,7 +19,7 @@ package org.apache.commons.math3.optim;
 
 /**
  * Starting point (first guess) of the optimization procedure.
- * <br/>
+ * <p>
  * Immutable class.
  *
  * @version $Id$

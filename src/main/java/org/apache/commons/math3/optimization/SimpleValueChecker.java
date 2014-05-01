@@ -28,7 +28,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * difference between the objective function values is smaller than a
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold.
- * <br/>
+ * <p>
  * The {@link #converged(int,PointValuePair,PointValuePair) converged}
  * method will also return {@code true} if the number of iterations has been set
  * (see {@link #SimpleValueChecker(double,double,int) this constructor}).

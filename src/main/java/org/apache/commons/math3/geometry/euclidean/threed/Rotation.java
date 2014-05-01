@@ -1029,9 +1029,7 @@ public class Rotation implements Serializable {
    * or very different. It is mathematically defined as the angle of
    * the rotation r that prepended to one of the rotations gives the other
    * one:</p>
-   * <pre>
-   *        r<sub>1</sub>(r) = r<sub>2</sub>
-   * </pre>
+   * <code>r<sub>1</sub>(r) = r<sub>2</sub></code>
    * <p>This distance is an angle between 0 and &pi;. Its value is the smallest
    * possible upper bound of the angle in radians between r<sub>1</sub>(v)
    * and r<sub>2</sub>(v) for all possible vectors v. This upper bound is

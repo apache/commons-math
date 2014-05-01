@@ -17,17 +17,17 @@
 
 package org.apache.commons.math3.optimization.fitting;
 
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
 import org.apache.commons.math3.util.FastMath;
 
 /**
  * Class that implements a curve fitting specialized for sinusoids.
- *
+ * <p>
  * Harmonic fitting is a very simple case of curve fitting. The
  * estimated coefficients are the amplitude a, the pulsation &omega; and
  * the phase &phi;: <code>f (t) = a cos (&omega; t + &phi;)</code>. They are

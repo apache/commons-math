@@ -23,14 +23,12 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Provides a generic means to evaluate continued fractions.  Subclasses simply
  * provided the a and b coefficients to evaluate the continued fraction.
- *
  * <p>
  * References:
  * <ul>
  * <li><a href="http://mathworld.wolfram.com/ContinuedFraction.html">
  * Continued Fraction</a></li>
  * </ul>
- * </p>
  *
  * @version $Id$
  */
@@ -111,7 +109,6 @@ public abstract class ContinuedFraction {
      * </ul>
      * <b>Note:</b> the implementation uses the terms a<sub>i</sub> and b<sub>i</sub> as defined in
      * <a href="http://mathworld.wolfram.com/ContinuedFraction.html">Continued Fraction @ MathWorld</a>.
-     * </p>
      *
      * @param x the evaluation point.
      * @param epsilon maximum error allowed.

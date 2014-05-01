@@ -85,7 +85,7 @@ public final class ArithmeticUtils {
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
      * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
      * thrown.</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -114,10 +114,10 @@ public final class ArithmeticUtils {
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code double}. The
-     * largest value of {@code n} for which all coefficients are <
+     * largest value of {@code n} for which all coefficients are &lt;
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -145,7 +145,7 @@ public final class ArithmeticUtils {
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -172,11 +172,10 @@ public final class ArithmeticUtils {
      * <li> {@code n >= 0} (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which {@code n!} <
+     * largest value of {@code n} for which {@code n!} &lt;
      * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
      * an {@code ArithMeticException } is thrown.</li>
      * </ul>
-     * </p>
      *
      * @param n argument
      * @return {@code n!}
@@ -229,7 +228,7 @@ public final class ArithmeticUtils {
      * numbers, using a modified version of the "binary gcd" method.
      * See Knuth 4.5.2 algorithm B.
      * The algorithm is due to Josef Stein (1961).
-     * <br/>
+     * <p>
      * Special cases:
      * <ul>
      *  <li>The invocations
@@ -316,7 +315,7 @@ public final class ArithmeticUtils {
      * and modulo operations.
      * See Knuth 4.5.2 algorithm B.
      * The algorithm is due to Josef Stein (1961).
-     * <br/>
+     * <p>
      * Special cases:
      * <ul>
      *  <li>The result of {@code gcd(x, x)}, {@code gcd(0, x)} and

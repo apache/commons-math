@@ -67,7 +67,7 @@ public final class CombinatoricsUtils {
      * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
      * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
      * thrown.</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -145,10 +145,10 @@ public final class CombinatoricsUtils {
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code double}. The
-     * largest value of {@code n} for which all coefficients are <
+     * largest value of {@code n} for which all coefficients are &lt;
      * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
      * Double.POSITIVE_INFINITY is returned</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -193,7 +193,7 @@ public final class CombinatoricsUtils {
      * <ul>
      * <li> {@code 0 <= k <= n } (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
-     * </ul></p>
+     * </ul>
      *
      * @param n the size of the set
      * @param k the size of the subsets to be counted
@@ -261,11 +261,10 @@ public final class CombinatoricsUtils {
      * <li> {@code n >= 0} (otherwise
      * {@code IllegalArgumentException} is thrown)</li>
      * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which {@code n!} <
+     * largest value of {@code n} for which {@code n!} &lt;
      * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
      * an {@code ArithMeticException } is thrown.</li>
      * </ul>
-     * </p>
      *
      * @param n argument
      * @return {@code n!}
@@ -341,7 +340,7 @@ public final class CombinatoricsUtils {
      * <p>
      * The preconditions are {@code 0 <= k <= n } (otherwise
      * {@code NotPositiveException} is thrown)
-     * </p>
+     *
      * @param n the size of the set
      * @param k the number of non-empty subsets
      * @return {@code S(n,k)}
@@ -426,8 +425,7 @@ public final class CombinatoricsUtils {
      * they are visited in lexicographic order with significance from right to
      * left. For example, combinationsIterator(4, 2) returns an Iterator that
      * will generate the following sequence of arrays on successive calls to
-     * {@code next()}:<br/>
-     * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
+     * {@code next()}: {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
      * </p>
      * If {@code k == 0} an Iterator containing an empty array is returned and
      * if {@code k == n} an Iterator containing [0, ..., n -1] is returned.

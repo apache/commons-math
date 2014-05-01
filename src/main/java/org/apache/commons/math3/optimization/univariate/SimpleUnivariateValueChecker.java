@@ -17,9 +17,9 @@
 
 package org.apache.commons.math3.optimization.univariate;
 
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Simple implementation of the
@@ -30,7 +30,7 @@ import org.apache.commons.math3.optimization.AbstractConvergenceChecker;
  * difference between the objective function values is smaller than a
  * threshold or if either the absolute difference between the objective
  * function values is smaller than another threshold.
- * <br/>
+ * <p>
  * The {@link #converged(int,UnivariatePointValuePair,UnivariatePointValuePair)
  * converged} method will also return {@code true} if the number of iterations
  * has been set (see {@link #SimpleUnivariateValueChecker(double,double,int)

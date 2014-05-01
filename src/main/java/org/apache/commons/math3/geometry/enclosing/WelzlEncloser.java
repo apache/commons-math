@@ -32,10 +32,10 @@ import org.apache.commons.math3.geometry.Space;
  * href="http://www.inf.ethz.ch/personal/gaertner/texts/own_work/esa99_final.pdf">Fast and
  * Robust Smallest Enclosing Balls</a>, by Bernd Gärtner and further modified in
  * paper <a
- * href=http://www.idt.mdh.se/kurser/ct3340/ht12/MINICONFERENCE/FinalPapers/ircse12_submission_30.pdf">
+ * href="http://www.idt.mdh.se/kurser/ct3340/ht12/MINICONFERENCE/FinalPapers/ircse12_submission_30.pdf">
  * Efficient Computation of Smallest Enclosing Balls in Three Dimensions</a> by Linus Källberg
  * to avoid performing local copies of data have been included.
- * </p>
+ *
  * @param <S> Space type.
  * @param <P> Point type.
  * @version $Id$

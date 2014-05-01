@@ -84,9 +84,9 @@ public final class MathUtils {
      * Normalize an angle in a 2&pi; wide interval around a center value.
      * <p>This method has three main uses:</p>
      * <ul>
-     *   <li>normalize an angle between 0 and 2&pi;:<br/>
+     *   <li>normalize an angle between 0 and 2&pi;:<br>
      *       {@code a = MathUtils.normalizeAngle(a, FastMath.PI);}</li>
-     *   <li>normalize an angle between -&pi; and +&pi;<br/>
+     *   <li>normalize an angle between -&pi; and +&pi;<br>
      *       {@code a = MathUtils.normalizeAngle(a, 0.0);}</li>
      *   <li>compute the angle between two defining angular positions:<br>
      *       {@code angle = MathUtils.normalizeAngle(end, start) - start;}</li>
@@ -104,14 +104,14 @@ public final class MathUtils {
      }
 
     /**
-     * <p>Reduce {@code |a - offset|} to the primary interval
-     * {@code [0, |period|)}.</p>
-     *
-     * <p>Specifically, the value returned is <br/>
-     * {@code a - |period| * floor((a - offset) / |period|) - offset}.</p>
-     *
-     * <p>If any of the parameters are {@code NaN} or infinite, the result is
-     * {@code NaN}.</p>
+     * Reduce {@code |a - offset|} to the primary interval
+     * {@code [0, |period|)}.
+     * <p>
+     * Specifically, the value returned is <br>
+     * {@code a - |period| * floor((a - offset) / |period|) - offset}.
+     * <p>
+     * If any of the parameters are {@code NaN} or infinite, the result is
+     * {@code NaN}.
      *
      * @param a Value to reduce.
      * @param period Period.

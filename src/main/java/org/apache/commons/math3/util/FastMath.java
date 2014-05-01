@@ -27,13 +27,11 @@ import java.io.PrintStream;
  * {@code Math.cbrt(y)}), user can directly change the class and use the
  * methods as is (using {@code FastMath.sin(x)} or {@code FastMath.cbrt(y)}
  * in the previous example).
- * </p>
  * <p>
  * FastMath speed is achieved by relying heavily on optimizing compilers
  * to native code present in many JVMs today and use of large tables.
  * The larger tables are lazily initialised on first use, so that the setup
  * time does not penalise methods that don't need them.
- * </p>
  * <p>
  * Note that FastMath is
  * extensively used inside Apache Commons Math, so by calling some algorithms,
@@ -42,7 +40,6 @@ import java.io.PrintStream;
  * Performance figures for a specific JVM and hardware can be evaluated by
  * running the FastMathTestPerformance tests in the test directory of the source
  * distribution.
- * </p>
  * <p>
  * FastMath accuracy should be mostly independent of the JVM as it relies only
  * on IEEE-754 basic operations and on embedded tables. Almost all operations
@@ -51,7 +48,6 @@ import java.io.PrintStream;
  * guarantee for <em>every</em> double numbers input (see William Kahan's <a
  * href="http://en.wikipedia.org/wiki/Rounding#The_table-maker.27s_dilemma">Table
  * Maker's Dilemma</a>).
- * </p>
  * <p>
  * FastMath additionally implements the following methods not found in Math/StrictMath:
  * <ul>
@@ -73,7 +69,7 @@ import java.io.PrintStream;
  * <li>{@link #nextUp(float)}</li>
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
- * </p>
+ *
  * @version $Id$
  * @since 2.2
  */
@@ -3237,7 +3233,7 @@ public class FastMath {
      * <li>+MIN_VALUE</li>
      * <li>+MAX_VALUE</li>
      * <li>+INFINITY</li>
-     * <li></li>
+     * </ul>
      * <p>
      * If arguments compare equal, then the second argument is returned.
      * <p>
@@ -3293,7 +3289,7 @@ public class FastMath {
      * <li>+MIN_VALUE</li>
      * <li>+MAX_VALUE</li>
      * <li>+INFINITY</li>
-     * <li></li>
+     * </ul>
      * <p>
      * If arguments compare equal, then the second argument is returned.
      * <p>
@@ -3337,7 +3333,7 @@ public class FastMath {
 
     /** Get the largest whole number smaller than x.
      * @param x number from which floor is requested
-     * @return a double number f such that f is an integer f <= x < f + 1.0
+     * @return a double number f such that f is an integer f &le; x &lt; f + 1.0
      */
     public static double floor(double x) {
         long y;
@@ -3364,7 +3360,7 @@ public class FastMath {
 
     /** Get the smallest whole number larger than x.
      * @param x number from which ceil is requested
-     * @return a double number c such that c is an integer c - 1.0 < x <= c
+     * @return a double number c such that c is an integer c - 1.0 &lt; x &le; c
      */
     public static double ceil(double x) {
         double y;
@@ -3389,7 +3385,7 @@ public class FastMath {
 
     /** Get the whole number that is the nearest to x, or the even one if x is exactly half way between two integers.
      * @param x number from which nearest whole number is requested
-     * @return a double number r such that r is an integer r - 0.5 <= x <= r + 0.5
+     * @return a double number r such that r is an integer r - 0.5 &le; x &le; r + 0.5
      */
     public static double rint(double x) {
         double y = floor(x);
@@ -3564,7 +3560,7 @@ public class FastMath {
 
     /**
      * Returns the hypotenuse of a triangle with sides {@code x} and {@code y}
-     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)<br/>
+     * - sqrt(<i>x</i><sup>2</sup>&nbsp;+<i>y</i><sup>2</sup>)
      * avoiding intermediate overflow or underflow.
      *
      * <ul>

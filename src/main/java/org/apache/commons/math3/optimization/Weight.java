@@ -23,7 +23,7 @@ import org.apache.commons.math3.linear.NonSquareMatrixException;
 
 /**
  * Weight matrix of the residuals between model and observations.
- * <br/>
+ * <p>
  * Immutable class.
  *
  * @version $Id$

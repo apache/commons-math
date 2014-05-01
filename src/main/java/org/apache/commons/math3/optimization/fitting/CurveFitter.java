@@ -30,7 +30,7 @@ import org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOpt
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
- * <br/>
+ * <p>
  * When a univariate real function y = f(x) does depend on some
  * unknown parameters p<sub>0</sub>, p<sub>1</sub> ... p<sub>n-1</sub>,
  * this class can be used to find these parameters. It does this

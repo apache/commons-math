@@ -16,13 +16,14 @@
  */
 package org.apache.commons.math3.util;
 
-import java.util.Iterator;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.io.Serializable;
-import org.apache.commons.math3.exception.MathInternalError;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.OutOfRangeException;
 
 /**
@@ -61,8 +62,7 @@ public class Combinations implements Iterable<int[]> {
      * For example, {@code new Combinations(4, 2).iterator()} returns
      * an iterator that will generate the following sequence of arrays
      * on successive calls to
-     * {@code next()}:<br/>
-     * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
+     * {@code next()}: {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
      * </p>
      * If {@code k == 0} an iterator containing an empty array is returned;
      * if {@code k == n} an iterator containing [0, ..., n - 1] is returned.
@@ -89,8 +89,7 @@ public class Combinations implements Iterable<int[]> {
      * For example, {@code new Combinations(4, 2).iterator()} returns
      * an iterator that will generate the following sequence of arrays
      * on successive calls to
-     * {@code next()}:<br/>
-     * {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
+     * {@code next()}: {@code [0, 1], [0, 2], [1, 2], [0, 3], [1, 3], [2, 3]}
      * </p>
      * If {@code k == 0} an iterator containing an empty array is returned;
      * if {@code k == n} an iterator containing [0, ..., n - 1] is returned.

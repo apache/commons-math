@@ -539,7 +539,7 @@ public class FieldVector3D<T extends RealFieldElement<T>> implements Serializabl
      *   Vector3D k = u.normalize();
      *   Vector3D i = k.orthogonal();
      *   Vector3D j = Vector3D.crossProduct(k, i);
-     * </code></pre></p>
+     * </code></pre>
      * @return a new normalized vector orthogonal to the instance
      * @exception MathArithmeticException if the norm of the instance is null
      */
