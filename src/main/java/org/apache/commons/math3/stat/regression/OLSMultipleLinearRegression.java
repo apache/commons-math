@@ -57,6 +57,27 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     /** Cached QR decomposition of X matrix */
     private QRDecomposition qr = null;
 
+    /** Singularity threshold for QR decomposition */
+    private final double threshold;
+
+    /**
+     * Create an empty OLSMultipleLinearRegression instance.
+     */
+    public OLSMultipleLinearRegression() {
+        this(0d);
+    }
+
+    /**
+     * Create an empty OLSMultipleLinearRegression instance, using the given
+     * singularity threshold for the QR decomposition.
+     *
+     * @param threshold the singularity threshold
+     * @since 3.3
+     */
+    public OLSMultipleLinearRegression(final double threshold) {
+        this.threshold = threshold;
+    }
+
     /**
      * Loads model x and y sample data, overriding any previous sample.
      *
@@ -79,7 +100,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     public void newSampleData(double[] data, int nobs, int nvars) {
         super.newSampleData(data, nobs, nvars);
-        qr = new QRDecomposition(getX());
+        qr = new QRDecomposition(getX(), threshold);
     }
 
     /**
