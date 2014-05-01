@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -107,7 +106,6 @@ public class NetworkTest {
     }
 
     @Test
-    @Ignore // to be fixed, fails randomly
     public void testIterationOrder() {
         final FeatureInitializer[] initArray = { init };
         final Network net = new NeuronSquareMesh2D(4, false,
