@@ -113,24 +113,9 @@ public class NetworkTest {
                                                    SquareNeighbourhood.VON_NEUMANN,
                                                    initArray).getNetwork();
 
-        boolean isUnspecifiedOrder = false;
-
-        // Check that the default iterator returns the neurons
-        // in an unspecified order.
-        long previousId = Long.MIN_VALUE;
-        for (Neuron n : net) {
-            final long currentId = n.getIdentifier();
-            if (currentId < previousId) {
-                isUnspecifiedOrder = true;
-                break;
-            }
-            previousId = currentId;
-        }
-        Assert.assertTrue(isUnspecifiedOrder);
-
         // Check that the comparator provides a specific order.
-        isUnspecifiedOrder = false;
-        previousId = Long.MIN_VALUE;
+        boolean isUnspecifiedOrder = false;
+        long previousId = Long.MIN_VALUE;
         for (Neuron n : net.getNeurons(new Network.NeuronIdentifierComparator())) {
             final long currentId = n.getIdentifier();
             if (currentId < previousId) {
