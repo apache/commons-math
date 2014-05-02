@@ -16,11 +16,12 @@
  */
 /**
  * <h2>All classes and sub-packages of this package are deprecated.</h2>
- * <h3>Please use their replacements, to be found under:</h3>
+ * <h3>Please use their replacements, to be found under
  *  <ul>
  *   <li>{@link org.apache.commons.math3.optim}</li>
  *   <li>{@link org.apache.commons.math3.fitting}</li>
  *  </ul>
+ * </h3>
  *
  * <p>
  * This package provides common interfaces for the optimization algorithms
@@ -53,6 +54,7 @@
  *      org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction
  *      multivariate differentiable vectorial functions}</li>
  * </ul>
+ * </p>
  *
  * <p>
  * Despite there are only four types of supported optimizers, it is possible to optimize a

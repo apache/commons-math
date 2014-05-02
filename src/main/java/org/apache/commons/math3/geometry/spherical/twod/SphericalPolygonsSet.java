@@ -431,7 +431,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * <pre>
      *   // compute region, plus an enclosing spherical cap
      *   SphericalPolygonsSet complexShape = ...;
-     *   EnclosingBall&lt;Sphere2D, S2Point&gt; cap = complexShape.getEnclosingCap();
+     *   EnclosingBall<Sphere2D, S2Point> cap = complexShape.getEnclosingCap();
      *
      *   // check lots of points
      *   for (Vector3D p : points) {

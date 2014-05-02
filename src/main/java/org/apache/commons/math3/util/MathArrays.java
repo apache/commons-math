@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math3.Field;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.distribution.UniformIntegerDistribution;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.MathArithmeticException;
@@ -37,8 +39,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Arrays utilities.
@@ -95,9 +95,9 @@ public class MathArrays {
     }
 
     /**
-     * Multiply each element of an array by a value.
-     * <p>
-     * The array is modified in place (no copy is created).
+     * <p>Multiply each element of an array by a value.</p>
+     *
+     * <p>The array is modified in place (no copy is created).</p>
      *
      * @param arr Array to scale
      * @param val Scalar
@@ -490,7 +490,7 @@ public class MathArrays {
     }
 
     /**
-     * Check that all entries of the input array are &ge; 0.
+     * Check that all entries of the input array are >= 0.
      *
      * @param in Array to be tested
      * @throws NotPositiveException if any array entries are less than 0.
@@ -506,7 +506,7 @@ public class MathArrays {
     }
 
     /**
-     * Check all entries of the input array are &ge; 0.
+     * Check all entries of the input array are >= 0.
      *
      * @param in Array to be tested
      * @throws NotPositiveException if any array entries are less than 0.
@@ -526,12 +526,12 @@ public class MathArrays {
     /**
      * Returns the Cartesian norm (2-norm), handling both overflow and underflow.
      * Translation of the minpack enorm subroutine.
-     * <p>
+     *
      * The redistribution policy for MINPACK is available
      * <a href="http://www.netlib.org/minpack/disclaimer">here</a>, for
-     * convenience, it is reproduced below.
-     * <p>
-     * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0" summary="Copyright">
+     * convenience, it is reproduced below.</p>
+     *
+     * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
      * <tr><td>
      *    Minpack Copyright Notice (1999) University of Chicago.
      *    All rights reserved
@@ -576,7 +576,7 @@ public class MathArrays {
      *     (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
      *     EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
      *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
-     * </ol></td></tr>
+     * <ol></td></tr>
      * </table>
      *
      * @param v Vector of doubles.
@@ -804,7 +804,7 @@ public class MathArrays {
      * <code>a<sub>i</sub> b<sub>i</sub></code> to high accuracy.
      * It does so by using specific multiplication and addition algorithms to
      * preserve accuracy and reduce cancellation effects.
-     * <p>
+     * <br/>
      * It is based on the 2005 paper
      * <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547">
      * Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump,
@@ -1277,7 +1277,7 @@ public class MathArrays {
      * Normalizes an array to make it sum to a specified value.
      * Returns the result of the transformation
      * <pre>
-     *    x |-&gt; x * normalizedSum / sum
+     *    x |-> x * normalizedSum / sum
      * </pre>
      * applied to each non-NaN element x of the input array, where sum is the
      * sum of the non-NaN entries in the input array.
@@ -1458,7 +1458,7 @@ public class MathArrays {
 
     /**
      * Shuffle the entries of the given array, using the
-     * <a href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle#The_modern_algorithm">
+     * <a href="http://en.wikipedia.org/wiki/Fisher–Yates_shuffle#The_modern_algorithm">
      * Fisher–Yates</a> algorithm.
      * The {@code start} and {@code pos} parameters select which portion
      * of the array is randomized and which is left untouched.
@@ -1557,8 +1557,9 @@ public class MathArrays {
      * positive length</li>
      * <li>throws <code>MathIllegalArgumentException</code> if the array is null or
      * or the indices are invalid</li>
-     * <li>returns <code>false</code> if the array is non-null, but <code>length</code> is 0.</li>
-     * </ul>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0.
+     * </ul></p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -1581,9 +1582,9 @@ public class MathArrays {
      * non-negative length</li>
      * <li>throws <code>IllegalArgumentException</code> if the array is null or
      * or the indices are invalid</li>
-     * <li>returns <code>false</code> if the array is non-null, but
-     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code></li>
-     * </ul>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>
+     * </ul></p>
      *
      * @param values the input array
      * @param begin index of the first array element to include
@@ -1638,9 +1639,9 @@ public class MathArrays {
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li></ul>
      * </li>
-     * <li>returns <code>false</code> if the array is non-null, but
-     * <code>length</code> is 0.</li>
-     * </ul>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0.
+     * </ul></p>
      *
      * @param values the input array
      * @param weights the weights array
@@ -1675,9 +1676,9 @@ public class MathArrays {
      *     <li>the weights array contains negative values</li>
      *     <li>the start and length arguments do not determine a valid array</li></ul>
      * </li>
-     * <li>returns <code>false</code> if the array is non-null, but
-     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.</li>
-     * </ul>
+     * <li>returns <code>false</li> if the array is non-null, but
+     * <code>length</code> is 0 unless <code>allowEmpty</code> is <code>true</code>.
+     * </ul></p>
      *
      * @param values the input array.
      * @param weights the weights array.

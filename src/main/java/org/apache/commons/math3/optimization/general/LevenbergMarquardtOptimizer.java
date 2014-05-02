@@ -20,11 +20,11 @@ import java.util.Arrays;
 
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
 import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math3.util.FastMath;
 
 
 /**
@@ -52,9 +52,9 @@ import org.apache.commons.math3.util.Precision;
  * </ul>
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>, for convenience, it
- * is reproduced below.
+ * is reproduced below.</p>
  *
- * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0" summary="Copyright">
+ * <table border="0" width="80%" cellpadding="10" align="center" bgcolor="#E0E0E0">
  * <tr><td>
  *    Minpack Copyright Notice (1999) University of Chicago.
  *    All rights reserved
@@ -99,7 +99,7 @@ import org.apache.commons.math3.util.Precision;
  *     (INCLUDING NEGLIGENCE OR STRICT LIABILITY), OR OTHERWISE,
  *     EVEN IF ANY OF SAID PARTIES HAS BEEN WARNED OF THE
  *     POSSIBILITY OF SUCH LOSS OR DAMAGES.</strong></li>
- * </ol></td></tr>
+ * <ol></td></tr>
  * </table>
  * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).

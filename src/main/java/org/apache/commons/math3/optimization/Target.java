@@ -21,7 +21,7 @@ package org.apache.commons.math3.optimization;
  * Target of the optimization procedure.
  * They are the values which the objective vector function must reproduce
  * When the parameters of the model have been optimized.
- * <p>
+ * <br/>
  * Immutable class.
  *
  * @version $Id$

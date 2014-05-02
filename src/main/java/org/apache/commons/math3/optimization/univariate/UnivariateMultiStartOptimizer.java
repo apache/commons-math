@@ -25,14 +25,14 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.GoalType;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface
  * adding multi-start features to an existing optimizer.
- * <p>
+ *
  * This class wraps a classical optimizer to use it several times in
  * turn with different starting points in order to avoid being trapped
  * into a local extremum when looking for a global one.
@@ -113,7 +113,7 @@ public class UnivariateMultiStartOptimizer<FUNC extends UnivariateFunction>
      * found at the end of each starts, including the best one already
      * returned by the {@link #optimize(int,UnivariateFunction,GoalType,double,double) optimize}
      * method.
-     * <p>
+     * <br/>
      * The returned array as one element for each start as specified
      * in the constructor. It is ordered with the results from the
      * runs that did converge first, sorted from best to worst

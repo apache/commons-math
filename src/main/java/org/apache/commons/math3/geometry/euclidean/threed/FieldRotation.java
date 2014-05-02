@@ -19,8 +19,8 @@ package org.apache.commons.math3.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.Field;
 import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.Field;
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
@@ -1158,7 +1158,9 @@ public class FieldRotation<T extends RealFieldElement<T>> implements Serializabl
      * or very different. It is mathematically defined as the angle of
      * the rotation r that prepended to one of the rotations gives the other
      * one:</p>
-     * <code>r<sub>1</sub>(r) = r<sub>2</sub></code>
+     * <pre>
+     *        r<sub>1</sub>(r) = r<sub>2</sub>
+     * </pre>
      * <p>This distance is an angle between 0 and &pi;. Its value is the smallest
      * possible upper bound of the angle in radians between r<sub>1</sub>(v)
      * and r<sub>2</sub>(v) for all possible vectors v. This upper bound is

@@ -22,8 +22,8 @@ import java.util.Arrays;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
@@ -220,6 +220,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
      *  <li>{@code contractionCriterion = 0.5 + expansionFactor}</li>
      * </ul>
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
@@ -250,6 +251,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      *  <li>{@code expansionMode = MULTIPLICATIVE}</li>
      *  <li>{@code contractionCriterion = 0.5 + expansionFactor}</li>
      * </ul>
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
@@ -275,7 +277,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Creates an instance with the specified initialCapacity,
      * expansionFactor, and contractionCriterion.
      * The expansion mode will default to {@code MULTIPLICATIVE}.
-     * <p>
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
@@ -306,7 +308,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Creates an instance with the specified initial capacity,
      * expansion factor, and contraction criteria.
      * The expansion mode will default to {@code MULTIPLICATIVE}.
-     * <p>
+     * <br/>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
@@ -316,7 +318,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * </ul>
      *
      * @param initialCapacity Initial size of the internal storage array..
-     * @param expansionFactor The array will be expanded based on this parameter.
+     * @param expansionFactor The array will be expanded based on this
+     * parameter.
      * @param contractionCriterion Contraction criterion.
      * @throws MathIllegalArgumentException if the parameters are not valid.
      * @since 3.1
@@ -333,17 +336,18 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Create a ResizableArray with the specified properties.
+     * <p>
+     * Create a ResizableArray with the specified properties.</p>
      * <p>
      * Throws IllegalArgumentException if the following conditions are
      * not met:
      * <ul>
-     * <li><code>initialCapacity &gt; 0</code></li>
-     * <li><code>expansionFactor &gt; 1</code></li>
-     * <li><code>contractionFactor &ge; expansionFactor</code></li>
+     * <li><code>initialCapacity > 0</code></li>
+     * <li><code>expansionFactor > 1</code></li>
+     * <li><code>contractionFactor >= expansionFactor</code></li>
      * <li><code>expansionMode in {MULTIPLICATIVE_MODE, ADDITIVE_MODE}</code>
      * </li>
-     * </ul>
+     * </ul></p>
      *
      * @param initialCapacity the initial size of the internal storage array
      * @param expansionFactor the array will be expanded based on this
@@ -372,12 +376,12 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
     /**
      * Creates an instance with the specified properties.
-     * <p>
+     * <br/>
      * Throws MathIllegalArgumentException if the following conditions are
      * not met:
      * <ul>
-     *  <li>{@code initialCapacity &gt; 0}</li>
-     *  <li>{@code expansionFactor &gt; 1}</li>
+     *  <li>{@code initialCapacity > 0}</li>
+     *  <li>{@code expansionFactor > 1}</li>
      *  <li>{@code contractionCriterion >= expansionFactor}</li>
      * </ul>
      *
@@ -415,9 +419,9 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
     /**
      * Copy constructor.  Creates a new ResizableDoubleArray that is a deep,
-     * fresh copy of the original. Needs to acquire synchronization lock on original.
-     * <p>
-     * Original may not be null; otherwise a {@link NullArgumentException} is thrown.
+     * fresh copy of the original. Needs to acquire synchronization lock
+     * on original.  Original may not be null; otherwise a {@link NullArgumentException}
+     * is thrown.
      *
      * @param original array to copy
      * @exception NullArgumentException if original is null
@@ -461,10 +465,12 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Adds an element to the end of the array and removes the first
      * element in the array.  Returns the discarded first element.
      * The effect is similar to a push operation in a FIFO queue.
+     * </p>
      * <p>
      * Example: If the array contains the elements 1, 2, 3, 4 (in that order)
      * and addElementRolling(5) is invoked, the result is an array containing
      * the entries 2, 3, 4, 5 and the value returned is 1.
+     * </p>
      *
      * @param value Value to be added to the array.
      * @return the value which has been discarded or "pushed" out of the array
@@ -517,7 +523,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     /**
      * Checks the expansion factor and the contraction criterion and throws an
      * IllegalArgumentException if the contractionCriteria is less than the
-     * expansionCriteria.
+     * expansionCriteria
      *
      * @param expansion factor to be checked
      * @param contraction criteria to be checked
@@ -580,7 +586,8 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
 
     /**
      * Contracts the storage array to the (size of the element set) + 1 - to
-     * avoid a zero length array. This function also resets the startIndex to zero.
+     * avoid a zero length array. This function also resets the startIndex to
+     * zero.
      */
     public synchronized void contract() {
         final double[] tempArray = new double[numElements + 1];
@@ -871,15 +878,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Provides <em>direct</em> access to the internal storage array.
      * Please note that this method returns a reference to this object's
      * storage array, not a copy.
-     * <p>
+     * <br/>
      * To correctly address elements of the array, the "start index" is
      * required (available via the {@link #getStartIndex() getStartIndex}
      * method.
-     * <p>
+     * <br/>
      * This method should only be used to avoid copying the internal array.
      * The returned value <em>must</em> be used for reading only; other
      * uses could lead to this object becoming inconsistent.
-     * <p>
+     * <br/>
      * The {@link #getElements} method has no such limitation since it
      * returns a copy of this array's addressable elements.
      *
@@ -969,11 +976,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
      * Sets the expansionFactor.  Throws IllegalArgumentException if the
      * the following conditions are not met:
      * <ul>
-     * <li><code>expansionFactor &gt; 1</code></li>
-     * <li><code>contractionFactor &ge; expansionFactor</code></li>
+     * <li><code>expansionFactor > 1</code></li>
+     * <li><code>contractionFactor >= expansionFactor</code></li>
      * </ul>
      * @param expansionFactor the new expansion factor value.
-     * @throws MathIllegalArgumentException if expansionFactor is &le; 1 or greater
+     * @throws MathIllegalArgumentException if expansionFactor is <= 1 or greater
      * than contractionFactor
      * @deprecated As of 3.1 (to be removed in 4.0 as field will become "final").
      */
@@ -1095,14 +1102,15 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Copies source to dest, copying the underlying data, so dest is
-     * a new, independent copy of source.  Does not contract before the copy.
-     * <p>
-     * Obtains synchronization locks on both source and dest
-     * (in that order) before performing the copy.
-     * <p>
-     * Neither source nor dest may be null; otherwise a {@link NullArgumentException}
-     * is thrown.
+     * <p>Copies source to dest, copying the underlying data, so dest is
+     * a new, independent copy of source.  Does not contract before
+     * the copy.</p>
+     *
+     * <p>Obtains synchronization locks on both source and dest
+     * (in that order) before performing the copy.</p>
+     *
+     * <p>Neither source nor dest may be null; otherwise a {@link NullArgumentException}
+     * is thrown</p>
      *
      * @param source ResizableDoubleArray to copy
      * @param dest ResizableArray to replace with a copy of the source array
@@ -1130,7 +1138,7 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     }
 
     /**
-     * Returns a copy of the ResizableDoubleArray. Does not contract before
+     * Returns a copy of the ResizableDoubleArray.  Does not contract before
      * the copy, so the returned object is an exact copy of this.
      *
      * @return a new ResizableDoubleArray with the same data and configuration

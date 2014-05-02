@@ -85,10 +85,9 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * <p>
      * The scalar objective function value is computed as:
      * <pre>
-     * <code>
      * objective = &sum;weight<sub>i</sub>(observation<sub>i</sub>-objective<sub>i</sub>)<sup>2</sup>
-     * </code>
      * </pre>
+     * </p>
      * <p>
      * Weights can be used for example to combine residuals with different standard
      * deviations. As an example, consider a residuals array in which even elements
@@ -97,11 +96,12 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * In this case, the weights array should be initialized with value
      * 1.0/(0.01<sup>2</sup>) in the even elements and 1.0/(15.0<sup>2</sup>) in the
      * odd elements (i.e. reciprocals of variances).
+     * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
      * weights array must have consistent sizes or a {@link DimensionMismatchException}
      * will be triggered while computing the scalar objective.
-     *
+     * </p>
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      * @param weights weights to apply to the residuals
@@ -124,15 +124,14 @@ public class LeastSquaresConverter implements MultivariateFunction {
      * <p>
      * The scalar objective function value is computed as:
      * <pre>
-     * <code>
      * objective = y<sup>T</sup>y with y = scale&times;(observation-objective)
-     * </code>
      * </pre>
+     * </p>
      * <p>
      * The array computed by the objective function, the observations array and the
      * the scaling matrix must have consistent sizes or a {@link DimensionMismatchException}
      * will be triggered while computing the scalar objective.
-     *
+     * </p>
      * @param function vectorial residuals function to wrap
      * @param observations observations to be compared to objective function to compute residuals
      * @param scale scaling matrix

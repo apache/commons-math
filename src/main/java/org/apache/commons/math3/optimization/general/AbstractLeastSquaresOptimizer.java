@@ -25,19 +25,19 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.EigenDecomposition;
+import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.linear.EigenDecomposition;
 import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
+import org.apache.commons.math3.optimization.InitialGuess;
 import org.apache.commons.math3.optimization.Target;
 import org.apache.commons.math3.optimization.Weight;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer;
 import org.apache.commons.math3.util.FastMath;
 
@@ -45,7 +45,7 @@ import org.apache.commons.math3.util.FastMath;
  * Base class for implementing least squares optimizers.
  * It handles the boilerplate methods associated to thresholds settings,
  * Jacobian and error estimation.
- * <p>
+ * <br/>
  * This class constructs the Jacobian matrix of the function argument in method
  * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,
  * org.apache.commons.math3.analysis.MultivariateVectorFunction,OptimizationData[])
@@ -288,7 +288,7 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Get the covariance matrix of the optimized parameters.
-     * <p>
+     * <br/>
      * Note that this operation involves the inversion of the
      * <code>J<sup>T</sup>J</code> matrix, where {@code J} is the
      * Jacobian matrix.
@@ -310,7 +310,7 @@ public abstract class AbstractLeastSquaresOptimizer
 
     /**
      * Get the covariance matrix of the optimized parameters.
-     * <p>
+     * <br/>
      * Note that this operation involves the inversion of the
      * <code>J<sup>T</sup>J</code> matrix, where {@code J} is the
      * Jacobian matrix.

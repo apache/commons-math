@@ -20,11 +20,11 @@ package org.apache.commons.math3.optim;
 /**
  * This interface specifies how to check if an optimization algorithm has
  * converged.
- * <p>
+ * <br/>
  * Deciding if convergence has been reached is a problem-dependent issue. The
  * user should provide a class implementing this interface to allow the
  * optimization algorithm to stop its search according to the problem at hand.
- * <p>
+ * <br/>
  * For convenience, three implementations that fit simple needs are already
  * provided: {@link SimpleValueChecker}, {@link SimpleVectorValueChecker} and
  * {@link SimplePointChecker}. The first two consider that convergence is
