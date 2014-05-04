@@ -32,10 +32,10 @@ import org.junit.Test;
  */
 public class KolmogorovSmirnovTestTest {
 
-    private static final double TOLERANCE = 10e-10;
+    protected static final double TOLERANCE = 10e-10;
 
     // Random N(0,1) values generated using R rnorm
-    private final double[] gaussian = {
+    protected static final double[] gaussian = {
         0.26055895, -0.63665233, 1.51221323, 0.61246988, -0.03013003, -1.73025682, -0.51435805, 0.70494168, 0.18242945,
         0.94734336, -0.04286604, -0.37931719, -1.07026403, -2.05861425, 0.11201862, 0.71400136, -0.52122185,
         -0.02478725, -1.86811649, -1.79907688, 0.15046279, 1.32390193, 1.55889719, 1.83149171, -0.03948003,
@@ -51,7 +51,7 @@ public class KolmogorovSmirnovTestTest {
     };
 
     // Random N(0, 1.6) values generated using R rnorm
-    private final double[] gaussian2 = {
+    protected static final double[] gaussian2 = {
         2.88041498038308, -0.632349445671017, 0.402121295225571, 0.692626364613243, 1.30693446815426,
         -0.714176317131286, -0.233169206599583, 1.09113298322107, -1.53149079994305, 1.23259966205809,
         1.01389927412503, 0.0143898711497477, -0.512813545447559, 2.79364360835469, 0.662008875538092,
@@ -75,7 +75,7 @@ public class KolmogorovSmirnovTestTest {
     };
 
     // Random uniform (0, 1) generated using R runif
-    private final double[] uniform = {
+    protected static final double[] uniform = {
         0.7930305, 0.6424382, 0.8747699, 0.7156518, 0.1845909, 0.2022326, 0.4877206, 0.8928752, 0.2293062, 0.4222006,
         0.1610459, 0.2830535, 0.9946345, 0.7329499, 0.26411126, 0.87958133, 0.29827437, 0.39185988, 0.38351185,
         0.36359611, 0.48646472, 0.05577866, 0.56152250, 0.52672013, 0.13171783, 0.95864085, 0.03060207, 0.33514887,

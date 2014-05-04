@@ -837,7 +837,8 @@ new KendallsCorrelation().correlation(x, y)
           <a href="http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
           p-values</a> associated with <code>t-</code>,
           <code>Chi-Square</code>, <code>G</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
-          and <code>Wilcoxon signed rank</code> tests. The respective test classes are
+          <code>Wilcoxon signed rank</code>, and <code>Kolmogorov-Smirnov</code> tests.
+          The respective test classes are
           <a href="../apidocs/org/apache/commons/math3/stat/inference/TTest.html">
           TTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/ChiSquareTest.html">
@@ -849,16 +850,18 @@ new KendallsCorrelation().correlation(x, y)
           <a href="../apidocs/org/apache/commons/math3/stat/inference/MannWhitneyUTest.html">
           MannWhitneyUTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/WilcoxonSignedRankTest.html">
-          WilcoxonSignedRankTest</a> and
+          WilcoxonSignedRankTest</a>,
           <a href="../apidocs/org/apache/commons/math3/stat/inference/BinomialTest.html">
-          BinomialTest</a>.                    
+          BinomialTest</a> and
+          <a href="../apidocs/org/apache/commons/math3/stat/inference/KolmogorovSmirnovTest.html">
+          KolmogorovSmirnovTest</a>.                  
           The <a href="../apidocs/org/apache/commons/math3/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
           static methods in <code>TestUtils</code> to execute tests.  To get
           test object instances, either use e.g., <code>TestUtils.getTTest()</code>
           or use the implementation constructors directly, e.g. <code>new TTest()</code>.
-        </p>
+       </p>
         <p>
           <strong>Implementation Notes</strong>
           <ul>
@@ -899,6 +902,24 @@ new KendallsCorrelation().correlation(x, y)
            (resp. critical values) by 2.</li>
            <li>Degrees of freedom for G- and chi-square tests are integral values, based on the
            number of observed or expected counts (number of observed counts - 1).</li>
+           <li> The KolmogorovSmirnov test uses a statistic based on the maximum deviation of
+           the empirical distribution of sample data points from the distribution expected
+           under the null hypothesis. Specifically, what is computed is
+           \(D_n=\sup_x |F_n(x)-F(x)|\), where \(F\) is the expected distribution and
+           \(F_n\) is the empirical distribution of the \(n\) sample data points.  Both
+           one-sample tests against a <code>RealDistribution</code> and two-sample tests
+           (comparing two empirical distributions) are supported.  For one-sample tests,
+           the distribution of \(D_n\) is estimated using the method in 
+           <a href="http://www.jstatsoft.org/v08/i18/">Evaluating Kolmogorov's Distribution</a> by
+           George Marsaglia, Wai Wan Tsang, and Jingbo Wang, with quick decisions in some cases 
+           for extreme values using the method described in
+           <a href="http://www.jstatsoft.org/v39/i11/"> Computing the Two-Sided Kolmogorov-Smirnov
+           Distribution</a> by Richard Simard and Pierre L'Ecuyer.  In the 2-sample case, estimation
+           by default depends on the number of data points.  For small samples, the distribution
+           is computed exactly; for moderately large samples a Monte Carlo procedure is used, and
+           for large samples a numerical approximation of the Kolmogorov distribution is used.
+           Methods to perform each type of p-value estimation are also exposed directly.  See
+           the class javadoc for details.</li>
           </ul>
           </p>
           <p>
@@ -1178,6 +1199,46 @@ double pValue = TestUtils.oneWayAnovaPValue(classes);     // P-value
 TestUtils.oneWayAnovaTest(classes, 0.01); // returns a boolean
                                           // true means reject null hypothesis
           </source>
+          </dd>
+          <br/>
+          <dt><strong>Kolmogorov-Smirnov tests</strong></dt>
+          <br/>
+          <dd>Given a double[] array <code>data</code> of values, to evaluate the
+          null hypothesis that the values are drawn from a unit normal distribution
+          <source>
+final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+TestUtils.kolmogorovSmirnovTest(unitNormal, sample, false)
+          </source>
+          returns the p-value and
+          <source>
+TestUtils.kolmogorovSmirnovStatistic(unitNormal, sample)
+          </source>
+          returns the D-statistic.
+          <br/>
+          If <code>y</code> is a double array, to evaluate the null hypothesis that
+          <code>x</code> and <code>y</code> are drawn from the same underlying distribution,
+          use
+          <source>
+TestUtils.kolmogorovSmirnovStatistic(x, y)
+          </source>
+          to compute the D-statistic and 
+          <source>
+TestUtils.kolmogorovSmirnovTest(x, y)
+          </source>
+          for the p-value associated with the null hypothesis that <code>x</code> and
+          <code>y</code> come from the same distribution. By default, here and above strict
+          inequality is used in the null hypothesis - i.e., we evaluate \(H_0 : D_{n,m} > d \).
+          To make the inequality above non-strict, add <code>false</code> as an actual parameter
+          above. For large samples, this parameter makes no difference.
+          <br/>
+          To force exact computation of the p-value (overriding the selection of estimation
+          method), first compute the d-statistic and then use the <code>exactP</code> method
+          <source>
+final double d = TestUtils.kolmogorovSmirnovStatistic(x, y);
+TestUtils.exactP(d, x.length, y.length, false)
+          </source>
+          assuming that the non-strict form of the null hypothesis is desired. Note, however,
+          that exact computation for anything but very small samples takes a very long time.    
           </dd>
         </dl>
         </p>

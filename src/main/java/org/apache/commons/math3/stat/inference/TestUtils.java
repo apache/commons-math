@@ -17,8 +17,11 @@
 package org.apache.commons.math3.stat.inference;
 
 import java.util.Collection;
+
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoDataException;
 import org.apache.commons.math3.exception.NotPositiveException;
@@ -49,6 +52,9 @@ public class TestUtils  {
 
     /** Singleton G-Test instance. */
     private static final GTest G_TEST = new GTest();
+
+    /** Singleton K-S test instance */
+    private static final KolmogorovSmirnovTest KS_TEST = new KolmogorovSmirnovTest();
 
     /**
      * Prevent instantiation.
@@ -448,6 +454,94 @@ public class TestUtils  {
         ZeroException, OutOfRangeException, MaxCountExceededException {
         return G_TEST.gTestDataSetsComparison(observed1, observed2, alpha);
     }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(RealDistribution, double[])
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovStatistic(RealDistribution dist, double[] data)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovStatistic(dist, data);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[])
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovTest(dist, data);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], boolean)
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data, boolean strict)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovTest(dist, data, strict);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], double)
+     * @since 3.3
+     */
+    public static boolean kolmogorovSmirnovTest(RealDistribution dist, double[] data, double alpha)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovTest(dist, data, alpha);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(double[], double[])
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovStatistic(double[] x, double[] y)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovStatistic(x, y);
+    }
+
+    /**
+     * @see kolmogorovSmirnovTest(double[], double[])
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovTest(double[] x, double[] y)
+            throws InsufficientDataException, NullArgumentException {
+        return KS_TEST.kolmogorovSmirnovTest(x, y);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[], boolean)
+     * @since 3.3
+     */
+    public static double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict)
+            throws InsufficientDataException, NullArgumentException  {
+        return KS_TEST.kolmogorovSmirnovTest(x, y, strict);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#exactP(double, int, int, boolean)
+     * @since 3.3
+     */
+    public static double exactP(double d, int m, int n, boolean strict) {
+        return KS_TEST.exactP(d, n, m, strict);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#approximateP(double, int, int)
+     * @since 3.3
+     */
+    public static double approximateP(double d, int n, int m) {
+        return KS_TEST.approximateP(d, n, m);
+    }
+
+    /**
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#monteCarloP(double, int, int, boolean, int)
+     * @since 3.3
+     */
+    public static double monteCarloP(double d, int n, int m, boolean strict, int iterations) {
+        return KS_TEST.monteCarloP(d, n, m, strict, iterations);
+    }
+
 
     // CHECKSTYLE: resume JavadocMethodCheck
 

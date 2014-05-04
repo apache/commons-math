@@ -19,6 +19,7 @@ package org.apache.commons.math3.stat.inference;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
@@ -527,5 +528,31 @@ public class TestUtilsTest {
 
         Assert.assertEquals(FastMath.sqrt(5734.343), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 100000), 0.001);
         Assert.assertEquals(FastMath.sqrt(5714.932), TestUtils.rootLogLikelihoodRatio(1000, 1000, 1000, 99000), 0.001);
+    }
+    
+    @Test
+    public void testKSOneSample() throws Exception {
+       final NormalDistribution unitNormal = new NormalDistribution(0d, 1d);
+       final double[] sample = KolmogorovSmirnovTestTest.gaussian;
+       final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
+       Assert.assertEquals(0.3172069207622391, TestUtils.kolmogorovSmirnovTest(unitNormal, sample), tol);
+       Assert.assertEquals(0.0932947561266756, TestUtils.kolmogorovSmirnovStatistic(unitNormal, sample), tol);
+    }
+    
+    @Test
+    public void testKSTwoSample() throws Exception {
+        final double tol = KolmogorovSmirnovTestTest.TOLERANCE;
+        final double[] smallSample1 = {
+            6, 7, 9, 13, 19, 21, 22, 23, 24
+        };
+        final double[] smallSample2 = {
+            10, 11, 12, 16, 20, 27, 28, 32, 44, 54
+        };
+        Assert
+            .assertEquals(0.105577085453247, TestUtils.kolmogorovSmirnovTest(smallSample1, smallSample2, false), tol);
+        final double d = TestUtils.kolmogorovSmirnovStatistic(smallSample1, smallSample2);
+        Assert.assertEquals(0.5, d, tol);
+        Assert
+        .assertEquals(0.105577085453247, TestUtils.exactP(d, smallSample1.length,smallSample2.length, false), tol); 
     }
 }
