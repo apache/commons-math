@@ -250,7 +250,7 @@ public class UnivariateSolverUtils {
      * If different signs are found at first iteration ({@code k=1}), then the returned
      * interval will be \( [a, b] = [l_1, u_1] \). If different signs are found at a later
      * iteration ({code k>1}, then the returned interval will be either
-     * \( [a, b] = [l_{k+1}, l_{k}] \) or ( [a, b] = [u_{k}, u_{k+1}] \). A root solver called
+     * \( [a, b] = [l_{k+1}, l_{k}] \) or \( [a, b] = [u_{k}, u_{k+1}] \). A root solver called
      * with these parameters will therefore start with the smallest bracketing interval known
      * at this step.
      * </p>
