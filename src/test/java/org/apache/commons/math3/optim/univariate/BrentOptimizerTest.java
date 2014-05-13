@@ -162,6 +162,9 @@ public final class BrentOptimizerTest {
         Assert.assertTrue(meanOptValue > -0.2719561281);
         Assert.assertTrue(meanOptValue < -0.2719561280);
         Assert.assertEquals(23, (int) medianEval);
+
+        // MATH-1121: Ensure that the iteration counter is incremented.
+        Assert.assertTrue(optimizer.getIterations() > 0);
     }
 
     @Test
