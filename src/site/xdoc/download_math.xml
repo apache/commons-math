@@ -45,11 +45,11 @@ limitations under the License.
 -->
 <document>
   <properties>
-    <title>Download Commons Math</title>
+    <title>Download Apache Commons Math</title>
     <author email="dev@commons.apache.org">Commons Documentation Team</author>
   </properties>
   <body>
-    <section name="Download Commons Math">
+    <section name="Download Apache Commons Math">
     <subsection name="Using a Mirror">
       <p>
         We recommend you use a mirror to download our release
@@ -95,37 +95,37 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Commons Math 3.2 (requires Java 1.5+)">
+    <section name="Apache Commons Math 3.3 (requires Java 1.5+)">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.2-bin.tar.gz">commons-math3-3.2-bin.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.2-bin.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.2-bin.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.3-bin.tar.gz">commons-math3-3.3-bin.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.3-bin.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.3-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.2-bin.zip">commons-math3-3.2-bin.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.2-bin.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.2-bin.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.3-bin.zip">commons-math3-3.3-bin.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.3-bin.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.3-bin.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.2-src.tar.gz">commons-math3-3.2-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.2-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.2-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.3-src.tar.gz">commons-math3-3.3-src.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.3-src.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.3-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.2-src.zip">commons-math3-3.2-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.2-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.2-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.3-src.zip">commons-math3-3.3-src.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.3-src.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.3-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
     </section>
-    <section name="Commons Math 2.2 (requires Java 1.5+)">
+    <section name="Apache Commons Math 2.2 (requires Java 1.5+)">
       <subsection name="Binaries">
         <table>
           <tr>
