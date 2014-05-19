@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3-examples</artifactId>
-  <version>3.3-SNAPSHOT</version>  
+  <version>3.4-SNAPSHOT</version>  
   <name>Commons Math User Guide</name>
   <inceptionYear>2003</inceptionYear>
   <description>Examples</description>
@@ -51,7 +51,7 @@
       <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-math3</artifactId>
-          <version>3.3-SNAPSHOT</version>
+          <version>3.4-SNAPSHOT</version>
       </dependency>
       <dependency>
           <groupId>com.xeiam.xchart</groupId>
