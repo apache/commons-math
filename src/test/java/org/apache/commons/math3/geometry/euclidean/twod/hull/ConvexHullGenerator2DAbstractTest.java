@@ -282,7 +282,6 @@ public abstract class ConvexHullGenerator2DAbstractTest {
             new Vector2D(-11.0,  1.0),
         };
 
-        ConvexHullGenerator2D generator = new MonotoneChain(true, 1e-6);
         ConvexHull2D convHull = generator.generate(points);
         Region<Euclidean2D> hullRegion = convHull.createRegion();
 
