@@ -28,7 +28,16 @@
       <subsection name="8.1 Overview" href="overview">
         <p>
           The distributions package provides a framework and implementations for some commonly used
-          probability distributions.
+          probability distributions. Continuous univariate distributions are represented by implementations of
+          the <a href="../apidocs/org/apache/commons/math3/distribution/RealDistribution.html">RealDistribution</a>
+          interface.  Discrete distributions implement
+          <a href="../apidocs/org/apache/commons/math3/distribution/IntegerDistribution.html">IntegerDistribution</a>
+          (values must be mapped to integers) and there is an
+          <a href="../apidocs/org/apache/commons/math3/distribution/EnumeratedDistribution.html">EnumeratedDistribution</a>
+          class representing discrete distributions with a finite, enumerated set of values.  Finally, multivariate
+          real-valued distributions can be represented via the 
+          <a href="../apidocs/org/apache/commons/math3/distribution/MultiVariateRealDistribution.html">MultivariateRealDistribution</a>
+          interface.
         </p>
         <p>
           An overview of available continuous distributions:<br/>
@@ -42,7 +51,8 @@
           (<code>probability(&middot;)</code>) and distribution functions
           (<code>cumulativeProbability(&middot;)</code>) for both
           discrete (integer-valued) and continuous probability distributions.
-          The framework also allows for the computation of inverse cumulative probabilities.
+          The framework also allows for the computation of inverse cumulative probabilities
+          and sampling from distributions.
         </p>
         <p>
           For an instance <code>f</code> of a distribution <code>F</code>,
@@ -62,6 +72,14 @@
 <source>TDistribution t = new TDistribution(29);
 double lowerTail = t.cumulativeProbability(-2.656);     // P(T(29) &lt;= -2.656)
 double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T(29) &gt;= 2.75)</source>
+        <p>
+          All distributions implement a <code>sample()</code> method to support random sampling from the
+          distribution. Implementation classes expose constructors allowing the default 
+          <a href="../apidocs/org/apache/commons/math3/random/RandomGenerator.html">RandomGenerator</a>
+          used by the sampling algorithm to be overridden.  If sampling is not going to be used, providing
+          a null <code>RandomGenerator</code> constructor argument will avoid the overhead of initializing
+          the default generator.
+        </p>
         <p>
           Inverse distribution functions can be computed using the
           <code>inverseCumulativeProbability</code> methods.  For continuous <code>f</code>
