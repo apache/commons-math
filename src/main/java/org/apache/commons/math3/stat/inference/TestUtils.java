@@ -501,7 +501,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see kolmogorovSmirnovTest(double[], double[])
+     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(double[] x, double[] y)
