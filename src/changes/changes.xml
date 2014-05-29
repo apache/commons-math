@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="fix" issue="MATH-1125" due-to="Ajo Fod">
+        Performance improvements for Student's t-distribution.
+      </action>
       <action dev="luc" type="fix" issue="MATH-1123" due-to="Aurélien Labrosse">
         Fixed NullPointerException when chopping-off a sub-hyperplane
         that is exactly at a region boundary.

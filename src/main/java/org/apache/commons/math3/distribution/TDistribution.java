@@ -18,11 +18,11 @@ package org.apache.commons.math3.distribution;
 
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of Student's t-distribution.
@@ -43,6 +43,8 @@ public class TDistribution extends AbstractRealDistribution {
     private final double degreesOfFreedom;
     /** Inverse cumulative probability accuracy. */
     private final double solverAbsoluteAccuracy;
+    /** Static computation factor based on degreesOfFreedom. */
+    private final double factor;
 
     /**
      * Create a t distribution using the given degrees of freedom.
@@ -107,6 +109,12 @@ public class TDistribution extends AbstractRealDistribution {
         }
         this.degreesOfFreedom = degreesOfFreedom;
         solverAbsoluteAccuracy = inverseCumAccuracy;
+
+        final double n = degreesOfFreedom;
+        final double nPlus1Over2 = (n + 1) / 2;
+        factor = Gamma.logGamma(nPlus1Over2) -
+                 0.5 * (FastMath.log(FastMath.PI) + FastMath.log(n)) -
+                 Gamma.logGamma(n / 2);
     }
 
     /**
@@ -128,11 +136,7 @@ public class TDistribution extends AbstractRealDistribution {
     public double logDensity(double x) {
         final double n = degreesOfFreedom;
         final double nPlus1Over2 = (n + 1) / 2;
-        return Gamma.logGamma(nPlus1Over2) -
-               0.5 * (FastMath.log(FastMath.PI) +
-                      FastMath.log(n)) -
-               Gamma.logGamma(n / 2) -
-               nPlus1Over2 * FastMath.log(1 + x * x / n);
+        return factor - nPlus1Over2 * FastMath.log(1 + x * x / n);
     }
 
     /** {@inheritDoc} */
