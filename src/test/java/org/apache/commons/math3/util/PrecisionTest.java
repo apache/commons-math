@@ -540,4 +540,13 @@ public class PrecisionTest {
         // b) 1 + "the number after EPSILON" is not equal to 1.
         Assert.assertFalse(1 + afterEpsilon == 1);
     }
+
+    @Test
+    public void testMath1127() {
+        Assert.assertFalse(Precision.equals(2.0, -2.0, 1));
+        Assert.assertTrue(Precision.equals(0.0, -0.0, 0));
+        Assert.assertFalse(Precision.equals(2.0f, -2.0f, 1));
+        Assert.assertTrue(Precision.equals(0.0f, -0.0f, 0));
+    }
+
 }
