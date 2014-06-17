@@ -246,6 +246,36 @@ public class DescriptiveStatisticsTest {
         }
     }
 
+    @Test
+    public void testMath1129(){
+        final double[] data = new double[] {
+            -0.012086732064244697,
+            -0.24975668704012527,
+            0.5706168483164684,
+            -0.322111769955327,
+            0.24166759508327315,
+            Double.NaN,
+            0.16698443218942854,
+            -0.10427763937565114,
+            -0.15595963093172435,
+            -0.028075857595882995,
+            -0.24137994506058857,
+            0.47543170476574426,
+            -0.07495595384947631,
+            0.37445697625436497,
+            -0.09944199541668033
+        };
+
+        final DescriptiveStatistics ds = new DescriptiveStatistics(data);
+
+        final double t = ds.getPercentile(75);
+        final double o = ds.getPercentile(25);
+
+        final double iqr = t - o;
+        // System.out.println(String.format("25th percentile %s 75th percentile %s", o, t));
+        Assert.assertTrue(iqr >= 0);
+    }
+
     public void checkremoval(DescriptiveStatistics dstat, int wsize,
                              double mean1, double mean2, double mean3) {
 
