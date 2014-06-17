@@ -14,6 +14,8 @@
 package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DiagonalMatrix;
@@ -217,4 +219,70 @@ public class EvaluationTest {
         Assert.assertEquals(evaluation.getPoint().getEntry(0), 0, 0);
     }
 
+    @Test
+    public void testLazyEvaluation() {
+        final RealVector dummy = new ArrayRealVector(new double[] { 0 });
+
+        final LeastSquaresProblem p
+            = LeastSquaresFactory.create(LeastSquaresFactory.model(dummyModel(), dummyJacobian()),
+                                         dummy, dummy, null, 0, 0, true);
+
+        // Should not throw because actual evaluation is deferred.
+        final Evaluation eval = p.evaluate(dummy);
+
+        try {
+            eval.getResiduals();
+            Assert.fail("Exception expected");
+        } catch (RuntimeException e) {
+            // Expecting exception.
+            Assert.assertEquals("dummyModel", e.getMessage());
+        }
+
+        try {
+            eval.getJacobian();
+            Assert.fail("Exception expected");
+        } catch (RuntimeException e) {
+            // Expecting exception.
+            Assert.assertEquals("dummyJacobian", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDirectEvaluation() {
+        final RealVector dummy = new ArrayRealVector(new double[] { 0 });
+
+        final LeastSquaresProblem p
+            = LeastSquaresFactory.create(LeastSquaresFactory.model(dummyModel(), dummyJacobian()),
+                                         dummy, dummy, null, 0, 0, false);
+
+        try {
+            // Should throw.
+            final Evaluation eval = p.evaluate(dummy);
+            Assert.fail("Exception expected");
+        } catch (RuntimeException e) {
+            // Expecting exception.
+            // Whether it is model of Jacobian that caused it is not significant.
+            final String msg = e.getMessage();
+            Assert.assertTrue(msg.equals("dummyModel") ||
+                              msg.equals("dummyJacobian"));
+        }
+    }
+
+    /** Used for testing direct vs lazy evaluation. */
+    private MultivariateVectorFunction dummyModel() {
+        return new MultivariateVectorFunction() {
+            public double[] value(double[] p) {
+                throw new RuntimeException("dummyModel");
+            }
+        };
+    }
+
+    /** Used for testing direct vs lazy evaluation. */
+    private MultivariateMatrixFunction dummyJacobian() {
+        return new MultivariateMatrixFunction() {
+            public double[][] value(double[] p) {
+                throw new RuntimeException("dummyJacobian");
+            }
+        };
+    }
 }

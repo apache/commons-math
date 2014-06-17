@@ -73,7 +73,15 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
-      <action dev="luc" type="fix" issue="MATH-1127">
+      <action dev="erans" type="fix" issue="MATH-1129">
+        "Percentile": wrong sorting in the presence of NaN.
+      </action>
+      <action dev="erans" type="update" issue="MATH-1128">
+        Added lazy evaluation to "LeastSquaresFactory" (in "o.a.c.m.fitting.leastsquares")
+        to avoid evaluating the model when the optimization algorithm does not actually
+        require it.
+      </action> 
+     <action dev="luc" type="fix" issue="MATH-1127">
         Fixed overflow in Precision.equals with ulps (both double and float versions).
       </action>
       <action dev="tn" type="fix" issue="MATH-1125" due-to="Ajo Fod">
