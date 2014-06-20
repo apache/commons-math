@@ -799,6 +799,21 @@ public class MathArrays {
      }
 
     /**
+     * Creates a copy of the {@code source} array.
+     *
+     * @param source Array to be copied.
+     * @param from Initial index of the range to be copied, inclusive.
+     * @param to Final index of the range to be copied, exclusive. (This index may lie outside the array.)
+     * @return the copied array.
+     */
+    public static double[] copyOfRange(double[] source, int from, int to) {
+        final int len = to - from;
+        final double[] output = new double[len];
+        System.arraycopy(source, from, output, 0, FastMath.min(len, source.length - from));
+        return output;
+     }
+
+    /**
      * Compute a linear combination accurately.
      * This method computes the sum of the products
      * <code>a<sub>i</sub> b<sub>i</sub></code> to high accuracy.

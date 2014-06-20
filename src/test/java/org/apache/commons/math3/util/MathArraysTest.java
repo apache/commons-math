@@ -588,6 +588,29 @@ public class MathArraysTest {
         }
     }
 
+    @Test
+    public void testCopyOfRange() {
+        final double[] source = { Double.NEGATIVE_INFINITY,
+                                  -Double.MAX_VALUE,
+                                  -1, 0,
+                                  Double.MIN_VALUE,
+                                  FastMath.ulp(1d),
+                                  1, 3, 113, 4769,
+                                  Double.MAX_VALUE,
+                                  Double.POSITIVE_INFINITY };
+        final int from = 3;
+        final int to = source.length + 14;
+        final double[] dest = MathArrays.copyOfRange(source, from, to);
+
+        Assert.assertEquals(dest.length, to - from);
+        for (int i = from; i < source.length; i++) {
+            Assert.assertEquals(source[i], dest[i - from], 0);
+        }
+        for (int i = source.length; i < dest.length; i++) {
+            Assert.assertEquals(0, dest[i - from], 0);
+        }
+    }
+
     // MATH-1005
     @Test
     public void testLinearCombinationWithSingleElementArray() {
