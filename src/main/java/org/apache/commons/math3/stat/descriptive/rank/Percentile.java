@@ -486,10 +486,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     private static double[] copyOf(final double[] values, final int begin, final int length) {
         MathArrays.verifyValues(values, begin, length);
-        final double[] copy = new double[length];
-        System.arraycopy(values, begin, copy, 0,
-                FastMath.min(length, values.length));
-        return copy;
+        return MathArrays.copyOfRange(values, begin, begin + length);
     }
 
     /**
