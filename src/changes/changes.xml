@@ -73,6 +73,11 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="psteitz" type="fix" issue="MATH-984">
+        Constrained EmpiricalDistribution sample/getNextValue methods to return
+        values within the range of the data; correctly linked RandomGenerator to
+        superclass so that RealDistribution reseedRandomGenerator method works.
+      </action>
       <action dev="luc" type="add" issue="MATH-1120" due-to="Venkatesha Murthy">
         Added several different estimation types and NaN handling strategies for Percentile.
       </action>

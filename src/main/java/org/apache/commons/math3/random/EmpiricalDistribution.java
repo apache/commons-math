@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
+import org.apache.commons.math3.distribution.ConstantRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.exception.MathIllegalStateException;
@@ -212,7 +213,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      */
     private EmpiricalDistribution(int binCount,
                                   RandomDataGenerator randomData) {
-        super(null);
+        super(randomData.getRandomGenerator());
         this.binCount = binCount;
         this.randomData = randomData;
         binStats = new ArrayList<SummaryStatistics>();
@@ -478,23 +479,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
             throw new MathIllegalStateException(LocalizedFormats.DISTRIBUTION_NOT_LOADED);
         }
 
-        // Start with a uniformly distributed random number in (0,1)
-        final double x = randomData.nextUniform(0,1);
-
-        // Use this to select the bin and generate a Gaussian within the bin
-        for (int i = 0; i < binCount; i++) {
-           if (x <= upperBounds[i]) {
-               SummaryStatistics stats = binStats.get(i);
-               if (stats.getN() > 0) {
-                   if (stats.getStandardDeviation() > 0) {  // more than one obs
-                       return getKernel(stats).sample();
-                   } else {
-                       return stats.getMean(); // only one obs in bin
-                   }
-               }
-           }
-        }
-        throw new MathIllegalStateException(LocalizedFormats.NO_BIN_SELECTED);
+        return sample();
     }
 
     /**
@@ -772,15 +757,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * @since 3.1
      */
     @Override
-    public double sample() {
-        return getNextValue();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @since 3.1
-     */
-    @Override
     public void reseedRandomGenerator(long seed) {
         randomData.reSeed(seed);
     }
@@ -843,15 +819,20 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * The within-bin smoothing kernel.
+     * The within-bin smoothing kernel. Returns a Gaussian distribution
+     * parameterized by {@code bStats}, unless the bin contains only one
+     * observation, in which case a constant distribution is returned.
      *
      * @param bStats summary statistics for the bin
      * @return within-bin kernel parameterized by bStats
      */
     protected RealDistribution getKernel(SummaryStatistics bStats) {
-        // Default to Gaussian
-        return new NormalDistribution(randomData.getRandomGenerator(),
+        if (bStats.getN() == 1) {
+            return new ConstantRealDistribution(bStats.getMean());
+        } else {
+            return new NormalDistribution(randomData.getRandomGenerator(),
                 bStats.getMean(), bStats.getStandardDeviation(),
                 NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        }
     }
 }

@@ -29,6 +29,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
+import org.apache.commons.math3.distribution.ConstantRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.RealDistributionAbstractTest;
@@ -409,6 +410,31 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
     }
     
+    /** 
+     * MATH-984
+     * Verify that sampled values do not go outside of the range of the data.
+     */
+    @Test
+    public void testSampleValuesRange() {
+        // Concentrate values near the endpoints of (0, 1).
+        // Unconstrained Gaussian kernel would generate values outside the interval.
+        final double[] data = new double[100];
+        for (int i = 0; i < 50; i++) {
+            data[i] = 1 / ((double) i + 1);
+        }
+        for (int i = 51; i < 100; i++) {
+            data[i] = 1 - 1 / (100 - (double) i + 2);
+        }
+        EmpiricalDistribution dist = new EmpiricalDistribution(10);
+        dist.load(data);
+        dist.reseedRandomGenerator(1000);
+        for (int i = 0; i < 1000; i++) {
+            final double dev = dist.sample();
+            Assert.assertTrue(dev < 1);
+            Assert.assertTrue(dev > 0);
+        }
+    }
+    
     /**
      * Find the bin that x belongs (relative to {@link #makeDistribution()}).
      */
@@ -503,7 +529,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         // Use constant distribution equal to bin mean within bin
         @Override
         protected RealDistribution getKernel(SummaryStatistics bStats) {
-            return new ConstantDistribution(bStats.getMean());
+            return new ConstantRealDistribution(bStats.getMean());
         }
     }
     
@@ -520,69 +546,5 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax(),
                     UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
         }
-    }
-    
-    /**
-     * Distribution that takes just one value.
-     */
-    private class ConstantDistribution extends AbstractRealDistribution {
-        private static final long serialVersionUID = 1L;
-        
-        /** Singleton value in the sample space */
-        private final double c;
-        
-        public ConstantDistribution(double c) {
-            this.c = c;
-        }
-        
-        public double density(double x) {
-            return 0;
-        }
-
-        public double cumulativeProbability(double x) {
-            return x < c ? 0 : 1;
-        }
-        
-        @Override
-        public double inverseCumulativeProbability(double p) {
-            if (p < 0.0 || p > 1.0) {
-                throw new OutOfRangeException(p, 0, 1);
-            }
-            return c;
-        }
-
-        public double getNumericalMean() {
-            return c;
-        }
-
-        public double getNumericalVariance() {
-            return 0;
-        }
-
-        public double getSupportLowerBound() {
-            return c;
-        }
-
-        public double getSupportUpperBound() {
-            return c;
-        }
-
-        public boolean isSupportLowerBoundInclusive() {
-            return false;
-        }
-
-        public boolean isSupportUpperBoundInclusive() {
-            return true;
-        }
-
-        public boolean isSupportConnected() {
-            return true;
-        }
-        
-        @Override
-        public double sample() {
-            return c;
-        }
-        
     }
 }
