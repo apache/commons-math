@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.random.Well1024a;
 import org.junit.Assert;
 import org.junit.Test;
@@ -380,6 +381,46 @@ public class MathArraysTest {
             MathArrays.checkNonNegative(hasNegative);
             Assert.fail("Expecting NotPositiveException");
         } catch (NotPositiveException ex) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testCheckNotNaN() {
+        final double[] withoutNaN = { Double.NEGATIVE_INFINITY,
+                                      -Double.MAX_VALUE,
+                                      -1, 0,
+                                      Double.MIN_VALUE,
+                                      FastMath.ulp(1d),
+                                      1, 3, 113, 4769,
+                                      Double.MAX_VALUE,
+                                      Double.POSITIVE_INFINITY };
+
+        final double[] withNaN = { Double.NEGATIVE_INFINITY,
+                                   -Double.MAX_VALUE,
+                                   -1, 0,
+                                   Double.MIN_VALUE,
+                                   FastMath.ulp(1d),
+                                   1, 3, 113, 4769,
+                                   Double.MAX_VALUE,
+                                   Double.POSITIVE_INFINITY,
+                                   Double.NaN };
+
+
+        final double[] nullArray = null;
+        final double[] empty = new double[] {};
+        MathArrays.checkNotNaN(withoutNaN);
+        MathArrays.checkNotNaN(empty);
+        try {
+            MathArrays.checkNotNaN(nullArray);
+            Assert.fail("Expecting NullPointerException");
+        } catch (NullPointerException ex) {
+            // Expected
+        }
+        try {
+            MathArrays.checkNotNaN(withNaN);
+            Assert.fail("Expecting NotANumberException");
+        } catch (NotANumberException ex) {
             // Expected
         }
     }

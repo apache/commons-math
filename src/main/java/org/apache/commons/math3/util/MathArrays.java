@@ -38,6 +38,7 @@ import org.apache.commons.math3.exception.NotPositiveException;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 
 /**
@@ -485,6 +486,22 @@ public class MathArrays {
         for (int i = 0; i < in.length; i++) {
             if (in[i] <= 0) {
                 throw new NotStrictlyPositiveException(in[i]);
+            }
+        }
+    }
+
+    /**
+     * Check that no entry of the input array is {@code NaN}.
+     *
+     * @param in Array to be tested.
+     * @throws NotANumberException if an entry is {@code NaN}.
+     * @since 3.4
+     */
+    public static void checkNotNaN(final double[] in)
+        throws NotStrictlyPositiveException {
+        for(int i = 0; i < in.length; i++) {
+            if (Double.isNaN(in[i])) {
+                throw new NotANumberException();
             }
         }
     }
