@@ -445,11 +445,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             case REMOVED:// Drop NaNs from data
                 work = removeAndSlice(values, begin, length, Double.NaN);
                 break;
-            case FAILED:{// just throw exception as NaN is un-acceptable
+            case FAILED:// just throw exception as NaN is un-acceptable
                 checkNotANumber(values, begin, length);
                 work = copyOf(values, begin, length);
                 break;
-            }
             default: //FIXED
                 work = copyOf(values,begin,length);
                 break;
