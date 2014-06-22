@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="add" issue="MATH-1120" due-to="Venkatesha Murthy">
+        Added several different estimation types and NaN handling strategies for Percentile.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-418" due-to="Venkatesha Murthy">
         Added implementation of PSquare algorithm to estimate percentiles without
         storing data in memory (i.e. as StorelessUnivariateStatistic).
