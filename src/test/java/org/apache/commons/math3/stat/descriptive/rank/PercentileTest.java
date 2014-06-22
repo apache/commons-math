@@ -660,17 +660,14 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             Assert.assertEquals("Type:"+t,0d, t.index(pMin, N),0d);
             Assert.assertEquals("Type:"+t,N, t.index(pMax, N),0.5d);
             pMin=pMin==0d?pMin+0.01:pMin;
-            testAssertMappedValues(testArray, new Object[][] { { t, min }}
-                ,pMin, 0.01);
-
-            testAssertMappedValues(testArray, new Object[][] { { t, max }}
-            ,pMax*100, tolerance);
+            testAssertMappedValues(testArray, new Object[][] { { t, min }}, pMin, 0.01);
+            testAssertMappedValues(testArray, new Object[][] { { t, max }}, pMax * 100, tolerance);
         }
     }
 
     @Test
     public void testAllEstimationTechniquesOnly() {
-        Assert.assertEquals("Commons Math",Percentile.EstimationType.LEGACY.getName());
+        Assert.assertEquals("Legacy Apache Commons Math",Percentile.EstimationType.LEGACY.getName());
         Object[][] map =
                 new Object[][] { { Percentile.EstimationType.LEGACY, 20.82 }, { Percentile.EstimationType.R_1, 19.8 },
                         { Percentile.EstimationType.R_2, 19.8 }, { Percentile.EstimationType.R_3, 19.8 }, { Percentile.EstimationType.R_4, 19.310 },
@@ -699,7 +696,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testAllEstimationTechniquesOnlyForAllPivotingStrategies() {
 
-        Assert.assertEquals("Commons Math",Percentile.EstimationType.LEGACY.getName());
+        Assert.assertEquals("Legacy Apache Commons Math",Percentile.EstimationType.LEGACY.getName());
 
         for (Percentile.PivotingStrategy strategy : Percentile.PivotingStrategy.values()) {
             pivotingStrategy = strategy;
