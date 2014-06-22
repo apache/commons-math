@@ -446,8 +446,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                 work = removeAndSlice(values, begin, length, Double.NaN);
                 break;
             case FAILED:// just throw exception as NaN is un-acceptable
-                checkNotANumber(values, begin, length);
                 work = copyOf(values, begin, length);
+                MathArrays.checkNotNaN(work);
                 break;
             default: //FIXED
                 work = copyOf(values,begin,length);
@@ -455,24 +455,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             }
         }
         return work;
-    }
-
-    /**
-     * Check the presence of {@link Double#NaN NaN} in a double array for the
-     * array slice defined by array part from [begin,begin+length) and throw an
-     * exception on detecting the first presence within the defined slice.
-     * @param values the input array
-     * @param begin start index of the array to include
-     * @param length number of elements to include from begin
-     * @throws NotANumberException if any of the values contain a NaN
-     */
-    private static void checkNotANumber(final double[] values, final int begin, final int length) {
-        MathArrays.verifyValues(values, begin, length);
-        for(int i = begin; i < begin + length; i++) {
-            if(Double.isNaN(values[i])) {
-                throw new NotANumberException();
-            }
-        }
     }
 
     /**
