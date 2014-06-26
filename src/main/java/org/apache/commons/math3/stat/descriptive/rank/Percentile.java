@@ -590,7 +590,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @return a new instance, with changed pivoting strategy
      * @throws NullArgumentException when pivotingStrategy is null
      */
-    public Percentile withEstimationtype(final EstimationType newEstimationType) {
+    public Percentile withEstimationType(final EstimationType newEstimationType) {
         return new Percentile(quantile, newEstimationType, nanStrategy, pivotingStrategy);
     }
 

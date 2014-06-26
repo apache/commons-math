@@ -60,7 +60,7 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
 
     private Median getTestMedian(EstimationType type) {
         NaNStrategy strategy = (type == LEGACY) ? NaNStrategy.FIXED : NaNStrategy.REMOVED;
-        return new Median().withEstimationtype(type).withNaNStrategy(strategy);
+        return new Median().withEstimationType(type).withNaNStrategy(strategy);
     }
 
     /**

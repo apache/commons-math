@@ -90,7 +90,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Override
     public Percentile getUnivariateStatistic() {
         return new Percentile(quantile).
-                withEstimationtype(type).
+                withEstimationType(type).
                 withNaNStrategy(nanStrategy).
                 withPivotingStrategy(pivotingStrategy);
     }
@@ -776,10 +776,10 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testNanStrategySpecific() {
         double[] specialValues = new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN };
-        Assert.assertTrue(Double.isNaN(new Percentile(50d).withEstimationtype(Percentile.EstimationType.LEGACY).withNaNStrategy(NaNStrategy.MAXIMAL).evaluate(specialValues, 3, 3)));
-        Assert.assertEquals(2d,new Percentile(50d).withEstimationtype(Percentile.EstimationType.R_1).withNaNStrategy(NaNStrategy.REMOVED).evaluate(specialValues),0d);
-        Assert.assertEquals(Double.NaN,new Percentile(50d).withEstimationtype(Percentile.EstimationType.R_5).withNaNStrategy(NaNStrategy.REMOVED).evaluate(new double[] {Double.NaN,Double.NaN,Double.NaN}),0d);
-        Assert.assertEquals(50d,new Percentile(50d).withEstimationtype(Percentile.EstimationType.R_7).withNaNStrategy(NaNStrategy.MINIMAL).evaluate(new double[] {50d,50d,50d},1,2),0d);
+        Assert.assertTrue(Double.isNaN(new Percentile(50d).withEstimationType(Percentile.EstimationType.LEGACY).withNaNStrategy(NaNStrategy.MAXIMAL).evaluate(specialValues, 3, 3)));
+        Assert.assertEquals(2d,new Percentile(50d).withEstimationType(Percentile.EstimationType.R_1).withNaNStrategy(NaNStrategy.REMOVED).evaluate(specialValues),0d);
+        Assert.assertEquals(Double.NaN,new Percentile(50d).withEstimationType(Percentile.EstimationType.R_5).withNaNStrategy(NaNStrategy.REMOVED).evaluate(new double[] {Double.NaN,Double.NaN,Double.NaN}),0d);
+        Assert.assertEquals(50d,new Percentile(50d).withEstimationType(Percentile.EstimationType.R_7).withNaNStrategy(NaNStrategy.MINIMAL).evaluate(new double[] {50d,50d,50d},1,2),0d);
     }
 
     // Some NaNStrategy specific testing
@@ -788,7 +788,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         double[] specialValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN };
         new Percentile(50d).
-        withEstimationtype(Percentile.EstimationType.R_9).
+        withEstimationType(Percentile.EstimationType.R_9).
         withNaNStrategy(NaNStrategy.FAILED).
         evaluate(specialValues, 3, 3);
     }
@@ -798,7 +798,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         double[] specialValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN };
         try {
-            new Percentile(50d).withEstimationtype(Percentile.EstimationType.LEGACY).withNaNStrategy(null);
+            new Percentile(50d).withEstimationType(Percentile.EstimationType.LEGACY).withNaNStrategy(null);
             Assert.fail("Expecting NullArgumentArgumentException "
                     + "for null Nan Strategy");
         } catch (NullArgumentException ex) {
@@ -848,7 +848,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             Percentile.EstimationType e = (Percentile.EstimationType) o[0];
             double expected = (Double) o[1];
             try {
-                double result = new Percentile(p).withEstimationtype(e).withNaNStrategy(nanStrategy).evaluate(data);
+                double result = new Percentile(p).withEstimationType(e).withNaNStrategy(nanStrategy).evaluate(data);
                 Assert.assertEquals("expected[" + e + "] = " + expected +
                     " but was = " + result, expected, result, tolerance);
             }catch(Exception ex) {

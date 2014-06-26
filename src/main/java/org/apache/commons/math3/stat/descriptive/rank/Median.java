@@ -80,7 +80,7 @@ public class Median extends Percentile implements Serializable {
 
     /** {@inheritDoc} */
     @Override
-    public Median withEstimationtype(final EstimationType newEstimationType) {
+    public Median withEstimationType(final EstimationType newEstimationType) {
         return new Median(newEstimationType, getNaNStrategy(), getPivotingStrategy());
     }
 
