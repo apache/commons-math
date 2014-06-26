@@ -498,7 +498,7 @@ public class MathArrays {
      * @since 3.4
      */
     public static void checkNotNaN(final double[] in)
-        throws NotStrictlyPositiveException {
+        throws NotANumberException {
         for(int i = 0; i < in.length; i++) {
             if (Double.isNaN(in[i])) {
                 throw new NotANumberException();
