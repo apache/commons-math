@@ -159,7 +159,7 @@ public class Precision {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(float x, float y) {
-        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, 1);
+        return (x != x || y != y) ? !(x != x ^ y != y) : equals(x, y, 1);
     }
 
     /**
@@ -255,7 +255,7 @@ public class Precision {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(float x, float y, int maxUlps) {
-        return (Float.isNaN(x) && Float.isNaN(y)) || equals(x, y, maxUlps);
+        return (x != x || y != y) ? !(x != x ^ y != y) : equals(x, y, maxUlps);
     }
 
     /**
@@ -280,7 +280,7 @@ public class Precision {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y) {
-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
+        return (x != x || y != y) ? !(x != x ^ y != y) : equals(x, y, 1);
     }
 
     /**
@@ -403,7 +403,7 @@ public class Precision {
      * @since 2.2
      */
     public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {
-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, maxUlps);
+        return (x != x || y != y) ? !(x != x ^ y != y) : equals(x, y, maxUlps);
     }
 
     /**
