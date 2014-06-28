@@ -752,8 +752,8 @@ public class PSquarePercentileTest extends
      */
     @Test
     public void testDistribution() {
-        doDistributionTest(new NormalDistribution(4000, 50));
-        doDistributionTest(new LogNormalDistribution(4000, 50));
+        doDistributionTest(new NormalDistribution(randomGenerator, 4000, 50));
+        doDistributionTest(new LogNormalDistribution(randomGenerator,4000, 50));
         // doDistributionTest((new ExponentialDistribution(4000));
         // doDistributionTest(new GammaDistribution(5d,1d),0.1);
     }
