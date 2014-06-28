@@ -89,7 +89,7 @@ public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
     /**
      * The quantile needed should be in range of 0-1. The constructor
      * {@link #PSquarePercentile(double)} ensures that passed in percentile is
-     * divide by 100
+     * divided by 100.
      */
     private final double quantile;
 
