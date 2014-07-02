@@ -32,6 +32,31 @@ import org.apache.commons.math3.util.MathArrays;
  */
 public class BicubicSplineInterpolator
     implements BivariateGridInterpolator {
+    /** Whether to initialize internal data used to compute the analytical
+        derivatives of the splines. */
+    private final boolean initializeDerivatives;
+
+    /**
+     * Default constructor.
+     * The argument {@link #BicubicSplineInterpolator(boolean) initializeDerivatives}
+     * is set to {@code false}.
+     */
+    public BicubicSplineInterpolator() {
+        this(false);
+    }
+
+    /**
+     * Creates an interpolator.
+     *
+     * @param initializeDerivatives Whether to initialize the internal data
+     * needed for calling any of the methods that compute the partial derivatives
+     * of the {@link BicubicSplineInterpolatingFunction function} returned from
+     * the call to {@link #interpolate(double[],double[],double[][]) interpolate}.
+     */
+    public BicubicSplineInterpolator(boolean initializeDerivatives) {
+        this.initializeDerivatives = initializeDerivatives;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -118,7 +143,8 @@ public class BicubicSplineInterpolator
 
         // Create the interpolating splines
         return new BicubicSplineInterpolatingFunction(xval, yval, fval,
-                                                      dFdX, dFdY, d2FdXdY);
+                                                      dFdX, dFdY, d2FdXdY,
+                                                      initializeDerivatives);
     }
 
     /**

@@ -75,7 +75,8 @@ Users are encouraged to upgrade to this version as this release not
 ">
       <action dev="erans" type="fix" issue="MATH-1134">
         "BicubicSplineInterpolatingFunction": all fields made final and initialized in
-        the constructor.
+        the constructor. Added flag to request initialization, or not, of the internal
+        data needed for partial derivatives.
       </action>
       <action dev="psteitz" type="fix" issue="MATH-984">
         Constrained EmpiricalDistribution sample/getNextValue methods to return

@@ -77,7 +77,7 @@ public class TricubicSplineInterpolator
             }
         }
 
-        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator();
+        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator(true);
 
         // For each line x[i] (0 <= i < xLen), construct a 2D spline in y and z
         final BicubicSplineInterpolatingFunction[] xSplineYZ
