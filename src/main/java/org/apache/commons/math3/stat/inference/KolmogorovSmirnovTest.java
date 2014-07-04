@@ -33,8 +33,8 @@ import org.apache.commons.math3.fraction.BigFraction;
 import org.apache.commons.math3.fraction.BigFractionField;
 import org.apache.commons.math3.fraction.FractionConversionException;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
+import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
@@ -442,7 +442,7 @@ public class KolmogorovSmirnovTest {
 
         final int k = (int) Math.ceil(n * d);
 
-        final FieldMatrix<BigFraction> H = this.createH(d, n);
+        final FieldMatrix<BigFraction> H = this.createExactH(d, n);
         final FieldMatrix<BigFraction> Hpower = H.power(n);
 
         BigFraction pFrac = Hpower.getEntry(k - 1, k - 1);
@@ -465,32 +465,18 @@ public class KolmogorovSmirnovTest {
      * @param d statistic
      * @param n sample size
      * @return the two-sided probability of \(P(D_n < d)\)
-     * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
-     *         - h) / m\ for integer {@code k, m} and \(0 <= h < 1\).
      */
-    private double roundedK(double d, int n)
-        throws MathArithmeticException {
+    private double roundedK(double d, int n) {
 
         final int k = (int) Math.ceil(n * d);
-        final FieldMatrix<BigFraction> HBigFraction = this.createH(d, n);
-        final int m = HBigFraction.getRowDimension();
-
-        /*
-         * Here the rounding part comes into play: use RealMatrix instead of
-         * FieldMatrix<BigFraction>
-         */
-        final RealMatrix H = new Array2DRowRealMatrix(m, m);
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < m; ++j) {
-                H.setEntry(i, j, HBigFraction.getEntry(i, j).doubleValue());
-            }
-        }
+        final RealMatrix H = this.createRoundedH(d, n);
         final RealMatrix Hpower = H.power(n);
+
         double pFrac = Hpower.getEntry(k - 1, k - 1);
         for (int i = 1; i <= n; ++i) {
             pFrac *= (double) i / (double) n;
         }
+        
         return pFrac;
     }
 
@@ -505,7 +491,7 @@ public class KolmogorovSmirnovTest {
      *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 <= h < 1\).
      */
-    private FieldMatrix<BigFraction> createH(double d, int n)
+    private FieldMatrix<BigFraction> createExactH(double d, int n)
         throws NumberIsTooLargeException, FractionConversionException {
 
         final int k = (int) Math.ceil(n * d);
@@ -583,6 +569,85 @@ public class KolmogorovSmirnovTest {
             }
         }
         return new Array2DRowFieldMatrix<BigFraction>(BigFractionField.getInstance(), Hdata);
+    }
+
+    /***
+     * Creates {@code H} of size {@code m x m} as described in [1] (see above)
+     * using double-precision.
+     *
+     * @param d statistic
+     * @param n sample size
+     * @return H matrix
+     * @throws NumberIsTooLargeException if fractional part is greater than 1
+     */
+    private RealMatrix createRoundedH(double d, int n)
+        throws NumberIsTooLargeException {
+
+        final int k = (int) Math.ceil(n * d);
+        final int m = 2 * k - 1;
+        final double h = k - n * d;
+        if (h >= 1) {
+            throw new NumberIsTooLargeException(h, 1.0, false);
+        }
+        final double[][] Hdata = new double[m][m];
+
+        /*
+         * Start by filling everything with either 0 or 1.
+         */
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (i - j + 1 < 0) {
+                    Hdata[i][j] = 0;
+                } else {
+                    Hdata[i][j] = 1;
+                }
+            }
+        }
+
+        /*
+         * Setting up power-array to avoid calculating the same value twice: hPowers[0] = h^1 ...
+         * hPowers[m-1] = h^m
+         */
+        final double[] hPowers = new double[m];
+        hPowers[0] = h;
+        for (int i = 1; i < m; ++i) {
+            hPowers[i] = h * hPowers[i - 1];
+        }
+
+        /*
+         * First column and last row has special values (each other reversed).
+         */
+        for (int i = 0; i < m; ++i) {
+            Hdata[i][0] = Hdata[i][0] - hPowers[i];
+            Hdata[m - 1][i] -= hPowers[m - i - 1];
+        }
+
+        /*
+         * [1] states: "For 1/2 < h < 1 the bottom left element of the matrix should be (1 - 2*h^m +
+         * (2h - 1)^m )/m!" Since 0 <= h < 1, then if h > 1/2 is sufficient to check:
+         */
+        if (Double.compare(h, 0.5) > 0) {
+            Hdata[m - 1][0] += FastMath.pow(2 * h - 1, m);
+        }
+
+        /*
+         * Aside from the first column and last row, the (i, j)-th element is 1/(i - j + 1)! if i -
+         * j + 1 >= 0, else 0. 1's and 0's are already put, so only division with (i - j + 1)! is
+         * needed in the elements that have 1's. There is no need to calculate (i - j + 1)! and then
+         * divide - small steps avoid overflows. Note that i - j + 1 > 0 <=> i + 1 > j instead of
+         * j'ing all the way to m. Also note that it is started at g = 2 because dividing by 1 isn't
+         * really necessary.
+         */
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < i + 1; ++j) {
+                if (i - j + 1 > 0) {
+                    for (int g = 2; g <= i - j + 1; ++g) {
+                        Hdata[i][j] /= g;
+                    }
+                }
+            }
+        }
+        return MatrixUtils.createRealMatrix(Hdata);
     }
 
     /**
