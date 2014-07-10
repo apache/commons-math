@@ -53,6 +53,7 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     @Before
     public void setUp() {
+        // by default, do not include collinear points
         generator = createConvexHullGenerator(false);
         random = new MersenneTwister(10);
     }
@@ -200,6 +201,26 @@ public abstract class ConvexHullGenerator2DAbstractTest {
         points.add(new Vector2D(1.00001, 1));
 
         final ConvexHull2D hull = generator.generate(points);
+        checkConvexHull(points, hull);
+    }
+
+    @Test
+    public void testCollinearPointOnExistingBoundary() {
+        // MATH-1135: check that collinear points on the hull are handled correctly
+        //            when only a minimal hull shall be constructed
+        final Collection<Vector2D> points = new ArrayList<Vector2D>();
+        points.add(new Vector2D(7.3152, 34.7472));
+        points.add(new Vector2D(6.400799999999997, 34.747199999999985));
+        points.add(new Vector2D(5.486399999999997, 34.7472));
+        points.add(new Vector2D(4.876799999999999, 34.7472));
+        points.add(new Vector2D(4.876799999999999, 34.1376));
+        points.add(new Vector2D(4.876799999999999, 30.48));
+        points.add(new Vector2D(6.0959999999999965, 30.48));
+        points.add(new Vector2D(6.0959999999999965, 34.1376));
+        points.add(new Vector2D(7.315199999999996, 34.1376));
+        points.add(new Vector2D(7.3152, 30.48));
+
+        final ConvexHull2D hull = createConvexHullGenerator(false).generate(points);
         checkConvexHull(points, hull);
     }
 

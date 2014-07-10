@@ -160,8 +160,8 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
                 } else {
                     if (distanceToCurrent > distanceToLast) {
                         hull.remove(size - 1);
+                        hull.add(point);
                     }
-                    hull.add(point);
                 }
                 return;
             } else if (offset > 0) {
