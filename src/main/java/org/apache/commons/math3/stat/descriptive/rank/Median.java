@@ -20,9 +20,8 @@ import java.io.Serializable;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.stat.descriptive.rank.Percentile.PivotingStrategy;
-import org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math3.stat.ranking.NaNStrategy;
+import org.apache.commons.math3.util.KthSelector;
 
 
 /**
@@ -68,32 +67,32 @@ public class Median extends Percentile implements Serializable {
      *
      * @param estimationType one of the percentile {@link EstimationType  estimation types}
      * @param nanStrategy one of {@link NaNStrategy} to handle with NaNs
-     * @param pivotingStrategy strategy to use for pivoting during search
+     * @param kthSelector {@link KthSelector} to use for pivoting during search
      * @throws MathIllegalArgumentException if p is not within (0,100]
      * @throws NullArgumentException if type or NaNStrategy passed is null
      */
     private Median(final EstimationType estimationType, final NaNStrategy nanStrategy,
-                   final PivotingStrategy pivotingStrategy)
+                   final KthSelector kthSelector)
         throws MathIllegalArgumentException {
-        super(FIXED_QUANTILE_50, estimationType, nanStrategy, pivotingStrategy);
+        super(FIXED_QUANTILE_50, estimationType, nanStrategy, kthSelector);
     }
 
     /** {@inheritDoc} */
     @Override
     public Median withEstimationType(final EstimationType newEstimationType) {
-        return new Median(newEstimationType, getNaNStrategy(), getPivotingStrategy());
+        return new Median(newEstimationType, getNaNStrategy(), getKthSelector());
     }
 
     /** {@inheritDoc} */
     @Override
     public Median withNaNStrategy(final NaNStrategy newNaNStrategy) {
-        return new Median(getEstimationType(), newNaNStrategy, getPivotingStrategy());
+        return new Median(getEstimationType(), newNaNStrategy, getKthSelector());
     }
 
     /** {@inheritDoc} */
     @Override
-    public Median withPivotingStrategy(final PivotingStrategy newPivotingStrategy) {
-        return new Median(getEstimationType(), getNaNStrategy(), newPivotingStrategy);
+    public Median withKthSelector(final KthSelector newKthSelector) {
+        return new Median(getEstimationType(), getNaNStrategy(), newKthSelector);
     }
 
 }

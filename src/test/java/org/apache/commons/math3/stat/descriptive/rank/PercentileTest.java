@@ -25,11 +25,17 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well1024a;
 import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math3.stat.descriptive.UnivariateStatisticAbstractTest;
 import org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math3.stat.ranking.NaNStrategy;
+import org.apache.commons.math3.util.CentralPivotingStrategy;
+import org.apache.commons.math3.util.KthSelector;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MedianOf3PivotingStrategy;
+import org.apache.commons.math3.util.PivotingStrategyInterface;
+import org.apache.commons.math3.util.RandomPivotingStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,10 +63,9 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     private NaNStrategy nanStrategy;
 
     /**
-     * {@link Pi}
-     * of estimation to be used while calling {@link #getUnivariateStatistic()}
+     * kth selector
      */
-    private Percentile.PivotingStrategy pivotingStrategy;
+    private KthSelector kthSelector;
 
     /**
      * A default percentile to be used for {@link #getUnivariateStatistic()}
@@ -74,11 +79,11 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     public void before() {
         quantile         = 95.0;
         type             = Percentile.EstimationType.LEGACY;
-        nanStrategy      = NaNStrategy.FIXED;
-        pivotingStrategy = Percentile.PivotingStrategy.MEDIAN_OF_3;
+        nanStrategy      = NaNStrategy.REMOVED;
+        kthSelector      = new KthSelector(new MedianOf3PivotingStrategy());
     }
 
-    private void reset(double p, Percentile.EstimationType type) {
+    private void reset(final double p, final Percentile.EstimationType type) {
         this.quantile = p;
         this.type     = type;
         nanStrategy   = (type == Percentile.EstimationType.LEGACY) ? NaNStrategy.FIXED : NaNStrategy.REMOVED;
@@ -92,7 +97,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         return new Percentile(quantile).
                 withEstimationType(type).
                 withNaNStrategy(nanStrategy).
-                withPivotingStrategy(pivotingStrategy);
+                withKthSelector(kthSelector);
     }
 
     /**
@@ -105,22 +110,22 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testHighPercentile(){
-        double[] d = new double[]{1, 2, 3};
-        Percentile p = new Percentile(75);
+        final double[] d = new double[]{1, 2, 3};
+        final Percentile p = new Percentile(75);
         Assert.assertEquals(3.0, p.evaluate(d), 1.0e-5);
     }
 
     @Test
     public void testLowPercentile() {
-        double[] d = new double[] {0, 1};
-        Percentile p = new Percentile(25);
+        final double[] d = new double[] {0, 1};
+        final Percentile p = new Percentile(25);
         Assert.assertEquals(0d, p.evaluate(d), Double.MIN_VALUE);
     }
 
     @Test
     public void testPercentile() {
-        double[] d = new double[] {1, 3, 2, 4};
-        Percentile p = new Percentile(30);
+        final double[] d = new double[] {1, 3, 2, 4};
+        final Percentile p = new Percentile(30);
         Assert.assertEquals(1.5, p.evaluate(d), 1.0e-5);
         p.setQuantile(25);
         Assert.assertEquals(1.25, p.evaluate(d), 1.0e-5);
@@ -133,42 +138,42 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         try {
             p.evaluate(d, 0, d.length, -1.0);
             Assert.fail();
-        } catch (MathIllegalArgumentException ex) {
+        } catch (final MathIllegalArgumentException ex) {
             // success
         }
         try {
             p.evaluate(d, 0, d.length, 101.0);
             Assert.fail();
-        } catch (MathIllegalArgumentException ex) {
+        } catch (final MathIllegalArgumentException ex) {
             // success
         }
     }
 
     @Test
     public void testNISTExample() {
-        double[] d = new double[] {95.1772, 95.1567, 95.1937, 95.1959,
+        final double[] d = new double[] {95.1772, 95.1567, 95.1937, 95.1959,
                 95.1442, 95.0610,  95.1591, 95.1195, 95.1772, 95.0925, 95.1990, 95.1682
         };
-        Percentile p = new Percentile(90);
+        final Percentile p = new Percentile(90);
         Assert.assertEquals(95.1981, p.evaluate(d), 1.0e-4);
         Assert.assertEquals(95.1990, p.evaluate(d,0,d.length, 100d), 0);
     }
 
     @Test
     public void test5() {
-        Percentile percentile = new Percentile(5);
+        final Percentile percentile = new Percentile(5);
         Assert.assertEquals(this.percentile5, percentile.evaluate(testArray), getTolerance());
     }
 
     @Test
     public void testNullEmpty() {
-        Percentile percentile = new Percentile(50);
-        double[] nullArray = null;
-        double[] emptyArray = new double[] {};
+        final Percentile percentile = new Percentile(50);
+        final double[] nullArray = null;
+        final double[] emptyArray = new double[] {};
         try {
             percentile.evaluate(nullArray);
             Assert.fail("Expecting MathIllegalArgumentException for null array");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (final MathIllegalArgumentException ex) {
             // expected
         }
         Assert.assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
@@ -176,8 +181,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testSingleton() {
-        Percentile percentile = new Percentile(50);
-        double[] singletonArray = new double[] {1d};
+        final Percentile percentile = new Percentile(50);
+        final double[] singletonArray = new double[] {1d};
         Assert.assertEquals(1d, percentile.evaluate(singletonArray), 0);
         Assert.assertEquals(1d, percentile.evaluate(singletonArray, 0, 1), 0);
         Assert.assertEquals(1d, percentile.evaluate(singletonArray, 0, 1, 5), 0);
@@ -187,18 +192,19 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testSpecialValues() {
-        Percentile percentile = new Percentile(50);
+        final Percentile percentile = new Percentile(50);
         double[] specialValues = new double[] {0d, 1d, 2d, 3d, 4d,  Double.NaN};
-        Assert.assertEquals(2.5d, percentile.evaluate(specialValues), 0);
+        Assert.assertEquals(/*2.5d*/2d, percentile.evaluate(specialValues), 0);
         specialValues =  new double[] {Double.NEGATIVE_INFINITY, 1d, 2d, 3d,
                 Double.NaN, Double.POSITIVE_INFINITY};
-        Assert.assertEquals(2.5d, percentile.evaluate(specialValues), 0);
+        Assert.assertEquals(/*2.5d*/2d, percentile.evaluate(specialValues), 0);
         specialValues = new double[] {1d, 1d, Double.POSITIVE_INFINITY,
                 Double.POSITIVE_INFINITY};
         Assert.assertTrue(Double.isInfinite(percentile.evaluate(specialValues)));
         specialValues = new double[] {1d, 1d, Double.NaN,
                 Double.NaN};
-        Assert.assertTrue(Double.isNaN(percentile.evaluate(specialValues)));
+        Assert.assertTrue(!Double.isNaN(percentile.evaluate(specialValues)));
+        Assert.assertTrue(1d==percentile.evaluate(specialValues));
         specialValues = new double[] {1d, 1d, Double.NEGATIVE_INFINITY,
                 Double.NEGATIVE_INFINITY};
         // Interpolation results in NEGATIVE_INFINITY + POSITIVE_INFINITY
@@ -207,19 +213,19 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testSetQuantile() {
-        Percentile percentile = new Percentile(10);
+        final Percentile percentile = new Percentile(10);
         percentile.setQuantile(100); // OK
         Assert.assertEquals(100, percentile.getQuantile(), 0);
         try {
             percentile.setQuantile(0);
             Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (final MathIllegalArgumentException ex) {
             // expected
         }
         try {
             new Percentile(0);
             Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (final MathIllegalArgumentException ex) {
             // expected
         }
     }
@@ -231,7 +237,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      */
     @Test
     public void testAllTechniquesHighPercentile() {
-        double[] d = new double[] { 1, 2, 3 };
+        final double[] d = new double[] { 1, 2, 3 };
         testAssertMappedValues(d, new Object[][] { { Percentile.EstimationType.LEGACY, 3d }, { Percentile.EstimationType.R_1, 3d },
                 { Percentile.EstimationType.R_2, 3d }, { Percentile.EstimationType.R_3, 2d }, { Percentile.EstimationType.R_4, 2.25 }, { Percentile.EstimationType.R_5, 2.75 },
                 { Percentile.EstimationType.R_6, 3d }, { Percentile.EstimationType.R_7, 2.5 },{ Percentile.EstimationType.R_8, 2.83333 }, {Percentile.EstimationType.R_9,2.81250} },
@@ -240,7 +246,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesLowPercentile() {
-        double[] d = new double[] { 0, 1 };
+        final double[] d = new double[] { 0, 1 };
         testAssertMappedValues(d, new Object[][] { { Percentile.EstimationType.LEGACY, 0d }, { Percentile.EstimationType.R_1, 0d },
                 { Percentile.EstimationType.R_2, 0d }, { Percentile.EstimationType.R_3, 0d }, { Percentile.EstimationType.R_4, 0d }, {Percentile.EstimationType.R_5, 0d}, {Percentile.EstimationType.R_6, 0d},
                 { Percentile.EstimationType.R_7, 0.25 }, { Percentile.EstimationType.R_8, 0d }, {Percentile.EstimationType.R_9, 0d} },
@@ -248,7 +254,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     }
 
     public void checkAllTechniquesPercentile() {
-        double[] d = new double[] { 1, 3, 2, 4 };
+        final double[] d = new double[] { 1, 3, 2, 4 };
 
         testAssertMappedValues(d, new Object[][] { { Percentile.EstimationType.LEGACY, 1.5d },
                 { Percentile.EstimationType.R_1, 2d }, { Percentile.EstimationType.R_2, 2d }, { Percentile.EstimationType.R_3, 1d }, { Percentile.EstimationType.R_4, 1.2 }, {Percentile.EstimationType.R_5, 1.7},
@@ -271,22 +277,22 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
                 { Percentile.EstimationType.R_8, 2.5 },{ Percentile.EstimationType.R_9, 2.5 } }, 50d, 1.0e-05);
 
         // invalid percentiles
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             try {
                 reset(-1.0, e);
                 getUnivariateStatistic().evaluate(d, 0, d.length);
                 Assert.fail();
-            } catch (MathIllegalArgumentException ex) {
+            } catch (final MathIllegalArgumentException ex) {
                 // success
             }
         }
 
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             try {
                 reset(101.0, e);
                 getUnivariateStatistic().evaluate(d, 0, d.length);
                 Assert.fail();
-            } catch (MathIllegalArgumentException ex) {
+            } catch (final MathIllegalArgumentException ex) {
                 // success
             }
         }
@@ -294,31 +300,31 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesPercentileUsingMedianOf3Pivoting() {
-        pivotingStrategy = Percentile.PivotingStrategy.MEDIAN_OF_3;
-        Assert.assertEquals(Percentile.PivotingStrategy.MEDIAN_OF_3,
-                            ((Percentile) getUnivariateStatistic()).getPivotingStrategy());
+        kthSelector = new KthSelector(new MedianOf3PivotingStrategy());
+        Assert.assertEquals(MedianOf3PivotingStrategy.class,
+                            getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
     }
 
     @Test
     public void testAllTechniquesPercentileUsingCentralPivoting() {
-        pivotingStrategy = Percentile.PivotingStrategy.CENTRAL;
-        Assert.assertEquals(Percentile.PivotingStrategy.CENTRAL,
-                            ((Percentile) getUnivariateStatistic()).getPivotingStrategy());
+        kthSelector = new KthSelector(new CentralPivotingStrategy());
+        Assert.assertEquals(CentralPivotingStrategy.class,
+                            getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
     }
 
     @Test
     public void testAllTechniquesPercentileUsingRandomPivoting() {
-        pivotingStrategy = Percentile.PivotingStrategy.RANDOM;
-        Assert.assertEquals(Percentile.PivotingStrategy.RANDOM,
-                            ((Percentile) getUnivariateStatistic()).getPivotingStrategy());
+        kthSelector = new KthSelector(new RandomPivotingStrategy(new Well1024a(0x268a7fb4194240f6l)));
+        Assert.assertEquals(RandomPivotingStrategy.class,
+                            getUnivariateStatistic().getPivotingStrategy().getClass());
         checkAllTechniquesPercentile();
     }
 
     @Test
     public void testAllTechniquesNISTExample() {
-        double[] d =
+        final double[] d =
                 new double[] { 95.1772, 95.1567, 95.1937, 95.1959, 95.1442,
                         95.0610, 95.1591, 95.1195, 95.1772, 95.0925, 95.1990,
                         95.1682 };
@@ -329,7 +335,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
                 { Percentile.EstimationType.R_7, 95.19568 }, { Percentile.EstimationType.R_8, 95.19724 }, { Percentile.EstimationType.R_9, 95.19714 } }, 90d,
                 1.0e-04);
 
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset(100.0, e);
             Assert.assertEquals(95.1990, getUnivariateStatistic().evaluate(d), 1.0e-4);
         }
@@ -338,7 +344,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testAllTechniques5() {
         reset(5, Percentile.EstimationType.LEGACY);
-        UnivariateStatistic percentile = getUnivariateStatistic();
+        final UnivariateStatistic percentile = getUnivariateStatistic();
         Assert.assertEquals(this.percentile5, percentile.evaluate(testArray),
                 getTolerance());
         testAssertMappedValues(testArray,
@@ -352,16 +358,16 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testAllTechniquesNullEmpty() {
 
-        double[] nullArray = null;
-        double[] emptyArray = new double[] {};
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        final double[] nullArray = null;
+        final double[] emptyArray = new double[] {};
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset (50, e);
-            UnivariateStatistic percentile = getUnivariateStatistic();
+            final UnivariateStatistic percentile = getUnivariateStatistic();
             try {
                 percentile.evaluate(nullArray);
                 Assert.fail("Expecting MathIllegalArgumentException "
                         + "for null array");
-            } catch (MathIllegalArgumentException ex) {
+            } catch (final MathIllegalArgumentException ex) {
                 // expected
             }
             Assert.assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
@@ -371,10 +377,10 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesSingleton() {
-        double[] singletonArray = new double[] { 1d };
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        final double[] singletonArray = new double[] { 1d };
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset (50, e);
-            UnivariateStatistic percentile = getUnivariateStatistic();
+            final UnivariateStatistic percentile = getUnivariateStatistic();
             Assert.assertEquals(1d, percentile.evaluate(singletonArray), 0);
             Assert.assertEquals(1d, percentile.evaluate(singletonArray, 0, 1),
                     0);
@@ -389,10 +395,10 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesEmpty() {
-        double[] singletonArray = new double[] { };
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        final double[] singletonArray = new double[] { };
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset (50, e);
-            UnivariateStatistic percentile = getUnivariateStatistic();
+            final UnivariateStatistic percentile = getUnivariateStatistic();
             Assert.assertEquals(Double.NaN, percentile.evaluate(singletonArray),
                     0);
             Assert.assertEquals(Double.NaN, percentile.evaluate(singletonArray,
@@ -407,31 +413,26 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         }
     }
 
-    @Test(expected=NullArgumentException.class)
-    public void testSetNullPivotingStrategy() {
-        pivotingStrategy = null;
-        getUnivariateStatistic();
-    }
-
-
     @Test
     public void testReplaceNanInRange() {
-        double[] specialValues =
+        final double[] specialValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN, Double.NaN, 5d,
                 7d, Double.NaN, 8d};
-        Assert.assertEquals(5d,new Percentile(50d).evaluate(specialValues),0d);
+        Assert.assertEquals(/*Double.NaN*/3.5,new Percentile(50d).evaluate(specialValues),0d);
         reset (50, Percentile.EstimationType.R_1);
         Assert.assertEquals(3d, getUnivariateStatistic().evaluate(specialValues),0d);
         reset (50, Percentile.EstimationType.R_2);
         Assert.assertEquals(3.5d, getUnivariateStatistic().evaluate(specialValues),0d);
-
+        Assert.assertEquals(Double.POSITIVE_INFINITY,new Percentile(70)
+                                        .withNaNStrategy(NaNStrategy.MAXIMAL)
+                                        .evaluate(specialValues),0d);
     }
 
     @Test
     public void testRemoveNan() {
-        double[] specialValues =
+        final double[] specialValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN };
-        double[] expectedValues =
+        final double[] expectedValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d };
         reset (50, Percentile.EstimationType.R_1);
         Assert.assertEquals(2.0, getUnivariateStatistic().evaluate(specialValues), 0d);
@@ -447,8 +448,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testPercentileCopy() {
        reset(50d, Percentile.EstimationType.LEGACY);
-       Percentile original = getUnivariateStatistic();
-       Percentile copy = new Percentile(original);
+       final Percentile original = getUnivariateStatistic();
+       final Percentile copy = new Percentile(original);
        Assert.assertEquals(original.getNaNStrategy(),copy.getNaNStrategy());
        Assert.assertEquals(original.getQuantile(), copy.getQuantile(),0d);
        Assert.assertEquals(original.getEstimationType(),copy.getEstimationType());
@@ -458,7 +459,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testAllTechniquesSpecialValues() {
         reset(50d, Percentile.EstimationType.LEGACY);
-        UnivariateStatistic percentile = getUnivariateStatistic();
+        final UnivariateStatistic percentile = getUnivariateStatistic();
         double[] specialValues =
                 new double[] { 0d, 1d, 2d, 3d, 4d, Double.NaN };
         Assert.assertEquals(2.5d, percentile.evaluate(specialValues), 0);
@@ -517,21 +518,21 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesSetQuantile() {
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset(10, e);
-            Percentile percentile = getUnivariateStatistic();
+            final Percentile percentile = getUnivariateStatistic();
             percentile.setQuantile(100); // OK
             Assert.assertEquals(100, percentile.getQuantile(), 0);
             try {
                 percentile.setQuantile(0);
                 Assert.fail("Expecting MathIllegalArgumentException");
-            } catch (MathIllegalArgumentException ex) {
+            } catch (final MathIllegalArgumentException ex) {
                 // expected
             }
             try {
                 new Percentile(0);
                 Assert.fail("Expecting MathIllegalArgumentException");
-            } catch (MathIllegalArgumentException ex) {
+            } catch (final MathIllegalArgumentException ex) {
                 // expected
             }
         }
@@ -539,7 +540,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesEvaluateArraySegmentWeighted() {
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset(quantile, e);
             testEvaluateArraySegmentWeighted();
         }
@@ -547,16 +548,15 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testAllTechniquesEvaluateArraySegment() {
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset(quantile, e);
             testEvaluateArraySegment();
         }
     }
 
-
     @Test
     public void testAllTechniquesWeightedConsistency() {
-        for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+        for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
             reset(quantile, e);
             testWeightedConsistency();
         }
@@ -575,7 +575,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testPercentileWithTechnique() {
         reset (50, Percentile.EstimationType.LEGACY);;
-        Percentile p = getUnivariateStatistic();
+        final Percentile p = getUnivariateStatistic();
         Assert.assertTrue(Percentile.EstimationType.LEGACY.equals(p.getEstimationType()));
         Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
     }
@@ -588,19 +588,19 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
 
     @Test
     public void testStoredVsDirect() {
-        RandomGenerator rand= new JDKRandomGenerator();
+        final RandomGenerator rand= new JDKRandomGenerator();
         rand.setSeed(Long.MAX_VALUE);
-        for (int sampleSize:sampleSizes) {
-            double[] data = new NormalDistribution(rand,4000, 50)
+        for (final int sampleSize:sampleSizes) {
+            final double[] data = new NormalDistribution(rand,4000, 50)
                                 .sample(sampleSize);
-            for (double p:new double[] {50d,95d}) {
-                for (Percentile.EstimationType e : Percentile.EstimationType.values()) {
+            for (final double p:new double[] {50d,95d}) {
+                for (final Percentile.EstimationType e : Percentile.EstimationType.values()) {
                     reset(p, e);
-                    Percentile pStoredData = getUnivariateStatistic();
+                    final Percentile pStoredData = getUnivariateStatistic();
                     pStoredData.setData(data);
-                    double storedDataResult=pStoredData.evaluate();
+                    final double storedDataResult=pStoredData.evaluate();
                     pStoredData.setData(null);
-                    Percentile pDirect = getUnivariateStatistic();
+                    final Percentile pDirect = getUnivariateStatistic();
                     Assert.assertEquals("Sample="+sampleSize+",P="+p+" e="+e,
                             storedDataResult,
                             pDirect.evaluate(data),0d);
@@ -608,10 +608,11 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             }
         }
     }
+
     @Test
     public void testPercentileWithDataRef() {
         reset(50.0, Percentile.EstimationType.R_7);
-        Percentile p = getUnivariateStatistic();
+        final Percentile p = getUnivariateStatistic();
         p.setData(testArray);
         Assert.assertTrue(Percentile.EstimationType.R_7.equals(p.getEstimationType()));
         Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
@@ -623,7 +624,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testMedianOf3() {
         reset(50.0, Percentile.EstimationType.R_7);
-        Percentile p = getUnivariateStatistic();
+        final Percentile p = getUnivariateStatistic();
         Assert.assertEquals(0, p.medianOf3(testArray, 0, testArray.length));
         Assert.assertEquals(10, p.medianOf3(testWeightsArray, 0, testWeightsArray.length));
     }
@@ -638,12 +639,12 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     public void testAllEstimationTechniquesOnlyLimits() {
         final int N=testArray.length;
 
-        double[] input=MathArrays.copyOf(testArray);
+        final double[] input=MathArrays.copyOf(testArray);
         Arrays.sort(input);
-        double min = input[0];
-        double max=input[input.length-1];
+        final double min = input[0];
+        final double max=input[input.length-1];
         //limits may be ducked by 0.01 to induce the condition of p<pMin
-        Object[][] map =
+        final Object[][] map =
                 new Object[][] { { Percentile.EstimationType.LEGACY, 0d, 1d }, { Percentile.EstimationType.R_1, 0d, 1d },
                         { Percentile.EstimationType.R_2, 0d,1d }, { Percentile.EstimationType.R_3, 0.5/N,1d },
                         { Percentile.EstimationType.R_4, 1d/N-0.001,1d },
@@ -653,10 +654,10 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
                             (N-1d/3)/(N+1d/3)},
                         { Percentile.EstimationType.R_9, 4.99d/8/(N+0.25), (N-3d/8)/(N+0.25)} };
 
-        for(Object[] arr:map) {
-            Percentile.EstimationType t= (Percentile.EstimationType) arr[0];
+        for(final Object[] arr:map) {
+            final Percentile.EstimationType t= (Percentile.EstimationType) arr[0];
             double pMin=(Double)arr[1];
-            double pMax=(Double)arr[2];
+            final double pMax=(Double)arr[2];
             Assert.assertEquals("Type:"+t,0d, t.index(pMin, N),0d);
             Assert.assertEquals("Type:"+t,N, t.index(pMax, N),0.5d);
             pMin=pMin==0d?pMin+0.01:pMin;
@@ -668,79 +669,84 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     @Test
     public void testAllEstimationTechniquesOnly() {
         Assert.assertEquals("Legacy Apache Commons Math",Percentile.EstimationType.LEGACY.getName());
-        Object[][] map =
+        final Object[][] map =
                 new Object[][] { { Percentile.EstimationType.LEGACY, 20.82 }, { Percentile.EstimationType.R_1, 19.8 },
                         { Percentile.EstimationType.R_2, 19.8 }, { Percentile.EstimationType.R_3, 19.8 }, { Percentile.EstimationType.R_4, 19.310 },
                         { Percentile.EstimationType.R_5, 20.280}, { Percentile.EstimationType.R_6, 20.820},
                         { Percentile.EstimationType.R_7, 19.555 }, { Percentile.EstimationType.R_8, 20.460 },{Percentile.EstimationType.R_9,20.415} };
         try {
-            Percentile.EstimationType.LEGACY.evaluate(testArray, -1d, pivotingStrategy);
-        } catch (OutOfRangeException oore) {
+            Percentile.EstimationType.LEGACY.evaluate(testArray, -1d, new KthSelector(new MedianOf3PivotingStrategy()));
+        } catch (final OutOfRangeException oore) {
         }
         try {
-            Percentile.EstimationType.LEGACY.evaluate(testArray, 101d, pivotingStrategy);
-        } catch (OutOfRangeException oore) {
+            Percentile.EstimationType.LEGACY.evaluate(testArray, 101d, new KthSelector());
+        } catch (final OutOfRangeException oore) {
         }
         try {
-            Percentile.EstimationType.LEGACY.evaluate(testArray, 50d, pivotingStrategy);
-        } catch(OutOfRangeException oore) {
+            Percentile.EstimationType.LEGACY.evaluate(testArray, 50d, new KthSelector());
+        } catch(final OutOfRangeException oore) {
         }
-        for (Object[] o : map) {
-            Percentile.EstimationType e = (Percentile.EstimationType) o[0];
-            double expected = (Double) o[1];
-            double result = e.evaluate(testArray, DEFAULT_PERCENTILE, pivotingStrategy);
+        for (final Object[] o : map) {
+            final Percentile.EstimationType e = (Percentile.EstimationType) o[0];
+            final double expected = (Double) o[1];
+            final double result = e.evaluate(testArray, DEFAULT_PERCENTILE, new KthSelector());
             Assert.assertEquals("expected[" + e + "] = " + expected +
                     " but was = " + result, expected, result, tolerance);
         }
     }
+
     @Test
     public void testAllEstimationTechniquesOnlyForAllPivotingStrategies() {
 
         Assert.assertEquals("Legacy Apache Commons Math",Percentile.EstimationType.LEGACY.getName());
 
-        for (Percentile.PivotingStrategy strategy : Percentile.PivotingStrategy.values()) {
-            pivotingStrategy = strategy;
+        for (final PivotingStrategyInterface strategy : new PivotingStrategyInterface[] {
+            new MedianOf3PivotingStrategy(),
+            new CentralPivotingStrategy(),
+            new RandomPivotingStrategy(new Well1024a(0xf097c734e4740053l))
+        }) {
+            kthSelector = new KthSelector(strategy);
             testAllEstimationTechniquesOnly();
         }
     }
 
-
     @Test
     public void testAllEstimationTechniquesOnlyForExtremeIndexes() {
         final double MAX=100;
-        Object[][] map =
+        final Object[][] map =
                 new Object[][] { { Percentile.EstimationType.LEGACY, 0d, MAX}, { Percentile.EstimationType.R_1, 0d,MAX+0.5 },
                 { Percentile.EstimationType.R_2, 0d,MAX}, { Percentile.EstimationType.R_3, 0d,MAX }, { Percentile.EstimationType.R_4, 0d,MAX },
                 { Percentile.EstimationType.R_5, 0d,MAX }, { Percentile.EstimationType.R_6, 0d,MAX },
                 { Percentile.EstimationType.R_7, 0d,MAX }, { Percentile.EstimationType.R_8, 0d,MAX }, { Percentile.EstimationType.R_9, 0d,MAX }  };
-        for (Object[] o : map) {
-            Percentile.EstimationType e = (Percentile.EstimationType) o[0];
+        for (final Object[] o : map) {
+            final Percentile.EstimationType e = (Percentile.EstimationType) o[0];
                 Assert.assertEquals(((Double)o[1]).doubleValue(),
                         e.index(0d, (int)MAX),0d);
                 Assert.assertEquals("Enum:"+e,((Double)o[2]).doubleValue(),
                         e.index(1.0, (int)MAX),0d);
             }
     }
+
     @Test
     public void testAllEstimationTechniquesOnlyForNullsAndOOR() {
 
-        Object[][] map =
+        final Object[][] map =
                 new Object[][] { { Percentile.EstimationType.LEGACY, 20.82 }, { Percentile.EstimationType.R_1, 19.8 },
                         { Percentile.EstimationType.R_2, 19.8 }, { Percentile.EstimationType.R_3, 19.8 }, { Percentile.EstimationType.R_4, 19.310 },
                         { Percentile.EstimationType.R_5, 20.280}, { Percentile.EstimationType.R_6, 20.820},
                         { Percentile.EstimationType.R_7, 19.555 }, { Percentile.EstimationType.R_8, 20.460 },{ Percentile.EstimationType.R_9, 20.415 } };
-        for (Object[] o : map) {
-            Percentile.EstimationType e = (Percentile.EstimationType) o[0];
+        for (final Object[] o : map) {
+            final Percentile.EstimationType e = (Percentile.EstimationType) o[0];
             try {
-                e.evaluate(null, DEFAULT_PERCENTILE, pivotingStrategy);
+                e.evaluate(null, DEFAULT_PERCENTILE, new KthSelector());
                 Assert.fail("Expecting NullArgumentException");
-            } catch (NullArgumentException nae) {
+            } catch (final NullArgumentException nae) {
                 // expected
             }
             try {
-                e.evaluate(testArray, 120, pivotingStrategy);
+                e.evaluate(testArray, 120, new KthSelector());
                 Assert.fail("Expecting OutOfRangeException");
-            } catch (OutOfRangeException oore) {
+            } catch (final OutOfRangeException oore) {
                 // expected
             }
         }
@@ -755,17 +761,17 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      * @param p the quantile to compute for
      * @param tolerance the tolerance of difference allowed
      */
-    protected void testAssertMappedValues(double[] data, Object[][] map,
-            Double p, Double tolerance) {
-        for (Object[] o : map) {
-            Percentile.EstimationType e = (Percentile.EstimationType) o[0];
-            double expected = (Double) o[1];
+    protected void testAssertMappedValues(final double[] data, final Object[][] map,
+            final Double p, final Double tolerance) {
+        for (final Object[] o : map) {
+            final Percentile.EstimationType e = (Percentile.EstimationType) o[0];
+            final double expected = (Double) o[1];
             try {
                 reset(p, e);
-                double result = getUnivariateStatistic().evaluate(data);
+                final double result = getUnivariateStatistic().evaluate(data);
                 Assert.assertEquals("expected[" + e + "] = " + expected +
                     " but was = " + result, expected, result, tolerance);
-            } catch(Exception ex) {
+            } catch(final Exception ex) {
                 Assert.fail("Exception occured for estimation type "+e+":"+
                         ex.getLocalizedMessage());
             }
@@ -843,18 +849,18 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
      * @param nanStrategy NaNStrategy to be passed
      */
     protected void testAssertMappedValues(double[] data, Object[][] map,
-            Double p, Double tolerance, NaNStrategy nanStrategy) {
+                                          Double p, Double tolerance, NaNStrategy nanStrategy) {
         for (Object[] o : map) {
             Percentile.EstimationType e = (Percentile.EstimationType) o[0];
             double expected = (Double) o[1];
             try {
                 double result = new Percentile(p).withEstimationType(e).withNaNStrategy(nanStrategy).evaluate(data);
-                Assert.assertEquals("expected[" + e + "] = " + expected +
-                    " but was = " + result, expected, result, tolerance);
-            }catch(Exception ex) {
-                Assert.fail("Exception occured for estimation type "+e+":"+
-                        ex.getLocalizedMessage());
+                Assert.assertEquals("expected[" + e + "] = " + expected + " but was = " + result,
+                                    expected, result, tolerance);
+            } catch(Exception ex) {
+                Assert.fail("Exception occured for estimation type " + e + ":" + ex.getLocalizedMessage());
             }
         }
     }
+
 }

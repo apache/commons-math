@@ -26,12 +26,14 @@ import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic;
 import org.apache.commons.math3.stat.ranking.NaNStrategy;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.KthSelector;
 import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math3.util.MedianOf3PivotingStrategy;
+import org.apache.commons.math3.util.PivotingStrategyInterface;
 
 /**
  * Provides percentile computation.
@@ -103,8 +105,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     /** Maximum number of cached pivots in the pivots cached array */
     private static final int PIVOTS_HEAP_LENGTH = 0x1 << MAX_CACHED_LEVELS - 1;
 
-    /** Default pivoting strategy used while doing K<sup>th</sup> selection */
-    private final PivotingStrategy pivotingStrategy;
+    /** Default KthSelector used with default pivoting strategy */
+    private final KthSelector kthSelector;
 
     /** Any of the {@link EstimationType}s such as {@link EstimationType#LEGACY CM} can be used. */
     private final EstimationType estimationType;
@@ -120,12 +122,15 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     private int[] cachedPivots;
 
     /**
-     * Constructs a Percentile with a default values.
+     * Constructs a Percentile with the following defaults.
      * <ul>
      *   <li>default quantile: 50.0, can be reset with {@link #setQuantile(double)}</li>
-     *   <li>default estimation type: {@link EstimationType#LEGACY}, can be reset with {@link #withEstimationType(EstimationType)}</li>
-     *   <li>default NaN strategy: {@link NaNStrategy#FIXED}</li>
-     *   <li>default pivoting strategy: {@link PivotingStrategy#MEDIAN_OF_3}</li>
+     *   <li>default estimation type: {@link EstimationType#LEGACY},
+     *   can be reset with {@link #withEstimationType(EstimationType)}</li>
+     *   <li>default NaN strategy: {@link NaNStrategy#REMOVED},
+     *   can be reset with {@link #withNaNStrategy(NaNStrategy)}</li>
+     *   <li>a KthSelector that makes use of {@link PivotingStrategy#MEDIAN_OF_3},
+     *   can be reset with {@link #withKthSelector(KthSelector)}</li>
      * </ul>
      */
     public Percentile() {
@@ -134,18 +139,19 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     }
 
     /**
-     * Constructs a Percentile with the specific quantile value.
+     * Constructs a Percentile with the specific quantile value and the following
      * <ul>
      *   <li>default method type: {@link EstimationType#LEGACY}</li>
-     *   <li>default NaN strategy: {@link NaNStrategy#FIXED}</li>
-     *   <li>default pivoting strategy: {@link PivotingStrategy#MEDIAN_OF_3}</li>
+     *   <li>default NaN strategy: {@link NaNStrategy#REMOVED}</li>
+     *   <li>a Kth Selector : {@link KthSelector}</li>
      * </ul>
      * @param quantile the quantile
      * @throws MathIllegalArgumentException  if p is not greater than 0 and less
      * than or equal to 100
      */
     public Percentile(final double quantile) throws MathIllegalArgumentException {
-        this(quantile, EstimationType.LEGACY, NaNStrategy.FIXED, PivotingStrategy.MEDIAN_OF_3);
+        this(quantile, EstimationType.LEGACY, NaNStrategy.REMOVED,
+             new KthSelector(new MedianOf3PivotingStrategy()));
     }
 
     /**
@@ -160,7 +166,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         MathUtils.checkNotNull(original);
         estimationType   = original.getEstimationType();
         nanStrategy      = original.getNaNStrategy();
-        pivotingStrategy = original.getPivotingStrategy();
+        kthSelector      = original.getKthSelector();
 
         setData(original.getDataRef());
         if (original.cachedPivots != null) {
@@ -172,26 +178,28 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
     /**
      * Constructs a Percentile with the specific quantile value,
-     * {@link EstimationType}, {@link NaNStrategy} and {@link PivotingStrategy}.
+     * {@link EstimationType}, {@link NaNStrategy} and {@link KthSelector}.
      *
      * @param quantile the quantile to be computed
      * @param estimationType one of the percentile {@link EstimationType  estimation types}
      * @param nanStrategy one of {@link NaNStrategy} to handle with NaNs
-     * @param pivotingStrategy strategy to use for pivoting during search
+     * @param kthSelector a {@link KthSelector} to use for pivoting during search
      * @throws MathIllegalArgumentException if p is not within (0,100]
      * @throws NullArgumentException if type or NaNStrategy passed is null
      */
-    protected Percentile(final double quantile, final EstimationType estimationType, final NaNStrategy nanStrategy,
-                         final PivotingStrategy pivotingStrategy)
+    protected Percentile(final double quantile,
+                         final EstimationType estimationType,
+                         final NaNStrategy nanStrategy,
+                         final KthSelector kthSelector)
         throws MathIllegalArgumentException {
         setQuantile(quantile);
         cachedPivots = null;
         MathUtils.checkNotNull(estimationType);
         MathUtils.checkNotNull(nanStrategy);
-        MathUtils.checkNotNull(pivotingStrategy);
+        MathUtils.checkNotNull(kthSelector);
         this.estimationType = estimationType;
         this.nanStrategy = nanStrategy;
-        this.pivotingStrategy = pivotingStrategy;
+        this.kthSelector = kthSelector;
     }
 
     /** {@inheritDoc} */
@@ -344,26 +352,28 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         final double[] work = getWorkArray(values, begin, length);
         final int[] pivotsHeap = getPivots(values);
         return work.length == 0 ? Double.NaN :
-                    estimationType.evaluate(work, pivotsHeap, p, pivotingStrategy);
+                    estimationType.evaluate(work, pivotsHeap, p, kthSelector);
     }
 
     /** Select a pivot index as the median of three
      * <p>
-     * <b>Note:</b> With the effect of allowing a strategy for
-     * {@link PivotingStrategy pivoting} to be set on {@link Percentile} class;
-     * this method is rendered inconsequential and hence will be unsupported.
+     * <b>Note:</b> With the effect of allowing {@link KthSelector} to be set on
+     * {@link Percentile} instances(thus indirectly {@link PivotingStrategy})
+     * this method wont take effect any more and hence is unsupported.
      * @param work data array
      * @param begin index of the first element of the slice
      * @param end index after the last element of the slice
      * @return the index of the median element chosen between the
      * first, the middle and the last element of the array slice
-     * @deprecated Please refrain from using this method and instead use
-     * {@link Percentile#withPivotingStrategy(PivotingStrategy)} if required.
+     * @deprecated Please refrain from using this method (as it wont take effect)
+     * and instead use {@link Percentile#withKthSelector(newKthSelector)} if
+     * required.
      *
      */
     @Deprecated
     int medianOf3(final double[] work, final int begin, final int end) {
-        return PivotingStrategy.MEDIAN_OF_3.pivotIndex(work, begin, end);
+        return new MedianOf3PivotingStrategy().pivotIndex(work, begin, end);
+        //throw new MathUnsupportedOperationException();
     }
 
     /**
@@ -408,9 +418,10 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @deprecated as of 3.4 this method does not work anymore, as it fails to
      * copy internal states between instances configured with different
      * {@link EstimationType estimation type}, {@link NaNStrategy NaN handling strategies}
-     * and {@link PivotingStrategy pivoting strategy}, it therefore always
+     * and {@link KthSelector kthSelector}, it therefore always
      * throw {@link MathUnsupportedOperationException}
       */
+    @Deprecated
     public static void copy(final Percentile source, final Percentile dest)
         throws MathUnsupportedOperationException {
         throw new MathUnsupportedOperationException();
@@ -420,8 +431,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * Get the work array to operate. Makes use of prior {@code storedData} if
      * it exists or else do a check on NaNs and copy a subset of the array
      * defined by begin and length parameters. The set {@link #nanStrategy} will
-     * be used to either remove or replace any NaNs present before returning the
-     * resultant array.
+     * be used to either retain/remove/replace any NaNs present before returning
+     * the resultant array.
      *
      * @param values the array of numbers
      * @param begin index to start reading the array
@@ -430,30 +441,30 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * @throws MathIllegalArgumentException if values or indices are invalid
      */
     protected double[] getWorkArray(final double[] values, final int begin, final int length) {
-        final double[] work;
-        if (values == getDataRef()) {
-            work = getDataRef();
-        } else {
-            switch (nanStrategy) {
-            case MAXIMAL:// Replace NaNs with +INFs
-                work = replaceAndSlice(values, begin, length, Double.NaN, Double.POSITIVE_INFINITY);
-                break;
-            case MINIMAL:// Replace NaNs with -INFs
-                work = replaceAndSlice(values, begin, length, Double.NaN, Double.NEGATIVE_INFINITY);
-                break;
-            case REMOVED:// Drop NaNs from data
-                work = removeAndSlice(values, begin, length, Double.NaN);
-                break;
-            case FAILED:// just throw exception as NaN is un-acceptable
-                work = copyOf(values, begin, length);
-                MathArrays.checkNotNaN(work);
-                break;
-            default: //FIXED
-                work = copyOf(values,begin,length);
-                break;
+            final double[] work;
+            if (values == getDataRef()) {
+                work = getDataRef();
+            } else {
+                switch (nanStrategy) {
+                case MAXIMAL:// Replace NaNs with +INFs
+                    work = replaceAndSlice(values, begin, length, Double.NaN, Double.POSITIVE_INFINITY);
+                    break;
+                case MINIMAL:// Replace NaNs with -INFs
+                    work = replaceAndSlice(values, begin, length, Double.NaN, Double.NEGATIVE_INFINITY);
+                    break;
+                case REMOVED:// Drop NaNs from data
+                    work = removeAndSlice(values, begin, length, Double.NaN);
+                    break;
+                case FAILED:// just throw exception as NaN is un-acceptable
+                    work = copyOf(values, begin, length);
+                    MathArrays.checkNotNaN(work);
+                    break;
+                default: //FIXED
+                    work = copyOf(values,begin,length);
+                    break;
+                }
             }
-        }
-        return work;
+            return work;
     }
 
     /**
@@ -579,18 +590,18 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *   Percentile customized = new Percentile(quantile).
      *                           withEstimationType(estimationType).
      *                           withNaNStrategy(nanStrategy).
-     *                           withPivotingStrategy(pivotingStrategy();
+     *                           withKthSelector(kthSelector);
      * </pre>
      * <p>
      * If any of the {@code withXxx} method is omitted, the default value for
      * the corresponding customization parameter will be used.
      * </p>
      * @param newEstimationType estimation type for the new instance
-     * @return a new instance, with changed pivoting strategy
-     * @throws NullArgumentException when pivotingStrategy is null
+     * @return a new instance, with changed estimation type
+     * @throws NullArgumentException when newEstimationType is null
      */
     public Percentile withEstimationType(final EstimationType newEstimationType) {
-        return new Percentile(quantile, newEstimationType, nanStrategy, pivotingStrategy);
+        return new Percentile(quantile, newEstimationType, nanStrategy, kthSelector);
     }
 
     /**
@@ -612,7 +623,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *   Percentile customized = new Percentile(quantile).
      *                           withEstimationType(estimationType).
      *                           withNaNStrategy(nanStrategy).
-     *                           withPivotingStrategy(pivotingStrategy();
+     *                           withKthSelector(kthSelector);
      * </pre>
      * <p>
      * If any of the {@code withXxx} method is omitted, the default value for
@@ -620,23 +631,31 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * </p>
      * @param newNaNStrategy NaN strategy for the new instance
      * @return a new instance, with changed NaN handling strategy
-     * @throws NullArgumentException when pivotingStrategy is null
+     * @throws NullArgumentException when newNaNStrategy is null
      */
     public Percentile withNaNStrategy(final NaNStrategy newNaNStrategy) {
-        return new Percentile(quantile, estimationType, newNaNStrategy, pivotingStrategy);
+        return new Percentile(quantile, estimationType, newNaNStrategy, kthSelector);
     }
 
     /**
-     * Get the {@link PivotingStrategy pivoting strategy} used for computation.
-     * @return the {@link PivotingStrategy pivoting strategy} set
+     * Get the {@link KthSelector kthSelector} used for computation.
+     * @return the {@code kthSelector} set
      */
-    public PivotingStrategy getPivotingStrategy() {
-        return pivotingStrategy;
+    public KthSelector getKthSelector() {
+        return kthSelector;
+    }
+
+    /**
+     * Get the {@link PivotingStrategyInterface} used in KthSelector for computation.
+     * @return the pivoting strategy set
+     */
+    public PivotingStrategyInterface getPivotingStrategy() {
+        return kthSelector.getPivotingStrategy();
     }
 
     /**
      * Build a new instance similar to the current one except for the
-     * {@link PivotingStrategy pivoting} strategy.
+     * {@link KthSelector kthSelector} instance specifically set.
      * <p>
      * This method is intended to be used as part of a fluent-type builder
      * pattern. Building finely tune instances should be done as follows:
@@ -645,18 +664,19 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *   Percentile customized = new Percentile(quantile).
      *                           withEstimationType(estimationType).
      *                           withNaNStrategy(nanStrategy).
-     *                           withPivotingStrategy(pivotingStrategy();
+     *                           withKthSelector(newKthSelector);
      * </pre>
      * <p>
      * If any of the {@code withXxx} method is omitted, the default value for
      * the corresponding customization parameter will be used.
      * </p>
-     * @param newPivotingStrategy pivoting strategy for the new instance
-     * @return a new instance, with changed pivoting strategy
-     * @throws NullArgumentException when pivotingStrategy is null
+     * @param newKthSelector KthSelector for the new instance
+     * @return a new instance, with changed KthSelector
+     * @throws NullArgumentException when newKthSelector is null
      */
-    public Percentile withPivotingStrategy(final PivotingStrategy newPivotingStrategy) {
-        return new Percentile(quantile, estimationType, nanStrategy, newPivotingStrategy);
+    public Percentile withKthSelector(final KthSelector newKthSelector) {
+        return new Percentile(quantile, estimationType, nanStrategy,
+                                newKthSelector);
     }
 
     /**
@@ -679,7 +699,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      * </ul>
      * <p>
      * Users can now create {@link Percentile} by explicitly passing this enum;
-     * such as by invoking {@link Percentile#Percentile(EstimationType)}
+     * such as by invoking {@link Percentile#withEstimationType(EstimationType)}
      * <p>
      * References:
      * <ol>
@@ -743,8 +763,8 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             protected double estimate(final double[] values,
                                       final int[] pivotsHeap, final double pos,
-                                      final int length, final PivotingStrategy pivotingStrategy) {
-                return super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, pivotingStrategy);
+                                      final int length, final KthSelector kthSelector) {
+                return super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, kthSelector);
             }
 
         },
@@ -775,11 +795,11 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             @Override
             protected double estimate(final double[] values,
                                       final int[] pivotsHeap, final double pos,
-                                      final int length, final PivotingStrategy pivotingStrategy) {
+                                      final int length, final KthSelector kthSelector) {
                 final double low =
-                        super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, pivotingStrategy);
+                        super.estimate(values, pivotsHeap, FastMath.ceil(pos - 0.5), length, kthSelector);
                 final double high =
-                        super.estimate(values, pivotsHeap,FastMath.floor(pos + 0.5), length, pivotingStrategy);
+                        super.estimate(values, pivotsHeap,FastMath.floor(pos + 0.5), length, kthSelector);
                 return (low + high) / 2;
             }
 
@@ -961,14 +981,15 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
 
         /**
          * Finds the index of array that can be used as starting index to
-         * {@link #estimate(double[], int[], double, int) estimate} percentile.
-         * The index calculation is specific to each {@link EstimationType}
+         * {@link #estimate(double[], int[], double, int, KthSelector) estimate}
+         * percentile. The calculation of index calculation is specific to each
+         * {@link EstimationType}.
          *
          * @param p the p<sup>th</sup> quantile
          * @param length the total number of array elements in the work array
          * @return a computed real valued index as explained in the wikipedia
          */
-        protected abstract double index(double p, int length);
+        protected abstract double index(final double p, final int length);
 
         /**
          * Estimation based on K<sup>th</sup> selection. This may be overridden
@@ -979,71 +1000,70 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
          *            {@link #index(double, int)}
          * @param pivotsHeap an earlier populated cache if exists; will be used
          * @param length size of array considered
-         * @param pivotingStrategy strategy to use for pivoting during search
+         * @param kthSelector a {@link KthSelector} used for pivoting during search
          * @return estimated percentile
          */
         protected double estimate(final double[] work, final int[] pivotsHeap,
-                                  final double pos, final int length, final PivotingStrategy pivotingStrategy) {
+                                  final double pos, final int length,
+                                  final KthSelector kthSelector) {
 
             final double fpos = FastMath.floor(pos);
             final int intPos = (int) fpos;
             final double dif = pos - fpos;
-            final KthSelector kthSelector =
-                    new KthSelector(work, pivotsHeap, pivotingStrategy);
 
             if (pos < 1) {
-                return kthSelector.select(0);
+                return kthSelector.select(work, pivotsHeap, 0);
             }
             if (pos >= length) {
-                return kthSelector.select(length - 1);
+                return kthSelector.select(work, pivotsHeap, length - 1);
             }
 
-            final double lower = kthSelector.select(intPos - 1);
-            final double upper = kthSelector.select(intPos);
+            final double lower = kthSelector.select(work, pivotsHeap, intPos - 1);
+            final double upper = kthSelector.select(work, pivotsHeap, intPos);
             return lower + dif * (upper - lower);
         }
 
         /**
          * Evaluate method to compute the percentile for a given bounded array
          * using earlier computed pivots heap.<br>
-         * This basically calls the {@link #index(double, int) index function}
-         * and then calls {@link #estimate(double[], int[], double, int)
-         * estimate function} to return the estimated percentile value.
+         * This basically calls the {@link #index(double, int) index} and then
+         * {@link #estimate(double[], int[], double, int, KthSelector) estimate}
+         * functions to return the estimated percentile value.
          *
          * @param work array of numbers to be used for finding the percentile
          * @param pivotsHeap a prior cached heap which can speed up estimation
          * @param p the p<sup>th</sup> quantile to be computed
-         * @param pivotingStrategy strategy to use for pivoting during search
+         * @param kthSelector a {@link KthSelector} used for pivoting during search
          * @return estimated percentile
          * @throws OutOfRangeException if p is out of range
          * @throws NullArgumentException if work array is null
          */
         protected double evaluate(final double[] work, final int[] pivotsHeap, final double p,
-                                  final PivotingStrategy pivotingStrategy) {
+                                  final KthSelector kthSelector) {
             MathUtils.checkNotNull(work);
             if (p > 100 || p <= 0) {
                 throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUNDS_QUANTILE_VALUE,
                                               p, 0, 100);
             }
-            return estimate(work, pivotsHeap, index(p/100d, work.length), work.length, pivotingStrategy);
+            return estimate(work, pivotsHeap, index(p/100d, work.length), work.length, kthSelector);
         }
 
         /**
          * Evaluate method to compute the percentile for a given bounded array.
-         * This basically calls the {@link #index(double, int) index function}
-         * and then calls {@link #estimate(double[], int[], double, int)
-         * estimate function} to return the estimated percentile value. Please
+         * This basically calls the {@link #index(double, int) index} and then
+         * {@link #estimate(double[], int[], double, int, KthSelector) estimate}
+         * functions to return the estimated percentile value. Please
          * note that this method does not make use of cached pivots.
          *
          * @param work array of numbers to be used for finding the percentile
          * @param p the p<sup>th</sup> quantile to be computed
          * @return estimated percentile
-         * @param pivotingStrategy strategy to use for pivoting during search
+         * @param kthSelector a {@link KthSelector} used for pivoting during search
          * @throws OutOfRangeException if length or p is out of range
          * @throws NullArgumentException if work array is null
          */
-        public double evaluate(final double[] work, final double p, final PivotingStrategy pivotingStrategy) {
-            return this.evaluate(work, null, p, pivotingStrategy);
+        public double evaluate(final double[] work, final double p, final KthSelector kthSelector) {
+            return this.evaluate(work, null, p, kthSelector);
         }
 
         /**
@@ -1054,221 +1074,5 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
         String getName() {
             return name;
         }
-
     }
-
-    /**
-     * A Simple K<sup>th</sup> selector implementation to pick up the
-     * K<sup>th</sup> ordered element from a work array containing the input
-     * numbers.
-     */
-    private static class KthSelector {
-
-        /** Minimum selection size for insertion sort rather than selection. */
-        private static final int MIN_SELECT_SIZE = 15;
-
-        /** A work array to use to find out the K<sup>th</sup> value */
-        private final double[] work;
-
-        /** A cached pivots heap that can be used for efficient estimation. */
-        private final int[] pivotsHeap;
-
-        /** A {@link PivotingStrategy} used for pivoting  */
-        private final PivotingStrategy pivotingTechnique;
-
-        /**
-         * Constructor with specified pivots cache and pivoting strategy
-         *
-         * @param values array containing input numbers
-         * @param pivots that are cached for efficient retrievals
-         * @param pivotingStrategy any of the {@link PivotingStrategy}
-         * @throws NullArgumentException when values or pivotingStrategy is null
-         */
-        private KthSelector(final double[] values, final int[] pivots,
-                            final PivotingStrategy pivotingStrategy) {
-            MathUtils.checkNotNull(values);
-            MathUtils.checkNotNull(pivotingStrategy);
-            work = values;
-            pivotsHeap = pivots;
-            pivotingTechnique = pivotingStrategy;
-        }
-
-        /**
-         * Select K<sup>th</sup> value in the array.
-         *
-         * @param k the index whose value in the array is of interest
-         * @return K<sup>th</sup> value
-         */
-        protected double select(final int k) {
-            int begin = 0;
-            int end = work.length;
-            int node = 0;
-            final boolean usePivotsHeap = pivotsHeap != null;
-            while (end - begin > MIN_SELECT_SIZE) {
-                final int pivot;
-
-                if (usePivotsHeap && node < pivotsHeap.length &&
-                        pivotsHeap[node] >= 0) {
-                    // the pivot has already been found in a previous call
-                    // and the array has already been partitioned around it
-                    pivot = pivotsHeap[node];
-                } else {
-                    // select a pivot and partition work array around it
-                    pivot = partition(begin, end, pivotingTechnique.pivotIndex(work, begin, end));
-                    if (usePivotsHeap && node < pivotsHeap.length) {
-                        pivotsHeap[node] = pivot;
-                    }
-                }
-
-                if (k == pivot) {
-                    // the pivot was exactly the element we wanted
-                    return work[k];
-                } else if (k < pivot) {
-                    // the element is in the left partition
-                    end  = pivot;
-                    node = FastMath.min(2 * node + 1, usePivotsHeap ? pivotsHeap.length : end);
-                } else {
-                    // the element is in the right partition
-                    begin = pivot + 1;
-                    node  = FastMath.min(2 * node + 2, usePivotsHeap ? pivotsHeap.length : end);
-                }
-            }
-            Arrays.sort(work, begin, end);
-            return work[k];
-        }
-
-        /**
-         * Partition an array slice around a pivot.Partitioning exchanges array
-         * elements such that all elements smaller than pivot are before it and
-         * all elements larger than pivot are after it.
-         *
-         * @param begin index of the first element of the slice of work array
-         * @param end index after the last element of the slice of work array
-         * @param pivot initial index of the pivot
-         * @return index of the pivot after partition
-         */
-        private int partition(final int begin, final int end, final int pivot) {
-
-            final double value = work[pivot];
-            work[pivot] = work[begin];
-
-            int i = begin + 1;
-            int j = end - 1;
-            while (i < j) {
-                while (i < j && work[j] > value) {
-                    --j;
-                }
-                while (i < j && work[i] < value) {
-                    ++i;
-                }
-
-                if (i < j) {
-                    final double tmp = work[i];
-                    work[i++] = work[j];
-                    work[j--] = tmp;
-                }
-            }
-
-            if (i >= end || work[i] > value) {
-                --i;
-            }
-            work[begin] = work[i];
-            work[i] = value;
-            return i;
-        }
-    }
-
-    /**
-     * A strategy to pick a pivoting index of an array for doing partitioning
-     * and can be any of {@link PivotingStrategy#MEDIAN_OF_3},
-     * {@link PivotingStrategy#RANDOM} or {@link PivotingStrategy#CENTRAL}.
-     * This is used for K<sup>th</sup> element selection done during computation.
-     */
-    public static enum PivotingStrategy {
-
-        /** Classic median of 3 strategy given begin and end indices. */
-        MEDIAN_OF_3() {
-
-            /**{@inheritDoc}
-             * This in specific makes use of median of 3 pivoting.
-             * @return The index corresponding to a pivot chosen between the
-             * first, middle and the last indices of the array slice
-             * @throws MathIllegalArgumentException when indices exceeds range
-             */
-            @Override
-            public int pivotIndex(final double[] work, final int begin, final int end) {
-                MathArrays.verifyValues(work, begin, end-begin);
-                final int inclusiveEnd = end - 1;
-                final int middle = begin + (inclusiveEnd - begin) / 2;
-                final double wBegin = work[begin];
-                final double wMiddle = work[middle];
-                final double wEnd = work[inclusiveEnd];
-
-                if (wBegin < wMiddle) {
-                    if (wMiddle < wEnd) {
-                        return middle;
-                    } else {
-                        return wBegin < wEnd ? inclusiveEnd : begin;
-                    }
-                } else {
-                    if (wBegin < wEnd) {
-                        return begin;
-                    } else {
-                        return wMiddle < wEnd ? inclusiveEnd : middle;
-                    }
-                }
-            }
-        },
-
-        /** A strategy of selecting random index between begin and end indices*/
-        RANDOM(){
-
-            /**
-             * {@inheritDoc}
-             * A uniform random pivot selection between begin and end indices
-             * @return The index corresponding to a random uniformly selected
-             * value between first and the last indices of the array slice
-             * @throws MathIllegalArgumentException when indices exceeds range
-             */
-            @Override
-            protected int pivotIndex(final double[] work, final int begin, final int end) {
-                MathArrays.verifyValues(work, begin, end-begin);
-                return random.nextInt(begin, end-1);
-            }
-        },
-
-        /** A mid point strategy based on the average of begin and end indices */
-        CENTRAL(){
-
-            /**
-             * {@inheritDoc}
-             * This in particular picks a average of begin and end indices
-             * @return The index corresponding to a simple average of
-             * the first and the last element indices of the array slice
-             * @throws MathIllegalArgumentException when indices exceeds range
-             */
-            @Override
-            protected int pivotIndex(final double[] work, final int begin, final int end) {
-                MathArrays.verifyValues(work, begin, end-begin);
-                return begin + (end - begin)/2;
-            }
-        };
-
-        /** A random data generator instance for randomized pivoting */
-        protected final RandomDataGenerator random = new RandomDataGenerator();
-
-        /**
-         * Find pivot index of the array so that partition and K<sup>th</sup>
-         * element selection can be made
-         * @param work data array
-         * @param begin index of the first element of the slice
-         * @param end index after the last element of the slice
-         * @return the index of the pivot element chosen between the
-         * first and the last element of the array slice
-         * @throws MathIllegalArgumentException when indices exceeds range
-         */
-        protected abstract int pivotIndex(double[] work, int begin, int end);
-
-    }
-
 }
