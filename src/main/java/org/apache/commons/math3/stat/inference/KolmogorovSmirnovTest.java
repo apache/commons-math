@@ -476,7 +476,7 @@ public class KolmogorovSmirnovTest {
         for (int i = 1; i <= n; ++i) {
             pFrac *= (double) i / (double) n;
         }
-        
+
         return pFrac;
     }
 
