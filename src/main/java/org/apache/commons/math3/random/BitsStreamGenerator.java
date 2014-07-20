@@ -163,13 +163,13 @@ public abstract class BitsStreamGenerator
     }
 
     /**
-     * Returns a pseudorandom, uniformly distributed <tt>long</tt> value
+     * Returns a pseudorandom, uniformly distributed {@code long} value
      * between 0 (inclusive) and the specified value (exclusive), drawn from
      * this random number generator's sequence.
      *
      * @param n the bound on the random number to be returned.  Must be
      * positive.
-     * @return  a pseudorandom, uniformly distributed <tt>long</tt>
+     * @return  a pseudorandom, uniformly distributed {@code long}
      * value between 0 (inclusive) and n (exclusive).
      * @throws IllegalArgumentException  if n is not positive.
      */
