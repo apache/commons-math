@@ -17,9 +17,8 @@
 package org.apache.commons.math3.stat.descriptive.rank;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.BitSet;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
@@ -34,6 +33,7 @@ import org.apache.commons.math3.util.MathArrays;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.MedianOf3PivotingStrategy;
 import org.apache.commons.math3.util.PivotingStrategyInterface;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Provides percentile computation.
@@ -492,13 +492,12 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      */
     private static double[] replaceAndSlice(final double[] values,
                                             final int begin, final int length,
-                                            final double original, final double replacement) {
+                                            final double original,
+                                            final double replacement) {
         final double[] temp = copyOf(values, begin, length);
         for(int i = 0; i < length; i++) {
-            //First a quick check on if both are NaN
-            final boolean areBothNaNs = Double.isNaN(original) &&
-                                    Double.isNaN(values[i]);
-            temp[i] = (areBothNaNs || Double.compare(original, temp[i]) == 0) ? replacement : temp[i];
+            temp[i] = Precision.equalsIncludingNaN(original, temp[i]) ?
+                      replacement : temp[i];
         }
         return temp;
     }
@@ -516,38 +515,34 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                                            final int begin, final int length,
                                            final double removedValue) {
         MathArrays.verifyValues(values, begin, length);
-
-        final double [] temp;
-        final List<Integer> occurencesToRemove = new ArrayList<Integer>();
-
-        //First register for all occurrences of removable value
-        for (int i= begin; i < begin + length; i++) {
-            //Do a quick check on if both are NaN
-            final boolean areBothNaNs = Double.isNaN(removedValue) && Double.isNaN(values[i]);
-            if (areBothNaNs || Double.compare(values[i], removedValue) == 0) {
-                occurencesToRemove.add(i);
+        final double[] temp;
+        //BitSet(length) to indicate where the removedValue is located
+        final BitSet bits = new BitSet(length);
+        for (int i = begin; i < begin+length; i++) {
+            if (Precision.equalsIncludingNaN(removedValue, values[i])) {
+                bits.set(i - begin);
             }
         }
-
-        //Next, get the slice of array with removable peeled off.
-        if (occurencesToRemove.isEmpty()) {
-            temp = copyOf(values,begin,length); //just do a copy
-        } else if (occurencesToRemove.size() == length) {
-            temp = new double[0]; //all were NaNs; so return a zero length
-        } else /*if(occurancesToRemove.size()>0)*/ {
-            temp = new double[length - occurencesToRemove.size()];
-            int start = begin;
-            int destStart = 0;
-            // copy off the retained ones in steps
-            for (final int current: occurencesToRemove) {
-                final int numsToMove = current - start;
-                System.arraycopy(values, start, temp, destStart, numsToMove);
-                destStart += numsToMove;
-                start = current + 1;
+        //Check if empty then create a new copy
+        if (bits.isEmpty()) {
+            temp = copyOf(values, begin, length); // Nothing removed, just copy
+        } else if(bits.cardinality() == length){
+            temp = new double[0];                 // All removed, just empty
+        }else {                                   // Some removable, so new
+            temp = new double[length - bits.cardinality()];
+            int start = begin;  //start index from source array (i.e values)
+            int dest = 0;       //dest index in destination array(i.e temp)
+            int nextOne = -1;   //nextOne is the index of bit set of next one
+            int bitSetPtr = 0;  //bitSetPtr is start index pointer of bitset
+            while ((nextOne = bits.nextSetBit(bitSetPtr)) != -1) {
+                final int lengthToCopy = nextOne - bitSetPtr;
+                System.arraycopy(values, start, temp, dest, lengthToCopy);
+                dest += lengthToCopy;
+                start = begin + (bitSetPtr = bits.nextClearBit(nextOne));
             }
-            //Copy any residue past start index till length
-            if (start < length) {
-                System.arraycopy(values,start,temp,destStart,length-start);
+            //Copy any residue past start index till begin+length
+            if (start < begin + length) {
+                System.arraycopy(values,start,temp,dest,begin + length - start);
             }
         }
         return temp;
