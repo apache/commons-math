@@ -83,7 +83,8 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="tn" type="fix" issue="MATH-1131" due-to="Schalk W. Cronjé">
         Improve performance of "KolmogorovSmirnovTest#kolmogorovSmirnovTest(...)" for
-        large samples.
+        large samples. Also changed implementation for large n to use Pelz-Good
+        approximation.
       </action>
       <action dev="erans" type="fix" issue="MATH-1134">
         "BicubicSplineInterpolatingFunction": all fields made final and initialized in

@@ -36,10 +36,17 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  */
 public final class MathUtils {
     /**
-     * 2 &pi;.
+     * \(2\pi\)
      * @since 2.1
      */
     public static final double TWO_PI = 2 * FastMath.PI;
+
+    /**
+     * \(\pi^2\)
+     * @since 3.4
+     */
+    public static final double PI_SQUARED = FastMath.PI * FastMath.PI;
+
 
     /**
      * Class contains only static methods.

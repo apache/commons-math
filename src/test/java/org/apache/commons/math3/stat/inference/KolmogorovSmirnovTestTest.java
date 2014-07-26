@@ -90,90 +90,6 @@ public class KolmogorovSmirnovTestTest {
         0.97660425
     };
 
-    @Test
-    public void testCumulativeDensityFunction() {
-
-        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
-
-        /*
-         * The code below is generated using the R-script located in
-         * /src/test/R/KolmogorovSmirnovDistributionTestCases.R R version 2.11.1 (2010-05-31)
-         */
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.005), n = as.integer(200), PACKAGE =
-         * "stats")$p, 40) gives 4.907829957616471622388047046469198862537e-86
-         */
-
-        Assert.assertEquals(4.907829957616471622388047046469198862537e-86, test.cdf(0.005, 200, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.02), n = as.integer(200), PACKAGE =
-         * "stats")$p, 40) gives 5.151982014280041957199687829849210629618e-06
-         */
-        Assert.assertEquals(5.151982014280041957199687829849210629618e-06, test.cdf(0.02, 200, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.031111), n = as.integer(200), PACKAGE =
-         * "stats")$p, 40) gives 0.01291614648162886340443389343590752105229
-         */
-        Assert.assertEquals(0.01291614648162886340443389343590752105229, test.cdf(0.031111, 200, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.04), n = as.integer(200), PACKAGE =
-         * "stats")$p, 40) gives 0.1067137011362679355208626930107129737735
-         */
-        Assert.assertEquals(0.1067137011362679355208626930107129737735, test.cdf(0.04, 200, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.005), n = as.integer(341), PACKAGE =
-         * "stats")$p, 40) gives 1.914734701559404553985102395145063418825e-53
-         */
-        Assert.assertEquals(1.914734701559404553985102395145063418825e-53, test.cdf(0.005, 341, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.02), n = as.integer(341), PACKAGE =
-         * "stats")$p, 40) gives 0.001171328985781981343872182321774744195864
-         */
-        Assert.assertEquals(0.001171328985781981343872182321774744195864, test.cdf(0.02, 341, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.031111), n = as.integer(341), PACKAGE =
-         * "stats")$p, 40) gives 0.1142955196267499418105728636874118819833
-         */
-        Assert.assertEquals(0.1142955196267499418105728636874118819833, test.cdf(0.031111, 341, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.04), n = as.integer(341), PACKAGE =
-         * "stats")$p, 40) gives 0.3685529520496805266915885113121476024389
-         */
-        Assert.assertEquals(0.3685529520496805266915885113121476024389, test.cdf(0.04, 341, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.005), n = as.integer(389), PACKAGE =
-         * "stats")$p, 40) gives 1.810657144595055888918455512707637574637e-47
-         */
-        Assert.assertEquals(1.810657144595055888918455512707637574637e-47, test.cdf(0.005, 389, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.02), n = as.integer(389), PACKAGE =
-         * "stats")$p, 40) gives 0.003068542559702356568168690742481885536108
-         */
-        Assert.assertEquals(0.003068542559702356568168690742481885536108, test.cdf(0.02, 389, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.031111), n = as.integer(389), PACKAGE =
-         * "stats")$p, 40) gives 0.1658291700122746237244797384846606291831
-         */
-        Assert.assertEquals(0.1658291700122746237244797384846606291831, test.cdf(0.031111, 389, false), TOLERANCE);
-
-        /*
-         * formatC(.C("pkolmogorov2x", p = as.double(0.04), n = as.integer(389), PACKAGE =
-         * "stats")$p, 40) gives 0.4513143712128902529379104180407011881471
-         */
-        Assert.assertEquals(0.4513143712128902529379104180407011881471, test.cdf(0.04, 389, false), TOLERANCE);
-    }
-
     /** Unit normal distribution, unit normal data */
     @Test
     public void testOneSampleGaussianGaussian() {
@@ -305,6 +221,31 @@ public class KolmogorovSmirnovTestTest {
             }
         }
     }
+    
+    @Test
+    public void testPelzGoodApproximation() {
+        KolmogorovSmirnovTest ksTest = new KolmogorovSmirnovTest();
+        final double d[] = {0.15, 0.20, 0.25, 0.3, 0.35, 0.4};
+        final int n[] = {141, 150, 180, 220, 1000};
+        // Reference values computed using the Pelz method from
+        // http://simul.iro.umontreal.ca/ksdir/KolmogorovSmirnovDist.java
+        final double ref[] = {
+            0.9968940168727819, 0.9979326624184857, 0.9994677598604506, 0.9999128354780209, 0.9999999999998661,
+            0.9999797514476236, 0.9999902122242081, 0.9999991327060908, 0.9999999657681911, 0.9999999999977929,
+            0.9999999706444976, 0.9999999906571532, 0.9999999997949596, 0.999999999998745, 0.9999999999993876,
+            0.9999999999916627, 0.9999999999984447, 0.9999999999999936, 0.999999999999341, 0.9999999999971508,
+            0.9999999999999877, 0.9999999999999191, 0.9999999999999254, 0.9999999999998178, 0.9999999999917788,
+            0.9999999999998556, 0.9999999999992014, 0.9999999999988859, 0.9999999999999325, 0.9999999999821726
+        };
+        
+        final double tol = 10e-15;
+        int k = 0;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++, k++) {
+                Assert.assertEquals(ref[k], ksTest.pelzGood(d[i], n[j]), tol);
+            }
+        }
+    }
 
     /** Verifies large sample approximate p values against R */
     @Test
@@ -379,4 +320,5 @@ public class KolmogorovSmirnovTestTest {
         final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
         Assert.assertEquals(alpha, test.approximateP(criticalValue, n, m), epsilon);
     }
+    
 }
