@@ -59,7 +59,7 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
      * @param rng Random number generator.
      * @param lower Lower bound (inclusive) of this distribution.
      * @param upper Upper bound (inclusive) of this distribution.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
+     * @throws NumberIsTooLargeException if {@code lower > upper}.
      * @since 3.1
      */
     public UniformIntegerDistribution(RandomGenerator rng,
@@ -68,10 +68,10 @@ public class UniformIntegerDistribution extends AbstractIntegerDistribution {
         throws NumberIsTooLargeException {
         super(rng);
 
-        if (lower >= upper) {
+        if (lower > upper) {
             throw new NumberIsTooLargeException(
                             LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
-                            lower, upper, false);
+                            lower, upper, true);
         }
         this.lower = lower;
         this.upper = upper;

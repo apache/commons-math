@@ -19,6 +19,7 @@ package org.apache.commons.math3.distribution;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
 
 /**
  * Test cases for UniformIntegerDistribution. See class javadoc for
@@ -95,5 +96,18 @@ public class UniformIntegerDistributionTest extends IntegerDistributionAbstractT
         dist = new UniformIntegerDistribution(0, 1);
         Assert.assertEquals(dist.getNumericalMean(), 0.5, 0);
         Assert.assertEquals(dist.getNumericalVariance(), 3 / 12.0, 0);
+    }
+
+    // MATH-1141
+    @Test
+    public void testPreconditionUpperBoundInclusive() {
+        try {
+            new UniformIntegerDistribution(1, 0);
+        } catch (NumberIsTooLargeException e) {
+            // Expected.
+        }
+
+        // Degenerate case is allowed.
+        new UniformIntegerDistribution(0, 0);
     }
 }
