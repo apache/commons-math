@@ -80,7 +80,9 @@ public class DummyStepInterpolator
    */
   public DummyStepInterpolator(final DummyStepInterpolator interpolator) {
     super(interpolator);
-    currentDerivative = interpolator.currentDerivative.clone();
+    if (interpolator.currentDerivative != null) {
+        currentDerivative = interpolator.currentDerivative.clone();
+    }
   }
 
   /** Really copy the finalized instance.

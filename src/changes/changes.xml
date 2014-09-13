@@ -73,6 +73,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="fix" issue="MATH-1149" due-to="M Kim">
+        Fixed potential null pointer dereferencing in constructor of
+        "DummyStepInterpolator(DummyStepInterpolator)".
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1136" due-to="Aleksei Dievskii">
         Fixed BinomialDistribution to deal with degenerate cases correctly.
       </action>
