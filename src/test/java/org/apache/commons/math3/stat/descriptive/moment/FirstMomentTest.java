@@ -18,6 +18,8 @@ package org.apache.commons.math3.stat.descriptive.moment;
 
 import org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
 import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test cases for the {@link FirstMoment} class.
@@ -44,4 +46,67 @@ public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
         return this.mean;
     }
 
+    /**
+     * Added in an attempt to resolve MATH-1146
+     * Commented out tests that won't pass with the current implementation.
+     */
+    @Test
+    public void testSpecialValues() {
+        final FirstMoment mean = new FirstMoment();
+
+//         mean.clear();
+//         mean.increment(Double.POSITIVE_INFINITY);
+//         mean.increment(1d);
+//         Assert.assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0d);
+
+//         mean.clear();
+//         mean.increment(Double.POSITIVE_INFINITY);
+//         mean.increment(-1d);
+//         Assert.assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0d);
+
+//         mean.clear();
+//         mean.increment(Double.NEGATIVE_INFINITY);
+//         mean.increment(1d);
+//         Assert.assertEquals(Double.NEGATIVE_INFINITY, mean.getResult(), 0d);
+
+//         mean.clear();
+//         mean.increment(Double.NEGATIVE_INFINITY);
+//         mean.increment(-1d);
+//         Assert.assertEquals(Double.NEGATIVE_INFINITY, mean.getResult(), 0d);
+
+//         mean.clear();
+//         mean.increment(Double.POSITIVE_INFINITY);
+//         mean.increment(Double.POSITIVE_INFINITY);
+//         Assert.assertEquals(Double.POSITIVE_INFINITY, mean.getResult(), 0d);
+
+//         mean.clear();
+//         mean.increment(Double.NEGATIVE_INFINITY);
+//         mean.increment(Double.NEGATIVE_INFINITY);
+//         Assert.assertEquals(Double.NEGATIVE_INFINITY, mean.getResult(), 0d);
+
+        mean.clear();
+        mean.increment(Double.POSITIVE_INFINITY);
+        mean.increment(Double.NEGATIVE_INFINITY);
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
+
+        mean.clear();
+        mean.increment(Double.NEGATIVE_INFINITY);
+        mean.increment(Double.POSITIVE_INFINITY);
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
+
+        mean.clear();
+        mean.increment(Double.NaN);
+        mean.increment(Double.POSITIVE_INFINITY);
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
+
+        mean.clear();
+        mean.increment(Double.NaN);
+        mean.increment(Double.NEGATIVE_INFINITY);
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
+
+        mean.clear();
+        mean.increment(Double.NaN);
+        mean.increment(0d);
+        Assert.assertTrue(Double.isNaN(mean.getResult()));
+    }
 }
