@@ -13,6 +13,7 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
@@ -247,6 +248,43 @@ public class EvaluationTest {
         }
     }
 
+    // MATH-1151
+    @Test
+    public void testLazyEvaluationPrecondition() {
+        final RealVector dummy = new ArrayRealVector(new double[] { 0 });
+
+        // "ValueAndJacobianFunction" is required but we implement only
+        // "MultivariateJacobianFunction".
+        final MultivariateJacobianFunction m1 = new MultivariateJacobianFunction() {
+                public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
+                    return new Pair<RealVector, RealMatrix>(null, null);
+                }
+            };
+
+        try {
+            // Should throw.
+            LeastSquaresFactory.create(m1, dummy, dummy, null, 0, 0, true);
+            Assert.fail("Expecting MathIllegalStateException");
+        } catch (MathIllegalStateException e) {
+            // Expected.
+        }
+
+        final MultivariateJacobianFunction m2 = new ValueAndJacobianFunction() {
+                public Pair<RealVector, RealMatrix> value(RealVector notUsed) {
+                    return new Pair<RealVector, RealMatrix>(null, null);
+                }
+                public RealVector computeValue(final double[] params) {
+                    return null;
+                }
+                public RealMatrix computeJacobian(final double[] params) {
+                    return null;
+                }
+            };
+
+        // Should pass.
+        LeastSquaresFactory.create(m2, dummy, dummy, null, 0, 0, true);
+    }
+
     @Test
     public void testDirectEvaluation() {
         final RealVector dummy = new ArrayRealVector(new double[] { 0 });
@@ -261,7 +299,7 @@ public class EvaluationTest {
             Assert.fail("Exception expected");
         } catch (RuntimeException e) {
             // Expecting exception.
-            // Whether it is model of Jacobian that caused it is not significant.
+            // Whether it is model or Jacobian that caused it is not significant.
             final String msg = e.getMessage();
             Assert.assertTrue(msg.equals("dummyModel") ||
                               msg.equals("dummyJacobian"));

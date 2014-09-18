@@ -143,6 +143,7 @@ public enum LocalizedFormats implements Localizable {
     INVALID_BINARY_CHROMOSOME("binary mutation works on BinaryChromosome only"),
     INVALID_BRACKETING_PARAMETERS("invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}"),
     INVALID_FIXED_LENGTH_CHROMOSOME("one-point crossover only works with fixed-length chromosomes"),
+    INVALID_IMPLEMENTATION("required functionality is missing in {0}"),
     INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS("invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}"),
     INVALID_ITERATIONS_LIMITS("invalid iteration limits: min={0}, max={1}"),
     INVALID_MAX_ITERATIONS("bad value for maximum iterations number: {0}"),

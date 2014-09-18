@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.fitting.leastsquares;
 
+import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
@@ -275,9 +277,9 @@ public class LeastSquaresFactory {
      * @param jacobian the Jacobian function
      * @return a function that computes both at the same time
      */
-    public static MultivariateJacobianFunction model(final MultivariateVectorFunction value,
-                                                     final MultivariateMatrixFunction jacobian) {
-        return new LocalMultivariateJacobianFunction(value, jacobian);
+    public static ValueAndJacobianFunction model(final MultivariateVectorFunction value,
+                                                 final MultivariateMatrixFunction jacobian) {
+        return new LocalValueAndJacobianFunction(value, jacobian);
     }
 
     /**
@@ -288,20 +290,19 @@ public class LeastSquaresFactory {
      * @param jacobian the Jacobian function
      * @return a function that computes both at the same time
      */
-    private static class LocalMultivariateJacobianFunction
-        implements MultivariateJacobianFunction {
+    private static class LocalValueAndJacobianFunction
+        implements ValueAndJacobianFunction {
         /** Model. */
         private final MultivariateVectorFunction value;
         /** Model's Jacobian. */
         private final MultivariateMatrixFunction jacobian;
 
-
         /**
          * @param value Model function.
          * @param jacobian Model's Jacobian function.
          */
-        LocalMultivariateJacobianFunction(final MultivariateVectorFunction value,
-                                          final MultivariateMatrixFunction jacobian) {
+        LocalValueAndJacobianFunction(final MultivariateVectorFunction value,
+                                      final MultivariateMatrixFunction jacobian) {
             this.value = value;
             this.jacobian = jacobian;
         }
@@ -316,22 +317,12 @@ public class LeastSquaresFactory {
                                                     computeJacobian(p));
         }
 
-        /**
-         * Compute the value.
-         *
-         * @param params Point.
-         * @return the Jacobian at the given point.
-         */
+        /** {@inheritDoc} */
         public RealVector computeValue(final double[] params) {
             return new ArrayRealVector(value.value(params), false);
         }
 
-        /**
-         * Compute the Jacobian.
-         *
-         * @param params Point.
-         * @return the Jacobian at the given point.
-         */
+        /** {@inheritDoc} */
         public RealMatrix computeJacobian(final double[] params) {
             return new Array2DRowRealMatrix(jacobian.value(params), false);
         }
@@ -380,6 +371,14 @@ public class LeastSquaresFactory {
             this.model = model;
             this.start = start;
             this.lazyEvaluation = lazyEvaluation;
+
+            if (lazyEvaluation &&
+                !(model instanceof ValueAndJacobianFunction)) {
+                // Lazy evaluation requires that value and Jacobian
+                // can be computed separately.
+                throw new MathIllegalStateException(LocalizedFormats.INVALID_IMPLEMENTATION,
+                                                    model.getClass().getName());
+            }
         }
 
         /** {@inheritDoc} */
@@ -403,7 +402,7 @@ public class LeastSquaresFactory {
             final RealVector p = point.copy();
 
             if (lazyEvaluation) {
-                return new LazyUnweightedEvaluation(model,
+                return new LazyUnweightedEvaluation((ValueAndJacobianFunction) model,
                                                     target,
                                                     p);
             } else {
@@ -468,7 +467,7 @@ public class LeastSquaresFactory {
             /** Point of evaluation. */
             private final RealVector point;
             /** Model and Jacobian functions. */
-            private final LocalMultivariateJacobianFunction model;
+            private final ValueAndJacobianFunction model;
             /** Target values for the model function at optimum. */
             private final RealVector target;
 
@@ -479,12 +478,12 @@ public class LeastSquaresFactory {
              * @param target the observed values
              * @param point  the abscissa
              */
-            private LazyUnweightedEvaluation(final MultivariateJacobianFunction model,
+            private LazyUnweightedEvaluation(final ValueAndJacobianFunction model,
                                              final RealVector target,
                                              final RealVector point) {
                 super(target.getDimension());
                 // Safe to cast as long as we control usage of this class.
-                this.model = (LocalMultivariateJacobianFunction) model;
+                this.model = model;
                 this.point = point;
                 this.target = target;
             }
