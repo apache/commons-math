@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * differentiable functions.
  * It contains boiler-plate code for dealing with gradient evaluation.
  *
- * @version $Id$
  * @since 3.1
  */
 public abstract class GradientMultivariateOptimizer

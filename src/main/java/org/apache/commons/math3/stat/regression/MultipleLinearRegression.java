@@ -27,7 +27,6 @@ package org.apache.commons.math3.stat.regression;
  *
  * The notation is quite standard in literature,
  * cf eg <a href="http://www.econ.queensu.ca/ETM">Davidson and MacKinnon, Econometrics Theory and Methods, 2004</a>.
- * @version $Id$
  * @since 2.0
  */
 public interface MultipleLinearRegression {

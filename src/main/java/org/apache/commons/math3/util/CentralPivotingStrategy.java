@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * A mid point strategy based on the average of begin and end indices.
- * @version $Id$
  * @since 3.4
  */
 public class CentralPivotingStrategy implements PivotingStrategyInterface, Serializable {

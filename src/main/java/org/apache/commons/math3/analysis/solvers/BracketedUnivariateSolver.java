@@ -42,7 +42,6 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  *
  * @see AllowedSolution
  * @since 3.0
- * @version $Id$
  */
 public interface BracketedUnivariateSolver<FUNC extends UnivariateFunction>
     extends BaseUnivariateSolver<FUNC> {

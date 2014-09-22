@@ -22,7 +22,6 @@ import org.apache.commons.math3.optim.OptimizationData;
 /**
  * Gradient of the scalar function to be optimized.
  *
- * @version $Id$
  * @since 3.1
  */
 public class ObjectiveFunctionGradient implements OptimizationData {

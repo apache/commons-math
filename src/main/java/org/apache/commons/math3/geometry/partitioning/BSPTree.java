@@ -61,7 +61,6 @@ import org.apache.commons.math3.util.FastMath;
 
  * @param <S> Type of the space.
 
- * @version $Id$
  * @since 3.0
  */
 public class BSPTree<S extends Space> {

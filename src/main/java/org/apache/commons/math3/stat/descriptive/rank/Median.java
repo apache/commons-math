@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.KthSelector;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
- * @version $Id$
  */
 public class Median extends Percentile implements Serializable {
 

@@ -28,7 +28,6 @@ import org.junit.Test;
 
 
 /**
- * @version $Id$
  * @deprecated
  */
 @Deprecated

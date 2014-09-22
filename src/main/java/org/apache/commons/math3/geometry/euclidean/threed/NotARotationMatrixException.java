@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.util.Localizable;
  * This class represents exceptions thrown while building rotations
  * from matrices.
  *
- * @version $Id$
  * @since 1.2
  */
 

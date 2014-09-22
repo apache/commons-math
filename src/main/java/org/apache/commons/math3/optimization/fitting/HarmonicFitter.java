@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.FastMath;
  * searched by a least square estimator initialized with a rough guess
  * based on integrals.
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */

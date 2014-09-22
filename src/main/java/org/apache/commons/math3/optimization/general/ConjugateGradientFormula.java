@@ -35,7 +35,6 @@ package org.apache.commons.math3.optimization.general;
  * does converge. Polak-Ribi&egrave;re is often used.
  * <p>
  * @see NonLinearConjugateGradientOptimizer
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */

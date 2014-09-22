@@ -22,7 +22,6 @@ package org.apache.commons.math3.analysis;
  * variable plus some extra parameters.
  *
  * @since 3.0
- * @version $Id$
  */
 public interface ParametricUnivariateFunction {
     /**

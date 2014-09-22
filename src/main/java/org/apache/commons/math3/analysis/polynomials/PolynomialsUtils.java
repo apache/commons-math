@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * A collection of static methods that operate on or return polynomials.
  *
- * @version $Id$
  * @since 2.0
  */
 public class PolynomialsUtils {

@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.FastMath;
  * Generate random vectors isotropically located on the surface of a sphere.
  *
  * @since 2.1
- * @version $Id$
  */
 
 public class UnitSphereRandomVectorGenerator

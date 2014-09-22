@@ -21,7 +21,6 @@ package org.apache.commons.math3.linear;
  * This is an implementation of {@link UnmodifiableRealVectorAbstractTest} for
  * unmodifiable views of {@link OpenMapRealVector}.
  *
- * @version $Id$
  */
 public class UnmodifiableOpenMapRealVectorTest
     extends UnmodifiableRealVectorAbstractTest {

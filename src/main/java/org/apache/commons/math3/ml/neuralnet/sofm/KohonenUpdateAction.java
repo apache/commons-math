@@ -63,7 +63,6 @@ import org.apache.commons.math3.analysis.function.Gaussian;
  * class's instance will be shared by multiple threads, as this will impact
  * the training process.
  *
- * @version $Id$
  * @since 3.3
  */
 public class KohonenUpdateAction implements UpdateAction {

@@ -20,7 +20,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * Subclasses implementing this interface can transform Objects to doubles.
- * @version $Id$
  *
  * No longer extends Serializable since 2.0
  *

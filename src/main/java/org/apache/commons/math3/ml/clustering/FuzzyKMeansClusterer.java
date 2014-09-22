@@ -63,7 +63,6 @@ import org.apache.commons.math3.util.MathUtils;
  * of the initial cluster centers.
  *
  * @param <T> type of the points to cluster
- * @version $Id$
  * @since 3.3
  */
 public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {

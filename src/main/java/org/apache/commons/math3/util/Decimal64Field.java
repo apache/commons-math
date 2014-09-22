@@ -23,7 +23,6 @@ import org.apache.commons.math3.FieldElement;
  * The field of double precision floating-point numbers.
  *
  * @since 3.1
- * @version $Id$
  * @see Decimal64
  */
 public class Decimal64Field implements Field<Decimal64> {

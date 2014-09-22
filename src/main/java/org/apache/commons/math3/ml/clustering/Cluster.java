@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * Cluster holding a set of {@link Clusterable} points.
  * @param <T> the type of points that can be clustered
- * @version $Id$
  * @since 3.2
  */
 public class Cluster<T extends Clusterable> implements Serializable {

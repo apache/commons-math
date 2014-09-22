@@ -41,7 +41,6 @@ import org.apache.commons.math3.util.MathUtils;
  * </p>
  *
  * @param <T> the type of the field elements
- * @version $Id$
  */
 public class Array2DRowFieldMatrix<T extends FieldElement<T>>
     extends AbstractFieldMatrix<T>

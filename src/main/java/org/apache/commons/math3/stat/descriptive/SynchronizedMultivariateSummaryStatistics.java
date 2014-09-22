@@ -30,7 +30,6 @@ import org.apache.commons.math3.linear.RealMatrix;
  * thread is computing a statistic from the instance, no other thread can modify
  * the instance nor compute another statistic.
  * @since 1.2
- * @version $Id$
  */
 public class SynchronizedMultivariateSummaryStatistics
     extends MultivariateSummaryStatistics {

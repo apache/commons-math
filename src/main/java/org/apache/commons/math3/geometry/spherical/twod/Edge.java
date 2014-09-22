@@ -26,7 +26,6 @@ import org.apache.commons.math3.util.MathUtils;
 /** Spherical polygons boundary edge.
  * @see SphericalPolygonsSet#getBoundaryLoops()
  * @see Vertex
- * @version $Id$
  * @since 3.3
  */
 public class Edge {

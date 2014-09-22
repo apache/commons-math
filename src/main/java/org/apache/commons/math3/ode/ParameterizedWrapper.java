@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
 /** Wrapper class enabling {@link FirstOrderDifferentialEquations basic simple}
  *  ODE instances to be used when processing {@link JacobianMatrices}.
  *
- * @version $Id$
  * @since 3.0
  */
 class ParameterizedWrapper implements ParameterizedODE {

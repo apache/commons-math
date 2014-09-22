@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with double coordinates.
- * @version $Id$
  * @since 3.1
  * @deprecated As of 3.2 (to be removed in 4.0),
  * use {@link org.apache.commons.math3.ml.clustering.DoublePoint} instead

@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * This implementation employs the basic trapezoid rule to calculate Simpson's
  * rule.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 public class SimpsonIntegrator extends BaseAbstractUnivariateIntegrator {

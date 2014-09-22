@@ -23,7 +23,6 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
  * Base class for solvers.
  *
  * @since 3.0
- * @version $Id$
  */
 public abstract class AbstractPolynomialSolver
     extends BaseAbstractUnivariateSolver<PolynomialFunction>

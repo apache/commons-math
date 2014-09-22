@@ -88,7 +88,6 @@ import org.apache.commons.math3.util.FastMath;
  * components</li>
  * </ul>
  *
- * @version $Id$
  * @since 3.0
  */
 public class OrderedTuple implements Comparable<OrderedTuple> {

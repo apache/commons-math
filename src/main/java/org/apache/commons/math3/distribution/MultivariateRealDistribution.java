@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * distribution functions are not required because they are often quite
  * difficult to compute for multivariate distributions.
  *
- * @version $Id$
  * @since 3.1
  */
 public interface MultivariateRealDistribution {

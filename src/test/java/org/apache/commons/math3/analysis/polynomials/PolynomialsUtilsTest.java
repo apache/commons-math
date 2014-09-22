@@ -27,7 +27,6 @@ import org.junit.Test;
 /**
  * Tests the PolynomialsUtils class.
  *
- * @version $Id$
  */
 public class PolynomialsUtilsTest {
 

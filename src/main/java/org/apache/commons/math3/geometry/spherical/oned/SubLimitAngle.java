@@ -23,7 +23,6 @@ import org.apache.commons.math3.geometry.partitioning.Side;
 
 /** This class represents sub-hyperplane for {@link LimitAngle}.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id$
  * @since 3.3
  */
 public class SubLimitAngle extends AbstractSubHyperplane<Sphere1D, Sphere1D> {

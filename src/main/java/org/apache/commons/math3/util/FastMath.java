@@ -74,7 +74,6 @@ import java.io.PrintStream;
  * <li>{@link #scalb(float, int)}</li>
  * </ul>
  * </p>
- * @version $Id$
  * @since 2.2
  */
 public class FastMath {

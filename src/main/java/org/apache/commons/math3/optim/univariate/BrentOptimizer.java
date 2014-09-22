@@ -38,7 +38,6 @@ import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
  *  <li>to ensure that the best point encountered is the one returned.</li>
  * </ul>
  *
- * @version $Id$
  * @since 2.0
  */
 public class BrentOptimizer extends UnivariateOptimizer {

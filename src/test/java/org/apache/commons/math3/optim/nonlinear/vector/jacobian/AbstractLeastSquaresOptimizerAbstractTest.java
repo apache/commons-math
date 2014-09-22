@@ -97,7 +97,6 @@ import org.junit.Test;
  * @author Kenneth E. Hillstrom (original fortran minpack tests)
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
- * @version $Id: AbstractLeastSquaresOptimizerAbstractTest.java 1407467 2012-11-09 14:30:49Z erans $
  */
 public abstract class AbstractLeastSquaresOptimizerAbstractTest {
 

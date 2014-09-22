@@ -19,7 +19,6 @@ package org.apache.commons.math3.analysis;
 /**
  * Extension of {@link UnivariateVectorFunction} representing a differentiable univariate vectorial function.
  *
- * @version $Id$
  * @since 2.0
  * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableVectorFunction}
  */

@@ -27,7 +27,6 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
  * Inverse function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Inverse implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

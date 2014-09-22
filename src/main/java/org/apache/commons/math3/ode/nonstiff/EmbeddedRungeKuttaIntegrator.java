@@ -57,7 +57,6 @@ import org.apache.commons.math3.util.FastMath;
  * evaluation is saved. For an <i>fsal</i> method, we have cs = 1 and
  * asi = bi for all i.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 

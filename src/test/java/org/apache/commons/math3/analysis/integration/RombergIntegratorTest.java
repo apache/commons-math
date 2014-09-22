@@ -33,7 +33,6 @@ import org.junit.Test;
  * show that for a default relative accuracy of 1E-6, it generally takes
  * takes less than 5 iterations for the integral to converge.
  *
- * @version $Id$
  */
 public final class RombergIntegratorTest {
 

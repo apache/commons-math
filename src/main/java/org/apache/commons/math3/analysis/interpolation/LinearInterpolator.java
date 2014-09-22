@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Implements a linear function for interpolation of real univariate functions.
  *
- * @version $Id$
  */
 public class LinearInterpolator implements UnivariateInterpolator {
     /**

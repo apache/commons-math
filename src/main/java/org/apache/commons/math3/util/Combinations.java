@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * combinations</a> {@code (n, k)} of {@code k} elements in a set of
  * {@code n} elements.
  *
- * @version $Id$
  * @since 3.3
  */
 public class Combinations implements Iterable<int[]> {

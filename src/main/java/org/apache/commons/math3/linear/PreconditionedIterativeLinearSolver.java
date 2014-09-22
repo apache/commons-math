@@ -45,7 +45,6 @@ import org.apache.commons.math3.util.MathUtils;
  * preconditioner M, as a {@link RealLinearOperator}.
  * </p>
  *
- * @version $Id$
  * @since 3.0
  */
 public abstract class PreconditionedIterativeLinearSolver

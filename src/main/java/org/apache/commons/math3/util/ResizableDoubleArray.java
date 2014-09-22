@@ -79,7 +79,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * requirement, throwing a {@code MathIllegalArgumentException} if it is
  * violated.
  * </p>
- * @version $Id$
  */
 public class ResizableDoubleArray implements DoubleArray, Serializable {
     /** Additive expansion mode.

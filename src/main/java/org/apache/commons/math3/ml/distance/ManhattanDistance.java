@@ -21,7 +21,6 @@ import org.apache.commons.math3.util.MathArrays;
 /**
  * Calculates the L<sub>1</sub> (sum of abs) distance between two points.
  *
- * @version $Id$
  * @since 3.2
  */
 public class ManhattanDistance implements DistanceMeasure {

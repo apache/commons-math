@@ -20,7 +20,6 @@ package org.apache.commons.math3.analysis;
 /**
  * An interface representing a multivariate real function.
  *
- * @version $Id$
  * @since 2.0
  */
 public interface MultivariateFunction {

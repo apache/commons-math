@@ -52,7 +52,6 @@ import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
  * {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
  * MultivariateFunctionPenaltyAdapter}.
  *
- * @version $Id$
  * @since 2.2
  */
 public class PowellOptimizer

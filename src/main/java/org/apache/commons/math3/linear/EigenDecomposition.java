@@ -71,7 +71,6 @@ import org.apache.commons.math3.util.FastMath;
  * </p>
  * @see <a href="http://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
- * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class EigenDecomposition {

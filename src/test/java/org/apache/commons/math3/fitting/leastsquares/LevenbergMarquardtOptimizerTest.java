@@ -46,7 +46,6 @@ import static org.hamcrest.CoreMatchers.is;
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>.
  *
- * @version $Id$
  */
 public class LevenbergMarquardtOptimizerTest
     extends AbstractLeastSquaresOptimizerAbstractTest{

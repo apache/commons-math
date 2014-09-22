@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * @see <a
  *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval">Binomial
  *      proportion confidence interval (Wikipedia)</a>
- * @version $Id$
  * @since 3.3
  */
 public interface BinomialConfidenceInterval {

@@ -30,7 +30,6 @@ package org.apache.commons.math3.ode.sampling;
  * method. This explains why there is no public constructor.</p>
  *
  * @see StepHandler
- * @version $Id$
  * @since 1.2
  */
 

@@ -31,7 +31,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * interface since it produces {@link org.apache.commons.math3.complex.Complex}
  * results instead of real ones.
  *
- * @version $Id$
  * @since 2.0
  */
 public interface RealTransformer  {

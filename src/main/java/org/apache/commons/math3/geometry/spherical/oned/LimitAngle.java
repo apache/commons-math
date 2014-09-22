@@ -22,7 +22,6 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 /** This class represents a 1D oriented hyperplane on the circle.
  * <p>An hyperplane on the 1-sphere is an angle with an orientation.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id$
  * @since 3.3
  */
 public class LimitAngle implements Hyperplane<Sphere1D> {

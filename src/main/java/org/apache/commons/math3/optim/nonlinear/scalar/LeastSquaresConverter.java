@@ -48,7 +48,6 @@ import org.apache.commons.math3.linear.RealMatrix;
   *
  * @see MultivariateFunction
  * @see MultivariateVectorFunction
- * @version $Id$
  * @since 2.0
  */
 

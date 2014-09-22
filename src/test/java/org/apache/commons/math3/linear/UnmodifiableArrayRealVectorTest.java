@@ -20,7 +20,6 @@ package org.apache.commons.math3.linear;
  * This is an implementation of {@link UnmodifiableRealVectorAbstractTest} for
  * unmodifiable views of {@link ArrayRealVectorTest}.
  *
- * @version $Id$
  */
 public class UnmodifiableArrayRealVectorTest
     extends UnmodifiableRealVectorAbstractTest {

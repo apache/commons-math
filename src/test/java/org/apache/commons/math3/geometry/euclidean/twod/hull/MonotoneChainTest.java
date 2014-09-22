@@ -25,7 +25,6 @@ import org.junit.Test;
 
 /**
  * Test class for MonotoneChain.
- * @version $Id$
  */
 public class MonotoneChainTest extends ConvexHullGenerator2DAbstractTest {
 

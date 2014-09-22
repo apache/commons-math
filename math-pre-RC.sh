@@ -23,7 +23,6 @@
 # to checkin.  Both RELEASE-NOTES.txt and the generated download
 # page need to be checked in after review.
 #
-# $Revision$ $Date$
 # ----------------------------------------------------------------------------
 
 mvn changes:announcement-generate -Prelease-notes [-Dchanges.version=m.n]

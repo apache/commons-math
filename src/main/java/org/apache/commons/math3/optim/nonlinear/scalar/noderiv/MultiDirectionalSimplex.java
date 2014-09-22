@@ -24,7 +24,6 @@ import org.apache.commons.math3.optim.PointValuePair;
 /**
  * This class implements the multi-directional direct search method.
  *
- * @version $Id$
  * @since 3.0
  */
 public class MultiDirectionalSimplex extends AbstractSimplex {

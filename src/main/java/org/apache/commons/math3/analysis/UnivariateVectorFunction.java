@@ -19,7 +19,6 @@ package org.apache.commons.math3.analysis;
 /**
  * An interface representing a univariate vectorial function.
  *
- * @version $Id$
  * @since 2.0
  */
 public interface UnivariateVectorFunction {

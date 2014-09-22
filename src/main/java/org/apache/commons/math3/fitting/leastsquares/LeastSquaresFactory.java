@@ -37,7 +37,6 @@ import org.apache.commons.math3.util.Pair;
 /**
  * A Factory for creating {@link LeastSquaresProblem}s.
  *
- * @version $Id$
  * @since 3.3
  */
 public class LeastSquaresFactory {

@@ -22,7 +22,6 @@ import org.apache.commons.math3.linear.RealMatrix;
  * Defines the measurement model for the use with a {@link KalmanFilter}.
  *
  * @since 3.0
- * @version $Id$
  */
 public interface MeasurementModel {
     /**

@@ -37,7 +37,6 @@ import org.junit.Test;
 /**
  * Abstract base test class for 2D convex hull generators.
  * 
- * @version $Id$
  */
 public abstract class ConvexHullGenerator2DAbstractTest {
 

@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a point on the 1-sphere.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id$
  * @since 3.3
  */
 public class S1Point implements Point<Sphere1D> {

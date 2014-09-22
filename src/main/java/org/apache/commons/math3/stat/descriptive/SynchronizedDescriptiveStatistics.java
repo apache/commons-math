@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.MathUtils;
  * the instance nor compute another statistic.
  *
  * @since 1.2
- * @version $Id$
  */
 public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
 

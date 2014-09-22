@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.MathUtils;
  * @see <a href="http://en.wikipedia.org/wiki/Halton_sequence">Halton sequence (Wikipedia)</a>
  * @see <a href="https://lirias.kuleuven.be/bitstream/123456789/131168/1/mcm2005_bartv.pdf">
  * On the Halton sequence and its scramblings</a>
- * @version $Id$
  * @since 3.3
  */
 public class HaltonSequenceGenerator implements RandomVectorGenerator {

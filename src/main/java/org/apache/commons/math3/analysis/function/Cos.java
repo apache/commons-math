@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.FastMath;
  * Cosine function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Cos implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

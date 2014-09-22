@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * An exception to be thrown when the condition number of a
  * {@link RealLinearOperator} is too high.
  *
- * @version $Id$
  * @since 3.0
  */
 public class IllConditionedOperatorException

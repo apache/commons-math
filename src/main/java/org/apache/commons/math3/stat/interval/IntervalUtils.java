@@ -32,7 +32,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * <li>Wilson score interval</li>
  * </ul>
  *
- * @version $Id$
  * @since 3.3
  */
 public final class IntervalUtils {

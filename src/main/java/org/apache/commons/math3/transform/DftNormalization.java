@@ -22,7 +22,6 @@ package org.apache.commons.math3.transform;
  * normalizations is detailed below.
  *
  * @see FastFourierTransformer
- * @version $Id$
  * @since 3.0
  */
 public enum DftNormalization {

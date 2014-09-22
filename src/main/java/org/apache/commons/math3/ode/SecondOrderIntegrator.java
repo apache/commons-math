@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
  * SecondOrderDifferentialEquations} interface.</p>
  *
  * @see SecondOrderDifferentialEquations
- * @version $Id$
  * @since 1.2
  */
 

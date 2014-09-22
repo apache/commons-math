@@ -33,7 +33,6 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * @see FirstOrderDifferentialEquations
  * @see org.apache.commons.math3.ode.sampling.StepHandler
  * @see org.apache.commons.math3.ode.events.EventHandler
- * @version $Id$
  * @since 1.2
  */
 

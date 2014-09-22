@@ -92,7 +92,6 @@ import org.apache.commons.math3.util.Precision;
  * one of the threads invokes the <code>increment()</code> or
  * <code>clear()</code> method, it must be synchronized externally.</p>
  *
- * @version $Id$
  */
 public class Percentile extends AbstractUnivariateStatistic implements Serializable {
 

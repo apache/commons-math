@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 /**
  * Interface representing a univariate real interpolating function.
  *
- * @version $Id$
  */
 public interface UnivariateInterpolator {
     /**

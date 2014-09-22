@@ -20,7 +20,6 @@ package org.apache.commons.math3.analysis.solvers;
 /**
  * Test case for {@link SecantSolver Secant} solver.
  *
- * @version $Id$
  */
 public final class SecantSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */

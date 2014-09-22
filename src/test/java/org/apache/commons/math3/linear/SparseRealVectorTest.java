@@ -43,7 +43,6 @@ import org.junit.Test;
 /**
  * Test cases for the {@link OpenMapRealVector} class.
  *
- * @version $Id$
  */
 public class SparseRealVectorTest extends RealVectorAbstractTest {
 

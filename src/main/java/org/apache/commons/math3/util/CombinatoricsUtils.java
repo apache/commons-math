@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Combinatorial utilities.
  *
- * @version $Id$
  * @since 3.3
  */
 public final class CombinatoricsUtils {

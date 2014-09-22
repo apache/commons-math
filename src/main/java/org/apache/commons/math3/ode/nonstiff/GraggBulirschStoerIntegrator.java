@@ -90,7 +90,6 @@ import org.apache.commons.math3.util.FastMath;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</strong></td></tr>
  * </table>
  *
- * @version $Id$
  * @since 1.2
  */
 

@@ -45,7 +45,6 @@ import org.junit.Test;
 /**
  * Test cases for the EmpiricalDistribution class
  *
- * @version $Id$
  */
 
 public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {

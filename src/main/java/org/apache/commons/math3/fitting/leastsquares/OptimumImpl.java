@@ -24,7 +24,6 @@ import org.apache.commons.math3.linear.RealVector;
 /**
  * A pedantic implementation of {@link Optimum}.
  *
- * @version $Id$
  * @since 3.3
  */
 class OptimumImpl implements Optimum {

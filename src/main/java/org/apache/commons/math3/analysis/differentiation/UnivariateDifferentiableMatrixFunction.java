@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 /**
  * Extension of {@link UnivariateMatrixFunction} representing a univariate differentiable matrix function.
  *
- * @version $Id$
  * @since 3.1
  */
 public interface UnivariateDifferentiableMatrixFunction

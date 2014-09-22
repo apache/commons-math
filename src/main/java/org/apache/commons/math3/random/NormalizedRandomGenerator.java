@@ -21,7 +21,6 @@ package org.apache.commons.math3.random;
  * This interface represent a normalized random generator for
  * scalars.
  * Normalized generator provide null mean and unit standard deviation scalars.
- * @version $Id$
  * @since 1.2
  */
 public interface NormalizedRandomGenerator {

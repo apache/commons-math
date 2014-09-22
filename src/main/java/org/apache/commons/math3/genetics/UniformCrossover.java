@@ -47,7 +47,6 @@ import org.apache.commons.math3.random.RandomGenerator;
  * @see <a href="http://www.tomaszgwiazda.com/uniformX.htm">Uniform crossover</a>
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
- * @version $Id$
  */
 public class UniformCrossover<T> implements CrossoverPolicy {
 

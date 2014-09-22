@@ -40,7 +40,6 @@ import org.apache.commons.math3.exception.MathIllegalStateException;
  * Although updating a neuron's state is thread-safe, modifying the
  * network's topology (adding or removing links) is not.
  *
- * @version $Id$
  * @since 3.3
  */
 public class Network

@@ -44,7 +44,6 @@ import org.apache.commons.math3.util.Precision;
  * org.apache.commons.math3.geometry.partitioning.Region Region}
  * interface, but its use is discouraged.
  * </p>
- * @version $Id$
  * @since 3.3
  */
 public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Iterable<double[]> {

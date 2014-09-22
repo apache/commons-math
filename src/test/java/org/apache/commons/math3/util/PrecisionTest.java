@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * Test cases for the {@link Precision} class.
  *
- * @version $Id$
  */
 public class PrecisionTest {
     @Test

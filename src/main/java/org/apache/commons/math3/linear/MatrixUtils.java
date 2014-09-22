@@ -42,7 +42,6 @@ import org.apache.commons.math3.util.Precision;
 /**
  * A collection of static methods that operate on or return matrices.
  *
- * @version $Id$
  */
 public class MatrixUtils {
 

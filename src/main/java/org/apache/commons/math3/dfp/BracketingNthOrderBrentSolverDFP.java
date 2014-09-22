@@ -39,7 +39,6 @@ import org.apache.commons.math3.util.MathUtils;
  * </p>
  * The given interval must bracket the root.
  *
- * @version $Id$
  */
 public class BracketingNthOrderBrentSolverDFP {
 

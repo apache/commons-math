@@ -22,7 +22,6 @@ import java.util.Arrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with double coordinates.
- * @version $Id$
  * @since 3.2
  */
 public class DoublePoint implements Clusterable, Serializable {

@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.FastMath;
  * rule to remove error terms less than order O(N^(-2k)). Simpson's rule
  * is a special case of k = 2.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 public class RombergIntegrator extends BaseAbstractUnivariateIntegrator {

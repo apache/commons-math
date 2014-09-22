@@ -22,7 +22,6 @@ import org.junit.Test;
 /**
  * Test cases for AbstractIntegerDistribution default implementations.
  *
- * @version $Id$
  */
 public class AbstractIntegerDistributionTest {
     protected final DiceDistribution diceDistribution = new DiceDistribution();

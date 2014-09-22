@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test for {@link ExceptionContext}.
  * 
- * @version $Id$
  */
 public class ExceptionContextTest {
     @Test

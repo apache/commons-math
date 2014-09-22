@@ -26,7 +26,6 @@ import org.apache.commons.math3.linear.RealMatrix;
  * Default implementation of a {@link MeasurementModel} for the use with a {@link KalmanFilter}.
  *
  * @since 3.0
- * @version $Id$
  */
 public class DefaultMeasurementModel implements MeasurementModel {
 

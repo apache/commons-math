@@ -39,7 +39,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /** This class represents a region on the 2-sphere: a set of spherical polygons.
- * @version $Id$
  * @since 3.3
  */
 public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {

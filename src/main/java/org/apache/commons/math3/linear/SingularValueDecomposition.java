@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.Precision;
  * </ul>
  * @see <a href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a>
- * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class SingularValueDecomposition {

@@ -66,7 +66,6 @@ import org.apache.commons.math3.util.FastMath;
  * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table></p>
  *
  * @since 2.0
- * @version $Id$
  */
 public class NaturalRanking implements RankingAlgorithm {
 

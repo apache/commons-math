@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.Pair;
  *
  * @param <T> Type of the mixture components.
  *
- * @version $Id$
  * @since 3.1
  */
 public class MixtureMultivariateRealDistribution<T extends MultivariateRealDistribution>

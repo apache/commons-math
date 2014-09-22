@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 /**
  * Implementation of the constant real distribution.
  *
- * @version $Id$
  * @since 3.4
  */
 public class ConstantRealDistribution extends AbstractRealDistribution {

@@ -19,7 +19,6 @@ package org.apache.commons.math3.stat.inference;
 /**
  * Represents an alternative hypothesis for a hypothesis test.
  *
- * @version $Id$
  * @since 3.3
  */
 public enum AlternativeHypothesis {

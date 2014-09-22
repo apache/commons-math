@@ -45,7 +45,6 @@ import org.apache.commons.math3.geometry.Space;
  * @param <T> Type of the embedded sub-space.
 
  * @see Hyperplane
- * @version $Id$
  * @since 3.0
  */
 public interface Embedding<S extends Space, T extends Space> {

@@ -98,7 +98,6 @@ import org.apache.commons.math3.util.MathUtils;
  *    entry per line.</li>
  * </ul></p>
  *
- * @version $Id$
  */
 public class EmpiricalDistribution extends AbstractRealDistribution {
 

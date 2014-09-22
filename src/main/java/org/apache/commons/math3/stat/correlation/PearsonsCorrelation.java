@@ -46,7 +46,6 @@ import org.apache.commons.math3.util.FastMath;
  * {@link #getCorrelationPValues()},  or {@link #getCorrelationStandardErrors()}; however, one of the
  * constructors supplying data or a covariance matrix must be used to create the instance.</p>
  *
- * @version $Id$
  * @since 2.0
  */
 public class PearsonsCorrelation {

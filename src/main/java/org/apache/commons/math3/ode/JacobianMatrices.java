@@ -51,7 +51,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * @see ParameterJacobianProvider
  * @see ParameterizedODE
  *
- * @version $Id$
  * @since 3.0
  */
 public class JacobianMatrices {

@@ -37,7 +37,6 @@ import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
  * perform inference tests.
  *
  * @since 1.1
- * @version $Id$
  */
 public class TestUtils  {
 

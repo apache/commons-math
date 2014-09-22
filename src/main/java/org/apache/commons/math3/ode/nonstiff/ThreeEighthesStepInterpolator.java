@@ -51,7 +51,6 @@ import org.apache.commons.math3.ode.sampling.StepInterpolator;
  * step.</p>
  *
  * @see ThreeEighthesIntegrator
- * @version $Id$
  * @since 1.2
  */
 

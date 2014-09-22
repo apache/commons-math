@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 /**
  * Maximum number of evaluations of the function to be optimized.
  *
- * @version $Id$
  * @since 3.1
  */
 public class MaxEval implements OptimizationData {

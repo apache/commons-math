@@ -33,7 +33,6 @@ package org.apache.commons.math3.ode.sampling;
  *
  * @see StepHandler
  * @see StepNormalizer
- * @version $Id$
  * @since 1.2
  */
 

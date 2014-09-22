@@ -54,7 +54,6 @@ import org.apache.commons.math3.util.FastMath;
  * Uses commons-math {@link org.apache.commons.math3.distribution.TDistribution}
  * implementation to estimate exact p-values.</p>
  *
- * @version $Id$
  */
 public class TTest {
     /**

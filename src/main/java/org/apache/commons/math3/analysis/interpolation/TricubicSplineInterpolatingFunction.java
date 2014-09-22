@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.MathArrays;
  * </quote>
  *
  * @since 2.2
- * @version $Id$
  */
 public class TricubicSplineInterpolatingFunction
     implements TrivariateFunction {
@@ -414,7 +413,6 @@ public class TricubicSplineInterpolatingFunction
 /**
  * 3D-spline function.
  *
- * @version $Id$
  */
 class TricubicSplineFunction
     implements TrivariateFunction {

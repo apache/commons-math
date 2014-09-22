@@ -24,7 +24,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @version $Id$
  */
 public final class BisectionSolverTest {
     @Test

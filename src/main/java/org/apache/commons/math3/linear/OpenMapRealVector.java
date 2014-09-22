@@ -38,7 +38,6 @@ import org.apache.commons.math3.util.OpenIntToDoubleHashMap.Iterator;
  *  thus give incorrect results, like multiplications, divisions or
  *  functions mapping.
  * </p>
- * @version $Id$
  * @since 2.0
  */
 public class OpenMapRealVector extends SparseRealVector

@@ -33,7 +33,6 @@ import org.apache.commons.math3.util.MathUtils;
  * @param <FUNC> Type of function to solve.
  *
  * @since 2.0
- * @version $Id$
  */
 public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFunction>
     implements BaseUnivariateSolver<FUNC> {

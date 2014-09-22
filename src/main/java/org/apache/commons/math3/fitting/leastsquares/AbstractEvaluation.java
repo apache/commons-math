@@ -30,7 +30,6 @@ import org.apache.commons.math3.util.FastMath;
  * <p/>
  * TODO cache results?
  *
- * @version $Id$
  * @since 3.3
  */
 public abstract class AbstractEvaluation implements Evaluation {

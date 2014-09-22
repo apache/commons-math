@@ -23,7 +23,6 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
  * Implementations will search for only one zero in the given interval.
  *
  * @since 3.0
- * @version $Id$
  */
 public interface PolynomialSolver
     extends BaseUnivariateSolver<PolynomialFunction> {}

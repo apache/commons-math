@@ -30,7 +30,6 @@ import org.junit.Ignore;
 /**
  * Test case for the bicubic function.
  * 
- * @version $Id$
  */
 public final class BicubicSplineInterpolatingFunctionTest {
     /**

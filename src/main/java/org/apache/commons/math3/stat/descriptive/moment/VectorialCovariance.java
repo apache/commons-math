@@ -26,7 +26,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 /**
  * Returns the covariance matrix of the available vectors.
  * @since 1.2
- * @version $Id$
  */
 public class VectorialCovariance implements Serializable {
 

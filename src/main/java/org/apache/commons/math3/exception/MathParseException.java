@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Class to signal parse failures.
  *
  * @since 2.2
- * @version $Id$
  */
 public class MathParseException extends MathIllegalStateException
     implements ExceptionContextProvider {

@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Exception to be thrown when trying to invert a singular operator.
  *
- * @version $Id$
  * @since 3.0
  */
 public class SingularOperatorException

@@ -36,7 +36,6 @@ import org.junit.Test;
  * parameters throw the expected exceptions.
  *
  * @since 3.0
- * @version $Id$
  */
 public abstract class RealTransformerAbstractTest {
 

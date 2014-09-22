@@ -42,7 +42,6 @@ import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
  * internal loops is computed as the reverse of the orientation of
  * their immediate surrounding loop.</p>
 
- * @version $Id$
  * @since 3.0
  */
 class NestedLoops {

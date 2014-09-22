@@ -30,7 +30,6 @@ import org.apache.commons.math3.util.MathArrays;
  * bicubic spline interpolation</a>.
  *
  * @since 2.1
- * @version $Id$
  */
 public class BicubicSplineInterpolatingFunction
     implements BivariateFunction {
@@ -432,7 +431,6 @@ public class BicubicSplineInterpolatingFunction
 /**
  * 2D-spline function.
  *
- * @version $Id$
  */
 class BicubicSplineFunction implements BivariateFunction {
     /** Number of points. */

@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * This class represents exceptions thrown by optimizers when a solution escapes to infinity.
  *
- * @version $Id$
  * @since 2.0
  */
 public class UnboundedSolutionException extends MathIllegalStateException {

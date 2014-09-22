@@ -75,7 +75,6 @@ import org.apache.commons.math3.util.FastMath;
  * DAMAGE.</strong></td></tr>
  * </table>
 
- * @version $Id$
  * @since 2.0
 
  */

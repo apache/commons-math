@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * This class contains test cases for the ExpandableDoubleArray.
  *
- * @version $Id$
  */
 public abstract class DoubleArrayAbstractTest {
 

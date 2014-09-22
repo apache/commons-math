@@ -111,7 +111,6 @@ import static org.apache.commons.math3.util.FastMath.PI;
  * </p>
  *
  * @since 3.3
- * @version $Id$
  */
 public class KolmogorovSmirnovTest {
 

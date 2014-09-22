@@ -83,7 +83,6 @@ import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
  *  {@link MathUnsupportedOperationException} if bounds are passed to it.
  * </p>
  *
- * @version $Id$
  * @since 3.0
  */
 public class SimplexOptimizer extends MultivariateOptimizer {

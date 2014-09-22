@@ -37,7 +37,6 @@ import org.apache.commons.math3.util.Pair;
  * Duplicate values are allowed. Probabilities of duplicate values are combined
  * when computing cumulative probabilities and statistics.</p>
  *
- * @version $Id$
  * @since 3.2
  */
 public class EnumeratedRealDistribution extends AbstractRealDistribution {

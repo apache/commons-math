@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Exception to be thrown when a number is too large.
  *
  * @since 2.2
- * @version $Id$
  */
 public class NumberIsTooLargeException extends MathIllegalNumberException {
     /** Serializable version Id. */

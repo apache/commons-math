@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathUnsupportedOperationException;
  * This is the base class for all events occurring during the iterations of a
  * {@link IterativeLinearSolver}.
  *
- * @version $Id$
  * @since 3.0
  */
 public abstract class IterativeLinearSolverEvent

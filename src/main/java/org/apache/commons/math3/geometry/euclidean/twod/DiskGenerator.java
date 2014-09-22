@@ -24,7 +24,6 @@ import org.apache.commons.math3.geometry.enclosing.SupportBallGenerator;
 import org.apache.commons.math3.util.FastMath;
 
 /** Class generating an enclosing ball from its support points.
- * @version $Id$
  * @since 3.3
  */
 public class DiskGenerator implements SupportBallGenerator<Euclidean2D, Vector2D> {

@@ -25,7 +25,6 @@ import org.junit.Test;
 /**
  * Test cases for the MannWhitneyUTestImpl class.
  *
- * @version $Id$
  */
 
 public class MannWhitneyUTestTest {

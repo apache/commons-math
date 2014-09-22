@@ -27,7 +27,6 @@ import org.apache.commons.math3.random.Well19937c;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Geometric_distribution">Geometric distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/GeometricDistribution.html">Geometric Distribution (MathWorld)</a>
- * @version $Id$
  * @since 3.3
  */
 public class GeometricDistribution extends AbstractIntegerDistribution {

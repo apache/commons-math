@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.Pair;
  * used by the {@link GaussIntegrator Gaussian integration rule}.
  *
  * @since 3.1
- * @version $Id$
  */
 public class GaussIntegratorFactory {
     /** Generator of Gauss-Legendre integrators. */

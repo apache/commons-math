@@ -38,7 +38,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * {@link IllinoisSolver <em>Illinois</em>} algorithm or the
  * {@link PegasusSolver <em>Pegasus</em>} algorithm.</p>
  *
- * @version $Id$
  */
 public class SecantSolver extends AbstractUnivariateSolver {
 

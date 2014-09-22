@@ -21,7 +21,6 @@ package org.apache.commons.math3.linear;
  * Interface defining a visitor for matrix entries.
  *
  * @see DefaultRealMatrixChangingVisitor
- * @version $Id$
  * @since 2.0
  */
 public interface RealMatrixChangingVisitor {

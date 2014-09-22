@@ -41,7 +41,6 @@ import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
  *
- * @version $Id$
  * @since 2.0
  */
 public class NonLinearConjugateGradientOptimizer

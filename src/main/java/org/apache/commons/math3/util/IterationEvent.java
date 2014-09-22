@@ -22,7 +22,6 @@ import java.util.EventObject;
  * The root class from which all events occurring while running an
  * {@link IterationManager} should be derived.
  *
- * @version $Id$
  */
 public class IterationEvent extends EventObject {
     /** */

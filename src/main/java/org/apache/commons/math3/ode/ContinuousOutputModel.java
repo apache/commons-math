@@ -83,7 +83,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @see StepHandler
  * @see StepInterpolator
- * @version $Id$
  * @since 1.2
  */
 

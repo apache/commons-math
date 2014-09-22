@@ -26,7 +26,6 @@ import org.junit.Test;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  *
- * @version $Id$
  */
 public class CauchyDistributionTest extends RealDistributionAbstractTest {
 

@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * <a href="http://mathworld.wolfram.com/Field.html">field</a>.
  * @param <T> the type of the field elements
  * @see FieldElement
- * @version $Id$
  * @since 3.2
  */
 public interface RealFieldElement<T> extends FieldElement<T> {

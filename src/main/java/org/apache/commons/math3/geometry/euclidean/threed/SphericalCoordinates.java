@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.FastMath;
  * between spherical and Cartesian coordinates.
  * </p>
  * @since 3.2
- * @version $Id$
  */
 public class SphericalCoordinates implements Serializable {
 

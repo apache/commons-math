@@ -30,7 +30,6 @@ import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.Precision;
 
 /** This class represents a 1D region: a set of intervals.
- * @version $Id$
  * @since 3.0
  */
 public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> implements Iterable<double[]> {

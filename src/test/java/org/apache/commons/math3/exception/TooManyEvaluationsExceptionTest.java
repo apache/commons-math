@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * Test for {@link TooManyEvaluationsException}.
  * 
- * @version $Id$
  */
 public class TooManyEvaluationsExceptionTest {
     @Test

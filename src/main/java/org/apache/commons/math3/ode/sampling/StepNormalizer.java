@@ -85,7 +85,6 @@ import org.apache.commons.math3.util.Precision;
  * @see FixedStepHandler
  * @see StepNormalizerMode
  * @see StepNormalizerBounds
- * @version $Id$
  * @since 1.2
  */
 

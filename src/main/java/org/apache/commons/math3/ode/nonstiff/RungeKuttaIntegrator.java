@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.FastMath;
  * @see ClassicalRungeKuttaIntegrator
  * @see GillIntegrator
  * @see MidpointIntegrator
- * @version $Id$
  * @since 1.2
  */
 

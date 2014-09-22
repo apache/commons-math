@@ -19,7 +19,6 @@ package org.apache.commons.math3.analysis;
 /**
  * Extension of {@link UnivariateFunction} representing a differentiable univariate real function.
  *
- * @version $Id$
  * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction}
  */
 @Deprecated

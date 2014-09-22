@@ -25,7 +25,6 @@ import org.junit.Assert;
 /**
  * Test for {@link GaussIntegrator} class.
  *
- * @version $Id$
  */
 public class GaussIntegratorTest {
     @Test

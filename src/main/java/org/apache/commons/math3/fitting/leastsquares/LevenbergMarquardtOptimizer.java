@@ -105,7 +105,6 @@ import org.apache.commons.math3.util.FastMath;
  * <ol></td></tr>
  * </table>
  *
- * @version $Id$
  * @since 3.3
  */
 public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {

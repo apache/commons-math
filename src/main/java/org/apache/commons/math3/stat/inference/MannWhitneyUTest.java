@@ -29,7 +29,6 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * An implementation of the Mann-Whitney U test (also called Wilcoxon rank-sum test).
  *
- * @version $Id$
  */
 public class MannWhitneyUTest {
 

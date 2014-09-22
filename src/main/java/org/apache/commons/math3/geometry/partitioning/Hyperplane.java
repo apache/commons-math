@@ -39,7 +39,6 @@ import org.apache.commons.math3.geometry.Space;
 
  * @param <S> Type of the space.
 
- * @version $Id$
  * @since 3.0
  */
 public interface Hyperplane<S extends Space> {

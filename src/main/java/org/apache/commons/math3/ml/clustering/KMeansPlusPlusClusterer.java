@@ -37,7 +37,6 @@ import org.apache.commons.math3.util.MathUtils;
  * Clustering algorithm based on David Arthur and Sergei Vassilvitski k-means++ algorithm.
  * @param <T> type of the points to cluster
  * @see <a href="http://en.wikipedia.org/wiki/K-means%2B%2B">K-means++ (wikipedia)</a>
- * @version $Id$
  * @since 3.2
  */
 public class KMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T> {

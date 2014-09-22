@@ -26,7 +26,6 @@ import org.junit.Assert;
 /**
  * Test of the {@link LegendreRuleFactory}.
  *
- * @version $Id$
  */
 public class LegendreTest {
     private static final GaussIntegratorFactory factory = new GaussIntegratorFactory();

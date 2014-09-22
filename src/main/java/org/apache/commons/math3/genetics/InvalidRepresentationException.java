@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.util.Localizable;
 /**
  * Exception indicating that the representation of a chromosome is not valid.
  *
- * @version $Id$
  * @since 2.0
  */
 public class InvalidRepresentationException extends MathIllegalArgumentException {

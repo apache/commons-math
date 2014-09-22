@@ -38,7 +38,6 @@ import org.apache.commons.math3.util.MathArrays;
  * but provided by one sample, or when the hypothesis under test is that the two
  * samples come from the same underlying distribution.</p>
  *
- * @version $Id$
  * @since 3.1
  */
 public class GTest {

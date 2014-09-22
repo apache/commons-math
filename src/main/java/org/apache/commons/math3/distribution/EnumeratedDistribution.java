@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.Pair;
  * pmf will assign mass of 0.5 to null, 0.3 to "dog" and 0.2 to null.</p>
  *
  * @param <T> type of the elements in the sample space.
- * @version $Id$
  * @since 3.2
  */
 public class EnumeratedDistribution<T> implements Serializable {

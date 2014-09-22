@@ -30,7 +30,6 @@ import org.apache.commons.math3.geometry.Space;
  * @param <S> Type of the embedding space.
  * @param <T> Type of the embedded sub-space.
 
- * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractSubHyperplane<S extends Space, T extends Space>

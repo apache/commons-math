@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.Pair;
  * Abramowitz and Stegun, 1964</a>.
  *
  * @since 3.1
- * @version $Id$
  */
 public class LegendreHighPrecisionRuleFactory extends BaseRuleFactory<BigDecimal> {
     /** Settings for enhanced precision computations. */

@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.FastMath;
  * implements Serializable since 2.0
  *
  * @since 1.1
- * @version $Id$
  */
 public class Fraction
     extends Number

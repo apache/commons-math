@@ -28,7 +28,6 @@ import org.apache.commons.math3.ode.MultistepIntegrator;
 
 /** Base class for {@link AdamsBashforthIntegrator Adams-Bashforth} and
  * {@link AdamsMoultonIntegrator Adams-Moulton} integrators.
- * @version $Id$
  * @since 2.0
  */
 public abstract class AdamsIntegrator extends MultistepIntegrator {

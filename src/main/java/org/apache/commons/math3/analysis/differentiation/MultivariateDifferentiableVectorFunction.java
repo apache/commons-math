@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 /**
  * Extension of {@link MultivariateVectorFunction} representing a
  * multivariate differentiable vectorial function.
- * @version $Id$
  * @since 3.1
  */
 public interface MultivariateDifferentiableVectorFunction

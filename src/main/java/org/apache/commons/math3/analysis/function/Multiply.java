@@ -23,7 +23,6 @@ import org.apache.commons.math3.analysis.BivariateFunction;
  * Multiply the two operands.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Multiply implements BivariateFunction {
     /** {@inheritDoc} */

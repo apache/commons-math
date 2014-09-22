@@ -38,7 +38,6 @@ import org.apache.commons.math3.exception.MathInternalError;
  *  Self Organizing Feature Map</a>.
  *
  * @see org.apache.commons.math3.ml.neuralnet.sofm
- * @version $Id$
  * @since 3.3
  */
 public class NeuronSquareMesh2D implements Serializable {

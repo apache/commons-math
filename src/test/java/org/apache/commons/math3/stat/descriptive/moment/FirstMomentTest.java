@@ -23,7 +23,6 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link FirstMoment} class.
- * @version $Id$
  */
 public class FirstMomentTest extends StorelessUnivariateStatisticAbstractTest{
 

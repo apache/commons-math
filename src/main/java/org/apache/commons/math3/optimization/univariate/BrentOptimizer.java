@@ -38,7 +38,6 @@ import org.apache.commons.math3.optimization.GoalType;
  *  <li>to ensure that the best point encountered is the one returned.</li>
  * </ul>
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 2.0
  */

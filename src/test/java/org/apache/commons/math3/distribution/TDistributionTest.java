@@ -25,7 +25,6 @@ import org.apache.commons.math3.TestUtils;
  * Extends ContinuousDistributionAbstractTest.  See class javadoc for
  * ContinuousDistributionAbstractTest for details.
  *
- * @version $Id$
  */
 public class TDistributionTest extends RealDistributionAbstractTest {
 

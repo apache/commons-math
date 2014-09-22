@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * Test cases for the DescriptiveStatistics class.
  *
- * @version $Id$
  *          2007) $
  */
 public class DescriptiveStatisticsTest {

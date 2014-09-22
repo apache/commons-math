@@ -28,7 +28,6 @@ import org.junit.Test;
 /**
  * Test cases for the TTestImpl class.
  *
- * @version $Id$
  */
 public class TTestTest {
 

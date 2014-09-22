@@ -28,7 +28,6 @@ import org.apache.commons.math3.FieldElement;
  * This class is a singleton.
  * </p>
  * @see Complex
- * @version $Id$
  * @since 2.0
  */
 public class ComplexField implements Field<Complex>, Serializable  {

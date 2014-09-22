@@ -20,7 +20,6 @@ import org.junit.Test;
  * Test cases for BinomialDistribution. Extends IntegerDistributionAbstractTest.
  * See class javadoc for IntegerDistributionAbstractTest for details.
  *
- * @version $Id$
  */
 public class BinomialDistributionTest extends IntegerDistributionAbstractTest {
 

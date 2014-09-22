@@ -58,7 +58,6 @@ import org.apache.commons.math3.random.Well19937c;
  * Negative binomial distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/NegativeBinomialDistribution.html">
  * Negative binomial distribution (MathWorld)</a>
- * @version $Id$
  * @since 1.2 (changed to concrete class in 3.0)
  */
 public class PascalDistribution extends AbstractIntegerDistribution {

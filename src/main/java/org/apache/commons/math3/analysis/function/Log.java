@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.FastMath;
  * Natural logarithm function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Log implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

@@ -45,7 +45,6 @@ import org.apache.commons.math3.optimization.OptimizationData;
  * this class.
  *
  * @see SimplexOptimizer
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

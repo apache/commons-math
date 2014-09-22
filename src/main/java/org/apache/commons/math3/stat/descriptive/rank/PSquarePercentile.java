@@ -52,7 +52,6 @@ import org.apache.commons.math3.util.Precision;
  * result. For small samples, where data can be stored and processed in memory,
  * {@link Percentile} should be used.</p>
  *
- * @version $Id$
  */
 public class PSquarePercentile extends AbstractStorelessUnivariateStatistic
         implements StorelessUnivariateStatistic, Serializable {

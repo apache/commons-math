@@ -49,7 +49,6 @@ import java.util.Arrays;
  * {@code decreasing} events. the number of calls to the {@link
  * EventHandler#g(double, double[]) g function} will also be reduced.</p>
  *
- * @version $Id$
  * @since 3.2
  */
 

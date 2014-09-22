@@ -57,7 +57,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @see org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator
  * @see org.apache.commons.math3.ode.nonstiff.AdamsMoultonIntegrator
- * @version $Id$
  * @since 2.0
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {

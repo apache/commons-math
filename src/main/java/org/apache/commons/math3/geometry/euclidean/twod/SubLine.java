@@ -35,7 +35,6 @@ import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a sub-hyperplane for {@link Line}.
- * @version $Id$
  * @since 3.0
  */
 public class SubLine extends AbstractSubHyperplane<Euclidean2D, Euclidean1D> {

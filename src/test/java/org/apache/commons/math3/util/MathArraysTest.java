@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * Test cases for the {@link MathArrays} class.
  *
- * @version $Id$
  */
 public class MathArraysTest {
     

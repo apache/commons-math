@@ -22,7 +22,6 @@ import org.apache.commons.math3.optim.OptimizationData;
  * A constraint for a linear optimization problem indicating whether all
  * variables must be restricted to non-negative values.
  *
- * @version $Id$
  * @since 3.1
  */
 public class NonNegativeConstraint implements OptimizationData {

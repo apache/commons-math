@@ -21,7 +21,6 @@ import java.io.PrintStream;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 
 /** Class used to compute the classical functions tables.
- * @version $Id$
  * @since 3.0
  */
 class FastMathCalc {

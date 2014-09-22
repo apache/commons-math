@@ -39,7 +39,6 @@ import org.apache.commons.math3.ode.sampling.StepInterpolator;
  * the derivatives already computed during the step.</p>
  *
  * @see EulerIntegrator
- * @version $Id$
  * @since 1.2
  */
 

@@ -40,7 +40,6 @@ import org.apache.commons.math3.exception.MathParseException;
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
  *
  * @param <S> Type of the space.
- * @version $Id$
  * @since 3.0
  */
 public abstract class VectorFormat<S extends Space> {

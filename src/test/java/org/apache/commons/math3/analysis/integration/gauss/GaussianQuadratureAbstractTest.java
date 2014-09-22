@@ -26,7 +26,6 @@ import org.junit.Assert;
  * which are exact for polynomials up to a certain degree. In this test, each
  * monomial in turn is tested against the specified quadrature rule.
  *
- * @version $Id$
  */
 public abstract class GaussianQuadratureAbstractTest {
     /**

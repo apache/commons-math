@@ -36,7 +36,6 @@ package org.apache.commons.math3.analysis.solvers;
  *
  * @see BracketedUnivariateSolver
  * @since 3.0
- * @version $Id$
  */
 public enum AllowedSolution {
     /** There are no additional side restriction on the solutions for

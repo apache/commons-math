@@ -32,7 +32,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Instance of this class are guaranteed to be immutable.
  *
  * @since 3.1
- * @version $Id$
  */
 public final class Quaternion implements Serializable {
     /** Identity quaternion. */

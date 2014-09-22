@@ -31,7 +31,6 @@ import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
  * @see RungeKuttaIntegrator
  * @see EmbeddedRungeKuttaIntegrator
  *
- * @version $Id$
  * @since 1.2
  */
 

@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * Tests for {@link KalmanFilter}.
  *
- * @version $Id$
  */
 public class KalmanFilterTest {
     

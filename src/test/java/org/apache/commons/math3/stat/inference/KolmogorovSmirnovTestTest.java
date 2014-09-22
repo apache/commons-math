@@ -27,7 +27,6 @@ import org.junit.Test;
 /**
  * Test cases for {@link KolmogorovSmirnovTest}.
  * 
- * @version $Id$
  * @since 3.3
  */
 public class KolmogorovSmirnovTestTest {

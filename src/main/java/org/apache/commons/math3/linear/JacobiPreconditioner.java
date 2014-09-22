@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.MathArrays;
  * matrix A<sub>ij</sub>, this preconditioner is
  * M = diag(1 / A<sub>11</sub>, 1 / A<sub>22</sub>, &hellip;).
  *
- * @version $Id$
  * @since 3.0
  */
 public class JacobiPreconditioner extends RealLinearOperator {

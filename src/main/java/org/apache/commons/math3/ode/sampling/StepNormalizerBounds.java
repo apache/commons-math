@@ -24,7 +24,6 @@ package org.apache.commons.math3.ode.sampling;
  * regardless of these settings.
  * @see StepNormalizer
  * @see StepNormalizerMode
- * @version $Id$
  * @since 3.0
  */
 public enum StepNormalizerBounds {

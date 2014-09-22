@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
 
 /** Visitor computing geometrical properties.
- * @version $Id$
  * @since 3.3
  */
 class PropertiesComputer implements BSPTreeVisitor<Sphere2D> {

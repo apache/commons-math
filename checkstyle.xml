@@ -38,10 +38,8 @@
     <!-- Interfaces must be types (not just constants) -->
     <module name="InterfaceIsType"/>
 
-    <!-- Must have class / interface header comments including scm version -->
-    <module name="JavadocType">
-        <property name="versionFormat" value="\$Id.*\$"/>
-    </module>
+    <!-- Must have class / interface header comments -->
+    <module name="JavadocType"/>
         
      <!-- Require method javadocs, allow undeclared RTE -->
     <module name="JavadocMethod">

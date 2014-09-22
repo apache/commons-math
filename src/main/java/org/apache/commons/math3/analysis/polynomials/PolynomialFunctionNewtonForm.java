@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.MathUtils;
  *            a[n](x-c[0])(x-c[1])...(x-c[n-1])
  * Note that the length of a[] is one more than the length of c[]</p>
  *
- * @version $Id$
  * @since 1.2
  */
 public class PolynomialFunctionNewtonForm implements UnivariateDifferentiableFunction {

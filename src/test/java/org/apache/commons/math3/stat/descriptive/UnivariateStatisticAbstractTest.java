@@ -31,7 +31,6 @@ import org.junit.Test;
 
 /**
  * Test cases for the {@link UnivariateStatistic} class.
- * @version $Id$
  */
 public abstract class UnivariateStatisticAbstractTest {
 

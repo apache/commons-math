@@ -42,7 +42,6 @@ import org.apache.commons.math3.util.FastMath;
  *  volume 6, no 1, 1980, pp. 19-26
  * </pre></p>
  *
- * @version $Id$
  * @since 1.2
  */
 

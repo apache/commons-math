@@ -28,7 +28,6 @@ import org.apache.commons.math3.random.Well19937c;
  * @see <a href="http://en.wikipedia.org/wiki/Uniform_distribution_(discrete)"
  * >Uniform distribution (discrete), at Wikipedia</a>
  *
- * @version $Id$
  * @since 3.0
  */
 public class UniformIntegerDistribution extends AbstractIntegerDistribution {

@@ -22,7 +22,6 @@ import org.apache.commons.math3.geometry.Space;
 /** Interface for algorithms computing enclosing balls.
  * @param <S> Space type.
  * @param <P> Point type.
- * @version $Id$
  * @see EnclosingBall
  * @since 3.3
  */

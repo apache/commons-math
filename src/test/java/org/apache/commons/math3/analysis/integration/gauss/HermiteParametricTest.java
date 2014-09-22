@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.FastMath;
  * Parametrization allows to test automatically 0, 1, ... , {@link #MAX_NUM_POINTS}
  * quadrature rules.
  *
- * @version $Id$
  */
 @RunWith(value=Parameterized.class)
 public class HermiteParametricTest extends GaussianQuadratureAbstractTest {

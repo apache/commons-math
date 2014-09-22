@@ -48,7 +48,6 @@ import org.apache.commons.math3.random.RandomGenerator;
  *
  * @param <T> generic type of the {@link AbstractListChromosome}s for crossover
  * @since 3.1
- * @version $Id$
  */
 public class NPointCrossover<T> implements CrossoverPolicy {
 

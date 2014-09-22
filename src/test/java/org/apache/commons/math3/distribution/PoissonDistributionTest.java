@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * <code>PoissonDistributionTest</code>
  *
- * @version $Id$
  */
 public class PoissonDistributionTest extends IntegerDistributionAbstractTest {
 

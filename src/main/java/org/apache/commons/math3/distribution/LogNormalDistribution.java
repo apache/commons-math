@@ -50,7 +50,6 @@ import org.apache.commons.math3.random.Well19937c;
  * @see <a href="http://mathworld.wolfram.com/LogNormalDistribution.html">
  * Log Normal distribution (MathWorld)</a>
  *
- * @version $Id$
  * @since 3.0
  */
 public class LogNormalDistribution extends AbstractRealDistribution {

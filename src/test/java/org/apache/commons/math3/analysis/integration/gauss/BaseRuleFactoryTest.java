@@ -32,7 +32,6 @@ import org.junit.Assert;
 /**
  * Test for {@link BaseRuleFactory}.
  *
- * @version $Id$
  */
 public class BaseRuleFactoryTest {
     /**

@@ -21,7 +21,6 @@ package org.apache.commons.math3.random;
  * This class is a gaussian normalized random generator for scalars.
  * <p>This class is a simple wrapper around the {@link
  * RandomGenerator#nextGaussian} method.</p>
- * @version $Id$
  * @since 1.2
  */
 

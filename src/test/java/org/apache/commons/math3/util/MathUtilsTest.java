@@ -26,7 +26,6 @@ import org.junit.Test;
 /**
  * Test cases for the MathUtils class.
  *
- * @version $Id$
  */
 public final class MathUtilsTest {
     @Test

@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * select which exception must be thrown.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Incrementor {
     /**

@@ -45,7 +45,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Arrays utilities.
  *
  * @since 3.0
- * @version $Id$
  */
 public class MathArrays {
     /** Factor used for splitting double numbers: n = 2^27 + 1 (i.e. {@value}). */

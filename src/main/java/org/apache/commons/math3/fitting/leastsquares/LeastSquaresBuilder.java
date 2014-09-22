@@ -28,7 +28,6 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
 /**
  * A mutable builder for {@link LeastSquaresProblem}s.
  *
- * @version $Id$
  * @see LeastSquaresFactory
  * @since 3.3
  */

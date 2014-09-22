@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.MathArrays;
 /**
  * Generates a bicubic interpolating function.
  *
- * @version $Id$
  * @since 2.2
  */
 public class BicubicSplineInterpolator

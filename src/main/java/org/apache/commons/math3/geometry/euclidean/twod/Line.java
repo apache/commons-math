@@ -57,7 +57,6 @@ import org.apache.commons.math3.util.MathUtils;
  * left half plane is the set of points with negative offsets and the
  * right half plane is the set of points with positive offsets.</p>
 
- * @version $Id$
  * @since 3.0
  */
 public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euclidean1D> {

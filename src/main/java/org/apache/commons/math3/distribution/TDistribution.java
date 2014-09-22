@@ -29,7 +29,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @see "<a href='http://en.wikipedia.org/wiki/Student&apos;s_t-distribution'>Student's t-distribution (Wikipedia)</a>"
  * @see "<a href='http://mathworld.wolfram.com/Studentst-Distribution.html'>Student's t-distribution (MathWorld)</a>"
- * @version $Id$
  */
 public class TDistribution extends AbstractRealDistribution {
     /**

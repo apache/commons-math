@@ -29,7 +29,6 @@ import org.apache.commons.math3.geometry.Space;
  * processing methods.</p>
  * @param <S> Type of the space.
  * @see Region#getTree
- * @version $Id$
  * @since 3.0
  */
 public class BoundaryAttribute<S extends Space> {

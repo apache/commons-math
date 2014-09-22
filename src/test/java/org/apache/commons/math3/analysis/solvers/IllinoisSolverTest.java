@@ -20,7 +20,6 @@ package org.apache.commons.math3.analysis.solvers;
 /**
  * Test case for {@link IllinoisSolver Illinois} solver.
  *
- * @version $Id$
  */
 public final class IllinoisSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */

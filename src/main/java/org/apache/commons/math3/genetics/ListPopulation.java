@@ -32,7 +32,6 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * Population of chromosomes represented by a {@link List}.
  *
  * @since 2.0
- * @version $Id$
  */
 public abstract class ListPopulation implements Population {
 

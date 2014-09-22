@@ -40,7 +40,6 @@ package org.apache.commons.math3.ode.nonstiff;
  * @see MidpointIntegrator
  * @see ThreeEighthesIntegrator
  * @see LutherIntegrator
- * @version $Id$
  * @since 1.2
  */
 

@@ -39,7 +39,6 @@ import org.apache.commons.math3.util.FastMath;
  * approximation and be able to solve all roots from that point.
  * The algorithm requires a bracketing condition.
  *
- * @version $Id$
  * @since 1.2
  */
 public class LaguerreSolver extends AbstractPolynomialSolver {

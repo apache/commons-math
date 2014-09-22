@@ -22,7 +22,6 @@ import java.util.List;
 /** Spherical polygons boundary vertex.
  * @see SphericalPolygonsSet#getBoundaryLoops()
  * @see Edge
- * @version $Id$
  * @since 3.3
  */
 public class Vertex {

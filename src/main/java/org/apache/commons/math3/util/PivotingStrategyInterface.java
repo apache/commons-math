@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * @see MedianOf3PivotingStrategy
  * @see RandomPivotingStrategy
  * @see CentralPivotingStrategy
- * @version $Id$
  * @since 3.4
  */
 public interface PivotingStrategyInterface {

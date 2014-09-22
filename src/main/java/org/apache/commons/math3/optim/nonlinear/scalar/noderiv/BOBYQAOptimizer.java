@@ -44,7 +44,6 @@ import org.apache.commons.math3.util.FastMath;
  * derivative-based optimizer when the derivatives are approximated by
  * finite differences.
  *
- * @version $Id$
  * @since 3.0
  */
 public class BOBYQAOptimizer

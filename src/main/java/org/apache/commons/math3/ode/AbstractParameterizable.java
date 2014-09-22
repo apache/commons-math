@@ -21,7 +21,6 @@ import java.util.Collection;
 
 /** This abstract class provides boilerplate parameters list.
  *
- * @version $Id$
  * @since 3.0
  */
 

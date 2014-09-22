@@ -44,7 +44,6 @@ import org.apache.commons.math3.util.Pair;
  * and SVD can compute a solution for rank-deficient problems.
  * </p>
  *
- * @version $Id$
  * @since 3.3
  */
 public class GaussNewtonOptimizer implements LeastSquaresOptimizer {

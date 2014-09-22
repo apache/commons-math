@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.FastMath;
  * <code>log(1 + p)</code> function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Log1p implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

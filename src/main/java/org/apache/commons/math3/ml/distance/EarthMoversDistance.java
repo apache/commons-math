@@ -23,7 +23,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Earth_mover's_distance">Earth Mover's distance (Wikipedia)</a>
  *
- * @version $Id$
  * @since 3.3
  */
 public class EarthMoversDistance implements DistanceMeasure {

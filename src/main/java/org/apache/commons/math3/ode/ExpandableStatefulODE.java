@@ -43,7 +43,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * @see FirstOrderDifferentialEquations
  * @see JacobianMatrices
  *
- * @version $Id$
  * @since 3.0
  */
 

@@ -16,7 +16,6 @@ package org.apache.commons.math3.stat.descriptive;
 
 /**
  * Test cases for the {@link SynchronizedDescriptiveStatisticsTest} class.
- * @version $Id$
  *          2007) $
  */
 public final class SynchronizedDescriptiveStatisticsTest extends DescriptiveStatisticsTest {

@@ -19,7 +19,6 @@ package org.apache.commons.math3.genetics;
 /**
  * Fitness of a chromosome.
  *
- * @version $Id$
  * @since 2.0
  */
 public interface Fitness {

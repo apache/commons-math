@@ -32,7 +32,6 @@ import org.junit.Test;
  * Test runs show that for a default relative accuracy of 1E-6, it
  * generally takes 5 to 10 iterations for the integral to converge.
  *
- * @version $Id$
  */
 public final class SimpsonIntegratorTest {
 

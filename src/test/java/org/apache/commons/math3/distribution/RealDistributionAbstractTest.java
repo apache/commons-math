@@ -69,7 +69,6 @@ import org.junit.Test;
  * See {@link NormalDistributionTest} and {@link ChiSquaredDistributionTest}
  * for examples.
  *
- * @version $Id$
  */
 public abstract class RealDistributionAbstractTest {
 

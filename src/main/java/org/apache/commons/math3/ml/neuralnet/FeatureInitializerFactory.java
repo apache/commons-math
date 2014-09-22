@@ -27,7 +27,6 @@ import org.apache.commons.math3.random.RandomGenerator;
  * Creates functions that will select the initial values of a neuron's
  * features.
  *
- * @version $Id$
  * @since 3.3
  */
 public class FeatureInitializerFactory {

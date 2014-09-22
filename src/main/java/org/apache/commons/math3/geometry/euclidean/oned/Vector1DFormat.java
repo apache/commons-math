@@ -41,7 +41,6 @@ import org.apache.commons.math3.util.CompositeFormat;
  * of the default {@link NumberFormat} for the current locale. Thus it is advised
  * to use a {@link NumberFormat} instance with disabled grouping in such a case.</p>
  *
- * @version $Id$
  * @since 3.0
  */
 public class Vector1DFormat extends VectorFormat<Euclidean1D> {

@@ -42,7 +42,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * @see org.apache.commons.math3.ode.FirstOrderIntegrator
  * @see org.apache.commons.math3.ode.SecondOrderIntegrator
  * @see StepHandler
- * @version $Id$
  * @since 1.2
  */
 

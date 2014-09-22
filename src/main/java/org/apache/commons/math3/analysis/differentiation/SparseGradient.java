@@ -40,7 +40,6 @@ import org.apache.commons.math3.util.Precision;
  * {@link DerivativeStructure} and use less memory.
  * </p>
  *
- * @version $Id$
  * @since 3.3
  */
 public class SparseGradient implements RealFieldElement<SparseGradient>, Serializable {

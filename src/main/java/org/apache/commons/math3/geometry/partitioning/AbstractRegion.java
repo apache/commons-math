@@ -34,7 +34,6 @@ import org.apache.commons.math3.geometry.partitioning.Region.Location;
  * @param <S> Type of the space.
  * @param <T> Type of the sub-space.
 
- * @version $Id$
  * @since 3.0
  */
 public abstract class AbstractRegion<S extends Space, T extends Space> implements Region<S> {

@@ -29,7 +29,6 @@ import org.apache.commons.math3.util.Pair;
  * This class is mainly syntactic sugar.
  *
  * @see MixtureMultivariateRealDistribution
- * @version $Id$
  * @since 3.2
  */
 public class MixtureMultivariateNormalDistribution

@@ -28,7 +28,6 @@ import org.junit.Test;
  * Extends IntegerDistributionAbstractTest.  See class javadoc for
  * IntegerDistributionAbstractTest for details.
  *
- * @version $Id$
  */
 public class ZipfDistributionTest extends IntegerDistributionAbstractTest {
 

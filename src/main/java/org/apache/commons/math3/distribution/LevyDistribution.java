@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.FastMath;
  * This class implements the <a href="http://en.wikipedia.org/wiki/L%C3%A9vy_distribution">
  * L&eacute;vy distribution</a>.
  *
- * @version $Id$
  * @since 3.2
  */
 public class LevyDistribution extends AbstractRealDistribution {

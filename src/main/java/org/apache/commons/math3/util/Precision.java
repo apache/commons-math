@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Utilities for comparing numbers.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Precision {
     /**

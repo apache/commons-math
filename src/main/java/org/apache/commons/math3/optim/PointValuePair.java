@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.Pair;
  *
  * @see PointVectorValuePair
  * @see org.apache.commons.math3.analysis.MultivariateFunction
- * @version $Id$
  * @since 3.0
  */
 public class PointValuePair extends Pair<double[], Double> implements Serializable {

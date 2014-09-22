@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * Weighted evaluation for statistics.
  *
  * @since 2.1
- * @version $Id$
  */
 public interface WeightedEvaluation {
 

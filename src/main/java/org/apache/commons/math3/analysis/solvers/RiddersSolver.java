@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * <p>
  * The function should be continuous but not necessarily smooth.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 public class RiddersSolver extends AbstractUnivariateSolver {

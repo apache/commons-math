@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 /**
  * Factory for creating instances of {@link LearningFactorFunction}.
  *
- * @version $Id$
  * @since 3.3
  */
 public class LearningFactorFunctionFactory {

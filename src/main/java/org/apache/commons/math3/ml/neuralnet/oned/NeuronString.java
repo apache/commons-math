@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * Neural network with the topology of a one-dimensional line.
  * Each neuron defines one point on the line.
  *
- * @version $Id$
  * @since 3.3
  */
 public class NeuronString implements Serializable {

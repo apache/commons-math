@@ -38,7 +38,6 @@ import org.apache.commons.math3.geometry.partitioning.utilities.OrderedTuple;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a 2D region: a set of polygons.
- * @version $Id$
  * @since 3.0
  */
 public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {

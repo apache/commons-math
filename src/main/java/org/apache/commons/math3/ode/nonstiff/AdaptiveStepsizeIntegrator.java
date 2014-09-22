@@ -58,7 +58,6 @@ import org.apache.commons.math3.util.FastMath;
  * otherwise the step is rejected and a new attempt is made with a new
  * stepsize.</p>
  *
- * @version $Id$
  * @since 1.2
  *
  */

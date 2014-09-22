@@ -22,7 +22,6 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
 /**
  * Auxiliary class for testing solvers.
  *
- * @version $Id$
  */
 public class XMinus5Function implements UnivariateDifferentiableFunction {
 

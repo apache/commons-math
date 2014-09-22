@@ -32,7 +32,6 @@ import org.apache.commons.math3.util.MathArrays;
  * <p>Instance of this class are guaranteed to be immutable.</p>
  *
  * @param <T> the type of the field elements
- * @version $Id$
  * @see FieldVector3D
  * @see RotationOrder
  * @since 3.2

@@ -41,7 +41,6 @@ import org.apache.commons.math3.util.FastMath;
  * <a href="http://en.wikipedia.org/w/index.php?title=Numerical_integration#Integrals_over_infinite_intervals">
  *  here</a> should be avoided when using this class.
  *
- * @version $Id$
  * @since 3.1
  */
 

@@ -33,7 +33,6 @@ import org.apache.commons.math3.optim.SimpleVectorValueChecker;
  * Prior to generating the interpolating function, the input is smoothed using
  * polynomial fitting.
  *
- * @version $Id$
  * @since 2.2
  */
 public class SmoothingPolynomialBicubicSplineInterpolator

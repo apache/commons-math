@@ -54,7 +54,6 @@ import org.apache.commons.math3.linear.RectangularCholeskyDecomposition;
  * of the correlated vector. This class handles this situation
  * automatically.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 

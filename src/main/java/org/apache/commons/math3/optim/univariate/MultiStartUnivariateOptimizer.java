@@ -35,7 +35,6 @@ import org.apache.commons.math3.optim.OptimizationData;
  * turn with different starting points (trying to avoid being trapped
  * in a local extremum when looking for a global one).
  *
- * @version $Id$
  * @since 3.0
  */
 public class MultiStartUnivariateOptimizer

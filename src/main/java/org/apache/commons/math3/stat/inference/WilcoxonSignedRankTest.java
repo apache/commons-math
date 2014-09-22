@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * An implementation of the Wilcoxon signed-rank test.
  *
- * @version $Id$
  */
 public class WilcoxonSignedRankTest {
 

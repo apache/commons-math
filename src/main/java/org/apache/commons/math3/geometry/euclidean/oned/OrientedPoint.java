@@ -24,7 +24,6 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
  * <p>An hyperplane in 1D is a simple point, its orientation being a
  * boolean.</p>
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id$
  * @since 3.0
  */
 public class OrientedPoint implements Hyperplane<Euclidean1D> {

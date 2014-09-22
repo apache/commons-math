@@ -24,7 +24,6 @@ package org.apache.commons.math3.ml.neuralnet.sofm;
  * by traversing at most the number of links returned by this
  * function.
  *
- * @version $Id$
  * @since 3.3
  */
 public interface NeighbourhoodSizeFunction {

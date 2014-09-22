@@ -36,7 +36,6 @@ import org.junit.runners.Parameterized.Parameters;
  * FCT algorithm is exact, the small tolerance number is used only to account
  * for round-off errors.
  *
- * @version $Id$
  */
 @RunWith(value = Parameterized.class)
 public final class FastCosineTransformerTest

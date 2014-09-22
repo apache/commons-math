@@ -24,7 +24,6 @@ import java.io.Serializable;
  * point.
  * This is a simple immutable container.
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

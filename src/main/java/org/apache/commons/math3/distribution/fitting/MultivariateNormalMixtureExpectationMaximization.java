@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.Pair;
  * (see the JUnit test cases) but it is <strong>not</strong> based on Mixtools code at all.
  * The discussion of the origin of this class can be seen in the comments of the <a
  * href="https://issues.apache.org/jira/browse/MATH-817">MATH-817</a> JIRA issue.
- * @version $Id$
  * @since 3.2
  */
 public class MultivariateNormalMixtureExpectationMaximization {

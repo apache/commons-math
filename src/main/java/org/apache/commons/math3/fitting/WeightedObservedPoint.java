@@ -22,7 +22,6 @@ import java.io.Serializable;
  * This class is a simple container for weighted observed point in
  * {@link CurveFitter curve fitting}.
  * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Id: WeightedObservedPoint.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 2.0
  */
 public class WeightedObservedPoint implements Serializable {

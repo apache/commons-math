@@ -23,7 +23,6 @@ import org.apache.commons.math3.util.MathArrays;
 /**
  * Base interface implemented by all statistics.
  *
- * @version $Id$
  */
 public interface UnivariateStatistic extends MathArrays.Function {
     /**

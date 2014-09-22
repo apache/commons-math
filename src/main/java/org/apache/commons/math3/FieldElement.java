@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
  * @param <T> the type of the field elements
  * @see Field
- * @version $Id$
  * @since 2.0
  */
 public interface FieldElement<T> {

@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Exception to be thrown when a parameter is unknown.
  *
  * @since 3.1
- * @version $Id$
  */
 public class UnknownParameterException extends MathIllegalArgumentException {
 

@@ -26,7 +26,6 @@ import org.junit.Test;
 /**
  * Test case for the smoothing bicubic interpolator.
  * 
- * @version $Id$
  */
 public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
     /**

@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.FastMath;
  * </p>
  *
  *
- * @version $Id$
  */
 public class Beta {
     /** Maximum allowed numerical error. */

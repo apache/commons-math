@@ -30,7 +30,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Utilities for manipulating function objects.
  *
- * @version $Id$
  * @since 3.0
  */
 public class FunctionUtils {

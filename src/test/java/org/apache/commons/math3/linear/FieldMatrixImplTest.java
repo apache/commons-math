@@ -34,7 +34,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 /**
  * Test cases for the {@link Array2DRowFieldMatrix} class.
  *
- * @version $Id$
  */
 
 public final class FieldMatrixImplTest {

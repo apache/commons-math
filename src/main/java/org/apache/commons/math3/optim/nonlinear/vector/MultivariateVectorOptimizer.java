@@ -29,7 +29,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 /**
  * Base class for a multivariate vector function optimizer.
  *
- * @version $Id$
  * @since 3.1
  */
 public abstract class MultivariateVectorOptimizer

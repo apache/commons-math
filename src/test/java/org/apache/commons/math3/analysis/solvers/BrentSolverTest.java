@@ -42,7 +42,6 @@ import org.junit.Test;
  * default absolute accuracy of 10E-8 for sinus and the quintic function around
  * zero, and 5..10 iterations for the other zeros.
  *
- * @version $Id$
  */
 public final class BrentSolverTest {
     @Test

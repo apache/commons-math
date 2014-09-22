@@ -43,7 +43,6 @@ import org.apache.commons.math3.util.Precision;
 
 /**
  * Base class managing common boilerplate for all integrators.
- * @version $Id$
  * @since 2.0
  */
 public abstract class AbstractIntegrator implements FirstOrderIntegrator {

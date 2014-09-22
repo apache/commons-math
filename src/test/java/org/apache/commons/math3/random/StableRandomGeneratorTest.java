@@ -26,7 +26,6 @@ import org.junit.Test;
  * The class <code>StableRandomGeneratorTest</code> contains tests for the class
  * {@link StableRandomGenerator}
  * 
- * @version $Revision$
  */
 public class StableRandomGeneratorTest {
 

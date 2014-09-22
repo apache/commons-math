@@ -44,7 +44,6 @@ package org.apache.commons.math3.ode.events;
  * error (this event handling feature is available for all integrators,
  * including fixed step ones).</p>
  *
- * @version $Id$
  * @since 1.2
  */
 

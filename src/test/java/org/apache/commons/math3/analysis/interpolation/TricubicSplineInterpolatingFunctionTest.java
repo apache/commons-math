@@ -26,7 +26,6 @@ import org.junit.Test;
 /**
  * Test case for the bicubic function.
  * 
- * @version $Id$
  */
 public final class TricubicSplineInterpolatingFunctionTest {
     /**

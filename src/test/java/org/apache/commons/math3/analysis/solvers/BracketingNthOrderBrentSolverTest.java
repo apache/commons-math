@@ -29,7 +29,6 @@ import org.junit.Test;
 /**
  * Test case for {@link BracketingNthOrderBrentSolver bracketing n<sup>th</sup> order Brent} solver.
  *
- * @version $Id$
  */
 public final class BracketingNthOrderBrentSolverTest extends BaseSecantSolverAbstractTest {
     /** {@inheritDoc} */

@@ -43,7 +43,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * <p>
  * The formulas here use divided differences directly.</p>
  *
- * @version $Id$
  * @since 1.2
  * @see MullerSolver2
  */

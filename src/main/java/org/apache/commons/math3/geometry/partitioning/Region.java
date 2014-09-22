@@ -48,7 +48,6 @@ import org.apache.commons.math3.geometry.Point;
 
  * @param <S> Type of the space.
 
- * @version $Id$
  * @since 3.0
  */
 public interface Region<S extends Space> {

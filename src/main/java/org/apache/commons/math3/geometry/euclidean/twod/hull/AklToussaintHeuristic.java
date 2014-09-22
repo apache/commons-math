@@ -36,7 +36,6 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
  * @see <a href="http://en.wikipedia.org/wiki/Convex_hull_algorithms#Akl-Toussaint_heuristic">
  * Akl-Toussaint heuristic (Wikipedia)</a>
  * @since 3.3
- * @version $Id$
  */
 public final class AklToussaintHeuristic {
 

@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.FastMath;
  * Static implementations of common
  * {@link org.apache.commons.math3.complex.Complex} utilities functions.
  *
- * @version $Id$
  */
 public class ComplexUtils {
 

@@ -41,7 +41,6 @@ package org.apache.commons.math3.ode;
  * @see SecondOrderIntegrator
  * @see FirstOrderConverter
  * @see FirstOrderDifferentialEquations
- * @version $Id$
  * @since 1.2
  */
 

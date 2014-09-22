@@ -30,7 +30,6 @@ import org.apache.commons.math3.util.FastMath;
  * (and automatic step initialization) and continuous output. This
  * method uses 7 functions evaluations per step.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 

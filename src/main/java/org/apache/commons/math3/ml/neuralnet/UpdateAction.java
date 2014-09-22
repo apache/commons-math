@@ -21,7 +21,6 @@ package org.apache.commons.math3.ml.neuralnet;
  * Describes how to update the network in response to a training
  * sample.
  *
- * @version $Id$
  * @since 3.3
  */
 public interface UpdateAction {

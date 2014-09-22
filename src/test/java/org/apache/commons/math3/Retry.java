@@ -21,7 +21,6 @@ import java.lang.annotation.*;
 
 /**
  * Annotation that enables test retries.
- * @version $Id$
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
  * @param <PAIR> Type of the point/value pair returned by the optimization
  * algorithm.
  *
- * @version $Id$
  * @since 3.1
  */
 public abstract class BaseMultivariateOptimizer<PAIR>

@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Exception to be thrown when some counter maximum value is exceeded.
  *
  * @since 3.0
- * @version $Id$
  */
 public class MaxCountExceededException extends MathIllegalStateException {
     /** Serializable version Id. */

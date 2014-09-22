@@ -26,7 +26,6 @@ import org.junit.Test;
  * <p>
  * Extends {@link RealDistributionAbstractTest}. See class javadoc of that class for details.
  *
- * @version $Id$
  * @since 3.3
  */
 public class ParetoDistributionTest extends RealDistributionAbstractTest {

@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.FastMath;
  * {@code rint} function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Rint implements UnivariateFunction {
     /** {@inheritDoc} */

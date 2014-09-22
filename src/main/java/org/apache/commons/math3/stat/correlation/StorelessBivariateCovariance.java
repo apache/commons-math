@@ -33,7 +33,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * <p>Note: This class is package private as it is only used internally in
  * the {@link StorelessCovariance} class.</p>
  *
- * @version $Id$
  * @since 3.0
  */
 class StorelessBivariateCovariance {

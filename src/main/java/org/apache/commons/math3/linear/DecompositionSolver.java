@@ -30,7 +30,6 @@ package org.apache.commons.math3.linear;
  * with non-square matrix A and with non-null minimal norm. If an exact linear
  * solution exists it is also the minimal norm solution.
  *
- * @version $Id$
  * @since 2.0
  */
 public interface DecompositionSolver {

@@ -24,7 +24,6 @@ import org.apache.commons.math3.random.RandomGenerator;
 
 /**
  * A strategy of selecting random index between begin and end indices.
- * @version $Id$
  * @since 3.4
  */
 public class RandomPivotingStrategy implements PivotingStrategyInterface, Serializable {

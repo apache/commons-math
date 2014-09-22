@@ -67,7 +67,6 @@ import org.apache.commons.math3.util.FastMath;
  *   double[] parameters = GaussianCurveFitter.create().fit(obs);
  * </pre>
  *
- * @version $Id$
  * @since 3.3
  */
 public class GaussianCurveFitter extends AbstractCurveFitter {

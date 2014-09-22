@@ -28,7 +28,6 @@ import org.apache.commons.math3.random.Well19937c;
  * Implements the Beta distribution.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Beta_distribution">Beta distribution</a>
- * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class BetaDistribution extends AbstractRealDistribution {

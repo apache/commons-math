@@ -52,7 +52,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  *
  * @param <T> type of the permuted objects
  * @since 2.0
- * @version $Id$
  */
 public abstract class RandomKey<T> extends AbstractListChromosome<Double> implements PermutationChromosome<T> {
 

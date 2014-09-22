@@ -40,7 +40,6 @@ import org.apache.commons.math3.util.FastMath;
  * decide if the handler should trigger an event or not during the
  * proposed step.</p>
  *
- * @version $Id$
  * @since 1.2
  */
 public class EventState {

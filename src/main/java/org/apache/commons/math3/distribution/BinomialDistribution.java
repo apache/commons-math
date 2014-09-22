@@ -29,7 +29,6 @@ import org.apache.commons.math3.random.Well19937c;
  *
  * @see <a href="http://en.wikipedia.org/wiki/Binomial_distribution">Binomial distribution (Wikipedia)</a>
  * @see <a href="http://mathworld.wolfram.com/BinomialDistribution.html">Binomial Distribution (MathWorld)</a>
- * @version $Id$
  */
 public class BinomialDistribution extends AbstractIntegerDistribution {
     /** Serializable version identifier. */

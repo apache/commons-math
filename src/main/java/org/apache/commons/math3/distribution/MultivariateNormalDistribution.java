@@ -35,7 +35,6 @@ import org.apache.commons.math3.util.MathArrays;
  * @see <a href="http://mathworld.wolfram.com/MultivariateNormalDistribution.html">
  * Multivariate normal distribution (MathWorld)</a>
  *
- * @version $Id$
  * @since 3.1
  */
 public class MultivariateNormalDistribution

@@ -22,7 +22,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * Algorithm used to mutate a chromosome.
  *
  * @since 2.0
- * @version $Id$
  */
 public interface MutationPolicy {
 

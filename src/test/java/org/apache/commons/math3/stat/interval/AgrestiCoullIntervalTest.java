@@ -25,7 +25,6 @@ import org.junit.Test;
 /**
  * Test cases for the AgrestiCoullInterval class.
  *
- * @version $Id$
  */
 public class AgrestiCoullIntervalTest extends BinomialConfidenceIntervalAbstractTest {
 

@@ -34,7 +34,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * @version $Id$
  */
 public final class BrentOptimizerTest {
 

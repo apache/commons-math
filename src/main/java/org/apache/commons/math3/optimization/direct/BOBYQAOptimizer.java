@@ -46,7 +46,6 @@ import org.apache.commons.math3.util.FastMath;
  * derivative-based optimizer when the derivatives are approximated by
  * finite differences.
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

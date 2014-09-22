@@ -24,7 +24,6 @@ import java.util.List;
 /**
  * Cluster holding a set of {@link Clusterable} points.
  * @param <T> the type of points that can be clustered
- * @version $Id$
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
  * use {@link org.apache.commons.math3.ml.clustering.Cluster} instead

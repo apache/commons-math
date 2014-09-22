@@ -21,7 +21,6 @@ import java.util.Random;
 /**
  * Test cases for the {@link RandomGeneratorFactory} class.
  *
- * @version $Id$
  */
 public class RandomGeneratorFactoryTest extends RandomGeneratorAbstractTest {
 

@@ -88,7 +88,6 @@ import org.apache.commons.math3.util.MathArrays;
  *
  * <p>Rotations are guaranteed to be immutable objects.</p>
  *
- * @version $Id$
  * @see Vector3D
  * @see RotationOrder
  * @since 1.2

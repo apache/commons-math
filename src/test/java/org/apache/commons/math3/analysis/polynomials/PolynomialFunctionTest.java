@@ -25,7 +25,6 @@ import org.junit.Assert;
 /**
  * Tests the PolynomialFunction implementation of a UnivariateFunction.
  *
- * @version $Id$
  */
 public final class PolynomialFunctionTest {
     /** Error tolerance for tests */

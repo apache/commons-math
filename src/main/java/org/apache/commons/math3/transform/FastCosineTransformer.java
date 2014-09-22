@@ -60,7 +60,6 @@ import org.apache.commons.math3.util.FastMath;
  * (N&nbsp;=&nbsp;2<sup>n</sup>&nbsp;+&nbsp;1). Besides, it implicitly assumes
  * that the sampled function is even.
  *
- * @version $Id$
  * @since 1.2
  */
 public class FastCosineTransformer implements RealTransformer, Serializable {

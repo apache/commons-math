@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * provided to monitor the current iteration count. A lightweight event
  * framework is also provided.
  *
- * @version $Id$
  */
 public class IterationManager {
 

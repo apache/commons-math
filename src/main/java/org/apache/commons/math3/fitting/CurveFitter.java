@@ -45,7 +45,6 @@ import org.apache.commons.math3.optim.nonlinear.vector.Weight;
  *
  * @param <T> Function to use for the fit.
  *
- * @version $Id: CurveFitter.java 1416643 2012-12-03 19:37:14Z tn $
  * @since 2.0
  * @deprecated As of 3.3. Please use {@link AbstractCurveFitter} and
  * {@link WeightedObservedPoints} instead.

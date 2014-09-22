@@ -34,7 +34,6 @@ package org.apache.commons.math3.stat.ranking;
  * </ul>
  *
  * @since 2.0
- * @version $Id$
  */
 public enum TiesStrategy {
 

@@ -20,7 +20,6 @@ import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.util.FastMath;
 
 /** Simple container for a two-points segment.
- * @version $Id$
  * @since 3.0
  */
 public class Segment {

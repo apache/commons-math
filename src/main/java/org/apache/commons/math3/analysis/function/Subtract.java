@@ -23,7 +23,6 @@ import org.apache.commons.math3.analysis.BivariateFunction;
  * Subtract the second operand from the first.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Subtract implements BivariateFunction {
     /** {@inheritDoc} */

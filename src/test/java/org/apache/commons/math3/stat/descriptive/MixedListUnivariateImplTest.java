@@ -30,7 +30,6 @@ import org.junit.Test;
 /**
  * Test cases for the {@link ListUnivariateImpl} class.
  *
- * @version $Id$
  */
 
 public final class MixedListUnivariateImplTest {

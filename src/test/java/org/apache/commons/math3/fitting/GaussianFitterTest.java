@@ -25,7 +25,6 @@ import org.junit.Test;
  * Tests {@link GaussianFitter}.
  *
  * @since 2.2
- * @version $Id: GaussianFitterTest.java 1349707 2012-06-13 09:30:56Z erans $
  */
 public class GaussianFitterTest {
     /** Good data. */

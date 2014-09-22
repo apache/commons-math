@@ -50,7 +50,6 @@ import org.apache.commons.math3.util.MathUtils;
  * be provided to ensure correct results.</p>
  *
  * @since 2.1
- * @version $Id$
  */
 public class SemiVariance extends AbstractUnivariateStatistic implements Serializable {
 

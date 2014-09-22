@@ -36,7 +36,6 @@ import org.apache.commons.math3.util.FastMath;
  * Base class for implementing least-squares optimizers.
  * It provides methods for error estimation.
  *
- * @version $Id$
  * @since 3.1
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the

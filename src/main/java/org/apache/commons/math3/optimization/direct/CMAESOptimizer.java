@@ -78,7 +78,6 @@ import org.apache.commons.math3.util.MathArrays;
  *  <li><a href="http://en.wikipedia.org/wiki/CMA-ES">Wikipedia</a></li>
  * </ul>
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

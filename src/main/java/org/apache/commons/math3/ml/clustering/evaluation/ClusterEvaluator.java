@@ -30,7 +30,6 @@ import org.apache.commons.math3.ml.distance.EuclideanDistance;
  * Base class for cluster evaluation methods.
  *
  * @param <T> type of the clustered points
- * @version $Id$
  * @since 3.3
  */
 public abstract class ClusterEvaluator<T extends Clusterable> {

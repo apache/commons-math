@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.TooManyEvaluationsException;
  * functions.
  *
  * @since 3.1
- * @version $Id$
  */
 public class NewtonRaphsonSolver extends AbstractUnivariateDifferentiableSolver {
     /** Default absolute accuracy. */

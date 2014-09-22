@@ -23,7 +23,6 @@ import org.apache.commons.math3.util.Precision;
 /**
  * Check if an optimization has converged based on the change in computed RMS.
  *
- * @version $Id$
  * @since 3.4
  */
 public class EvaluationRmsChecker implements ConvergenceChecker<Evaluation> {

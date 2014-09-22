@@ -19,7 +19,6 @@ package org.apache.commons.math3.random;
 /**
  * Test cases for the AbstractRandomGenerator class.
  *
- * @version $Id$
  */
 
 public class AbstractRandomGeneratorTest extends RandomGeneratorAbstractTest {

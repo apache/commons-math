@@ -26,7 +26,6 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * {@link RealFieldElement} interface.
  *
  * @since 3.1
- * @version $Id$
  */
 public class Decimal64 extends Number
                        implements RealFieldElement<Decimal64>, Comparable<Decimal64> {

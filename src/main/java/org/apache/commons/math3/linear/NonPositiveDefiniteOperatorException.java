@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * In the terminology of this exception, {@code A} is the "offending"
  * linear operator and {@code x} the "offending" vector.
  *
- * @version $Id$
  * @since 3.0
  */
 public class NonPositiveDefiniteOperatorException

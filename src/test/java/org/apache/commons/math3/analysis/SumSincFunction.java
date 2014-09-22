@@ -21,7 +21,6 @@ import org.apache.commons.math3.analysis.function.Sinc;
 /**
  * Auxiliary class for testing optimizers.
  *
- * @version $Id$
  */
 public class SumSincFunction implements MultivariateFunction {
     private static final UnivariateFunction sinc = new Sinc();

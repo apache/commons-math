@@ -44,7 +44,6 @@ import org.apache.commons.math3.util.FastMath;
  * </ul>
  * The optimal values will be returned in the same order.
  *
- * @version $Id$
  * @since 3.3
  */
 public class HarmonicCurveFitter extends AbstractCurveFitter {

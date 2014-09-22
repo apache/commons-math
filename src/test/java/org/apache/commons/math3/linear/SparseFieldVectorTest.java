@@ -32,7 +32,6 @@ import org.junit.Test;
 /**
  * Test cases for the {@link SparseFieldVector} class.
  *
- * @version $Id$
  */
 public class SparseFieldVectorTest {
 

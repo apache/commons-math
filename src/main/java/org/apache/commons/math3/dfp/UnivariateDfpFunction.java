@@ -19,7 +19,6 @@ package org.apache.commons.math3.dfp;
 /**
  * An interface representing a univariate {@link Dfp} function.
  *
- * @version $Id$
  */
 public interface UnivariateDfpFunction {
 

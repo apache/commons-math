@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.FastMath;
  * Minimum function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Min implements BivariateFunction {
     /** {@inheritDoc} */

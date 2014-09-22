@@ -25,7 +25,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Mutation for {@link BinaryChromosome}s. Randomly changes one gene.
  *
- * @version $Id$
  * @since 2.0
  */
 public class BinaryMutation implements MutationPolicy {

@@ -24,7 +24,6 @@ import org.junit.Test;
 /**
  * Tests {@link GaussianCurveFitter}.
  *
- * @version $Id$
  */
 public class GaussianCurveFitterTest {
     /** Good data. */

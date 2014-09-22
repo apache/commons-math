@@ -39,7 +39,6 @@ import org.apache.commons.math3.util.FastMath;
  *
  * @see <a href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a>
  * @see <a href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a>
- * @version $Id$
  * @since 2.0 (changed to concrete class in 3.0)
  */
 public class RectangularCholeskyDecomposition {

@@ -24,7 +24,6 @@ import org.apache.commons.math3.distribution.FDistribution;
  * @see <a
  *      href="http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Clopper-Pearson_interval">
  *      Clopper-Pearson interval (Wikipedia)</a>
- * @version $Id$
  * @since 3.3
  */
 public class ClopperPearsonInterval implements BinomialConfidenceInterval {

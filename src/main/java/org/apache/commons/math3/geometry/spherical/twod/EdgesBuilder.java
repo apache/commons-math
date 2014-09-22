@@ -32,7 +32,6 @@ import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
 import org.apache.commons.math3.geometry.spherical.oned.S1Point;
 
 /** Visitor building edges.
- * @version $Id$
  * @since 3.3
  */
 class EdgesBuilder implements BSPTreeVisitor<Sphere2D> {

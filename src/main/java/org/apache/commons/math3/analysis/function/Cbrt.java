@@ -28,7 +28,6 @@ import org.apache.commons.math3.util.FastMath;
  * Cube root function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Cbrt implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** {@inheritDoc} */

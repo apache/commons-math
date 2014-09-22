@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.MathUtils;
  * will result in a <code>ParseException</code>.</p>
  *
  * @since 1.1
- * @version $Id$
  */
 public class ProperFractionFormat extends FractionFormat {
 

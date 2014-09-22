@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.MathArrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with integer coordinates.
- * @version $Id$
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
  * use {@link org.apache.commons.math3.ml.clustering.DoublePoint} instead

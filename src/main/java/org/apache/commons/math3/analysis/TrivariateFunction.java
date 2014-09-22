@@ -21,7 +21,6 @@ package org.apache.commons.math3.analysis;
  * An interface representing a trivariate real function.
  *
  * @since 2.2
- * @version $Id$
  */
 public interface TrivariateFunction {
     /**

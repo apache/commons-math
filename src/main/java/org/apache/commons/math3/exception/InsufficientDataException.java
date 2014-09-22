@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * Exception to be thrown when there is insufficient data to perform a computation.
  *
  * @since 3.3
- * @version $Id$
  */
 public class InsufficientDataException
     extends MathIllegalArgumentException {

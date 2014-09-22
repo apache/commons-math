@@ -26,7 +26,6 @@ import org.junit.Assert;
 /**
  * Test of the {@link LegendreHighPrecisionRuleFactory}.
  *
- * @version $Id$
  */
 public class LegendreHighPrecisionTest {
     private static GaussIntegratorFactory factory = new GaussIntegratorFactory();

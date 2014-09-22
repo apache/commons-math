@@ -21,7 +21,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 /**
  * Maximum number of iterations performed by an (iterative) algorithm.
  *
- * @version $Id$
  * @since 3.1
  */
 public class MaxIter implements OptimizationData {

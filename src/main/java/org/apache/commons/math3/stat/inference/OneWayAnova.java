@@ -48,7 +48,6 @@ import org.apache.commons.math3.util.MathUtils;
  * </pre>
  *
  * @since 1.2
- * @version $Id$
  */
 public class OneWayAnova {
 

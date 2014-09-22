@@ -24,7 +24,6 @@ import org.junit.Assert;
 /**
  * Test of the {@link HermiteRuleFactory}.
  *
- * @version $Id$
  */
 public class HermiteTest {
     private static final GaussIntegratorFactory factory = new GaussIntegratorFactory();

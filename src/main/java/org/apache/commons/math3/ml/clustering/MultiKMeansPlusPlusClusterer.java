@@ -29,7 +29,6 @@ import org.apache.commons.math3.ml.clustering.evaluation.SumOfClusterVariances;
  * A wrapper around a k-means++ clustering algorithm which performs multiple trials
  * and returns the best solution.
  * @param <T> type of the points to cluster
- * @version $Id$
  * @since 3.2
  */
 public class MultiKMeansPlusPlusClusterer<T extends Clusterable> extends Clusterer<T> {

@@ -53,7 +53,6 @@ import org.apache.commons.math3.util.MathUtils;
  * @see <a href="http://en.wikipedia.org/wiki/DBSCAN">DBSCAN (wikipedia)</a>
  * @see <a href="http://www.dbs.ifi.lmu.de/Publikationen/Papers/KDD-96.final.frame.pdf">
  * A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a>
- * @version $Id$
  * @since 3.2
  */
 public class DBSCANClusterer<T extends Clusterable> extends Clusterer<T> {

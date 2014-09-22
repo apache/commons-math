@@ -27,7 +27,6 @@ import org.apache.commons.math3.util.FastMath;
 /** Local tree visitor to compute projection on boundary.
  * @param <S> Type of the space.
  * @param <T> Type of the sub-space.
- * @version $Id$
  * @since 3.3
  */
 class BoundaryProjector<S extends Space, T extends Space> implements BSPTreeVisitor<S> {

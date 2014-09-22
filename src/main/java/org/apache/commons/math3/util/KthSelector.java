@@ -26,7 +26,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
  * A Simple K<sup>th</sup> selector implementation to pick up the
  * K<sup>th</sup> ordered element from a work array containing the input
  * numbers.
- * @version $Id$
  * @since 3.4
  */
 public class KthSelector implements Serializable {

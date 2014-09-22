@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * columns of a matrix do not match the expected values.
  *
  * @since 3.0
- * @version $Id$
  */
 public class MatrixDimensionMismatchException extends MultiDimensionMismatchException {
     /** Serializable version Id. */

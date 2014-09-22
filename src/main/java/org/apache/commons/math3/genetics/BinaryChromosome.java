@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 /**
  * Chromosome represented by a vector of 0s and 1s.
  *
- * @version $Id$
  * @since 2.0
  */
 public abstract class BinaryChromosome extends AbstractListChromosome<Integer> {

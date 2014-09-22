@@ -19,7 +19,6 @@
 # Shell script to create commons math RCs.
 # This script should be run from a fresh checkout of the RC tag.
 #
-# $Revision$ $Date$
 # -----------------------------------------------------------------------------
 # Set script variables
 version=2.1

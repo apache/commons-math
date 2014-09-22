@@ -26,7 +26,6 @@ import org.apache.commons.math3.util.MathArrays;
  * Generates a tricubic interpolating function.
  *
  * @since 2.2
- * @version $Id$
  */
 public class TricubicSplineInterpolator
     implements TrivariateGridInterpolator {

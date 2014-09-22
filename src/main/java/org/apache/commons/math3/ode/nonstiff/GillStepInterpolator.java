@@ -49,7 +49,6 @@ import org.apache.commons.math3.util.FastMath;
  * the step.</p>
  *
  * @see GillIntegrator
- * @version $Id$
  * @since 1.2
  */
 

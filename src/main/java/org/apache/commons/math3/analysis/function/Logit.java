@@ -34,7 +34,6 @@ import org.apache.commons.math3.util.FastMath;
  * It is the inverse of the {@link Sigmoid sigmoid} function.
  *
  * @since 3.0
- * @version $Id$
  */
 public class Logit implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
     /** Lower bound. */

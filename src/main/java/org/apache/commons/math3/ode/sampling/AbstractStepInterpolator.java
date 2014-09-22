@@ -36,7 +36,6 @@ import org.apache.commons.math3.ode.EquationsMapper;
  * @see org.apache.commons.math3.ode.SecondOrderIntegrator
  * @see StepHandler
  *
- * @version $Id$
  * @since 1.2
  *
  */

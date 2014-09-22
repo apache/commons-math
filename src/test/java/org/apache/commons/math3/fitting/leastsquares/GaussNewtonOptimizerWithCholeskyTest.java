@@ -32,7 +32,6 @@ import java.io.IOException;
  * The redistribution policy for MINPACK is available <a
  * href="http://www.netlib.org/minpack/disclaimer">here</a>/
  *
- * @version $Id$
  */
 public class GaussNewtonOptimizerWithCholeskyTest
     extends AbstractLeastSquaresOptimizerAbstractTest {

@@ -23,7 +23,6 @@ import org.apache.commons.math3.linear.RealVector;
 /**
  * Applies a dense weight matrix to an evaluation.
  *
- * @version $Id$
  * @since 3.3
  */
 class DenseWeightedEvaluation extends AbstractEvaluation {

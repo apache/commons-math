@@ -24,7 +24,6 @@ import org.apache.commons.math3.geometry.Space;
  * processing methods.</p>
  * <p>Instances of this class are guaranteed to be immutable</p>
  * @param <S> Type of the space.
- * @version $Id$
  * @since 3.3
  * @see AbstractRegion#projectToBoundary(Point)
  */

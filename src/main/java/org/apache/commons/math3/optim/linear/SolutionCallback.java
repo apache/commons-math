@@ -23,7 +23,6 @@ import org.apache.commons.math3.optim.PointValuePair;
  * A constraint for a linear optimization problem indicating whether all
  * variables must be restricted to non-negative values.
  *
- * @version $Id$
  * @since 3.3
  */
 public class SolutionCallback implements OptimizationData {

@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
 
 /**
  * Classic median of 3 strategy given begin and end indices.
- * @version $Id$
  * @since 3.4
  */
 public class MedianOf3PivotingStrategy implements PivotingStrategyInterface, Serializable {

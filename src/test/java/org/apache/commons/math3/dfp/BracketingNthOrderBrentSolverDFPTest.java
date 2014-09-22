@@ -27,7 +27,6 @@ import org.junit.Test;
 /**
  * Test case for {@link BracketingNthOrderBrentSolverDFP bracketing n<sup>th</sup> order Brent} solver.
  *
- * @version $Id$
  */
 public final class BracketingNthOrderBrentSolverDFPTest {
 

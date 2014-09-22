@@ -25,7 +25,6 @@ import org.apache.commons.math3.util.FastMath;
 
 /**
  * Utility methods to work on primes within the <code>int</code> range.
- * @version $Id$
  * @since 3.2
  */
 class SmallPrimes {

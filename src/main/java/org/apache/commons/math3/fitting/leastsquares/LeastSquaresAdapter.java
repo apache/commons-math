@@ -23,7 +23,6 @@ import org.apache.commons.math3.util.Incrementor;
 /**
  * An adapter that delegates to another implementation of {@link LeastSquaresProblem}.
  *
- * @version $Id$
  * @since 3.3
  */
 public class LeastSquaresAdapter implements LeastSquaresProblem {

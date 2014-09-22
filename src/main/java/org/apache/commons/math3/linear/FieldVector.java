@@ -52,7 +52,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
  * <p>
  *
  * @param <T> the type of the field elements
- * @version $Id$
  * @since 2.0
  */
 public interface FieldVector<T extends FieldElement<T>>  {

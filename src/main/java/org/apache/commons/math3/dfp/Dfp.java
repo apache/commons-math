@@ -92,7 +92,6 @@ import org.apache.commons.math3.util.FastMath;
  *  detail and is really only a matter of definition.  Any side effects of
  *  this can be rendered invisible by a subclass.</p>
  * @see DfpField
- * @version $Id$
  * @since 2.2
  */
 public class Dfp implements RealFieldElement<Dfp> {

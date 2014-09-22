@@ -24,7 +24,6 @@ import org.apache.commons.math3.util.Precision;
 /** Transformer for {@link EventHandler#g(double, double[]) g functions}.
  * @see EventFilter
  * @see FilterType
- * @version $Id$
  * @since 3.2
  */
 enum Transformer {

@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.util.ExceptionContextProvider;
  * message.
  *
  * @since 2.2
- * @version $Id$
  */
 public class MathUnsupportedOperationException extends UnsupportedOperationException
     implements ExceptionContextProvider {

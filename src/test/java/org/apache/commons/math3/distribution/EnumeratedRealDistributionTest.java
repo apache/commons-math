@@ -34,7 +34,6 @@ import org.junit.Test;
 /**
  * Test class for {@link EnumeratedRealDistribution}.
  * 
- * @version $Id$
  */
 public class EnumeratedRealDistributionTest {
 

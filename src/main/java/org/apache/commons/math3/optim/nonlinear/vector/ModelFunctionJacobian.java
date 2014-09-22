@@ -22,7 +22,6 @@ import org.apache.commons.math3.optim.OptimizationData;
 /**
  * Jacobian of the model (vector) function to be optimized.
  *
- * @version $Id$
  * @since 3.1
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the

@@ -27,7 +27,6 @@ import org.apache.commons.math3.exception.MathIllegalArgumentException;
  * computed in one pass through the data without storing the full array of
  * sample values.</p>
  *
- * @version $Id$
  */
 public interface StorelessUnivariateStatistic extends UnivariateStatistic {
 

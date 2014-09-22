@@ -29,7 +29,6 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
  * fittest chromosome among them.
  *
  * @since 2.0
- * @version $Id$
  */
 public class TournamentSelection implements SelectionPolicy {
 

@@ -40,7 +40,6 @@ package org.apache.commons.math3.optimization;
  * @see org.apache.commons.math3.optimization.SimpleValueChecker
  * @see org.apache.commons.math3.optimization.SimpleVectorValueChecker
  *
- * @version $Id$
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

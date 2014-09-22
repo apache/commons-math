@@ -26,7 +26,6 @@ package org.apache.commons.math3.linear;
  *  thus give incorrect results, like multiplications, divisions or
  *  functions mapping.
  * </p>
- * @version $Id$
  * @since 2.0
  */
 public abstract class SparseRealVector extends RealVector {}
