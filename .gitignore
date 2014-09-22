@@ -1,0 +1,9 @@
+.classpath
+.project
+.settings
+.checkstyle
+bin
+target
+/build
+/lib
+*.class
