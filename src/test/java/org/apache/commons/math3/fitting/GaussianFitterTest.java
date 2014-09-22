@@ -26,6 +26,7 @@ import org.junit.Test;
  *
  * @since 2.2
  */
+@Deprecated
 public class GaussianFitterTest {
     /** Good data. */
     protected static final double[][] DATASET1 = new double[][] {

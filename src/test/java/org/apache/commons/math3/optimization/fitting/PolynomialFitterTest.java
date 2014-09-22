@@ -31,7 +31,6 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
 import org.apache.commons.math3.TestUtils;
-
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -39,6 +38,7 @@ import org.junit.Assert;
  * Test for class {@link CurveFitter} where the function to fit is a
  * polynomial.
  */
+@Deprecated
 public class PolynomialFitterTest {
     @Test
     public void testFit() {
@@ -138,7 +138,7 @@ public class PolynomialFitterTest {
         final double[] init = new double[] { 0, 0 };
         final int maxEval = 10000; // Trying hard to fit.
 
-        final double[] gn = doMath798(new GaussNewtonOptimizer(checker), maxEval, init);
+        doMath798(new GaussNewtonOptimizer(checker), maxEval, init);
     }
 
     /**

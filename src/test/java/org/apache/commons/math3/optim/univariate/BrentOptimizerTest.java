@@ -255,7 +255,6 @@ public final class BrentOptimizerTest {
                                  new SearchInterval(minSin - 6.789 * delta,
                                                     minSin + 9.876 * delta,
                                                     init));
-        final int numEval = optimizer.getEvaluations();
 
         final double sol = result.getPoint();
         final double expected = init;
@@ -289,7 +288,6 @@ public final class BrentOptimizerTest {
                                  GoalType.MINIMIZE,
                                  new SearchInterval(minSin - 6.789 * delta,
                                                     minSin + 9.876 * delta));
-        final int numEval = optimizer.getEvaluations();
 
         final double sol = result.getPoint();
         final double expected = 4.712389027602411;

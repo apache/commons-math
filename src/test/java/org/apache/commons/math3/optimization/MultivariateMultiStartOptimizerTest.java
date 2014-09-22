@@ -28,6 +28,7 @@ import org.apache.commons.math3.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class MultivariateMultiStartOptimizerTest {
     @Test
     public void testRosenbrock() {

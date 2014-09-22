@@ -30,6 +30,7 @@ import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class SimplexOptimizerNelderMeadTest {
     @Test
     public void testMinimize1() {

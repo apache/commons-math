@@ -31,6 +31,7 @@ import org.apache.commons.math3.util.MathArrays;
  * Instances of this class can be created by invocation of the
  * {@link StatisticalReferenceDatasetFactory}.
  */
+@Deprecated
 public abstract class StatisticalReferenceDataset {
 
     /** The name of this dataset. */

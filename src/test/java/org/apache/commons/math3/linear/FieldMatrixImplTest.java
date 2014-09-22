@@ -269,7 +269,7 @@ public final class FieldMatrixImplTest {
     public void testOperate() {
         FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(id);
         TestUtils.assertEquals(testVector, m.operate(testVector));
-        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).getData());
+        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).toArray());
         m = new Array2DRowFieldMatrix<Fraction>(bigSingular);
         try {
             m.operate(testVector);

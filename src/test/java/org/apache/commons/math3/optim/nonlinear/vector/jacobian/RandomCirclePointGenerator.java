@@ -28,6 +28,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 /**
  * Factory for generating a cloud of points that approximate a circle.
  */
+@Deprecated
 public class RandomCirclePointGenerator {
     /** RNG for the x-coordinate of the center. */
     private final RealDistribution cX;

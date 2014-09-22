@@ -20,6 +20,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.junit.Test;
 import org.junit.Assert;
 
+@Deprecated
 public class SimpleVectorValueCheckerTest {
     @Test(expected=NotStrictlyPositiveException.class)
     public void testIterationCheckPrecondition() {

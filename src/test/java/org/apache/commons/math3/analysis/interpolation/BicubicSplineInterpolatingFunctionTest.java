@@ -595,7 +595,6 @@ public final class BicubicSplineInterpolatingFunctionTest {
             = new UniformRealDistribution(rng, yval[0], yval[yval.length - 1]);
 
         final double tol = 224;
-        double max = 0;
         for (int i = 0; i < sz; i++) {
             x = distX.sample();
             for (int j = 0; j < sz; j++) {

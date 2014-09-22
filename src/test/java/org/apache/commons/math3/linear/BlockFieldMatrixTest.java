@@ -376,7 +376,7 @@ public final class BlockFieldMatrixTest {
     public void testOperate() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(id);
         TestUtils.assertEquals(testVector, m.operate(testVector));
-        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).getData());
+        TestUtils.assertEquals(testVector, m.operate(new ArrayFieldVector<Fraction>(testVector)).toArray());
         m = new BlockFieldMatrix<Fraction>(bigSingular);
         try {
             m.operate(testVector);

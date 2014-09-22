@@ -38,6 +38,7 @@ import org.apache.commons.math3.util.FastMath;
  *   corresponding circle.</li>
  * </ul>
  */
+@Deprecated
 class CircleProblem implements MultivariateDifferentiableVectorFunction {
     /** Cloud of points assumed to be fitted by a circle. */
     private final ArrayList<Vector2D> points;

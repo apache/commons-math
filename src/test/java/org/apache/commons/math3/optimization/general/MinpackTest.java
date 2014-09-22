@@ -20,7 +20,6 @@ package org.apache.commons.math3.optimization.general;
 import java.io.Serializable;
 import java.util.Arrays;
 
-
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
@@ -91,6 +90,7 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class MinpackTest {
 
   @Test

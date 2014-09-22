@@ -17,15 +17,15 @@
 package org.apache.commons.math3.fitting;
 
 import java.util.Random;
+
+import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.TestUtils;
-import org.junit.Test;
+import org.apache.commons.math3.exception.ConvergenceException;
+import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test for class {@link PolynomialCurveFitter}.

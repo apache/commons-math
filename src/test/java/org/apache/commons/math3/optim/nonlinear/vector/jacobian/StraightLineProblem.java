@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -37,6 +38,7 @@ import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
  *  <li>for each pair (a, b), the y-coordinate of the line.</li>
  * </ul>
  */
+@Deprecated
 class StraightLineProblem {
     /** Cloud of points assumed to be fitted by a straight line. */
     private final ArrayList<double[]> points;

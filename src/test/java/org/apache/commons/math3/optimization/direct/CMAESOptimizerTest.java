@@ -40,6 +40,7 @@ import org.junit.runner.RunWith;
 /**
  * Test for {@link CMAESOptimizer}.
  */
+@Deprecated
 @RunWith(RetryRunner.class)
 public class CMAESOptimizerTest {
 

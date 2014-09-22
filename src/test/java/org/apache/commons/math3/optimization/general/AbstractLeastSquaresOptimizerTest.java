@@ -17,11 +17,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.junit.Assert;
-
 import org.apache.commons.math3.optimization.PointVectorValuePair;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Test;
 
+@Deprecated
 public class AbstractLeastSquaresOptimizerTest {
 
     public static AbstractLeastSquaresOptimizer createOptimizer() {

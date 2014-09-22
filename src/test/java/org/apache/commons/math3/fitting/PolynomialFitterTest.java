@@ -17,6 +17,7 @@
 package org.apache.commons.math3.fitting;
 
 import java.util.Random;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric;
 import org.apache.commons.math3.exception.ConvergenceException;
@@ -36,6 +37,7 @@ import org.junit.Assert;
  * Test for class {@link CurveFitter} where the function to fit is a
  * polynomial.
  */
+@Deprecated
 public class PolynomialFitterTest {
     @Test
     public void testFit() {

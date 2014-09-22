@@ -267,7 +267,6 @@ public class SingularValueDecomposition {
 
         // Main iteration loop for the singular values.
         final int pp = p - 1;
-        int iter = 0;
         while (p > 0) {
             int k;
             int kase;
@@ -429,7 +428,6 @@ public class SingularValueDecomposition {
                         }
                     }
                     e[p - 2] = f;
-                    iter++;
                 }
                 break;
                 // Convergence.
@@ -466,7 +464,6 @@ public class SingularValueDecomposition {
                         }
                         k++;
                     }
-                    iter = 0;
                     p--;
                 }
                 break;

@@ -120,9 +120,6 @@ public class DummyStepInterpolatorTest {
   }
 
   private static class BadStepInterpolator extends DummyStepInterpolator {
-      @SuppressWarnings("unused")
-      public BadStepInterpolator() {
-      }
       public BadStepInterpolator(double[] y, boolean forward) {
           super(y, new double[y.length], forward);
       }

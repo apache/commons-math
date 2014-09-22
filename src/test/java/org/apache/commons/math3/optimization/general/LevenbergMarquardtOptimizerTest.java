@@ -97,6 +97,7 @@ import org.junit.Ignore;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class LevenbergMarquardtOptimizerTest extends AbstractLeastSquaresOptimizerAbstractTest {
 
     @Override

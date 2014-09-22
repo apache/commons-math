@@ -147,7 +147,7 @@ public class BetaTest {
         final double b = 223;
 
         try {
-            final double r = Beta.regularizedBeta(x, a, b, 1e-14, 10000);
+            Beta.regularizedBeta(x, a, b, 1e-14, 10000);
         } catch (StackOverflowError error) {
             Assert.fail("Infinite recursion");
         }

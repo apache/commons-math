@@ -19,6 +19,7 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.math3.optim.PointVectorValuePair;
 import org.apache.commons.math3.optim.InitialGuess;
 import org.apache.commons.math3.optim.MaxEval;
@@ -101,6 +102,7 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class LevenbergMarquardtOptimizerTest
     extends AbstractLeastSquaresOptimizerAbstractTest {
     @Override
@@ -314,47 +316,6 @@ public class LevenbergMarquardtOptimizerTest
         Assert.assertEquals(xCenter, paramFound[0], asymptoticStandardErrorFound[0]);
         Assert.assertEquals(yCenter, paramFound[1], asymptoticStandardErrorFound[1]);
         Assert.assertEquals(radius, paramFound[2], asymptoticStandardErrorFound[2]);
-    }
-
-    private static class QuadraticProblem {
-        private List<Double> x;
-        private List<Double> y;
-
-        public QuadraticProblem() {
-            x = new ArrayList<Double>();
-            y = new ArrayList<Double>();
-        }
-
-        public void addPoint(double x, double y) {
-            this.x.add(x);
-            this.y.add(y);
-        }
-
-        public ModelFunction getModelFunction() {
-            return new ModelFunction(new MultivariateVectorFunction() {
-                    public double[] value(double[] variables) {
-                        double[] values = new double[x.size()];
-                        for (int i = 0; i < values.length; ++i) {
-                            values[i] = (variables[0] * x.get(i) + variables[1]) * x.get(i) + variables[2];
-                        }
-                        return values;
-                    }
-                });
-        }
-
-        public ModelFunctionJacobian getModelFunctionJacobian() {
-            return new ModelFunctionJacobian(new MultivariateMatrixFunction() {
-                    public double[][] value(double[] params) {                    
-                        double[][] jacobian = new double[x.size()][3];
-                        for (int i = 0; i < jacobian.length; ++i) {
-                            jacobian[i][0] = x.get(i) * x.get(i);
-                            jacobian[i][1] = x.get(i);
-                            jacobian[i][2] = 1.0;
-                        }
-                        return jacobian;
-                    }
-                });
-        }
     }
 
     private static class BevingtonProblem {

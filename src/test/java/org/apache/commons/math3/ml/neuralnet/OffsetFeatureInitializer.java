@@ -17,10 +17,6 @@
 
 package org.apache.commons.math3.ml.neuralnet;
 
-import org.junit.Test;
-import org.junit.Assert;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well44497b;
 
 /**
  * Wraps a given initializer.

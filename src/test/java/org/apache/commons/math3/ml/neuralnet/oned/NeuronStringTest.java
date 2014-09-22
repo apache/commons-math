@@ -17,23 +17,20 @@
 
 package org.apache.commons.math3.ml.neuralnet.oned;
 
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Collection;
-import org.junit.Test;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
 import org.apache.commons.math3.ml.neuralnet.Network;
 import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.random.Well44497b;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests for {@link NeuronString} and {@link Network} functionality for

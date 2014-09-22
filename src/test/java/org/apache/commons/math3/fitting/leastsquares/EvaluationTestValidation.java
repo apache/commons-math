@@ -201,7 +201,6 @@ public class EvaluationTestValidation {
         // Number of observations.
         final int numObs = 10;
         // number of parameters.
-        final int numParams = 2;
 
         // Create a single set of observations.
         final Point2D.Double[] obs = lineGenerator.generate(numObs);
@@ -218,7 +217,6 @@ public class EvaluationTestValidation {
         // Dummy optimizer (to compute the chi-square).
         final LeastSquaresProblem lsp = builder(problem).build();
 
-        final double[] init = { slope, offset };
         // Get chi-square of the best parameters set for the given set of
         // observations.
         final double bestChi2N = getChi2N(lsp, regress);

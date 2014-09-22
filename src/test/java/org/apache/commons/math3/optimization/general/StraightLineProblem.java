@@ -36,6 +36,7 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
  *  <li>for each pair (a, b), the y-coordinate of the line.</li>
  * </ul>
  */
+@Deprecated
 class StraightLineProblem implements MultivariateDifferentiableVectorFunction {
     /** Cloud of points assumed to be fitted by a straight line. */
     private final ArrayList<double[]> points;

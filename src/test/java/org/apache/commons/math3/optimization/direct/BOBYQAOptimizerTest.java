@@ -36,6 +36,7 @@ import org.junit.Test;
 /**
  * Test for {@link BOBYQAOptimizer}.
  */
+@Deprecated
 public class BOBYQAOptimizerTest {
 
     static final int DIM = 13;

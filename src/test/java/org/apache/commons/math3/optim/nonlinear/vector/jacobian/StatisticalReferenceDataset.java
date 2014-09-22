@@ -19,6 +19,7 @@ package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.optim.nonlinear.vector.ModelFunction;
@@ -32,6 +33,7 @@ import org.apache.commons.math3.util.MathArrays;
  * Instances of this class can be created by invocation of the
  * {@link StatisticalReferenceDatasetFactory}.
  */
+@Deprecated
 public abstract class StatisticalReferenceDataset {
 
     /** The name of this dataset. */

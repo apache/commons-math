@@ -17,23 +17,22 @@
 
 package org.apache.commons.math3.ml.neuralnet.twod;
 
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
-import org.junit.Test;
-import org.junit.Assert;
-import org.junit.Ignore;
+import java.util.HashSet;
+
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
 import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
 import org.apache.commons.math3.ml.neuralnet.Network;
 import org.apache.commons.math3.ml.neuralnet.Neuron;
 import org.apache.commons.math3.ml.neuralnet.SquareNeighbourhood;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Tests for {@link NeuronSquareMesh2D} and {@link Network} functionality for

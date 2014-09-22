@@ -210,10 +210,9 @@ public class GaussianCurveFitterTest {
         final double[] init = { 3.5e6, 4.2, 0.1 };
 
         GaussianCurveFitter fitter = GaussianCurveFitter.create();
-        double[] parameters = fitter
-            .withMaxIterations(maxIter)
-            .withStartPoint(init)
-            .fit(createDataset(DATASET1).toList());
+        fitter.withMaxIterations(maxIter)
+              .withStartPoint(init)
+              .fit(createDataset(DATASET1).toList());
     }
 
     @Test

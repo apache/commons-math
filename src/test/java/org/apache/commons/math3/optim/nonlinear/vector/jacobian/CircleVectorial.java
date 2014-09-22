@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.ArrayList;
+
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -27,6 +28,7 @@ import org.apache.commons.math3.optim.nonlinear.vector.ModelFunctionJacobian;
 /**
  * Class used in the tests.
  */
+@Deprecated
 class CircleVectorial {
     private ArrayList<Vector2D> points;
 

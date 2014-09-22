@@ -28,6 +28,7 @@ import org.junit.Test;
 /**
  * Test for {@link PowellOptimizer}.
  */
+@Deprecated
 public class PowellOptimizerTest {
 
     @Test

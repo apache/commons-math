@@ -22,6 +22,7 @@ import org.apache.commons.math3.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class PointVectorValuePairTest {
 
     @Test

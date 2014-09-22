@@ -28,6 +28,7 @@ import org.apache.commons.math3.optimization.PointValuePair;
 import org.apache.commons.math3.util.Precision;
 import org.junit.Test;
 
+@Deprecated
 public class SimplexSolverTest {
 
     @Test

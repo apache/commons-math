@@ -19,7 +19,6 @@ package org.apache.commons.math3.optim.nonlinear.scalar.gradient;
 
 import org.apache.commons.math3.analysis.MultivariateFunction;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.linear.BlockRealMatrix;

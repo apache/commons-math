@@ -86,6 +86,7 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class GaussNewtonOptimizerTest
     extends AbstractLeastSquaresOptimizerAbstractTest {
 

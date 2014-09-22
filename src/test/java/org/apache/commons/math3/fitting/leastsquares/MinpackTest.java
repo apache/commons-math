@@ -610,7 +610,6 @@ public class MinpackTest {
     }
 
     private static class LinearFullRankFunction extends MinpackFunction {
-        private static final long serialVersionUID = -9030323226268039536L;
         
         public LinearFullRankFunction(int m, int n, double x0,
                                       double theoreticalStartCost,
@@ -649,7 +648,6 @@ public class MinpackTest {
     }
 
     private static class LinearRank1Function extends MinpackFunction {
-        private static final long serialVersionUID = 8494863245104608300L;
 
         public LinearRank1Function(int m, int n, double x0,
                                    double theoreticalStartCost,
@@ -684,7 +682,6 @@ public class MinpackTest {
     }
 
     private static class LinearRank1ZeroColsAndRowsFunction extends MinpackFunction {
-        private static final long serialVersionUID = -3316653043091995018L;
 
         public LinearRank1ZeroColsAndRowsFunction(int m, int n, double x0) {
             super(m, buildArray(n, x0),
@@ -728,7 +725,6 @@ public class MinpackTest {
     }
 
     private static class RosenbrockFunction extends MinpackFunction {
-        private static final long serialVersionUID = 2893438180956569134L;
         public RosenbrockFunction(double[] startParams, double theoreticalStartCost) {
             super(2, startParams, 0.0, buildArray(2, 1.0));
         }
@@ -748,7 +744,6 @@ public class MinpackTest {
     }
 
     private static class HelicalValleyFunction extends MinpackFunction {
-        private static final long serialVersionUID = 220613787843200102L;
         public HelicalValleyFunction(double[] startParams,
                                      double theoreticalStartCost) {
             super(3, startParams, 0.0, new double[] { 1.0, 0.0, 0.0 });
@@ -794,7 +789,6 @@ public class MinpackTest {
     }
 
     private static class PowellSingularFunction extends MinpackFunction {
-        private static final long serialVersionUID = 7298364171208142405L;
 
         public PowellSingularFunction(double[] startParams,
                                       double theoreticalStartCost) {
@@ -834,7 +828,6 @@ public class MinpackTest {
   }
 
     private static class FreudensteinRothFunction extends MinpackFunction {
-        private static final long serialVersionUID = 2892404999344244214L;
 
         public FreudensteinRothFunction(double[] startParams,
                                         double theoreticalStartCost,
@@ -865,7 +858,6 @@ public class MinpackTest {
     }
 
     private static class BardFunction extends MinpackFunction {
-        private static final long serialVersionUID = 5990442612572087668L;
 
         public BardFunction(double x0,
                             double theoreticalStartCost,
@@ -914,7 +906,6 @@ public class MinpackTest {
     }
 
     private static class KowalikOsborneFunction extends MinpackFunction {
-        private static final long serialVersionUID = -4867445739880495801L;
 
         public KowalikOsborneFunction(double[] startParams,
                                       double theoreticalStartCost,
@@ -970,7 +961,6 @@ public class MinpackTest {
     }
 
     private static class MeyerFunction extends MinpackFunction {
-        private static final long serialVersionUID = -838060619150131027L;
 
         public MeyerFunction(double[] startParams,
                              double theoreticalStartCost,
@@ -1021,7 +1011,6 @@ public class MinpackTest {
     }
 
     private static class WatsonFunction extends MinpackFunction {
-        private static final long serialVersionUID = -9034759294980218927L;
 
         public WatsonFunction(int n, double x0,
                               double theoreticalStartCost,
@@ -1092,7 +1081,6 @@ public class MinpackTest {
     }
 
     private static class Box3DimensionalFunction extends MinpackFunction {
-        private static final long serialVersionUID = 5511403858142574493L;
 
         public Box3DimensionalFunction(int m, double[] startParams,
                                        double theoreticalStartCost) {
@@ -1132,7 +1120,6 @@ public class MinpackTest {
     }
 
     private static class JennrichSampsonFunction extends MinpackFunction {
-        private static final long serialVersionUID = -2489165190443352947L;
 
         public JennrichSampsonFunction(int m, double[] startParams,
                                        double theoreticalStartCost,
@@ -1168,7 +1155,6 @@ public class MinpackTest {
     }
 
     private static class BrownDennisFunction extends MinpackFunction {
-        private static final long serialVersionUID = 8340018645694243910L;
 
         public BrownDennisFunction(int m, double[] startParams,
                                    double theoreticalStartCost,
@@ -1216,7 +1202,6 @@ public class MinpackTest {
     }
 
     private static class ChebyquadFunction extends MinpackFunction {
-        private static final long serialVersionUID = -2394877275028008594L;
 
         private static double[] buildChebyquadArray(int n, double factor) {
             double[] array = new double[n];
@@ -1294,7 +1279,6 @@ public class MinpackTest {
     }
 
     private static class BrownAlmostLinearFunction extends MinpackFunction {
-        private static final long serialVersionUID = 8239594490466964725L;
 
         public BrownAlmostLinearFunction(int m, double factor,
                                          double theoreticalStartCost,
@@ -1355,7 +1339,6 @@ public class MinpackTest {
     }
 
     private static class Osborne1Function extends MinpackFunction {
-        private static final long serialVersionUID = 4006743521149849494L;
 
         public Osborne1Function(double[] startParams,
                                 double theoreticalStartCost,
@@ -1408,7 +1391,6 @@ public class MinpackTest {
     }
 
     private static class Osborne2Function extends MinpackFunction {
-        private static final long serialVersionUID = -8418268780389858746L;
 
         public Osborne2Function(double[] startParams,
                                 double theoreticalStartCost,

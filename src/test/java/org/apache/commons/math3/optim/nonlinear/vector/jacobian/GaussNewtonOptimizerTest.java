@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
+
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
@@ -91,6 +92,7 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class GaussNewtonOptimizerTest
     extends AbstractLeastSquaresOptimizerAbstractTest {
 

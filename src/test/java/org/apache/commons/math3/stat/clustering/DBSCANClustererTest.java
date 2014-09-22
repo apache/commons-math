@@ -24,6 +24,7 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class DBSCANClustererTest {
 
     @Test

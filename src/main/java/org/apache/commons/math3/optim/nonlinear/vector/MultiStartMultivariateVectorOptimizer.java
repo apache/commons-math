@@ -38,6 +38,7 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  *
  * @since 3.0
  */
+@Deprecated
 public class MultiStartMultivariateVectorOptimizer
     extends BaseMultiStartMultivariateOptimizer<PointVectorValuePair> {
     /** Underlying optimizer. */

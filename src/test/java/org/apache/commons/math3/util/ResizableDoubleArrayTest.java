@@ -46,14 +46,14 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     @Test
     public void testConstructors() {
         float defaultExpansionFactor = 2.0f;
-        float defaultContractionCriteria = 2.5f;
+        double defaultContractionCriteria = 2.5;
         int defaultMode = ResizableDoubleArray.MULTIPLICATIVE_MODE;
 
         ResizableDoubleArray testDa = new ResizableDoubleArray(2);
         Assert.assertEquals(0, testDa.getNumElements());
         Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
-        Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriteria(), 0);
+        Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriterion(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
         try {
             da = new ResizableDoubleArray(-1);
@@ -69,44 +69,44 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         testDa = new ResizableDoubleArray(initialArray);
         Assert.assertEquals(3, testDa.getNumElements());
 
-        testDa = new ResizableDoubleArray(2, 2.0f);
+        testDa = new ResizableDoubleArray(2, 2.0);
         Assert.assertEquals(0, testDa.getNumElements());
         Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
-        Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriteria(), 0);
+        Assert.assertEquals(defaultContractionCriteria, testDa.getContractionCriterion(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
 
         try {
-            da = new ResizableDoubleArray(2, 0.5f);
+            da = new ResizableDoubleArray(2, 0.5);
             Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
-        testDa = new ResizableDoubleArray(2, 3.0f);
+        testDa = new ResizableDoubleArray(2, 3.0);
         Assert.assertEquals(3.0f, testDa.getExpansionFactor(), 0);
-        Assert.assertEquals(3.5f, testDa.getContractionCriteria(), 0);
+        Assert.assertEquals(3.5f, testDa.getContractionCriterion(), 0);
 
-        testDa = new ResizableDoubleArray(2, 2.0f, 3.0f);
+        testDa = new ResizableDoubleArray(2, 2.0, 3.0);
         Assert.assertEquals(0, testDa.getNumElements());
         Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
-        Assert.assertEquals(3.0f, testDa.getContractionCriteria(), 0);
+        Assert.assertEquals(3.0f, testDa.getContractionCriterion(), 0);
         Assert.assertEquals(defaultMode, testDa.getExpansionMode());
 
         try {
-            da = new ResizableDoubleArray(2, 2.0f, 1.5f);
+            da = new ResizableDoubleArray(2, 2.0, 1.5);
             Assert.fail("Expecting IllegalArgumentException");
         } catch (IllegalArgumentException ex) {
             // expected
         }
 
-        testDa = new ResizableDoubleArray(2, 2.0f, 3.0f,
-                ResizableDoubleArray.ADDITIVE_MODE);
+        testDa = new ResizableDoubleArray(2, 2.0, 3.0,
+                ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(0, testDa.getNumElements());
         Assert.assertEquals(2, testDa.getCapacity());
         Assert.assertEquals(defaultExpansionFactor, testDa.getExpansionFactor(), 0);
-        Assert.assertEquals(3.0f, testDa.getContractionCriteria(), 0);
+        Assert.assertEquals(3.0f, testDa.getContractionCriterion(), 0);
         Assert.assertEquals(ResizableDoubleArray.ADDITIVE_MODE,
                 testDa.getExpansionMode());
 
@@ -118,8 +118,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         }
 
         // Copy constructor
-        testDa = new ResizableDoubleArray(2, 2.0f, 3.0f,
-                ResizableDoubleArray.ADDITIVE_MODE);
+        testDa = new ResizableDoubleArray(2, 2.0, 3.0,
+                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);
         testDa.addElement(2.0);
         testDa.addElement(3.2);
         ResizableDoubleArray copyDa = new ResizableDoubleArray(testDa);
@@ -179,8 +179,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
 
         // ADDITIVE_MODE
 
-        ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0f, 3.0f,
-                ResizableDoubleArray.ADDITIVE_MODE);
+        ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0, 3.0,
+                                                               ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElement(1d);
         testDa.addElement(1d);
@@ -213,8 +213,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals(6, testDa.getNumElements());
 
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
-        testDa = new ResizableDoubleArray(2, 2.0f, 2.5f,
-                ResizableDoubleArray.ADDITIVE_MODE);        
+        testDa = new ResizableDoubleArray(2, 2.0, 2.5,
+                                          ResizableDoubleArray.ExpansionMode.ADDITIVE);        
         Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElements(new double[] { 1d }); // x,0
         testDa.addElements(new double[] { 2d }); // x,x
@@ -248,8 +248,8 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         Assert.assertEquals(6, da.getElement(2), 0);
 
         // ADDITIVE_MODE  (x's are occupied storage locations, 0's are open)
-        ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0f, 2.5f,
-                ResizableDoubleArray.ADDITIVE_MODE);
+        ResizableDoubleArray testDa = new ResizableDoubleArray(2, 2.0, 2.5,
+                                                               ResizableDoubleArray.ExpansionMode.ADDITIVE);
         Assert.assertEquals(2, testDa.getCapacity());
         testDa.addElement(1d); // x,0
         testDa.addElement(2d); // x,x
@@ -334,7 +334,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     @Test
     public void testWithInitialCapacityAndExpansionFactor() {
 
-        ResizableDoubleArray eDA3 = new ResizableDoubleArray(3, 3.0f, 3.5f);
+        ResizableDoubleArray eDA3 = new ResizableDoubleArray(3, 3.0, 3.5);
         Assert.assertEquals("Initial number of elements should be 0", 0, eDA3.getNumElements() );
 
         final IntegerDistribution randomData = new UniformIntegerDistribution(100, 3000);
@@ -442,7 +442,7 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
     @Test
     public void testMutators() {
         ((ResizableDoubleArray)da).setContractionCriteria(10f);
-        Assert.assertEquals(10f, ((ResizableDoubleArray)da).getContractionCriteria(), 0);
+        Assert.assertEquals(10f, ((ResizableDoubleArray)da).getContractionCriterion(), 0);
         ((ResizableDoubleArray)da).setExpansionFactor(8f);
         Assert.assertEquals(8f, ((ResizableDoubleArray)da).getExpansionFactor(), 0);
         try {
@@ -483,10 +483,10 @@ public class ResizableDoubleArrayTest extends DoubleArrayAbstractTest {
         verifyEquality(first, second);
 
         // Equals iff same data, same properties
-        ResizableDoubleArray third = new ResizableDoubleArray(3, 2.0f, 2.0f);
+        ResizableDoubleArray third = new ResizableDoubleArray(3, 2.0, 2.0);
         verifyInequality(third, first);
-        ResizableDoubleArray fourth = new ResizableDoubleArray(3, 2.0f, 2.0f);
-        ResizableDoubleArray fifth = new ResizableDoubleArray(2, 2.0f, 2.0f);
+        ResizableDoubleArray fourth = new ResizableDoubleArray(3, 2.0, 2.0);
+        ResizableDoubleArray fifth = new ResizableDoubleArray(2, 2.0, 2.0);
         verifyEquality(third, fourth);
         verifyInequality(third, fifth);
         third.addElement(4.1);

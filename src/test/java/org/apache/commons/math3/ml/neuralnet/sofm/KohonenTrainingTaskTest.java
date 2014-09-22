@@ -17,26 +17,22 @@
 
 package org.apache.commons.math3.ml.neuralnet.sofm;
 
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collection;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.io.PrintWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.apache.commons.math3.RetryRunner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import org.apache.commons.math3.Retry;
+import org.apache.commons.math3.RetryRunner;
 import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Tests for {@link KohonenTrainingTask}
@@ -128,24 +124,6 @@ public class KohonenTrainingTaskTest {
     }
 
     /**
-     * Creates a map of the travel suggested by the solver.
-     *
-     * @param solver Solver.
-     * @return a 4-columns table: {@code <x (neuron)> <y (neuron)> <x (city)> <y (city)>}.
-     */
-    private String travelCoordinatesTable(TravellingSalesmanSolver solver) {
-        final StringBuilder s = new StringBuilder();
-        for (double[] c : solver.getCoordinatesList()) {
-            s.append(c[0]).append(" ").append(c[1]).append(" ");
-            final City city = solver.getClosestCity(c[0], c[1]);
-            final double[] cityCoord = city.getCoordinates(); 
-            s.append(cityCoord[0]).append(" ").append(cityCoord[1]).append(" ");
-            s.append("   # ").append(city.getName()).append("\n");
-        }
-        return s.toString();
-    }
-
-    /**
      * Compute the distance covered by the salesman, including
      * the trip back (from the last to first city).
      *
@@ -182,29 +160,4 @@ public class KohonenTrainingTaskTest {
         return dist;
     }
 
-    /**
-     * Prints a summary of the current state of the solver to the
-     * given filename.
-     *
-     * @param filename File.
-     * @param solver Solver.
-     */
-    private void printSummary(String filename,
-                              TravellingSalesmanSolver solver) {
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter(filename);
-            out.println(travelCoordinatesTable(solver));
-
-            final City[] result = solver.getCityList();
-            out.println("# Number of unique cities: " + uniqueCities(result).size());
-            out.println("# Travel distance: " + computeTravelDistance(result));
-        } catch (Exception e) {
-            // Do nothing.
-        } finally {
-            if (out != null) {
-                out.close();
-            }
-        }
-    }
 }

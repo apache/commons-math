@@ -18,13 +18,13 @@ package org.apache.commons.math3.optimization.univariate;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.optimization.GoalType;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Test for {@link BracketFinder}.
  */
+@Deprecated
 public class BracketFinderTest {
 
     @Test

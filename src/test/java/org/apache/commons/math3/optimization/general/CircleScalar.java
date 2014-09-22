@@ -26,6 +26,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 /**
  * Class used in the tests.
  */
+@Deprecated
 public class CircleScalar implements MultivariateDifferentiableFunction {
     private ArrayList<Vector2D> points;
 

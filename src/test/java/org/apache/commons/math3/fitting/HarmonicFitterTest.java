@@ -17,16 +17,17 @@
 package org.apache.commons.math3.fitting;
 
 import java.util.Random;
+
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
-
 import org.junit.Test;
 import org.junit.Assert;
 
+@Deprecated
 public class HarmonicFitterTest {
     @Test(expected=NumberIsTooSmallException.class)
     public void testPreconditions1() {

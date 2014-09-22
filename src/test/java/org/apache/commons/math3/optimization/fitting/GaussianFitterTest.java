@@ -19,7 +19,6 @@ package org.apache.commons.math3.optimization.fitting;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,6 +27,7 @@ import org.junit.Test;
  *
  * @since 2.2
  */
+@Deprecated
 public class GaussianFitterTest {
     /** Good data. */
     protected static final double[][] DATASET1 = new double[][] {

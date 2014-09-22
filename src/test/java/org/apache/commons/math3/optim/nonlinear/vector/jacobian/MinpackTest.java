@@ -18,6 +18,7 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import java.util.Arrays;
+
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.analysis.MultivariateVectorFunction;
 import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
@@ -94,6 +95,7 @@ import org.junit.Test;
  * @author Jorge J. More (original fortran minpack tests)
  * @author Luc Maisonobe (non-minpack tests and minpack tests Java translation)
  */
+@Deprecated
 public class MinpackTest {
 
     @Test

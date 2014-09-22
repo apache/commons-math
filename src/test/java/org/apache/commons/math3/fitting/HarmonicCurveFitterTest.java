@@ -16,18 +16,17 @@
  */
 package org.apache.commons.math3.fitting;
 
-import java.util.Random;
-import java.util.List;
 import java.util.ArrayList;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
+import java.util.List;
+import java.util.Random;
+
 import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathUtils;
-
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class HarmonicCurveFitterTest {
     /**
@@ -92,7 +91,7 @@ public class HarmonicCurveFitterTest {
         }
 
         final HarmonicCurveFitter fitter = HarmonicCurveFitter.create();
-        final double[] fitted = fitter.fit(points.toList());
+        fitter.fit(points.toList());
 
         // This test serves to cover the part of the code of "guessAOmega"
         // when the algorithm using integrals fails.

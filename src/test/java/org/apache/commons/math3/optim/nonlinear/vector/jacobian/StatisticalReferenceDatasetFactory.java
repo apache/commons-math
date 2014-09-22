@@ -20,12 +20,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import org.apache.commons.math3.util.FastMath;
 
 /**
  * A factory to create instances of {@link StatisticalReferenceDataset} from
  * available resources.
  */
+@Deprecated
 public class StatisticalReferenceDatasetFactory {
 
     private StatisticalReferenceDatasetFactory() {

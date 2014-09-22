@@ -295,7 +295,7 @@ public class EvaluationTest {
 
         try {
             // Should throw.
-            final Evaluation eval = p.evaluate(dummy);
+            p.evaluate(dummy);
             Assert.fail("Exception expected");
         } catch (RuntimeException e) {
             // Expecting exception.

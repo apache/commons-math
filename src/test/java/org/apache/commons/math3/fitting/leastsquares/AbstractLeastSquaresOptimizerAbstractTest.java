@@ -556,7 +556,7 @@ public abstract class AbstractLeastSquaresOptimizerAbstractTest {
                         return true;
                     }
                 });
-        Optimum optimum = optimizer.optimize(builder.build());
+        optimizer.optimize(builder.build());
 
         Assert.assertThat(checked[0], is(true));
     }

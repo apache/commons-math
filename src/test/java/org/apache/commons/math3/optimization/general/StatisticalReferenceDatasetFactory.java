@@ -27,6 +27,7 @@ import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
  * A factory to create instances of {@link StatisticalReferenceDataset} from
  * available resources.
  */
+@Deprecated
 public class StatisticalReferenceDatasetFactory {
 
     private StatisticalReferenceDatasetFactory() {
