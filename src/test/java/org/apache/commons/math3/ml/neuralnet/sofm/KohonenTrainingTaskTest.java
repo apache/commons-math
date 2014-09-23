@@ -17,6 +17,7 @@
 
 package org.apache.commons.math3.ml.neuralnet.sofm;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -124,6 +125,24 @@ public class KohonenTrainingTaskTest {
     }
 
     /**
+     * Creates a map of the travel suggested by the solver.
+     *
+     * @param solver Solver.
+     * @return a 4-columns table: {@code <x (neuron)> <y (neuron)> <x (city)> <y (city)>}.
+     */
+    private String travelCoordinatesTable(TravellingSalesmanSolver solver) {
+        final StringBuilder s = new StringBuilder();
+        for (double[] c : solver.getCoordinatesList()) {
+            s.append(c[0]).append(" ").append(c[1]).append(" ");
+            final City city = solver.getClosestCity(c[0], c[1]);
+            final double[] cityCoord = city.getCoordinates(); 
+            s.append(cityCoord[0]).append(" ").append(cityCoord[1]).append(" ");
+            s.append("   # ").append(city.getName()).append("\n");
+        }
+        return s.toString();
+    }
+
+    /**
      * Compute the distance covered by the salesman, including
      * the trip back (from the last to first city).
      *
@@ -160,4 +179,30 @@ public class KohonenTrainingTaskTest {
         return dist;
     }
 
+    /**
+     * Prints a summary of the current state of the solver to the
+     * given filename.
+     *
+     * @param filename File.
+     * @param solver Solver.
+     */
+    @SuppressWarnings("unused")
+    private void printSummary(String filename,
+                              TravellingSalesmanSolver solver) {
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter(filename);
+            out.println(travelCoordinatesTable(solver));
+
+            final City[] result = solver.getCityList();
+            out.println("# Number of unique cities: " + uniqueCities(result).size());
+            out.println("# Travel distance: " + computeTravelDistance(result));
+        } catch (Exception e) {
+            // Do nothing.
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
 }
