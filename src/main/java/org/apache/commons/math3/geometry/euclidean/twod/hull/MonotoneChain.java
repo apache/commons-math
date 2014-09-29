@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements Andrew's monotone chain method to generate the convex hull of a finite set of
@@ -80,9 +81,12 @@ public class MonotoneChain extends AbstractConvexHullGenerator2D {
         // sort the points in increasing order on the x-axis
         Collections.sort(pointsSortedByXAxis, new Comparator<Vector2D>() {
             public int compare(final Vector2D o1, final Vector2D o2) {
-                final int diff = (int) FastMath.signum(o1.getX() - o2.getX());
+                final double tolerance = getTolerance();
+                // need to take the tolerance value into account, otherwise collinear points
+                // will not be handled correctly when building the upper/lower hull
+                final int diff = Precision.compareTo(o1.getX(), o2.getX(), tolerance);
                 if (diff == 0) {
-                    return (int) FastMath.signum(o1.getY() - o2.getY());
+                    return Precision.compareTo(o1.getY(), o2.getY(), tolerance);
                 } else {
                     return diff;
                 }

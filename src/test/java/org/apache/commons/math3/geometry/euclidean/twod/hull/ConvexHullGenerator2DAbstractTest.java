@@ -30,6 +30,8 @@ import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -224,6 +226,46 @@ public abstract class ConvexHullGenerator2DAbstractTest {
     }
 
     @Test
+    public void testCollinearPointsInAnyOrder() {
+        // MATH-1148: collinear points on the hull might be in any order
+        //            make sure that they are processed in the proper order
+        //            for each algorithm.
+
+        List<Vector2D> points = new ArrayList<Vector2D>();
+
+        // first case: 3 points are collinear
+        points.add(new Vector2D(16.078200000000184, -36.52519999989808));
+        points.add(new Vector2D(19.164300000000186, -36.52519999989808));
+        points.add(new Vector2D(19.1643, -25.28136477910407));
+        points.add(new Vector2D(19.1643, -17.678400000004157));
+
+        ConvexHull2D hull = createConvexHullGenerator(false).generate(points);
+        checkConvexHull(points, hull);
+
+        hull = createConvexHullGenerator(true).generate(points);
+        checkConvexHull(points, hull, true);
+        
+        points.clear();
+        
+        // second case: multiple points are collinear
+        points.add(new Vector2D(0, -29.959696875));
+        points.add(new Vector2D(0, -31.621809375));
+        points.add(new Vector2D(0, -28.435696875));
+        points.add(new Vector2D(0, -33.145809375));
+        points.add(new Vector2D(3.048, -33.145809375));
+        points.add(new Vector2D(3.048, -31.621809375));
+        points.add(new Vector2D(3.048, -29.959696875));
+        points.add(new Vector2D(4.572, -33.145809375));
+        points.add(new Vector2D(4.572, -28.435696875));
+
+        hull = createConvexHullGenerator(false).generate(points);
+        checkConvexHull(points, hull);
+
+        hull = createConvexHullGenerator(true).generate(points);
+        checkConvexHull(points, hull, true);
+    }
+
+    @Test
     public void testIssue1123() {
 
         List<Vector2D> points = new ArrayList<Vector2D>();
@@ -337,16 +379,22 @@ public abstract class ConvexHullGenerator2DAbstractTest {
 
     protected final void checkConvexHull(final Collection<Vector2D> points, final ConvexHull2D hull,
                                          final boolean includesCollinearPoints) {
+        checkConvexHull(points, hull, includesCollinearPoints, 1e-10);
+    }
+
+    protected final void checkConvexHull(final Collection<Vector2D> points, final ConvexHull2D hull,
+                                         final boolean includesCollinearPoints, final double tolerance) {
         Assert.assertNotNull(hull);
-        Assert.assertTrue(isConvex(hull, includesCollinearPoints));
+        Assert.assertTrue(isConvex(hull, includesCollinearPoints, tolerance));
         checkPointsInsideHullRegion(points, hull, includesCollinearPoints);
     }
 
     // verify that the constructed hull is really convex
-    protected final boolean isConvex(final ConvexHull2D hull, final boolean includesCollinearPoints) {
-        double sign = 0.0;
+    protected final boolean isConvex(final ConvexHull2D hull, final boolean includesCollinearPoints,
+                                     final double tolerance) {
 
         final Vector2D[] points = hull.getVertices();
+        int sign = 0;
 
         for (int i = 0; i < points.length; i++) {
             Vector2D p1 = points[i == 0 ? points.length - 1 : i - 1];
@@ -359,17 +407,18 @@ public abstract class ConvexHullGenerator2DAbstractTest {
             Assert.assertTrue(d1.getNorm() > 1e-10);
             Assert.assertTrue(d2.getNorm() > 1e-10);
 
-            double cross = FastMath.signum(d1.getX() * d2.getY() - d1.getY() * d2.getX());
+            final double cross = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
+            final int cmp = Precision.compareTo(cross, 0.0, tolerance);
 
-            if (sign != 0.0 && cross != sign) {
-                if (includesCollinearPoints && cross == 0.0) {
+            if (sign != 0 && cmp != sign) {
+                if (includesCollinearPoints && cmp == 0) {
                     // in case of collinear points the cross product will be zero
                 } else {
                     return false;
                 }
             }
             
-            sign = cross;
+            sign = cmp;
         }
         
         return true;

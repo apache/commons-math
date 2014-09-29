@@ -73,6 +73,11 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="fix" issue="MATH-1148" due-to="Guillaume Marceau">
+        "MonotoneChain" did not take the tolerance factor into account when
+        sorting the input points. In case of collinear points this could result
+        in a "ConvergenceException" when computing the hull.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1151">
         Interface "ValueAndJacobianFunction" is a precondition for lazy
         evaluation (in "o.a.c.m.fitting.leastsquares").

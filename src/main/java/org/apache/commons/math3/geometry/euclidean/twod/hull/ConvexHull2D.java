@@ -28,8 +28,8 @@ import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.hull.ConvexHull;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * This class represents a convex hull in an two-dimensional euclidean space.
@@ -62,12 +62,14 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
     public ConvexHull2D(final Vector2D[] vertices, final double tolerance)
         throws MathIllegalArgumentException {
 
+        // assign tolerance as it will be used by the isConvex method
+        this.tolerance = tolerance;
+
         if (!isConvex(vertices)) {
             throw new MathIllegalArgumentException(LocalizedFormats.NOT_CONVEX);
         }
 
         this.vertices = vertices.clone();
-        this.tolerance = tolerance;
     }
 
     /**
@@ -80,7 +82,7 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
             return true;
         }
 
-        double sign = 0.0;
+        int sign = 0;
         for (int i = 0; i < hullVertices.length; i++) {
             final Vector2D p1 = hullVertices[i == 0 ? hullVertices.length - 1 : i - 1];
             final Vector2D p2 = hullVertices[i];
@@ -89,14 +91,14 @@ public class ConvexHull2D implements ConvexHull<Euclidean2D, Vector2D>, Serializ
             final Vector2D d1 = p2.subtract(p1);
             final Vector2D d2 = p3.subtract(p2);
 
-            final double cross = FastMath.signum(MathArrays.linearCombination( d1.getX(), d2.getY(),
-                                                                              -d1.getY(), d2.getX()));
+            final double crossProduct = MathArrays.linearCombination(d1.getX(), d2.getY(), -d1.getY(), d2.getX());
+            final int cmp = Precision.compareTo(crossProduct, 0.0, tolerance);
             // in case of collinear points the cross product will be zero
-            if (cross != 0.0) {
-                if (sign != 0.0 && cross != sign) {
+            if (cmp != 0.0) {
+                if (sign != 0.0 && cmp != sign) {
                     return false;
                 }
-                sign = cross;
+                sign = cmp;
             }
         }
 
