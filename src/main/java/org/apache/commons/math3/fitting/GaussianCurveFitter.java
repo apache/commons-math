@@ -64,7 +64,7 @@ import org.apache.commons.math3.util.FastMath;
  *   obs.add(4.07525716, 1447024.0);
  *   obs.add(4.08237071, 717104.0);
  *   obs.add(4.08366408, 620014.0);
- *   double[] parameters = GaussianCurveFitter.create().fit(obs);
+ *   double[] parameters = GaussianCurveFitter.create().fit(obs.toList());
  * </pre>
  *
  * @since 3.3
