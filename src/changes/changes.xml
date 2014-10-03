@@ -108,7 +108,7 @@ Users are encouraged to upgrade to this version as this release not
         shall be created (includeCollinearPoints=false) and collinear hull points
         were present in the input.
       </action>
-      <action dev="tn" type="fix" issue="MATH-1131" due-to="Schalk W. Cronjé">
+      <action dev="psteitz" type="fix" issue="MATH-1131" due-to="Schalk W. Cronjé">
         Improve performance of "KolmogorovSmirnovTest#kolmogorovSmirnovTest(...)" for
         large samples. Also changed implementation for large n to use Pelz-Good
         approximation.
