@@ -28,6 +28,8 @@ import org.apache.commons.math3.util.FastMath;
  * This class implements the Nakagami distribution.
  *
  * @see <a href="http://en.wikipedia.org/wiki/Nakagami_distribution">Nakagami Distribution (Wikipedia)</a>
+ *
+ * @since 3.4
  */
 public class NakagamiDistribution extends AbstractRealDistribution {
 
