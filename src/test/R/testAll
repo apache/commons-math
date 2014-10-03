@@ -41,6 +41,10 @@ source("GammaDistributionTestCases.R")
 source("WeibullDistributionTestCases.R")
 source("ChiSquareDistributionTestCases.R")
 source("LevyDistributionTestCases.R")
+source("gumbelTestCases.R")
+source("laplaceTestCases.R")
+source("logisticsTestCases.R")
+source("nakagamiTestCases.R")
 
 # regression
 source("regressionTestCases")

@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="add" issue="MATH-1139" due-to="Alexey Volkov">
+        Added Gumbel, Laplace, Logistic and Nakagami distributions.
+      </action>
       <action dev="psteitz" type="fix" issue="MATH-1147">
         Added statistics missing from toString method in SummaryStatistics.
       </action>
