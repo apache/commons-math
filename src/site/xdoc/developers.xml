@@ -47,14 +47,14 @@
             founded.
         </li>
         <li>Download the Commons Math source code.  Follow the instructions
-        under the heading "Anonymous Subversion" on the
-        <a href="http://www.apache.org/dev/version-control.html">Apache version
-         control page</a>  (Also have a look at the 
-        <a href="http://wiki.apache.org/commons/UsingSVN">Commons wiki
-        svn page </a>) to check out the Commons Math code base from Subversion.
-        The svn url for the current development sources of Commons Math
-        is 
-<source>https://svn.apache.org/repos/asf/commons/proper/math/trunk</source>
+        under the heading "Repository Checkout" on the
+        <a href="https://git-wip-us.apache.org/">Git at the ASF page</a>.
+        The git url for the current development sources of Commons Math
+        is <source>http://apacheid@git-wip-us.apache.org/repos/asf/commons-math.git</source>
+        for anonymous read-only access and
+        <source>https://apacheid@git-wip-us.apache.org/repos/asf/commons-math.git</source>
+        (where apacheid should be replaced by each committer Apache ID) for committers
+        read-write access.
         </li>
         <li>Like most commons components, Commons Math uses Apache Maven as our
             build tool. The sources can also be built using Ant (a working 
@@ -152,10 +152,14 @@
      Please make sure to set your IDE or editor to use spaces instead of tabs.
     </p>
     <p>
-      Committers should make sure that svn properties are correctly set on
-      files added to the repository.  See the section on Committer Subversion
-      Access on the <a href="http://www.apache.org/dev/version-control.html">
-      Apache Source Code Repositories</a> page.
+     Committers should configure the <source>user.name</source>,
+     <source>user.email</source> and <source>core.autocrlf</source>
+     git repository or global options with <source>git config</source>.
+     The first two options set the identity and mail of the committer.
+     The third option deals with line endings to achieve consistency
+     in line endings. Windows users should configure this option to
+     <source>true</source> while OS X and Linux users should configure
+     it to <source>input</source>.
     </p>
    </subsection>
    <subsection name='Documentation'>
