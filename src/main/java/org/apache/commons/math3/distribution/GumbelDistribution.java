@@ -22,6 +22,7 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathUtils;
 
 /**
  * This class implements the Gumbel distribution.
@@ -127,7 +128,7 @@ public class GumbelDistribution extends AbstractRealDistribution {
 
     /** {@inheritDoc} */
     public double getNumericalVariance() {
-        return (FastMath.PI * FastMath.PI) / 6.0 * (beta * beta);
+        return (MathUtils.PI_SQUARED) / 6.0 * (beta * beta);
     }
 
     /** {@inheritDoc} */
