@@ -6,4 +6,5 @@ bin
 target
 /build
 /lib
+/site-content
 *.class
