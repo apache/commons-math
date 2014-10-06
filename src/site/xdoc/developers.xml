@@ -180,7 +180,7 @@
       the expression to be formatted with either &#92;( and &#92;) for inline
       formulas, or &#92;[ and &#92;] to have the formula appear on a separate line.
       For example, &#92;(a^2 + b^2 = c^2&#92;) will render an in-line formula
-      saying thqt (a, b, c) is Pythagorean triplet.  Using &#92;[ and &#92;] on
+      saying that (a, b, c) is Pythagorean triplet.  Using &#92;[ and &#92;] on
       the ends will render the same formula on a separate line.  See the MathJax
       and LaTex documentation for details on how to represent formulas and
       escape special characters.</li>
