@@ -154,12 +154,18 @@
     <p>
      Committers should configure the <source>user.name</source>,
      <source>user.email</source> and <source>core.autocrlf</source>
-     git repository or global options with <source>git config</source>.
-     The first two options set the identity and mail of the committer.
-     The third option deals with line endings to achieve consistency
-     in line endings. Windows users should configure this option to
-     <source>true</source> while OS X and Linux users should configure
-     it to <source>input</source>.
+     git repository or global settings with <source>git config</source>.
+     The first two settings define the identity and mail of the committer.
+     The third setting deals with line endings to achieve consistency
+     in line endings. Windows users should configure this setting to
+     <source>true</source> (thus forcing git to convert CR/LF line endings
+     in the workspace while maintaining LF only line endings in the repository)
+     while OS X and Linux users should configure it to <source>input</source>
+     (thus forcing git to only strip accidental CR/LF when committing into
+     the repository, but never when cheking out files from the repository). See <a
+     href="http://www.git-scm.com/book/en/Customizing-Git-Git-Configuration">Customizing
+     Git - Git Configuration</a> in the git book for explanation about how to
+     configure these settings and more.
     </p>
    </subsection>
    <subsection name='Documentation'>
