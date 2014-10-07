@@ -128,7 +128,7 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
      *   can be reset with {@link #withEstimationType(EstimationType)}</li>
      *   <li>default NaN strategy: {@link NaNStrategy#REMOVED},
      *   can be reset with {@link #withNaNStrategy(NaNStrategy)}</li>
-     *   <li>a KthSelector that makes use of {@link PivotingStrategy#MEDIAN_OF_3},
+     *   <li>a KthSelector that makes use of {@link MedianOf3PivotingStrategy},
      *   can be reset with {@link #withKthSelector(KthSelector)}</li>
      * </ul>
      */
