@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -159,12 +160,23 @@ public class FastMathStrictComparisonTest {
     }
 
     private static void callMethods(Method mathMethod, Method fastMethod,
-            Object[] params, int[] entries) throws IllegalAccessException,
-            InvocationTargetException {
+            Object[] params, int[] entries) throws IllegalAccessException {
         try {
-            Object expected = mathMethod.invoke(mathMethod, params);
-            Object actual = fastMethod.invoke(mathMethod, params);
-            if (!expected.equals(actual)) {
+            Object expected;
+            try {
+                expected = mathMethod.invoke(mathMethod, params);
+            } catch (InvocationTargetException ite) {
+                expected = ite.getCause();
+            }
+            Object actual;
+            try {
+                actual = fastMethod.invoke(mathMethod, params);
+            } catch (InvocationTargetException ite) {
+                actual = ite.getCause();
+            }
+            if (expected instanceof ArithmeticException) {
+                Assert.assertEquals(MathArithmeticException.class, actual.getClass());
+            } else  if (!expected.equals(actual)) {
                 reportFailedResults(mathMethod, params, expected, actual, entries);
             }
         } catch (IllegalArgumentException e) {
