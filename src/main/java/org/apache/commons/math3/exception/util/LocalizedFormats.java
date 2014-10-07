@@ -293,6 +293,7 @@ public enum LocalizedFormats implements Localizable {
     OVERFLOW_IN_FRACTION("overflow in fraction {0}/{1}, cannot negate"),
     OVERFLOW_IN_ADDITION("overflow in addition: {0} + {1}"),
     OVERFLOW_IN_SUBTRACTION("overflow in subtraction: {0} - {1}"),
+    OVERFLOW_IN_MULTIPLICATION("overflow in multiplication: {0} * {1}"),
     PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD("cannot access {0} method in percentile implementation {1}"),
     PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD("percentile implementation {0} does not support {1}"),
     PERMUTATION_EXCEEDS_N("permutation size ({0}) exceeds permuation domain ({1})"), /* keep */

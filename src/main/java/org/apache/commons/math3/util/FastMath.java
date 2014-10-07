@@ -18,6 +18,9 @@ package org.apache.commons.math3.util;
 
 import java.io.PrintStream;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
 /**
  * Faster, more accurate, portable alternative to {@link Math} and
  * {@link StrictMath} for large scale computation.
@@ -802,6 +805,24 @@ public class FastMath {
      */
     public static float nextUp(final float a) {
         return nextAfter(a, Float.POSITIVE_INFINITY);
+    }
+
+    /** Compute next number towards negative infinity.
+     * @param a number to which neighbor should be computed
+     * @return neighbor of a towards negative infinity
+     * @since 3.4
+     */
+    public static double nextDown(final double a) {
+        return nextAfter(a, Double.NEGATIVE_INFINITY);
+    }
+
+    /** Compute next number towards negative infinity.
+     * @param a number to which neighbor should be computed
+     * @return neighbor of a towards negative infinity
+     * @since 3.4
+     */
+    public static float nextDown(final float a) {
+        return nextAfter(a, Float.NEGATIVE_INFINITY);
     }
 
     /** Returns a pseudo-random number between 0.0 and 1.0.
@@ -3632,6 +3653,319 @@ public class FastMath {
      */
     public static double IEEEremainder(double dividend, double divisor) {
         return StrictMath.IEEEremainder(dividend, divisor); // TODO provide our own implementation
+    }
+
+    /** Convert a long to interger, detecting overflows
+     * @param n number to convert to int
+     * @return integer with same valie as n if no overflows occur
+     * @exception MathArithmeticException if n cannot fit into an int
+     * @since 3.4
+     */
+    public static int toIntExact(final long n) throws MathArithmeticException {
+        if (n < Integer.MIN_VALUE || n > Integer.MAX_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW);
+        }
+        return (int) n;
+    }
+
+    /** Increment a number, detecting overflows.
+     * @param n number to increment
+     * @return n+1 if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static int incrementExact(final int n) throws MathArithmeticException {
+
+        if (n == Integer.MAX_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
+        }
+
+        return n + 1;
+
+    }
+
+    /** Increment a number, detecting overflows.
+     * @param n number to increment
+     * @return n+1 if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static long incrementExact(final long n) throws MathArithmeticException {
+
+        if (n == Long.MAX_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, n, 1);
+        }
+
+        return n + 1;
+
+    }
+
+    /** Decrement a number, detecting overflows.
+     * @param n number to decrement
+     * @return n-1 if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static int decrementExact(final int n) throws MathArithmeticException {
+
+        if (n == Integer.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
+        }
+
+        return n - 1;
+
+    }
+
+    /** Decrement a number, detecting overflows.
+     * @param n number to decrement
+     * @return n-1 if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static long decrementExact(final long n) throws MathArithmeticException {
+
+        if (n == Long.MIN_VALUE) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, n, 1);
+        }
+
+        return n - 1;
+
+    }
+
+    /** Add two numbers, detecting overflows.
+     * @param a first number to add
+     * @param b second number to add
+     * @return a+b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static int addExact(final int a, final int b) throws MathArithmeticException {
+
+        // compute sum
+        final int sum = a + b;
+
+        // check for overflow
+        if ((a ^ b) >= 0 && (sum ^ b) < 0) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, a, b);
+        }
+
+        return sum;
+
+    }
+
+    /** Add two numbers, detecting overflows.
+     * @param a first number to add
+     * @param b second number to add
+     * @return a+b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static long addExact(final long a, final long b) throws MathArithmeticException {
+
+        // compute sum
+        final long sum = a + b;
+
+        // check for overflow
+        if ((a ^ b) >= 0 && (sum ^ b) < 0) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_ADDITION, a, b);
+        }
+
+        return sum;
+
+    }
+
+    /** Subtract two numbers, detecting overflows.
+     * @param a first number
+     * @param b second number to subtract from a
+     * @return a-b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static int subtractExact(final int a, final int b) {
+
+        // compute subtraction
+        final int sub = a - b;
+
+        // check for overflow
+        if ((a ^ b) < 0 && (sub ^ b) >= 0) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, a, b);
+        }
+
+        return sub;
+
+    }
+
+    /** Subtract two numbers, detecting overflows.
+     * @param a first number
+     * @param b second number to subtract from a
+     * @return a-b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static long subtractExact(final long a, final long b) {
+
+        // compute subtraction
+        final long sub = a - b;
+
+        // check for overflow
+        if ((a ^ b) < 0 && (sub ^ b) >= 0) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_SUBTRACTION, a, b);
+        }
+
+        return sub;
+
+    }
+
+    /** Multiply two numbers, detecting overflows.
+     * @param a first number to multiply
+     * @param b second number to multiply
+     * @return a*b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static int multiplyExact(final int a, final int b) {
+        if (((b  >  0)  && (a > Integer.MAX_VALUE / b || a < Integer.MIN_VALUE / b)) ||
+            ((b  < -1)  && (a > Integer.MIN_VALUE / b || a < Integer.MAX_VALUE / b)) ||
+            ((b == -1)  && (a == Integer.MIN_VALUE))) {
+            throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
+        }
+        return a * b;
+    }
+
+    /** Multiply two numbers, detecting overflows.
+     * @param a first number to multiply
+     * @param b second number to multiply
+     * @return a*b if no overflows occur
+     * @exception MathArithmeticException if an overflow occurs
+     * @since 3.4
+     */
+    public static long multiplyExact(final long a, final long b) {
+        if (((b  >  0l)  && (a > Long.MAX_VALUE / b || a < Long.MIN_VALUE / b)) ||
+            ((b  < -1l)  && (a > Long.MIN_VALUE / b || a < Long.MAX_VALUE / b)) ||
+            ((b == -1l)  && (a == Long.MIN_VALUE))) {
+                throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_MULTIPLICATION, a, b);
+            }
+            return a * b;
+    }
+
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+     * <p>
+     * This methods returns the same value as integer division when
+     * a and b are same signs, but returns a different value when
+     * they are opposite (i.e. q is negative).
+     * </p>
+     * @param a dividend
+     * @param b divisor
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @exception MathArithmeticException if b == 0
+     * @see #floorMod(int, int)
+     * @since 3.4
+     */
+    public static int floorDiv(final int a, final int b) throws MathArithmeticException {
+
+        if (b == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+        }
+
+        final int m = a % b;
+        if ((a ^ b) >= 0 || m == 0) {
+            // a an b have same sign, or division is exact
+            return a / b;
+        } else {
+            // a and b have opposite signs and division is not exact
+            return (a / b) - 1;
+        }
+
+    }
+
+    /** Finds q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+     * <p>
+     * This methods returns the same value as integer division when
+     * a and b are same signs, but returns a different value when
+     * they are opposite (i.e. q is negative).
+     * </p>
+     * @param a dividend
+     * @param b divisor
+     * @return q such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @exception MathArithmeticException if b == 0
+     * @see #floorMod(long, long)
+     * @since 3.4
+     */
+    public static long floorDiv(final long a, final long b) throws MathArithmeticException {
+
+        if (b == 0l) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+        }
+
+        final long m = a % b;
+        if ((a ^ b) >= 0l || m == 0l) {
+            // a an b have same sign, or division is exact
+            return a / b;
+        } else {
+            // a and b have opposite signs and division is not exact
+            return (a / b) - 1l;
+        }
+
+    }
+
+    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+     * <p>
+     * This methods returns the same value as integer modulo when
+     * a and b are same signs, but returns a different value when
+     * they are opposite (i.e. q is negative).
+     * </p>
+     * @param a dividend
+     * @param b divisor
+     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @exception MathArithmeticException if b == 0
+     * @see #floorDiv(int, int)
+     * @since 3.4
+     */
+    public static int floorMod(final int a, final int b) throws MathArithmeticException {
+
+        if (b == 0) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+        }
+
+        final int m = a % b;
+        if ((a ^ b) >= 0 || m == 0) {
+            // a an b have same sign, or division is exact
+            return m;
+        } else {
+            // a and b have opposite signs and division is not exact
+            return b + m;
+        }
+
+    }
+
+    /** Finds r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0.
+     * <p>
+     * This methods returns the same value as integer modulo when
+     * a and b are same signs, but returns a different value when
+     * they are opposite (i.e. q is negative).
+     * </p>
+     * @param a dividend
+     * @param b divisor
+     * @return r such that a = q b + r with 0 <= r < b if b > 0 and b < r <= 0 if b > 0
+     * @exception MathArithmeticException if b == 0
+     * @see #floorDiv(long, long)
+     * @since 3.4
+     */
+    public static long floorMod(final long a, final long b) {
+
+        if (b == 0l) {
+            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR);
+        }
+
+        final long m = a % b;
+        if ((a ^ b) >= 0l || m == 0l) {
+            // a an b have same sign, or division is exact
+            return m;
+        } else {
+            // a and b have opposite signs and division is not exact
+            return b + m;
+        }
+
     }
 
     /**

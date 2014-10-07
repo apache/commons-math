@@ -73,6 +73,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="add" issue="MATH-1156" >
+        Added all Java 8 StrictMath methods to FastMath, so FastMath remains compatible
+        with newer Java versions.
+      </action>
       <action dev="tn" type="add" issue="MATH-1139" due-to="Alexey Volkov">
         Added Gumbel, Laplace, Logistic and Nakagami distributions.
       </action>
