@@ -92,9 +92,9 @@
             </p>     
         <li>
           Generating patches: The requested format for generating patches is
-          the Unified Diff format, which can be easily generated using the svn
+          the Unified Diff format, which can be easily generated using the git
           client or various IDEs.
-<source>svn diff  > patch </source>
+<source>git diff -p > patch </source>
           Run this command from the top-level project directory (where pom.xml
           resides).
         </li>
