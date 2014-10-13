@@ -226,7 +226,7 @@ public class EvaluationTest {
 
         final LeastSquaresProblem p
             = LeastSquaresFactory.create(LeastSquaresFactory.model(dummyModel(), dummyJacobian()),
-                                         dummy, dummy, null, 0, 0, true);
+                                         dummy, dummy, null, null, 0, 0, true, null);
 
         // Should not throw because actual evaluation is deferred.
         final Evaluation eval = p.evaluate(dummy);
@@ -263,7 +263,7 @@ public class EvaluationTest {
 
         try {
             // Should throw.
-            LeastSquaresFactory.create(m1, dummy, dummy, null, 0, 0, true);
+            LeastSquaresFactory.create(m1, dummy, dummy, null, null, 0, 0, true, null);
             Assert.fail("Expecting MathIllegalStateException");
         } catch (MathIllegalStateException e) {
             // Expected.
@@ -282,7 +282,7 @@ public class EvaluationTest {
             };
 
         // Should pass.
-        LeastSquaresFactory.create(m2, dummy, dummy, null, 0, 0, true);
+        LeastSquaresFactory.create(m2, dummy, dummy, null, null, 0, 0, true, null);
     }
 
     @Test
@@ -291,7 +291,7 @@ public class EvaluationTest {
 
         final LeastSquaresProblem p
             = LeastSquaresFactory.create(LeastSquaresFactory.model(dummyModel(), dummyJacobian()),
-                                         dummy, dummy, null, 0, 0, false);
+                                         dummy, dummy, null, null, 0, 0, false, null);
 
         try {
             // Should throw.

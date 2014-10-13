@@ -23,7 +23,7 @@ import org.apache.commons.math3.linear.RealVector;
  * A interface for functions that compute a vector of values and can compute their
  * derivatives (Jacobian).
  *
- * @since 3.3
+ * @since 3.4
  */
 public interface ValueAndJacobianFunction extends MultivariateJacobianFunction {
     /**

@@ -56,22 +56,33 @@ public class LeastSquaresFactory {
      * @param maxIterations  the maximum number to times to iterate in the algorithm
      * @param lazyEvaluation Whether the call to {@link Evaluation#evaluate(RealVector)}
      * will defer the evaluation until access to the value is requested.
+     * @param paramValidator Model parameters validator.
      * @return the specified General Least Squares problem.
+     *
+     * @since 3.4
      */
     public static LeastSquaresProblem create(final MultivariateJacobianFunction model,
                                              final RealVector observed,
                                              final RealVector start,
+                                             final RealMatrix weight,
                                              final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations,
-                                             final boolean lazyEvaluation) {
-        return new LocalLeastSquaresProblem(model,
-                                            observed,
-                                            start,
-                                            checker,
-                                            maxEvaluations,
-                                            maxIterations,
-                                            lazyEvaluation);
+                                             final boolean lazyEvaluation,
+                                             final ParameterValidator paramValidator) {
+        final LeastSquaresProblem p = new LocalLeastSquaresProblem(model,
+                                                                   observed,
+                                                                   start,
+                                                                   checker,
+                                                                   maxEvaluations, 
+                                                                   maxIterations,
+                                                                   lazyEvaluation,
+                                                                   paramValidator);
+        if (weight != null) {
+            return weightMatrix(p, weight);
+        } else {
+            return p;
+        }
     }
 
     /**
@@ -92,13 +103,15 @@ public class LeastSquaresFactory {
                                              final ConvergenceChecker<Evaluation> checker,
                                              final int maxEvaluations,
                                              final int maxIterations) {
-        return new LocalLeastSquaresProblem(model,
-                                            observed,
-                                            start,
-                                            checker,
-                                            maxEvaluations,
-                                            maxIterations,
-                                            false);
+        return create(model,
+                      observed,
+                      start,
+                      null,
+                      checker,
+                      maxEvaluations,
+                      maxIterations,
+                      false,
+                      null);
     }
 
     /**
@@ -345,6 +358,8 @@ public class LeastSquaresFactory {
         private final RealVector start;
         /** Whether to use lazy evaluation. */
         private final boolean lazyEvaluation;
+        /** Model parameters validator. */
+        private final ParameterValidator paramValidator;
 
         /**
          * Create a {@link LeastSquaresProblem} from the given data.
@@ -357,6 +372,7 @@ public class LeastSquaresFactory {
          * @param maxIterations  the allowed iterations
          * @param lazyEvaluation Whether the call to {@link Evaluation#evaluate(RealVector)}
          * will defer the evaluation until access to the value is requested.
+         * @param paramValidator Model parameters validator.
          */
         LocalLeastSquaresProblem(final MultivariateJacobianFunction model,
                                  final RealVector target,
@@ -364,12 +380,14 @@ public class LeastSquaresFactory {
                                  final ConvergenceChecker<Evaluation> checker,
                                  final int maxEvaluations,
                                  final int maxIterations,
-                                 boolean lazyEvaluation) {
+                                 final boolean lazyEvaluation,
+                                 final ParameterValidator paramValidator) {
             super(maxEvaluations, maxIterations, checker);
             this.target = target;
             this.model = model;
             this.start = start;
             this.lazyEvaluation = lazyEvaluation;
+            this.paramValidator = paramValidator;
 
             if (lazyEvaluation &&
                 !(model instanceof ValueAndJacobianFunction)) {
@@ -398,7 +416,9 @@ public class LeastSquaresFactory {
         /** {@inheritDoc} */
         public Evaluation evaluate(final RealVector point) {
             // Copy so optimizer can change point without changing our instance.
-            final RealVector p = point.copy();
+            final RealVector p = paramValidator == null ?
+                point.copy() :
+                paramValidator.validate(point.copy());
 
             if (lazyEvaluation) {
                 return new LazyUnweightedEvaluation((ValueAndJacobianFunction) model,

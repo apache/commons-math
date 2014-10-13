@@ -268,6 +268,48 @@ public class LevenbergMarquardtOptimizerTest
     }
 
     @Test
+    public void testParameterValidator() {
+        // Setup.
+        final double xCenter = 123.456;
+        final double yCenter = 654.321;
+        final double xSigma = 10;
+        final double ySigma = 15;
+        final double radius = 111.111;
+        final long seed = 3456789L;
+        final RandomCirclePointGenerator factory
+            = new RandomCirclePointGenerator(xCenter, yCenter, radius,
+                                             xSigma, ySigma,
+                                             seed);
+        final CircleProblem circle = new CircleProblem(xSigma, ySigma);
+
+        final int numPoints = 10;
+        for (Vector2D p : factory.generate(numPoints)) {
+            circle.addPoint(p.getX(), p.getY());
+        }
+
+        // First guess for the center's coordinates and radius.
+        final double[] init = { 90, 659, 115 };
+        final Optimum optimum
+            = optimizer.optimize(builder(circle).maxIterations(50).start(init).build());
+        final int numEval = optimum.getEvaluations();
+        Assert.assertTrue(numEval > 1);
+
+        // Build a new problem with an validator that amounts to cheating.
+        final ParameterValidator cheatValidator
+            = new ParameterValidator() {
+                    public RealVector validate(RealVector params) {
+                        // Cheat: return the optimum found previously.
+                        return optimum.getPoint();
+                    }
+                };
+
+        final Optimum cheatOptimum
+            = optimizer.optimize(builder(circle).maxIterations(50).start(init).parameterValidator(cheatValidator).build());
+        final int cheatNumEval = cheatOptimum.getEvaluations();
+        Assert.assertTrue(cheatNumEval < numEval);
+    }
+
+    @Test
     public void testEvaluationCount() {
         //setup
         LeastSquaresProblem lsp = new LinearProblem(new double[][] {{1}}, new double[] {1})
