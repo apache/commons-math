@@ -124,9 +124,10 @@ public class OneWayAnova {
         throws NullArgumentException, DimensionMismatchException,
         ConvergenceException, MaxCountExceededException {
 
-        AnovaStats a = anovaStats(categoryData);
+        final AnovaStats a = anovaStats(categoryData);
         // No try-catch or advertised exception because args are valid
-        FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final FDistribution fdist = new FDistribution(null, a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
 
     }
@@ -167,7 +168,8 @@ public class OneWayAnova {
                ConvergenceException, MaxCountExceededException {
 
         final AnovaStats a = anovaStats(categoryData, allowOneElementData);
-        final FDistribution fdist = new FDistribution(a.dfbg, a.dfwg);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final FDistribution fdist = new FDistribution(null, a.dfbg, a.dfwg);
         return 1.0 - fdist.cumulativeProbability(a.F);
 
     }
