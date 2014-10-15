@@ -294,16 +294,14 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
     /** {@inheritDoc} */
     public Optimum optimize(final LeastSquaresProblem problem) {
-        //pull in relevant data from the problem as locals
+        // Pull in relevant data from the problem as locals.
         final int nR = problem.getObservationSize(); // Number of observed data.
         final int nC = problem.getParameterSize(); // Number of parameters.
-        final double[] currentPoint = problem.getStart().toArray();
-        //counters
+        // Counters.
         final Incrementor iterationCounter = problem.getIterationCounter();
         final Incrementor evaluationCounter = problem.getEvaluationCounter();
-        //convergence criterion
-        final ConvergenceChecker<Evaluation> checker
-                = problem.getConvergenceChecker();
+        // Convergence criterion.
+        final ConvergenceChecker<Evaluation> checker = problem.getConvergenceChecker();
 
         // arrays shared with the other private methods
         final int solvedCols  = FastMath.min(nR, nC);
@@ -327,9 +325,10 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         // Evaluate the function at the starting point and calculate its norm.
         evaluationCounter.incrementCount();
         //value will be reassigned in the loop
-        Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint));
+        Evaluation current = problem.evaluate(problem.getStart());
         double[] currentResiduals = current.getResiduals().toArray();
         double currentCost = current.getCost();
+        double[] currentPoint = current.getPoint().toArray();
 
         // Outer loop.
         boolean firstIteration = true;
@@ -447,6 +446,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
                 current = problem.evaluate(new ArrayRealVector(currentPoint));
                 currentResiduals = current.getResiduals().toArray();
                 currentCost = current.getCost();
+                currentPoint = current.getPoint().toArray();
 
                 // compute the scaled actual reduction
                 double actRed = -1.0;

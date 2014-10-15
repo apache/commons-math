@@ -307,6 +307,7 @@ public class LevenbergMarquardtOptimizerTest
             = optimizer.optimize(builder(circle).maxIterations(50).start(init).parameterValidator(cheatValidator).build());
         final int cheatNumEval = cheatOptimum.getEvaluations();
         Assert.assertTrue(cheatNumEval < numEval);
+        System.out.println("n=" + numEval + " nc=" + cheatNumEval);
     }
 
     @Test

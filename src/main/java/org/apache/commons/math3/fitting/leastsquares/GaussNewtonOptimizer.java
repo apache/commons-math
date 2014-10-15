@@ -230,6 +230,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
             current = lsp.evaluate(currentPoint);
             final RealVector currentResiduals = current.getResiduals();
             final RealMatrix weightedJacobian = current.getJacobian();
+            currentPoint = current.getPoint();
 
             // Check convergence.
             if (previous != null) {
