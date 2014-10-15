@@ -294,7 +294,7 @@ public class LevenbergMarquardtOptimizerTest
         final int numEval = optimum.getEvaluations();
         Assert.assertTrue(numEval > 1);
 
-        // Build a new problem with an validator that amounts to cheating.
+        // Build a new problem with a validator that amounts to cheating.
         final ParameterValidator cheatValidator
             = new ParameterValidator() {
                     public RealVector validate(RealVector params) {
