@@ -34,17 +34,18 @@ import org.junit.Test;
 public class SplineInterpolatorTest {
 
     /** error tolerance for spline interpolator value at knot points */
-    protected double knotTolerance = 1E-12;
+    protected double knotTolerance = 1E-14;
 
     /** error tolerance for interpolating polynomial coefficients */
-    protected double coefficientTolerance = 1E-6;
+    protected double coefficientTolerance = 1E-14;
 
     /** error tolerance for interpolated values -- high value is from sin test */
-    protected double interpolationTolerance = 1E-2;
+    protected double interpolationTolerance = 1E-14;
 
     @Test
     public void testInterpolateLinearDegenerateTwoSegment()
         {
+        double tolerance = 1e-15;
         double x[] = { 0.0, 0.5, 1.0 };
         double y[] = { 0.0, 0.5, 1.0 };
         UnivariateInterpolator i = new SplineInterpolator();
@@ -60,14 +61,15 @@ public class SplineInterpolatorTest {
         TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
 
         // Check interpolation
-        Assert.assertEquals(0.0,f.value(0.0), interpolationTolerance);
-        Assert.assertEquals(0.4,f.value(0.4), interpolationTolerance);
-        Assert.assertEquals(1.0,f.value(1.0), interpolationTolerance);
+        Assert.assertEquals(0.0,f.value(0.0), tolerance);
+        Assert.assertEquals(0.4,f.value(0.4), tolerance);
+        Assert.assertEquals(1.0,f.value(1.0), tolerance);
     }
 
     @Test
     public void testInterpolateLinearDegenerateThreeSegment()
         {
+        double tolerance = 1e-15;
         double x[] = { 0.0, 0.5, 1.0, 1.5 };
         double y[] = { 0.0, 0.5, 1.0, 1.5 };
         UnivariateInterpolator i = new SplineInterpolator();
@@ -84,9 +86,9 @@ public class SplineInterpolatorTest {
         TestUtils.assertEquals(polynomials[2].getCoefficients(), target, coefficientTolerance);
 
         // Check interpolation
-        Assert.assertEquals(0,f.value(0), interpolationTolerance);
-        Assert.assertEquals(1.4,f.value(1.4), interpolationTolerance);
-        Assert.assertEquals(1.5,f.value(1.5), interpolationTolerance);
+        Assert.assertEquals(0,f.value(0), tolerance);
+        Assert.assertEquals(1.4,f.value(1.4), tolerance);
+        Assert.assertEquals(1.5,f.value(1.5), tolerance);
     }
 
     @Test
@@ -108,6 +110,8 @@ public class SplineInterpolatorTest {
 
     @Test
     public void testInterpolateSin() {
+        double sineCoefficientTolerance = 1e-6;
+        double sineInterpolationTolerance = 0.0043;
         double x[] =
             {
                 0.0,
@@ -136,25 +140,25 @@ public class SplineInterpolatorTest {
          */
         PolynomialFunction polynomials[] = ((PolynomialSplineFunction) f).getPolynomials();
         double target[] = {y[0], 1.002676d, 0d, -0.17415829d};
-        TestUtils.assertEquals(polynomials[0].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[0].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[1], 8.594367e-01, -2.735672e-01, -0.08707914};
-        TestUtils.assertEquals(polynomials[1].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[1].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[2], 1.471804e-17,-5.471344e-01, 0.08707914};
-        TestUtils.assertEquals(polynomials[2].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[2].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[3], -8.594367e-01, -2.735672e-01, 0.17415829};
-        TestUtils.assertEquals(polynomials[3].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[3].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[4], -1.002676, 6.548562e-17, 0.17415829};
-        TestUtils.assertEquals(polynomials[4].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[4].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[5], -8.594367e-01, 2.735672e-01, 0.08707914};
-        TestUtils.assertEquals(polynomials[5].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[5].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[6], 3.466465e-16, 5.471344e-01, -0.08707914};
-        TestUtils.assertEquals(polynomials[6].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[6].getCoefficients(), target, sineCoefficientTolerance);
         target = new double[]{y[7], 8.594367e-01, 2.735672e-01, -0.17415829};
-        TestUtils.assertEquals(polynomials[7].getCoefficients(), target, coefficientTolerance);
+        TestUtils.assertEquals(polynomials[7].getCoefficients(), target, sineCoefficientTolerance);
 
         //Check interpolation
-        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(FastMath.PI/4d),interpolationTolerance);
-        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(3d*FastMath.PI/4d),interpolationTolerance);
+        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(FastMath.PI/4d),sineInterpolationTolerance);
+        Assert.assertEquals(FastMath.sqrt(2d) / 2d,f.value(3d*FastMath.PI/4d),sineInterpolationTolerance);
     }
 
     @Test

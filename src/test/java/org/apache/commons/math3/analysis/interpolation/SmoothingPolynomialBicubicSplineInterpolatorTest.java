@@ -33,8 +33,8 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
      */
     @Test
     public void testPreconditions() {
-        double[] xval = new double[] {3, 4, 5, 6.5};
-        double[] yval = new double[] {-4, -3, -1, 2.5};
+        double[] xval = new double[] {3, 4, 5, 6.5, 7.5};
+        double[] yval = new double[] {-4, -3, -1, 2.5, 3};
         double[][] zval = new double[xval.length][yval.length];
 
         BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(0);
@@ -97,8 +97,8 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
 
         BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(1);
 
-        double[] xval = new double[] {3, 4, 5, 6.5};
-        double[] yval = new double[] {-4, -3, -1, 2, 2.5};
+        double[] xval = new double[] {3, 4, 5, 6.5, 7.5};
+        double[] yval = new double[] {-4, -3, -1, 2, 2.5, 3.5};
         double[][] zval = new double[xval.length][yval.length];
         for (int i = 0; i < xval.length; i++) {
             for (int j = 0; j < yval.length; j++) {
@@ -145,7 +145,7 @@ public final class SmoothingPolynomialBicubicSplineInterpolatorTest {
 
         BivariateGridInterpolator interpolator = new SmoothingPolynomialBicubicSplineInterpolator(4);
 
-        double[] xval = new double[] {3, 4, 5, 6.5};
+        double[] xval = new double[] {3, 4, 5, 6.5, 7.5, 8};
         double[] yval = new double[] {-4, -3, -2, -1, 0.5, 2.5};
         double[][] zval = new double[xval.length][yval.length];
         for (int i = 0; i < xval.length; i++) {
