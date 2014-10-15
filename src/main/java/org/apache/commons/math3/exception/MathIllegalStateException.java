@@ -24,7 +24,7 @@ import org.apache.commons.math3.exception.util.ExceptionContextProvider;
 /**
  * Base class for all exceptions that signal that the process
  * throwing the exception is in a state that does not comply with
- * the set of states the it is designed to be in.
+ * the set of states that it is designed to be in.
  *
  * @since 2.2
  */
