@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="fix" issue="MATH-1138" due-to="Hank Grabowski">
+        Fixed bicubic spline interpolator, using Akima splines.
+      </action>
       <action dev="psteitz" type="add" issue="MATH-1154" >
         Changed classes in the inference package that instantiate distributions to
         pass null RandomGenerators to avoid initialization overhead for the default
