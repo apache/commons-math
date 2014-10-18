@@ -132,7 +132,7 @@
        </li>
        <li>Submit code as attachments to the JIRA ticket.  Please use one
        ticket for each feature, adding multiple patches to the ticket
-       as necessary.  Use the svn diff command to generate your patches as
+       as necessary.  Use the git diff command to generate your patches as
        diffs.  Please do not submit modified copies of existing java files. Be
        patient (but not <strong>too</strong> patient) with  committers reviewing
        patches. Post a *nudge* message to commons-dev with a reference to the
