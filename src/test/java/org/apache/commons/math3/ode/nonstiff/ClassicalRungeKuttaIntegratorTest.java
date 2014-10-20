@@ -310,4 +310,28 @@ public class ClassicalRungeKuttaIntegratorTest {
       }, 0.0, new double[] { 0.0 }, 5.0, new double[1]);
   }
 
+  @Test
+  public void testTooLargeFirstStep() {
+
+      RungeKuttaIntegrator integ = new ClassicalRungeKuttaIntegrator(0.5);
+      final double start = 0.0;
+      final double end   = 0.001;
+      FirstOrderDifferentialEquations equations = new FirstOrderDifferentialEquations() {
+
+          public int getDimension() {
+              return 1;
+          }
+
+          public void computeDerivatives(double t, double[] y, double[] yDot) {
+              Assert.assertTrue(t >= FastMath.nextAfter(start, Double.NEGATIVE_INFINITY));
+              Assert.assertTrue(t <= FastMath.nextAfter(end,   Double.POSITIVE_INFINITY));
+              yDot[0] = -100.0 * y[0];
+          }
+
+      };
+
+      integ.integrate(equations, start, new double[] { 1.0 }, end, new double[1]);
+
+  }
+
 }

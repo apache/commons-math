@@ -32,7 +32,7 @@ public final class TricubicSplineInterpolatorTest {
     /**
      * Test preconditions.
      */
-    @Test
+    @Ignore@Test
     public void testPreconditions() {
         double[] xval = new double[] {3, 4, 5, 6.5};
         double[] yval = new double[] {-4, -3, -1, 2.5};

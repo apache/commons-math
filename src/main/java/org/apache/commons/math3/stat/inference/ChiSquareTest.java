@@ -155,8 +155,9 @@ public class ChiSquareTest {
         throws NotPositiveException, NotStrictlyPositiveException,
         DimensionMismatchException, MaxCountExceededException {
 
-        ChiSquaredDistribution distribution =
-            new ChiSquaredDistribution(expected.length - 1.0);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final ChiSquaredDistribution distribution =
+            new ChiSquaredDistribution(null, expected.length - 1.0);
         return 1.0 - distribution.cumulativeProbability(chiSquare(expected, observed));
     }
 
@@ -311,8 +312,8 @@ public class ChiSquareTest {
 
         checkArray(counts);
         double df = ((double) counts.length -1) * ((double) counts[0].length - 1);
-        ChiSquaredDistribution distribution;
-        distribution = new ChiSquaredDistribution(df);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final ChiSquaredDistribution distribution = new ChiSquaredDistribution(df);
         return 1 - distribution.cumulativeProbability(chiSquare(counts));
 
     }
@@ -507,8 +508,9 @@ public class ChiSquareTest {
         throws DimensionMismatchException, NotPositiveException, ZeroException,
         MaxCountExceededException {
 
-        ChiSquaredDistribution distribution;
-        distribution = new ChiSquaredDistribution((double) observed1.length - 1);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final ChiSquaredDistribution distribution =
+                new ChiSquaredDistribution(null, (double) observed1.length - 1);
         return 1 - distribution.cumulativeProbability(
                 chiSquareDataSetsComparison(observed1, observed2));
 

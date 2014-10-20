@@ -38,9 +38,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/math/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/math/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/math/trunk</url>
+    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/commons-math.git</connection>
+    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/commons-math.git</developerConnection>
+    <url>https://git-wip-us.apache.org/repos/asf?p=commons-math.git</url>
   </scm>
 
   <distributionManagement>
@@ -204,6 +204,9 @@
       <name>Ted Dunning</name>
     </contributor>
     <contributor>
+      <name>Ole Ersoy</name>
+    </contributor>
+    <contributor>
       <name>Ajo Fod</name>
     </contributor>
     <contributor>
@@ -211,6 +214,9 @@
     </contributor>
     <contributor>
       <name>Ken Geis</name>
+    </contributor>
+    <contributor>
+      <name>Hank Grabowski</name>
     </contributor>
     <contributor>
       <name>Bernhard Gr&#252;newaldt</name>

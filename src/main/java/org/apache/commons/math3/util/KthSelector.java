@@ -36,7 +36,7 @@ public class KthSelector implements Serializable {
     /** Minimum selection size for insertion sort rather than selection. */
     private static final int MIN_SELECT_SIZE = 15;
 
-    /** A {@link PivotingStrategy} used for pivoting  */
+    /** A {@link PivotingStrategyInterface} used for pivoting  */
     private final PivotingStrategyInterface pivotingStrategy;
 
     /**

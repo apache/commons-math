@@ -76,7 +76,7 @@ public class TricubicSplineInterpolator
             }
         }
 
-        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator(true);
+        final BicubicSplineInterpolator bsi = new BicubicSplineInterpolator();
 
         // For each line x[i] (0 <= i < xLen), construct a 2D spline in y and z
         final BicubicSplineInterpolatingFunction[] xSplineYZ
@@ -103,46 +103,13 @@ public class TricubicSplineInterpolator
         final double[][][] dFdX = new double[xLen][yLen][zLen];
         final double[][][] dFdY = new double[xLen][yLen][zLen];
         final double[][][] d2FdXdY = new double[xLen][yLen][zLen];
-        for (int k = 0; k < zLen; k++) {
-            final BicubicSplineInterpolatingFunction f = zSplineXY[k];
-            for (int i = 0; i < xLen; i++) {
-                final double x = xval[i];
-                for (int j = 0; j < yLen; j++) {
-                    final double y = yval[j];
-                    dFdX[i][j][k] = f.partialDerivativeX(x, y);
-                    dFdY[i][j][k] = f.partialDerivativeY(x, y);
-                    d2FdXdY[i][j][k] = f.partialDerivativeXY(x, y);
-                }
-            }
-        }
 
         // Partial derivatives wrt y and wrt z
         final double[][][] dFdZ = new double[xLen][yLen][zLen];
         final double[][][] d2FdYdZ = new double[xLen][yLen][zLen];
-        for (int i = 0; i < xLen; i++) {
-            final BicubicSplineInterpolatingFunction f = xSplineYZ[i];
-            for (int j = 0; j < yLen; j++) {
-                final double y = yval[j];
-                for (int k = 0; k < zLen; k++) {
-                    final double z = zval[k];
-                    dFdZ[i][j][k] = f.partialDerivativeY(y, z);
-                    d2FdYdZ[i][j][k] = f.partialDerivativeXY(y, z);
-                }
-            }
-        }
 
         // Partial derivatives wrt x and wrt z
         final double[][][] d2FdZdX = new double[xLen][yLen][zLen];
-        for (int j = 0; j < yLen; j++) {
-            final BicubicSplineInterpolatingFunction f = ySplineZX[j];
-            for (int k = 0; k < zLen; k++) {
-                final double z = zval[k];
-                for (int i = 0; i < xLen; i++) {
-                    final double x = xval[i];
-                    d2FdZdX[i][j][k] = f.partialDerivativeXY(z, x);
-                }
-            }
-        }
 
         // Third partial cross-derivatives
         final double[][][] d3FdXdYdZ = new double[xLen][yLen][zLen];

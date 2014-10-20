@@ -26,7 +26,7 @@ import org.junit.Test;
 /** Unit tests for {@link EvaluationRmsChecker}. */
 public class EvaluationRmsCheckerTest {
 
-    /** check {@link EvaluationRmsChecker#converged(int, Evaluation, Evaluation)}. */
+    /** check {@link ConvergenceChecker#converged(int, Object, Object)}. */
     @Test
     public void testConverged() {
         //setup

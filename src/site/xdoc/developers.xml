@@ -50,7 +50,7 @@
         under the heading "Repository Checkout" on the
         <a href="https://git-wip-us.apache.org/">Git at the ASF page</a>.
         The git url for the current development sources of Commons Math
-        is <source>http://apacheid@git-wip-us.apache.org/repos/asf/commons-math.git</source>
+        is <source>http://git-wip-us.apache.org/repos/asf/commons-math.git</source>
         for anonymous read-only access and
         <source>https://apacheid@git-wip-us.apache.org/repos/asf/commons-math.git</source>
         (where apacheid should be replaced by each committer Apache ID) for committers
@@ -92,9 +92,9 @@
             </p>     
         <li>
           Generating patches: The requested format for generating patches is
-          the Unified Diff format, which can be easily generated using the svn
+          the Unified Diff format, which can be easily generated using the git
           client or various IDEs.
-<source>svn diff  > patch </source>
+<source>git diff -p > patch </source>
           Run this command from the top-level project directory (where pom.xml
           resides).
         </li>
@@ -132,7 +132,7 @@
        </li>
        <li>Submit code as attachments to the JIRA ticket.  Please use one
        ticket for each feature, adding multiple patches to the ticket
-       as necessary.  Use the svn diff command to generate your patches as
+       as necessary.  Use the git diff command to generate your patches as
        diffs.  Please do not submit modified copies of existing java files. Be
        patient (but not <strong>too</strong> patient) with  committers reviewing
        patches. Post a *nudge* message to commons-dev with a reference to the
@@ -154,12 +154,18 @@
     <p>
      Committers should configure the <source>user.name</source>,
      <source>user.email</source> and <source>core.autocrlf</source>
-     git repository or global options with <source>git config</source>.
-     The first two options set the identity and mail of the committer.
-     The third option deals with line endings to achieve consistency
-     in line endings. Windows users should configure this option to
-     <source>true</source> while OS X and Linux users should configure
-     it to <source>input</source>.
+     git repository or global settings with <source>git config</source>.
+     The first two settings define the identity and mail of the committer.
+     The third setting deals with line endings to achieve consistency
+     in line endings. Windows users should configure this setting to
+     <source>true</source> (thus forcing git to convert CR/LF line endings
+     in the workspace while maintaining LF only line endings in the repository)
+     while OS X and Linux users should configure it to <source>input</source>
+     (thus forcing git to only strip accidental CR/LF when committing into
+     the repository, but never when cheking out files from the repository). See <a
+     href="http://www.git-scm.com/book/en/Customizing-Git-Git-Configuration">Customizing
+     Git - Git Configuration</a> in the git book for explanation about how to
+     configure these settings and more.
     </p>
    </subsection>
    <subsection name='Documentation'>

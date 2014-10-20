@@ -19,13 +19,16 @@ package org.apache.commons.math3.util;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.math.BigInteger;
 
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.dfp.Dfp;
 import org.apache.commons.math3.dfp.DfpField;
 import org.apache.commons.math3.dfp.DfpMath;
+import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well1024a;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -958,13 +961,13 @@ public class FastMathTest {
     @Test
     public void testNextAfter() {
         // 0x402fffffffffffff 0x404123456789abcd -> 4030000000000000
-        Assert.assertEquals(16.0, FastMath.nextAfter(15.999999999999998, 34.27555555555555), 0.0);
+        Assert.assertEquals(16.0, FastMath.nextUp(15.999999999999998), 0.0);
 
         // 0xc02fffffffffffff 0x404123456789abcd -> c02ffffffffffffe
         Assert.assertEquals(-15.999999999999996, FastMath.nextAfter(-15.999999999999998, 34.27555555555555), 0.0);
 
         // 0x402fffffffffffff 0x400123456789abcd -> 402ffffffffffffe
-        Assert.assertEquals(15.999999999999996, FastMath.nextAfter(15.999999999999998, 2.142222222222222), 0.0);
+        Assert.assertEquals(15.999999999999996, FastMath.nextDown(15.999999999999998), 0.0);
 
         // 0xc02fffffffffffff 0x400123456789abcd -> c02ffffffffffffe
         Assert.assertEquals(-15.999999999999996, FastMath.nextAfter(-15.999999999999998, 2.142222222222222), 0.0);
@@ -1037,8 +1040,8 @@ public class FastMathTest {
         Assert.assertEquals(-Float.MAX_VALUE,FastMath.nextAfter(Float.NEGATIVE_INFINITY, 0F), 0F);
         Assert.assertEquals(Float.MAX_VALUE,FastMath.nextAfter(Float.POSITIVE_INFINITY, 0F), 0F);
         Assert.assertEquals(Float.NaN,FastMath.nextAfter(Float.NaN, 0F), 0F);
-        Assert.assertEquals(Float.POSITIVE_INFINITY,FastMath.nextAfter(Float.MAX_VALUE, Float.POSITIVE_INFINITY), 0F);
-        Assert.assertEquals(Float.NEGATIVE_INFINITY,FastMath.nextAfter(-Float.MAX_VALUE, Float.NEGATIVE_INFINITY), 0F);
+        Assert.assertEquals(Float.POSITIVE_INFINITY,FastMath.nextUp(Float.MAX_VALUE), 0F);
+        Assert.assertEquals(Float.NEGATIVE_INFINITY,FastMath.nextDown(-Float.MAX_VALUE), 0F);
         Assert.assertEquals(Float.MIN_VALUE, FastMath.nextAfter(0F, 1F), 0F);
         Assert.assertEquals(-Float.MIN_VALUE, FastMath.nextAfter(0F, -1F), 0F);
         Assert.assertEquals(0F, FastMath.nextAfter(Float.MIN_VALUE, -1F), 0F);
@@ -1180,6 +1183,424 @@ public class FastMathTest {
                                 0.6 * FastMath.ulp(dfpPower.toDouble()));
             dfpPower = dfpPower.multiply(baseDfp);
         }
+    }
+
+    @Test
+    public void testIncrementExactInt() {
+        int[] specialValues = new int[] {
+            Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2,
+            Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Integer.MIN_VALUE / 2), 0 - (Integer.MIN_VALUE / 2), 1 - (Integer.MIN_VALUE / 2),
+            -1 + (Integer.MAX_VALUE / 2), 0 + (Integer.MAX_VALUE / 2), 1 + (Integer.MAX_VALUE / 2),
+        };
+        for (int a : specialValues) {
+            BigInteger bdA   = BigInteger.valueOf(a);
+            BigInteger bdSum = bdA.add(BigInteger.ONE);
+            if (bdSum.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0 ||
+                bdSum.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                try {
+                    FastMath.incrementExact(a);
+                    Assert.fail("an exception should have been thrown");
+                } catch (MathArithmeticException mae) {
+                    // expected
+                }
+            } else {
+                Assert.assertEquals(bdSum, BigInteger.valueOf(FastMath.incrementExact(a)));
+            }
+        }
+    }
+
+    @Test
+    public void testDecrementExactInt() {
+        int[] specialValues = new int[] {
+            Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2,
+            Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Integer.MIN_VALUE / 2), 0 - (Integer.MIN_VALUE / 2), 1 - (Integer.MIN_VALUE / 2),
+            -1 + (Integer.MAX_VALUE / 2), 0 + (Integer.MAX_VALUE / 2), 1 + (Integer.MAX_VALUE / 2),
+        };
+        for (int a : specialValues) {
+            BigInteger bdA   = BigInteger.valueOf(a);
+            BigInteger bdSub = bdA.subtract(BigInteger.ONE);
+            if (bdSub.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0 ||
+                bdSub.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                try {
+                    FastMath.decrementExact(a);
+                    Assert.fail("an exception should have been thrown");
+                } catch (MathArithmeticException mae) {
+                    // expected
+                }
+            } else {
+                Assert.assertEquals(bdSub, BigInteger.valueOf(FastMath.decrementExact(a)));
+            }
+        }
+    }
+
+    @Test
+    public void testAddExactInt() {
+        int[] specialValues = new int[] {
+            Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2,
+            Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Integer.MIN_VALUE / 2), 0 - (Integer.MIN_VALUE / 2), 1 - (Integer.MIN_VALUE / 2),
+            -1 + (Integer.MAX_VALUE / 2), 0 + (Integer.MAX_VALUE / 2), 1 + (Integer.MAX_VALUE / 2),
+        };
+        for (int a : specialValues) {
+            for (int b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdSum = bdA.add(bdB);
+                if (bdSum.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0 ||
+                        bdSum.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.addExact(a, b);
+                        Assert.fail("an exception should have been thrown");
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdSum, BigInteger.valueOf(FastMath.addExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testAddExactLong() {
+        long[] specialValues = new long[] {
+            Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2,
+            Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Long.MIN_VALUE / 2), 0 - (Long.MIN_VALUE / 2), 1 - (Long.MIN_VALUE / 2),
+            -1 + (Long.MAX_VALUE / 2), 0 + (Long.MAX_VALUE / 2), 1 + (Long.MAX_VALUE / 2),
+        };
+        for (long a : specialValues) {
+            for (long b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdSum = bdA.add(bdB);
+                if (bdSum.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0 ||
+                        bdSum.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.addExact(a, b);
+                        Assert.fail("an exception should have been thrown");
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdSum, BigInteger.valueOf(FastMath.addExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSubtractExactInt() {
+        int[] specialValues = new int[] {
+            Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2,
+            Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Integer.MIN_VALUE / 2), 0 - (Integer.MIN_VALUE / 2), 1 - (Integer.MIN_VALUE / 2),
+            -1 + (Integer.MAX_VALUE / 2), 0 + (Integer.MAX_VALUE / 2), 1 + (Integer.MAX_VALUE / 2),
+        };
+        for (int a : specialValues) {
+            for (int b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdSub = bdA.subtract(bdB);
+                if (bdSub.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0 ||
+                        bdSub.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.subtractExact(a, b);
+                        Assert.fail("an exception should have been thrown");
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdSub, BigInteger.valueOf(FastMath.subtractExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testSubtractExactLong() {
+        long[] specialValues = new long[] {
+            Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2,
+            Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Long.MIN_VALUE / 2), 0 - (Long.MIN_VALUE / 2), 1 - (Long.MIN_VALUE / 2),
+            -1 + (Long.MAX_VALUE / 2), 0 + (Long.MAX_VALUE / 2), 1 + (Long.MAX_VALUE / 2),
+        };
+        for (long a : specialValues) {
+            for (long b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdSub = bdA.subtract(bdB);
+                if (bdSub.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0 ||
+                        bdSub.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.subtractExact(a, b);
+                        Assert.fail("an exception should have been thrown");
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdSub, BigInteger.valueOf(FastMath.subtractExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testMultiplyExactInt() {
+        int[] specialValues = new int[] {
+            Integer.MIN_VALUE, Integer.MIN_VALUE + 1, Integer.MIN_VALUE + 2,
+            Integer.MAX_VALUE, Integer.MAX_VALUE - 1, Integer.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Integer.MIN_VALUE / 2), 0 - (Integer.MIN_VALUE / 2), 1 - (Integer.MIN_VALUE / 2),
+            -1 + (Integer.MAX_VALUE / 2), 0 + (Integer.MAX_VALUE / 2), 1 + (Integer.MAX_VALUE / 2),
+        };
+        for (int a : specialValues) {
+            for (int b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdMul = bdA.multiply(bdB);
+                if (bdMul.compareTo(BigInteger.valueOf(Integer.MIN_VALUE)) < 0 ||
+                        bdMul.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.multiplyExact(a, b);
+                        Assert.fail("an exception should have been thrown " + a + b);
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdMul, BigInteger.valueOf(FastMath.multiplyExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testMultiplyExactLong() {
+        long[] specialValues = new long[] {
+            Long.MIN_VALUE, Long.MIN_VALUE + 1, Long.MIN_VALUE + 2,
+            Long.MAX_VALUE, Long.MAX_VALUE - 1, Long.MAX_VALUE - 2,
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            -1 - (Long.MIN_VALUE / 2), 0 - (Long.MIN_VALUE / 2), 1 - (Long.MIN_VALUE / 2),
+            -1 + (Long.MAX_VALUE / 2), 0 + (Long.MAX_VALUE / 2), 1 + (Long.MAX_VALUE / 2),
+        };
+        for (long a : specialValues) {
+            for (long b : specialValues) {
+                BigInteger bdA   = BigInteger.valueOf(a);
+                BigInteger bdB   = BigInteger.valueOf(b);
+                BigInteger bdMul = bdA.multiply(bdB);
+                if (bdMul.compareTo(BigInteger.valueOf(Long.MIN_VALUE)) < 0 ||
+                        bdMul.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
+                    try {
+                        FastMath.multiplyExact(a, b);
+                        Assert.fail("an exception should have been thrown " + a + b);
+                    } catch (MathArithmeticException mae) {
+                        // expected
+                    }
+                } else {
+                    Assert.assertEquals(bdMul, BigInteger.valueOf(FastMath.multiplyExact(a, b)));
+                }
+            }
+        }
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testToIntExactTooLow() {
+        FastMath.toIntExact(-1l + Integer.MIN_VALUE);
+    }
+
+    @Test(expected=MathArithmeticException.class)
+    public void testToIntExactTooHigh() {
+        FastMath.toIntExact(+1l + Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void testToIntExact() {
+        for (int n = -1000; n < 1000; ++n) {
+            Assert.assertEquals(n, FastMath.toIntExact(0l + n));
+        }
+        Assert.assertEquals(Integer.MIN_VALUE, FastMath.toIntExact(0l + Integer.MIN_VALUE));
+        Assert.assertEquals(Integer.MAX_VALUE, FastMath.toIntExact(0l + Integer.MAX_VALUE));
+    }
+
+    @Test
+    public void testFloorDivInt() {
+        Assert.assertEquals(+1, FastMath.floorDiv(+4, +3));
+        Assert.assertEquals(-2, FastMath.floorDiv(-4, +3));
+        Assert.assertEquals(-2, FastMath.floorDiv(+4, -3));
+        Assert.assertEquals(+1, FastMath.floorDiv(-4, -3));
+        try {
+            FastMath.floorDiv(1, 0);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathArithmeticException mae) {
+            // expected
+        }
+        for (int a = -100; a <= 100; ++a) {
+            for (int b = -100; b <= 100; ++b) {
+                if (b != 0) {
+                    Assert.assertEquals(poorManFloorDiv(a, b), FastMath.floorDiv(a, b));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloorModInt() {
+        Assert.assertEquals(+1, FastMath.floorMod(+4, +3));
+        Assert.assertEquals(+2, FastMath.floorMod(-4, +3));
+        Assert.assertEquals(-2, FastMath.floorMod(+4, -3));
+        Assert.assertEquals(-1, FastMath.floorMod(-4, -3));
+        try {
+            FastMath.floorMod(1, 0);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathArithmeticException mae) {
+            // expected
+        }
+        for (int a = -100; a <= 100; ++a) {
+            for (int b = -100; b <= 100; ++b) {
+                if (b != 0) {
+                    Assert.assertEquals(poorManFloorMod(a, b), FastMath.floorMod(a, b));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloorDivModInt() {
+        RandomGenerator generator = new Well1024a(0x7ccab45edeaab90al);
+        for (int i = 0; i < 10000; ++i) {
+            int a = generator.nextInt();
+            int b = generator.nextInt();
+            if (b == 0) {
+                try {
+                    FastMath.floorDiv(a, b);
+                    Assert.fail("an exception should have been thrown");
+                } catch (MathArithmeticException mae) {
+                    // expected
+                }
+            } else {
+                int d = FastMath.floorDiv(a, b);
+                int m = FastMath.floorMod(a, b);
+                Assert.assertEquals(FastMath.toIntExact(poorManFloorDiv(a, b)), d);
+                Assert.assertEquals(FastMath.toIntExact(poorManFloorMod(a, b)), m);
+                Assert.assertEquals(a, d * b + m);
+                if (b < 0) {
+                    Assert.assertTrue(m <= 0);
+                    Assert.assertTrue(-m < -b);
+                } else {
+                    Assert.assertTrue(m >= 0);
+                    Assert.assertTrue(m < b);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloorDivLong() {
+        Assert.assertEquals(+1l, FastMath.floorDiv(+4l, +3l));
+        Assert.assertEquals(-2l, FastMath.floorDiv(-4l, +3l));
+        Assert.assertEquals(-2l, FastMath.floorDiv(+4l, -3l));
+        Assert.assertEquals(+1l, FastMath.floorDiv(-4l, -3l));
+        try {
+            FastMath.floorDiv(1l, 0l);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathArithmeticException mae) {
+            // expected
+        }
+        for (long a = -100l; a <= 100l; ++a) {
+            for (long b = -100l; b <= 100l; ++b) {
+                if (b != 0) {
+                    Assert.assertEquals(poorManFloorDiv(a, b), FastMath.floorDiv(a, b));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloorModLong() {
+        Assert.assertEquals(+1l, FastMath.floorMod(+4l, +3l));
+        Assert.assertEquals(+2l, FastMath.floorMod(-4l, +3l));
+        Assert.assertEquals(-2l, FastMath.floorMod(+4l, -3l));
+        Assert.assertEquals(-1l, FastMath.floorMod(-4l, -3l));
+        try {
+            FastMath.floorMod(1l, 0l);
+            Assert.fail("an exception should have been thrown");
+        } catch (MathArithmeticException mae) {
+            // expected
+        }
+        for (long a = -100l; a <= 100l; ++a) {
+            for (long b = -100l; b <= 100l; ++b) {
+                if (b != 0) {
+                    Assert.assertEquals(poorManFloorMod(a, b), FastMath.floorMod(a, b));
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testFloorDivModLong() {
+        RandomGenerator generator = new Well1024a(0xb87b9bc14c96ccd5l);
+        for (int i = 0; i < 10000; ++i) {
+            long a = generator.nextLong();
+            long b = generator.nextLong();
+            if (b == 0) {
+                try {
+                    FastMath.floorDiv(a, b);
+                    Assert.fail("an exception should have been thrown");
+                } catch (MathArithmeticException mae) {
+                    // expected
+                }
+            } else {
+                long d = FastMath.floorDiv(a, b);
+                long m = FastMath.floorMod(a, b);
+                Assert.assertEquals(poorManFloorDiv(a, b), d);
+                Assert.assertEquals(poorManFloorMod(a, b), m);
+                Assert.assertEquals(a, d * b + m);
+                if (b < 0) {
+                    Assert.assertTrue(m <= 0);
+                    Assert.assertTrue(-m < -b);
+                } else {
+                    Assert.assertTrue(m >= 0);
+                    Assert.assertTrue(m < b);
+                }
+            }
+        }
+    }
+
+    private long poorManFloorDiv(long a, long b) {
+
+        // find q0, r0 such that a = q0 b + r0
+        BigInteger q0 = BigInteger.valueOf(a / b);
+        BigInteger r0 = BigInteger.valueOf(a % b);
+        BigInteger fd = BigInteger.valueOf(Integer.MIN_VALUE);
+        BigInteger bigB = BigInteger.valueOf(b);
+
+        for (int k = -2; k < 2; ++k) {
+            // find another pair q, r such that a = q b + r
+            BigInteger bigK = BigInteger.valueOf(k);
+            BigInteger q = q0.subtract(bigK);
+            BigInteger r = r0.add(bigK.multiply(bigB));
+            if (r.abs().compareTo(bigB.abs()) < 0 &&
+                (r.longValue() == 0l || ((r.longValue() ^ b) & 0x8000000000000000l) == 0)) {
+                if (fd.compareTo(q) < 0) {
+                    fd = q;
+                }
+            }
+        }
+
+        return fd.longValue();
+
+    }
+
+    private long poorManFloorMod(long a, long b) {
+        return a - b * poorManFloorDiv(a, b);
     }
 
 }

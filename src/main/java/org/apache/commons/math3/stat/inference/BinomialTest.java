@@ -119,7 +119,8 @@ public class BinomialTest {
             throw new NullArgumentException();
         }
 
-        final BinomialDistribution distribution = new BinomialDistribution(numberOfTrials, probability);
+        // pass a null rng to avoid unneeded overhead as we will not sample from this distribution
+        final BinomialDistribution distribution = new BinomialDistribution(null, numberOfTrials, probability);
         switch (alternativeHypothesis) {
         case GREATER_THAN:
             return 1 - distribution.cumulativeProbability(numberOfSuccesses - 1);
