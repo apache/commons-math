@@ -27,10 +27,14 @@ import org.apache.commons.math3.util.MathArrays;
 /**
  * Function that implements the
  * <a href="http://en.wikipedia.org/wiki/Bicubic_interpolation">
- * bicubic spline interpolation</a>.
+ * bicubic spline interpolation</a>. Due to numerical accuracy issues this should not
+ * be used.
  *
  * @since 2.1
+ * @deprecated as of 3.4 replaced by
+ * {@link org.apache.commons.math3.analysis.interpolation.PiecewiseBicubicSplineInterpolatingFunction}
  */
+@Deprecated
 public class BicubicSplineInterpolatingFunction
     implements BivariateFunction {
     /** Number of coefficients. */
