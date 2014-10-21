@@ -36,7 +36,7 @@ import org.apache.commons.math3.optim.SimpleVectorValueChecker;
  * @since 2.2
  */
 public class SmoothingPolynomialBicubicSplineInterpolator
-    extends BicubicSplineInterpolator {
+    extends PiecewiseBicubicSplineInterpolator {
     /** Fitter for x. */
     private final PolynomialFitter xFitter;
     /** Degree of the fitting polynomial. */
@@ -92,7 +92,7 @@ public class SmoothingPolynomialBicubicSplineInterpolator
      * {@inheritDoc}
      */
     @Override
-    public BicubicSplineInterpolatingFunction interpolate(final double[] xval,
+    public PiecewiseBicubicSplineInterpolatingFunction interpolate(final double[] xval,
                                                           final double[] yval,
                                                           final double[][] fval)
         throws NoDataException, NullArgumentException,
