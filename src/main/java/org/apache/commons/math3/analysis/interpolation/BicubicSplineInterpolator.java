@@ -25,7 +25,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * Generates a bicubic interpolating function.
+ * Generates a bicubic interpolating function. Due to numerical accuracy issues this should not
+ * be used.
  *
  * @since 2.2
  * @deprecated as of 3.4 replaced by {@link org.apache.commons.math3.analysis.interpolation.PiecewiseBicubicSplineInterpolator}
