@@ -332,10 +332,23 @@ public class ContinuousOutputModel
    * Get the state vector of the interpolated point.
    * @return state vector at time {@link #getInterpolatedTime}
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * @see #getInterpolatedDerivatives()
    * @see #getInterpolatedSecondaryState(int)
    */
   public double[] getInterpolatedState() throws MaxCountExceededException {
     return steps.get(index).getInterpolatedState();
+  }
+
+  /**
+   * Get the derivatives of the state vector of the interpolated point.
+   * @return derivatives of the state vector at time {@link #getInterpolatedTime}
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   * @see #getInterpolatedState()
+   * @see #getInterpolatedSecondaryState(int)
+   * @since 3.4
+   */
+  public double[] getInterpolatedDerivatives() throws MaxCountExceededException {
+    return steps.get(index).getInterpolatedDerivatives();
   }
 
   /** Get the interpolated secondary state corresponding to the secondary equations.
@@ -345,6 +358,7 @@ public class ContinuousOutputModel
    * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
    * @return interpolated secondary state at the current interpolation date
    * @see #getInterpolatedState()
+   * @see #getInterpolatedDerivatives()
    * @since 3.2
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */

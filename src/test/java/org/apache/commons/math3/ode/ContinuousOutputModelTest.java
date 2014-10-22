@@ -63,22 +63,29 @@ public class ContinuousOutputModelTest {
                     pb.getFinalTime(), new double[pb.getDimension()]);
 
     Random random = new Random(347588535632l);
-    double maxError = 0.0;
+    double maxError    = 0.0;
+    double maxErrorDot = 0.0;
     for (int i = 0; i < 1000; ++i) {
       double r = random.nextDouble();
       double time = r * pb.getInitialTime() + (1.0 - r) * pb.getFinalTime();
       cm.setInterpolatedTime(time);
-      double[] interpolatedY = cm.getInterpolatedState ();
-      double[] theoreticalY  = pb.computeTheoreticalState(time);
+      double[] interpolatedY    = cm.getInterpolatedState();
+      double[] interpolatedYDot = cm.getInterpolatedDerivatives();
+      double[] theoreticalY     = pb.computeTheoreticalState(time);
+      double[] theoreticalYDot  = new double[pb.getDimension()];
+      pb.doComputeDerivatives(time, theoreticalY, theoreticalYDot);
       double dx = interpolatedY[0] - theoreticalY[0];
       double dy = interpolatedY[1] - theoreticalY[1];
       double error = dx * dx + dy * dy;
-      if (error > maxError) {
-        maxError = error;
-      }
+      maxError = FastMath.max(maxError, error);
+      double dxDot = interpolatedYDot[0] - theoreticalYDot[0];
+      double dyDot = interpolatedYDot[1] - theoreticalYDot[1];
+      double errorDot = dxDot * dxDot + dyDot * dyDot;
+      maxErrorDot = FastMath.max(maxErrorDot, errorDot);
     }
 
-    Assert.assertTrue(maxError < 1.0e-9);
+    Assert.assertEquals(0.0, maxError,    1.0e-9);
+    Assert.assertEquals(0.0, maxErrorDot, 4.0e-7);
 
   }
 
