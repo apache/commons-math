@@ -346,6 +346,7 @@ public class ContinuousOutputModel
    * @see #setInterpolatedTime(double)
    * @see #getInterpolatedDerivatives()
    * @see #getInterpolatedSecondaryState(int)
+   * @see #getInterpolatedSecondaryDerivatives(int)
    */
   public double[] getInterpolatedState() throws MaxCountExceededException {
     return steps.get(index).getInterpolatedState();
@@ -362,6 +363,7 @@ public class ContinuousOutputModel
    * @see #setInterpolatedTime(double)
    * @see #getInterpolatedState()
    * @see #getInterpolatedSecondaryState(int)
+   * @see #getInterpolatedSecondaryDerivatives(int)
    * @since 3.4
    */
   public double[] getInterpolatedDerivatives() throws MaxCountExceededException {
@@ -381,12 +383,35 @@ public class ContinuousOutputModel
    * @see #setInterpolatedTime(double)
    * @see #getInterpolatedState()
    * @see #getInterpolatedDerivatives()
+   * @see #getInterpolatedSecondaryDerivatives(int)
    * @since 3.2
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
   public double[] getInterpolatedSecondaryState(final int secondaryStateIndex)
     throws MaxCountExceededException {
     return steps.get(index).getInterpolatedSecondaryState(secondaryStateIndex);
+  }
+
+  /** Get the interpolated secondary derivatives corresponding to the secondary equations.
+   * <p>The returned vector is a reference to a reused array, so
+   * it should not be modified and it should be copied if it needs
+   * to be preserved across several calls to the associated
+   * {@link #setInterpolatedTime(double)} method.</p>
+   * @param secondaryStateIndex index of the secondary set, as returned by {@link
+   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math3.ode.SecondaryEquations)
+   * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
+   * @return interpolated secondary derivatives at the current interpolation date
+   * @see #setInterpolatedTime(double)
+   * @see #getInterpolatedState()
+   * @see #getInterpolatedDerivatives()
+   * @see #getInterpolatedSecondaryState(int)
+   * @since 3.4
+   * @exception MaxCountExceededException if the number of functions evaluations is exceeded
+   */
+  public double[] getInterpolatedSecondaryDerivatives(final int secondaryStateIndex)
+    throws MaxCountExceededException {
+    return steps.get(index).getInterpolatedSecondaryDerivatives(secondaryStateIndex);
   }
 
   /** Compare a step interval and a double.
