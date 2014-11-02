@@ -74,10 +74,17 @@ public interface StepInterpolator extends Externalizable {
    * probably be very poor far from this step. This allowance has been
    * added to simplify implementation of search algorithms near the
    * step endpoints.</p>
-   * <p>Setting the time changes the instance internal state. If a
-   * specific state must be preserved, a copy of the instance must be
-   * created using {@link #copy()}.</p>
+   * <p>Setting the time changes the instance internal state. This includes
+   * the internal arrays returned in {@link #getInterpolatedState()},
+   * {@link #getInterpolatedDerivatives()}, {@link
+   * #getInterpolatedSecondaryState(int)} and {@link
+   * #getInterpolatedSecondaryDerivatives(int)}. So if their content must be preserved
+   * across several calls, user must copy them.</p>
    * @param time time of the interpolated point
+   * @see #getInterpolatedState()
+   * @see #getInterpolatedDerivatives()
+   * @see #getInterpolatedSecondaryState(int)
+   * @see #getInterpolatedSecondaryDerivatives(int)
    */
   void setInterpolatedTime(double time);
 
@@ -85,9 +92,13 @@ public interface StepInterpolator extends Externalizable {
    * Get the state vector of the interpolated point.
    * <p>The returned vector is a reference to a reused array, so
    * it should not be modified and it should be copied if it needs
-   * to be preserved across several calls.</p>
+   * to be preserved across several calls to the associated
+   * {@link #setInterpolatedTime(double)} method.</p>
    * @return state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedDerivatives()
+   * @see #getInterpolatedSecondaryState(int)
+   * @see #getInterpolatedSecondaryDerivatives(int)
+   * @see #setInterpolatedTime(double)
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
   double[] getInterpolatedState() throws MaxCountExceededException;
@@ -96,9 +107,13 @@ public interface StepInterpolator extends Externalizable {
    * Get the derivatives of the state vector of the interpolated point.
    * <p>The returned vector is a reference to a reused array, so
    * it should not be modified and it should be copied if it needs
-   * to be preserved across several calls.</p>
+   * to be preserved across several calls to the associated
+   * {@link #setInterpolatedTime(double)} method.</p>
    * @return derivatives of the state vector at time {@link #getInterpolatedTime}
    * @see #getInterpolatedState()
+   * @see #getInterpolatedSecondaryState(int)
+   * @see #getInterpolatedSecondaryDerivatives(int)
+   * @see #setInterpolatedTime(double)
    * @since 2.0
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded
    */
@@ -107,7 +122,8 @@ public interface StepInterpolator extends Externalizable {
   /** Get the interpolated secondary state corresponding to the secondary equations.
    * <p>The returned vector is a reference to a reused array, so
    * it should not be modified and it should be copied if it needs
-   * to be preserved across several calls.</p>
+   * to be preserved across several calls to the associated
+   * {@link #setInterpolatedTime(double)} method.</p>
    * @param index index of the secondary set, as returned by {@link
    * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
    * org.apache.commons.math3.ode.SecondaryEquations)
