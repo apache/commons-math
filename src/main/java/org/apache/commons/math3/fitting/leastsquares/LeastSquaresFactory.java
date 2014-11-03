@@ -51,6 +51,7 @@ public class LeastSquaresFactory {
      * @param model          the model function. Produces the computed values.
      * @param observed       the observed (target) values
      * @param start          the initial guess.
+     * @param weight         the weight matrix
      * @param checker        convergence checker
      * @param maxEvaluations the maximum number of times to evaluate the model
      * @param maxIterations  the maximum number to times to iterate in the algorithm
@@ -74,7 +75,7 @@ public class LeastSquaresFactory {
                                                                    observed,
                                                                    start,
                                                                    checker,
-                                                                   maxEvaluations, 
+                                                                   maxEvaluations,
                                                                    maxIterations,
                                                                    lazyEvaluation,
                                                                    paramValidator);
