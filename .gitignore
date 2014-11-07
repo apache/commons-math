@@ -8,3 +8,7 @@ target
 /lib
 /site-content
 *.class
+*.iml
+*.ipr
+*.iws
+.idea
