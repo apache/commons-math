@@ -28,21 +28,24 @@ import org.apache.commons.math3.exception.NonMonotonicSequenceException;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
- * Function that implements the <a
- * href="http://www.paulinternet.nl/?page=bicubic"> bicubic spline
- * interpolation</a>.
+ * Function that implements the
+ * <a href="http://www.paulinternet.nl/?page=bicubic">bicubic spline</a>
+ * interpolation.
+ * This implementation currently uses {@link AkimaSplineInterpolator} as the
+ * underlying one-dimensional interpolator, which requires 5 sample points;
+ * insufficient data will raise an exception when the
+ * {@link #value(double,double) value} method is called.
  *
- * @since 2.1
+ * @since 3.4
  */
 public class PiecewiseBicubicSplineInterpolatingFunction
     implements BivariateFunction {
-
+    /** The minimum number of points that are needed to compute the function. */
+    private static final int MIN_NUM_POINTS = 5;
     /** Samples x-coordinates */
     private final double[] xval;
-
     /** Samples y-coordinates */
     private final double[] yval;
-
     /** Set of cubic splines patching the whole data grid */
     private final double[][] fval;
 
@@ -58,27 +61,34 @@ public class PiecewiseBicubicSplineInterpolatingFunction
      * @throws DimensionMismatchException if the length of x and y don't match the row, column
      *         height of f
      */
-
-    public PiecewiseBicubicSplineInterpolatingFunction(double[] x, double[] y,
-                                              double[][] f)
-        throws DimensionMismatchException, NullArgumentException,
-        NoDataException, NonMonotonicSequenceException {
-
-        final int minimumLength = AkimaSplineInterpolator.MINIMUM_NUMBER_POINTS;
-
-        if (x == null || y == null || f == null || f[0] == null) {
+    public PiecewiseBicubicSplineInterpolatingFunction(double[] x,
+                                                       double[] y,
+                                                       double[][] f)
+        throws DimensionMismatchException,
+               NullArgumentException,
+               NoDataException,
+               NonMonotonicSequenceException {
+        if (x == null ||
+            y == null ||
+            f == null ||
+            f[0] == null) {
             throw new NullArgumentException();
         }
 
         final int xLen = x.length;
         final int yLen = y.length;
 
-        if (xLen == 0 || yLen == 0 || f.length == 0 || f[0].length == 0) {
+        if (xLen == 0 ||
+            yLen == 0 ||
+            f.length == 0 ||
+            f[0].length == 0) {
             throw new NoDataException();
         }
 
-        if (xLen < minimumLength || yLen < minimumLength ||
-            f.length < minimumLength || f[0].length < minimumLength) {
+        if (xLen < MIN_NUM_POINTS ||
+            yLen < MIN_NUM_POINTS ||
+            f.length < MIN_NUM_POINTS ||
+            f[0].length < MIN_NUM_POINTS) {
             throw new InsufficientDataException();
         }
 
@@ -101,35 +111,34 @@ public class PiecewiseBicubicSplineInterpolatingFunction
     /**
      * {@inheritDoc}
      */
-    public double value(double x, double y)
+    public double value(double x,
+                        double y)
         throws OutOfRangeException {
-        int index;
-        PolynomialSplineFunction spline;
-        AkimaSplineInterpolator interpolator = new AkimaSplineInterpolator();
+        final AkimaSplineInterpolator interpolator = new AkimaSplineInterpolator();
         final int offset = 2;
         final int count = offset + 3;
         final int i = searchIndex(x, xval, offset, count);
         final int j = searchIndex(y, yval, offset, count);
 
-        double xArray[] = new double[count];
-        double yArray[] = new double[count];
-        double zArray[] = new double[count];
-        double interpArray[] = new double[count];
+        final double xArray[] = new double[count];
+        final double yArray[] = new double[count];
+        final double zArray[] = new double[count];
+        final double interpArray[] = new double[count];
 
-        for (index = 0; index < count; index++) {
+        for (int index = 0; index < count; index++) {
             xArray[index] = xval[i + index];
             yArray[index] = yval[j + index];
         }
 
         for (int zIndex = 0; zIndex < count; zIndex++) {
-            for (index = 0; index < count; index++) {
+            for (int index = 0; index < count; index++) {
                 zArray[index] = fval[i + index][j + zIndex];
             }
-            spline = interpolator.interpolate(xArray, zArray);
+            final PolynomialSplineFunction spline = interpolator.interpolate(xArray, zArray);
             interpArray[zIndex] = spline.value(x);
         }
 
-        spline = interpolator.interpolate(yArray, interpArray);
+        final PolynomialSplineFunction spline = interpolator.interpolate(yArray, interpArray);
 
         double returnValue = spline.value(y);
 
@@ -144,8 +153,11 @@ public class PiecewiseBicubicSplineInterpolatingFunction
      * @return {@code true} if (x, y) is a valid point.
      * @since 3.3
      */
-    public boolean isValidPoint(double x, double y) {
-        if (x < xval[0] || x > xval[xval.length - 1] || y < yval[0] ||
+    public boolean isValidPoint(double x,
+                                double y) {
+        if (x < xval[0] ||
+            x > xval[xval.length - 1] ||
+            y < yval[0] ||
             y > yval[yval.length - 1]) {
             return false;
         } else {
@@ -164,7 +176,10 @@ public class PiecewiseBicubicSplineInterpolatingFunction
      * @throws OutOfRangeException if {@code c} is out of the range defined by
      *         the boundary values of {@code val}.
      */
-    private int searchIndex(double c, double[] val, int offset, int count) {
+    private int searchIndex(double c,
+                            double[] val,
+                            int offset,
+                            int count) {
         int r = Arrays.binarySearch(val, c);
 
         if (r == -1 || r == -val.length - 1) {
