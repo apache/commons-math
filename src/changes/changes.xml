@@ -73,6 +73,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="tn" type="fix" issue="MATH-1165" due-to="Pashutan Modaresi">
+        "FuzzyKMeansClusterer" has thrown an exception in case one of the data
+        points was equal to a cluster center.
+      </action>
       <action dev="erans" type="add" issue="MATH-1144">
         Interface to allow parameter validation in "o.a.c.m.fitting.leastsquares":
         the point computed by by the optimizer can be modified before evaluation.
