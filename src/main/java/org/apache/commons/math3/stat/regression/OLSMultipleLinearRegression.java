@@ -233,7 +233,7 @@ public class OLSMultipleLinearRegression extends AbstractMultipleLinearRegressio
     @Override
     protected void newXSampleData(double[][] x) {
         super.newXSampleData(x);
-        qr = new QRDecomposition(getX());
+        qr = new QRDecomposition(getX(), threshold);
     }
 
     /**

@@ -73,6 +73,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="erans" type="fix" issue="MATH-1167" due-to="Neil Ireson">
+        "o.a.c.m.stat.regression.OLSMultipleLinearRegression": Use threshold
+        when performing "QRDecomposition".
+      </action>
       <action dev="tn" type="fix" issue="MATH-1165" due-to="Pashutan Modaresi">
         "FuzzyKMeansClusterer" has thrown an exception in case one of the data
         points was equal to a cluster center.
