@@ -290,8 +290,8 @@ public class LeastSquaresFactory {
      * @param jacobian the Jacobian function
      * @return a function that computes both at the same time
      */
-    public static ValueAndJacobianFunction model(final MultivariateVectorFunction value,
-                                                 final MultivariateMatrixFunction jacobian) {
+    public static MultivariateJacobianFunction model(final MultivariateVectorFunction value,
+                                                     final MultivariateMatrixFunction jacobian) {
         return new LocalValueAndJacobianFunction(value, jacobian);
     }
 
