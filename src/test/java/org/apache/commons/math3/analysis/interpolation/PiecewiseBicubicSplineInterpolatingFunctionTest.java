@@ -16,9 +16,6 @@
  */
 package org.apache.commons.math3.analysis.interpolation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.InsufficientDataException;
 import org.apache.commons.math3.exception.NonMonotonicSequenceException;
@@ -46,84 +43,84 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
         double[][] zval = new double[xval.length][yval.length];
 
         @SuppressWarnings("unused")
-        PiecewiseBicubicSplineInterpolatingFunction bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval, zval );
+        PiecewiseBicubicSplineInterpolatingFunction bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval, zval);
 
         try {
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( null, yval, zval );
-            Assert.fail( "Failed to detect x null pointer" );
-        } catch ( NullArgumentException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(null, yval, zval);
+            Assert.fail("Failed to detect x null pointer");
+        } catch (NullArgumentException iae) {
             // Expected.
         }
 
         try {
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, null, zval );
-            Assert.fail( "Failed to detect y null pointer" );
-        } catch ( NullArgumentException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, null, zval);
+            Assert.fail("Failed to detect y null pointer");
+        } catch (NullArgumentException iae) {
             // Expected.
         }
 
         try {
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval, null );
-            Assert.fail( "Failed to detect z null pointer" );
-        } catch ( NullArgumentException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval, null);
+            Assert.fail("Failed to detect z null pointer");
+        } catch (NullArgumentException iae) {
             // Expected.
         }
 
         try {
             double xval1[] = { 0.0, 1.0, 2.0, 3.0 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval1, yval, zval );
-            Assert.fail( "Failed to detect insufficient x data" );
-        } catch ( InsufficientDataException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval1, yval, zval);
+            Assert.fail("Failed to detect insufficient x data");
+        } catch (InsufficientDataException iae) {
             // Expected.
         }
 
         try {
             double yval1[] = { 0.0, 1.0, 2.0, 3.0 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval1, zval );
-            Assert.fail( "Failed to detect insufficient y data" );
-        } catch ( InsufficientDataException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval1, zval);
+            Assert.fail("Failed to detect insufficient y data");
+        } catch (InsufficientDataException iae) {
             // Expected.
         }
 
         try {
             double zval1[][] = new double[4][4];
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval, zval1 );
-            Assert.fail( "Failed to detect insufficient z data" );
-        } catch ( InsufficientDataException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval, zval1);
+            Assert.fail("Failed to detect insufficient z data");
+        } catch (InsufficientDataException iae) {
             // Expected.
         }
 
         try {
             double xval1[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval1, yval, zval );
-            Assert.fail( "Failed to detect data set array with different sizes." );
-        } catch ( DimensionMismatchException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval1, yval, zval);
+            Assert.fail("Failed to detect data set array with different sizes.");
+        } catch (DimensionMismatchException iae) {
             // Expected.
         }
 
         try {
             double yval1[] = { 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval1, zval );
-            Assert.fail( "Failed to detect data set array with different sizes." );
-        } catch ( DimensionMismatchException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval1, zval);
+            Assert.fail("Failed to detect data set array with different sizes.");
+        } catch (DimensionMismatchException iae) {
             // Expected.
         }
 
         // X values not sorted.
         try {
             double xval1[] = { 0.0, 1.0, 0.5, 7.0, 3.5 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval1, yval, zval );
-            Assert.fail( "Failed to detect unsorted x arguments." );
-        } catch ( NonMonotonicSequenceException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval1, yval, zval);
+            Assert.fail("Failed to detect unsorted x arguments.");
+        } catch (NonMonotonicSequenceException iae) {
             // Expected.
         }
 
         // Y values not sorted.
         try {
             double yval1[] = { 0.0, 1.0, 1.5, 0.0, 3.0 };
-            bcf = new PiecewiseBicubicSplineInterpolatingFunction( xval, yval1, zval );
-            Assert.fail( "Failed to detect unsorted y arguments." );
-        } catch ( NonMonotonicSequenceException iae ) {
+            bcf = new PiecewiseBicubicSplineInterpolatingFunction(xval, yval1, zval);
+            Assert.fail("Failed to detect unsorted y arguments.");
+        } catch (NonMonotonicSequenceException iae) {
             // Expected.
         }
     }
@@ -134,25 +131,33 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
      * z = 2 x - 3 y + 5
      */
     @Test
-    public void testInterpolatePlane() {
+    public void testPlane() {
         final int numberOfElements = 10;
         final double minimumX = -10;
         final double maximumX = 10;
         final double minimumY = -10;
         final double maximumY = 10;
         final int numberOfSamples = 100;
+
         final double interpolationTolerance = 7e-15;
         final double maxTolerance = 6e-14;
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
-                public double value( double x, double y ) {
+                public double value(double x, double y) {
                     return 2 * x - 3 * y + 5;
                 }
             };
 
-        testInterpolation( minimumX, maximumX, minimumY, maximumY, numberOfElements, numberOfSamples, f,
-                           interpolationTolerance, maxTolerance );
+        testInterpolation(minimumX,
+                          maximumX,
+                          minimumY,
+                          maximumY,
+                          numberOfElements,
+                          numberOfSamples,
+                          f,
+                          interpolationTolerance,
+                          maxTolerance);
     }
 
     /**
@@ -161,74 +166,103 @@ public final class PiecewiseBicubicSplineInterpolatingFunctionTest {
      * z = 2 x<sup>2</sup> - 3 y<sup>2</sup> + 4 x y - 5
      */
     @Test
-    public void testInterpolationParabaloid() {
+    public void testParabaloid() {
         final int numberOfElements = 10;
         final double minimumX = -10;
         final double maximumX = 10;
         final double minimumY = -10;
         final double maximumY = 10;
         final int numberOfSamples = 100;
+
         final double interpolationTolerance = 2e-14;
         final double maxTolerance = 6e-14;
 
         // Function values
         BivariateFunction f = new BivariateFunction() {
-                public double value( double x, double y ) {
+                public double value(double x, double y) {
                     return 2 * x * x - 3 * y * y + 4 * x * y - 5;
                 }
             };
 
-        testInterpolation( minimumX, maximumX, minimumY, maximumY, numberOfElements, numberOfSamples, f,
-                           interpolationTolerance, maxTolerance );
+        testInterpolation(minimumX,
+                          maximumX,
+                          minimumY,
+                          maximumY,
+                          numberOfElements,
+                          numberOfSamples,
+                          f,
+                          interpolationTolerance,
+                          maxTolerance);
     }
 
-    private void testInterpolation( double minimumX, double maximumX, double minimumY, double maximumY,
-                                    int numberOfElements, int numberOfSamples, BivariateFunction f, double tolerance,
-                                    double maxTolerance ) {
+    /**
+     * @param minimumX Lower bound of interpolation range along the x-coordinate.
+     * @param maximumX Higher bound of interpolation range along the x-coordinate.
+     * @param minimumY Lower bound of interpolation range along the y-coordinate.
+     * @param maximumY Higher bound of interpolation range along the y-coordinate.
+     * @param numberOfElements Number of data points (along each dimension).
+     * @param numberOfSamples Number of test points.
+     * @param f Function to test.
+     * @param meanTolerance Allowed average error (mean error on all interpolated values).
+     * @param maxTolerance Allowed error on each interpolated value.
+     */
+    private void testInterpolation(double minimumX,
+                                   double maximumX,
+                                   double minimumY,
+                                   double maximumY,
+                                   int numberOfElements,
+                                   int numberOfSamples,
+                                   BivariateFunction f,
+                                   double meanTolerance,
+                                   double maxTolerance) {
         double expected;
         double actual;
         double currentX;
         double currentY;
-        final double deltaX = ( maximumX - minimumX ) / ( (double) numberOfElements );
-        final double deltaY = ( maximumY - minimumY ) / ( (double) numberOfElements );
-        double xValues[] = new double[numberOfElements];
-        double yValues[] = new double[numberOfElements];
-        double zValues[][] = new double[numberOfElements][numberOfElements];
+        final double deltaX = (maximumX - minimumX) / ((double) numberOfElements);
+        final double deltaY = (maximumY - minimumY) / ((double) numberOfElements);
+        final double[] xValues = new double[numberOfElements];
+        final double[] yValues = new double[numberOfElements];
+        final double[][] zValues = new double[numberOfElements][numberOfElements];
 
-        for ( int i = 0; i < numberOfElements; i++ ) {
+        for (int i = 0; i < numberOfElements; i++) {
             xValues[i] = minimumX + deltaX * (double) i;
-            for ( int j = 0; j < numberOfElements; j++ ) {
+            for (int j = 0; j < numberOfElements; j++) {
                 yValues[j] = minimumY + deltaY * (double) j;
-                zValues[i][j] = f.value( xValues[i], yValues[j] );
+                zValues[i][j] = f.value(xValues[i], yValues[j]);
             }
         }
 
-        BivariateFunction interpolation = new PiecewiseBicubicSplineInterpolatingFunction( xValues, yValues, zValues );
+        final BivariateFunction interpolation
+            = new PiecewiseBicubicSplineInterpolatingFunction(xValues,
+                                                              yValues,
+                                                              zValues);
 
-        for ( int i = 0; i < numberOfElements; i++ ) {
+        for (int i = 0; i < numberOfElements; i++) {
             currentX = xValues[i];
-            for ( int j = 0; j < numberOfElements; j++ ) {
+            for (int j = 0; j < numberOfElements; j++) {
                 currentY = yValues[j];
-                expected = f.value( currentX, currentY );
-                actual = interpolation.value( currentX, currentY );
-                assertTrue( Precision.equals( expected, actual ) );
+                expected = f.value(currentX, currentY);
+                actual = interpolation.value(currentX, currentY);
+                Assert.assertTrue(Precision.equals(expected, actual));
             }
         }
 
-        final RandomGenerator rng = new Well19937c( 1234567L ); // "tol" depends on the seed.
-        final UniformRealDistribution distX = new UniformRealDistribution( rng, xValues[0], xValues[xValues.length - 1] );
-        final UniformRealDistribution distY = new UniformRealDistribution( rng, yValues[0], yValues[yValues.length - 1] );
+        final RandomGenerator rng = new Well19937c(1234567L);
+        final UniformRealDistribution distX = new UniformRealDistribution(rng, xValues[0], xValues[xValues.length - 1]);
+        final UniformRealDistribution distY = new UniformRealDistribution(rng, yValues[0], yValues[yValues.length - 1]);
 
         double sumError = 0;
-        for ( int i = 0; i < numberOfSamples; i++ ) {
+        for (int i = 0; i < numberOfSamples; i++) {
             currentX = distX.sample();
             currentY = distY.sample();
-            expected = f.value( currentX, currentY );
-            actual = interpolation.value( currentX, currentY );
-            sumError += FastMath.abs( actual - expected );
-            assertEquals( expected, actual, maxTolerance );
+            expected = f.value(currentX, currentY);
+            actual = interpolation.value(currentX, currentY);
+            sumError += FastMath.abs(actual - expected);
+            Assert.assertEquals(expected, actual, maxTolerance);
         }
 
-        assertEquals( 0.0, ( sumError / (double) numberOfSamples ), tolerance );
+        final double meanError = sumError / numberOfSamples;
+        Assert.assertEquals(0, meanError, meanTolerance);
     }
 }
