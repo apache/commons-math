@@ -19,7 +19,9 @@ package org.apache.commons.math3.geometry.partitioning;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.Vector;
@@ -631,26 +633,26 @@ public class BSPTree<S extends Space> {
 
     }
 
-//    /** Insert the instance into another tree.
-//     * <p>The instance itself is modified so its former parent should
-//     * not be used anymore.</p>
-//     * @param parentTree parent tree to connect to (may be null)
-//     * @param isPlusChild if true and if parentTree is not null, the
-//     * resulting tree should be the plus child of its parent, ignored if
-//     * parentTree is null
-//     * @see LeafMerger
-//     * @deprecated as of 3.4, replaced with {@link #insertInTree(BSPTree, boolean, VanishingCutHandler)}
-//     */
-//    @Deprecated
-//    public void insertInTree(final BSPTree<S> parentTree, final boolean isPlusChild) {
-//        insertInTree(parentTree, isPlusChild, new VanishingCutHandler<S>() {
-//            /** {@inheritDoc} */
-//            public BSPTree<S> fixNode(BSPTree<S> node) {
-//                // the cut should not be null
-//                throw new MathIllegalStateException(LocalizedFormats.NULL_NOT_ALLOWED);
-//            }
-//        });
-//    }
+    /** Insert the instance into another tree.
+     * <p>The instance itself is modified so its former parent should
+     * not be used anymore.</p>
+     * @param parentTree parent tree to connect to (may be null)
+     * @param isPlusChild if true and if parentTree is not null, the
+     * resulting tree should be the plus child of its parent, ignored if
+     * parentTree is null
+     * @see LeafMerger
+     * @deprecated as of 3.4, replaced with {@link #insertInTree(BSPTree, boolean, VanishingCutHandler)}
+     */
+    @Deprecated
+    public void insertInTree(final BSPTree<S> parentTree, final boolean isPlusChild) {
+        insertInTree(parentTree, isPlusChild, new VanishingCutHandler<S>() {
+            /** {@inheritDoc} */
+            public BSPTree<S> fixNode(BSPTree<S> node) {
+                // the cut should not be null
+                throw new MathIllegalStateException(LocalizedFormats.NULL_NOT_ALLOWED);
+            }
+        });
+    }
 
     /** Insert the instance into another tree.
      * <p>The instance itself is modified so its former parent should
