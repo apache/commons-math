@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="fix" issue="MATH-1162" >
+        Fixed a problem with vanishing cut sub-hyperplanes during BSP tree merging.
+      </action>
       <action dev="erans" type="fix" issue="MATH-1167" due-to="Neil Ireson">
         "o.a.c.m.stat.regression.OLSMultipleLinearRegression": Use threshold
         when performing "QRDecomposition".

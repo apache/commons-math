@@ -17,6 +17,7 @@
 package org.apache.commons.math3.geometry.partitioning;
 
 import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math3.geometry.partitioning.BSPTree.VanishingCutHandler;
 
 /** This class is a factory for {@link Region}.
 
@@ -162,16 +163,16 @@ public class RegionFactory<S extends Space> {
                                 final boolean isPlusChild, final boolean leafFromInstance) {
             if ((Boolean) leaf.getAttribute()) {
                 // the leaf node represents an inside cell
-                leaf.insertInTree(parentTree, isPlusChild);
+                leaf.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(true));
                 return leaf;
             }
             // the leaf node represents an outside cell
-            tree.insertInTree(parentTree, isPlusChild);
+            tree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(false));
             return tree;
         }
     }
 
-    /** BSP tree leaf merger computing union of two regions. */
+    /** BSP tree leaf merger computing intersection of two regions. */
     private class IntersectionMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
@@ -179,16 +180,16 @@ public class RegionFactory<S extends Space> {
                                 final boolean isPlusChild, final boolean leafFromInstance) {
             if ((Boolean) leaf.getAttribute()) {
                 // the leaf node represents an inside cell
-                tree.insertInTree(parentTree, isPlusChild);
+                tree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(true));
                 return tree;
             }
             // the leaf node represents an outside cell
-            leaf.insertInTree(parentTree, isPlusChild);
+            leaf.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(false));
             return leaf;
         }
     }
 
-    /** BSP tree leaf merger computing union of two regions. */
+    /** BSP tree leaf merger computing symmetric difference (exclusive or) of two regions. */
     private class XorMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
@@ -199,12 +200,12 @@ public class RegionFactory<S extends Space> {
                 // the leaf node represents an inside cell
                 t = recurseComplement(t);
             }
-            t.insertInTree(parentTree, isPlusChild);
+            t.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(true));
             return t;
         }
     }
 
-    /** BSP tree leaf merger computing union of two regions. */
+    /** BSP tree leaf merger computing difference of two regions. */
     private class DifferenceMerger implements BSPTree.LeafMerger<S> {
         /** {@inheritDoc} */
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
@@ -214,13 +215,13 @@ public class RegionFactory<S extends Space> {
                 // the leaf node represents an inside cell
                 final BSPTree<S> argTree =
                     recurseComplement(leafFromInstance ? tree : leaf);
-                argTree.insertInTree(parentTree, isPlusChild);
+                argTree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(true));
                 return argTree;
             }
             // the leaf node represents an outside cell
             final BSPTree<S> instanceTree =
                 leafFromInstance ? leaf : tree;
-            instanceTree.insertInTree(parentTree, isPlusChild);
+            instanceTree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(false));
             return instanceTree;
         }
     }
@@ -240,6 +241,32 @@ public class RegionFactory<S extends Space> {
 
         /** {@inheritDoc} */
         public void visitLeafNode(final BSPTree<S> node) {
+        }
+
+    }
+
+    /** Handler replacing nodes with vanishing cuts with leaf nodes. */
+    private class VanishingToLeaf implements VanishingCutHandler<S> {
+
+        /** Inside/outside indocator to use for ambiguous nodes. */
+        private final boolean inside;
+
+        /** Simple constructor.
+         * @param inside inside/outside indocator to use for ambiguous nodes
+         */
+        public VanishingToLeaf(final boolean inside) {
+            this.inside = inside;
+        }
+
+        /** {@inheritDoc} */
+        public BSPTree<S> fixNode(final BSPTree<S> node) {
+            if (node.getPlus().getAttribute().equals(node.getMinus().getAttribute())) {
+                // no ambiguity
+                return new BSPTree<S>(node.getPlus().getAttribute());
+            } else {
+                // ambiguous node
+                return new BSPTree<S>(inside);
+            }
         }
 
     }
