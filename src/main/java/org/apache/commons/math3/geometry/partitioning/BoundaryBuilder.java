@@ -28,11 +28,6 @@ import org.apache.commons.math3.geometry.Space;
  */
 class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
 
-    /** Simple constructor.
-     */
-    public BoundaryBuilder() {
-    }
-
     /** {@inheritDoc} */
     public Order visitOrder(BSPTree<S> node) {
         return Order.PLUS_MINUS_SUB;
@@ -43,6 +38,7 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
 
         SubHyperplane<S> plusOutside = null;
         SubHyperplane<S> plusInside  = null;
+        NodesSet<S>      splitters   = null;
 
         // characterize the cut sub-hyperplane,
         // first with respect to the plus sub-tree
@@ -57,6 +53,9 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
                 // this part belongs to the boundary,
                 // it has the outside on its plus side and the inside on its minus side
                 plusOutside = minusChar.insideTouching();
+                splitters = new NodesSet<S>();
+                splitters.addAll(minusChar.getInsideSplitters());
+                splitters.addAll(plusChar.getOutsideSplitters());
             }
         }
 
@@ -69,11 +68,23 @@ class BoundaryBuilder<S extends Space> implements BSPTreeVisitor<S> {
                 // this part belongs to the boundary,
                 // it has the inside on its plus side and the outside on its minus side
                 plusInside = minusChar.outsideTouching();
+                if (splitters == null) {
+                    splitters = new NodesSet<S>();
+                }
+                splitters.addAll(minusChar.getOutsideSplitters());
+                splitters.addAll(plusChar.getInsideSplitters());
+            }
+        }
+
+        if (splitters != null) {
+            // the parent nodes are natural splitters for boundary sub-hyperplanes
+            for (BSPTree<S> up = node.getParent(); up != null; up = up.getParent()) {
+                splitters.add(up);
             }
         }
 
         // set the boundary attribute at non-leaf nodes
-        node.setAttribute(new BoundaryAttribute<S>(plusOutside, plusInside));
+        node.setAttribute(new BoundaryAttribute<S>(plusOutside, plusInside, splitters));
 
     }
 

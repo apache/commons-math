@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
@@ -129,6 +132,11 @@ public class RegionFactory<S extends Space> {
      * region independent region will be built
      * @return a new region, complement of the specified one
      */
+    /** Get the complement of the region (exchanged interior/exterior).
+     * @param region region to complement, it will not modified, a new
+     * region independent region will be built
+     * @return a new region, complement of the specified one
+     */
     public Region<S> getComplement(final Region<S> region) {
         return region.buildNew(recurseComplement(region.getTree(false)));
     }
@@ -138,24 +146,62 @@ public class RegionFactory<S extends Space> {
      * @return new tree, complement of the node
      */
     private BSPTree<S> recurseComplement(final BSPTree<S> node) {
+
+        // transform the tree, except for boundary attribute splitters
+        final Map<BSPTree<S>, BSPTree<S>> map = new HashMap<BSPTree<S>, BSPTree<S>>();
+        final BSPTree<S> transformedTree = recurseComplement(node, map);
+
+        // set up the boundary attributes splitters
+        for (final Map.Entry<BSPTree<S>, BSPTree<S>> entry : map.entrySet()) {
+            if (entry.getKey().getCut() != null) {
+                @SuppressWarnings("unchecked")
+                BoundaryAttribute<S> original = (BoundaryAttribute<S>) entry.getKey().getAttribute();
+                if (original != null) {
+                    @SuppressWarnings("unchecked")
+                    BoundaryAttribute<S> transformed = (BoundaryAttribute<S>) entry.getValue().getAttribute();
+                    for (final BSPTree<S> splitter : original.getSplitters()) {
+                        transformed.getSplitters().add(map.get(splitter));
+                    }
+                }
+            }
+        }
+
+        return transformedTree;
+
+    }
+
+    /** Recursively build the complement of a BSP tree.
+     * @param node current node of the original tree
+     * @param map transformed nodes map
+     * @return new tree, complement of the node
+     */
+    private BSPTree<S> recurseComplement(final BSPTree<S> node,
+                                         final Map<BSPTree<S>, BSPTree<S>> map) {
+
+        final BSPTree<S> transformedNode;
         if (node.getCut() == null) {
-            return new BSPTree<S>(((Boolean) node.getAttribute()) ? Boolean.FALSE : Boolean.TRUE);
+            transformedNode = new BSPTree<S>(((Boolean) node.getAttribute()) ? Boolean.FALSE : Boolean.TRUE);
+        } else {
+
+            @SuppressWarnings("unchecked")
+            BoundaryAttribute<S> attribute = (BoundaryAttribute<S>) node.getAttribute();
+            if (attribute != null) {
+                final SubHyperplane<S> plusOutside =
+                        (attribute.getPlusInside() == null) ? null : attribute.getPlusInside().copySelf();
+                final SubHyperplane<S> plusInside  =
+                        (attribute.getPlusOutside() == null) ? null : attribute.getPlusOutside().copySelf();
+                // we start with an empty list of splitters, it will be filled in out of recursion
+                attribute = new BoundaryAttribute<S>(plusOutside, plusInside, new NodesSet<S>());
+            }
+
+            transformedNode = new BSPTree<S>(node.getCut().copySelf(),
+                                             recurseComplement(node.getPlus(),  map),
+                                             recurseComplement(node.getMinus(), map),
+                                             attribute);
         }
 
-        @SuppressWarnings("unchecked")
-        BoundaryAttribute<S> attribute = (BoundaryAttribute<S>) node.getAttribute();
-        if (attribute != null) {
-            final SubHyperplane<S> plusOutside =
-                (attribute.getPlusInside() == null) ? null : attribute.getPlusInside().copySelf();
-            final SubHyperplane<S> plusInside  =
-                (attribute.getPlusOutside() == null) ? null : attribute.getPlusOutside().copySelf();
-            attribute = new BoundaryAttribute<S>(plusOutside, plusInside);
-        }
-
-        return new BSPTree<S>(node.getCut().copySelf(),
-                              recurseComplement(node.getPlus()),
-                              recurseComplement(node.getMinus()),
-                              attribute);
+        map.put(node, transformedNode);
+        return transformedNode;
 
     }
 

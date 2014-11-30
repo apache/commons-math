@@ -16,6 +16,9 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.math3.geometry.Space;
 
 /** This class implements the dimension-independent parts of {@link SubHyperplane}.
@@ -107,39 +110,67 @@ public abstract class AbstractSubHyperplane<S extends Space, T extends Space>
      */
     public AbstractSubHyperplane<S, T> applyTransform(final Transform<S, T> transform) {
         final Hyperplane<S> tHyperplane = transform.apply(hyperplane);
+
+        // transform the tree, except for boundary attribute splitters
+        final Map<BSPTree<T>, BSPTree<T>> map = new HashMap<BSPTree<T>, BSPTree<T>>();
         final BSPTree<T> tTree =
-            recurseTransform(remainingRegion.getTree(false), tHyperplane, transform);
+            recurseTransform(remainingRegion.getTree(false), tHyperplane, transform, map);
+
+        // set up the boundary attributes splitters
+        for (final Map.Entry<BSPTree<T>, BSPTree<T>> entry : map.entrySet()) {
+            if (entry.getKey().getCut() != null) {
+                @SuppressWarnings("unchecked")
+                BoundaryAttribute<T> original = (BoundaryAttribute<T>) entry.getKey().getAttribute();
+                if (original != null) {
+                    @SuppressWarnings("unchecked")
+                    BoundaryAttribute<T> transformed = (BoundaryAttribute<T>) entry.getValue().getAttribute();
+                    for (final BSPTree<T> splitter : original.getSplitters()) {
+                        transformed.getSplitters().add(map.get(splitter));
+                    }
+                }
+            }
+        }
+
         return buildNew(tHyperplane, remainingRegion.buildNew(tTree));
+
     }
 
     /** Recursively transform a BSP-tree from a sub-hyperplane.
      * @param node current BSP tree node
      * @param transformed image of the instance hyperplane by the transform
      * @param transform transform to apply
+     * @param map transformed nodes map
      * @return a new tree
      */
     private BSPTree<T> recurseTransform(final BSPTree<T> node,
                                         final Hyperplane<S> transformed,
-                                        final Transform<S, T> transform) {
+                                        final Transform<S, T> transform,
+                                        final Map<BSPTree<T>, BSPTree<T>> map) {
+
+        final BSPTree<T> transformedNode;
         if (node.getCut() == null) {
-            return new BSPTree<T>(node.getAttribute());
+            transformedNode = new BSPTree<T>(node.getAttribute());
+        } else {
+
+            @SuppressWarnings("unchecked")
+            BoundaryAttribute<T> attribute = (BoundaryAttribute<T>) node.getAttribute();
+            if (attribute != null) {
+                final SubHyperplane<T> tPO = (attribute.getPlusOutside() == null) ?
+                    null : transform.apply(attribute.getPlusOutside(), hyperplane, transformed);
+                final SubHyperplane<T> tPI = (attribute.getPlusInside() == null) ?
+                    null : transform.apply(attribute.getPlusInside(), hyperplane, transformed);
+                // we start with an empty list of splitters, it will be filled in out of recursion
+                attribute = new BoundaryAttribute<T>(tPO, tPI, new NodesSet<T>());
+            }
+
+            transformedNode = new BSPTree<T>(transform.apply(node.getCut(), hyperplane, transformed),
+                    recurseTransform(node.getPlus(),  transformed, transform, map),
+                    recurseTransform(node.getMinus(), transformed, transform, map),
+                    attribute);
         }
 
-        @SuppressWarnings("unchecked")
-        BoundaryAttribute<T> attribute =
-            (BoundaryAttribute<T>) node.getAttribute();
-        if (attribute != null) {
-            final SubHyperplane<T> tPO = (attribute.getPlusOutside() == null) ?
-                null : transform.apply(attribute.getPlusOutside(), hyperplane, transformed);
-            final SubHyperplane<T> tPI = (attribute.getPlusInside() == null) ?
-                null : transform.apply(attribute.getPlusInside(), hyperplane, transformed);
-            attribute = new BoundaryAttribute<T>(tPO, tPI);
-        }
-
-        return new BSPTree<T>(transform.apply(node.getCut(), hyperplane, transformed),
-                              recurseTransform(node.getPlus(), transformed, transform),
-                              recurseTransform(node.getMinus(), transformed, transform),
-                              attribute);
+        map.put(node, transformedNode);
+        return transformedNode;
 
     }
 
