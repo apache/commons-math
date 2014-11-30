@@ -24,6 +24,7 @@ import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
+import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 import org.apache.commons.math3.geometry.partitioning.RegionFactory;
@@ -1104,6 +1105,42 @@ public class PolygonsSetTest {
                                                 new Vector2D(4.267200000030211,      -11.933116461089332));
 
         Assert.assertFalse(p.contains(w));
+
+    }
+
+    @Test
+    public void testThinRectangle() {
+
+        RegionFactory<Euclidean2D> factory = new RegionFactory<Euclidean2D>();
+        Vector2D pA = new Vector2D(0.0,        1.0);
+        Vector2D pB = new Vector2D(0.0,        0.0);
+        Vector2D pC = new Vector2D(1.0 / 64.0, 0.0);
+        Vector2D pD = new Vector2D(1.0 / 64.0, 1.0);
+
+        // if tolerance is smaller than rectangle width, the rectangle is computed accurately
+        Hyperplane<Euclidean2D>[] h1 = new Line[] {
+            new Line(pA, pB, 1.0 / 256),
+            new Line(pB, pC, 1.0 / 256),
+            new Line(pC, pD, 1.0 / 256),
+            new Line(pD, pA, 1.0 / 256)
+        };
+        Region<Euclidean2D> accuratePolygon = factory.buildConvex(h1);
+        Assert.assertEquals(1.0 / 64.0, accuratePolygon.getSize(), 1.0e-10);
+        Assert.assertTrue(Double.isInfinite(new RegionFactory<Euclidean2D>().getComplement(accuratePolygon).getSize()));
+        Assert.assertEquals(2 * (1.0 + 1.0 / 64.0), accuratePolygon.getBoundarySize(), 1.0e-10);
+
+        // if tolerance is larger than rectangle width, the rectangle degenerates
+        // as of 3.3, its two long edges cannot be distinguished anymore and this part of the test fails
+        Hyperplane<Euclidean2D>[] h2 = new Line[] {
+            new Line(pA, pB, 1.0 / 16),
+            new Line(pB, pC, 1.0 / 16),
+            new Line(pC, pD, 1.0 / 16),
+            new Line(pD, pA, 1.0 / 16)
+        };
+        Region<Euclidean2D> degeneratedPolygon = factory.buildConvex(h2);
+        Assert.assertEquals(1.0 / 64.0, degeneratedPolygon.getSize(), 1.0e-10);
+        Assert.assertTrue(Double.isInfinite(new RegionFactory<Euclidean2D>().getComplement(degeneratedPolygon).getSize()));
+        Assert.assertEquals(2 * (1.0 + 1.0 / 64.0), degeneratedPolygon.getBoundarySize(), 1.0e-10);
 
     }
 
