@@ -784,7 +784,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         // is this an open or a closed loop ?
         final boolean open = segment.getStart() == null;
 
-        while ((end != null) && (open || (globalStart.distance((Point<Euclidean2D>) end) > 1.0e-10))) {
+        while ((end != null) && (open || (globalStart.distance((Point<Euclidean2D>) end) > getTolerance()))) {
 
             // search the sub-hyperplane starting where the previous one ended
             AVLTree<ComparableSegment>.Node selectedNode = null;

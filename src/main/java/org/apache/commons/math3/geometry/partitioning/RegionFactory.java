@@ -16,8 +16,12 @@
  */
 package org.apache.commons.math3.geometry.partitioning;
 
+import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.partitioning.BSPTree.VanishingCutHandler;
+import org.apache.commons.math3.geometry.partitioning.Region.Location;
 
 /** This class is a factory for {@link Region}.
 
@@ -115,7 +119,7 @@ public class RegionFactory<S extends Space> {
      */
     public Region<S> difference(final Region<S> region1, final Region<S> region2) {
         final BSPTree<S> tree =
-            region1.getTree(false).merge(region2.getTree(false), new DifferenceMerger());
+            region1.getTree(false).merge(region2.getTree(false), new DifferenceMerger(region1, region2));
         tree.visit(nodeCleaner);
         return region1.buildNew(tree);
     }
@@ -206,7 +210,23 @@ public class RegionFactory<S extends Space> {
     }
 
     /** BSP tree leaf merger computing difference of two regions. */
-    private class DifferenceMerger implements BSPTree.LeafMerger<S> {
+    private class DifferenceMerger implements BSPTree.LeafMerger<S>, VanishingCutHandler<S> {
+
+        /** Region to subtract from. */
+        private final Region<S> region1;
+
+        /** Region to subtract. */
+        private final Region<S> region2;
+
+        /** Simple constructor.
+         * @param region1 region to subtract from
+         * @param region2 region to subtract
+         */
+        public DifferenceMerger(final Region<S> region1, final Region<S> region2) {
+            this.region1 = region1.copySelf();
+            this.region2 = region2.copySelf();
+        }
+
         /** {@inheritDoc} */
         public BSPTree<S> merge(final BSPTree<S> leaf, final BSPTree<S> tree,
                                 final BSPTree<S> parentTree, final boolean isPlusChild,
@@ -215,15 +235,32 @@ public class RegionFactory<S extends Space> {
                 // the leaf node represents an inside cell
                 final BSPTree<S> argTree =
                     recurseComplement(leafFromInstance ? tree : leaf);
-                argTree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(true));
+                argTree.insertInTree(parentTree, isPlusChild, this);
                 return argTree;
             }
             // the leaf node represents an outside cell
             final BSPTree<S> instanceTree =
                 leafFromInstance ? leaf : tree;
-            instanceTree.insertInTree(parentTree, isPlusChild, new VanishingToLeaf(false));
+            instanceTree.insertInTree(parentTree, isPlusChild, this);
             return instanceTree;
         }
+
+        /** {@inheritDoc} */
+        public BSPTree<S> fixNode(final BSPTree<S> node) {
+            // get a representative point in the degenerate cell
+            final BSPTree<S> cell = node.pruneAroundConvexCell(Boolean.TRUE, Boolean.FALSE, null);
+            final Region<S> r = region1.buildNew(cell);
+            for (Vector2D[] loop : ((PolygonsSet) r).getVertices()) {
+                System.out.format(java.util.Locale.US, "%n");
+                for (Vector2D v : loop) {
+                    System.out.format(java.util.Locale.US, "%14.10f %14.10f%n", v.getX(), v.getY());
+                }
+            }
+            final Point<S> p = r.getBarycenter();
+            return new BSPTree<S>(region1.checkPoint(p) == Location.INSIDE &&
+                                  region2.checkPoint(p) == Location.OUTSIDE);
+        }
+
     }
 
     /** Visitor removing internal nodes attributes. */
@@ -252,7 +289,7 @@ public class RegionFactory<S extends Space> {
         private final boolean inside;
 
         /** Simple constructor.
-         * @param inside inside/outside indocator to use for ambiguous nodes
+         * @param inside inside/outside indicator to use for ambiguous nodes
          */
         public VanishingToLeaf(final boolean inside) {
             this.inside = inside;
