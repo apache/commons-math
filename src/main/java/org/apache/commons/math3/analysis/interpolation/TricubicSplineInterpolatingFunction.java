@@ -34,7 +34,9 @@ import org.apache.commons.math3.util.MathArrays;
  * </quote>
  *
  * @since 2.2
+ * @deprecated To be removed in 4.0 (see MATH-1166).
  */
+@Deprecated
 public class TricubicSplineInterpolatingFunction
     implements TrivariateFunction {
     /**
