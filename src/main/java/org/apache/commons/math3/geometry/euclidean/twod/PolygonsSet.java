@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
 import org.apache.commons.math3.geometry.euclidean.oned.Interval;
@@ -31,10 +30,9 @@ import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
 import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
+import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.utilities.AVLTree;
-import org.apache.commons.math3.geometry.partitioning.utilities.OrderedTuple;
 import org.apache.commons.math3.util.FastMath;
 
 /** This class represents a 2D region: a set of polygons.
@@ -689,19 +687,34 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 vertices = new Vector2D[0][];
             } else {
 
-                // sort the segments according to their start point
-                final SegmentsBuilder visitor = new SegmentsBuilder();
+                // build the unconnected segments
+                final SegmentsBuilder visitor = new SegmentsBuilder(getTolerance());
                 getTree(true).visit(visitor);
-                final AVLTree<ComparableSegment> sorted = visitor.getSorted();
+                final List<ConnectableSegment> segments = visitor.getSegments();
 
-                // identify the loops, starting from the open ones
-                // (their start segments are naturally at the sorted set beginning)
-                final ArrayList<List<ComparableSegment>> loops = new ArrayList<List<ComparableSegment>>();
-                while (!sorted.isEmpty()) {
-                    final AVLTree<ComparableSegment>.Node node = sorted.getSmallest();
-                    final List<ComparableSegment> loop = followLoop(node, sorted);
+                // connect all segments, using topological criteria first
+                // and using Euclidean distance only as a last resort
+                int pending = segments.size();
+                pending -= naturalFollowerConnections(segments);
+                if (pending > 0) {
+                    pending -= splitEdgeConnections(segments);
+                }
+                if (pending > 0) {
+                    pending -= closeVerticesConnections(segments);
+                }
+
+                // create the segment loops
+                final ArrayList<List<ConnectableSegment>> loops = new ArrayList<List<ConnectableSegment>>();
+                for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
+                    final List<ConnectableSegment> loop = followLoop(s);
                     if (loop != null) {
-                        loops.add(loop);
+                        if (loop.get(0).getStart() == null) {
+                            // this is an open loop, we put it on the front
+                            loops.add(0, loop);
+                        } else {
+                            // this is a closed loop, we put it on the back
+                            loops.add(loop);
+                        }
                     }
                 }
 
@@ -709,7 +722,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 vertices = new Vector2D[loops.size()][];
                 int i = 0;
 
-                for (final List<ComparableSegment> loop : loops) {
+                for (final List<ConnectableSegment> loop : loops) {
                     if (loop.size() < 2 ||
                         (loop.size() == 2 && loop.get(0).getStart() == null && loop.get(1).getEnd() == null)) {
                         // single infinite line
@@ -764,126 +777,245 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
     }
 
-    /** Follow a boundary loop.
-     * @param node node containing the segment starting the loop
-     * @param sorted set of segments belonging to the boundary, sorted by
-     * start points (contains {@code node})
-     * @return a list of connected sub-hyperplanes starting at
-     * {@code node}
+    /** Connect the segments using only natural follower information.
+     * @param segments segments complete segments list
+     * @return number of connections performed
      */
-    private List<ComparableSegment> followLoop(final AVLTree<ComparableSegment>.Node node,
-                                               final AVLTree<ComparableSegment> sorted) {
-
-        final ArrayList<ComparableSegment> loop = new ArrayList<ComparableSegment>();
-        ComparableSegment segment = node.getElement();
-        loop.add(segment);
-        final Vector2D globalStart = segment.getStart();
-        Vector2D end = segment.getEnd();
-        node.delete();
-
-        // is this an open or a closed loop ?
-        final boolean open = segment.getStart() == null;
-
-        while ((end != null) && (open || (globalStart.distance((Point<Euclidean2D>) end) > getTolerance()))) {
-
-            // search the sub-hyperplane starting where the previous one ended
-            AVLTree<ComparableSegment>.Node selectedNode = null;
-            ComparableSegment       selectedSegment  = null;
-            double                  selectedDistance = Double.POSITIVE_INFINITY;
-            final ComparableSegment lowerLeft        = new ComparableSegment(end, -1.0e-10, -1.0e-10);
-            final ComparableSegment upperRight       = new ComparableSegment(end, +1.0e-10, +1.0e-10);
-            for (AVLTree<ComparableSegment>.Node n = sorted.getNotSmaller(lowerLeft);
-                 (n != null) && (n.getElement().compareTo(upperRight) <= 0);
-                 n = n.getNext()) {
-                segment = n.getElement();
-                final double distance = end.distance((Point<Euclidean2D>) segment.getStart());
-                if (distance < selectedDistance) {
-                    selectedNode     = n;
-                    selectedSegment  = segment;
-                    selectedDistance = distance;
+    private int naturalFollowerConnections(final List<ConnectableSegment> segments) {
+        int connected = 0;
+        for (final ConnectableSegment segment : segments) {
+            if (segment.getNext() == null) {
+                final BSPTree<Euclidean2D> node = segment.getNode();
+                final BSPTree<Euclidean2D> end  = segment.getEndNode();
+                for (final ConnectableSegment candidateNext : segments) {
+                    if (candidateNext.getPrevious()  == null &&
+                        candidateNext.getNode()      == end &&
+                        candidateNext.getStartNode() == node) {
+                        // connect the two segments
+                        segment.setNext(candidateNext);
+                        candidateNext.setPrevious(segment);
+                        ++connected;
+                        break;
+                    }
                 }
             }
+        }
+        return connected;
+    }
 
-            if (selectedDistance > 1.0e-10) {
-                // this is a degenerated loop, it probably comes from a very
-                // tiny region with some segments smaller than the threshold, we
-                // simply ignore it
+    /** Connect the segments resulting from a line splitting a straight edge.
+     * @param segments segments complete segments list
+     * @return number of connections performed
+     */
+    private int splitEdgeConnections(final List<ConnectableSegment> segments) {
+        int connected = 0;
+        for (final ConnectableSegment segment : segments) {
+            if (segment.getNext() == null) {
+                final Hyperplane<Euclidean2D> hyperplane = segment.getNode().getCut().getHyperplane();
+                final BSPTree<Euclidean2D> end  = segment.getEndNode();
+                for (final ConnectableSegment candidateNext : segments) {
+                    if (candidateNext.getPrevious()                      == null &&
+                        candidateNext.getNode().getCut().getHyperplane() == hyperplane &&
+                        candidateNext.getStartNode()                     == end) {
+                        // connect the two segments
+                        segment.setNext(candidateNext);
+                        candidateNext.setPrevious(segment);
+                        ++connected;
+                        break;
+                    }
+                }
+            }
+        }
+        return connected;
+    }
+
+    /** Connect the segments using Euclidean distance.
+     * <p>
+     * This connection heuristic should be used last, as it relies
+     * only on a fuzzy distance criterion.
+     * </p>
+     * @param segments segments complete segments list
+     * @return number of connections performed
+     */
+    private int closeVerticesConnections(final List<ConnectableSegment> segments) {
+        int connected = 0;
+        for (final ConnectableSegment segment : segments) {
+            if (segment.getNext() == null) {
+                final Vector2D end = segment.getEnd();
+                for (final ConnectableSegment candidateNext : segments) {
+                    if (candidateNext.getPrevious() == null &&
+                        Vector2D.distance(end, candidateNext.getStart()) <= getTolerance()) {
+                        // connect the two segments
+                        segment.setNext(candidateNext);
+                        candidateNext.setPrevious(segment);
+                        ++connected;
+                        break;
+                    }
+                }
+            }
+        }
+        return connected;
+    }
+
+    /** Get first unprocessed segment from a list.
+     * @param segments segments list
+     * @return first segment that has not been processed yet
+     * or null if all segments have been processed
+     */
+    private ConnectableSegment getUnprocessed(final List<ConnectableSegment> segments) {
+        for (final ConnectableSegment segment : segments) {
+            if (!segment.isProcessed()) {
+                return segment;
+            }
+        }
+        return null;
+    }
+
+    /** Build the loop containing a segment.
+     * <p>
+     * The segment put in the loop will be marked as processed.
+     * </p>
+     * @param defining segment used to define the loop
+     * @return loop containing the segment (may be null if the loop is a
+     * degenerated infinitely thin 2 points loop
+     */
+    private List<ConnectableSegment> followLoop(final ConnectableSegment defining) {
+
+        final List<ConnectableSegment> loop = new ArrayList<ConnectableSegment>();
+        loop.add(defining);
+        defining.setProcessed(true);
+
+        // add segments in connection order
+        ConnectableSegment next = defining.getNext();
+        while (next != defining && next != null) {
+            loop.add(next);
+            next.setProcessed(true);
+            next = next.getNext();
+        }
+
+        if (next == null) {
+            // the loop is open and we have found its end,
+            // we need to find its start too
+            ConnectableSegment previous = defining.getPrevious();
+            while (previous != null) {
+                loop.add(0, previous);
+                previous.setProcessed(true);
+                previous = previous.getPrevious();
+            }
+        } else {
+            if (loop.size() == 2) {
+                // this is a degenerated infinitely thin loop, we simply ignore it
                 return null;
             }
-
-            end = selectedSegment.getEnd();
-            loop.add(selectedSegment);
-            selectedNode.delete();
-
-        }
-
-        if ((loop.size() == 2) && !open) {
-            // this is a degenerated infinitely thin loop, we simply ignore it
-            return null;
-        }
-
-        if ((end == null) && !open) {
-            throw new MathInternalError();
         }
 
         return loop;
 
     }
 
-    /** Private extension of Segment allowing comparison. */
-    private static class ComparableSegment extends Segment implements Comparable<ComparableSegment> {
+    /** Private extension of Segment allowing connection. */
+    private static class ConnectableSegment extends Segment {
 
-        /** Sorting key. */
-        private OrderedTuple sortingKey;
+        /** Node containing segment. */
+        private final BSPTree<Euclidean2D> node;
+
+        /** Node whose intersection with current node defines start point. */
+        private final BSPTree<Euclidean2D> startNode;
+
+        /** Node whose intersection with current node defines end point. */
+        private final BSPTree<Euclidean2D> endNode;
+
+        /** Previous segment. */
+        private ConnectableSegment previous;
+
+        /** Next segment. */
+        private ConnectableSegment next;
+
+        /** Indicator for completely processed segments. */
+        private boolean processed;
 
         /** Build a segment.
          * @param start start point of the segment
          * @param end end point of the segment
          * @param line line containing the segment
+         * @param node node containing the segment
+         * @param startNode node whose intersection with current node defines start point
+         * @param endNode node whose intersection with current node defines end point
          */
-        public ComparableSegment(final Vector2D start, final Vector2D end, final Line line) {
+        public ConnectableSegment(final Vector2D start, final Vector2D end, final Line line,
+                                  final BSPTree<Euclidean2D> node,
+                                  final BSPTree<Euclidean2D> startNode,
+                                  final BSPTree<Euclidean2D> endNode) {
             super(start, end, line);
-            sortingKey = (start == null) ?
-                         new OrderedTuple(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY) :
-                         new OrderedTuple(start.getX(), start.getY());
+            this.node      = node;
+            this.startNode = startNode;
+            this.endNode   = endNode;
+            this.previous  = null;
+            this.next      = null;
+            this.processed = false;
         }
 
-        /** Build a dummy segment.
-         * <p>
-         * The object built is not a real segment, only the sorting key is used to
-         * allow searching in the neighborhood of a point. This is an horrible hack ...
-         * </p>
-         * @param start start point of the segment
-         * @param dx abscissa offset from the start point
-         * @param dy ordinate offset from the start point
+        /** Get the node containing segment.
+         * @return node containing segment
          */
-        public ComparableSegment(final Vector2D start, final double dx, final double dy) {
-            super(null, null, null);
-            sortingKey = new OrderedTuple(start.getX() + dx, start.getY() + dy);
+        public BSPTree<Euclidean2D> getNode() {
+            return node;
         }
 
-        /** {@inheritDoc} */
-        public int compareTo(final ComparableSegment o) {
-            return sortingKey.compareTo(o.sortingKey);
+        /** Get the node whose intersection with current node defines start point.
+         * @return node whose intersection with current node defines start point
+         */
+        public BSPTree<Euclidean2D> getStartNode() {
+            return startNode;
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public boolean equals(final Object other) {
-            if (this == other) {
-                return true;
-            } else if (other instanceof ComparableSegment) {
-                return compareTo((ComparableSegment) other) == 0;
-            } else {
-                return false;
-            }
+        /** Get the node whose intersection with current node defines end point.
+         * @return node whose intersection with current node defines end point
+         */
+        public BSPTree<Euclidean2D> getEndNode() {
+            return endNode;
         }
 
-        /** {@inheritDoc} */
-        @Override
-        public int hashCode() {
-            return getStart().hashCode() ^ getEnd().hashCode() ^
-                   getLine().hashCode() ^ sortingKey.hashCode();
+        /** Get the previous segment.
+         * @return previous segment
+         */
+        public ConnectableSegment getPrevious() {
+            return previous;
+        }
+
+        /** Set the previous segment.
+         * @param previous previous segment
+         */
+        public void setPrevious(final ConnectableSegment previous) {
+            this.previous = previous;
+        }
+
+        /** Get the next segment.
+         * @return next segment
+         */
+        public ConnectableSegment getNext() {
+            return next;
+        }
+
+        /** Set the next segment.
+         * @param next previous segment
+         */
+        public void setNext(final ConnectableSegment next) {
+            this.next = next;
+        }
+
+        /** Set the processed flag.
+         * @param processed processed flag to set
+         */
+        public void setProcessed(final boolean processed) {
+            this.processed = processed;
+        }
+
+        /** Check if the segment has been processed.
+         * @return true if the segment has been processed
+         */
+        public boolean isProcessed() {
+            return processed;
         }
 
     }
@@ -891,12 +1023,18 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     /** Visitor building segments. */
     private static class SegmentsBuilder implements BSPTreeVisitor<Euclidean2D> {
 
-        /** Sorted segments. */
-        private AVLTree<ComparableSegment> sorted;
+        /** Tolerance for close nodes connection. */
+        private final double tolerance;
 
-        /** Simple constructor. */
-        public SegmentsBuilder() {
-            sorted = new AVLTree<ComparableSegment>();
+        /** Built segments. */
+        private final List<ConnectableSegment> segments;
+
+        /** Simple constructor.
+         * @param tolerance tolerance for close nodes connection
+         */
+        public SegmentsBuilder(final double tolerance) {
+            this.tolerance = tolerance;
+            this.segments  = new ArrayList<ConnectableSegment>();
         }
 
         /** {@inheritDoc} */
@@ -908,11 +1046,12 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
         public void visitInternalNode(final BSPTree<Euclidean2D> node) {
             @SuppressWarnings("unchecked")
             final BoundaryAttribute<Euclidean2D> attribute = (BoundaryAttribute<Euclidean2D>) node.getAttribute();
+            final Iterable<BSPTree<Euclidean2D>> splitters = attribute.getSplitters();
             if (attribute.getPlusOutside() != null) {
-                addContribution(attribute.getPlusOutside(), false);
+                addContribution(attribute.getPlusOutside(), node, splitters, false);
             }
             if (attribute.getPlusInside() != null) {
-                addContribution(attribute.getPlusInside(), true);
+                addContribution(attribute.getPlusInside(), node, splitters, true);
             }
         }
 
@@ -922,32 +1061,69 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
 
         /** Add the contribution of a boundary facet.
          * @param sub boundary facet
+         * @param node node containing segment
+         * @param splitters splitters for the boundary facet
          * @param reversed if true, the facet has the inside on its plus side
          */
-        private void addContribution(final SubHyperplane<Euclidean2D> sub, final boolean reversed) {
+        private void addContribution(final SubHyperplane<Euclidean2D> sub,
+                                     final BSPTree<Euclidean2D> node,
+                                     final Iterable<BSPTree<Euclidean2D>> splitters,
+                                     final boolean reversed) {
             @SuppressWarnings("unchecked")
             final AbstractSubHyperplane<Euclidean2D, Euclidean1D> absSub =
                 (AbstractSubHyperplane<Euclidean2D, Euclidean1D>) sub;
             final Line line      = (Line) sub.getHyperplane();
             final List<Interval> intervals = ((IntervalsSet) absSub.getRemainingRegion()).asList();
             for (final Interval i : intervals) {
-                final Vector2D start = Double.isInfinite(i.getInf()) ?
-                                      null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getInf()));
-                final Vector2D end   = Double.isInfinite(i.getSup()) ?
-                                      null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getSup()));
+
+                // find the 2D points
+                final Vector2D startV = Double.isInfinite(i.getInf()) ?
+                                        null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getInf()));
+                final Vector2D endV   = Double.isInfinite(i.getSup()) ?
+                                        null : (Vector2D) line.toSpace((Point<Euclidean1D>) new Vector1D(i.getSup()));
+
+                // recover the connectivity information
+                final BSPTree<Euclidean2D> startN = selectClosest(startV, splitters);
+                final BSPTree<Euclidean2D> endN   = selectClosest(endV, splitters);
+
                 if (reversed) {
-                    sorted.insert(new ComparableSegment(end, start, line.getReverse()));
+                    segments.add(new ConnectableSegment(endV, startV, line.getReverse(),
+                                                        node, endN, startN));
                 } else {
-                    sorted.insert(new ComparableSegment(start, end, line));
+                    segments.add(new ConnectableSegment(startV, endV, line,
+                                                        node, startN, endN));
                 }
+
             }
         }
 
-        /** Get the sorted segments.
-         * @return sorted segments
+        /** Select the node whose cut sub-hyperplane is closest to specified point.
+         * @param point reference point
+         * @param candidates candidate nodes
+         * @return node closest to point, or null if no node is closer than tolerance
          */
-        public AVLTree<ComparableSegment> getSorted() {
-            return sorted;
+        private BSPTree<Euclidean2D> selectClosest(final Vector2D point, final Iterable<BSPTree<Euclidean2D>> candidates) {
+
+            BSPTree<Euclidean2D> selected = null;
+            double min = Double.POSITIVE_INFINITY;
+
+            for (final BSPTree<Euclidean2D> node : candidates) {
+                final double distance = FastMath.abs(node.getCut().getHyperplane().getOffset(point));
+                if (distance < min) {
+                    selected = node;
+                    min      = distance;
+                }
+            }
+
+            return min <= tolerance ? selected : null;
+
+        }
+
+        /** Get the segments.
+         * @return built segments
+         */
+        public List<ConnectableSegment> getSegments() {
+            return segments;
         }
 
     }
