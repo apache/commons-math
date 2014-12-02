@@ -80,6 +80,9 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** Tolerance below which points are considered identical. */
     private final double tolerance;
 
+    /** Reverse line. */
+    private Line reverse;
+
     /** Build a line from two points.
      * <p>The line is oriented from p1 to p2</p>
      * @param p1 first point
@@ -118,6 +121,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         this.sin          = sin;
         this.originOffset = originOffset;
         this.tolerance    = tolerance;
+        this.reverse      = null;
     }
 
     /** Build a line from two points.
@@ -152,6 +156,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         sin          = line.sin;
         originOffset = line.originOffset;
         tolerance    = line.tolerance;
+        reverse      = null;
     }
 
     /** {@inheritDoc} */
@@ -165,6 +170,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param p2 second point
      */
     public void reset(final Vector2D p1, final Vector2D p2) {
+        unlinkReverse();
         final double dx = p2.getX() - p1.getX();
         final double dy = p2.getY() - p1.getY();
         final double d = FastMath.hypot(dx, dy);
@@ -186,6 +192,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param alpha angle of the line with respect to abscissa axis
      */
     public void reset(final Vector2D p, final double alpha) {
+        unlinkReverse();
         this.angle   = MathUtils.normalizeAngle(alpha, FastMath.PI);
         cos          = FastMath.cos(this.angle);
         sin          = FastMath.sin(this.angle);
@@ -195,6 +202,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** Revert the instance.
      */
     public void revertSelf() {
+        unlinkReverse();
         if (angle < FastMath.PI) {
             angle += FastMath.PI;
         } else {
@@ -205,14 +213,37 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         originOffset = -originOffset;
     }
 
+    /** Unset the link between an instance and its reverse.
+     */
+    private void unlinkReverse() {
+        if (reverse != null) {
+            reverse.reverse = null;
+        }
+        reverse = null;
+    }
+
     /** Get the reverse of the instance.
      * <p>Get a line with reversed orientation with respect to the
-     * instance. A new object is built, the instance is untouched.</p>
+     * instance.</p>
+     * <p>
+     * As long as neither the instance nor its reverse are modified
+     * (i.e. as long as none of the {@link #reset(Vector2D, Vector2D)},
+     * {@link #reset(Vector2D, double)}, {@link #revertSelf()},
+     * {@link #setAngle(double)} or {@link #setOriginOffset(double)}
+     * methods are called), then the line and its reverse remain linked
+     * together so that {@code line.getReverse().getReverse() == line}.
+     * When one of the line is modified, the link is deleted as both
+     * instance becomes independent.
+     * </p>
      * @return a new line, with orientation opposite to the instance orientation
      */
     public Line getReverse() {
-        return new Line((angle < FastMath.PI) ? (angle + FastMath.PI) : (angle - FastMath.PI),
-                        -cos, -sin, -originOffset, tolerance);
+        if (reverse == null) {
+            reverse = new Line((angle < FastMath.PI) ? (angle + FastMath.PI) : (angle - FastMath.PI),
+                               -cos, -sin, -originOffset, tolerance);
+            reverse.reverse = this;
+        }
+        return reverse;
     }
 
     /** Transform a space point into a sub-space point.
@@ -383,6 +414,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param angle new angle of the line with respect to the abscissa axis
      */
     public void setAngle(final double angle) {
+        unlinkReverse();
         this.angle = MathUtils.normalizeAngle(angle, FastMath.PI);
         cos        = FastMath.cos(this.angle);
         sin        = FastMath.sin(this.angle);
@@ -399,6 +431,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
      * @param offset offset of the origin
      */
     public void setOriginOffset(final double offset) {
+        unlinkReverse();
         originOffset = offset;
     }
 
