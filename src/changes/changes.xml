@@ -78,7 +78,7 @@ Users are encouraged to upgrade to this version as this release not
       </action>
       <action dev="luc" type="add" >
         Boundary attributes in regions now provides the BSP tree nodes that
-        were used to split the sub-hyperplane froming the boundary part of the facet. 
+        were used to split the sub-hyperplane forming the boundary part of the facet. 
       </action>
       <action dev="luc" type="fix" issue="MATH-1162" >
         Fixed a problem with vanishing cut sub-hyperplanes during BSP tree merging.
