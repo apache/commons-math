@@ -1088,6 +1088,25 @@ public class PolygonsSetTest {
         }
     }
 
+    @Test
+    public void testIssue1162() {
+        PolygonsSet p = new PolygonsSet(1.0e-10,
+                                                new Vector2D(4.267199999996532, -11.928637756014894),
+                                                new Vector2D(4.267200000026445, -14.12360595809307), 
+                                                new Vector2D(9.144000000273694, -14.12360595809307), 
+                                                new Vector2D(9.144000000233383, -11.928637756020067));
+
+        PolygonsSet w = new PolygonsSet(1.0e-10,
+                                                new Vector2D(2.56735636510452512E-9, -11.933116461089332),
+                                                new Vector2D(2.56735636510452512E-9, -12.393225665247766), 
+                                                new Vector2D(2.56735636510452512E-9, -27.785625665247778), 
+                                                new Vector2D(4.267200000030211,      -27.785625665247778), 
+                                                new Vector2D(4.267200000030211,      -11.933116461089332));
+
+        Assert.assertFalse(p.contains(w));
+
+    }
+
     private PolygonsSet buildSet(Vector2D[][] vertices) {
         ArrayList<SubHyperplane<Euclidean2D>> edges = new ArrayList<SubHyperplane<Euclidean2D>>();
         for (int i = 0; i < vertices.length; ++i) {

@@ -19,7 +19,9 @@ package org.apache.commons.math3.geometry.partitioning;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math3.exception.MathIllegalStateException;
 import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
 import org.apache.commons.math3.geometry.Vector;
@@ -465,8 +467,7 @@ public class BSPTree<S extends Space> {
             minus.merge(merged.minus, leafMerger, merged, false);
             merged.condense();
             if (merged.cut != null) {
-                merged.cut =
-                    merged.fitToCell(merged.cut.getHyperplane().wholeHyperplane());
+                merged.cut = merged.fitToCell(merged.cut.getHyperplane().wholeHyperplane());
             }
 
             return merged;
@@ -526,6 +527,27 @@ public class BSPTree<S extends Space> {
 
     }
 
+    /** This interface handles the corner cases when an internal node cut sub-hyperplane vanishes.
+     * <p>
+     * Such cases happens for example when a cut sub-hyperplane is inserted into
+     * another tree (during a merge operation), and is split in several parts,
+     * some of which becomes smaller than the tolerance. The corresponding node
+     * as then no cut sub-hyperplane anymore, but does have children. This interface
+     * specifies how to handle this situation.
+     * setting
+     * </p>
+     * @since 3.4
+     */
+    public interface VanishingCutHandler<S extends Space> {
+
+        /** Fix a node with both vanished cut and children.
+         * @param node node to fix
+         * @return fixed node
+         */
+        BSPTree<S> fixNode(BSPTree<S> node);
+
+    }
+
     /** Split a BSP tree by an external sub-hyperplane.
      * <p>Split a tree in two halves, on each side of the
      * sub-hyperplane. The instance is not modified.</p>
@@ -547,8 +569,7 @@ public class BSPTree<S extends Space> {
     public BSPTree<S> split(final SubHyperplane<S> sub) {
 
         if (cut == null) {
-            return new BSPTree<S>(sub, copySelf(),
-                    new BSPTree<S>(attribute), null);
+            return new BSPTree<S>(sub, copySelf(), new BSPTree<S>(attribute), null);
         }
 
         final Hyperplane<S> cHyperplane = cut.getHyperplane();
@@ -620,8 +641,33 @@ public class BSPTree<S extends Space> {
      * resulting tree should be the plus child of its parent, ignored if
      * parentTree is null
      * @see LeafMerger
+     * @deprecated as of 3.4, replaced with {@link #insertInTree(BSPTree, boolean, VanishingCutHandler)}
      */
+    @Deprecated
     public void insertInTree(final BSPTree<S> parentTree, final boolean isPlusChild) {
+        insertInTree(parentTree, isPlusChild, new VanishingCutHandler<S>() {
+            /** {@inheritDoc} */
+            public BSPTree<S> fixNode(BSPTree<S> node) {
+                // the cut should not be null
+                throw new MathIllegalStateException(LocalizedFormats.NULL_NOT_ALLOWED);
+            }
+        });
+    }
+
+    /** Insert the instance into another tree.
+     * <p>The instance itself is modified so its former parent should
+     * not be used anymore.</p>
+     * @param parentTree parent tree to connect to (may be null)
+     * @param isPlusChild if true and if parentTree is not null, the
+     * resulting tree should be the plus child of its parent, ignored if
+     * parentTree is null
+     * @param vanishingHandler handler to use for handling very rare corner
+     * cases of vanishing cut sub-hyperplanes in internal nodes during merging
+     * @see LeafMerger
+     * @since 3.4
+     */
+    public void insertInTree(final BSPTree<S> parentTree, final boolean isPlusChild,
+                             final VanishingCutHandler<S> vanishingHandler) {
 
         // set up parent/child links
         parent = parentTree;
@@ -646,12 +692,21 @@ public class BSPTree<S extends Space> {
                 // on the wrong side of this parent hyperplane
                 if (tree == tree.parent.plus) {
                     cut = cut.split(hyperplane).getPlus();
-                    plus.chopOffMinus(hyperplane);
-                    minus.chopOffMinus(hyperplane);
+                    plus.chopOffMinus(hyperplane, vanishingHandler);
+                    minus.chopOffMinus(hyperplane, vanishingHandler);
                 } else {
                     cut = cut.split(hyperplane).getMinus();
-                    plus.chopOffPlus(hyperplane);
-                    minus.chopOffPlus(hyperplane);
+                    plus.chopOffPlus(hyperplane, vanishingHandler);
+                    minus.chopOffPlus(hyperplane, vanishingHandler);
+                }
+
+                if (cut == null) {
+                    // the cut sub-hyperplane has vanished
+                    final BSPTree<S> fixed = vanishingHandler.fixNode(this);
+                    cut       = fixed.cut;
+                    plus      = fixed.plus;
+                    minus     = fixed.minus;
+                    attribute = fixed.attribute;
                 }
 
             }
@@ -710,12 +765,25 @@ public class BSPTree<S extends Space> {
      * the minus side of the chopping hyperplane are discarded, only the
      * parts on the plus side remain.</p>
      * @param hyperplane chopping hyperplane
+     * @param vanishingHandler handler to use for handling very rare corner
+     * cases of vanishing cut sub-hyperplanes in internal nodes during merging
      */
-    private void chopOffMinus(final Hyperplane<S> hyperplane) {
+    private void chopOffMinus(final Hyperplane<S> hyperplane, final VanishingCutHandler<S> vanishingHandler) {
         if (cut != null) {
+
             cut = cut.split(hyperplane).getPlus();
-            plus.chopOffMinus(hyperplane);
-            minus.chopOffMinus(hyperplane);
+            plus.chopOffMinus(hyperplane, vanishingHandler);
+            minus.chopOffMinus(hyperplane, vanishingHandler);
+
+            if (cut == null) {
+                // the cut sub-hyperplane has vanished
+                final BSPTree<S> fixed = vanishingHandler.fixNode(this);
+                cut       = fixed.cut;
+                plus      = fixed.plus;
+                minus     = fixed.minus;
+                attribute = fixed.attribute;
+            }
+
         }
     }
 
@@ -724,12 +792,25 @@ public class BSPTree<S extends Space> {
      * the plus side of the chopping hyperplane are discarded, only the
      * parts on the minus side remain.</p>
      * @param hyperplane chopping hyperplane
+     * @param vanishingHandler handler to use for handling very rare corner
+     * cases of vanishing cut sub-hyperplanes in internal nodes during merging
      */
-    private void chopOffPlus(final Hyperplane<S> hyperplane) {
+    private void chopOffPlus(final Hyperplane<S> hyperplane, final VanishingCutHandler<S> vanishingHandler) {
         if (cut != null) {
+
             cut = cut.split(hyperplane).getMinus();
-            plus.chopOffPlus(hyperplane);
-            minus.chopOffPlus(hyperplane);
+            plus.chopOffPlus(hyperplane, vanishingHandler);
+            minus.chopOffPlus(hyperplane, vanishingHandler);
+
+            if (cut == null) {
+                // the cut sub-hyperplane has vanished
+                final BSPTree<S> fixed = vanishingHandler.fixNode(this);
+                cut       = fixed.cut;
+                plus      = fixed.plus;
+                minus     = fixed.minus;
+                attribute = fixed.attribute;
+            }
+
         }
     }
 

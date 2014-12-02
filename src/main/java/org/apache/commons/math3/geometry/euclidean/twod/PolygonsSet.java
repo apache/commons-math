@@ -710,7 +710,8 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 int i = 0;
 
                 for (final List<ComparableSegment> loop : loops) {
-                    if (loop.size() < 2) {
+                    if (loop.size() < 2 ||
+                        (loop.size() == 2 && loop.get(0).getStart() == null && loop.get(1).getEnd() == null)) {
                         // single infinite line
                         final Line line = loop.get(0).getLine();
                         vertices[i++] = new Vector2D[] {
