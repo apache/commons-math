@@ -1138,7 +1138,8 @@ public class PolygonsSetTest {
         Assert.assertEquals(2 * (1.0 + 1.0 / 64.0), accuratePolygon.getBoundarySize(), 1.0e-10);
 
         // if tolerance is larger than rectangle width, the rectangle degenerates
-        // as of 3.3, its two long edges cannot be distinguished anymore and this part of the test fails
+        // as of 3.3, its two long edges cannot be distinguished anymore and this part of the test did fail
+        // this has been fixed in 3.4 (issue MATH-1174)
         Hyperplane<Euclidean2D>[] h2 = new Line[] {
             new Line(pA, pB, 1.0 / 16),
             new Line(pB, pC, 1.0 / 16),
