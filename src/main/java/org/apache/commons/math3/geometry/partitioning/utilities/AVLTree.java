@@ -42,7 +42,10 @@ package org.apache.commons.math3.geometry.partitioning.utilities;
  * @param <T> the type of the elements
  *
  * @since 3.0
+ * @deprecated as of 3.4, this class is not used anymore and considered
+ * to be out of scope of Apache Commons Math
  */
+@Deprecated
 public class AVLTree<T extends Comparable<T>> {
 
     /** Top level node. */

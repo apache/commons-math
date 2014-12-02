@@ -20,6 +20,7 @@ import org.apache.commons.math3.geometry.partitioning.utilities.AVLTree;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class AVLTreeTest {
 
     @Test
