@@ -21,8 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.math3.geometry.Point;
 import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.geometry.partitioning.BSPTree.VanishingCutHandler;
 import org.apache.commons.math3.geometry.partitioning.Region.Location;
 
@@ -296,12 +294,6 @@ public class RegionFactory<S extends Space> {
             // get a representative point in the degenerate cell
             final BSPTree<S> cell = node.pruneAroundConvexCell(Boolean.TRUE, Boolean.FALSE, null);
             final Region<S> r = region1.buildNew(cell);
-            for (Vector2D[] loop : ((PolygonsSet) r).getVertices()) {
-                System.out.format(java.util.Locale.US, "%n");
-                for (Vector2D v : loop) {
-                    System.out.format(java.util.Locale.US, "%14.10f %14.10f%n", v.getX(), v.getY());
-                }
-            }
             final Point<S> p = r.getBarycenter();
             return new BSPTree<S>(region1.checkPoint(p) == Location.INSIDE &&
                                   region2.checkPoint(p) == Location.OUTSIDE);
