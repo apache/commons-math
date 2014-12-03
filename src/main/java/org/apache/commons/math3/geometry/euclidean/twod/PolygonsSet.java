@@ -34,6 +34,7 @@ import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Side;
 import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /** This class represents a 2D region: a set of polygons.
  * @since 3.0
@@ -704,9 +705,9 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 }
 
                 // create the segment loops
-                final ArrayList<List<ConnectableSegment>> loops = new ArrayList<List<ConnectableSegment>>();
+                final ArrayList<List<Segment>> loops = new ArrayList<List<Segment>>();
                 for (ConnectableSegment s = getUnprocessed(segments); s != null; s = getUnprocessed(segments)) {
-                    final List<ConnectableSegment> loop = followLoop(s);
+                    final List<Segment> loop = followLoop(s);
                     if (loop != null) {
                         if (loop.get(0).getStart() == null) {
                             // this is an open loop, we put it on the front
@@ -722,7 +723,7 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 vertices = new Vector2D[loops.size()][];
                 int i = 0;
 
-                for (final List<ConnectableSegment> loop : loops) {
+                for (final List<Segment> loop : loops) {
                     if (loop.size() < 2 ||
                         (loop.size() == 2 && loop.get(0).getStart() == null && loop.get(1).getEnd() == null)) {
                         // single infinite line
@@ -840,17 +841,24 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     private int closeVerticesConnections(final List<ConnectableSegment> segments) {
         int connected = 0;
         for (final ConnectableSegment segment : segments) {
-            if (segment.getNext() == null) {
+            if (segment.getNext() == null && segment.getEnd() != null) {
                 final Vector2D end = segment.getEnd();
+                ConnectableSegment selectedNext = null;
+                double min = Double.POSITIVE_INFINITY;
                 for (final ConnectableSegment candidateNext : segments) {
-                    if (candidateNext.getPrevious() == null &&
-                        Vector2D.distance(end, candidateNext.getStart()) <= getTolerance()) {
-                        // connect the two segments
-                        segment.setNext(candidateNext);
-                        candidateNext.setPrevious(segment);
-                        ++connected;
-                        break;
+                    if (candidateNext.getPrevious() == null && candidateNext.getStart() != null) {
+                        final double distance = Vector2D.distance(end, candidateNext.getStart());
+                        if (distance < min) {
+                            selectedNext = candidateNext;
+                            min          = distance;
+                        }
                     }
+                }
+                if (min <= getTolerance()) {
+                    // connect the two segments
+                    segment.setNext(selectedNext);
+                    selectedNext.setPrevious(segment);
+                    ++connected;
                 }
             }
         }
@@ -879,9 +887,9 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
      * @return loop containing the segment (may be null if the loop is a
      * degenerated infinitely thin 2 points loop
      */
-    private List<ConnectableSegment> followLoop(final ConnectableSegment defining) {
+    private List<Segment> followLoop(final ConnectableSegment defining) {
 
-        final List<ConnectableSegment> loop = new ArrayList<ConnectableSegment>();
+        final List<Segment> loop = new ArrayList<Segment>();
         loop.add(defining);
         defining.setProcessed(true);
 
@@ -902,15 +910,36 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
                 previous.setProcessed(true);
                 previous = previous.getPrevious();
             }
-        } else {
-            if (loop.size() == 2) {
-                // this is a degenerated infinitely thin loop, we simply ignore it
-                return null;
-            }
         }
 
-        return loop;
+        // filter out spurious vertices
+        filterSpuriousVertices(loop);
 
+        if (loop.size() == 2 && loop.get(0).getStart() != null) {
+            // this is a degenerated infinitely thin closed loop, we simply ignore it
+            return null;
+        } else {
+            return loop;
+        }
+
+    }
+
+    /** Filter out spurious vertices on straight lines (at machine precision).
+     * @param loop segments loop to filter (will be modified in-place)
+     */
+    private void filterSpuriousVertices(final List<Segment> loop) {
+        for (int i = 0; i < loop.size(); ++i) {
+            final Segment previous = loop.get(i);
+            int j = (i + 1) % loop.size();
+            final Segment next = loop.get(j);
+            if (next != null &&
+                Precision.equals(previous.getLine().getAngle(), next.getLine().getAngle(), Precision.EPSILON)) {
+                // the vertex between the two edges is a spurious one
+                // replace the two segments by a single one
+                loop.set(j, new Segment(previous.getStart(), next.getEnd(), previous.getLine()));
+                loop.remove(i--);
+            }
+        }
     }
 
     /** Private extension of Segment allowing connection. */
