@@ -23,6 +23,7 @@ import org.apache.commons.math3.geometry.euclidean.oned.Interval;
 import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
 import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
 import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
 import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
 import org.apache.commons.math3.geometry.partitioning.Hyperplane;
 import org.apache.commons.math3.geometry.partitioning.Region;
@@ -1150,6 +1151,74 @@ public class PolygonsSetTest {
         Assert.assertEquals(1.0 / 64.0, degeneratedPolygon.getSize(), 1.0e-10);
         Assert.assertTrue(Double.isInfinite(new RegionFactory<Euclidean2D>().getComplement(degeneratedPolygon).getSize()));
         Assert.assertEquals(2 * (1.0 + 1.0 / 64.0), degeneratedPolygon.getBoundarySize(), 1.0e-10);
+
+    }
+
+    @Test
+    public void testBoundarySimplification() {
+
+        // a simple square will result in a 4 cuts and 5 leafs tree
+        PolygonsSet square = new PolygonsSet(1.0e-10,
+                                             new Vector2D(0, 0),
+                                             new Vector2D(1, 0),
+                                             new Vector2D(1, 1),
+                                             new Vector2D(0, 1));
+        Vector2D[][] squareBoundary = square.getVertices();
+        Assert.assertEquals(1, squareBoundary.length);
+        Assert.assertEquals(4, squareBoundary[0].length);
+        Counter squareCount = new Counter();
+        squareCount.count(square);
+        Assert.assertEquals(4, squareCount.getInternalNodes());
+        Assert.assertEquals(5, squareCount.getLeafNodes());
+
+        // splitting the square in two halves increases the BSP tree
+        // with 3 more cuts and 3 more leaf nodes
+        SubLine cut = new Line(new Vector2D(0.5, 0.5), 0.0, square.getTolerance()).wholeHyperplane();
+        PolygonsSet splitSquare = new PolygonsSet(square.getTree(false).split(cut),
+                                                  square.getTolerance());
+        Counter splitSquareCount = new Counter();
+        splitSquareCount.count(splitSquare);
+        Assert.assertEquals(squareCount.getInternalNodes() + 3, splitSquareCount.getInternalNodes());
+        Assert.assertEquals(squareCount.getLeafNodes()     + 3, splitSquareCount.getLeafNodes());
+
+        // the number of vertices should not change, as the intermediate vertices
+        // at (0.0, 0.5) and (1.0, 0.5) induced by the top level horizontal split
+        // should be removed during the boundary extraction process
+        Vector2D[][] splitBoundary = splitSquare.getVertices();
+        Assert.assertEquals(1, splitBoundary.length);
+        Assert.assertEquals(4, splitBoundary[0].length);
+
+    }
+
+    private static class Counter {
+
+        private int internalNodes;
+        private int leafNodes;
+
+        public void count(PolygonsSet polygonsSet) {
+            leafNodes     = 0;
+            internalNodes = 0;
+            polygonsSet.getTree(false).visit(new BSPTreeVisitor<Euclidean2D>() {
+                public Order visitOrder(BSPTree<Euclidean2D> node) {
+                    return Order.SUB_PLUS_MINUS;
+                }
+                public void visitInternalNode(BSPTree<Euclidean2D> node) {
+                    ++internalNodes;
+                }
+                public void visitLeafNode(BSPTree<Euclidean2D> node) {
+                    ++leafNodes;
+                }
+
+            });
+        }
+
+        public int getInternalNodes() {
+            return internalNodes;
+        }
+
+        public int getLeafNodes() {
+            return leafNodes;
+        }
 
     }
 

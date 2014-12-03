@@ -73,6 +73,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="luc" type="update" >
+        Spurious vertices in the middle of otherwise straight edges are now
+        filtered out when rebuilding polygons boundaries from BSP trees. 
+      </action>
       <action dev="luc" type="fix" issue="MATH-1174" >
         Fixed a problem with too thin polygons considered to have infinite size.
       </action>
