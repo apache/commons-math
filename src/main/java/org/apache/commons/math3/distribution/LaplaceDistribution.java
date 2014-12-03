@@ -107,7 +107,7 @@ public class LaplaceDistribution extends AbstractRealDistribution {
         if (p < 0.0 || p > 1.0) {
             throw new OutOfRangeException(p, 0.0, 1.0);
         } else if (p == 0) {
-            return 0.0;
+            return Double.NEGATIVE_INFINITY;
         } else if (p == 1) {
             return Double.POSITIVE_INFINITY;
         }
