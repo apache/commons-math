@@ -840,17 +840,24 @@ public class PolygonsSet extends AbstractRegion<Euclidean2D, Euclidean1D> {
     private int closeVerticesConnections(final List<ConnectableSegment> segments) {
         int connected = 0;
         for (final ConnectableSegment segment : segments) {
-            if (segment.getNext() == null) {
+            if (segment.getNext() == null && segment.getEnd() != null) {
                 final Vector2D end = segment.getEnd();
+                ConnectableSegment selectedNext = null;
+                double min = Double.POSITIVE_INFINITY;
                 for (final ConnectableSegment candidateNext : segments) {
-                    if (candidateNext.getPrevious() == null &&
-                        Vector2D.distance(end, candidateNext.getStart()) <= getTolerance()) {
-                        // connect the two segments
-                        segment.setNext(candidateNext);
-                        candidateNext.setPrevious(segment);
-                        ++connected;
-                        break;
+                    if (candidateNext.getPrevious() == null && candidateNext.getStart() != null) {
+                        final double distance = Vector2D.distance(end, candidateNext.getStart());
+                        if (distance < min) {
+                            selectedNext = candidateNext;
+                            min          = distance;
+                        }
                     }
+                }
+                if (min <= getTolerance()) {
+                    // connect the two segments
+                    segment.setNext(selectedNext);
+                    selectedNext.setPrevious(segment);
+                    ++connected;
                 }
             }
         }
