@@ -73,6 +73,9 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="erans" type="fix" issue="MATH-1178" due-to="Dmitriy">
+        Fixed example in userguide ("stat" section).
+      </action>
       <action dev="erans" type="fix" issue="MATH-1175" due-to="Karsten Loesing">
         Fixed inverse cumulative probability of 0 in "LaplaceDistribution".
       </action>

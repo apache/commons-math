@@ -196,7 +196,7 @@ double std = stats.getStandardDeviation();
 // Compute statistics directly from the array
 // assume values is a double[] array
 double mean = StatUtils.mean(values);
-double std = StatUtils.variance(values);
+double std = FastMath.sqrt(StatUtils.variance(values));
 double median = StatUtils.percentile(values, 50);
 
 // Compute the mean of the first three values in the array
