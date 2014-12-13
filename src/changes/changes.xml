@@ -82,6 +82,7 @@ Users are encouraged to upgrade to this version as this release not
       <action dev="erans" type="add" issue="MATH-1166">
         New classes "BicubicInterpolatingFunction" and "BicubicInterpolator" to
         replace "BicubicSplineInterpolatingFunction" and "BicubicSplineInterpolator".
+      </action>
       <action dev="luc" type="update" >
         Spurious vertices in the middle of otherwise straight edges are now
         filtered out when rebuilding polygons boundaries from BSP trees. 
