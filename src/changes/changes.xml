@@ -53,10 +53,15 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="3.4" date="TBD" description="
 This is a minor release: It combines bug fixes and new features.
  Changes to existing features were made in a backwards-compatible
- way such as to allow drop-in replacement of the v3.x JAR file.
+ way such as to allow drop-in replacement of the v3.3 JAR file.
   
 Most notable among the new features are:
- XXX
+ new distributions (Gumbel, Laplace, Logistic, Nakagami), and
+ improvements on percentiles algorithms (better handling for NaNs
+ in the regular algorithm, plus a new storeless implementation).
+ Bicubic splines interpolators have been fixed and new implementations
+ added. There have been numerous bug fixes and several improvements
+ on performances or robustness. See below for a full list) 
   
 The minimum version of the Java platform required to compile and use
  Apache Commons Math is Java 5.
