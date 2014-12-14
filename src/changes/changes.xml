@@ -59,9 +59,10 @@ Most notable among the new features are:
  new distributions (Gumbel, Laplace, Logistic, Nakagami), and
  improvements on percentiles algorithms (better handling for NaNs
  in the regular algorithm, plus a new storeless implementation).
- Bicubic splines interpolators have been fixed and new implementations
- added. There have been numerous bug fixes and several improvements
- on performances or robustness. See below for a full list) 
+ Bicubic and tricubic interpolators have been fixed and new
+ implementations added. There have been numerous bug fixes and
+ several improvements on performances or robustness. See below
+ for a full list.
   
 The minimum version of the Java platform required to compile and use
  Apache Commons Math is Java 5.
@@ -78,6 +79,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="erans" type="add" issue="MATH-1173">
+        New classes "TricubicInterpolatingFunction" and "TricubicInterpolator" to
+        replace "TricubicSplineInterpolatingFunction" and "TricubicSplineInterpolator".
+      </action>
       <action dev="erans" type="fix" issue="MATH-1178" due-to="Dmitriy">
         Fixed example in userguide ("stat" section).
       </action>
