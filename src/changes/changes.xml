@@ -79,6 +79,10 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="erans" type="add" issue="MATH-1172">
+        New class "SimpleCurveFitter": Boiler-plate code to allow fitting of
+        a user-defined parametric function.
+      </action>
       <action dev="erans" type="add" issue="MATH-1173">
         New classes "TricubicInterpolatingFunction" and "TricubicInterpolator" to
         replace "TricubicSplineInterpolatingFunction" and "TricubicSplineInterpolator".
