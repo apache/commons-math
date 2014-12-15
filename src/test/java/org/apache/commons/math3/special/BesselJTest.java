@@ -16,7 +16,6 @@
  */
 package org.apache.commons.math3.special;
 
-import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;

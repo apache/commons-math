@@ -48,6 +48,8 @@ public enum LocalizedFormats implements Localizable {
     AT_LEAST_ONE_COLUMN("matrix must have at least one column"),
     AT_LEAST_ONE_ROW("matrix must have at least one row"),
     BANDWIDTH("bandwidth ({0})"),
+    BESSEL_FUNCTION_BAD_ARGUMENT("Bessel function of order {0} cannot be computed for x = {1}"),
+    BESSEL_FUNCTION_FAILED_CONVERGENCE("Bessel function of order {0} failed to converge for x = {1}"),
     BINOMIAL_INVALID_PARAMETERS_ORDER("must have n >= k for binomial coefficient (n, k), got k = {0}, n = {1}"),
     BINOMIAL_NEGATIVE_PARAMETER("must have n >= 0 for binomial coefficient (n, k), got n = {0}"),
     CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS("statistics constructed from external moments cannot be cleared"),

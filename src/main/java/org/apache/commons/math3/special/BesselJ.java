@@ -53,6 +53,7 @@ import org.apache.commons.math3.util.FastMath;
  * <li>"Bessel Functions of Real Argument and Integer Order," Sookne, D. J., NBS
  * Jour. of Res. B. 77B, 1973, pp 125-132.</li>
  * </ul> </p>
+ * @since 3.4
  */
 public class BesselJ
     implements UnivariateFunction {
