@@ -79,6 +79,11 @@ Users are encouraged to upgrade to this version as this release not
   2. A few methods in the FastMath class are in fact slower that their
   counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
 ">
+      <action dev="psteitz" type="fix" issue="MATH-1181">
+        Fixed integer overflow in KolmogorovSmirnovTest causing 2-sample test
+        to use exact method when the product of the sample sizes exceeds 
+        Integer.MAX_VALUE, resulting in effectively hung execution.
+      </action>
       <action dev="erans" type="add" issue="MATH-1180">
         Method to create a sequence of integers (in "o.a.c.m.util.MathArrays").
       </action>

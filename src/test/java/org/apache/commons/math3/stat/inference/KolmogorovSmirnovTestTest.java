@@ -254,6 +254,22 @@ public class KolmogorovSmirnovTestTest {
         Assert.assertEquals(0.0319983962391632, test.kolmogorovSmirnovTest(gaussian, gaussian2), TOLERANCE);
         Assert.assertEquals(0.202352941176471, test.kolmogorovSmirnovStatistic(gaussian, gaussian2), TOLERANCE);
     }
+    
+    /** 
+     * MATH-1181
+     * Verify that large sample method is selected for sample product > Integer.MAX_VALUE
+     * (integer overflow in sample product)
+     */
+    @Test(timeout=5000)
+    public void testTwoSampleProductSizeOverflow() {
+        final int n = 50000;
+        Assert.assertTrue(n * n < 0);
+        double[] x = new double[n];
+        double[] y = new double[n];
+        final KolmogorovSmirnovTest test = new KolmogorovSmirnovTest();
+        Assert.assertFalse(Double.isNaN(test.kolmogorovSmirnovTest(x, y)));
+    }
+    
 
     /**
      * Verifies that Monte Carlo simulation gives results close to exact p values. This test is a

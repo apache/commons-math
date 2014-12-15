@@ -240,10 +240,11 @@ public class KolmogorovSmirnovTest {
      * @throws NullArgumentException if either {@code x} or {@code y} is null
      */
     public double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict) {
-        if (x.length * y.length < SMALL_SAMPLE_PRODUCT) {
+        final long lengthProduct = (long) x.length * y.length;
+        if (lengthProduct < SMALL_SAMPLE_PRODUCT) {
             return exactP(kolmogorovSmirnovStatistic(x, y), x.length, y.length, strict);
         }
-        if (x.length * y.length < LARGE_SAMPLE_PRODUCT) {
+        if (lengthProduct < LARGE_SAMPLE_PRODUCT) {
             return monteCarloP(kolmogorovSmirnovStatistic(x, y), x.length, y.length, strict, MONTE_CARLO_ITERATIONS);
         }
         return approximateP(kolmogorovSmirnovStatistic(x, y), x.length, y.length);
