@@ -54,9 +54,8 @@ public class SimpleCurveFitter extends AbstractCurveFitter {
 
     /**
      * Creates a curve fitter.
-     * The initial guess for the parameters will be {@link ParameterGuesser}
-     * computed automatically, and the maximum number of iterations of the
-     * optimization algorithm is set to {@link Integer#MAX_VALUE}.
+     * The maximum number of iterations of the optimization algorithm is set
+     * to {@link Integer#MAX_VALUE}.
      *
      * @param f Function to fit.
      * @param start Initial guess for the parameters.  Cannot be {@code null}.

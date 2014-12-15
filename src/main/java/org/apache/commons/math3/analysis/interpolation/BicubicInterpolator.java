@@ -33,8 +33,8 @@ import org.apache.commons.math3.util.MathArrays;
  *  interpolation ranges, the interpolated values will be wrong at the
  *  edges of the patch.
  *  The {@code interpolate} method will return a function that overrides
- *  {@link isValidPoint(double,double)} to indicate points where the
- *  interpolation will be inaccurate.
+ *  {@link BicubicInterpolatingFunction#isValidPoint(double,double)} to
+ *  indicate points where the interpolation will be inaccurate.
  * </p>
  *
  * @since 3.4
