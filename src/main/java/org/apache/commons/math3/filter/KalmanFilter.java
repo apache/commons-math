@@ -20,6 +20,7 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.CholeskyDecomposition;
 import org.apache.commons.math3.linear.MatrixDimensionMismatchException;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.NonSquareMatrixException;
@@ -359,16 +360,21 @@ public class KalmanFilter {
             .multiply(measurementMatrixT)
             .add(measurementModel.getMeasurementNoise());
 
-        // invert S
-        RealMatrix invertedS = MatrixUtils.inverse(s);
-
         // Inn = z(k) - H * xHat(k)-
         RealVector innovation = z.subtract(measurementMatrix.operate(stateEstimation));
 
         // calculate gain matrix
         // K(k) = P(k)- * H' * (H * P(k)- * H' + R)^-1
         // K(k) = P(k)- * H' * S^-1
-        RealMatrix kalmanGain = errorCovariance.multiply(measurementMatrixT).multiply(invertedS);
+
+        // instead of calculating the inverse of S we can rearrange the formula,
+        // and then solve the linear equation A x X = B with A = S', X = K' and B = (H * P)'
+
+        // K(k) * S = P(k)- * H'
+        // S' * K(k)' = H * P(k)-'
+        RealMatrix kalmanGain = new CholeskyDecomposition(s).getSolver()
+                .solve(measurementMatrix.multiply(errorCovariance.transpose()))
+                .transpose();
 
         // update estimate with measurement z(k)
         // xHat(k) = xHat(k)- + K * Inn
