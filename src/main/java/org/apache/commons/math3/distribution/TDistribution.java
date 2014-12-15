@@ -47,6 +47,13 @@ public class TDistribution extends AbstractRealDistribution {
 
     /**
      * Create a t distribution using the given degrees of freedom.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param degreesOfFreedom Degrees of freedom.
      * @throws NotStrictlyPositiveException if {@code degreesOfFreedom <= 0}
@@ -59,6 +66,13 @@ public class TDistribution extends AbstractRealDistribution {
     /**
      * Create a t distribution using the given degrees of freedom and the
      * specified inverse cumulative probability absolute accuracy.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param degreesOfFreedom Degrees of freedom.
      * @param inverseCumAccuracy the maximum absolute error in inverse
