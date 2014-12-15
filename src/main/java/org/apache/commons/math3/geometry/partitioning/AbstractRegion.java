@@ -305,7 +305,8 @@ public abstract class AbstractRegion<S extends Space, T extends Space> implement
     /** Check a point with respect to the region.
      * @param point point to check
      * @return a code representing the point status: either {@link
-     * Location#INSIDE}, {@link Location#OUTSIDE} or {@link Location#BOUNDARY}
+     * Region.Location#INSIDE}, {@link Region.Location#OUTSIDE} or
+     * {@link Region.Location#BOUNDARY}
      */
     public Location checkPoint(final Vector<S> point) {
         return checkPoint((Point<S>) point);
