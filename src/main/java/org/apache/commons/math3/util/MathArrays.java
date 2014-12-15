@@ -1584,7 +1584,7 @@ public class MathArrays {
      * @param stride Natural number.
      * @return an array whose entries are the numbers
      * {@code start, start + stride, ..., start + (size - 1) * stride}.
-     * If {@code n == 0}, the returned array is empty.
+     * If {@code size == 0}, the returned array is empty.
      *
      * @since 3.4
      */
