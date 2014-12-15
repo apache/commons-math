@@ -19,11 +19,11 @@ package org.apache.commons.math3.distribution;
 import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.ResizableDoubleArray;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
 
 /**
  * Implementation of the exponential distribution.
@@ -91,6 +91,14 @@ public class ExponentialDistribution extends AbstractRealDistribution {
 
     /**
      * Create an exponential distribution with the given mean.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
+     *
      * @param mean mean of this distribution.
      */
     public ExponentialDistribution(double mean) {
@@ -99,6 +107,13 @@ public class ExponentialDistribution extends AbstractRealDistribution {
 
     /**
      * Create an exponential distribution with the given mean.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param mean Mean of this distribution.
      * @param inverseCumAccuracy Maximum absolute error in inverse

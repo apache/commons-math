@@ -16,13 +16,13 @@
  */
 package org.apache.commons.math3.distribution;
 
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.special.Beta;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.random.RandomGenerator;
 import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.special.Beta;
+import org.apache.commons.math3.util.FastMath;
 
 /**
  * Implementation of the binomial distribution.
@@ -41,6 +41,13 @@ public class BinomialDistribution extends AbstractIntegerDistribution {
     /**
      * Create a binomial distribution with the given number of trials and
      * probability of success.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param trials Number of trials.
      * @param p Probability of success.

@@ -47,6 +47,13 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     /**
      * Create a standard uniform real distribution with lower bound (inclusive)
      * equal to zero and upper bound (exclusive) equal to one.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      */
     public UniformRealDistribution() {
         this(0, 1);
@@ -55,6 +62,13 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     /**
      * Create a uniform real distribution using the given lower and upper
      * bounds.
+     * <p>
+     * <b>Note:</b> this constructor will implicitly create an instance of
+     * {@link Well19937c} as random generator to be used for sampling only (see
+     * {@link #sample()} and {@link #sample(int)}). In case no sampling is
+     * needed for the created distribution, it is advised to pass {@code null}
+     * as random generator via the appropriate constructors to avoid the
+     * additional initialisation overhead.
      *
      * @param lower Lower bound of this distribution (inclusive).
      * @param upper Upper bound of this distribution (exclusive).
