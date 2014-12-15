@@ -1064,6 +1064,25 @@ public class MathArraysTest {
         final int[] natural = MathArrays.natural(0);
         Assert.assertEquals(0, natural.length);
     }
+
+    @Test
+    public void testSequence() {
+        final int size = 4;
+        final int start = 5;
+        final int stride = 2;
+        final int[] expected = {5, 7, 9, 11};
+
+        final int[] seq = MathArrays.sequence(size, start, stride);
+        for (int i = 0; i < size; i++) {
+            Assert.assertEquals(expected[i], seq[i]);
+        }
+    }
+
+    @Test
+    public void testSequenceZero() {
+        final int[] seq = MathArrays.sequence(0, 12345, 6789);
+        Assert.assertEquals(0, seq.length);
+    }
     
     @Test
     public void testVerifyValuesPositive() {
