@@ -701,6 +701,43 @@
         </plugins>
       </build>
     </profile>
+    <!-- Ekstazi (www.ekstazi.org) profile to optimize regression testing -->
+    <profile>
+      <id>ekstazi</id>
+      <activation>
+        <property>
+          <name>ekstazi</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.ekstazi</groupId>
+            <artifactId>ekstazi-maven-plugin</artifactId>
+            <version>4.4.0</version>
+            <configuration>
+              <forcefailing>true</forcefailing>
+            </configuration>
+            <executions>
+              <execution>
+                <id>ekstazi</id>
+                <goals>
+                  <goal>select</goal>
+                  <goal>restore</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludesFile>${java.io.tmpdir}/${user.name}EkstaziExcludes</excludesFile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
 </project>
