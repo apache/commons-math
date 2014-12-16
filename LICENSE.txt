@@ -439,3 +439,10 @@ an adapted version of code developed in the context of the Data Processing
 and Analysis Consortium (DPAC) of the "Gaia" project of the European Space
 Agency (ESA).
 ===============================================================================
+
+The initial commit of the class "org.apache.commons.math3.special.BesselJ" is
+an adapted version of code translated from the netlib Fortran program, rjbesl
+http://www.netlib.org/specfun/rjbesl by R.J. Cody at Argonne National
+Laboratory (USA).  There is no license or copyright statement included with the
+original Fortran sources.
+===============================================================================
