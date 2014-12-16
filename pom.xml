@@ -390,6 +390,12 @@
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
     <commons.scmPubCheckoutDirectory>site-content</commons.scmPubCheckoutDirectory>
+
+    <!-- Temporary fix to replace svn-based build number with git-based build number -->
+    <buildnumber.skip>true</buildnumber.skip>
+    <math.jgit.buildnumber.version>1.2.8</math.jgit.buildnumber.version>
+    <implementation.build>${git.branch}-${git.revision}; ${maven.build.timestamp}</implementation.build>
+
   </properties>
 
   <build>
@@ -512,6 +518,21 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <additionalparam>-header &apos;&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;&apos;</additionalparam>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>ru.concerteza.buildnumber</groupId>
+        <artifactId>maven-jgit-buildnumber-plugin</artifactId>
+        <version>${math.jgit.buildnumber.version}</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>extract-buildnumber</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
         </configuration>
       </plugin>
     </plugins>
