@@ -103,7 +103,7 @@ following Acknowledgement
   Author: W. J. Cody
           Applied Mathematics Division
           Argonne National Laboratory
-          Argonne, IL  60439 by R.J. Cody at Argonne National
+          Argonne, IL  60439
 ===============================================================================
 
 
