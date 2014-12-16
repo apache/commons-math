@@ -23,6 +23,7 @@ import org.apache.commons.math3.random.Well19937c;
 import org.apache.commons.math3.special.Beta;
 import org.apache.commons.math3.special.Gamma;
 import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
 
 /**
  * Implements the Beta distribution.
@@ -34,10 +35,12 @@ public class BetaDistribution extends AbstractRealDistribution {
     /**
      * Default inverse cumulative probability accuracy.
      * @since 2.1
+     * @deprecated as of 3.4, this parameter is not used anymore
      */
+    @Deprecated
     public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -1221965979403477668L;
+    private static final long serialVersionUID = 20141216L;
     /** First shape parameter. */
     private final double alpha;
     /** Second shape parameter. */
@@ -46,8 +49,6 @@ public class BetaDistribution extends AbstractRealDistribution {
      * updated whenever alpha or beta are changed.
      */
     private double z;
-    /** Inverse cumulative probability accuracy. */
-    private final double solverAbsoluteAccuracy;
 
     /**
      * Build a new instance.
@@ -63,7 +64,7 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @param beta Second shape parameter (must be positive).
      */
     public BetaDistribution(double alpha, double beta) {
-        this(alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        this(new Well19937c(), alpha, beta);
     }
 
     /**
@@ -82,9 +83,11 @@ public class BetaDistribution extends AbstractRealDistribution {
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @since 2.1
+     * @deprecated as of 3.4, the inverse cumulative accuracy is not used anymore
      */
+    @Deprecated
     public BetaDistribution(double alpha, double beta, double inverseCumAccuracy) {
-        this(new Well19937c(), alpha, beta, inverseCumAccuracy);
+        this(alpha, beta);
     }
 
     /**
@@ -96,7 +99,11 @@ public class BetaDistribution extends AbstractRealDistribution {
      * @since 3.3
      */
     public BetaDistribution(RandomGenerator rng, double alpha, double beta) {
-        this(rng, alpha, beta, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        super(rng);
+
+        this.alpha = alpha;
+        this.beta = beta;
+        z = Double.NaN;
     }
 
     /**
@@ -109,17 +116,14 @@ public class BetaDistribution extends AbstractRealDistribution {
      * cumulative probability estimates (defaults to
      * {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}).
      * @since 3.1
+     * @deprecated as of 3.4, the inverse cumulative accuracy is not used anymore
      */
+    @Deprecated
     public BetaDistribution(RandomGenerator rng,
                             double alpha,
                             double beta,
                             double inverseCumAccuracy) {
-        super(rng);
-
-        this.alpha = alpha;
-        this.beta = beta;
-        z = Double.NaN;
-        solverAbsoluteAccuracy = inverseCumAccuracy;
+        this(rng, alpha, beta);
     }
 
     /**
@@ -185,18 +189,6 @@ public class BetaDistribution extends AbstractRealDistribution {
         } else {
             return Beta.regularizedBeta(x, alpha, beta);
         }
-    }
-
-    /**
-     * Return the absolute accuracy setting of the solver used to estimate
-     * inverse cumulative probabilities.
-     *
-     * @return the solver absolute accuracy.
-     * @since 2.1
-     */
-    @Override
-    protected double getSolverAbsoluteAccuracy() {
-        return solverAbsoluteAccuracy;
     }
 
     /**
@@ -266,4 +258,103 @@ public class BetaDistribution extends AbstractRealDistribution {
     public boolean isSupportConnected() {
         return true;
     }
+
+    /** {@inheritDoc}
+     * <p>
+     * Sampling is performed using Cheng algorithms:
+     * </p>
+     * <p>
+     * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+     *                 Communications of the ACM, 21, 317–322, 1978.
+     * </p>
+     */
+    @Override
+    public double sample() {
+        if (FastMath.min(alpha, beta) > 1) {
+            return algorithmBB();
+        } else {
+            return algorithmBC();
+        }
+    }
+
+    /** Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
+     * @return sampled value
+     */
+    private double algorithmBB() {
+        final double a = FastMath.min(alpha, beta);
+        final double b = FastMath.max(alpha, beta);
+        final double newAlpha = a + b;
+        final double newBeta = FastMath.sqrt((newAlpha - 2.) / (2. * a * b - newAlpha));
+        final double gamma = a + 1. / newBeta;
+
+        double r;
+        double w;
+        double t;
+        do {
+            final double u1 = random.nextDouble();
+            final double u2 = random.nextDouble();
+            final double v = newBeta * FastMath.log(u1 / (1. - u1));
+            w = a * FastMath.exp(v);
+            final double newZ = u1 * u1 * u2;
+            r = gamma * v - 1.3862944;
+            final double s = a + r - w;
+            if (s + 2.609438 >= 5 * newZ) {
+                break;
+            }
+
+            t = FastMath.log(newZ);
+            if (s >= t) {
+                break;
+            }
+        } while (r + newAlpha * FastMath.log(newAlpha / (b + w)) < t);
+
+        w = FastMath.min(w, Double.MAX_VALUE);
+        return Precision.equals(a, alpha) ? w / (b + w) : b / (b + w);
+    }
+
+    /** Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
+     * @return sampled value
+     */
+    private double algorithmBC() {
+        final double a = FastMath.max(alpha, beta);
+        final double b = FastMath.min(alpha, beta);
+        final double newAlpha = a + b;
+        final double newBeta = 1. / b;
+        final double delta = 1. + a - b;
+        final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * newBeta - 0.777778);
+        final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
+
+        double w;
+        for (;;) {
+            final double u1 = random.nextDouble();
+            final double u2 = random.nextDouble();
+            final double y = u1 * u2;
+            final double newZ = u1 * y;
+            if (u1 < 0.5) {
+                if (0.25 * u2 + newZ - y >= k1) {
+                    continue;
+                }
+            } else {
+                if (newZ <= 0.25) {
+                    final double v = newBeta * FastMath.log(u1 / (1. - u1));
+                    w = a * FastMath.exp(v);
+                    break;
+                }
+
+                if (newZ >= k2) {
+                    continue;
+                }
+            }
+
+            final double v = newBeta * FastMath.log(u1 / (1. - u1));
+            w = a * FastMath.exp(v);
+            if (newAlpha * (FastMath.log(newAlpha / (b + w)) + v) - 1.3862944 >= FastMath.log(newZ)) {
+                break;
+            }
+        }
+
+        w = FastMath.min(w, Double.MAX_VALUE);
+        return Precision.equals(a, alpha) ? w / (b + w) : b / (b + w);
+    }
+
 }

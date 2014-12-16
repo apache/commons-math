@@ -16,10 +16,22 @@
  */
 package org.apache.commons.math3.distribution;
 
+import java.util.Arrays;
+
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well1024a;
+import org.apache.commons.math3.random.Well19937a;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest;
+import org.apache.commons.math3.stat.inference.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class BetaDistributionTest {
+
+    static final double[] alphaBetas = {0.1, 1, 10, 100, 1000};
+    static final double epsilon = StatUtils.min(alphaBetas);
+
     @Test
     public void testCumulative() {
         double[] x = new double[]{-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1};
@@ -303,4 +315,66 @@ public class BetaDistributionTest {
         Assert.assertEquals(dist.getNumericalMean(), 2.0 / 7.0, tol);
         Assert.assertEquals(dist.getNumericalVariance(), 10.0 / (49.0 * 8.0), tol);
     }
+
+    @Test
+    public void testMomentsSampling() {
+        RandomGenerator random = new Well1024a(0x7829862c82fec2dal);
+        final int numSamples = 1000;
+        for (final double alpha : alphaBetas) {
+            for (final double beta : alphaBetas) {
+                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
+                final double[] observed = new BetaDistribution(alpha, beta).sample(numSamples);
+                Arrays.sort(observed);
+
+                final String distribution = String.format("Beta(%.2f, %.2f)", alpha, beta);
+                Assert.assertEquals(String.format("E[%s]", distribution),
+                                    betaDistribution.getNumericalMean(),
+                                    StatUtils.mean(observed), epsilon);
+                Assert.assertEquals(String.format("Var[%s]", distribution),
+                                    betaDistribution.getNumericalVariance(),
+                                    StatUtils.variance(observed), epsilon);
+            }
+        }
+    }
+
+    @Test
+    public void testGoodnessOfFit() {
+        RandomGenerator random = new Well19937a(0x237db1db907b089fl);
+        final int numSamples = 1000;
+        final double level = 0.01;
+        for (final double alpha : alphaBetas) {
+            for (final double beta : alphaBetas) {
+                final BetaDistribution betaDistribution = new BetaDistribution(random, alpha, beta);
+                final double[] observed = betaDistribution.sample(numSamples);
+                Assert.assertFalse("G goodness-of-fit test rejected null at alpha = " + level,
+                                   gTest(betaDistribution, observed) < level);
+                Assert.assertFalse("KS goodness-of-fit test rejected null at alpha = " + level,
+                                   new KolmogorovSmirnovTest(random).kolmogorovSmirnovTest(betaDistribution, observed) < level);
+            }
+        }
+    }
+
+    private double gTest(final RealDistribution expectedDistribution, final double[] values) {
+        final int numBins = values.length / 30;
+        final double[] breaks = new double[numBins];
+        for (int b = 0; b < breaks.length; b++) {
+            breaks[b] = expectedDistribution.inverseCumulativeProbability((double) b / numBins);
+        }
+
+        final long[] observed = new long[numBins];
+        for (final double value : values) {
+            int b = 0;
+            do {
+                b++;
+            } while (b < numBins && value >= breaks[b]);
+
+            observed[b - 1]++;
+        }
+
+        final double[] expected = new double[numBins];
+        Arrays.fill(expected, (double) values.length / numBins);
+
+        return TestUtils.gTest(expected, observed);
+    }
+
 }
