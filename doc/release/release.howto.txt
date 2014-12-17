@@ -22,7 +22,7 @@ main site: at "http://commons.apache.org/releases/prepare.html" and
 
 The files "settings-security.xml" and "settings.xml" are minimal examples
 of files used by maven to pick up authentication credentials needed to
-connect to remote servers and to cryptographically sign the artefacts.
+connect to remote servers and to cryptographically sign the artifacts.
 
 (0)
 Preliminary checks:
@@ -38,42 +38,82 @@ Preliminary checks:
 
 (1)
 As a first optional step, you can test that everything works locally, i.e.
-that the build process can create all the necessary artefacts. The command
+that the build process can create all the necessary artifacts. The command
 
   $ mvn clean deploy -Prelease -Ptest-deploy
 
-should create the artefacts in the "target/deploy".
+should create the artifacts in the "target/deploy".
 
 
 (2)
 At this point, you should commit everything that will be part of the release.
+Since [math] has switched to git as its version control system, this can be
+easily on the release manager local host in a branch. We will use the same branch
+for all release candidates, so the branch will be named MATH_3_2_RELEASE_CANDIDATES.
+The branch will only be used to store the release specific parts (i.e. the pom changes
+with the version number, the release date in the site and so on). Everything else
+and in particular code change that will remain in the component after the release
+must be committed to the master branch. The release candidate branch will be synchronised
+with master at the start of each new candidate for this particular release.
+
+The example below show a typical workflow. Just after commit A in the master branch, the
+release candidate branch is created starting from master. This is shown by the 'b' in the
+second line. Then release candidate specific commits are made on the pom and a few other
+files, leading to a commit which will be tagged as RC1. This release candidate fails, and
+a few corrections need to be made on master, corresponding to commits B and C. Then the
+release candidate branch is synchronized by running a 'git merge' command on the branch.
+This is shown by the 'm' in the second line. A new commit is tagged as RC2. This second
+release candidate also fails, and a new correction is made on master branch, a new merge
+is done on the release branch, a new commit is tagged and a third release candidate is
+create, which succeds. Then a final tag will be added on the final commit of this branch
+showing the status as released.
+
+
+ ----A---------> B ----> C----------> D--------->                     <- master branch
+      \                   \            \
+       b---> RC1 ----------m---> RC2 ---m---> RC3/final release    <- release candidates branch
+
+This process allows to never commit release candidate specific changes to the master
+branch (so the pom on master always holds a SNAPSHOT version). Is also allows
+future reference to the release preserving all history.
+
+If the release candidates branch does not exist because it is the first release
+candidate, create it starting from the master branch:
+
+  $ git branch MATH_3_2_RELEASE_CANDIDATES
+
+(3)
+Switch to the release candidate branch:
+
+  $ git checkout MATH_3_2_RELEASE_CANDIDATES
+
+(4)
+If there have been changes committed in the master branch since the creation of
+the release candidate branch and if these changes must be included in the release
+candidate, merge master branch into release candidates branch
+
+  $ git merge master
+
+(5)
+Update the release specific files, checking you are really working on the
+release candidate branch and *not* on the master branch.
 
 In particular:
  * Update and commit the "src/site/site.xml" file to contain the information
    about the API docs of the new release.
  * Estimate a release date (taking into account the release vote delay) and
    insert it in the "src/changes/changes.xml" file.
-
-From now on, be especially careful to the "svn commit" commands that will be
-indicated below: Only the selected file(s) should be committed but not the
-"pom.xml" that will be modified now.
-
-The "pom.xml" on the SVN server must always be in a state for creating snapshot
-versions of the library, i.e. the tag "<version>" should end with the string
-"-SNAPSHOT":
-
-    <version>3.2-SNAPSHOT</version>
-
-Assuming that the release version will be "3.2", modify the "<version>" tag to
-read:
+ * Update the "pom.xml" to contain the final version number and not a SNAPSHOT:
+   Assuming that the release version will be "3.2", modify the "<version>" tag to
+   read:
 
     <version>3.2</version>
 
-Modify the section of "<properties>" that also refers to version numbers.
-You should uncomment the "<commons.rc.version>" line and indicate the
-appropriate numbering of the release candidate: This refers to how many
-times you will need to repeat this whole release process until it is
-accepted (by a vote):
+   Modify the section of "<properties>" that also refers to version numbers.
+   You should uncomment the "<commons.rc.version>" line and indicate the
+   appropriate numbering of the release candidate: This refers to how many
+   times you will need to repeat this whole release process until it is
+   accepted (by a vote):
 
   <properties>
     <!-- ... -->
@@ -82,19 +122,15 @@ accepted (by a vote):
     <!-- ... -->
   </properties>
 
-[Note: From now on, the "pom.xml" file must not be committed anymore
-to the SVN repository. Once the release process is over, you can do a
-"revert" to cancel the local changes.]
 
-
-(3)
+(6)
 The "download" page template is located at "src/site/xdoc/download_math.xml".
 This file is updated automatically by running the command:
 
   $ mvn commons:download-page
 
 
-(4)
+(7)
 The "release notes" file will be created by gathering all the changes
 collected during development in the file "src/changes/changes.xml".
 Create it by running:
@@ -115,37 +151,55 @@ the RELEASE-NOTES.txt file:
 
   $ mvn -Prelease-notes changes:announcement-generate
 
-Check the file for weird line breaks, and commit the updated file to SVN:
+Check the file for weird line breaks, and commit the updated file to git:
 
-  $ svn commit RELEASE-NOTES.txt
+  $ git add src/site/site.xml \
+            src/changes/changes.xml \
+            pom.xml \
+            src/site/xdoc/download_math.xml \
+            RELEASE-NOTES.txt
+
+Check you did not forget any file:
+
+  $ git status
+
+Commit the changes:
+  $ git commit -m "creating release candidate"
 
 
-(5)
-Create the tag that will contain the whole source of this release candidate.
-First, make sure that the workspace is up-to-date:
+(8)
+Create a GPG signed tag that will contain the whole source of this release candidate.
+First, make sure once again that the workspace is up-to-date:
 
-  $ svn up
+  $ git status
 
 Then, assuming the first candidate, the suffix will be "RC1" (this should
 be the  same as in the "<properties>" in the "pom.xml"), and the command
 will be:
 
-  $ svn copy . \
-    -m"Creating Commons Math v3.2 RC1 tag." \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1
+  $ git tag -s -m "Creating Commons Math v3.2 RC1 tag." MATH_3_2_RC1
 
-The tag will then be accessible at
-  https://svn.apache.org/repos/asf/commons/proper/math/tags/
+If you have several GPG keys, you may prefer to use "-u keyId" to select a specific
+key for sighnig the tag instead of "-s" which select automatically one key
+from the configured e-mail address.
 
+Push everything (including the tag!) on the Apache repository:
 
-(6)
-Check out the tagged code and change into the newly created directory:
+  $ git push --tags
 
-  $ svn co https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1
-  $ cd MATH_3_2_RC1
+(9)
+Switch to a new directory out of your regular workspace, and retrieve
+the official tag from the Apache repository:
 
+  $ cd /tmp
+  $ git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_2_RC1
 
-(7)
+In the command above, the --branch option accepts both branch names and tags names,
+so we specify directly the tag here. Git will warn that the resulting workspace
+is in 'detached HEAD' state and 'git status' commands will warn that you are not
+currently on any branch. This is expected is this situation.
+
+(10)
 If this is your first release, you might need to add your GPG encryption
 key to the KEYS file. [If you have already done so, skip this section.]
 
@@ -157,7 +211,7 @@ Retrieve the files from the SVN repository:
 and follow the instructions at the top of the "KEYS" file.
 
 
-(8)
+(11)
 Create and transfer the artifacts to the Nexus server (a.k.a. "deploy").
 
 Because the artifacts must be cryptographically signed, this step requires that
@@ -192,7 +246,7 @@ people review the deliverables just created.
 How to "close" the staging repository it is explained at this page:
   https://docs.sonatype.org/display/Repository/Closing+a+Staging+Repository
 
-(9)
+(12)
 Upload the other distribution files to the Apache servers.
 
 The archive files have been created during the previous step. They have been put
@@ -203,13 +257,13 @@ following commands:
 
  $ cd /tmp
  $ svn checkout https://dist.apache.org/repos/dist/dev/commons/math
- $ cp /.m2/repository/org/apache/commons/commons-math/3.2*-bin.* binaries
- $ cp /.m2/repository/org/apache/commons/commons-math/3.2*-src.* source
+ $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-bin.* binaries
+ $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-src.* source
  $ cp <path-to-the-RC-workspace>/RELEASE-NOTES.txt .
  $ svn commit -m "Creating distribution files for 3.2 RC1"
 
 
-(10)
+(13)
 Web site testing (a.k.a "staging") of the generated web site (containing the
 API documentation, etc.)
 
@@ -231,13 +285,13 @@ The web site will be available for review at:
   http://people.apache.org/builds/commons/math/3.2/RC1
 
 
-(11)
+(14)
 Call to vote by sending a message to the "dev" ML with subject
 "[VOTE][RC1] Release Commons Math 3.2". You can use the following example as
 a starting point, replacing the URLs with the appropriate ones:
 ----------
 Tag:
-  https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1/
+  git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_2_RC1
 
 Site:
   http://people.apache.org/builds/commons/math/3.2/RC1/
@@ -257,20 +311,20 @@ This vote will close in 72 hours.
 ----------
 
 
-(12)
+(15)
 If some blocking problems have been found in the release deliverables, cancel
 the vote by sending a "[CANCEL][VOTE]" message to the "dev" ML.
 After correcting the problems, you'll likely have to start again from step 3,
 4 or 5.
 
 
-(13)
+(16)
 After at least 72 hours have elapsed, send a "[VOTE][RESULT]" mail to
 summarize the outcome of the vote. This should tally the votes cast,
 and state which are binding (PMC members).
 
 
-(14)
+(17)
 The distribution files must be moved from the development area to the release
 area of the Apache dist server:
 
@@ -295,12 +349,12 @@ $ svnmucc -U https://dist.apache.org/repos/dist \
           -m "Publish commons-math 3.2 Release"
 
 
-(15)
+(18)
 Release (a.k.a. "promote") the artifacts on the Nexus server, as shown here:
   https://docs.sonatype.org/display/Repository/Releasing+a+Staging+Repository
 
 
-(16)
+(19)
 Publish the web site. From your local working copy of the tag, run the command:
 
   $ mvn site-deploy
@@ -315,15 +369,14 @@ $ <fix the site>
 $ svn commit -m "fixing broken links"
 
 
-(17)
-Copy the the final RC tag to the official tag:
-  $ svn copy \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2_RC1 \
-    -m"RC1 becomes the 3.2 official version." \
-    https://svn.apache.org/repos/asf/commons/proper/math/tags/MATH_3_2
+(20)
+Put the official final tag to point at the same commit as the last release candidate tag:
+
+  $ git tag -s -m"RC1 becomes the 3.2 official version." MATH_3_2 MATH_3_2_RC1
+  $ git push --tags
 
 
-(18)
+(21)
 Allow for the web site mirrors to be updated (possibly several hours); then
 send (from your apache account) a release announcement to the following ML:
   announce@apache.org
