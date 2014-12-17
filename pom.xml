@@ -386,6 +386,13 @@
 
     <!-- Temporary fix to support Java 8 -->
     <commons.jacoco.version>0.7.0.201403182114</commons.jacoco.version>
+    <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
+    <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
+    <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
+    <commons.jacoco.branchRatio>0.8</commons.jacoco.branchRatio>
+    <commons.jacoco.complexityRatio>0.8</commons.jacoco.complexityRatio>
+    <commons.jacoco.lineRatio>0.85</commons.jacoco.lineRatio>
+    <commons.jacoco.haltOnFailure>false</commons.jacoco.haltOnFailure>
 
     <commons.site.path>math</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math</commons.scmPubUrl>
