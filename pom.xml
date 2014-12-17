@@ -614,6 +614,7 @@
             <exclude>.gitignore</exclude>
             <exclude>.git/**</exclude>
             <exclude>.checkstyle</exclude>
+            <exclude>.ekstazi/**</exclude>
 
           </excludes>
         </configuration>
