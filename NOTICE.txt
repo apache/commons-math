@@ -78,34 +78,6 @@ Copyright (c) 2008, Frances Y. Kuo and Stephen Joe
 All rights reserved.
 ===============================================================================
 
-The initial commit of the class "org.apache.commons.math3.special.BesselJ" is
-an adapted version of code translated from the netlib Fortran program, rjbesl
-http://www.netlib.org/specfun/rjbesl.  The Fortran source includes the
-following Acknowledgement
-
-   This program is based on a program written by David J. Sookne
-   (2) that computes values of the Bessel functions J or I of real
-   argument and integer order.  Modifications include the restriction
-   of the computation to the J Bessel function of non-negative real
-   argument, the extension of the computation to arbitrary positive
-   order, and the elimination of most underflow.
-
-  References: "A Note on Backward Recurrence Algorithms," Olver,
-               F. W. J., and Sookne, D. J., Math. Comp. 26, 1972,
-               pp 941-947.
-
-              "Bessel Functions of Real Argument and Integer Order,"
-               Sookne, D. J., NBS Jour. of Res. B. 77B, 1973, pp
-               125-132.
-
-  Latest modification: March 19, 1990
-
-  Author: W. J. Cody
-          Applied Mathematics Division
-          Argonne National Laboratory
-          Argonne, IL  60439
-===============================================================================
-
 
 The complete text of licenses and disclaimers associated with the the original
 sources enumerated above at the time of code translation are in the LICENSE.txt
