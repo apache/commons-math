@@ -270,91 +270,123 @@ public class BetaDistribution extends AbstractRealDistribution {
      */
     @Override
     public double sample() {
-        if (FastMath.min(alpha, beta) > 1) {
-            return algorithmBB();
-        } else {
-            return algorithmBC();
+        return ChengBetaSampler.sample(random, alpha, beta);
+    }
+
+    /** Utility class implementing Cheng's algorithms for beta distribution sampling.
+     * <p>
+     * R. C. H. Cheng, "Generating beta variates with nonintegral shape parameters.".
+     *                 Communications of the ACM, 21, 317–322, 1978.
+     * </p>
+     * @since 3.4
+     */
+    private static class ChengBetaSampler {
+
+        /** Private constructor for a utility method.
+         */
+        private ChengBetaSampler() {
         }
-    }
 
-    /** Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
-     * @return sampled value
-     */
-    private double algorithmBB() {
-        final double a = FastMath.min(alpha, beta);
-        final double b = FastMath.max(alpha, beta);
-        final double newAlpha = a + b;
-        final double newBeta = FastMath.sqrt((newAlpha - 2.) / (2. * a * b - newAlpha));
-        final double gamma = a + 1. / newBeta;
+        /** Returns one sample using Cheng's BB algorithm, when both &alpha; and &beta; are greater than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter
+         * @param b0 distribution second shape parameter
+         * @return sampled value
+         */
+        public static double algorithmBB(final RandomGenerator random, final double a0, final double b0) {
+            final double a = FastMath.min(a0, b0);
+            final double b = FastMath.max(a0, b0);
+            final double alpha = a + b;
+            final double beta = FastMath.sqrt((alpha - 2.) / (2. * a * b - alpha));
+            final double gamma = a + 1. / beta;
 
-        double r;
-        double w;
-        double t;
-        do {
-            final double u1 = random.nextDouble();
-            final double u2 = random.nextDouble();
-            final double v = newBeta * FastMath.log(u1 / (1. - u1));
-            w = a * FastMath.exp(v);
-            final double newZ = u1 * u1 * u2;
-            r = gamma * v - 1.3862944;
-            final double s = a + r - w;
-            if (s + 2.609438 >= 5 * newZ) {
-                break;
-            }
-
-            t = FastMath.log(newZ);
-            if (s >= t) {
-                break;
-            }
-        } while (r + newAlpha * FastMath.log(newAlpha / (b + w)) < t);
-
-        w = FastMath.min(w, Double.MAX_VALUE);
-        return Precision.equals(a, alpha) ? w / (b + w) : b / (b + w);
-    }
-
-    /** Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
-     * @return sampled value
-     */
-    private double algorithmBC() {
-        final double a = FastMath.max(alpha, beta);
-        final double b = FastMath.min(alpha, beta);
-        final double newAlpha = a + b;
-        final double newBeta = 1. / b;
-        final double delta = 1. + a - b;
-        final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * newBeta - 0.777778);
-        final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
-
-        double w;
-        for (;;) {
-            final double u1 = random.nextDouble();
-            final double u2 = random.nextDouble();
-            final double y = u1 * u2;
-            final double newZ = u1 * y;
-            if (u1 < 0.5) {
-                if (0.25 * u2 + newZ - y >= k1) {
-                    continue;
-                }
-            } else {
-                if (newZ <= 0.25) {
-                    final double v = newBeta * FastMath.log(u1 / (1. - u1));
-                    w = a * FastMath.exp(v);
+            double r;
+            double w;
+            double t;
+            do {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double v = beta * FastMath.log(u1 / (1. - u1));
+                w = a * FastMath.exp(v);
+                final double z = u1 * u1 * u2;
+                r = gamma * v - 1.3862944;
+                final double s = a + r - w;
+                if (s + 2.609438 >= 5 * z) {
                     break;
                 }
 
-                if (newZ >= k2) {
-                    continue;
+                t = FastMath.log(z);
+                if (s >= t) {
+                    break;
+                }
+            } while (r + alpha * FastMath.log(alpha / (b + w)) < t);
+
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
+        /** Returns one sample using Cheng's BC algorithm, when at least one of &alpha; and &beta; is smaller than 1.
+         * @param random random generator to use
+         * @param a0 distribution first shape parameter
+         * @param b0 distribution second shape parameter
+         * @return sampled value
+         */
+        public static double algorithmBC(final RandomGenerator random, final double a0, final double b0) {
+            final double a = FastMath.max(a0, b0);
+            final double b = FastMath.min(a0, b0);
+            final double alpha = a + b;
+            final double beta = 1. / b;
+            final double delta = 1. + a - b;
+            final double k1 = delta * (0.0138889 + 0.0416667 * b) / (a * beta - 0.777778);
+            final double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
+
+            double w;
+            for (;;) {
+                final double u1 = random.nextDouble();
+                final double u2 = random.nextDouble();
+                final double y = u1 * u2;
+                final double z = u1 * y;
+                if (u1 < 0.5) {
+                    if (0.25 * u2 + z - y >= k1) {
+                        continue;
+                    }
+                } else {
+                    if (z <= 0.25) {
+                        final double v = beta * FastMath.log(u1 / (1. - u1));
+                        w = a * FastMath.exp(v);
+                        break;
+                    }
+
+                    if (z >= k2) {
+                        continue;
+                    }
+                }
+
+                final double v = beta * FastMath.log(u1 / (1. - u1));
+                w = a * FastMath.exp(v);
+                if (alpha * (FastMath.log(alpha / (b + w)) + v) - 1.3862944 >= FastMath.log(z)) {
+                    break;
                 }
             }
 
-            final double v = newBeta * FastMath.log(u1 / (1. - u1));
-            w = a * FastMath.exp(v);
-            if (newAlpha * (FastMath.log(newAlpha / (b + w)) + v) - 1.3862944 >= FastMath.log(newZ)) {
-                break;
+            w = FastMath.min(w, Double.MAX_VALUE);
+            return Precision.equals(a, a0) ? w / (b + w) : b / (b + w);
+        }
+
+        /** Returns one sample using Cheng's algorithms.
+         * @param random random generator to use
+         * @param alpha distribution first shape parameter
+         * @param beta distribution second shape parameter
+         * @return sampled value
+         */
+        public static double sample(final RandomGenerator random, final double alpha, final double beta) {
+            if (FastMath.min(alpha, beta) > 1) {
+                return algorithmBB(random, alpha, beta);
+            } else {
+                return algorithmBC(random, alpha, beta);
             }
         }
 
-        w = FastMath.min(w, Double.MAX_VALUE);
-        return Precision.equals(a, alpha) ? w / (b + w) : b / (b + w);
     }
 
 }
