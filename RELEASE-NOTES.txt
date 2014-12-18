@@ -1,9 +1,11 @@
 
               Apache Commons Math 3.4 RELEASE NOTES
 
-The Apache Commons Math team is pleased to announce the release of commons-math3-3.4-SNAPSHOT
+The Apache Commons Math team is pleased to announce the release of commons-math3-3.4
 
-The Apache Commons Math project is a library of lightweight, self-contained mathematics and statistics components addressing the most common practical problems not immediately available in the Java programming language or commons-lang.
+The Apache Commons Math project is a library of lightweight, self-contained mathematics
+and statistics components addressing the most common practical problems not immediately
+available in the Java programming language or commons-lang.
 
 This is a minor release: It combines bug fixes and new features.
 Changes to existing features were made in a backwards-compatible
@@ -13,11 +15,12 @@ Most notable among the new features are:
 new distributions (Gumbel, Laplace, Logistic, Nakagami), and
 improvements on percentiles algorithms (better handling for NaNs
 in the regular algorithm, plus a new storeless implementation).
-Bicubic splines interpolators have been fixed and new implementations
-added. There have been numerous bug fixes and several improvements
-on performances or robustness. See below for a full list)
+Bicubic and tricubic interpolators have been fixed and new
+implementations added. There have been numerous bug fixes and
+several improvements on performances or robustness. See below
+for a full list.
 
- The minimum version of the Java platform required to compile and use
+The minimum version of the Java platform required to compile and use
 Apache Commons Math is Java 5.
 
 Users are encouraged to upgrade to this version as this release not
@@ -36,6 +39,12 @@ Caveat:
 Changes in this version include:
 
 New features:
+o MATH-1066:  Added Bessel functions of the first kind, based on NetLib implementation. Thanks to Brian Wignall. 
+o MATH-1180:  Method to create a sequence of integers (in "o.a.c.m.util.MathArrays"). 
+o MATH-1172:  New class "SimpleCurveFitter": Boiler-plate code to allow fitting of
+        a user-defined parametric function. 
+o MATH-1173:  New classes "TricubicInterpolatingFunction" and "TricubicInterpolator" to
+        replace "TricubicSplineInterpolatingFunction" and "TricubicSplineInterpolator". 
 o MATH-1166:  New classes "BicubicInterpolatingFunction" and "BicubicInterpolator" to
         replace "BicubicSplineInterpolatingFunction" and "BicubicSplineInterpolator". 
 o           Boundary attributes in regions now provides the BSP tree nodes that
@@ -53,6 +62,12 @@ o MATH-418:  Added implementation of PSquare algorithm to estimate percentiles w
         storing data in memory (i.e. as StorelessUnivariateStatistic). Thanks to Venkatesha Murthy. 
 
 Fixed Bugs:
+o MATH-1142:  Improve performance of kalman gain calculation in "KalmanFilter" by
+        directly solving a linear system rather than computing the matrix
+        inverse. Thanks to Arne Schwarz. 
+o MATH-1181:  Fixed integer overflow in KolmogorovSmirnovTest causing 2-sample test
+        to use exact method when the product of the sample sizes exceeds 
+        Integer.MAX_VALUE, resulting in effectively hung execution. 
 o MATH-1178:  Fixed example in userguide ("stat" section). Thanks to Dmitriy. 
 o MATH-1175:  Fixed inverse cumulative probability of 0 in "LaplaceDistribution". Thanks to Karsten Loesing. 
 o MATH-1174:  Fixed a problem with too thin polygons considered to have infinite size. 
