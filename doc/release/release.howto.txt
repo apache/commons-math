@@ -203,11 +203,15 @@ Then, assuming the first candidate, the suffix will be "RC1" (this should
 be the  same as in the "<properties>" in the "pom.xml"), and the command
 will be:
 
-  $ git tag -s -m "Creating Commons Math v3.2 RC1 tag." MATH_3_2_RC1
+  $ git tag -s -m "Creating Apache Commons Math v3.2 RC1 tag." MATH_3_2_RC1
 
 If you have several GPG keys, you may prefer to use "-u keyId" to select a specific
 key for signing the tag instead of "-s" which select automatically one key
 from the configured e-mail address.
+
+Check the tag GPG signature:
+
+  $ git tag -v MATH_3_2_RC1
 
 Push everything (including the tag!) on the Apache repository:
 
@@ -316,8 +320,10 @@ Call to vote by sending a message to the "dev" ML with subject
 "[VOTE][RC1] Release Commons Math 3.2". You can use the following example as
 a starting point, replacing the URLs with the appropriate ones:
 ----------
-Tag:
+Tag (and how to check its GPG signature):
   git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_2_RC1
+  cd commons-math
+  git tag -v MATH_3_2_RC1
 
 Site:
   http://people.apache.org/builds/commons/math/3.2/RC1/
