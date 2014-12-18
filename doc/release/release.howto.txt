@@ -95,7 +95,7 @@ should create the artifacts in the "target/deploy".
 At this point, you will work mainly on the release-candidates branch.
 
 If the release-candidates branch does not exist because it is the first release
-candidate, create it starting from the master branch:
+candidate, create it locally starting from the master branch:
 
   $ git branch release-candidates
 
@@ -103,6 +103,10 @@ candidate, create it starting from the master branch:
 Switch to the release candidate branch:
 
   $ git checkout release-candidates
+
+Push the local branch to Apache repository (assuming it is called origin):
+
+  $ git push --set-upstream origin release-candidates
 
 (4)
 If there have been changes committed in the master branch since the creation of
@@ -274,7 +278,7 @@ repository.
 As a measure of sanity check,  repository must be manually "closed" before other
 people review the deliverables just created.
 How to "close" the staging repository it is explained at this page:
-  https://docs.sonatype.org/display/Repository/Closing+a+Staging+Repository
+  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
 
 (12)
 Upload the other distribution files to the Apache servers.
@@ -287,9 +291,11 @@ following commands:
 
  $ cd /tmp
  $ svn checkout https://dist.apache.org/repos/dist/dev/commons/math
- $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-bin.* binaries
- $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-src.* source
+ $ cd math
+ $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.2*-bin.* binaries
+ $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.2*-src.* source
  $ cp <path-to-the-RC-workspace>/RELEASE-NOTES.txt .
+ $ svn add RELEASE-NOTES.txt binaries/* source/*
  $ svn commit -m "Creating distribution files for 3.2 RC1"
 
 
@@ -297,22 +303,21 @@ following commands:
 Web site testing (a.k.a "staging") of the generated web site (containing the
 API documentation, etc.)
 
-This step requires a "<server>" with an identifier set to "stagingSite" and
-that the remote server is set up to accept no-password ssh authentification
-(cf. sample "settings.xml" file).
-
-Execute the commands (assuming the release candidate is "RC1"):
+This step uses the svnpubsub mechanism, which means that the site content is
+stored in an svn repository and committing it directly update the staging area
+of the site
 
   $ mvn site 
 
 and
 
- $ mvn site:stage-deploy \
-     -DstagingDirectory=src/site \
-     -DstagingSiteURL=scp://__Your_apache_login__@people.apache.org:/www/people.apache.org/builds/commons/math/3.2/RC1
+  $ cd site-content
+  $ rm -fr *
+  $ cp -pR ../target/site/* .
+  $ svn commit -m "updating site for RC1"
 
 The web site will be available for review at:
-  http://people.apache.org/builds/commons/math/3.2/RC1
+  http://commons.staging.apache.org/proper/commons-math/
 
 
 (14)
@@ -326,7 +331,7 @@ Tag (and how to check its GPG signature):
   git tag -v MATH_3_2_RC1
 
 Site:
-  http://people.apache.org/builds/commons/math/3.2/RC1/
+  http://commons.staging.apache.org/proper/commons-math/
 
 Distribution files:
   https://dist.apache.org/repos/dist/dev/commons/math/
@@ -383,13 +388,13 @@ $ svnmucc -U https://dist.apache.org/repos/dist \
 
 (18)
 Release (a.k.a. "promote") the artifacts on the Nexus server, as shown here:
-  https://docs.sonatype.org/display/Repository/Releasing+a+Staging+Repository
+  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-releasing
 
 
 (19)
-Publish the web site. From your local working copy of the tag, run the command:
-
-  $ mvn site-deploy
+Publish the web site. This is done by publishing the staging area, directly
+from a browser at URL:
+  https://cms.apache.org/commons/publish
 
 You may want to adjust manually some parts like fixing broken relative links or
 copying the content of the current apidocs to javadocs/api-3.2. In order to do
