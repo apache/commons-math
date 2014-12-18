@@ -24,6 +24,52 @@ The files "settings-security.xml" and "settings.xml" are minimal examples
 of files used by maven to pick up authentication credentials needed to
 connect to remote servers and to cryptographically sign the artifacts.
 
+Since [math] has switched to git as its version control system, release preparation
+can be done easily on the release manager local host in a branch. We will use a
+temporary branch for all release candidates, and delete it afterwards, so the branch
+will be simply named release-candidates. The branch will only be used to store the
+release specific parts (i.e. the pom changes with the version number, the release date
+in the site and so on). Everything else and in particular code change that will remain
+in the component after the release must be committed to the master branch. The release
+candidate branch will be synchronized with master at the start of each new candidate for
+this particular release. Once the release is done, the branch will be merged back to
+master and deleted. Of course, this will not delete the history, only the name
+release-candidates pointing to the head of this branch will disappear and can be reused
+for next version.
+
+The example below show a typical workflow. Just after commit A in the master branch, the
+release-candidate branch is created starting from master. This is shown by the 'b' in the
+second line. Then release candidate specific commits are made on the pom and a few other
+files, leading to a commit which will be tagged as RC1. This release candidate fails, and
+a few corrections need to be made on master, corresponding to commits B and C. Then the
+release candidate branch is synchronized by running a 'git merge' command on the branch.
+This is shown by the 'm' in the second line. A new commit is tagged as RC2. This second
+release candidate also fails, and a new correction is made on master branch, a new merge
+is done on the release branch, a new commit is tagged and a third release candidate is
+create, which succeeds. Then a final tag will be added on the final commit of this branch
+showing the status as released. Then the files are cleaned to prepare for next version
+(pom getting again a SNAPSHOT suffix, changes.xml getting a new placeholder for changes)
+and the cleaned branch is merged back to master. Once the branch has been merged, it is not
+useful anymore so it is deleted, hence the name release-candidate can be used again for
+the release branch of the next version.
+
+
+ ----A-------> B --> C----------> D--------------------------------------m---->    <- master branch
+      \               \            \                                    /
+       b---> RC1 ------m---> RC2 ---m---> RC3/final release --> cleaning --X       <- release-candidates branch
+
+This process allows:
+
+ - to never commit release candidate specific changes to the master
+   branch (so the pom on master always holds a SNAPSHOT version),
+ - to preserve future reference to the release
+ - to allow parallel work on master during the release
+ - if necessary to have multiple release managers or help on the
+   release as the release-candidates branch is shared
+ - to abort a release by deleting the branch early if some
+   larger change is needed on master
+
+
 (0)
 Preliminary checks:
  * All Java files must contain a license header. The "RAT" maven plugin will
@@ -46,57 +92,37 @@ should create the artifacts in the "target/deploy".
 
 
 (2)
-At this point, you should commit everything that will be part of the release.
-Since [math] has switched to git as its version control system, this can be
-easily on the release manager local host in a branch. We will use the same branch
-for all release candidates, so the branch will be named MATH_3_2_RELEASE_CANDIDATES.
-The branch will only be used to store the release specific parts (i.e. the pom changes
-with the version number, the release date in the site and so on). Everything else
-and in particular code change that will remain in the component after the release
-must be committed to the master branch. The release candidate branch will be synchronised
-with master at the start of each new candidate for this particular release.
+At this point, you will work mainly on the release-candidates branch.
 
-The example below show a typical workflow. Just after commit A in the master branch, the
-release candidate branch is created starting from master. This is shown by the 'b' in the
-second line. Then release candidate specific commits are made on the pom and a few other
-files, leading to a commit which will be tagged as RC1. This release candidate fails, and
-a few corrections need to be made on master, corresponding to commits B and C. Then the
-release candidate branch is synchronized by running a 'git merge' command on the branch.
-This is shown by the 'm' in the second line. A new commit is tagged as RC2. This second
-release candidate also fails, and a new correction is made on master branch, a new merge
-is done on the release branch, a new commit is tagged and a third release candidate is
-create, which succeds. Then a final tag will be added on the final commit of this branch
-showing the status as released.
-
-
- ----A---------> B ----> C----------> D--------->                     <- master branch
-      \                   \            \
-       b---> RC1 ----------m---> RC2 ---m---> RC3/final release    <- release candidates branch
-
-This process allows to never commit release candidate specific changes to the master
-branch (so the pom on master always holds a SNAPSHOT version). Is also allows
-future reference to the release preserving all history.
-
-If the release candidates branch does not exist because it is the first release
+If the release-candidates branch does not exist because it is the first release
 candidate, create it starting from the master branch:
 
-  $ git branch MATH_3_2_RELEASE_CANDIDATES
+  $ git branch release-candidates
 
 (3)
 Switch to the release candidate branch:
 
-  $ git checkout MATH_3_2_RELEASE_CANDIDATES
+  $ git checkout release-candidates
 
 (4)
 If there have been changes committed in the master branch since the creation of
-the release candidate branch and if these changes must be included in the release
-candidate, merge master branch into release candidates branch
+the release candidate branch, there are two cases:
+
+  (4a)
+  if all these changes must be included in the release-candidate,
+  merge master branch into release-candidates branch:
 
   $ git merge master
 
+  (4b)
+  if only part of these changes must be included in the release-candidate,
+  cherry-pick the required commits into release-candidates branch:
+
+  $ git cherry-pick commit-SHA
+
 (5)
 Update the release specific files, checking you are really working on the
-release candidate branch and *not* on the master branch.
+release-candidate branch and *not* on the master branch.
 
 In particular:
  * Update and commit the "src/site/site.xml" file to contain the information
@@ -180,7 +206,7 @@ will be:
   $ git tag -s -m "Creating Commons Math v3.2 RC1 tag." MATH_3_2_RC1
 
 If you have several GPG keys, you may prefer to use "-u keyId" to select a specific
-key for sighnig the tag instead of "-s" which select automatically one key
+key for signing the tag instead of "-s" which select automatically one key
 from the configured e-mail address.
 
 Push everything (including the tag!) on the Apache repository:
@@ -372,11 +398,60 @@ $ svn commit -m "fixing broken links"
 (20)
 Put the official final tag to point at the same commit as the last release candidate tag:
 
-  $ git tag -s -m"RC1 becomes the 3.2 official version." MATH_3_2 MATH_3_2_RC1
+  $ git tag -s -m "RC1 becomes the 3.2 official version." MATH_3_2 MATH_3_2_RC1
   $ git push --tags
 
 
 (21)
+Clean up files and prepare for next version (here we assume it will be 3.3):
+
+ edit "pom.xml" so it contains
+ 
+       <version>3.3-SNAPSHOT</version>
+
+edit "src/changes/changes.xml" to add a new section for the next release, setting
+the release date to "TBD" and the description to the empty string.
+
+Double-check "pom.xml" *really* has a -SNAPSHOT version and commit everything:
+
+  $ git add pom.xml src/changes/changes.xml
+  $ git commit -m "preparing next version 3.3"
+  $ git push
+
+
+(22)
+Switch back to master and merge the release-candidate branch
+
+  $ git checkout master
+  $ get merge release-candidates
+  $ git push
+
+
+(23)
+Delete the now useless release-candidates branch locally (i.e. on your machine):
+
+ $ git branch -d release-candidates
+
+Take care at this step to *never* use the "-D" switch, but to use the "-d" switch
+as shown above. The difference is that if you forgot to merge branch release-candidates
+to another still existing branch (here master) as written in the preceding step, git
+will refuse to delete the branch if you use "-d" and will warn you that you are deleting
+a branch that is not merged, but it will delete the branch regardless of its merged
+status if you use "-D".
+
+If you deleted the branch by error without merging it, don't push the deletion to
+Apache repository!
+
+Once you are really sure everything is OK and the tags belong to the ancestors of the
+Apache repository head, you can delete the release-candidates branch also on the
+Apache repository. Beware that deleting a remote branch as a weird syntax, as it
+uses "git push" to push "nothing" (because there is nothing before the colon) into
+the "release-candidates" branch of the "origin" repository):
+
+ $ git push origin :release-candidates
+
+
+(24)
 Allow for the web site mirrors to be updated (possibly several hours); then
 send (from your apache account) a release announcement to the following ML:
   announce@apache.org
