@@ -18,14 +18,6 @@ Benjamin McCann (http://www.benmccann.com) and distributed with
 the following copyright: Copyright 2009 Google Inc.
 ===============================================================================
 
-The MersenneTwister class in package org.apache.commons.math3.random
-includes software translated from the 2002-01-26 version of
-the Mersenne-Twister generator written in C by Makoto Matsumoto and Takuji
-Nishimura. Original source copyright:
-Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
-All rights reserved
-===============================================================================
-
 The LocalizedFormatsTest class in the unit tests is an adapted version of
 the OrekitMessagesTest class from the orekit library distributed under the
 terms of the Apache 2 licence. Original source copyright:
