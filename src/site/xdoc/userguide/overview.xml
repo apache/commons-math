@@ -140,21 +140,12 @@
     </p>
 
     <p>
-    This product includes software developed by the University of Chicago, as Operator
-    of Argonne National Laboratory. This corresponds to software translated from the lmder,
-    lmpar and qrsolv Fortran routines from the Minpack package and distributed under the
-    following disclaimer: <a href="http://www.netlib.org/minpack/disclaimer"/>.
-    </p>
-
-    <p>
-    This product includes software translated from the odex Fortran routine developed by
-    E. Hairer and G. Wanner and distributed under the following license:
-    <a href="http://www.unige.ch/~hairer/prog/licence.txt"/>.
-    </p>
-
-    <p>
-    This product includes software translated from some LAPACK Fortran routines and
-    distributed under the following license: <a href="http://www.netlib.org/lapack/LICENSE"/>.
+    This product includes software developed by other third parties and
+    distributed under licenses terms compatible with Apache License, Version 2.0.
+    All the licenses of such third parties products are available in the distribution
+    in the LICENSE.txt file. Some products require additional attribution, these
+    attributions can be found in the NOTICE.txt file. These files are available
+    both in the source packages and in the binaries distribution jar files.
     </p>
 
 </subsection>
