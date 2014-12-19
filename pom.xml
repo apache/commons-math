@@ -401,7 +401,7 @@
     <!-- Temporary fix to replace svn-based build number with git-based build number -->
     <buildnumber.skip>true</buildnumber.skip>
     <math.jgit.buildnumber.version>1.2.8</math.jgit.buildnumber.version>
-    <implementation.build>${git.branch}-${git.revision}; ${maven.build.timestamp}</implementation.build>
+    <implementation.build>${git.revision}; ${maven.build.timestamp}</implementation.build>
 
   </properties>
 
