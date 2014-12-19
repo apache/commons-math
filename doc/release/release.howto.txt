@@ -284,7 +284,7 @@ repository.
 
 As a measure of sanity check,  repository must be manually "closed" before other
 people review the deliverables just created.
-How to "close" the staging repository it is explained at this page:
+How to "close" the staging repository is explained at this page:
   http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
 
 (12)
