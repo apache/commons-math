@@ -329,10 +329,11 @@ a starting point, replacing the URLs with the appropriate ones:
 ----------
 This is a [VOTE] for releasing Apache Commons Math 3.4 from release candidate 1.
 
-Tag (and how to check its GPG signature):
-  git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_4_RC1
-  cd commons-math
-  git tag -v MATH_3_4_RC1
+Tag name:
+  MATH_3_4_RC1 (signature can be checked from git using 'git tag -v')
+
+Tag URL:
+  https://git-wip-us.apache.org/repos/asf?p=commons-math.git;a=snapshot;h=cf4a9d70c9ac24dd7196995390171150e4e56451;sf=tgz
 
 Commit ID the tag points at:
   cf4a9d70c9ac24dd7196995390171150e4e56451
