@@ -95,14 +95,18 @@ should create the artifacts in the "target/deploy".
 At this point, you will work mainly on the release-candidates branch.
 
 If the release-candidates branch does not exist because it is the first release
-candidate, create it starting from the master branch:
+candidate, create it locally starting from the master branch and push it to
+Apache repository (assuming it is called origin), remembering the binding
+between the local and remote origin branches:
 
   $ git branch release-candidates
+  $ git push -u origin release-candidates
 
 (3)
 Switch to the release candidate branch:
 
   $ git checkout release-candidates
+
 
 (4)
 If there have been changes committed in the master branch since the creation of
@@ -130,10 +134,10 @@ In particular:
  * Estimate a release date (taking into account the release vote delay) and
    insert it in the "src/changes/changes.xml" file.
  * Update the "pom.xml" to contain the final version number and not a SNAPSHOT:
-   Assuming that the release version will be "3.2", modify the "<version>" tag to
+   Assuming that the release version will be "3.4", modify the "<version>" tag to
    read:
 
-    <version>3.2</version>
+    <version>3.4</version>
 
    Modify the section of "<properties>" that also refers to version numbers.
    You should uncomment the "<commons.rc.version>" line and indicate the
@@ -143,7 +147,7 @@ In particular:
 
   <properties>
     <!-- ... -->
-    <commons.release.version>3.2</commons.release.version>
+    <commons.release.version>3.4</commons.release.version>
     <commons.rc.version>RC1</commons.rc.version>
     <!-- ... -->
   </properties>
@@ -160,20 +164,6 @@ This file is updated automatically by running the command:
 The "release notes" file will be created by gathering all the changes
 collected during development in the file "src/changes/changes.xml".
 Create it by running:
-
-  $ mvn changes:announcement-generate \
-     -Dchanges.template=release-notes.vm \
-     -Dchanges.templateDirectory=src/changes
-
-It will generate the release text in "target/announcement/release-notes.vm",
-which you must now copy to the appropriate location:
-
-  $ cp -i target/announcement/release-notes.vm RELEASE-NOTES.txt
-
-Alternately to the above two commands, you can rely on the "release-notes"
-profile defined in the "commons-parent" project (which is inherited by the
-"commons-math project) and run the following command, which will directly create
-the RELEASE-NOTES.txt file:
 
   $ mvn -Prelease-notes changes:announcement-generate
 
@@ -203,7 +193,7 @@ Then, assuming the first candidate, the suffix will be "RC1" (this should
 be the  same as in the "<properties>" in the "pom.xml"), and the command
 will be:
 
-  $ git tag -s -m "Creating Apache Commons Math v3.2 RC1 tag." MATH_3_2_RC1
+  $ git tag -s -m "Creating Apache Commons Math v3.4 RC1 tag." MATH_3_4_RC1
 
 If you have several GPG keys, you may prefer to use "-u keyId" to select a specific
 key for signing the tag instead of "-s" which select automatically one key
@@ -211,7 +201,24 @@ from the configured e-mail address.
 
 Check the tag GPG signature:
 
-  $ git tag -v MATH_3_2_RC1
+  $ git tag -v MATH_3_4_RC1
+
+You will get something like:
+
+  object cf4a9d70c9ac24dd7196995390171150e4e56451
+  type commit
+  tag MATH_3_4_RC1
+  tagger Luc Maisonobe <luc@apache.org> 1418934614 +0100
+
+  Creating Apache Commons Math v3.4 RC1 tag.
+  gpg: Signature made Thu Dec 18 21:30:14 2014 CET using RSA key ID 02E9F65B
+  gpg: Good signature from "Luc Maisonobe (CODE SIGNING KEY) <luc@apache.org>"
+  gpg:                 aka "Luc Maisonobe <Luc.Maisonobe@c-s.fr>"
+  gpg:                 aka "Luc Maisonobe <Luc.Maisonobe@free.fr>"
+  gpg:                 aka "Luc Maisonobe <luc@orekit.org>"
+
+Remember the commit ID listed in the object line (here cf4a9d70c9ac24dd7196995390171150e4e56451),
+as it is the most stable reference for traceability.
 
 Push everything (including the tag!) on the Apache repository:
 
@@ -222,12 +229,16 @@ Switch to a new directory out of your regular workspace, and retrieve
 the official tag from the Apache repository:
 
   $ cd /tmp
-  $ git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_2_RC1
+  $ git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_4_RC1
 
 In the command above, the --branch option accepts both branch names and tags names,
 so we specify directly the tag here. Git will warn that the resulting workspace
 is in 'detached HEAD' state and 'git status' commands will warn that you are not
 currently on any branch. This is expected is this situation.
+
+Check that the last commit has the id you noted in the previous step:
+
+  $ git log -1
 
 (10)
 If this is your first release, you might need to add your GPG encryption
@@ -258,23 +269,23 @@ which will transfer the artifacts to the Nexus repository located at
 
 This process transfers more files than really needed in the the "staging" (i.e.
 non official) maven repository. The files expected in the repository are
-commons-math3-3.2.pom, commons-math3-3.2.jar, commons-math3-3.2.javadoc,
-commons-math3-3.2.sources, commons-math3-3.2.test-sources commons-math3-3.2.tests,
+commons-math3-3.4.pom, commons-math3-3.4.jar, commons-math3-3.4.javadoc,
+commons-math3-3.4.sources, commons-math3-3.4.test-sources commons-math3-3.4.tests,
 the associated fingerprints (<file-name>.md5 and <file-name>.sha1) and the signatures
 <file-name>.asc. Note that Nexus automatically adds "md5" and "sha1" checksums files
 to the "asc" files (cryptographic signature). These fingerprints on signatures are
 spurious and have to be manually removed from Nexus staging area. The process also
 transfers the complete source and binaries distributions files
-commons-math3-3.2.-bin.tar.gz, commons-math3-3.2.-bin.zip, commons-math3-3.2.-src.tar.gz,
-commons-math3-3.2.-src.zip as well as the associated .md5 and .sha1 fingerprints and the
+commons-math3-3.4.-bin.tar.gz, commons-math3-3.4.-bin.zip, commons-math3-3.4.-src.tar.gz,
+commons-math3-3.4.-src.zip as well as the associated .md5 and .sha1 fingerprints and the
 .asc signatures. These are not really maven artifacts but rather distribution archives,
 and they belong elsewhere, so they must also been removed from the Nexus staging
 repository.
 
 As a measure of sanity check,  repository must be manually "closed" before other
 people review the deliverables just created.
-How to "close" the staging repository it is explained at this page:
-  https://docs.sonatype.org/display/Repository/Closing+a+Staging+Repository
+How to "close" the staging repository is explained at this page:
+  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-closing
 
 (12)
 Upload the other distribution files to the Apache servers.
@@ -287,59 +298,69 @@ following commands:
 
  $ cd /tmp
  $ svn checkout https://dist.apache.org/repos/dist/dev/commons/math
- $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-bin.* binaries
- $ cp ~/.m2/repository/org/apache/commons/commons-math/3.2*-src.* source
+ $ cd math
+ $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.4*-bin.* binaries
+ $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.4*-src.* source
  $ cp <path-to-the-RC-workspace>/RELEASE-NOTES.txt .
- $ svn commit -m "Creating distribution files for 3.2 RC1"
+ $ svn add RELEASE-NOTES.txt binaries/* source/*
+ $ svn commit -m "Creating distribution files for 3.4 RC1"
 
 
 (13)
-Web site testing (a.k.a "staging") of the generated web site (containing the
-API documentation, etc.)
+As the web site staging area is shared among all commons components and therefore
+can be published before vote ends, it is not recommended to use the standard staging
+area for the release candidate. So you will just archive the site and transfer it on
+your apache personal area for review:
 
-This step requires a "<server>" with an identifier set to "stagingSite" and
-that the remote server is set up to accept no-password ssh authentification
-(cf. sample "settings.xml" file).
-
-Execute the commands (assuming the release candidate is "RC1"):
-
-  $ mvn site 
-
-and
-
- $ mvn site:stage-deploy \
-     -DstagingDirectory=src/site \
-     -DstagingSiteURL=scp://__Your_apache_login__@people.apache.org:/www/people.apache.org/builds/commons/math/3.2/RC1
-
-The web site will be available for review at:
-  http://people.apache.org/builds/commons/math/3.2/RC1
-
+  $ mvn site
+  $ cd target
+  $ tar cvf site.tar.gz site
+  $ scp site.tar.gz __Your_apache_login__@people.apache.org:~/
+  $ ssh __Your_apache_login__@people.apache.org
+     you@minotaur:~$ tar xzf site.tar.gz
+     you@minotaur:~$ mv site public-html/commons-math-3.4-RC1-site
+     you@minotaur:~$ rm site.tar.gz
+     you@minotaur:~$ logout
 
 (14)
 Call to vote by sending a message to the "dev" ML with subject
-"[VOTE][RC1] Release Commons Math 3.2". You can use the following example as
+"[VOTE][RC1] Release Commons Math 3.4". You can use the following example as
 a starting point, replacing the URLs with the appropriate ones:
 ----------
-Tag (and how to check its GPG signature):
-  git clone https://git-wip-us.apache.org/repos/asf/commons-math.git --branch MATH_3_2_RC1
-  cd commons-math
-  git tag -v MATH_3_2_RC1
+This is a [VOTE] for releasing Apache Commons Math 3.4 from release candidate 1.
+
+Tag name:
+  MATH_3_4_RC1 (signature can be checked from git using 'git tag -v')
+
+Tag URL:
+  https://git-wip-us.apache.org/repos/asf?p=commons-math.git;a=snapshot;h=cf4a9d70c9ac24dd7196995390171150e4e56451;sf=tgz
+
+Commit ID the tag points at:
+  cf4a9d70c9ac24dd7196995390171150e4e56451
 
 Site:
-  http://people.apache.org/builds/commons/math/3.2/RC1/
+  http://people.apache.org/~__Your_apache_login__/commons-math-3.4-RC1-site
 
 Distribution files:
   https://dist.apache.org/repos/dist/dev/commons/math/
 
+Distribution files hashes (SHA1):
+  e02c981d49c1f12b1fc237e69cb551a5620e57b4  binaries/commons-math3-3.4-bin.tar.gz
+  11965eb97033d4d6ef0aeb902f1450641f40d3c5  binaries/commons-math3-3.4-bin.zip
+  ce3efda70ac8f850f15154b38438bc337adc027a  source/commons-math3-3.4-src.tar.gz
+  d343c885a9d6eea611403f7f92ff580911363681  source/commons-math3-3.4-src.zip
+  
+
 Maven artifacts:
-  https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.2/
+  https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.4/
 
 [ ] +1 Release it.
 [ ] +0 Go ahead; I don't care.
 [ ] -0 There are a few minor glitches: ...
 [ ] -1 No, do not release it because ...
 
-This vote will close in 72 hours.
+This vote will close in 72 hours, at YYYY-MM-DDThh:mm:ssZ (this is UTC
+time).
 ----------
 
 
@@ -362,58 +383,69 @@ area of the Apache dist server:
 
 $ svnmucc -U https://dist.apache.org/repos/dist \
           mv dev/commons/math/RELEASE-NOTES.txt release/commons/math/RELEASE-NOTES.txt \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz release/commons/math/binaries/commons-math-3.2-bin.tar.gz \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc release/commons/math/binaries/commons-math-3.2-bin.tar.gz.asc \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.md5 release/commons/math/binaries/commons-math-3.2-bin.tar.gz.md5 \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.tar.gz.sha1 release/commons/math/binaries/commons-math-3.2-bin.tar.gz.sha1 \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.zip release/commons/math/binaries/commons-math-3.2-bin.zip \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.zip.asc release/commons/math/binaries/commons-math-3.2-bin.zip.asc \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.zip.md5 release/commons/math/binaries/commons-math-3.2-bin.zip.md5 \
-          mv dev/commons/math/binaries/commons-math-3.2-bin.zip.sha1 release/commons/math/binaries/commons-math-3.2-bin.zip.sha1 \
-          mv dev/commons/math/source/commons-math-3.2-src.tar.gz release/commons/math/source/commons-math-3.2-src.tar.gz \
-          mv dev/commons/math/source/commons-math-3.2-src.tar.gz.asc release/commons/math/source/commons-math-3.2-src.tar.gz.asc \
-          mv dev/commons/math/source/commons-math-3.2-src.tar.gz.md5 release/commons/math/source/commons-math-3.2-src.tar.gz.md5 \
-          mv dev/commons/math/source/commons-math-3.2-src.tar.gz.sha1 release/commons/math/source/commons-math-3.2-src.tar.gz.sha1 \
-          mv dev/commons/math/source/commons-math-3.2-src.zip release/commons/math/source/commons-math-3.2-src.zip \
-          mv dev/commons/math/source/commons-math-3.2-src.zip.asc release/commons/math/source/commons-math-3.2-src.zip.asc \
-          mv dev/commons/math/source/commons-math-3.2-src.zip.md5 release/commons/math/source/commons-math-3.2-src.zip.md5 \
-          mv dev/commons/math/source/commons-math-3.2-src.zip.sha1 release/commons/math/source/commons-math-3.2-src.zip.sha1 \
-          -m "Publish commons-math 3.2 Release"
+          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz release/commons/math/binaries/commons-math-3.4-bin.tar.gz \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.asc release/commons/math/binaries/commons-math-3.4-bin.tar.gz.asc \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.md5 release/commons/math/binaries/commons-math-3.4-bin.tar.gz.md5 \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.sha1 release/commons/math/binaries/commons-math-3.4-bin.tar.gz.sha1 \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.zip release/commons/math/binaries/commons-math-3.4-bin.zip \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.asc release/commons/math/binaries/commons-math-3.4-bin.zip.asc \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.md5 release/commons/math/binaries/commons-math-3.4-bin.zip.md5 \
+          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.sha1 release/commons/math/binaries/commons-math-3.4-bin.zip.sha1 \
+          mv dev/commons/math/source/commons-math-3.4-src.tar.gz release/commons/math/source/commons-math-3.4-src.tar.gz \
+          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.asc release/commons/math/source/commons-math-3.4-src.tar.gz.asc \
+          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.md5 release/commons/math/source/commons-math-3.4-src.tar.gz.md5 \
+          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.sha1 release/commons/math/source/commons-math-3.4-src.tar.gz.sha1 \
+          mv dev/commons/math/source/commons-math-3.4-src.zip release/commons/math/source/commons-math-3.4-src.zip \
+          mv dev/commons/math/source/commons-math-3.4-src.zip.asc release/commons/math/source/commons-math-3.4-src.zip.asc \
+          mv dev/commons/math/source/commons-math-3.4-src.zip.md5 release/commons/math/source/commons-math-3.4-src.zip.md5 \
+          mv dev/commons/math/source/commons-math-3.4-src.zip.sha1 release/commons/math/source/commons-math-3.4-src.zip.sha1 \
+          -m "Publish commons-math 3.4 Release"
 
 
 (18)
 Release (a.k.a. "promote") the artifacts on the Nexus server, as shown here:
-  https://docs.sonatype.org/display/Repository/Releasing+a+Staging+Repository
+  http://books.sonatype.com/nexus-book/reference/staging-repositories.html#staging-sect-releasing
 
 
 (19)
-Publish the web site. From your local working copy of the tag, run the command:
+Publish the web site. This is done by first committing the web site to the staging area, and then
+by publishing the staging area (which is shared among all commons compoents.
 
-  $ mvn site-deploy
+In order to commit the web site to the staging area, look at the subversion workspace that was
+automatically checked out during the 'mvn site' command in folder site-content. You can also check
+it out directly by yourself elsewhere:
 
+  svn checkout https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math site-content
+
+Remove all files there (except .svn folder) and move all the files from the site.
 You may want to adjust manually some parts like fixing broken relative links or
-copying the content of the current apidocs to javadocs/api-3.2. In order to do
-this, you have to check out the production site using svn, make your changes locally
-and commit the changes back to the server.
+copying the content of the current apidocs to javadocs/api-3.4.
 
-$ svn checkout https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math
-$ <fix the site>
-$ svn commit -m "fixing broken links"
+ $ cd site-content
+ $ rm -fr *
+ $ cp -pR ../target/site/* .
+ $ svn commit -m "updating site after official release of version 3.4"
 
+Beware the commit command may be very long (several hours ...). The web site will be available
+for review at:
+  http://commons.staging.apache.org/proper/commons-math/
+ 
+Publishing the staging web site is done directly from a browser at URL:
+  https://cms.apache.org/commons/publish
 
 (20)
 Put the official final tag to point at the same commit as the last release candidate tag:
 
-  $ git tag -s -m "RC1 becomes the 3.2 official version." MATH_3_2 MATH_3_2_RC1
+  $ git tag -s -m "RC1 becomes the 3.4 official version." MATH_3_4 MATH_3_4_RC1
   $ git push --tags
 
 
 (21)
-Clean up files and prepare for next version (here we assume it will be 3.3):
+Clean up files and prepare for next version (here we assume it will be 3.5):
 
  edit "pom.xml" so it contains
  
-       <version>3.3-SNAPSHOT</version>
+       <version>3.5-SNAPSHOT</version>
 
 edit "src/changes/changes.xml" to add a new section for the next release, setting
 the release date to "TBD" and the description to the empty string.
