@@ -11,13 +11,6 @@ code developed by Mike Giles, Oxford-Man Institute of Quantitative Finance,
 and published in GPU Computing Gems, volume 2, 2010.
 ===============================================================================
 
-The BracketFinder (package org.apache.commons.math3.optimization.univariate)
-and PowellOptimizer (package org.apache.commons.math3.optimization.general)
-classes are based on the Python code in module "optimize.py" (version 0.5)
-developed by Travis E. Oliphant for the SciPy library (http://www.scipy.org/)
-Copyright © 2003-2009 SciPy Developers.
-===============================================================================
-
 The LinearConstraint, LinearObjectiveFunction, LinearOptimizer,
 RelationShip, SimplexSolver and SimplexTableau classes in package
 org.apache.commons.math3.optimization.linear include software developed by
