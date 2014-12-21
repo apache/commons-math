@@ -33,10 +33,8 @@ import org.apache.commons.math3.util.MathArrays;
  *  <em>Int. J. Numer. Meth. Eng</em> 2005; <b>63</b>:455-471
  * </quote>
  *
- * @since 2.2
- * @deprecated in 3.4.
+ * @since 3.4.
  */
-@Deprecated
 public class TricubicInterpolatingFunction
     implements TrivariateFunction {
     /**
