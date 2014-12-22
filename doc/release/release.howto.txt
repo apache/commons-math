@@ -333,7 +333,7 @@ Tag name:
   MATH_3_4_RC1 (signature can be checked from git using 'git tag -v')
 
 Tag URL:
-  <https://git-wip-us.apache.org/repos/asf?p=commons-math.git;a=snapshot;h=cf4a9d70c9ac24dd7196995390171150e4e56451;sf=tgz>
+  <https://git-wip-us.apache.org/repos/asf?p=commons-math.git;a=commit;h=cf4a9d70c9ac24dd7196995390171150e4e56451>
 
 Commit ID the tag points at:
   cf4a9d70c9ac24dd7196995390171150e4e56451
