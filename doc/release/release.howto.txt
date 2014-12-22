@@ -349,7 +349,9 @@ Distribution files hashes (SHA1):
   11965eb97033d4d6ef0aeb902f1450641f40d3c5 commons-math3-3.4-bin.zip
   ce3efda70ac8f850f15154b38438bc337adc027a commons-math3-3.4-src.tar.gz
   d343c885a9d6eea611403f7f92ff580911363681 commons-math3-3.4-src.zip
-  
+
+KEYS file to check signatures:
+  http://www.apache.org/dist/commons/KEYS
 
 Maven artifacts:
   https://repository.apache.org/content/repositories/orgapachecommons-051/org/apache/commons/commons-math3/3.4/
