@@ -4,25 +4,6 @@ Copyright 2001-2014 The Apache Software Foundation
 This product includes software developed at
 The Apache Software Foundation (http://www.apache.org/).
 
-===============================================================================
-
-The inverse error function implementation in the Erf class is based on CUDA
-code developed by Mike Giles, Oxford-Man Institute of Quantitative Finance,
-and published in GPU Computing Gems, volume 2, 2010.
-===============================================================================
-
-The LinearConstraint, LinearObjectiveFunction, LinearOptimizer,
-RelationShip, SimplexSolver and SimplexTableau classes in package
-org.apache.commons.math3.optimization.linear include software developed by
-Benjamin McCann (http://www.benmccann.com) and distributed with
-the following copyright: Copyright 2009 Google Inc.
-===============================================================================
-
 This product includes software developed for Orekit by
 CS Systèmes d'Information (http://www.c-s.fr/)
 Copyright 2010-2012 CS Systèmes d'Information
-===============================================================================
-
-The complete text of licenses and disclaimers associated with the the original
-sources enumerated above at the time of code translation are in the LICENSE.txt
-file.
