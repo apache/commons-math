@@ -384,23 +384,24 @@ The distribution files must be moved from the development area to the release
 area of the Apache dist server:
 
 $ svnmucc -U https://dist.apache.org/repos/dist \
+          rm release/commons/math/RELEASE-NOTES.txt \
           mv dev/commons/math/RELEASE-NOTES.txt release/commons/math/RELEASE-NOTES.txt \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz release/commons/math/binaries/commons-math-3.4-bin.tar.gz \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.asc release/commons/math/binaries/commons-math-3.4-bin.tar.gz.asc \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.md5 release/commons/math/binaries/commons-math-3.4-bin.tar.gz.md5 \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.tar.gz.sha1 release/commons/math/binaries/commons-math-3.4-bin.tar.gz.sha1 \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.zip release/commons/math/binaries/commons-math-3.4-bin.zip \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.asc release/commons/math/binaries/commons-math-3.4-bin.zip.asc \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.md5 release/commons/math/binaries/commons-math-3.4-bin.zip.md5 \
-          mv dev/commons/math/binaries/commons-math-3.4-bin.zip.sha1 release/commons/math/binaries/commons-math-3.4-bin.zip.sha1 \
-          mv dev/commons/math/source/commons-math-3.4-src.tar.gz release/commons/math/source/commons-math-3.4-src.tar.gz \
-          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.asc release/commons/math/source/commons-math-3.4-src.tar.gz.asc \
-          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.md5 release/commons/math/source/commons-math-3.4-src.tar.gz.md5 \
-          mv dev/commons/math/source/commons-math-3.4-src.tar.gz.sha1 release/commons/math/source/commons-math-3.4-src.tar.gz.sha1 \
-          mv dev/commons/math/source/commons-math-3.4-src.zip release/commons/math/source/commons-math-3.4-src.zip \
-          mv dev/commons/math/source/commons-math-3.4-src.zip.asc release/commons/math/source/commons-math-3.4-src.zip.asc \
-          mv dev/commons/math/source/commons-math-3.4-src.zip.md5 release/commons/math/source/commons-math-3.4-src.zip.md5 \
-          mv dev/commons/math/source/commons-math-3.4-src.zip.sha1 release/commons/math/source/commons-math-3.4-src.zip.sha1 \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz release/commons/math/binaries/commons-math3-3.4-bin.tar.gz \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.asc release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.asc \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.md5 release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.md5 \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz.sha1 release/commons/math/binaries/commons-math3-3.4-bin.tar.gz.sha1 \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip release/commons/math/binaries/commons-math3-3.4-bin.zip \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.asc release/commons/math/binaries/commons-math3-3.4-bin.zip.asc \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.md5 release/commons/math/binaries/commons-math3-3.4-bin.zip.md5 \
+          mv dev/commons/math/binaries/commons-math3-3.4-bin.zip.sha1 release/commons/math/binaries/commons-math3-3.4-bin.zip.sha1 \
+          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz release/commons/math/source/commons-math3-3.4-src.tar.gz \
+          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.asc release/commons/math/source/commons-math3-3.4-src.tar.gz.asc \
+          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.md5 release/commons/math/source/commons-math3-3.4-src.tar.gz.md5 \
+          mv dev/commons/math/source/commons-math3-3.4-src.tar.gz.sha1 release/commons/math/source/commons-math3-3.4-src.tar.gz.sha1 \
+          mv dev/commons/math/source/commons-math3-3.4-src.zip release/commons/math/source/commons-math3-3.4-src.zip \
+          mv dev/commons/math/source/commons-math3-3.4-src.zip.asc release/commons/math/source/commons-math3-3.4-src.zip.asc \
+          mv dev/commons/math/source/commons-math3-3.4-src.zip.md5 release/commons/math/source/commons-math3-3.4-src.zip.md5 \
+          mv dev/commons/math/source/commons-math3-3.4-src.zip.sha1 release/commons/math/source/commons-math3-3.4-src.zip.sha1 \
           -m "Publish commons-math 3.4 Release"
 
 
@@ -436,16 +437,29 @@ Publishing the staging web site is done directly from a browser at URL:
   https://cms.apache.org/commons/publish
 
 (20)
+The javadocs for several version is kept available on the website under the javadocs directory.
+This corresponds to a huge number of files which never changes, so they are not retrieved by
+default in the working copy when running 'svn checkout'. These javadocs must therefore be
+copied manually using server side copy from the apidocs directory after release, in order for
+the links to former versions to work. This is done as follows:
+
+  $ svn cp -m "copying 3.4 apidocs to versioned directory for the long-term links" \
+        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/apidocs \
+        https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-math/javadocs/api-3.4
+
+(21)
 Put the official final tag to point at the same commit as the last release candidate tag:
 
-  $ git tag -s -m "RC1 becomes the 3.4 official version." MATH_3_4 MATH_3_4_RC1
+  $ git tag -s -m "RC1 becomes the 3.4 official version." MATH_3_4 cf4a9d70c9ac24dd7196995390171150e4e56451
   $ git push --tags
 
 
-(21)
+(22)
 Clean up files and prepare for next version (here we assume it will be 3.5):
 
- edit "pom.xml" so it contains
+edit "doap_math.rdf" to add the just released version date.
+
+edit "pom.xml" so it contains
  
        <version>3.5-SNAPSHOT</version>
 
@@ -454,12 +468,12 @@ the release date to "TBD" and the description to the empty string.
 
 Double-check "pom.xml" *really* has a -SNAPSHOT version and commit everything:
 
-  $ git add pom.xml src/changes/changes.xml
-  $ git commit -m "preparing next version 3.3"
+  $ git add doap_math.rdf pom.xml src/changes/changes.xml
+  $ git commit -m "preparing next version 3.5"
   $ git push
 
 
-(22)
+(23)
 Switch back to master and merge the release-candidate branch
 
   $ git checkout master
@@ -467,7 +481,7 @@ Switch back to master and merge the release-candidate branch
   $ git push
 
 
-(23)
+(24)
 Delete the now useless release-candidates branch locally (i.e. on your machine):
 
  $ git branch -d release-candidates
@@ -491,7 +505,7 @@ the "release-candidates" branch of the "origin" repository):
  $ git push origin :release-candidates
 
 
-(24)
+(25)
 Allow for the web site mirrors to be updated (possibly several hours); then
 send (from your apache account) a release announcement to the following ML:
   announce@apache.org
