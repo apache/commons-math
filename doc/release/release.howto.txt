@@ -292,17 +292,23 @@ Upload the other distribution files to the Apache servers.
 
 The archive files have been created during the previous step. They have been put
 in the .m2 local repository. The RELEASE_NOTES.txt file hase been created earlier
-and is still in the checkout directory of the release candidate. All these files
-can be uploaded to the development area of the Apache dist server using the
-following commands:
+and is still in the checkout directory of the release candidate. The README.html
+file can be copied from the release area of the Apache dist server.
+All these files can be uploaded to the development area of the Apache dist server
+using the following commands:
 
  $ cd /tmp
+ $ svn cp https://dist.apache.org/repos/dist/release/commons/math/README.html \
+          https://dist.apache.org/repos/dist/dev/commons/math/README.html
  $ svn checkout https://dist.apache.org/repos/dist/dev/commons/math
  $ cd math
+
+edit README.html with released version number
+
  $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.4/*-bin.* binaries
  $ cp ~/.m2/repository/org/apache/commons/commons-math3/3.4/*-src.* source
  $ cp <path-to-the-RC-workspace>/RELEASE-NOTES.txt .
- $ svn add RELEASE-NOTES.txt binaries/* source/*
+ $ svn add README.html RELEASE-NOTES.txt binaries/* source/*
  $ svn commit -m "Creating distribution files for 3.4 RC1"
 
 
@@ -384,6 +390,8 @@ The distribution files must be moved from the development area to the release
 area of the Apache dist server:
 
 $ svnmucc -U https://dist.apache.org/repos/dist \
+          rm release/commons/math/README.html \
+          mv dev/commons/math/README.html release/commons/math/README.html \
           rm release/commons/math/RELEASE-NOTES.txt \
           mv dev/commons/math/RELEASE-NOTES.txt release/commons/math/RELEASE-NOTES.txt \
           mv dev/commons/math/binaries/commons-math3-3.4-bin.tar.gz release/commons/math/binaries/commons-math3-3.4-bin.tar.gz \
