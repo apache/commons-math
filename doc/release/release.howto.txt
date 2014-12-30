@@ -435,6 +435,12 @@ copying the content of the current apidocs to javadocs/api-3.4.
  $ cd site-content
  $ rm -fr *
  $ cp -pR ../target/site/* .
+
+Check for possibly new files:
+ $ svn status
+and "svn add" them if necessary.
+
+Commit the new contents of the web site:
  $ svn commit -m "updating site after official release of version 3.4"
 
 Beware the commit command may be very long (several hours ...). The web site will be available
