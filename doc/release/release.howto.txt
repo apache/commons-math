@@ -324,7 +324,7 @@ your apache personal area for review:
   $ scp site.tar.gz __Your_apache_login__@people.apache.org:~/
   $ ssh __Your_apache_login__@people.apache.org
      you@minotaur:~$ tar xzf site.tar.gz
-     you@minotaur:~$ mv site public-html/commons-math-3.4-RC1-site
+     you@minotaur:~$ mv site public_html/commons-math-3.4-RC1-site
      you@minotaur:~$ rm site.tar.gz
      you@minotaur:~$ logout
 
