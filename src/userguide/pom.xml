@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-math3-examples</artifactId>
-  <version>3.4-SNAPSHOT</version>  
+  <version>3.5-SNAPSHOT</version>  
   <name>Commons Math User Guide</name>
   <inceptionYear>2003</inceptionYear>
   <description>Examples</description>
@@ -43,6 +43,24 @@
 
   <build>
     <sourceDirectory>java</sourceDirectory>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <finalName>${artifactId}-uber-${version}</finalName>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
   <reporting>
   </reporting>
@@ -51,7 +69,7 @@
       <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-math3</artifactId>
-          <version>3.4-SNAPSHOT</version>
+          <version>3.5-SNAPSHOT</version>
       </dependency>
       <dependency>
           <groupId>com.xeiam.xchart</groupId>
