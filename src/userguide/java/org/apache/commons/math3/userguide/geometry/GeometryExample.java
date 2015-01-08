@@ -169,7 +169,7 @@ public class GeometryExample {
 
             random.addActionListener(new ActionListener() {
 
-                @Override
+//                @Override
                 public void actionPerformed(ActionEvent e) {
                     canvas.getLayer().removeAllChildren();
                     
@@ -183,7 +183,7 @@ public class GeometryExample {
 
             circle.addActionListener(new ActionListener() {
 
-                @Override
+//                @Override
                 public void actionPerformed(ActionEvent e) {
                     canvas.getLayer().removeAllChildren();
                     
@@ -197,7 +197,7 @@ public class GeometryExample {
 
             cross.addActionListener(new ActionListener() {
 
-                @Override
+//                @Override
                 public void actionPerformed(ActionEvent e) {
                     canvas.getLayer().removeAllChildren();
                     
