@@ -1,0 +1,8 @@
+This directory contains source code that is not part of the Apache
+Commons Math library.  It contains syntaxically correct and working
+examples of use.
+
+In order to run one of the applications (a class that must contain a
+"main" method), you would type (in a shell console) a command similar
+to the following:
+ $ mvn -q exec:java -Dexec.mainClass=org.apache.commons.math3.userguide.sofm.ChineseRingsClassifier
