@@ -27,6 +27,8 @@
       <item name="Overview" href="/index.html"/>
       <item name="Downloads" href="http://commons.apache.org/math/download_math.cgi"/>
       <item name="Latest API docs (development)" href="apidocs/index.html"/>
+      <item name="Javadoc (3.4.1 release)"
+         href="http://commons.apache.org/math/javadocs/api-3.4.1/index.html"/>
       <item name="Javadoc (3.4 release)"
          href="http://commons.apache.org/math/javadocs/api-3.4/index.html"/>
       <item name="Javadoc (3.3 release)"
