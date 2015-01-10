@@ -36,7 +36,9 @@ import org.apache.commons.math3.util.MathUtils;
  * new value = old value + dev^2 * (n -1) / n.</p>
  * <p>
  * Returns <code>Double.NaN</code> if no data values have been added and
- * returns <code>0</code> if there is just one value in the data set.</p>
+ * returns <code>0</code> if there is just one value in the data set.
+ * Note that Double.NaN may also be returned if the input includes NaN
+ * and / or infinite values.</p>
  * <p>
  * <strong>Note that this implementation is not synchronized.</strong> If
  * multiple threads access an instance of this class concurrently, and at least
