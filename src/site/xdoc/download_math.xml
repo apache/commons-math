@@ -95,32 +95,32 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Apache Commons Math 3.4 (requires Java 1.5+)">
+    <section name="Apache Commons Math 3.4.1 (requires Java 1.5+)">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4-bin.tar.gz">commons-math3-3.4-bin.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4-bin.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4-bin.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz">commons-math3-3.4.1-bin.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4-bin.zip">commons-math3-3.4-bin.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4-bin.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4-bin.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/binaries/commons-math3-3.4.1-bin.zip">commons-math3-3.4.1-bin.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/binaries/commons-math3-3.4.1-bin.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.4-src.tar.gz">commons-math3-3.4-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.4.1-src.tar.gz">commons-math3-3.4.1-src.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/math/source/commons-math3-3.4-src.zip">commons-math3-3.4-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/math/source/commons-math3-3.4.1-src.zip">commons-math3-3.4.1-src.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/math/source/commons-math3-3.4.1-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>

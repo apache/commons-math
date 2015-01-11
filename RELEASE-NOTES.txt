@@ -1,121 +1,20 @@
 
-              Apache Commons Math 3.4 RELEASE NOTES
+              Apache Commons Math 3.4.1 RELEASE NOTES
 
-The Apache Commons Math team is pleased to announce the release of commons-math3-3.4
+The Apache Commons Math team is pleased to announce the release of commons-math3-3.4.1
 
 The Apache Commons Math project is a library of lightweight, self-contained mathematics
 and statistics components addressing the most common practical problems not immediately
 available in the Java programming language or commons-lang.
 
-This is a minor release: It combines bug fixes and new features.
-Changes to existing features were made in a backwards-compatible
-way such as to allow drop-in replacement of the v3.3 JAR file.
-
-Most notable among the new features are:
-new distributions (Gumbel, Laplace, Logistic, Nakagami), and
-improvements on percentiles algorithms (better handling for NaNs
-in the regular algorithm, plus a new storeless implementation).
-Bicubic and tricubic interpolators have been fixed and new
-implementations added. There have been numerous bug fixes and
-several improvements on performances or robustness. See below
-for a full list.
-
-The minimum version of the Java platform required to compile and use
-Apache Commons Math is Java 5.
-
-Users are encouraged to upgrade to this version as this release not
-only includes bug fixes but also deprecates numerous classes and
-methods that will be deleted from the next major release (4.0).
-
-
-Caveat:
- 1. The implementation of the BOBYQA optimization algorithm is in alpha
- state (cf. MATH-621): Many code paths are untested, and we are looking
- for volunteers to improve the code readability, robustness and performance
- and to extend the unit tests suite.
- 2. A few methods in the FastMath class are in fact slower that their
- counterpart in either Math or StrictMath (cf. MATH-740 and MATH-901).
+This is a maintenance release: It fixes issue MATH-1188.
 
 Changes in this version include:
 
-New features:
-o MATH-1066:  Added Bessel functions of the first kind, based on NetLib implementation. Thanks to Brian Wignall. 
-o MATH-1180:  Method to create a sequence of integers (in "o.a.c.m.util.MathArrays"). 
-o MATH-1172:  New class "SimpleCurveFitter": Boiler-plate code to allow fitting of
-        a user-defined parametric function. 
-o MATH-1173:  New classes "TricubicInterpolatingFunction" and "TricubicInterpolator" to
-        replace "TricubicSplineInterpolatingFunction" and "TricubicSplineInterpolator". 
-o MATH-1166:  New classes "BicubicInterpolatingFunction" and "BicubicInterpolator" to
-        replace "BicubicSplineInterpolatingFunction" and "BicubicSplineInterpolator". 
-o           Boundary attributes in regions now provides the BSP tree nodes that
-        were used to split the sub-hyperplane forming the boundary part of the facet. 
-o MATH-1144:  Interface to allow parameter validation in "o.a.c.m.fitting.leastsquares":
-        the point computed by by the optimizer can be modified before evaluation. 
-o MATH-1154:  Changed classes in the inference package that instantiate distributions to
-        pass null RandomGenerators to avoid initialization overhead for the default
-        generator. 
-o MATH-1156:  Added all Java 8 StrictMath methods to FastMath, so FastMath remains compatible
-        with newer Java versions. 
-o MATH-1139:  Added Gumbel, Laplace, Logistic and Nakagami distributions. Thanks to Alexey Volkov. 
-o MATH-1120:  Added several different estimation types and NaN handling strategies for Percentile. Thanks to Venkatesha Murthy. 
-o MATH-418:  Added implementation of PSquare algorithm to estimate percentiles without
-        storing data in memory (i.e. as StorelessUnivariateStatistic). Thanks to Venkatesha Murthy. 
 
 Fixed Bugs:
-o MATH-1142:  Improve performance of kalman gain calculation in "KalmanFilter" by
-        directly solving a linear system rather than computing the matrix
-        inverse. Thanks to Arne Schwarz. 
-o MATH-1181:  Fixed integer overflow in KolmogorovSmirnovTest causing 2-sample test
-        to use exact method when the product of the sample sizes exceeds 
-        Integer.MAX_VALUE, resulting in effectively hung execution. 
-o MATH-1178:  Fixed example in userguide ("stat" section). Thanks to Dmitriy. 
-o MATH-1175:  Fixed inverse cumulative probability of 0 in "LaplaceDistribution". Thanks to Karsten Loesing. 
-o MATH-1174:  Fixed a problem with too thin polygons considered to have infinite size. 
-o MATH-1162:  Fixed a problem with vanishing cut sub-hyperplanes during BSP tree merging. 
-o MATH-1167:  "o.a.c.m.stat.regression.OLSMultipleLinearRegression": Use threshold
-        when performing "QRDecomposition". Thanks to Neil Ireson. 
-o MATH-1165:  "FuzzyKMeansClusterer" has thrown an exception in case one of the data
-        points was equal to a cluster center. Thanks to Pashutan Modaresi. 
-o MATH-1160:  Provide access to state derivatives in ContinuousOutputModel. 
-o MATH-1138:  Fixed bicubic spline interpolator, using Akima splines. Thanks to Hank Grabowski. 
-o MATH-1147:  Added statistics missing from toString method in SummaryStatistics. 
-o MATH-1152:  Improved performance of "EnumeratedDistribution#sample()" by caching
-        the cumulative probabilities and using binary rather than a linear search. Thanks to Andras Sereny. 
-o MATH-1148:  "MonotoneChain" did not take the tolerance factor into account when
-        sorting the input points. In case of collinear points this could result
-        in a "ConvergenceException" when computing the hull. Thanks to Guillaume Marceau. 
-o MATH-1151:  Interface "ValueAndJacobianFunction" is a precondition for lazy
-        evaluation (in "o.a.c.m.fitting.leastsquares"). 
-o MATH-1145:  Fix potential integer overflows in "MannWhitneyUTest" when providing
-        large sample arrays. Thanks to Anders Conbere. 
-o MATH-1149:  Fixed potential null pointer dereferencing in constructor of
-        "DummyStepInterpolator(DummyStepInterpolator)". Thanks to M Kim. 
-o MATH-1136:  Fixed BinomialDistribution to deal with degenerate cases correctly. Thanks to Aleksei Dievskii. 
-o MATH-1135:  "MonotoneChain" failed to generate a convex hull if only a minimal hull
-        shall be created (includeCollinearPoints=false) and collinear hull points
-        were present in the input. Thanks to Guillaume Marceau. 
-o MATH-1131:  Improve performance of "KolmogorovSmirnovTest#kolmogorovSmirnovTest(...)" for
-        large samples. Also changed implementation for large n to use Pelz-Good
-        approximation. Thanks to Schalk W. Cronjé. 
-o MATH-1134:  "BicubicSplineInterpolatingFunction": all fields made final and initialized in
-        the constructor. Added flag to request initialization, or not, of the internal
-        data needed for partial derivatives. 
-o MATH-984:  Constrained EmpiricalDistribution sample/getNextValue methods to return
-        values within the range of the data; correctly linked RandomGenerator to
-        superclass so that RealDistribution reseedRandomGenerator method works. 
-o MATH-1129:  "Percentile": wrong sorting in the presence of NaN. 
-o MATH-1127:  Fixed overflow in Precision.equals with ulps (both double and float versions). 
-o MATH-1125:  Performance improvements for Student's t-distribution. Thanks to Ajo Fod. 
-o MATH-1123:  Fixed NullPointerException when chopping-off a sub-hyperplane
-        that is exactly at a region boundary. Thanks to Aurélien Labrosse. 
-o MATH-1121:  "BrentOptimizer": increment base class iteration counter. Thanks to Ajo Fod. 
+o MATH-1188:  Fixed non-Java1.5 code in BesselJ. 
 
-Changes:
-o           Spurious vertices in the middle of otherwise straight edges are now
-        filtered out when rebuilding polygons boundaries from BSP trees. 
-o MATH-1128:  Added lazy evaluation to "LeastSquaresFactory" (in "o.a.c.m.fitting.leastsquares")
-        to avoid evaluating the model when the optimization algorithm does not actually
-        require it. 
 
 
 For complete information on Apache Commons Math, including instructions on how to submit bug reports,

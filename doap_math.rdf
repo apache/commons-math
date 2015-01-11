@@ -38,6 +38,11 @@
     <release>
       <Version>
         <name>commons-math</name>
+        <created>2015-01-11</created>
+        <revision>3.4.1</revision>
+      </Version>
+      <Version>
+        <name>commons-math</name>
         <created>2014-12-26</created>
         <revision>3.4</revision>
       </Version>
