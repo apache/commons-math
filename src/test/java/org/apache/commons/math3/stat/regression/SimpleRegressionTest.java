@@ -547,6 +547,17 @@ public final class SimpleRegressionTest {
         Assert.assertTrue(regression.getSlope() > 0.0);
         Assert.assertTrue(regression.getSumSquaredErrors() >= 0.0);
     }
+    
+    @Test
+    public void testPerfect2() {
+        SimpleRegression regression = new SimpleRegression();
+        regression.addData(0, 0);
+        regression.addData(1, 1);
+        regression.addData(2, 2);
+        Assert.assertEquals(0.0, regression.getSlopeStdErr(), 0.0);
+        Assert.assertEquals(0.0, regression.getSignificance(), Double.MIN_VALUE);
+        Assert.assertEquals(1, regression.getRSquare(), Double.MIN_VALUE);
+    }
 
     @Test
     public void testPerfectNegative() {
