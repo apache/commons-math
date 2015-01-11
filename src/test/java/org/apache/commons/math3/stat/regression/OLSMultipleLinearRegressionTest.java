@@ -782,4 +782,39 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         TestUtils.assertEquals(835542680000.000, model.calculateResidualSumOfSquares(), 1.0e-3);
         return;
     }
+    
+    /**
+     * Anything requiring beta calculation should advertise SME.
+     */
+    @Test(expected=org.apache.commons.math3.linear.SingularMatrixException.class)
+    public void testSingularCalculateBeta() {
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.newSampleData(new double[] {1,  2,  3, 1, 2, 3, 1, 2, 3}, 3, 2);
+        model.calculateBeta();
+    }
+    
+    @Test
+    public void testNoSSTOCalculateRsquare() {
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.newSampleData(new double[] {1,  2,  3, 1, 7, 8, 1, 10, 12}, 3, 2);
+        Assert.assertTrue(Double.isNaN(model.calculateRSquared()));
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testNoDataNPECalculateBeta() {
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.calculateBeta();
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testNoDataNPECalculateHat() {
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.calculateHat();
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testNoDataNPESSTO() {
+        OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
+        model.calculateTotalSumOfSquares();
+    }
 }
