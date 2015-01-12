@@ -338,20 +338,20 @@ public class SummaryStatisticsTest {
     
     @Test
     public void testToString() {
-    	SummaryStatistics u = createSummaryStatistics();
-    	for (int i = 0; i < 5; i++) {
-    		u.addValue(i);
-    	}
-    	final String[] labels = {"min", "max", "sum", "geometric mean", "variance",
-    			"population variance", "second moment", "sum of squares", "standard deviation",
-    	"sum of logs"};
-    	final double[] values = {u.getMin(), u.getMax(), u.getSum(), u.getGeometricMean(),
-    			u.getVariance(), u.getPopulationVariance(), u.getSecondMoment(), u.getSumsq(),
-    			u.getStandardDeviation(), u.getSumOfLogs()};
-    	final String toString = u.toString();
-    	Assert.assertTrue(toString.indexOf("n: " + u.getN()) > 0); // getN() returns a long
-    	for (int i = 0; i < values.length; i++) {
-    		Assert.assertTrue(toString.indexOf(labels[i] + ": " + String.valueOf(values[i])) > 0);
-    	}
+        SummaryStatistics u = createSummaryStatistics();
+        for (int i = 0; i < 5; i++) {
+            u.addValue(i);
+        }
+        final String[] labels = {"min", "max", "sum", "geometric mean", "variance",
+                "population variance", "second moment", "sum of squares", "standard deviation",
+        "sum of logs"};
+        final double[] values = {u.getMin(), u.getMax(), u.getSum(), u.getGeometricMean(),
+                u.getVariance(), u.getPopulationVariance(), u.getSecondMoment(), u.getSumsq(),
+                u.getStandardDeviation(), u.getSumOfLogs()};
+        final String toString = u.toString();
+        Assert.assertTrue(toString.indexOf("n: " + u.getN()) > 0); // getN() returns a long
+        for (int i = 0; i < values.length; i++) {
+            Assert.assertTrue(toString.indexOf(labels[i] + ": " + String.valueOf(values[i])) > 0);
+        }
     }
 }

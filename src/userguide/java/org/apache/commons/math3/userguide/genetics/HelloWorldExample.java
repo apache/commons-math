@@ -38,16 +38,16 @@ import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 public class HelloWorldExample {
-	public static final int    POPULATION_SIZE   = 1000;
-	public static final double CROSSOVER_RATE    = 0.9;
-	public static final double MUTATION_RATE     = 0.03;
-	public static final double ELITISM_RATE      = 0.1;
-	public static final int    TOURNAMENT_ARITY  = 2;
+    public static final int    POPULATION_SIZE   = 1000;
+    public static final double CROSSOVER_RATE    = 0.9;
+    public static final double MUTATION_RATE     = 0.03;
+    public static final double ELITISM_RATE      = 0.1;
+    public static final int    TOURNAMENT_ARITY  = 2;
 
-	public static final String TARGET_STRING = "Hello World!";
-	public static final int DIMENSION = TARGET_STRING.length();
+    public static final String TARGET_STRING = "Hello World!";
+    public static final int DIMENSION = TARGET_STRING.length();
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
 
         // initialize a new genetic algorithm
@@ -93,8 +93,8 @@ public class HelloWorldExample {
         Chromosome best = finalPopulation.getFittestChromosome();
         System.out.println("Generation " + ga.getGenerationsEvolved() + ": " + best.toString());
         System.out.println("Total execution time: " + (endTime - startTime) + "ms");
-	}
-	
+    }
+    
     private static List<Character> randomRepresentation(int length) {
         return asList(RandomStringUtils.randomAscii(length));
     }
@@ -112,20 +112,20 @@ public class HelloWorldExample {
         return new ElitisticListPopulation(popList, 2 * popList.size(), ELITISM_RATE);
     }
 
-	/**
-	 * String Chromosome represented by a list of characters.
-	 */
-	public static class StringChromosome extends AbstractListChromosome<Character> {
+    /**
+     * String Chromosome represented by a list of characters.
+     */
+    public static class StringChromosome extends AbstractListChromosome<Character> {
 
-	    public StringChromosome(List<Character> repr) {
-	        super(repr);
-	    }
+        public StringChromosome(List<Character> repr) {
+            super(repr);
+        }
 
-	    public StringChromosome(String str) {
-	        this(asList(str));
-	    }
+        public StringChromosome(String str) {
+            this(asList(str));
+        }
 
-	    public double fitness() {
+        public double fitness() {
             String target = TARGET_STRING;
             int f = 0; // start at 0; the best fitness
             List<Character> chromosome = getRepresentation();
@@ -137,51 +137,51 @@ public class HelloWorldExample {
             return f;
         }
 
-	    @Override
-	    protected void checkValidity(List<Character> repr) throws InvalidRepresentationException {
-	        for (char c : repr) {
-	            if (c < 32 || c > 126) {
-	                throw new InvalidRepresentationException(LocalizedFormats.INVALID_FIXED_LENGTH_CHROMOSOME);
-	            }
-	        }
-	    }
+        @Override
+        protected void checkValidity(List<Character> repr) throws InvalidRepresentationException {
+            for (char c : repr) {
+                if (c < 32 || c > 126) {
+                    throw new InvalidRepresentationException(LocalizedFormats.INVALID_FIXED_LENGTH_CHROMOSOME);
+                }
+            }
+        }
 
-	    public List<Character> getStringRepresentation() {
-	        return getRepresentation();
-	    }
+        public List<Character> getStringRepresentation() {
+            return getRepresentation();
+        }
 
-	    @Override
-	    public StringChromosome newFixedLengthChromosome(List<Character> repr) {
-	        return new StringChromosome(repr);
-	    }
+        @Override
+        public StringChromosome newFixedLengthChromosome(List<Character> repr) {
+            return new StringChromosome(repr);
+        }
 
-	    @Override
-	    public String toString() {
-	        StringBuffer sb = new StringBuffer();
-	        for (Character i : getRepresentation()) {
-	            sb.append(i.charValue());
-	        }
-	        return String.format("(f=%s '%s')", getFitness(), sb.toString());
-	    }
+        @Override
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            for (Character i : getRepresentation()) {
+                sb.append(i.charValue());
+            }
+            return String.format("(f=%s '%s')", getFitness(), sb.toString());
+        }
 
-	}
+    }
 
-	private static class RandomCharacterMutation implements MutationPolicy {
-		public Chromosome mutate(Chromosome original) {
-			if (!(original instanceof StringChromosome)) {
-				throw new IllegalArgumentException();
-			}
+    private static class RandomCharacterMutation implements MutationPolicy {
+        public Chromosome mutate(Chromosome original) {
+            if (!(original instanceof StringChromosome)) {
+                throw new IllegalArgumentException();
+            }
 
-			StringChromosome strChromosome = (StringChromosome) original;
-			List<Character> characters = strChromosome.getStringRepresentation();
-			
-			int mutationIndex = GeneticAlgorithm.getRandomGenerator().nextInt(characters.size());
+            StringChromosome strChromosome = (StringChromosome) original;
+            List<Character> characters = strChromosome.getStringRepresentation();
+            
+            int mutationIndex = GeneticAlgorithm.getRandomGenerator().nextInt(characters.size());
 
-			List<Character> mutatedChromosome = new ArrayList<Character>(characters);
-			char newValue = (char) (32 + GeneticAlgorithm.getRandomGenerator().nextInt(127 - 32));
-			mutatedChromosome.set(mutationIndex, newValue);
+            List<Character> mutatedChromosome = new ArrayList<Character>(characters);
+            char newValue = (char) (32 + GeneticAlgorithm.getRandomGenerator().nextInt(127 - 32));
+            mutatedChromosome.set(mutationIndex, newValue);
 
-			return strChromosome.newFixedLengthChromosome(mutatedChromosome);
-		}
-	}
+            return strChromosome.newFixedLengthChromosome(mutatedChromosome);
+        }
+    }
 }

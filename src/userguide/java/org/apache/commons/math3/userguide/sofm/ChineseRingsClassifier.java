@@ -58,7 +58,7 @@ public class ChineseRingsClassifier {
     /** Distance function. */
     private final DistanceMeasure distance = new EuclideanDistance();
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         final ChineseRings rings = new ChineseRings(new Vector3D(1, 2, 3),
                                                     25, 2,
                                                     20, 1,

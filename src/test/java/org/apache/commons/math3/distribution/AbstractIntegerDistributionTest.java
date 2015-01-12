@@ -30,20 +30,20 @@ public class AbstractIntegerDistributionTest {
     @Test
     public void testInverseCumulativeProbabilityMethod()
     {
-    	double precision = 0.000000000000001;
-    	Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability(0));
-    	Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability((1d-Double.MIN_VALUE)/6d));
-    	Assert.assertEquals(2, diceDistribution.inverseCumulativeProbability((1d+precision)/6d));
-    	Assert.assertEquals(2, diceDistribution.inverseCumulativeProbability((2d-Double.MIN_VALUE)/6d));
-    	Assert.assertEquals(3, diceDistribution.inverseCumulativeProbability((2d+precision)/6d));
-    	Assert.assertEquals(3, diceDistribution.inverseCumulativeProbability((3d-Double.MIN_VALUE)/6d));
-    	Assert.assertEquals(4, diceDistribution.inverseCumulativeProbability((3d+precision)/6d));
-    	Assert.assertEquals(4, diceDistribution.inverseCumulativeProbability((4d-Double.MIN_VALUE)/6d));
-    	Assert.assertEquals(5, diceDistribution.inverseCumulativeProbability((4d+precision)/6d));
-    	Assert.assertEquals(5, diceDistribution.inverseCumulativeProbability((5d-precision)/6d));//Can't use Double.MIN
-    	Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((5d+precision)/6d));
-    	Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d-precision)/6d));//Can't use Double.MIN
-    	Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d)/6d));
+        double precision = 0.000000000000001;
+        Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability(0));
+        Assert.assertEquals(1, diceDistribution.inverseCumulativeProbability((1d-Double.MIN_VALUE)/6d));
+        Assert.assertEquals(2, diceDistribution.inverseCumulativeProbability((1d+precision)/6d));
+        Assert.assertEquals(2, diceDistribution.inverseCumulativeProbability((2d-Double.MIN_VALUE)/6d));
+        Assert.assertEquals(3, diceDistribution.inverseCumulativeProbability((2d+precision)/6d));
+        Assert.assertEquals(3, diceDistribution.inverseCumulativeProbability((3d-Double.MIN_VALUE)/6d));
+        Assert.assertEquals(4, diceDistribution.inverseCumulativeProbability((3d+precision)/6d));
+        Assert.assertEquals(4, diceDistribution.inverseCumulativeProbability((4d-Double.MIN_VALUE)/6d));
+        Assert.assertEquals(5, diceDistribution.inverseCumulativeProbability((4d+precision)/6d));
+        Assert.assertEquals(5, diceDistribution.inverseCumulativeProbability((5d-precision)/6d));//Can't use Double.MIN
+        Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((5d+precision)/6d));
+        Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d-precision)/6d));//Can't use Double.MIN
+        Assert.assertEquals(6, diceDistribution.inverseCumulativeProbability((6d)/6d));
     }
 
     @Test
