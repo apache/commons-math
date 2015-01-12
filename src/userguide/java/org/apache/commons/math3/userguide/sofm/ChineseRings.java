@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.userguide.sofm;
 
-import java.util.Iterator;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
