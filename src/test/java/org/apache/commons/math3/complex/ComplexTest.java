@@ -797,7 +797,12 @@ public class ComplexTest {
 
     @Test
     public void testExpInf4() {
-        TestUtils.assertSame(Complex.ZERO, negInfOne.exp());
+        System.out.println("expReal="+FastMath.exp(negInfOne.getReal())); // TODO temp debug
+        System.out.println("cosImag="+FastMath.cos(negInfOne.getImaginary())); // TODO temp debug
+        System.out.println("sinImag="+FastMath.sin(negInfOne.getImaginary())); // TODO temp debug
+        final Complex exp = negInfOne.exp();
+        System.out.println("result="+exp); // TODO temp debug
+        TestUtils.assertSame(Complex.ZERO, exp);
     }
 
     @Test
