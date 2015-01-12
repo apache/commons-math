@@ -797,6 +797,12 @@ public class ComplexTest {
 
     @Test
     public void testExpInf4() {
+        // TODO: temp debug start
+        double inf = negInfOne.getReal();
+        System.out.println(inf);
+        int intVal = (int) -inf;
+        System.out.println(intVal);
+        // TODO: temp debug end
         System.out.println("expReal="+FastMath.exp(negInfOne.getReal())); // TODO temp debug
         System.out.println("cosImag="+FastMath.cos(negInfOne.getImaginary())); // TODO temp debug
         System.out.println("sinImag="+FastMath.sin(negInfOne.getImaginary())); // TODO temp debug
