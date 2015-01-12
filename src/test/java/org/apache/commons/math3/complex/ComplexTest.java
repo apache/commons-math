@@ -781,14 +781,42 @@ public class ComplexTest {
     }
 
     @Test
-    public void testExpInf() {
+    public void testExpInf1() {
         TestUtils.assertSame(Complex.NaN, oneInf.exp());
+    }
+
+    @Test
+    public void testExpInf2() {
         TestUtils.assertSame(Complex.NaN, oneNegInf.exp());
+    }
+
+    @Test
+    public void testExpInf3() {
         TestUtils.assertSame(infInf, infOne.exp());
+    }
+
+    @Test
+    public void testExpInf4() {
         TestUtils.assertSame(Complex.ZERO, negInfOne.exp());
+    }
+
+    @Test
+    public void testExpInf5() {
         TestUtils.assertSame(Complex.NaN, infInf.exp());
+    }
+
+    @Test
+    public void testExpInf6() {
         TestUtils.assertSame(Complex.NaN, infNegInf.exp());
+    }
+
+    @Test
+    public void testExpInf7() {
         TestUtils.assertSame(Complex.NaN, negInfInf.exp());
+    }
+
+    @Test
+    public void testExpInf8() {
         TestUtils.assertSame(Complex.NaN, negInfNegInf.exp());
     }
 
