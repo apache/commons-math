@@ -770,48 +770,38 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      */
     public RegressionResults regress() throws ModelSpecificationException, NoDataException {
         if (hasIntercept) {
-          if( n < 3 ){
-              throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
-          }
-          if( FastMath.abs( sumXX ) > Precision.SAFE_MIN ){
-              final double[] params = new double[]{ getIntercept(), getSlope() };
-              final double mse = getMeanSquareError();
-              final double _syy = sumYY + sumY * sumY / n;
-              final double[] vcv = new double[]{
-                mse * (xbar *xbar /sumXX + 1.0 / n),
-                -xbar*mse/sumXX,
-                mse/sumXX };
-              return new RegressionResults(
-                      params, new double[][]{vcv}, true, n, 2,
-                      sumY, _syy, getSumSquaredErrors(),true,false);
-          }else{
-              final double[] params = new double[]{ sumY / n, Double.NaN };
-              //final double mse = getMeanSquareError();
-              final double[] vcv = new double[]{
-                ybar / (n - 1.0),
-                Double.NaN,
-                Double.NaN };
-              return new RegressionResults(
-                      params, new double[][]{vcv}, true, n, 1,
-                      sumY, sumYY, getSumSquaredErrors(),true,false);
-          }
-        }else{
-          if (n < 2) {
-              throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
-          }
-          if( !Double.isNaN(sumXX) ){
-          final double[] vcv = new double[]{ getMeanSquareError() / sumXX };
-          final double[] params = new double[]{ sumXY/sumXX };
-          return new RegressionResults(
-                      params, new double[][]{vcv}, true, n, 1,
-                      sumY, sumYY, getSumSquaredErrors(),false,false);
-          }else{
-          final double[] vcv = new double[]{Double.NaN };
-          final double[] params = new double[]{ Double.NaN };
-          return new RegressionResults(
-                      params, new double[][]{vcv}, true, n, 1,
-                      Double.NaN, Double.NaN, Double.NaN,false,false);
-          }
+            if (n < 3) {
+                throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
+            }
+            if (FastMath.abs(sumXX) > Precision.SAFE_MIN) {
+                final double[] params = new double[] { getIntercept(), getSlope() };
+                final double mse = getMeanSquareError();
+                final double _syy = sumYY + sumY * sumY / n;
+                final double[] vcv = new double[] { mse * (xbar * xbar / sumXX + 1.0 / n), -xbar * mse / sumXX, mse / sumXX };
+                return new RegressionResults(params, new double[][] { vcv }, true, n, 2, sumY, _syy, getSumSquaredErrors(), true,
+                        false);
+            } else {
+                final double[] params = new double[] { sumY / n, Double.NaN };
+                // final double mse = getMeanSquareError();
+                final double[] vcv = new double[] { ybar / (n - 1.0), Double.NaN, Double.NaN };
+                return new RegressionResults(params, new double[][] { vcv }, true, n, 1, sumY, sumYY, getSumSquaredErrors(), true,
+                        false);
+            }
+        } else {
+            if (n < 2) {
+                throw new NoDataException(LocalizedFormats.NOT_ENOUGH_DATA_REGRESSION);
+            }
+            if (!Double.isNaN(sumXX)) {
+                final double[] vcv = new double[] { getMeanSquareError() / sumXX };
+                final double[] params = new double[] { sumXY / sumXX };
+                return new RegressionResults(params, new double[][] { vcv }, true, n, 1, sumY, sumYY, getSumSquaredErrors(), false,
+                        false);
+            } else {
+                final double[] vcv = new double[] { Double.NaN };
+                final double[] params = new double[] { Double.NaN };
+                return new RegressionResults(params, new double[][] { vcv }, true, n, 1, Double.NaN, Double.NaN, Double.NaN, false,
+                        false);
+            }
         }
     }
 
