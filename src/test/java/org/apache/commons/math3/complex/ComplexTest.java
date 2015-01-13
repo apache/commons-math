@@ -797,6 +797,7 @@ public class ComplexTest {
 
     @Test
     public void testJava() {// TODO more debug
+        System.out.println(">>testJava()");
         // FastMathTest#testExpSpecialCases() checks the following:
         // Assert.assertEquals("exp of -infinity should be 0.0", 0.0, FastMath.exp(Double.NEGATIVE_INFINITY), Precision.EPSILON);
         // Let's check how well Math works:
@@ -818,15 +819,17 @@ public class ComplexTest {
         for(String t : props) {
             System.out.println(t + "=" + System.getProperty(t));
         }    
+        System.out.println("<<testJava()");
     }
 
     @Test
     public void testExpInf4() {
         // TODO: temp debug start
+        System.out.println(">>testExpInf4()");
         double inf = negInfOne.getReal();
-        System.out.println(inf);
+        System.out.println("inf="+inf);
         int intVal = (int) -inf;
-        System.out.println(intVal);
+        System.out.println("intval="+intVal);
         // TODO: temp debug end
         System.out.println("expReal="+FastMath.exp(negInfOne.getReal())); // TODO temp debug
         System.out.println("cosImag="+FastMath.cos(negInfOne.getImaginary())); // TODO temp debug
@@ -834,6 +837,7 @@ public class ComplexTest {
         final Complex exp = negInfOne.exp();
         System.out.println("result="+exp); // TODO temp debug
         TestUtils.assertSame(Complex.ZERO, exp);
+        System.out.println("<<testExpInf4()"); // TODO debug
     }
 
     @Test
