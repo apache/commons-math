@@ -34,7 +34,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
 public class FastMathTest {
 
     private static final double MAX_ERROR_ULP = 0.51;
