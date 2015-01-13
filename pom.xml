@@ -385,7 +385,7 @@
     <math.clirr.version>2.6.1</math.clirr.version>
 
     <!-- Temporary fix to support Java 8 -->
-    <commons.jacoco.version>0.7.0.201403182114</commons.jacoco.version>
+    <commons.jacoco.version>0.7.2.201409121644</commons.jacoco.version>
     <commons.jacoco.classRatio>0.96</commons.jacoco.classRatio>
     <commons.jacoco.instructionRatio>0.8</commons.jacoco.instructionRatio>
     <commons.jacoco.methodRatio>0.8</commons.jacoco.methodRatio>
