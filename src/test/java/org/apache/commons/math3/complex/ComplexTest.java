@@ -17,13 +17,13 @@
 
 package org.apache.commons.math3.complex;
 
+import java.util.List;
+
 import org.apache.commons.math3.TestUtils;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 
 /**
@@ -830,6 +830,7 @@ public class ComplexTest {
         System.out.println("inf="+inf);
         int intVal = (int) -inf;
         System.out.println("intval="+intVal);
+        System.out.println("neginf<0=" + (inf < 0.0));
         // TODO: temp debug end
         System.out.println("expReal="+FastMath.exp(negInfOne.getReal())); // TODO temp debug
         System.out.println("cosImag="+FastMath.cos(negInfOne.getImaginary())); // TODO temp debug
