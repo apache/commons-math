@@ -873,7 +873,6 @@ public class FastMath {
          * intPartA will have the upper 22 bits, intPartB will have the lower
          * 52 bits.
          */
-        System.out.println("Computing exp(" + x + ")");
         if (x < 0.0) {
             intVal = (int) -x;
 
