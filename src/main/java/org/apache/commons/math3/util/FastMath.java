@@ -876,7 +876,11 @@ public class FastMath {
         if (x < 0.0) {
             intVal = (int) -x;
 
-            if (intVal > 746) {
+            // TEMP: special handling of negative_infinity
+            // the above might fail in non-reproducible ways with Sun JDK 1.5,
+            // most likely due to a bug in the JIT. Add a safe-guard for very
+            // negative numbers.
+            if (intVal > 746 || x < Integer.MIN_VALUE) {
                 if (hiPrec != null) {
                     hiPrec[0] = 0.0;
                     hiPrec[1] = 0.0;
