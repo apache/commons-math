@@ -299,6 +299,23 @@ public class SummaryStatisticsTest {
         }
     }
     
+    @Test
+    public void testQuadraticMean() {
+        final double[] values = { 1.2, 3.4, 5.6, 7.89 };
+        final SummaryStatistics stats = createSummaryStatistics();
+
+        final int len = values.length;
+        double expected = 0;
+        for (int i = 0; i < len; i++) {
+            final double v = values[i];
+            expected += v * v / len;
+
+            stats.addValue(v);
+        }
+        expected = Math.sqrt(expected);
+
+        Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
+    }
     
     /**
      * JIRA: MATH-691
