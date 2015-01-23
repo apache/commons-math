@@ -118,6 +118,14 @@ public class SynchronizedDescriptiveStatistics extends DescriptiveStatistics {
      * {@inheritDoc}
      */
     @Override
+    public synchronized double getQuadraticMean() {
+        return super.getQuadraticMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized double[] getValues() {
         return super.getValues();
     }

@@ -115,6 +115,14 @@ public class SynchronizedSummaryStatistics extends SummaryStatistics {
      * {@inheritDoc}
      */
     @Override
+    public synchronized double getQuadraticMean() {
+        return super.getQuadraticMean();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public synchronized double getVariance() {
         return super.getVariance();
     }
