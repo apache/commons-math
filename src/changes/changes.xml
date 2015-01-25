@@ -53,6 +53,13 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="TBD" date="TBD" description="TBD">
     </release>
 
+    <release version="3.5" date="2015-01-11" description="">
+      <action dev="erans" type="add" issue="MATH-1199">
+        Added method "getQuadraticMean()" to "DescriptiveStatistics"
+        and "SummaryStatistics" which calculates the root mean square.
+      </action>
+    </release>
+
     <release version="3.4.1" date="2015-01-11" description="
 This is a maintenance release: It fixes issue MATH-1188.
 ">
