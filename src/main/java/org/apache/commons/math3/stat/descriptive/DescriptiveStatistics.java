@@ -259,6 +259,18 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     }
 
     /**
+     * Returns the quadratic mean, a.k.a.
+     * <a href="http://mathworld.wolfram.com/Root-Mean-Square.html">
+     * root-mean-square</a> of the available values
+     * @return The quadratic mean or {@code Double.NaN} if no values
+     * have been added.
+     */
+    public double getQuadraticMean() {
+        final long n = getN();
+        return n > 0 ? FastMath.sqrt(getSumsq() / n) : Double.NaN;
+    }
+
+    /**
      * Returns the skewness of the available values. Skewness is a
      * measure of the asymmetry of a given distribution.
      * @return The skewness, Double.NaN if no values have been added

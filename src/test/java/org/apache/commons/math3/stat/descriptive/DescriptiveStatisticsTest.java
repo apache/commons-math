@@ -31,8 +31,6 @@ import org.junit.Test;
 
 /**
  * Test cases for the DescriptiveStatistics class.
- *
- *          2007) $
  */
 public class DescriptiveStatisticsTest {
 
@@ -104,6 +102,22 @@ public class DescriptiveStatisticsTest {
             Assert.assertEquals(i + 1.0, s[i], 1.0e-10);
         }
         Assert.assertEquals(12.0, stats.getElement(88), 1.0e-10);
+    }
+
+    @Test
+    public void testQuadraticMean() {
+        final double[] values = { 1.2, 3.4, 5.6, 7.89 };
+        final DescriptiveStatistics stats = new DescriptiveStatistics(values);
+
+        final int len = values.length;
+        double expected = 0;
+        for (int i = 0; i < len; i++) {
+            final double v = values[i];
+            expected += v * v / len;
+        }
+        expected = Math.sqrt(expected);
+
+        Assert.assertEquals(expected, stats.getQuadraticMean(), Math.ulp(expected));
     }
 
     @Test
