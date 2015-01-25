@@ -867,20 +867,17 @@ public class FastMath {
     private static double exp(double x, double extra, double[] hiPrec) {
         double intPartA;
         double intPartB;
-        int intVal;
+        int intVal = (int) x;
 
         /* Lookup exp(floor(x)).
          * intPartA will have the upper 22 bits, intPartB will have the lower
          * 52 bits.
          */
         if (x < 0.0) {
-            intVal = (int) -x;
 
-            // TEMP: special handling of negative_infinity
-            // the above might fail in non-reproducible ways with Sun JDK 1.5,
-            // most likely due to a bug in the JIT. Add a safe-guard for very
-            // negative numbers.
-            if (intVal > 746 || x < Integer.MIN_VALUE) {
+            // We don't check against intVal here as conversion of large negative double values
+            // may be affected by a JIT bug. Subsequent comparisons can safely use intVal
+            if (x < -746d) { 
                 if (hiPrec != null) {
                     hiPrec[0] = 0.0;
                     hiPrec[1] = 0.0;
@@ -888,7 +885,7 @@ public class FastMath {
                 return 0.0;
             }
 
-            if (intVal > 709) {
+            if (intVal < -709) {
                 /* This will produce a subnormal output */
                 final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;
                 if (hiPrec != null) {
@@ -898,7 +895,7 @@ public class FastMath {
                 return result;
             }
 
-            if (intVal == 709) {
+            if (intVal == -709) {
                 /* exp(1.494140625) is nearly a machine number... */
                 final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;
                 if (hiPrec != null) {
@@ -908,15 +905,9 @@ public class FastMath {
                 return result;
             }
 
-            intVal++;
+            intVal--;
 
-            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];
-            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];
-
-            intVal = -intVal;
         } else {
-            intVal = (int) x;
-
             if (intVal > 709) {
                 if (hiPrec != null) {
                     hiPrec[0] = Double.POSITIVE_INFINITY;
@@ -925,9 +916,10 @@ public class FastMath {
                 return Double.POSITIVE_INFINITY;
             }
 
-            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
-            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
         }
+
+        intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];
+        intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];
 
         /* Get the fractional part of x, find the greatest multiple of 2^-10 less than
          * x and look up the exp function of it.
