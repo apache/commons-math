@@ -877,7 +877,7 @@ public class FastMath {
 
             // We don't check against intVal here as conversion of large negative double values
             // may be affected by a JIT bug. Subsequent comparisons can safely use intVal
-            if (x < -746d) { 
+            if (x < -746d) {
                 if (hiPrec != null) {
                     hiPrec[0] = 0.0;
                     hiPrec[1] = 0.0;
