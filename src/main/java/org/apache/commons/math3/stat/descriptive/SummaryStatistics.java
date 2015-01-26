@@ -232,8 +232,8 @@ public class SummaryStatistics implements StatisticalSummary, Serializable {
      * have been added.
      */
     public double getQuadraticMean() {
-        final long n = getN();
-        return n > 0 ? FastMath.sqrt(getSumsq() / n) : Double.NaN;
+        final long size = getN();
+        return size > 0 ? FastMath.sqrt(getSumsq() / size) : Double.NaN;
     }
 
     /**
