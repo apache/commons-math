@@ -31,10 +31,10 @@ import org.apache.commons.math3.util.FastMath;
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
  * Laguerre's Method</a> for root finding of real coefficient polynomials.
  * For reference, see
- * <quote>
- *  <b>A First Course in Numerical Analysis</b>
- *  ISBN 048641454X, chapter 8.
- * </quote>
+ * <blockquote>
+ *  <b>A First Course in Numerical Analysis</b><br>
+ *  ISBN 048641454X, chapter 8.<br>
+ * </blockquote>
  * Laguerre's method is global in the sense that it can start with any initial
  * approximation and be able to solve all roots from that point.
  * The algorithm requires a bracketing condition.

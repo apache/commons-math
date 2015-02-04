@@ -34,11 +34,11 @@ import org.apache.commons.math3.util.Precision;
  * The given interval must bracket the root.
  * <p>
  *  The reference implementation is given in chapter 4 of
- *  <quote>
+ *  <blockquote>
  *   <b>Algorithms for Minimization Without Derivatives</b><br>
  *   <em>Richard P. Brent</em><br>
  *   Dover, 2002<br>
- *  </quote>
+ *  </blockquote>
  * </p>
  *
  * @see BaseAbstractUnivariateSolver
@@ -137,11 +137,11 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * Search for a zero inside the provided interval.
      * This implementation is based on the algorithm described at page 58 of
      * the book
-     * <quote>
+     * <blockquote>
      *  <b>Algorithms for Minimization Without Derivatives</b>
      *  <it>Richard P. Brent</it>
      *  Dover 0-486-41998-3
-     * </quote>
+     * </blockquote>
      *
      * @param lo Lower bound of the search interval.
      * @param hi Higher bound of the search interval.

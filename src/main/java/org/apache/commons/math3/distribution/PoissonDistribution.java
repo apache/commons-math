@@ -287,10 +287,10 @@ public class PoissonDistribution extends AbstractIntegerDistribution {
      *   The Poisson process (and hence value returned) is bounded by 1000 * mean.
      *  </li>
      *  <li>For large means, uses the rejection algorithm described in
-     *   <quote>
-     *    Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i>
-     *    <strong>Computing</strong> vol. 26 pp. 197-207.
-     *   </quote>
+     *   <blockquote>
+     *    Devroye, Luc. (1981).<i>The Computer Generation of Poisson Random Variables</i><br>
+     *    <strong>Computing</strong> vol. 26 pp. 197-207.<br>
+     *   </blockquote>
      *  </li>
      * </ul>
      * </p>

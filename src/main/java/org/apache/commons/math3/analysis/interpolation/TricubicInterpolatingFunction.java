@@ -27,11 +27,11 @@ import org.apache.commons.math3.util.MathArrays;
  * Function that implements the
  * <a href="http://en.wikipedia.org/wiki/Tricubic_interpolation">
  * tricubic spline interpolation</a>, as proposed in
- * <quote>
- *  Tricubic interpolation in three dimensions<br/>
- *  F. Lekien and J. Marsden<br/>
- *  <em>Int. J. Numer. Meth. Eng</em> 2005; <b>63</b>:455-471
- * </quote>
+ * <blockquote>
+ *  Tricubic interpolation in three dimensions<br>
+ *  F. Lekien and J. Marsden<br>
+ *  <em>Int. J. Numer. Meth. Eng</em> 2005; <b>63</b>:455-471<br>
+ * </blockquote>
  *
  * @since 3.4.
  */

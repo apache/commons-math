@@ -41,11 +41,11 @@ import org.apache.commons.math3.util.FastMath;
  * The initial interval for the application of the bisection method is
  * based on the roots of the previous Hermite polynomial (interlacing).
  * Upper and lower bounds of these roots are provided by
- * <quote>
- *  I. Krasikov,
- *  <em>Nonnegative quadratic forms and bounds on orthogonal polynomials</em>,
- *  Journal of Approximation theory <b>111</b>, 31-49
- * </quote>
+ * <blockquote>
+ *  I. Krasikov,<br>
+ *  <em>Nonnegative quadratic forms and bounds on orthogonal polynomials</em>,<br>
+ *  Journal of Approximation theory <b>111</b>, 31-49<br>
+ * </blockquote>
  *
  * @since 3.3
  */
