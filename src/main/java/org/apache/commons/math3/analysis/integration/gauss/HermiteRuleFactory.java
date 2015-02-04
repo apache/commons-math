@@ -32,7 +32,7 @@ import org.apache.commons.math3.util.FastMath;
  * </code>
  * <br/>
  * Recurrence relation and weights computation follow
- * <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun"
+ * <a href="http://en.wikipedia.org/wiki/Abramowitz_and_Stegun">
  * Abramowitz and Stegun, 1964</a>.
  * <br/>
  * The coefficients of the standard Hermite polynomials grow very rapidly;
