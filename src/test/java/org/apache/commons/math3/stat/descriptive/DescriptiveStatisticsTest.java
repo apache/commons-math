@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases for the DescriptiveStatistics class.
+ * Test cases for the {@link DescriptiveStatistics} class.
  */
 public class DescriptiveStatisticsTest {
 

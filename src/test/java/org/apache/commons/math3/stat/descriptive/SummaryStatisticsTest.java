@@ -28,9 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 /**
  * Test cases for the {@link SummaryStatistics} class.
- *
  */
-
 public class SummaryStatisticsTest {
 
     private double one = 1;
