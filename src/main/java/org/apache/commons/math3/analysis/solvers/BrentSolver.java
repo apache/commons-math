@@ -29,10 +29,19 @@ import org.apache.commons.math3.util.Precision;
  * The function should be continuous but not necessarily smooth.
  * The {@code solve} method returns a zero {@code x} of the function {@code f}
  * in the given interval {@code [a, b]} to within a tolerance
- * {@code 6 eps abs(x) + t} where {@code eps} is the relative accuracy and
+ * {@code 2 eps abs(x) + t} where {@code eps} is the relative accuracy and
  * {@code t} is the absolute accuracy.
  * The given interval must bracket the root.
+ * <p>
+ *  The reference implementation is given in chapter 4 of
+ *  <quote>
+ *   <b>Algorithms for Minimization Without Derivatives</b><br>
+ *   <em>Richard P. Brent</em><br>
+ *   Dover, 2002<br>
+ *  </quote>
+ * </p>
  *
+ * @see BaseAbstractUnivariateSolver
  */
 public class BrentSolver extends AbstractUnivariateSolver {
 
@@ -40,7 +49,7 @@ public class BrentSolver extends AbstractUnivariateSolver {
     private static final double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
 
     /**
-     * Construct a solver with default accuracy (1e-6).
+     * Construct a solver with default absolute accuracy (1e-6).
      */
     public BrentSolver() {
         this(DEFAULT_ABSOLUTE_ACCURACY);
@@ -69,6 +78,8 @@ public class BrentSolver extends AbstractUnivariateSolver {
      * @param relativeAccuracy Relative accuracy.
      * @param absoluteAccuracy Absolute accuracy.
      * @param functionValueAccuracy Function value accuracy.
+     *
+     * @see BaseAbstractUnivariateSolver#BaseAbstractUnivariateSolver(double,double,double)
      */
     public BrentSolver(double relativeAccuracy,
                        double absoluteAccuracy,

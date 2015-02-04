@@ -29,6 +29,10 @@ import org.apache.commons.math3.util.MathUtils;
 /**
  * Provide a default implementation for several functions useful to generic
  * solvers.
+ * The default values for relative and function tolerances are 1e-14
+ * and 1e-15, respectively. It is however highly recommended to not
+ * rely on the default, but rather carefully consider values that match
+ * user's expectations, as well as the specifics of each implementation.
  *
  * @param <FUNC> Type of function to solve.
  *
@@ -75,7 +79,7 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param absoluteAccuracy Maximum absolute error.
      */
     protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                               final double absoluteAccuracy) {
+                                           final double absoluteAccuracy) {
         this(relativeAccuracy,
              absoluteAccuracy,
              DEFAULT_FUNCTION_VALUE_ACCURACY);
@@ -89,8 +93,8 @@ public abstract class BaseAbstractUnivariateSolver<FUNC extends UnivariateFuncti
      * @param functionValueAccuracy Maximum function value error.
      */
     protected BaseAbstractUnivariateSolver(final double relativeAccuracy,
-                                               final double absoluteAccuracy,
-                                               final double functionValueAccuracy) {
+                                           final double absoluteAccuracy,
+                                           final double functionValueAccuracy) {
         this.absoluteAccuracy = absoluteAccuracy;
         this.relativeAccuracy = relativeAccuracy;
         this.functionValueAccuracy = functionValueAccuracy;
