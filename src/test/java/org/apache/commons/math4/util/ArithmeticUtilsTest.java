@@ -413,15 +413,6 @@ public class ArithmeticUtilsTest {
             // expected behavior
         }
 
-        Assert.assertEquals(1801088541l, ArithmeticUtils.pow(21l, 7l));
-        Assert.assertEquals(1l, ArithmeticUtils.pow(21l, 0l));
-        try {
-            ArithmeticUtils.pow(21l, -7l);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException e) {
-            // expected behavior
-        }
-
         BigInteger twentyOne = BigInteger.valueOf(21l);
         Assert.assertEquals(BigInteger.valueOf(1801088541l), ArithmeticUtils.pow(twentyOne, 7));
         Assert.assertEquals(BigInteger.ONE, ArithmeticUtils.pow(twentyOne, 0));

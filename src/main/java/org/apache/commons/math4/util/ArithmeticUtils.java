@@ -679,34 +679,6 @@ public final class ArithmeticUtils {
     }
 
     /**
-     * Raise an int to a long power.
-     *
-     * @param k Number to raise.
-     * @param e Exponent (must be positive or zero).
-     * @return k<sup>e</sup>
-     * @throws NotPositiveException if {@code e < 0}.
-     * @deprecated As of 3.3. Please use {@link #pow(int,int)} instead.
-     */
-    @Deprecated
-    public static int pow(final int k, long e) throws NotPositiveException {
-        if (e < 0) {
-            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
-        }
-
-        int result = 1;
-        int k2p    = k;
-        while (e != 0) {
-            if ((e & 0x1) != 0) {
-                result *= k2p;
-            }
-            k2p *= k2p;
-            e >>= 1;
-        }
-
-        return result;
-    }
-
-    /**
      * Raise a long to an int power.
      *
      * @param k Number to raise.
@@ -750,34 +722,6 @@ public final class ArithmeticUtils {
             // Rethrow.
             throw mae;
         }
-    }
-
-    /**
-     * Raise a long to a long power.
-     *
-     * @param k Number to raise.
-     * @param e Exponent (must be positive or zero).
-     * @return k<sup>e</sup>
-     * @throws NotPositiveException if {@code e < 0}.
-     * @deprecated As of 3.3. Please use {@link #pow(long,int)} instead.
-     */
-    @Deprecated
-    public static long pow(final long k, long e) throws NotPositiveException {
-        if (e < 0) {
-            throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
-        }
-
-        long result = 1l;
-        long k2p    = k;
-        while (e != 0) {
-            if ((e & 0x1) != 0) {
-                result *= k2p;
-            }
-            k2p *= k2p;
-            e >>= 1;
-        }
-
-        return result;
     }
 
     /**
