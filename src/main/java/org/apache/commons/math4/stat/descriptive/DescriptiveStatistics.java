@@ -73,7 +73,7 @@ public class DescriptiveStatistics implements StatisticalSummary, Serializable {
     private static final String SET_QUANTILE_METHOD_NAME = "setQuantile";
 
     /** hold the window size **/
-    protected int windowSize = INFINITE_WINDOW;
+    private int windowSize = INFINITE_WINDOW;
 
     /**
      *  Stored data values
