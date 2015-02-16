@@ -150,9 +150,8 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @deprecated This method should not be part of the public API: It will
      * be made private in version 4.0.
      */
-    @Deprecated
-    public double laguerre(double lo, double hi,
-                           double fLo, double fHi) {
+    private double laguerre(double lo, double hi,
+                            double fLo, double fHi) {
         final Complex c[] = ComplexUtils.convertToComplex(getCoefficients());
 
         final Complex initial = new Complex(0.5 * (lo + hi), 0);
