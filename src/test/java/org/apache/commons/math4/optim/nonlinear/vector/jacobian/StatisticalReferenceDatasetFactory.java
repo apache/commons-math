@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * A factory to create instances of {@link StatisticalReferenceDataset} from

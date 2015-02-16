@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.rank;
+package org.apache.commons.math4.stat.descriptive.rank;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,18 +26,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
-import org.apache.commons.math3.analysis.interpolation.NevilleInterpolator;
-import org.apache.commons.math3.analysis.interpolation.UnivariateInterpolator;
-import org.apache.commons.math3.exception.InsufficientDataException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.interpolation.LinearInterpolator;
+import org.apache.commons.math4.analysis.interpolation.NevilleInterpolator;
+import org.apache.commons.math4.analysis.interpolation.UnivariateInterpolator;
+import org.apache.commons.math4.exception.InsufficientDataException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * A {@link StorelessUnivariateStatistic} estimating percentiles using the

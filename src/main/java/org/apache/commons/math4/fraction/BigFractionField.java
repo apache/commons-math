@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fraction;
+package org.apache.commons.math4.fraction;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.FieldElement;
 
 /**
  * Representation of the fractional numbers  without any overflow field.

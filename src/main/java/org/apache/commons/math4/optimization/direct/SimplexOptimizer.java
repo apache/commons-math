@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.SimpleValueChecker;
-import org.apache.commons.math3.optimization.MultivariateOptimizer;
-import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.MultivariateOptimizer;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.SimpleValueChecker;
 
 /**
  * This class implements simplex-based direct search optimization.
@@ -138,7 +138,7 @@ public class SimplexOptimizer
      * @param goalType Optimization type.
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}</li>
+     *  <li>{@link org.apache.commons.math4.optimization.InitialGuess InitialGuess}</li>
      *  <li>{@link AbstractSimplex}</li>
      * </ul>
      * @return the point/value pair giving the optimal value for objective

@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
 import org.junit.Test;
 import org.junit.Assert;
 

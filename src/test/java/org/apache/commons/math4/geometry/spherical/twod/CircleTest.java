@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.twod;
+package org.apache.commons.math4.geometry.spherical.twod;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.partitioning.Transform;
-import org.apache.commons.math3.geometry.spherical.oned.Arc;
-import org.apache.commons.math3.geometry.spherical.oned.LimitAngle;
-import org.apache.commons.math3.geometry.spherical.oned.S1Point;
-import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
-import org.apache.commons.math3.geometry.spherical.oned.SubLimitAngle;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math3.random.Well1024a;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.partitioning.Transform;
+import org.apache.commons.math4.geometry.spherical.oned.Arc;
+import org.apache.commons.math4.geometry.spherical.oned.LimitAngle;
+import org.apache.commons.math4.geometry.spherical.oned.S1Point;
+import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
+import org.apache.commons.math4.geometry.spherical.oned.SubLimitAngle;
+import org.apache.commons.math4.geometry.spherical.twod.Circle;
+import org.apache.commons.math4.geometry.spherical.twod.S2Point;
+import org.apache.commons.math4.geometry.spherical.twod.Sphere2D;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

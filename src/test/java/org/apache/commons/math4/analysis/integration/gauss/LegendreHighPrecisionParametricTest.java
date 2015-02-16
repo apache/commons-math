@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
+import org.apache.commons.math4.analysis.integration.gauss.LegendreHighPrecisionRuleFactory;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;

@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.clustering;
+package org.apache.commons.math4.ml.clustering;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ml.clustering.CentroidCluster;
+import org.apache.commons.math4.ml.clustering.Cluster;
+import org.apache.commons.math4.ml.clustering.DoublePoint;
+import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

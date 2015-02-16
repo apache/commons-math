@@ -30,8 +30,8 @@
 
 <subsection name="6.1 Overview" href="overview">
     <p>
-    The <a href="../apidocs/org/apache/commons/math3/util/package-summary.html">
-    org.apache.commons.math3.util</a> package collects a group of array utilities,
+    The <a href="../apidocs/org/apache/commons/math4/util/package-summary.html">
+    org.apache.commons.math4.util</a> package collects a group of array utilities,
     value transformers,  and numerical routines used by implementation classes in
     commons-math.
     </p>
@@ -43,7 +43,7 @@
     array implementation was developed and is provided for reuse in the 
     <code>util</code> package.  The core functionality provided is described in
     the documentation for the interface, 
-    <a href="../apidocs/org/apache/commons/math3/util/DoubleArray.html">
+    <a href="../apidocs/org/apache/commons/math4/util/DoubleArray.html">
     DoubleArray</a>.  This interface adds one method,
     <code>addElementRolling(double)</code> to basic list accessors. 
     The <code>addElementRolling</code> method adds an element 
@@ -51,7 +51,7 @@
      in the list.
     </p>
     <p>
-    The <a href="../apidocs/org/apache/commons/math3/util/ResizableDoubleArray.html">
+    The <a href="../apidocs/org/apache/commons/math4/util/ResizableDoubleArray.html">
     ResizableDoubleArray</a> class provides a configurable, array-backed
     implementation of the <code>DoubleArray</code> interface.
     When <code>addElementRolling</code> is invoked, the underlying
@@ -65,7 +65,7 @@
     automatically, with frequency / effect driven by the configuration
     properties <code>expansionMode</code>, <code>expansionFactor</code> and
     <code>contractionCriteria.</code>  See 
-    <a href="../apidocs/org/apache/commons/math3/util/ResizableDoubleArray.html">
+    <a href="../apidocs/org/apache/commons/math4/util/ResizableDoubleArray.html">
     ResizableDoubleArray</a>
     for details. 
     </p>
@@ -73,7 +73,7 @@
 
 <subsection name="6.3 int/double hash map" href="int_double_hash_map">
     <p>
-    The <a href="../apidocs/org/apache/commons/math3/util/OpenIntToDoubleHashMap.html">
+    The <a href="../apidocs/org/apache/commons/math4/util/OpenIntToDoubleHashMap.html">
     OpenIntToDoubleHashMap</a> class provides a specialized hash map
     implementation for int/double. This implementation has a much smaller memory
     overhead than standard <code>java.util.HashMap</code> class. It uses open addressing
@@ -84,7 +84,7 @@
 
 <subsection name="6.4 Continued Fractions" href="continued_fractions">
   <p>
-    The <a href="../apidocs/org/apache/commons/math3/util/ContinuedFraction.html">
+    The <a href="../apidocs/org/apache/commons/math4/util/ContinuedFraction.html">
     ContinuedFraction</a> class provides a generic way to create and evaluate
     continued fractions.  The easiest way to create a continued fraction is
     to subclass <code>ContinuedFraction</code> and override the
@@ -148,7 +148,7 @@
 <subsection name="6.5 Binomial coefficients, factorials, Stirling numbers and other common math functions" href="binomial_coefficients_factorials_and_other_common_math_functions">
     <p>
     A collection of reusable math functions is provided in the
-    <a href="../apidocs/org/apache/commons/math3/util/ArithmeticUtils.html">ArithmeticUtils</a>
+    <a href="../apidocs/org/apache/commons/math4/util/ArithmeticUtils.html">ArithmeticUtils</a>
     utility class.  ArithmeticUtils currently includes methods to compute the following: <ul>
     <li>
     Binomial coefficients -- "n choose k" available as an (exact) long value,  
@@ -234,7 +234,7 @@
 </subsection>
 
 <subsection name="6.7 Miscellaneous" href="miscellaneous">
-  The <a href="../apidocs/org/apache/commons/math3/util/MultidimensionalCounter.html">
+  The <a href="../apidocs/org/apache/commons/math4/util/MultidimensionalCounter.html">
     MultidimensionalCounter</a> is a utility class that converts a set of indices
   (identifying points in a multidimensional space) to a single index (e.g. identifying
   a location in a one-dimensional array.

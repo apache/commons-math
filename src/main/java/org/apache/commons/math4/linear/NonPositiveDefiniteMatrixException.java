@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.util.ExceptionContext;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.ExceptionContext;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * Exception to be thrown when a positive definite matrix is expected.

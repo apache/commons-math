@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.linear.RealMatrix;
 
 /**
  * Implementation of
- * {@link org.apache.commons.math3.stat.descriptive.MultivariateSummaryStatistics} that
+ * {@link org.apache.commons.math4.stat.descriptive.MultivariateSummaryStatistics} that
  * is safe to use in a multithreaded environment.  Multiple threads can safely
  * operate on a single instance without causing runtime exceptions due to race
  * conditions.  In effect, this implementation makes modification and access

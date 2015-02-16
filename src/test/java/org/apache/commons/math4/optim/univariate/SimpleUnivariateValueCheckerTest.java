@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.optim.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
 import org.junit.Test;
 import org.junit.Assert;
 

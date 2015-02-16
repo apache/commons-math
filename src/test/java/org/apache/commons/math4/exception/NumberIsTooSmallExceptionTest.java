@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.exception;
+package org.apache.commons.math4.exception;
 
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.junit.Assert;
 import org.junit.Test;
 

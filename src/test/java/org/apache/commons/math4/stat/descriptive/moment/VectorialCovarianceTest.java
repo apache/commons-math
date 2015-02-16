@@ -15,12 +15,12 @@
 //specific language governing permissions and limitations
 //under the License.
 
-package org.apache.commons.math3.stat.descriptive.moment;
+package org.apache.commons.math4.stat.descriptive.moment;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
 import org.junit.Test;
 import org.junit.Assert;
 

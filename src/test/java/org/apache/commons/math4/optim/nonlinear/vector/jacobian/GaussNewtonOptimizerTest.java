@@ -15,19 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
 import java.io.IOException;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.optim.SimpleVectorValueChecker;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.SimpleBounds;
-import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.SimpleBounds;
+import org.apache.commons.math4.optim.SimpleVectorValueChecker;
+import org.apache.commons.math4.optim.nonlinear.vector.Target;
+import org.apache.commons.math4.optim.nonlinear.vector.Weight;
+import org.apache.commons.math4.optim.nonlinear.vector.jacobian.AbstractLeastSquaresOptimizer;
+import org.apache.commons.math4.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
 import org.junit.Test;
 
 /**

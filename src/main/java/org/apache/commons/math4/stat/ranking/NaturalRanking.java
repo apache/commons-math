@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.ranking;
+package org.apache.commons.math4.stat.ranking;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.random.RandomDataGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.random.RandomDataGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
 
 
 /**

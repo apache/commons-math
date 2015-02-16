@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Factory that creates Gauss-type quadrature rule using Legendre polynomials.

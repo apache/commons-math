@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
+
+import org.apache.commons.math4.random.RandomGenerator;
 
 /**
  * Test cases for the AbstractRandomGenerator class.

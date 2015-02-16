@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 import org.junit.Assert;
 import org.junit.Test;
 

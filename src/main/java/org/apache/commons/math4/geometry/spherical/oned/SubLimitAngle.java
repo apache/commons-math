@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;
 
-import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
+import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.Side;
 
 /** This class represents sub-hyperplane for {@link LimitAngle}.
  * <p>Instances of this class are guaranteed to be immutable.</p>

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -24,29 +24,29 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.Collection;
 
-import org.apache.commons.math3.distribution.BetaDistribution;
-import org.apache.commons.math3.distribution.BinomialDistribution;
-import org.apache.commons.math3.distribution.CauchyDistribution;
-import org.apache.commons.math3.distribution.ChiSquaredDistribution;
-import org.apache.commons.math3.distribution.ExponentialDistribution;
-import org.apache.commons.math3.distribution.FDistribution;
-import org.apache.commons.math3.distribution.GammaDistribution;
-import org.apache.commons.math3.distribution.HypergeometricDistribution;
-import org.apache.commons.math3.distribution.PascalDistribution;
-import org.apache.commons.math3.distribution.PoissonDistribution;
-import org.apache.commons.math3.distribution.TDistribution;
-import org.apache.commons.math3.distribution.WeibullDistribution;
-import org.apache.commons.math3.distribution.ZipfDistribution;
-import org.apache.commons.math3.distribution.UniformIntegerDistribution;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.exception.NotFiniteNumberException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.distribution.BetaDistribution;
+import org.apache.commons.math4.distribution.BinomialDistribution;
+import org.apache.commons.math4.distribution.CauchyDistribution;
+import org.apache.commons.math4.distribution.ChiSquaredDistribution;
+import org.apache.commons.math4.distribution.ExponentialDistribution;
+import org.apache.commons.math4.distribution.FDistribution;
+import org.apache.commons.math4.distribution.GammaDistribution;
+import org.apache.commons.math4.distribution.HypergeometricDistribution;
+import org.apache.commons.math4.distribution.PascalDistribution;
+import org.apache.commons.math4.distribution.PoissonDistribution;
+import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.math4.distribution.WeibullDistribution;
+import org.apache.commons.math4.distribution.ZipfDistribution;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}
@@ -398,7 +398,7 @@ public class RandomDataGenerator implements RandomData, Serializable {
 
     /**
      * <p>Generates a random value from the
-     * {@link org.apache.commons.math3.distribution.GammaDistribution Gamma Distribution}.</p>
+     * {@link org.apache.commons.math4.distribution.GammaDistribution Gamma Distribution}.</p>
      *
      * <p>This implementation uses the following algorithms: </p>
      *

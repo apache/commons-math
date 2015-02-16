@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointValuePair;
 
 /**
  * Base class for implementing optimizers for multivariate scalar

@@ -15,19 +15,23 @@
 //specific language governing permissions and limitations
 //under the License.
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.stat.correlation.StorelessCovariance;
-import org.apache.commons.math3.stat.descriptive.moment.VectorialCovariance;
-import org.apache.commons.math3.stat.descriptive.moment.VectorialMean;
-import org.apache.commons.math3.util.FastMath;
-
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.NormalizedRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.stat.correlation.StorelessCovariance;
+import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
+import org.apache.commons.math4.stat.descriptive.moment.VectorialMean;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

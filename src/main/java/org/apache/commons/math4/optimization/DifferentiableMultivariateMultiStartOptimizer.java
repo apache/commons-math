@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
-import org.apache.commons.math3.random.RandomVectorGenerator;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math4.random.RandomVectorGenerator;
 
 /**
  * Special implementation of the {@link DifferentiableMultivariateOptimizer}

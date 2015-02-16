@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
 /**
  * Extension of {@link UnivariateVectorFunction} representing a differentiable univariate vectorial function.
  *
  * @since 2.0
- * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableVectorFunction}
+ * @deprecated as of 3.1 replaced by {@link org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableVectorFunction}
  */
 @Deprecated
 public interface DifferentiableUnivariateVectorFunction

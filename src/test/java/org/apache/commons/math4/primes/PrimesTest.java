@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.primes;
+package org.apache.commons.math4.primes;
 
 
 import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.primes.Primes;
+import org.apache.commons.math4.primes.SmallPrimes;
 import org.junit.Assert;
 import org.junit.Test;
 

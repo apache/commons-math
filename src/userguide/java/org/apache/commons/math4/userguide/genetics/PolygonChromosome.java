@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide.genetics;
+package org.apache.commons.math4.userguide.genetics;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -24,9 +24,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.genetics.AbstractListChromosome;
-import org.apache.commons.math3.genetics.Chromosome;
-import org.apache.commons.math3.genetics.InvalidRepresentationException;
+import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.InvalidRepresentationException;
 
 /**
  * A simple chromosome representing a list of polygons.

@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.distribution.CauchyDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.junit.Assert;
 import org.junit.Test;
 

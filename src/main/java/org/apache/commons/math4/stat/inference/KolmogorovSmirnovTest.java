@@ -15,35 +15,35 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.InsufficientDataException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.TooManyIterationsException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.fraction.BigFractionField;
-import org.apache.commons.math3.fraction.FractionConversionException;
-import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math3.linear.FieldMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.exception.InsufficientDataException;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.fraction.BigFractionField;
+import org.apache.commons.math4.fraction.FractionConversionException;
+import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
+import org.apache.commons.math4.linear.FieldMatrix;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
-import static org.apache.commons.math3.util.MathUtils.PI_SQUARED;
-import static org.apache.commons.math3.util.FastMath.PI;
+import static org.apache.commons.math4.util.FastMath.PI;
+import static org.apache.commons.math4.util.MathUtils.PI_SQUARED;
 
 /**
  * Implementation of the <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
@@ -358,13 +358,13 @@ public class KolmogorovSmirnovTest {
      * Calculates \(P(D_n < d)\) using the method described in [1] with quick decisions for extreme
      * values given in [2] (see above). The result is not exact as with
      * {@link #cdfExact(double, int)} because calculations are based on
-     * {@code double} rather than {@link org.apache.commons.math3.fraction.BigFraction}.
+     * {@code double} rather than {@link org.apache.commons.math4.fraction.BigFraction}.
      *
      * @param d statistic
      * @param n sample size
      * @return \(P(D_n < d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
+     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\)
      */
     public double cdf(double d, int n)
@@ -383,7 +383,7 @@ public class KolmogorovSmirnovTest {
      * @param n sample size
      * @return \(P(D_n < d)\)
      * @throws MathArithmeticException if the algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
+     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\)
      */
     public double cdfExact(double d, int n)
@@ -398,13 +398,13 @@ public class KolmogorovSmirnovTest {
      * @param d statistic
      * @param n sample size
      * @param exact whether the probability should be calculated exact using
-     *        {@link org.apache.commons.math3.fraction.BigFraction} everywhere at the expense of
+     *        {@link org.apache.commons.math4.fraction.BigFraction} everywhere at the expense of
      *        very slow execution time, or if {@code double} should be used convenient places to
      *        gain speed. Almost never choose {@code true} in real applications unless you are very
      *        sure; {@code true} is almost solely for verification purposes.
      * @return \(P(D_n < d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
+     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\).
      */
     public double cdf(double d, int n, boolean exact)
@@ -439,14 +439,14 @@ public class KolmogorovSmirnovTest {
 
     /**
      * Calculates the exact value of {@code P(D_n < d)} using the method described in [1] (reference
-     * in class javadoc above) and {@link org.apache.commons.math3.fraction.BigFraction} (see
+     * in class javadoc above) and {@link org.apache.commons.math4.fraction.BigFraction} (see
      * above).
      *
      * @param d statistic
      * @param n sample size
      * @return the two-sided probability of \(P(D_n < d)\)
      * @throws MathArithmeticException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
+     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 \le h < 1\).
      */
     private double exactK(double d, int n)
@@ -642,7 +642,7 @@ public class KolmogorovSmirnovTest {
      * @return H matrix
      * @throws NumberIsTooLargeException if fractional part is greater than 1
      * @throws FractionConversionException if algorithm fails to convert {@code h} to a
-     *         {@link org.apache.commons.math3.fraction.BigFraction} in expressing {@code d} as \((k
+     *         {@link org.apache.commons.math4.fraction.BigFraction} in expressing {@code d} as \((k
      *         - h) / m\) for integer {@code k, m} and \(0 <= h < 1\).
      */
     private FieldMatrix<BigFraction> createExactH(double d, int n)

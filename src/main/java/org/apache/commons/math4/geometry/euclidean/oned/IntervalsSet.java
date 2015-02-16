@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,12 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.BoundaryProjection;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.util.Precision;
 
 /** This class represents a 1D region: a set of intervals.
  * @since 3.0
@@ -85,7 +85,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * org.apache.commons.math4.geometry.partitioning.Region#checkPoint(org.apache.commons.math4.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -146,7 +146,7 @@ public class IntervalsSet extends AbstractRegion<Euclidean1D, Euclidean1D> imple
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * org.apache.commons.math4.geometry.partitioning.Region#checkPoint(org.apache.commons.math4.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>

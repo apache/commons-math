@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.linear.RealMatrix;
 
 /**
  * This class converts

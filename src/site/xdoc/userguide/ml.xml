@@ -34,30 +34,30 @@
       </subsection>
       <subsection name="16.2 Clustering algorithms and distance measures" href="clustering">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/ml/clustering/Clusterer.html">
+          The <a href="../apidocs/org/apache/commons/math4/ml/clustering/Clusterer.html">
           Clusterer</a> class represents a clustering algorithm.
           The following algorithms are available:
           <ul>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/KMeansPlusPlusClusterer.html">KMeans++</a>:
+          <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/KMeansPlusPlusClusterer.html">KMeans++</a>:
           It is based on the well-known kMeans algorithm, but uses a different method for 
           choosing the initial values (or "seeds") and thus avoids cases where KMeans sometimes 
           results in poor clusterings. KMeans/KMeans++ clustering aims to partition n observations 
           into k clusters in such that each point belongs to the cluster with the nearest center. 
           </li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.html">Fuzzy-KMeans</a>:
+          <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/FuzzyKMeansClusterer.html">Fuzzy-KMeans</a>:
           A variation of the classical K-Means algorithm, with the major difference that a single
           data point is not uniquely assigned to a single cluster. Instead, each point i has a set
           of weights u<sub>ij</sub> which indicate the degree of membership to the cluster j. The fuzzy
           variant does not require initial values for the cluster centers and is thus more robust, although
           slower than the original kMeans algorithm.
           </li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/DBSCANClusterer.html">DBSCAN</a>:
+          <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/DBSCANClusterer.html">DBSCAN</a>:
           Density-based spatial clustering of applications with noise (DBSCAN) finds a number of 
           clusters starting from the estimated density distribution of corresponding nodes. The
           main advantages over KMeans/KMeans++ are that DBSCAN does not require the specification
           of an initial number of clusters and can find arbitrarily shaped clusters.
           </li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/clustering/MultiKMeansPlusPlusClusterer.html">Multi-KMeans++</a>:
+          <li><a href="../apidocs/org/apache/commons/math4/ml/clustering/MultiKMeansPlusPlusClusterer.html">Multi-KMeans++</a>:
           Multi-KMeans++ is a meta algorithm that basically performs n runs using KMeans++ and then
           chooses the best clustering (i.e., the one with the lowest distance variance over all clusters)
           from those runs.
@@ -75,11 +75,11 @@
           between two points (either data points or cluster centers).
           The following distance measures are available:
           <ul>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/CanberraDistance.html">Canberra distance</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/ChebyshevDistance.html">ChebyshevDistance distance</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/EuclideanDistance.html">EuclideanDistance distance</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/ManhattanDistance.html">ManhattanDistance distance</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/ml/distance/EarthMoversDistance.html">Earth Mover's distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math4/ml/distance/CanberraDistance.html">Canberra distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math4/ml/distance/ChebyshevDistance.html">ChebyshevDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math4/ml/distance/EuclideanDistance.html">EuclideanDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math4/ml/distance/ManhattanDistance.html">ManhattanDistance distance</a></li>
+          <li><a href="../apidocs/org/apache/commons/math4/ml/distance/EarthMoversDistance.html">Earth Mover's distance</a></li>
           </ul>
         </p>
       </subsection>
@@ -91,7 +91,7 @@
         10 different clusters based on their euclidean distance.
         </p>
         <p>
-        The cluster algorithms expect a list of <a href="../apidocs/org/apache/commons/math3/ml/cluster/Clusterable.html">Clusterable</a>
+        The cluster algorithms expect a list of <a href="../apidocs/org/apache/commons/math4/ml/cluster/Clusterable.html">Clusterable</a>
         as input. Typically, we don't want to pollute our domain objects with interfaces from helper APIs.
         Hence, we first create a wrapper object:
         <source>

@@ -19,4 +19,4 @@
  *        Correlations/Covariance computations.
  *
  */
-package org.apache.commons.math3.stat.correlation;
+package org.apache.commons.math4.stat.correlation;

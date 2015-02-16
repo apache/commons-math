@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /** This class represents exceptions thrown while extractiong Cardan
  * or Euler angles from a rotation.

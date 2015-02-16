@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.optimization.BaseMultivariateOptimizer;
-import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.SimpleBounds;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.SimpleValueChecker;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optimization.BaseMultivariateOptimizer;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.InitialGuess;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.SimpleBounds;
+import org.apache.commons.math4.optimization.SimpleValueChecker;
+import org.apache.commons.math4.util.Incrementor;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -154,11 +154,11 @@ public abstract class BaseAbstractMultivariateOptimizer<FUNC extends Multivariat
      * @param maxEval Maximum number of function evaluations.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * @throws org.apache.commons.math4.exception.NullArgumentException if
      * any argument is {@code null}.
      * @deprecated As of 3.1. Please use
      * {@link #optimize(int,MultivariateFunction,GoalType,OptimizationData[])}

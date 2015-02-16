@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.twod;
+package org.apache.commons.math4.geometry.spherical.twod;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
-import org.apache.commons.math3.geometry.spherical.oned.Arc;
-import org.apache.commons.math3.geometry.spherical.oned.ArcsSet;
-import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.Side;
+import org.apache.commons.math4.geometry.spherical.oned.Arc;
+import org.apache.commons.math4.geometry.spherical.oned.ArcsSet;
+import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
+import org.apache.commons.math4.util.FastMath;
 
 /** This class represents a sub-hyperplane for {@link Circle}.
  * @since 3.3

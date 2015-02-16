@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide;
+package org.apache.commons.math4.userguide;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -33,23 +33,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.commons.math3.distribution.BetaDistribution;
-import org.apache.commons.math3.distribution.CauchyDistribution;
-import org.apache.commons.math3.distribution.ChiSquaredDistribution;
-import org.apache.commons.math3.distribution.ExponentialDistribution;
-import org.apache.commons.math3.distribution.FDistribution;
-import org.apache.commons.math3.distribution.GammaDistribution;
-import org.apache.commons.math3.distribution.LevyDistribution;
-import org.apache.commons.math3.distribution.LogNormalDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.ParetoDistribution;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.TDistribution;
-import org.apache.commons.math3.distribution.WeibullDistribution;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.distribution.BetaDistribution;
+import org.apache.commons.math4.distribution.CauchyDistribution;
+import org.apache.commons.math4.distribution.ChiSquaredDistribution;
+import org.apache.commons.math4.distribution.ExponentialDistribution;
+import org.apache.commons.math4.distribution.FDistribution;
+import org.apache.commons.math4.distribution.GammaDistribution;
+import org.apache.commons.math4.distribution.LevyDistribution;
+import org.apache.commons.math4.distribution.LogNormalDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.ParetoDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.distribution.WeibullDistribution;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;

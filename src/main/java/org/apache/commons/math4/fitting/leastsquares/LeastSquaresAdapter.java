@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.util.Incrementor;
 
 /**
  * An adapter that delegates to another implementation of {@link LeastSquaresProblem}.

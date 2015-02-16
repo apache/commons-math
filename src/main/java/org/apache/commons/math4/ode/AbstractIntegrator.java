@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,20 +26,20 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.math3.analysis.solvers.BracketingNthOrderBrentSolver;
-import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.ode.events.EventHandler;
-import org.apache.commons.math3.ode.events.EventState;
-import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math3.ode.sampling.StepHandler;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.analysis.solvers.BracketingNthOrderBrentSolver;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.ode.events.EventHandler;
+import org.apache.commons.math4.ode.events.EventState;
+import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math4.ode.sampling.StepHandler;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Base class managing common boilerplate for all integrators.

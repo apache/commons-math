@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
 import org.junit.Assert;
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.JacobianFunction;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 
 

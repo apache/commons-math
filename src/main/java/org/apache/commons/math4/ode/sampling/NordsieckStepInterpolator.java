@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.ode.EquationsMapper;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.
@@ -33,8 +33,8 @@ import org.apache.commons.math3.util.FastMath;
  * <p>This interpolator computes dense output around the current point.
  * The interpolation equation is based on Taylor series formulas.
  *
- * @see org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator
- * @see org.apache.commons.math3.ode.nonstiff.AdamsMoultonIntegrator
+ * @see org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator
+ * @see org.apache.commons.math4.ode.nonstiff.AdamsMoultonIntegrator
  * @since 2.0
  */
 

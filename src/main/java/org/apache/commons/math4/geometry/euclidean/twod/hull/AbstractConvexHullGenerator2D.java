@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod.hull;
+package org.apache.commons.math4.geometry.euclidean.twod.hull;
 
 import java.util.Collection;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Abstract base class for convex hull generators in the two-dimensional euclidean space.

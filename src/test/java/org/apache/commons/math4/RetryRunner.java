@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3;
+package org.apache.commons.math4;
 
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;

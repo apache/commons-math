@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomVectorGenerator;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.random.RandomVectorGenerator;
 
 /**
  * Base class for all implementations of a multi-start optimizer.

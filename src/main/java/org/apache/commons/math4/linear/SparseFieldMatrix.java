@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
-import org.apache.commons.math3.util.OpenIntToFieldHashMap;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.FieldElement;
+import org.apache.commons.math4.util.OpenIntToFieldHashMap;
 
 /**
  * Sparse matrix implementation based on an open addressed map.
@@ -61,7 +61,7 @@ public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldM
      * @param field Field to which the elements belong.
      * @param rowDimension Number of rows in the new matrix.
      * @param columnDimension Number of columns in the new matrix.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if row or column dimension is not positive.
      */
     public SparseFieldMatrix(final Field<T> field,

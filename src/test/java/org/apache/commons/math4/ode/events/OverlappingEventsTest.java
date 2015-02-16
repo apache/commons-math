@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.solvers.BaseSecantSolver;
-import org.apache.commons.math3.analysis.solvers.PegasusSolver;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math4.analysis.solvers.BaseSecantSolver;
+import org.apache.commons.math4.analysis.solvers.PegasusSolver;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.events.EventHandler;
+import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
 
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead. Uses event type 0. See
-     * {@link org.apache.commons.math3.ode.events.EventHandler#g(double, double[])
+     * {@link org.apache.commons.math4.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
      */
     @Test
@@ -60,7 +61,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
 
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead. Uses event type 1. See
-     * {@link org.apache.commons.math3.ode.events.EventHandler#g(double, double[])
+     * {@link org.apache.commons.math4.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
      */
     @Test
@@ -73,7 +74,7 @@ public class OverlappingEventsTest implements FirstOrderDifferentialEquations {
     /** Test for events that occur at the exact same time, but due to numerical
      * calculations occur very close together instead.
      * @param eventType the type of events to use. See
-     * {@link org.apache.commons.math3.ode.events.EventHandler#g(double, double[])
+     * {@link org.apache.commons.math4.ode.events.EventHandler#g(double, double[])
      * EventHandler.g(double, double[])}.
      */
     public void test(int eventType)

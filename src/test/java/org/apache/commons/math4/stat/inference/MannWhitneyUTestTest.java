@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.stat.inference.MannWhitneyUTest;
 import org.junit.Assert;
 import org.junit.Test;
 

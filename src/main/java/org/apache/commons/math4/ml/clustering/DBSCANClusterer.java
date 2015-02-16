@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.ml.clustering;
+package org.apache.commons.math4.ml.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * DBSCAN (density-based spatial clustering of applications with noise) algorithm.

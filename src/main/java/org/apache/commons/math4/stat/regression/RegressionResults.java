@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.OutOfRangeException;
+
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Results of a Multiple Linear Regression model fit.

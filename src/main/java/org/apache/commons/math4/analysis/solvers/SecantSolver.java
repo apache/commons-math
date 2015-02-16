@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Implements the <em>Secant</em> method for root-finding (approximating a

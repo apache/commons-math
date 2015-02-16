@@ -14,16 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.IterationEvent;
-import org.apache.commons.math3.util.IterationListener;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.ConjugateGradient;
+import org.apache.commons.math4.linear.IterativeLinearSolver;
+import org.apache.commons.math4.linear.IterativeLinearSolverEvent;
+import org.apache.commons.math4.linear.JacobiPreconditioner;
+import org.apache.commons.math4.linear.NonPositiveDefiniteOperatorException;
+import org.apache.commons.math4.linear.NonSquareOperatorException;
+import org.apache.commons.math4.linear.PreconditionedIterativeLinearSolver;
+import org.apache.commons.math4.linear.RealLinearOperator;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.IterationEvent;
+import org.apache.commons.math4.util.IterationListener;
 import org.junit.Assert;
 import org.junit.Test;
 

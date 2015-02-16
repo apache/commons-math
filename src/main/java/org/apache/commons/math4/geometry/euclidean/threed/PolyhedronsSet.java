@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.SubLine;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
-import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.Transform;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.SubLine;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.BSPTreeVisitor;
+import org.apache.commons.math4.geometry.partitioning.BoundaryAttribute;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.Transform;
+import org.apache.commons.math4.util.FastMath;
 
 /** This class represents a 3D region: a set of polyhedrons.
  * @since 3.0
@@ -465,7 +465,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
                                         tP00.getX(), tP00.getY());
 
                 cachedOriginal  = (Plane) original;
-                cachedTransform = org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
+                cachedTransform = org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(at);
 
             }
             return ((SubLine) sub).applyTransform(cachedTransform);
@@ -526,7 +526,7 @@ public class PolyhedronsSet extends AbstractRegion<Euclidean3D, Euclidean2D> {
 
                 cachedOriginal  = (Plane) original;
                 cachedTransform =
-                        org.apache.commons.math3.geometry.euclidean.twod.Line.getTransform(at);
+                        org.apache.commons.math4.geometry.euclidean.twod.Line.getTransform(at);
 
             }
 

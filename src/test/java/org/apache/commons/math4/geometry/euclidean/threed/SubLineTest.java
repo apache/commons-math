@@ -14,14 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
+import org.apache.commons.math4.geometry.euclidean.threed.Line;
+import org.apache.commons.math4.geometry.euclidean.threed.Segment;
+import org.apache.commons.math4.geometry.euclidean.threed.SubLine;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

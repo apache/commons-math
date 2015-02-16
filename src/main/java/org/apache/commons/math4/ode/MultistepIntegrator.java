@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
-import org.apache.commons.math3.ode.sampling.StepHandler;
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.ode.nonstiff.AdaptiveStepsizeIntegrator;
+import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math4.ode.sampling.StepHandler;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class is the base class for multistep integrators for Ordinary
@@ -55,8 +55,8 @@ import org.apache.commons.math3.util.FastMath;
  * factor is therefore set to a quite low value: 2<sup>1/order</sup>.
  * </p>
  *
- * @see org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator
- * @see org.apache.commons.math3.ode.nonstiff.AdamsMoultonIntegrator
+ * @see org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator
+ * @see org.apache.commons.math4.ode.nonstiff.AdamsMoultonIntegrator
  * @since 2.0
  */
 public abstract class MultistepIntegrator extends AdaptiveStepsizeIntegrator {

@@ -14,22 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
 
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.analysis.function.StepFunction;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.QuinticFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.analysis.function.StepFunction;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.univariate.BrentOptimizer;
+import org.apache.commons.math4.optim.univariate.SearchInterval;
+import org.apache.commons.math4.optim.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math4.optim.univariate.UnivariateObjectiveFunction;
+import org.apache.commons.math4.optim.univariate.UnivariateOptimizer;
+import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
+import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

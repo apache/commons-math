@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet;
+package org.apache.commons.math4.ml.neuralnet;
 
 /**
  * Defines neighbourhood types.

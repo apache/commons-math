@@ -14,17 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.Random;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.fitting.SimpleCurveFitter;
+import org.apache.commons.math4.fitting.WeightedObservedPoints;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

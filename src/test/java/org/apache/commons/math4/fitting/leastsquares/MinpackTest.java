@@ -15,15 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
 import java.util.Arrays;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.util.FastMath;
+
+import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math4.fitting.leastsquares.LevenbergMarquardtOptimizer;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresOptimizer.Optimum;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

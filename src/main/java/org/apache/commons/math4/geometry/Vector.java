@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry;
+package org.apache.commons.math4.geometry;
 
 import java.text.NumberFormat;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathArithmeticException;
 
 /** This interface represents a generic vector in a vectorial space or a point in an affine space.
  * @param <S> Type of the space.

@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
 import java.text.NumberFormat;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.Vector;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents a 1D vector.
  * <p>Instances of this class are guaranteed to be immutable.</p>

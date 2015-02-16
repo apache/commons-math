@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.hull;
+package org.apache.commons.math4.geometry.hull;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.InsufficientDataException;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.partitioning.Region;
+import org.apache.commons.math4.exception.InsufficientDataException;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.partitioning.Region;
 
 /**
  * This class represents a convex hull.

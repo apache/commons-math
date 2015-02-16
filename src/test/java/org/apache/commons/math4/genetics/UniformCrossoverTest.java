@@ -14,16 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.CrossoverPolicy;
+import org.apache.commons.math4.genetics.UniformCrossover;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -14,17 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.linear;
+package org.apache.commons.math4.optim.linear;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.exception.TooManyIterationsException;
-import org.apache.commons.math3.optim.MaxIter;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.optim.MaxIter;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.linear.LinearConstraint;
+import org.apache.commons.math4.optim.linear.LinearConstraintSet;
+import org.apache.commons.math4.optim.linear.LinearObjectiveFunction;
+import org.apache.commons.math4.optim.linear.NoFeasibleSolutionException;
+import org.apache.commons.math4.optim.linear.NonNegativeConstraint;
+import org.apache.commons.math4.optim.linear.PivotSelectionRule;
+import org.apache.commons.math4.optim.linear.Relationship;
+import org.apache.commons.math4.optim.linear.SimplexSolver;
+import org.apache.commons.math4.optim.linear.SolutionCallback;
+import org.apache.commons.math4.optim.linear.UnboundedSolutionException;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Test;
 import org.junit.Assert;
 

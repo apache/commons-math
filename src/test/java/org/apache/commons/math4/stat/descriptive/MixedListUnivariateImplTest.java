@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.NumberTransformer;
-import org.apache.commons.math3.util.TransformerMap;
+import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.NumberTransformer;
+import org.apache.commons.math4.util.TransformerMap;
 import org.junit.Assert;
 import org.junit.Test;
 

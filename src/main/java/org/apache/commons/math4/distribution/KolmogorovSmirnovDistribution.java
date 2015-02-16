@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.fraction.BigFractionField;
-import org.apache.commons.math3.fraction.FractionConversionException;
-import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.FieldMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.fraction.BigFractionField;
+import org.apache.commons.math4.fraction.FractionConversionException;
+import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.FieldMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Implementation of the Kolmogorov-Smirnov distribution.
@@ -69,7 +69,7 @@ import org.apache.commons.math3.util.FastMath;
  * @see <a href="http://en.wikipedia.org/wiki/Kolmogorov-Smirnov_test">
  * Kolmogorov-Smirnov test (Wikipedia)</a>
  * @deprecated to be removed in version 4.0 -
- *  use {@link org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest}
+ *  use {@link org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest}
  */
 public class KolmogorovSmirnovDistribution implements Serializable {
 
@@ -98,12 +98,12 @@ public class KolmogorovSmirnovDistribution implements Serializable {
      * exact as with
      * {@link KolmogorovSmirnovDistribution#cdfExact(double)} because
      * calculations are based on {@code double} rather than
-     * {@link org.apache.commons.math3.fraction.BigFraction}.
+     * {@link org.apache.commons.math4.fraction.BigFraction}.
      *
      * @param d statistic
      * @return the two-sided probability of {@code P(D_n < d)}
      * @throws MathArithmeticException if algorithm fails to convert {@code h}
-     * to a {@link org.apache.commons.math3.fraction.BigFraction} in expressing
+     * to a {@link org.apache.commons.math4.fraction.BigFraction} in expressing
      * {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */
@@ -123,7 +123,7 @@ public class KolmogorovSmirnovDistribution implements Serializable {
      * @param d statistic
      * @return the two-sided probability of {@code P(D_n < d)}
      * @throws MathArithmeticException if algorithm fails to convert {@code h}
-     * to a {@link org.apache.commons.math3.fraction.BigFraction} in expressing
+     * to a {@link org.apache.commons.math4.fraction.BigFraction} in expressing
      * {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */
@@ -137,14 +137,14 @@ public class KolmogorovSmirnovDistribution implements Serializable {
      *
      * @param d statistic
      * @param exact whether the probability should be calculated exact using
-     * {@link org.apache.commons.math3.fraction.BigFraction} everywhere at the
+     * {@link org.apache.commons.math4.fraction.BigFraction} everywhere at the
      * expense of very slow execution time, or if {@code double} should be used
      * convenient places to gain speed. Almost never choose {@code true} in real
      * applications unless you are very sure; {@code true} is almost solely for
      * verification purposes.
      * @return the two-sided probability of {@code P(D_n < d)}
      * @throws MathArithmeticException if algorithm fails to convert {@code h}
-     * to a {@link org.apache.commons.math3.fraction.BigFraction} in expressing
+     * to a {@link org.apache.commons.math4.fraction.BigFraction} in expressing
      * {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */
@@ -183,13 +183,13 @@ public class KolmogorovSmirnovDistribution implements Serializable {
 
     /**
      * Calculates the exact value of {@code P(D_n < d)} using method described
-     * in [1] and {@link org.apache.commons.math3.fraction.BigFraction} (see
+     * in [1] and {@link org.apache.commons.math4.fraction.BigFraction} (see
      * above).
      *
      * @param d statistic
      * @return the two-sided probability of {@code P(D_n < d)}
      * @throws MathArithmeticException if algorithm fails to convert {@code h}
-     * to a {@link org.apache.commons.math3.fraction.BigFraction} in expressing
+     * to a {@link org.apache.commons.math4.fraction.BigFraction} in expressing
      * {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */
@@ -221,7 +221,7 @@ public class KolmogorovSmirnovDistribution implements Serializable {
      * @param d statistic
      * @return the two-sided probability of {@code P(D_n < d)}
      * @throws MathArithmeticException if algorithm fails to convert {@code h}
-     * to a {@link org.apache.commons.math3.fraction.BigFraction} in expressing
+     * to a {@link org.apache.commons.math4.fraction.BigFraction} in expressing
      * {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */
@@ -261,7 +261,7 @@ public class KolmogorovSmirnovDistribution implements Serializable {
      * @return H matrix
      * @throws NumberIsTooLargeException if fractional part is greater than 1
      * @throws FractionConversionException if algorithm fails to convert
-     * {@code h} to a {@link org.apache.commons.math3.fraction.BigFraction} in
+     * {@code h} to a {@link org.apache.commons.math4.fraction.BigFraction} in
      * expressing {@code d} as {@code (k - h) / m} for integer {@code k, m} and
      * {@code 0 <= h < 1}.
      */

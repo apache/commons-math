@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector;
+package org.apache.commons.math4.optim.nonlinear.vector;
 
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointVectorValuePair;
 
 /**
  * Base class for implementing optimizers for multivariate vector
@@ -31,12 +31,12 @@ import org.apache.commons.math3.exception.DimensionMismatchException;
  * functions while the columns iterate on the parameters; thus, the numbers
  * of rows is equal to the dimension of the {@link Target} while the
  * number of columns is equal to the dimension of the
- * {@link org.apache.commons.math3.optim.InitialGuess InitialGuess}.
+ * {@link org.apache.commons.math4.optim.InitialGuess InitialGuess}.
  *
  * @since 3.1
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the
- * {@link org.apache.commons.math3.fitting.leastsquares} package
+ * {@link org.apache.commons.math4.fitting.leastsquares} package
  * (cf. MATH-1008).
  */
 @Deprecated

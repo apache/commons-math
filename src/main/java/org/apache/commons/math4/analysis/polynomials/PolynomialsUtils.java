@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.polynomials;
+package org.apache.commons.math4.analysis.polynomials;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.util.CombinatoricsUtils;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * A collection of static methods that operate on or return polynomials.

@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.TestProblemAbstract;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.TestProblemAbstract;
+import org.apache.commons.math4.ode.sampling.StepHandler;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 
 public class StepInterpolatorTestUtils {

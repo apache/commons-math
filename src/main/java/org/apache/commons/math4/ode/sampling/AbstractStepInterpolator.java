@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.ode.EquationsMapper;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.ode.EquationsMapper;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.
@@ -32,8 +32,8 @@ import org.apache.commons.math3.ode.EquationsMapper;
  * retrieve the state vector at intermediate times between the
  * previous and the current grid points (dense output).</p>
  *
- * @see org.apache.commons.math3.ode.FirstOrderIntegrator
- * @see org.apache.commons.math3.ode.SecondOrderIntegrator
+ * @see org.apache.commons.math4.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math4.ode.SecondOrderIntegrator
  * @see StepHandler
  *
  * @since 1.2
@@ -103,7 +103,7 @@ public abstract class AbstractStepInterpolator
    * instance in order to initialize the internal arrays. This
    * constructor is used only in order to delay the initialization in
    * some cases. As an example, the {@link
-   * org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator}
+   * org.apache.commons.math4.ode.nonstiff.EmbeddedRungeKuttaIntegrator}
    * class uses the prototyping design pattern to create the step
    * interpolators by cloning an uninitialized model and latter
    * initializing the copy.

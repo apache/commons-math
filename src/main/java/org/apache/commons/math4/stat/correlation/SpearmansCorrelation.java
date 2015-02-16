@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.correlation;
+package org.apache.commons.math4.stat.correlation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.linear.BlockRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.stat.ranking.NaNStrategy;
-import org.apache.commons.math3.stat.ranking.NaturalRanking;
-import org.apache.commons.math3.stat.ranking.RankingAlgorithm;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.stat.ranking.NaturalRanking;
+import org.apache.commons.math4.stat.ranking.RankingAlgorithm;
 
 /**
  * Spearman's rank correlation. This implementation performs a rank

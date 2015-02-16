@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.summary;
+package org.apache.commons.math4.stat.descriptive.summary;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Returns the sum of the natural logs for this collection of values.
  * <p>
- * Uses {@link org.apache.commons.math3.util.FastMath#log(double)} to compute the logs.
+ * Uses {@link org.apache.commons.math4.util.FastMath#log(double)} to compute the logs.
  * Therefore,
  * <ul>
  * <li>If any of values are &lt; 0, the result is <code>NaN.</code></li>

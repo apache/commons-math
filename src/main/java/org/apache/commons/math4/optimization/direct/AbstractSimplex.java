@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointValuePair;
 
 /**
  * This class implements the simplex concept.
@@ -201,7 +201,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      * @param evaluationFunction Evaluation function.
      * @param comparator Comparator to use to sort simplex vertices from best
      * to worst.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the algorithm fails to converge.
      */
     public abstract void iterate(final MultivariateFunction evaluationFunction,
@@ -239,7 +239,7 @@ public abstract class AbstractSimplex implements OptimizationData {
      *
      * @param evaluationFunction Evaluation function.
      * @param comparator Comparator to use to sort simplex vertices from best to worst.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
     public void evaluate(final MultivariateFunction evaluationFunction,

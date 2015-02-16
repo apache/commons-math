@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide.genetics;
+package org.apache.commons.math4.userguide.genetics;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,19 +23,19 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.genetics.AbstractListChromosome;
-import org.apache.commons.math3.genetics.Chromosome;
-import org.apache.commons.math3.genetics.ElitisticListPopulation;
-import org.apache.commons.math3.genetics.GeneticAlgorithm;
-import org.apache.commons.math3.genetics.InvalidRepresentationException;
-import org.apache.commons.math3.genetics.MutationPolicy;
-import org.apache.commons.math3.genetics.OnePointCrossover;
-import org.apache.commons.math3.genetics.Population;
-import org.apache.commons.math3.genetics.StoppingCondition;
-import org.apache.commons.math3.genetics.TournamentSelection;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ElitisticListPopulation;
+import org.apache.commons.math4.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.genetics.InvalidRepresentationException;
+import org.apache.commons.math4.genetics.MutationPolicy;
+import org.apache.commons.math4.genetics.OnePointCrossover;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.StoppingCondition;
+import org.apache.commons.math4.genetics.TournamentSelection;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 
 public class HelloWorldExample {
     public static final int    POPULATION_SIZE   = 1000;

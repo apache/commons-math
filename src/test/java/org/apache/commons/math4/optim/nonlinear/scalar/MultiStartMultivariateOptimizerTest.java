@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.SimpleValueChecker;
-import org.apache.commons.math3.optim.nonlinear.scalar.gradient.CircleScalar;
-import org.apache.commons.math3.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizer;
-import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
-import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
-import org.apache.commons.math3.random.GaussianRandomGenerator;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomVectorGenerator;
-import org.apache.commons.math3.random.UncorrelatedRandomVectorGenerator;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.SimpleValueChecker;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.nonlinear.scalar.GradientMultivariateOptimizer;
+import org.apache.commons.math4.optim.nonlinear.scalar.MultiStartMultivariateOptimizer;
+import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.optim.nonlinear.scalar.gradient.CircleScalar;
+import org.apache.commons.math4.optim.nonlinear.scalar.gradient.NonLinearConjugateGradientOptimizer;
+import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
+import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomVectorGenerator;
+import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

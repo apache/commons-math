@@ -14,23 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector;
+package org.apache.commons.math4.optim.nonlinear.vector;
 
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.linear.BlockRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.SimpleBounds;
-import org.apache.commons.math3.optim.SimpleVectorValueChecker;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
-import org.apache.commons.math3.random.GaussianRandomGenerator;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomVectorGenerator;
-import org.apache.commons.math3.random.UncorrelatedRandomVectorGenerator;
+import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.optim.SimpleBounds;
+import org.apache.commons.math4.optim.SimpleVectorValueChecker;
+import org.apache.commons.math4.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer;
+import org.apache.commons.math4.optim.nonlinear.vector.ModelFunction;
+import org.apache.commons.math4.optim.nonlinear.vector.ModelFunctionJacobian;
+import org.apache.commons.math4.optim.nonlinear.vector.MultiStartMultivariateVectorOptimizer;
+import org.apache.commons.math4.optim.nonlinear.vector.Target;
+import org.apache.commons.math4.optim.nonlinear.vector.Weight;
+import org.apache.commons.math4.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomVectorGenerator;
+import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

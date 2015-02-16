@@ -14,13 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.ml.clustering;
+package org.apache.commons.math4.ml.clustering;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.ml.clustering.Cluster;
+import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
+import org.apache.commons.math4.ml.clustering.DoublePoint;
 import org.junit.Assert;
 import org.junit.Test;
 

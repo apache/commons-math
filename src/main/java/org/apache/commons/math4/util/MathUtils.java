@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.NotFiniteNumberException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.Localizable;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.Localizable;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * Miscellaneous utility functions.

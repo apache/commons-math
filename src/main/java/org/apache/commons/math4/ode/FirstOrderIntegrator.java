@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /** This interface represents a first order integrator for
  * differential equations.
@@ -31,8 +31,8 @@ import org.apache.commons.math3.exception.NumberIsTooSmallException;
  * FirstOrderDifferentialEquations} interface.</p>
  *
  * @see FirstOrderDifferentialEquations
- * @see org.apache.commons.math3.ode.sampling.StepHandler
- * @see org.apache.commons.math3.ode.events.EventHandler
+ * @see org.apache.commons.math4.ode.sampling.StepHandler
+ * @see org.apache.commons.math4.ode.events.EventHandler
  * @since 1.2
  */
 
@@ -52,7 +52,7 @@ public interface FirstOrderIntegrator extends ODEIntegrator {
    *  step (and hence at the end of integration), can be the same object as y0
    * @return stop time, will be the same as target time if integration reached its
    * target, but may be different if some {@link
-   * org.apache.commons.math3.ode.events.EventHandler} stops it at some point.
+   * org.apache.commons.math4.ode.events.EventHandler} stops it at some point.
    * @exception DimensionMismatchException if arrays dimension do not match equations settings
    * @exception NumberIsTooSmallException if integration step is too small
    * @exception MaxCountExceededException if the number of functions evaluations is exceeded

@@ -14,23 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.rank;
+package org.apache.commons.math4.stat.descriptive.rank;
 
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.LEGACY;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_1;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_2;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_3;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_4;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_5;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_6;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_7;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_8;
-import static org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType.R_9;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.LEGACY;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_1;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_2;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_3;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_4;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_5;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_6;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_7;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_8;
+import static org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType.R_9;
 
-import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math3.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType;
-import org.apache.commons.math3.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
+import org.apache.commons.math4.stat.descriptive.rank.Median;
+import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class MedianTest extends UnivariateStatisticAbstractTest{
     protected Median stat;
 
     /**
-     * {@link  org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType type}
+     * {@link  org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType type}
      *  to be used while calling
      * {@link #getUnivariateStatistic()}
      */

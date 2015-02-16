@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.AbstractIntegrator;
-import org.apache.commons.math3.ode.ExpandableStatefulODE;
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.AbstractIntegrator;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class implements the common part of all fixed step Runge-Kutta

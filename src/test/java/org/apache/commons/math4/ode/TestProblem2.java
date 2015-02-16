@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class is used in the junit tests for the ODE integrators.

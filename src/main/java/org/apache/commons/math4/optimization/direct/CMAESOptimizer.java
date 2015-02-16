@@ -15,32 +15,32 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.MultivariateOptimizer;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.SimpleValueChecker;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.MultivariateOptimizer;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.SimpleValueChecker;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * <p>An implementation of the active Covariance Matrix Adaptation Evolution Strategy (CMA-ES)
@@ -473,7 +473,7 @@ public class CMAESOptimizer
      * @param goalType Optimization type.
      * @param optData Optimization data. The following data will be looked for:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}</li>
+     *  <li>{@link org.apache.commons.math4.optimization.InitialGuess InitialGuess}</li>
      *  <li>{@link Sigma}</li>
      *  <li>{@link PopulationSize}</li>
      * </ul>

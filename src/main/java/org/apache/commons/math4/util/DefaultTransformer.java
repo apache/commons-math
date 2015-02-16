@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * A Default NumberTransformer for java.lang.Numbers and Numeric Strings. This

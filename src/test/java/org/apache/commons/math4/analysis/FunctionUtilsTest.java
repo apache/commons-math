@@ -15,30 +15,37 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.analysis.function.Add;
-import org.apache.commons.math3.analysis.function.Constant;
-import org.apache.commons.math3.analysis.function.Cos;
-import org.apache.commons.math3.analysis.function.Cosh;
-import org.apache.commons.math3.analysis.function.Divide;
-import org.apache.commons.math3.analysis.function.Identity;
-import org.apache.commons.math3.analysis.function.Inverse;
-import org.apache.commons.math3.analysis.function.Log;
-import org.apache.commons.math3.analysis.function.Max;
-import org.apache.commons.math3.analysis.function.Min;
-import org.apache.commons.math3.analysis.function.Minus;
-import org.apache.commons.math3.analysis.function.Multiply;
-import org.apache.commons.math3.analysis.function.Pow;
-import org.apache.commons.math3.analysis.function.Power;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.analysis.function.Sinc;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.function.Add;
+import org.apache.commons.math4.analysis.function.Constant;
+import org.apache.commons.math4.analysis.function.Cos;
+import org.apache.commons.math4.analysis.function.Cosh;
+import org.apache.commons.math4.analysis.function.Divide;
+import org.apache.commons.math4.analysis.function.Identity;
+import org.apache.commons.math4.analysis.function.Inverse;
+import org.apache.commons.math4.analysis.function.Log;
+import org.apache.commons.math4.analysis.function.Max;
+import org.apache.commons.math4.analysis.function.Min;
+import org.apache.commons.math4.analysis.function.Minus;
+import org.apache.commons.math4.analysis.function.Multiply;
+import org.apache.commons.math4.analysis.function.Pow;
+import org.apache.commons.math4.analysis.function.Power;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.analysis.function.Sinc;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

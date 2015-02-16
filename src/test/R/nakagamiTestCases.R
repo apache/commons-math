@@ -15,7 +15,7 @@
 #
 #------------------------------------------------------------------------------
 # R source file to validate Nakagami distribution tests in
-# org.apache.commons.math3.distribution.NakagamiDistributionTest
+# org.apache.commons.math4.distribution.NakagamiDistributionTest
 #
 # To run the test, install R, put this file and testFunctions
 # into the same directory, launch R from this directory and then enter

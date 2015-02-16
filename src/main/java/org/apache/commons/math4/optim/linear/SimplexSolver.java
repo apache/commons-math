@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.linear;
+package org.apache.commons.math4.optim.linear;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.TooManyIterationsException;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Solves a linear problem using the "Two-Phase Simplex" method.
@@ -33,12 +33,12 @@ import org.apache.commons.math3.util.Precision;
  * <ul>
  *   <li>objective function: {@link LinearObjectiveFunction} - mandatory</li>
  *   <li>linear constraints {@link LinearConstraintSet} - mandatory</li>
- *   <li>type of optimization: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType GoalType}
- *    - optional, default: {@link org.apache.commons.math3.optim.nonlinear.scalar.GoalType#MINIMIZE MINIMIZE}</li>
+ *   <li>type of optimization: {@link org.apache.commons.math4.optim.nonlinear.scalar.GoalType GoalType}
+ *    - optional, default: {@link org.apache.commons.math4.optim.nonlinear.scalar.GoalType#MINIMIZE MINIMIZE}</li>
  *   <li>whether to allow negative values as solution: {@link NonNegativeConstraint} - optional, default: true</li>
  *   <li>pivot selection rule: {@link PivotSelectionRule} - optional, default {@link PivotSelectionRule#DANTZIG}</li>
  *   <li>callback for the best solution: {@link SolutionCallback} - optional</li>
- *   <li>maximum number of iterations: {@link org.apache.commons.math3.optim.MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
+ *   <li>maximum number of iterations: {@link org.apache.commons.math4.optim.MaxIter} - optional, default: {@link Integer#MAX_VALUE}</li>
  * </ul>
  * <p>
  * <b>Note:</b> Depending on the problem definition, the default convergence criteria

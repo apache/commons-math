@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.twod;
+package org.apache.commons.math4.ml.neuralnet.twod;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,12 +25,13 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.SquareNeighbourhood;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math4.ml.neuralnet.Network;
+import org.apache.commons.math4.ml.neuralnet.Neuron;
+import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
+import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
 import org.junit.Assert;
 import org.junit.Test;
 

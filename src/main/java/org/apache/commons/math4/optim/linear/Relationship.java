@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.linear;
+package org.apache.commons.math4.optim.linear;
 
 /**
  * Types of relationships between two cells in a Solver {@link LinearConstraint}.

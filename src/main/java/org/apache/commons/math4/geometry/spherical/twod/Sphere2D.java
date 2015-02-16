@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.spherical.twod;
+package org.apache.commons.math4.geometry.spherical.twod;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
 
 /**
  * This class implements a two-dimensional sphere (i.e. the regular sphere).

@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fraction;
+package org.apache.commons.math4.fraction;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.MathParseException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.fraction.BigFractionFormat;
+import org.apache.commons.math4.fraction.ProperBigFractionFormat;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

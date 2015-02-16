@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.util.Random;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 
 /**
  * Utilities for creating {@link RandomGenerator} instances.

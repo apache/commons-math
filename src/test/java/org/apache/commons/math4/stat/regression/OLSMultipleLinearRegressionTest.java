@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.DefaultRealMatrixChangingVisitor;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.stat.StatUtils;
+import org.apache.commons.math4.stat.regression.OLSMultipleLinearRegression;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -786,7 +787,7 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
     /**
      * Anything requiring beta calculation should advertise SME.
      */
-    @Test(expected=org.apache.commons.math3.linear.SingularMatrixException.class)
+    @Test(expected=org.apache.commons.math4.linear.SingularMatrixException.class)
     public void testSingularCalculateBeta() {
         OLSMultipleLinearRegression model = new OLSMultipleLinearRegression();
         model.newSampleData(new double[] {1,  2,  3, 1, 2, 3, 1, 2, 3}, 3, 2);

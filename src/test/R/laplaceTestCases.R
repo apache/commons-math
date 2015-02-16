@@ -15,7 +15,7 @@
 #
 #------------------------------------------------------------------------------
 # R source file to validate Laplace distribution tests in
-# org.apache.commons.math3.distribution.LaplaceDistributionTest
+# org.apache.commons.math4.distribution.LaplaceDistributionTest
 #
 # To run the test, install R, put this file and testFunctions
 # into the same directory, launch R from this directory and then enter

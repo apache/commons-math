@@ -62,12 +62,12 @@
         </p>
         <p>
           The top level interface is
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/UnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/UnivariateStatistic.html">
           UnivariateStatistic</a>.
           This interface, implemented by all statistics, consists of
           <code>evaluate()</code> methods that take double[] arrays as arguments
           and return the value of the statistic.   This interface is extended by
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/StorelessUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/StorelessUnivariateStatistic.html">
           StorelessUnivariateStatistic</a>, which adds <code>increment(),</code>
           <code>getResult()</code> and associated methods to support
           "storageless" implementations that maintain counters, sums or other
@@ -76,9 +76,9 @@
         </p>
         <p>
           Abstract implementations of the top level interfaces are provided in
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/AbstractUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AbstractUnivariateStatistic.html">
           AbstractUnivariateStatistic</a> and
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/AbstractStorelessUnivariateStatistic.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AbstractStorelessUnivariateStatistic.html">
           AbstractStorelessUnivariateStatistic</a> respectively.
         </p>
         <p>
@@ -88,9 +88,9 @@
           compute the statistic). There are several ways to instantiate and use statistics.
           Statistics can be instantiated and used directly,  but it is generally more convenient
           (and efficient) to access them using the provided aggregates,
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/DescriptiveStatistics.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/DescriptiveStatistics.html">
            DescriptiveStatistics</a> and
-           <a href="../apidocs/org/apache/commons/math3/stat/descriptive/SummaryStatistics.html">
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SummaryStatistics.html">
            SummaryStatistics.</a>
         </p>
         <p>
@@ -108,18 +108,18 @@
           <table>
             <tr><th>Aggregate</th><th>Statistics Included</th><th>Values stored?</th>
             <th>"Rolling" capability?</th></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math3/stat/descriptive/DescriptiveStatistics.html">
+            <a href="../apidocs/org/apache/commons/math4/stat/descriptive/DescriptiveStatistics.html">
             DescriptiveStatistics</a></td><td>min, max, mean, geometric mean, n,
             sum, sum of squares, standard deviation, variance, percentiles, skewness,
             kurtosis, median</td><td>Yes</td><td>Yes</td></tr><tr><td>
-            <a href="../apidocs/org/apache/commons/math3/stat/descriptive/SummaryStatistics.html">
+            <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SummaryStatistics.html">
             SummaryStatistics</a></td><td>min, max, mean, geometric mean, n,
             sum, sum of squares, standard deviation, variance</td><td>No</td><td>No</td></tr>
           </table>
         </p>
         <p>
           <code>SummaryStatistics</code> can be aggregated using 
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/AggregateSummaryStatistics.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AggregateSummaryStatistics.html">
           AggregateSummaryStatistics.</a>  This class can be used to concurrently
           gather statistics for multiple datasets as well as for a combined sample
           including all of the data.
@@ -133,19 +133,19 @@
         <p>
            Neither <code>DescriptiveStatistics</code> nor <code>SummaryStatistics</code>
            is thread-safe.
-           <a href="../apidocs/org/apache/commons/math3/stat/descriptive/SynchronizedDescriptiveStatistics.html">
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedDescriptiveStatistics.html">
            SynchronizedDescriptiveStatistics</a> and
-           <a href="../apidocs/org/apache/commons/math3/stat/descriptive/SynchronizedSummaryStatistics.html"> 
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedSummaryStatistics.html"> 
            SynchronizedSummaryStatistics</a>, respectively, provide thread-safe
            versions for applications that require concurrent access to statistical
            aggregates by multiple threads.
-           <a href="../apidocs/org/apache/commons/math3/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html"> 
+           <a href="../apidocs/org/apache/commons/math4/stat/descriptive/SynchronizedMultiVariateSummaryStatistics.html"> 
            SynchronizedMultivariateSummaryStatistics</a> provides thread-safe
            <code>MultivariateSummaryStatistics.</code>
         </p>
         <p>
           There is also a utility class,
-          <a href="../apidocs/org/apache/commons/math3/stat/StatUtils.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/StatUtils.html">
           StatUtils</a>, that provides static methods for computing statistics
           directly from double[] arrays.
         </p>
@@ -243,7 +243,7 @@ DescriptiveStatistics stats = new SynchronizedDescriptiveStatistics();
         The first is to use an <code>AggregateSummaryStatistics</code> instance
         to accumulate overall statistics contributed by <code>SummaryStatistics</code>
         instances created using
-        <a href="../apidocs/org/apache/commons/math3/stat/descriptive/AggregateSummaryStatistics.html#createContributingStatistics()">
+        <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AggregateSummaryStatistics.html#createContributingStatistics()">
         AggregateSummaryStatistics.createContributingStatistics()</a>:
         <source>
 // Create a AggregateSummaryStatistics instance to accumulate the overall statistics 
@@ -264,7 +264,7 @@ double totalSampleSum = aggregate.getSum();
         <code>SummaryStatistics</code> instance maintained by the aggregate and each value addition updates the
         aggregate as well as the subsample. For applications that can wait to do the aggregation until all values
         have been added, a static
-        <a href="../apidocs/org/apache/commons/math3/stat/descriptive/AggregateSummaryStatistics.html#aggregate(java.util.Collection)">
+        <a href="../apidocs/org/apache/commons/math4/stat/descriptive/AggregateSummaryStatistics.html#aggregate(java.util.Collection)">
           aggregate</a> method is available, as shown in the following example.
         This method should be used when aggregation needs to be done across threads.
         <source>
@@ -292,7 +292,7 @@ double totalSampleSum = aggregatedStats.getSum();
       </subsection>
       <subsection name="1.3 Frequency distributions">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/stat/Frequency.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/Frequency.html">
           Frequency</a>
           provides a simple interface for maintaining counts and percentages of discrete
           values.
@@ -356,7 +356,7 @@ System.out.println(f.getCumPct("z"));  // displays 1
       </subsection>
       <subsection name="1.4 Simple regression">
         <p>
-         <a href="../apidocs/org/apache/commons/math3/stat/regression/SimpleRegression.html">
+         <a href="../apidocs/org/apache/commons/math4/stat/regression/SimpleRegression.html">
           SimpleRegression</a> provides ordinary least squares regression with
          one independent variable estimating the linear model:
          </p>
@@ -392,7 +392,7 @@ System.out.println(f.getCumPct("z"));  // displays 1
            "compute" method that updates all statistics.  Each of the getters performs
            the necessary computations to return the requested statistic.</li>
            <li> The intercept term may be suppressed by passing <code>false</code> to the
-           <a href="../apidocs/org/apache/commons/math3/stat/regression/SimpleRegression.html#SimpleRegression(boolean)">
+           <a href="../apidocs/org/apache/commons/math4/stat/regression/SimpleRegression.html#SimpleRegression(boolean)">
            SimpleRegression(boolean)</a> constructor.  When the <code>hasIntercept</code>
            property is false, the model is estimated without a constant term and
            <code>getIntercept()</code> returns <code>0</code>.</li>
@@ -510,9 +510,9 @@ System.out.println(regression.getInterceptStdErr() );
       </subsection>
       <subsection name="1.5 Multiple linear regression">
         <p>
-         <a href="../apidocs/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html">
+         <a href="../apidocs/org/apache/commons/math4/stat/regression/OLSMultipleLinearRegression.html">
          OLSMultipleLinearRegression</a> and
-         <a href="../apidocs/org/apache/commons/math3/stat/regression/GLSMultipleLinearRegression.html">
+         <a href="../apidocs/org/apache/commons/math4/stat/regression/GLSMultipleLinearRegression.html">
          GLSMultipleLinearRegression</a> provide least squares regression to fit the linear model:
          </p>
          <p>
@@ -524,9 +524,9 @@ System.out.println(regression.getInterceptStdErr() );
          of <b>error terms</b> or <b>residuals</b>.
          </p>
          <p>
-          <a href="../apidocs/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/regression/OLSMultipleLinearRegression.html">
           OLSMultipleLinearRegression</a> provides Ordinary Least Squares Regression, and 
-          <a href="../apidocs/org/apache/commons/math3/stat/regression/GLSMultipleLinearRegression.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/regression/GLSMultipleLinearRegression.html">
           GLSMultipleLinearRegression</a> implements Generalized Least Squares.  See the javadoc for these
           classes for details on the algorithms and formulas used.
          </p>
@@ -534,11 +534,11 @@ System.out.println(regression.getInterceptStdErr() );
            Data for OLS models can be loaded in a single double[] array, consisting of concatenated rows of data, each containing
            the regressand (Y) value, followed by regressor values; or using a double[][] array with rows corresponding to
            observations. GLS models also require a double[][] array representing the covariance matrix of the error terms.  See
-           <a href="../apidocs/org/apache/commons/math3/stat/regression/AbstractMultipleLinearRegression.html#newSampleData(double[], int, int)">
+           <a href="../apidocs/org/apache/commons/math4/stat/regression/AbstractMultipleLinearRegression.html#newSampleData(double[], int, int)">
            AbstractMultipleLinearRegression#newSampleData(double[],int,int)</a>,  
-           <a href="../apidocs/org/apache/commons/math3/stat/regression/OLSMultipleLinearRegression.html#newSampleData(double[], double[][])">
+           <a href="../apidocs/org/apache/commons/math4/stat/regression/OLSMultipleLinearRegression.html#newSampleData(double[], double[][])">
            OLSMultipleLinearRegression#newSampleData(double[], double[][])</a> and 
-           <a href="../apidocs/org/apache/commons/math3/stat/regression/GLSMultipleLinearRegression.html#newSampleData(double[], double[][], double[][])">
+           <a href="../apidocs/org/apache/commons/math4/stat/regression/GLSMultipleLinearRegression.html#newSampleData(double[], double[][], double[][])">
            GLSMultipleLinearRegression#newSampleData(double[],double[][],double[][])</a> for details.
          </p>
          <p>
@@ -616,16 +616,16 @@ regression.newSampleData(y, x, omega);
       <subsection name="1.6 Rank transformations">
       <p>
          Some statistical algorithms require that input data be replaced by ranks.
-         The <a href="../apidocs/org/apache/commons/math3/stat/ranking/package-summary.html">
-         org.apache.commons.math3.stat.ranking</a> package provides rank transformation.
-         <a href="../apidocs/org/apache/commons/math3/stat/ranking/RankingAlgorithm.html">
+         The <a href="../apidocs/org/apache/commons/math4/stat/ranking/package-summary.html">
+         org.apache.commons.math4.stat.ranking</a> package provides rank transformation.
+         <a href="../apidocs/org/apache/commons/math4/stat/ranking/RankingAlgorithm.html">
          RankingAlgorithm</a> defines the interface for ranking.  
-         <a href="../apidocs/org/apache/commons/math3/stat/ranking/NaturalRanking.html">
+         <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
          NaturalRanking</a> provides an implementation that has two configuration options.
          <ul>
-         <li><a href="../apidocs/org/apache/commons/math3/stat/ranking/TiesStrategy.html">
+         <li><a href="../apidocs/org/apache/commons/math4/stat/ranking/TiesStrategy.html">
          Ties strategy</a> deterimines how ties in the source data are handled by the ranking</li>
-         <li><a href="../apidocs/org/apache/commons/math3/stat/ranking/NaNStrategy.html">
+         <li><a href="../apidocs/org/apache/commons/math4/stat/ranking/NaNStrategy.html">
          NaN strategy</a> determines how NaN values in the source data are handled.</li>
          </ul>
       </p>
@@ -649,24 +649,24 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
         values larger than any other value (including <code>Double.POSITIVE_INFINITY</code>). The
         default <code>TiesStrategy</code> is <code>TiesStrategy.AVERAGE,</code> which assigns tied
         values the average of the ranks applicable to the sequence of ties.  See the 
-        <a href="../apidocs/org/apache/commons/math3/stat/ranking/NaturalRanking.html">
-        NaturalRanking</a> for more examples and <a href="../apidocs/org/apache/commons/math3/stat/ranking/TiesStrategy.html">
-        TiesStrategy</a> and <a href="../apidocs/org/apache/commons/math3/stat/ranking/NaNStrategy.html">NaNStrategy</a>
+        <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
+        NaturalRanking</a> for more examples and <a href="../apidocs/org/apache/commons/math4/stat/ranking/TiesStrategy.html">
+        TiesStrategy</a> and <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaNStrategy.html">NaNStrategy</a>
         for details on these configuration options.
        </p>
       </subsection>  
       <subsection name="1.7 Covariance and correlation">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/stat/correlation/package-summary.html">
-          org.apache.commons.math3.stat.correlation</a> package computes covariances
+          The <a href="../apidocs/org/apache/commons/math4/stat/correlation/package-summary.html">
+          org.apache.commons.math4.stat.correlation</a> package computes covariances
           and correlations for pairs of arrays or columns of a matrix.
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/Covariance.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/Covariance.html">
           Covariance</a> computes covariances, 
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/PearsonsCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/PearsonsCorrelation.html">
           PearsonsCorrelation</a> provides Pearson's Product-Moment correlation coefficients,
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/SpearmansCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/SpearmansCorrelation.html">
           SpearmansCorrelation</a> computes Spearman's rank correlation and
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/KendallsCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/KendallsCorrelation.html">
           KendallsCorrelation</a> computes Kendall's tau rank correlation.
         </p>
         <p>
@@ -682,21 +682,21 @@ new NaturalRanking(NaNStrategy.REMOVED,TiesStrategy.SEQUENTIAL).rank(exampleData
            defaults to <code>true.</code>      
           </li>
           <li>
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/PearsonsCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/PearsonsCorrelation.html">
           PearsonsCorrelation</a> computes correlations defined by the formula <br/>
           <code>cor(X, Y) = sum[(x<sub>i</sub> - E(X))(y<sub>i</sub> - E(Y))] / [(n - 1)s(X)s(Y)]</code><br/>
           where <code>E(X)</code> and <code>E(Y)</code> are means of <code>X</code> and <code>Y</code>
           and <code>s(X)</code>, <code>s(Y)</code> are standard deviations.
           </li>
           <li>
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/SpearmansCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/SpearmansCorrelation.html">
           SpearmansCorrelation</a> applies a rank transformation to the input data and computes Pearson's
           correlation on the ranked data.  The ranking algorithm is configurable. By default, 
-          <a href="../apidocs/org/apache/commons/math3/stat/ranking/NaturalRanking.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/ranking/NaturalRanking.html">
           NaturalRanking</a> with default strategies for handling ties and NaN values is used.
           </li>
           <li>
-          <a href="../apidocs/org/apache/commons/math3/stat/correlation/KendallsCorrelation.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/correlation/KendallsCorrelation.html">
           KendallsCorrelation</a> computes the association between two measured quantities. A tau test
           is a non-parametric hypothesis test for statistical dependence based on the tau coefficient.
           </li> 
@@ -818,8 +818,8 @@ new KendallsCorrelation().correlation(x, y)
       </subsection>
             <subsection name="1.8 Statistical tests">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/stat/inference/">
-          org.apache.commons.math3.stat.inference</a> package provides implementations for
+          The <a href="../apidocs/org/apache/commons/math4/stat/inference/">
+          org.apache.commons.math4.stat.inference</a> package provides implementations for
           <a href="http://www.itl.nist.gov/div898/handbook/prc/section2/prc22.htm">
           Student's t</a>,
           <a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda35f.htm">
@@ -838,23 +838,23 @@ new KendallsCorrelation().correlation(x, y)
           <code>Chi-Square</code>, <code>G</code>, <code>One-Way ANOVA</code>, <code>Mann-Whitney U</code>
           <code>Wilcoxon signed rank</code>, and <code>Kolmogorov-Smirnov</code> tests.
           The respective test classes are
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/TTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/TTest.html">
           TTest</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/ChiSquareTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/ChiSquareTest.html">
           ChiSquareTest</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/GTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/GTest.html">
           GTest</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/OneWayAnova.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/OneWayAnova.html">
           OneWayAnova</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/MannWhitneyUTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/MannWhitneyUTest.html">
           MannWhitneyUTest</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/WilcoxonSignedRankTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/WilcoxonSignedRankTest.html">
           WilcoxonSignedRankTest</a>,
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/BinomialTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/BinomialTest.html">
           BinomialTest</a> and
-          <a href="../apidocs/org/apache/commons/math3/stat/inference/KolmogorovSmirnovTest.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/inference/KolmogorovSmirnovTest.html">
           KolmogorovSmirnovTest</a>.                  
-          The <a href="../apidocs/org/apache/commons/math3/stat/inference/TestUtils.html">
+          The <a href="../apidocs/org/apache/commons/math4/stat/inference/TestUtils.html">
           TestUtils</a> class provides static methods to get test instances or
           to compute test statistics directly.  The examples below all use the
           static methods in <code>TestUtils</code> to execute tests.  To get
@@ -937,7 +937,7 @@ System.out.println(TestUtils.t(mu, observed));
            <code>mu.</code>
           </dd>
           <dd>To compare the mean of a dataset described by a
-          <a href="../apidocs/org/apache/commons/math3/stat/descriptive/StatisticalSummary.html">
+          <a href="../apidocs/org/apache/commons/math4/stat/descriptive/StatisticalSummary.html">
           StatisticalSummary</a>  to a fixed value:
           <source>
 double[] observed ={1d, 2d, 3d};

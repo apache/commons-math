@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
-import org.apache.commons.math3.analysis.function.Sinc;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Sinc;
 
 /**
  * Auxiliary class for testing optimizers.

@@ -27,4 +27,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry.spherical.twod;
+package org.apache.commons.math4.geometry.spherical.twod;

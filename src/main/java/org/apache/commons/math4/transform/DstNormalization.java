@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.transform;
+package org.apache.commons.math4.transform;
 
 /**
  * This enumeration defines the various types of normalizations that can be

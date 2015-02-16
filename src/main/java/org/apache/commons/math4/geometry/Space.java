@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry;
+package org.apache.commons.math4.geometry;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 
 /** This interface represents a generic space, with affine and vectorial counterparts.
  * @see Vector

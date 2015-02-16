@@ -29,4 +29,4 @@
  *    </p>
  *
  */
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;

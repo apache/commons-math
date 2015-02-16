@@ -15,20 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.nonstiff.GraggBulirschStoerIntegrator;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.nonstiff.GraggBulirschStoerIntegrator;
+import org.apache.commons.math4.ode.sampling.FixedStepHandler;
+import org.apache.commons.math4.ode.sampling.StepNormalizer;
+import org.apache.commons.math4.ode.sampling.StepNormalizerBounds;
+import org.apache.commons.math4.ode.sampling.StepNormalizerMode;
 import org.junit.Test;
 
 /** Base class for step normalizer output tests. */

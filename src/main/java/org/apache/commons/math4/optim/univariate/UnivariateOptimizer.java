@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optim.BaseOptimizer;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optim.BaseOptimizer;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 
 /**
  * Base class for a univariate scalar function optimizer.

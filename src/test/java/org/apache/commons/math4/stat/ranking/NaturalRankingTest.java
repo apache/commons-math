@@ -14,14 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.ranking;
+package org.apache.commons.math4.stat.ranking;
 
 import org.junit.Assert;
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.stat.ranking.NaturalRanking;
+import org.apache.commons.math4.stat.ranking.TiesStrategy;
 import org.junit.Test;
 
 

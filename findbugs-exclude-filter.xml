@@ -26,12 +26,12 @@
   <!--  the following equality tests are part of the reference algorithms -->
   <!--  which already know about limited precision of the double numbers -->
   <Match>
-    <Class name="org.apache.commons.math3.analysis.solvers.BaseSecantSolver" />
+    <Class name="org.apache.commons.math4.analysis.solvers.BaseSecantSolver" />
     <Method name="doSolve" params="" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.distribution.SaddlePointExpansion" />
+    <Class name="org.apache.commons.math4.distribution.SaddlePointExpansion" />
     <Or>
       <Method name="getDeviancePart" params="double,double" returns="double" />
       <Method name="getStirlingError" params="double" returns="double" />
@@ -39,91 +39,91 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.univariate.BrentOptimizer" />
+    <Class name="org.apache.commons.math4.optimization.univariate.BrentOptimizer" />
     <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.univariate.BrentOptimizer" />
+    <Class name="org.apache.commons.math4.optim.univariate.BrentOptimizer" />
     <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.analysis.solvers.BrentSolver" />
+    <Class name="org.apache.commons.math4.analysis.solvers.BrentSolver" />
     <Method name="brent" params="double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.analysis.solvers.MullerSolver" />
+    <Class name="org.apache.commons.math4.analysis.solvers.MullerSolver" />
     <Or>
       <Method name="solve"  params="double,double,double,double" returns="double" />
     </Or>
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.analysis.solvers.MullerSolver2" />
+    <Class name="org.apache.commons.math4.analysis.solvers.MullerSolver2" />
     <Or>
       <Method name="doSolve"  params="" returns="double" />
     </Or>
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.EigenDecomposition" />
+    <Class name="org.apache.commons.math4.linear.EigenDecomposition" />
     <Method name="findEigenVectors" params="double[][]" returns="void" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
-      <Class name="org.apache.commons.math3.optimization.direct.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math4.optimization.direct.BOBYQAOptimizer" />
     </Or>
     <Method name="altmov" params="int,double" returns="double[]" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.CMAESOptimizer" />
-    <Method name="doOptimize" params="" returns="org.apache.commons.math3.optim.PointValuePair" />
+    <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizer" />
+    <Method name="doOptimize" params="" returns="org.apache.commons.math4.optim.PointValuePair" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   
   <!-- The following equality test is intentional and needed for semantic purposes -->
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.geometry.euclidean.oned.Vector1D" />
-      <Class name="org.apache.commons.math3.geometry.euclidean.twod.Vector2D" />
-      <Class name="org.apache.commons.math3.geometry.euclidean.threed.Vector3D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.oned.Vector1D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.twod.Vector2D" />
+      <Class name="org.apache.commons.math4.geometry.euclidean.threed.Vector3D" />
     </Or>
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.linear.LinearConstraint" />
+    <Class name="org.apache.commons.math4.optimization.linear.LinearConstraint" />
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.linear.LinearConstraint" />
+    <Class name="org.apache.commons.math4.optim.linear.LinearConstraint" />
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
   <!-- The following equality test is intentional and needed for rounding purposes -->
   <Match>
-    <Class name="org.apache.commons.math3.util.Precision" />
+    <Class name="org.apache.commons.math4.util.Precision" />
     <Method name="roundUnscaled" params="double,double,int" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
   <!-- The following equality test is intentional for division protection -->
   <Match>
-    <Class name="org.apache.commons.math3.analysis.interpolation.LoessInterpolator" />
+    <Class name="org.apache.commons.math4.analysis.interpolation.LoessInterpolator" />
     <Method name="smooth" params="double[],double[]" returns="double[]" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
 
   <!-- The following equality test is intentional for infinity detection -->
   <Match>
-    <Class name="org.apache.commons.math3.util.FastMath" />
+    <Class name="org.apache.commons.math4.util.FastMath" />
     <Method name="atan2" params="double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -134,8 +134,8 @@
    -->
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
-      <Class name="org.apache.commons.math3.optimization.direct.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
+      <Class name="org.apache.commons.math4.optimization.direct.BOBYQAOptimizer" />
     </Or>
     <Or>
       <Method name="bobyqb" params="double[],double[]" returns="double" />
@@ -148,7 +148,7 @@
        (to be removed in 4.0)
     -->
   <Match>
-    <Class name="org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer" />
+    <Class name="org.apache.commons.math4.optimization.general.AbstractLeastSquaresOptimizer" />
     <Or>
       <Field name="weightedResidualJacobian" />
       <Field name="weightedResiduals" />
@@ -158,54 +158,54 @@
 
   <!-- Spurious: Findbugs confused by final local variables -->
   <Match>
-    <Class name="org.apache.commons.math3.util.FastMath" />
+    <Class name="org.apache.commons.math4.util.FastMath" />
     <Method name="atan" params="double,double,boolean" returns="double" />
     <Bug pattern="DLS_DEAD_LOCAL_STORE" />
   </Match>
 
   <!-- the following expositions of internal representation are intentional and documented -->
   <Match>
-    <Class name="org.apache.commons.math3.stat.regression.RegressionResults"/>
+    <Class name="org.apache.commons.math4.stat.regression.RegressionResults"/>
     <Method name="&lt;init>" params="double[],double[][],boolean,long,int,double,double,double,boolean,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic"/>
+    <Class name="org.apache.commons.math4.stat.descriptive.AbstractUnivariateStatistic"/>
     <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
+    <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.PointValuePair"/>
+    <Class name="org.apache.commons.math4.optim.PointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
+    <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.PointValuePair"/>
+    <Class name="org.apache.commons.math4.optim.PointValuePair"/>
     <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <!-- Serialization is handled by an internal class -->
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.optim.PointValuePair"/>
-      <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
-      <Class name="org.apache.commons.math3.optimization.PointValuePair"/>
-      <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>      
+      <Class name="org.apache.commons.math4.optim.PointValuePair"/>
+      <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
+      <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
+      <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>      
     </Or>
     <Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
+    <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>
     <Or>
       <Method name="getPointRef" params="" returns="double[]" />
       <Method name="getValueRef" params="" returns="double[]" />
@@ -213,7 +213,7 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
+    <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
     <Or>
       <Method name="getPointRef" params="" returns="double[]" />
       <Method name="getValueRef" params="" returns="double[]" />
@@ -221,22 +221,22 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optimization.PointVectorValuePair"/>
+    <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>
     <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.optim.PointVectorValuePair"/>
+    <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
     <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.ode.sampling.DummyStepInterpolator"/>
+    <Class name="org.apache.commons.math4.ode.sampling.DummyStepInterpolator"/>
     <Method name="&lt;init>" params="double[],double[],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.ode.sampling.AbstractStepInterpolator"/>
+    <Class name="org.apache.commons.math4.ode.sampling.AbstractStepInterpolator"/>
     <Or>
       <Method name="getInterpolatedState" params="" returns="double[]" />
       <Method name="getInterpolatedDerivatives" params="" returns="double[]" />
@@ -244,47 +244,47 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.ode.sampling.NordsieckStepInterpolator"/>
-    <Method name="reinitialize" params="double,double,double[],org.apache.commons.math3.linear.Array2DRowRealMatrix" returns="void" />
+    <Class name="org.apache.commons.math4.ode.sampling.NordsieckStepInterpolator"/>
+    <Method name="reinitialize" params="double,double,double[],org.apache.commons.math4.linear.Array2DRowRealMatrix" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.ode.sampling.NordsieckStepInterpolator"/>
+    <Class name="org.apache.commons.math4.ode.sampling.NordsieckStepInterpolator"/>
     <Method name="getInterpolatedStateVariation" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.Array2DRowRealMatrix"/>
+    <Class name="org.apache.commons.math4.linear.Array2DRowRealMatrix"/>
     <Method name="&lt;init>" params="double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.Array2DRowRealMatrix"/>
+    <Class name="org.apache.commons.math4.linear.Array2DRowRealMatrix"/>
     <Method name="getDataRef" params="" returns="double[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.BlockFieldMatrix"/>
-    <Method name="&lt;init>" params="int,int,org.apache.commons.math3.FieldElement[][],boolean" returns="void" />
+    <Class name="org.apache.commons.math4.linear.BlockFieldMatrix"/>
+    <Method name="&lt;init>" params="int,int,org.apache.commons.math4.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.Array2DRowFieldMatrix"/>
-    <Method name="&lt;init>" params="org.apache.commons.math3.Field,org.apache.commons.math3.FieldElement[][],boolean" returns="void" />
+    <Class name="org.apache.commons.math4.linear.Array2DRowFieldMatrix"/>
+    <Method name="&lt;init>" params="org.apache.commons.math4.Field,org.apache.commons.math4.FieldElement[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.Array2DRowFieldMatrix"/>
-    <Method name="getDataRef" params="" returns="org.apache.commons.math3.FieldElement[][]" />
+    <Class name="org.apache.commons.math4.linear.Array2DRowFieldMatrix"/>
+    <Method name="getDataRef" params="" returns="org.apache.commons.math4.FieldElement[][]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.BlockRealMatrix"/>
+    <Class name="org.apache.commons.math4.linear.BlockRealMatrix"/>
     <Method name="&lt;init>" params="int,int,double[][],boolean" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.util.ResizableDoubleArray"/>
+    <Class name="org.apache.commons.math4.util.ResizableDoubleArray"/>
     <Or>
       <Method name="getValues"         params="" returns="double[]" />
       <Method name="getInternalValues" params="" returns="double[]" />
@@ -292,47 +292,47 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.ArrayRealVector"/>
+    <Class name="org.apache.commons.math4.linear.ArrayRealVector"/>
     <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.ArrayFieldVector"/>
-    <Method name="getDataRef" params="" returns="org.apache.commons.math3.FieldElement[]" />
+    <Class name="org.apache.commons.math4.linear.ArrayFieldVector"/>
+    <Method name="getDataRef" params="" returns="org.apache.commons.math4.FieldElement[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.linear.DiagonalMatrix"/>
+    <Class name="org.apache.commons.math4.linear.DiagonalMatrix"/>
     <Method name="getDataRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <!-- The equals method for RealVector intentionally throws an exception -->
   <Match>
-    <Class name="org.apache.commons.math3.linear.RealVector"/>
+    <Class name="org.apache.commons.math4.linear.RealVector"/>
     <Bug pattern="EQ_UNUSUAL" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.stat.clustering.EuclideanIntegerPoint"/>
+    <Class name="org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint"/>
     <Method name="&lt;init>" params="int[]" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.stat.clustering.EuclideanIntegerPoint"/>
+    <Class name="org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint"/>
     <Method name="getPoint" params="" returns="int[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.stat.clustering.EuclideanDoublePoint"/>
-      <Class name="org.apache.commons.math3.ml.clustering.DoublePoint"/>      
+      <Class name="org.apache.commons.math4.stat.clustering.EuclideanDoublePoint"/>
+      <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
     </Or>
     <Method name="&lt;init>" params="double[]" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
     <Or>
-      <Class name="org.apache.commons.math3.stat.clustering.EuclideanDoublePoint"/>
-      <Class name="org.apache.commons.math3.ml.clustering.DoublePoint"/>      
+      <Class name="org.apache.commons.math4.stat.clustering.EuclideanDoublePoint"/>
+      <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
     </Or>
     <Method name="getPoint" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
@@ -340,44 +340,44 @@
 
   <!-- The following cases are intentional unit tests for null parameters -->
   <Match>
-    <Class name="org.apache.commons.math3.stat.StatUtilsTest" />
+    <Class name="org.apache.commons.math4.stat.StatUtilsTest" />
     <Method name="testPercentile" params="" returns="void" />
     <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.analysis.UnivariateRealSolverFactoryImplTest" />
+    <Class name="org.apache.commons.math4.analysis.UnivariateRealSolverFactoryImplTest" />
     <Method name="testNewNewtonSolverNull" params="" returns="void" />
     <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math3.stat.regression.OLSMultipleLinearRegressionTest" />
+    <Class name="org.apache.commons.math4.stat.regression.OLSMultipleLinearRegressionTest" />
     <Method name="cannotAddNullYSampleData" params="" returns="void" />
     <Bug pattern="NP_NULL_PARAM_DEREF_ALL_TARGETS_DANGEROUS" />
   </Match>
   
   <!-- IntDoublePair intentionally implements Comparable inconsistently with equals -->
   <Match>
-    <Class name="org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair" />
+    <Class name="org.apache.commons.math4.stat.ranking.NaturalRanking$IntDoublePair" />
     <Bug pattern="EQ_COMPARETO_USE_OBJECT_EQUALS" />
   </Match>
 
   <!-- False positive warning from findbugs, the integer division result cast to double is correct here -->
   <Match>
-    <Class name="org.apache.commons.math3.stat.inference.MannWhitneyUTest" />
+    <Class name="org.apache.commons.math4.stat.inference.MannWhitneyUTest" />
     <Method name="mannWhitneyU" params="double[],double[]" returns="double" />
     <Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
   </Match>
 
   <!-- The following switch fall-through is intended. -->
   <Match>
-    <Class name="org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D" />
+    <Class name="org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D" />
     <Method name="createLinks" />
     <Bug pattern="SF_SWITCH_FALLTHROUGH" />
   </Match>
   
   <!-- Integer division results cast to double are intentional. -->
   <Match>
-    <Class name="org.apache.commons.math3.special.BesselJ" />
+    <Class name="org.apache.commons.math4.special.BesselJ" />
     <Method name="rjBesl" />
     <Bug pattern="ICAST_IDIV_CAST_TO_DOUBLE" />
   </Match>

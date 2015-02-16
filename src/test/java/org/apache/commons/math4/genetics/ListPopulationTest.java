@@ -14,15 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

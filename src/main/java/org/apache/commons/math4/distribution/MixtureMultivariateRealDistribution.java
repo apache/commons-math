@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Class for representing <a href="http://en.wikipedia.org/wiki/Mixture_model">

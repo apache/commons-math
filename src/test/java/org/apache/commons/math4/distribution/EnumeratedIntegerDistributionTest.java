@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.exception.NotFiniteNumberException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.distribution.EnumeratedIntegerDistribution;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

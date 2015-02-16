@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.util.Iterator;
 import java.util.Comparator;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.io.Serializable;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.OutOfRangeException;
+
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.OutOfRangeException;
 
 /**
  * Utility to create <a href="http://en.wikipedia.org/wiki/Combination">
@@ -68,8 +69,8 @@ public class Combinations implements Iterable<int[]> {
      *
      * @param n Size of the set from which subsets are selected.
      * @param k Size of the subsets to be enumerated.
-     * @throws org.apache.commons.math3.exception.NotPositiveException if {@code n < 0}.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException if {@code k > n}.
+     * @throws org.apache.commons.math4.exception.NotPositiveException if {@code n < 0}.
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException if {@code k > n}.
      */
     public Combinations(int n,
                         int k) {
@@ -97,8 +98,8 @@ public class Combinations implements Iterable<int[]> {
      * @param n Size of the set from which subsets are selected.
      * @param k Size of the subsets to be enumerated.
      * @param iterationOrder Specifies the {@link #iterator() iteration order}.
-     * @throws org.apache.commons.math3.exception.NotPositiveException if {@code n < 0}.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException if {@code k > n}.
+     * @throws org.apache.commons.math4.exception.NotPositiveException if {@code n < 0}.
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException if {@code k > n}.
      */
     private Combinations(int n,
                          int k,

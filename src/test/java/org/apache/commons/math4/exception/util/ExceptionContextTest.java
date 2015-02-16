@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.exception.util;
+package org.apache.commons.math4.exception.util;
 
 import java.util.Locale;
 import java.util.Arrays;
@@ -24,6 +24,8 @@ import java.io.ObjectInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 
+import org.apache.commons.math4.exception.util.ExceptionContext;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 

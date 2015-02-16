@@ -19,4 +19,4 @@
  *      Classes providing hypothesis testing.
  *
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;

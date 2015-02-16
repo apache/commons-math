@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,26 +22,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
-import org.apache.commons.math3.geometry.partitioning.Side;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.BoundaryProjection;
+import org.apache.commons.math4.geometry.partitioning.Side;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /** This class represents a region of a circle: a set of arcs.
  * <p>
  * Note that due to the wrapping around \(2 \pi\), barycenter is
  * ill-defined here. It was defined only in order to fulfill
  * the requirements of the {@link
- * org.apache.commons.math3.geometry.partitioning.Region Region}
+ * org.apache.commons.math4.geometry.partitioning.Region Region}
  * interface, but its use is discouraged.
  * </p>
  * @since 3.3
@@ -104,7 +104,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * org.apache.commons.math4.geometry.partitioning.Region#checkPoint(org.apache.commons.math4.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -942,7 +942,7 @@ public class ArcsSet extends AbstractRegion<Sphere1D, Sphere1D> implements Itera
     /** Specialized exception for inconsistent BSP tree state inconsistency.
      * <p>
      * This exception is thrown at {@link ArcsSet} construction time when the
-     * {@link org.apache.commons.math3.geometry.partitioning.Region.Location inside/outside}
+     * {@link org.apache.commons.math4.geometry.partitioning.Region.Location inside/outside}
      * state is not consistent at the 0, \(2 \pi \) crossing.
      * </p>
      */

@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.polynomials;
+package org.apache.commons.math4.analysis.polynomials;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunctionNewtonForm;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.junit.Assert;
 import org.junit.Test;
 

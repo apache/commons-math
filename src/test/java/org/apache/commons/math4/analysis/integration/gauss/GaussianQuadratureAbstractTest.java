@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
-import org.apache.commons.math3.analysis.function.Power;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.function.Power;
+import org.apache.commons.math4.analysis.integration.gauss.GaussIntegrator;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

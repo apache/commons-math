@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.TestProblem3;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.TestProblem3;
+import org.apache.commons.math4.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math4.ode.sampling.FixedStepHandler;
+import org.apache.commons.math4.ode.sampling.StepNormalizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

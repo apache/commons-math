@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.ode.AbstractIntegrator;
-import org.apache.commons.math3.ode.ExpandableStatefulODE;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.ode.AbstractIntegrator;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This abstract class holds the common part of all adaptive
@@ -44,7 +44,7 @@ import org.apache.commons.math3.util.FastMath;
  * <p>
  * If the Ordinary Differential Equations is an {@link ExpandableStatefulODE
  * extended ODE} rather than a {@link
- * org.apache.commons.math3.ode.FirstOrderDifferentialEquations basic ODE}, then
+ * org.apache.commons.math4.ode.FirstOrderDifferentialEquations basic ODE}, then
  * <em>only</em> the {@link ExpandableStatefulODE#getPrimaryState() primary part}
  * of the state vector is used for stepsize control, not the complete state vector.
  * </p>

@@ -15,11 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
-import org.apache.commons.math3.analysis.solvers.AllowedSolution;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.analysis.solvers.AllowedSolution;
+import org.apache.commons.math4.dfp.BracketingNthOrderBrentSolverDFP;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.dfp.DfpMath;
+import org.apache.commons.math4.dfp.UnivariateDfpFunction;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

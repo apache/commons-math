@@ -15,16 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
+import org.apache.commons.math4.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

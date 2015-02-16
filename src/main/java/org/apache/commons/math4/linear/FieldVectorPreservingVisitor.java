@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math4.FieldElement;
 
 /**
  * This interface defines a visitor for the entries of a vector. Visitors

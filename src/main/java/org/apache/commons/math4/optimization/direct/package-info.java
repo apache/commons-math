@@ -21,4 +21,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;

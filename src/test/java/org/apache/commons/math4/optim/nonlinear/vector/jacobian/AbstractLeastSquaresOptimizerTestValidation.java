@@ -11,21 +11,22 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.geom.Point2D;
 
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.vector.Target;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.optim.nonlinear.vector.Target;
+import org.apache.commons.math4.optim.nonlinear.vector.Weight;
+import org.apache.commons.math4.optim.nonlinear.vector.jacobian.AbstractLeastSquaresOptimizer;
+import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -33,7 +34,7 @@ import org.junit.Assert;
  * This class demonstrates the main functionality of the
  * {@link AbstractLeastSquaresOptimizer}, common to the
  * optimizer implementations in package
- * {@link org.apache.commons.math3.optimization.general}.
+ * {@link org.apache.commons.math4.optimization.general}.
  * <br/>
  * Not enabled by default, as the class name does not end with "Test".
  * <br/>

@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.exception;
+package org.apache.commons.math4.exception;
 
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Exception to be thrown when the a sequence of values is not monotonically

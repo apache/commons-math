@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fraction;
+package org.apache.commons.math4.fraction;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.MathParseException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.fraction.Fraction;
+import org.apache.commons.math4.fraction.FractionFormat;
+import org.apache.commons.math4.fraction.ProperFractionFormat;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

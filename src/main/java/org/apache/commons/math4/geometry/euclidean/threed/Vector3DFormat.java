@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.MathParseException;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.VectorFormat;
-import org.apache.commons.math3.util.CompositeFormat;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.geometry.Vector;
+import org.apache.commons.math4.geometry.VectorFormat;
+import org.apache.commons.math4.util.CompositeFormat;
 
 /**
  * Formats a 3D vector in components list format "{x; y; z}".

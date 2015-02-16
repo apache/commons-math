@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.function.HarmonicOscillator;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Fits points to a {@link
- * org.apache.commons.math3.analysis.function.HarmonicOscillator.Parametric harmonic oscillator}
+ * org.apache.commons.math4.analysis.function.HarmonicOscillator.Parametric harmonic oscillator}
  * function.
  * <br/>
  * The {@link #withStartPoint(double[]) initial guess values} must be passed

@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.optim.AbstractOptimizationProblem;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.optim.AbstractOptimizationProblem;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * A Factory for creating {@link LeastSquaresProblem}s.
@@ -45,7 +45,7 @@ public class LeastSquaresFactory {
     private LeastSquaresFactory() {}
 
     /**
-     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * Create a {@link org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements. There will be no weights applied (unit weights).
      *
      * @param model          the model function. Produces the computed values.
@@ -87,7 +87,7 @@ public class LeastSquaresFactory {
     }
 
     /**
-     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * Create a {@link org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements. There will be no weights applied (unit weights).
      *
      * @param model          the model function. Produces the computed values.
@@ -116,7 +116,7 @@ public class LeastSquaresFactory {
     }
 
     /**
-     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * Create a {@link org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements.
      *
      * @param model          the model function. Produces the computed values.
@@ -145,7 +145,7 @@ public class LeastSquaresFactory {
     }
 
     /**
-     * Create a {@link org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem}
+     * Create a {@link org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem}
      * from the given elements.
      * <p>
      * This factory method is provided for continuity with previous interfaces. Newer

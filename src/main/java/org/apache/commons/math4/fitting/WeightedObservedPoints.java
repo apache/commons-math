@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.List;
 import java.util.ArrayList;

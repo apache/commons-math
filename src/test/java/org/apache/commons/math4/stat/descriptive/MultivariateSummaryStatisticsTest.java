@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.stat.descriptive.moment.Mean;
-import org.apache.commons.math3.util.FastMath;
-
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.stat.descriptive.MultivariateSummaryStatistics;
+import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.moment.Mean;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.analysis.solvers.LaguerreSolver;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

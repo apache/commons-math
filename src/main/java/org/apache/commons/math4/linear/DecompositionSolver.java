@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 /**
  * Interface handling decomposition algorithms that can solve A &times; X = B.
@@ -42,7 +42,7 @@ public interface DecompositionSolver {
      *
      * @param b right-hand side of the equation A &times; X = B
      * @return a vector X that minimizes the two norm of A &times; X - B
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
      * @throws SingularMatrixException if the decomposed matrix is singular.
      */
@@ -56,7 +56,7 @@ public interface DecompositionSolver {
      *
      * @param b right-hand side of the equation A &times; X = B
      * @return a matrix X that minimizes the two norm of A &times; X - B
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the matrices dimensions do not match.
      * @throws SingularMatrixException if the decomposed matrix is singular.
      */

@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateOptimizer;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateOptimizer;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.direct.BaseAbstractMultivariateOptimizer;
 
 /**
  * Base class for implementing optimizers for multivariate scalar
@@ -47,9 +47,9 @@ public abstract class AbstractScalarDifferentiableOptimizer
     /**
      * Simple constructor with default settings.
      * The convergence check is set to a
-     * {@link org.apache.commons.math3.optimization.SimpleValueChecker
+     * {@link org.apache.commons.math4.optimization.SimpleValueChecker
      * SimpleValueChecker}.
-     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
+     * @deprecated See {@link org.apache.commons.math4.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
     @Deprecated
     protected AbstractScalarDifferentiableOptimizer() {}
@@ -66,7 +66,7 @@ public abstract class AbstractScalarDifferentiableOptimizer
      *
      * @param evaluationPoint Point at which the gradient must be evaluated.
      * @return the gradient at the specified point.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the allowed number of evaluations is exceeded.
      */
     protected double[] computeObjectiveGradient(final double[] evaluationPoint) {
@@ -95,11 +95,11 @@ public abstract class AbstractScalarDifferentiableOptimizer
      * @param maxEval Maximum number of function evaluations.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * @throws org.apache.commons.math4.exception.NullArgumentException if
      * any argument is {@code null}.
      */
     public PointValuePair optimize(final int maxEval,

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.clustering.evaluation;
+package org.apache.commons.math4.ml.clustering.evaluation;
 
 import java.util.List;
 
-import org.apache.commons.math3.ml.clustering.Cluster;
-import org.apache.commons.math3.ml.clustering.Clusterable;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.stat.descriptive.moment.Variance;
+import org.apache.commons.math4.ml.clustering.Cluster;
+import org.apache.commons.math4.ml.clustering.Clusterable;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.stat.descriptive.moment.Variance;
 
 /**
  * Computes the sum of intra-cluster distance variances according to the formula:

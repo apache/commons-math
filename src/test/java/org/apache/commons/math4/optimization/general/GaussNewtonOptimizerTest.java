@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
 import java.io.IOException;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optimization.SimpleVectorValueChecker;
+import org.apache.commons.math4.optimization.general.AbstractLeastSquaresOptimizer;
+import org.apache.commons.math4.optimization.general.GaussNewtonOptimizer;
 import org.junit.Test;
 
 /**

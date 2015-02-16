@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.FixedElapsedTime;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

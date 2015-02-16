@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ListPopulation;
+import org.apache.commons.math4.genetics.Population;
 import org.junit.Assert;
 import org.junit.Test;
 

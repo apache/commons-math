@@ -15,17 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.special.Gamma;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.distribution.GammaDistribution;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.special.Gamma;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -215,7 +216,7 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
      * MATH-753: large values of x or shape parameter cause density(double) to
      * overflow. Reference data is generated with the Maxima script
      * gamma-distribution.mac, which can be found in
-     * src/test/resources/org/apache/commons/math3/distribution.
+     * src/test/resources/org/apache/commons/math4/distribution.
      */
 
     private void doTestMath753(final double shape,

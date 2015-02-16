@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet;
+package org.apache.commons.math4.ml.neuralnet;
 
 /**
  * Describes how to update the network in response to a training

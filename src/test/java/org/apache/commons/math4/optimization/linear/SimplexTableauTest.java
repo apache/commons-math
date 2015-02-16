@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.linear;
+package org.apache.commons.math4.optimization.linear;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.linear.LinearConstraint;
+import org.apache.commons.math4.optimization.linear.LinearObjectiveFunction;
+import org.apache.commons.math4.optimization.linear.Relationship;
+import org.apache.commons.math4.optimization.linear.SimplexTableau;
 import org.junit.Assert;
 import org.junit.Test;
 

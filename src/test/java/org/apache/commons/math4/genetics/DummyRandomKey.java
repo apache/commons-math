@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 import java.util.List;
+
+import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.RandomKey;
 
 /**
  * Implementation of RandomKey for testing purposes

@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
 import java.io.Serializable;
-import org.apache.commons.math3.util.Pair;
+
+import org.apache.commons.math4.util.Pair;
 
 /**
  * This class holds a point and the vectorial value of an objective function at
  * that point.
  *
  * @see PointValuePair
- * @see org.apache.commons.math3.analysis.MultivariateVectorFunction
+ * @see org.apache.commons.math4.analysis.MultivariateVectorFunction
  * @since 3.0
  */
 public class PointVectorValuePair extends Pair<double[], double[]> implements Serializable {

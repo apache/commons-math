@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.geometry.Space;
 
 /** Cut sub-hyperplanes characterization with respect to inside/outside cells.
  * @see BoundaryBuilder

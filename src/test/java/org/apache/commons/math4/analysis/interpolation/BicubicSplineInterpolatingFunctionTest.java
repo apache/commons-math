@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.analysis.BivariateFunction;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.analysis.interpolation.BicubicSplineFunction;
+import org.apache.commons.math4.analysis.interpolation.BicubicSplineInterpolatingFunction;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;

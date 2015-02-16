@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.analysis.QuinticFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.solvers.AllowedSolution;
+import org.apache.commons.math4.analysis.solvers.BracketingNthOrderBrentSolver;
+import org.apache.commons.math4.analysis.solvers.NewtonRaphsonSolver;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
 import org.junit.Assert;
 import org.junit.Test;
 

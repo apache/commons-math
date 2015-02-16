@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.geometry.Space;
 
 /**
  * This class implements a one-dimensional sphere (i.e. a circle).

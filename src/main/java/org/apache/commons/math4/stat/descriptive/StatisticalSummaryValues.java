@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  *  Value object representing the results of a univariate statistical summary.

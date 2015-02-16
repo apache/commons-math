@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.SynchronizedRandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

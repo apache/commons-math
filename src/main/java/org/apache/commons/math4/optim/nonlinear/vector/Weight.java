@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector;
+package org.apache.commons.math4.optim.nonlinear.vector;
 
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.OptimizationData;
 
 /**
  * Weight matrix of the residuals between model and observations.
@@ -29,7 +29,7 @@ import org.apache.commons.math3.linear.NonSquareMatrixException;
  * @since 3.1
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the
- * {@link org.apache.commons.math3.fitting.leastsquares} package
+ * {@link org.apache.commons.math4.fitting.leastsquares} package
  * (cf. MATH-1008).
  */
 @Deprecated

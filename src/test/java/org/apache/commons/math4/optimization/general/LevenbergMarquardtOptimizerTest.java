@@ -15,22 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.linear.SingularMatrixException;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.linear.SingularMatrixException;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
+import org.apache.commons.math4.optimization.general.AbstractLeastSquaresOptimizer;
+import org.apache.commons.math4.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;

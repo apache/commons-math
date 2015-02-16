@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.RealLinearOperator;
+import org.apache.commons.math4.linear.RealVector;
 
 /** This class implements Hilbert Matrices as {@link RealLinearOperator}. */
 public class HilbertMatrix

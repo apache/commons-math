@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.fitting;
+package org.apache.commons.math4.optimization.fitting;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateVectorOptimizer;
 
 /**
  * Polynomial fitting is a very simple case of {@link CurveFitter curve fitting}.
@@ -67,7 +67,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * Get the polynomial fitting the weighted (x, y) points.
      *
      * @return the coefficients of the polynomial that best fits the observed points.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the algorithm failed to converge.
      * @deprecated Since 3.1 (to be removed in 4.0). Please use {@link #fit(double[])} instead.
      */
@@ -84,9 +84,9 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * increasing order of the polynomial's degree.
      * @param maxEval Maximum number of evaluations of the polynomial.
      * @return the coefficients of the polynomial that best fits the observed points.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the number of evaluations exceeds {@code maxEval}.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the algorithm failed to converge.
      * @since 3.1
      */
@@ -101,7 +101,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * @param guess First guess for the coefficients. They must be sorted in
      * increasing order of the polynomial's degree.
      * @return the coefficients of the polynomial that best fits the observed points.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the algorithm failed to converge.
      * @since 3.1
      */

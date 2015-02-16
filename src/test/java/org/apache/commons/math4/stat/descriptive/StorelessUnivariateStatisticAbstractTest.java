@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.moment.SecondMoment;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

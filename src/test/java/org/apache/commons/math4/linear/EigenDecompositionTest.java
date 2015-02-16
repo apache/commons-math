@@ -15,17 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Arrays;
 import java.util.Random;
 
-
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.LUDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.linear.TriDiagonalTransformer;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.Precision;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

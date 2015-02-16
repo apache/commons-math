@@ -14,17 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.fraction.FractionConversionException;
-import org.apache.commons.math3.fraction.FractionField;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.fraction.Fraction;
+import org.apache.commons.math4.fraction.FractionConversionException;
+import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.linear.FieldMatrix;
+import org.apache.commons.math4.linear.FieldVector;
+import org.apache.commons.math4.linear.FieldVectorChangingVisitor;
+import org.apache.commons.math4.linear.FieldVectorPreservingVisitor;
+import org.apache.commons.math4.linear.SparseFieldVector;
 import org.junit.Assert;
 import org.junit.Test;
 

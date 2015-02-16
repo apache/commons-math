@@ -14,23 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Region.Location;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.geometry.partitioning.Side;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.geometry.partitioning.Side;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.Region.Location;
+import org.apache.commons.math4.geometry.spherical.oned.Arc;
+import org.apache.commons.math4.geometry.spherical.oned.ArcsSet;
+import org.apache.commons.math4.geometry.spherical.oned.LimitAngle;
+import org.apache.commons.math4.geometry.spherical.oned.S1Point;
+import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
+import org.apache.commons.math4.geometry.spherical.oned.SubLimitAngle;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

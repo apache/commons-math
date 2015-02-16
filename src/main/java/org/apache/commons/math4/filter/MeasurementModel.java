@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.filter;
+package org.apache.commons.math4.filter;
 
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
 
 /**
  * Defines the measurement model for the use with a {@link KalmanFilter}.
@@ -38,7 +38,7 @@ public interface MeasurementModel {
      *
      * @return the measurement noise matrix
      * @see KalmanFilter#correct(double[])
-     * @see KalmanFilter#correct(org.apache.commons.math3.linear.RealVector)
+     * @see KalmanFilter#correct(org.apache.commons.math4.linear.RealVector)
      */
     RealMatrix getMeasurementNoise();
 }

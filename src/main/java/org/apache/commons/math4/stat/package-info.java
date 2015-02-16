@@ -17,4 +17,4 @@
 /**
  * Data storage, manipulation and summary routines.
  */
-package org.apache.commons.math3.stat;
+package org.apache.commons.math4.stat;

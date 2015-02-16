@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.analysis.function.Sqrt;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.analysis.function.Sqrt;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * This class implements the standard Jacobi (diagonal) preconditioner. For a

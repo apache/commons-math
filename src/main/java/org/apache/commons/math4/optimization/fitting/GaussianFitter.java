@@ -15,24 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.fitting;
+package org.apache.commons.math4.optimization.fitting;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.function.Gaussian;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Fits points to a {@link
- * org.apache.commons.math3.analysis.function.Gaussian.Parametric Gaussian} function.
+ * org.apache.commons.math4.analysis.function.Gaussian.Parametric Gaussian} function.
  * <p>
  * Usage example:
  * <pre>
@@ -123,7 +123,7 @@ public class GaussianFitter extends CurveFitter<Gaussian.Parametric> {
 
     /**
      * Guesses the parameters {@code norm}, {@code mean}, and {@code sigma}
-     * of a {@link org.apache.commons.math3.analysis.function.Gaussian.Parametric}
+     * of a {@link org.apache.commons.math4.analysis.function.Gaussian.Parametric}
      * based on the specified observed points.
      */
     public static class ParameterGuesser {

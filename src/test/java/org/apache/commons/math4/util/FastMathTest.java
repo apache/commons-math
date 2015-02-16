@@ -14,21 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.dfp.Dfp;
-import org.apache.commons.math3.dfp.DfpField;
-import org.apache.commons.math3.dfp.DfpMath;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well1024a;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.dfp.DfpMath;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -25,10 +25,11 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.fraction.FractionConversionException;
-import org.apache.commons.math3.fraction.FractionField;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.fraction.Fraction;
+import org.apache.commons.math4.fraction.FractionConversionException;
+import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.util.OpenIntToFieldHashMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

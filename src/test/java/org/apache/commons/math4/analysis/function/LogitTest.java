@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.function;
+package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well1024a;
-import org.apache.commons.math3.util.FastMath;
-
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.function.Logit;
+import org.apache.commons.math4.analysis.function.Sigmoid;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

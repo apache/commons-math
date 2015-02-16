@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.Collection;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math4.linear.DiagonalMatrix;
 
 /**
  * Fits points to a {@link
- * org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric polynomial}
+ * org.apache.commons.math4.analysis.polynomials.PolynomialFunction.Parametric polynomial}
  * function.
  * <br/>
  * The size of the {@link #withStartPoint(double[]) initial guess} array defines the

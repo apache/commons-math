@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
+
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.OpenMapRealVector;
+import org.apache.commons.math4.linear.RealVector;
 
 /**
  * This is an implementation of {@link UnmodifiableRealVectorAbstractTest} for

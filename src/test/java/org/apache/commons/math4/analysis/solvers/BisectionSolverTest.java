@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.QuinticFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.analysis.solvers.BisectionSolver;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

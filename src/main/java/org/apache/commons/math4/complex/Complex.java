@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.FieldElement;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.FieldElement;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Representation of a Complex number, i.e. a number which has both a
@@ -46,8 +46,8 @@ import org.apache.commons.math3.util.Precision;
  * Note that this is in contradiction with the IEEE-754 standard for floating
  * point numbers (according to which the test {@code x == x} must fail if
  * {@code x} is {@code NaN}). The method
- * {@link org.apache.commons.math3.util.Precision#equals(double,double,int)
- * equals for primitive double} in {@link org.apache.commons.math3.util.Precision}
+ * {@link org.apache.commons.math4.util.Precision#equals(double,double,int)
+ * equals for primitive double} in {@link org.apache.commons.math4.util.Precision}
  * conforms with IEEE-754 while this class conforms with the standard behavior
  * for Java object types.
  * <br/>

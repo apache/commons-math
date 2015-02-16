@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.MapUtils;
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.UpdateAction;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.analysis.function.Gaussian;
+
+import org.apache.commons.math4.analysis.function.Gaussian;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.Network;
+import org.apache.commons.math4.ml.neuralnet.Neuron;
+import org.apache.commons.math4.ml.neuralnet.UpdateAction;
 
 /**
  * Update formula for <a href="http://en.wikipedia.org/wiki/Kohonen">

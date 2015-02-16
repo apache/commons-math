@@ -15,16 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.JacobianMatrices.MismatchedEquations;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince54Integrator;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.AbstractIntegrator;
+import org.apache.commons.math4.ode.AbstractParameterizable;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.JacobianMatrices;
+import org.apache.commons.math4.ode.MainStateJacobianProvider;
+import org.apache.commons.math4.ode.ParameterJacobianProvider;
+import org.apache.commons.math4.ode.ParameterizedODE;
+import org.apache.commons.math4.ode.UnknownParameterException;
+import org.apache.commons.math4.ode.JacobianMatrices.MismatchedEquations;
+import org.apache.commons.math4.ode.nonstiff.DormandPrince54Integrator;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

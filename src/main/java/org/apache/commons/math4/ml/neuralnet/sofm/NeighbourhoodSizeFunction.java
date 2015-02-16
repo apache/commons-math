@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
 /**
  * Provides the network neighbourhood's size as a function of the

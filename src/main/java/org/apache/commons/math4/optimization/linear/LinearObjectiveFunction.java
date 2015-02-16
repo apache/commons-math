@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.linear;
+package org.apache.commons.math4.optimization.linear;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealVector;
 
 /**
  * An objective function for a linear optimization problem.

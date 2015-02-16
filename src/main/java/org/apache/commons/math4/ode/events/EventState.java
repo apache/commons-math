@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.solvers.AllowedSolution;
-import org.apache.commons.math3.analysis.solvers.BracketedUnivariateSolver;
-import org.apache.commons.math3.analysis.solvers.PegasusSolver;
-import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
-import org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.ode.EquationsMapper;
-import org.apache.commons.math3.ode.ExpandableStatefulODE;
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.solvers.AllowedSolution;
+import org.apache.commons.math4.analysis.solvers.BracketedUnivariateSolver;
+import org.apache.commons.math4.analysis.solvers.PegasusSolver;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 
 /** This class handles the state for one {@link EventHandler
  * event handler} during integration steps.

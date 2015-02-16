@@ -14,18 +14,19 @@ s * Unless required by applicable law or agreed to in writing, software
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.distribution.IntegerDistribution;
-import org.apache.commons.math3.distribution.UniformIntegerDistribution;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.IntegerDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.WeightedEvaluation;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

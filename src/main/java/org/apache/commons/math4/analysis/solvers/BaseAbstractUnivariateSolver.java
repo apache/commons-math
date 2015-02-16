@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Provide a default implementation for several functions useful to generic

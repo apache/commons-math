@@ -32,15 +32,15 @@
       </subsection>
       <subsection name="14.2 GA Framework">
       <p>
-      <a href="../apidocs/org/apache/commons/math3/genetics/GeneticAlgorithm.html">
+      <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html">
       GeneticAlgorithm</a> provides an execution framework for Genetic Algorithms (GA).  
-      <a href="../apidocs/org/apache/commons/math3/genetics/Population.html">
-      Populations,</a> consisting of <a href="../apidocs/org/apache/commons/math3/genetics/Chromosome.html">
+      <a href="../apidocs/org/apache/commons/math4/genetics/Population.html">
+      Populations,</a> consisting of <a href="../apidocs/org/apache/commons/math4/genetics/Chromosome.html">
       Chromosomes</a> are evolved by the <code>GeneticAlgorithm</code> until a 
-      <a href="../apidocs/org/apache/commons/math3/genetics/StoppingCondition.html">
-      StoppingCondition</a> is reached. Evolution is determined by <a href="../apidocs/org/apache/commons/math3/genetics/SelectionPolicy.html">
-      SelectionPolicy</a>, <a href="../apidocs/org/apache/commons/math3/genetics/MutationPolicy.html">
-      MutationPolicy</a> and <a href="../apidocs/org/apache/commons/math3/genetics/Fitness.html">
+      <a href="../apidocs/org/apache/commons/math4/genetics/StoppingCondition.html">
+      StoppingCondition</a> is reached. Evolution is determined by <a href="../apidocs/org/apache/commons/math4/genetics/SelectionPolicy.html">
+      SelectionPolicy</a>, <a href="../apidocs/org/apache/commons/math4/genetics/MutationPolicy.html">
+      MutationPolicy</a> and <a href="../apidocs/org/apache/commons/math4/genetics/Fitness.html">
       Fitness</a>.
       </p>
       <p>
@@ -63,10 +63,10 @@
           <ul><li>Apply configured <code>SelectionPolicy</code> to select a pair of parents
                  from <code>current</code></li>
              <li>With probability = 
-                 <a href="../apidocs/org/apache/commons/math3/genetics/GeneticAlgorithm.html#getCrossoverRate()">
+                 <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html#getCrossoverRate()">
                  getCrossoverRate()</a>, apply configured <code>CrossoverPolicy</code> to parents</li>
              <li>With probability = 
-                 <a href="../apidocs/org/apache/commons/math3/genetics/GeneticAlgorithm.html#getMutationRate()">
+                 <a href="../apidocs/org/apache/commons/math4/genetics/GeneticAlgorithm.html#getMutationRate()">
                  getMutationRate()</a>,
                  apply configured <code>MutationPolicy</code> to each of the offspring</li>
              <li>Add offspring individually to nextGeneration,
@@ -105,27 +105,27 @@ Chromosome bestFinal = finalPopulation.getFittestChromosome();
         <table>
         <tr><th>Parameter</th><th>value in example</th><th>meaning</th></tr>
         <tr><td>crossoverPolicy</td>
-        <td><a href="../apidocs/org/apache/commons/math3/genetics/OnePointCrossover.html">OnePointCrossover</a></td>
+        <td><a href="../apidocs/org/apache/commons/math4/genetics/OnePointCrossover.html">OnePointCrossover</a></td>
         <td>A random crossover point is selected and the first part from each parent is copied to the corresponding
         child, and the second parts are copied crosswise.</td></tr>
         <tr><td>crossoverRate</td>
         <td>1</td>
         <td>Always apply crossover</td></tr>
         <tr><td>mutationPolicy</td>
-        <td><a href="../apidocs/org/apache/commons/math3/genetics/RandomKeyMutation.html">RandomKeyMutation</a></td>
+        <td><a href="../apidocs/org/apache/commons/math4/genetics/RandomKeyMutation.html">RandomKeyMutation</a></td>
         <td>Changes a randomly chosen element of the array representation to a random value uniformly distributed in [0,1].</td></tr>
         <tr><td>mutationRate</td>
         <td>.1</td>
         <td>Apply mutation with probability 0.1 - that is, 10% of the time.</td></tr>
         <tr><td>selectionPolicy</td>
-        <td><a href="../apidocs/org/apache/commons/math3/genetics/TournamentSelection.html">TournamentSelection</a></td>
+        <td><a href="../apidocs/org/apache/commons/math4/genetics/TournamentSelection.html">TournamentSelection</a></td>
         <td>Each of the two selected chromosomes is selected based on an n-ary tournament -- this is done by drawing
         n random chromosomes without replacement from the population, and then selecting the fittest chromosome among them.</td></tr>
         </table><br/>
         The algorithm starts with an <code>initial</code> population of <code>Chromosomes.</code> and executes until 
-        the specified <a href="../apidocs/org/apache/commons/math3/genetics/StoppingCondition.html">StoppingCondition</a>
+        the specified <a href="../apidocs/org/apache/commons/math4/genetics/StoppingCondition.html">StoppingCondition</a>
         is reached.  In the example above, a
-        <a href="../apidocs/org/apache/commons/math3/genetics/FixedGenerationCount.html">FixedGenerationCount</a>
+        <a href="../apidocs/org/apache/commons/math4/genetics/FixedGenerationCount.html">FixedGenerationCount</a>
         stopping condition is used, which means the algorithm proceeds through a fixed number of generations.
       </p>
       </subsection>

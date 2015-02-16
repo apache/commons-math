@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,20 +28,20 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.distribution.AbstractRealDistribution;
-import org.apache.commons.math3.distribution.ConstantRealDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
+import org.apache.commons.math4.distribution.ConstantRealDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * <p>Represents an <a href="http://http://en.wikipedia.org/wiki/Empirical_distribution_function">

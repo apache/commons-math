@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.data;
+package org.apache.commons.math4.stat.data;
 
 /**
  */
@@ -23,6 +23,6 @@ public class LewTest extends CertifiedDataAbstractTest {
 
     @Override
     protected String getResourceName() {
-        return "org/apache/commons/math3/stat/data/Lew.txt";
+        return "org/apache/commons/math4/stat/data/Lew.txt";
     }
 }

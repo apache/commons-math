@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.optimization.BaseMultivariateOptimizer;
-import org.apache.commons.math3.optimization.BaseMultivariateSimpleBoundsOptimizer;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.SimpleBounds;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.optimization.BaseMultivariateOptimizer;
+import org.apache.commons.math4.optimization.BaseMultivariateSimpleBoundsOptimizer;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.InitialGuess;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.SimpleBounds;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions,
@@ -48,10 +48,10 @@ public abstract class BaseAbstractMultivariateSimpleBoundsOptimizer<FUNC extends
     /**
      * Simple constructor with default settings.
      * The convergence checker is set to a
-     * {@link org.apache.commons.math3.optimization.SimpleValueChecker}.
+     * {@link org.apache.commons.math4.optimization.SimpleValueChecker}.
      *
      * @see BaseAbstractMultivariateOptimizer#BaseAbstractMultivariateOptimizer()
-     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
+     * @deprecated See {@link org.apache.commons.math4.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
     @Deprecated
     protected BaseAbstractMultivariateSimpleBoundsOptimizer() {}

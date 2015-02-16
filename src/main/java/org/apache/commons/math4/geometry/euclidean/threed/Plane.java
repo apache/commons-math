@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.partitioning.Embedding;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Vector;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.partitioning.Embedding;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.util.FastMath;
 
 /** The class represent planes in a three dimensional space.
  * @since 3.0
@@ -306,7 +306,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
      * @param point point of the space (must be a {@link Vector3D
      * Vector3D} instance)
      * @return in-plane point (really a {@link
-     * org.apache.commons.math3.geometry.euclidean.twod.Vector2D Vector2D} instance)
+     * org.apache.commons.math4.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @see #toSpace
      */
     public Vector2D toSubSpace(final Point<Euclidean3D> point) {
@@ -316,7 +316,7 @@ public class Plane implements Hyperplane<Euclidean3D>, Embedding<Euclidean3D, Eu
 
     /** Transform an in-plane point into a 3D space point.
      * @param point in-plane point (must be a {@link
-     * org.apache.commons.math3.geometry.euclidean.twod.Vector2D Vector2D} instance)
+     * org.apache.commons.math4.geometry.euclidean.twod.Vector2D Vector2D} instance)
      * @return 3D space point (really a {@link Vector3D Vector3D} instance)
      * @see #toSubSpace
      */

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * DBSCAN (density-based spatial clustering of applications with noise) algorithm.
@@ -57,7 +57,7 @@ import org.apache.commons.math3.util.MathUtils;
  * A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise</a>
  * @since 3.1
  * @deprecated As of 3.2 (to be removed in 4.0),
- * use {@link org.apache.commons.math3.ml.clustering.DBSCANClusterer} instead
+ * use {@link org.apache.commons.math4.ml.clustering.DBSCANClusterer} instead
  */
 @Deprecated
 public class DBSCANClusterer<T extends Clusterable<T>> {

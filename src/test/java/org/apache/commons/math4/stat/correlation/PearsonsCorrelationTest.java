@@ -14,13 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.correlation;
+package org.apache.commons.math4.stat.correlation;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.distribution.TDistribution;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.BlockRealMatrix;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.correlation.Covariance;
+import org.apache.commons.math4.stat.correlation.PearsonsCorrelation;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

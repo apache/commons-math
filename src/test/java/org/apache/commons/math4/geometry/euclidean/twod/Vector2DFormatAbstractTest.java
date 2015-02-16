@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.MathParseException;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2DFormat;
 import org.junit.Assert;
 import org.junit.Test;
 

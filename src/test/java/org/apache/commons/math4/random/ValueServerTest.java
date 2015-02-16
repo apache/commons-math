@@ -14,15 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.net.URL;
 import java.util.Arrays;
 
-import org.apache.commons.math3.RetryRunner;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.RetryRunner;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.random.ValueServer;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

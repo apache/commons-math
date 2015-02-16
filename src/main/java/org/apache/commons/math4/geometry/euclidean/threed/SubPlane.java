@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Side;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.Side;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
 
 /** This class represents a sub-hyperplane for {@link Plane}.
  * @since 3.0
@@ -81,8 +81,8 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
             p           = q;
             q           = tmp;
         }
-        final org.apache.commons.math3.geometry.euclidean.twod.Line line2D =
-            new org.apache.commons.math3.geometry.euclidean.twod.Line(p, q, tolerance);
+        final org.apache.commons.math4.geometry.euclidean.twod.Line line2D =
+            new org.apache.commons.math4.geometry.euclidean.twod.Line(p, q, tolerance);
 
         // check the side on the 2D plane
         return getRemainingRegion().side(line2D);
@@ -121,9 +121,9 @@ public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
             q           = tmp;
         }
         final SubHyperplane<Euclidean2D> l2DMinus =
-            new org.apache.commons.math3.geometry.euclidean.twod.Line(p, q, tolerance).wholeHyperplane();
+            new org.apache.commons.math4.geometry.euclidean.twod.Line(p, q, tolerance).wholeHyperplane();
         final SubHyperplane<Euclidean2D> l2DPlus =
-            new org.apache.commons.math3.geometry.euclidean.twod.Line(q, p, tolerance).wholeHyperplane();
+            new org.apache.commons.math4.geometry.euclidean.twod.Line(q, p, tolerance).wholeHyperplane();
 
         final BSPTree<Euclidean2D> splitTree = getRemainingRegion().getTree(false).split(l2DMinus);
         final BSPTree<Euclidean2D> plusTree  = getRemainingRegion().isEmpty(splitTree.getPlus()) ?

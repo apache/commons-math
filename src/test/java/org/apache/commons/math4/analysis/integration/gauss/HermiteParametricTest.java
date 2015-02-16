@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +22,9 @@ import java.util.Collection;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.integration.gauss.GaussIntegratorFactory;
+import org.apache.commons.math4.analysis.integration.gauss.HermiteRuleFactory;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Test of the {@link HermiteRuleFactory}.

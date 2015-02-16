@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
 import java.awt.geom.Point2D;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well44497b;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.distribution.NormalDistribution;
+
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well44497b;
 
 /**
  * Factory for generating a cloud of points that approximate a straight line.

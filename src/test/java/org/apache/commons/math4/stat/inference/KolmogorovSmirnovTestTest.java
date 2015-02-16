@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

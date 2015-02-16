@@ -14,12 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.linear;
+package org.apache.commons.math4.optim.linear;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
+
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.optim.linear.LinearConstraint;
+import org.apache.commons.math4.optim.linear.LinearObjectiveFunction;
+import org.apache.commons.math4.optim.linear.Relationship;
+import org.apache.commons.math4.optim.linear.SimplexTableau;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -23,7 +23,7 @@
  *
  * <p>
  * Discrete events detection is based on switching functions. The user provides
- * a simple {@link org.apache.commons.math3.ode.events.EventHandler#g g(t, y)}
+ * a simple {@link org.apache.commons.math4.ode.events.EventHandler#g g(t, y)}
  * function depending on the current time and state. The integrator will monitor
  * the value of the function throughout integration range and will trigger the
  * event when its sign changes. The magnitude of the value is almost irrelevant,
@@ -93,4 +93,4 @@
  *
  *
  */
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;

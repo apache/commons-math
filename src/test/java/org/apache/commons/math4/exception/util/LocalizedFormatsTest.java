@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.exception.util;
+package org.apache.commons.math4.exception.util;
 
 
 import java.text.MessageFormat;
@@ -22,6 +22,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 

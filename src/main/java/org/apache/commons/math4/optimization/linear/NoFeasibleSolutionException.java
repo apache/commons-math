@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.linear;
+package org.apache.commons.math4.optimization.linear;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * This class represents exceptions thrown by optimizers when no solution fulfills the constraints.

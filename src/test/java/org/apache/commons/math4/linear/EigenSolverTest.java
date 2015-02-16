@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.util.Precision;
-
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.linear.DecompositionSolver;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.SingularMatrixException;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Test;
 import org.junit.Assert;
 

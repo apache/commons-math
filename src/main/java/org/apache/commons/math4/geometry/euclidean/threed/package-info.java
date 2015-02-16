@@ -21,4 +21,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;

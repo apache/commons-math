@@ -14,21 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.random.CorrelatedRandomVectorGenerator;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.GaussianRandomGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.stat.correlation.Covariance;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.random.CorrelatedRandomVectorGenerator;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.stat.correlation.Covariance;
+import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.stat.regression.GLSMultipleLinearRegression;
+import org.apache.commons.math4.stat.regression.OLSMultipleLinearRegression;
 
 public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbstractTest {
 

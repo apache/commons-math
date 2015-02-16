@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.stat.StatUtils;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.StableRandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.stat.StatUtils;
+import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 

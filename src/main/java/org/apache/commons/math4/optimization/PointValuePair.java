@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * This class holds a point and the value of an objective function at
  * that point.
  *
  * @see PointVectorValuePair
- * @see org.apache.commons.math3.analysis.MultivariateFunction
+ * @see org.apache.commons.math4.analysis.MultivariateFunction
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 3.0
  */

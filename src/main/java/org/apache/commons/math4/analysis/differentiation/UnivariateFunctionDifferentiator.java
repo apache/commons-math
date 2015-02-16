@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
 
 /** Interface defining the function differentiation operation.
  * @since 3.1

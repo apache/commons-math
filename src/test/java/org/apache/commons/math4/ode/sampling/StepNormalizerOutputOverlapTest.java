@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 /** Step normalizer output tests, for problems where the first and last points
  * are overlap fixed points.

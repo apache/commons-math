@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.enclosing;
+package org.apache.commons.math4.geometry.enclosing;
 
 import java.util.List;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
 
 /** Interface for generating balls based on support points.
  * <p>

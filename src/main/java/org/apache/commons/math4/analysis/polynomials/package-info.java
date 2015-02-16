@@ -20,4 +20,4 @@
  *     univariate real functions.
  *
  */
-package org.apache.commons.math3.analysis.polynomials;
+package org.apache.commons.math4.analysis.polynomials;

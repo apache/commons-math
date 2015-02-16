@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -23,6 +23,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.SingularValueDecomposition;
 import org.junit.Assert;
 import org.junit.Test;
 

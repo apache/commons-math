@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -25,7 +25,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.apache.commons.math3.util.Pair;
+
+import org.apache.commons.math4.analysis.integration.gauss.BaseRuleFactory;
+import org.apache.commons.math4.util.Pair;
 import org.junit.Test;
 import org.junit.Assert;
 

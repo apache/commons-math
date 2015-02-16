@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.special;
+package org.apache.commons.math4.special;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This is a utility class that provides computation methods related to the
@@ -58,7 +58,7 @@ public class Erf {
      *
      * @param x the value.
      * @return the error function erf(x)
-     * @throws org.apache.commons.math3.exception.MaxCountExceededException
+     * @throws org.apache.commons.math4.exception.MaxCountExceededException
      * if the algorithm fails to converge.
      * @see Gamma#regularizedGammaP(double, double, double, int)
      */
@@ -88,7 +88,7 @@ public class Erf {
      *
      * @param x the value
      * @return the complementary error function erfc(x)
-     * @throws org.apache.commons.math3.exception.MaxCountExceededException
+     * @throws org.apache.commons.math4.exception.MaxCountExceededException
      * if the algorithm fails to converge.
      * @see Gamma#regularizedGammaQ(double, double, double, int)
      * @since 2.2

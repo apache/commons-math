@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration.gauss;
+package org.apache.commons.math4.analysis.integration.gauss;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Class that implements the Gaussian rule for

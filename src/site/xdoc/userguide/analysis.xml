@@ -89,13 +89,13 @@
       </subsection>
       <subsection name="4.3 Root-finding" href="rootfinding">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/analysis/solvers/UnivariateSolver.html">
-          UnivariateSolver</a>, <a href="../apidocs/org/apache/commons/math3/analysis/solvers/UnivariateDifferentiableSolver.html">
-          UnivariateDifferentiableSolver</a> and <a href="../apidocs/org/apache/commons/math3/analysis/solvers/PolynomialSolver.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/solvers/UnivariateSolver.html">
+          UnivariateSolver</a>, <a href="../apidocs/org/apache/commons/math4/analysis/solvers/UnivariateDifferentiableSolver.html">
+          UnivariateDifferentiableSolver</a> and <a href="../apidocs/org/apache/commons/math4/analysis/solvers/PolynomialSolver.html">
           PolynomialSolver</a> provide means to find roots of
-          <a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a>,
-          <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiable.html">differentiable univariate real-valued functions</a>,
-          and <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
+          <a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a>,
+          <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateDifferentiable.html">differentiable univariate real-valued functions</a>,
+          and <a href="../apidocs/org/apache/commons/math4/analysis/polynomials/PolynomialFunction.html">polynomial functions</a> respectively.
           A root is the value where the function takes the value 0.  Commons-Math
           includes implementations of the several root-finding algorithms:
         </p>
@@ -103,85 +103,85 @@
             <tr BGCOLOR="#CCCCFF"><td colspan="5"><font size="+1">Root solvers</font></td></tr>
             <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>Function type</td><td>Convergence</td><td>Needs initial bracketing</td><td>Bracket side selection</td></font></tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BisectionSolver.html">Bisection</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/BisectionSolver.html">Bisection</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BrentSolver.html">Brent-Dekker</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/BrentSolver.html">Brent-Dekker</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/BracketingNthOrderBrentSolver.html">bracketing n<sup>th</sup> order Brent</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>variable order, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/IllinoisSolver.html">Illinois Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/LaguerreSolver.html">Laguerre's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">polynomial functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/LaguerreSolver.html">Laguerre's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/polynomials/PolynomialFunction.html">polynomial functions</a></td>
               <td>cubic for simple root, linear for multiple root</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/MullerSolver.html">Muller's Method</a> using bracketing to deal with real-valued functions</td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/MullerSolver.html">Muller's Method</a> using bracketing to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>quadratic close to roots</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/MullerSolver2.html">Muller's Method</a> using modulus to deal with real-valued functions</td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/MullerSolver2.html">Muller's Method</a> using modulus to deal with real-valued functions</td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>quadratic close to root</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">differentiable univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/NewtonRaphsonSolver.html">Newton-Raphson's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateDifferentiableFunction.html">differentiable univariate real-valued functions</a></td>
               <td>quadratic, non-guaranteed</td>
               <td>no</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/PegasusSolver.html">Pegasus Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/PegasusSolver.html">Pegasus Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/RegulaFalsiSolver.html">Regula Falsi (false position) Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/RegulaFalsiSolver.html">Regula Falsi (false position) Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>linear, guaranteed</td>
               <td>yes</td>
               <td>yes</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/RiddersSolver.html">Ridder's Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/RiddersSolver.html">Ridder's Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>super-linear</td>
               <td>yes</td>
               <td>no</td>
             </tr>
             <tr>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/solvers/SecantSolver.html">Secant Method</a></td>
-              <td><a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/solvers/SecantSolver.html">Secant Method</a></td>
+              <td><a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">univariate real-valued functions</a></td>
               <td>super-linear, non-guaranteed</td>
               <td>yes</td>
               <td>no</td>
@@ -237,9 +237,9 @@
           ill-conditioned problems is to be solved, this number can be decreased in order
           to avoid wasting time.
           <a
-          href="../apidocs/org/apache/commons/math3/analysis/solvers/BracketedUnivariateSolver.html">Bracketed
+          href="../apidocs/org/apache/commons/math4/analysis/solvers/BracketedUnivariateSolver.html">Bracketed
           solvers</a> also take an <a
-          href="../apidocs/org/apache/commons/math3/analysis/solvers/AllowedSolution.html">allowed solution</a>
+          href="../apidocs/org/apache/commons/math4/analysis/solvers/AllowedSolution.html">allowed solution</a>
           enum parameter to specify which side of the final convergence interval should be
           selected as the root. It can be <code>ANY_SIDE</code>, <code>LEFT_SIDE</code>, <code>RIGHT_SIDE</code>,
           <code>BELOW_SIDE</code> or <code>ABOVE_SIDE</code>. Left and right are used to specify the root along
@@ -373,13 +373,13 @@ double c = UnivariateSolverUtils.forceSide(100, function,
       </subsection>
       <subsection name="4.4 Interpolation" href="interpolation">
         <p>
-          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/UnivariateInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/UnivariateInterpolator.html">
           UnivariateInterpolator</a> is used to find a univariate real-valued
           function <code>f</code> which for a given set of ordered pairs 
           (<code>x<sub>i</sub></code>,<code>y<sub>i</sub></code>) yields
           <code>f(x<sub>i</sub>)=y<sub>i</sub></code> to the best accuracy possible. The result
           is provided as an object implementing the <a
-          href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">
+          href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">
           UnivariateFunction</a> interface. It can therefore be evaluated at any point,
           including point not belonging to the original set.
           Currently, only an interpolator for generating natural cubic splines and a polynomial
@@ -436,7 +436,7 @@ System.out println("f(" + interpolationX + ") = " + interpolatedY);</source>
         <p>
           <a href="http://en.wikipedia.org/wiki/Hermite_interpolation">Hermite interpolation</a>
           is an interpolation method that can use derivatives in addition to function values at sample points. The <a
-          href="../apidocs/org/apache/commons/math3/analysis/interpolation/HermiteInterpolator.html">HermiteInterpolator</a>
+          href="../apidocs/org/apache/commons/math4/analysis/interpolation/HermiteInterpolator.html">HermiteInterpolator</a>
           class implements this method for vector-valued functions. The sampling points can have any spacing (there are
           no requirements for a regular grid) and some points may provide derivatives while others don't provide them
           (or provide derivatives to a smaller order). Points are added one at a time, as shown in the following example:
@@ -455,13 +455,13 @@ System.out.println("derivative at x = 0.5: " + interpolator.derivative(0.5)[0]);
 // should print "interpolation polynomial: 1 + 2 x + 4 x^2 - 4 x^3 + x^4"
 System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[0]);</source>
         <p>
-          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BivariateGridInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/BivariateGridInterpolator.html">
           BivariateGridInterpolator</a> is used to find a bivariate real-valued
           function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>f<sub>ij</sub></code>)
           yields <code>f(x<sub>i</sub>,y<sub>j</sub>)=f<sub>ij</sub></code> to the best accuracy
           possible. The result is provided as an object implementing the
-          <a href="../apidocs/org/apache/commons/math3/analysis/BivariateFunction.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/BivariateFunction.html">
           BivariateFunction</a> interface. It can therefore be evaluated at any point,
           including a point not belonging to the original set.
           The arrays <code>x<sub>i</sub></code> and <code>y<sub>j</sub></code> must be
@@ -473,25 +473,25 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
           are computed from the function values sampled on a grid, as well as the values of the
           partial derivatives of the function at those grid points.
           From two-dimensional data sampled on a grid, the
-          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BicubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/BicubicSplineInterpolator.html">
           BicubicSplineInterpolator</a> computes a
-          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/BicubicSplineInterpolatingFunction.html">
           bicubic interpolating function</a>.
           Prior to computing an interpolating function, the
-          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/SmoothingPolynomialBicubicSplineInterpolator.html">
           SmoothingPolynomialBicubicSplineInterpolator</a> class performs smoothing of
           the data by computing the polynomial that best fits each of the one-dimensional
           curves along each of the coordinate axes.
         </p>
         <p>
-          A <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TrivariateGridInterpolator.html">
+          A <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/TrivariateGridInterpolator.html">
           TrivariateGridInterpolator</a> is used to find a trivariate real-valued
           function <code>f</code> which for a given set of tuples
           (<code>x<sub>i</sub></code>,<code>y<sub>j</sub></code>,<code>z<sub>k</sub></code>,
           <code>f<sub>ijk</sub></code>)
           yields <code>f(x<sub>i</sub>,y<sub>j</sub>,z<sub>k</sub>)=f<sub>ijk</sub></code>
           to the best accuracy possible. The result is provided as an object implementing the
-          <a href="../apidocs/org/apache/commons/math3/analysis/TrivariateFunction.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/TrivariateFunction.html">
           TrivariateFunction</a> interface. It can therefore be evaluated at any point,
           including a point not belonging to the original set.
           The arrays <code>x<sub>i</sub></code>, <code>y<sub>j</sub></code> and
@@ -504,41 +504,41 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
           are computed from the function values sampled on a grid, as well as the values of the
           partial derivatives of the function at those grid points.
           From three-dimensional data sampled on a grid, the
-          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TricubicSplineInterpolator.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/TricubicSplineInterpolator.html">
           TricubicSplineInterpolator</a> computes a
-          <a href="../apidocs/org/apache/commons/math3/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/interpolation/TricubicSplineInterpolatingFunction.html">
           tricubic interpolating function</a>.
         </p>
       </subsection>
       <subsection name="4.5 Integration" href="integration">
         <p>
-          A <a href="../apidocs/org/apache/commons/math3/analysis/integration/UnivariateIntegrator.html">
+          A <a href="../apidocs/org/apache/commons/math4/analysis/integration/UnivariateIntegrator.html">
           UnivariateIntegrator</a> provides the means to numerically integrate
-          <a href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">
           univariate real-valued functions</a>.
           Commons-Math includes implementations of the following integration algorithms: <ul>
-          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/RombergIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math4/analysis/integration/RombergIntegrator.html">
           Romberg's method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/SimpsonIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math4/analysis/integration/SimpsonIntegrator.html">
           Simpson's method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/TrapezoidIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math4/analysis/integration/TrapezoidIntegrator.html">
           trapezoid method</a></li>
-          <li><a href="../apidocs/org/apache/commons/math3/analysis/integration/LegendreGaussIntegrator.html">
+          <li><a href="../apidocs/org/apache/commons/math4/analysis/integration/LegendreGaussIntegrator.html">
           Legendre-Gauss method</a></li>
           </ul>      
         </p>
       </subsection>
       <subsection name="4.6 Polynomials" href="polynomials">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/package-summary.html">
-          org.apache.commons.math3.analysis.polynomials</a> package provides real
+          The <a href="../apidocs/org/apache/commons/math4/analysis/polynomials/package-summary.html">
+          org.apache.commons.math4.analysis.polynomials</a> package provides real
           coefficients polynomials.
         </p>
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.html">
+          The <a href="../apidocs/org/apache/commons/math4/analysis/polynomials/PolynomialFunction.html">
           PolynomialFunction</a> class is the most general one, using traditional
           coefficients arrays. The
-          <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialsUtils.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/polynomials/PolynomialsUtils.html">
           PolynomialsUtils</a> utility class provides static factory methods to build
           Chebyshev, Hermite, Jacobi, Laguerre and Legendre polynomials. Coefficients are
           computed using exact fractions so these factory methods can build polynomials
@@ -547,21 +547,21 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
       </subsection>
       <subsection name="4.7 Differentiation" href="differentiation">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/package-summary.html">
-          org.apache.commons.math3.analysis.differentiation</a> package provides a general-purpose
+          The <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/package-summary.html">
+          org.apache.commons.math4.analysis.differentiation</a> package provides a general-purpose
           differentiation framework.
         </p>
         <p>
-          The core class is <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          The core class is <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> which holds the value and the differentials of a function. This class
           handles some arbitrary number of free parameters and arbitrary derivation order. It is used
           both as the input and the output type for the <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateDifferentiableFunction.html">
           UnivariateDifferentiableFunction</a> interface. Any differentiable function should implement this
           interface.
         </p>
         <p>
-          The main idea behind the <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          The main idea behind the <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> class is that it can be used almost as a number (i.e. it can be added,
           multiplied, its square root can be extracted or its cosine computed... However, in addition to
           computed the value itself when doing these computations, the partial derivatives are also computed
@@ -578,7 +578,7 @@ System.out.println("interpolation polynomial: " + interpolator.getPolynomials()[
         <p>
           The workflow of computation of a derivatives of an expression <code>y=f(x)</code> is the following
           one. First we configure an input parameter <code>x</code> of type <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> so it will drive the function to compute all derivatives up to order 3 for
           example. Then we compute <code>y=f(x)</code> normally by passing this parameter to the f function.At
           the end, we extract from <code>y</code> the value and the derivatives we want. As we have specified
@@ -668,28 +668,28 @@ System.out.println("d2g/dxdy = " + g.getPartialDerivative(1, 1);
 System.out.println("d2g/dy2  = " + g.getPartialDerivative(0, 2);</source>
        <p>
           There are several ways a user can create an implementation of the <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateDifferentiableFunction.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateDifferentiableFunction.html">
           UnivariateDifferentiableFunction</a> interface. The first method is to simply write it directly using
-          the appropriate methods from <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          the appropriate methods from <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> to compute addition, subtraction, sine, cosine... This is often quite
           straigthforward and there is no need to remember the rules for differentiation: the user code only
           represent the function itself, the differentials will be computed automatically under the hood. The
           second method is to write a classical <a
-          href="../apidocs/org/apache/commons/math3/analysis/UnivariateFunction.html">UnivariateFunction</a> and to
+          href="../apidocs/org/apache/commons/math4/analysis/UnivariateFunction.html">UnivariateFunction</a> and to
           pass it to an existing implementation of the <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateFunctionDifferentiator.html">
           UnivariateFunctionDifferentiator</a> interface to retrieve a differentiated version of the same function.
           The first method is more suited to small functions for which user already control all the underlying code.
           The second method is more suited to either large functions that would be cumbersome to write using the
-          <a href="../apidocs/org/apache/commons/math3/analysis/differentiation/DerivativeStructure.html">
+          <a href="../apidocs/org/apache/commons/math4/analysis/differentiation/DerivativeStructure.html">
           DerivativeStructure</a> API, or functions for which user does not have control to the full underlying code
           (for example functions that call external libraries).
         </p>
         <p>
           Apache Commons Math provides one implementation of the <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateFunctionDifferentiator.html">
           UnivariateFunctionDifferentiator</a> interface: <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/FiniteDifferencesDifferentiator.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/FiniteDifferencesDifferentiator.html">
           FiniteDifferencesDifferentiator</a>. This class creates a wrapper that will call the user-provided function
           on a grid sample and will use finite differences to compute the derivatives. It takes care of boundaries
           if the variable is not defined on the whole real line. It is possible to use more points than strictly
@@ -700,7 +700,7 @@ System.out.println("d2g/dy2  = " + g.getPartialDerivative(0, 2);</source>
         </p>
         <p>
           Another implementation of the <a
-          href="../apidocs/org/apache/commons/math3/analysis/differentiation/UnivariateFunctionDifferentiator.html">
+          href="../apidocs/org/apache/commons/math4/analysis/differentiation/UnivariateFunctionDifferentiator.html">
           UnivariateFunctionDifferentiator</a> interface is under development in the related project
           <a href="http://commons.apache.org/sandbox/nabla/">Apache Commons Nabla</a>. This implementation uses
           automatic code analysis and generation at binary level. However, at time of writing

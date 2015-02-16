@@ -17,4 +17,4 @@
 /**
  * Common classes used throughout the commons-math library.
  */
-package org.apache.commons.math3;
+package org.apache.commons.math4;

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateFunction;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateFunction;
 
 /**
  * This interface represents an optimization algorithm for

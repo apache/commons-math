@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.FirstOrderIntegrator;
-import org.apache.commons.math3.ode.TestProblem1;
-import org.apache.commons.math3.ode.TestProblem5;
-import org.apache.commons.math3.ode.TestProblem6;
-import org.apache.commons.math3.ode.TestProblemHandler;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.FirstOrderIntegrator;
+import org.apache.commons.math4.ode.TestProblem1;
+import org.apache.commons.math4.ode.TestProblem5;
+import org.apache.commons.math4.ode.TestProblem6;
+import org.apache.commons.math4.ode.TestProblemHandler;
+import org.apache.commons.math4.ode.nonstiff.AdamsMoultonIntegrator;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

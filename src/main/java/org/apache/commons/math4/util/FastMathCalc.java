@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.io.PrintStream;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /** Class used to compute the classical functions tables.
  * @since 3.0

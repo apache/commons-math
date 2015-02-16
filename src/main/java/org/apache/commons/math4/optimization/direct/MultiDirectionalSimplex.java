@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 import java.util.Comparator;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.optimization.PointValuePair;
 
 /**
  * This class implements the multi-directional direct search method.
@@ -138,9 +138,9 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * {@link AbstractSimplex#AbstractSimplex(double[][])}.
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if the reference simplex does not contain at least one point.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if there is a dimension mismatch in the reference simplex.
      */
     public MultiDirectionalSimplex(final double[][] referenceSimplex,
@@ -189,7 +189,7 @@ public class MultiDirectionalSimplex extends AbstractSimplex {
      * @param comparator Comparator to use to sort simplex vertices from best
      * to poorest.
      * @return the best point in the transformed simplex.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      */
     private PointValuePair evaluateNewSimplex(final MultivariateFunction evaluationFunction,

@@ -15,23 +15,25 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
 
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.SimpleBounds;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math3.optim.nonlinear.scalar.LeastSquaresConverter;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.SimpleBounds;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.nonlinear.scalar.LeastSquaresConverter;
+import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.NelderMeadSimplex;
+import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

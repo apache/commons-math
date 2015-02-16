@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BSPTreeVisitor;
-import org.apache.commons.math3.geometry.partitioning.BoundaryAttribute;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.partitioning.AbstractSubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.BSPTreeVisitor;
+import org.apache.commons.math4.geometry.partitioning.BoundaryAttribute;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.util.FastMath;
 
 /** Extractor for {@link PolygonsSet polyhedrons sets} outlines.
  * <p>This class extracts the 2D outlines from {{@link PolygonsSet
@@ -213,16 +213,16 @@ public class OutlineExtractor {
                         final Vector3D current3D = plane.toSpace((Point<Euclidean2D>) loop[current]);
                         final Vector2D  cPoint    = new Vector2D(current3D.dotProduct(u),
                                                                  current3D.dotProduct(v));
-                        final org.apache.commons.math3.geometry.euclidean.twod.Line line =
-                            new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, cPoint, tolerance);
+                        final org.apache.commons.math4.geometry.euclidean.twod.Line line =
+                            new org.apache.commons.math4.geometry.euclidean.twod.Line(pPoint, cPoint, tolerance);
                         SubHyperplane<Euclidean2D> edge = line.wholeHyperplane();
 
                         if (closed || (previous != 1)) {
                             // the previous point is a real vertex
                             // it defines one bounding point of the edge
                             final double angle = line.getAngle() + 0.5 * FastMath.PI;
-                            final org.apache.commons.math3.geometry.euclidean.twod.Line l =
-                                new org.apache.commons.math3.geometry.euclidean.twod.Line(pPoint, angle, tolerance);
+                            final org.apache.commons.math4.geometry.euclidean.twod.Line l =
+                                new org.apache.commons.math4.geometry.euclidean.twod.Line(pPoint, angle, tolerance);
                             edge = edge.split(l).getPlus();
                         }
 
@@ -230,8 +230,8 @@ public class OutlineExtractor {
                             // the current point is a real vertex
                             // it defines one bounding point of the edge
                             final double angle = line.getAngle() + 0.5 * FastMath.PI;
-                            final org.apache.commons.math3.geometry.euclidean.twod.Line l =
-                                new org.apache.commons.math3.geometry.euclidean.twod.Line(cPoint, angle, tolerance);
+                            final org.apache.commons.math4.geometry.euclidean.twod.Line l =
+                                new org.apache.commons.math4.geometry.euclidean.twod.Line(cPoint, angle, tolerance);
                             edge = edge.split(l).getMinus();
                         }
 

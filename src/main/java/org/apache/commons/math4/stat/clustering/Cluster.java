@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.List;
  * @param <T> the type of points that can be clustered
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
- * use {@link org.apache.commons.math3.ml.clustering.Cluster} instead
+ * use {@link org.apache.commons.math4.ml.clustering.Cluster} instead
  */
 @Deprecated
 public class Cluster<T extends Clusterable<T>> implements Serializable {

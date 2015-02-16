@@ -19,19 +19,19 @@
  * <p>
  *   This package holds the main interfaces and basic building block classes
  *   dealing with differentiation.
- *   The core class is {@link org.apache.commons.math3.analysis.differentiation.DerivativeStructure
+ *   The core class is {@link org.apache.commons.math4.analysis.differentiation.DerivativeStructure
  *   DerivativeStructure} which holds the value and the differentials of a function. This class
  *   handles some arbitrary number of free parameters and arbitrary differentiation order. It is used
  *   both as the input and the output type for the {@link
- *   org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
+ *   org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction
  *   UnivariateDifferentiableFunction} interface. Any differentiable function should implement this
  *   interface.
  * </p>
  * <p>
- *   The {@link org.apache.commons.math3.analysis.differentiation.UnivariateFunctionDifferentiator
+ *   The {@link org.apache.commons.math4.analysis.differentiation.UnivariateFunctionDifferentiator
  *   UnivariateFunctionDifferentiator} interface defines a way to differentiate a simple {@link
- *   org.apache.commons.math3.analysis.UnivariateFunction UnivariateFunction} and get a {@link
- *   org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
+ *   org.apache.commons.math4.analysis.UnivariateFunction UnivariateFunction} and get a {@link
+ *   org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction
  *   UnivariateDifferentiableFunction}.
  * </p>
  * <p>
@@ -39,4 +39,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;

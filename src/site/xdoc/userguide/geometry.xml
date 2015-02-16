@@ -42,11 +42,11 @@
           <table border="1" align="center">
           <tr BGCOLOR="#CCCCFF"><td colspan="2"><font size="+1">Regions</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Space</td><td>Region</td></font></tr>
-          <tr><td>Euclidean 1D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.html">IntervalsSet</a></td></tr>
-          <tr><td>Euclidean 2D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.html">PolygonsSet</a></td></tr>
-          <tr><td>Euclidean 3D</td><td><a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.html">PolyhedronsSet</a></td></tr>
-          <tr><td>1-Sphere</td><td><a href="../apidocs/org/apache/commons/math3/geometry/spherical/oned/ArcsSet.html">ArcsSet</a></td></tr>
-          <tr><td>2-Sphere</td><td><a href="../apidocs/org/apache/commons/math3/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a></td></tr>
+          <tr><td>Euclidean 1D</td><td><a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/IntervalsSet.html">IntervalsSet</a></td></tr>
+          <tr><td>Euclidean 2D</td><td><a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/PolygonsSet.html">PolygonsSet</a></td></tr>
+          <tr><td>Euclidean 3D</td><td><a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.html">PolyhedronsSet</a></td></tr>
+          <tr><td>1-Sphere</td><td><a href="../apidocs/org/apache/commons/math4/geometry/spherical/oned/ArcsSet.html">ArcsSet</a></td></tr>
+          <tr><td>2-Sphere</td><td><a href="../apidocs/org/apache/commons/math4/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a></td></tr>
           </table>
         </p>
         <p>
@@ -75,9 +75,9 @@
 
       <subsection name="11.2 Euclidean spaces" href="euclidean">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/Vector1D.html">
-          Vector1D</a>, <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/Vector2D.html">
-          Vector2D</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.html">
+          <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/Vector1D.html">
+          Vector1D</a>, <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/Vector2D.html">
+          Vector2D</a> and <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Vector3D.html">
           Vector3D</a> provide simple vector types. One important feature is
           that instances of these classes are guaranteed
           to be immutable, this greatly simplifies modelling dynamical systems
@@ -99,14 +99,14 @@
           is of course also implemented.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/oned/Vector1DFormat.html">
-          Vector1DFormat</a>, <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/twod/Vector2DFormat.html">
-          Vector2DFormat</a> and <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3DFormat.html">
+          <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/oned/Vector1DFormat.html">
+          Vector1DFormat</a>, <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/twod/Vector2DFormat.html">
+          Vector2DFormat</a> and <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Vector3DFormat.html">
           Vector3DFormat</a> are specialized classes for formatting output or parsing
           input with text representation of vectors.
         </p>
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/euclidean/threed/Rotation.html">
+          <a href="../apidocs/org/apache/commons/math4/geometry/euclidean/threed/Rotation.html">
           Rotation</a> represents 3D rotations.
           Rotation instances are also immutable objects, as Vector3D instances.
         </p>
@@ -185,13 +185,13 @@
           a two-dimensional disc) and the 2-sphere (i.e. the two dimensional sphere surface
           corresponding to the boundary of a three-dimensional ball). The main classes in
           this package corresopnd to the region explained above, i.e.
-          <a href="../apidocs/org/apache/commons/math3/geometry/spherical/oned/ArcsSet.html">ArcsSet</a>
-          and <a href="../apidocs/org/apache/commons/math3/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a>.
+          <a href="../apidocs/org/apache/commons/math4/geometry/spherical/oned/ArcsSet.html">ArcsSet</a>
+          and <a href="../apidocs/org/apache/commons/math4/geometry/spherical/twod/SphericalPolygonsSet.html">SphericalPolygonsSet</a>.
         </p>
       </subsection>
       <subsection name="11.4 Binary Space Partitioning" href="partitioning">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/geometry/partitioning/BSPTree.html">
+          <a href="../apidocs/org/apache/commons/math4/geometry/partitioning/BSPTree.html">
           BSP trees</a> are an efficient way to represent space partitions and
           to associate attributes with each cell. Each node in a BSP tree
           represents a convex region which is partitioned in two convex

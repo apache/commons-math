@@ -17,4 +17,4 @@
 /**
  * Common distance measures.
  */
-package org.apache.commons.math3.ml.distance;
+package org.apache.commons.math4.ml.distance;

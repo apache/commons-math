@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
-import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math4.util.Incrementor;
 
 /**
  * Common settings for all optimization problems. Includes divergence and convergence

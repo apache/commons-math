@@ -15,23 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.Target;
-import org.apache.commons.math3.optimization.Weight;
-import org.apache.commons.math3.optimization.BaseMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optimization.BaseMultivariateVectorOptimizer;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.InitialGuess;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
+import org.apache.commons.math4.optimization.SimpleVectorValueChecker;
+import org.apache.commons.math4.optimization.Target;
+import org.apache.commons.math4.optimization.Weight;
+import org.apache.commons.math4.util.Incrementor;
 
 /**
  * Base class for implementing optimizers for multivariate scalar functions.
@@ -165,11 +165,11 @@ public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends Multi
      * @return the point/value pair giving the optimal value for objective
      * function.
      * @param maxEval Maximum number of function evaluations.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * @throws org.apache.commons.math4.exception.NullArgumentException if
      * any argument is {@code null}.
      * @deprecated As of 3.1. Please use
      * {@link #optimizeInternal(int,MultivariateVectorFunction,OptimizationData[])}

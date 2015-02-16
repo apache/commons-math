@@ -15,24 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.function.Add;
-import org.apache.commons.math3.analysis.function.Multiply;
-import org.apache.commons.math3.analysis.function.Divide;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Add;
+import org.apache.commons.math4.analysis.function.Divide;
+import org.apache.commons.math4.analysis.function.Multiply;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Class defining a real-valued vector with basic algebraic operations.

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
 
 /**
  *  Reporting interface for basic multivariate statistics.

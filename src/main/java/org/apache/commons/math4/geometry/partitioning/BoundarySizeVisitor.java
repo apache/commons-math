@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;
 
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.geometry.Space;
 
 /** Visitor computing the boundary size.
  * @param <S> Type of the space.

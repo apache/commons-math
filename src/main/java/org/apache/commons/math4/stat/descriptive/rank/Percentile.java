@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.rank;
+package org.apache.commons.math4.stat.descriptive.rank;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.BitSet;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic;
-import org.apache.commons.math3.stat.ranking.NaNStrategy;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.KthSelector;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.MedianOf3PivotingStrategy;
-import org.apache.commons.math3.util.PivotingStrategyInterface;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.KthSelector;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.MedianOf3PivotingStrategy;
+import org.apache.commons.math4.util.PivotingStrategyInterface;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Provides percentile computation.

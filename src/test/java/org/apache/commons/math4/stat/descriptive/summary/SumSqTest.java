@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.summary;
+package org.apache.commons.math4.stat.descriptive.summary;
 
-import org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic;
-import org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
-import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatisticAbstractTest;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
 import org.junit.Assert;
 import org.junit.Test;
 

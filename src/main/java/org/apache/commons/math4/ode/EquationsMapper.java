@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * Class mapping the part of a complete state or derivative that pertains

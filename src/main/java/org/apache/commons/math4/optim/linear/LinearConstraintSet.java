@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.linear;
+package org.apache.commons.math4.optim.linear;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math4.optim.OptimizationData;
 
 /**
  * Class that represents a set of {@link LinearConstraint linear constraints}.

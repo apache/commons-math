@@ -15,17 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.OptimizationData;
+
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.random.RandomGenerator;
 
 /**
  * Special implementation of the {@link UnivariateOptimizer} interface

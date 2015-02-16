@@ -98,7 +98,7 @@ and mathematical algorithms such as the following:
 </p>
 
 <p>The proposed package name for the new component is
-<code>org.apache.commons.math3</code>.</p>
+<code>org.apache.commons.math</code>.</p>
 
     </subsection>
     <subsection name='(3)  Required Jakarta-Commons Resources'>

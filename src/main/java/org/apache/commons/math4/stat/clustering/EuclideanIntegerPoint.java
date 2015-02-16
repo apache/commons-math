@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with integer coordinates.
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
- * use {@link org.apache.commons.math3.ml.clustering.DoublePoint} instead
+ * use {@link org.apache.commons.math4.ml.clustering.DoublePoint} instead
  */
 @Deprecated
 public class EuclideanIntegerPoint implements Clusterable<EuclideanIntegerPoint>, Serializable {

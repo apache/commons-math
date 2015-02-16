@@ -41,4 +41,4 @@
  *        </code>
  *
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3;
+package org.apache.commons.math4;
 
 import java.lang.annotation.*;
 

@@ -32,8 +32,8 @@
       </subsection>
       <subsection name="9.2 Fraction Numbers" href="fraction">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/fraction/Fraction.html">
-          Fraction</a> and <a href="../apidocs/org/apache/commons/math3/fraction/BigFraction.html">
+          <a href="../apidocs/org/apache/commons/math4/fraction/Fraction.html">
+          Fraction</a> and <a href="../apidocs/org/apache/commons/math4/fraction/BigFraction.html">
           BigFraction</a> provide fraction number type that forms the basis for
           the fraction functionality found in Commons-Math. The former one can be
           used for fractions whose numerators and denominators are small enough
@@ -70,7 +70,7 @@ Fraction answer = lhs.add(rhs);     // add two fractions
       <subsection name="9.3 Fraction Formatting and Parsing" href="formatting">
         <p>
           <code>Fraction</code> instances can be converted to and from strings
-          using the<a href="../apidocs/org/apache/commons/math3/fraction/FractionFormat.html">
+          using the<a href="../apidocs/org/apache/commons/math4/fraction/FractionFormat.html">
           FractionFormat</a> class. <code>FractionFormat</code> is a
           <code>java.text.Format</code> extension and, as such, is used like other
           formatting objects (e.g. <code>java.text.SimpleDateFormat</code>):

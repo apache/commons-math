@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.stat.regression.SimpleRegression;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.stat.regression.SimpleRegression;
 
 /**
  * Class that models a straight line defined as {@code y = a x + b}.

@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
 
 /**
  * This class implements a step interpolator for second order
@@ -53,7 +53,7 @@ class MidpointStepInterpolator
   /** Simple constructor.
    * This constructor builds an instance that is not usable yet, the
    * {@link
-   * org.apache.commons.math3.ode.sampling.AbstractStepInterpolator#reinitialize}
+   * org.apache.commons.math4.ode.sampling.AbstractStepInterpolator#reinitialize}
    * method should be called before using the instance in order to
    * initialize the internal arrays. This constructor is used only
    * in order to delay the initialization in some cases. The {@link

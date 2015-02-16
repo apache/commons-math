@@ -15,20 +15,26 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.UnivariateMatrixFunction;
-import org.apache.commons.math3.analysis.UnivariateVectorFunction;
-import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.QuinticFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateMatrixFunction;
+import org.apache.commons.math4.analysis.UnivariateVectorFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.FiniteDifferencesDifferentiator;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableMatrixFunction;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.analysis.differentiation.UnivariateFunctionDifferentiator;
+import org.apache.commons.math4.analysis.function.Gaussian;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

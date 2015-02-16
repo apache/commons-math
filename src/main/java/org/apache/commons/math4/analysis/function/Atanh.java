@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.function;
+package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Hyperbolic arc-tangent function.

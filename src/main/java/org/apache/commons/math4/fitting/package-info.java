@@ -23,4 +23,4 @@
  * were the objective function is the squared sum of the residuals
  * \( f(x_i) - y_i \) for observed points \( (x_i, y_i) \).
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;

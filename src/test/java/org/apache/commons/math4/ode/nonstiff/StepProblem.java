@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.ode.events.EventHandler;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.events.EventHandler;
 
 
 public class StepProblem

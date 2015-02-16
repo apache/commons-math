@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 
 import java.util.ArrayList;
@@ -24,7 +24,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.stat.clustering.Cluster;
+import org.apache.commons.math4.stat.clustering.Clusterable;
+import org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint;
+import org.apache.commons.math4.stat.clustering.KMeansPlusPlusClusterer;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -14,27 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import org.apache.commons.math3.Retry;
-import org.apache.commons.math3.RetryRunner;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.InitialGuess;
-import org.apache.commons.math3.optim.SimpleBounds;
-import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math3.optim.MaxEval;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.Retry;
+import org.apache.commons.math4.RetryRunner;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.optim.InitialGuess;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.SimpleBounds;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizer;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

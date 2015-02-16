@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /**
  * Stops after a fixed amount of time has elapsed.

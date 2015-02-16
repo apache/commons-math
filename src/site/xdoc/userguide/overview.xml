@@ -73,22 +73,22 @@
     <p>
     Commons Math is divided into sixteen subpackages, based on functionality provided.
     <ul>
-      <li><a href="stat.html">org.apache.commons.math3.stat</a> - statistics, statistical tests</li>
-      <li><a href="analysis.html">org.apache.commons.math3.analysis</a> - rootfinding, integration, interpolation, polynomials</li>
-      <li><a href="random.html">org.apache.commons.math3.random</a> - random numbers, strings and data generation</li>
-      <li><a href="special.html">org.apache.commons.math3.special</a> - special functions (Gamma, Beta) </li>
-      <li><a href="linear.html">org.apache.commons.math3.linear</a> - matrices, solving linear systems </li>
-      <li><a href="utilities.html">org.apache.commons.math3.util</a> - common math/stat functions extending java.lang.Math </li>
-      <li><a href="complex.html">org.apache.commons.math3.complex</a> - complex numbers</li>
-      <li><a href="distribution.html">org.apache.commons.math3.distribution</a> - probability distributions</li>
-      <li><a href="fraction.html">org.apache.commons.math3.fraction</a> - rational numbers</li>
-      <li><a href="transform.html">org.apache.commons.math3.transform</a> - transform methods (Fast Fourier)</li>
-      <li><a href="geometry.html">org.apache.commons.math3.geometry</a> - geometry (Euclidean spaces and Binary Space Partitioning)</li>
-      <li><a href="optimization.html">org.apache.commons.math3.optim</a> - function maximization or minimization</li>
-      <li><a href="ode.html">org.apache.commons.math3.ode</a> - Ordinary Differential Equations integration</li>
-      <li><a href="genetics.html">org.apache.commons.math3.genetics</a> - Genetic Algorithms</li>
-      <li><a href="fitting.html">org.apache.commons.math3.fitting</a> - Curve Fitting</li>
-      <li><a href="ml.html">org.apache.commons.math3.ml</a> - Machine Learning</li>
+      <li><a href="stat.html">org.apache.commons.math4.stat</a> - statistics, statistical tests</li>
+      <li><a href="analysis.html">org.apache.commons.math4.analysis</a> - rootfinding, integration, interpolation, polynomials</li>
+      <li><a href="random.html">org.apache.commons.math4.random</a> - random numbers, strings and data generation</li>
+      <li><a href="special.html">org.apache.commons.math4.special</a> - special functions (Gamma, Beta) </li>
+      <li><a href="linear.html">org.apache.commons.math4.linear</a> - matrices, solving linear systems </li>
+      <li><a href="utilities.html">org.apache.commons.math4.util</a> - common math/stat functions extending java.lang.Math </li>
+      <li><a href="complex.html">org.apache.commons.math4.complex</a> - complex numbers</li>
+      <li><a href="distribution.html">org.apache.commons.math4.distribution</a> - probability distributions</li>
+      <li><a href="fraction.html">org.apache.commons.math4.fraction</a> - rational numbers</li>
+      <li><a href="transform.html">org.apache.commons.math4.transform</a> - transform methods (Fast Fourier)</li>
+      <li><a href="geometry.html">org.apache.commons.math4.geometry</a> - geometry (Euclidean spaces and Binary Space Partitioning)</li>
+      <li><a href="optimization.html">org.apache.commons.math4.optim</a> - function maximization or minimization</li>
+      <li><a href="ode.html">org.apache.commons.math4.ode</a> - Ordinary Differential Equations integration</li>
+      <li><a href="genetics.html">org.apache.commons.math4.genetics</a> - Genetic Algorithms</li>
+      <li><a href="fitting.html">org.apache.commons.math4.fitting</a> - Curve Fitting</li>
+      <li><a href="ml.html">org.apache.commons.math4.ml</a> - Machine Learning</li>
     </ul>
     Package javadocs are <a href="../apidocs/index.html">here</a>
     </p>
@@ -106,9 +106,9 @@
   <p>
     When the actual parameters provided to a method or the internal state of an object 
     make a computation meaningless, a
-    <a href="../apidocs/org/apache/commons/math3/exception/MathIllegalArgumentException.html">
+    <a href="../apidocs/org/apache/commons/math4/exception/MathIllegalArgumentException.html">
       MathIllegalArgumentException</a> or
-    <a href="../apidocs/org/apache/commons/math3/exception/MathIllegalStateException.html">
+    <a href="../apidocs/org/apache/commons/math4/exception/MathIllegalStateException.html">
     MathIllegalStateException</a> may be thrown. Exact conditions under which runtime
     exceptions (and any other exceptions) are thrown are specified in the javadoc method
     comments.
@@ -120,7 +120,7 @@
   <p>
     As of version 2.2, the policy for dealing with null references is as
     follows: When an argument is unexpectedly null, a
-    <a href="../apidocs/org/apache/commons/math3/exception/NullArgumentException.html">
+    <a href="../apidocs/org/apache/commons/math4/exception/NullArgumentException.html">
     NullArgumentException</a> is raised to signal the illegal argument. Note that this
     class does not inherit from the standard <code>NullPointerException</code> but is a subclass
     of <code>MathIllegalArgumentException</code>.

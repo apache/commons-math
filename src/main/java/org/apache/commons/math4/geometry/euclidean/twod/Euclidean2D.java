@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
 
 /**
  * This class implements a two-dimensional space.

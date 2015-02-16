@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.twod;
+package org.apache.commons.math4.ml.neuralnet.twod;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.SquareNeighbourhood;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.MathInternalError;
+
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.Network;
+import org.apache.commons.math4.ml.neuralnet.Neuron;
+import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
 
 /**
  * Neural network with the topology of a two-dimensional surface.
@@ -37,7 +38,7 @@ import org.apache.commons.math3.exception.MathInternalError;
  * <a href="http://en.wikipedia.org/wiki/Kohonen">
  *  Self Organizing Feature Map</a>.
  *
- * @see org.apache.commons.math3.ml.neuralnet.sofm
+ * @see org.apache.commons.math4.ml.neuralnet.sofm
  * @since 3.3
  */
 public class NeuronSquareMesh2D implements Serializable {

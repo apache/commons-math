@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
-import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * This class wraps a {@code double} value in an object. It is similar to the

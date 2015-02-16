@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet;
+package org.apache.commons.math4.ml.neuralnet;
 
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.exception.DimensionMismatchException;
+
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.util.Precision;
 
 
 /**

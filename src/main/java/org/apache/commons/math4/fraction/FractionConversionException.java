@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.fraction;
+package org.apache.commons.math4.fraction;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * Error thrown when a double value cannot be converted to a fraction

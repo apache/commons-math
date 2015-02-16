@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.polynomials;
+package org.apache.commons.math4.analysis.polynomials;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Implements the representation of a real polynomial function in
@@ -90,7 +90,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @return the function value.
      * @throws DimensionMismatchException if {@code x} and {@code y} have
      * different lengths.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
+     * @throws org.apache.commons.math4.exception.NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      * @throws NumberIsTooSmallException if the size of {@code x} is less
      * than 2.
@@ -198,7 +198,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @return the function value.
      * @throws DimensionMismatchException if {@code x} and {@code y} have
      * different lengths.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
+     * @throws org.apache.commons.math4.exception.NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order.
      * @throws NumberIsTooSmallException if the size of {@code x} is less
      * than 2.
@@ -304,7 +304,7 @@ public class PolynomialFunctionLagrangeForm implements UnivariateFunction {
      * @param abort Whether to throw an exception if {@code x} is not sorted.
      * @throws DimensionMismatchException if the array lengths are different.
      * @throws NumberIsTooSmallException if the number of points is less than 2.
-     * @throws org.apache.commons.math3.exception.NonMonotonicSequenceException
+     * @throws org.apache.commons.math4.exception.NonMonotonicSequenceException
      * if {@code x} is not sorted in strictly increasing order and {@code abort}
      * is {@code true}.
      * @return {@code false} if the {@code x} is not sorted in increasing order,

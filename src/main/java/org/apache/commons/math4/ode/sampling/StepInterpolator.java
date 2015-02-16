@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 import java.io.Externalizable;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
 
 /** This interface represents an interpolator over the last step
  * during an ODE integration.
@@ -39,8 +39,8 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * {@link #copy()} method.
  * </p>
  *
- * @see org.apache.commons.math3.ode.FirstOrderIntegrator
- * @see org.apache.commons.math3.ode.SecondOrderIntegrator
+ * @see org.apache.commons.math4.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math4.ode.SecondOrderIntegrator
  * @see StepHandler
  * @since 1.2
  */
@@ -125,8 +125,8 @@ public interface StepInterpolator extends Externalizable {
    * to be preserved across several calls to the associated
    * {@link #setInterpolatedTime(double)} method.</p>
    * @param index index of the secondary set, as returned by {@link
-   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
-   * org.apache.commons.math3.ode.SecondaryEquations)
+   * org.apache.commons.math4.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math4.ode.SecondaryEquations)
    * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
    * @return interpolated secondary state at the current interpolation date
    * @see #getInterpolatedState()
@@ -143,8 +143,8 @@ public interface StepInterpolator extends Externalizable {
    * it should not be modified and it should be copied if it needs
    * to be preserved across several calls.</p>
    * @param index index of the secondary set, as returned by {@link
-   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
-   * org.apache.commons.math3.ode.SecondaryEquations)
+   * org.apache.commons.math4.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math4.ode.SecondaryEquations)
    * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
    * @return interpolated secondary derivatives at the current interpolation date
    * @see #getInterpolatedState()

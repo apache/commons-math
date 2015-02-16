@@ -14,8 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
+import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.ChromosomePair;
+import org.apache.commons.math4.genetics.OnePointCrossover;
 import org.junit.Assert;
 import org.junit.Test;
 

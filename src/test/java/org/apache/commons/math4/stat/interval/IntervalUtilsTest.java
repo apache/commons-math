@@ -14,8 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.interval;
+package org.apache.commons.math4.stat.interval;
 
+import org.apache.commons.math4.stat.interval.AgrestiCoullInterval;
+import org.apache.commons.math4.stat.interval.ClopperPearsonInterval;
+import org.apache.commons.math4.stat.interval.ConfidenceInterval;
+import org.apache.commons.math4.stat.interval.IntervalUtils;
+import org.apache.commons.math4.stat.interval.NormalApproximationInterval;
+import org.apache.commons.math4.stat.interval.WilsonScoreInterval;
 import org.junit.Assert;
 import org.junit.Test;
 

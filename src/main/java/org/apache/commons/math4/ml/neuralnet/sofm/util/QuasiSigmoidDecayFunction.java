@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm.util;
+package org.apache.commons.math4.ml.neuralnet.sofm.util;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.analysis.function.Logistic;
+import org.apache.commons.math4.analysis.function.Logistic;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
 
 /**
  * Decay function whose shape is similar to a sigmoid.

@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
 
-import org.apache.commons.math3.analysis.solvers.AllowedSolution;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.analysis.solvers.AllowedSolution;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * This class implements a modification of the <a

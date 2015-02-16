@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 
 /**
  * This TansformerMap automates the transformation of mixed object types.
@@ -135,7 +135,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * @return the double value of the Object.
      * @throws MathIllegalArgumentException if the Object can not be
      * transformed into a Double.
-     * @see org.apache.commons.math3.util.NumberTransformer#transform(java.lang.Object)
+     * @see org.apache.commons.math4.util.NumberTransformer#transform(java.lang.Object)
      */
     public double transform(Object o) throws MathIllegalArgumentException {
         double value = Double.NaN;

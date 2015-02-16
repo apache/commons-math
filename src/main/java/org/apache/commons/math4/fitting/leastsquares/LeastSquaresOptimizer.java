@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
 /**
  * An algorithm that can be applied to a non-linear least squares problem.

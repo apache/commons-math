@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.transform;
+package org.apache.commons.math4.transform;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * Useful functions for the implementation of various transforms.

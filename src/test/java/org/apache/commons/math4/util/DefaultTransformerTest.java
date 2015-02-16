@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.math.BigDecimal;
 
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.util.DefaultTransformer;
 import org.junit.Assert;
 import org.junit.Test;
 

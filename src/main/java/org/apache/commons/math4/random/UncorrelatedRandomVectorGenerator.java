@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with uncorrelated

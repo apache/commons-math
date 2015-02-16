@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.clustering;
+package org.apache.commons.math4.ml.clustering;
 
 import java.io.Serializable;
 import java.util.Arrays;

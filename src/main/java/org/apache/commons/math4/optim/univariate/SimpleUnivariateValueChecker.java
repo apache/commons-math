@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.optim.AbstractConvergenceChecker;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.optim.AbstractConvergenceChecker;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Simple implementation of the
- * {@link org.apache.commons.math3.optimization.ConvergenceChecker} interface
+ * {@link org.apache.commons.math4.optimization.ConvergenceChecker} interface
  * that uses only objective function values.
  *
  * Convergence is considered to have been reached if either the relative

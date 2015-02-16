@@ -17,4 +17,4 @@
 /**
  * Other summary statistics.
  */
-package org.apache.commons.math3.stat.descriptive.summary;
+package org.apache.commons.math4.stat.descriptive.summary;

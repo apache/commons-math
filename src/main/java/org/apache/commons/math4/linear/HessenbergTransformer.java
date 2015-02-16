@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Class transforming a general real matrix to Hessenberg form.

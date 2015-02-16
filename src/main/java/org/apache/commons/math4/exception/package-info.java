@@ -20,4 +20,4 @@
  *     using simple java properties.
  *
  */
-package org.apache.commons.math3.exception;
+package org.apache.commons.math4.exception;

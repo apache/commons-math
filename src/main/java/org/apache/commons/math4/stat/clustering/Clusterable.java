@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 import java.util.Collection;
 
@@ -24,7 +24,7 @@ import java.util.Collection;
  * @param <T> the type of point that can be clustered
  * @since 2.0
  * @deprecated As of 3.2 (to be removed in 4.0),
- * use {@link org.apache.commons.math3.ml.clustering.Clusterable} instead
+ * use {@link org.apache.commons.math4.ml.clustering.Clusterable} instead
  */
 @Deprecated
 public interface Clusterable<T> {

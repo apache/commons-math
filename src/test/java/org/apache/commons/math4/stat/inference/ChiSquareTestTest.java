@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.stat.inference.ChiSquareTest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -170,8 +171,8 @@ public class ChiSquareTestTest {
         long[] obs = new long[] {
             2372383, 584222, 257170, 17750155, 7903832, 489265, 209628, 393899
         };
-        org.apache.commons.math3.stat.inference.ChiSquareTest csti =
-            new org.apache.commons.math3.stat.inference.ChiSquareTest();
+        org.apache.commons.math4.stat.inference.ChiSquareTest csti =
+            new org.apache.commons.math4.stat.inference.ChiSquareTest();
         double cst = csti.chiSquareTest(exp, obs);
         Assert.assertEquals("chi-square p-value", 0.0, cst, 1E-3);
         Assert.assertEquals( "chi-square test statistic",

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod.hull;
+package org.apache.commons.math4.geometry.euclidean.twod.hull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +22,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.partitioning.Region;
-import org.apache.commons.math3.geometry.partitioning.Region.Location;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
+import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
+import org.apache.commons.math4.geometry.partitioning.Region;
+import org.apache.commons.math4.geometry.partitioning.Region.Location;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

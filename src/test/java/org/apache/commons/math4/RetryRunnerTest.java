@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3;
+package org.apache.commons.math4;
 
 import java.util.Random;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-
+import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

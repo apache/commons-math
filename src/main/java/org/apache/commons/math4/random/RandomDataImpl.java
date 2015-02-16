@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Collection;
 
-import org.apache.commons.math3.distribution.IntegerDistribution;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.exception.NotFiniteNumberException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math4.distribution.IntegerDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.OutOfRangeException;
 
 /**
  * Generates random deviates and other random data using a {@link RandomGenerator}
@@ -265,7 +265,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.BetaDistribution Beta Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.BetaDistribution Beta Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -279,7 +279,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.BinomialDistribution Binomial Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.BinomialDistribution Binomial Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -293,7 +293,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.CauchyDistribution Cauchy Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.CauchyDistribution Cauchy Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -307,7 +307,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.ChiSquaredDistribution ChiSquare Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.ChiSquaredDistribution ChiSquare Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -320,7 +320,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.FDistribution F Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.FDistribution F Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -337,7 +337,7 @@ public class RandomDataImpl implements RandomData, Serializable {
 
     /**
      * <p>Generates a random value from the
-     * {@link org.apache.commons.math3.distribution.GammaDistribution Gamma Distribution}.</p>
+     * {@link org.apache.commons.math4.distribution.GammaDistribution Gamma Distribution}.</p>
      *
      * <p>This implementation uses the following algorithms: </p>
      *
@@ -363,7 +363,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.HypergeometricDistribution Hypergeometric Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.HypergeometricDistribution Hypergeometric Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *
@@ -383,7 +383,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.PascalDistribution Pascal Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.PascalDistribution Pascal Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *
@@ -401,7 +401,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.TDistribution T Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.TDistribution T Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -415,7 +415,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.WeibullDistribution Weibull Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.WeibullDistribution Weibull Distribution}.
      * This implementation uses {@link #nextInversionDeviate(RealDistribution) inversion}
      * to generate random values.
      *
@@ -431,7 +431,7 @@ public class RandomDataImpl implements RandomData, Serializable {
     }
 
     /**
-     * Generates a random value from the {@link org.apache.commons.math3.distribution.ZipfDistribution Zipf Distribution}.
+     * Generates a random value from the {@link org.apache.commons.math4.distribution.ZipfDistribution Zipf Distribution}.
      * This implementation uses {@link #nextInversionDeviate(IntegerDistribution) inversion}
      * to generate random values.
      *

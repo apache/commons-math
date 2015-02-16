@@ -22,4 +22,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry;
+package org.apache.commons.math4.geometry;

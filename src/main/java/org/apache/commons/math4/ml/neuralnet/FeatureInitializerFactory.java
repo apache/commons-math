@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet;
+package org.apache.commons.math4.ml.neuralnet;
 
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Constant;
-import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Constant;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.random.RandomGenerator;
 
 /**
  * Creates functions that will select the initial values of a neuron's
@@ -42,7 +42,7 @@ public class FeatureInitializerFactory {
      * uniform distribution.
      * @return an initializer such that the features will be initialized with
      * values within the given range.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      * if {@code min >= max}.
      */
     public static FeatureInitializer uniform(final RandomGenerator rng,
@@ -59,7 +59,7 @@ public class FeatureInitializerFactory {
      * @param max Upper bound of the range.
      * @return an initializer such that the features will be initialized with
      * values within the given range.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      * if {@code min >= max}.
      */
     public static FeatureInitializer uniform(final double min,

@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.linear;
+package org.apache.commons.math4.optimization.linear;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.util.Precision;
 
 
 /**

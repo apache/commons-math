@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.util.FastMath;
 
 /** This class provides conversions related to <a
  * href="http://mathworld.wolfram.com/SphericalCoordinates.html">spherical coordinates</a>.

@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathArithmeticException;
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathArithmeticException;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

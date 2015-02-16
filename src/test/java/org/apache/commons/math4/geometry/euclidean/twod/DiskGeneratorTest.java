@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.UnitSphereRandomVectorGenerator;
-import org.apache.commons.math3.random.Well1024a;
+import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.UnitSphereRandomVectorGenerator;
+import org.apache.commons.math4.random.Well1024a;
 import org.junit.Assert;
 import org.junit.Test;
 

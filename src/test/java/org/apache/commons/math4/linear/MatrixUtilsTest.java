@@ -14,18 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.fraction.FractionConversionException;
-import org.apache.commons.math3.fraction.FractionField;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.fraction.Fraction;
+import org.apache.commons.math4.fraction.FractionConversionException;
+import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.linear.FieldMatrix;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.NonSymmetricMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.linear.SingularMatrixException;
 import org.junit.Assert;
 import org.junit.Test;
 

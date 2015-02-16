@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 /**
  * Default implementation of the {@link RealMatrixChangingVisitor} interface.

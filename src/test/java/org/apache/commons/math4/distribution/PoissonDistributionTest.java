@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.distribution.IntegerDistribution;
+import org.apache.commons.math4.distribution.PoissonDistribution;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

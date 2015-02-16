@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 
 /**
  * Extension of {@link MultivariateFunction} representing a

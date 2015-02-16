@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 
 /**
  * <p>

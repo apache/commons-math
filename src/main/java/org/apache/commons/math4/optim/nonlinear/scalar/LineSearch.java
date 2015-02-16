@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.optim.univariate.UnivariateOptimizer;
-import org.apache.commons.math3.optim.univariate.BrentOptimizer;
-import org.apache.commons.math3.optim.univariate.BracketFinder;
-import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
-import org.apache.commons.math3.optim.univariate.SimpleUnivariateValueChecker;
-import org.apache.commons.math3.optim.univariate.SearchInterval;
-import org.apache.commons.math3.optim.univariate.UnivariateObjectiveFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optim.MaxEval;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.optim.MaxEval;
+import org.apache.commons.math4.optim.univariate.BracketFinder;
+import org.apache.commons.math4.optim.univariate.BrentOptimizer;
+import org.apache.commons.math4.optim.univariate.SearchInterval;
+import org.apache.commons.math4.optim.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math4.optim.univariate.UnivariateObjectiveFunction;
+import org.apache.commons.math4.optim.univariate.UnivariateOptimizer;
+import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
 
 /**
  * Class for finding the minimum of the objective function along a given
@@ -105,7 +105,7 @@ public class LineSearch {
      * @param startPoint Starting point.
      * @param direction Search direction.
      * @return the optimum.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the number of evaluations is exceeded.
      */
     public UnivariatePointValuePair search(final double[] startPoint,

@@ -14,23 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
 import java.util.Collection;
 
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.InsufficientDataException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.InsufficientDataException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.stat.descriptive.StatisticalSummary;
 
 /**
  * A collection of static methods to create inference test instances or to
@@ -65,7 +65,7 @@ public class TestUtils  {
     // CHECKSTYLE: stop JavadocMethodCheck
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#homoscedasticT(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticT(double[], double[])
      */
     public static double homoscedasticT(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NumberIsTooSmallException {
@@ -73,7 +73,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#homoscedasticT(org.apache.commons.math3.stat.descriptive.StatisticalSummary, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticT(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double homoscedasticT(final StatisticalSummary sampleStats1,
                                         final StatisticalSummary sampleStats2)
@@ -82,7 +82,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#homoscedasticTTest(double[], double[], double)
+     * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(double[], double[], double)
      */
     public static boolean homoscedasticTTest(final double[] sample1, final double[] sample2,
                                              final double alpha)
@@ -92,7 +92,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#homoscedasticTTest(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(double[], double[])
      */
     public static double homoscedasticTTest(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NumberIsTooSmallException, MaxCountExceededException {
@@ -100,7 +100,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#homoscedasticTTest(org.apache.commons.math3.stat.descriptive.StatisticalSummary, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#homoscedasticTTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double homoscedasticTTest(final StatisticalSummary sampleStats1,
                                             final StatisticalSummary sampleStats2)
@@ -109,7 +109,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#pairedT(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#pairedT(double[], double[])
      */
     public static double pairedT(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NoDataException,
@@ -118,7 +118,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#pairedTTest(double[], double[], double)
+     * @see org.apache.commons.math4.stat.inference.TTest#pairedTTest(double[], double[], double)
      */
     public static boolean pairedTTest(final double[] sample1, final double[] sample2,
                                       final double alpha)
@@ -128,7 +128,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#pairedTTest(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#pairedTTest(double[], double[])
      */
     public static double pairedTTest(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NoDataException, DimensionMismatchException,
@@ -137,7 +137,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#t(double, double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#t(double, double[])
      */
     public static double t(final double mu, final double[] observed)
         throws NullArgumentException, NumberIsTooSmallException {
@@ -145,7 +145,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#t(double, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#t(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double t(final double mu, final StatisticalSummary sampleStats)
         throws NullArgumentException, NumberIsTooSmallException {
@@ -153,7 +153,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#t(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#t(double[], double[])
      */
     public static double t(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NumberIsTooSmallException {
@@ -161,7 +161,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#t(org.apache.commons.math3.stat.descriptive.StatisticalSummary, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#t(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double t(final StatisticalSummary sampleStats1,
                            final StatisticalSummary sampleStats2)
@@ -170,7 +170,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double, double[], double)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, double[], double)
      */
     public static boolean tTest(final double mu, final double[] sample, final double alpha)
         throws NullArgumentException, NumberIsTooSmallException,
@@ -179,7 +179,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double, double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, double[])
      */
     public static double tTest(final double mu, final double[] sample)
         throws NullArgumentException, NumberIsTooSmallException,
@@ -188,7 +188,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double, org.apache.commons.math3.stat.descriptive.StatisticalSummary, double)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary, double)
      */
     public static boolean tTest(final double mu, final StatisticalSummary sampleStats,
                                 final double alpha)
@@ -198,7 +198,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double tTest(final double mu, final StatisticalSummary sampleStats)
         throws NullArgumentException, NumberIsTooSmallException,
@@ -207,7 +207,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double[], double[], double)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double[], double[], double)
      */
     public static boolean tTest(final double[] sample1, final double[] sample2,
                                 final double alpha)
@@ -217,7 +217,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(double[], double[])
      */
     public static double tTest(final double[] sample1, final double[] sample2)
         throws NullArgumentException, NumberIsTooSmallException,
@@ -226,7 +226,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(org.apache.commons.math3.stat.descriptive.StatisticalSummary, org.apache.commons.math3.stat.descriptive.StatisticalSummary, double)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary, double)
      */
     public static boolean tTest(final StatisticalSummary sampleStats1,
                                 final StatisticalSummary sampleStats2,
@@ -237,7 +237,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.TTest#tTest(org.apache.commons.math3.stat.descriptive.StatisticalSummary, org.apache.commons.math3.stat.descriptive.StatisticalSummary)
+     * @see org.apache.commons.math4.stat.inference.TTest#tTest(org.apache.commons.math4.stat.descriptive.StatisticalSummary, org.apache.commons.math4.stat.descriptive.StatisticalSummary)
      */
     public static double tTest(final StatisticalSummary sampleStats1,
                                final StatisticalSummary sampleStats2)
@@ -247,7 +247,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquare(double[], long[])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquare(double[], long[])
      */
     public static double chiSquare(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -256,7 +256,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquare(long[][])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquare(long[][])
      */
     public static double chiSquare(final long[][] counts)
         throws NullArgumentException, NotPositiveException,
@@ -265,7 +265,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTest(double[], long[], double)
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(double[], long[], double)
      */
     public static boolean chiSquareTest(final double[] expected, final long[] observed,
                                         final double alpha)
@@ -275,7 +275,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTest(double[], long[])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(double[], long[])
      */
     public static double chiSquareTest(final double[] expected, final long[] observed)
         throws NotPositiveException, NotStrictlyPositiveException,
@@ -284,7 +284,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTest(long[][], double)
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(long[][], double)
      */
     public static boolean chiSquareTest(final long[][] counts, final double alpha)
         throws NullArgumentException, DimensionMismatchException,
@@ -293,7 +293,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTest(long[][])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTest(long[][])
      */
     public static double chiSquareTest(final long[][] counts)
         throws NullArgumentException, DimensionMismatchException,
@@ -302,7 +302,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareDataSetsComparison(long[], long[])
      *
      * @since 1.2
      */
@@ -313,7 +313,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[])
      *
      * @since 1.2
      */
@@ -325,7 +325,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
+     * @see org.apache.commons.math4.stat.inference.ChiSquareTest#chiSquareTestDataSetsComparison(long[], long[], double)
      *
      * @since 1.2
      */
@@ -338,7 +338,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.OneWayAnova#anovaFValue(Collection)
+     * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaFValue(Collection)
      *
      * @since 1.2
      */
@@ -348,7 +348,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.OneWayAnova#anovaPValue(Collection)
+     * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaPValue(Collection)
      *
      * @since 1.2
      */
@@ -359,7 +359,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.OneWayAnova#anovaTest(Collection,double)
+     * @see org.apache.commons.math4.stat.inference.OneWayAnova#anovaTest(Collection,double)
      *
      * @since 1.2
      */
@@ -371,7 +371,7 @@ public class TestUtils  {
     }
 
      /**
-     * @see org.apache.commons.math3.stat.inference.GTest#g(double[], long[])
+     * @see org.apache.commons.math4.stat.inference.GTest#g(double[], long[])
      * @since 3.1
      */
     public static double g(final double[] expected, final long[] observed)
@@ -381,7 +381,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTest( double[],  long[] )
+     * @see org.apache.commons.math4.stat.inference.GTest#gTest( double[],  long[] )
      * @since 3.1
      */
     public static double gTest(final double[] expected, final long[] observed)
@@ -391,7 +391,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTestIntrinsic(double[], long[] )
+     * @see org.apache.commons.math4.stat.inference.GTest#gTestIntrinsic(double[], long[] )
      * @since 3.1
      */
     public static double gTestIntrinsic(final double[] expected, final long[] observed)
@@ -401,7 +401,7 @@ public class TestUtils  {
     }
 
      /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTest( double[],long[],double)
+     * @see org.apache.commons.math4.stat.inference.GTest#gTest( double[],long[],double)
      * @since 3.1
      */
     public static boolean gTest(final double[] expected, final long[] observed,
@@ -412,7 +412,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math4.stat.inference.GTest#gDataSetsComparison(long[], long[])
      * @since 3.1
      */
     public static double gDataSetsComparison(final long[] observed1,
@@ -422,7 +422,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#rootLogLikelihoodRatio(long, long, long, long)
+     * @see org.apache.commons.math4.stat.inference.GTest#rootLogLikelihoodRatio(long, long, long, long)
      * @since 3.1
      */
     public static double rootLogLikelihoodRatio(final long k11, final long k12, final long k21, final long k22)
@@ -432,7 +432,7 @@ public class TestUtils  {
 
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(long[], long[])
+     * @see org.apache.commons.math4.stat.inference.GTest#gTestDataSetsComparison(long[], long[])
      * @since 3.1
      */
     public static double gTestDataSetsComparison(final long[] observed1,
@@ -443,7 +443,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.GTest#gTestDataSetsComparison(long[],long[],double)
+     * @see org.apache.commons.math4.stat.inference.GTest#gTestDataSetsComparison(long[],long[],double)
      * @since 3.1
      */
     public static boolean gTestDataSetsComparison(final long[] observed1,
@@ -455,7 +455,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(RealDistribution, double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(RealDistribution, double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovStatistic(RealDistribution dist, double[] data)
@@ -464,7 +464,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data)
@@ -473,7 +473,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], boolean)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], boolean)
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(RealDistribution dist, double[] data, boolean strict)
@@ -482,7 +482,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], double)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(RealDistribution, double[], double)
      * @since 3.3
      */
     public static boolean kolmogorovSmirnovTest(RealDistribution dist, double[] data, double alpha)
@@ -491,7 +491,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovStatistic(double[], double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovStatistic(double[] x, double[] y)
@@ -500,7 +500,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[])
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[])
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(double[] x, double[] y)
@@ -509,7 +509,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[], boolean)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#kolmogorovSmirnovTest(double[], double[], boolean)
      * @since 3.3
      */
     public static double kolmogorovSmirnovTest(double[] x, double[] y, boolean strict)
@@ -518,7 +518,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#exactP(double, int, int, boolean)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#exactP(double, int, int, boolean)
      * @since 3.3
      */
     public static double exactP(double d, int m, int n, boolean strict) {
@@ -526,7 +526,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#approximateP(double, int, int)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#approximateP(double, int, int)
      * @since 3.3
      */
     public static double approximateP(double d, int n, int m) {
@@ -534,7 +534,7 @@ public class TestUtils  {
     }
 
     /**
-     * @see org.apache.commons.math3.stat.inference.KolmogorovSmirnovTest#monteCarloP(double, int, int, boolean, int)
+     * @see org.apache.commons.math4.stat.inference.KolmogorovSmirnovTest#monteCarloP(double, int, int, boolean, int)
      * @since 3.3
      */
     public static double monteCarloP(double d, int n, int m, boolean strict, int iterations) {

@@ -15,30 +15,30 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.userguide.sofm;
+package org.apache.commons.math4.userguide.sofm;
 
 import java.util.Iterator;
 import java.io.PrintWriter;
 import java.io.IOException;
-import org.apache.commons.math3.ml.neuralnet.SquareNeighbourhood;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math3.ml.neuralnet.MapUtils;
-import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math3.ml.neuralnet.sofm.LearningFactorFunction;
-import org.apache.commons.math3.ml.neuralnet.sofm.LearningFactorFunctionFactory;
-import org.apache.commons.math3.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
-import org.apache.commons.math3.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
-import org.apache.commons.math3.ml.neuralnet.sofm.KohonenUpdateAction;
-import org.apache.commons.math3.ml.neuralnet.sofm.KohonenTrainingTask;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.ml.neuralnet.SquareNeighbourhood;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
+import org.apache.commons.math4.ml.neuralnet.sofm.KohonenUpdateAction;
+import org.apache.commons.math4.ml.neuralnet.sofm.KohonenTrainingTask;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 
 /**
  * SOFM for categorizing points that belong to each of two intertwined rings.

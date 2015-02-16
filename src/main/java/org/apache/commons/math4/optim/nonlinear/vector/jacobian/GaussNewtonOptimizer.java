@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.BlockRealMatrix;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.LUDecomposition;
-import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.SingularMatrixException;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.DecompositionSolver;
+import org.apache.commons.math4.linear.LUDecomposition;
+import org.apache.commons.math4.linear.QRDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.SingularMatrixException;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.PointVectorValuePair;
 
 /**
  * Gauss-Newton least-squares solver.
@@ -48,7 +48,7 @@ import org.apache.commons.math3.optim.PointVectorValuePair;
  * @since 2.0
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the
- * {@link org.apache.commons.math3.fitting.leastsquares} package
+ * {@link org.apache.commons.math4.fitting.leastsquares} package
  * (cf. MATH-1008).
  */
 @Deprecated

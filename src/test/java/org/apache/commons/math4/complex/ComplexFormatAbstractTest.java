@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -23,8 +23,9 @@ import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.Assert;
-
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.complex.ComplexFormat;
+import org.apache.commons.math4.util.FastMath;
 
 public abstract class ComplexFormatAbstractTest {
 

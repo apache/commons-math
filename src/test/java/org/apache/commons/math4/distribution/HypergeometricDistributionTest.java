@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.HypergeometricDistribution;
+import org.apache.commons.math4.distribution.IntegerDistribution;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

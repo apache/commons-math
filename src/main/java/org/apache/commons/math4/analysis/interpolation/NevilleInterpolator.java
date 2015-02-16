@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunctionLagrangeForm;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunctionLagrangeForm;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">

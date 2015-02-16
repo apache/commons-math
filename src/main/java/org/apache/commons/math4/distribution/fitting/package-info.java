@@ -17,4 +17,4 @@
 /**
  * Fitting of parameters against distributions.
  */
-package org.apache.commons.math3.distribution.fitting;
+package org.apache.commons.math4.distribution.fitting;

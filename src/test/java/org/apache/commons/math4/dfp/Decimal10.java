@@ -15,7 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
+
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpDec;
+import org.apache.commons.math4.dfp.DfpField;
 
 public class Decimal10 extends DfpDec {
 

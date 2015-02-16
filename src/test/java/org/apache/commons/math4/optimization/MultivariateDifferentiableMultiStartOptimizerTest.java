@@ -15,18 +15,24 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
 
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.optimization.general.CircleScalar;
-import org.apache.commons.math3.optimization.general.ConjugateGradientFormula;
-import org.apache.commons.math3.optimization.general.NonLinearConjugateGradientOptimizer;
-import org.apache.commons.math3.random.GaussianRandomGenerator;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomVectorGenerator;
-import org.apache.commons.math3.random.UncorrelatedRandomVectorGenerator;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.MultivariateDifferentiableMultiStartOptimizer;
+import org.apache.commons.math4.optimization.MultivariateDifferentiableOptimizer;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.SimpleValueChecker;
+import org.apache.commons.math4.optimization.general.CircleScalar;
+import org.apache.commons.math4.optimization.general.ConjugateGradientFormula;
+import org.apache.commons.math4.optimization.general.NonLinearConjugateGradientOptimizer;
+import org.apache.commons.math4.random.GaussianRandomGenerator;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomVectorGenerator;
+import org.apache.commons.math4.random.UncorrelatedRandomVectorGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

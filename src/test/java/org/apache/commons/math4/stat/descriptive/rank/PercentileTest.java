@@ -14,28 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive.rank;
+package org.apache.commons.math4.stat.descriptive.rank;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NotANumberException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well1024a;
-import org.apache.commons.math3.stat.descriptive.UnivariateStatistic;
-import org.apache.commons.math3.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType;
-import org.apache.commons.math3.stat.ranking.NaNStrategy;
-import org.apache.commons.math3.util.CentralPivotingStrategy;
-import org.apache.commons.math3.util.KthSelector;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.MedianOf3PivotingStrategy;
-import org.apache.commons.math3.util.PivotingStrategyInterface;
-import org.apache.commons.math3.util.RandomPivotingStrategy;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotANumberException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
+import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
+import org.apache.commons.math4.stat.descriptive.rank.Percentile;
+import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.util.CentralPivotingStrategy;
+import org.apache.commons.math4.util.KthSelector;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MedianOf3PivotingStrategy;
+import org.apache.commons.math4.util.PivotingStrategyInterface;
+import org.apache.commons.math4.util.RandomPivotingStrategy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
     private double quantile;
 
     /**
-     * {@link org.apache.commons.math3.stat.descriptive.rank.Percentile.EstimationType type}
+     * {@link org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType type}
      * of estimation to be used while calling {@link #getUnivariateStatistic()}
      */
     private Percentile.EstimationType type;

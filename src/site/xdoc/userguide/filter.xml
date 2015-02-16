@@ -31,12 +31,12 @@
       </subsection>
       <subsection name="15.2 Kalman Filter" href="kalman">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/filter/KalmanFilter.html">
+          <a href="../apidocs/org/apache/commons/math4/filter/KalmanFilter.html">
           KalmanFilter</a> provides a discrete-time filter to estimate
           a stochastic linear process.</p>
           
-        <p>A Kalman filter is initialized with a <a href="../apidocs/org/apache/commons/math3/filter/ProcessModel.html">
-          ProcessModel</a> and a <a href="../apidocs/org/apache/commons/math3/filter/MeasurementModel.html">
+        <p>A Kalman filter is initialized with a <a href="../apidocs/org/apache/commons/math4/filter/ProcessModel.html">
+          ProcessModel</a> and a <a href="../apidocs/org/apache/commons/math4/filter/MeasurementModel.html">
           MeasurementModel</a>, which contain the corresponding transformation and noise covariance matrices. 
           The parameter names used in the respective models correspond to the following names commonly used 
           in the mathematical literature:

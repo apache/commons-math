@@ -33,7 +33,7 @@
       </subsection>
       <subsection name="7.2 Complex Numbers" href="complex">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/complex/Complex.html">
+          <a href="../apidocs/org/apache/commons/math4/complex/Complex.html">
           Complex</a> provides a complex number type that forms the basis for
           the complex functionality found in commons-math.
          </p>  
@@ -44,9 +44,9 @@
            handling infinite and <code>NaN</code> values.  No attempt is made
            to comply with ANSII/IEC C99x Annex G or any other standard for
            Complex arithmetic.  See the class and method javadocs for the 
-           <a href="../apidocs/org/apache/commons/math3/complex/Complex.html">
+           <a href="../apidocs/org/apache/commons/math4/complex/Complex.html">
            Complex</a> and
-           <a href="../apidocs/org/apache/commons/math3/complex/ComplexUtils.html">
+           <a href="../apidocs/org/apache/commons/math4/complex/ComplexUtils.html">
            ComplexUtils</a> classes for details on computing formulas.
         </p>
         <p>
@@ -77,7 +77,7 @@ Complex answer = lhs.add(rhs);       // add two complex numbers
       </subsection>
       <subsection name="7.3 Complex Transcendental Functions" href="function">
         <p>
-          <a href="../apidocs/org/apache/commons/math3/complex/Complex.html">
+          <a href="../apidocs/org/apache/commons/math4/complex/Complex.html">
           Complex</a> also provides implementations of serveral transcendental
           functions involving complex number arguments.
           These operations provide the means to compute the log, sine, tangent,
@@ -93,7 +93,7 @@ Complex answer = first.log();        // natural logarithm.
       <subsection name="7.4 Complex Formatting and Parsing" href="formatting">
         <p>
           <code>Complex</code> instances can be converted to and from strings
-          using the<a href="../apidocs/org/apache/commons/math3/complex/ComplexFormat.html">
+          using the<a href="../apidocs/org/apache/commons/math4/complex/ComplexFormat.html">
           ComplexFormat</a> class.
           <code>ComplexFormat</code> is a <code>java.text.Format</code>
           extension and, as such, is used like other formatting objects (e.g.

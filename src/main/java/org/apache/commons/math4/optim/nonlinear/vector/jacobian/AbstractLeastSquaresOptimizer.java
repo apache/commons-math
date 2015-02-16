@@ -14,23 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.nonlinear.vector.Weight;
-import org.apache.commons.math3.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.DecompositionSolver;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.QRDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.optim.nonlinear.vector.JacobianMultivariateVectorOptimizer;
+import org.apache.commons.math4.optim.nonlinear.vector.Weight;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Base class for implementing least-squares optimizers.
@@ -39,7 +39,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 3.1
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the
- * {@link org.apache.commons.math3.fitting.leastsquares} package
+ * {@link org.apache.commons.math4.fitting.leastsquares} package
  * (cf. MATH-1008).
  */
 @Deprecated
@@ -137,7 +137,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @param params Model parameters.
      * @param threshold Singularity threshold.
      * @return the covariance matrix.
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      */
     public double[][] computeCovariances(double[] params,
@@ -165,7 +165,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @param covarianceSingularityThreshold Singularity threshold (see
      * {@link #computeCovariances(double[],double) computeCovariances}).
      * @return an estimate of the standard deviation of the optimized parameters
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed.
      */
     public double[] computeSigma(double[] params,
@@ -186,7 +186,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * {@link JacobianMultivariateVectorOptimizer#parseOptimizationData(OptimizationData[])
      * JacobianMultivariateVectorOptimizer}, this method will register the following data:
      * <ul>
-     *  <li>{@link org.apache.commons.math3.optim.nonlinear.vector.Weight}</li>
+     *  <li>{@link org.apache.commons.math4.optim.nonlinear.vector.Weight}</li>
      * </ul>
      * @return {@inheritDoc}
      * @throws TooManyEvaluationsException if the maximal number of

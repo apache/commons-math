@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
 import java.util.Random;
-import org.apache.commons.math3.complex.Quaternion;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.util.FastMath;
+
+import org.apache.commons.math4.complex.Quaternion;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

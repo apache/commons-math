@@ -14,21 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Test;
 import org.junit.Assert;
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
+import org.apache.commons.math4.linear.DefaultRealMatrixPreservingVisitor;
+import org.apache.commons.math4.linear.LUDecomposition;
+import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Test cases for the {@link BlockRealMatrix} class.

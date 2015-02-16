@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 
 import java.io.ByteArrayInputStream;
@@ -24,8 +24,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

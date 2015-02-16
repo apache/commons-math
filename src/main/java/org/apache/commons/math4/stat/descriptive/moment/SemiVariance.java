@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.descriptive.moment;
+package org.apache.commons.math4.stat.descriptive.moment;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.stat.descriptive.AbstractUnivariateStatistic;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.stat.descriptive.AbstractUnivariateStatistic;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * <p>Computes the semivariance of a set of values with respect to a given cutoff value.

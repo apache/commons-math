@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
 /**
  * This interface specifies how to check if an optimization algorithm has
@@ -36,9 +36,9 @@ package org.apache.commons.math3.optim;
  *
  * @param <PAIR> Type of the (point, objective value) pair.
  *
- * @see org.apache.commons.math3.optim.SimplePointChecker
- * @see org.apache.commons.math3.optim.SimpleValueChecker
- * @see org.apache.commons.math3.optim.SimpleVectorValueChecker
+ * @see org.apache.commons.math4.optim.SimplePointChecker
+ * @see org.apache.commons.math4.optim.SimpleValueChecker
+ * @see org.apache.commons.math4.optim.SimpleVectorValueChecker
  *
  * @since 3.0
  */

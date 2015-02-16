@@ -17,4 +17,4 @@
 /**
  * Implementations of common discrete-time linear filters.
  */
-package org.apache.commons.math3.filter;
+package org.apache.commons.math4.filter;

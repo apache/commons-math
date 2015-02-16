@@ -19,4 +19,4 @@
  *     Univariate real functions interpolation algorithms.
  *
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;

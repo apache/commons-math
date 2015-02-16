@@ -30,13 +30,13 @@
          This package provides a few transformers for signal analysis. All transformers
          provide both direct and inverse transforms.
          <ul>
-           <li><a href="../apidocs/org/apache/commons/math3/transform/FastFourierTransformer.html">
+           <li><a href="../apidocs/org/apache/commons/math4/transform/FastFourierTransformer.html">
             FastFourierTransformer</a> (produces <code>Complex</code> results)</li>
-           <li><a href="../apidocs/org/apache/commons/math3/transform/FastCosineTransformer.html">
+           <li><a href="../apidocs/org/apache/commons/math4/transform/FastCosineTransformer.html">
            FastCosineTransformer</a> (produces real results)</li>
-           <li><a href="../apidocs/org/apache/commons/math3/transform/FastSineTransformer.html">
+           <li><a href="../apidocs/org/apache/commons/math4/transform/FastSineTransformer.html">
            FastSineTransformer</a> (produces real results)</li>
-           <li><a href="../apidocs/org/apache/commons/math3/transform/FastHadamardTransformer.html">
+           <li><a href="../apidocs/org/apache/commons/math4/transform/FastHadamardTransformer.html">
            FastHadamardTransformer</a> (produces real results)</li>
          </ul>
       </p>

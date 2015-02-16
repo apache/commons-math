@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.stat.Frequency;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.random.RandomDataGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.stat.Frequency;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

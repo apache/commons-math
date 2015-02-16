@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.RealFieldElement;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.RealFieldElement;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  *  Decimal floating point library for Java
@@ -625,12 +625,12 @@ public class Dfp implements RealFieldElement<Dfp> {
         return field.newDfp(sig, code);
     }
 
-    /** Get the {@link org.apache.commons.math3.Field Field} (really a {@link DfpField}) to which the instance belongs.
+    /** Get the {@link org.apache.commons.math4.Field Field} (really a {@link DfpField}) to which the instance belongs.
      * <p>
      * The field is linked to the number of digits and acts as a factory
      * for {@link Dfp} instances.
      * </p>
-     * @return {@link org.apache.commons.math3.Field Field} (really a {@link DfpField}) to which the instance belongs
+     * @return {@link org.apache.commons.math4.Field Field} (really a {@link DfpField}) to which the instance belongs
      */
     public DfpField getField() {
         return field;

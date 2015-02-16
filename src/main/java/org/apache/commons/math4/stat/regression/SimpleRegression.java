@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 import java.io.Serializable;
 
-import org.apache.commons.math3.distribution.TDistribution;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Estimates an ordinary least squares regression model
@@ -716,7 +716,7 @@ public class SimpleRegression implements Serializable, UpdatingMultipleLinearReg
      * <code>Double.NaN</code>.</p>
      *
      * @return significance level for slope/correlation
-     * @throws org.apache.commons.math3.exception.MaxCountExceededException
+     * @throws org.apache.commons.math4.exception.MaxCountExceededException
      * if the significance level can not be computed.
      */
     public double getSignificance() {

@@ -19,7 +19,7 @@
  * This package provides classes to implement Binary Space Partition trees.
  *
  * <p>
- * {@link org.apache.commons.math3.geometry.partitioning.BSPTree BSP trees}
+ * {@link org.apache.commons.math4.geometry.partitioning.BSPTree BSP trees}
  * are an efficient way to represent parts of space and in particular
  * polytopes (line segments in 1D, polygons in 2D and polyhedrons in 3D)
  * and to operate on them. The main principle is to recursively subdivide
@@ -52,9 +52,9 @@
  * single part, but by several convex ones. This is the property that
  * allows BSP-trees to represent non-convex polytopes despites all parts
  * are convex. The {@link
- * org.apache.commons.math3.geometry.partitioning.Region Region} class is
+ * org.apache.commons.math4.geometry.partitioning.Region Region} class is
  * devoted to this representation, it is build on top of the {@link
- * org.apache.commons.math3.geometry.partitioning.BSPTree BSPTree} class using
+ * org.apache.commons.math4.geometry.partitioning.BSPTree BSPTree} class using
  * boolean objects as the leaf nodes attributes to represent the
  * inside/outside property of each leaf part, and also adds various
  * methods dealing with boundaries (i.e. the separation between the
@@ -111,4 +111,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;

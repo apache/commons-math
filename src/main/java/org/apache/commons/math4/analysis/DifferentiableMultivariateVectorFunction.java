@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
 /**
  * Extension of {@link MultivariateVectorFunction} representing a differentiable
  * multivariate vectorial function.
  * @since 2.0
- * @deprecated as of 3.1 replaced by {@link org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction}
+ * @deprecated as of 3.1 replaced by {@link org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction}
  */
 @Deprecated
 public interface DifferentiableMultivariateVectorFunction

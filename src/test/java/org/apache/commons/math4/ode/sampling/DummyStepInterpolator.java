@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.ode.EquationsMapper;
+import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math4.ode.sampling.StepHandler;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
 
 /** This class is a step interpolator that does nothing.
  *
@@ -51,7 +54,7 @@ public class DummyStepInterpolator
    * should be called before using the instance in order to initialize
    * the internal arrays. This constructor is used only in order to delay
    * the initialization in some cases. As an example, the {@link
-   * org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator} uses
+   * org.apache.commons.math4.ode.nonstiff.EmbeddedRungeKuttaIntegrator} uses
    * the prototyping design pattern to create the step interpolators by
    * cloning an uninitialized model and latter initializing the copy.
    */

@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.enclosing;
+package org.apache.commons.math4.geometry.enclosing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
 
 /** Class implementing Emo Welzl algorithm to find the smallest enclosing ball in linear time.
  * <p>

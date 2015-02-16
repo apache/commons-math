@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.ode.AbstractIntegrator;
-import org.apache.commons.math3.ode.EquationsMapper;
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.ode.AbstractIntegrator;
+import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
 
 /**
  * This class represents an interpolator over the last step during an

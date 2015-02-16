@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.fitting;
+package org.apache.commons.math4.optimization.fitting;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.MultivariateMatrixFunction;
-import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateVectorFunction;
+import org.apache.commons.math4.analysis.MultivariateMatrixFunction;
+import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math4.optimization.MultivariateDifferentiableVectorOptimizer;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
 
 /** Fitter for parametric univariate real functions y = f(x).
  * <br/>
@@ -146,7 +146,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
      * @param f parametric function to fit.
      * @param initialGuess first guess of the function parameters.
      * @return the fitted parameters.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
      */
     public double[] fit(T f, final double[] initialGuess) {
@@ -164,9 +164,9 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
      * @param initialGuess first guess of the function parameters.
      * @param maxEval Maximum number of function evaluations.
      * @return the fitted parameters.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the number of allowed evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
      * @since 3.0
      */

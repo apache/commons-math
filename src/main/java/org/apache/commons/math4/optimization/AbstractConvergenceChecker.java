@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Base class for all convergence checker implementations.

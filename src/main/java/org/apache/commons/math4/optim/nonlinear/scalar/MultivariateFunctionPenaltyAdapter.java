@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * <p>Adapter extending bounded {@link MultivariateFunction} to an unbouded
@@ -48,12 +48,12 @@ import org.apache.commons.math3.util.MathUtils;
  * <p>
  * This adapter is only a poor-man's solution to simple bounds optimization
  * constraints that can be used with simple optimizers like
- * {@link org.apache.commons.math3.optim.nonlinear.scalar.noderiv.SimplexOptimizer
+ * {@link org.apache.commons.math4.optim.nonlinear.scalar.noderiv.SimplexOptimizer
  * SimplexOptimizer}.
  * A better solution is to use an optimizer that directly supports simple bounds like
- * {@link org.apache.commons.math3.optim.nonlinear.scalar.noderiv.CMAESOptimizer
+ * {@link org.apache.commons.math4.optim.nonlinear.scalar.noderiv.CMAESOptimizer
  * CMAESOptimizer} or
- * {@link org.apache.commons.math3.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer
+ * {@link org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer
  * BOBYQAOptimizer}.
  * One caveat of this poor-man's solution is that if start point or start simplex
  * is completely outside of the allowed range, only the penalty function is used,

@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.nonlinear.scalar.gradient;
+package org.apache.commons.math4.optim.nonlinear.scalar.gradient;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunction;
-import org.apache.commons.math3.optim.nonlinear.scalar.ObjectiveFunctionGradient;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunction;
+import org.apache.commons.math4.optim.nonlinear.scalar.ObjectiveFunctionGradient;
 
 /**
  * Class used in the tests.

@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.univariate;
+package org.apache.commons.math4.optimization.univariate;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optimization.BaseOptimizer;
-import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.optimization.BaseOptimizer;
+import org.apache.commons.math4.optimization.GoalType;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
  * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.univariate.UnivariateOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.
@@ -49,9 +49,9 @@ public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
      * @param max Upper bound for the interval.
      * @param maxEval Maximum number of function evaluations.
      * @return a (point, value) pair where the function is optimum.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the optimizer detects a convergence problem.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
@@ -71,13 +71,13 @@ public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction>
      * @param startValue Start value to use.
      * @param maxEval Maximum number of function evaluations.
      * @return a (point, value) pair where the function is optimum.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximum evaluation count is exceeded.
-     * @throws org.apache.commons.math3.exception.ConvergenceException if the
+     * @throws org.apache.commons.math4.exception.ConvergenceException if the
      * optimizer detects a convergence problem.
      * @throws IllegalArgumentException if {@code min > max} or the endpoints
      * do not satisfy the requirements specified by the optimizer.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if any
+     * @throws org.apache.commons.math4.exception.NullArgumentException if any
      * argument is {@code null}.
      */
     UnivariatePointValuePair optimize(int maxEval, FUNC f, GoalType goalType,

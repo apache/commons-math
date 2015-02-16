@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration;
+package org.apache.commons.math4.analysis.integration;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
 
 /**
  * Interface for univariate real integration algorithms.

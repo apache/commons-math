@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat;
+package org.apache.commons.math4.stat;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.stat.Frequency;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

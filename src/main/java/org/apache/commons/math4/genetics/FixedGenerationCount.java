@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
 
 /**
  * Stops after a fixed number of generations. Each time {@link #isSatisfied(Population)} is invoked, a generation

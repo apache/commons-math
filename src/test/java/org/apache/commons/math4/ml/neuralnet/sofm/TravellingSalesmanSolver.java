@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -23,23 +23,30 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.Iterator;
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import org.apache.commons.math3.ml.neuralnet.oned.NeuronString;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well44497b;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.function.HarmonicOscillator;
-import org.apache.commons.math3.analysis.function.Constant;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
+
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Constant;
+import org.apache.commons.math4.analysis.function.HarmonicOscillator;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math4.ml.neuralnet.Network;
+import org.apache.commons.math4.ml.neuralnet.Neuron;
+import org.apache.commons.math4.ml.neuralnet.oned.NeuronString;
+import org.apache.commons.math4.ml.neuralnet.sofm.KohonenTrainingTask;
+import org.apache.commons.math4.ml.neuralnet.sofm.KohonenUpdateAction;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well44497b;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Solves the "Travelling Salesman's Problem" (i.e. trying to find the

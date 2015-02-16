@@ -14,14 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 
 import java.util.Random;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.random.ISAACRandom;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.random.ISAACRandom;
+import org.apache.commons.math4.stat.regression.ModelSpecificationException;
+import org.apache.commons.math4.stat.regression.RegressionResults;
+import org.apache.commons.math4.stat.regression.SimpleRegression;
+import org.apache.commons.math4.stat.regression.UpdatingMultipleLinearRegression;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

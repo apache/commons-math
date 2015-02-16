@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
 /** Subclass of {@link Dfp} which hides the radix-10000 artifacts of the superclass.
  * This should give outward appearances of being a decimal number with DIGITS*4-3

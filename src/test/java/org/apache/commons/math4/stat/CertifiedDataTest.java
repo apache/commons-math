@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat;
+package org.apache.commons.math4.stat;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math4.stat.descriptive.SummaryStatistics;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.function;
+package org.apache.commons.math4.analysis.function;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
-import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Sigmoid_function">

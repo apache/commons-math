@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.transform;
+package org.apache.commons.math4.transform;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 
 /**
  * Interface for one-dimensional data sets transformations producing real results.
@@ -28,7 +28,7 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
  * {@link FastCosineTransformer cosine transform} or {@link
  * FastHadamardTransformer Hadamard transform}. {@link FastFourierTransformer
  * Fourier transform} is of a different kind and does not implement this
- * interface since it produces {@link org.apache.commons.math3.complex.Complex}
+ * interface since it produces {@link org.apache.commons.math4.complex.Complex}
  * results instead of real ones.
  *
  * @since 2.0

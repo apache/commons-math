@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.function;
+package org.apache.commons.math4.analysis.function;
 
-import org.apache.commons.math3.analysis.BivariateFunction;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.BivariateFunction;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Minimum function.

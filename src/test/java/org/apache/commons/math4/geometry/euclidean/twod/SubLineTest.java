@@ -14,13 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.util.List;
 
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
+import org.apache.commons.math4.geometry.euclidean.twod.Line;
+import org.apache.commons.math4.geometry.euclidean.twod.Segment;
+import org.apache.commons.math4.geometry.euclidean.twod.SubLine;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

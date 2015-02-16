@@ -15,11 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Random;
-import org.apache.commons.math3.linear.SingularMatrixException;
 
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
+import org.apache.commons.math4.linear.DefaultRealMatrixPreservingVisitor;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.QRDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.linear.SingularMatrixException;
 import org.junit.Assert;
 import org.junit.Test;
 

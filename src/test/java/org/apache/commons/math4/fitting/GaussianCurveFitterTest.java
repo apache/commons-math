@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.TooManyIterationsException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.fitting.GaussianCurveFitter;
+import org.apache.commons.math4.fitting.WeightedObservedPoints;
 import org.junit.Assert;
 import org.junit.Test;
 

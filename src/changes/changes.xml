@@ -53,7 +53,7 @@ If the output is not quite correct, check for invisible trailing spaces!
     <release version="TBD" date="TBD" description="TBD">
     </release>
 
-    <release version="3.5" date="2015-01-11" description="">
+    <release version="4.0" date="XXXX-XX-XX" description="">
       <action dev="sebb" type="add" issue="MATH-1198">
         Simplified "FastMath#exp(double)" in order to avoid a potential
         Java 1.5 JIT bug when calling with negative infinity as argument.

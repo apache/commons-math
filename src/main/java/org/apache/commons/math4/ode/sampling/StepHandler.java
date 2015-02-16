@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
 
 
 /**
@@ -33,8 +33,8 @@ import org.apache.commons.math3.exception.MaxCountExceededException;
  * last one, store the points in an ephemeris, or forward them to
  * specialized processing or output methods.</p>
  *
- * @see org.apache.commons.math3.ode.FirstOrderIntegrator
- * @see org.apache.commons.math3.ode.SecondOrderIntegrator
+ * @see org.apache.commons.math4.ode.FirstOrderIntegrator
+ * @see org.apache.commons.math4.ode.SecondOrderIntegrator
  * @see StepInterpolator
  * @since 1.2
  */
@@ -60,7 +60,7 @@ public interface StepHandler {
      * object on each call, so if the instance wants to keep it across
      * all calls (for example to provide at the end of the integration a
      * continuous model valid throughout the integration range, as the
-     * {@link org.apache.commons.math3.ode.ContinuousOutputModel
+     * {@link org.apache.commons.math4.ode.ContinuousOutputModel
      * ContinuousOutputModel} class does), it should build a local copy
      * using the clone method of the interpolator and store this copy.
      * Keeping only a reference to the interpolator and reusing it will

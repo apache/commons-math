@@ -15,22 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.apache.commons.math3.optimization.fitting;
+package org.apache.commons.math4.optimization.fitting;
 
 import java.util.Random;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction.Parametric;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.general.GaussNewtonOptimizer;
-import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
-import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.distribution.RealDistribution;
-import org.apache.commons.math3.distribution.UniformRealDistribution;
-import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction.Parametric;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.distribution.UniformRealDistribution;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math4.optimization.SimpleVectorValueChecker;
+import org.apache.commons.math4.optimization.fitting.CurveFitter;
+import org.apache.commons.math4.optimization.fitting.PolynomialFitter;
+import org.apache.commons.math4.optimization.general.GaussNewtonOptimizer;
+import org.apache.commons.math4.optimization.general.LevenbergMarquardtOptimizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

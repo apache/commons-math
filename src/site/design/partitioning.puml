@@ -24,7 +24,7 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math3.geometry #ECEBD8
+  package org.apache.commons.math4.geometry #ECEBD8
 
     package partitioning #DDEBD8
 

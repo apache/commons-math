@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Vector;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
 
 /** This class represents a 1D oriented hyperplane.
  * <p>An hyperplane in 1D is a simple point, its orientation being a
@@ -91,9 +91,9 @@ public class OrientedPoint implements Hyperplane<Euclidean1D> {
      * <p>Since this class represent zero dimension spaces which does
      * not have lower dimension sub-spaces, this method returns a dummy
      * implementation of a {@link
-     * org.apache.commons.math3.geometry.partitioning.SubHyperplane SubHyperplane}.
+     * org.apache.commons.math4.geometry.partitioning.SubHyperplane SubHyperplane}.
      * This implementation is only used to allow the {@link
-     * org.apache.commons.math3.geometry.partitioning.SubHyperplane
+     * org.apache.commons.math4.geometry.partitioning.SubHyperplane
      * SubHyperplane} class implementation to work properly, it should
      * <em>not</em> be used otherwise.</p>
      * @return a dummy sub hyperplane

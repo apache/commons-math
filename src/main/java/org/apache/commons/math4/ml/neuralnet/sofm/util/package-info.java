@@ -19,4 +19,4 @@
  * Miscellaneous utilities.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm.util;
+package org.apache.commons.math4.ml.neuralnet.sofm.util;

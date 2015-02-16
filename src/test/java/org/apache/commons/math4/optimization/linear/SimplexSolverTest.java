@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.linear;
+package org.apache.commons.math4.optimization.linear;
 
 import org.junit.Assert;
 
@@ -23,9 +23,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.linear.LinearConstraint;
+import org.apache.commons.math4.optimization.linear.LinearObjectiveFunction;
+import org.apache.commons.math4.optimization.linear.NoFeasibleSolutionException;
+import org.apache.commons.math4.optimization.linear.Relationship;
+import org.apache.commons.math4.optimization.linear.SimplexSolver;
+import org.apache.commons.math4.optimization.linear.UnboundedSolutionException;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Test;
 
 @Deprecated

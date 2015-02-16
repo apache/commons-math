@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;
 
 /**
  * The multiple linear regression can be represented in matrix-notation.

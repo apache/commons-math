@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting.leastsquares;
+package org.apache.commons.math4.fitting.leastsquares;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem.Evaluation;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.CholeskyDecomposition;
-import org.apache.commons.math3.linear.LUDecomposition;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException;
-import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.linear.SingularMatrixException;
-import org.apache.commons.math3.linear.SingularValueDecomposition;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem.Evaluation;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.CholeskyDecomposition;
+import org.apache.commons.math4.linear.LUDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.NonPositiveDefiniteMatrixException;
+import org.apache.commons.math4.linear.QRDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.linear.SingularMatrixException;
+import org.apache.commons.math4.linear.SingularValueDecomposition;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Gauss-Newton least-squares solver.

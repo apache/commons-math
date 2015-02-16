@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.FieldElement;
 
 /** Field for Decimal floating point instances.
  * @since 2.2

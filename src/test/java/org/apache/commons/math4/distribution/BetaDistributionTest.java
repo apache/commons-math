@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
+import org.apache.commons.math4.distribution.BetaDistribution;
 import org.junit.Assert;
 import org.junit.Test;
 

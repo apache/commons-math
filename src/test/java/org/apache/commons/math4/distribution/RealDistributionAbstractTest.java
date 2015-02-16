@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
 
 import java.util.ArrayList;
@@ -25,13 +25,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.BaseAbstractUnivariateIntegrator;
-import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
+import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

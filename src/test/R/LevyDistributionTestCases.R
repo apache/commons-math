@@ -15,7 +15,7 @@
 #
 #------------------------------------------------------------------------------
 # R source file to validate Lévy distribution tests in
-# org.apache.commons.math3.distribution.LevyDistributionTest
+# org.apache.commons.math4.distribution.LevyDistributionTest
 #
 # To run the test, install R, put this file and testFunctions
 # into the same directory, launch R from this directory and then enter

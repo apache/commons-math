@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
  * Commons-Math. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableVectorOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.univariate.UnivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.MultivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.MultivariateDifferentiableOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.MultivariateDifferentiableVectorOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.univariate.UnivariateOptimizer}</li>
  * </ul>
  *
  * @param <PAIR> Type of the point/objective pair.

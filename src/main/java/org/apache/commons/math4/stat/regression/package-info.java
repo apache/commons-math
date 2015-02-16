@@ -19,4 +19,4 @@
  *      Statistical routines involving multivariate data.
  *
  */
-package org.apache.commons.math3.stat.regression;
+package org.apache.commons.math4.stat.regression;

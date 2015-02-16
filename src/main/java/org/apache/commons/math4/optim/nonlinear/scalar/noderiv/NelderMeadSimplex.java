@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
 
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.optim.PointValuePair;
 
 /**
  * This class implements the Nelder-Mead simplex algorithm.
@@ -164,9 +164,9 @@ public class NelderMeadSimplex extends AbstractSimplex {
      * @param khi Expansion coefficient.
      * @param gamma Contraction coefficient.
      * @param sigma Shrinkage coefficient.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if the reference simplex does not contain at least one point.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if there is a dimension mismatch in the reference simplex.
      */
     public NelderMeadSimplex(final double[][] referenceSimplex,

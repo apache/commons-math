@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.nonstiff;
+package org.apache.commons.math4.ode.nonstiff;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.apache.commons.math3.ode.EquationsMapper;
-import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.ode.EquationsMapper;
+import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class implements an interpolator for the Gragg-Bulirsch-Stoer

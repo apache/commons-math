@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.integration;
+package org.apache.commons.math4.analysis.integration;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.util.Incrementor;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Provide a default implementation for several generic functions.
@@ -80,7 +80,7 @@ public abstract class BaseAbstractUnivariateIntegrator implements UnivariateInte
      *       achieved due to large values or short mantissa length. If this
      *       should be the primary criterion for convergence rather then a
      *       safety measure, set the absolute accuracy to a ridiculously small value,
-     *       like {@link org.apache.commons.math3.util.Precision#SAFE_MIN Precision.SAFE_MIN}.</li>
+     *       like {@link org.apache.commons.math4.util.Precision#SAFE_MIN Precision.SAFE_MIN}.</li>
      *   <li>absolute accuracy:
      *       The default is usually chosen so that results in the interval
      *       -10..-0.1 and +0.1..+10 can be found with a reasonable accuracy. If the

@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
 
 /**
  * This abstract class provides a general framework for managing iterative
@@ -52,7 +52,7 @@ public class IterationManager {
      * @param maxIterations the maximum number of iterations
      * @param callBack the function to be called when the maximum number of
      * iterations has been reached
-     * @throws org.apache.commons.math3.exception.NullArgumentException if {@code callBack} is {@code null}
+     * @throws org.apache.commons.math4.exception.NullArgumentException if {@code callBack} is {@code null}
      * @since 3.1
      */
     public IterationManager(final int maxIterations,

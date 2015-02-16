@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.interval;
+package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.stat.interval.BinomialConfidenceInterval;
-import org.apache.commons.math3.stat.interval.ConfidenceInterval;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.stat.interval.BinomialConfidenceInterval;
+import org.apache.commons.math4.stat.interval.ConfidenceInterval;
 import org.junit.Before;
 import org.junit.Test;
 

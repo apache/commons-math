@@ -12,7 +12,7 @@
  * governing permissions and limitations under the License.
  */
 
-package org.apache.commons.math3.userguide.filter;
+package org.apache.commons.math4.userguide.filter;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -25,19 +25,19 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import org.apache.commons.math3.filter.DefaultMeasurementModel;
-import org.apache.commons.math3.filter.DefaultProcessModel;
-import org.apache.commons.math3.filter.KalmanFilter;
-import org.apache.commons.math3.filter.MeasurementModel;
-import org.apache.commons.math3.filter.ProcessModel;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.userguide.ExampleUtils;
-import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
+import org.apache.commons.math4.filter.DefaultMeasurementModel;
+import org.apache.commons.math4.filter.DefaultProcessModel;
+import org.apache.commons.math4.filter.KalmanFilter;
+import org.apache.commons.math4.filter.MeasurementModel;
+import org.apache.commons.math4.filter.ProcessModel;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.userguide.ExampleUtils;
+import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;

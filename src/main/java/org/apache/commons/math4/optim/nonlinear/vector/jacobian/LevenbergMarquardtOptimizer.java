@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
+package org.apache.commons.math4.optim.nonlinear.vector.jacobian;
 
 import java.util.Arrays;
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.FastMath;
+
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 
 
 /**
@@ -110,7 +111,7 @@ import org.apache.commons.math3.util.FastMath;
  * @since 2.0
  * @deprecated All classes and interfaces in this package are deprecated.
  * The optimizers that were provided here were moved to the
- * {@link org.apache.commons.math3.fitting.leastsquares} package
+ * {@link org.apache.commons.math4.fitting.leastsquares} package
  * (cf. MATH-1008).
  */
 @Deprecated

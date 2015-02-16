@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;
 
-import org.apache.commons.math3.exception.MathInternalError;
+import org.apache.commons.math4.exception.MathInternalError;
 
 /** Enumerate for {@link EventFilter filtering events}.
  *
@@ -83,7 +83,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.math4.util.Precision#SAFE_MIN}.
          * </p>
          */
         @Override
@@ -261,7 +261,7 @@ public enum FilterType {
          *   <li>h = min(-s,-g,+g)</li>
          *   <li>h = -g</li>
          * </ul>
-         * where s is a tiny positive value: {@link org.apache.commons.math3.util.Precision#SAFE_MIN}.
+         * where s is a tiny positive value: {@link org.apache.commons.math4.util.Precision#SAFE_MIN}.
          * </p>
          */
         @Override

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide;
+package org.apache.commons.math4.userguide;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,23 +34,23 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.ml.clustering.CentroidCluster;
-import org.apache.commons.math3.ml.clustering.Cluster;
-import org.apache.commons.math3.ml.clustering.Clusterable;
-import org.apache.commons.math3.ml.clustering.Clusterer;
-import org.apache.commons.math3.ml.clustering.DBSCANClusterer;
-import org.apache.commons.math3.ml.clustering.DoublePoint;
-import org.apache.commons.math3.ml.clustering.FuzzyKMeansClusterer;
-import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
-import org.apache.commons.math3.random.RandomAdaptor;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.SobolSequenceGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.ml.clustering.CentroidCluster;
+import org.apache.commons.math4.ml.clustering.Cluster;
+import org.apache.commons.math4.ml.clustering.Clusterable;
+import org.apache.commons.math4.ml.clustering.Clusterer;
+import org.apache.commons.math4.ml.clustering.DBSCANClusterer;
+import org.apache.commons.math4.ml.clustering.DoublePoint;
+import org.apache.commons.math4.ml.clustering.FuzzyKMeansClusterer;
+import org.apache.commons.math4.ml.clustering.KMeansPlusPlusClusterer;
+import org.apache.commons.math4.random.RandomAdaptor;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.SobolSequenceGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Pair;
+import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 /**
  * Plots clustering results for various algorithms and datasets.

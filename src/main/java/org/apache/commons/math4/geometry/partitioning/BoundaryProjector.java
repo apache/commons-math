@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.partitioning.Region.Location;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.partitioning.Region.Location;
+import org.apache.commons.math4.util.FastMath;
 
 /** Local tree visitor to compute projection on boundary.
  * @param <S> Type of the space.

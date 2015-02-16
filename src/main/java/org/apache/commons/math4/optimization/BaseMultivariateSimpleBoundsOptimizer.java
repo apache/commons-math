@@ -15,17 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization;
+package org.apache.commons.math4.optimization;
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateFunction;
 
 /**
  * This interface is mainly intended to enforce the internal coherence of
  * Commons-FastMath. Users of the API are advised to base their code on
  * the following interfaces:
  * <ul>
- *  <li>{@link org.apache.commons.math3.optimization.MultivariateOptimizer}</li>
- *  <li>{@link org.apache.commons.math3.optimization.MultivariateDifferentiableOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.MultivariateOptimizer}</li>
+ *  <li>{@link org.apache.commons.math4.optimization.MultivariateDifferentiableOptimizer}</li>
  * </ul>
  *
  * @param <FUNC> Type of the objective function to be optimized.
@@ -48,15 +48,15 @@ public interface BaseMultivariateSimpleBoundsOptimizer<FUNC extends Multivariate
      * @param upperBound Upper bound for each of the parameters.
      * @return the point/value pair giving the optimal value for objective
      * function.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the array sizes are wrong.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * @throws org.apache.commons.math4.exception.NullArgumentException if
      * {@code f}, {@code goalType} or {@code startPoint} is {@code null}.
-     * @throws org.apache.commons.math3.exception.NumberIsTooSmallException if any
+     * @throws org.apache.commons.math4.exception.NumberIsTooSmallException if any
      * of the initial values is less than its lower bound.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException if any
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException if any
      * of the initial values is greater than its upper bound.
      */
     PointValuePair optimize(int maxEval, FUNC f, GoalType goalType,

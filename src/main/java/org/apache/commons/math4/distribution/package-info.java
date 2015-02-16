@@ -17,4 +17,4 @@
 /**
  * Implementations of common discrete and continuous distributions.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;

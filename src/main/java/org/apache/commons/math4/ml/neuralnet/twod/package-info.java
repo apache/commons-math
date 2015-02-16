@@ -19,4 +19,4 @@
  * Two-dimensional neural networks.
  */
 
-package org.apache.commons.math3.ml.neuralnet.twod;
+package org.apache.commons.math4.ml.neuralnet.twod;

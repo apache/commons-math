@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.twod;
+package org.apache.commons.math4.geometry.spherical.twod;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,21 +22,21 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
-import org.apache.commons.math3.geometry.euclidean.threed.Euclidean3D;
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.SphereGenerator;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.partitioning.AbstractRegion;
-import org.apache.commons.math3.geometry.partitioning.BSPTree;
-import org.apache.commons.math3.geometry.partitioning.BoundaryProjection;
-import org.apache.commons.math3.geometry.partitioning.RegionFactory;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.spherical.oned.Sphere1D;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
+import org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D;
+import org.apache.commons.math4.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math4.geometry.euclidean.threed.SphereGenerator;
+import org.apache.commons.math4.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math4.geometry.partitioning.AbstractRegion;
+import org.apache.commons.math4.geometry.partitioning.BSPTree;
+import org.apache.commons.math4.geometry.partitioning.BoundaryProjection;
+import org.apache.commons.math4.geometry.partitioning.RegionFactory;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.geometry.spherical.oned.Sphere1D;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents a region on the 2-sphere: a set of spherical polygons.
  * @since 3.3
@@ -105,7 +105,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * boundary does not really separate an inside open from an outside
      * open (open having here its topological meaning), then subsequent
      * calls to the {@link
-     * org.apache.commons.math3.geometry.partitioning.Region#checkPoint(org.apache.commons.math3.geometry.Point)
+     * org.apache.commons.math4.geometry.partitioning.Region#checkPoint(org.apache.commons.math4.geometry.Point)
      * checkPoint} method will not be meaningful anymore.</p>
      * <p>If the boundary is empty, the region will represent the whole
      * space.</p>
@@ -419,7 +419,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * <p>
      * This method is intended as a first test to quickly identify points
      * that are guaranteed to be outside of the region, hence performing a full
-     * {@link #checkPoint(org.apache.commons.math3.geometry.Vector) checkPoint}
+     * {@link #checkPoint(org.apache.commons.math4.geometry.Vector) checkPoint}
      * only if the point status remains undecided after the quick check. It is
      * is therefore mostly useful to speed up computation for small polygons with
      * complex shapes (say a country boundary on Earth), as the spherical cap will
@@ -454,7 +454,7 @@ public class SphericalPolygonsSet extends AbstractRegion<Sphere2D, Sphere1D> {
      * In the special cases of empty or whole sphere polygons, special
      * spherical caps are returned, with angular radius set to negative
      * or positive infinity so the {@link
-     * EnclosingBall#contains(org.apache.commons.math3.geometry.Point) ball.contains(point)}
+     * EnclosingBall#contains(org.apache.commons.math4.geometry.Point) ball.contains(point)}
      * method return always false or true.
      * </p>
      * <p>

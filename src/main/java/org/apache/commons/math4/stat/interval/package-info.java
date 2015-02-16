@@ -19,4 +19,4 @@
  *      Classes providing binomial proportion confidence interval construction.
  *
  */
-package org.apache.commons.math3.stat.interval;
+package org.apache.commons.math4.stat.interval;

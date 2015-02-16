@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;
 
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.geometry.spherical.oned.LimitAngle;
+import org.apache.commons.math4.geometry.spherical.oned.S1Point;
+import org.apache.commons.math4.util.MathUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

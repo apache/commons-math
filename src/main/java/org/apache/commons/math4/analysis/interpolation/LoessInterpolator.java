@@ -14,23 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.exception.NotFiniteNumberException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.exception.NotFiniteNumberException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * Implements the <a href="http://en.wikipedia.org/wiki/Local_regression">
@@ -163,7 +163,7 @@ public class LoessInterpolator
      * Compute an interpolating function by performing a loess fit
      * on the data at the original abscissae and then building a cubic spline
      * with a
-     * {@link org.apache.commons.math3.analysis.interpolation.SplineInterpolator}
+     * {@link org.apache.commons.math4.analysis.interpolation.SplineInterpolator}
      * on the resulting fit.
      *
      * @param xval the arguments for the interpolation points
@@ -462,7 +462,7 @@ public class LoessInterpolator
      * Check that all elements of an array are finite real numbers.
      *
      * @param values Values array.
-     * @throws org.apache.commons.math3.exception.NotFiniteNumberException
+     * @throws org.apache.commons.math4.exception.NotFiniteNumberException
      * if one of the values is not a finite real number.
      */
     private static void checkAllFiniteReal(final double[] values) {

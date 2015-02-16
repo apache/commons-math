@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,12 +25,12 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import org.apache.commons.math3.exception.MathInternalError;
-import org.apache.commons.math3.exception.MathParseException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathInternalError;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Implementation of a Sobol sequence.
@@ -65,7 +65,7 @@ public class SobolSequenceGenerator implements RandomVectorGenerator {
     private static final int MAX_DIMENSION = 1000;
 
     /** The resource containing the direction numbers. */
-    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math3/random/new-joe-kuo-6.1000";
+    private static final String RESOURCE_NAME = "/assets/org/apache/commons/math4/random/new-joe-kuo-6.1000";
 
     /** Character set for file input. */
     private static final String FILE_CHARSET = "US-ASCII";

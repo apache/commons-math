@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.optim.nonlinear.vector.MultivariateVectorOptimizer;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.optim.nonlinear.vector.MultivariateVectorOptimizer;
 
 /**
  * Polynomial fitting is a very simple case of {@link CurveFitter curve fitting}.
@@ -47,9 +47,9 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * increasing order of the polynomial's degree.
      * @param maxEval Maximum number of evaluations of the polynomial.
      * @return the coefficients of the polynomial that best fits the observed points.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the number of evaluations exceeds {@code maxEval}.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the algorithm failed to converge.
      */
     public double[] fit(int maxEval, double[] guess) {
@@ -63,7 +63,7 @@ public class PolynomialFitter extends CurveFitter<PolynomialFunction.Parametric>
      * @param guess First guess for the coefficients. They must be sorted in
      * increasing order of the polynomial's degree.
      * @return the coefficients of the polynomial that best fits the observed points.
-     * @throws org.apache.commons.math3.exception.ConvergenceException
+     * @throws org.apache.commons.math4.exception.ConvergenceException
      * if the algorithm failed to converge.
      */
     public double[] fit(double[] guess) {

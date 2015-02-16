@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
 import java.util.Iterator;
-import org.apache.commons.math3.ml.neuralnet.Network;
+
+import org.apache.commons.math4.ml.neuralnet.Network;
 
 /**
  * Trainer for Kohonen's Self-Organizing Map.

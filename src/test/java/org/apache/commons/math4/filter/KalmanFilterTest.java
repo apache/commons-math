@@ -12,20 +12,25 @@
  * governing permissions and limitations under the License.
  */
 
-package org.apache.commons.math3.filter;
+package org.apache.commons.math4.filter;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.MatrixDimensionMismatchException;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.random.Well19937c;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.filter.DefaultMeasurementModel;
+import org.apache.commons.math4.filter.DefaultProcessModel;
+import org.apache.commons.math4.filter.KalmanFilter;
+import org.apache.commons.math4.filter.MeasurementModel;
+import org.apache.commons.math4.filter.ProcessModel;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.MatrixDimensionMismatchException;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 

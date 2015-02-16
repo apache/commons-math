@@ -14,16 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.transform;
+package org.apache.commons.math4.transform;
 
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.transform.FastHadamardTransformer;
+import org.apache.commons.math4.transform.TransformType;
+import org.apache.commons.math4.util.Precision;
 import org.junit.Assert;
 import org.junit.Test;
 
 
 /**
  * JUnit Test for HadamardTransformerTest
- * @see org.apache.commons.math3.transform.FastHadamardTransformer
+ * @see org.apache.commons.math4.transform.FastHadamardTransformer
  */
 public final class FastHadamardTransformerTest {
 

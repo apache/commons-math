@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.optim.OptimizationData;
 
 /**
  * Scalar function to be optimized.

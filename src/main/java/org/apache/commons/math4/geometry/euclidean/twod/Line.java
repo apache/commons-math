@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.awt.geom.AffineTransform;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Vector;
-import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
-import org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet;
-import org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint;
-import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
-import org.apache.commons.math3.geometry.partitioning.Embedding;
-import org.apache.commons.math3.geometry.partitioning.Hyperplane;
-import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
-import org.apache.commons.math3.geometry.partitioning.Transform;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Vector;
+import org.apache.commons.math4.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math4.geometry.euclidean.oned.IntervalsSet;
+import org.apache.commons.math4.geometry.euclidean.oned.OrientedPoint;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math4.geometry.partitioning.Embedding;
+import org.apache.commons.math4.geometry.partitioning.Hyperplane;
+import org.apache.commons.math4.geometry.partitioning.SubHyperplane;
+import org.apache.commons.math4.geometry.partitioning.Transform;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MathUtils;
 
 /** This class represents an oriented line in the 2D plane.
 
@@ -377,7 +377,7 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
     /** Compute the distance between the instance and a point.
      * <p>This is a shortcut for invoking FastMath.abs(getOffset(p)),
      * and provides consistency with what is in the
-     * org.apache.commons.math3.geometry.euclidean.threed.Line class.</p>
+     * org.apache.commons.math4.geometry.euclidean.threed.Line class.</p>
      *
      * @param p to check
      * @return distance between the instance and the point
@@ -435,16 +435,16 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         originOffset = offset;
     }
 
-    /** Get a {@link org.apache.commons.math3.geometry.partitioning.Transform
+    /** Get a {@link org.apache.commons.math4.geometry.partitioning.Transform
      * Transform} embedding an affine transform.
      * @param transform affine transform to embed (must be inversible
      * otherwise the {@link
-     * org.apache.commons.math3.geometry.partitioning.Transform#apply(Hyperplane)
+     * org.apache.commons.math4.geometry.partitioning.Transform#apply(Hyperplane)
      * apply(Hyperplane)} method would work only for some lines, and
      * fail for other ones)
      * @return a new transform that can be applied to either {@link
      * Vector2D Vector2D}, {@link Line Line} or {@link
-     * org.apache.commons.math3.geometry.partitioning.SubHyperplane
+     * org.apache.commons.math4.geometry.partitioning.SubHyperplane
      * SubHyperplane} instances
      * @exception MathIllegalArgumentException if the transform is non invertible
      */

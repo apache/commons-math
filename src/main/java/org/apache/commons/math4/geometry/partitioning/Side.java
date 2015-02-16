@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;
 
 /** Enumerate representing the location of an element with respect to an
  * {@link Hyperplane hyperplane} of a space.

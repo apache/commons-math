@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.MultivariateOptimizer;
-import org.apache.commons.math3.optimization.univariate.BracketFinder;
-import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
-import org.apache.commons.math3.optimization.univariate.UnivariatePointValuePair;
-import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.MultivariateOptimizer;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.univariate.BracketFinder;
+import org.apache.commons.math4.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math4.optimization.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math4.optimization.univariate.UnivariatePointValuePair;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Powell algorithm.
@@ -324,7 +324,7 @@ public class PowellOptimizer
          * @param p Starting point.
          * @param d Search direction.
          * @return the optimum.
-         * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+         * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
          * if the number of evaluations is exceeded.
          */
         public UnivariatePointValuePair search(final double[] p, final double[] d) {

@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.apache.commons.math4.analysis.differentiation.DSCompiler;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.util.CombinatoricsUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

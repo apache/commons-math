@@ -14,16 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;
 
 import java.util.Random;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.dfp.Dfp;
-import org.apache.commons.math3.dfp.DfpField;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.interpolation.FieldHermiteInterpolator;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.dfp.Dfp;
+import org.apache.commons.math4.dfp.DfpField;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -27,4 +27,4 @@
  *
  *
  */
-package org.apache.commons.math3.optimization.fitting;
+package org.apache.commons.math4.optimization.fitting;

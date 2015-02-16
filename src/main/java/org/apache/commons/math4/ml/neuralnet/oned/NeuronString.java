@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.oned;
+package org.apache.commons.math4.ml.neuralnet.oned;
 
 import java.io.Serializable;
 import java.io.ObjectInputStream;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
+
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.Network;
 
 /**
  * Neural network with the topology of a one-dimensional line.

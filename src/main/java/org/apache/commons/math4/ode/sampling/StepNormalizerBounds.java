@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 /** {@link StepNormalizer Step normalizer} bounds settings. They influence
  * whether the underlying fixed step size step handler is called for the first

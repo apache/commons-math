@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
 /**
  * Implements the <em>Regula Falsi</em> or <em>False position</em> method for

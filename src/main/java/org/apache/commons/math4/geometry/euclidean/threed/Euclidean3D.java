@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.threed;
+package org.apache.commons.math4.geometry.euclidean.threed;
 
 import java.io.Serializable;
 
-import org.apache.commons.math3.geometry.Space;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.Space;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
 
 /**
  * This class implements a three-dimensional space.

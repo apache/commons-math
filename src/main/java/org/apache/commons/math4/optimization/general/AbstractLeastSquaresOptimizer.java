@@ -15,31 +15,31 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
-import org.apache.commons.math3.analysis.DifferentiableMultivariateVectorFunction;
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.linear.DecompositionSolver;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.QRDecomposition;
-import org.apache.commons.math3.linear.EigenDecomposition;
-import org.apache.commons.math3.optimization.OptimizationData;
-import org.apache.commons.math3.optimization.InitialGuess;
-import org.apache.commons.math3.optimization.Target;
-import org.apache.commons.math3.optimization.Weight;
-import org.apache.commons.math3.optimization.ConvergenceChecker;
-import org.apache.commons.math3.optimization.DifferentiableMultivariateVectorOptimizer;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.DifferentiableMultivariateVectorFunction;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.DecompositionSolver;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.linear.EigenDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.QRDecomposition;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optimization.ConvergenceChecker;
+import org.apache.commons.math4.optimization.DifferentiableMultivariateVectorOptimizer;
+import org.apache.commons.math4.optimization.InitialGuess;
+import org.apache.commons.math4.optimization.OptimizationData;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
+import org.apache.commons.math4.optimization.Target;
+import org.apache.commons.math4.optimization.Weight;
+import org.apache.commons.math4.optimization.direct.BaseAbstractMultivariateVectorOptimizer;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Base class for implementing least squares optimizers.
@@ -48,13 +48,13 @@ import org.apache.commons.math3.util.FastMath;
  * <br/>
  * This class constructs the Jacobian matrix of the function argument in method
  * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,
- * org.apache.commons.math3.analysis.MultivariateVectorFunction,OptimizationData[])
+ * org.apache.commons.math4.analysis.MultivariateVectorFunction,OptimizationData[])
  * optimize} and assumes that the rows of that matrix iterate on the model
  * functions while the columns iterate on the parameters; thus, the numbers
  * of rows is equal to the dimension of the
- * {@link org.apache.commons.math3.optimization.Target Target} while
+ * {@link org.apache.commons.math4.optimization.Target Target} while
  * the number of columns is equal to the dimension of the
- * {@link org.apache.commons.math3.optimization.InitialGuess InitialGuess}.
+ * {@link org.apache.commons.math4.optimization.InitialGuess InitialGuess}.
  *
  * @deprecated As of 3.1 (to be removed in 4.0).
  * @since 1.2
@@ -121,8 +121,8 @@ public abstract class AbstractLeastSquaresOptimizer
     /**
      * Simple constructor with default settings.
      * The convergence check is set to a {@link
-     * org.apache.commons.math3.optimization.SimpleVectorValueChecker}.
-     * @deprecated See {@link org.apache.commons.math3.optimization.SimpleValueChecker#SimpleValueChecker()}
+     * org.apache.commons.math4.optimization.SimpleVectorValueChecker}.
+     * @deprecated See {@link org.apache.commons.math4.optimization.SimpleValueChecker#SimpleValueChecker()}
      */
     @Deprecated
     protected AbstractLeastSquaresOptimizer() {}
@@ -194,7 +194,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * Update the residuals array and cost function value.
      * @throws DimensionMismatchException if the dimension does not match the
      * problem dimension.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
      * @deprecated As of 3.1. Please use {@link #computeResiduals(double[])},
      * {@link #computeObjectiveValue(double[])}, {@link #computeCost(double[])}
@@ -274,7 +274,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * Get the covariance matrix of the optimized parameters.
      *
      * @return the covariance matrix.
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      * @see #getCovariances(double)
      * @deprecated As of 3.1. Please use {@link #computeCovariances(double[],double)}
@@ -297,7 +297,7 @@ public abstract class AbstractLeastSquaresOptimizer
      *
      * @param threshold Singularity threshold.
      * @return the covariance matrix.
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      * @deprecated As of 3.1. Please use {@link #computeCovariances(double[],double)}
      * instead.
@@ -320,7 +320,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @param params Model parameters.
      * @param threshold Singularity threshold.
      * @return the covariance matrix.
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed (singular problem).
      * @since 3.1
      */
@@ -358,7 +358,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * </p>
      *
      * @return an estimate of the standard deviation of the optimized parameters
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed.
      * @throws NumberIsTooSmallException if the number of degrees of freedom is not
      * positive, i.e. the number of measurements is less or equal to the number of
@@ -393,7 +393,7 @@ public abstract class AbstractLeastSquaresOptimizer
      * @param covarianceSingularityThreshold Singularity threshold (see
      * {@link #computeCovariances(double[],double) computeCovariances}).
      * @return an estimate of the standard deviation of the optimized parameters
-     * @throws org.apache.commons.math3.linear.SingularMatrixException
+     * @throws org.apache.commons.math4.linear.SingularMatrixException
      * if the covariance matrix cannot be computed.
      * @since 3.1
      */
@@ -411,7 +411,7 @@ public abstract class AbstractLeastSquaresOptimizer
     /** {@inheritDoc}
      * @deprecated As of 3.1. Please use
      * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,
-     * org.apache.commons.math3.analysis.MultivariateVectorFunction,OptimizationData[])
+     * org.apache.commons.math4.analysis.MultivariateVectorFunction,OptimizationData[])
      * optimize(int,MultivariateDifferentiableVectorFunction,OptimizationData...)}
      * instead.
      */
@@ -441,15 +441,15 @@ public abstract class AbstractLeastSquaresOptimizer
      * @return the point/value pair giving the optimal value for objective
      * function.
      * @param maxEval Maximum number of function evaluations.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the start point dimension is wrong.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximal number of evaluations is exceeded.
-     * @throws org.apache.commons.math3.exception.NullArgumentException if
+     * @throws org.apache.commons.math4.exception.NullArgumentException if
      * any argument is {@code null}.
      * @deprecated As of 3.1. Please use
      * {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,
-     * org.apache.commons.math3.analysis.MultivariateVectorFunction,OptimizationData[])
+     * org.apache.commons.math4.analysis.MultivariateVectorFunction,OptimizationData[])
      * optimize(int,MultivariateDifferentiableVectorFunction,OptimizationData...)}
      * instead.
      */
@@ -480,12 +480,12 @@ public abstract class AbstractLeastSquaresOptimizer
      * </ul>
      * @return the point/value pair giving the optimal value of the objective
      * function.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the maximal number of evaluations is exceeded.
      * @throws DimensionMismatchException if the target, and weight arguments
      * have inconsistent dimensions.
      * @see BaseAbstractMultivariateVectorOptimizer#optimizeInternal(int,
-     * org.apache.commons.math3.analysis.MultivariateVectorFunction,OptimizationData[])
+     * org.apache.commons.math4.analysis.MultivariateVectorFunction,OptimizationData[])
      * @since 3.1
      * @deprecated As of 3.1. Override is necessary only until this class's generic
      * argument is changed to {@code MultivariateDifferentiableVectorFunction}.

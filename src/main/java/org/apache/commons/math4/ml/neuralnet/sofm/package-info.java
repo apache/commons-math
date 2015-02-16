@@ -19,4 +19,4 @@
  * Self Organizing Feature Map.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;

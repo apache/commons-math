@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
-import org.apache.commons.math3.ml.neuralnet.sofm.util.ExponentialDecayFunction;
-import org.apache.commons.math3.ml.neuralnet.sofm.util.QuasiSigmoidDecayFunction;
-import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.ml.neuralnet.sofm.util.ExponentialDecayFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.util.QuasiSigmoidDecayFunction;
 
 /**
  * Factory for creating instances of {@link LearningFactorFunction}.
@@ -45,13 +45,13 @@ public class LearningFactorFunctionFactory {
      * @param numCall Argument for which the function returns
      * {@code valueAtNumCall}.
      * @return the learning factor function.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException
+     * @throws org.apache.commons.math4.exception.OutOfRangeException
      * if {@code initValue <= 0} or {@code initValue > 1}.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if {@code valueAtNumCall <= 0}.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      * if {@code valueAtNumCall >= initValue}.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if {@code numCall <= 0}.
      */
     public static LearningFactorFunction exponentialDecay(final double initValue,
@@ -88,11 +88,11 @@ public class LearningFactorFunctionFactory {
      * @param slope Value of the function derivative at {@code numCall}.
      * @param numCall Inflexion point.
      * @return the learning factor function.
-     * @throws org.apache.commons.math3.exception.OutOfRangeException
+     * @throws org.apache.commons.math4.exception.OutOfRangeException
      * if {@code initValue <= 0} or {@code initValue > 1}.
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      * if {@code slope >= 0}.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if {@code numCall <= 0}.
      */
     public static LearningFactorFunction quasiSigmoidDecay(final double initValue,

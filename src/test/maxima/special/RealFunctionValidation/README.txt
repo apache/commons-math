@@ -42,7 +42,7 @@ Compile the source file. The jar file of Commons-Math3 should be included in
 your classpath. If it is installed in your local maven repository, the
 following command should work
 
-  javac -classpath $HOME/.m2/repository/org/apache/commons/commons-math3/3.1-SNAPSHOT/commons-math3-3.1-SNAPSHOT.jar RealFunctionValidation.java
+  javac -classpath $HOME/.m2/repository/org/apache/commons/commons-math4/4.0-SNAPSHOT/commons-math4-4.0-SNAPSHOT.jar RealFunctionValidation.java
 
 Create a jar file
 
@@ -99,7 +99,7 @@ file
 As an example, here is the properties file for evaluation of
 double Gamma.logGamma(double)
 
-method=org.apache.commons.math3.special.Gamma.logGamma
+method=org.apache.commons.math4.special.Gamma.logGamma
 signature=double
 inputFileMask=logGamma-%02d.dat
 outputFileMask=logGamma-out-%02d.dat

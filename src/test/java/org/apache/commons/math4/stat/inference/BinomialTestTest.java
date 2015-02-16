@@ -14,10 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.inference;
+package org.apache.commons.math4.stat.inference;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.stat.inference.AlternativeHypothesis;
+import org.apache.commons.math4.stat.inference.BinomialTest;
 import org.junit.Assert;
 import org.junit.Test;
 

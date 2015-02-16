@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.transform;
+package org.apache.commons.math4.transform;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
 
-import org.apache.commons.math3.analysis.FunctionUtils;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.ArithmeticUtils;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.analysis.FunctionUtils;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.ArithmeticUtils;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Implements the Fast Fourier Transform for transformation of one-dimensional
@@ -386,9 +386,9 @@ public class FastFourierTransformer implements Serializable {
      * @param n the number of sample points
      * @param type the type of transform (forward, inverse) to be performed
      * @return the complex transformed array
-     * @throws org.apache.commons.math3.exception.NumberIsTooLargeException
+     * @throws org.apache.commons.math4.exception.NumberIsTooLargeException
      *   if the lower bound is greater than, or equal to the upper bound
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      *   if the number of sample points {@code n} is negative
      * @throws MathIllegalArgumentException if the number of sample points
      *   {@code n} is not a power of two

@@ -14,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.complex.ComplexUtils;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.complex.ComplexUtils;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooLargeException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Implements the <a href="http://mathworld.wolfram.com/LaguerresMethod.html">
@@ -182,7 +182,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
      * @return the point at which the function value is zero.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximum number of evaluations is exceeded.
      * @throws NullArgumentException if the {@code coefficients} is
      * {@code null}.
@@ -212,7 +212,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @param coefficients Polynomial coefficients.
      * @param initial Start value.
      * @return the point at which the function value is zero.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
      * if the maximum number of evaluations is exceeded.
      * @throws NullArgumentException if the {@code coefficients} is
      * {@code null}.
@@ -262,7 +262,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * @param coefficients Polynomial coefficients.
          * @param initial Start value.
          * @return the point at which the function value is zero.
-         * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+         * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
          * if the maximum number of evaluations is exceeded.
          * @throws NullArgumentException if the {@code coefficients} is
          * {@code null}.
@@ -311,7 +311,7 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
          * @param coefficients Polynomial coefficients.
          * @param initial Start value.
          * @return the point at which the function value is zero.
-         * @throws org.apache.commons.math3.exception.TooManyEvaluationsException
+         * @throws org.apache.commons.math4.exception.TooManyEvaluationsException
          * if the maximum number of evaluations is exceeded.
          * @throws NullArgumentException if the {@code coefficients} is
          * {@code null}.

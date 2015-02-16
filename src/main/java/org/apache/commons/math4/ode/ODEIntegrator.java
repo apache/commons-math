@@ -15,13 +15,13 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
 import java.util.Collection;
 
-import org.apache.commons.math3.analysis.solvers.UnivariateSolver;
-import org.apache.commons.math3.ode.events.EventHandler;
-import org.apache.commons.math3.ode.sampling.StepHandler;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
+import org.apache.commons.math4.ode.events.EventHandler;
+import org.apache.commons.math4.ode.sampling.StepHandler;
 
 /**
  * This interface defines the common parts shared by integrators

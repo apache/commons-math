@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.stat.correlation.Covariance;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.distribution.MultivariateNormalDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.correlation.Covariance;
 
 import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 

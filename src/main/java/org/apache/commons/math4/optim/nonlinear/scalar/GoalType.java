@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar;
+package org.apache.commons.math4.optim.nonlinear.scalar;
 
-import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math4.optim.OptimizationData;
 
 /**
  * Goal type for an optimization problem (minimization or maximization of

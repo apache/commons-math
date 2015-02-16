@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.fitting.WeightedObservedPoint;
+import org.apache.commons.math4.fitting.WeightedObservedPoints;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Tests {@link WeightedObservedPoints}.

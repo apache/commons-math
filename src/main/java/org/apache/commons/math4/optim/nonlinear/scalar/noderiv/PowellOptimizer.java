@@ -14,20 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
-import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
-import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.nonlinear.scalar.LineSearch;
+import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
+import org.apache.commons.math4.optim.univariate.UnivariatePointValuePair;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * Powell's algorithm.
@@ -47,9 +47,9 @@ import org.apache.commons.math3.optim.univariate.UnivariatePointValuePair;
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
  * In order to impose simple constraints, the objective function must be
  * wrapped in an adapter like
- * {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
+ * {@link org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
  * MultivariateFunctionMappingAdapter} or
- * {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
+ * {@link org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
  * MultivariateFunctionPenaltyAdapter}.
  *
  * @since 2.2

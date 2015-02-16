@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
+package org.apache.commons.math4.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.MathUnsupportedOperationException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.SimpleValueChecker;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
+
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.exception.MathUnsupportedOperationException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointValuePair;
+import org.apache.commons.math4.optim.SimpleValueChecker;
+import org.apache.commons.math4.optim.nonlinear.scalar.GoalType;
+import org.apache.commons.math4.optim.nonlinear.scalar.MultivariateOptimizer;
 
 /**
  * This class implements simplex-based direct search optimization.
@@ -74,9 +75,9 @@ import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
  *  dedicated algorithm must be used like
  *  {@link CMAESOptimizer} or {@link BOBYQAOptimizer}, or the objective
  *  function must be wrapped in an adapter like
- *  {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
+ *  {@link org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionMappingAdapter
  *  MultivariateFunctionMappingAdapter} or
- *  {@link org.apache.commons.math3.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
+ *  {@link org.apache.commons.math4.optim.nonlinear.scalar.MultivariateFunctionPenaltyAdapter
  *  MultivariateFunctionPenaltyAdapter}.
  *  <br/>
  *  The call to {@link #optimize(OptimizationData[]) optimize} will throw

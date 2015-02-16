@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide.genetics;
+package org.apache.commons.math4.userguide.genetics;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -35,14 +35,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import org.apache.commons.math3.genetics.Chromosome;
-import org.apache.commons.math3.genetics.ElitisticListPopulation;
-import org.apache.commons.math3.genetics.GeneticAlgorithm;
-import org.apache.commons.math3.genetics.Population;
-import org.apache.commons.math3.genetics.TournamentSelection;
-import org.apache.commons.math3.genetics.UniformCrossover;
-import org.apache.commons.math3.userguide.ExampleUtils;
-import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ElitisticListPopulation;
+import org.apache.commons.math4.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.TournamentSelection;
+import org.apache.commons.math4.genetics.UniformCrossover;
+import org.apache.commons.math4.userguide.ExampleUtils;
+import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 
 /**
  * This example shows a more advanced use of a genetic algorithm: approximate a raster image

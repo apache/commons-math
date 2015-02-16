@@ -17,4 +17,4 @@
 /**
  * Summary statistics based on ranks.
  */
-package org.apache.commons.math3.stat.descriptive.rank;
+package org.apache.commons.math4.stat.descriptive.rank;

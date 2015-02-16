@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.interval;
+package org.apache.commons.math4.stat.interval;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Implements the Wilson score method for creating a binomial proportion confidence interval.

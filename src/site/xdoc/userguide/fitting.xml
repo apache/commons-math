@@ -47,15 +47,15 @@
               appropriate class,
             </li>
             <li>
-              call the <a href="../apidocs/org/apache/commons/math3/fitting/AbstractCurveFitter">fit</a>
-              with a <code>Collection</code> of <a href="../apidocs/org/apache/commons/math3/fitting/WeightedObservedPoint.html">
+              call the <a href="../apidocs/org/apache/commons/math4/fitting/AbstractCurveFitter">fit</a>
+              with a <code>Collection</code> of <a href="../apidocs/org/apache/commons/math4/fitting/WeightedObservedPoint.html">
                 observed data points</a> as argument, which will return an array with the parameters that
               best fit the given data points.
             </li>
           </ul>
 
           The list of observed data points to be passed to <code>fit</code> can be built by incrementally
-          adding instances to an instance of <a href="../apidocs/org/apache/commons/math3/fitting/WeightedObservedPoints.html">WeightedObservedPoints</a>,
+          adding instances to an instance of <a href="../apidocs/org/apache/commons/math4/fitting/WeightedObservedPoints.html">WeightedObservedPoints</a>,
           and then retrieve the list of <code>WeightedObservedPoint</code> by calling the <code>toList</code>
           method on that container.
           A weight can be associated with each observed point; it allows to take into account uncertainty
@@ -82,25 +82,25 @@
           Fitting of specific functions are provided through the following classes:
           <ul>
             <li>
-              <a href="../apidocs/org/apache/commons/math3/fitting/PolynomialCurveFitter.html">
+              <a href="../apidocs/org/apache/commons/math4/fitting/PolynomialCurveFitter.html">
                 PolynomialFitter</a> fits a
-              <a href="../apidocs/org/apache/commons/math3/analysis/polynomials/PolynomialFunction.Parametric.html">
+              <a href="../apidocs/org/apache/commons/math4/analysis/polynomials/PolynomialFunction.Parametric.html">
                 polynomial</a> function.
             </li>
             <li>
-              <a href="../apidocs/org/apache/commons/math3/fitting/HarmonicCurveFitter.html">
+              <a href="../apidocs/org/apache/commons/math4/fitting/HarmonicCurveFitter.html">
                 HarmonicFitter</a> fits a
-              <a href="../apidocs/org/apache/commons/math3/analysis/function/HarmonicOscillator.Parametric.html">
+              <a href="../apidocs/org/apache/commons/math4/analysis/function/HarmonicOscillator.Parametric.html">
                 harmonic</a> function.
-              An instance of the inner class <a href="../apidocs/org/apache/commons/math3/fitting/HarmonicCurveFitter.ParameterGuesser.html">
+              An instance of the inner class <a href="../apidocs/org/apache/commons/math4/fitting/HarmonicCurveFitter.ParameterGuesser.html">
                 ParameterGuesser</a> can be used to retrieve initial values for the fitting procedure.
             </li>
             <li>
-              <a href="../apidocs/org/apache/commons/math3/fitting/GaussianCurveFitter.html">
+              <a href="../apidocs/org/apache/commons/math4/fitting/GaussianCurveFitter.html">
                 GaussianFitter</a> fits a
-              <a href="../apidocs/org/apache/commons/math3/analysis/function/Gaussian.Parametric.html">
+              <a href="../apidocs/org/apache/commons/math4/analysis/function/Gaussian.Parametric.html">
                 Gaussian</a> function.
-              An instance of the inner class <a href="../apidocs/org/apache/commons/math3/fitting/GaussianCurveFitter.ParameterGuesser.html">
+              An instance of the inner class <a href="../apidocs/org/apache/commons/math4/fitting/GaussianCurveFitter.ParameterGuesser.html">
                 ParameterGuesser</a> can be used to retrieve initial values for the fitting procedure.
             </li>
           </ul>
@@ -130,11 +130,11 @@ final double[] coeff = fitter.fit(obs.toList());
 
       <subsection name="17.3 General Case" href="general">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/fitting/AbstractCurveFitter.html">
+          The <a href="../apidocs/org/apache/commons/math4/fitting/AbstractCurveFitter.html">
             AbstractCurveFitter</a> class provides the basic functionality for implementing other
           curve fitting classes.
           Users must provide their own implementation of the curve template as a class that implements
-          the <a href="../apidocs/org/apache/commons/math3/analysis/ParametricUnivariateFunction.html">
+          the <a href="../apidocs/org/apache/commons/math4/analysis/ParametricUnivariateFunction.html">
             ParametricUnivariateFunction</a> interface.
         </p>
       </subsection>

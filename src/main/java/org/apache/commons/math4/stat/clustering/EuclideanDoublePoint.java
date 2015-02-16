@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Arrays;
 
-import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math4.util.MathArrays;
 
 /**
  * A simple implementation of {@link Clusterable} for points with double coordinates.
  * @since 3.1
  * @deprecated As of 3.2 (to be removed in 4.0),
- * use {@link org.apache.commons.math3.ml.clustering.DoublePoint} instead
+ * use {@link org.apache.commons.math4.ml.clustering.DoublePoint} instead
  */
 @Deprecated
 public class EuclideanDoublePoint implements Clusterable<EuclideanDoublePoint>, Serializable {

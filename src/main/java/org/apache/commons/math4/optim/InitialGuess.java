@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
 /**
  * Starting point (first guess) of the optimization procedure.

@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import org.junit.Test;
 import org.junit.Assert;
-
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.fraction.Fraction;
-import org.apache.commons.math3.fraction.FractionField;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.fraction.Fraction;
+import org.apache.commons.math4.fraction.FractionField;
+import org.apache.commons.math4.linear.Array2DRowFieldMatrix;
+import org.apache.commons.math4.linear.FieldLUDecomposition;
+import org.apache.commons.math4.linear.FieldMatrix;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
 
 public class FieldLUDecompositionTest {
     private Fraction[][] testData = {

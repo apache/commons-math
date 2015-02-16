@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.correlation;
+package org.apache.commons.math4.stat.correlation;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.BlockRealMatrix;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.stat.ranking.NaNStrategy;
-import org.apache.commons.math3.stat.ranking.NaturalRanking;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.linear.BlockRealMatrix;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.correlation.SpearmansCorrelation;
+import org.apache.commons.math4.stat.ranking.NaNStrategy;
+import org.apache.commons.math4.stat.ranking.NaturalRanking;
 import org.junit.Assert;
 import org.junit.Test;
 

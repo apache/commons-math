@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.univariate;
+package org.apache.commons.math4.optimization.univariate;
 
-import org.apache.commons.math3.analysis.QuinticFunction;
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.random.JDKRandomGenerator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.QuinticFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math4.optimization.univariate.UnivariateMultiStartOptimizer;
+import org.apache.commons.math4.optimization.univariate.UnivariateOptimizer;
+import org.apache.commons.math4.optimization.univariate.UnivariatePointValuePair;
+import org.apache.commons.math4.random.JDKRandomGenerator;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

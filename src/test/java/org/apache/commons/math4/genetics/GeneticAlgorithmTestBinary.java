@@ -14,12 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.genetics;
+package org.apache.commons.math4.genetics;
 
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.math4.genetics.AbstractListChromosome;
+import org.apache.commons.math4.genetics.BinaryChromosome;
+import org.apache.commons.math4.genetics.BinaryMutation;
+import org.apache.commons.math4.genetics.Chromosome;
+import org.apache.commons.math4.genetics.ElitisticListPopulation;
+import org.apache.commons.math4.genetics.FixedGenerationCount;
+import org.apache.commons.math4.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.genetics.OnePointCrossover;
+import org.apache.commons.math4.genetics.Population;
+import org.apache.commons.math4.genetics.StoppingCondition;
+import org.apache.commons.math4.genetics.TournamentSelection;
 import org.junit.Assert;
 import org.junit.Test;
 

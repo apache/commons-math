@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim.nonlinear.vector;
+package org.apache.commons.math4.optim.nonlinear.vector;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.random.RandomVectorGenerator;
-import org.apache.commons.math3.optim.BaseMultiStartMultivariateOptimizer;
-import org.apache.commons.math3.optim.PointVectorValuePair;
+
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RealVector;
+import org.apache.commons.math4.optim.BaseMultiStartMultivariateOptimizer;
+import org.apache.commons.math4.optim.PointVectorValuePair;
+import org.apache.commons.math4.random.RandomVectorGenerator;
 
 /**
  * Multi-start optimizer for a (vector) model function.

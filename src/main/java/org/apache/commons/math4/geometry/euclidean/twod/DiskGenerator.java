@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.twod;
+package org.apache.commons.math4.geometry.euclidean.twod;
 
 import java.util.List;
 
-import org.apache.commons.math3.fraction.BigFraction;
-import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math3.geometry.enclosing.SupportBallGenerator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.fraction.BigFraction;
+import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math4.geometry.enclosing.SupportBallGenerator;
+import org.apache.commons.math4.util.FastMath;
 
 /** Class generating an enclosing ball from its support points.
  * @since 3.3

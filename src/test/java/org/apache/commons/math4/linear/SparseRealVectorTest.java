@@ -14,29 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.function.Abs;
-import org.apache.commons.math3.analysis.function.Acos;
-import org.apache.commons.math3.analysis.function.Asin;
-import org.apache.commons.math3.analysis.function.Atan;
-import org.apache.commons.math3.analysis.function.Cbrt;
-import org.apache.commons.math3.analysis.function.Ceil;
-import org.apache.commons.math3.analysis.function.Cos;
-import org.apache.commons.math3.analysis.function.Cosh;
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Expm1;
-import org.apache.commons.math3.analysis.function.Floor;
-import org.apache.commons.math3.analysis.function.Log1p;
-import org.apache.commons.math3.analysis.function.Power;
-import org.apache.commons.math3.analysis.function.Rint;
-import org.apache.commons.math3.analysis.function.Signum;
-import org.apache.commons.math3.analysis.function.Sin;
-import org.apache.commons.math3.analysis.function.Sinh;
-import org.apache.commons.math3.analysis.function.Sqrt;
-import org.apache.commons.math3.analysis.function.Tan;
-import org.apache.commons.math3.analysis.function.Tanh;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.function.Abs;
+import org.apache.commons.math4.analysis.function.Acos;
+import org.apache.commons.math4.analysis.function.Asin;
+import org.apache.commons.math4.analysis.function.Atan;
+import org.apache.commons.math4.analysis.function.Cbrt;
+import org.apache.commons.math4.analysis.function.Ceil;
+import org.apache.commons.math4.analysis.function.Cos;
+import org.apache.commons.math4.analysis.function.Cosh;
+import org.apache.commons.math4.analysis.function.Exp;
+import org.apache.commons.math4.analysis.function.Expm1;
+import org.apache.commons.math4.analysis.function.Floor;
+import org.apache.commons.math4.analysis.function.Log1p;
+import org.apache.commons.math4.analysis.function.Power;
+import org.apache.commons.math4.analysis.function.Rint;
+import org.apache.commons.math4.analysis.function.Signum;
+import org.apache.commons.math4.analysis.function.Sin;
+import org.apache.commons.math4.analysis.function.Sinh;
+import org.apache.commons.math4.analysis.function.Sqrt;
+import org.apache.commons.math4.analysis.function.Tan;
+import org.apache.commons.math4.analysis.function.Tanh;
+import org.apache.commons.math4.linear.OpenMapRealVector;
+import org.apache.commons.math4.linear.RealVector;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
+import org.apache.commons.math4.linear.LUDecomposition;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
 import org.junit.Test;
 import org.junit.Assert;
 

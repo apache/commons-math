@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.analysis.integration.RombergIntegrator;
-import org.apache.commons.math3.analysis.integration.UnivariateIntegrator;
-import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.integration.RombergIntegrator;
+import org.apache.commons.math4.analysis.integration.UnivariateIntegrator;
+import org.apache.commons.math4.distribution.AbstractRealDistribution;
+import org.apache.commons.math4.exception.OutOfRangeException;
 import org.junit.Assert;
 import org.junit.Test;
 

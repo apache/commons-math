@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
-import org.apache.commons.math3.geometry.partitioning.Region.Location;
+import org.apache.commons.math4.geometry.partitioning.Region.Location;
 
 
 /** This class represents a 1D interval.

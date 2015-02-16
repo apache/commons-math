@@ -28,7 +28,7 @@
 
 * 5.2 Erf functions
 
-  {{{../apidocs/org/apache/commons/math3/special/Erf.html}Erf}} contains
+  {{{../apidocs/org/apache/commons/math4/special/Erf.html}Erf}} contains
   several useful functions involving the Error Function, Erf.
 
 *----------------+---------+-------------------------------------------------------------------+
@@ -39,7 +39,7 @@
 
 * 5.3 Gamma functions
 
-  Class {{{../apidocs/org/apache/commons/math3/special/Gamma.html}<<<Gamma>>>}}
+  Class {{{../apidocs/org/apache/commons/math4/special/Gamma.html}<<<Gamma>>>}}
   contains several useful functions involving the Gamma Function.
 
 ** Gamma
@@ -97,7 +97,7 @@
 
 * 5.4 Beta functions
 
-  {{{../apidocs/org/apache/commons/math3/special/Beta.html}Beta}} contains
+  {{{../apidocs/org/apache/commons/math4/special/Beta.html}Beta}} contains
   several useful functions involving the Beta Function.
 
 ** Log Beta

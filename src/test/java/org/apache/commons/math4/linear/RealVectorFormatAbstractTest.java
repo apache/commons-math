@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -23,8 +23,9 @@ import java.util.Locale;
 
 import org.junit.Test;
 import org.junit.Assert;
-
-import org.apache.commons.math3.exception.MathParseException;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.linear.ArrayRealVector;
+import org.apache.commons.math4.linear.RealVectorFormat;
 
 public abstract class RealVectorFormatAbstractTest {
 

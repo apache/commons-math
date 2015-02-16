@@ -15,18 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet.sofm;
+package org.apache.commons.math4.ml.neuralnet.sofm;
 
-import org.apache.commons.math3.ml.neuralnet.Neuron;
-import org.apache.commons.math3.ml.neuralnet.Network;
-import org.apache.commons.math3.ml.neuralnet.MapUtils;
-import org.apache.commons.math3.ml.neuralnet.UpdateAction;
-import org.apache.commons.math3.ml.neuralnet.OffsetFeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializer;
-import org.apache.commons.math3.ml.neuralnet.FeatureInitializerFactory;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
-import org.apache.commons.math3.ml.neuralnet.oned.NeuronString;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.distance.EuclideanDistance;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.FeatureInitializerFactory;
+import org.apache.commons.math4.ml.neuralnet.MapUtils;
+import org.apache.commons.math4.ml.neuralnet.Network;
+import org.apache.commons.math4.ml.neuralnet.Neuron;
+import org.apache.commons.math4.ml.neuralnet.OffsetFeatureInitializer;
+import org.apache.commons.math4.ml.neuralnet.UpdateAction;
+import org.apache.commons.math4.ml.neuralnet.oned.NeuronString;
+import org.apache.commons.math4.ml.neuralnet.sofm.KohonenUpdateAction;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.LearningFactorFunctionFactory;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunction;
+import org.apache.commons.math4.ml.neuralnet.sofm.NeighbourhoodSizeFunctionFactory;
 import org.junit.Test;
 import org.junit.Assert;
 

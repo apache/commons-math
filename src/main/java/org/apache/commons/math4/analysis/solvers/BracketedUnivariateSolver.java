@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math4.analysis.UnivariateFunction;
 
 /** Interface for {@link UnivariateSolver (univariate real) root-finding
  * algorithms} that maintain a bracketed solution. There are several advantages
@@ -59,9 +59,9 @@ public interface BracketedUnivariateSolver<FUNC extends UnivariateFunction>
      * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return A value where the function is zero.
-     * @throws org.apache.commons.math3.exception.MathIllegalArgumentException
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the allowed number of evaluations is exceeded.
      */
     double solve(int maxEval, FUNC f, double min, double max,
@@ -81,9 +81,9 @@ public interface BracketedUnivariateSolver<FUNC extends UnivariateFunction>
      * @param allowedSolution The kind of solutions that the root-finding algorithm may
      * accept as solutions.
      * @return A value where the function is zero.
-     * @throws org.apache.commons.math3.exception.MathIllegalArgumentException
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the allowed number of evaluations is exceeded.
      */
     double solve(int maxEval, FUNC f, double min, double max, double startValue,

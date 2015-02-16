@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
-import org.apache.commons.math3.TestUtils;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.complex.ComplexField;
 import org.junit.Assert;
 import org.junit.Test;
 

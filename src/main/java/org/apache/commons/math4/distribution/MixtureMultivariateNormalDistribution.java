@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Multivariate normal mixture distribution.
@@ -38,7 +38,7 @@ public class MixtureMultivariateNormalDistribution
      * Creates a multivariate normal mixture distribution.
      * <p>
      * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link org.apache.commons.math3.random.Well19937c Well19937c} as random
+     * {@link org.apache.commons.math4.random.Well19937c Well19937c} as random
      * generator to be used for sampling only (see {@link #sample()} and
      * {@link #sample(int)}). In case no sampling is needed for the created
      * distribution, it is advised to pass {@code null} as random generator via
@@ -60,7 +60,7 @@ public class MixtureMultivariateNormalDistribution
      * associated weights.
      * <p>
      * <b>Note:</b> this constructor will implicitly create an instance of
-     * {@link org.apache.commons.math3.random.Well19937c Well19937c} as random
+     * {@link org.apache.commons.math4.random.Well19937c Well19937c} as random
      * generator to be used for sampling only (see {@link #sample()} and
      * {@link #sample(int)}). In case no sampling is needed for the created
      * distribution, it is advised to pass {@code null} as random generator via

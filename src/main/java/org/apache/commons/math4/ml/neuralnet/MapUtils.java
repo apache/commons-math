@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.neuralnet;
+package org.apache.commons.math4.ml.neuralnet;
 
 import java.util.HashMap;
 import java.util.Collection;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.util.Pair;
+
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.ml.distance.DistanceMeasure;
+import org.apache.commons.math4.ml.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math4.util.Pair;
 
 /**
  * Utilities for network maps.
@@ -44,7 +45,7 @@ public class MapUtils {
      * @param distance Distance function. The neuron's features are
      * passed as the first argument to {@link DistanceMeasure#compute(double[],double[])}.
      * @return the neuron whose features are closest to the given data.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the size of the input is not compatible with the neurons features
      * size.
      */
@@ -73,7 +74,7 @@ public class MapUtils {
      * @param distance Distance function. The neuron's features are
      * passed as the first argument to {@link DistanceMeasure#compute(double[],double[])}.
      * @return the two neurons whose features are closest to the given data.
-     * @throws org.apache.commons.math3.exception.DimensionMismatchException
+     * @throws org.apache.commons.math4.exception.DimensionMismatchException
      * if the size of the input is not compatible with the neurons features
      * size.
      */

@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.geometry.euclidean.oned;
+package org.apache.commons.math4.geometry.euclidean.oned;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import org.apache.commons.math3.exception.MathParseException;
+import org.apache.commons.math4.exception.MathParseException;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math4.geometry.euclidean.oned.Vector1DFormat;
 import org.junit.Assert;
 import org.junit.Test;
 

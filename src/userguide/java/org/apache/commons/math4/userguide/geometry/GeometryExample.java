@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide.geometry;
+package org.apache.commons.math4.userguide.geometry;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,21 +31,21 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import org.apache.commons.math3.geometry.enclosing.Encloser;
-import org.apache.commons.math3.geometry.enclosing.EnclosingBall;
-import org.apache.commons.math3.geometry.enclosing.WelzlEncloser;
-import org.apache.commons.math3.geometry.euclidean.twod.DiskGenerator;
-import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
-import org.apache.commons.math3.geometry.euclidean.twod.Segment;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHull2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
-import org.apache.commons.math3.geometry.euclidean.twod.hull.MonotoneChain;
-import org.apache.commons.math3.random.MersenneTwister;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.userguide.ExampleUtils;
-import org.apache.commons.math3.userguide.ExampleUtils.ExampleFrame;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.geometry.enclosing.Encloser;
+import org.apache.commons.math4.geometry.enclosing.EnclosingBall;
+import org.apache.commons.math4.geometry.enclosing.WelzlEncloser;
+import org.apache.commons.math4.geometry.euclidean.twod.DiskGenerator;
+import org.apache.commons.math4.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math4.geometry.euclidean.twod.Segment;
+import org.apache.commons.math4.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHull2D;
+import org.apache.commons.math4.geometry.euclidean.twod.hull.ConvexHullGenerator2D;
+import org.apache.commons.math4.geometry.euclidean.twod.hull.MonotoneChain;
+import org.apache.commons.math4.random.MersenneTwister;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.userguide.ExampleUtils;
+import org.apache.commons.math4.userguide.ExampleUtils.ExampleFrame;
 import org.piccolo2d.PCamera;
 import org.piccolo2d.PCanvas;
 import org.piccolo2d.PNode;

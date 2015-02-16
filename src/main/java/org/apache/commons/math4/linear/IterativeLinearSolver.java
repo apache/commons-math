@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.IterationManager;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.util.IterationManager;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * This abstract class defines an iterative solver for the linear system A
@@ -113,7 +113,7 @@ public abstract class IterativeLinearSolver {
      * inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(final RealLinearOperator a, final RealVector b)
@@ -139,7 +139,7 @@ public abstract class IterativeLinearSolver {
      * dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public RealVector solve(RealLinearOperator a, RealVector b, RealVector x0)
@@ -164,7 +164,7 @@ public abstract class IterativeLinearSolver {
      * dimensions inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      */
     public abstract RealVector solveInPlace(RealLinearOperator a, RealVector b,

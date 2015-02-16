@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.direct.MultivariateFunctionMappingAdapter;
+import org.apache.commons.math4.optimization.direct.NelderMeadSimplex;
+import org.apache.commons.math4.optimization.direct.SimplexOptimizer;
 import org.junit.Assert;
 import org.junit.Test;
 

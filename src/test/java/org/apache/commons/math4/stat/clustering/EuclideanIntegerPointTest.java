@@ -15,14 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.stat.clustering;
+package org.apache.commons.math4.stat.clustering;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

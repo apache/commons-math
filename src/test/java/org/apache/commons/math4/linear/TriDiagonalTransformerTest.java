@@ -15,12 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Arrays;
 
-import org.apache.commons.math3.util.FastMath;
-
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.TriDiagonalTransformer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

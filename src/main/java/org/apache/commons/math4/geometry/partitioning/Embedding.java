@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning;
+package org.apache.commons.math4.geometry.partitioning;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
 
 /** This interface defines mappers between a space and one of its sub-spaces.
 
@@ -25,10 +25,10 @@ import org.apache.commons.math3.geometry.Space;
  * space. The (n-1)-dimension sub-spaces are specific sub-spaces known
  * as {@link Hyperplane hyperplanes}. This interface can be used regardless
  * of the dimensions differences. As an example, {@link
- * org.apache.commons.math3.geometry.euclidean.threed.Line Line} in 3D
+ * org.apache.commons.math4.geometry.euclidean.threed.Line Line} in 3D
  * implements Embedding<{@link
- * org.apache.commons.math3.geometry.euclidean.threed.Vector3D Vector3D}, {link
- * org.apache.commons.math3.geometry.euclidean.oned.Vector1D Vector1D>, i.e. it
+ * org.apache.commons.math4.geometry.euclidean.threed.Vector3D Vector3D}, {link
+ * org.apache.commons.math4.geometry.euclidean.oned.Vector1D Vector1D}, i.e. it
  * maps directly dimensions 3 and 1.</p>
 
  * <p>In the 3D euclidean space, hyperplanes are 2D planes, and the 1D

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
 /**
  * An interface representing a bivariate real function.

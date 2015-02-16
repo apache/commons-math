@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.exception;
+package org.apache.commons.math4.exception;
 
-import org.apache.commons.math3.exception.util.Localizable;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.util.ExceptionContext;
-import org.apache.commons.math3.exception.util.ExceptionContextProvider;
+import org.apache.commons.math4.exception.util.ExceptionContext;
+import org.apache.commons.math4.exception.util.ExceptionContextProvider;
+import org.apache.commons.math4.exception.util.Localizable;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
 
 /**
  * Base class for all exceptions that signal that the process

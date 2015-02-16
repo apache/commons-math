@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Static implementations of common
- * {@link org.apache.commons.math3.complex.Complex} utilities functions.
+ * {@link org.apache.commons.math4.complex.Complex} utilities functions.
  *
  */
 public class ComplexUtils {

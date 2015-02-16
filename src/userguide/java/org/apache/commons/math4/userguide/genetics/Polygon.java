@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.userguide.genetics;
+package org.apache.commons.math4.userguide.genetics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 
-import org.apache.commons.math3.genetics.GeneticAlgorithm;
-import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.genetics.GeneticAlgorithm;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Represents a fixed size polgon with its fill color.

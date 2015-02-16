@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.random.ISAACRandom;
+import org.apache.commons.math4.random.RandomGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 

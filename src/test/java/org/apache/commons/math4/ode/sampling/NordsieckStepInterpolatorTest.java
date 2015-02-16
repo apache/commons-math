@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.sampling;
+package org.apache.commons.math4.ode.sampling;
 
 
 import java.io.ByteArrayInputStream;
@@ -25,14 +25,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.ContinuousOutputModel;
-import org.apache.commons.math3.ode.TestProblem1;
-import org.apache.commons.math3.ode.TestProblem3;
-import org.apache.commons.math3.ode.nonstiff.AdamsBashforthIntegrator;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.ContinuousOutputModel;
+import org.apache.commons.math4.ode.TestProblem1;
+import org.apache.commons.math4.ode.TestProblem3;
+import org.apache.commons.math4.ode.nonstiff.AdamsBashforthIntegrator;
+import org.apache.commons.math4.ode.sampling.StepHandler;
 import org.junit.Assert;
 import org.junit.Test;
 

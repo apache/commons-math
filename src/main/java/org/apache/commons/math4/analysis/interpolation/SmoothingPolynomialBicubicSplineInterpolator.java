@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.interpolation;
+package org.apache.commons.math4.analysis.interpolation;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.NoDataException;
-import org.apache.commons.math3.exception.NonMonotonicSequenceException;
-import org.apache.commons.math3.exception.NotPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
-import org.apache.commons.math3.fitting.PolynomialFitter;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.optim.SimpleVectorValueChecker;
+import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.NoDataException;
+import org.apache.commons.math4.exception.NonMonotonicSequenceException;
+import org.apache.commons.math4.exception.NotPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.fitting.PolynomialFitter;
+import org.apache.commons.math4.optim.SimpleVectorValueChecker;
+import org.apache.commons.math4.optim.nonlinear.vector.jacobian.GaussNewtonOptimizer;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * Generates a bicubic interpolation function.

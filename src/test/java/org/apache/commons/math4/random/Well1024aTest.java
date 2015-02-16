@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well1024a;
 import org.junit.Assert;
-
 import org.junit.Test;
 
 public class Well1024aTest extends RandomGeneratorAbstractTest {

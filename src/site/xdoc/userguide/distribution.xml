@@ -28,14 +28,14 @@
         <p>
           The distributions package provides a framework and implementations for some commonly used
           probability distributions. Continuous univariate distributions are represented by implementations of
-          the <a href="../apidocs/org/apache/commons/math3/distribution/RealDistribution.html">RealDistribution</a>
+          the <a href="../apidocs/org/apache/commons/math4/distribution/RealDistribution.html">RealDistribution</a>
           interface.  Discrete distributions implement
-          <a href="../apidocs/org/apache/commons/math3/distribution/IntegerDistribution.html">IntegerDistribution</a>
+          <a href="../apidocs/org/apache/commons/math4/distribution/IntegerDistribution.html">IntegerDistribution</a>
           (values must be mapped to integers) and there is an
-          <a href="../apidocs/org/apache/commons/math3/distribution/EnumeratedDistribution.html">EnumeratedDistribution</a>
+          <a href="../apidocs/org/apache/commons/math4/distribution/EnumeratedDistribution.html">EnumeratedDistribution</a>
           class representing discrete distributions with a finite, enumerated set of values.  Finally, multivariate
           real-valued distributions can be represented via the 
-          <a href="../apidocs/org/apache/commons/math3/distribution/MultiVariateRealDistribution.html">MultivariateRealDistribution</a>
+          <a href="../apidocs/org/apache/commons/math4/distribution/MultiVariateRealDistribution.html">MultivariateRealDistribution</a>
           interface.
         </p>
         <p>
@@ -74,7 +74,7 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T(29) &gt;= 2.75)</
         <p>
           All distributions implement a <code>sample()</code> method to support random sampling from the
           distribution. Implementation classes expose constructors allowing the default 
-          <a href="../apidocs/org/apache/commons/math3/random/RandomGenerator.html">RandomGenerator</a>
+          <a href="../apidocs/org/apache/commons/math4/random/RandomGenerator.html">RandomGenerator</a>
           used by the sampling algorithm to be overridden.  If sampling is not going to be used, providing
           a null <code>RandomGenerator</code> constructor argument will avoid the overhead of initializing
           the default generator.
@@ -98,14 +98,14 @@ double upperTail = 1.0 - t.cumulativeProbability(2.75); // P(T(29) &gt;= 2.75)</
       <subsection name="8.3 User Defined Distributions" href="userdefined">
         <p>
         User-defined distributions can be implemented using
-        <a href="../apidocs/org/apache/commons/math3/distribution/RealDistribution.html">RealDistribution</a>,
-        <a href="../apidocs/org/apache/commons/math3/distribution/IntegerDistribution.html">IntegerDistribution</a> and
-        <a href="../apidocs/org/apache/commons/math3/distribution/MultivariateRealDistribution.html">MultivariateRealDistribution</a>
+        <a href="../apidocs/org/apache/commons/math4/distribution/RealDistribution.html">RealDistribution</a>,
+        <a href="../apidocs/org/apache/commons/math4/distribution/IntegerDistribution.html">IntegerDistribution</a> and
+        <a href="../apidocs/org/apache/commons/math4/distribution/MultivariateRealDistribution.html">MultivariateRealDistribution</a>
         interfaces serve as base types.  These serve as the basis for all the distributions directly supported by
         Apache Commons Math.  To aid in implementing distributions,
-        the <a href="../apidocs/org/apache/commons/math3/distribution/AbstractRealDistribution.html">AbstractRealDistribution</a>,
-        <a href="../apidocs/org/apache/commons/math3/distribution/AbstractIntegerDistribution.html">AbstractIntegerDistribution</a> and 
-        <a href="../apidocs/org/apache/commons/math3/distribution/AbstractMultivariateRealDistribution.html">AbstractMultivariateRealDistribution</a>
+        the <a href="../apidocs/org/apache/commons/math4/distribution/AbstractRealDistribution.html">AbstractRealDistribution</a>,
+        <a href="../apidocs/org/apache/commons/math4/distribution/AbstractIntegerDistribution.html">AbstractIntegerDistribution</a> and 
+        <a href="../apidocs/org/apache/commons/math4/distribution/AbstractMultivariateRealDistribution.html">AbstractMultivariateRealDistribution</a>
         provide implementation building blocks and offer basic distribution functionality.
         By extending these abstract classes directly, much of the repetitive distribution
         implementation is already developed and should save time and effort in developing

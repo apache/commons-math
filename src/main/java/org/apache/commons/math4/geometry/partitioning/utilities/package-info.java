@@ -21,4 +21,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry.partitioning.utilities;
+package org.apache.commons.math4.geometry.partitioning.utilities;

@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.complex;
+package org.apache.commons.math4.complex;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.complex.Complex;
+import org.apache.commons.math4.complex.ComplexUtils;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 import org.junit.Assert;
 

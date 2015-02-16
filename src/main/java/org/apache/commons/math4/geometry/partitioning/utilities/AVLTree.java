@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.partitioning.utilities;
+package org.apache.commons.math4.geometry.partitioning.utilities;
 
 /** This class implements AVL trees.
  *

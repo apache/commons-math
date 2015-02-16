@@ -15,19 +15,19 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode;
+package org.apache.commons.math4.ode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.ode.sampling.StepHandler;
-import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.ode.sampling.StepHandler;
+import org.apache.commons.math4.ode.sampling.StepInterpolator;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * This class stores all information provided by an ODE integrator
@@ -78,7 +78,7 @@ import org.apache.commons.math3.util.FastMath;
  * ContinuousOutputModel instance can be important if the state vector
  * is large, if the integration interval is long or if the steps are
  * small (which can result from small tolerance settings in {@link
- * org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator adaptive
+ * org.apache.commons.math4.ode.nonstiff.AdaptiveStepsizeIntegrator adaptive
  * step size integrators}).</p>
  *
  * @see StepHandler
@@ -376,8 +376,8 @@ public class ContinuousOutputModel
    * to be preserved across several calls to the associated
    * {@link #setInterpolatedTime(double)} method.</p>
    * @param secondaryStateIndex index of the secondary set, as returned by {@link
-   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
-   * org.apache.commons.math3.ode.SecondaryEquations)
+   * org.apache.commons.math4.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math4.ode.SecondaryEquations)
    * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
    * @return interpolated secondary state at the current interpolation date
    * @see #setInterpolatedTime(double)
@@ -398,8 +398,8 @@ public class ContinuousOutputModel
    * to be preserved across several calls to the associated
    * {@link #setInterpolatedTime(double)} method.</p>
    * @param secondaryStateIndex index of the secondary set, as returned by {@link
-   * org.apache.commons.math3.ode.ExpandableStatefulODE#addSecondaryEquations(
-   * org.apache.commons.math3.ode.SecondaryEquations)
+   * org.apache.commons.math4.ode.ExpandableStatefulODE#addSecondaryEquations(
+   * org.apache.commons.math4.ode.SecondaryEquations)
    * ExpandableStatefulODE.addSecondaryEquations(SecondaryEquations)}
    * @return interpolated secondary derivatives at the current interpolation date
    * @see #setInterpolatedTime(double)

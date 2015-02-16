@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
-import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.analysis.UnivariateFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
 
 
 /**
@@ -133,9 +133,9 @@ public interface BaseUnivariateSolver<FUNC extends UnivariateFunction> {
      * @param startValue Start value to use.
      * @return a value where the function is zero.
      * @param maxEval Maximum number of evaluations.
-     * @throws org.apache.commons.math3.exception.MathIllegalArgumentException
+     * @throws org.apache.commons.math4.exception.MathIllegalArgumentException
      * if the arguments do not satisfy the requirements specified by the solver.
-     * @throws org.apache.commons.math3.exception.TooManyEvaluationsException if
+     * @throws org.apache.commons.math4.exception.TooManyEvaluationsException if
      * the allowed number of evaluations is exceeded.
      */
     double solve(int maxEval, FUNC f, double startValue);

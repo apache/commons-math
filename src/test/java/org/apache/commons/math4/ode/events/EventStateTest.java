@@ -15,20 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;
 
 
-import org.apache.commons.math3.analysis.solvers.BrentSolver;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.ode.ExpandableStatefulODE;
-import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
-import org.apache.commons.math3.ode.SecondaryEquations;
-import org.apache.commons.math3.ode.nonstiff.DormandPrince853Integrator;
-import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
-import org.apache.commons.math3.ode.sampling.DummyStepInterpolator;
+import org.apache.commons.math4.analysis.solvers.BrentSolver;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.ode.ExpandableStatefulODE;
+import org.apache.commons.math4.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math4.ode.SecondaryEquations;
+import org.apache.commons.math4.ode.events.EventHandler;
+import org.apache.commons.math4.ode.events.EventState;
+import org.apache.commons.math4.ode.nonstiff.DormandPrince853Integrator;
+import org.apache.commons.math4.ode.sampling.AbstractStepInterpolator;
+import org.apache.commons.math4.ode.sampling.DummyStepInterpolator;
 import org.junit.Assert;
 import org.junit.Test;
 

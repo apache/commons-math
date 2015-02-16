@@ -15,11 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
 import java.util.Random;
 
-import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.linear.MatrixUtils;
+import org.apache.commons.math4.linear.NonSquareMatrixException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.SchurTransformer;
 import org.junit.Test;
 import org.junit.Assert;
 

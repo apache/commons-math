@@ -27,4 +27,4 @@
  * </p>
  *
  */
-package org.apache.commons.math3.geometry.spherical.oned;
+package org.apache.commons.math4.geometry.spherical.oned;

@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis.differentiation;
+package org.apache.commons.math4.analysis.differentiation;
 
-import org.apache.commons.math3.analysis.UnivariateMatrixFunction;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.analysis.UnivariateMatrixFunction;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
 
 /**
  * Extension of {@link UnivariateMatrixFunction} representing a univariate differentiable matrix function.

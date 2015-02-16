@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.correlation;
+package org.apache.commons.math4.stat.correlation;
 
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.random.ISAACRandom;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.random.ISAACRandom;
+import org.apache.commons.math4.stat.correlation.StorelessBivariateCovariance;
+import org.apache.commons.math4.stat.correlation.StorelessCovariance;
 import org.junit.Assert;
 import org.junit.Test;
 

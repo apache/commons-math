@@ -23,4 +23,4 @@
  *    </p>
  *
  */
-package org.apache.commons.math3.analysis.function;
+package org.apache.commons.math4.analysis.function;

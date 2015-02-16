@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ml.clustering;
+package org.apache.commons.math4.ml.clustering;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.ml.clustering.evaluation.ClusterEvaluator;
-import org.apache.commons.math3.ml.clustering.evaluation.SumOfClusterVariances;
+import org.apache.commons.math4.exception.ConvergenceException;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.ml.clustering.evaluation.ClusterEvaluator;
+import org.apache.commons.math4.ml.clustering.evaluation.SumOfClusterVariances;
 
 /**
  * A wrapper around a k-means++ clustering algorithm which performs multiple trials

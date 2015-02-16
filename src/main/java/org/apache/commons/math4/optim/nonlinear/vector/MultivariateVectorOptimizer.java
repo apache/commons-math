@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim.nonlinear.vector;
+package org.apache.commons.math4.optim.nonlinear.vector;
 
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.BaseMultivariateOptimizer;
-import org.apache.commons.math3.optim.ConvergenceChecker;
-import org.apache.commons.math3.optim.PointVectorValuePair;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optim.BaseMultivariateOptimizer;
+import org.apache.commons.math4.optim.ConvergenceChecker;
+import org.apache.commons.math4.optim.OptimizationData;
+import org.apache.commons.math4.optim.PointVectorValuePair;
 
 /**
  * Base class for a multivariate vector function optimizer.

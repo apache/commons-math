@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
+
+import org.apache.commons.math4.analysis.solvers.SecantSolver;
+import org.apache.commons.math4.analysis.solvers.UnivariateSolver;
 
 /**
  * Test case for {@link SecantSolver Secant} solver.

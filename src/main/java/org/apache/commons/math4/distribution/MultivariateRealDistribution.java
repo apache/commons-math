@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 
 /**
  * Base interface for multivariate distributions on the reals.
@@ -69,7 +69,7 @@ public interface MultivariateRealDistribution {
      *
      * @param sampleSize the number of random vectors to generate.
      * @return an array representing the random samples.
-     * @throws org.apache.commons.math3.exception.NotStrictlyPositiveException
+     * @throws org.apache.commons.math4.exception.NotStrictlyPositiveException
      * if {@code sampleSize} is not positive.
      *
      * @see #sample()

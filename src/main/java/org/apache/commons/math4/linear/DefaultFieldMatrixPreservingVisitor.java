@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math4.FieldElement;
 
 /**
  * Default implementation of the {@link FieldMatrixPreservingVisitor} interface.

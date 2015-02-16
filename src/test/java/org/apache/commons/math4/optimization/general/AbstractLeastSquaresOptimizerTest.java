@@ -11,14 +11,15 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.apache.commons.math3.optimization.general;
+package org.apache.commons.math4.optimization.general;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import org.junit.Assert;
-import org.apache.commons.math3.optimization.PointVectorValuePair;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.optimization.PointVectorValuePair;
+import org.apache.commons.math4.optimization.general.AbstractLeastSquaresOptimizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Test;
 
 @Deprecated

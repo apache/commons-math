@@ -14,27 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MathIllegalStateException;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.stat.descriptive.moment.GeometricMean;
-import org.apache.commons.math3.stat.descriptive.moment.Mean;
-import org.apache.commons.math3.stat.descriptive.moment.VectorialCovariance;
-import org.apache.commons.math3.stat.descriptive.rank.Max;
-import org.apache.commons.math3.stat.descriptive.rank.Min;
-import org.apache.commons.math3.stat.descriptive.summary.Sum;
-import org.apache.commons.math3.stat.descriptive.summary.SumOfLogs;
-import org.apache.commons.math3.stat.descriptive.summary.SumOfSquares;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.MathArrays;
-import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MathIllegalStateException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.stat.descriptive.moment.GeometricMean;
+import org.apache.commons.math4.stat.descriptive.moment.Mean;
+import org.apache.commons.math4.stat.descriptive.moment.VectorialCovariance;
+import org.apache.commons.math4.stat.descriptive.rank.Max;
+import org.apache.commons.math4.stat.descriptive.rank.Min;
+import org.apache.commons.math4.stat.descriptive.summary.Sum;
+import org.apache.commons.math4.stat.descriptive.summary.SumOfLogs;
+import org.apache.commons.math4.stat.descriptive.summary.SumOfSquares;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  * <p>Computes summary statistics for a stream of n-tuples added using the

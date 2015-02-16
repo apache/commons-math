@@ -18,4 +18,4 @@
 /**
  * One-dimensional optimization algorithms.
  */
-package org.apache.commons.math3.optim.univariate;
+package org.apache.commons.math4.optim.univariate;

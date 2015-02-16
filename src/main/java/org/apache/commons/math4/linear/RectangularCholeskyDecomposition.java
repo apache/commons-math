@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Calculates the rectangular Cholesky decomposition of a matrix.
@@ -29,7 +29,7 @@ import org.apache.commons.math3.util.FastMath;
  * is that rows/columns may be permuted (hence the rectangular shape instead
  * of the traditional triangular shape) and there is a threshold to ignore
  * small diagonal elements. This is used for example to generate {@link
- * org.apache.commons.math3.random.CorrelatedRandomVectorGenerator correlated
+ * org.apache.commons.math4.random.CorrelatedRandomVectorGenerator correlated
  * random n-dimensions vectors} in a p-dimension subspace (p < n).
  * In other words, it allows generating random vectors from a covariance
  * matrix that is only positive semidefinite, and not positive definite.</p>

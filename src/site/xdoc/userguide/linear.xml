@@ -36,7 +36,7 @@
       </subsection>
       <subsection name="3.2 Real matrices" href="real_matrices">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/linear/RealMatrix.html">
+          The <a href="../apidocs/org/apache/commons/math4/linear/RealMatrix.html">
           RealMatrix</a> interface represents a matrix with real numbers as 
           entries.  The following basic matrix operations are supported:
           <ul>
@@ -73,18 +73,18 @@ RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
         </p>
         <p>
         The three main implementations of the interface are <a
-        href="../apidocs/org/apache/commons/math3/linear/Array2DRowRealMatrix.html">
+        href="../apidocs/org/apache/commons/math4/linear/Array2DRowRealMatrix.html">
         Array2DRowRealMatrix</a> and <a
-        href="../apidocs/org/apache/commons/math3/linear/BlockRealMatrix.html">
+        href="../apidocs/org/apache/commons/math4/linear/BlockRealMatrix.html">
         BlockRealMatrix</a> for dense matrices (the second one being more suited to
         dimensions above 50 or 100) and <a
-        href="../apidocs/org/apache/commons/math3/linear/SparseRealMatrix.html">
+        href="../apidocs/org/apache/commons/math4/linear/SparseRealMatrix.html">
         SparseRealMatrix</a> for sparse matrices.
         </p>
       </subsection>
       <subsection name="3.3 Real vectors" href="real_vectors">
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/linear/RealVector.html">
+          The <a href="../apidocs/org/apache/commons/math4/linear/RealVector.html">
           RealVector</a> interface represents a vector with real numbers as 
           entries.  The following basic matrix operations are supported:
           <ul>
@@ -97,7 +97,7 @@ RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
           </ul>
         </p>
         <p>
-          The <a href="../apidocs/org/apache/commons/math3/linear/RealVectorFormat.html">
+          The <a href="../apidocs/org/apache/commons/math4/linear/RealVectorFormat.html">
           RealVectorFormat</a> class handles input/output of vectors in a customizable
           textual format.
         </p>
@@ -105,7 +105,7 @@ RealMatrix pInverse = new LUDecomposition(p).getSolver().getInverse();
       <subsection name="3.4 Solving linear systems" href="solve">
         <p>
           The <code>solve()</code> methods of the <a
-          href="../apidocs/org/apache/commons/math3/linear/DecompositionSolver.html">DecompositionSolver</a>
+          href="../apidocs/org/apache/commons/math4/linear/DecompositionSolver.html">DecompositionSolver</a>
           interface support solving linear systems of equations of the form AX=B, either
           in linear sense or in least square sense. A <code>RealMatrix</code> instance is
           used to represent the coefficient matrix of the system. Solving the system is a
@@ -158,11 +158,11 @@ RealVector solution = solver.solve(constants);
           <table border="1" align="center">
           <tr BGCOLOR="#CCCCFF"><td colspan="3"><font size="+1">Decomposition algorithms</font></td></tr>
           <tr BGCOLOR="#EEEEFF"><font size="+1"><td>Name</td><td>coefficients matrix</td><td>problem type</td></font></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math3/linear/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math3/linear/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math3/linear/QRDecomposition.html">QR</a></td><td>any</td><td>least squares solution</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math3/linear/EigenDecomposition.html">eigen decomposition</a></td><td>square</td><td>exact solution only</td></tr>
-          <tr><td><a href="../apidocs/org/apache/commons/math3/linear/SingularValueDecomposition.html">SVD</a></td><td>any</td><td>least squares solution</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math4/linear/LUDecomposition.html">LU</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math4/linear/CholeskyDecomposition.html">Cholesky</a></td><td>symmetric positive definite</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math4/linear/QRDecomposition.html">QR</a></td><td>any</td><td>least squares solution</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math4/linear/EigenDecomposition.html">eigen decomposition</a></td><td>square</td><td>exact solution only</td></tr>
+          <tr><td><a href="../apidocs/org/apache/commons/math4/linear/SingularValueDecomposition.html">SVD</a></td><td>any</td><td>least squares solution</td></tr>
           </table>
         </p>
         <p>
@@ -197,13 +197,13 @@ RealVector solution = solver.solve(constants);
       <subsection name="3.6 Non-real fields (complex, fractions ...)" href="field">
         <p>
           In addition to the real field, matrices and vectors using non-real <a
-          href="../apidocs/org/apache/commons/math3/FieldElement.html">field elements</a> can be used.
+          href="../apidocs/org/apache/commons/math4/FieldElement.html">field elements</a> can be used.
           The fields already supported by the library are:
           <ul>
-            <li><a href="../apidocs/org/apache/commons/math3/complex/Complex.html">Complex</a></li>
-            <li><a href="../apidocs/org/apache/commons/math3/fraction/Fraction.html">Fraction</a></li>
-            <li><a href="../apidocs/org/apache/commons/math3/fraction/BigFraction.html">BigFraction</a></li>
-            <li><a href="../apidocs/org/apache/commons/math3/util/BigReal.html">BigReal</a></li>
+            <li><a href="../apidocs/org/apache/commons/math4/complex/Complex.html">Complex</a></li>
+            <li><a href="../apidocs/org/apache/commons/math4/fraction/Fraction.html">Fraction</a></li>
+            <li><a href="../apidocs/org/apache/commons/math4/fraction/BigFraction.html">BigFraction</a></li>
+            <li><a href="../apidocs/org/apache/commons/math4/util/BigReal.html">BigReal</a></li>
           </ul>
         </p>
       </subsection>

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.ode.events;
+package org.apache.commons.math4.ode.events;
 
 import java.util.Arrays;
 
@@ -38,7 +38,7 @@ import java.util.Arrays;
  *
  * <p>Users can wrap a regular {@link EventHandler event handler} in
  * an instance of this class and provide this wrapping instance to
- * the {@link org.apache.commons.math3.ode.FirstOrderIntegrator ODE solver}
+ * the {@link org.apache.commons.math4.ode.FirstOrderIntegrator ODE solver}
  * in order to avoid wasting time looking for uninteresting events.
  * The wrapper will intercept the calls to the {@link
  * EventHandler#g(double, double[]) g function} and to the {@link

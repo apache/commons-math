@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,8 +23,8 @@ import java.lang.reflect.Array;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.math3.Field;
-import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math4.Field;
+import org.apache.commons.math4.FieldElement;
 
 /**
  * Open addressed map from int to FieldElement.

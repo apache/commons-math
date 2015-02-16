@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.linear;
+package org.apache.commons.math4.linear;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.exception.MaxCountExceededException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.util.ExceptionContext;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.util.IterationManager;
-import org.apache.commons.math3.util.MathUtils;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.exception.MaxCountExceededException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.ExceptionContext;
+import org.apache.commons.math4.util.FastMath;
+import org.apache.commons.math4.util.IterationManager;
+import org.apache.commons.math4.util.MathUtils;
 
 /**
  * <p>
@@ -954,7 +954,7 @@ public class SymmLQ
      * inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint
@@ -1042,7 +1042,7 @@ public class SymmLQ
      * inconsistent with {@code a}
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} is not self-adjoint
@@ -1132,7 +1132,7 @@ public class SymmLQ
      * have dimensions inconsistent with {@code a}.
      * @throws MaxCountExceededException at exhaustion of the iteration count,
      * unless a custom
-     * {@link org.apache.commons.math3.util.Incrementor.MaxCountExceededCallback callback}
+     * {@link org.apache.commons.math4.util.Incrementor.MaxCountExceededCallback callback}
      * has been set at construction of the {@link IterationManager}
      * @throws NonSelfAdjointOperatorException if {@link #getCheck()} is
      * {@code true}, and {@code a} or {@code m} is not self-adjoint

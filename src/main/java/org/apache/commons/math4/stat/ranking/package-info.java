@@ -19,4 +19,4 @@
  *      Classes providing rank transformations.
  *
  */
-package org.apache.commons.math3.stat.ranking;
+package org.apache.commons.math4.stat.ranking;

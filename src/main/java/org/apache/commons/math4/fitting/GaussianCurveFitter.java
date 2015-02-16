@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.fitting;
+package org.apache.commons.math4.fitting;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,21 +22,21 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.math3.analysis.function.Gaussian;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.exception.NumberIsTooSmallException;
-import org.apache.commons.math3.exception.OutOfRangeException;
-import org.apache.commons.math3.exception.ZeroException;
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
-import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
-import org.apache.commons.math3.linear.DiagonalMatrix;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.function.Gaussian;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.NumberIsTooSmallException;
+import org.apache.commons.math4.exception.OutOfRangeException;
+import org.apache.commons.math4.exception.ZeroException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math4.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math4.linear.DiagonalMatrix;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Fits points to a {@link
- * org.apache.commons.math3.analysis.function.Gaussian.Parametric Gaussian}
+ * org.apache.commons.math4.analysis.function.Gaussian.Parametric Gaussian}
  * function.
  * <br/>
  * The {@link #withStartPoint(double[]) initial guess values} must be passed
@@ -188,7 +188,7 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
 
     /**
      * Guesses the parameters {@code norm}, {@code mean}, and {@code sigma}
-     * of a {@link org.apache.commons.math3.analysis.function.Gaussian.Parametric}
+     * of a {@link org.apache.commons.math4.analysis.function.Gaussian.Parametric}
      * based on the specified observed points.
      */
     public static class ParameterGuesser {

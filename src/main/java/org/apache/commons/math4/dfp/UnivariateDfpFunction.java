@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.dfp;
+package org.apache.commons.math4.dfp;
 
 /**
  * An interface representing a univariate {@link Dfp} function.

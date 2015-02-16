@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.analysis;
+package org.apache.commons.math4.analysis;
 
-import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
-import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math4.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math4.analysis.differentiation.UnivariateDifferentiableFunction;
 
 /**
  * Auxiliary class for testing solvers.
@@ -26,7 +26,7 @@ import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiabl
 public class XMinus5Function implements UnivariateDifferentiableFunction {
 
     /* Evaluate x - 5 fuction.
-     * @see org.apache.commons.math3.UnivariateFunction#value(double)
+     * @see org.apache.commons.math4.UnivariateFunction#value(double)
      */
     public double value(double x) {
         return x - 5;

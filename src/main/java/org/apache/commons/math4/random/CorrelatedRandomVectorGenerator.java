@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RectangularCholeskyDecomposition;
+import org.apache.commons.math4.exception.DimensionMismatchException;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.linear.RectangularCholeskyDecomposition;
 
 /**
  * A {@link RandomVectorGenerator} that generates vectors with with
@@ -78,7 +78,7 @@ public class CorrelatedRandomVectorGenerator
      * considered to be dependent on previous ones and are discarded
      * @param generator underlying generator for uncorrelated normalized
      * components.
-     * @throws org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException
+     * @throws org.apache.commons.math4.linear.NonPositiveDefiniteMatrixException
      * if the covariance matrix is not strictly positive definite.
      * @throws DimensionMismatchException if the mean and covariance
      * arrays dimensions do not match.
@@ -110,7 +110,7 @@ public class CorrelatedRandomVectorGenerator
      * considered to be dependent on previous ones and are discarded.
      * @param generator Underlying generator for uncorrelated normalized
      * components.
-     * @throws org.apache.commons.math3.linear.NonPositiveDefiniteMatrixException
+     * @throws org.apache.commons.math4.linear.NonPositiveDefiniteMatrixException
      * if the covariance matrix is not strictly positive definite.
      */
     public CorrelatedRandomVectorGenerator(RealMatrix covariance, double small,

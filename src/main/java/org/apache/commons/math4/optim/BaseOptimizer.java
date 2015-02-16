@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
-import org.apache.commons.math3.util.Incrementor;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.TooManyIterationsException;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.exception.TooManyIterationsException;
+import org.apache.commons.math4.util.Incrementor;
 
 /**
  * Base class for implementing optimizers.

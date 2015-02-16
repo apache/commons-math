@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.geometry.enclosing;
+package org.apache.commons.math4.geometry.enclosing;
 
-import org.apache.commons.math3.geometry.Point;
-import org.apache.commons.math3.geometry.Space;
+import org.apache.commons.math4.geometry.Point;
+import org.apache.commons.math4.geometry.Space;
 
 /** Interface for algorithms computing enclosing balls.
  * @param <S> Space type.

@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.stat.descriptive;
+package org.apache.commons.math4.stat.descriptive;
 
-import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
-import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.MathUtils;
-import org.apache.commons.math3.util.Precision;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
+import org.apache.commons.math4.exception.util.LocalizedFormats;
+import org.apache.commons.math4.util.MathUtils;
+import org.apache.commons.math4.util.Precision;
 
 /**
  *
@@ -53,7 +53,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @param values input array
      * @return the value of the statistic applied to the input array
      * @throws MathIllegalArgumentException if values is null
-     * @see org.apache.commons.math3.stat.descriptive.UnivariateStatistic#evaluate(double[])
+     * @see org.apache.commons.math4.stat.descriptive.UnivariateStatistic#evaluate(double[])
      */
     @Override
     public double evaluate(final double[] values) throws MathIllegalArgumentException {
@@ -83,7 +83,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @param length the number of elements to include
      * @return the value of the statistic applied to the included array entries
      * @throws MathIllegalArgumentException if the array is null or the indices are not valid
-     * @see org.apache.commons.math3.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
+     * @see org.apache.commons.math4.stat.descriptive.UnivariateStatistic#evaluate(double[], int, int)
      */
     @Override
     public double evaluate(final double[] values, final int begin,
@@ -124,7 +124,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      *
      * @param values values to add
      * @throws MathIllegalArgumentException if values is null
-     * @see org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
+     * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[])
      */
     public void incrementAll(double[] values) throws MathIllegalArgumentException {
         if (values == null) {
@@ -143,7 +143,7 @@ public abstract class AbstractStorelessUnivariateStatistic
      * @param begin   index of the first array element to add
      * @param length  number of array elements to add
      * @throws MathIllegalArgumentException if values is null
-     * @see org.apache.commons.math3.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[], int, int)
+     * @see org.apache.commons.math4.stat.descriptive.StorelessUnivariateStatistic#incrementAll(double[], int, int)
      */
     public void incrementAll(double[] values, int begin, int length) throws MathIllegalArgumentException {
         if (test(values, begin, length)) {

@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optim;
+package org.apache.commons.math4.optim;
 
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.exception.NotStrictlyPositiveException;
+import org.apache.commons.math4.util.FastMath;
 
 /**
  * Simple implementation of the {@link ConvergenceChecker} interface using

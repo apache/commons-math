@@ -14,38 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.random;
+package org.apache.commons.math4.random;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.apache.commons.math3.Retry;
-import org.apache.commons.math3.RetryRunner;
-import org.apache.commons.math3.TestUtils;
-import org.apache.commons.math3.distribution.BetaDistribution;
-import org.apache.commons.math3.distribution.BinomialDistribution;
-import org.apache.commons.math3.distribution.BinomialDistributionTest;
-import org.apache.commons.math3.distribution.CauchyDistribution;
-import org.apache.commons.math3.distribution.ChiSquaredDistribution;
-import org.apache.commons.math3.distribution.ExponentialDistribution;
-import org.apache.commons.math3.distribution.FDistribution;
-import org.apache.commons.math3.distribution.GammaDistribution;
-import org.apache.commons.math3.distribution.HypergeometricDistribution;
-import org.apache.commons.math3.distribution.HypergeometricDistributionTest;
-import org.apache.commons.math3.distribution.NormalDistribution;
-import org.apache.commons.math3.distribution.PascalDistribution;
-import org.apache.commons.math3.distribution.PascalDistributionTest;
-import org.apache.commons.math3.distribution.PoissonDistribution;
-import org.apache.commons.math3.distribution.TDistribution;
-import org.apache.commons.math3.distribution.WeibullDistribution;
-import org.apache.commons.math3.distribution.ZipfDistribution;
-import org.apache.commons.math3.distribution.ZipfDistributionTest;
-import org.apache.commons.math3.stat.Frequency;
-import org.apache.commons.math3.stat.inference.ChiSquareTest;
-import org.apache.commons.math3.util.FastMath;
-import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.Retry;
+import org.apache.commons.math4.RetryRunner;
+import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.distribution.BetaDistribution;
+import org.apache.commons.math4.distribution.BinomialDistribution;
+import org.apache.commons.math4.distribution.BinomialDistributionTest;
+import org.apache.commons.math4.distribution.CauchyDistribution;
+import org.apache.commons.math4.distribution.ChiSquaredDistribution;
+import org.apache.commons.math4.distribution.ExponentialDistribution;
+import org.apache.commons.math4.distribution.FDistribution;
+import org.apache.commons.math4.distribution.GammaDistribution;
+import org.apache.commons.math4.distribution.HypergeometricDistribution;
+import org.apache.commons.math4.distribution.HypergeometricDistributionTest;
+import org.apache.commons.math4.distribution.NormalDistribution;
+import org.apache.commons.math4.distribution.PascalDistribution;
+import org.apache.commons.math4.distribution.PascalDistributionTest;
+import org.apache.commons.math4.distribution.PoissonDistribution;
+import org.apache.commons.math4.distribution.TDistribution;
+import org.apache.commons.math4.distribution.WeibullDistribution;
+import org.apache.commons.math4.distribution.ZipfDistribution;
+import org.apache.commons.math4.distribution.ZipfDistributionTest;
+import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.random.RandomDataGenerator;
+import org.apache.commons.math4.random.RandomGenerator;
+import org.apache.commons.math4.random.Well19937c;
+import org.apache.commons.math4.stat.Frequency;
+import org.apache.commons.math4.stat.inference.ChiSquareTest;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

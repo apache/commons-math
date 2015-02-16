@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.math3.util;
+package org.apache.commons.math4.util;
 
-import org.apache.commons.math3.distribution.IntegerDistribution;
-import org.apache.commons.math3.distribution.UniformIntegerDistribution;
-
+import org.apache.commons.math4.distribution.IntegerDistribution;
+import org.apache.commons.math4.distribution.UniformIntegerDistribution;
+import org.apache.commons.math4.util.MathArrays;
+import org.apache.commons.math4.util.ResizableDoubleArray;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

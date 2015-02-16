@@ -15,18 +15,20 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.optimization.direct;
+package org.apache.commons.math4.optimization.direct;
 
 
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.analysis.MultivariateFunction;
-import org.apache.commons.math3.analysis.MultivariateVectorFunction;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.optimization.GoalType;
-import org.apache.commons.math3.optimization.LeastSquaresConverter;
-import org.apache.commons.math3.optimization.PointValuePair;
-import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math4.analysis.MultivariateFunction;
+import org.apache.commons.math4.analysis.MultivariateVectorFunction;
+import org.apache.commons.math4.exception.TooManyEvaluationsException;
+import org.apache.commons.math4.linear.Array2DRowRealMatrix;
+import org.apache.commons.math4.linear.RealMatrix;
+import org.apache.commons.math4.optimization.GoalType;
+import org.apache.commons.math4.optimization.LeastSquaresConverter;
+import org.apache.commons.math4.optimization.PointValuePair;
+import org.apache.commons.math4.optimization.direct.NelderMeadSimplex;
+import org.apache.commons.math4.optimization.direct.SimplexOptimizer;
+import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
 

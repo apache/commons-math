@@ -24,7 +24,7 @@
   skinparam NoteFontColor         #691616
   skinparam ClassFontSize         11
 
-  package org.apache.commons.math3 #ECEBD8
+  package org.apache.commons.math4 #ECEBD8
 
     interface "FieldElement<T>" as FieldElement_T_ {
       T add(T a)

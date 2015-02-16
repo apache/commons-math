@@ -17,4 +17,4 @@
 /**
  * Summary statistics based on moments.
  */
-package org.apache.commons.math3.stat.descriptive.moment;
+package org.apache.commons.math4.stat.descriptive.moment;

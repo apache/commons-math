@@ -15,8 +15,10 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.distribution;
+package org.apache.commons.math4.distribution;
 
+import org.apache.commons.math4.distribution.ConstantRealDistribution;
+import org.apache.commons.math4.distribution.RealDistribution;
 import org.junit.Assert;
 import org.junit.Test;
 

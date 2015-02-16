@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.math3.analysis.solvers;
+package org.apache.commons.math4.analysis.solvers;
 
 
 /** The kinds of solutions that a {@link BracketedUnivariateSolver
@@ -29,8 +29,8 @@ package org.apache.commons.math3.analysis.solvers;
  * or slightly larger than the actual root. Root-finding algorithms generally
  * only guarantee that the returned solution is within the requested
  * tolerances. In certain cases however, in particular for
- * {@link org.apache.commons.math3.ode.events.EventHandler state events} of
- * {@link org.apache.commons.math3.ode.ODEIntegrator ODE solvers}, it
+ * {@link org.apache.commons.math4.ode.events.EventHandler state events} of
+ * {@link org.apache.commons.math4.ode.ODEIntegrator ODE solvers}, it
  * may be necessary to guarantee that a solution is returned that lies on a
  * specific side the solution.</p>
  *
