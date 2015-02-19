@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.BitSet;
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
-import org.apache.commons.math4.exception.MathUnsupportedOperationException;
 import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
@@ -386,23 +385,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
     @Override
     public Percentile copy() {
         return new Percentile(this);
-    }
-
-    /**
-     * Copies source to dest.
-     * @param source Percentile to copy
-     * @param dest Percentile to copy to
-     * @exception MathUnsupportedOperationException always thrown since 3.4
-     * @deprecated as of 3.4 this method does not work anymore, as it fails to
-     * copy internal states between instances configured with different
-     * {@link EstimationType estimation type}, {@link NaNStrategy NaN handling strategies}
-     * and {@link KthSelector kthSelector}, it therefore always
-     * throw {@link MathUnsupportedOperationException}
-      */
-    @Deprecated
-    public static void copy(final Percentile source, final Percentile dest)
-        throws MathUnsupportedOperationException {
-        throw new MathUnsupportedOperationException();
     }
 
     /**
