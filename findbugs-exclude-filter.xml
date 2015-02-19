@@ -312,28 +312,12 @@
     <Bug pattern="EQ_UNUSUAL" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint"/>
-    <Method name="&lt;init>" params="int[]" returns="void" />
-    <Bug pattern="EI_EXPOSE_REP2" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math4.stat.clustering.EuclideanIntegerPoint"/>
-    <Method name="getPoint" params="" returns="int[]" />
-    <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
-    <Or>
-      <Class name="org.apache.commons.math4.stat.clustering.EuclideanDoublePoint"/>
-      <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
-    </Or>
+    <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
     <Method name="&lt;init>" params="double[]" returns="void" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
-    <Or>
-      <Class name="org.apache.commons.math4.stat.clustering.EuclideanDoublePoint"/>
-      <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
-    </Or>
+    <Class name="org.apache.commons.math4.ml.clustering.DoublePoint"/>      
     <Method name="getPoint" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
