@@ -22,7 +22,6 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +29,7 @@ public class LocalizedFormatsTest {
 
     @Test
     public void testMessageNumber() {
-        Assert.assertEquals(322, LocalizedFormats.values().length);
+        Assert.assertEquals(321, LocalizedFormats.values().length);
     }
 
     @Test
