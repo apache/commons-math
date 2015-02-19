@@ -24,7 +24,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomDataImpl;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 
@@ -41,13 +40,6 @@ implements RealDistribution, Serializable {
     public static final double SOLVER_DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
     /** Serializable version identifier */
     private static final long serialVersionUID = -38038050983108802L;
-     /**
-      * RandomData instance used to generate samples from the distribution.
-      * @deprecated As of 3.1, to be removed in 4.0. Please use the
-      * {@link #random} instance variable instead.
-      */
-    @Deprecated
-    protected RandomDataImpl randomData = new RandomDataImpl();
 
     /**
      * RNG instance used to generate samples from the distribution.
@@ -58,16 +50,6 @@ implements RealDistribution, Serializable {
     /** Solver absolute accuracy for inverse cumulative computation */
     private double solverAbsoluteAccuracy = SOLVER_DEFAULT_ABSOLUTE_ACCURACY;
 
-    /**
-     * @deprecated As of 3.1, to be removed in 4.0. Please use
-     * {@link #AbstractRealDistribution(RandomGenerator)} instead.
-     */
-    @Deprecated
-    protected AbstractRealDistribution() {
-        // Legacy users are only allowed to access the deprecated "randomData".
-        // New users are forbidden to use this constructor.
-        random = null;
-    }
     /**
      * @param rng Random number generator.
      * @since 3.1
@@ -243,7 +225,6 @@ implements RealDistribution, Serializable {
     /** {@inheritDoc} */
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
-        randomData.reSeed(seed);
     }
 
     /**

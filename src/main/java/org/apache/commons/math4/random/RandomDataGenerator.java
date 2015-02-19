@@ -49,7 +49,7 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.util.MathArrays;
 
 /**
- * Implements the {@link RandomData} interface using a {@link RandomGenerator}
+ * Generates random deviates and other random data using a {@link RandomGenerator}
  * instance to generate non-secure data and a {@link java.security.SecureRandom}
  * instance to provide data for the <code>nextSecureXxx</code> methods. If no
  * <code>RandomGenerator</code> is provided in the constructor, the default is
@@ -72,7 +72,7 @@ import org.apache.commons.math4.util.MathArrays;
  * Instance variables are used to maintain <code>RandomGenerator</code> and
  * <code>SecureRandom</code> instances used in data generation. Therefore, to
  * generate a random sequence of values or strings, you should use just
- * <strong>one</strong> <code>RandomDataImpl</code> instance repeatedly.</li>
+ * <strong>one</strong> <code>RandomDataGenerator</code> instance repeatedly.</li>
  * <li>
  * The "secure" methods are *much* slower. These should be used only when a
  * cryptographically secure random sequence is required. A secure random
@@ -82,7 +82,7 @@ import org.apache.commons.math4.util.MathArrays;
  * knowledge of values generated up to any point in the sequence does not make
  * it any easier to predict subsequent values.</li>
  * <li>
- * When a new <code>RandomDataImpl</code> is created, the underlying random
+ * When a new <code>RandomDataGenerator</code> is created, the underlying random
  * number generators are <strong>not</strong> initialized. If you do not
  * explicitly seed the default non-secure generator, it is seeded with the
  * current time in milliseconds plus the system identity hash code on first use.
@@ -109,7 +109,7 @@ import org.apache.commons.math4.util.MathArrays;
  * </p>
  * @since 3.1
  */
-public class RandomDataGenerator implements RandomData, Serializable {
+public class RandomDataGenerator implements Serializable {
 
     /** Serializable version identifier */
     private static final long serialVersionUID = -626730818244969716L;

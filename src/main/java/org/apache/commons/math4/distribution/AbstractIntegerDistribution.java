@@ -23,7 +23,6 @@ import org.apache.commons.math4.exception.NotStrictlyPositiveException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
-import org.apache.commons.math4.random.RandomDataImpl;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.util.FastMath;
 
@@ -39,29 +38,10 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     private static final long serialVersionUID = -1146319659338487221L;
 
     /**
-     * RandomData instance used to generate samples from the distribution.
-     * @deprecated As of 3.1, to be removed in 4.0. Please use the
-     * {@link #random} instance variable instead.
-     */
-    @Deprecated
-    protected final RandomDataImpl randomData = new RandomDataImpl();
-
-    /**
      * RNG instance used to generate samples from the distribution.
      * @since 3.1
      */
     protected final RandomGenerator random;
-
-    /**
-     * @deprecated As of 3.1, to be removed in 4.0. Please use
-     * {@link #AbstractIntegerDistribution(RandomGenerator)} instead.
-     */
-    @Deprecated
-    protected AbstractIntegerDistribution() {
-        // Legacy users are only allowed to access the deprecated "randomData".
-        // New users are forbidden to use this constructor.
-        random = null;
-    }
 
     /**
      * @param rng Random number generator.
@@ -178,7 +158,6 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
     /** {@inheritDoc} */
     public void reseedRandomGenerator(long seed) {
         random.setSeed(seed);
-        randomData.reSeed(seed);
     }
 
     /**

@@ -177,33 +177,6 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     }
 
     /**
-     * Creates a new EmpiricalDistribution with the specified bin count using the
-     * provided {@link RandomDataImpl} instance as the source of random data.
-     *
-     * @param binCount number of bins
-     * @param randomData random data generator (may be null, resulting in default JDK generator)
-     * @since 3.0
-     * @deprecated As of 3.1. Please use {@link #EmpiricalDistribution(int,RandomGenerator)} instead.
-     */
-    @Deprecated
-    public EmpiricalDistribution(int binCount, RandomDataImpl randomData) {
-        this(binCount, randomData.getDelegate());
-    }
-
-    /**
-     * Creates a new EmpiricalDistribution with default bin count using the
-     * provided {@link RandomDataImpl} as the source of random data.
-     *
-     * @param randomData random data generator (may be null, resulting in default JDK generator)
-     * @since 3.0
-     * @deprecated As of 3.1. Please use {@link #EmpiricalDistribution(RandomGenerator)} instead.
-     */
-    @Deprecated
-    public EmpiricalDistribution(RandomDataImpl randomData) {
-        this(DEFAULT_BIN_COUNT, randomData);
-    }
-
-    /**
      * Private constructor to allow lazy initialisation of the RNG contained
      * in the {@link #randomData} instance variable.
      *
