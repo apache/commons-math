@@ -81,32 +81,6 @@ public abstract class ListPopulation implements Population {
     }
 
     /**
-     * Sets the list of chromosomes.
-     * <p>
-     * Note: this method removed all existing chromosomes in the population and adds all chromosomes
-     * of the specified list to the population.
-     *
-     * @param chromosomes the list of chromosomes
-     * @throws NullArgumentException if the list of chromosomes is {@code null}
-     * @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit
-     * @deprecated use {@link #addChromosomes(Collection)} instead
-     */
-    @Deprecated
-    public void setChromosomes(final List<Chromosome> chromosomes)
-        throws NullArgumentException, NumberIsTooLargeException {
-
-        if (chromosomes == null) {
-            throw new NullArgumentException();
-        }
-        if (chromosomes.size() > populationLimit) {
-            throw new NumberIsTooLargeException(LocalizedFormats.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,
-                                                chromosomes.size(), populationLimit, false);
-        }
-        this.chromosomes.clear();
-        this.chromosomes.addAll(chromosomes);
-    }
-
-    /**
      * Add a {@link Collection} of chromosomes to this {@link Population}.
      * @param chromosomeColl a {@link Collection} of chromosomes
      * @throws NumberIsTooLargeException if the population would exceed the population limit when
