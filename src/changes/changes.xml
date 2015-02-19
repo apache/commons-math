@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="4.0" date="XXXX-XX-XX" description="">
+      <action dev="evanward" type="fix" issue="MATH-1204">
+        "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
+        if a reached the lower bound.
+      </action>
       <action dev="tn" type="remove" issue="MATH-1050">
         Removed "ArithmeticUtils#pow(int, long)" and "ArithmeticUtils#pow(long, long)".
       </action>

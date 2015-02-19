@@ -243,7 +243,7 @@ public class UnivariateSolverUtils {
      * \( \delta_{k+1} = r \delta_k + q, \delta_0 = 0\) and starting search with \( k=1 \).
      * The algorithm stops when one of the following happens: <ul>
      * <li> at least one positive and one negative value have been found --  success!</li>
-     * <li> both endpoints have reached their respective limites -- NoBracketingException </li>
+     * <li> both endpoints have reached their respective limits -- NoBracketingException </li>
      * <li> {@code maximumIterations} iterations elapse -- NoBracketingException </li></ul></p>
      * <p>
      * If different signs are found at first iteration ({@code k=1}), then the returned
@@ -257,7 +257,7 @@ public class UnivariateSolverUtils {
      * Interval expansion rate is tuned by changing the recurrence parameters {@code r} and
      * {@code q}. When the multiplicative factor {@code r} is set to 1, the sequence is a
      * simple arithmetic sequence with linear increase. When the multiplicative factor {@code r}
-     * is larger than 1, the sequence has an asymtotically exponential rate. Note than the
+     * is larger than 1, the sequence has an asymptotically exponential rate. Note than the
      * additive parameter {@code q} should never be set to zero, otherwise the interval would
      * degenerate to the single initial point for all values of {@code k}.
      * </p>
