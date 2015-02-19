@@ -28,7 +28,6 @@ import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well1024a;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatistic;
 import org.apache.commons.math4.stat.descriptive.UnivariateStatisticAbstractTest;
-import org.apache.commons.math4.stat.descriptive.rank.Percentile;
 import org.apache.commons.math4.stat.descriptive.rank.Percentile.EstimationType;
 import org.apache.commons.math4.stat.ranking.NaNStrategy;
 import org.apache.commons.math4.util.CentralPivotingStrategy;
@@ -618,15 +617,6 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         Assert.assertFalse(Percentile.EstimationType.R_1.equals(p.getEstimationType()));
         Assert.assertEquals(12d, p.evaluate(), 0d);
         Assert.assertEquals(12.16d, p.evaluate(60d), 0d);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testMedianOf3() {
-        reset(50.0, Percentile.EstimationType.R_7);
-        final Percentile p = getUnivariateStatistic();
-        Assert.assertEquals(0, p.medianOf3(testArray, 0, testArray.length));
-        Assert.assertEquals(10, p.medianOf3(testWeightsArray, 0, testWeightsArray.length));
     }
 
     @Test(expected=NullArgumentException.class)

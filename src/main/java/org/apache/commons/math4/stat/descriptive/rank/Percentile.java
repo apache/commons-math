@@ -354,27 +354,6 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
                     estimationType.evaluate(work, pivotsHeap, p, kthSelector);
     }
 
-    /** Select a pivot index as the median of three
-     * <p>
-     * <b>Note:</b> With the effect of allowing {@link KthSelector} to be set on
-     * {@link Percentile} instances(thus indirectly {@link PivotingStrategy})
-     * this method wont take effect any more and hence is unsupported.
-     * @param work data array
-     * @param begin index of the first element of the slice
-     * @param end index after the last element of the slice
-     * @return the index of the median element chosen between the
-     * first, the middle and the last element of the array slice
-     * @deprecated Please refrain from using this method (as it wont take effect)
-     * and instead use {@link Percentile#withKthSelector(newKthSelector)} if
-     * required.
-     *
-     */
-    @Deprecated
-    int medianOf3(final double[] work, final int begin, final int end) {
-        return new MedianOf3PivotingStrategy().pivotIndex(work, begin, end);
-        //throw new MathUnsupportedOperationException();
-    }
-
     /**
      * Returns the value of the quantile field (determines what percentile is
      * computed when evaluate() is called with no quantile argument).
