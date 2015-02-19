@@ -54,6 +54,10 @@ If the output is not quite correct, check for invisible trailing spaces!
     </release>
 
     <release version="3.5" date="2015-01-11" description="">
+      <action dev="evanward" type="fix" issue="MATH-1204">
+        "UnivariateSolverUtils#bracket(...)" sometimes failed to bracket
+        if a reached the lower bound.
+      </action>
       <action dev="sebb" type="add" issue="MATH-1198">
         Simplified "FastMath#exp(double)" in order to avoid a potential
         Java 1.5 JIT bug when calling with negative infinity as argument.
