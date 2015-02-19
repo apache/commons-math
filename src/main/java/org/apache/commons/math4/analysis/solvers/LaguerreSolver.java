@@ -147,8 +147,6 @@ public class LaguerreSolver extends AbstractPolynomialSolver {
      * @param fLo Function value at the lower bound of the search interval.
      * @param fHi Function value at the higher bound of the search interval.
      * @return the point at which the function value is zero.
-     * @deprecated This method should not be part of the public API: It will
-     * be made private in version 4.0.
      */
     private double laguerre(double lo, double hi,
                             double fLo, double fHi) {
