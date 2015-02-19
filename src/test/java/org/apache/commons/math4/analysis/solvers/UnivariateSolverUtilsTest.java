@@ -176,6 +176,14 @@ public class UnivariateSolverUtilsTest {
         UnivariateSolverUtils.bracket(sin, 1.5, 0, 2.0, 0);
     }
 
+    /** check the search continues when a = lowerBound and b < upperBound. */
+    @Test
+    public void testBracketLoopConditionForB() {
+        double[] result = UnivariateSolverUtils.bracket(sin, -0.9, -1, 1, 0.1, 1, 100);
+        Assert.assertTrue(result[0] <= 0);
+        Assert.assertTrue(result[1] >= 0);
+    }
+
     @Test
     public void testMisc() {
         UnivariateFunction f = new QuinticFunction();

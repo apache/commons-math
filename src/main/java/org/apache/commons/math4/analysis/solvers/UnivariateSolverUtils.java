@@ -314,7 +314,7 @@ public class UnivariateSolverUtils {
         double delta = 0;
 
         for (int numIterations = 0;
-             (numIterations < maximumIterations) && (a > lowerBound || b > upperBound);
+             (numIterations < maximumIterations) && (a > lowerBound || b < upperBound);
              ++numIterations) {
 
             final double previousA  = a;
