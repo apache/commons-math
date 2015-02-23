@@ -454,7 +454,7 @@ public final class BlockFieldMatrixTest {
     public void testPremultiplyVector() {
         FieldMatrix<Fraction> m = new BlockFieldMatrix<Fraction>(testData);
         TestUtils.assertEquals(m.preMultiply(testVector), preMultTest);
-        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).getData()),
+        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).toArray()),
                                preMultTest);
         m = new BlockFieldMatrix<Fraction>(bigSingular);
         try {

@@ -311,7 +311,7 @@ public class SparseFieldMatrixTest {
         assertClose("premultiply", m.preMultiply(testVector), preMultTest,
             normTolerance);
         assertClose("premultiply", m.preMultiply(
-            new ArrayFieldVector<Fraction>(testVector).getData()), preMultTest, normTolerance);
+            new ArrayFieldVector<Fraction>(testVector).toArray()), preMultTest, normTolerance);
         m = createSparseMatrix(bigSingular);
         try {
             m.preMultiply(testVector);

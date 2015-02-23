@@ -500,7 +500,7 @@ public class ArrayFieldVectorTest {
         //octave =  v1 + v2
         ArrayFieldVector<Fraction> v_add = v1.add(v2);
         Fraction[] result_add = {new Fraction(5), new Fraction(7), new Fraction(9)};
-        checkArray("compare vect" ,v_add.getData(),result_add);
+        checkArray("compare vect" ,v_add.toArray(),result_add);
 
         FieldVectorTestImpl<Fraction> vt2 = new FieldVectorTestImpl<Fraction>(vec2);
         FieldVector<Fraction> v_add_i = v1.add(vt2);
@@ -510,7 +510,7 @@ public class ArrayFieldVectorTest {
         //octave =  v1 - v2
         ArrayFieldVector<Fraction> v_subtract = v1.subtract(v2);
         Fraction[] result_subtract = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
-        checkArray("compare vect" ,v_subtract.getData(),result_subtract);
+        checkArray("compare vect" ,v_subtract.toArray(),result_subtract);
 
         FieldVector<Fraction> v_subtract_i = v1.subtract(vt2);
         Fraction[] result_subtract_i = {new Fraction(-3), new Fraction(-3), new Fraction(-3)};
@@ -519,7 +519,7 @@ public class ArrayFieldVectorTest {
         // octave v1 .* v2
         ArrayFieldVector<Fraction>  v_ebeMultiply = v1.ebeMultiply(v2);
         Fraction[] result_ebeMultiply = {new Fraction(4), new Fraction(10), new Fraction(18)};
-        checkArray("compare vect" ,v_ebeMultiply.getData(),result_ebeMultiply);
+        checkArray("compare vect" ,v_ebeMultiply.toArray(),result_ebeMultiply);
 
         FieldVector<Fraction>  v_ebeMultiply_2 = v1.ebeMultiply(v2_t);
         Fraction[] result_ebeMultiply_2 = {new Fraction(4), new Fraction(10), new Fraction(18)};
@@ -528,7 +528,7 @@ public class ArrayFieldVectorTest {
         // octave v1 ./ v2
         ArrayFieldVector<Fraction>  v_ebeDivide = v1.ebeDivide(v2);
         Fraction[] result_ebeDivide = {new Fraction(1, 4), new Fraction(2, 5), new Fraction(1, 2)};
-        checkArray("compare vect" ,v_ebeDivide.getData(),result_ebeDivide);
+        checkArray("compare vect" ,v_ebeDivide.toArray(),result_ebeDivide);
 
         FieldVector<Fraction>  v_ebeDivide_2 = v1.ebeDivide(v2_t);
         Fraction[] result_ebeDivide_2 = {new Fraction(1, 4), new Fraction(2, 5), new Fraction(1, 2)};
@@ -550,7 +550,7 @@ public class ArrayFieldVectorTest {
 
         ArrayFieldVector<Fraction> v_projection = v1.projection(v2);
         Fraction[] result_projection = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};
-        checkArray("compare vect", v_projection.getData(), result_projection);
+        checkArray("compare vect", v_projection.toArray(), result_projection);
 
         FieldVector<Fraction> v_projection_2 = v1.projection(v2_t);
         Fraction[] result_projection_2 = {new Fraction(128, 77), new Fraction(160, 77), new Fraction(192, 77)};

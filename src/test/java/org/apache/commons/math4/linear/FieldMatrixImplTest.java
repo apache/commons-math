@@ -317,7 +317,7 @@ public final class FieldMatrixImplTest {
     public void testPremultiplyVector() {
         FieldMatrix<Fraction> m = new Array2DRowFieldMatrix<Fraction>(testData);
         TestUtils.assertEquals(m.preMultiply(testVector), preMultTest);
-        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).getData()),
+        TestUtils.assertEquals(m.preMultiply(new ArrayFieldVector<Fraction>(testVector).toArray()),
                                preMultTest);
         m = new Array2DRowFieldMatrix<Fraction>(bigSingular);
         try {
