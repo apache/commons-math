@@ -40,9 +40,6 @@ import org.apache.commons.math4.util.Precision;
  */
 public class Line implements Embedding<Euclidean3D, Euclidean1D> {
 
-    /** Default value for tolerance. */
-    private static final double DEFAULT_TOLERANCE = 1.0e-10;
-
     /** Line direction. */
     private Vector3D direction;
 
@@ -74,17 +71,6 @@ public class Line implements Embedding<Euclidean3D, Euclidean1D> {
         this.direction = line.direction;
         this.zero      = line.zero;
         this.tolerance = line.tolerance;
-    }
-
-    /** Build a line from two points.
-     * @param p1 first point belonging to the line (this can be any point)
-     * @param p2 second point belonging to the line (this can be any point, different from p1)
-     * @exception MathIllegalArgumentException if the points are equal
-     * @deprecated as of 3.3, replaced with {@link #Line(Vector3D, Vector3D, double)}
-     */
-    @Deprecated
-    public Line(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {
-        this(p1, p2, DEFAULT_TOLERANCE);
     }
 
     /** Reset the instance as if built from two points.

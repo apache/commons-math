@@ -62,9 +62,6 @@ import org.apache.commons.math4.util.MathUtils;
  */
 public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euclidean1D> {
 
-    /** Default value for tolerance. */
-    private static final double DEFAULT_TOLERANCE = 1.0e-10;
-
     /** Angle with respect to the abscissa axis. */
     private double angle;
 
@@ -122,27 +119,6 @@ public class Line implements Hyperplane<Euclidean2D>, Embedding<Euclidean2D, Euc
         this.originOffset = originOffset;
         this.tolerance    = tolerance;
         this.reverse      = null;
-    }
-
-    /** Build a line from two points.
-     * <p>The line is oriented from p1 to p2</p>
-     * @param p1 first point
-     * @param p2 second point
-     * @deprecated as of 3.3, replaced with {@link #Line(Vector2D, Vector2D, double)}
-     */
-    @Deprecated
-    public Line(final Vector2D p1, final Vector2D p2) {
-        this(p1, p2, DEFAULT_TOLERANCE);
-    }
-
-    /** Build a line from a point and an angle.
-     * @param p point belonging to the line
-     * @param angle angle of the line with respect to abscissa axis
-     * @deprecated as of 3.3, replaced with {@link #Line(Vector2D, double, double)}
-     */
-    @Deprecated
-    public Line(final Vector2D p, final double angle) {
-        this(p, angle, DEFAULT_TOLERANCE);
     }
 
     /** Copy constructor.

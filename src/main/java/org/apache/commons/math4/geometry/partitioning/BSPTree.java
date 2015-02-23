@@ -19,12 +19,9 @@ package org.apache.commons.math4.geometry.partitioning;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math4.exception.MathIllegalStateException;
 import org.apache.commons.math4.exception.MathInternalError;
-import org.apache.commons.math4.exception.util.LocalizedFormats;
 import org.apache.commons.math4.geometry.Point;
 import org.apache.commons.math4.geometry.Space;
-import org.apache.commons.math4.geometry.Vector;
 import org.apache.commons.math4.util.FastMath;
 
 /** This class represent a Binary Space Partition tree.
@@ -303,19 +300,6 @@ public class BSPTree<S extends Space> {
             }
         }
         return s;
-    }
-
-    /** Get the cell to which a point belongs.
-     * <p>If the returned cell is a leaf node the points belongs to the
-     * interior of the node, if the cell is an internal node the points
-     * belongs to the node cut sub-hyperplane.</p>
-     * @param point point to check
-     * @return the tree cell to which the point belongs
-     * @deprecated as of 3.3, replaced with {@link #getCell(Point, double)}
-     */
-    @Deprecated
-    public BSPTree<S> getCell(final Vector<S> point) {
-        return getCell((Point<S>) point, 1.0e-10);
     }
 
     /** Get the cell to which a point belongs.
@@ -631,27 +615,6 @@ public class BSPTree<S extends Space> {
                    new BSPTree<S>(sub, minus.copySelf(), plus.copySelf(),  attribute);
         }
 
-    }
-
-    /** Insert the instance into another tree.
-     * <p>The instance itself is modified so its former parent should
-     * not be used anymore.</p>
-     * @param parentTree parent tree to connect to (may be null)
-     * @param isPlusChild if true and if parentTree is not null, the
-     * resulting tree should be the plus child of its parent, ignored if
-     * parentTree is null
-     * @see LeafMerger
-     * @deprecated as of 3.4, replaced with {@link #insertInTree(BSPTree, boolean, VanishingCutHandler)}
-     */
-    @Deprecated
-    public void insertInTree(final BSPTree<S> parentTree, final boolean isPlusChild) {
-        insertInTree(parentTree, isPlusChild, new VanishingCutHandler<S>() {
-            /** {@inheritDoc} */
-            public BSPTree<S> fixNode(BSPTree<S> node) {
-                // the cut should not be null
-                throw new MathIllegalStateException(LocalizedFormats.NULL_NOT_ALLOWED);
-            }
-        });
     }
 
     /** Insert the instance into another tree.

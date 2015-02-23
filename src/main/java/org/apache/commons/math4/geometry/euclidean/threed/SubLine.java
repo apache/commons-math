@@ -32,9 +32,6 @@ import org.apache.commons.math4.geometry.partitioning.Region.Location;
  */
 public class SubLine {
 
-    /** Default value for tolerance. */
-    private static final double DEFAULT_TOLERANCE = 1.0e-10;
-
     /** Underlying line. */
     private final Line line;
 
@@ -60,17 +57,6 @@ public class SubLine {
     public SubLine(final Vector3D start, final Vector3D end, final double tolerance)
         throws MathIllegalArgumentException {
         this(new Line(start, end, tolerance), buildIntervalSet(start, end, tolerance));
-    }
-
-    /** Create a sub-line from two endpoints.
-     * @param start start point
-     * @param end end point
-     * @exception MathIllegalArgumentException if the points are equal
-     * @deprecated as of 3.3, replaced with {@link #SubLine(Vector3D, Vector3D, double)}
-     */
-    public SubLine(final Vector3D start, final Vector3D end)
-        throws MathIllegalArgumentException {
-        this(start, end, DEFAULT_TOLERANCE);
     }
 
     /** Create a sub-line from a segment.

@@ -55,23 +55,6 @@ public class BoundaryAttribute<S extends Space> {
      * @param plusInside part of the node cut sub-hyperplane that
      * belongs to the boundary and has the inside of the region on the
      * plus side of its underlying hyperplane (may be null)
-     * @deprecated as of 3.4, the constructor has been replaced by a new one
-     * which is not public anymore, as it is intended to be used only by
-     * {@link BoundaryBuilder}
-     */
-    @Deprecated
-    public BoundaryAttribute(final SubHyperplane<S> plusOutside,
-                             final SubHyperplane<S> plusInside) {
-        this(plusOutside, plusInside, null);
-    }
-
-    /** Simple constructor.
-     * @param plusOutside part of the node cut sub-hyperplane that
-     * belongs to the boundary and has the outside of the region on
-     * the plus side of its underlying hyperplane (may be null)
-     * @param plusInside part of the node cut sub-hyperplane that
-     * belongs to the boundary and has the inside of the region on the
-     * plus side of its underlying hyperplane (may be null)
      * @param splitters sub-hyperplanes that were used to
      * split the boundary part (may be null)
      * @since 3.4

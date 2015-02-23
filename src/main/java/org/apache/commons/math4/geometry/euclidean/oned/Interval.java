@@ -48,30 +48,12 @@ public class Interval {
         return lower;
     }
 
-    /** Get the lower bound of the interval.
-     * @return lower bound of the interval
-     * @deprecated as of 3.1, replaced by {@link #getInf()}
-     */
-    @Deprecated
-    public double getLower() {
-        return getInf();
-    }
-
     /** Get the upper bound of the interval.
      * @return upper bound of the interval
      * @since 3.1
      */
     public double getSup() {
         return upper;
-    }
-
-    /** Get the upper bound of the interval.
-     * @return upper bound of the interval
-     * @deprecated as of 3.1, replaced by {@link #getSup()}
-     */
-    @Deprecated
-    public double getUpper() {
-        return getSup();
     }
 
     /** Get the size of the interval.
@@ -82,30 +64,12 @@ public class Interval {
         return upper - lower;
     }
 
-    /** Get the length of the interval.
-     * @return length of the interval
-     * @deprecated as of 3.1, replaced by {@link #getSize()}
-     */
-    @Deprecated
-    public double getLength() {
-        return getSize();
-    }
-
     /** Get the barycenter of the interval.
      * @return barycenter of the interval
      * @since 3.1
      */
     public double getBarycenter() {
         return 0.5 * (lower + upper);
-    }
-
-    /** Get the midpoint of the interval.
-     * @return midpoint of the interval
-     * @deprecated as of 3.1, replaced by {@link #getBarycenter()}
-     */
-    @Deprecated
-    public double getMidPoint() {
-        return getBarycenter();
     }
 
     /** Check a point with respect to the interval.
