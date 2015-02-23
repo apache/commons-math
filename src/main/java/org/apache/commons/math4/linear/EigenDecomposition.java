@@ -127,24 +127,6 @@ public class EigenDecomposition {
     }
 
     /**
-     * Calculates the eigen decomposition of the given real matrix.
-     *
-     * @param matrix Matrix to decompose.
-     * @param splitTolerance Dummy parameter (present for backward
-     * compatibility only).
-     * @throws MathArithmeticException  if the decomposition of a general matrix
-     * results in a matrix with zero norm
-     * @throws MaxCountExceededException if the algorithm fails to converge.
-     * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
-     */
-    @Deprecated
-    public EigenDecomposition(final RealMatrix matrix,
-                              final double splitTolerance)
-        throws MathArithmeticException {
-        this(matrix);
-    }
-
-    /**
      * Calculates the eigen decomposition of the symmetric tridiagonal
      * matrix.  The Householder matrix is assumed to be the identity matrix.
      *
@@ -164,23 +146,6 @@ public class EigenDecomposition {
             z[i][i] = 1.0;
         }
         findEigenVectors(z);
-    }
-
-    /**
-     * Calculates the eigen decomposition of the symmetric tridiagonal
-     * matrix.  The Householder matrix is assumed to be the identity matrix.
-     *
-     * @param main Main diagonal of the symmetric tridiagonal form.
-     * @param secondary Secondary of the tridiagonal form.
-     * @param splitTolerance Dummy parameter (present for backward
-     * compatibility only).
-     * @throws MaxCountExceededException if the algorithm fails to converge.
-     * @deprecated in 3.1 (to be removed in 4.0) due to unused parameter
-     */
-    @Deprecated
-    public EigenDecomposition(final double[] main, final double[] secondary,
-                              final double splitTolerance) {
-        this(main, secondary);
     }
 
     /**

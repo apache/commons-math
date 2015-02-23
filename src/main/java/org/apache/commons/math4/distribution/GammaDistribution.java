@@ -206,34 +206,10 @@ public class GammaDistribution extends AbstractRealDistribution {
      * Returns the shape parameter of {@code this} distribution.
      *
      * @return the shape parameter
-     * @deprecated as of version 3.1, {@link #getShape()} should be preferred.
-     * This method will be removed in version 4.0.
-     */
-    @Deprecated
-    public double getAlpha() {
-        return shape;
-    }
-
-    /**
-     * Returns the shape parameter of {@code this} distribution.
-     *
-     * @return the shape parameter
      * @since 3.1
      */
     public double getShape() {
         return shape;
-    }
-
-    /**
-     * Returns the scale parameter of {@code this} distribution.
-     *
-     * @return the scale parameter
-     * @deprecated as of version 3.1, {@link #getScale()} should be preferred.
-     * This method will be removed in version 4.0.
-     */
-    @Deprecated
-    public double getBeta() {
-        return scale;
     }
 
     /**

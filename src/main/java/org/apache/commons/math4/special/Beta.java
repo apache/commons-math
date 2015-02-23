@@ -227,34 +227,6 @@ public class Beta {
     }
 
     /**
-     * Returns the natural logarithm of the beta function B(a, b).
-     *
-     * The implementation of this method is based on:
-     * <ul>
-     * <li><a href="http://mathworld.wolfram.com/BetaFunction.html">
-     * Beta Function</a>, equation (1).</li>
-     * </ul>
-     *
-     * @param a Parameter {@code a}.
-     * @param b Parameter {@code b}.
-     * @param epsilon This parameter is ignored.
-     * @param maxIterations This parameter is ignored.
-     * @return log(B(a, b)).
-     * @deprecated as of version 3.1, this method is deprecated as the
-     * computation of the beta function is no longer iterative; it will be
-     * removed in version 4.0. Current implementation of this method
-     * internally calls {@link #logBeta(double, double)}.
-     */
-    @Deprecated
-    public static double logBeta(double a, double b,
-                                 double epsilon,
-                                 int maxIterations) {
-
-        return logBeta(a, b);
-    }
-
-
-    /**
      * Returns the value of log Γ(a + b) for 1 ≤ a, b ≤ 2. Based on the
      * <em>NSWC Library of Mathematics Subroutines</em> double precision
      * implementation, {@code DGSMLN}. In {@code BetaTest.testLogGammaSum()},

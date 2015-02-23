@@ -78,8 +78,8 @@ public class GammaDistributionTest extends RealDistributionAbstractTest {
     @Test
     public void testParameterAccessors() {
         GammaDistribution distribution = (GammaDistribution) getDistribution();
-        Assert.assertEquals(4d, distribution.getAlpha(), 0);
-        Assert.assertEquals(2d, distribution.getBeta(), 0);
+        Assert.assertEquals(4d, distribution.getShape(), 0);
+        Assert.assertEquals(2d, distribution.getScale(), 0);
     }
 
     @Test

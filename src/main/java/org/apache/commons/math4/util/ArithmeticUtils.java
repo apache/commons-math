@@ -20,7 +20,6 @@ import java.math.BigInteger;
 
 import org.apache.commons.math4.exception.MathArithmeticException;
 import org.apache.commons.math4.exception.NotPositiveException;
-import org.apache.commons.math4.exception.NumberIsTooLargeException;
 import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
@@ -66,161 +65,6 @@ public final class ArithmeticUtils {
      */
     public static long addAndCheck(long a, long b) throws MathArithmeticException {
         return addAndCheck(a, b, LocalizedFormats.OVERFLOW_IN_ADDITION);
-    }
-
-    /**
-     * Returns an exact representation of the <a
-     * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "{@code n choose k}", the number of
-     * {@code k}-element subsets that can be selected from an
-     * {@code n}-element set.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
-     * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which all coefficients are
-     * {@code  < Long.MAX_VALUE} is 66. If the computed value exceeds
-     * {@code Long.MAX_VALUE} an {@code ArithMeticException} is
-     * thrown.</li>
-     * </ul></p>
-     *
-     * @param n the size of the set
-     * @param k the size of the subsets to be counted
-     * @return {@code n choose k}
-     * @throws NotPositiveException if {@code n < 0}.
-     * @throws NumberIsTooLargeException if {@code k > n}.
-     * @throws MathArithmeticException if the result is too large to be
-     * represented by a long integer.
-     * @deprecated use {@link CombinatoricsUtils#binomialCoefficient(int, int)}
-     */
-    @Deprecated
-    public static long binomialCoefficient(final int n, final int k)
-        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
-       return CombinatoricsUtils.binomialCoefficient(n, k);
-    }
-
-    /**
-     * Returns a {@code double} representation of the <a
-     * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "{@code n choose k}", the number of
-     * {@code k}-element subsets that can be selected from an
-     * {@code n}-element set.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
-     * <li> The result is small enough to fit into a {@code double}. The
-     * largest value of {@code n} for which all coefficients are <
-     * Double.MAX_VALUE is 1029. If the computed value exceeds Double.MAX_VALUE,
-     * Double.POSITIVE_INFINITY is returned</li>
-     * </ul></p>
-     *
-     * @param n the size of the set
-     * @param k the size of the subsets to be counted
-     * @return {@code n choose k}
-     * @throws NotPositiveException if {@code n < 0}.
-     * @throws NumberIsTooLargeException if {@code k > n}.
-     * @throws MathArithmeticException if the result is too large to be
-     * represented by a long integer.
-     * @deprecated use {@link CombinatoricsUtils#binomialCoefficientDouble(int, int)}
-     */
-    @Deprecated
-    public static double binomialCoefficientDouble(final int n, final int k)
-        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
-        return CombinatoricsUtils.binomialCoefficientDouble(n, k);
-    }
-
-    /**
-     * Returns the natural {@code log} of the <a
-     * href="http://mathworld.wolfram.com/BinomialCoefficient.html"> Binomial
-     * Coefficient</a>, "{@code n choose k}", the number of
-     * {@code k}-element subsets that can be selected from an
-     * {@code n}-element set.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> {@code 0 <= k <= n } (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
-     * </ul></p>
-     *
-     * @param n the size of the set
-     * @param k the size of the subsets to be counted
-     * @return {@code n choose k}
-     * @throws NotPositiveException if {@code n < 0}.
-     * @throws NumberIsTooLargeException if {@code k > n}.
-     * @throws MathArithmeticException if the result is too large to be
-     * represented by a long integer.
-     * @deprecated use {@link CombinatoricsUtils#binomialCoefficientLog(int, int)}
-     */
-    @Deprecated
-    public static double binomialCoefficientLog(final int n, final int k)
-        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
-        return CombinatoricsUtils.binomialCoefficientLog(n, k);
-    }
-
-    /**
-     * Returns n!. Shorthand for {@code n} <a
-     * href="http://mathworld.wolfram.com/Factorial.html"> Factorial</a>, the
-     * product of the numbers {@code 1,...,n}.
-     * <p>
-     * <Strong>Preconditions</strong>:
-     * <ul>
-     * <li> {@code n >= 0} (otherwise
-     * {@code IllegalArgumentException} is thrown)</li>
-     * <li> The result is small enough to fit into a {@code long}. The
-     * largest value of {@code n} for which {@code n!} <
-     * Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE}
-     * an {@code ArithMeticException } is thrown.</li>
-     * </ul>
-     * </p>
-     *
-     * @param n argument
-     * @return {@code n!}
-     * @throws MathArithmeticException if the result is too large to be represented
-     * by a {@code long}.
-     * @throws NotPositiveException if {@code n < 0}.
-     * @throws MathArithmeticException if {@code n > 20}: The factorial value is too
-     * large to fit in a {@code long}.
-     * @deprecated use {@link CombinatoricsUtils#factorial(int)}
-     */
-    @Deprecated
-    public static long factorial(final int n) throws NotPositiveException, MathArithmeticException {
-        return CombinatoricsUtils.factorial(n);
-    }
-
-    /**
-     * Compute n!, the<a href="http://mathworld.wolfram.com/Factorial.html">
-     * factorial</a> of {@code n} (the product of the numbers 1 to n), as a
-     * {@code double}.
-     * The result should be small enough to fit into a {@code double}: The
-     * largest {@code n} for which {@code n! < Double.MAX_VALUE} is 170.
-     * If the computed value exceeds {@code Double.MAX_VALUE},
-     * {@code Double.POSITIVE_INFINITY} is returned.
-     *
-     * @param n Argument.
-     * @return {@code n!}
-     * @throws NotPositiveException if {@code n < 0}.
-     * @deprecated use {@link CombinatoricsUtils#factorialDouble(int)}
-     */
-    @Deprecated
-    public static double factorialDouble(final int n) throws NotPositiveException {
-         return CombinatoricsUtils.factorialDouble(n);
-    }
-
-    /**
-     * Compute the natural logarithm of the factorial of {@code n}.
-     *
-     * @param n Argument.
-     * @return {@code n!}
-     * @throws NotPositiveException if {@code n < 0}.
-     * @deprecated use {@link CombinatoricsUtils#factorialLog(int)}
-     */
-    @Deprecated
-    public static double factorialLog(final int n) throws NotPositiveException {
-        return CombinatoricsUtils.factorialLog(n);
     }
 
     /**
@@ -791,33 +635,6 @@ public final class ArithmeticUtils {
         }
 
         return result;
-    }
-
-    /**
-     * Returns the <a
-     * href="http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html">
-     * Stirling number of the second kind</a>, "{@code S(n,k)}", the number of
-     * ways of partitioning an {@code n}-element set into {@code k} non-empty
-     * subsets.
-     * <p>
-     * The preconditions are {@code 0 <= k <= n } (otherwise
-     * {@code NotPositiveException} is thrown)
-     * </p>
-     * @param n the size of the set
-     * @param k the number of non-empty subsets
-     * @return {@code S(n,k)}
-     * @throws NotPositiveException if {@code k < 0}.
-     * @throws NumberIsTooLargeException if {@code k > n}.
-     * @throws MathArithmeticException if some overflow happens, typically for n exceeding 25 and
-     * k between 20 and n-2 (S(n,n-1) is handled specifically and does not overflow)
-     * @since 3.1
-     * @deprecated use {@link CombinatoricsUtils#stirlingS2(int, int)}
-     */
-    @Deprecated
-    public static long stirlingS2(final int n, final int k)
-        throws NotPositiveException, NumberIsTooLargeException, MathArithmeticException {
-        return CombinatoricsUtils.stirlingS2(n, k);
-
     }
 
     /**
