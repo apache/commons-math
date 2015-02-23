@@ -255,16 +255,6 @@ public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector
         return res;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated as of 3.1, to be removed in 4.0. Please use the {@link #toArray()} method instead.
-     */
-    @Deprecated
-    public T[] getData() {
-        return toArray();
-    }
-
     /** {@inheritDoc} */
     public int getDimension() {
         return virtualSize;

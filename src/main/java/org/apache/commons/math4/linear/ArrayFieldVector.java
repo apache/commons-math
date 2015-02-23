@@ -269,21 +269,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
-     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldVector, FieldVector)}
-     */
-    @Deprecated
-    public ArrayFieldVector(ArrayFieldVector<T> v1, ArrayFieldVector<T> v2)
-            throws NullArgumentException {
-        this((FieldVector<T>) v1, (FieldVector<T>) v2);
-    }
-
-    /**
-     * Construct a vector by appending one vector to another vector.
-     *
-     * @param v1 First vector (will be put in front of the new vector).
-     * @param v2 Second vector (will be put at back of the new vector).
-     * @throws NullArgumentException if {@code v1} or {@code v2} is
-     * {@code null}.
      * @since 3.2
      */
     public ArrayFieldVector(FieldVector<T> v1, FieldVector<T> v2)
@@ -307,21 +292,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
      * @param v2 Second vector (will be put at back of the new vector).
      * @throws NullArgumentException if {@code v1} or {@code v2} is
      * {@code null}.
-     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldVector, FieldElement[])}
-     */
-    @Deprecated
-    public ArrayFieldVector(ArrayFieldVector<T> v1, T[] v2)
-            throws NullArgumentException {
-        this((FieldVector<T>) v1, v2);
-    }
-
-    /**
-     * Construct a vector by appending one vector to another vector.
-     *
-     * @param v1 First vector (will be put in front of the new vector).
-     * @param v2 Second vector (will be put at back of the new vector).
-     * @throws NullArgumentException if {@code v1} or {@code v2} is
-     * {@code null}.
      * @since 3.2
      */
     public ArrayFieldVector(FieldVector<T> v1, T[] v2)
@@ -334,21 +304,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
         data = MathArrays.buildArray(field, v1Data.length + v2.length);
         System.arraycopy(v1Data, 0, data, 0, v1Data.length);
         System.arraycopy(v2, 0, data, v1Data.length, v2.length);
-    }
-
-    /**
-     * Construct a vector by appending one vector to another vector.
-     *
-     * @param v1 First vector (will be put in front of the new vector).
-     * @param v2 Second vector (will be put at back of the new vector).
-     * @throws NullArgumentException if {@code v1} or {@code v2} is
-     * {@code null}.
-     * @deprecated as of 3.2, replaced by {@link #ArrayFieldVector(FieldElement[], FieldVector)}
-     */
-    @Deprecated
-    public ArrayFieldVector(T[] v1, ArrayFieldVector<T> v2)
-            throws NullArgumentException {
-        this(v1, (FieldVector<T>) v2);
     }
 
     /**
@@ -668,11 +623,6 @@ public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<
             }
         }
         return new ArrayFieldVector<T>(field, out, false);
-    }
-
-    /** {@inheritDoc} */
-    public T[] getData() {
-        return data.clone();
     }
 
     /**

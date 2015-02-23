@@ -191,14 +191,6 @@ public interface FieldVector<T extends FieldElement<T>>  {
         throws DimensionMismatchException, MathArithmeticException;
 
     /**
-     * Returns vector entries as a T array.
-     * @return T array of entries
-     * @deprecated as of 3.1, to be removed in 4.0. Please use the {@link #toArray()} method instead.
-     */
-    @Deprecated
-    T[] getData();
-
-    /**
      * Compute the dot product.
      * @param v vector with which dot product should be computed
      * @return the scalar dot product of {@code this} and {@code v}

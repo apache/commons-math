@@ -123,41 +123,6 @@ public abstract class AbstractFieldMatrix<T extends FieldElement<T>>
         return d[0].getField();
     }
 
-    /** Build an array of elements.
-     * <p>
-     * Complete arrays are filled with field.getZero()
-     * </p>
-     * @param <T> Type of the field elements
-     * @param field field to which array elements belong
-     * @param rows number of rows
-     * @param columns number of columns (may be negative to build partial
-     * arrays in the same way <code>new Field[rows][]</code> works)
-     * @return a new array
-     * @deprecated as of 3.2, replaced by {@link MathArrays#buildArray(Field, int, int)}
-     */
-    @Deprecated
-    protected static <T extends FieldElement<T>> T[][] buildArray(final Field<T> field,
-                                                                  final int rows,
-                                                                  final int columns) {
-        return MathArrays.buildArray(field, rows, columns);
-    }
-
-    /** Build an array of elements.
-     * <p>
-     * Arrays are filled with field.getZero()
-     * </p>
-     * @param <T> the type of the field elements
-     * @param field field to which array elements belong
-     * @param length of the array
-     * @return a new array
-     * @deprecated as of 3.2, replaced by {@link MathArrays#buildArray(Field, int)}
-     */
-    @Deprecated
-    protected static <T extends FieldElement<T>> T[] buildArray(final Field<T> field,
-                                                                final int length) {
-        return MathArrays.buildArray(field, length);
-    }
-
     /** {@inheritDoc} */
     public Field<T> getField() {
         return field;
