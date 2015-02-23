@@ -379,8 +379,8 @@
     <commons.jira.id>MATH</commons.jira.id>
     <commons.jira.pid>12310485</commons.jira.pid>
     <commons.encoding>UTF-8</commons.encoding>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
     <math.pmd.version>2.7.1</math.pmd.version>
     <math.findbugs.version>2.5.1</math.findbugs.version>
     <math.checkstyle.version>2.9.1</math.checkstyle.version>
