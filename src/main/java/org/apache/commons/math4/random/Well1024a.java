@@ -16,25 +16,23 @@
  */
 package org.apache.commons.math4.random;
 
-
 /** This class implements the WELL1024a pseudo-random number generator
  * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.
-
- * <p>This generator is described in a paper by Fran&ccedil;ois Panneton,
+ * <p>
+ * This generator is described in a paper by Fran&ccedil;ois Panneton,
  * Pierre L'Ecuyer and Makoto Matsumoto <a
  * href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved
  * Long-Period Generators Based on Linear Recurrences Modulo 2</a> ACM
  * Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
  * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
-
+ *
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @since 2.2
-
  */
 public class Well1024a extends AbstractWell {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = 5680173464174485492L;
+    private static final long serialVersionUID = 20150223L;
 
     /** Number of bits in the pool. */
     private static final int K = 1024;
@@ -48,19 +46,22 @@ public class Well1024a extends AbstractWell {
     /** Third parameter of the algorithm. */
     private static final int M3 = 10;
 
+    /** The indirection index table. */
+    private static final IndexTable TABLE = new IndexTable(K, M1, M2, M3);
+
     /** Creates a new random number generator.
      * <p>The instance is initialized using the current time as the
      * seed.</p>
      */
     public Well1024a() {
-        super(K, M1, M2, M3);
+        super(K);
     }
 
     /** Creates a new random number generator using a single int seed.
      * @param seed the initial seed (32 bits integer)
      */
     public Well1024a(int seed) {
-        super(K, M1, M2, M3, seed);
+        super(K, seed);
     }
 
     /** Creates a new random number generator using an int array seed.
@@ -68,26 +69,26 @@ public class Well1024a extends AbstractWell {
      * the seed of the generator will be related to the current time
      */
     public Well1024a(int[] seed) {
-        super(K, M1, M2, M3, seed);
+        super(K, seed);
     }
 
     /** Creates a new random number generator using a single long seed.
      * @param seed the initial seed (64 bits integer)
      */
     public Well1024a(long seed) {
-        super(K, M1, M2, M3, seed);
+        super(K, seed);
     }
 
     /** {@inheritDoc} */
     @Override
     protected int next(final int bits) {
 
-        final int indexRm1 = iRm1[index];
+        final int indexRm1 = TABLE.getIndexPred(index);
 
         final int v0       = v[index];
-        final int vM1      = v[i1[index]];
-        final int vM2      = v[i2[index]];
-        final int vM3      = v[i3[index]];
+        final int vM1      = v[TABLE.getIndexM1(index)];
+        final int vM2      = v[TABLE.getIndexM2(index)];
+        final int vM3      = v[TABLE.getIndexM3(index)];
 
         final int z0 = v[indexRm1];
         final int z1 = v0  ^ (vM1 ^ (vM1 >>> 8));
@@ -102,4 +103,5 @@ public class Well1024a extends AbstractWell {
         return z4 >>> (32 - bits);
 
     }
+
 }

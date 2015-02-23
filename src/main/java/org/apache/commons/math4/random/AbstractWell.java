@@ -23,22 +23,21 @@ import org.apache.commons.math4.util.FastMath;
 
 /** This abstract class implements the WELL class of pseudo-random number generator
  * from Fran&ccedil;ois Panneton, Pierre L'Ecuyer and Makoto Matsumoto.
-
- * <p>This generator is described in a paper by Fran&ccedil;ois Panneton,
+ * <p>
+ * This generator is described in a paper by Fran&ccedil;ois Panneton,
  * Pierre L'Ecuyer and Makoto Matsumoto <a
  * href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng.pdf">Improved
  * Long-Period Generators Based on Linear Recurrences Modulo 2</a> ACM
  * Transactions on Mathematical Software, 32, 1 (2006). The errata for the paper
  * are in <a href="http://www.iro.umontreal.ca/~lecuyer/myftp/papers/wellrng-errata.txt">wellrng-errata.txt</a>.</p>
-
+ *
  * @see <a href="http://www.iro.umontreal.ca/~panneton/WELLRNG.html">WELL Random number generator</a>
  * @since 2.2
-
  */
 public abstract class AbstractWell extends BitsStreamGenerator implements Serializable {
 
     /** Serializable version identifier. */
-    private static final long serialVersionUID = -817701723016583596L;
+    private static final long serialVersionUID = 20150223L;
 
     /** Current index in the bytes pool. */
     protected int index;
@@ -46,76 +45,33 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
     /** Bytes pool. */
     protected final int[] v;
 
-    /** Index indirection table giving for each index its predecessor taking table size into account. */
-    protected final int[] iRm1;
-
-    /** Index indirection table giving for each index its second predecessor taking table size into account. */
-    protected final int[] iRm2;
-
-    /** Index indirection table giving for each index the value index + m1 taking table size into account. */
-    protected final int[] i1;
-
-    /** Index indirection table giving for each index the value index + m2 taking table size into account. */
-    protected final int[] i2;
-
-    /** Index indirection table giving for each index the value index + m3 taking table size into account. */
-    protected final int[] i3;
-
     /** Creates a new random number generator.
      * <p>The instance is initialized using the current time plus the
      * system identity hash code of this instance as the seed.</p>
      * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param m1 first parameter of the algorithm
-     * @param m2 second parameter of the algorithm
-     * @param m3 third parameter of the algorithm
      */
-    protected AbstractWell(final int k, final int m1, final int m2, final int m3) {
-        this(k, m1, m2, m3, null);
+    protected AbstractWell(final int k) {
+        this(k, null);
     }
 
     /** Creates a new random number generator using a single int seed.
      * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param m1 first parameter of the algorithm
-     * @param m2 second parameter of the algorithm
-     * @param m3 third parameter of the algorithm
      * @param seed the initial seed (32 bits integer)
      */
-    protected AbstractWell(final int k, final int m1, final int m2, final int m3, final int seed) {
-        this(k, m1, m2, m3, new int[] { seed });
+    protected AbstractWell(final int k, final int seed) {
+        this(k, new int[] { seed });
     }
 
     /** Creates a new random number generator using an int array seed.
      * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param m1 first parameter of the algorithm
-     * @param m2 second parameter of the algorithm
-     * @param m3 third parameter of the algorithm
      * @param seed the initial seed (32 bits integers array), if null
      * the seed of the generator will be related to the current time
      */
-    protected AbstractWell(final int k, final int m1, final int m2, final int m3, final int[] seed) {
+    protected AbstractWell(final int k, final int[] seed) {
 
-        // the bits pool contains k bits, k = r w - p where r is the number
-        // of w bits blocks, w is the block size (always 32 in the original paper)
-        // and p is the number of unused bits in the last block
-        final int w = 32;
-        final int r = (k + w - 1) / w;
+        final int r = calculateBlockCount(k);
         this.v      = new int[r];
         this.index  = 0;
-
-        // precompute indirection index tables. These tables are used for optimizing access
-        // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
-        iRm1 = new int[r];
-        iRm2 = new int[r];
-        i1   = new int[r];
-        i2   = new int[r];
-        i3   = new int[r];
-        for (int j = 0; j < r; ++j) {
-            iRm1[j] = (j + r - 1) % r;
-            iRm2[j] = (j + r - 2) % r;
-            i1[j]   = (j + m1)    % r;
-            i2[j]   = (j + m2)    % r;
-            i3[j]   = (j + m3)    % r;
-        }
 
         // initialize the pool content
         setSeed(seed);
@@ -124,13 +80,10 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
 
     /** Creates a new random number generator using a single long seed.
      * @param k number of bits in the pool (not necessarily a multiple of 32)
-     * @param m1 first parameter of the algorithm
-     * @param m2 second parameter of the algorithm
-     * @param m3 third parameter of the algorithm
      * @param seed the initial seed (64 bits integer)
      */
-    protected AbstractWell(final int k, final int m1, final int m2, final int m3, final long seed) {
-        this(k, m1, m2, m3, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+    protected AbstractWell(final int k, final long seed) {
+        this(k, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
     }
 
     /** Reinitialize the generator as if just built with the given int seed.
@@ -184,4 +137,109 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
     @Override
     protected abstract int next(final int bits);
 
+    /** Calculate the number of 32-bits blocks.
+     * @param k number of bits in the pool (not necessarily a multiple of 32)
+     * @return the number of 32-bits blocks
+     */
+    private static int calculateBlockCount(final int k) {
+        // the bits pool contains k bits, k = r w - p where r is the number
+        // of w bits blocks, w is the block size (always 32 in the original paper)
+        // and p is the number of unused bits in the last block
+        final int w = 32;
+        final int r = (k + w - 1) / w;
+        return r;
+    }
+
+    /**
+     * Inner class used to store the indirection index table which is fixed for a given type of WELL class
+     * of pseudo-random number generator. 
+     */
+    protected static final class IndexTable {
+        /** Index indirection table giving for each index its predecessor taking table size into account. */
+        private final int[] iRm1;
+
+        /** Index indirection table giving for each index its second predecessor taking table size into account. */
+        private final int[] iRm2;
+
+        /** Index indirection table giving for each index the value index + m1 taking table size into account. */
+        private final int[] i1;
+
+        /** Index indirection table giving for each index the value index + m2 taking table size into account. */
+        private final int[] i2;
+
+        /** Index indirection table giving for each index the value index + m3 taking table size into account. */
+        private final int[] i3;
+
+        /** Creates a new pre-calculated indirection index table.
+         * @param k number of bits in the pool (not necessarily a multiple of 32)
+         * @param m1 first parameter of the algorithm
+         * @param m2 second parameter of the algorithm
+         * @param m3 third parameter of the algorithm
+         * @param seed the initial seed (64 bits integer)
+         */
+        public IndexTable(final int k, final int m1, final int m2, final int m3) {
+
+            final int r = calculateBlockCount(k);
+            
+            // precompute indirection index tables. These tables are used for optimizing access
+            // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
+            iRm1 = new int[r];
+            iRm2 = new int[r];
+            i1   = new int[r];
+            i2   = new int[r];
+            i3   = new int[r];
+            for (int j = 0; j < r; ++j) {
+                iRm1[j] = (j + r - 1) % r;
+                iRm2[j] = (j + r - 2) % r;
+                i1[j]   = (j + m1)    % r;
+                i2[j]   = (j + m2)    % r;
+                i3[j]   = (j + m3)    % r;
+            }
+        }
+        
+        /**
+         * Returns the predecessor of the given index modulo the table size.
+         * @param index the index to look at
+         * @return (index - 1) % table size
+         */
+        public int getIndexPred(final int index) {
+            return iRm1[index];
+        }
+
+        /**
+         * Returns the second predecessor of the given index modulo the table size.
+         * @param index the index to look at
+         * @return (index - 2) % table size
+         */
+        public int getIndexPred2(final int index) {
+            return iRm2[index];
+        }
+
+        /**
+         * Returns index + M1 modulo the table size.
+         * @param index the index to look at
+         * @return (index + M1) % table size
+         */
+        public int getIndexM1(final int index) {
+            return i1[index];
+        }
+
+        /**
+         * Returns index + M2 modulo the table size.
+         * @param index the index to look at
+         * @return (index + M2) % table size
+         */
+        public int getIndexM2(final int index) {
+            return i2[index];
+        }
+
+        /**
+         * Returns index + M3 modulo the table size.
+         * @param index the index to look at
+         * @return (index + M3) % table size
+         */
+        public int getIndexM3(final int index) {
+            return i3[index];
+        }
+    }
 }
