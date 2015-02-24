@@ -162,24 +162,6 @@ public class EnumeratedRealDistributionTest {
     }
 
     /**
-     * Tests if the distribution returns properly that the support includes the
-     * lower bound.
-     */
-    @Test
-    public void testIsSupportLowerBoundInclusive() {
-        Assert.assertTrue(testDistribution.isSupportLowerBoundInclusive());
-    }
-
-    /**
-     * Tests if the distribution returns properly that the support includes the
-     * upper bound.
-     */
-    @Test
-    public void testIsSupportUpperBoundInclusive() {
-        Assert.assertTrue(testDistribution.isSupportUpperBoundInclusive());
-    }
-
-    /**
      * Tests if the distribution returns properly that the support is connected.
      */
     @Test

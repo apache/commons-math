@@ -241,16 +241,6 @@ public class TriangularDistribution extends AbstractRealDistribution {
         return b;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
-    }
-
     /**
      * {@inheritDoc}
      *

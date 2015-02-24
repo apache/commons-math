@@ -171,16 +171,6 @@ public class NakagamiDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
     public boolean isSupportConnected() {
         return true;
     }

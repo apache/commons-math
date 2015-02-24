@@ -384,38 +384,6 @@ public abstract class RealDistributionAbstractTest {
         }
     }
     
-    /**
-     * Verify that isSupportLowerBoundInclusvie returns true iff the lower bound
-     * is finite and density is non-NaN, non-infinite there.
-     */
-    @Test
-    public void testIsSupportLowerBoundInclusive() {
-        final double lowerBound = distribution.getSupportLowerBound();
-        double result = Double.NaN;
-        result = distribution.density(lowerBound);
-        Assert.assertEquals(
-                !Double.isInfinite(lowerBound) && !Double.isNaN(result) &&
-                !Double.isInfinite(result),
-                distribution.isSupportLowerBoundInclusive());
-         
-    }
-    
-    /**
-     * Verify that isSupportUpperBoundInclusvie returns true iff the upper bound
-     * is finite and density is non-NaN, non-infinite there.
-     */
-    @Test
-    public void testIsSupportUpperBoundInclusive() {
-        final double upperBound = distribution.getSupportUpperBound();
-        double result = Double.NaN;
-        result = distribution.density(upperBound);
-        Assert.assertEquals(
-                !Double.isInfinite(upperBound) && !Double.isNaN(result) &&
-                !Double.isInfinite(result),
-                distribution.isSupportUpperBoundInclusive());
-         
-    }
-
     @Test
     public void testDistributionClone()
         throws IOException,

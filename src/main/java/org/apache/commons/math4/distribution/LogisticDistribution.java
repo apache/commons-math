@@ -143,16 +143,6 @@ public class LogisticDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
     public boolean isSupportConnected() {
         return true;
     }

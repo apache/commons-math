@@ -89,16 +89,6 @@ public class ConstantRealDistribution extends AbstractRealDistribution {
         return value;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
-    }
-
     /**
      * {@inheritDoc}
      */

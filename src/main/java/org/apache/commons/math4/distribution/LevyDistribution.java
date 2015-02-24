@@ -172,19 +172,6 @@ public class LevyDistribution extends AbstractRealDistribution {
     }
 
     /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        // there is a division by x-mu in the computation, so density
-        // is not finite at lower bound, bound must be excluded
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        // upper bound is infinite, so it must be excluded
-        return false;
-    }
-
-    /** {@inheritDoc} */
     public boolean isSupportConnected() {
         return true;
     }

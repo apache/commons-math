@@ -213,16 +213,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
         return upper;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
-    }
-
     /**
      * {@inheritDoc}
      *

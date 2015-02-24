@@ -233,16 +233,6 @@ public class CauchyDistribution extends AbstractRealDistribution {
         return Double.POSITIVE_INFINITY;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
     /**
      * {@inheritDoc}
      *

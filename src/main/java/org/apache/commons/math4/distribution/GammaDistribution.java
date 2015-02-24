@@ -385,16 +385,6 @@ public class GammaDistribution extends AbstractRealDistribution {
         return Double.POSITIVE_INFINITY;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
     /**
      * {@inheritDoc}
      *

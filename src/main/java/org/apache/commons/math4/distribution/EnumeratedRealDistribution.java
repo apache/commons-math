@@ -242,28 +242,6 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
     /**
      * {@inheritDoc}
      *
-     * The support of this distribution includes the lower bound.
-     *
-     * @return {@code true}
-     */
-    public boolean isSupportLowerBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * The support of this distribution includes the upper bound.
-     *
-     * @return {@code true}
-     */
-    public boolean isSupportUpperBoundInclusive() {
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
      * The support of this distribution is connected.
      *
      * @return {@code true}

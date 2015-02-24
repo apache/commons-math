@@ -246,16 +246,6 @@ public class BetaDistribution extends AbstractRealDistribution {
         return 1;
     }
 
-    /** {@inheritDoc} */
-    public boolean isSupportLowerBoundInclusive() {
-        return false;
-    }
-
-    /** {@inheritDoc} */
-    public boolean isSupportUpperBoundInclusive() {
-        return false;
-    }
-
     /**
      * {@inheritDoc}
      *
