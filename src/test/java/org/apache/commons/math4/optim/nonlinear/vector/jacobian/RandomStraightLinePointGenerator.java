@@ -67,8 +67,7 @@ public class RandomStraightLinePointGenerator {
         intercept = b;
         error = new NormalDistribution(rng, 0, sigma,
                                        NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        x = new UniformRealDistribution(rng, lo, hi,
-                                        UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        x = new UniformRealDistribution(rng, lo, hi);
     }
 
     /**

@@ -44,9 +44,7 @@ import org.junit.Test;
 
 /**
  * Test cases for the EmpiricalDistribution class
- *
  */
-
 public final class EmpiricalDistributionTest extends RealDistributionAbstractTest {
 
     protected EmpiricalDistribution empiricalDistribution = null;
@@ -542,8 +540,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         }
         @Override
         protected RealDistribution getKernel(SummaryStatistics bStats) {
-            return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax(),
-                    UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+            return new UniformRealDistribution(randomData.getRandomGenerator(), bStats.getMin(), bStats.getMax());
         }
     }
 }

@@ -32,11 +32,6 @@ import org.apache.commons.math4.random.Well19937c;
  * @since 3.0
  */
 public class UniformRealDistribution extends AbstractRealDistribution {
-    /** Default inverse cumulative probability accuracy.
-     * @deprecated as of 3.2 not used anymore, will be removed in 4.0
-     */
-    @Deprecated
-    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1e-9;
     /** Serializable version identifier. */
     private static final long serialVersionUID = 20120109L;
     /** Lower bound of this distribution (inclusive). */
@@ -77,43 +72,6 @@ public class UniformRealDistribution extends AbstractRealDistribution {
     public UniformRealDistribution(double lower, double upper)
         throws NumberIsTooLargeException {
         this(new Well19937c(), lower, upper);
-    }
-
-    /**
-     * Create a uniform distribution.
-     *
-     * @param lower Lower bound of this distribution (inclusive).
-     * @param upper Upper bound of this distribution (exclusive).
-     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     * @deprecated as of 3.2, inverse CDF is now calculated analytically, use
-     *             {@link #UniformRealDistribution(double, double)} instead.
-     */
-    @Deprecated
-    public UniformRealDistribution(double lower, double upper, double inverseCumAccuracy)
-        throws NumberIsTooLargeException {
-        this(new Well19937c(), lower, upper);
-    }
-
-    /**
-     * Creates a uniform distribution.
-     *
-     * @param rng Random number generator.
-     * @param lower Lower bound of this distribution (inclusive).
-     * @param upper Upper bound of this distribution (exclusive).
-     * @param inverseCumAccuracy Inverse cumulative probability accuracy.
-     * @throws NumberIsTooLargeException if {@code lower >= upper}.
-     * @since 3.1
-     * @deprecated as of 3.2, inverse CDF is now calculated analytically, use
-     *             {@link #UniformRealDistribution(RandomGenerator, double, double)}
-     *             instead.
-     */
-    @Deprecated
-    public UniformRealDistribution(RandomGenerator rng,
-                                   double lower,
-                                   double upper,
-                                   double inverseCumAccuracy){
-        this(rng, lower, upper);
     }
 
     /**

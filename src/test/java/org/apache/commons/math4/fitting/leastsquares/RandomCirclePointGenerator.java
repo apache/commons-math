@@ -58,8 +58,7 @@ public class RandomCirclePointGenerator {
                                     NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
         cY = new NormalDistribution(rng, y, ySigma,
                                     NormalDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
-        tP = new UniformRealDistribution(rng, 0, MathUtils.TWO_PI,
-                                         UniformRealDistribution.DEFAULT_INVERSE_ABSOLUTE_ACCURACY);
+        tP = new UniformRealDistribution(rng, 0, MathUtils.TWO_PI);
     }
 
     /**
