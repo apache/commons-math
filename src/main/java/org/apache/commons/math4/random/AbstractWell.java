@@ -152,7 +152,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
 
     /**
      * Inner class used to store the indirection index table which is fixed for a given type of WELL class
-     * of pseudo-random number generator. 
+     * of pseudo-random number generator.
      */
     protected static final class IndexTable {
         /** Index indirection table giving for each index its predecessor taking table size into account. */
@@ -175,12 +175,11 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
          * @param m1 first parameter of the algorithm
          * @param m2 second parameter of the algorithm
          * @param m3 third parameter of the algorithm
-         * @param seed the initial seed (64 bits integer)
          */
         public IndexTable(final int k, final int m1, final int m2, final int m3) {
 
             final int r = calculateBlockCount(k);
-            
+
             // precompute indirection index tables. These tables are used for optimizing access
             // they allow saving computations like "(j + r - 2) % r" with costly modulo operations
             iRm1 = new int[r];
@@ -196,7 +195,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
                 i3[j]   = (j + m3)    % r;
             }
         }
-        
+
         /**
          * Returns the predecessor of the given index modulo the table size.
          * @param index the index to look at
