@@ -21,9 +21,25 @@ import org.apache.commons.math4.exception.OutOfRangeException;
 
 /**
  * Interface for distributions on the integers.
- *
  */
 public interface IntegerDistribution {
+    
+    /**
+     * For a random variable {@code X} whose values are distributed according to
+     * this distribution, this method returns {@code log(P(X = x))}, where
+     * {@code log} is the natural logarithm. In other words, this method
+     * represents the logarithm of the probability mass function (PMF) for the
+     * distribution. Note that due to the floating point precision and
+     * under/overflow issues, this method will for some distributions be more
+     * precise and faster than computing the logarithm of
+     * {@link #probability(int)}.
+     *
+     * @param x the point at which the PMF is evaluated
+     * @return the logarithm of the value of the probability mass function at {@code x}
+     * @since 4.0
+     */
+    double logProbability(int x);
+    
     /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X = x)}. In other

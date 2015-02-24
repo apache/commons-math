@@ -51,6 +51,23 @@ public interface RealDistribution {
     double density(double x);
 
     /**
+     * Returns the natural logarithm of the probability density function
+     * (PDF) of this distribution evaluated at the specified point {@code x}.
+     * In general, the PDF is the derivative of the {@link #cumulativeProbability(double) CDF}.
+     * If the derivative does not exist at {@code x}, then an appropriate replacement
+     * should be returned, e.g. {@code Double.POSITIVE_INFINITY}, {@code Double.NaN},
+     * or the limit inferior or limit superior of the difference quotient. Note that
+     * due to the floating point precision and under/overflow issues, this method will
+     * for some distributions be more precise and faster than computing the logarithm of
+     * {@link #density(double)}.
+     *
+     * @param x the point at which the PDF is evaluated
+     * @return the logarithm of the value of the probability density function at point {@code x}
+     * @since 4.0
+     */
+    double logDensity(double x);
+
+    /**
      * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X <= x)}. In other
      * words, this method represents the (cumulative) distribution function
