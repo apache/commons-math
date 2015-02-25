@@ -254,17 +254,6 @@ public class LogNormalDistribution extends AbstractRealDistribution {
         return 0.5 + 0.5 * Erf.erf(dev / (shape * SQRT2));
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated See {@link RealDistribution#cumulativeProbability(double,double)}
-     */
-    @Override@Deprecated
-    public double cumulativeProbability(double x0, double x1)
-        throws NumberIsTooLargeException {
-        return probability(x0, x1);
-    }
-
     /** {@inheritDoc} */
     @Override
     public double probability(double x0,

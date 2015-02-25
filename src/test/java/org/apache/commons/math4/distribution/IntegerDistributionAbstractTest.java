@@ -262,7 +262,7 @@ public abstract class IntegerDistributionAbstractTest {
     @Test
     public void testIllegalArguments() {
         try {
-            distribution.cumulativeProbability(1, 0);
+            distribution.probability(1, 0);
             Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
         } catch (MathIllegalArgumentException ex) {
             // expected

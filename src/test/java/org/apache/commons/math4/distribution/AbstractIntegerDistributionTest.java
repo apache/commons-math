@@ -60,18 +60,18 @@ public class AbstractIntegerDistributionTest {
     }
 
     @Test
-    public void testCumulativeProbabilitiesRangeArguments() {
+    public void testProbabilitiesRangeArguments() {
         int lower = 0;
         int upper = 6;
         for (int i = 0; i < 2; i++) {
             // cum(0,6) = p(0 < X <= 6) = 1, cum(1,5) = 4/6, cum(2,4) = 2/6
             Assert.assertEquals(1 - p * 2 * i,
-                    diceDistribution.cumulativeProbability(lower, upper), 1E-12);
+                    diceDistribution.probability(lower, upper), 1E-12);
             lower++;
             upper--;
         }
         for (int i = 0; i < 6; i++) {
-            Assert.assertEquals(p, diceDistribution.cumulativeProbability(i, i+1), 1E-12);
+            Assert.assertEquals(p, diceDistribution.probability(i, i+1), 1E-12);
         }
     }
 

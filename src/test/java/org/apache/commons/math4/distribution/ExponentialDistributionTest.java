@@ -86,7 +86,7 @@ public class ExponentialDistributionTest extends RealDistributionAbstractTest {
 
     @Test
     public void testCumulativeProbability2() {
-        double actual = getDistribution().cumulativeProbability(0.25, 0.75);
+        double actual = getDistribution().probability(0.25, 0.75);
         Assert.assertEquals(0.0905214, actual, 10e-4);
     }
 

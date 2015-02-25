@@ -56,8 +56,10 @@ public abstract class AbstractIntegerDistribution implements IntegerDistribution
      *
      * The default implementation uses the identity
      * <p>{@code P(x0 < X <= x1) = P(X <= x1) - P(X <= x0)}</p>
+     *
+     * @since 4.0, was previously named cumulativeProbability
      */
-    public double cumulativeProbability(int x0, int x1) throws NumberIsTooLargeException {
+    public double probability(int x0, int x1) throws NumberIsTooLargeException {
         if (x1 < x0) {
             throw new NumberIsTooLargeException(LocalizedFormats.LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT,
                     x0, x1, true);

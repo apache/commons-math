@@ -59,12 +59,10 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
     public void setUp() {
         super.setUp();
         empiricalDistribution = new EmpiricalDistribution(100);
-//         empiricalDistribution = new EmpiricalDistribution(100, new RandomDataImpl()); // XXX Deprecated API
         url = getClass().getResource("testData.txt");
         final ArrayList<Double> list = new ArrayList<Double>();
         try {
             empiricalDistribution2 = new EmpiricalDistribution(100);
-//             empiricalDistribution2 = new EmpiricalDistribution(100, new RandomDataImpl()); // XXX Deprecated API
             BufferedReader in =
                 new BufferedReader(new InputStreamReader(
                         url.openStream()));
@@ -351,8 +349,8 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
             // First bin has mass 11 / 10000, the rest have mass 10 / 10000.
             final double bMinus = bin == 0 ? 0 : (bin - 1) * binMass + firstBinMass;
             final RealDistribution kernel = findKernel(lower, upper);
-            final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
-            final double kernelCum = kernel.cumulativeProbability(lower, testPoints[i]);
+            final double withinBinKernelMass = kernel.probability(lower, upper);
+            final double kernelCum = kernel.probability(lower, testPoints[i]);
             cumValues[i] = bMinus + (bin == 0 ? firstBinMass : binMass) * kernelCum/withinBinKernelMass;
         }
         return cumValues;
@@ -370,7 +368,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
                 binBounds[bin - 1];
             final double upper = binBounds[bin];
             final RealDistribution kernel = findKernel(lower, upper);
-            final double withinBinKernelMass = kernel.cumulativeProbability(lower, upper);
+            final double withinBinKernelMass = kernel.probability(lower, upper);
             final double density = kernel.density(testPoints[i]);
             densityValues[i] = density * (bin == 0 ? firstBinMass : binMass) / withinBinKernelMass;   
         }
@@ -399,7 +397,7 @@ public final class EmpiricalDistributionTest extends RealDistributionAbstractTes
         final double[] upper = {5, 12, 1030, 5010, 10000};
         for (int i = 1; i < 5; i++) {
             Assert.assertEquals(
-                    distribution.cumulativeProbability( 
+                    distribution.probability( 
                             lower[i], upper[i]),
                             integrator.integrate(
                                     1000000, // Triangle integrals are very slow to converge

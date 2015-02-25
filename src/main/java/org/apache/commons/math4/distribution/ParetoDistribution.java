@@ -215,18 +215,6 @@ public class ParetoDistribution extends AbstractRealDistribution {
         return 1 - FastMath.pow(scale / x, shape);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated See {@link RealDistribution#cumulativeProbability(double,double)}
-     */
-    @Override
-    @Deprecated
-    public double cumulativeProbability(double x0, double x1)
-        throws NumberIsTooLargeException {
-        return probability(x0, x1);
-    }
-
     /** {@inheritDoc} */
     @Override
     protected double getSolverAbsoluteAccuracy() {

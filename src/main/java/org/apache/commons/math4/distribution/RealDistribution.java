@@ -37,6 +37,21 @@ public interface RealDistribution {
     double probability(double x);
 
     /**
+     * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
+     *
+     * @param x0 the exclusive lower bound
+     * @param x1 the inclusive upper bound
+     * @return the probability that a random variable with this distribution
+     * takes a value between {@code x0} and {@code x1},
+     * excluding the lower and including the upper endpoint
+     * @throws NumberIsTooLargeException if {@code x0 > x1}
+     *
+     * @since 4.0, was previously named cumulativeProbability
+     */
+    double probability(double x0, double x1) throws NumberIsTooLargeException;
+
+    /**
      * Returns the probability density function (PDF) of this distribution
      * evaluated at the specified point {@code x}. In general, the PDF is
      * the derivative of the {@link #cumulativeProbability(double) CDF}.
@@ -78,23 +93,6 @@ public interface RealDistribution {
      * distribution takes a value less than or equal to {@code x}
      */
     double cumulativeProbability(double x);
-
-    /**
-     * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
-     *
-     * @param x0 the exclusive lower bound
-     * @param x1 the inclusive upper bound
-     * @return the probability that a random variable with this distribution
-     * takes a value between {@code x0} and {@code x1},
-     * excluding the lower and including the upper endpoint
-     * @throws NumberIsTooLargeException if {@code x0 > x1}
-     *
-     * @deprecated As of 3.1. In 4.0, this method will be renamed
-     * {@code probability(double x0, double x1)}.
-     */
-    @Deprecated
-    double cumulativeProbability(double x0, double x1) throws NumberIsTooLargeException;
 
     /**
      * Computes the quantile function of this distribution. For a random

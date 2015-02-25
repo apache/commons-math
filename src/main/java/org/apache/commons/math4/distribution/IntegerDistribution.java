@@ -53,6 +53,21 @@ public interface IntegerDistribution {
 
     /**
      * For a random variable {@code X} whose values are distributed according
+     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
+     *
+     * @param x0 the exclusive lower bound
+     * @param x1 the inclusive upper bound
+     * @return the probability that a random variable with this distribution
+     * will take a value between {@code x0} and {@code x1},
+     * excluding the lower and including the upper endpoint
+     * @throws NumberIsTooLargeException if {@code x0 > x1}
+     *
+     * @since 4.0, was previously named cumulativeProbability
+     */
+    double probability(int x0, int x1) throws NumberIsTooLargeException;
+
+    /**
+     * For a random variable {@code X} whose values are distributed according
      * to this distribution, this method returns {@code P(X <= x)}.  In other
      * words, this method represents the (cumulative) distribution function
      * (CDF) for this distribution.
@@ -62,19 +77,6 @@ public interface IntegerDistribution {
      * distribution takes a value less than or equal to {@code x}
      */
     double cumulativeProbability(int x);
-
-    /**
-     * For a random variable {@code X} whose values are distributed according
-     * to this distribution, this method returns {@code P(x0 < X <= x1)}.
-     *
-     * @param x0 the exclusive lower bound
-     * @param x1 the inclusive upper bound
-     * @return the probability that a random variable with this distribution
-     * will take a value between {@code x0} and {@code x1},
-     * excluding the lower and including the upper endpoint
-     * @throws NumberIsTooLargeException if {@code x0 > x1}
-     */
-    double cumulativeProbability(int x0, int x1) throws NumberIsTooLargeException;
 
     /**
      * Computes the quantile function of this distribution.

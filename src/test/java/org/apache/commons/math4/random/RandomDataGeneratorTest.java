@@ -474,8 +474,8 @@ public class RandomDataGeneratorTest {
         double upperBinMass = 0;
         while (!widthSufficient) {
             binWidth++;
-            lowerBinMass = poissonDistribution.cumulativeProbability(lower - 1, lower + binWidth - 1);
-            upperBinMass = poissonDistribution.cumulativeProbability(upper - binWidth - 1, upper - 1);
+            lowerBinMass = poissonDistribution.probability(lower - 1, lower + binWidth - 1);
+            upperBinMass = poissonDistribution.probability(upper - binWidth - 1, upper - 1);
             widthSufficient = FastMath.min(lowerBinMass, upperBinMass) * sampleSize >= minExpectedCount;
         }
 

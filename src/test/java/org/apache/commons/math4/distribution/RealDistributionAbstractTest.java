@@ -29,7 +29,6 @@ import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.analysis.UnivariateFunction;
 import org.apache.commons.math4.analysis.integration.BaseAbstractUnivariateIntegrator;
 import org.apache.commons.math4.analysis.integration.IterativeLegendreGaussIntegrator;
-import org.apache.commons.math4.distribution.AbstractRealDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NumberIsTooLargeException;
@@ -52,7 +51,7 @@ import org.junit.Test;
  * defined by the arrays returned by the makeCumulativeXxx methods.
  * <p>
  * makeCumulativeTestPoints() -- arguments used to test cumulative probabilities
- * makeCumulativeTestValues() -- expected cumulative probabilites
+ * makeCumulativeTestValues() -- expected cumulative probabilities
  * makeDensityTestValues() -- expected density values at cumulativeTestPoints
  * makeInverseCumulativeTestPoints() -- arguments used to test inverse cdf
  * makeInverseCumulativeTestValues() -- expected inverse cdf values
@@ -61,7 +60,7 @@ import org.junit.Test;
  * test data, use the setXxx methods for the instance data in test cases and
  * call the verifyXxx methods to verify results.
  * <p>
- * Error tolerance can be overriden by implementing getTolerance().
+ * Error tolerance can be overridden by implementing getTolerance().
  * <p>
  * Test data should be validated against reference tables or other packages
  * where possible, and the source of the reference data and/or validation
@@ -181,21 +180,20 @@ public abstract class RealDistributionAbstractTest {
                 distribution.cumulativeProbability(cumulativeTestPoints[i]),
                 getTolerance());
         }
-        // verify cumulativeProbability(double, double)
-        // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
+        // verify probability(double, double)
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             for (int j = 0; j < cumulativeTestPoints.length; j++) {
                 if (cumulativeTestPoints[i] <= cumulativeTestPoints[j]) {
                     TestUtils.assertEquals(cumulativeTestValues[j] - cumulativeTestValues[i],
-                        distribution.cumulativeProbability(cumulativeTestPoints[i], cumulativeTestPoints[j]),
+                        distribution.probability(cumulativeTestPoints[i], cumulativeTestPoints[j]),
                         getTolerance());
                 } else {
                     try {
-                        distribution.cumulativeProbability(cumulativeTestPoints[i], cumulativeTestPoints[j]);
+                        distribution.probability(cumulativeTestPoints[i], cumulativeTestPoints[j]);
                     } catch (NumberIsTooLargeException e) {
                         continue;
                     }
-                    Assert.fail("distribution.cumulativeProbability(double, double) should have thrown an exception that second argument is too large");
+                    Assert.fail("distribution.probability(double, double) should have thrown an exception that second argument is too large");
                 }
             }
         }
@@ -230,11 +228,10 @@ public abstract class RealDistributionAbstractTest {
      * Verifies that logarithmic density calculations match expected values
      */
     protected void verifyLogDensities() {
-        // FIXME: when logProbability methods are added to RealDistribution in 4.0, remove cast below
         for (int i = 0; i < cumulativeTestPoints.length; i++) {
             TestUtils.assertEquals("Incorrect probability density value returned for "
                     + cumulativeTestPoints[i], logDensityTestValues[i],
-                    ((AbstractRealDistribution) distribution).logDensity(cumulativeTestPoints[i]),
+                    distribution.logDensity(cumulativeTestPoints[i]),
                     getTolerance());
         }
     }
@@ -285,9 +282,8 @@ public abstract class RealDistributionAbstractTest {
         for (int i=1; i < cumulativeTestPoints.length; i++) {
 
             // check that cdf(x, x) = 0
-            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
             TestUtils.assertEquals(0d,
-               distribution.cumulativeProbability
+               distribution.probability
                  (cumulativeTestPoints[i], cumulativeTestPoints[i]), tolerance);
 
             // check that P(a < X <= b) = P(X <= b) - P(X <= a)
@@ -295,9 +291,8 @@ public abstract class RealDistributionAbstractTest {
             double lower = FastMath.min(cumulativeTestPoints[i], cumulativeTestPoints[i -1]);
             double diff = distribution.cumulativeProbability(upper) -
                 distribution.cumulativeProbability(lower);
-            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
-            double direct = distribution.cumulativeProbability(lower, upper);
-            TestUtils.assertEquals("Inconsistent cumulative probabilities for ("
+            double direct = distribution.probability(lower, upper);
+            TestUtils.assertEquals("Inconsistent probability for ("
                     + lower + "," + upper + ")", diff, direct, tolerance);
         }
     }
@@ -308,8 +303,7 @@ public abstract class RealDistributionAbstractTest {
     @Test
     public void testIllegalArguments() {
         try {
-            // XXX In 4.0, "cumulativeProbability(double,double)" must be replaced with "probability" (MATH-839).
-            distribution.cumulativeProbability(1, 0);
+            distribution.probability(1, 0);
             Assert.fail("Expecting MathIllegalArgumentException for bad cumulativeProbability interval");
         } catch (MathIllegalArgumentException ex) {
             // expected
@@ -375,7 +369,7 @@ public abstract class RealDistributionAbstractTest {
         Collections.sort(integrationTestPoints);
         for (int i = 1; i < integrationTestPoints.size(); i++) {
             Assert.assertEquals(
-                    distribution.cumulativeProbability(  // FIXME @4.0 when rename happens
+                    distribution.probability(
                             integrationTestPoints.get(0), integrationTestPoints.get(i)),
                             integrator.integrate(
                                     1000000, // Triangle integrals are very slow to converge

@@ -765,8 +765,8 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
     private double kB(int i) {
         final double[] binBounds = getUpperBounds();
         final RealDistribution kernel = getKernel(binStats.get(i));
-        return i == 0 ? kernel.cumulativeProbability(min, binBounds[0]) :
-            kernel.cumulativeProbability(binBounds[i - 1], binBounds[i]);
+        return i == 0 ? kernel.probability(min, binBounds[0]) :
+            kernel.probability(binBounds[i - 1], binBounds[i]);
     }
 
     /**
