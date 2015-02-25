@@ -1468,11 +1468,6 @@ public class FastMath {
             return x;
         }
 
-        // special case #3 described in javadoc of Math.pow(double, double)
-        if (y != y) { // Y is NaN
-            return y;
-        }
-
         if (x == 0) {
             long bits = Double.doubleToRawLongBits(x);
             if ((bits & 0x8000000000000000L) != 0) {
@@ -1514,8 +1509,7 @@ public class FastMath {
                 return Double.NaN;
             }
 
-            // TEMP: was x * x > 1.0
-            if (abs(x) > 1.0) {
+            if (x * x > 1.0) {
                 return Double.POSITIVE_INFINITY;
             } else {
                 return 0.0;
@@ -1552,8 +1546,7 @@ public class FastMath {
                 return Double.NaN;
             }
 
-            // TEMP: was x * x < 1.0
-            if (abs(x) < 1.0) {
+            if (x * x < 1.0) {
                 return Double.POSITIVE_INFINITY;
             } else {
                 return 0.0;
