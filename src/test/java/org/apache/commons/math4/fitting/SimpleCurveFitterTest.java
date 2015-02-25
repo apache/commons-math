@@ -23,11 +23,8 @@ import org.apache.commons.math4.analysis.ParametricUnivariateFunction;
 import org.apache.commons.math4.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.distribution.UniformRealDistribution;
-import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.fitting.SimpleCurveFitter;
 import org.apache.commons.math4.fitting.WeightedObservedPoints;
-import org.apache.commons.math4.util.FastMath;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
