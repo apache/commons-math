@@ -18,6 +18,7 @@ package org.apache.commons.math4.stat.regression;
 
 
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.linear.Array2DRowRealMatrix;
 import org.apache.commons.math4.linear.DefaultRealMatrixChangingVisitor;
 import org.apache.commons.math4.linear.MatrixUtils;
@@ -500,12 +501,12 @@ public class OLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         Assert.assertEquals(combinedY, regression.getY());
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testNewSampleDataYNull() {
         createRegression().newSampleData(null, new double[][] {});
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testNewSampleDataXNull() {
         createRegression().newSampleData(new double[] {}, null);
     }

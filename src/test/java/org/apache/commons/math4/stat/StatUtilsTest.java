@@ -19,6 +19,7 @@ package org.apache.commons.math4.stat;
 
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.StatUtils;
 import org.apache.commons.math4.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math4.util.FastMath;
@@ -122,14 +123,14 @@ public final class StatUtilsTest {
         try {
             StatUtils.sumSq(x);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumSq(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -157,14 +158,14 @@ public final class StatUtilsTest {
         try {
             StatUtils.product(x);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.product(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -192,14 +193,14 @@ public final class StatUtilsTest {
         try {
             StatUtils.sumLog(x);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.sumLog(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -226,7 +227,7 @@ public final class StatUtilsTest {
         try {
             StatUtils.mean(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -250,7 +251,7 @@ public final class StatUtilsTest {
         try {
             StatUtils.variance(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -278,7 +279,7 @@ public final class StatUtilsTest {
         try {
             StatUtils.variance(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -307,7 +308,7 @@ public final class StatUtilsTest {
         try {
             StatUtils.max(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -347,7 +348,7 @@ public final class StatUtilsTest {
         try {
             StatUtils.min(x, 0, 4);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -388,14 +389,14 @@ public final class StatUtilsTest {
         try {
             StatUtils.percentile(x, .25);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
         try {
             StatUtils.percentile(x, 0, 4, 0.25);
             Assert.fail("null is not a valid data array.");
-        } catch (MathIllegalArgumentException ex) {
+        } catch (NullArgumentException ex) {
             // success
         }
 
@@ -452,8 +453,8 @@ public final class StatUtilsTest {
         double[] test = null;
         try {
             StatUtils.geometricMean(test);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
         test = new double[] {2, 4, 6, 8};
@@ -547,8 +548,8 @@ public final class StatUtilsTest {
         final double[] nullArray = null;
         try {
             StatUtils.mode(nullArray);
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // Expected
         }
     }

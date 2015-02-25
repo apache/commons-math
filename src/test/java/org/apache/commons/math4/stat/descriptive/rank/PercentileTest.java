@@ -171,8 +171,8 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
         final double[] emptyArray = new double[] {};
         try {
             percentile.evaluate(nullArray);
-            Assert.fail("Expecting MathIllegalArgumentException for null array");
-        } catch (final MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException for null array");
+        } catch (final NullArgumentException ex) {
             // expected
         }
         Assert.assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));
@@ -364,9 +364,9 @@ public class PercentileTest extends UnivariateStatisticAbstractTest{
             final UnivariateStatistic percentile = getUnivariateStatistic();
             try {
                 percentile.evaluate(nullArray);
-                Assert.fail("Expecting MathIllegalArgumentException "
+                Assert.fail("Expecting NullArgumentException "
                         + "for null array");
-            } catch (final MathIllegalArgumentException ex) {
+            } catch (final NullArgumentException ex) {
                 // expected
             }
             Assert.assertTrue(Double.isNaN(percentile.evaluate(emptyArray)));

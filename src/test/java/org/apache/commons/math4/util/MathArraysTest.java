@@ -1128,14 +1128,14 @@ public class MathArraysTest {
         }
         try {
             MathArrays.verifyValues(nullArray, 0, 1);  // null array
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
         try {
             MathArrays.verifyValues(testArray, nullArray, 0, 1);  // null weights array
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
         try {

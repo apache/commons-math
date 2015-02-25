@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math4.exception;
 
+import org.apache.commons.math4.exception.util.ExceptionContext;
+import org.apache.commons.math4.exception.util.ExceptionContextProvider;
 import org.apache.commons.math4.exception.util.Localizable;
 import org.apache.commons.math4.exception.util.LocalizedFormats;
 
@@ -26,12 +28,20 @@ import org.apache.commons.math4.exception.util.LocalizedFormats;
  * argument") and so does not extend the standard {@code NullPointerException}.
  * Propagation of {@code NullPointerException} from within Commons-Math is
  * construed to be a bug.
+ * <p>
+ * Note: from 4.0 onwards, this class extends {@link NullPointerException} instead
+ * of {@link MathIllegalArgumentException}.
  *
  * @since 2.2
  */
-public class NullArgumentException extends MathIllegalArgumentException {
+public class NullArgumentException extends NullPointerException
+    implements ExceptionContextProvider {
+
     /** Serializable version Id. */
-    private static final long serialVersionUID = -6024911025449780478L;
+    private static final long serialVersionUID = 20150225L;
+
+    /** Context. */
+    private final ExceptionContext context;
 
     /**
      * Default constructor.
@@ -46,6 +56,28 @@ public class NullArgumentException extends MathIllegalArgumentException {
      */
     public NullArgumentException(Localizable pattern,
                                  Object ... arguments) {
-        super(pattern, arguments);
+        context = new ExceptionContext(this);
+        context.addMessage(pattern, arguments);
     }
+    
+    /**
+     * {@inheritDoc}
+     * @since 4.0
+     */
+    public ExceptionContext getContext() {
+        return context;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getMessage() {
+        return context.getMessage();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getLocalizedMessage() {
+        return context.getLocalizedMessage();
+    }
+
 }

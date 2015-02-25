@@ -19,7 +19,7 @@ package org.apache.commons.math4.fraction;
 import org.apache.commons.math4.TestUtils;
 import org.apache.commons.math4.exception.ConvergenceException;
 import org.apache.commons.math4.exception.MathArithmeticException;
-import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.fraction.Fraction;
 import org.apache.commons.math4.fraction.FractionConversionException;
 import org.apache.commons.math4.util.FastMath;
@@ -348,8 +348,8 @@ public class FractionTest {
 
         try {
             f.add(null);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {}
 
         // if this fraction is added naively, it will overflow.
         // check that it doesn't.
@@ -445,8 +445,8 @@ public class FractionTest {
 
         try {
             f.divide(null);
-            Assert.fail("MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
+            Assert.fail("NullArgumentException");
+        } catch (NullArgumentException ex) {}
 
         try {
             f1 = new Fraction(1, Integer.MAX_VALUE);
@@ -484,8 +484,8 @@ public class FractionTest {
 
         try {
             f.multiply(null);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {}
 
         f1 = new Fraction(6, 35);
         f  = f1.multiply(15);
@@ -506,8 +506,8 @@ public class FractionTest {
         Fraction f = new Fraction(1,1);
         try {
             f.subtract(null);
-            Assert.fail("expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {}
+            Assert.fail("expecting NullArgumentException");
+        } catch (NullArgumentException ex) {}
 
         // if this fraction is subtracted naively, it will overflow.
         // check that it doesn't.

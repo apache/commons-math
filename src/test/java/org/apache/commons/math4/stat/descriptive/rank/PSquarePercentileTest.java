@@ -28,6 +28,7 @@ import org.apache.commons.math4.distribution.LogNormalDistribution;
 import org.apache.commons.math4.distribution.NormalDistribution;
 import org.apache.commons.math4.distribution.RealDistribution;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.exception.OutOfRangeException;
 import org.apache.commons.math4.random.RandomGenerator;
 import org.apache.commons.math4.random.Well19937c;
@@ -439,7 +440,7 @@ public class PSquarePercentileTest extends
                 1.0);// changed the accuracy to 1 instead of tolerance
     }
 
-    @Test(expected = MathIllegalArgumentException.class)
+    @Test(expected = NullArgumentException.class)
     public void testNull() {
         PSquarePercentile percentile = new PSquarePercentile(50d);
         double[] nullArray = null;

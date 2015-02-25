@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.commons.math4.TestUtils;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.linear.MatrixUtils;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
@@ -77,12 +78,12 @@ public class GLSMultipleLinearRegressionTest extends MultipleLinearRegressionAbs
         super.setUp();
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void cannotAddXSampleData() {
         createRegression().newSampleData(new double[]{}, null, null);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void cannotAddNullYSampleData() {
         createRegression().newSampleData(null, new double[][]{}, null);
     }

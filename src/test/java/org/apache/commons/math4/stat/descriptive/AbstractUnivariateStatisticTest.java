@@ -18,6 +18,7 @@ package org.apache.commons.math4.stat.descriptive;
 
 
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.stat.descriptive.moment.Mean;
 import org.junit.Assert;
 import org.junit.Test;
@@ -76,14 +77,14 @@ public class AbstractUnivariateStatisticTest {
         }
         try {
             testStatistic.test(nullArray, 0, 1);  // null array
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
         try {
             testStatistic.test(testArray, nullArray, 0, 1);  // null weights array
-            Assert.fail("Expecting MathIllegalArgumentException");
-        } catch (MathIllegalArgumentException ex) {
+            Assert.fail("Expecting NullArgumentException");
+        } catch (NullArgumentException ex) {
             // expected
         }
         try {

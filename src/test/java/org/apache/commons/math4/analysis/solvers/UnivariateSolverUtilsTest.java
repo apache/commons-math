@@ -23,6 +23,7 @@ import org.apache.commons.math4.analysis.function.Sin;
 import org.apache.commons.math4.analysis.solvers.UnivariateSolverUtils;
 import org.apache.commons.math4.exception.MathIllegalArgumentException;
 import org.apache.commons.math4.exception.NoBracketingException;
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.util.FastMath;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class UnivariateSolverUtilsTest {
 
     protected UnivariateFunction sin = new Sin();
 
-    @Test(expected=MathIllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testSolveNull() {
         UnivariateSolverUtils.solve(null, 0.0, 4.0);
     }
@@ -60,7 +61,7 @@ public class UnivariateSolverUtilsTest {
         Assert.assertEquals(FastMath.PI, x, 1.0e-4);
     }
 
-    @Test(expected=MathIllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testSolveAccuracyNull()  {
         double accuracy = 1.0e-6;
         UnivariateSolverUtils.solve(null, 0.0, 4.0, accuracy);
@@ -144,7 +145,7 @@ public class UnivariateSolverUtilsTest {
         Assert.assertTrue(sin.value(result[1]) > 0);
     }
 
-    @Test(expected=MathIllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testNullFunction() {
         UnivariateSolverUtils.bracket(null, 1.5, 0, 2.0);
     }

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.math4.stat.regression;
 
+import org.apache.commons.math4.exception.NullArgumentException;
 import org.apache.commons.math4.linear.RealMatrix;
 import org.apache.commons.math4.linear.RealVector;
 import org.apache.commons.math4.stat.regression.AbstractMultipleLinearRegression;
@@ -104,7 +105,7 @@ public abstract class MultipleLinearRegressionAbstractTest {
         Assert.assertEquals(flatY, regression.getY());
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testNewSampleNullData() {
         double[] data = null;
         createRegression().newSampleData(data, 2, 3); 
@@ -122,12 +123,12 @@ public abstract class MultipleLinearRegressionAbstractTest {
         createRegression().newSampleData(data, 1, 3);
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testXSampleDataNull() {
         createRegression().newXSampleData(null);
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=NullArgumentException.class)
     public void testYSampleDataNull() {
         createRegression().newYSampleData(null);
     }
