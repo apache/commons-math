@@ -555,14 +555,9 @@ public final class SimpleRegressionTest {
     @Test
     public void testPerfect2() {
         SimpleRegression regression = new SimpleRegression();
-        System.out.println("getXSumSquares()=" + regression.getXSumSquares()); // TODO temp check to see why Jenkins H10 is failing
         regression.addData(0, 0);
-        System.out.println("getXSumSquares()=" + regression.getXSumSquares()); // TODO temp check to see why Jenkins H10 is failing
         regression.addData(1, 1);
-        System.out.println("getXSumSquares()=" + regression.getXSumSquares()); // TODO temp check to see why Jenkins H10 is failing
         regression.addData(2, 2);
-        System.out.println("getXSumSquares()=" + regression.getXSumSquares()); // TODO temp check to see why Jenkins H10 is failing
-        System.out.println("getMeanSquareError()=" + regression.getMeanSquareError()); // TODO temp check to see why Jenkins H10/H11 is failing
         Assert.assertEquals(0.0, regression.getSlopeStdErr(), 0.0);
         Assert.assertEquals(0.0, regression.getSignificance(), Double.MIN_VALUE);
         Assert.assertEquals(1, regression.getRSquare(), Double.MIN_VALUE);
