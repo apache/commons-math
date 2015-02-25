@@ -139,6 +139,9 @@
       <property name="ignoreStringsRegexp" value='^(("")|(".")|("unchecked"))$'/>
     </module>
 
+    <!-- Check if @Override tags are present  -->
+    <module name="MissingOverride" />
+
     <!-- <module name="TodoComment" /> -->
 
   </module>
