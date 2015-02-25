@@ -39,11 +39,6 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math4.optimization.univariate.BrentOptimizer" />
-    <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
-    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
-  </Match>
-  <Match>
     <Class name="org.apache.commons.math4.optim.univariate.BrentOptimizer" />
     <Method name="localMin" params="boolean,double,double,double,double,double" returns="double" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
@@ -73,10 +68,7 @@
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
   <Match>
-    <Or>
-      <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
-      <Class name="org.apache.commons.math4.optimization.direct.BOBYQAOptimizer" />
-    </Or>
+    <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
     <Method name="altmov" params="int,double" returns="double[]" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -93,11 +85,6 @@
       <Class name="org.apache.commons.math4.geometry.euclidean.twod.Vector2D" />
       <Class name="org.apache.commons.math4.geometry.euclidean.threed.Vector3D" />
     </Or>
-    <Method name="equals" params="java.lang.Object" returns="boolean" />
-    <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math4.optimization.linear.LinearConstraint" />
     <Method name="equals" params="java.lang.Object" returns="boolean" />
     <Bug pattern="FE_FLOATING_POINT_EQUALITY" />
   </Match>
@@ -133,10 +120,7 @@
        In the original code, this is sequential and fall-through is expected
    -->
   <Match>
-    <Or>
-      <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
-      <Class name="org.apache.commons.math4.optimization.direct.BOBYQAOptimizer" />
-    </Or>
+    <Class name="org.apache.commons.math4.optim.nonlinear.scalar.noderiv.BOBYQAOptimizer" />
     <Or>
       <Method name="bobyqb" params="double[],double[]" returns="double" />
       <Method name="trsbox" />
@@ -144,18 +128,6 @@
     <Bug pattern="SF_SWITCH_FALLTHROUGH" />
   </Match>
   
-  <!-- Spurious: The fields are deprecated and not used anymore
-       (to be removed in 4.0)
-    -->
-  <Match>
-    <Class name="org.apache.commons.math4.optimization.general.AbstractLeastSquaresOptimizer" />
-    <Or>
-      <Field name="weightedResidualJacobian" />
-      <Field name="weightedResiduals" />
-      </Or>
-    <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
-  </Match>
-
   <!-- Spurious: Findbugs confused by final local variables -->
   <Match>
     <Class name="org.apache.commons.math4.util.FastMath" />
@@ -175,19 +147,9 @@
     <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
-    <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
-    <Method name="getPointRef" params="" returns="double[]" />
-    <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
     <Class name="org.apache.commons.math4.optim.PointValuePair"/>
     <Method name="getPointRef" params="" returns="double[]" />
     <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
-    <Method name="&lt;init>" params="double[],double,boolean" returns="void" />
-    <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math4.optim.PointValuePair"/>
@@ -199,18 +161,8 @@
     <Or>
       <Class name="org.apache.commons.math4.optim.PointValuePair"/>
       <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
-      <Class name="org.apache.commons.math4.optimization.PointValuePair"/>
-      <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>      
     </Or>
     <Bug pattern="SE_NO_SUITABLE_CONSTRUCTOR" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>
-    <Or>
-      <Method name="getPointRef" params="" returns="double[]" />
-      <Method name="getValueRef" params="" returns="double[]" />
-    </Or>
-    <Bug pattern="EI_EXPOSE_REP" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
@@ -219,11 +171,6 @@
       <Method name="getValueRef" params="" returns="double[]" />
     </Or>
     <Bug pattern="EI_EXPOSE_REP" />
-  </Match>
-  <Match>
-    <Class name="org.apache.commons.math4.optimization.PointVectorValuePair"/>
-    <Method name="&lt;init>" params="double[],double[][],boolean" returns="void" />
-    <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
   <Match>
     <Class name="org.apache.commons.math4.optim.PointVectorValuePair"/>
