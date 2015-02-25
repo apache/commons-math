@@ -153,6 +153,8 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
     /**
      * Inner class used to store the indirection index table which is fixed for a given type of WELL class
      * of pseudo-random number generator.
+     *
+     * @since 4.0
      */
     protected static final class IndexTable {
         /** Index indirection table giving for each index its predecessor taking table size into account. */
