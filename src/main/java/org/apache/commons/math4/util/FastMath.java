@@ -1457,7 +1457,7 @@ public class FastMath {
      * @param y   a double
      * @return double
      */
-    public static double pow(double x, double y) {
+    public static double pow(final double x, final double y) {
         final double lns[] = new double[2];
 
         if (y == 0.0) {
