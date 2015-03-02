@@ -55,6 +55,10 @@ If the output is not quite correct, check for invisible trailing spaces!
 
     <release version="4.0" date="XXXX-XX-XX" description="">
       <action dev="tn" type="update" issue="MATH-869">
+        "SpearmansCorrelation" will now throw an "MathIllegalArgumentException"
+        if provided with a "NaturalRanking" instance that uses "REMOVED" as "NaNStrategy".
+      </action>
+      <action dev="tn" type="update" issue="MATH-869">
         "NullArgumentException" extends now "java.lang.NullPointerException"
         instead of "MathIllegalArgumentException".
       </action>
