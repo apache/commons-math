@@ -94,6 +94,7 @@ public abstract class RandomKey<T> extends AbstractListChromosome<Double> implem
     /**
      * {@inheritDoc}
      */
+    @Override
     public List<T> decode(final List<T> sequence) {
         return decodeGeneric(sequence, getRepresentation(), sortedRepresentation);
     }

@@ -29,6 +29,7 @@ public class ManhattanDistance implements DistanceMeasure {
     private static final long serialVersionUID = -9108154600539125566L;
 
     /** {@inheritDoc} */
+    @Override
     public double compute(double[] a, double[] b) {
         return MathArrays.distance1(a, b);
     }

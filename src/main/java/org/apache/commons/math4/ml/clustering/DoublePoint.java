@@ -58,6 +58,7 @@ public class DoublePoint implements Clusterable, Serializable {
     }
 
     /** {@inheritDoc} */
+    @Override
     public double[] getPoint() {
         return point;
     }

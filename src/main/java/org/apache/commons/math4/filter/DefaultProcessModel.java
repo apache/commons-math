@@ -33,21 +33,21 @@ public class DefaultProcessModel implements ProcessModel {
     /**
      * The state transition matrix, used to advance the internal state estimation each time-step.
      */
-    private RealMatrix stateTransitionMatrix;
+    private final RealMatrix stateTransitionMatrix;
 
     /**
      * The control matrix, used to integrate a control input into the state estimation.
      */
-    private RealMatrix controlMatrix;
+    private final RealMatrix controlMatrix;
 
     /** The process noise covariance matrix. */
-    private RealMatrix processNoiseCovMatrix;
+    private final RealMatrix processNoiseCovMatrix;
 
     /** The initial state estimation of the observed process. */
-    private RealVector initialStateEstimateVector;
+    private final RealVector initialStateEstimateVector;
 
     /** The initial error covariance matrix of the observed process. */
-    private RealMatrix initialErrorCovMatrix;
+    private final RealMatrix initialErrorCovMatrix;
 
     /**
      * Create a new {@link ProcessModel}, taking double arrays as input parameters.
@@ -139,26 +139,31 @@ public class DefaultProcessModel implements ProcessModel {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getStateTransitionMatrix() {
         return stateTransitionMatrix;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getControlMatrix() {
         return controlMatrix;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getProcessNoise() {
         return processNoiseCovMatrix;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealVector getInitialStateEstimate() {
         return initialStateEstimateVector;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getInitialErrorCovariance() {
         return initialErrorCovMatrix;
     }

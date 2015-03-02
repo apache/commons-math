@@ -29,6 +29,7 @@ public class EuclideanDistance implements DistanceMeasure {
     private static final long serialVersionUID = 1717556319784040040L;
 
     /** {@inheritDoc} */
+    @Override
     public double compute(double[] a, double[] b) {
         return MathArrays.distance(a, b);
     }

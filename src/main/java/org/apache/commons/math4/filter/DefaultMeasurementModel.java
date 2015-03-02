@@ -33,12 +33,12 @@ public class DefaultMeasurementModel implements MeasurementModel {
      * The measurement matrix, used to associate the measurement vector to the
      * internal state estimation vector.
      */
-    private RealMatrix measurementMatrix;
+    private final RealMatrix measurementMatrix;
 
     /**
      * The measurement noise covariance matrix.
      */
-    private RealMatrix measurementNoise;
+    private final RealMatrix measurementNoise;
 
     /**
      * Create a new {@link MeasurementModel}, taking double arrays as input parameters for the
@@ -73,11 +73,13 @@ public class DefaultMeasurementModel implements MeasurementModel {
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getMeasurementMatrix() {
         return measurementMatrix;
     }
 
     /** {@inheritDoc} */
+    @Override
     public RealMatrix getMeasurementNoise() {
         return measurementNoise;
     }

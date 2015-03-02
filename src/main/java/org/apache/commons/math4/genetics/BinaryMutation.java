@@ -36,6 +36,7 @@ public class BinaryMutation implements MutationPolicy {
      * @return the mutated chromosome.
      * @throws MathIllegalArgumentException if <code>original</code> is not an instance of {@link BinaryChromosome}.
      */
+    @Override
     public Chromosome mutate(Chromosome original) throws MathIllegalArgumentException {
         if (!(original instanceof BinaryChromosome)) {
             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_BINARY_CHROMOSOME);
